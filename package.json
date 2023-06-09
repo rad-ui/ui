@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-tailwind": "postcss src/styles/main.css -o dist/style.css",
-    "rollup":"rollup -c",
+    "rollup": "rollup -c",
     "build": "npm run build-tailwind && npm run rollup",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/kotAPI/rad-ui#readme",
   "dependencies": {
+    "@storybook/addon-styling": "^1.1.0",
     "radix-ui": "^1.0.1",
     "react": "^18.2.0"
   },
