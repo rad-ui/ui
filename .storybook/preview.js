@@ -2,8 +2,6 @@
 
 // .storybook/preview.js
 
-import '../src/styles/main.css'; // replace with the name of your tailwind css file
-
 
 const preview = {
   parameters: {
