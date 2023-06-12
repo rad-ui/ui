@@ -5,6 +5,7 @@ import { styled, darkTheme } from '@/stitches';
 
 
 const StyledButton = styled('button', {
+  darkTheme,
   backgroundColor: '$gray4',
   border: '0',
   display: 'inline-flex',
@@ -61,7 +62,7 @@ const StyledButton = styled('button', {
 const Button = ({ onClick, type="secondary", size="medium", children }) => {
  
   return (
-    <StyledButton  type={type} size={size} onClick={onClick}>
+    <StyledButton type={type} size={size} onClick={onClick}>
       {children}
     </StyledButton>
   );

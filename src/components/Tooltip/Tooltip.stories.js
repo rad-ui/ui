@@ -8,3 +8,4 @@ export default {
 
 export const Default = () => <Tooltip content={<div className='text-center text-sm text-gray-800'>Hello,World!</div>}>Hover me!</Tooltip>;
 
+
