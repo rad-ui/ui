@@ -6,6 +6,12 @@ export default {
   component: Button,
 };
 
-export const Primary = () => <Button>Primary Button</Button>;
+export const Primary = () => <Button type="primary">Primary Button</Button>;
 
-export const Secondary = () => <Button variant="secondary">Secondary Button</Button>;
+export const Secondary = () => <Button>Secondary Button</Button>;
+
+export const Small = () => <Button size="small">Secondary Button</Button>;
+
+export const Medium = () => <Button >Medium Button</Button>;
+
+export const Large = () => <Button size="large">Large Button</Button>;

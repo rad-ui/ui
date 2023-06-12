@@ -1,6 +1,5 @@
 // rollup.config.js
 import babel from '@rollup/plugin-babel';
-import postcss from 'rollup-plugin-postcss';
 
 export default {
     input: 'src/index.js',
@@ -17,6 +16,9 @@ export default {
     external: [
       'react',
       'react-dom',
+      '@radix-ui',
+      '@stitches/react',
+      '@radix-ui/colors'
       // Add other external dependencies here
     ],
     plugins: [
