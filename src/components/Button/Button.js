@@ -59,8 +59,9 @@ const StyledButton = styled('button', {
 
 
 const Button = ({ onClick, type="secondary", size="medium", children }) => {
+ 
   return (
-    <StyledButton type={type} size={size} onClick={onClick}>
+    <StyledButton  type={type} size={size} onClick={onClick}>
       {children}
     </StyledButton>
   );

@@ -23,7 +23,7 @@ const { styled, createTheme } = createStitches({
     },
 });
 
-const darkTheme = createTheme({
+const darkTheme = createTheme('dark-theme',{
     colors: {
         ...grayDark,
         ...blueDark,
