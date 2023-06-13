@@ -14,6 +14,7 @@ const StyledButton = styled('button', {
   cursor:"pointer",
   borderRadius:"5px",
   padding:"0px 10px",
+  fontFamily: 'inherit',
   '&:hover': {
     backgroundColor: '$gray7',
   },
