@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c",
     "build": "npm run rollup",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6009",
     "build-storybook": "storybook build"
   },
   "repository": {
