@@ -1,0 +1,67 @@
+{
+  "name": "@kotapi/rad-ui",
+  "version": "0.0.1",
+  "description": "Rad UI - A UI Library that makes your UI Rad!",
+  "main": "dist/rad-ui.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rollup": "rollup -c",
+    "build": "npm run rollup",
+    "storybook": "storybook dev -p 6009",
+    "build-storybook": "storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotAPI/rad-ui.git"
+  },
+  "keywords": [
+    "rad-ui",
+    "rad",
+    "ui",
+    "react",
+    "ui",
+    "library",
+    "react",
+    "component",
+    "library",
+    "react",
+    "ui",
+    "react",
+    "nextjs",
+    "remix",
+    "nextjs13",
+    "nextjs-ui",
+    "remix-ui"
+  ],
+  "author": "Pranay Kothapalli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kotAPI/rad-ui/issues"
+  },
+  "homepage": "https://github.com/kotAPI/rad-ui#readme",
+  "dependencies": {
+    "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/react-icons": "^1.3.0",
+    "@stitches/react": "^1.2.8",
+    "radix-ui": "^1.0.1",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@storybook/addon-essentials": "^7.0.20",
+    "@storybook/addon-interactions": "^7.0.20",
+    "@storybook/addon-links": "^7.0.20",
+    "@storybook/blocks": "^7.0.20",
+    "@storybook/react": "^7.0.20",
+    "@storybook/react-webpack5": "^7.0.20",
+    "@storybook/testing-library": "^0.0.14-next.2",
+    "autoprefixer": "^10.4.14",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "prop-types": "^15.8.1",
+    "react-dom": "^18.2.0",
+    "rollup": "^3.24.0",
+    "storybook": "^7.0.20"
+  }
+}
