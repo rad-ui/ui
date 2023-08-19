@@ -1,6 +1,6 @@
 {
   "name": "@kotapi/rad-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Rad UI - A UI Library that makes your UI Rad!",
   "main": "dist/rad-ui.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "npm run rollup",
     "storybook": "storybook dev -p 6009",
     "build-storybook": "storybook build",
-    "publish":"npm publish --access public"
+    "publish": "npm publish --access public"
   },
   "repository": {
     "type": "git",
