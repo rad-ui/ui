@@ -9,12 +9,12 @@ const StyledBox = styled('div', {
     borderRadius: "5px",
 });
 
-const RegularBox = ({ children }) => {
+const RegularBox = ({ children,...props }) => {
     return (
-        <StyledBox>
-            <div>
+        <StyledBox {...props}>
+            
                 {children}
-            </div>
+          
         </StyledBox>
     );
 }

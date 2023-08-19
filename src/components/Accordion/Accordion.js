@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 import { styled, keyframes } from '@stitches/react';
-import { violet, blackA, mauve, whiteA } from '@radix-ui/colors';
+import { violet, blackA, mauve, whiteA, gray } from '@radix-ui/colors';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 const AccordionDemo = () => (
@@ -30,13 +30,14 @@ const AccordionDemo = () => (
 const AccordionRoot = styled(Accordion.Root, {
   borderRadius: 6,
   width: 300,
-  backgroundColor: mauve.mauve6,
+  backgroundColor: whiteA.whiteA11,
   boxShadow: `0 2px 10px ${blackA.blackA8}`,
 });
 
 const AccordionItem = styled(Accordion.Item, {
   overflow: 'hidden',
   marginTop: 1,
+  backgroundColor: whiteA.whiteA10,
 
   '&:first-child': {
     marginTop: 0,
@@ -82,9 +83,9 @@ const StyledTrigger = styled(Accordion.Trigger, {
   justifyContent: 'space-between',
   fontSize: 15,
   lineHeight: 1,
-  color: violet.violet11,
+  color: gray.gray11,
   boxShadow: `0 1px 0 ${mauve.mauve6}`,
-  backgroundColor: whiteA.whiteA9,
+  backgroundColor: whiteA.whiteA11,
   '&:hover': { backgroundColor: mauve.mauve2 },
 });
 
@@ -107,8 +108,8 @@ const slideUp = keyframes({
 const StyledContent = styled(Accordion.Content, {
   overflow: 'hidden',
   fontSize: 15,
-  color: mauve.mauve11,
-  backgroundColor: mauve.mauve2,
+  color: gray.gray11,
+  backgroundColor: whiteA.whiteA1,
 
   '&[data-state="open"]': {
     animation: `${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1)`,
