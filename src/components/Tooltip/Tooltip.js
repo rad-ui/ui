@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { styled, keyframes } from '@stitches/react';
-import { violet, blackA } from '@radix-ui/colors';
+import { violet, blackA, gray } from '@radix-ui/colors';
 import { PlusIcon } from '@radix-ui/react-icons';
 
 const TooltipDemo = ({children,content}) => {
@@ -49,8 +49,8 @@ const TooltipContent = styled(Tooltip.Content, {
   padding: '10px 15px',
   fontSize: 15,
   lineHeight: 1,
-  color: violet.violet11,
-  backgroundColor: 'white',
+  color: gray.gray6,
+  backgroundColor: 'black',
   boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
   userSelect: 'none',
   animationDuration: '400ms',
@@ -65,7 +65,7 @@ const TooltipContent = styled(Tooltip.Content, {
 });
 
 const TooltipArrow = styled(Tooltip.Arrow, {
-  fill: 'white',
+  fill: 'black',
 });
 
 const IconButton = styled('button', {
@@ -78,7 +78,7 @@ const IconButton = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   color: violet.violet11,
-  backgroundColor: 'white',
+  backgroundColor: 'black',
   boxShadow: `0 2px 10px ${blackA.blackA7}`,
   '&:hover': { backgroundColor: violet.violet3 },
   '&:focus': { boxShadow: `0 0 0 2px black` },
