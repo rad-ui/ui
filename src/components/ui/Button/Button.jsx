@@ -2,7 +2,7 @@ const Button = ({children,type="button",className="", isDark=false, variant="sec
     return (
         <button
             type="button"
-            className={`button-${variant} ${isDark?'rad-ui-dark-theme':''} ${className}`}
+            className={`button-${variant} ${className}`}
             {...props}
         >
             {children}
