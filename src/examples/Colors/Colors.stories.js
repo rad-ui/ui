@@ -11,7 +11,8 @@ const ColorBubble = ({color})=>{
 const AllColorsTemplate = ()=>{
     return (
         <Theme isDark={true}>
-           <div>
+           <div className='flex space-x-2'>
+                <ColorBubble color="black" />
                 <ColorBubble color="black" />
            </div>
         </Theme>
