@@ -1,7 +1,7 @@
 
 
 const ColorBubble = ({ colorClass }) => {
-  const size = 40;
+  const size = 32;
   return (
     <div className={`${colorClass} mr-1`} style={{ width: 100, height: size }}>
     </div>
@@ -13,7 +13,7 @@ const ColorsTemplate = () => {
 
 
   return <div>
-   
+
     <div className={`p-4 space-y-1 `}>
       <div className='flex'>
         <ColorBubble colorClass='bg-gray-50' />
@@ -72,6 +72,35 @@ const ColorsTemplate = () => {
         <ColorBubble colorClass='bg-sage-900' />
         <ColorBubble colorClass='bg-sage-950' />
         <ColorBubble colorClass='bg-sage-1000' />
+      </div>
+      <div className='flex'>
+
+        <ColorBubble colorClass='bg-olive-50' />
+        <ColorBubble colorClass='bg-olive-100' />
+        <ColorBubble colorClass='bg-olive-200' />
+        <ColorBubble colorClass='bg-olive-300' />
+        <ColorBubble colorClass='bg-olive-400' />
+        <ColorBubble colorClass='bg-olive-500' />
+        <ColorBubble colorClass='bg-olive-600' />
+        <ColorBubble colorClass='bg-olive-700' />
+        <ColorBubble colorClass='bg-olive-800' />
+        <ColorBubble colorClass='bg-olive-900' />
+        <ColorBubble colorClass='bg-olive-950' />
+        <ColorBubble colorClass='bg-olive-1000' />
+      </div>
+      <div className='flex'>
+        <ColorBubble colorClass='bg-sand-50' />
+        <ColorBubble colorClass='bg-sand-100' />
+        <ColorBubble colorClass='bg-sand-200' />
+        <ColorBubble colorClass='bg-sand-300' />
+        <ColorBubble colorClass='bg-sand-400' />
+        <ColorBubble colorClass='bg-sand-500' />
+        <ColorBubble colorClass='bg-sand-600' />
+        <ColorBubble colorClass='bg-sand-700' />
+        <ColorBubble colorClass='bg-sand-800' />
+        <ColorBubble colorClass='bg-sand-900' />
+        <ColorBubble colorClass='bg-sand-950' />
+        <ColorBubble colorClass='bg-sand-1000' />
       </div>
     </div>
   </div>
