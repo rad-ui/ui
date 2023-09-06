@@ -3,7 +3,7 @@ import fs from "fs"
 import colors from '../src/colors/index.js';
 
 const COLOR_PREFIX = '--rad-ui-color-';
-const jsVariables = {};
+let jsVariables = {};
 // Function to generate CSS variables based on the theme
 function generateCssVariables(theme) {
     const cssVariables = [];
@@ -22,7 +22,7 @@ function generateCssVariables(theme) {
         const jsVariableName = `${colorName}`;
         // Add the JS variable to the object
         jsVariables[jsVariableName] = jsVariables[jsVariableName] || {};
-        jsVariables[jsVariableName][shadeName] = `var(--${cssVariableName})`;
+        jsVariables[jsVariableName][shadeName] = `var(${cssVariableName})`;
 
       }
     }
@@ -55,6 +55,8 @@ const combinedCss = `
 fs.writeFileSync('styles/cssTokens/base.tokens.css', combinedCss, 'utf-8');
 
 // write the JS variables to a js file
-fs.writeFileSync('styles/jsTokens/base.tokens.js', `export default ${JSON.stringify(jsVariables)}`, 'utf-8');
+// format json
+jsVariables = JSON.stringify(jsVariables);
+fs.writeFileSync('styles/jsTokens/base.tokens.js', `export default ${jsVariables}`, 'utf-8');
 
 console.log('CSS file saved as theme.css');
