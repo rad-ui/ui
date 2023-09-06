@@ -1,3 +1,5 @@
+
+
 const ColorBubble = ({ colorClass }) => {
   const size = 40;
   return (
@@ -7,10 +9,12 @@ const ColorBubble = ({ colorClass }) => {
 }
 
 
-const ColorsTemplate = ({ isDark }) => {
+const ColorsTemplate = () => {
+
 
   return <div>
-    <div className={`p-4 space-y-1 ${isDark ? 'bg-black' : ''}`}>
+   
+    <div className={`p-4 space-y-1 `}>
       <div className='flex'>
         <ColorBubble colorClass='bg-gray-50' />
         <ColorBubble colorClass='bg-gray-100' />
