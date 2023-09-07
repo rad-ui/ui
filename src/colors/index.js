@@ -10,6 +10,9 @@ import sand from './sand.js';
 // 
 import tomato from './tomato.js';
 
+import red from './red.js';
+import ruby from './ruby.js';
+
 const colors = {
     gray:gray,
     mauve:mauve,
@@ -17,7 +20,9 @@ const colors = {
     sage:sage,
     olive:olive,
     sand:sand,
-    tomato:tomato
+    tomato:tomato,
+    red:red,
+    ruby:ruby,
 }
 
 

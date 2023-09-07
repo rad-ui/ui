@@ -3,7 +3,7 @@
 const ColorBubble = ({ colorClass }) => {
   const size = 32;
   return (
-    <div className={`${colorClass} mr-1`} style={{ width: 100, height: size }}>
+    <div className={`${colorClass} mr-0.5`} style={{ width: 100, height: size }}>
     </div>
   )
 }
@@ -14,7 +14,7 @@ const ColorsTemplate = () => {
 
   return <div>
 
-    <div className={`p-4 space-y-1 `}>
+    <div className={`p-4 space-y-0.5 `}>
       <div className='flex'>
         <ColorBubble colorClass='bg-gray-50' />
         <ColorBubble colorClass='bg-gray-100' />
@@ -115,6 +115,34 @@ const ColorsTemplate = () => {
         <ColorBubble colorClass='bg-tomato-900' />
         <ColorBubble colorClass='bg-tomato-950' />
         <ColorBubble colorClass='bg-tomato-1000' />
+      </div>
+      <div className='flex'>
+        <ColorBubble colorClass='bg-red-50' />
+        <ColorBubble colorClass='bg-red-100' />
+        <ColorBubble colorClass='bg-red-200' />
+        <ColorBubble colorClass='bg-red-300' />
+        <ColorBubble colorClass='bg-red-400' />
+        <ColorBubble colorClass='bg-red-500' />
+        <ColorBubble colorClass='bg-red-600' />
+        <ColorBubble colorClass='bg-red-700' />
+        <ColorBubble colorClass='bg-red-800' />
+        <ColorBubble colorClass='bg-red-900' />
+        <ColorBubble colorClass='bg-red-950' />
+        <ColorBubble colorClass='bg-red-1000' />
+      </div>
+      <div className='flex'>
+        <ColorBubble colorClass='bg-ruby-50' />
+        <ColorBubble colorClass='bg-ruby-100' />
+        <ColorBubble colorClass='bg-ruby-200' />
+        <ColorBubble colorClass='bg-ruby-300' />
+        <ColorBubble colorClass='bg-ruby-400' />
+        <ColorBubble colorClass='bg-ruby-500' />
+        <ColorBubble colorClass='bg-ruby-600' />
+        <ColorBubble colorClass='bg-ruby-700' />
+        <ColorBubble colorClass='bg-ruby-800' />
+        <ColorBubble colorClass='bg-ruby-900' />
+        <ColorBubble colorClass='bg-ruby-950' />
+        <ColorBubble colorClass='bg-ruby-1000' />
       </div>
     </div>
   </div>
