@@ -15,6 +15,7 @@ import ruby from './ruby.js';
 import crimson from './crimson.js';
 import pink from './pink.js';
 import plum from './plum.js';
+import purple from './purple.js';
 
 const colors = {
     gray:gray,
@@ -29,6 +30,7 @@ const colors = {
     crimson:crimson,
     pink:pink,
     plum:plum,
+    purple:purple,
 }
 
 
