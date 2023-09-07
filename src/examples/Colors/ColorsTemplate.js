@@ -1,5 +1,6 @@
 
 
+
 const ColorBubble = ({ colorClass }) => {
   const size = 32;
   return (
@@ -157,6 +158,20 @@ const ColorsTemplate = () => {
         <ColorBubble colorClass='bg-crimson-900' />
         <ColorBubble colorClass='bg-crimson-950' />
         <ColorBubble colorClass='bg-crimson-1000' />
+      </div>
+      <div className='flex'>
+      <ColorBubble colorClass='bg-pink-50' />
+        <ColorBubble colorClass='bg-pink-100' />
+        <ColorBubble colorClass='bg-pink-200' />
+        <ColorBubble colorClass='bg-pink-300' />
+        <ColorBubble colorClass='bg-pink-400' />
+        <ColorBubble colorClass='bg-pink-500' />
+        <ColorBubble colorClass='bg-pink-600' />
+        <ColorBubble colorClass='bg-pink-700' />
+        <ColorBubble colorClass='bg-pink-800' />
+        <ColorBubble colorClass='bg-pink-900' />
+        <ColorBubble colorClass='bg-pink-950' />
+        <ColorBubble colorClass='bg-pink-1000' />
       </div>
     </div>
   </div>
