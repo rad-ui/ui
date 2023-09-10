@@ -1,5 +1,1 @@
-
-import components from './components/ui/index.js';
-
-
-export {components}
+export * from './components/ui/index'; // Re-export components
