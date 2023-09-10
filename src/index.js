@@ -1,5 +1,5 @@
 
-import * as components from './components/ui/index.js';
+import components from './components/ui/index.js';
 
 
 export {components}
