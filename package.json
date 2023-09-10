@@ -1,15 +1,23 @@
 {
   "name": "rad-ui",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build": "rollup -c"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotAPI/rad-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kotAPI/rad-ui/issues"
+  },
+  "author": "Pranay Kothapalli",
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.22.15",
@@ -30,5 +38,9 @@
     "react-dom": "^18.2.0",
     "storybook": "^7.4.0",
     "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
+    "rollup": "^3.29.0"
   }
 }
