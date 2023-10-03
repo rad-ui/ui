@@ -1,4 +1,7 @@
-const Button = ({children,type="button",className="", isDark=false, variant="secondary",...props}) => {
+import * as React from 'react';
+
+
+const Button  = ({children,type="button",className="", isDark=false, variant="secondary",...props}:any) => {
     return (
         <button
             type="button"
