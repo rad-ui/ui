@@ -6,7 +6,7 @@ export default {
     output: {
       file: 'dist/rad-ui.js',
       format: 'umd',
-      name: 'RadUI',
+      name: '@kotapi/rad-ui',
       globals: {
         react: 'React',
       },
