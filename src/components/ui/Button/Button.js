@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Button = ({children,type="button",className="", isDark=false, variant="secondary",...props}) => {
     return (
         <button
