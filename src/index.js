@@ -1,5 +1,6 @@
 
-import * as components from './components/ui/index.js';
+// export Button as default 
+
+export {default as Button} from './components/ui/Button/Button.js';
 
 
-export {components}
