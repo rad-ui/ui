@@ -17,7 +17,7 @@ const AllColorsTemplate = ()=>{
   
   }
     return (
-      <div>
+      <div className={darkMode?'rad-ui-dark-theme':''}>
         <button className='text-gray-900' onClick={toggleDarkMode}>
           {darkMode ? 'Go To Light Mode' : 'Go To Dark Mode'}
         </button>
