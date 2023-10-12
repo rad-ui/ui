@@ -10,6 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "rollup -c",
+    "generate-colors": "node ./scripts/colorGen.js",
     "publish": "npm publish --access public"
   },
   "repository": {
