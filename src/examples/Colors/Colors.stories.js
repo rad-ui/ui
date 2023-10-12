@@ -1,4 +1,4 @@
-import {Theme} from '../../components/layout/index'
+
 import React, { useState } from 'react'
 
 import colors from "../../colors/index"
@@ -23,9 +23,9 @@ const AllColorsTemplate = ()=>{
         </button>
         <div className={`flex ${darkMode?'bg-black':''} `}>
           
-          <Theme isDark={darkMode}>
+          <div isDark={darkMode}>
            <ColorsTemplate isDark={darkMode}/>
-         </Theme>
+         </div>
        </div>
       </div>
        

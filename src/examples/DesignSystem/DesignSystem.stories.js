@@ -1,16 +1,16 @@
 import "./mock.css"
-import  {Button}  from '../../components/ui/index';
-import {Theme} from '../../components/layout/index'
+import  {Button}  from '@/index';
+
 
 
 const AllButtonsTemplate = ()=>{
     return (
-        <Theme isDark={true}>
+        <div isDark={true}>
            <div>
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
            </div>
-        </Theme>
+        </div>
     )
 }
 

@@ -1,11 +1,11 @@
 import  Button  from './Button';
-import Theme from '../../layout/Theme/Theme'
+
 import "./css.variables.mock.css"
 
 
 const AllButtonsTemplate = ()=>{
     return (
-        <Theme isDark={true}>
+        <div isDark={true}>
            <div>
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
@@ -17,7 +17,7 @@ const AllButtonsTemplate = ()=>{
             <Button variant="dark">Dark</Button>
             <Button variant="link">Link</Button>
            </div>
-        </Theme>
+        </div>
     )
 }
 
