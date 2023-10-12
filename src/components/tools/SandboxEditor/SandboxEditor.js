@@ -27,7 +27,6 @@ const ColorSelect = ({ color }) => {
 
         let elem = document.documentElement
 
-
         // get all the color values from the color object
         let colorValues = Object.values(color.light);
         for (let i = 0; i < colorValues.length; i++) {
@@ -48,7 +47,7 @@ const ColorSelect = ({ color }) => {
     const dimensions = 32
     return <div onClick={() => changeAccentColor(color)} 
     className='cursor-pointer rounded-full hover:border-gray-700 border' 
-    style={{ width: dimensions, height: dimensions, backgroundColor:color["light"]["600"] }}></div>
+    style={{ width: dimensions, height: dimensions, backgroundColor:color["light"]["900"] }}></div>
 }
 
 

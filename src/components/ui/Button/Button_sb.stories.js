@@ -12,8 +12,8 @@ export default {
    <div className='flex space-x-2'>
    
       <Button variant="primary">Primary</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="tertiary">Tertiary</Button>
+      {/* <Button variant="secondary">Secondary</Button>x */}
+      {/* <Button variant="tertiary">Tertiary</Button> */}
    </div>
   </SandboxEditor>,
 };
