@@ -1,8 +1,41 @@
 
 
-.button-secondary{
-    background-color: var(--rad-ui-primary-100);
-    outline:none;
+.button-accent{
+    background-color: var(--rad-ui-color-accent-600);
+    color: var(--rad-ui-color-gray-1000);
+    padding: 2px 10px;
+    min-width:100px;
     border:0;
-    color:black
+}
+.button-accent:hover{
+    background-color: var(--rad-ui-color-accent-700);
+
+}
+
+
+
+.button-secondary{
+    background-color: var(--rad-ui-color-purple-600);
+    color: var(--rad-ui-color-gray-1000);
+    padding: 2px 10px;
+    min-width:100px;
+    border:0;
+
+}
+.button-secondary:hover{
+    background-color: var(--rad-ui-color-purple-700);
+
+}
+
+
+.button-tertiary{
+    background-color: var(--rad-ui-color-plum-600);
+    color: var(--rad-ui-color-gray-1000);
+    padding: 2px 10px;
+    min-width:100px;
+    border:0;
+}
+.button-tertiary:hover{
+    background-color: var(--rad-ui-color-plum-700);
+
 }
