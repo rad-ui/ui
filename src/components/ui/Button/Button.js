@@ -1,9 +1,7 @@
 import React from 'react';
 
-const Button = ({children, type="button",className="", isDark=false, variant="primary",...props}) => {
-    if(variant==="primary"){
-        variant = "accent"
-    }
+const Button = ({children, type="button",className="", isDark=false, variant="solid",...props}) => {
+
     return (
         <button
             type="button"
