@@ -11,7 +11,7 @@ export default {
   render: (args) => <SandboxEditor>
    <div className='flex space-x-2'>
    
-      <Button variant="primary">Primary</Button>
+      <Button variant="primary">Next</Button>
       {/* <Button variant="secondary">Secondary</Button>x */}
       {/* <Button variant="tertiary">Tertiary</Button> */}
    </div>
