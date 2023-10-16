@@ -1,7 +1,7 @@
 import colors from '../../src/colors/index.js';
 const COLOR_PREFIX = '--rad-ui-color-';
 
-let accentColor = colors.purple;
+let accentColor = colors.red;
 let jsVariables = {};
 const generateAccentTokens = (theme) => {
     let cssVariables = [];
