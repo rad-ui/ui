@@ -13,7 +13,7 @@ export default {
   render: (args) => <SandboxEditor>
     <div >
       <div className='mt-4 mb-2'>
-        <p className='text-accent-950'>Button Variants</p>
+        <p className='text-gray-950'>Button Variants</p>
       </div>
 
       <div className='flex space-x-2'>
