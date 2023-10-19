@@ -25,3 +25,13 @@
 .button-outline:hover{
     border-color:var(--rad-ui-color-accent-950) ;
 }
+
+/**Ghost */
+.button-ghost{
+    background-color: transparent;
+    color: var(--rad-ui-color-accent-900);
+}
+.button-ghost:hover{
+    border-color:var(--rad-ui-color-accent-950) ;
+    background-color: var(--rad-ui-color-accent-300);
+}

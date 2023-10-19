@@ -23,6 +23,9 @@ export default {
         <Button className='space-x-1' variant="outline">
           <div>Next </div> <ArrowIcon className="text-accent-900" />
         </Button>
+        <Button className='space-x-1' variant="ghost">
+          <div>Next </div> <ArrowIcon className="text-accent-900" />
+        </Button>
       </div>
       {/* <Button variant="secondary">Secondary</Button>x */}
       {/* <Button variant="tertiary">Tertiary</Button> */}
