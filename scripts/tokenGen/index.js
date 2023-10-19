@@ -21,25 +21,20 @@ jsVariables = {...jsVariables, ...DarkThemeJSTokens}
 
 // Generate accent colors css
 
-const {cssVariables: accentLightCss, jsVariables:lightThemeAccentTokens} = generateAccentTokens("light");
-jsVariables = {...jsVariables, ...lightThemeAccentTokens}
-
-const {cssVariables: accentDarkCss, jsVariables:darkThemeAccentTokens} = generateAccentTokens("dark");
-jsVariables = {...jsVariables, ...darkThemeAccentTokens}
-
-
+const accentTokens= generateAccentTokens("light");
 
 
 // Combine light and dark theme CSS
 const combinedCss = `
   :root {
     ${lightThemeCss}
-    ${accentLightCss}
+   
   }
+
+  ${accentTokens}
 
   .rad-ui-dark-theme {
     ${DarkThemeCss}
-    ${accentDarkCss}
   }
 `;
 
