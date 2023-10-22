@@ -24,8 +24,8 @@ export default {
         </BlockQuote>
         
       </div>
-      {/* <Button variant="secondary">Secondary</Button>x */}
-      {/* <Button variant="tertiary">Tertiary</Button> */}
+
+
     </div>
   </SandboxEditor>,
 };
