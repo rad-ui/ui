@@ -44,3 +44,34 @@
     border-color:var(--rad-ui-color-accent-950) ;
     background-color: var(--rad-ui-color-accent-300);
 }
+
+
+
+.rui-code-root{
+    color: var(--rad-ui-color-accent-950);
+    background-color: var(--rad-ui-color-accent-400);
+    padding:1px 10px;
+    display: inline-block;
+    border-radius: 4px;
+    font-size:12px;
+}
+
+.rad-ui-avatar{
+    width:32px;
+    height:32px;
+    border-radius: 8px;
+}
+
+.rad-ui-avatar-fallback{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rad-ui-color-accent-900);
+    background-color: var(--rad-ui-color-accent-500) ;
+}
+
+.rad-ui-blockquote{
+    border-color: var(--rad-ui-color-accent-600);
+    border-left-width: 0.5rem;
+    padding-left:12px;
+}

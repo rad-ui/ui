@@ -1,5 +1,4 @@
 import Button from './Button';
-import "./css.variables.mock.css"
 import SandboxEditor from "@/components/tools/SandboxEditor/SandboxEditor"
 
 const ArrowIcon = ({ className }) => {

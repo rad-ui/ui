@@ -1,7 +1,5 @@
 import Avatar from './Avatar';
-import "./css.variables.mock.css"
 import SandboxEditor from "@/components/tools/SandboxEditor/SandboxEditor"
-
 
 
  const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, and low altitude
