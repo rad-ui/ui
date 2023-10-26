@@ -1,22 +1,25 @@
 /** @type {import('tailwindcss').Config} */
+
+import radUIColors from "./styles/jsTokens/base.tokens.js"
+
 module.exports = {
   content: ["./src/**/*.{html,js,jsx,ts,tsx,vue}"],
   theme: {
     extend: {
       colors:{
         gray:{
-          50: 'var(--gray50)',
-          100: 'var(--gray100)',
-          200: 'var(--gray200)',
-          300: 'var(--gray300)',
-          400: 'var(--gray400)',
-          500: 'var(--gray500)',
-          600: 'var(--gray600)',
-          700: 'var(--gray700)',
-          800: 'var(--gray800)',
-          900: 'var(--gray900)',
-          950: 'var(--gray950)',
-          1000: 'var(--gray1000)',
+          50: 'var(--rad-ui-color-gray-50)',
+          100: 'var(--rad-ui-color-gray-100)',
+          200: 'var(--rad-ui-color-gray-200)',
+          300: 'var(--rad-ui-color-gray-300)',
+          400: 'var(--rad-ui-color-gray-400)',
+          500: 'var(--rad-ui-color-gray-500)',
+          600: 'var(--rad-ui-color-gray-600)',
+          700: 'var(--rad-ui-color-gray-700)',
+          800: 'var(--rad-ui-color-gray-800)',
+          900: 'var(--rad-ui-color-gray-900)',
+          950: 'var(--rad-ui-color-gray-950)',
+          1000: 'var(--rad-ui-color-gray-1000)',
         }
       }
     },
