@@ -12,6 +12,18 @@
 --rad-ui-color-gray-900: hsl(0, 0%, 50.3%);
 --rad-ui-color-gray-950: hsl(0, 0%, 39.3%);
 --rad-ui-color-gray-1000: hsl(0, 0%, 12.5%);
+--rad-ui-color-mauve-50: hsl(300, 26.0%, 99.0%);
+--rad-ui-color-mauve-100: hsl(270, 20.0%, 98.0%);
+--rad-ui-color-mauve-200: hsl(267, 13.8%, 95.3%);
+--rad-ui-color-mauve-300: hsl(265, 12.2%, 92.7%);
+--rad-ui-color-mauve-400: hsl(263, 11.6%, 90.3%);
+--rad-ui-color-mauve-500: hsl(261, 11.1%, 87.7%);
+--rad-ui-color-mauve-600: hsl(257, 10.8%, 84.3%);
+--rad-ui-color-mauve-700: hsl(249, 10.4%, 75.5%);
+--rad-ui-color-mauve-800: hsl(252, 6.0%, 57.3%);
+--rad-ui-color-mauve-900: hsl(250, 5.0%, 52.3%);
+--rad-ui-color-mauve-950: hsl(252, 5.0%, 40.7%);
+--rad-ui-color-mauve-1000: hsl(260, 10.0%, 13.5%);
   }
 
   .rad-ui-dark-theme {
@@ -27,4 +39,16 @@
 --rad-ui-color-gray-900: hsl(0, 0%, 50.7%);
 --rad-ui-color-gray-950: hsl(0, 0%, 69.5%);
 --rad-ui-color-gray-1000: hsl(0, 0%, 93.5%);
+--rad-ui-color-mauve-50: hsl(240, 7.0%, 93.8%);
+--rad-ui-color-mauve-100: hsl(250, 6.0%, 70.5%);
+--rad-ui-color-mauve-200: hsl(252, 4.3%, 52.3%);
+--rad-ui-color-mauve-300: hsl(250, 5.0%, 45.0%);
+--rad-ui-color-mauve-400: hsl(258, 5.0%, 39.2%);
+--rad-ui-color-mauve-500: hsl(269, 5.3%, 30.3%);
+--rad-ui-color-mauve-600: hsl(276, 5.4%, 25.7%);
+--rad-ui-color-mauve-700: hsl(280, 5.6%, 22.4%);
+--rad-ui-color-mauve-800: hsl(285, 5.8%, 19.5%);
+--rad-ui-color-mauve-900: hsl(290, 6.2%, 16.2%);
+--rad-ui-color-mauve-950: hsl(300, 7.1%, 11.0%);
+--rad-ui-color-mauve-1000: hsl(300, 5.0%, 9.5%);
   }
