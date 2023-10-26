@@ -12,6 +12,7 @@ import tomato from './tomato.js';
 
 import red from './red.js';
 import ruby from './ruby.js';
+import crimson from './crimson.js';
 
 const colors = {
     gray:gray,
@@ -23,6 +24,7 @@ const colors = {
     tomato:tomato,
     red:red,
     ruby:ruby,
+    crimson:crimson,
 }
 
 
