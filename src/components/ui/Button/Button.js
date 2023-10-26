@@ -1,4 +1,9 @@
-const Button = ({children,type="button",className="", isDark=false, variant="secondary",...props}) => {
+import React from 'react';
+
+const Button = ({children, type="button",className="", isDark=false, variant="primary",...props}) => {
+    if(variant==="primary"){
+        variant = "accent"
+    }
     return (
         <button
             type="button"
