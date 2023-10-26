@@ -1,20 +1,28 @@
 import {Theme} from '../../components/layout/index'
 
+import colors from "../../colors/index"
 
-const ColorBubble = ({color})=>{
+
+const ColorBubble = ({colorClass})=>{
     return (
-        <div style={{width: "60px", height: "60px", backgroundColor: color}}>
+        <div className={`${colorClass}`} style={{width: "60px", height: "60px"}}>
         </div>
     )
 }
 
 const AllColorsTemplate = ()=>{
+  const isDark = false
     return (
-        <Theme isDark={true}>
-           <div className='flex space-x-2'>
-                <ColorBubble color="black" />
-                <ColorBubble color="black" />
-           </div>
+        <Theme isDark={isDark}>
+          <div className={`p-20 border-2 border-black ${isDark?'bg-black':''}`}>
+            <div className='flex'>
+              <ColorBubble colorClass='bg-gray-50' />
+              <ColorBubble colorClass='bg-gray-100' />
+              <ColorBubble colorClass='bg-gray-200' />
+              <ColorBubble colorClass='bg-gray-300' />
+              <ColorBubble colorClass='bg-gray-400' />
+            </div>
+          </div>
         </Theme>
     )
 }
