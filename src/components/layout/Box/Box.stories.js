@@ -1,5 +1,7 @@
 import React from 'react';
 import Box from './Box';
+import Text from "../../Text/Text"
+
 
 export default {
     title: 'Components/Box',
@@ -7,7 +9,7 @@ export default {
 };
 
 export const Regular = () => <Box>
-    <div>This is a Box!</div>
+    <Text.Body>This is a Box!</Text.Body>
 </Box>;
 
 
