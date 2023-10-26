@@ -12,5 +12,11 @@
     ],
     "@babel/preset-react"
   ],
-  "plugins": []
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "@/stitches": "./src/styles/main.js"
+      }
+    }]
+  ]
 }
