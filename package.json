@@ -8,7 +8,8 @@
     "rollup": "rollup -c",
     "build": "npm run rollup",
     "storybook": "storybook dev -p 6009",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "publish":"npm publish --access public"
   },
   "repository": {
     "type": "git",
