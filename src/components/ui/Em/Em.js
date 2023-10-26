@@ -1,8 +1,7 @@
-const Em  = ({ children }) => (
+const Em = ({ children }) => (
     <em className="rui-em-root">
         {children}
     </em>
-    );
-}
+);
 
-export default Em
+export default Em;
