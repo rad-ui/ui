@@ -1,10 +1,10 @@
 {
   "name": "@kotapi/rad-ui",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sb": "storybook dev -p 6006",
