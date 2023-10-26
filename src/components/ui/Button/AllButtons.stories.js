@@ -1,5 +1,25 @@
 import  Button  from './Button';
+import Theme from '../../layout/Theme/Theme'
 import "./css.variables.mock.css"
+
+
+const AllButtonsTemplate = ()=>{
+    return (
+        <Theme isDark={true}>
+           <div>
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="success">Success</Button>
+            <Button variant="danger">Danger</Button>
+            <Button variant="warning">Warning</Button>
+            <Button variant="info">Info</Button>
+            <Button variant="light">Light</Button>
+            <Button variant="dark">Dark</Button>
+            <Button variant="link">Link</Button>
+           </div>
+        </Theme>
+    )
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -15,22 +35,11 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
+  render: (args) => <AllButtonsTemplate/>,
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Primary = {
+export const All = {
   args: {
-    label: 'Button',
-    variant:"secondary",
-    children:"Button"
-  },
-};
-
-export const Dark = {
-  args: {
-    label: 'Button',
-    variant:"secondary",
-    children:"Button",
-    isDark:true
   },
 };
