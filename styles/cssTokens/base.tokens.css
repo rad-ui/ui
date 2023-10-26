@@ -144,6 +144,18 @@
 --rad-ui-color-plum-900: hsl(292, 50.2%, 46.9%);
 --rad-ui-color-plum-950: hsl(292, 60.0%, 42.5%);
 --rad-ui-color-plum-1000: hsl(291, 57.0%, 23.2%);
+--rad-ui-color-purple-50: hsl(280, 65.0%, 99.4%);
+--rad-ui-color-purple-100: hsl(276, 100%, 99.0%);
+--rad-ui-color-purple-200: hsl(276, 83.1%, 97.0%);
+--rad-ui-color-purple-300: hsl(275, 76.4%, 94.7%);
+--rad-ui-color-purple-400: hsl(275, 70.8%, 91.8%);
+--rad-ui-color-purple-500: hsl(274, 65.4%, 87.8%);
+--rad-ui-color-purple-600: hsl(273, 61.0%, 81.7%);
+--rad-ui-color-purple-700: hsl(272, 60.0%, 73.5%);
+--rad-ui-color-purple-800: hsl(272, 51.0%, 54.0%);
+--rad-ui-color-purple-900: hsl(272, 46.8%, 50.3%);
+--rad-ui-color-purple-950: hsl(272, 50.0%, 45.8%);
+--rad-ui-color-purple-1000: hsl(270, 50.0%, 25.0%);
   }
 
   .rad-ui-dark-theme {
@@ -291,4 +303,16 @@
 --rad-ui-color-plum-900: hsl(291, 51.2%, 60.2%);
 --rad-ui-color-plum-950: hsl(290, 70.0%, 74.0%);
 --rad-ui-color-plum-1000: hsl(300, 60.0%, 89.5%);
+--rad-ui-color-purple-50: hsl(284, 20.0%, 9.6%);
+--rad-ui-color-purple-100: hsl(284, 31.1%, 12.0%);
+--rad-ui-color-purple-200: hsl(282, 35.1%, 16.8%);
+--rad-ui-color-purple-300: hsl(281, 36.9%, 20.1%);
+--rad-ui-color-purple-400: hsl(280, 38.1%, 23.0%);
+--rad-ui-color-purple-500: hsl(278, 39.5%, 27.3%);
+--rad-ui-color-purple-600: hsl(276, 41.1%, 35.1%);
+--rad-ui-color-purple-700: hsl(272, 42.7%, 50.0%);
+--rad-ui-color-purple-800: hsl(272, 51.0%, 54.0%);
+--rad-ui-color-purple-900: hsl(271, 57.8%, 61.2%);
+--rad-ui-color-purple-950: hsl(270, 90.0%, 78.0%);
+--rad-ui-color-purple-1000: hsl(275, 75.0%, 91.5%);
   }
