@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 import { styled, keyframes } from '@stitches/react';
-import { violet, blackA, mauve } from '@radix-ui/colors';
+import { violet, blackA, mauve, whiteA } from '@radix-ui/colors';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 const AccordionDemo = () => (
@@ -84,7 +84,7 @@ const StyledTrigger = styled(Accordion.Trigger, {
   lineHeight: 1,
   color: violet.violet11,
   boxShadow: `0 1px 0 ${mauve.mauve6}`,
-  backgroundColor: 'white',
+  backgroundColor: whiteA.whiteA9,
   '&:hover': { backgroundColor: mauve.mauve2 },
 });
 
