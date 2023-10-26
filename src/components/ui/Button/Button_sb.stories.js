@@ -35,14 +35,14 @@ export default {
            <ArrowIcon className="text-accent-900" />
         </Button>
       </div>
-      {/* <Button variant="secondary">Secondary</Button>x */}
-      {/* <Button variant="tertiary">Tertiary</Button> */}
+
+
     </div>
   </SandboxEditor>,
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Storybook = {
+export const All = {
   args: {
     className: ''
   },
