@@ -1,0 +1,15 @@
+:root {
+    ---rad-ui-primary-100: yellow;
+    ---rad-ui-dark-primary-200: blue
+}
+
+.button-secondary.rad-ui-dark-theme  {
+    background-color:var(---rad-ui-dark-primary-200) !important;
+}
+
+.button-secondary{
+    background-color: var(---rad-ui-primary-100);
+    outline:none;
+    border:0;
+    color:black
+}
