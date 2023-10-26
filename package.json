@@ -1,0 +1,48 @@
+{
+  "name": "rad-ui",
+  "version": "0.0.1",
+  "description": "Rad UI - A UI Library that makes your UI Rad!",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotAPI/rad-ui.git"
+  },
+  "keywords": [
+    "rad-ui",
+    "rad",
+    "ui",
+    "react",
+    "ui",
+    "library",
+    "react",
+    "component",
+    "library",
+    "react",
+    "ui",
+    "react",
+    "nextjs",
+    "remix",
+    "nextjs13",
+    "nextjs-ui",
+    "remix-ui"
+  ],
+  "author": "Pranay Kothapalli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kotAPI/rad-ui/issues"
+  },
+  "homepage": "https://github.com/kotAPI/rad-ui#readme",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "rollup": "^3.24.0"
+  }
+}
