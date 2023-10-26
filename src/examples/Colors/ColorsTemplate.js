@@ -102,6 +102,20 @@ const ColorsTemplate = () => {
         <ColorBubble colorClass='bg-sand-950' />
         <ColorBubble colorClass='bg-sand-1000' />
       </div>
+      <div className='flex'>
+        <ColorBubble colorClass='bg-tomato-50' />
+        <ColorBubble colorClass='bg-tomato-100' />
+        <ColorBubble colorClass='bg-tomato-200' />
+        <ColorBubble colorClass='bg-tomato-300' />
+        <ColorBubble colorClass='bg-tomato-400' />
+        <ColorBubble colorClass='bg-tomato-500' />
+        <ColorBubble colorClass='bg-tomato-600' />
+        <ColorBubble colorClass='bg-tomato-700' />
+        <ColorBubble colorClass='bg-tomato-800' />
+        <ColorBubble colorClass='bg-tomato-900' />
+        <ColorBubble colorClass='bg-tomato-950' />
+        <ColorBubble colorClass='bg-tomato-1000' />
+      </div>
     </div>
   </div>
 
