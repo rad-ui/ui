@@ -1,4 +1,5 @@
 import {Theme} from '../../components/layout/index'
+import React, { useState } from 'react'
 
 import colors from "../../colors/index"
 
@@ -8,12 +9,26 @@ import ColorsTemplate from './ColorsTemplate'
 
 
 const AllColorsTemplate = ()=>{
+  const [darkMode, setDarkMode] = useState(false)
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+
+  
+  }
     return (
-        <div className='flex'>
-           <Theme isDark={false}>
-            <ColorsTemplate isDark={false}/>
-          </Theme>
-        </div>
+      <div>
+        <button className='text-gray-900' onClick={toggleDarkMode}>
+          {darkMode ? 'Go To Light Mode' : 'Go To Dark Mode'}
+        </button>
+        <div className={`flex ${darkMode?'bg-black':''} `}>
+          
+          <Theme isDark={darkMode}>
+           <ColorsTemplate isDark={darkMode}/>
+         </Theme>
+       </div>
+      </div>
+       
     )
 }
 
