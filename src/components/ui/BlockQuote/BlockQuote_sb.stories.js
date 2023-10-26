@@ -1,5 +1,4 @@
 import BlockQuote from './BlockQuote';
-import "./css.variables.mock.css"
 import SandboxEditor from "@/components/tools/SandboxEditor/SandboxEditor"
 
 
