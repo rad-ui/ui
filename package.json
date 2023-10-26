@@ -1,6 +1,6 @@
 {
   "name": "@kotapi/rad-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Rad UI - A UI Library that makes your UI Rad!",
   "main": "dist/rad-ui.js",
   "scripts": {
