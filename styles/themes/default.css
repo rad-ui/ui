@@ -1,3 +1,12 @@
+button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus {
+    outline: 1px solid var(--rad-ui-color-accent-900);
+    outline-offset: -8px;
+    outline-style:groove;
+
+    /* outline:0 none; */
+}
+
+
 
 .rad-ui-button{
     height: 32px;
@@ -74,4 +83,47 @@
     border-color: var(--rad-ui-color-accent-600);
     border-left-width: 0.5rem;
     padding-left:12px;
+}
+
+
+/** TABS  */
+.rad-ui-tab-root{
+
+}
+.rad-ui-tab-list{
+    display: flex;
+    box-shadow: inset 0 -1px 0 0 var(--rad-ui-color-gray-500);
+}
+
+
+.rad-ui-tab-trigger.active{
+    color: var(--rad-ui-color-accent-950);
+    border-bottom:2px solid var(--rad-ui-color-accent-900);
+}
+.rad-ui-tab-trigger {
+    color: var(--rad-ui-color-accent-600);
+    font-family: inherit;
+    padding: 10px 10px;
+
+    display: flex;
+    height:42px;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+}
+.rad-ui-tab-trigger:hover{
+    color: var(--rad-ui-color-accent-900);
+}
+
+.rad-ui-tab-trigger-inner{
+    padding:4px 8px;
+}
+.rad-ui-tab-trigger:hover > .rad-ui-tab-trigger-inner{
+    background-color: var(--rad-ui-color-accent-200);
+    border-radius: 4px;
+}
+
+.rad-ui-tab-content{
+    padding:20px 0px;
+    color : var(--rad-ui-color-gray-1000);
 }

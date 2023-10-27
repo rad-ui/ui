@@ -2,20 +2,16 @@
 'use client';
 import {customClassSwitcher} from '@/core';
 
+import TabTrigger from './TabTrigger';
+
 const COMPONENT_NAME = 'TabList';
 
-const TabList = ({tabs = [], className='', setActiveTab, customRootClass=''}) => {
+const TabList = ({tabs = [], className='', setActiveTab, activeTab, customRootClass=''}) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const handleClick = (tab) => {
-        setActiveTab(tab.value);
-    };
-
-    return <div className={`${rootClass} ${className}`}>
+    return <div role="tablist" aria-orientation='horizontal' aria-label="todo" className={`${rootClass} ${className}`}>
         {tabs.map((tab, index) => {
-            return <button onClick={() => {
-                handleClick(tab);
-            }} className='border' key={index}>{tab.label}</button>;
+            return <TabTrigger activeTab={activeTab} setActiveTab={setActiveTab} key={index} tab={tab} index={index} />;
         })
         }
     </div>;
