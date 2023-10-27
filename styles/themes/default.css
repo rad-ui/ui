@@ -155,3 +155,46 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     font-weight: 600;
     border-radius: 4px;
 }
+
+
+.rad-ui-h1{
+    font-weight: bold;
+    font-size: 60px;
+    letter-spacing: -3.5px;
+    line-height:72px;
+}
+
+.rad-ui-h2{
+    font-weight: bold;
+    font-size: 54px;
+    letter-spacing: -3px;
+    line-height:62px;
+}
+
+.rad-ui-h3{
+    font-weight: bold;
+    font-size: 48px;
+    letter-spacing: -2px;
+    line-height:54px;
+}
+
+.rad-ui-h4{
+    font-weight: bold;
+    font-size: 42px;
+    letter-spacing: -1px;
+    line-height:48px;
+}
+
+.rad-ui-h5{
+    font-weight: bold;
+    font-size: 36px;
+    letter-spacing: -0.5px;
+    line-height:42px;
+}
+
+.rad-ui-h6{
+    font-weight: bold;
+    font-size: 32px;
+
+    line-height:36px;
+}
