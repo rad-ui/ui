@@ -6,8 +6,6 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     /* outline:0 none; */
 }
 
-
-
 .rad-ui-button{
     height: 32px;
     border-radius: 4px;
