@@ -1,7 +1,15 @@
-const Em = ({ children }) => (
-    <em className="rui-em-root">
+'use client';
+import {customClassSwitcher} from '@/core';
+
+const COMPONENT_NAME = 'Em';
+const Em = ({children, customRootClass = '', className = '', ...props}) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+    return <em className={`${rootClass} ${className}`} {...props}>
         {children}
-    </em>
-);
+    </em>;
+};
+
+Em.displayName = COMPONENT_NAME;
 
 export default Em;
