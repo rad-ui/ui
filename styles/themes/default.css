@@ -127,3 +127,19 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     padding:20px 0px;
     color : var(--rad-ui-color-gray-1000);
 }
+
+
+/** Separator */
+.rad-ui-separator {
+    background-color: var(--rad-ui-color-gray-600);
+}
+
+.rad-ui-separator-vertical{
+    margin: 0px 8px;
+    width: 1px;
+}
+
+.rad-ui-separator-horizontal{
+    margin: 8px 0px;
+    height: 1px;
+}
