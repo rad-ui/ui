@@ -11,3 +11,7 @@ export {default as Em} from './components/ui/Em/Em.js';
 
 export {default as Heading} from './components/ui/Heading/Heading.js';
 
+export {default as Text} from './components/ui/Text/Text.js';
+
+export {default as Quote} from './components/ui/Quote/Quote.js';
+

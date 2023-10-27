@@ -196,3 +196,8 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
 
     line-height:36px;
 }
+
+.rad-ui-text{
+    font-size: 16px;
+    line-height: 24px;
+}
