@@ -1,6 +1,6 @@
 button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus {
     outline: 1px solid var(--rad-ui-color-accent-900);
-    outline-offset: -8px;
+    outline-offset: -4px;
     outline-style:groove;
 
     /* outline:0 none; */
