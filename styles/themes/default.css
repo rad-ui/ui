@@ -1,6 +1,5 @@
-button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus {
-    outline: 1px solid var(--rad-ui-color-accent-900);
-    outline-offset: -4px;
+button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
+    outline: 1px solid var(--rad-ui-color-accent-300);
     outline-style:groove;
 
     /* outline:0 none; */
@@ -200,4 +199,14 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
 .rad-ui-text{
     font-size: 16px;
     line-height: 24px;
+}
+
+.rad-ui-link {
+    color: var(--rad-ui-color-accent-800);
+    cursor: pointer;
+}
+.rad-ui-link:hover {
+    color: var(--rad-ui-color-accent-900);
+    text-decoration: underline ;
+    text-decoration-color: var(--rad-ui-color-accent-600);
 }

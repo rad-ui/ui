@@ -15,5 +15,10 @@ export {default as Heading} from './components/ui/Heading/Heading.js';
 
 export {default as Text} from './components/ui/Text/Text.js';
 
+export {default as Link} from './components/ui/Link/Link.js';
+
 export {default as Quote} from './components/ui/Quote/Quote.js';
 
+export {default as Code} from './components/ui/Code/Code.js';
+
+export {default as Avatar} from './components/ui/Avatar/Avatar.js';

@@ -1,25 +1,14 @@
-import Code from './Code';
+import Link from './Link';
+import {Text} from '@/';
 import SandboxEditor from '@/components/tools/SandboxEditor/SandboxEditor';
-
-const Code_TEXT = `console.log()`;
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI/Typography/Code',
-    component: Code,
+    title: 'UI/Typography/Link',
+    component: Link,
     render: (args) => <SandboxEditor>
-        <div >
-            <div className='flex space-x-2'>
-                <Code className='space-x-1'>
-         requestAnimationFrame()
-                </Code>
-
-                <Code className='space-x-1'>
-                    {Code_TEXT}
-                </Code>
-
-            </div>
-
+        <div className='text-gray-950'>
+            <Link href="https://www.google.com" target="_blank">Hello</Link>
         </div>
     </SandboxEditor>,
 };
