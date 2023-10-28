@@ -76,7 +76,7 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     background-color: var(--rad-ui-color-accent-500) ;
 }
 
-.rad-ui-blockquote{
+.rad-ui-block-quote{
     border-color: var(--rad-ui-color-accent-600);
     border-left-width: 0.5rem;
     padding-left:12px;

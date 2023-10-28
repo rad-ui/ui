@@ -1,9 +1,15 @@
 'use client';
 import React from 'react';
 
-const BlockQuote = ({children}) => (
+import {customClassSwitcher} from '@/core';
 
-    <blockquote className="rad-ui-blockquote">{children}</blockquote>
-);
+const COMPONENT_NAME = 'BlockQuote';
+const BlockQuote = ({children, customRootClass = '', className = '', ...props}) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+    return <blockquote className={`${rootClass} ${className}`} {...props}>{children}</blockquote>;
+};
+
+BlockQuote.displayName = COMPONENT_NAME;
 
 export default BlockQuote;
