@@ -1,7 +1,7 @@
 const Code = ({children})=>{
     return <code className='rui-code-root'>
         {children}
-    </code>
-}
+    </code>;
+};
 
-export default Code
+export default Code;

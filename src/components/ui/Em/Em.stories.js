@@ -1,22 +1,18 @@
-import Code from './Code';
+import Em from './Em';
+import {Heading} from '@/';
 import SandboxEditor from '@/components/tools/SandboxEditor/SandboxEditor';
-
-const Code_TEXT = `console.log()`;
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI/Data-Display/Typography/Code',
-    component: Code,
+    title: 'UI/Typography/Em',
+    component: Em,
     render: (args) => <SandboxEditor>
         <div >
             <div className='flex space-x-2'>
-                <Code className='space-x-1'>
-         requestAnimationFrame()
-                </Code>
 
-                <Code className='space-x-1'>
-                    {Code_TEXT}
-                </Code>
+                <Heading className="text-gray-1000">
+                    Hello <Em className='text-gray-950'>World,</Em> How you doin?
+                </Heading>
 
             </div>
 
