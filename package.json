@@ -8,6 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sb": "storybook dev -p 6006",
+    "patch":"npm version patch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "rollup -c",
@@ -52,13 +53,17 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.29",
     "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "rollup": "^3.29.0",
+    "rollup-plugin-banner2": "^1.2.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-preserve-directives": "^0.2.0",
     "storybook": "^7.4.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",
