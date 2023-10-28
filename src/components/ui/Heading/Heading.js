@@ -1,3 +1,6 @@
+'use client';
+import React from 'react';
+
 import {customClassSwitcher} from '@/core';
 
 const RENDER_AS_ENUMS = [
