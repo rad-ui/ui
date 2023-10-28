@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 // make the color prop default accent color
 const Button = ({children, type='button', color=undefined, className='', variant='solid', ...props}) => {

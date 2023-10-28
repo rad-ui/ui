@@ -1,15 +1,17 @@
-const TextRenderer = ({fallback,...rest})=>{
+'use client';
+import React from 'react';
+
+const TextRenderer = ({fallback, ...rest})=>{
     return (
         <div className="rad-ui-avatar rad-ui-avatar-fallback" {...rest} >
             {fallback}
         </div>
-    )
-}
+    );
+};
 
-const Avatar = ({ src, alt, ...rest }) => {
-
+const Avatar = ({src, alt, ...rest}) => {
     if (!src) {
-        return <TextRenderer {...rest} />
+        return <TextRenderer {...rest} />;
     }
 
     return (
@@ -22,7 +24,6 @@ const Avatar = ({ src, alt, ...rest }) => {
             />
         </>
     );
-}
-
+};
 
 export default Avatar;
