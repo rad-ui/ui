@@ -1,7 +1,7 @@
-const Strong = ({children})=>{
-    return(
+const Strong = ({children}) => {
+    return (
         <strong>{children}</strong>
-    )
-}
+    );
+};
 
-export default Strong
+export default Strong;

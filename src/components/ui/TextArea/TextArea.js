@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-const TextArea = ({children})=>{
+const TextArea = ({children}) => {
     return <textarea>
 
     </textarea>;

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-const TextRenderer = ({fallback, ...rest})=>{
+const TextRenderer = ({fallback, ...rest}) => {
     return (
         <div className="rad-ui-avatar rad-ui-avatar-fallback" {...rest} >
             {fallback}

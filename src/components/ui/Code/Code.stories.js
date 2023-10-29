@@ -1,7 +1,7 @@
 import Code from './Code';
 import SandboxEditor from '@/components/tools/SandboxEditor/SandboxEditor';
 
-const Code_TEXT = `console.log()`;
+const Code_TEXT = 'console.log()';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

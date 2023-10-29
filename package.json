@@ -13,7 +13,8 @@
     "build-storybook": "storybook build",
     "build": "rollup -c",
     "generate-tokens": "node ./scripts/tokenGen",
-    "publish": "npm publish --access public"
+    "publish": "npm publish --access public",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
     "postcss": "^8.4.29",
     "prop-types": "^15.8.1",
     "rollup": "^3.29.0",

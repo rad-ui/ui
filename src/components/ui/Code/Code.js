@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-const Code = ({children})=>{
+const Code = ({children}) => {
     return <code className='rui-code-root'>
         {children}
     </code>;

@@ -20,43 +20,36 @@ const COLOR_PREFIX = '--rad-ui-color-';
 
  */
 
-
-let accentColor = colors.red;
-let jsVariables = {};
+const accentColor = colors.red;
+const jsVariables = {};
 const generateAccentTokens = (theme) => {
-    let cssVariables = [];
+    const cssVariables = [];
     const color = accentColor;
 
-    let accentStyleSheet = "";
-    
-    for(const colorObj in colors){
-        
-        let colorName = colorObj
-        let accentColors = colors[colorObj][theme];
-        console.log(accentColors)
+    let accentStyleSheet = '';
 
-        //generate data-accent-color css styles
+    for (const colorObj in colors) {
+        const colorName = colorObj;
+        const accentColors = colors[colorObj][theme];
+        console.log(accentColors);
+
+        // generate data-accent-color css styles
         let cssVariableName = `[data-accent-color=${colorObj}]{`;
-        cssVariableName += `\n`;
+        cssVariableName += '\n';
         // plug in variables here
-        for(const [shadeName, shadeValue] of Object.entries(accentColors)){
+        for (const [shadeName, shadeValue] of Object.entries(accentColors)) {
             cssVariableName += `${COLOR_PREFIX}accent-${shadeName}: var(${COLOR_PREFIX}${colorName}-${shadeName});`;
-            cssVariableName += `\n`;
-
+            cssVariableName += '\n';
         }
 
         // close css variable
-        cssVariableName += `}`;
-        cssVariableName += `\n`;
-        console.log(cssVariableName)
+        cssVariableName += '}';
+        cssVariableName += '\n';
+        console.log(cssVariableName);
         accentStyleSheet += cssVariableName;
-
-
-
     }
 
-    return accentStyleSheet
-}
-
+    return accentStyleSheet;
+};
 
 export default generateAccentTokens;
