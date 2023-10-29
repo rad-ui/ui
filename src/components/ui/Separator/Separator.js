@@ -4,7 +4,7 @@ import {customClassSwitcher} from '@/core';
 
 const COMPONENT_NAME = 'Separator';
 
-const Separator = ({orientation='horizontal', className='', customRootClass=''})=>{
+const Separator = ({orientation='horizontal', className='', customRootClass=''}) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const orientationClass = orientation === 'vertical'? `${rootClass}-vertical` : `${rootClass}-horizontal`;
 

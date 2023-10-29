@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-const Accordion = ({})=>{
+const Accordion = ({}) => {
     return <main>Click me</main>;
 };
 
