@@ -29,6 +29,11 @@ import brown from './brown.js';
 import bronze from './bronze.js';
 import gold from './gold.js';
 import sky from './sky.js';
+import mint from './mint.js';
+import lime from './lime.js';
+import yellow from './yellow.js';
+import amber from './amber.js';
+import orange from './orange.js';
 
 const colors = {
     gray: gray,
@@ -57,6 +62,12 @@ const colors = {
     bronze: bronze,
     gold: gold,
     sky: sky,
+    mint: mint,
+    lime: lime,
+    yellow: yellow,
+    amber: amber,
+    orange: orange,
+
 };
 
 export default colors;
