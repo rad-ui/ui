@@ -1,6 +1,6 @@
 {
   "name": "@kotapi/rad-ui",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
