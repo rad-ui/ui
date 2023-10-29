@@ -21,6 +21,14 @@ import iris from './iris.js';
 import indigo from './indigo.js';
 import blue from './blue.js';
 import cyan from './cyan.js';
+import teal from './teal.js';
+import jade from './jade.js';
+import green from './green.js';
+import grass from './grass.js';
+import brown from './brown.js';
+import bronze from './bronze.js';
+import gold from './gold.js';
+import sky from './sky.js';
 
 const colors = {
     gray: gray,
@@ -41,6 +49,14 @@ const colors = {
     indigo: indigo,
     blue: blue,
     cyan: cyan,
+    teal: teal,
+    jade: jade,
+    green: green,
+    grass: grass,
+    brown: brown,
+    bronze: bronze,
+    gold: gold,
+    sky: sky,
 };
 
 export default colors;
