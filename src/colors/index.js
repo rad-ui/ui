@@ -15,6 +15,10 @@ import crimson from './crimson.js';
 import pink from './pink.js';
 import plum from './plum.js';
 import purple from './purple.js';
+import violet from './violet.js';
+
+import iris from './iris.js';
+import indigo from './indigo.js';
 
 const colors = {
     gray: gray,
@@ -30,6 +34,9 @@ const colors = {
     pink: pink,
     plum: plum,
     purple: purple,
+    violet: violet,
+    iris: iris,
+    indigo: indigo,
 };
 
 export default colors;
