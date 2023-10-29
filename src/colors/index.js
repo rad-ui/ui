@@ -19,6 +19,8 @@ import violet from './violet.js';
 
 import iris from './iris.js';
 import indigo from './indigo.js';
+import blue from './blue.js';
+import cyan from './cyan.js';
 
 const colors = {
     gray: gray,
@@ -37,6 +39,8 @@ const colors = {
     violet: violet,
     iris: iris,
     indigo: indigo,
+    blue: blue,
+    cyan: cyan,
 };
 
 export default colors;
