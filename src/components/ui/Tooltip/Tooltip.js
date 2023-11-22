@@ -1,6 +1,9 @@
 import {useState, useRef} from 'react';
 
-import {useFloating, useInteractions, useHover, FloatingArrow, arrow} from '@floating-ui/react';
+import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset} from '@floating-ui/react';
+
+const ARROW_HEIGHT = 7;
+const GAP = 2;
 
 const Tooltip = ({children, label}) => {
     const arrowRef = useRef(null);
@@ -9,6 +12,13 @@ const Tooltip = ({children, label}) => {
 
     const {refs, floatingStyles, context} = useFloating({
         open: isOpen,
+        middleware: [
+            arrow({
+                element: arrowRef,
+            }),
+            offset(ARROW_HEIGHT + GAP),
+
+        ],
         onOpenChange: setIsOpen,
         placement: 'top',
     });
@@ -23,14 +33,16 @@ const Tooltip = ({children, label}) => {
     ]);
 
     return <div>
-        <div ref={refs.setReference} {...getReferenceProps(
+        <span ref={refs.setReference} {...getReferenceProps(
             {
                 onClick: () => {
                     console.log('click');
                 },
             },
-        )}>{children}</div>
-        {isOpen && <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >{label}</div>}
+        )}>{children}</span>
+        {isOpen && <div className='bg-gray-1000 text-gray-100 px-3 py-1 rounded-md' ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
+            <FloatingArrow className='text-gray-100' ref={arrowRef} context={context} />
+            {label}</div>}
     </div>;
 };
 
