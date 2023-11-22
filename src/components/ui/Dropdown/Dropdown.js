@@ -1,11 +1,5 @@
-import React, {useState, useRef} from 'react';
-
-const Dropdown = ({options, onSelect, label}) => {
-    return (
-        <div className="dropdown" >
-
-        </div>
-    );
+const Dropdown = () => {
+    return <div>Dropdown</div>;
 };
 
 export default Dropdown;

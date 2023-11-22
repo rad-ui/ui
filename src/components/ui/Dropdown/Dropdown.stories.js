@@ -9,7 +9,7 @@ export default {
     render: (args) => <SandboxEditor>
         <div className=' bg-gray-400 p-4' >
             <div className='block'>
-                <Heading className="text-gray-1000"> Dropdown here</Heading>
+                <Heading className="text-gray-1000"> Dropdown</Heading>
                 <Dropdown onSelect={() => {}} label={'Bello'} options={[
                     {value: 'hello', label: 'hello'},
                 ]}>Hello</Dropdown>
