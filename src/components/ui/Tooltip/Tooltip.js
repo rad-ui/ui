@@ -2,6 +2,8 @@ import {useState, useRef} from 'react';
 
 import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset} from '@floating-ui/react';
 
+// TODO : Use Floating Portal?
+
 const ARROW_HEIGHT = 7;
 const GAP = 2;
 
@@ -29,7 +31,6 @@ const Tooltip = ({children, label}) => {
 
     const {getReferenceProps, getFloatingProps} = useInteractions([
         hover,
-
     ]);
 
     return <div>
