@@ -4,6 +4,8 @@ import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset} fr
 
 // TODO : Use Floating Portal?
 
+import Popper from '@/components/tools/Popper/Popper';
+
 const ARROW_HEIGHT = 7;
 const GAP = 2;
 
@@ -34,16 +36,10 @@ const Tooltip = ({children, label}) => {
     ]);
 
     return <div>
-        <span ref={refs.setReference} {...getReferenceProps(
-            {
-                onClick: () => {
-                    console.log('click');
-                },
-            },
-        )}>{children}</span>
-        {isOpen && <div className='bg-gray-1000 text-gray-100 px-3 py-1 rounded-md' ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
-            <FloatingArrow className='text-gray-100' ref={arrowRef} context={context} />
-            {label}</div>}
+        <div>
+            <Popper pop={'hello'}>{children}</Popper>
+        </div>
+
     </div>;
 };
 

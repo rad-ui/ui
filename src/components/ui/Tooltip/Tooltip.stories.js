@@ -9,7 +9,7 @@ export default {
     render: (args) => <SandboxEditor>
         <div className=' bg-gray-400 p-4' >
             <div className='block'>
-                <Heading className="text-gray-1000 mb-4"> Tooltip</Heading>
+                <Heading className="text-gray-1000 mb-4">Tooltip</Heading>
                 <Tooltip label="This is a tooltip">
                     Hello, hover me!
                 </Tooltip>
