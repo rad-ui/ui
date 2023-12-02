@@ -3,9 +3,11 @@
 
 import Popper from '@/components/tools/Popper/Popper';
 
-const Tooltip = ({children, label}) => {
+const COMPONENT_NAME = 'Tooltip';
+
+const Tooltip = ({children, label, ...props}) => {
     return <div>
-        <Popper pop={'hello'}>{children}</Popper>
+        <Popper popperName={COMPONENT_NAME} pop={'hello'} {...props}>{children}</Popper>
     </div>;
 };
 
