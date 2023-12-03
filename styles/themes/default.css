@@ -210,3 +210,16 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     text-decoration: underline ;
     text-decoration-color: var(--rad-ui-color-accent-600);
 }
+
+
+.rad-ui-callout {
+   padding:16px;
+   border-radius:8px;
+    background-color: var(--rad-ui-color-accent-200);
+    color: var(--rad-ui-color-accent-950);
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+    font-size: 14px;
+    gap:8px;
+}

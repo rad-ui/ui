@@ -18,7 +18,7 @@ const ColorSelect = ({color, colorName, changeAccentColor}) => {
         style={{width: dimensions, height: dimensions, backgroundColor: color['light']['900']}}></div>;
 };
 
-const SandboxEditor = ({children}) => {
+const SandboxEditor = ({children, className=''}) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [colorName, setColorName] = useState('plum');
 
@@ -46,7 +46,7 @@ const SandboxEditor = ({children}) => {
             </div>
         </div>
         <Separator/>
-        <div>
+        <div className={`${className}`} >
             {children}
         </div>
     </div>;
