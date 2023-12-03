@@ -49,8 +49,8 @@ const Popper = ({popperName='', customRootClass='', className='', children, open
         dismiss,
     ]);
 
-    return <span className={`${rootClass} ${className}`} {...props}>
-        <span className={`${rootClass}-reference-element`} ref={refs.setReference} {...getReferenceProps(
+    return <>
+        <span className={`${rootClass}-reference-element ${className}`} ref={refs.setReference} {...getReferenceProps(
             {
                 onClick: () => {
                     console.log('click');
@@ -60,7 +60,7 @@ const Popper = ({popperName='', customRootClass='', className='', children, open
         {isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
             {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
             {pop}</div>}
-    </span>;
+    </>;
 };
 
 export default Popper;
