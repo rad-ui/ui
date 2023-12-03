@@ -4,6 +4,7 @@ import {customClassSwitcher} from '@/core';
 import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, useRole, useDismiss} from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
+// TODO : Collisions dont seem to be working as expected, need to investigate
 
 const ARROW_HEIGHT = 7;
 const GAP = 2;
