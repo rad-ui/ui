@@ -24,3 +24,8 @@ export {default as Quote} from './components/ui/Quote/Quote.js';
 export {default as Code} from './components/ui/Code/Code.js';
 
 export {default as Avatar} from './components/ui/Avatar/Avatar.js';
+
+export {default as Dropdown} from './components/ui/Dropdown/Dropdown.js';
+
+export {default as Tooltip} from './components/ui/Tooltip/Tooltip.js';
+
