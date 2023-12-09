@@ -5,6 +5,12 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     /* outline:0 none; */
 }
 
+::selection{
+    background-color: var(--rad-ui-color-accent-300);
+    color: var(--rad-ui-color-accent-950);
+
+}
+
 .rad-ui-button{
     height: 32px;
     border-radius: 4px;
