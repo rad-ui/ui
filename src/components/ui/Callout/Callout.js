@@ -1,7 +1,5 @@
 import {customClassSwitcher} from '@/core';
 
-import {Text} from '@/';
-
 const COMPONENT_NAME = 'Callout';
 
 const InfoIcon = () => {
