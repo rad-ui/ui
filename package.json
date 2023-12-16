@@ -3,7 +3,6 @@
   "version": "0.0.4",
   "description": "",
   "main": "dist",
-  "type": "module",
   "exports": {
     "./Avatar": "./dist/components/Avatar.js"
   },
