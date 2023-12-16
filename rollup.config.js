@@ -39,23 +39,7 @@ export default components.map((component) => ({
             presets: ['@babel/preset-react'],
         }),
         resolve(),
-        banner2(() => `
-      /**
-       * rollup-plugin-banner2
-       */
-      'use client';
-    `),
-        preserveDirectives(['use client']),
+        banner2(() => '\'use client\';\n'),
         // terser(),
     ],
-    onwarn(warning, warn) {
-        if (
-            warning.code === 'MODULE_LEVEL_DIRECTIVE' &&
-      warning.message.includes('use client')
-        ) {
-            // Ignore this warning
-            return;
-        }
-        warn(warning);
-    },
 }));
