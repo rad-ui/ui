@@ -24,11 +24,11 @@ export default components.map((component) => ({
     input: `src/components/ui/${component}/${component}.js`,
     output: [
         {
-            file: `dist/ui/${component}.js`,
+            file: `./${component}.js`,
             format: 'es',
         },
         {
-            file: `dist/ui/${component}.es.js`,
+            file: `./${component}.es.js`,
             format: 'es',
             exports: 'named',
         },
