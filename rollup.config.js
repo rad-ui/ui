@@ -24,7 +24,7 @@ export default components.map((component) => ({
     input: `src/components/ui/${component}/${component}.js`,
     output: [
         {
-            file: `dist/${component}.js`,
+            file: `dist/components/${component}.js`,
             format: 'es',
         },
     ],
