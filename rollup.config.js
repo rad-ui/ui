@@ -24,13 +24,8 @@ export default components.map((component) => ({
     input: `src/components/ui/${component}/${component}.js`,
     output: [
         {
-            file: `./${component}.js`,
+            file: `dist/${component}.js`,
             format: 'es',
-        },
-        {
-            file: `./${component}.es.js`,
-            format: 'es',
-            exports: 'named',
         },
     ],
     external: ['react', 'react-dom'],
