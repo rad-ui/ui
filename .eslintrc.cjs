@@ -11,6 +11,7 @@ module.exports = {
     ],
     'overrides': [
     ],
+    'parser': '@babel/eslint-parser',
     'parserOptions': {
         'ecmaVersion': 'latest',
         'sourceType': 'module',
@@ -28,6 +29,7 @@ module.exports = {
         'no-multi-spaces': 'warn',
         'no-unexpected-multiline': 'warn',
         'no-unused-vars': 'warn',
+        'no-undef':'warn',
         'no-var': 'warn',
         'prefer-const': 'warn',
         'space-before-blocks': 'warn',
