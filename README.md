@@ -1,5 +1,3 @@
-![RAD UI](./assets//images/rad-ui-poster.jpg)
-
 # RAD UI
 
 ![RAD UI](./assets/images/rad-ui-poster.jpg)
