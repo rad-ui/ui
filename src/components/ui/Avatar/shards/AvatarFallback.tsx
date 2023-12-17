@@ -10,7 +10,7 @@ type AvatarFallbackProps = {
 const AvatarFallback: React.FC<AvatarFallbackProps> = ({fallback='', customRootClass='', ...props}) => {
     const rootClass = customClassSwitcher(customRootClass, 'Avatar');
     return (
-        <span className={`${rootClass} ${rootClass}-fallback`} {...props} >
+        <span className={`${rootClass}-fallback`} {...props} >
             {fallback}
         </span>
     );

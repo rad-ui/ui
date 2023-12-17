@@ -1,3 +1,6 @@
+@import "./components/avatar.scss";
+
+
 button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
     outline: 1px solid var(--rad-ui-color-accent-300);
     outline-style:groove;
@@ -68,19 +71,7 @@ button:active, button:focus, input:active, input:focus, textarea:active, textare
     font-size:12px;
 }
 
-.rad-ui-avatar{
-    width:32px;
-    height:32px;
-    border-radius: 8px;
-}
 
-.rad-ui-avatar-fallback{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--rad-ui-color-accent-900);
-    background-color: var(--rad-ui-color-accent-500) ;
-}
 
 .rad-ui-block-quote{
     border-color: var(--rad-ui-color-accent-600);
