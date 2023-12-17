@@ -1,0 +1,26 @@
+# .github/workflows/chromatic.yml
+
+name: "Chromatic"
+
+on: push
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        # ⚠️ Pick one of these, matching the package manager for your project
+        run: npm ci
+        run: pnpm install
+        run: yarn install --immutable --immutable-cache --check-cache
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@latest
+        with:
+          # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
