@@ -18,7 +18,7 @@ Description: Rad UI is a React UI library that simplifies UI development, offeri
 
 Technology stack: React
 Status: Beta
-Links to production or demo instances: Demo (Replace with your actual demo link)
+Please note that Rad UI is under development and will receive a full official release soon in 2024 once significant production-ready components are readily available.
 What sets this apart: Rad UI stands out with its focus on simplicity, flexibility, and ease of integration into React projects.
 <!-- 
 
