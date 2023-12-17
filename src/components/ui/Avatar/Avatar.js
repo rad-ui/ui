@@ -1,35 +1,33 @@
 'use client';
-import React from 'react';
-import {customClassSwitcher} from '@/core';
-
+import React, {useState, useRef} from 'react';
 const COMPONENT_NAME = 'Avatar';
 
-const TextRenderer = ({rootClass, fallback}) => {
-    return (
-        <div className={`${rootClass} ${rootClass}-fallback`} >
-            {fallback}
-        </div>
-    );
-};
+import AvatarRoot from './shards/AvatarRoot';
+import AvatarImage from './shards/AvatarImage';
+import AvatarFallback from './shards/AvatarFallback';
 
-const Avatar = ({children, customRootClass = '', fallback='', className = '', src, alt, ...rest}) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
-    if (!src) {
-        return <TextRenderer fallback={fallback} rootClass={rootClass} />;
-    }
+const Avatar = ({children, customRootClass = '', fallback='', className = '', src, alt, ...props}) => {
+    const imageRef = useRef(null);
+    const [isImageLoaded, setIsImageLoaded] = useState(true);
+    const handleImageLoaded = () => {
+        setIsImageLoaded(true);
+    };
+    const handleImageError = () => {
+        setIsImageLoaded(false);
+    };
     return (
-        <>
-            <img
-                src={src}
-                alt={alt}
-                className={`${rootClass} ${className}`}
-                {...rest}
-            />
-        </>
+        <AvatarRoot customRootClass={customRootClass}>
+            {isImageLoaded && <AvatarImage ref={imageRef} src={src} alt={alt} className={className} customRootClass={customRootClass} onError={handleImageError}
+                onLoad={handleImageLoaded}
+                {...props} />}
+            {!isImageLoaded && <AvatarFallback customRootClass={customRootClass} fallback={fallback}/>}
+        </AvatarRoot>
     );
 };
 
 Avatar.displayName = COMPONENT_NAME;
+Avatar.Root = AvatarRoot;
+Avatar.Image = AvatarImage;
+Avatar.Fallback = AvatarFallback;
 
 export default Avatar;
