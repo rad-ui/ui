@@ -9,6 +9,7 @@
   "scripts": {
     "test": "jest",
     "clean": "rimraf dist",
+    "chromatic": "chromatic --exit-zero-on-changes",
     "sb": "storybook dev -p 6006",
     "patch": "npm version patch",
     "storybook": "storybook dev -p 6006",
