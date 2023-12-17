@@ -1,23 +1,28 @@
 'use client';
-import React, {useState, useRef} from 'react';
 const COMPONENT_NAME = 'Avatar';
+
+import React, {useEffect, useState} from 'react';
 
 import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';
 import AvatarFallback from './shards/AvatarFallback';
 
-const Avatar = ({children, customRootClass = '', fallback='', className = '', src, alt, ...props}) => {
-    const imageRef = useRef(null);
-    const [isImageLoaded, setIsImageLoaded] = useState(true);
+const Avatar = ({children, customRootClass = '', fallback='', onImageLoadFailure=() => {}, onImageLoadSuccess=() => {}, className = '', src='', alt, ...props}) => {
+    const [isImageLoaded, setIsImageLoaded] = useState(src.length?true:false);
+
     const handleImageLoaded = () => {
+        onImageLoadSuccess(src);
         setIsImageLoaded(true);
     };
+
     const handleImageError = () => {
         setIsImageLoaded(false);
+        onImageLoadFailure(src);
     };
+
     return (
         <AvatarRoot customRootClass={customRootClass}>
-            {isImageLoaded && <AvatarImage ref={imageRef} src={src} alt={alt} className={className} customRootClass={customRootClass} onError={handleImageError}
+            {isImageLoaded && <AvatarImage src={src} alt={alt} className={className} customRootClass={customRootClass} onError={handleImageError}
                 onLoad={handleImageLoaded}
                 {...props} />}
             {!isImageLoaded && <AvatarFallback customRootClass={customRootClass} fallback={fallback}/>}
