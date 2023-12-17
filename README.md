@@ -62,3 +62,7 @@ For Licensing info you can check out [LICENSE](LICENSE).
 ## Credits and references
 
 1. Project heavily inspired by RadixUI, Floating UI, shadcn/ui and many other libraries that defined the modern web that we know today
+
+
+This project is tested with BrowserStack
+
