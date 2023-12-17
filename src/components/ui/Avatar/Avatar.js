@@ -7,25 +7,16 @@ import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';
 import AvatarFallback from './shards/AvatarFallback';
 
-const Avatar = ({children, customRootClass = '', fallback='', onImageLoadFailure=() => {}, onImageLoadSuccess=() => {}, className = '', src='', alt, ...props}) => {
-    const [isImageLoaded, setIsImageLoaded] = useState(src.length?true:false);
-
-    const handleImageLoaded = () => {
-        onImageLoadSuccess(src);
-        setIsImageLoaded(true);
-    };
-
-    const handleImageError = () => {
-        setIsImageLoaded(false);
-        onImageLoadFailure(src);
-    };
-
+const Avatar = ({children, customRootClass = '', fallback='', className = '', src='', alt, ...props}) => {
     return (
         <AvatarRoot customRootClass={customRootClass}>
-            {isImageLoaded && <AvatarImage src={src} alt={alt} className={className} customRootClass={customRootClass} onError={handleImageError}
-                onLoad={handleImageLoaded}
-                {...props} />}
-            {!isImageLoaded && <AvatarFallback customRootClass={customRootClass} fallback={fallback}/>}
+            <AvatarImage
+                src={src} alt={alt}
+                className={className}
+                customRootClass={customRootClass}
+                {...props}
+            />
+            <AvatarFallback customRootClass={customRootClass} fallback={fallback}/>
         </AvatarRoot>
     );
 };
