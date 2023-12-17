@@ -1,6 +1,6 @@
 /** @type {import('jest').Config} */
 const config = {
-    verbose: true,
+    verbose: false,
     testEnvironment: 'jsdom',
     setupFilesAfterEnv: ['./src/setupTests.js'],
     moduleNameMapper: {
