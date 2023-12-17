@@ -1,25 +1,19 @@
 {
-  "sourceType": "unambiguous",
-  "presets": [
-    [
-      "@babel/preset-typescript",
-      {
-        "targets": {
-          "chrome": 100,
-          "safari": 15,
-          "firefox": 91
-        },
-
-      }
+    "sourceType": "unambiguous",
+    "presets": [
+        "@babel/preset-typescript",
+        "@babel/preset-react",
+        "@babel/preset-env"
     ],
-    "@babel/preset-react"
-  ],
-  "plugins": [
-    ["module-resolver", {
-      "root": ["./src"],
-      "alias": {
-        "@": "./src"
-      }
-    }]
-  ]
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "root": ["./src"],
+                "alias": {
+                    "@": "./src"
+                }
+            }
+        ]
+    ]
 }
