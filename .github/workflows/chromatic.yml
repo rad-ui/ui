@@ -2,7 +2,11 @@
 
 name: "Chromatic"
 
-on: push
+on:
+  push:
+    paths:
+      - 'src/components/**/*.{js,jsx,ts,tsx}'
+
 
 jobs:
   chromatic:
