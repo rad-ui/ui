@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/rad-ui/ui/graph/badge.svg?token=Z74MUHF5TN)](https://codecov.io/gh/rad-ui/ui)
+
 # RAD UI
 
 ![RAD UI](./assets/images/rad-ui-poster.jpg)
