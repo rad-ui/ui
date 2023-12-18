@@ -1,8 +1,30 @@
-name: Upload coverage reports to Codecov
-uses: codecov/codecov-action@v3
+name: Codecov
+
 on:
-  push:
+  pull_request:
     branches:
-      - main # Adjust the branch as needed
-env:
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - 'main'
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
