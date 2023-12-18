@@ -7,7 +7,7 @@
     "./Avatar": "./dist/components/Avatar.js"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
     "sb": "storybook dev -p 6006",
@@ -18,7 +18,8 @@
     "build": "npm run clean && npm run build-css && rollup -c",
     "generate-tokens": "node ./scripts/tokenGen",
     "publish": "npm publish --access public",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
+    "update-rad": "npm update @radui/ui"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "@babel/preset-env": "^7.22.15",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.3",
+    "@radui/ui": "^0.0.4",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
@@ -82,7 +84,6 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.2",
-    "@radui/ui": "^0.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
