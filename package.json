@@ -3,12 +3,13 @@
   "version": "0.0.4",
   "description": "",
   "main": "dist",
+  "type": "module",
   "exports": {
     "./Avatar": "./dist/components/Avatar.js"
   },
   "scripts": {
     "test": "jest",
-    "coverage":"jest --coverage",
+    "coverage": "jest --coverage",
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
     "sb": "storybook dev -p 6006",
@@ -18,7 +19,7 @@
     "build-css": "parcel build styles/themes/default.scss --out-dir dist/themes/main.css",
     "build": "npm run clean && npm run build-css && rollup -c",
     "generate-tokens": "node ./scripts/tokenGen",
-    "publish": "npm publish --access public",
+    "publish": "npm run build && npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
     "update-rad": "npm update @radui/ui"
   },
@@ -40,6 +41,7 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@storybook/addon-essentials": "^7.4.0",
     "@storybook/addon-interactions": "^7.4.0",
     "@storybook/addon-links": "^7.4.0",
