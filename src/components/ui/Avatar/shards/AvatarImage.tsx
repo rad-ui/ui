@@ -9,7 +9,7 @@ type AvatarImageProps = {
     customRootClass: string;
 };
 
-const AvatarImage: React.FC<AvatarImageProps> = ({src='src', alt='', customRootClass='', className='', ...props}) => {
+const AvatarImage: React.FC<AvatarImageProps> = ({src='', alt='', customRootClass='', className='', ...props}) => {
     const rootClass = customClassSwitcher(customRootClass, 'Avatar');
 
     const [isBrokenImage, setIsBrokenImage] = useState(false);

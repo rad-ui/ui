@@ -8,9 +8,6 @@ import typescript from '@rollup/plugin-typescript';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
 import fs from 'fs';
-import {dirname} from 'path';
-
-import preserveDirectives from 'rollup-plugin-preserve-directives';
 
 import banner2 from 'rollup-plugin-banner2';
 
@@ -49,6 +46,6 @@ export default components.map((component) => ({
         typescript({tsconfig: './tsconfig.json'}),
         resolve(),
         banner2(() => '\'use client\';\n'),
-        // terser(),
+        terser(),
     ],
 }));

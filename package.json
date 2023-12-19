@@ -5,6 +5,7 @@
   "main": "dist",
   "type": "module",
   "exports": {
+    "./themes/default.css": "./dist/themes/default.css",
     "./Avatar": "./dist/components/Avatar.js"
   },
   "scripts": {
