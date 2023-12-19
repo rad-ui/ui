@@ -25,7 +25,7 @@ const AvatarImage: React.FC<AvatarImageProps> = ({src='', alt='', customRootClas
     useEffect(() => {
     }, [isBrokenImage]);
 
-    if (isBrokenImage) {
+    if (isBrokenImage || !src) {
         return null;
     }
 

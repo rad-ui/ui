@@ -11,7 +11,8 @@ const Avatar = ({children, customRootClass = '', fallback='', className = '', sr
     return (
         <AvatarRoot customRootClass={customRootClass}>
             <AvatarImage
-                src={src} alt={alt}
+                src={src}
+                alt={alt}
                 className={className}
                 customRootClass={customRootClass}
                 {...props}
