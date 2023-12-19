@@ -15,7 +15,6 @@ const AvatarImage: React.FC<AvatarImageProps> = ({src='src', alt='', customRootC
     const [isBrokenImage, setIsBrokenImage] = useState(false);
 
     const handleImageLoaded = () => {
-        console.log('image loaded');
         setIsBrokenImage(false);
     };
 

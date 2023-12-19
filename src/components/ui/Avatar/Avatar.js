@@ -1,7 +1,7 @@
 'use client';
 const COMPONENT_NAME = 'Avatar';
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';

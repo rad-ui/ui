@@ -7,7 +7,8 @@
     "./Avatar": "./dist/components/Avatar.js"
   },
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
+    "coverage":"jest --coverage",
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
     "sb": "storybook dev -p 6006",
