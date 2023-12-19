@@ -19,7 +19,7 @@
     "build-css": "parcel build styles/themes/default.scss --out-dir dist/themes/",
     "build": "npm run test && npm run clean && npm run build-css && rollup -c",
     "generate-tokens": "node ./scripts/tokenGen",
-    "publish": "npm run build && npm publish --access public",
+    "publish": "npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
     "update-rad": "npm update @radui/ui"
   },
