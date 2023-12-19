@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
 import fs from 'fs';
+import {dirname} from 'path';
 
 import preserveDirectives from 'rollup-plugin-preserve-directives';
 
@@ -34,7 +35,7 @@ export default components.map((component) => ({
     plugins: [
         alias({
             entries: [
-                {find: '~/core', replacement: path.resolve(__dirname, 'src/components/core')},
+                {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
             ],
         }),
         postcss({
