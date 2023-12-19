@@ -38,7 +38,7 @@
     "@babel/preset-env": "^7.22.15",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.3",
-    "@radui/ui": "^0.0.4",
+    "@radui/ui": "^0.0.8",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.2.3",

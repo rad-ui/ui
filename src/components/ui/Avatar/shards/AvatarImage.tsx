@@ -26,8 +26,10 @@ const AvatarImage: React.FC<AvatarImageProps> = ({src='', alt='', customRootClas
     }, [isBrokenImage]);
 
     if (isBrokenImage || !src) {
-        return null;
+        console.log('not rendering');
+        return <></>;
     }
+    console.log(Boolean(src), src);
 
     return (
         <img src={src} alt={alt} onError={handleImageError} onLoad={handleImageLoaded} className={`${rootClass} ${className}`} {...props} />
