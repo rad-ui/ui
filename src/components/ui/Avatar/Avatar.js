@@ -1,4 +1,3 @@
-'use client';
 const COMPONENT_NAME = 'Avatar';
 
 import React from 'react';

@@ -48,6 +48,6 @@ export default components.map((component) => ({
         typescript({tsconfig: './tsconfig.json'}),
         resolve(),
         terser(),
-        banner2(() => '\'use client\''),
+        banner2(() => '\'use client\';'),
     ],
 }));
