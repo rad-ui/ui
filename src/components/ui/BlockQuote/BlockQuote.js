@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'BlockQuote';
 const BlockQuote = ({children, customRootClass = '', className = '', ...props}) => {

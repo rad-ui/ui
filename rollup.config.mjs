@@ -5,6 +5,7 @@ import external from 'rollup-plugin-peer-deps-external';
 import terser from '@rollup/plugin-terser';
 import postcss from 'rollup-plugin-postcss';
 import typescript from '@rollup/plugin-typescript';
+import alias from '@rollup/plugin-alias';
 import path from 'path';
 import fs from 'fs';
 
@@ -31,6 +32,11 @@ export default components.map((component) => ({
     ],
     external: ['react', 'react-dom'],
     plugins: [
+        alias({
+            entries: [
+                {find: '~/core', replacement: path.resolve(__dirname, 'src/components/core')},
+            ],
+        }),
         postcss({
             plugins: [],
             minimize: true,

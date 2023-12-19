@@ -1,5 +1,5 @@
 import {useState, useRef} from 'react';
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, useRole, useDismiss} from '@floating-ui/react';
 

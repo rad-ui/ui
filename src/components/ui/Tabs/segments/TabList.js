@@ -1,7 +1,7 @@
 
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 import TabTrigger from './TabTrigger';
 
 const COMPONENT_NAME = 'TabList';

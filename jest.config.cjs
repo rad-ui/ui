@@ -6,6 +6,7 @@ const config = {
     moduleNameMapper: {
         '\\.(css|less|scss)$': 'identity-obj-proxy', // enable to mock CSS imports
     },
+
 };
 
 module.exports = config;

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 // @ts-ignore
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 type AvatarImageProps = {
     src: string;

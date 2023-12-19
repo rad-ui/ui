@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 const COMPONENT_NAME = 'TabContent';
 
 const TabContent = ({tabs = [], activeTab, className = '', customRootClass = ''}) => {
