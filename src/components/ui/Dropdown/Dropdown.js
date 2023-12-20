@@ -1,24 +1,19 @@
-import {useState} from 'react';
 
-import {
-    useFloating,
-    autoUpdate,
-    offset,
-    flip,
-    shift,
-} from '@floating-ui/react';
+import Popper from '~/components/tools/Popper/Popper';
 
 const Dropdown = ({list=[], selected}) => {
-    const [isOpen, setIsOpen] = useState(false);
-    // todo
-    const {refs, floatingStyles, context} = useFloating({
-        open: isOpen,
-        onOpenChange: setIsOpen,
-        middleware: [offset(10), flip(), shift()],
-        whileElementsMounted: autoUpdate,
-    });
-
-    return <div>Dropdown</div>;
+    const PopElem = () => {
+        return <ul className='bg-white px-2 py-2 shadow-lg rounded-md'>
+            {list.map((item, index) => {
+                return <li key={index}>{item.value}</li>;
+            })}
+        </ul>;
+    };
+    return <div>
+        <Popper placement="bottom" pop={<PopElem/>}>
+            <span>Dropdown</span>
+        </Popper>
+    </div>;
 };
 
 export default Dropdown;

@@ -9,7 +9,7 @@ import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, fl
 const ARROW_HEIGHT = 7;
 const GAP = 2;
 
-const Popper = ({popperName='', customRootClass='', className='', children, open=false, hoverDelay=10, showArrow=true, pop=<></>, ...props}) => {
+const Popper = ({popperName='', customRootClass='', activationStrategy='hover', className='', placement='top', children, open=false, hoverDelay=10, showArrow=true, pop=<></>, ...props}) => {
     const rootClass = customClassSwitcher(customRootClass, popperName);
 
     const arrowRef = useRef(null);
@@ -17,6 +17,7 @@ const Popper = ({popperName='', customRootClass='', className='', children, open
     const [isOpen, setIsOpen] = useState(open);
 
     const {refs, floatingStyles, context} = useFloating({
+        placement: placement,
         open: isOpen,
         middleware: [
             arrow({
@@ -34,7 +35,6 @@ const Popper = ({popperName='', customRootClass='', className='', children, open
 
         ],
         onOpenChange: setIsOpen,
-        placement: 'top',
     });
 
     const role = useRole(context);
@@ -51,13 +51,14 @@ const Popper = ({popperName='', customRootClass='', className='', children, open
     ]);
 
     return <>
-        <span className={`${rootClass}-reference-element ${className}`} ref={refs.setReference} {...getReferenceProps(
-            {
-                onClick: () => {
-                    console.log('click');
+        <span
+            className={`${rootClass}-reference-element ${className}`} ref={refs.setReference} {...getReferenceProps(
+                {
+                    onClick: () => {
+                        console.log('click');
+                    },
                 },
-            },
-        )}>{children}</span>
+            )}>{children}</span>
         {isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
             {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
             {pop}</div>}
