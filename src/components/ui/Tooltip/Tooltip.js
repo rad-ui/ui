@@ -1,7 +1,7 @@
 
 // TODO : Use Floating Portal?
 
-import Popper from '@/components/tools/Popper/Popper';
+import Popper from '~/components/tools/Popper/Popper';
 
 const COMPONENT_NAME = 'Tooltip';
 

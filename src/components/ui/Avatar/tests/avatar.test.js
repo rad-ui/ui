@@ -1,6 +1,6 @@
 // MyComponent.test.js
 import React from 'react';
-import {render, screen, waitFor} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import Avatar from '../Avatar';
 
 describe('Avatar', () => {

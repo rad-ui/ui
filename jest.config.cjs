@@ -5,7 +5,9 @@ const config = {
     setupFilesAfterEnv: ['./src/setupTests.js'], // enable to use custom setup files
     moduleNameMapper: {
         '\\.(css|less|scss)$': 'identity-obj-proxy', // enable to mock CSS imports
+        '^~/(.*)$': '<rootDir>/src/$1',
     },
+
 };
 
 module.exports = config;

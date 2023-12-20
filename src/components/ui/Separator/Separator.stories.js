@@ -1,5 +1,5 @@
 import Separator from './Separator';
-import SandboxEditor from '@/components/tools/SandboxEditor/SandboxEditor';
+import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const textClasses = 'text-gray-950 text-sm font-light';
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

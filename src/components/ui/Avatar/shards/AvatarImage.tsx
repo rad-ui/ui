@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 // @ts-ignore
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 type AvatarImageProps = {
     src: string;
@@ -9,13 +9,12 @@ type AvatarImageProps = {
     customRootClass: string;
 };
 
-const AvatarImage: React.FC<AvatarImageProps> = ({src='src', alt='', customRootClass='', className='', ...props}) => {
+const AvatarImage: React.FC<AvatarImageProps> = ({src='', alt='', customRootClass='', className='', ...props}) => {
     const rootClass = customClassSwitcher(customRootClass, 'Avatar');
 
     const [isBrokenImage, setIsBrokenImage] = useState(false);
 
     const handleImageLoaded = () => {
-        console.log('image loaded');
         setIsBrokenImage(false);
     };
 
@@ -26,9 +25,11 @@ const AvatarImage: React.FC<AvatarImageProps> = ({src='src', alt='', customRootC
     useEffect(() => {
     }, [isBrokenImage]);
 
-    if (isBrokenImage) {
-        return null;
+    if (isBrokenImage || !src || src.length===0) {
+        console.log('not rendering');
+        return <></>;
     }
+    console.log(Boolean(src), src);
 
     return (
         <img src={src} alt={alt} onError={handleImageError} onLoad={handleImageLoaded} className={`${rootClass} ${className}`} {...props} />

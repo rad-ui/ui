@@ -1,7 +1,6 @@
-'use client';
 const COMPONENT_NAME = 'Avatar';
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';
@@ -11,7 +10,8 @@ const Avatar = ({children, customRootClass = '', fallback='', className = '', sr
     return (
         <AvatarRoot customRootClass={customRootClass}>
             <AvatarImage
-                src={src} alt={alt}
+                src={src}
+                alt={alt}
                 className={className}
                 customRootClass={customRootClass}
                 {...props}

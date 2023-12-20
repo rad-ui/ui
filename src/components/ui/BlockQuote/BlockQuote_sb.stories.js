@@ -1,5 +1,5 @@
 import BlockQuote from './BlockQuote';
-import SandboxEditor from '@/components/tools/SandboxEditor/SandboxEditor';
+import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, and low altitude
  service. The connection topology is limited to a single point-to-point path

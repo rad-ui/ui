@@ -1,6 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 type AvatarFallbackProps = {
     fallback: string,

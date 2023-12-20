@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support

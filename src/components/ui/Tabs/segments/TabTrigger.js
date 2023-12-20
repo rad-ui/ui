@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '@/core';
+import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'TabTrigger';
 const TabTrigger = ({tab, setActiveTab, activeTab, className='', customRootClass, ...props}) => {

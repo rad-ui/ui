@@ -4,10 +4,12 @@ import resolve from '@rollup/plugin-node-resolve';
 import external from 'rollup-plugin-peer-deps-external';
 import terser from '@rollup/plugin-terser';
 import postcss from 'rollup-plugin-postcss';
+import typescript from '@rollup/plugin-typescript';
+import alias from '@rollup/plugin-alias';
 import path from 'path';
 import fs from 'fs';
 
-import preserveDirectives from 'rollup-plugin-preserve-directives';
+// import preserveDirectives from 'rollup-plugin-preserve-directives';
 
 import banner2 from 'rollup-plugin-banner2';
 
@@ -30,6 +32,11 @@ export default components.map((component) => ({
     ],
     external: ['react', 'react-dom'],
     plugins: [
+        alias({
+            entries: [
+                {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
+            ],
+        }),
         postcss({
             plugins: [],
             minimize: true,
@@ -38,8 +45,9 @@ export default components.map((component) => ({
             exclude: 'node_modules/**',
             presets: ['@babel/preset-react'],
         }),
+        typescript({tsconfig: './tsconfig.json'}),
         resolve(),
-        banner2(() => '\'use client\';\n'),
-        // terser(),
+        terser(),
+        banner2(() => '\'use client\';'),
     ],
 }));

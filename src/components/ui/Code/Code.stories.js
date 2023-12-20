@@ -1,5 +1,5 @@
 import Code from './Code';
-import SandboxEditor from '@/components/tools/SandboxEditor/SandboxEditor';
+import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const Code_TEXT = 'console.log()';
 
