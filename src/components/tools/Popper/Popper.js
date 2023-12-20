@@ -9,11 +9,20 @@ import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, fl
 const ARROW_HEIGHT = 7;
 const GAP = 2;
 
-const Popper = ({popperName='', customRootClass='', activationStrategy='hover', className='', placement='top', children, open=false, hoverDelay=10, showArrow=true, pop=<></>, ...props}) => {
+const Popper = ({
+    popperName='',
+    customRootClass='',
+    activationStrategy='hover',
+    className='', placement='top',
+    children,
+    open=false,
+    hoverDelay=10,
+    showArrow=true,
+    pop=<></>,
+    ...props}) => {
+    //
     const rootClass = customClassSwitcher(customRootClass, popperName);
-
     const arrowRef = useRef(null);
-
     const [isOpen, setIsOpen] = useState(open);
 
     const {refs, floatingStyles, context} = useFloating({
@@ -41,7 +50,7 @@ const Popper = ({popperName='', customRootClass='', activationStrategy='hover', 
     const dismiss = useDismiss(context);
 
     const hover = useHover(context, {
-        // delay: hoverDelay,
+    // delay: hoverDelay,
     });
 
     const {getReferenceProps, getFloatingProps} = useInteractions([

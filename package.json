@@ -6,7 +6,18 @@
   "type": "module",
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
-    "./Avatar": "./dist/components/Avatar.js"
+    "./Avatar": "./dist/components/Avatar.js",
+    "./Badge": "./dist/components/Badge.js",
+    "./Button": "./dist/components/Button.js",
+    "./Blockquote": "./dist/components/Blockquote.js",
+    "./Em": "./dist/components/Em.js",
+    "./Quote": "./dist/components/Quote.js",
+    "./Tabs": "./dist/components/Tabs.js",
+    "./Text": "./dist/components/Text.js",
+    "./Heading": "./dist/components/Heading.js",
+    "./Link": "./dist/components/Link.js",
+    "./Code": "./dist/components/Code.js",
+    "./Separator": "./dist/components/Separator.js"
   },
   "scripts": {
     "test": "jest",

@@ -10,9 +10,10 @@ export default {
         <div className=' bg-gray-400 p-4' >
             <div className='block'>
                 <Heading className="text-gray-1000"> Dropdown</Heading>
-                <Dropdown onSelect={() => {}} label={'Bello'} list={[
-                    {value: 'hello', label: 'hello'},
-                ]}>Hello</Dropdown>
+                <Dropdown
+                    onSelect={() => {}} label={'Bello'} list={[
+                        {value: 'hello', label: 'hello'},
+                    ]}>Hello</Dropdown>
             </div>
         </div>
     </SandboxEditor>,
