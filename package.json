@@ -9,7 +9,7 @@
     "./Avatar": "./dist/components/Avatar.js",
     "./Badge": "./dist/components/Badge.js",
     "./Button": "./dist/components/Button.js",
-    "./Blockquote": "./dist/components/Blockquote.js",
+    "./BlockQuote": "./dist/components/BlockQuote.js",
     "./Em": "./dist/components/Em.js",
     "./Quote": "./dist/components/Quote.js",
     "./Tabs": "./dist/components/Tabs.js",
