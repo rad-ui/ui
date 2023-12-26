@@ -1,7 +1,7 @@
 import {useState, useRef} from 'react';
 import {customClassSwitcher} from '~/core';
 
-import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, useRole, useDismiss} from '@floating-ui/react';
+import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoUpdate, autoPlacement, useRole, useDismiss} from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -9,11 +9,20 @@ import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, fl
 const ARROW_HEIGHT = 7;
 const GAP = 2;
 
+/**
+ *
+ *
+ * For Placement https://floating-ui.com/docs/computePosition#placement
+
+
+ */
+
 const Popper = ({
     popperName='',
     customRootClass='',
     activationStrategy='hover',
-    className='', placement='top',
+    className='',
+    placement='top',
     children,
     open=false,
     hoverDelay=10,
@@ -27,21 +36,19 @@ const Popper = ({
 
     const {refs, floatingStyles, context} = useFloating({
         placement: placement,
+        whileElementsMounted: autoUpdate,
         open: isOpen,
+        // strategy: 'fixed',
         middleware: [
             arrow({
                 element: arrowRef,
             }),
             offset(ARROW_HEIGHT + GAP),
-            // autoPlacement({
-            //     crossAxis: 'center',
-            //     alignment: 'start',
-            //     autoAlignment: true,
-            //     allowedPlacements: ['top', 'bottom', 'left', 'right'],
-            //     padding: 5,
-            // }),
-            flip(),
-
+            flip({
+                mainAxis: false,
+                fallbackPlacements: ['right', 'bottom'],
+            },
+            ),
         ],
         onOpenChange: setIsOpen,
     });

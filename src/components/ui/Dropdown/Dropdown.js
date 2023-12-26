@@ -10,7 +10,7 @@ const Dropdown = ({list=[], selected}) => {
         </ul>;
     };
     return <div>
-        <Popper placement="bottom" pop={<PopElem/>}>
+        <Popper open={true} placement="bottom-start" popperName="dropdown" pop={<PopElem/>}>
             <span>Dropdown</span>
         </Popper>
     </div>;
