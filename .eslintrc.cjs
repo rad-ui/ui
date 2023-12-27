@@ -21,7 +21,6 @@ module.exports = {
     ],
     'rules': {
         'react/react-in-jsx-scope': 'off',
-        'no-multiple-empty-lines': ['warn', {'max': 1, 'maxEOF': 1}],
         'indent': ['warn', 4],
         'key-spacing': ['warn', {'beforeColon': false, 'afterColon': true}],
         'no-trailing-spaces': 'warn',
@@ -35,6 +34,7 @@ module.exports = {
         'prefer-const': 'warn',
         'space-before-blocks': 'warn',
         'space-before-function-paren': ['warn', 'never'],
+        'react/jsx-first-prop-new-line': [1, 'multiline'],
         'space-in-parens': 'warn',
         'spaced-comment': 'warn',
         'arrow-spacing': 'warn',

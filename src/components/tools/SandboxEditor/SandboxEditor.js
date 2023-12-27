@@ -13,7 +13,8 @@ const MoonIcon = () => {
 
 const ColorSelect = ({color, colorName, changeAccentColor}) => {
     const dimensions = 32;
-    return <div onClick={() => changeAccentColor(colorName)}
+    return <div
+        onClick={() => changeAccentColor(colorName)}
         className='cursor-pointer rounded-full hover:border-gray-700 border'
         style={{width: dimensions, height: dimensions, backgroundColor: color['light']['900']}}></div>;
 };
