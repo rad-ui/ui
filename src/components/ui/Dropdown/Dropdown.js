@@ -10,7 +10,7 @@ const Dropdown = ({list=[], selected}) => {
         </ul>;
     };
     return <div className='relative'>
-        <Popper open={true} placement="bottom-start" popperName="dropdown" pop={<PopElem/>}>
+        <Popper open={false} placement="bottom-start" popperName="dropdown" pop={<PopElem/>}>
             <span>Dropdown</span>
         </Popper>
     </div>;
