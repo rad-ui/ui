@@ -40,9 +40,6 @@ const Popper = ({
         open: isOpen,
         // strategy: 'fixed',
         middleware: [
-            // hide({
-            //     strategy: 'referenceHidden', // 'referenceHidden' by default
-            // }),
             arrow({
                 element: arrowRef,
             }),
@@ -53,7 +50,10 @@ const Popper = ({
             },
             ),
             shift({
-                crossAxis: true,
+                crossAxis: false,
+            }),
+            hide({
+                strategy: 'referenceHidden', // 'referenceHidden' by default
             }),
 
 
