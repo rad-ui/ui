@@ -1,7 +1,7 @@
 import {useState, useRef} from 'react';
 import {customClassSwitcher} from '~/core';
 
-import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoUpdate, autoPlacement, useRole, useDismiss} from '@floating-ui/react';
+import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss} from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -36,19 +36,27 @@ const Popper = ({
 
     const {refs, floatingStyles, context} = useFloating({
         placement: placement,
-        whileElementsMounted: autoUpdate,
+        whileElementsMounted: autoUpdate, // this makes sure the popup is attached to the reference on scrolling etc
         open: isOpen,
         // strategy: 'fixed',
         middleware: [
+            // hide({
+            //     strategy: 'referenceHidden', // 'referenceHidden' by default
+            // }),
             arrow({
                 element: arrowRef,
             }),
             offset(ARROW_HEIGHT + GAP),
             flip({
-                mainAxis: false,
-                fallbackPlacements: ['right', 'bottom'],
+                mainAxis: true,
+                fallbackStrategy: 'initialPlacement',
             },
             ),
+            shift({
+                crossAxis: true,
+            }),
+
+
         ],
         onOpenChange: setIsOpen,
     });
@@ -66,9 +74,9 @@ const Popper = ({
         dismiss,
     ]);
 
-    return <>
+    return <span>
         <span
-            className={`${rootClass}-reference-element ${className}`} ref={refs.setReference} {...getReferenceProps(
+            className={`rad-ui-popper ${rootClass}-reference-element ${className}`} ref={refs.setReference} {...getReferenceProps(
                 {
                     onClick: () => {
                         console.log('click');
@@ -78,7 +86,7 @@ const Popper = ({
         {isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
             {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
             {pop}</div>}
-    </>;
+    </span>;
 };
 
 export default Popper;
