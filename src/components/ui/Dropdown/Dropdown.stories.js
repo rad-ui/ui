@@ -15,8 +15,16 @@ export default {
 
                 <Dropdown
                     onSelect={() => {}} label={'Bello'} list={[
-                        {value: 'hello', label: 'hello'},
-                    ]}>Hello</Dropdown>
+                        {value: `hello Hello this is a dropdown. Hello this is a dropdown. 
+                        Hello this is a dropdown. Hello`, label: 'hello'},
+                    ]}>
+                    <div>
+                        Hello this is a dropdown. Hello this is a dropdown. Hello this is a dropdown. Hello this is a
+                        dropdown. Hello this is a dropdown. Hello this is a dropdown. Hello this is a dropdown. Hello
+                        this is a dropdown. Hello this is a dropdown. Hello this is a dropdown. Hello this is a
+                        dropdown. Hello this is a dropdown. Hello this is a dropdown. Hello this is a dropdown. Hello
+                    </div>
+                </Dropdown>
 
                 <div style={{marginTop: '200px'}}>
                     <Heading className="text-gray-1000"> Dropdown End</Heading>
