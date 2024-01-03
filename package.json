@@ -7,8 +7,8 @@
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
     "./Avatar": "./dist/components/Avatar.js",
-    "./Badge": "./dist/components/Badge.js",
-    "./Button": "./dist/components/Button.js",
+    "./Badge": "./dist/components/Badge.tsx",
+    "./Button": "./dist/components/Button.tsx",
     "./BlockQuote": "./dist/components/BlockQuote.js",
     "./Em": "./dist/components/Em.js",
     "./Quote": "./dist/components/Quote.js",
@@ -17,7 +17,7 @@
     "./Heading": "./dist/components/Heading.js",
     "./Link": "./dist/components/Link.js",
     "./Code": "./dist/components/Code.js",
-    "./Separator": "./dist/components/Separator.js"
+    "./Separator": "./dist/components/Separator.tsx"
   },
   "scripts": {
     "test": "jest",
@@ -101,6 +101,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.2",
+    "deps": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

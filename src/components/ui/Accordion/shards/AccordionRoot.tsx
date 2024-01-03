@@ -7,7 +7,7 @@ interface AccordionRootProps {
     customRootClass?: string;
 }
 
-const AccordionRoot: React.FC<AccordionRootProps> = ({children, customRootClass=''}) => {
+const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'Accordion');
     return (
         <span className={`${rootClass}-root`}>
