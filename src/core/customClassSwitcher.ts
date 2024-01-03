@@ -1,6 +1,6 @@
 const RAD_UI_CLASS_PREFIX = 'rad-ui';
 
-const customClassSwitcher = (customRootClass, componentName='') => {
+export const customClassSwitcher = (customRootClass: string, componentName: string): string => {
     // applies a custom root class the user provides, else applies the default rad-ui classes to the component
     // rad ui's classes are based on this logic
 
@@ -13,5 +13,3 @@ const customClassSwitcher = (customRootClass, componentName='') => {
 
     return '';
 };
-
-export default customClassSwitcher;
