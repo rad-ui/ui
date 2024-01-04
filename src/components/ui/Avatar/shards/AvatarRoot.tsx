@@ -1,13 +1,12 @@
 import React from 'react';
-// @ts-ignore
 import {customClassSwitcher} from '~/core';
 
-export type AvatarRootProps = {
+type AvatarRootProps = {
   children: React.ReactNode;
-  customRootClass:string
+  customRootClass?: string
 };
 
-const Root: React.FC<AvatarRootProps> = ({children, customRootClass=''}) => {
+const Root = ({children, customRootClass}: AvatarRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'Avatar');
     return (
         <span className={`${rootClass}-root`}>
