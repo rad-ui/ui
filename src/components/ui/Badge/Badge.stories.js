@@ -1,5 +1,5 @@
 import Badge from './Badge';
-import {Separator} from '~/';
+import Separator from '../Separator/Separator';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const ArrowIcon = ({className}) => {

@@ -1,5 +1,6 @@
 
-import {Dropdown, Heading} from '~/';
+import Heading from '~/components/ui/Heading/Heading';
+import Dropdown from '~/components/ui/Dropdown/Dropdown';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
