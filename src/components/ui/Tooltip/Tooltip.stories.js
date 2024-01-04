@@ -1,5 +1,5 @@
 
-import {Tooltip, Heading} from '~/';
+import Tooltip from './Tooltip';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import ScrollPlayground from '~/components/tools/ScrollPlayground/ScrollPlayground';
 
