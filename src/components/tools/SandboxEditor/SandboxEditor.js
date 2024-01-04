@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Separator} from '~/index';
+
+import Button from '~/components/ui/Button/Button';
+import Separator from '~/components/ui/Separator/Separator';
 
 import colors from '~/colors';
 
