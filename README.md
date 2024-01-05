@@ -61,10 +61,12 @@ For more details you can read [CONTRIBUTING](CONTRIBUTING.md).
 
 For Licensing info you can check out [LICENSE](LICENSE).
 
+## Dev Environments
+
+Node versions tested in 18.19.0 - 21.4.0
+
 ## Credits and references
 
 1. Project heavily inspired by RadixUI, Floating UI, shadcn/ui and many other libraries that defined the modern web that we know today
 
-
 This project is tested with BrowserStack
-

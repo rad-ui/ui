@@ -1,3 +1,3 @@
-import {customClassSwitcher} from './customClassSwitcher'
+import {customClassSwitcher} from './customClassSwitcher';
 
-export { customClassSwitcher }
+export {customClassSwitcher};
