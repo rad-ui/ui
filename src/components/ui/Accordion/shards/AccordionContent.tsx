@@ -5,11 +5,11 @@ import {customClassSwitcher} from '~/core';
 type AccordionContentProps = {
   children: React.ReactNode;
   index: number,
-    activeIndex: number,
-  customRootClass:string
+  activeIndex: number,
+  customRootClass? :string
 };
 
-const AccordionContent: React.FC<AccordionContentProps> = ({children, index, activeIndex, customRootClass=''}) => {
+const AccordionContent: React.FC<AccordionContentProps> = ({children, index, activeIndex, customRootClass}: AccordionContentProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'Accordion');
     return (
         <span className={`${rootClass}-content`}>
@@ -21,10 +21,8 @@ const AccordionContent: React.FC<AccordionContentProps> = ({children, index, act
             >
                 {children}
             </div>
-
         </span>
     );
 };
 
 export default AccordionContent;
-

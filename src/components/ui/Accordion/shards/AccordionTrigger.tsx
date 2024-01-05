@@ -4,13 +4,13 @@ import {customClassSwitcher} from '~/core';
 
 type AccordionTriggerProps = {
   children: React.ReactNode;
-  customRootClass:string,
+  customRootClass?: string,
   index: number,
-    activeIndex: number,
+  activeIndex: number,
   handleClick: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, handleClick, index, activeIndex, customRootClass=''}) => {
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, handleClick, index, activeIndex, customRootClass}) => {
     const rootClass = customClassSwitcher(customRootClass, 'Accordion');
     return (
         <span className={`${rootClass}-trigger`}>
