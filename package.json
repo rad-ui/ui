@@ -29,7 +29,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-css": "parcel build styles/themes/default.scss --out-dir dist/themes/",
-    "build": "npm run test && npm run clean && npm run build-css && rollup -c --bundleConfigAsCjs",
+    "build": "npm --max_old_space_size=4096 run test && npm run clean && npm run build-css && rollup -c --bundleConfigAsCjs",
     "generate-tokens": "node ./scripts/tokenGen",
     "publish": "npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
