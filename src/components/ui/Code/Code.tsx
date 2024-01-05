@@ -1,7 +1,11 @@
 'use client';
 import React from 'react';
 
-const Code = ({children}) => {
+interface CodeProps {
+    children: React.ReactNode;
+}
+
+const Code = ({children}: CodeProps) => {
     return <code className='rui-code-root'>
         {children}
     </code>;
