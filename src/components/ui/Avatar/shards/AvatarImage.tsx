@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 // @ts-ignore
 import {customClassSwitcher} from '~/core';
 
-type AvatarImageProps = {
+export type AvatarImageProps = {
     src: string;
     alt: string;
     className: string;

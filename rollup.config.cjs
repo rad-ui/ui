@@ -22,32 +22,41 @@ function getComponentDirectories() {
 
 const components = getComponentDirectories();
 
-export default components.map((component) => ({
-    input: `src/components/ui/${component}/${component}.js`,
-    output: [
-        {
-            file: `dist/components/${component}.js`,
-            format: 'es',
-        },
-    ],
-    external: ['react', 'react-dom'],
-    plugins: [
-        alias({
-            entries: [
-                {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
-            ],
-        }),
-        postcss({
-            plugins: [],
-            minimize: true,
-        }),
-        babel({
-            exclude: 'node_modules/**',
-            presets: ['@babel/preset-react'],
-        }),
-        typescript({tsconfig: './tsconfig.json'}),
-        resolve(),
-        terser(),
-        banner2(() => '\'use client\';'),
-    ],
-}));
+export default components.map((component) => {
+    const jsFilePath = `src/components/ui/${component}/${component}.js`;
+    const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
+
+    const input = fs.existsSync(tsxFilePath) ? tsxFilePath : jsFilePath;
+
+    return {
+        input: input,
+        output: [
+            {
+                file: `dist/components/${component}.js`,
+                format: 'es',
+            },
+        ],
+        external: ['react', 'react-dom'],
+        plugins: [
+            alias({
+                entries: [
+                    {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
+                ],
+            }),
+            postcss({
+                plugins: [],
+                minimize: true,
+            }),
+            babel({
+                exclude: 'node_modules/**',
+                presets: ['@babel/preset-react'],
+            }),
+            typescript({tsconfig: './tsconfig.json'}),
+            resolve(),
+            terser(),
+            banner2(() => '\'use client\';'),
+        ],
+    };
+},
+
+);

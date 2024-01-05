@@ -2,7 +2,7 @@ import React from 'react';
 // @ts-ignore
 import {customClassSwitcher} from '~/core';
 
-type AvatarRootProps = {
+export type AvatarRootProps = {
   children: React.ReactNode;
   customRootClass:string
 };
