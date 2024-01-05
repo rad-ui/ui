@@ -7,9 +7,9 @@ import sand from './sand';
 import tomato from './tomato';
 import red from './red';
 import ruby from './ruby';
-import crimson from './crimson' 
+import crimson from './crimson';
 import pink from './pink';
-import plum from './plum'
+import plum from './plum';
 import purple from './purple';
 import violet from './violet';
 import iris from './iris';
