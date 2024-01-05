@@ -106,5 +106,9 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "engines": {
+    "npm": ">=10.2.4",
+    "node": ">=21.4.0"
   }
 }
