@@ -9,7 +9,7 @@ import alias from '@rollup/plugin-alias';
 import path from 'path';
 import fs from 'fs';
 
-// import preserveDirectives from 'rollup-plugin-preserve-directives';
+
 
 import banner2 from 'rollup-plugin-banner2';
 
