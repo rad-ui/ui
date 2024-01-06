@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import {customClassSwitcher} from '~/core';
-import { Tab } from '../types';
+import {Tab} from '../types';
 const COMPONENT_NAME = 'TabContent';
 
 

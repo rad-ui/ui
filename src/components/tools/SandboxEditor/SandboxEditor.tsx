@@ -1,6 +1,6 @@
 
 import React, {useEffect, useRef, useState} from 'react';
-import Button from '~/components/ui/Button/Button'
+import Button from '~/components/ui/Button/Button';
 import Separator from '~/components/ui/Separator/Separator';
 
 import colors from '~/colors';
@@ -20,7 +20,7 @@ interface ColorSelectProps {
 }
 
 const ColorSelect = ({color, colorName, changeAccentColor}: ColorSelectProps) => {
-    console.log(color)
+    console.log(color);
     const dimensions = 32;
     return <div
         onClick={() => changeAccentColor(colorName)}
@@ -37,7 +37,7 @@ const SandboxEditor = ({children, className}: SandboxEditorProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [colorName, setColorName] = useState('plum');
 
-    const refButton = useRef<HTMLButtonElement>()
+    const refButton = useRef<HTMLButtonElement>();
     useEffect(() => {
 
     }, []);

@@ -7,7 +7,7 @@ import AvatarImage from './shards/AvatarImage';
 import AvatarFallback from './shards/AvatarFallback';
 
 interface AvatarProps {
-    children?: React.ReactNode, 
+    children?: React.ReactNode,
     customRootClass?: string,
     fallback?: string,
     className?: string,
@@ -16,7 +16,7 @@ interface AvatarProps {
     props?: Record<string, any>[]
 }
 
-const Avatar = ({children, customRootClass , fallback, className , src, alt, ...props}: AvatarProps) => {
+const Avatar = ({children, customRootClass, fallback, className, src, alt, ...props}: AvatarProps) => {
     return (
         <AvatarRoot customRootClass={customRootClass}>
             <AvatarImage

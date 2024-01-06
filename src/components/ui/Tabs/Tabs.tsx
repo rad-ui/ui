@@ -5,7 +5,7 @@ import TabList from './segments/TabList';
 import TabContent from './segments/TabContent';
 import TabRoot from './segments/TabRoot';
 
-import { Tab } from './types';
+import {Tab} from './types';
 
 interface TabsProps {
     tabs?: Tab[]
