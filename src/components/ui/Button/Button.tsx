@@ -6,9 +6,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children?: React.ReactNode;
     color?: string;
     className?: string;
-    variant: 'solid' | "outline" | "soft" | "ghost";
+    variant?: 'solid' | "outline" | "soft" | "ghost";
     props?: Record<any, any>[]
-    buttonRef: RefObject<HTMLButtonElement>
+    buttonRef?: RefObject<HTMLButtonElement>
 }
 
 const Button = ({children, type='button', color = "", className='', variant='solid', buttonRef, ...props }: ButtonProps) => {
