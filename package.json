@@ -90,7 +90,6 @@
     "rimraf": "5.0.5",
     "rollup": "4.9.1",
     "rollup-plugin-banner2": "1.2.2",
-    "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "sass-loader": "13.3.2",
     "storybook": "7.4.0",
