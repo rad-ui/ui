@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {customClassSwitcher} from '~/core';
 
 import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss} from '@floating-ui/react';
@@ -17,19 +17,32 @@ const GAP = 2;
 
  */
 
+interface PopperProps {
+    popperName?: string;
+    customRootClass?: any;
+    activationStrategy?: 'hover' | 'fixed'; // TODO: fix options
+    className?: string;
+    placement?: 'top' | 'bottom' | 'bottom-start'; // TODO: fix options
+    children?: React.ReactNode;
+    open?: boolean;
+    hoverDelay?: number;
+    showArrow?: boolean;
+    pop?: React.JSX.Element;
+    props?: Record<string, any>[]
+}
+
 const Popper = ({
-    popperName='',
-    customRootClass='',
+    popperName,
+    customRootClass,
     activationStrategy='hover',
-    className='',
+    className,
     placement='top',
     children,
     open=false,
     hoverDelay=10,
     showArrow=true,
     pop=<></>,
-    ...props}) => {
-    //
+    ...props}: PopperProps) => {
     const rootClass = customClassSwitcher(customRootClass, popperName);
     const arrowRef = useRef(null);
     const [isOpen, setIsOpen] = useState(open);

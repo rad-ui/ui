@@ -3,10 +3,14 @@ import React, {useState} from 'react';
 
 import Button from '~/components/ui/Button/Button';
 
-const ScrollPlayground = ({children}) => {
+interface ScrollPlaygroundProps {
+    children: React.ReactNode;
+}
+
+const ScrollPlayground = ({children}: ScrollPlaygroundProps) => {
     const [scrollable, setScrollable] = useState(false);
 
-    const handleScrollableChange = (e) => {
+    const handleScrollableChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setScrollable((scrollable) => !scrollable);
 
         setTimeout(() => {
