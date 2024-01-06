@@ -88,7 +88,7 @@
     "postcss": "8.4.29",
     "prop-types": "15.8.1",
     "rimraf": "5.0.5",
-    "rollup": "4.9.1",
+    "rollup": "4.9.4",
     "rollup-plugin-banner2": "1.2.2",
     "rollup-plugin-postcss": "4.0.2",
     "sass-loader": "13.3.2",
