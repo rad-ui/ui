@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import AccordionRoot from './shards/AccordionRoot';
 import AccordionItem from './shards/AccordionItem';
 import AccordionHeader from './shards/AccordionHeader';

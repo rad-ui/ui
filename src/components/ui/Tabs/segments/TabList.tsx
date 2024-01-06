@@ -3,7 +3,7 @@
 import React from 'react';
 import {customClassSwitcher} from '~/core';
 import TabTrigger from './TabTrigger';
-import { Tab } from '../types';
+import {Tab} from '../types';
 
 const COMPONENT_NAME = 'TabList';
 
@@ -15,10 +15,10 @@ export interface TabListProps {
     activeTab: Tab;
 }
 
-const TabList = ({tabs = [], className='', customRootClass='', setActiveTab, activeTab }: TabListProps) => {
+const TabList = ({tabs = [], className='', customRootClass='', setActiveTab, activeTab}: TabListProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    // TODO: in the previous return value of 
+    // TODO: in the previous return value of
     // {tabs.map((tab, index) => {
     //  return <TabTrigger activeTab={activeTab} setActiveTab={setActiveTab} key={index} tab={tab} index={index} />;
     // })
