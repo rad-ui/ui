@@ -8,16 +8,20 @@
     "./themes/default.css": "./dist/themes/default.css",
     "./Avatar": "./dist/components/Avatar.js",
     "./Badge": "./dist/components/Badge.js",
-    "./Button": "./dist/components/Button.js",
     "./BlockQuote": "./dist/components/BlockQuote.js",
+    "./Button": "./dist/components/Button.js",
+    "./Callout": "./dist/components/Callout.js",
+    "./Code": "./dist/components/Code.js",
     "./Em": "./dist/components/Em.js",
+    "./Heading": "./dist/components/Heading.js",
+    "./Kbd": "./dist/components/Kbd.js",
+    "./Link": "./dist/components/Link.js",
     "./Quote": "./dist/components/Quote.js",
+    "./Separator": "./dist/components/Separator.js",
+    "./Strong": "./dist/components/Strong.js",
     "./Tabs": "./dist/components/Tabs.js",
     "./Text": "./dist/components/Text.js",
-    "./Heading": "./dist/components/Heading.js",
-    "./Link": "./dist/components/Link.js",
-    "./Code": "./dist/components/Code.js",
-    "./Separator": "./dist/components/Separator.js"
+    "./Tooltip": "./dist/components/Tooltip.js"
   },
   "scripts": {
     "test": "jest",
@@ -33,7 +37,9 @@
     "generate-tokens": "node ./scripts/tokenGen",
     "publish": "npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
-    "update-rad": "npm update @radui/ui"
+    "update-rad": "npm update @radui/ui",
+    "setup:dependencies":"npm install --force",
+    "setup":"npm run setup:dependencies"
   },
   "repository": {
     "type": "git",
@@ -79,11 +85,9 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "husky": "8.0.3",
-    "install": "0.13.0",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "node-sass": "9.0.0",
-    "npm": "10.2.5",
     "parcel-bundler": "1.12.5",
     "postcss": "8.4.29",
     "prop-types": "15.8.1",
