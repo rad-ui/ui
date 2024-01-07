@@ -1,12 +1,12 @@
 @import "./components/avatar.scss";
 
 
-button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
-    outline: 1px solid var(--rad-ui-color-accent-300);
-    outline-style:groove;
+// button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
+//     outline: 1px solid var(--rad-ui-color-accent-300);
+//     outline-style:groove;
 
-    /* outline:0 none; */
-}
+//     /* outline:0 none; */
+// }
 
 ::selection{
     background-color: var(--rad-ui-color-accent-300);

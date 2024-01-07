@@ -8,14 +8,14 @@ export default {
     component: Separator,
     render: (args) => <SandboxEditor>
         <div className='mt-5'>
-            <div className='text-gray-950 font-bold text-xl'>Rad UI is an amazing UI library for all your SaaS needs</div>
+            <div className='text-gray-950 font-bold text-xl'>Did you know Rad UI is great toolkit for your SaaS needs?</div>
             <Separator {...args} />
             <div className='flex'>
                 <div className={textClasses}>Accessible</div>
                 <Separator orientation='vertical' {...args} />
                 <div className={textClasses}>Easy to use APIs</div>
                 <Separator orientation='vertical' {...args} />
-                <div className={textClasses}>Separated by separator</div>
+                <div className={textClasses}>Modern</div>
             </div>
         </div>
     </SandboxEditor>,
