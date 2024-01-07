@@ -7,7 +7,15 @@ import {customClassSwitcher} from '~/core';
 // TODO: Add a core reusable function to check and render an as prop
 
 const COMPONENT_NAME = 'Text';
-const Text = ({children, customRootClass = '', className = '', ...props}) => {
+
+interface TextProps {
+    children: React.ReactNode;
+    customRootClass?: string;
+    className?: string;
+    props?: Record<string, any>[]
+}
+
+const Text = ({children, customRootClass = '', className = '', ...props}: TextProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return <p className={`${rootClass} ${className}`} {...props}>{children}</p>;
 };

@@ -2,12 +2,12 @@ import React from 'react';
 // @ts-ignore
 import {customClassSwitcher} from '~/core';
 
-interface AccordionRootProps {
+export interface AccordionRootProps {
     children: React.ReactNode;
     customRootClass?: string;
 }
 
-const AccordionRoot: React.FC<AccordionRootProps> = ({children, customRootClass=''}) => {
+const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'Accordion');
     return (
         <span className={`${rootClass}-root`}>

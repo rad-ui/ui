@@ -5,7 +5,14 @@ import TabList from './segments/TabList';
 import TabContent from './segments/TabContent';
 import TabRoot from './segments/TabRoot';
 
-const Tabs = ({tabs = [], ...props}) => {
+import {Tab} from './types';
+
+interface TabsProps {
+    tabs?: Tab[]
+    props?: Record<string, any>[]
+}
+
+const Tabs = ({tabs = [], ...props}: TabsProps) => {
     // This should be a value <`tabs.value`> that is passed in from the parent component
     const [activeTab, setActiveTab] = useState(tabs[0].value || '');
 

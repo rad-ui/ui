@@ -1,7 +1,13 @@
-
+import React from 'react';
 import Popper from '~/components/tools/Popper/Popper';
 
-const Dropdown = ({list=[], selected}) => {
+// TODO: fix any
+interface DropdownProps {
+    list: {value: any}[];
+    selected: any;
+}
+
+const Dropdown = ({list=[], selected}: DropdownProps) => {
     const PopElem = () => {
         return <ul className='bg-white px-2 py-2 shadow-lg rounded-md'>
             {list.map((item, index) => {
