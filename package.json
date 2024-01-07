@@ -38,8 +38,8 @@
     "publish": "npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
     "update-rad": "npm update @radui/ui",
-    "setup:dependencies":"npm install --force",
-    "setup":"npm run setup:dependencies"
+    "setup:dependencies": "npm install --force",
+    "setup": "npm run setup:dependencies"
   },
   "repository": {
     "type": "git",
@@ -90,7 +90,6 @@
     "node-sass": "9.0.0",
     "parcel-bundler": "1.12.5",
     "postcss": "8.4.29",
-    "prop-types": "15.8.1",
     "rimraf": "5.0.5",
     "rollup": "4.9.4",
     "rollup-plugin-banner2": "1.2.2",
