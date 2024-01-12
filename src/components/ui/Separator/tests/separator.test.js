@@ -3,7 +3,7 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import Separator from '../Separator';
 
-describe('Strong', () => {
+describe('Separator Component', () => {
     // tests
     test('renders Separator component with className', () => {
         render(<Separator data-testid="separator" className="border-t border-gray-200" />);
