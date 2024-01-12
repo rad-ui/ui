@@ -2,7 +2,7 @@ import React from 'react';
 // @ts-ignore
 import {customClassSwitcher} from '~/core';
 
-interface AccordionItemProps {
+export type AccordionItemProps = {
     children: React.ReactNode;
     customItemClass?: string;
     value?: number;

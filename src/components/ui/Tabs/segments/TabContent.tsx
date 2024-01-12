@@ -5,7 +5,7 @@ import {Tab} from '../types';
 const COMPONENT_NAME = 'TabContent';
 
 
-export interface TabContentProps {
+export type TabContentProps ={
     tabs?: Tab[]
     activeTab: Tab
     className?: string;

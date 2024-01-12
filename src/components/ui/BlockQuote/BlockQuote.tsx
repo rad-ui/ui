@@ -5,7 +5,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'BlockQuote';
 
-interface BlockQuoteProps {
+export type BlockQuoteProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;

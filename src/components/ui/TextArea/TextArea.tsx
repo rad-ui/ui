@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-interface TextAreaProps {
+export type TextAreaProps = {
     children: React.ReactNode;
 }
 

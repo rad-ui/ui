@@ -2,7 +2,7 @@ import React from 'react';
 import Popper from '~/components/tools/Popper/Popper';
 
 // TODO: fix any
-interface DropdownProps {
+export type DropdownProps ={
     list: {value: any}[];
     selected: any;
 }

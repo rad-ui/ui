@@ -5,7 +5,7 @@ import {Tab} from '../types';
 
 const COMPONENT_NAME = 'TabTrigger';
 
-export interface TabTriggerProps {
+export type TabTriggerProps = {
     tab: Tab;
     setActiveTab: React.Dispatch<Tab>;
     activeTab: Tab;

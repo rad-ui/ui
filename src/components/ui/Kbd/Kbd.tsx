@@ -4,7 +4,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Kbd';
 
-interface KbdProps {
+export type KbdProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;

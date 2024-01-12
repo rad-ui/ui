@@ -1,13 +1,24 @@
+'use client';
 import React from 'react';
 
-interface StrongProps {
-    children: React.ReactNode
+import {customClassSwitcher} from '~/core';
+const COMPONENT_NAME = 'Strong';
+
+
+export type StrongProps = {
+    children: React.ReactNode,
+    className?: string,
+    customRootClass?: string
+    props?: any
 }
 
-const Strong = ({children}: StrongProps) => {
+const Strong = ({children, className, customRootClass, ...props}: StrongProps) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
-        <strong>{children}</strong>
+        <strong className={`${rootClass} ${className}`} {...props} >{children}</strong>
     );
 };
+
+Strong.displayName = COMPONENT_NAME;
 
 export default Strong;

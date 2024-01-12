@@ -7,7 +7,7 @@ import {Tab} from '../types';
 
 const COMPONENT_NAME = 'TabList';
 
-export interface TabListProps {
+export type TabListProps = {
     tabs?: Tab[]
     className?: string;
     customRootClass?: string;

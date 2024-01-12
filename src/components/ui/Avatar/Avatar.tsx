@@ -6,7 +6,7 @@ import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';
 import AvatarFallback from './shards/AvatarFallback';
 
-interface AvatarProps {
+export type AvatarProps = {
     children?: React.ReactNode,
     customRootClass?: string,
     fallback?: string,
