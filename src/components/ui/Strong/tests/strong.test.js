@@ -3,7 +3,7 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import Strong from '../Strong';
 
-describe('Strong', () => {
+describe('Strong Component', () => {
     const Component = () => <Strong className='font-bold'>I am Strong!</Strong>;
 
     // tests
