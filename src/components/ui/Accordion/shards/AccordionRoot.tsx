@@ -2,7 +2,7 @@ import React from 'react';
 // @ts-ignore
 import {customClassSwitcher} from '~/core';
 
-export interface AccordionRootProps {
+export type AccordionRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
 }

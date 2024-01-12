@@ -4,7 +4,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Em';
 
-interface EmProps {
+export type EmProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;

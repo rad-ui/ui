@@ -8,7 +8,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Text';
 
-interface TextProps {
+export type TextProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;

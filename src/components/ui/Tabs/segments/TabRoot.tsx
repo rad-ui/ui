@@ -6,7 +6,7 @@ import {customClassSwitcher} from '~/core';
 const COMPONENT_NAME = 'TabRoot';
 
 
-export interface TabRootProps {
+export type TabRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;

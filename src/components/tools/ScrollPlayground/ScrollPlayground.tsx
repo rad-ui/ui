@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 
 import Button from '~/components/ui/Button/Button';
 
-interface ScrollPlaygroundProps {
+export type ScrollPlaygroundProps ={
     children: React.ReactNode;
 }
 const ScrollPlayground = ({children}: ScrollPlaygroundProps) => {

@@ -17,7 +17,7 @@ const GAP = 2;
 
  */
 
-interface PopperProps {
+export type PopperProps = {
     popperName?: string;
     customRootClass?: string;
     activationStrategy?: 'hover';

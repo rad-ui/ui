@@ -5,7 +5,7 @@ import AccordionHeader from './shards/AccordionHeader';
 import AccordionTrigger from './shards/AccordionTrigger';
 import AccordionContent from './shards/AccordionContent';
 
-interface AccordionProps {
+export type AccordionProps = {
     items: {content: any}[];
 }
 

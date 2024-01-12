@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-interface CodeProps {
+export type CodeProps= {
     children: React.ReactNode;
 }
 

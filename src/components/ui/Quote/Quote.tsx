@@ -4,7 +4,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Quote';
 
-interface QuoteProps {
+export type QuoteProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;

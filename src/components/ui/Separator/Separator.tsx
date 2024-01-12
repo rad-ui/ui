@@ -4,7 +4,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Separator';
 
-interface SeparatorProps {
+export type SeparatorProps = {
     orientation?: 'horizontal' | 'vertical';
     className?: string;
     customRootClass?: string

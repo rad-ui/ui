@@ -5,7 +5,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Link';
 
-interface LinkProps {
+export type LinkProps = {
     children: React.ReactNode;
     href: string;
     alt?: string;

@@ -7,7 +7,7 @@ import TabRoot from './segments/TabRoot';
 
 import {Tab} from './types';
 
-interface TabsProps {
+export type TabsProps = {
     tabs?: Tab[]
     props?: Record<string, any>[]
 }

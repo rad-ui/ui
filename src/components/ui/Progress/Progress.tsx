@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-interface ProgressProps {
+export type ProgressProps = {
   value: number;
   maxValue: number;
   label: string;

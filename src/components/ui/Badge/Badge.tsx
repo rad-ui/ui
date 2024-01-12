@@ -4,7 +4,7 @@ import {customClassSwitcher} from '~/core';
 
 const COMPONENT_NAME = 'Badge';
 
-interface BadgeProps {
+export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,
     className?: string,

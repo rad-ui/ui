@@ -1,10 +1,11 @@
 'use client';
-import React, {RefObject, useRef} from 'react';
+import React, {RefObject} from 'react';
 // make the color prop default accent color
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export type ButtonProps = {
     children?: React.ReactNode;
     color?: string;
+    type?: 'button' | 'submit' | 'reset';
     className?: string;
     variant?: 'solid' | 'outline' | 'soft' | 'ghost';
     props?: Record<any, any>[]
@@ -12,14 +13,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({children, type='button', color = '', className='', variant='solid', buttonRef, ...props}: ButtonProps) => {
-    const refButton = useRef<HTMLButtonElement>();
     // apply data attribute for accent color
     // apply attribute only if color is present
 
     return (
         <button
             type="button"
-            ref={buttonRef}
             className={`rad-ui-button button-${variant} ${className}`} data-accent-color={color ?? undefined}
             {...props}
         >
