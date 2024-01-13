@@ -1,4 +1,5 @@
 @import "./components/avatar.scss";
+@import "./components/card.scss";
 
 
 // button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
@@ -126,6 +127,7 @@
 /** Separator */
 .rad-ui-separator {
     background-color: var(--rad-ui-color-gray-600);
+    align-self: stretch;
 }
 
 .rad-ui-separator-vertical{
