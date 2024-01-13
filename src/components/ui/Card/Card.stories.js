@@ -6,7 +6,7 @@ const CardStory = () => {
     return <Card className="bg-gray-200" >
         <div className='flex items-center space-x-4'>
             <Avatar
-                src='https://avatars.githubusercontent.com/u/139426?s=460&u=7f5b9a3b5c9d0a6f8b3d6a2c3e7a0e9a0f9e9a1a&v=4'
+                src='https://i.pravatar.cc/64'
                 alt='avatar'
                 size='lg'
             />
@@ -31,7 +31,7 @@ export default {
 export const All = {};
 
 const Template = (args) => <div>
-    <SandboxEditor className="space-y-3">
+    <SandboxEditor className="gap-3 grid grid-cols-4">
         {Array(10).fill(0).map((_, i) => <CardStory key={i}/>)}
     </SandboxEditor>
 </div>;
