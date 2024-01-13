@@ -11,6 +11,7 @@
     "./BlockQuote": "./dist/components/BlockQuote.js",
     "./Button": "./dist/components/Button.js",
     "./Callout": "./dist/components/Callout.js",
+    "./Card": "./dist/components/Card.js",
     "./Code": "./dist/components/Code.js",
     "./Em": "./dist/components/Em.js",
     "./Heading": "./dist/components/Heading.js",
