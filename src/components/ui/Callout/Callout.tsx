@@ -1,24 +1,20 @@
 import React from 'react';
 
-
 /**
  * Shards
 */
 import CalloutRoot from './shards/CalloutRoot';
 
-
-type CalloutProps = {
+export type CalloutProps = {
     children?: React.ReactNode;
     className?: string ;
     color?: string;
     customRootClass?: string;
-    props?: Record<any, any>[]
+    props?: object[]
 }
-
 
 const COMPONENT_NAME = 'Callout';
 const Callout = ({children, className='', color, customRootClass, ...props}: CalloutProps) => {
-    console.log('Callout', className);
     return (<CalloutRoot customRootClass={customRootClass} className={`${className}`} color={color ?? undefined} {...props}>
         {children}
     </CalloutRoot>);
@@ -26,6 +22,6 @@ const Callout = ({children, className='', color, customRootClass, ...props}: Cal
 
 Callout.displayName = COMPONENT_NAME;
 
-
+// Callout Exports
 Callout.Root = CalloutRoot;
 export default Callout;
