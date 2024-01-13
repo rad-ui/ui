@@ -10,7 +10,7 @@ export default {
         <div className='mt-5'>
             <div className='text-gray-950 font-bold text-xl'>Did you know Rad UI is great toolkit for your SaaS needs?</div>
             <Separator {...args} />
-            <div className='flex'>
+            <div className='flex items-center'>
                 <div className={textClasses}>Accessible</div>
                 <Separator orientation='vertical' {...args} />
                 <div className={textClasses}>Easy to use APIs</div>
