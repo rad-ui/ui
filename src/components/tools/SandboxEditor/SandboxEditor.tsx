@@ -20,7 +20,6 @@ export type ColorSelectProps ={
 }
 
 const ColorSelect = ({color, colorName, changeAccentColor}: ColorSelectProps) => {
-    console.log(color);
     const dimensions = 32;
     return <div
         onClick={() => changeAccentColor(colorName)}
