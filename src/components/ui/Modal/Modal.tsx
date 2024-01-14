@@ -25,9 +25,9 @@ export const Modal: React.FC<ModalProps> = ({open=true, onClose, children}) => {
                     {/* Floating Content */}
                     {
                         open &&
-                        <FloatingFocusManager context={context}>
-                            <FloatingPortal>
-                                <FloatingOverlay>
+                        <FloatingPortal>
+                            <FloatingOverlay className="overlay" lockScroll>
+                                <FloatingFocusManager context={context}>
                                     <div className='fixed bg-black/80 overflow-auto w-screen h-screen grid place-items-center'>
                                         <div className='bg-white p-4 inline-block rounded-md shadow-lg'>
                                             <button onClick={onCloseHandler}>
@@ -35,12 +35,15 @@ export const Modal: React.FC<ModalProps> = ({open=true, onClose, children}) => {
                                             </button>
                                             <div>
                                                 Modal Content
+                                                <div>
+                                                    <input type="text" autoFocus />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </FloatingOverlay>
-                            </FloatingPortal>
-                        </FloatingFocusManager>
+                                </FloatingFocusManager>
+                            </FloatingOverlay>
+                        </FloatingPortal>
 
 
                     }
