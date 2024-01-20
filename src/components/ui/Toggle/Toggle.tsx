@@ -11,7 +11,7 @@ export type ToggleProps = {
     disabled? : boolean;
     children? : React.ReactNode;
     className? : string;
-    onChange : () => void;
+    onChange : (isPressed:boolean) => void;
 };
 
 
@@ -26,12 +26,12 @@ const Toggle: React.FC<ToggleProps> = ({
 }) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [isPressed=false, setIsPressed] = useState(defaultPressed);
+    const [isPressed=false, setIsPressed] = useState(pressed || defaultPressed);
 
     const handlePressed = () => {
-        setIsPressed(!isPressed);
-        console.log(isPressed);
-        onChange();
+        const updatedPressed = !isPressed;
+        setIsPressed(updatedPressed);
+        onChange(updatedPressed);
     };
 
     return (

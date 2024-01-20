@@ -1,4 +1,4 @@
-
+import React from 'react';
 import Toggle from './Toggle';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -8,16 +8,28 @@ const MoveIcon = () => {
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+
+const DEFAULT_PRESSED_STATE = false;
+
+const Template = (args) => {
+    const [isPressed, setIsPressed] = React.useState(DEFAULT_PRESSED_STATE);
+    const handleChange = (state) => {
+        setIsPressed(state);
+    };
+    return <SandboxEditor className="space-y-4 pt-4">
+        <Toggle defaultPressed={DEFAULT_PRESSED_STATE} onChange={handleChange} {...args} >
+            <MoveIcon />
+        </Toggle>
+        <div>
+            {isPressed ? 'Pressed' : 'Not Pressed'}
+        </div>
+    </SandboxEditor>;
+};
+
 export default {
     title: 'UI/Input/Toggle',
     component: Toggle,
-    render: (args) => <SandboxEditor>
-
-        <Toggle>
-            <MoveIcon/>
-        </Toggle>
-
-    </SandboxEditor>,
+    render: (args) => <Template {...args} />,
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
