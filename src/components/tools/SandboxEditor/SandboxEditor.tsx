@@ -32,7 +32,7 @@ export type SandboxEditorProps = {
     className?: string;
 }
 
-const SandboxEditor = ({children, className}: SandboxEditorProps) => {
+const SandboxEditor = ({children, className=''}: SandboxEditorProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [colorName, setColorName] = useState('plum');
 
