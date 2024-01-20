@@ -7,7 +7,6 @@ export type ProgressProps = {
 }
 
 const Progress: React.FC<ProgressProps> = ({value, maxValue, label}) => {
-    console.log(label);
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
