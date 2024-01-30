@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-import colors from '../../src/colors/index.js';
 
 import generateCSSTokens from './generateCSSTokens.js';
 import generateAccentTokens from './generateAccentTokens.js';

@@ -1,4 +1,4 @@
-import colors from '../../src/colors/index.js';
+import colors from '../../src/colors/index.ts';
 const COLOR_PREFIX = '--rad-ui-color-';
 
 /**
