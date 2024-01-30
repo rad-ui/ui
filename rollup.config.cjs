@@ -27,7 +27,7 @@ export default components.map((component) => {
         input: tsxFilePath,
         output: [
             {
-                file: `dist/components/${component}.js`,
+                file: `dist/temp-cleanup/${component}.js`,
                 format: 'es',
             },
         ],
