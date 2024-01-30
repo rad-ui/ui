@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-import colors from '../../src/colors/index.js';
 
 import generateCSSTokens from './generateCSSTokens.js';
 import generateAccentTokens from './generateAccentTokens.js';
@@ -36,10 +35,10 @@ const combinedCss = `
 
 // Save the CSS to a file
 fs.writeFileSync('styles/cssTokens/base.tokens.css', combinedCss, 'utf-8');
+console.log('CSS file saved as base.tokens.css');
 
 // write the JS variables to a js file
 // format json
 jsVariables = JSON.stringify(jsVariables);
 fs.writeFileSync('styles/jsTokens/base.tokens.js', `export default ${jsVariables}`, 'utf-8');
-
-console.log('CSS file saved as theme.css');
+console.log('JS file saved as base.tokens.js');
