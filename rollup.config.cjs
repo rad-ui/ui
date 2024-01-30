@@ -22,13 +22,11 @@ function getComponentDirectories() {
 const components = getComponentDirectories();
 
 export default components.map((component) => {
-    const jsFilePath = `src/components/ui/${component}/${component}.js`;
     const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
 
-    const input = fs.existsSync(tsxFilePath) ? tsxFilePath : jsFilePath;
 
     return {
-        input: input,
+        input: tsxFilePath,
         output: [
             {
                 file: `dist/components/${component}.js`,
