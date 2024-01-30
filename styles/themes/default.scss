@@ -13,6 +13,12 @@
 @import "./components/text.scss";
 
 
+// import .css file
+@import "../cssTokens/base.tokens";
+
+
+
+
 // button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
 //     outline: 1px solid var(--rad-ui-color-accent-300);
 //     outline-style:groove;
