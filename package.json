@@ -34,7 +34,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-css": "parcel build styles/themes/default.scss --out-dir dist/themes/",
-    "generate-tokens": "tsc ./scripts/tokenGen/index.ts",
+    "generate-tokens": "tsc ./scripts/tokenGen/index.js --allowJs",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
     "build": "npm run test && npm run clean && npm run build-css && npm run generate-tokens && rollup -c --bundleConfigAsCjs",
     "publish": "npm publish --access public",
