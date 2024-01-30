@@ -23,8 +23,6 @@ const components = getComponentDirectories();
 
 export default components.map((component) => {
     const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
-
-
     return {
         input: tsxFilePath,
         output: [
