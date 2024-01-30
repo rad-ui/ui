@@ -1,4 +1,4 @@
-import colors from '../../src/colors/index.ts';
+import colors from '../../src/colors/index.js';
 const COLOR_PREFIX = '--rad-ui-color-';
 
 /**
@@ -31,7 +31,6 @@ const generateAccentTokens = (theme) => {
     for (const colorObj in colors) {
         const colorName = colorObj;
         const accentColors = colors[colorObj][theme];
-        console.log(accentColors);
 
         // generate data-accent-color css styles
         let cssVariableName = `[data-accent-color=${colorObj}]{`;
@@ -45,7 +44,6 @@ const generateAccentTokens = (theme) => {
         // close css variable
         cssVariableName += '}';
         cssVariableName += '\n';
-        console.log(cssVariableName);
         accentStyleSheet += cssVariableName;
     }
 
