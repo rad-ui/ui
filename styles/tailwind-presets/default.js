@@ -1,7 +1,14 @@
-import colors from '../jsTokens/base.tokens';
+import tokens from '../jsTokens/index';
 
 module.exports = {
+    content: [],
     theme: {
-        colors: colors,
+        extend: {
+            colors: {
+                ...tokens.colors,
+            },
+        },
     },
 };
+
+
