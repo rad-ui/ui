@@ -1,13 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 
-import radUIColors from './styles/jsTokens/base.tokens.js';
+import {colors} from './styles/jsTokens';
 
 module.exports = {
     content: ['./src/**/*.{html,js,jsx,ts,tsx,vue}'],
     theme: {
         extend: {
             colors: {
-                ...radUIColors,
+                ...colors,
             },
         },
     },

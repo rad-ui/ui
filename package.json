@@ -6,6 +6,7 @@
   "type": "module",
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
+    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js",
     "./Avatar": "./dist/components/Avatar.js",
     "./Badge": "./dist/components/Badge.js",
     "./BlockQuote": "./dist/components/BlockQuote.js",
