@@ -40,5 +40,5 @@ console.log('CSS file saved as base.tokens.css');
 // write the JS variables to a js file
 // format json
 jsVariables = JSON.stringify(jsVariables);
-fs.writeFileSync('styles/jsTokens/base.tokens.js', `export default ${jsVariables}`, 'utf-8');
-console.log('JS file saved as base.tokens.js');
+fs.writeFileSync('styles/jsTokens/colors.tokens.js', `export default ${jsVariables}`, 'utf-8');
+console.log('JS file saved as colors.tokens.js');
