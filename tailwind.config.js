@@ -1,16 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 
-import {colors} from './styles/jsTokens';
+import radUIPreset from './styles/tailwind-presets/default';
 
 module.exports = {
+    presets: [radUIPreset],
     content: ['./src/**/*.{html,js,jsx,ts,tsx,vue}'],
-    theme: {
-        extend: {
-            colors: {
-                ...colors,
-            },
-        },
-    },
     plugins: [],
 };
 
