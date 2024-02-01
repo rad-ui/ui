@@ -4,11 +4,9 @@ import {customClassSwitcher} from '~/core';
 
 import {ProgressProps, COMPONENT_NAME} from '../Progress';
 
-interface ProgressRootProps extends Pick<ProgressProps, 'children' | 'customRootClass'>{
+// Removed empty interface declaration for clarity
 
-}
-
-export default function ProgressRoot({children, customRootClass}: ProgressRootProps) {
+export default function ProgressRoot({children, customRootClass}: ProgressProps) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
