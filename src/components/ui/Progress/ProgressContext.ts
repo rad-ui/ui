@@ -11,7 +11,7 @@ export const ProgressContext = createContext<ProgressContextProps | null>(null);
 export function useProgressContext() {
     const ctx= useContext(ProgressContext);
 
-    if (!ctx) throw new Error('You should useProgress context in ProgressContext.Provider');
+    if (!ctx) throw new Error('useProgressContext must be used within a ProgressContext.Provider');
 
     return ctx;
 }
