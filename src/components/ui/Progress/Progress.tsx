@@ -1,34 +1,44 @@
-import React, {useState, useEffect} from 'react';
+import React, {PropsWithChildren, CSSProperties} from 'react';
+import {ProgressContext, useProgressContext} from './ProgressContext';
 
-export type ProgressProps = {
+interface RootProps extends PropsWithChildren {
   value: number;
-  maxValue: number;
-  label: string;
+  maxValue?: number;
+  minValue?: number
+  className?: string,
 }
 
-const Progress: React.FC<ProgressProps> = ({value, maxValue, label}) => {
-    console.log(label);
-    const [percentage, setPercentage] = useState(0);
+function Root({value = 0, minValue = 0, maxValue = 100, children, className = ''}: RootProps) {
+    return (
+        <ProgressContext.Provider value={{value, maxValue, minValue}}>
+            <div className={`bg-gray-300 overflow-hidden ${className}`}>
+                {children}
+            </div>
+        </ProgressContext.Provider>
+    );
+}
 
-    useEffect(() => {
-        const calculatedPercentage = (value / maxValue) * 100;
-        setPercentage(calculatedPercentage);
-    }, [value, maxValue]);
+interface IndicatorProps {
+    className?: string,
+    style?: CSSProperties
+    renderLabel?(value: number): JSX.Element
+}
+
+function Indicator({className = '', style, renderLabel}: IndicatorProps) {
+    const {value, maxValue, minValue} = useProgressContext();
 
     return (
-        <div className="bg-gray-300 rounded-md">
-            <div
-                role="progressbar"
-                className='bg-red-800 rounded-md text-right'
-                aria-valuenow={value}
-                aria-valuemax={maxValue}
-                aria-valuemin={0}
-                style={{width: `${percentage}%`}}
-            >
-                <span className='text-gray-1000 p-2 text-sm'>{label}</span>
-            </div>
+        <div
+            role="progressbar"
+            className={`h-full w-full ${className}`}
+            aria-valuenow={value}
+            aria-valuemax={maxValue}
+            aria-valuemin={minValue}
+            style={style}
+        >
+            {renderLabel && renderLabel(value)}
         </div>
     );
-};
+}
 
-export default Progress;
+export {Root, Indicator};
