@@ -1,44 +1,29 @@
-import React, {PropsWithChildren, CSSProperties} from 'react';
-import {ProgressContext, useProgressContext} from './ProgressContext';
+import React, {PropsWithChildren} from 'react';
 
-interface RootProps extends PropsWithChildren {
-  value: number;
-  maxValue?: number;
-  minValue?: number
-  className?: string,
-}
+import ProgressRoot from './shards/ProgressRoot';
+import ProgressIndicator from './shards/ProgressIndicator';
 
-function Root({value = 0, minValue = 0, maxValue = 100, children, className = ''}: RootProps) {
-    return (
-        <ProgressContext.Provider value={{value, maxValue, minValue}}>
-            <div className={`bg-gray-300 overflow-hidden ${className}`}>
-                {children}
-            </div>
-        </ProgressContext.Provider>
-    );
-}
+export const COMPONENT_NAME = 'Progress';
 
-interface IndicatorProps {
-    className?: string,
-    style?: CSSProperties
+export interface ProgressProps extends PropsWithChildren {
+    value: number;
+    minValue?: number,
+    maxValue?: number;
+    customRootClass?: string
     renderLabel?(value: number): JSX.Element
-}
+  }
 
-function Indicator({className = '', style, renderLabel}: IndicatorProps) {
-    const {value, maxValue, minValue} = useProgressContext();
-
+function Progress({customRootClass, ...indicatorProps}: ProgressProps) {
     return (
-        <div
-            role="progressbar"
-            className={`h-full w-full ${className}`}
-            aria-valuenow={value}
-            aria-valuemax={maxValue}
-            aria-valuemin={minValue}
-            style={style}
-        >
-            {renderLabel && renderLabel(value)}
-        </div>
+        <ProgressRoot customRootClass={customRootClass}>
+            <ProgressIndicator customRootClass={customRootClass} {...indicatorProps}/>
+        </ProgressRoot>
     );
 }
 
-export {Root, Indicator};
+
+Progress.displayName = COMPONENT_NAME;
+Progress.Root = ProgressRoot;
+Progress.Indicator = ProgressIndicator;
+
+export default Progress;

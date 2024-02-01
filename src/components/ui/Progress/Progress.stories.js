@@ -1,6 +1,6 @@
 
 import {useEffect, useState} from 'react';
-import * as Progress from './Progress';
+import Progress from './Progress';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 
@@ -19,11 +19,7 @@ export default {
 
         return (<SandboxEditor>
             <div className='my-10'>
-                <Progress.Root value={value} className='h-12 rounded-full'>
-                    <Progress.Indicator
-                        className='transition ease-in-out duration-500 rounded-full bg-red-800'
-                        style={{transform: `translateX(-${100 - value}%)`}}/>
-                </Progress.Root>
+                <Progress value={value}/>
             </div>
         </SandboxEditor>);
     },
