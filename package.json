@@ -30,6 +30,7 @@
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
     "patch": "npm version patch",
+    "sb": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-css": "parcel build styles/themes/default.scss --out-dir dist/themes/",
