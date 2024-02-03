@@ -3,7 +3,7 @@ import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 
 import terser from '@rollup/plugin-terser';
-import postcss from 'rollup-plugin-postcss';
+
 import typescript from '@rollup/plugin-typescript';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
@@ -22,16 +22,12 @@ function getComponentDirectories() {
 const components = getComponentDirectories();
 
 export default components.map((component) => {
-    const jsFilePath = `src/components/ui/${component}/${component}.js`;
     const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
-
-    const input = fs.existsSync(tsxFilePath) ? tsxFilePath : jsFilePath;
-
     return {
-        input: input,
+        input: tsxFilePath,
         output: [
             {
-                file: `dist/components/${component}.js`,
+                file: `dist/temp-cleanup/${component}.js`,
                 format: 'es',
             },
         ],
@@ -42,15 +38,11 @@ export default components.map((component) => {
                     {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
                 ],
             }),
-            postcss({
-                plugins: [],
-                minimize: true,
-            }),
             babel({
                 exclude: 'node_modules/**',
                 presets: ['@babel/preset-react'],
             }),
-            typescript({tsconfig: './tsconfig.json'}),
+            typescript({tsconfig: './tsconfig.json', sourceMap: false}),
             resolve(),
             terser(),
             banner2(() => '\'use client\';'),
