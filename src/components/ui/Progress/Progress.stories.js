@@ -1,4 +1,5 @@
 
+import {useEffect, useState} from 'react';
 import Progress from './Progress';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -7,13 +8,24 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'UI/Data Display/Progress',
     component: Progress,
-    render: (args) => <SandboxEditor>
-        <div className='text-gray-950 my-10'>
-            <Progress {...args} />
-        </div>
-    </SandboxEditor>,
+    render: (args) => {
+        const [value, setValue] = useState(getRandomValue());
+
+        useEffect(() => {
+            const intervalId = setInterval(() => setValue(getRandomValue()), 2345);
+
+            return () => clearInterval(intervalId);
+        });
+
+        return (<SandboxEditor>
+            <div className='my-10'>
+                <Progress value={value}/>
+            </div>
+        </SandboxEditor>);
+    },
 };
 
+const getRandomValue = () => Math.trunc((Math.random() * 100));
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
