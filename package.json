@@ -95,7 +95,7 @@
     "mkdirp": "^3.0.1",
     "node-sass": "9.0.0",
     "parcel-bundler": "1.12.5",
-    "postcss": "8.4.29",
+    "postcss": "8.4.33",
     "rimraf": "5.0.5",
     "rollup": "4.9.4",
     "rollup-plugin-banner2": "1.2.2",
