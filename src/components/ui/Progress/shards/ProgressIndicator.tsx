@@ -19,18 +19,11 @@ export default function ProgressIndicator({
         throw new Error(`value should be smaller then ${minValue} and bigger then ${maxValue}`);
     }
 
-    useEffect(() => {
-        const documentStyle = document.documentElement.style;
-
-        documentStyle.setProperty('--progress-value', `-${maxValue - value}%`);
-
-        return () => documentStyle.setProperty('--progress-value', null);
-    }, [value]);
-
     return (
         <div
             role="progressbar"
             className={`${rootClass}-indicator`}
+            style={{transform: `translateX(-${maxValue - value}%)`}}
             aria-valuenow={value}
             aria-valuemax={maxValue}
             aria-valuemin={minValue}
