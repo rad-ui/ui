@@ -5,7 +5,7 @@
     border-radius: 12px;
     overflow: hidden;
 
-    .rad-ui-table{
+    .table{
         width: 100%;
         text-align: left;
         vertical-align: top;
@@ -14,12 +14,12 @@
         box-sizing: border-box;
         color: var(--rad-ui-color-gray-1000);
 
-        .rad-ui-table-header{
+        .header{
             padding: 0.75rem 1rem;
             vertical-align: inherit;
             font-weight: 700;
 
-            .rad-ui-table-head{
+            .cell-header{
                 padding: 0.75rem 1rem;
                 vertical-align: inherit;
                 font-weight: 700;
@@ -27,14 +27,14 @@
             }
         }
     
-        .rad-ui-table-row{
+        .row{
             vertical-align: inherit;
             border-bottom: 1px solid var(--rad-ui-color-accent-400);
 
             background-color: var(--rad-ui-color-accent-50);
         }
     
-        .rad-ui-table-cell{
+        .cell{
             padding: 0.75rem 1rem;
             vertical-align: inherit;
             border-bottom: 1px solid var(--rad-ui-color-accent-400);
