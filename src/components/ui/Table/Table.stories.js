@@ -5,7 +5,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 
 export default {
-    title: 'UI/DataDisplay/Table',
+    title: 'UI/Data Display/Table',
     component: Table,
 };
 
