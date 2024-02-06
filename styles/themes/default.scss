@@ -1,6 +1,23 @@
 @import "./components/avatar.scss";
+@import "./components/badge.scss";
+@import "./components/blockquote.scss";
+@import "./components/button.scss";
+@import "./components/callout.scss";
 @import "./components/card.scss";
 @import "./components/table.scss";
+@import "./components/code.scss";
+@import "./components/heading.scss";
+@import "./components/kbd.scss";
+@import "./components/link.scss";
+@import "./components/separator.scss";
+@import "./components/tabs.scss";
+@import "./components/text.scss";
+@import "./components/progress.scss";
+
+// import .css file
+@import "../cssTokens/base.tokens";
+
+
 
 
 // button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
@@ -16,212 +33,9 @@
 
 }
 
-.rad-ui-button{
-    height: 32px;
-    border-radius: 4px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0px 12px;
-}
-.button-solid{
-    background-color: var(--rad-ui-color-accent-900);
-    color: white;
-}
-.button-solid:hover{
-    background-color: var(--rad-ui-color-accent-950);
-}
-
-/** Soft */
-.button-soft{
-    color: var(--rad-ui-color-accent-900);
-    background-color:  var(--rad-ui-color-accent-400);
-}
-.button-soft:hover{
-    background-color:  var(--rad-ui-color-accent-500);
-}
-
-
-/**Outline */
-.button-outline{
-    background-color: transparent;
-    color: var(--rad-ui-color-accent-900);
-    border: 1px solid var(--rad-ui-color-accent-900);
-}
-.button-outline:hover{
-    border-color:var(--rad-ui-color-accent-950) ;
-}
-
-/**Ghost */
-.button-ghost{
-    background-color: transparent;
-    color: var(--rad-ui-color-accent-900);
-}
-.button-ghost:hover{
-    border-color:var(--rad-ui-color-accent-950) ;
-    background-color: var(--rad-ui-color-accent-300);
-}
 
 
 
-.rui-code-root{
-    color: var(--rad-ui-color-accent-950);
-    background-color: var(--rad-ui-color-accent-400);
-    padding:1px 10px;
-    display: inline-block;
-    border-radius: 4px;
-    font-size:12px;
-}
-
-
-
-.rad-ui-block-quote{
-    border-color: var(--rad-ui-color-accent-600);
-    border-left-width: 0.5rem;
-    padding-left:12px;
-}
-
-
-/** TABS  */
-.rad-ui-tab-root{
-
-}
-.rad-ui-tab-list{
-    display: flex;
-    box-shadow: inset 0 -1px 0 0 var(--rad-ui-color-gray-500);
-}
-
-
-.rad-ui-tab-trigger.active{
-    color: var(--rad-ui-color-accent-950);
-    border-bottom:2px solid var(--rad-ui-color-accent-900);
-}
-.rad-ui-tab-trigger {
-    color: var(--rad-ui-color-accent-600);
-    font-family: inherit;
-    padding: 10px 10px;
-
-    display: flex;
-    height:42px;
-    font-size: 15px;
-    line-height: 1;
-    cursor: pointer;
-}
-.rad-ui-tab-trigger:hover{
-    color: var(--rad-ui-color-accent-900);
-}
-
-.rad-ui-tab-trigger-inner{
-    padding:4px 8px;
-}
-.rad-ui-tab-trigger:hover > .rad-ui-tab-trigger-inner{
-    background-color: var(--rad-ui-color-accent-200);
-    border-radius: 4px;
-}
-
-.rad-ui-tab-content{
-    padding:20px 0px;
-    color : var(--rad-ui-color-gray-1000);
-}
-
-
-/** Separator */
-.rad-ui-separator {
-    background-color: var(--rad-ui-color-gray-600);
-    align-self: stretch;
-}
-
-.rad-ui-separator-vertical{
-    margin: 0px 8px;
-    width: 1px;
-}
-
-.rad-ui-separator-horizontal{
-    margin: 8px 0px;
-    height: 1px;
-}
-
-/** Badge */
-.rad-ui-badge {
-    background-color: var(--rad-ui-color-accent-300);
-    color: var(--rad-ui-color-accent-950);
-    padding:4px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    border-radius: 4px;
-}
-
-
-.rad-ui-h1{
-    font-weight: bold;
-    font-size: 60px;
-    letter-spacing: -3.5px;
-    line-height:72px;
-}
-
-.rad-ui-h2{
-    font-weight: bold;
-    font-size: 54px;
-    letter-spacing: -3px;
-    line-height:62px;
-}
-
-.rad-ui-h3{
-    font-weight: bold;
-    font-size: 48px;
-    letter-spacing: -2px;
-    line-height:54px;
-}
-
-.rad-ui-h4{
-    font-weight: bold;
-    font-size: 42px;
-    letter-spacing: -1px;
-    line-height:48px;
-}
-
-.rad-ui-h5{
-    font-weight: bold;
-    font-size: 36px;
-    letter-spacing: -0.5px;
-    line-height:42px;
-}
-
-.rad-ui-h6{
-    font-weight: bold;
-    font-size: 32px;
-
-    line-height:36px;
-}
-
-.rad-ui-text{
-    font-size: 16px;
-    line-height: 24px;
-}
-
-.rad-ui-link {
-    color: var(--rad-ui-color-accent-800);
-    cursor: pointer;
-}
-.rad-ui-link:hover {
-    color: var(--rad-ui-color-accent-900);
-    text-decoration: underline ;
-    text-decoration-color: var(--rad-ui-color-accent-600);
-}
-
-.rad-ui-callout {
-   padding:16px;
-   border-radius:8px;
-    background-color: var(--rad-ui-color-accent-200);
-    color: var(--rad-ui-color-accent-950);
-    display: flex;
-    align-items: center;
-    font-weight: 300;
-    font-size: 14px;
-    gap:8px;
-}
 .rad-ui-tooltip{
     
 }
@@ -239,23 +53,7 @@
     fill: var(--rad-ui-color-gray-1000);
 }
 
-.rad-ui-kbd{
-    user-select: none;
-    font-weight: 400;
-    font-family: inherit;
-    background-color: var(--rad-ui-color-gray-50);
-    color: var(--rad-ui-color-gray-950);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border-radius: 4px;
-    border: 1px solid var(--rad-ui-color-gray-500);
-    box-shadow:  0px 0px 3px 1px var(--rad-ui-color-gray-400);
-    padding: 4px 8px;
 
-    
-}
 
 .rad-ui-popper{
     // max-width: calc(100vw - 10px);

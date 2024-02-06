@@ -54,14 +54,14 @@ If you have questions, concerns, bug reports, etc, please file an issue in this 
 
 ## Getting involved
 
-We encourage interested developers in getting involved in building a better future for the web.
-For more details you can read [CONTRIBUTING](CONTRIBUTING.md).
+We encourage interested developers in getting involved in building a better future for the web. We can use all the help we can get to make the code and the docs a little bit every day.
+For more details, you can read on how to contribute to development of Rad UI in [Contribution Docs](https://www.rad-ui.com/docs/contributing/before-you-start).
 
 ## Open source licensing info
 
 For Licensing info you can check out [LICENSE](LICENSE).
 
-## Dev Environments
+## Dev Environment
 
 Node versions tested in 18.19.0 - 21.4.0
 
