@@ -17,10 +17,10 @@ const Template = (args) => {
     ];
 
     const data = [
-        {name: 'John Doe', age: 25},
-        {name: 'Jane Doe', age: 24},
-        {name: 'John Smith', age: 30},
-        {name: 'Jane Smith', age: 29},
+        {name: 'John Doe', age: 25, key: '1'},
+        {name: 'Jane Doe', age: 24, key: '2'},
+        {name: 'John Smith', age: 30, key: '3'},
+        {name: 'Jane Smith', age: 29, key: '4'},
     ];
 
     return <SandboxEditor>

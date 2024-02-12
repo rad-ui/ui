@@ -9,18 +9,39 @@ import TableColumnCellHeader from './shards/TableColumnCellHeader';
 import TableCell from './shards/TableCell';
 
 const Table = ({columns=[], data=[]}:any) => {
+    const columnMap = columns.map((column:any) => {
+        return column?.key || '';
+    },
+    );
+
+    console.log(columnMap);
+
     return <TableRoot>
         <TableHead>
             <TableRow>
-                <TableColumnCellHeader>Head</TableColumnCellHeader>
-                <TableColumnCellHeader>Head 2</TableColumnCellHeader>
+                {
+                    columns.map((column:any) => {
+                        return <TableColumnCellHeader key={column?.key || ''} >{column?.name || ''}</TableColumnCellHeader>;
+                    })
+                }
             </TableRow>
         </TableHead>
         <TableBody>
-            <TableRow >
-                <TableCell >Hello</TableCell>
-                <TableCell >Hello</TableCell>
-            </TableRow>
+            {
+                data.map((row:any) => {
+                    return <TableRow key={row.id} >
+                        {
+                            columnMap.map((column:any) => {
+                                if (row[column]) {
+                                    return <TableCell key={column} >{row[column]}</TableCell>;
+                                }
+                            },
+                            )
+                        }
+                    </TableRow>;
+                })
+            }
+
         </TableBody>
     </TableRoot>;
 };

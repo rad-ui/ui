@@ -1,7 +1,7 @@
 import React from 'react';
 
-const TableCell = ({children, className='cell'}:any) => {
-    return <td className={className} >
+const TableCell = ({children, className='cell', ...props}:any) => {
+    return <td className={className} {...props} >
         {children}
     </td>;
 };
