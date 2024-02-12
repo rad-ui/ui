@@ -18,9 +18,11 @@
     "./Heading": "./dist/components/Heading.js",
     "./Kbd": "./dist/components/Kbd.js",
     "./Link": "./dist/components/Link.js",
+    "./Progress": "./dist/components/Progress.js",
     "./Quote": "./dist/components/Quote.js",
     "./Separator": "./dist/components/Separator.js",
     "./Strong": "./dist/components/Strong.js",
+    "./Table": "./dist/components/Table.js",
     "./Tabs": "./dist/components/Tabs.js",
     "./Text": "./dist/components/Text.js",
     "./Tooltip": "./dist/components/Tooltip.js"
