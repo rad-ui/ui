@@ -14,7 +14,6 @@ const Table = ({columns=[], data=[]}:any) => {
     },
     );
 
-    console.log(columnMap);
 
     return <TableRoot>
         <TableHead>
