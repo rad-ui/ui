@@ -27,7 +27,7 @@ module.exports = {
         'no-mixed-spaces-and-tabs': 'warn',
         'no-multi-spaces': 'warn',
         'no-unused-vars': 'warn',
-        'no-undef': 'warn',
+        'no-undef': 'off',
         'react/no-unescaped-entities': 1,
         'no-unexpected-multiline': 'warn',
         'no-var': 'warn',

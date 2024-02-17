@@ -1,7 +1,6 @@
 
 const bronze = {
     light: {
-
         50: '#fdfcfc',
         100: '#fcf9f6',
         200: '#f6eee7',
@@ -17,7 +16,6 @@ const bronze = {
 
     },
     dark: {
-
         50: '#141110',
         100: '#1a1715',
         200: '#26221e',

@@ -1,0 +1,15 @@
+/** Separator */
+.rad-ui-separator {
+    background-color: var(--rad-ui-color-gray-600);
+    align-self: stretch;
+}
+
+.rad-ui-separator-vertical{
+    margin: 0px 8px;
+    width: 1px;
+}
+
+.rad-ui-separator-horizontal{
+    margin: 8px 0px;
+    height: 1px;
+}
