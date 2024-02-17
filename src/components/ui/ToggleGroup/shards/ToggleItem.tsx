@@ -3,13 +3,8 @@ import React, {useContext} from 'react';
 import {ToggleContext} from '../contexts/toggleContext';
 
 
-
 const ToggleItem = ({children, value=null, ...props}:any) => {
     const toggleContext = useContext(ToggleContext);
-
-
-
-
 
 
     const type = toggleContext?.type;
@@ -18,7 +13,7 @@ const ToggleItem = ({children, value=null, ...props}:any) => {
 
     const handleToggleSelect = () => {
         let activeToggleArray = toggleContext?.activeToggles || [];
-    
+
         // For Single Case
         if (type === 'single') {
             if (isActive) {
@@ -29,7 +24,7 @@ const ToggleItem = ({children, value=null, ...props}:any) => {
                 return;
             }
         }
-    
+
         // For Multiple Case
         if (type === 'multiple') {
             if (isActive) {
@@ -38,15 +33,16 @@ const ToggleItem = ({children, value=null, ...props}:any) => {
                 activeToggleArray = [...activeToggleArray, value]; // Using spread operator to create a new array
             }
         }
-    
+
         toggleContext?.setActiveToggles(activeToggleArray);
         console.log(toggleContext?.activeToggles);
     };
-    
 
 
-
-    return <div  className={`${isActive?'bg-blue-600':''}`} onClick={()=>{handleToggleSelect()}}>{children}</div>;
+    return <div
+        className={`${isActive?'bg-blue-600':''}`} onClick={() => {
+            handleToggleSelect();
+        }}>{children}</div>;
 };
 
 export default ToggleItem;
