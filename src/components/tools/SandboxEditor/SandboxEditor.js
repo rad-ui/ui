@@ -40,7 +40,7 @@ const SandboxEditor = ({children, className}) => {
         setColorName(colorName);
     };
 
-    return <div data-accent-color={colorName} className={`m-5 p-4 shadow-sm rounded-md border border-gray-300 bg-gray-50 ${isDarkMode ? 'rad-ui-dark-theme' : ''}`}>
+    return <div data-accent-color={colorName} className={`m-5 p-4 shadow-sm text-gray-900 rounded-md border border-gray-300 bg-gray-50 ${isDarkMode ? 'rad-ui-dark-theme' : ''}`}>
         <div className='mb-4'>
             {/* @ts-ignore */}
             <Button variant="outline" onClick={toggleDarkMode} buttonRef={refButton}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
