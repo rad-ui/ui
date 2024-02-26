@@ -59,7 +59,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/eslint-parser": "7.23.3",
-    "@babel/preset-env": "7.23.8",
+    "@babel/preset-env": "7.23.9",
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "7.23.3",
     "@radui/ui": "0.0.8",
