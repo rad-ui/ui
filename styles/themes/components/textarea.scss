@@ -1,6 +1,6 @@
 .rad-ui-text-area{
     textarea{
-        border:1px solid var(--rad-ui-color-gray-600);
+        border:2px solid var(--rad-ui-color-accent-600);
         display: block;
         width: 100%;
         resize: none;
@@ -9,9 +9,12 @@
         line-height: 1.5;
         border-radius: 8px;
         color: var(--rad-ui-color-gray-1000);
-        outline: 1px solid var(--rad-ui-color-gray-300);
         min-height: 100px;
         background-color: var(--rad-ui-color-accent-100);
+
+        &::placeholder{
+            color: var(--rad-ui-color-accent-500);
+        }
     
         &:focus{
             outline: 2px solid var(--rad-ui-color-accent-500);

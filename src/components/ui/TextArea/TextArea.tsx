@@ -13,7 +13,7 @@ export type TextAreaProps = {
 }
 
 
-const TextArea = ({customRootClass='', className='', children}: TextAreaProps) => {
+const TextArea = ({customRootClass='', className='', children, ...props}: TextAreaProps) => {
     return <TextAreaRoot customRootClass={customRootClass} className={`${className}`}>
         <TextAreaInput placeholder="enter text">
             {children}
