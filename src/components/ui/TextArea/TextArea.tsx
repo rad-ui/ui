@@ -1,7 +1,10 @@
 'use client';
 import React from 'react';
 
-import {customClassSwitcher} from '~/core';
+
+import TextAreaRoot from './shards/TextAreaRoot';
+import TextAreaInput from './shards/TextAreaInput';
+
 
 export type TextAreaProps = {
     children: React.ReactNode;
@@ -9,15 +12,17 @@ export type TextAreaProps = {
     className?: string;
 }
 
-const COMPONENT_NAME = 'TextArea';
-
 
 const TextArea = ({customRootClass='', className='', children}: TextAreaProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
-    return <textarea className={`${rootClass} ${className}`}>
+    return <TextAreaRoot customRootClass={customRootClass} className={`${className}`}>
+        <TextAreaInput placeholder="enter text">
+            {children}
+        </TextAreaInput>
         {children}
-    </textarea>;
+    </TextAreaRoot>;
 };
+
+TextArea.Input = TextAreaInput;
+TextArea.Root = TextAreaRoot;
 
 export default TextArea;
