@@ -110,7 +110,7 @@
     "@floating-ui/react": "^0.26.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.70.0"
+    "sass": "^1.72.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",
