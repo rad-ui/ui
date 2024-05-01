@@ -107,7 +107,7 @@
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.26.11",
+    "@floating-ui/react": "^0.26.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.74.1"
