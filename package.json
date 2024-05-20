@@ -108,8 +108,8 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.12",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "sass": "^1.75.0"
   },
   "peerDependencies": {
