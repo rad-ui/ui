@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
 import {customClassSwitcher} from '~/core';
-import {Tab} from '../types';
+import {TabProps} from '../types';
 const COMPONENT_NAME = 'TabContent';
 
 
 export type TabContentProps ={
-    tabs?: Tab[]
-    activeTab: Tab
+    tabs?: TabProps[]
+    activeTab: TabProps
     className?: string;
     customRootClass?: string;
 }

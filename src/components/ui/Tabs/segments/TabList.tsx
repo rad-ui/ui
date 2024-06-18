@@ -3,7 +3,7 @@
 import React from 'react';
 import {customClassSwitcher} from '~/core';
 import TabTrigger from './TabTrigger';
-import {Tab} from '../types';
+import { TabProps } from '../types';
 
 const COMPONENT_NAME = 'TabList';
 
@@ -12,7 +12,7 @@ export type TabListProps = {
     className?: string;
     customRootClass?: string;
     setActiveTab: React.Dispatch<Tab>;
-    activeTab: Tab;
+    activeTab: TabProps;
 }
 
 const TabList = ({tabs = [], className='', customRootClass='', setActiveTab, activeTab}: TabListProps) => {

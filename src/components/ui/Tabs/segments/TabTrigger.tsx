@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
 import {customClassSwitcher} from '~/core';
-import {Tab} from '../types';
+import {TabProps} from '../types';
 
 const COMPONENT_NAME = 'TabTrigger';
 
 export type TabTriggerProps = {
-    tab: Tab;
+    tab: TabProps;
     setActiveTab: React.Dispatch<Tab>;
-    activeTab: Tab;
+    activeTab: TabProps;
     className?: string;
     customRootClass?: string;
     index: number;
@@ -25,7 +25,9 @@ const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, i
     };
 
     return (
-        <button role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onClick={() => handleClick(tab)}>
+        <button role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onKeyDown={(e)=>{
+            console.log(e.key);
+        }} onClick={() => handleClick(tab)}>
             <span className={`${rootClass}-inner`}>
                 {tab.label}
             </span>
