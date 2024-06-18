@@ -25,9 +25,10 @@ const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, i
     };
 
     return (
-        <button role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onKeyDown={(e)=>{
-            console.log(e.key);
-        }} onClick={() => handleClick(tab)}>
+        <button
+            role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onKeyDown={(e) => {
+                console.log(e.key);
+            }} onClick={() => handleClick(tab)}>
             <span className={`${rootClass}-inner`}>
                 {tab.label}
             </span>

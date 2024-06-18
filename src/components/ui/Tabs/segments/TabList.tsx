@@ -3,7 +3,7 @@
 import React from 'react';
 import {customClassSwitcher} from '~/core';
 import TabTrigger from './TabTrigger';
-import { TabProps } from '../types';
+import {TabProps} from '../types';
 
 const COMPONENT_NAME = 'TabList';
 

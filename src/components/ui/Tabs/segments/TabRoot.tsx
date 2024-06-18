@@ -5,11 +5,9 @@ import {customClassSwitcher} from '~/core';
 
 import TabsContext from '../context/TabsContext';
 
-import {TabRootProps} from "../types"
+import {TabRootProps} from '../types';
 
 const COMPONENT_NAME = 'Tabs';
-
-
 
 
 const TabRoot = ({children, customRootClass, className, color, ...props}: TabRootProps) => {

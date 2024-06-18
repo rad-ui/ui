@@ -1,5 +1,5 @@
-import {createContext} from "react";
+import {createContext} from 'react';
 
 const TabRootContext = createContext(null);
 
-export default TabRootContext
+export default TabRootContext;
