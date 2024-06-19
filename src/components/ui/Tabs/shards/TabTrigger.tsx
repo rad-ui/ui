@@ -19,7 +19,6 @@ export type TabTriggerProps = {
 }
 
 const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, index, ...props}: TabTriggerProps) => {
-
     // use context
     const {tabs, previousTab, nextTab} = useContext(TabsRootContext);
     console.log(tabs);
@@ -35,22 +34,22 @@ const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, i
 
     const handleKeyDownEvent = (e: React.KeyboardEvent) => {
         console.log(e.key);
-        if(e.key=="ArrowLeft"){
+        if (e.key=='ArrowLeft') {
             previousTab();
         }
-        if(e.key=="ArrowRight"){
+        if (e.key=='ArrowRight') {
             nextTab();
         }
-    }
+    };
 
     return (
-            <button
-                    role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onKeyDown={handleKeyDownEvent} 
-                    onClick={() => handleClick(tab)}>
-                    <span className={`${rootClass}-inner`}>
-                        {tab.label}
-                    </span>
-                </button>
+        <button
+            role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onKeyDown={handleKeyDownEvent}
+            onClick={() => handleClick(tab)}>
+            <span className={`${rootClass}-inner`}>
+                {tab.label}
+            </span>
+        </button>
     );
 };
 

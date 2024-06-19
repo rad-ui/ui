@@ -13,7 +13,7 @@ export type TabContentProps ={
     customRootClass?: string;
 }
 
-const TabContent = ({ className, customRootClass}: TabContentProps) => {
+const TabContent = ({className, customRootClass}: TabContentProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const {tabs, activeTab, setActiveTab} = useContext(TabsRootContext);

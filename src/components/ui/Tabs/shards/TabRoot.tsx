@@ -15,31 +15,32 @@ const TabRoot = ({children, defaultTab='', customRootClass, tabs=[], className, 
 
     const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '');
 
-    const nextTab = ()=>{
-        const currentIndex = tabs.findIndex(tab => tab.value === activeTab);
+    const nextTab = () => {
+        const currentIndex = tabs.findIndex((tab) => tab.value === activeTab);
         const nextIndex = currentIndex + 1;
         if (nextIndex < tabs.length) {
             setActiveTab(tabs[nextIndex].value);
         }
-    }
+    };
 
-    const previousTab = ()=>{
-        const currentIndex = tabs.findIndex(tab => tab.value === activeTab);
+    const previousTab = () => {
+        const currentIndex = tabs.findIndex((tab) => tab.value === activeTab);
         const previousIndex = currentIndex - 1;
         if (previousIndex >= 0) {
             setActiveTab(tabs[previousIndex].value);
         }
-    }
+    };
 
 
     return (
-        <TabsRootContext.Provider value={{
-            activeTab,
-            setActiveTab,
-            nextTab,
-            previousTab,
-            tabs
-        }}>
+        <TabsRootContext.Provider
+            value={{
+                activeTab,
+                setActiveTab,
+                nextTab,
+                previousTab,
+                tabs,
+            }}>
             <div className={`${rootClass} ${className}`} data-accent-color={color} {...props} >
                 {children}
             </div>
