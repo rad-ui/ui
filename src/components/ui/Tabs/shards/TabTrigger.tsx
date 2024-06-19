@@ -23,16 +23,14 @@ const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, i
     const {tabs, previousTab, nextTab} = useContext(TabsRootContext);
     const ref = useRef(null);
 
-    const handleFocusTabEvent = ()=>{
-         // focus on the active tab
+    const handleFocusTabEvent = () => {
+        // focus on the active tab
         if (activeTab === tab.value) {
             ref.current.focus();
         }
-
-    }
+    };
 
     useEffect(() => {
-       
         handleFocusTabEvent();
     }
     , [activeTab]);
