@@ -5,7 +5,7 @@ type TabRootProps = {
     color?: string;
     props?: Record<string, any>[];
     tabs: [];
-    activeTab: any
+    defaultTab: string;
 }
 
 export default TabRootProps;

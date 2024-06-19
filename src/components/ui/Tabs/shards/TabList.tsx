@@ -1,9 +1,10 @@
 
 'use client';
-import React from 'react';
+import React, {useContext} from 'react';
 import {customClassSwitcher} from '~/core';
 import TabTrigger from './TabTrigger';
 import {TabProps} from '../types';
+import TabsRootContext from '../context/TabsRootContext';
 
 const COMPONENT_NAME = 'TabList';
 
@@ -15,8 +16,9 @@ export type TabListProps = {
     activeTab: TabProps;
 }
 
-const TabList = ({tabs = [], className='', customRootClass='', setActiveTab, activeTab}: TabListProps) => {
+const TabList = ({className='', customRootClass=''}: TabListProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const {tabs, activeTab, setActiveTab} = useContext(TabsRootContext);
 
     // TODO: in the previous return value of
     // {tabs.map((tab, index) => {
