@@ -1,5 +1,5 @@
 'use client';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import {customClassSwitcher} from '~/core';
 import {TabProps} from '../types';
 
@@ -21,7 +21,21 @@ export type TabTriggerProps = {
 const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, index, ...props}: TabTriggerProps) => {
     // use context
     const {tabs, previousTab, nextTab} = useContext(TabsRootContext);
-    console.log(tabs);
+    const ref = useRef(null);
+
+    const handleFocusTabEvent = ()=>{
+         // focus on the active tab
+        if (activeTab === tab.value) {
+            ref.current.focus();
+        }
+
+    }
+
+    useEffect(() => {
+       
+        handleFocusTabEvent();
+    }
+    , [activeTab]);
 
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
@@ -33,7 +47,6 @@ const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, i
     };
 
     const handleKeyDownEvent = (e: React.KeyboardEvent) => {
-        console.log(e.key);
         if (e.key=='ArrowLeft') {
             previousTab();
         }
@@ -44,6 +57,7 @@ const TabTrigger = ({tab, setActiveTab, activeTab, className, customRootClass, i
 
     return (
         <button
+            ref={ref}
             role="tab" key={index} className={`${rootClass} ${isActive?'active':''} ${className}`} {...props} onKeyDown={handleKeyDownEvent}
             onClick={() => handleClick(tab)}>
             <span className={`${rootClass}-inner`}>
