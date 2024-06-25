@@ -1,18 +1,22 @@
-import React from 'react';
-import {customClassSwitcher} from '~/core';
+import React from 'react'
+import { customClassSwitcher } from '~/core'
 
 type AvatarFallbackProps = {
-    fallback?: string,
-    customRootClass?: string,
-};
+  fallback?: string
+  customRootClass?: string
+}
 
-const AvatarFallback = ({fallback, customRootClass, ...props}: AvatarFallbackProps) => {
-    const rootClass = customClassSwitcher(customRootClass, 'Avatar');
-    return (
-        <span className={`${rootClass}-fallback`} {...props} >
-            {fallback}
-        </span>
-    );
-};
+function AvatarFallback({
+  fallback,
+  customRootClass,
+  ...props
+}: AvatarFallbackProps) {
+  const rootClass = customClassSwitcher(customRootClass, 'Avatar')
+  return (
+    <span className={`${rootClass}-fallback`} {...props}>
+      {fallback}
+    </span>
+  )
+}
 
-export default AvatarFallback;
+export default AvatarFallback
