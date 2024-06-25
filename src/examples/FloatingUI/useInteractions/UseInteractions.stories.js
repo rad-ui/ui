@@ -1,4 +1,3 @@
-
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import UserInteractionsExample from './UseInteractionsExample';
 
@@ -6,11 +5,13 @@ import UserInteractionsExample from './UseInteractionsExample';
 export default {
     title: 'Examples/FloatingUI/UseInteractions',
     component: 'UseInteractions',
-    render: (args) => <SandboxEditor>
-        <div>
-            <UserInteractionsExample/>
-        </div>
-    </SandboxEditor>,
+    render: () => (
+        <SandboxEditor>
+            <div>
+                <UserInteractionsExample />
+            </div>
+        </SandboxEditor>
+    ),
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
