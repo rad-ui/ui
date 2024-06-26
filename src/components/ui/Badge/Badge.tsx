@@ -1,38 +1,26 @@
-'use client'
+'use client';
+import React from 'react';
+import {customClassSwitcher} from '~/core';
 
-import React from 'react'
-import { customClassSwitcher } from '~/core'
-
-const COMPONENT_NAME = 'Badge'
+const COMPONENT_NAME = 'Badge';
 
 export type BadgeProps = {
-  children?: React.ReactNode
-  customRootClass?: string
-  className?: string
-  color?: string
-  props?: Record<string, any>[]
+    children?: React.ReactNode,
+    customRootClass?: string,
+    className?: string,
+    color?: string,
+    props?: Record<string, any>[],
 }
 
-const Badge = ({
-  children,
-  customRootClass,
-  className,
-  color,
-  ...props
-}: BadgeProps) => {
-  const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
 
-  return (
-    <span
-      className={`${rootClass} ${className}`}
-      data-accent-color={color ?? undefined}
-      {...props}
-    >
-      {children}
-    </span>
-  )
-}
+const Badge = ({children, customRootClass, className, color, ...props}: BadgeProps) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-Badge.displayName = COMPONENT_NAME
+    return <span className={`${rootClass} ${className}`} data-accent-color={color ?? undefined} {...props}>
+        {children}
+    </span>;
+};
 
-export default Badge
+Badge.displayName = COMPONENT_NAME;
+
+export default Badge;
