@@ -6,19 +6,28 @@ export type CardRootProps = {
   children: React.ReactNode
   customRootClass?: string
   className?: string
+  styles?: any
   props?: any
+  id?: string
 }
 
 const CardRoot = ({
   children,
   customRootClass,
   className = '',
+  id,
+  styles,
   ...props
 }: CardRootProps) => {
   const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
 
   return (
-    <div className={`${rootClass} ${className}`} {...props}>
+    <div
+      className={`${rootClass} ${className}`}
+      style={styles}
+      id={id}
+      {...props}
+    >
       {children}
     </div>
   )

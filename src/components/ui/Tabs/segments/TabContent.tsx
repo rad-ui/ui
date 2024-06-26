@@ -1,31 +1,38 @@
-'use client';
-import React from 'react';
-import {customClassSwitcher} from '~/core';
-import {Tab} from '../types';
-const COMPONENT_NAME = 'TabContent';
+'use client'
 
+import React from 'react'
+import { customClassSwitcher } from '~/core'
+import { Tab } from '../types'
 
-export type TabContentProps ={
-    tabs?: Tab[]
-    activeTab: Tab
-    className?: string;
-    customRootClass?: string;
+const COMPONENT_NAME = 'TabContent'
+
+export type TabContentProps = {
+  tabs?: Tab[]
+  activeTab: Tab
+  className?: string
+  customRootClass?: string
 }
 
-const TabContent = ({tabs = [], activeTab, className, customRootClass}: TabContentProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const TabContent = ({
+  tabs = [],
+  activeTab,
+  className,
+  customRootClass
+}: TabContentProps) => {
+  const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
 
-    return <div className={`${rootClass} ${className}`}>
-        {tabs.map((tab, index) => {
-            if (tab.value === activeTab) {
-                return <div key={index}>{tab.content}</div>;
-            }
-            return null;
-        })
+  return (
+    <div className={`${rootClass} ${className}`}>
+      {tabs.map((tab) => {
+        if (tab.value === activeTab) {
+          return <div key={`content-${tab.value}`}>{tab.content}</div>
         }
-    </div>;
-};
+        return null
+      })}
+    </div>
+  )
+}
 
-TabContent.displayName = COMPONENT_NAME;
+TabContent.displayName = COMPONENT_NAME
 
-export default TabContent;
+export default TabContent
