@@ -1,22 +1,32 @@
-'use client';
-import React from 'react';
+'use client'
 
-import {customClassSwitcher} from '~/core';
+import React from 'react'
 
-const COMPONENT_NAME = 'BlockQuote';
+import { customClassSwitcher } from '~/core'
+
+const COMPONENT_NAME = 'BlockQuote'
 
 export type BlockQuoteProps = {
-    children: React.ReactNode;
-    customRootClass?: string;
-    className?: string;
-    props: Record<string, any>[]
+  children: React.ReactNode
+  customRootClass?: string
+  className?: string
+  props: Record<string, any>[]
 }
-const BlockQuote = ({children, customRootClass, className, ...props}: BlockQuoteProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const BlockQuote = ({
+  children,
+  customRootClass,
+  className,
+  ...props
+}: BlockQuoteProps) => {
+  const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
 
-    return <blockquote className={`${rootClass} ${className}`} {...props}>{children}</blockquote>;
-};
+  return (
+    <blockquote className={`${rootClass} ${className}`} {...props}>
+      {children}
+    </blockquote>
+  )
+}
 
-BlockQuote.displayName = COMPONENT_NAME;
+BlockQuote.displayName = COMPONENT_NAME
 
-export default BlockQuote;
+export default BlockQuote
