@@ -26,7 +26,7 @@ const Toggle: React.FC<ToggleProps> = ({
 }) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [isPressed=false, setIsPressed] = useState(pressed || defaultPressed);
+    const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
 
     const handlePressed = () => {
         const updatedPressed = !isPressed;
