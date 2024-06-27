@@ -34,7 +34,7 @@ export default function ProgressIndicator({
       aria-valuemax={maxValue}
       aria-valuemin={minValue}
     >
-      {renderLabel && renderLabel(value)}
+      {renderLabel?.(value)}
     </div>
   )
 }
