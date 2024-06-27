@@ -1,53 +1,64 @@
+'use client'
 
-'use client';
-import React, {useState} from 'react';
-import {customClassSwitcher} from '~/core';
+import React, { useState } from 'react'
+import { customClassSwitcher } from '~/core'
 
-import TabsRootContext from '../context/TabsRootContext';
+import TabsRootContext from '../context/TabsRootContext'
 
-import {TabRootProps} from '../types';
+import { TabRootProps } from '../types'
 
-const COMPONENT_NAME = 'Tabs';
+const COMPONENT_NAME = 'Tabs'
 
+function TabRoot({
+  children,
+  defaultTab = '',
+  customRootClass,
+  tabs = [],
+  className,
+  color,
+  ...props
+}: TabRootProps) {
+  const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
 
-const TabRoot = ({children, defaultTab='', customRootClass, tabs=[], className, color, ...props}: TabRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+  const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '')
 
-    const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '');
+  const nextTab = () => {
+    const currentIndex = tabs.findIndex((tab) => tab.value === activeTab)
+    const nextIndex = currentIndex + 1
+    if (nextIndex < tabs.length) {
+      setActiveTab(tabs[nextIndex].value)
+    }
+  }
 
-    const nextTab = () => {
-        const currentIndex = tabs.findIndex((tab) => tab.value === activeTab);
-        const nextIndex = currentIndex + 1;
-        if (nextIndex < tabs.length) {
-            setActiveTab(tabs[nextIndex].value);
-        }
-    };
+  const previousTab = () => {
+    const currentIndex = tabs.findIndex((tab) => tab.value === activeTab)
+    const previousIndex = currentIndex - 1
+    if (previousIndex >= 0) {
+      setActiveTab(tabs[previousIndex].value)
+    }
+  }
 
-    const previousTab = () => {
-        const currentIndex = tabs.findIndex((tab) => tab.value === activeTab);
-        const previousIndex = currentIndex - 1;
-        if (previousIndex >= 0) {
-            setActiveTab(tabs[previousIndex].value);
-        }
-    };
+  return (
+    <TabsRootContext.Provider
+      value={{
+        activeTab,
+        setActiveTab,
+        nextTab,
+        previousTab,
+        tabs
+      }}
+    >
+      <div
+        className={`${rootClass} ${className}`}
+        data-accent-color={color}
+        {...props}
+      >
+        {children}
+      </div>
+    </TabsRootContext.Provider>
+  )
+}
 
+TabRoot.displayName = COMPONENT_NAME
 
-    return (
-        <TabsRootContext.Provider
-            value={{
-                activeTab,
-                setActiveTab,
-                nextTab,
-                previousTab,
-                tabs,
-            }}>
-            <div className={`${rootClass} ${className}`} data-accent-color={color} {...props} >
-                {children}
-            </div>
-        </TabsRootContext.Provider>
-    );
-};
-
-TabRoot.displayName = COMPONENT_NAME;
-
-export default TabRoot;
+export default TabRoot

@@ -1,14 +1,12 @@
-import React from 'react';
+import React from 'react'
 
 type TextAreaInputProps = {
-    children: React.ReactNode;
-    placeholder?: string;
+  children: React.ReactNode
+  placeholder?: string
 }
 
-const TextAreaInput = ({children, placeholder=''}:TextAreaInputProps) => {
-    return <textarea placeholder={placeholder}>
-        {children}
-    </textarea>;
-};
+function TextAreaInput({ children, placeholder = '' }: TextAreaInputProps) {
+  return <textarea placeholder={placeholder}>{children}</textarea>
+}
 
-export default TextAreaInput;
+export default TextAreaInput
