@@ -1,7 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "Linting your changes..."
-npx pretty-quick --staged
-#! npm run lint
-
+npm run lint

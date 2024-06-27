@@ -1,0 +1,23 @@
+.rad-ui-text-area{
+    textarea{
+        border:2px solid var(--rad-ui-color-accent-600);
+        display: block;
+        width: 100%;
+        resize: none;
+        font-size: 16px;
+        padding: 8px;
+        line-height: 1.5;
+        border-radius: 8px;
+        color: var(--rad-ui-color-gray-1000);
+        min-height: 100px;
+        background-color: var(--rad-ui-color-accent-100);
+
+        &::placeholder{
+            color: var(--rad-ui-color-accent-500);
+        }
+    
+        &:focus{
+            outline: 2px solid var(--rad-ui-color-accent-500);
+        }
+    }
+}
