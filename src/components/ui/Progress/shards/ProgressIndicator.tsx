@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { ProgressProps, COMPONENT_NAME } from '../Progress'
 import { customClassSwitcher } from '~/core'
+import { ProgressProps, COMPONENT_NAME } from '../Progress'
 
 interface IndicatorProps
   extends Pick<

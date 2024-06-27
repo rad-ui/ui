@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-type TabProps ={
-    label: string;
-    value: string;
-    content: React.ReactNode;
+type TabProps = {
+  label: string
+  value: string
+  content: React.ReactNode
 }
 
-export default TabProps;
+export default TabProps

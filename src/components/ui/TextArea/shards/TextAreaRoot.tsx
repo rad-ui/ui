@@ -1,19 +1,21 @@
-import React from 'react';
-import {customClassSwitcher} from '~/core';
+import React from 'react'
+import { customClassSwitcher } from '~/core'
 
-const COMPONENT_NAME = 'TextArea';
+const COMPONENT_NAME = 'TextArea'
 
 export type TextAreaProps = {
-    children: React.ReactNode;
-    customRootClass?: string;
-    className?: string;
+  children: React.ReactNode
+  customRootClass?: string
+  className?: string
 }
 
-const TextAreaRoot = ({children, customRootClass='', className=''}:TextAreaProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <div className={`${rootClass}${className}`}>
-        {children}
-    </div>;
-};
+function TextAreaRoot({
+  children,
+  customRootClass = '',
+  className = ''
+}: TextAreaProps) {
+  const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
+  return <div className={`${rootClass}${className}`}>{children}</div>
+}
 
-export default TextAreaRoot;
+export default TextAreaRoot

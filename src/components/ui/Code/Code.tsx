@@ -1,14 +1,13 @@
-'use client';
-import React from 'react';
+'use client'
 
-export type CodeProps= {
-    children: React.ReactNode;
+import React from 'react'
+
+export type CodeProps = {
+  children: React.ReactNode
 }
 
-const Code = ({children}: CodeProps) => {
-    return <code className='rui-code-root'>
-        {children}
-    </code>;
-};
+function Code({ children }: CodeProps) {
+  return <code className="rui-code-root">{children}</code>
+}
 
-export default Code;
+export default Code
