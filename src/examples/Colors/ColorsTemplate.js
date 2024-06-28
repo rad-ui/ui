@@ -11,7 +11,9 @@ const ColorsTemplate = () => {
     return <div>
 
         <div className={'p-4 space-y-0.5 '}>
+        
             <div className='flex'>
+                                 
                 <ColorBubble colorClass='bg-gray-50' />
                 <ColorBubble colorClass='bg-gray-100' />
                 <ColorBubble colorClass='bg-gray-200' />
@@ -37,8 +39,8 @@ const ColorsTemplate = () => {
                 <ColorBubble colorClass='bg-mauve-800' />
                 <ColorBubble colorClass='bg-mauve-900' />
                 <ColorBubble colorClass='bg-mauve-950' />
-                <ColorBubble colorClass='bg-mauve-1000' />
-            </div>
+                <ColorBubble colorClass='bg-mauve-1000' /> 
+             </div> 
             <div className='flex'>
 
                 <ColorBubble colorClass='bg-slate-50' />
