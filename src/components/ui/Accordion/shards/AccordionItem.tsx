@@ -1,4 +1,4 @@
-import React, {useState, useContext, useId} from 'react';
+import React, {useState, useContext, useId, useEffect} from 'react';
 
 import {AccordionContext} from '../contexts/AccordionContext';
 import {AccordionItemContext} from '../contexts/AccordionItemContext';
@@ -11,15 +11,29 @@ export type AccordionItemProps = {
 
 const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className='', ...props}) => {
     const [itemValue, setItemValue] = useState(value);
-    const {rootClass} = useContext(AccordionContext);
+    const {rootClass, activeItem} = useContext(AccordionContext);
 
+    const [isOpen, setIsOpen] = useState(false);
+    useEffect(() => {
+        if (itemValue === activeItem) {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
+    }
+    , [itemValue, activeItem]);
     const id = useId();
+
 
     return (
         <AccordionItemContext.Provider value={{itemValue, setItemValue}}>
             <div
                 className={`${rootClass}-item ${className}`} {...props}
                 id={`accordion-data-item-${id}`}
+                role="region"
+                aria-labelledby={`accordion-trigger-${id}`}
+                aria-hidden={!isOpen}
+                data-state={isOpen ? 'open' : 'closed'}
 
             >
                 {children}

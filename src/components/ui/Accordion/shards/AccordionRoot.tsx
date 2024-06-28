@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 
 import {customClassSwitcher} from '~/core';
 import {AccordionContext} from '../contexts/AccordionContext';
@@ -11,15 +11,35 @@ export type AccordionRootProps = {
 }
 
 const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
-    const [activeItem, setActiveItem] = useState(0);
+    const accordionRef = useRef(null);
+    const [activeItem, setActiveItem] = useState(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const focusNextItem = (index) => {
-        console.log(activeItem);
-        console.log('focusNextItem');
+
+    const getActiveItemId = () => {
+        const elem = accordionRef.current;
+        // get children that have data-state open
+        const activeItem = elem.querySelector('[data-state="open"]');
+
+        // get element
+        return activeItem;
     };
-    const focusPrevItem = (index) => {
-        console.log('focusPrevItem');
+
+    const focusNextItem = () => {
+        const elem = getActiveItemId();
+        const nextElem = elem.nextElementSibling;
+        // get button
+        const button = nextElem.querySelector('button');
+        // focus button
+        button?.focus();
+    };
+    const focusPrevItem = () => {
+        const elem = getActiveItemId();
+        const prevElem = elem.previousElementSibling;
+        // get button
+        const button = prevElem.querySelector('button');
+        // focus button
+        button?.focus();
     };
 
     return (
@@ -32,7 +52,7 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
                 focusPrevItem,
 
             }}>
-            <div className={`${rootClass}-root`}>
+            <div className={`${rootClass}-root`} ref={accordionRef} >
                 {children}
             </div>
         </AccordionContext.Provider>
