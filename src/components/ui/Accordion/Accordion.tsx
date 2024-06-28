@@ -13,7 +13,7 @@ const Accordion = ({items} : AccordionProps) => {
     return (
         <AccordionRoot>
             {items.map((item, index) => (
-                <AccordionItem value={index}>
+                <AccordionItem value={index} key={index} >
                     <AccordionHeader>
                         <AccordionTrigger >
                             Item {index+1}

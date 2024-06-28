@@ -15,6 +15,7 @@
         &:focus-within{
             border: 1px solid var(--rad-ui-color-gray-1000);
             color: var(--rad-ui-color-gray-1000);
+            background-color: var(--rad-ui-color-green-200);
         }
 
         .rad-ui-accordion-trigger{
