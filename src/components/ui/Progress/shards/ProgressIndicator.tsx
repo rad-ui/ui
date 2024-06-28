@@ -26,17 +26,16 @@ export default function ProgressIndicator({
     }
 
 
-  return (
-    <div
-      role="progressbar"
-      className={`${rootClass}-indicator`}
-      style={{ transform: `translateX(-${maxValue - value}%)` }}
-      aria-valuenow={value}
-      aria-valuemax={maxValue}
-      aria-valuemin={minValue}
-    >
-      {renderLabel?.(value)}
-    </div>
-  )
-
+    return (
+        <div
+            role="progressbar"
+            className={`${rootClass}-indicator`}
+            style={{transform: `translateX(-${maxValue - value}%)`}}
+            aria-valuenow={value}
+            aria-valuemax={maxValue}
+            aria-valuemin={minValue}
+        >
+            {renderLabel?.(value)}
+        </div>
+    );
 }
