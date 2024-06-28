@@ -10,21 +10,16 @@ export type AccordionProps = {
 }
 
 const Accordion = ({items} : AccordionProps) => {
-    const [activeIndex, setActiveIndex] = useState<number>(-1);
-    const handleClick = (index: number) => {
-        setActiveIndex(activeIndex === index ? -1 : index);
-    };
-
     return (
         <AccordionRoot>
             {items.map((item, index) => (
-                <AccordionItem value={index}>
+                <AccordionItem value={index} key={index} >
                     <AccordionHeader>
-                        <AccordionTrigger handleClick={handleClick} index={index} activeIndex={activeIndex} >
+                        <AccordionTrigger >
                             Item {index+1}
                         </AccordionTrigger>
                     </AccordionHeader>
-                    <AccordionContent index={index} activeIndex={activeIndex}>
+                    <AccordionContent>
                         {item.content}
                     </AccordionContent>
                 </AccordionItem>
