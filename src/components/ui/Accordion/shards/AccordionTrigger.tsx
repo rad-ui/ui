@@ -1,29 +1,31 @@
-import React from 'react';
-// @ts-ignore
-import {customClassSwitcher} from '~/core';
+import React, {useContext, useState} from 'react';
+import {AccordionContext} from '../contexts/AccordionContext';
+
 
 type AccordionTriggerProps = {
   children: React.ReactNode;
-  customRootClass?: string,
+  className?: string,
   index: number,
   activeIndex: number,
   handleClick: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, handleClick, index, activeIndex, customRootClass}) => {
-    const rootClass = customClassSwitcher(customRootClass, 'Accordion');
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, handleClick, index, activeIndex, className=''}) => {
+    const {setActiveItem, rootClass} = useContext(AccordionContext);
     return (
-        <span className={`${rootClass}-trigger`}>
 
-            <button
-                onClick={() => handleClick(index)}
-                aria-expanded={activeIndex === index}
-                aria-controls={`content-${index}`}
-            >
-                {children}
-            </button>
+        <button
+            className={`${rootClass}-trigger ${className}`}
+            onClick={() => {
+                setActiveItem(index);
+            }}
+            aria-expanded={activeIndex === index}
+            aria-controls={`content-${index}`}
+        >
+            {children}
+        </button>
 
-        </span>
+
     );
 };
 

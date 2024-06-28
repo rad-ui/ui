@@ -1,17 +1,19 @@
-import React from 'react';
-// @ts-ignore
-import {customClassSwitcher} from '~/core';
+import React, {useContext} from 'react';
+
+import {AccordionContext} from '../contexts/AccordionContext';
 
 export type AccordionItemProps = {
     children: React.ReactNode;
-    customItemClass?: string;
+    className?: string;
     value?: number;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({children, value, customItemClass=''}) => {
-    const rootClass = customClassSwitcher(customItemClass, 'Accordion');
+const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className='', ...props}) => {
+    const {activeItem, rootClass} = useContext(AccordionContext);
+
+
     return (
-        <div className={`${rootClass}-item`}>
+        <div className={`${rootClass}-item ${className}`} {...props}>
             {children}
         </div>
     );

@@ -1,6 +1,9 @@
-import React from 'react';
-// @ts-ignore
+import React, {useState} from 'react';
+
 import {customClassSwitcher} from '~/core';
+import {AccordionContext} from '../contexts/AccordionContext';
+
+const COMPONENT_NAME = 'Accordion';
 
 export type AccordionRootProps = {
     children: React.ReactNode;
@@ -8,11 +11,22 @@ export type AccordionRootProps = {
 }
 
 const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, 'Accordion');
+    const [activeItem, setActiveItem] = useState(0);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+
     return (
-        <span className={`${rootClass}-root`}>
-            {children}
-        </span>
+        <AccordionContext.Provider
+            value={{
+                rootClass: rootClass,
+                activeItem,
+                setActiveItem,
+            }}>
+            <div className={`${rootClass}-root`}>
+                {children}
+            </div>
+        </AccordionContext.Provider>
+
     );
 };
 

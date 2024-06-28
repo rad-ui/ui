@@ -1,27 +1,28 @@
-import React from 'react';
-// @ts-ignore
-import {customClassSwitcher} from '~/core';
+import React, {useContext} from 'react';
+import {AccordionContext} from '../contexts/AccordionContext';
+
 
 type AccordionContentProps = {
   children: React.ReactNode;
   index: number,
   activeIndex: number,
-  customRootClass? :string
+  className? :string
 };
 
-const AccordionContent: React.FC<AccordionContentProps> = ({children, index, activeIndex, customRootClass}: AccordionContentProps) => {
-    const rootClass = customClassSwitcher(customRootClass, 'Accordion');
+const AccordionContent: React.FC<AccordionContentProps> = ({children, index, activeIndex, className=''}: AccordionContentProps) => {
+    const {activeItem, rootClass} = useContext(AccordionContext);
+
     return (
-        <span className={`${rootClass}-content`}>
-            <div
-                id={`content-${index}`}
-                role="region"
-                aria-labelledby={`section-${index}`}
-                hidden={activeIndex !== index}
-            >
-                {children}
-            </div>
-        </span>
+        <div
+            className={`${rootClass}-content ${className}`}
+            id={`content-${index}`}
+            role="region"
+            aria-labelledby={`section-${index}`}
+            hidden={activeItem !== index}>
+
+            {children}
+
+        </div>
     );
 };
 

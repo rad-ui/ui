@@ -7,7 +7,7 @@ export default {
     component: Accordion,
     render: (args) => <SandboxEditor>
         <div >
-            <div className='flex space-x-2'>
+            <div className='flex space-x-2 w-full flex-1'>
                 <Accordion {...args} />
 
             </div>

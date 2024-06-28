@@ -1,0 +1,34 @@
+.rad-ui-accordion-root{
+    width: 100%;
+
+   
+
+
+    .rad-ui-accordion-item {
+        border: 1px solid var(--rad-ui-color-gray-1000);
+        
+        &:focus{
+            outline: none;
+            border: none;
+            color:black;
+        }
+        &:focus-within{
+            border: 1px solid var(--rad-ui-color-gray-1000);
+            color: var(--rad-ui-color-gray-1000);
+        }
+
+        .rad-ui-accordion-trigger{
+            width: 100%;
+            text-align: left;
+            padding:16px;
+            
+            &:focus{
+                outline: none;
+            }
+        }
+
+        .rad-ui-accordion-content {
+            padding: 16px;
+        }
+    }
+}
