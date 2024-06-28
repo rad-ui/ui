@@ -14,6 +14,13 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     const [activeItem, setActiveItem] = useState(0);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
+    const focusNextItem = (index) => {
+        console.log(activeItem);
+        console.log('focusNextItem');
+    };
+    const focusPrevItem = (index) => {
+        console.log('focusPrevItem');
+    };
 
     return (
         <AccordionContext.Provider
@@ -21,6 +28,9 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
                 rootClass: rootClass,
                 activeItem,
                 setActiveItem,
+                focusNextItem,
+                focusPrevItem,
+
             }}>
             <div className={`${rootClass}-root`}>
                 {children}

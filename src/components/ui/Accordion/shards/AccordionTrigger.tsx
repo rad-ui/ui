@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {AccordionContext} from '../contexts/AccordionContext';
+import {AccordionItemContext} from '../contexts/AccordionItemContext';
 
 
 type AccordionTriggerProps = {
@@ -10,16 +11,28 @@ type AccordionTriggerProps = {
   handleClick: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, handleClick, index, activeIndex, className=''}) => {
-    const {setActiveItem, rootClass} = useContext(AccordionContext);
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, activeIndex, className=''}) => {
+    const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem} = useContext(AccordionContext);
+
+    const {itemValue} = useContext(AccordionItemContext);
+    console.log(activeItem, itemValue);
+
     return (
 
         <button
             className={`${rootClass}-trigger ${className}`}
-            onClick={() => {
-                setActiveItem(index);
+            onKeyDown={(e) => {
+                if (e.key === 'ArrowDown') {
+                    focusNextItem();
+                }
+                if (e.key === 'ArrowUp') {
+                    focusPrevItem();
+                }
             }}
-            aria-expanded={activeIndex === index}
+            onClick={() => {
+                setActiveItem(itemValue);
+            }}
+            aria-expanded={activeItem === itemValue}
             aria-controls={`content-${index}`}
         >
             {children}
