@@ -18,16 +18,16 @@ export default {
             </div>
 
             <div className='flex space-x-2'>
-                <Button className='space-x-1'>
+                <Button className='space-x-1' size='size-1'>
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
                 </Button>
-                <Button className='space-x-1' variant="outline">
+                <Button className='space-x-1' variant="outline" size='size-2'>
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                 </Button>
-                <Button className='space-x-1' variant="soft">
+                <Button className='space-x-1' variant="soft" size='size-3'>
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                 </Button>
-                <Button className='space-x-1' variant="ghost">
+                <Button className='space-x-1' variant="ghost" size='size-4'>
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                 </Button>
                 <Button className='space-x-1' variant="solid">

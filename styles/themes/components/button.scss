@@ -43,3 +43,31 @@
     border-color:var(--rad-ui-color-accent-950) ;
     background-color: var(--rad-ui-color-accent-300);
 }
+
+/*Size-1 */
+.button-size-1{
+    font-size: small;
+    padding: 0px 8px;
+    height: 24px;
+}
+
+/*Size-2 */
+.button-size-2{
+    font-size:medium;
+    padding: 0px 12px;
+    height: 32px;
+}
+
+/*Size-3 */
+.button-size-3{
+    font-size:large;
+    padding: 0px 16px;
+    height: 40px;
+}
+
+/*Size-4 */
+.button-size-4{
+    font-size:x-large;
+    padding: 0px 24px;
+    height: 48px;
+}
