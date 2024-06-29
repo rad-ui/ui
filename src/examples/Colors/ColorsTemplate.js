@@ -8,8 +8,6 @@ const ColorBubble = ({ colorClass }) => {
   )
 }
 
-
-
 const colors = {
   gray: [
     'bg-gray-50',
