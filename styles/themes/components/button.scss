@@ -44,29 +44,29 @@
     background-color: var(--rad-ui-color-accent-300);
 }
 
-/*Size-1 */
-.button-size-1{
+/*small */
+[data-size="small"]{
     font-size: small;
     padding: 0px 8px;
     height: 24px;
 }
 
-/*Size-2 */
-.button-size-2{
+/*medium */
+[data-size="medium"]{
     font-size:medium;
     padding: 0px 12px;
     height: 32px;
 }
 
-/*Size-3 */
-.button-size-3{
+/*large */
+[data-size="large"]{
     font-size:large;
     padding: 0px 16px;
     height: 40px;
 }
 
-/*Size-4 */
-.button-size-4{
+/*x-large */
+[data-size="x-large"]{
     font-size:x-large;
     padding: 0px 24px;
     height: 48px;
