@@ -1,11 +1,18 @@
 .rad-ui-accordion-root{
     width: 100%;
+    border: 1px solid var(--rad-ui-color-gray-1000);
+    border-radius: 4px;
+    overflow: hidden;
 
-   
 
 
     .rad-ui-accordion-item {
-        border: 1px solid var(--rad-ui-color-gray-1000);
+        background-color: var(--rad-ui-color-gray-200);
+        // not last child
+        &:not(:last-child){
+            border-bottom: 1px solid var(--rad-ui-color-gray-1000);
+        }
+
         
         &:focus{
             outline: none;
@@ -13,16 +20,17 @@
             color:black;
         }
         &:focus-within{
-            border: 1px solid var(--rad-ui-color-gray-1000);
             color: var(--rad-ui-color-gray-1000);
-            background-color: var(--rad-ui-color-green-200);
+            background-color: var(--rad-ui-color-gray-400);
         }
 
         .rad-ui-accordion-trigger{
             width: 100%;
             text-align: left;
             padding:16px;
-            
+            font-size: 1.5em;
+            font-weight: 600;
+
             &:focus{
                 outline: none;
             }
@@ -30,6 +38,7 @@
 
         .rad-ui-accordion-content {
             padding: 16px;
+            font-size: 1em;
         }
     }
 }

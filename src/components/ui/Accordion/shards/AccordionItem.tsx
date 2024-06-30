@@ -24,31 +24,42 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
     }
     , [itemValue, activeItem]);
     const id = useId();
-    let shouldAddFocusDataAttribute = false;
+    let shouldAddFocusDataAttribute = false; // this flag is used to indicate if we should add `data-rad-ui-focus-element` attribute to the accordion item on mount
     const focusItemId = focusItem?.id;
 
     if (focusItemId === `accordion-data-item-${id}`) {
-        console.log('focus item', focusItemId);
         shouldAddFocusDataAttribute = true;
     }
 
-    const handleBlurEvent = () => {
+    const focusCurrentItem = () => {
+        const elem = accordionItemRef?.current;
+        // set `data-rad-ui-focus-element` we are making it active and focusing on this item
+        if (elem) {
+            elem.setAttribute('data-rad-ui-focus-element', '');
+        }
+    };
+
+    const handleBlurEvent = (e) => {
         // if clicked outside of the accordion, set activeItem to null
-        const elem = accordionItemRef.current;
+        const elem = accordionItemRef?.current;
+
         // remove `data-rad-ui-focus-element` attribute as we are not focusing on this item anymore
-        elem.removeAttribute('data-rad-ui-focus-element');
+        if (elem) {
+            elem.removeAttribute('data-rad-ui-focus-element');
+        }
     };
 
     const handleClickEvent = () => {
-        // if clicked outside of the accordion, set activeItem to null
-        const elem = accordionItemRef.current;
-        // remove `data-rad-ui-focus-element` attribute as we are not focusing on this item anymore
-        elem.setAttribute('data-rad-ui-focus-element', '');
+        focusCurrentItem();
+    };
+
+    const handleFocusEvent = () => {
+        focusCurrentItem();
     };
 
 
     return (
-        <AccordionItemContext.Provider value={{itemValue, setItemValue, handleBlurEvent, handleClickEvent}}>
+        <AccordionItemContext.Provider value={{itemValue, setItemValue, handleBlurEvent, handleClickEvent, handleFocusEvent}}>
             <div
                 ref={accordionItemRef}
                 className={`${rootClass}-item ${className}`} {...props}

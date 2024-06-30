@@ -35,7 +35,6 @@ const ToggleItem = ({children, value=null, ...props}:any) => {
         }
 
         toggleContext?.setActiveToggles(activeToggleArray);
-        console.log(toggleContext?.activeToggles);
     };
 
 
