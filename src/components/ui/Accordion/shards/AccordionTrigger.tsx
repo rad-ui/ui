@@ -1,7 +1,6 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {AccordionContext} from '../contexts/AccordionContext';
 import {AccordionItemContext} from '../contexts/AccordionItemContext';
-import {getAllBatchElements, getActiveBatchItem, getNextBatchItem, getPrevBatchItem} from '~/core/batches';
 
 
 type AccordionTriggerProps = {
@@ -13,18 +12,14 @@ type AccordionTriggerProps = {
 };
 
 const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, activeIndex, className=''}) => {
-    const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem, setFocusItem, accordionRef} = useContext(AccordionContext);
+    const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem} = useContext(AccordionContext);
 
-    const {itemValue} = useContext(AccordionItemContext);
+    const {itemValue, handleBlurEvent, handleClickEvent} = useContext(AccordionItemContext);
 
 
     const onClickHandler = () => {
         setActiveItem(itemValue);
-
-        const batches = getAllBatchElements(accordionRef.current);
-        console.log(batches);
-        const activeItem = getActiveBatchItem(batches);
-        console.log(activeItem);
+        handleClickEvent();
     };
 
 
@@ -32,6 +27,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, act
 
         <button
             className={`${rootClass}-trigger ${className}`}
+            onBlur={handleBlurEvent}
             onKeyDown={(e) => {
                 if (e.key === 'ArrowDown') {
                     focusNextItem();

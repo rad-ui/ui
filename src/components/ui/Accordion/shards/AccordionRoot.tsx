@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 
 import {customClassSwitcher} from '~/core';
 import {AccordionContext} from '../contexts/AccordionContext';
-import {getAllBatchElements, getActiveBatchItem, getNextBatchItem, getPrevBatchItem} from '~/core/batches';
+import {getAllBatchElements, getNextBatchItem, getPrevBatchItem} from '~/core/batches';
 
 const COMPONENT_NAME = 'Accordion';
 
@@ -13,14 +13,13 @@ export type AccordionRootProps = {
 
 const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     const accordionRef = useRef(null);
-
-    const [activeItem, setActiveItem] = useState(null);
-    const [focusItem, setFocusItem] = useState(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+    const [activeItem, setActiveItem] = useState(null); // keeps track of the active item, stores the
+    const [focusItem, setFocusItem] = useState(null); // stores the id of the item that should be focused
 
 
     const focusNextItem = () => {
-        // get button
         const batches = getAllBatchElements(accordionRef.current);
         const nextItem = getNextBatchItem(batches);
         setFocusItem(nextItem);
@@ -30,6 +29,7 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
             button?.focus();
         }
     };
+
     const focusPrevItem = () => {
         const batches = getAllBatchElements(accordionRef.current);
         const prevItem = getPrevBatchItem(batches);

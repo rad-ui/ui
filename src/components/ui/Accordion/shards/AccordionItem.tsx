@@ -1,4 +1,4 @@
-import React, {useState, useContext, useId, useEffect} from 'react';
+import React, {useState, useContext, useId, useEffect, useRef} from 'react';
 
 import {AccordionContext} from '../contexts/AccordionContext';
 import {AccordionItemContext} from '../contexts/AccordionItemContext';
@@ -10,6 +10,7 @@ export type AccordionItemProps = {
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className='', ...props}) => {
+    const accordionItemRef = useRef(null);
     const [itemValue, setItemValue] = useState(value);
     const {rootClass, activeItem, focusItem} = useContext(AccordionContext);
 
@@ -31,10 +32,25 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
         shouldAddFocusDataAttribute = true;
     }
 
+    const handleBlurEvent = () => {
+        // if clicked outside of the accordion, set activeItem to null
+        const elem = accordionItemRef.current;
+        // remove `data-rad-ui-focus-element` attribute as we are not focusing on this item anymore
+        elem.removeAttribute('data-rad-ui-focus-element');
+    };
+
+    const handleClickEvent = () => {
+        // if clicked outside of the accordion, set activeItem to null
+        const elem = accordionItemRef.current;
+        // remove `data-rad-ui-focus-element` attribute as we are not focusing on this item anymore
+        elem.setAttribute('data-rad-ui-focus-element', '');
+    };
+
 
     return (
-        <AccordionItemContext.Provider value={{itemValue, setItemValue}}>
+        <AccordionItemContext.Provider value={{itemValue, setItemValue, handleBlurEvent, handleClickEvent}}>
             <div
+                ref={accordionItemRef}
                 className={`${rootClass}-item ${className}`} {...props}
                 id={`accordion-data-item-${id}`}
                 role="region"
@@ -42,9 +58,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
                 aria-hidden={!isOpen}
                 data-state={isOpen ? 'open' : 'closed'}
                 data-rad-ui-batch-element
-                // need to add `data-rad-ui-focus-element` when itemValue === activeItem
-                // we set it here
-
                 {...shouldAddFocusDataAttribute ? {'data-rad-ui-focus-element': ''} : {}}
 
 

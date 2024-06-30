@@ -9,7 +9,6 @@ export default {
         <div >
             <div className='flex space-x-2 w-full flex-1'>
                 <Accordion {...args} />
-
             </div>
         </div>
     </SandboxEditor>,
