@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {AccordionContext} from '../contexts/AccordionContext';
 import {AccordionItemContext} from '../contexts/AccordionItemContext';
+import {getAllBatchElements, getActiveBatchItem, getNextBatchItem, getPrevBatchItem} from '~/core/batches';
 
 
 type AccordionTriggerProps = {
@@ -12,10 +13,20 @@ type AccordionTriggerProps = {
 };
 
 const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, activeIndex, className=''}) => {
-    const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem} = useContext(AccordionContext);
+    const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem, setFocusItem, accordionRef} = useContext(AccordionContext);
 
     const {itemValue} = useContext(AccordionItemContext);
-    console.log(activeItem, itemValue);
+
+
+    const onClickHandler = () => {
+        setActiveItem(itemValue);
+
+        const batches = getAllBatchElements(accordionRef.current);
+        console.log(batches);
+        const activeItem = getActiveBatchItem(batches);
+        console.log(activeItem);
+    };
+
 
     return (
 
@@ -29,9 +40,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, act
                     focusPrevItem();
                 }
             }}
-            onClick={() => {
-                setActiveItem(itemValue);
-            }}
+            onClick={onClickHandler}
             aria-expanded={activeItem === itemValue}
             aria-controls={`content-${index}`}
         >

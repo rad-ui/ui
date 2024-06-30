@@ -11,7 +11,7 @@ export type AccordionItemProps = {
 
 const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className='', ...props}) => {
     const [itemValue, setItemValue] = useState(value);
-    const {rootClass, activeItem} = useContext(AccordionContext);
+    const {rootClass, activeItem, focusItem} = useContext(AccordionContext);
 
     const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
@@ -23,6 +23,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
     }
     , [itemValue, activeItem]);
     const id = useId();
+    let shouldAddFocusDataAttribute = false;
+    const focusItemId = focusItem?.id;
+
+    if (focusItemId === `accordion-data-item-${id}`) {
+        console.log('focus item', focusItemId);
+        shouldAddFocusDataAttribute = true;
+    }
 
 
     return (
@@ -34,6 +41,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
                 aria-labelledby={`accordion-trigger-${id}`}
                 aria-hidden={!isOpen}
                 data-state={isOpen ? 'open' : 'closed'}
+                data-rad-ui-batch-element
+                // need to add `data-rad-ui-focus-element` when itemValue === activeItem
+                // we set it here
+
+                {...shouldAddFocusDataAttribute ? {'data-rad-ui-focus-element': ''} : {}}
+
 
             >
                 {children}
