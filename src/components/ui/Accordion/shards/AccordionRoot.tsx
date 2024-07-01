@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 
 import {customClassSwitcher} from '~/core';
 import {AccordionContext} from '../contexts/AccordionContext';
@@ -20,7 +20,7 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
 
 
     const focusNextItem = () => {
-        const batches = getAllBatchElements(accordionRef.current);
+        const batches = getAllBatchElements(accordionRef?.current);
         const nextItem = getNextBatchItem(batches);
         setFocusItem(nextItem);
         if (nextItem) {
@@ -31,7 +31,7 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     };
 
     const focusPrevItem = () => {
-        const batches = getAllBatchElements(accordionRef.current);
+        const batches = getAllBatchElements(accordionRef?.current);
         const prevItem = getPrevBatchItem(batches);
         setFocusItem(prevItem);
         if (prevItem) {
