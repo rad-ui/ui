@@ -35,6 +35,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, act
     return (
 
         <button
+            type="button"
             className={`${rootClass}-trigger ${className}`}
             onBlur={handleBlurEvent}
             onFocus={onFocusHandler}
