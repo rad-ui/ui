@@ -1,16 +1,14 @@
 import React from 'react';
-// @ts-ignore
-import {customClassSwitcher} from '~/core';
+
 
 export type AccordionHeaderProps = {
     children: React.ReactNode;
-    customHeaderClass?: string;
+    className?: string;
 }
 
-const AccordionHeader: React.FC<AccordionHeaderProps> = ({children, customHeaderClass=''}) => {
-    const rootClass = customClassSwitcher(customHeaderClass, 'Accordion');
+const AccordionHeader: React.FC<AccordionHeaderProps> = ({children, className=''}) => {
     return (
-        <div className={`${rootClass}-header`}>
+        <div className={className}>
             {children}
         </div>
     );
