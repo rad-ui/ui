@@ -13,7 +13,7 @@ export type ButtonProps = {
     className?: string;
     customRootClass?: string;
     variant?: 'solid' | 'outline' | 'soft' | 'ghost';
-    size?: string;
+    size?: 'small' | 'medium' | 'large' | 'x-large';
     props?: any
 }
 
