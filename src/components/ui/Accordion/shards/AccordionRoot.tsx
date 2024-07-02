@@ -1,7 +1,8 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 
 import {customClassSwitcher} from '~/core';
 import {AccordionContext} from '../contexts/AccordionContext';
+import {getAllBatchElements, getNextBatchItem, getPrevBatchItem} from '~/core/batches';
 
 const COMPONENT_NAME = 'Accordion';
 
@@ -12,40 +13,33 @@ export type AccordionRootProps = {
 
 const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     const accordionRef = useRef(null);
-    const [activeItem, setActiveItem] = useState(null);
-    const [focusItem, setFocusItem] = useState(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
+    const [activeItem, setActiveItem] = useState(null); // keeps track of the active item, stores the
+    const [focusItem, setFocusItem] = useState(null); // stores the id of the item that should be focused
 
-    const getActiveItemId = () => {
-        let elem = accordionRef?.current;
-        // get children that have data-state open
-        if (focusItem) {
-            elem = focusItem;
-        } else {
-            elem = elem?.querySelector('[data-state="open"]');
-        }
-
-        return elem;
-    };
+    useEffect(() => {}, []);
 
     const focusNextItem = () => {
-        const elem = getActiveItemId();
-        const nextElem = elem.nextElementSibling;
-        setFocusItem(nextElem);
-        // get button
-        const button = nextElem.querySelector('button');
-        // focus button
-        button?.focus();
+        const batches = getAllBatchElements(accordionRef?.current);
+        const nextItem = getNextBatchItem(batches);
+        setFocusItem(nextItem);
+        if (nextItem) {
+            const button = nextItem.querySelector('button');
+            // focus button
+            button?.focus();
+        }
     };
+
     const focusPrevItem = () => {
-        const elem = getActiveItemId();
-        const prevElem = elem.previousElementSibling;
-        setFocusItem(prevElem);
-        // get button
-        const button = prevElem.querySelector('button');
-        // focus button
-        button?.focus();
+        const batches = getAllBatchElements(accordionRef?.current);
+        const prevItem = getPrevBatchItem(batches);
+        setFocusItem(prevItem);
+        if (prevItem) {
+            const button = prevItem.querySelector('button');
+            // focus button
+            button?.focus();
+        }
     };
 
     return (
@@ -58,6 +52,7 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
                 focusPrevItem,
                 focusItem,
                 setFocusItem,
+                accordionRef,
 
             }}>
             <div className={`${rootClass}-root`} ref={accordionRef} >
