@@ -11,9 +11,8 @@ type AccordionTriggerProps = {
   handleClick: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, activeIndex, className=''}) => {
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, className=''}) => {
     const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem} = useContext(AccordionContext);
-
     const {itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent} = useContext(AccordionItemContext);
 
 

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 
 import {customClassSwitcher} from '~/core';
 import {AccordionContext} from '../contexts/AccordionContext';
@@ -18,6 +18,7 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     const [activeItem, setActiveItem] = useState(null); // keeps track of the active item, stores the
     const [focusItem, setFocusItem] = useState(null); // stores the id of the item that should be focused
 
+    useEffect(() => {}, []);
 
     const focusNextItem = () => {
         const batches = getAllBatchElements(accordionRef?.current);

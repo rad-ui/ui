@@ -14,15 +14,15 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
     const [itemValue, setItemValue] = useState(value);
     const {rootClass, activeItem, focusItem} = useContext(AccordionContext);
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(itemValue === activeItem? true : false);
     useEffect(() => {
         if (itemValue === activeItem) {
             setIsOpen(true);
         } else {
             setIsOpen(false);
         }
-    }
-    , [itemValue, activeItem]);
+    }, [activeItem]);
+
     const id = useId();
     let shouldAddFocusDataAttribute = false; // this flag is used to indicate if we should add `data-rad-ui-focus-element` attribute to the accordion item on mount
     const focusItemId = focusItem?.id;

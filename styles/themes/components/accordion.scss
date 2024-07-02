@@ -21,29 +21,29 @@
         }
         &:focus-within{
             color: var(--rad-ui-color-gray-1000);
-           
-
-            .rad-ui-content{
-               
-            }
         }
 
         .rad-ui-accordion-trigger{
             width: 100%;
             text-align: left;
             padding:16px;
-            font-size: 1.5em;
+            font-size: 1em;
             font-weight: 600;
+            color: var(--rad-ui-color-gray-1000);
+            background-color: var(--rad-ui-color-accent-100);
 
             &:focus{
                 outline: none;
+                color: var(--rad-ui-color-accent-900);
+            
             }
         }
 
         .rad-ui-accordion-content {
             padding: 16px;
             font-size: 1em;
-            background-color: var(--rad-ui-color-gray-200);
+            background-color: var(--rad-ui-color-gray-100);
+            color: var(--rad-ui-color-gray-1000);
             border-top: 1px solid var(--rad-ui-color-gray-1000);
         }
     }
