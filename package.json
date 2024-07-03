@@ -7,6 +7,7 @@
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
     "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js",
+    "./Accordion": "./dist/components/Accordion.js",
     "./Avatar": "./dist/components/Avatar.js",
     "./Badge": "./dist/components/Badge.js",
     "./BlockQuote": "./dist/components/BlockQuote.js",
@@ -43,9 +44,6 @@
     "copy-components": "mkdirp ./dist/components && cp -r ./dist/temp-cleanup/*js ./dist/components && rimraf dist/temp-cleanup",
     "build": "npm run test && npm run clean && npm run build-css && npm run generate-tokens && npm run bundle-tokens && npm run build-components && npm run copy-components",
     "release": "npm publish --access public",
-    "release:patch": "npm run patch && npm run release",
-    "release:minor": "npm version minor && npm run release",
-    "release:major": "npm version major && npm run release",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
     "update-rad": "npm update @radui/ui",
     "setup:dependencies": "npm install --force",
