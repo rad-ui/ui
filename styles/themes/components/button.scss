@@ -5,6 +5,27 @@
     align-items:center;
     justify-content:center;
     padding:0px 12px;
+
+   &[data-size="small"]{
+        font-size: small;
+        padding: 4px 8px;
+        height: 24px;
+    }
+   &[data-size="medium"]{
+        font-size:medium;
+        padding: 4px 12px;
+        height: 32px;
+    }
+   &[data-size="large"]{
+        font-size:large;
+        padding: 4px 16px;
+        height: 40px;
+    }
+   &[data-size="x-large"]{
+        font-size:x-large;
+        padding: 4px 24px;
+        height: 48px;
+    }
 }
 .button-solid{
     background-color: var(--rad-ui-color-accent-900);
