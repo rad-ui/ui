@@ -13,8 +13,6 @@ type CalloutRootProps = {
 
 const CalloutRoot = ({children, className, color, customRootClass, ...props}: CalloutRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
-    console.log(className);
     return <div className={`${rootClass} ${className}`} data-accent-color={color ?? undefined} {...props}>
         {children}
     </div>;
