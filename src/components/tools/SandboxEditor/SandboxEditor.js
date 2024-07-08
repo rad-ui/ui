@@ -1,5 +1,5 @@
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '~/components/ui/Button/Button';
 import Separator from '~/components/ui/Separator/Separator';
 
@@ -27,7 +27,6 @@ const SandboxEditor = ({children, className}) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [colorName, setColorName] = useState('plum');
 
-    const refButton = useRef();
     useEffect(() => {
 
     }, []);
@@ -43,10 +42,10 @@ const SandboxEditor = ({children, className}) => {
     return <div data-accent-color={colorName} className={`m-5 p-4 shadow-sm text-gray-900 rounded-md border border-gray-300 bg-gray-50 ${isDarkMode ? 'rad-ui-dark-theme' : ''}`}>
         <div className='mb-4'>
             {/* @ts-ignore */}
-            <Button variant="outline" onClick={toggleDarkMode} buttonRef={refButton}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
+            <Button variant="outline" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
             <div className='flex space-x-2 my-1'>
-                {Object.keys(colors).map((color) => {
-                    return <ColorSelect changeAccentColor={changeAccentColor} colorName={color} color={colors[color]} />;
+                {Object.keys(colors).map((color, idx) => {
+                    return <ColorSelect changeAccentColor={changeAccentColor} colorName={color} color={colors[color]} key={idx} />;
                 },
                 )}
 
