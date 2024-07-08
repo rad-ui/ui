@@ -26,11 +26,9 @@ const AvatarImage = ({src, alt, customRootClass, className, ...props}: AvatarIma
     }, [isBrokenImage]);
 
     if (isBrokenImage || !src || src.length===0) {
-        console.log('not rendering');
         return <></>;
     }
 
-    console.log(Boolean(src), src);
 
     return (
         <img src={src} alt={alt} onError={handleImageError} onLoad={handleImageLoaded} className={`${rootClass} ${className}`} {...props} />

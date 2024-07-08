@@ -16,7 +16,7 @@ const Accordion = ({items} : AccordionProps) => {
                 <AccordionItem value={index} key={index} >
                     <AccordionHeader>
                         <AccordionTrigger >
-                            Item {index+1}
+                            {item.title}
                         </AccordionTrigger>
                     </AccordionHeader>
                     <AccordionContent>

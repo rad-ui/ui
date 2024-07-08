@@ -7,7 +7,7 @@ export default {
     title: 'Tools/Popper',
     component: Popper,
     render: (args) => <SandboxEditor>
-        <div className='overflow-scroll' style={{height: '200px', width: '400px'}}>
+        <div className='overflow-scroll h-screen' style={{height: '200px', width: '400px'}}>
             <div className=' bg-gray-400 p-4' style={{width: '800px', height: '1200px'}}>
                 <div className='block'>
                     <Popper pop="wassa" className="text-gray-1000">
