@@ -24,7 +24,7 @@ export default {
                 <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
              </Button>
                 ))}
-            <Button className='space-x-1' >
+            <Button>
                 <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
             </Button>    
           </div>
@@ -51,7 +51,7 @@ export const Size = (args) => {
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                  </Button>
                     ))}
-                 <Button className='space-x-1' >
+                 <Button>
                     <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
                  </Button>    
                 
