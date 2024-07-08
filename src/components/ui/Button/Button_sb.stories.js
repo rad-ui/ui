@@ -19,8 +19,8 @@ export default {
             </div>
             <div className='flex space-x-2'>
                 
-                {Variants.map((variant) => (
-             <Button className='space-x-1' variant={variant} >
+                {Variants.map((variant,index) => (
+             <Button className='space-x-1' key={index} variant={variant} >
                 <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
              </Button>
                 ))}
@@ -46,8 +46,8 @@ export const Size = (args) => {
             </div>
          <div className='flex space-x-2'>
                 
-                    {Sizes.map((size) => (
-                 <Button className='space-x-1' size={size} >
+                    {Sizes.map((size,index) => (
+                 <Button className='space-x-1' key={index} size={size} >
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                  </Button>
                     ))}
