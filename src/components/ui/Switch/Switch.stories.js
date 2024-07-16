@@ -1,3 +1,5 @@
+import Switch from './Switch'
+import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'UI/Input/Switch',
     component: Switch,
@@ -7,3 +9,5 @@ export default {
         </div>
     </SandboxEditor>,
 };
+
+export const All = {};
