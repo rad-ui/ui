@@ -5,7 +5,7 @@ const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
     children?: React.ReactNode;
-    className?: String;
+    className?: string;
     customRootClass?: string;
     props?: any;
 }
