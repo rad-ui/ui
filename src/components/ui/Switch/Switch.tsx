@@ -1,19 +1,34 @@
 'use client';
-import React from "react";
+import React, { useState } from "react";
 import { customClassSwitcher} from "~/core";
 const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
+    defaultChecked? : boolean | true;
+    checked: boolean;
     children?: React.ReactNode;
     className?: string;
     customRootClass?: string;
+    onChange : (isChecked:boolean) => void;
     props?: any;
 }
 
-const Switch = ({children,customRootClass='',className='',...props}:SwitchProps) => {
+const Switch = ({children,customRootClass='',className='',defaultChecked,checked,onChange,...props}:SwitchProps) => {
     const rootClass= customClassSwitcher(customRootClass,COMPONENT_NAME)
+
+    const [isChecked, setIsChecked] = useState(checked || defaultChecked)
+
+    const handleChecked = () => {
+       const updatedState = !isChecked
+       setIsChecked(updatedState)
+       onChange(updatedState)
+    }
     return (
-        <input className={rootClass} {...props} />     
+        <>
+          <input type='checkbox' className={`${rootClass}`} {...props} checked= {isChecked? defaultChecked : false}/>   
+          <button type="button" onClick={handleChecked}>
+             {isChecked ? "on" : "off"}</button>
+        </> 
     )
 }
 
