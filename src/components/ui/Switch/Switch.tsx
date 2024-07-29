@@ -4,7 +4,7 @@ import { customClassSwitcher} from "~/core";
 const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
-    defaultChecked? : boolean | true;
+    defaultChecked? : boolean;
     checked: boolean;
     color: string;
     children?: React.ReactNode;
@@ -26,7 +26,7 @@ const Switch = ({children,customRootClass='',className='',color='',defaultChecke
     }
     return (
         <>
-          <input type='checkbox' className={`${rootClass}`} {...props} checked= {isChecked? defaultChecked : false}/>   
+          <input type='checkbox' className={`${rootClass}`} {...props} checked= {isChecked}/>   
           <button type="button" onClick={handleChecked} role="switch">
              {isChecked ? "on" : "off"}</button>
         </> 
