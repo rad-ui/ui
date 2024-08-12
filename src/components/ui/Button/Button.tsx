@@ -17,7 +17,7 @@ export type ButtonProps = {
     props?: any
 }
 
-const Button = ({children, type='button', customRootClass='', color = '', className='', variant='solid',size='',...props}: ButtonProps) => {
+const Button = ({children, type='button', customRootClass='', color = '', className='', variant='solid', size='', ...props}: ButtonProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     // apply data attribute for accent color
     // apply attribute only if color is present

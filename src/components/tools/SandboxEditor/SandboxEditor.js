@@ -51,7 +51,7 @@ const SandboxEditor = ({children, className}) => {
 
             </div>
         </div>
-        <Separator/>    
+        <Separator/>
         <div className={`${className}`} >
             {children}
         </div>
