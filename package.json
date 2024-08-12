@@ -23,6 +23,7 @@
     "./Quote": "./dist/components/Quote.js",
     "./Separator": "./dist/components/Separator.js",
     "./Strong": "./dist/components/Strong.js",
+    "./Switch": "./dist/components/Switch.js",
     "./Table": "./dist/components/Table.js",
     "./Tabs": "./dist/components/Tabs.js",
     "./Text": "./dist/components/Text.js",
