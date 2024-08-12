@@ -21,6 +21,15 @@ function getComponentDirectories() {
 
 const components = getComponentDirectories();
 
+
+/**
+ * Note: Using an instance of a plugin avoids Javascript Heap Out of Memory error
+ * More explanation here by sahithyandev at https://github.com/sahithyandev/rollup-issue-reproduction
+ *
+ * Using it this way not only avoids the Javascript Heap Out of Memory error but also speeds up the build process
+ */
+
+
 const typescriptPluginInstance = typescript({tsconfig: './tsconfig.json', sourceMap: false});
 const aliasPluginInstance = alias({
     entries: [
