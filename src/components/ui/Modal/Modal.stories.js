@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from './Modal';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import Button from '~/components/ui/Button/Button';
 
 
 export default {
@@ -21,7 +22,7 @@ const Template = (args) => {
 
     return <SandboxEditor>
         <Modal open={isOpen} onClose={onClose}>
-            <button onClick={toggle} className='bg-green-500 p-2'>Trigger</button>
+            <Button onClick={toggle}>Trigger</Button>
         </Modal>
     </SandboxEditor>;
 };

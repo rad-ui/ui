@@ -1,6 +1,6 @@
 {
   "name": "@radui/ui",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "",
   "main": "dist",
   "type": "module",
@@ -23,9 +23,13 @@
     "./Quote": "./dist/components/Quote.js",
     "./Separator": "./dist/components/Separator.js",
     "./Strong": "./dist/components/Strong.js",
+    "./Switch": "./dist/components/Switch.js",
     "./Table": "./dist/components/Table.js",
     "./Tabs": "./dist/components/Tabs.js",
     "./Text": "./dist/components/Text.js",
+    "./TextArea": "./dist/components/TextArea.js",
+    "./Toggle": "./dist/components/Toggle.js",
+    "./ToggleGroup": "./dist/components/ToggleGroup.js",
     "./Tooltip": "./dist/components/Tooltip.js"
   },
   "scripts": {
@@ -40,9 +44,9 @@
     "build-css": "parcel build styles/themes/default.scss --out-dir dist/themes/",
     "generate-tokens": "node ./scripts/tokenGen/index.js",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
-    "build-components": "rollup -c --bundleConfigAsCjs",
+    "build-components": "rollup -c --bundleConfigAsCjs --max-old-space-size=8076",
     "copy-components": "mkdirp ./dist/components && cp -r ./dist/temp-cleanup/*js ./dist/components && rimraf dist/temp-cleanup",
-    "build": "npm run test && npm run clean && npm run build-css && npm run generate-tokens && npm run bundle-tokens && npm run build-components && npm run copy-components",
+    "build": "npm run test && npm run clean && npm run build-css && npm run generate-tokens && npm run bundle-tokens && npm run build-components && npm run copy-components --max-old-space-size=4076",
     "release": "npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
     "update-rad": "npm update @radui/ui",
