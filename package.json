@@ -26,6 +26,9 @@
     "./Table": "./dist/components/Table.js",
     "./Tabs": "./dist/components/Tabs.js",
     "./Text": "./dist/components/Text.js",
+    "./TextArea": "./dist/components/TextArea.js",
+    "./Toggle": "./dist/components/Toggle.js",
+    "./ToggleGroup": "./dist/components/ToggleGroup.js",
     "./Tooltip": "./dist/components/Tooltip.js"
   },
   "scripts": {
