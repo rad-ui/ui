@@ -21,6 +21,20 @@ function getComponentDirectories() {
 
 const components = getComponentDirectories();
 
+const typescriptPluginInstance = typescript({tsconfig: './tsconfig.json', sourceMap: false});
+const aliasPluginInstance = alias({
+    entries: [
+        {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
+    ],
+});
+const babelPluginInstance = babel({
+    exclude: 'node_modules/**',
+    presets: ['@babel/preset-react'],
+});
+const terserPluginInstance = terser();
+const resolvePluginInstance = resolve();
+const bannerPluginInstance = banner2(() => '\'use client\';');
+
 export default components.map((component) => {
     const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
     return {
@@ -33,19 +47,12 @@ export default components.map((component) => {
         ],
         external: ['react', 'react-dom'],
         plugins: [
-            alias({
-                entries: [
-                    {find: '~/core', replacement: path.resolve(__dirname, 'src/core')},
-                ],
-            }),
-            babel({
-                exclude: 'node_modules/**',
-                presets: ['@babel/preset-react'],
-            }),
-            typescript({tsconfig: './tsconfig.json', sourceMap: false}),
-            resolve(),
-            terser(),
-            banner2(() => '\'use client\';'),
+            aliasPluginInstance,
+            babelPluginInstance,
+            typescriptPluginInstance,
+            resolvePluginInstance,
+            terserPluginInstance,
+            bannerPluginInstance,
         ],
     };
 },
