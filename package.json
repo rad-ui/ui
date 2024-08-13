@@ -115,7 +115,7 @@
     "sass": "^1.77.2"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.26.19",
+    "@floating-ui/react": "^0.26.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
