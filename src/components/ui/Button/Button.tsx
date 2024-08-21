@@ -2,6 +2,8 @@
 import React from 'react';
 import {customClassSwitcher} from '~/core';
 
+import ButtonPrimitive from '~/core/primitives/Button';
+
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
 
@@ -23,13 +25,13 @@ const Button = ({children, type='button', customRootClass='', color = '', classN
     // apply attribute only if color is present
 
     return (
-        <button
+        <ButtonPrimitive
             type={type}
             className={`${rootClass} button-${variant} ${className} `} data-accent-color={color ?? undefined} data-size={size}
             {...props}
         >
             {children}
-        </button>
+        </ButtonPrimitive>
     );
 };
 
