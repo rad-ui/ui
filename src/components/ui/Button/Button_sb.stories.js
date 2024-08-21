@@ -17,14 +17,14 @@ export default {
             <div className='mt-4 mb-2'>
                 <p className='text-gray-950'>Button Variants</p>
             </div>
-            <div className='flex space-x-2'>
+            <div className='flex space-x-2 flex-auto'>
 
                 {Variants.map((variant, index) => {
                     let label = `${variant} ${BUTTON_TEXT}`;
                     if (!BUTTON_TEXT) {
                         label = 'Proceed';
                     }
-                    return <Button label={`${label}`} className='space-x-1' key={index} variant={variant} >
+                    return <Button label={`${label}`} key={index} variant={variant} >
                         <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                     </Button>;
                 })}
