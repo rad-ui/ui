@@ -19,11 +19,15 @@ export default {
             </div>
             <div className='flex space-x-2'>
 
-                {Variants.map((variant, index) => (
-                    <Button className='space-x-1' key={index} variant={variant} >
+                {Variants.map((variant, index) => {
+                    let label = `${variant} ${BUTTON_TEXT}`;
+                    if (!BUTTON_TEXT) {
+                        label = 'Proceed';
+                    }
+                    return <Button label={`${label}`} className='space-x-1' key={index} variant={variant} >
                         <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
-                    </Button>
-                ))}
+                    </Button>;
+                })}
                 <Button>
                     <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
                 </Button>
