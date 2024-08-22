@@ -34,7 +34,7 @@ export const WithAriaLabel = {
 export const WithAriaDescription = {
     args: {
         role: 'button',
-        description: 'This is a crazy button, press it if you dare!',
+        description: 'This is a very mysterious button!',
         children: 'Button',
     },
 };

@@ -54,11 +54,11 @@ const SandboxEditor = ({children, className} : SandboxProps) => {
                     <RadUILogo/>
                 </div>
                 <Separator orientation='vertical' />
-                <Button variant="outline" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
+                <Button description="Click this button" variant="outline" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
             </div>
             <Separator />
             <div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-4">
                     <Heading as='h1' className="text-gray-1000">Sandbox Editor</Heading>
                     <Separator orientation='vertical' />
                     <Text className="font-normal text-gray-950">
