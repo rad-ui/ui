@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 
 import {ToggleContext} from '../contexts/toggleContext';
+import ButtonPrimitive from '~/core/primitives/Button';
 
 
 const ToggleItem = ({children, value=null, ...props}:any) => {
@@ -37,11 +38,18 @@ const ToggleItem = ({children, value=null, ...props}:any) => {
         toggleContext?.setActiveToggles(activeToggleArray);
     };
 
+    if (isActive) {
+        props['aria-pressed'] = 'true';
+    } else {
+        props['aria-pressed'] = 'false';
+    }
 
-    return <div
+    return <ButtonPrimitive
         className={`${isActive?'bg-blue-600':''}`} onClick={() => {
             handleToggleSelect();
-        }}>{children}</div>;
+        }}
+        {...props}
+    >{children}</ButtonPrimitive>;
 };
 
 export default ToggleItem;

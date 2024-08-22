@@ -17,14 +17,14 @@ export default {
             <div className='mt-4 mb-2'>
                 <p className='text-gray-950'>Button Variants</p>
             </div>
-            <div className='flex space-x-2'>
+            <div className='flex'>
 
                 {Variants.map((variant, index) => {
                     let label = `${variant} ${BUTTON_TEXT}`;
                     if (!BUTTON_TEXT) {
                         label = 'Proceed';
                     }
-                    return <Button label={`${label}`} className='space-x-1' key={index} variant={variant} >
+                    return <Button label={`${label}`} key={index} variant={variant} >
                         <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                     </Button>;
                 })}
@@ -48,16 +48,13 @@ export const Size = (args) => {
         <div className='mt-4 mb-2'>
             <p className='text-gray-950'>Button Size</p>
         </div>
-        <div className='flex space-x-2'>
+        <div className='flex'>
 
             {Sizes.map((size, index) => (
-                <Button className='space-x-1' key={index} size={size} >
+                <Button key={index} size={size} >
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                 </Button>
             ))}
-            <Button>
-                <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
-            </Button>
 
         </div>
     </SandboxEditor>;
