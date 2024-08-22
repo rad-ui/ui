@@ -62,7 +62,7 @@ const SandboxEditor = ({children, className} : SandboxProps) => {
                     <Heading as='h1' className="text-gray-1000">Sandbox Editor</Heading>
                     <Separator orientation='vertical' />
                     <Text className="font-normal text-gray-950">
-                        Customize the colors of the Radix UI components by clicking on the color swatches below.
+                        Customize the colors of the Rad UI components by clicking on the color swatches below.
                     </Text>
                 </div>
                 <Separator />
