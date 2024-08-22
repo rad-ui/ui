@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
 
+import {customClassSwitcher} from '~/core';
 
 import {ToggleContext} from '../contexts/toggleContext';
 
-const ToggleGroupRoot = ({type ='multiple', value=null, children}:any) => {
+
+const ToggleGroupRoot = ({type ='multiple', className='', customRootClass='', componentName='', value=null, children}:any) => {
+    const rootClass = customClassSwitcher(customRootClass, componentName);
+
     // value can be either a string or an array of strings
     // if its null, then no toggles are active
 
@@ -11,7 +15,7 @@ const ToggleGroupRoot = ({type ='multiple', value=null, children}:any) => {
 
 
     return (
-        <div className="toggle-group">
+        <div className={`${rootClass} ${className}`} role="group">
             <ToggleContext.Provider
                 value={{
                     activeToggles,
