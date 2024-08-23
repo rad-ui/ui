@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, {ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren} from 'react';
 import {customClassSwitcher} from '~/core';
 
 import ButtonPrimitive from '~/core/primitives/Button';
@@ -9,17 +9,12 @@ const COMPONENT_NAME = 'Button';
 
 
 export type ButtonProps = {
-    children?: React.ReactNode;
-    color?: string;
-    type?: 'button' | 'submit' | 'reset';
-    className?: string;
     customRootClass?: string;
     variant?: 'solid' | 'outline' | 'soft' | 'ghost';
     size?: 'small' | 'medium' | 'large' | 'x-large';
-    props?: any
-}
+} & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & PropsWithChildren
 
-const Button = ({children, type='button', customRootClass='', color = '', className='', variant='solid', size='', ...props}: ButtonProps) => {
+const Button = ({children, type='button', customRootClass='', className='', color, variant='solid', size='medium', ...props}: ButtonProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     // apply data attribute for accent color
     // apply attribute only if color is present
