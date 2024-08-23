@@ -1,7 +1,17 @@
-import React, {PropsWithChildren, useState} from 'react';
-import Button from '../Button/Button';
+import React, {PropsWithChildren, ReactNode, useState} from 'react';
+import ButtonPrimitive from '~/core/primitives/Button';
 
-export type CollapsibleProps = { open?: boolean } & PropsWithChildren;
+/*
+ * CHECKLIST
+ *
+ * Add rtl and ltr support
+ * Support animations
+ * Support basic poitioning of button
+ * Add title to collapsible
+ *
+ * */
+
+export type CollapsibleProps = { open?: boolean, title?: string, trigger?: ReactNode} & PropsWithChildren;
 
 const ExpandIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -15,16 +25,30 @@ const CollapseIcon = () => (
     </svg>
 );
 
-const Collapsible = ({children, ...props}: CollapsibleProps) => {
+const Collapsible = ({children, title, trigger, ...props}: CollapsibleProps) => {
     const [open, setOpen] = useState(props.open ?? true);
 
     const toggleCollapse=() => setOpen((p) => !p);
 
     return (
         <article>
-            <Button onClick={toggleCollapse}>{open?<CollapseIcon/>:<ExpandIcon/>}</Button>
+            <span style={{display: 'flex', alignItems: 'center'}}>
+                {title && <p>{title}</p>}
+                {
+                    trigger ||
+                    <ButtonPrimitive style={{marginInlineStart: 'auto'}} onClick={toggleCollapse}>{open?<CollapseIcon/>:<ExpandIcon/>}</ButtonPrimitive>
+                }
+            </span>
 
-            <div aria-hidden={!open} className={'relative flex-col flex overflow-hidden' + (!open && ' h-0')}>
+            <div
+                aria-hidden={!open}
+                style={{
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: (props.open ?? open)? 'auto': '0',
+                    transition: 'all',
+                }}>
                 {children}
             </div>
 
