@@ -7,12 +7,11 @@ import ButtonPrimitive from '~/core/primitives/Button';
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
 
-
 export type ButtonProps = {
     customRootClass?: string;
     variant?: 'solid' | 'outline' | 'soft' | 'ghost';
     size?: 'small' | 'medium' | 'large' | 'x-large';
-    buttonRef: React.LegacyRef<HTMLButtonElement> | undefined
+    buttonRef?: React.LegacyRef<HTMLButtonElement> | undefined
 } & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & PropsWithChildren
 
 const Button = ({children, type='button', customRootClass='', className='', color, variant='solid', size='medium', buttonRef, ...props}: ButtonProps) => {
