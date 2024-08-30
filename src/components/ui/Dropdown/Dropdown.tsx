@@ -1,24 +1,39 @@
-import React from 'react';
-import Popper from '~/components/tools/Popper/Popper';
+import React, {PropsWithChildren, ReactElement, useEffect, useState} from 'react';
+import ButtonPrimitive from '~/core/primitives/Button';
+import {UseFloatingReturn, useFloating} from '@floating-ui/react';
 
-// TODO: fix any
+/* https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+ * CHECKLIST
+ *
+ * Add aria-control
+ * */
+
 export type DropdownProps ={
-    list: {value: any}[];
-    selected: any;
-}
+    trigger?: (ref: UseFloatingReturn['refs']['setReference'])=>ReactElement
+    open?: boolean
+    defaultOpen?: boolean
+} & PropsWithChildren
 
-const Dropdown = ({list=[], selected}: DropdownProps) => {
-    const PopElem = () => {
-        return <ul className='bg-white px-2 py-2 shadow-lg rounded-md'>
-            {list.map((item, index) => {
-                return <li key={index}>{item.value}</li>;
-            })}
-        </ul>;
-    };
-    return <div className='relative'>
-        <Popper open={false} placement="bottom-start" popperName="dropdown" pop={<PopElem/>}>
-            <span>Dropdown</span>
-        </Popper>
+const Dropdown = ({children, open, trigger, defaultOpen = false}: DropdownProps) => {
+    const [visible, setVisible] = useState(defaultOpen);
+
+    useEffect(() => {
+        open !== undefined && setVisible(open);
+    }, [open]);
+
+    const {refs, floatingStyles}= useFloating({placement: 'bottom-start'});
+
+    return <div>
+
+        {trigger ?
+            trigger(refs.setReference) :
+            <ButtonPrimitive role='button' aria-expanded={open} buttonRef={refs.setReference} onClick={() => setVisible((p) => !p)}>show/hide</ButtonPrimitive>
+        }
+
+        <div style={{overflow: 'hidden', ...floatingStyles}} ref={refs.setFloating}>
+            {visible && children}
+        </div>
+
     </div>;
 };
 
