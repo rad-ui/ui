@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, ReactElement, useEffect, useState} from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
-import {UseFloatingReturn, useFloating} from '@floating-ui/react';
+import {Placement, UseFloatingReturn, useFloating} from '@floating-ui/react';
 
 /* https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
  * CHECKLIST
@@ -12,16 +12,17 @@ export type DropdownProps ={
     trigger?: (ref: UseFloatingReturn['refs']['setReference'])=>ReactElement
     open?: boolean
     defaultOpen?: boolean
+    placement?: Placement
 } & PropsWithChildren
 
-const Dropdown = ({children, open, trigger, defaultOpen = false}: DropdownProps) => {
+const Dropdown = ({children, open, trigger, defaultOpen = false, placement = 'bottom-start'}: DropdownProps) => {
     const [visible, setVisible] = useState(defaultOpen);
 
     useEffect(() => {
         open !== undefined && setVisible(open);
     }, [open]);
 
-    const {refs, floatingStyles}= useFloating({placement: 'bottom-start'});
+    const {refs, floatingStyles}= useFloating({placement});
 
     return <div>
 
