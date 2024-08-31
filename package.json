@@ -15,6 +15,7 @@
     "./Callout": "./dist/components/Callout.js",
     "./Card": "./dist/components/Card.js",
     "./Code": "./dist/components/Code.js",
+    "./Collapsible": "./dist/components/Collapsible.js",
     "./Em": "./dist/components/Em.js",
     "./Heading": "./dist/components/Heading.js",
     "./Kbd": "./dist/components/Kbd.js",
