@@ -1,0 +1,25 @@
+.rad-ui-skeleton {
+    color: transparent !important;
+    border-radius: var(--radius-1);
+    animation: skeleton-shimmer 1s infinite alternate-reverse !important;
+    background-image: none !important;
+    background-clip: initial !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-decoration-break: clone !important;
+    outline: none !important;
+    pointer-events: none !important;
+    user-select: none !important;
+    cursor: default !important;
+
+
+
+    @keyframes skeleton-shimmer {
+        0% {
+            background-color: var(--rad-ui-color-gray-200);
+        }
+        100% {
+            background-color: var(--rad-ui-color-gray-400);
+        }
+    }
+}
