@@ -6,8 +6,8 @@ const ArrowIcon = ({className}) => {
 };
 
 const BUTTON_TEXT = 'Proceed';
-const Variants = ['solid','outline','soft','ghost']
-const Sizes = ['small','medium','large','x-large']
+const Variants = ['solid', 'outline', 'soft', 'ghost'];
+const Sizes = ['small', 'medium', 'large', 'x-large'];
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'UI/Input/Button',
@@ -17,19 +17,23 @@ export default {
             <div className='mt-4 mb-2'>
                 <p className='text-gray-950'>Button Variants</p>
             </div>
-            <div className='flex space-x-2'>
-                
-                {Variants.map((variant,index) => (
-             <Button className='space-x-1' key={index} variant={variant} >
-                <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
-             </Button>
-                ))}
-            <Button>
-                <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
-            </Button>    
-          </div>
-         </div>
-     </SandboxEditor>,
+            <div className='flex'>
+
+                {Variants.map((variant, index) => {
+                    let label = `${variant} ${BUTTON_TEXT}`;
+                    if (!BUTTON_TEXT) {
+                        label = 'Proceed';
+                    }
+                    return <Button label={`${label}`} key={index} variant={variant} >
+                        <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
+                    </Button>;
+                })}
+                <Button>
+                    <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
+                </Button>
+            </div>
+        </div>
+    </SandboxEditor>,
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
@@ -42,20 +46,17 @@ export const All = {
 export const Size = (args) => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-                <p className='text-gray-950'>Button Size</p>
-            </div>
-         <div className='flex space-x-2'>
-                
-                    {Sizes.map((size,index) => (
-                 <Button className='space-x-1' key={index} size={size} >
+            <p className='text-gray-950'>Button Size</p>
+        </div>
+        <div className='flex'>
+
+            {Sizes.map((size, index) => (
+                <Button key={index} size={size} >
                     <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
-                 </Button>
-                    ))}
-                 <Button>
-                    <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
-                 </Button>    
-                
-            </div>   
+                </Button>
+            ))}
+
+        </div>
     </SandboxEditor>;
 };
 

@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 
 import {customClassSwitcher} from '~/core';
 
+import ButtonPrimitive from '~/core/primitives/Button';
+
 const COMPONENT_NAME = 'Toggle';
 
 export type ToggleProps = {
@@ -35,15 +37,17 @@ const Toggle: React.FC<ToggleProps> = ({
     };
 
     return (
-        <button
+        <ButtonPrimitive
             className={`${rootClass}`} onClick={handlePressed}
             data-state={isPressed ? 'on' : 'off'}
             type="button"
             data-disabled={props.disabled ? '' : undefined}
             aria-pressed={pressed} {...props}>
             {children}
-        </button>
+        </ButtonPrimitive>
     );
 };
+
+Toggle.displayName = COMPONENT_NAME;
 
 export default Toggle;
