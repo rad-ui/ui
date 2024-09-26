@@ -1,0 +1,11 @@
+.rad-ui-radio-group{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--rad-ui-color-accent-900);
+
+    .radioItem input{
+       margin: 0px 10px;
+    }
+}
