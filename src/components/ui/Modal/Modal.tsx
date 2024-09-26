@@ -22,7 +22,6 @@ export const Modal: React.FC<ModalProps> = ({open=true, onClose, children}) => {
                     {children}
                 </div>
                 <div>
-                    {/* Floating Content */}
                     {
                         open &&
                         <FloatingPortal>

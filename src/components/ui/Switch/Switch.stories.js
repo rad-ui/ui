@@ -2,8 +2,7 @@ import Switch from './Switch';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const CheckBox = (args) => {
-
-    const variants = ['classic','surface','solid']
+    const variants = ['classic', 'surface', 'solid'];
     const handleChange = (state) => {
         setIsChecked(state);
     };
@@ -19,7 +18,7 @@ const CheckBox = (args) => {
 export default {
     title: 'UI/Input/Switch',
     component: Switch,
-    render: (args) => <CheckBox {...args}/>   
+    render: (args) => <CheckBox {...args}/>,
 };
 
 export const All = {};

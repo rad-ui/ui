@@ -5,6 +5,57 @@
     align-items:center;
     justify-content:center;
     padding:0px 12px;
+    margin:16px;
+    box-sizing: border-box;
+
+
+    &:focus, &:active{
+        outline: 2px solid var(--rad-ui-color-accent-900);
+        outline-offset: 4px;
+    }
+
+    /** Button Types */
+
+    &.button-solid{
+        background-color: var(--rad-ui-color-accent-900);
+        color: white;
+    }
+    &.button-solid:hover{
+        background-color: var(--rad-ui-color-accent-950);
+    }
+    
+    /** Soft */
+    &.button-soft{
+        color: var(--rad-ui-color-accent-900);
+        background-color:  var(--rad-ui-color-accent-400);
+    }
+    &.button-soft:hover{
+        background-color:  var(--rad-ui-color-accent-500);
+    }
+    
+    
+    /**Outline */
+    &.button-outline{
+        background-color: transparent;
+        color: var(--rad-ui-color-accent-900);
+        border: 1px solid var(--rad-ui-color-accent-900);
+    }
+    &.button-outline:hover{
+        border-color:var(--rad-ui-color-accent-950) ;
+    }
+    
+    /**Ghost */
+    &.button-ghost{
+        background-color: transparent;
+        color: var(--rad-ui-color-accent-900);
+    }
+    &.button-ghost:hover{
+        border-color:var(--rad-ui-color-accent-950) ;
+        background-color: var(--rad-ui-color-accent-300);
+    }
+
+
+    /** Button Sizes */
 
    &[data-size="small"]{
         font-size: small;
@@ -27,40 +78,4 @@
         height: 48px;
     }
 }
-.button-solid{
-    background-color: var(--rad-ui-color-accent-900);
-    color: white;
-}
-.button-solid:hover{
-    background-color: var(--rad-ui-color-accent-950);
-}
 
-/** Soft */
-.button-soft{
-    color: var(--rad-ui-color-accent-900);
-    background-color:  var(--rad-ui-color-accent-400);
-}
-.button-soft:hover{
-    background-color:  var(--rad-ui-color-accent-500);
-}
-
-
-/**Outline */
-.button-outline{
-    background-color: transparent;
-    color: var(--rad-ui-color-accent-900);
-    border: 1px solid var(--rad-ui-color-accent-900);
-}
-.button-outline:hover{
-    border-color:var(--rad-ui-color-accent-950) ;
-}
-
-/**Ghost */
-.button-ghost{
-    background-color: transparent;
-    color: var(--rad-ui-color-accent-900);
-}
-.button-ghost:hover{
-    border-color:var(--rad-ui-color-accent-950) ;
-    background-color: var(--rad-ui-color-accent-300);
-}
