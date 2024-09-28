@@ -2,9 +2,14 @@ import RadioGroup from './RadioGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const RadioButton = (args) => {
+   
       return (
         <SandboxEditor>
-              <RadioGroup />
+              
+            <RadioGroup className='radioItems'{...args}>
+                  
+                   </RadioGroup>
+                  
         </SandboxEditor>
       )
 }

@@ -4,8 +4,12 @@
     flex-direction: column;
     gap: 10px;
     color: var(--rad-ui-color-accent-900);
-
-    .radioItem input{
-       margin: 0px 10px;
+    &.radioItems{
+        font-size: 1.2rem;
+    }
+    
+    &:focus{
+        outline: 2px solid var(--rad-ui-color-accent-900);
+        outline-offset: 2px;
     }
 }
