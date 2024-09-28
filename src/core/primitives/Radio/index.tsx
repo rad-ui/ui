@@ -1,6 +1,6 @@
 import React from "react";
 
-const RadioPrimitive = ({role='radio', label='', checked, children, ...props}:any) => {
+const RadioPrimitive = ({role='radio', label='', id, checked, children, ...props}:any) => {
        if(label){
 
         props['aria-label'] = label     
@@ -15,8 +15,8 @@ const RadioPrimitive = ({role='radio', label='', checked, children, ...props}:an
 
        return (
        <div>
-           <input type="radio" role={role}  {...props} checked={!checked}/>
-           <label htmlFor='id'> {children}</label>
+           <input type="radio" role={role} id={id} {...props} checked={!checked}/>
+           <label htmlFor={id}> {children}</label>
           
        </div>
        )     
