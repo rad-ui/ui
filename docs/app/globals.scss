@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+code {
+  padding: 16px;
+  border-radius: 4px;
+  background-color: var(--rad-ui-color-plum-800);
+  color: var(--rad-ui-color-gray-1000);
+  background-color: var(--rad-ui-color-accent-100);
+  display: block;
+  border: 1px solid var(--rad-ui-color-indigo-500);
+  font-size: 12px;
+}
+
+code .string {
+  color: var(--rad-ui-color-violet-900);
+}
+
+code .punctuation {
+  color: var(--rad-ui-color-gray-1000);
+}
+
+code .keyword {
+  color: var(--rad-ui-color-crimson-900);
+}
+
+code .function,
+.function-variable {
+  color: var(--rad-ui-color-accent-900);
+}
+
+code .class-name {
+  color: var(--rad-ui-color-accent-900);
+}
+
+code .tag {
+  color: var(--rad-ui-color-accent-900);
+}
+
+code .attr-name {
+  color: var(--rad-ui-color-red-900);
+}
+
+code .attr-value {
+  color: var(--rad-ui-color-green-900);
+}
+
+code .operator {
+  color: var(--rad-ui-color-purple-900);
+}
+
+code .comment {
+  color: var(--rad-ui-color-gray-800);
+}
+
+code .property {
+  color: var(--rad-ui-color-red-800);
+}
+
+code .selector {
+  color: var(--rad-ui-color-accent-800);
+}
+
+
+.background-animate {
+  background-size: 400%;
+
+
+
+  animation: AnimationName 10s ease infinite;
+}
+
+@keyframes AnimationName {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
