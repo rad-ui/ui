@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 
 
 /**
@@ -17,7 +17,14 @@ import React from 'react';
 
  */
 
-const ButtonPrimitive = ({role='button', label='', description='', disabled=false, children, ...props}:any) => {
+export type ButtonPrimitiveProps = {
+    label?: string,
+    description?: string
+    buttonRef?: React.LegacyRef<HTMLButtonElement> | undefined
+} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & PropsWithChildren
+
+// eslint-disable-next-line react/display-name
+const ButtonPrimitive = ({role='button', label='', description='', disabled=false, children, buttonRef, ...props}: ButtonPrimitiveProps) => {
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
@@ -40,6 +47,7 @@ const ButtonPrimitive = ({role='button', label='', description='', disabled=fals
     }
 
     return <button
+        ref={buttonRef}
         role={role}
         disabled={disabled}
 

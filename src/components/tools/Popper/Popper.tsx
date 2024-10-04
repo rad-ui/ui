@@ -1,7 +1,7 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, PropsWithChildren} from 'react';
 import {customClassSwitcher} from '~/core';
 
-import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss} from '@floating-ui/react';
+import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, Placement} from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -22,8 +22,8 @@ export type PopperProps = {
     customRootClass?: string;
     activationStrategy?: 'hover';
     className?: string;
-    placement?: 'top' | 'bottom' | 'bottom-start'; // TODO: fix
-    children?: React.ReactNode; // TODO: fix
+    placement?: Placement;
+    children?: PropsWithChildren['children'];
     open?: boolean;
     hoverDelay?: number;
     showArrow?: boolean;
