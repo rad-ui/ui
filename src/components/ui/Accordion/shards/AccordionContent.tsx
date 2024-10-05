@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
-import {AccordionContext} from '../contexts/AccordionContext';
-import {AccordionItemContext} from '../contexts/AccordionItemContext';
-
+import React, { useContext } from 'react';
+import { AccordionContext } from '../contexts/AccordionContext';
+import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 type AccordionContentProps = {
   children: React.ReactNode;
@@ -10,10 +9,10 @@ type AccordionContentProps = {
   className? :string
 };
 
-const AccordionContent: React.FC<AccordionContentProps> = ({children, index, activeIndex, className=''}: AccordionContentProps) => {
-    const {activeItem, rootClass} = useContext(AccordionContext);
+const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, activeIndex, className = '' }: AccordionContentProps) => {
+    const { activeItem, rootClass } = useContext(AccordionContext);
 
-    const {itemValue} = useContext(AccordionItemContext);
+    const { itemValue } = useContext(AccordionItemContext);
 
     return (
         <div

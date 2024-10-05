@@ -1,12 +1,11 @@
 'use client';
-import React, {ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren} from 'react';
-import {customClassSwitcher} from '~/core';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 'react';
+import { customClassSwitcher } from '~/core';
 
 import ButtonPrimitive from '~/core/primitives/Button';
 
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
-
 
 export type ButtonProps = {
     customRootClass?: string;
@@ -14,7 +13,7 @@ export type ButtonProps = {
     size?: 'small' | 'medium' | 'large' | 'x-large';
 } & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & PropsWithChildren
 
-const Button = ({children, type='button', customRootClass='', className='', color, variant='solid', size='medium', ...props}: ButtonProps) => {
+const Button = ({ children, type = 'button', customRootClass = '', className = '', color, variant = 'solid', size = 'medium', ...props }: ButtonProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     // apply data attribute for accent color
     // apply attribute only if color is present

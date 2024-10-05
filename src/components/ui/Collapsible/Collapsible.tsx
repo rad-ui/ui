@@ -1,4 +1,4 @@
-import React, {PropsWithChildren, ReactNode, useState} from 'react';
+import React, { PropsWithChildren, ReactNode, useState } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
 /*
@@ -25,18 +25,18 @@ const CollapseIcon = () => (
     </svg>
 );
 
-const Collapsible = ({children, title, trigger, ...props}: CollapsibleProps) => {
+const Collapsible = ({ children, title, trigger, ...props }: CollapsibleProps) => {
     const [open, setOpen] = useState(props.open ?? true);
 
-    const toggleCollapse=() => setOpen((p) => !p);
+    const toggleCollapse = () => setOpen((p) => !p);
 
     return (
         <article>
-            <span style={{display: 'flex', alignItems: 'center'}}>
+            <span style={{ display: 'flex', alignItems: 'center' }}>
                 {title && <p>{title}</p>}
                 {
                     trigger ||
-                    <ButtonPrimitive style={{marginInlineStart: 'auto'}} onClick={toggleCollapse}>{open?<CollapseIcon/>:<ExpandIcon/>}</ButtonPrimitive>
+                    <ButtonPrimitive style={{ marginInlineStart: 'auto' }} onClick={toggleCollapse}>{open ? <CollapseIcon/> : <ExpandIcon/>}</ButtonPrimitive>
                 }
             </span>
 
@@ -46,8 +46,8 @@ const Collapsible = ({children, title, trigger, ...props}: CollapsibleProps) => 
                     overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
-                    height: (props.open ?? open)? 'auto': '0',
-                    transition: 'all',
+                    height: (props.open ?? open) ? 'auto' : '0',
+                    transition: 'all'
                 }}>
                 {children}
             </div>

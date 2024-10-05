@@ -24,16 +24,15 @@ export default {
                 This is a Callout
             </Callout>
         </SandboxEditor>
-    </>,
+    </>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };
-
 
 const DefaultTextTemplate = (args) => {
     return <SandboxEditor className="space-y-2">
@@ -43,9 +42,7 @@ const DefaultTextTemplate = (args) => {
     </SandboxEditor>;
 };
 
-
 export const DefaultText = DefaultTextTemplate.bind();
-
 
 const RedTextTemplate = (args) => {
     return <SandboxEditor className="space-y-2">
@@ -55,5 +52,3 @@ const RedTextTemplate = (args) => {
     </SandboxEditor>;
 };
 export const RedText = RedTextTemplate.bind();
-
-

@@ -17,7 +17,7 @@ const CheckBox = (args) => {
 export default {
     title: 'UI/Input/Switch',
     component: Switch,
-    render: (args) => <CheckBox {...args}/>,
+    render: (args) => <CheckBox {...args}/>
 };
 
 export const All = {};

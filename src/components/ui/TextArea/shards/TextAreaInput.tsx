@@ -5,7 +5,7 @@ type TextAreaInputProps = {
     placeholder?: string;
 }
 
-const TextAreaInput = ({children, placeholder=''}:TextAreaInputProps) => {
+const TextAreaInput = ({ children, placeholder = '' }:TextAreaInputProps) => {
     return <textarea placeholder={placeholder}>
         {children}
     </textarea>;

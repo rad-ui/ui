@@ -5,9 +5,8 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'UI/Input/ToggleGroup',
     component: ToggleGroup,
-    render: (args) => <Template {...args} />,
+    render: (args) => <Template {...args} />
 };
-
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 
@@ -48,25 +47,24 @@ const ColumnsIcon = () => {
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 const items = [
-    {label: <FrameIcon/>, value: 'item1'},
-    {label: <CropIcon/>, value: 'item2'},
-    {label: <LayersIcon/>, value: 'item3'},
-    {label: <ColumnsIcon/>, value: 'item4'},
+    { label: <FrameIcon/>, value: 'item1' },
+    { label: <CropIcon/>, value: 'item2' },
+    { label: <LayersIcon/>, value: 'item3' },
+    { label: <ColumnsIcon/>, value: 'item4' }
 ];
 
 export const Multiple = {
     args: {
         className: '',
         type: 'multiple',
-        items: items,
-    },
+        items
+    }
 };
-
 
 export const Single = {
     args: {
         className: '',
         type: 'single',
-        items: items,
-    },
+        items
+    }
 };

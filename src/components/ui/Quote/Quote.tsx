@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Quote';
 
@@ -11,7 +11,7 @@ export type QuoteProps = {
     props?: Record<string, any>[]
 }
 
-const Quote = ({children, customRootClass, className, ...props}: QuoteProps) => {
+const Quote = ({ children, customRootClass, className, ...props }: QuoteProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return <q className={`${rootClass} ${className}`} {...props}>{children}</q>;
 };

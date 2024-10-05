@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-
 import generateCSSTokens from './generateCSSTokens.js';
 import generateAccentTokens from './generateAccentTokens.js';
 
@@ -8,16 +7,16 @@ import generateAccentTokens from './generateAccentTokens.js';
 
 let jsVariables = {};
 
-const {cssVariables: lightThemeCss, jsVariables: lightThemeJSTokens} = generateCSSTokens('light');
-jsVariables = {...jsVariables, ...lightThemeJSTokens};
+const { cssVariables: lightThemeCss, jsVariables: lightThemeJSTokens } = generateCSSTokens('light');
+jsVariables = { ...jsVariables, ...lightThemeJSTokens };
 
 // Generate CSS variables for the dark theme
-const {cssVariables: DarkThemeCss, jsVariables: DarkThemeJSTokens} = generateCSSTokens('dark');
-jsVariables = {...jsVariables, ...DarkThemeJSTokens};
+const { cssVariables: DarkThemeCss, jsVariables: DarkThemeJSTokens } = generateCSSTokens('dark');
+jsVariables = { ...jsVariables, ...DarkThemeJSTokens };
 
 // Generate accent colors css
 
-const accentTokens= generateAccentTokens('light');
+const accentTokens = generateAccentTokens('light');
 
 // Combine light and dark theme CSS
 const combinedCss = `

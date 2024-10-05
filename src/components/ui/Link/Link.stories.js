@@ -9,12 +9,12 @@ export default {
         <div className='text-gray-950'>
             <Link href="https://www.google.com" target="_blank">Hello</Link>
         </div>
-    </SandboxEditor>,
+    </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };

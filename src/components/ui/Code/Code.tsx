@@ -5,7 +5,7 @@ export type CodeProps= {
     children: React.ReactNode;
 }
 
-const Code = ({children}: CodeProps) => {
+const Code = ({ children }: CodeProps) => {
     return <code className='rui-code-root'>
         {children}
     </code>;

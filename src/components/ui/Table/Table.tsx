@@ -8,12 +8,11 @@ import TableColumnCellHeader from './shards/TableColumnCellHeader';
 
 import TableCell from './shards/TableCell';
 
-const Table = ({columns=[], data=[]}:any) => {
+const Table = ({ columns = [], data = [] }:any) => {
     const columnMap = columns.map((column:any) => {
         return column?.key || '';
-    },
+    }
     );
-
 
     return <TableRoot>
         <TableHead>
@@ -34,7 +33,7 @@ const Table = ({columns=[], data=[]}:any) => {
                                 if (row[column]) {
                                     return <TableCell key={column} >{row[column]}</TableCell>;
                                 }
-                            },
+                            }
                             )
                         }
                     </TableRow>;
@@ -44,7 +43,6 @@ const Table = ({columns=[], data=[]}:any) => {
         </TableBody>
     </TableRoot>;
 };
-
 
 Table.Root = TableRoot;
 Table.Body = TableBody;

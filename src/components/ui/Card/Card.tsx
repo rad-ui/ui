@@ -12,14 +12,13 @@ export type CardProps = {
     props?: any;
 };
 
-const Card = ({children, className = '', customRootClass, ...props}:CardProps) => {
+const Card = ({ children, className = '', customRootClass, ...props }:CardProps) => {
     return (
         <CardRoot className={className} customRootClass={customRootClass} {...props}>
             {children}
         </CardRoot>
     );
 };
-
 
 Card.Root = CardRoot;
 export default Card;
