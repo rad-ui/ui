@@ -4,11 +4,7 @@ module.exports = {
         es2021: true,
         node: true
     },
-    extends: [
-        'plugin:react/recommended',
-        'eslint:recommended',
-        'standard'
-    ],
+    extends: ['plugin:react/recommended', 'eslint:recommended', 'standard', 'plugin:storybook/recommended'],
     overrides: [
     ],
     parser: '@babel/eslint-parser',
