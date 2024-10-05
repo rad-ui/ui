@@ -3,8 +3,6 @@ import {customClassSwitcher} from '~/core';
 import {AlertDialogContext} from '../contexts/AlertDialogContext';
 
 import Floater from '~/core/primitives/Floater';
-import AlertDialogContent from './AlertDialogContent';
-import AlertDialogPortal from './AlertDialogPortal';
 
 export type AlertDialogRootProps = {
     children: React.ReactNode;
