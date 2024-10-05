@@ -1,4 +1,3 @@
-
 import Tooltip from './Tooltip';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import ScrollPlayground from '~/components/tools/ScrollPlayground/ScrollPlayground';
@@ -13,12 +12,12 @@ export default {
                     Hello, hover me!
             </Tooltip>
         </ScrollPlayground>
-    </SandboxEditor>,
+    </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };

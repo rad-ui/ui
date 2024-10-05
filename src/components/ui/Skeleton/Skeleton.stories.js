@@ -1,9 +1,8 @@
 import Skeleton from './Skeleton';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Button from '~/components/ui/Button/Button';
-
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -56,12 +55,12 @@ export default {
                 </div>
             </div>
         </SandboxEditor>;
-    },
+    }
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };
