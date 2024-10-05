@@ -1,12 +1,10 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 
-import {ToggleContext} from '../contexts/toggleContext';
+import { ToggleContext } from '../contexts/toggleContext';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-
-const ToggleItem = ({children, value=null, ...props}:any) => {
+const ToggleItem = ({ children, value = null, ...props }:any) => {
     const toggleContext = useContext(ToggleContext);
-
 
     const type = toggleContext?.type;
 
@@ -45,7 +43,7 @@ const ToggleItem = ({children, value=null, ...props}:any) => {
     }
 
     return <ButtonPrimitive
-        className={`${isActive?'bg-blue-600':''}`} onClick={() => {
+        className={`${isActive ? 'bg-blue-600' : ''}`} onClick={() => {
             handleToggleSelect();
         }}
         {...props}

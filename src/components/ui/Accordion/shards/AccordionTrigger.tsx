@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
-import {AccordionContext} from '../contexts/AccordionContext';
-import {AccordionItemContext} from '../contexts/AccordionItemContext';
-
+import React, { useContext } from 'react';
+import { AccordionContext } from '../contexts/AccordionContext';
+import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 type AccordionTriggerProps = {
   children: React.ReactNode;
@@ -11,15 +10,13 @@ type AccordionTriggerProps = {
   handleClick: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, className=''}) => {
-    const {setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem} = useContext(AccordionContext);
-    const {itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent} = useContext(AccordionItemContext);
-
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
+    const { setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem } = useContext(AccordionContext);
+    const { itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent } = useContext(AccordionItemContext);
 
     const onClickHandler = () => {
         if (activeItem === itemValue) {
             setActiveItem(null);
-            return;
         } else if (activeItem !== itemValue) {
             setActiveItem(itemValue);
             handleClickEvent();
@@ -29,7 +26,6 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, cla
     const onFocusHandler = () => {
         handleFocusEvent();
     };
-
 
     return (
 
@@ -56,7 +52,6 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({children, index, cla
         >
             {children}
         </button>
-
 
     );
 };

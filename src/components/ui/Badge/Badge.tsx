@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Badge';
 
@@ -12,8 +12,7 @@ export type BadgeProps = {
     props?: Record<string, any>[],
 }
 
-
-const Badge = ({children, customRootClass, className, color, ...props}: BadgeProps) => {
+const Badge = ({ children, customRootClass, className, color, ...props }: BadgeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return <span className={`${rootClass} ${className}`} data-accent-color={color ?? undefined} {...props}>

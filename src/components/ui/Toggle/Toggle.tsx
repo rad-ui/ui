@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 import ButtonPrimitive from '~/core/primitives/Button';
 
@@ -15,7 +15,6 @@ export type ToggleProps = {
     className? : string;
     onChange : (isPressed:boolean) => void;
 };
-
 
 const Toggle: React.FC<ToggleProps> = ({
     defaultPressed,

@@ -24,7 +24,7 @@ const CardStory = () => {
 export default {
     title: 'UI/Layout/Card',
     component: Card,
-    render: (args) => <SandboxEditor><CardStory/></SandboxEditor>,
+    render: (args) => <SandboxEditor><CardStory/></SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args

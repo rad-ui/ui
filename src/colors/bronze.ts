@@ -1,4 +1,3 @@
-
 const bronze = {
     light: {
         50: '#fdfcfc',
@@ -12,7 +11,7 @@ const bronze = {
         800: '#ad7f58',
         900: '#a07553',
         950: '#815e46',
-        1000: '#3e332e',
+        1000: '#3e332e'
 
     },
     dark: {
@@ -27,9 +26,9 @@ const bronze = {
         800: '#a18072',
         900: '#ae8c7e',
         950: '#d4b3a5',
-        1000: '#ede0d9',
+        1000: '#ede0d9'
 
-    },
+    }
 } as const;
 
 export default bronze;

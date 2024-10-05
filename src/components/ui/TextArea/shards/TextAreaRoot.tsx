@@ -1,5 +1,5 @@
 import React from 'react';
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'TextArea';
 
@@ -9,7 +9,7 @@ export type TextAreaProps = {
     className?: string;
 }
 
-const TextAreaRoot = ({children, customRootClass='', className=''}:TextAreaProps) => {
+const TextAreaRoot = ({ children, customRootClass = '', className = '' }:TextAreaProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return <div className={`${rootClass}${className}`}>
         {children}
