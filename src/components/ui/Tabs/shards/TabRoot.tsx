@@ -1,16 +1,14 @@
-
 'use client';
-import React, {useState} from 'react';
-import {customClassSwitcher} from '~/core';
+import React, { useState } from 'react';
+import { customClassSwitcher } from '~/core';
 
 import TabsRootContext from '../context/TabsRootContext';
 
-import {TabRootProps} from '../types';
+import { TabRootProps } from '../types';
 
 const COMPONENT_NAME = 'Tabs';
 
-
-const TabRoot = ({children, defaultTab='', customRootClass, tabs=[], className, color, ...props}: TabRootProps) => {
+const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], className, color, ...props }: TabRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '');
@@ -31,7 +29,6 @@ const TabRoot = ({children, defaultTab='', customRootClass, tabs=[], className, 
         }
     };
 
-
     return (
         <TabsRootContext.Provider
             value={{
@@ -39,7 +36,7 @@ const TabRoot = ({children, defaultTab='', customRootClass, tabs=[], className, 
                 setActiveTab,
                 nextTab,
                 previousTab,
-                tabs,
+                tabs
             }}>
             <div className={`${rootClass} ${className}`} data-accent-color={color} {...props} >
                 {children}

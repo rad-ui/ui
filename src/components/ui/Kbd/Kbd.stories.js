@@ -9,12 +9,12 @@ export default {
         <div className='flex space-x-2'>
             <Kbd className='text-xs' >Ctrl + X</Kbd>
         </div>
-    </SandboxEditor>,
+    </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };

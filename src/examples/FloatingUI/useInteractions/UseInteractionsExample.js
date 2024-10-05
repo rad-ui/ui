@@ -1,33 +1,32 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {useInteractions, useFloating, useHover, useFocus, useClick, useRole, useDismiss} from '@floating-ui/react';
+import { useInteractions, useFloating, useHover, useFocus, useClick, useRole, useDismiss } from '@floating-ui/react';
 
 const UserInteractionsExample = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const {context, refs, floatingStyles} = useFloating({
+    const { context, refs, floatingStyles } = useFloating({
         open: isOpen,
         placement: 'top',
-        onOpenChange: setIsOpen,
+        onOpenChange: setIsOpen
     });
 
     const hover = useHover(context);
     const focus = useFocus(context);
     const click = useClick(context);
     const role = useRole(context, {
-        'role': 'tooltip', // give the floating element a role
+        role: 'tooltip' // give the floating element a role
     });
     const dismiss = useDismiss(context, {
         onClickOutside: () => setIsOpen(false),
-        onEscape: () => setIsOpen(false),
+        onEscape: () => setIsOpen(false)
     });
 
-
-    const {getReferenceProps, getFloatingProps} = useInteractions([
+    const { getReferenceProps, getFloatingProps } = useInteractions([
         hover,
         focus,
         click,
         role,
-        dismiss,
+        dismiss
     ]);
 
     return <>
@@ -43,9 +42,9 @@ const UserInteractionsExample = () => {
                         onFocus: () => console.log('focused'),
                         onBlur: () => console.log('blurred'),
                         onMouseEnter: () => console.log('hovered'),
-                        onMouseLeave: () => console.log('unhovered'),
+                        onMouseLeave: () => console.log('unhovered')
 
-                    },
+                    }
                 )} >
                     Yo
             </button>

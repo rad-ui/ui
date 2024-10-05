@@ -1,11 +1,10 @@
 'use client';
 import React from 'react';
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Skeleton';
-import {customClassSwitcher} from '~/core';
 
-
-const Skeleton = ({loading=true, className='', customRootClass='', children, ...props}:any) => {
+const Skeleton = ({ loading = true, className = '', customRootClass = '', children, ...props }:any) => {
     // If loading is false, return the children
     if (!loading) return children;
 
@@ -14,7 +13,6 @@ const Skeleton = ({loading=true, className='', customRootClass='', children, ...
         {children}
     </span>;
 };
-
 
 Skeleton.displayName = COMPONENT_NAME;
 export default Skeleton;

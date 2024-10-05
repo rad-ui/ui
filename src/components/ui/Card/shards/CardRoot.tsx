@@ -1,6 +1,5 @@
 import React from 'react';
-import {customClassSwitcher} from '~/core';
-
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Card';
 export type CardRootProps = {
@@ -10,7 +9,7 @@ export type CardRootProps = {
     props?: any;
 };
 
-const CardRoot = ({children, customRootClass, className = '', ...props}: CardRootProps) => {
+const CardRoot = ({ children, customRootClass, className = '', ...props }: CardRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (

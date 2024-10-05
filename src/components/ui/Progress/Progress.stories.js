@@ -1,8 +1,6 @@
-
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Progress from './Progress';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -22,7 +20,7 @@ export default {
                 <Progress value={value}/>
             </div>
         </SandboxEditor>);
-    },
+    }
 };
 
 const getRandomValue = () => Math.trunc((Math.random() * 100));
@@ -31,6 +29,6 @@ export const All = {
     args: {
         label: 'progress label',
         maxValue: 100,
-        value: 45,
-    },
+        value: 45
+    }
 };

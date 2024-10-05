@@ -1,32 +1,34 @@
 module.exports = {
-    'env': {
-        'browser': true,
-        'es2021': true,
-        'node': true,
+    env: {
+        browser: true,
+        es2021: true,
+        node: true
     },
-    'extends': [
+    extends: [
         'plugin:react/recommended',
         'eslint:recommended',
-        'google',
+        'standard'
     ],
-    'overrides': [
+    overrides: [
     ],
-    'parser': '@babel/eslint-parser',
-    'parserOptions': {
-        'ecmaVersion': 'latest',
-        'sourceType': 'module',
+    parser: '@babel/eslint-parser',
+    parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module'
     },
-    'plugins': [
-        'react',
+    plugins: [
+        'react'
     ],
-    'rules': {
+    rules: {
         'react/react-in-jsx-scope': 'off',
-        'indent': ['warn', 4],
-        'key-spacing': ['warn', {'beforeColon': false, 'afterColon': true}],
+        indent: ['warn', 4],
+        'key-spacing': ['warn', { beforeColon: false, afterColon: true }],
         'no-trailing-spaces': 'warn',
         'no-mixed-spaces-and-tabs': 'warn',
         'no-multi-spaces': 'warn',
         'no-unused-vars': 'warn',
+        eqeqeq: 'warn',
+        'array-callback-return': 'warn',
         'no-undef': 'off',
         'react/no-unescaped-entities': 1,
         'no-unexpected-multiline': 'warn',
@@ -40,14 +42,14 @@ module.exports = {
         'arrow-spacing': 'warn',
         'comma-style': 'warn',
         'func-call-spacing': 'warn',
-        'comma-spacing': ['warn', {'before': false, 'after': true}],
-        'quotes': ['warn', 'single'],
+        'comma-spacing': ['warn', { before: false, after: true }],
+        quotes: ['warn', 'single'],
         'react/prop-types': 'off',
         'prefer-rest-params': 'off',
         'no-func-assign': 'off',
         'no-invalid-this': 'off',
         'react/no-unknown-property': 'off',
-        'camelcase': 'off',
+        camelcase: 'off',
         'react/jsx-key': 'off',
         'require-jsdoc': 'off',
         'guard-for-in': 'off',
@@ -55,9 +57,9 @@ module.exports = {
 
         // ignore long strings
         'max-len': 'off',
-        'semi': [
+        semi: [
             'warn',
-            'always',
-        ],
-    },
+            'always'
+        ]
+    }
 };

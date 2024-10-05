@@ -1,7 +1,7 @@
-import React, {useState, useContext, useId, useEffect, useRef} from 'react';
+import React, { useState, useContext, useId, useEffect, useRef } from 'react';
 
-import {AccordionContext} from '../contexts/AccordionContext';
-import {AccordionItemContext} from '../contexts/AccordionItemContext';
+import { AccordionContext } from '../contexts/AccordionContext';
+import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 export type AccordionItemProps = {
     children: React.ReactNode;
@@ -9,12 +9,12 @@ export type AccordionItemProps = {
     value?: number;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className='', ...props}) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', ...props }) => {
     const accordionItemRef = useRef(null);
     const [itemValue, setItemValue] = useState(value);
-    const {rootClass, activeItem, focusItem} = useContext(AccordionContext);
+    const { rootClass, activeItem, focusItem } = useContext(AccordionContext);
 
-    const [isOpen, setIsOpen] = useState(itemValue === activeItem? true : false);
+    const [isOpen, setIsOpen] = useState(itemValue === activeItem);
     useEffect(() => {
         if (itemValue === activeItem) {
             setIsOpen(true);
@@ -57,9 +57,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
         focusCurrentItem();
     };
 
-
     return (
-        <AccordionItemContext.Provider value={{itemValue, setItemValue, handleBlurEvent, handleClickEvent, handleFocusEvent}}>
+        <AccordionItemContext.Provider value={{ itemValue, setItemValue, handleBlurEvent, handleClickEvent, handleFocusEvent }}>
             <div
                 ref={accordionItemRef}
                 className={`${rootClass}-item ${className}`} {...props}
@@ -69,8 +68,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({children, value, className
                 aria-hidden={!isOpen}
                 data-state={isOpen ? 'open' : 'closed'}
                 data-rad-ui-batch-element
-                {...shouldAddFocusDataAttribute ? {'data-rad-ui-focus-element': ''} : {}}
-
+                {...shouldAddFocusDataAttribute ? { 'data-rad-ui-focus-element': '' } : {}}
 
             >
                 {children}
