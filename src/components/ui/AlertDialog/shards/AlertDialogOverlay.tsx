@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
-import {AlertDialogContext} from '../contexts/AlertDialogContext';
-
+import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 const AlertDialogOverlay = () => {
-    const {open} = useContext(AlertDialogContext);
+    const { open } = useContext(AlertDialogContext);
     return (
         <>
             {open && (

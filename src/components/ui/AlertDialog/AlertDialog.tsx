@@ -10,8 +10,7 @@ export type AlertDialogProps = {
     content: React.ReactNode;
 }
 
-
-const AlertDialog = ({children, content} : AlertDialogProps) => {
+const AlertDialog = ({ children, content } : AlertDialogProps) => {
     return (
         <AlertDialogRoot>
             <AlertDialogTrigger>

@@ -1,13 +1,12 @@
-import React, {useContext} from 'react';
-import {AlertDialogContext} from '../contexts/AlertDialogContext';
-
+import React, { useContext } from 'react';
+import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 export type AlertDialogContentProps = {
     children: React.ReactNode;
 }
 
-const AlertDialogContent = ({children} : AlertDialogContentProps) => {
-    const {open} = useContext(AlertDialogContext);
+const AlertDialogContent = ({ children } : AlertDialogContentProps) => {
+    const { open } = useContext(AlertDialogContext);
 
     return (
         <>

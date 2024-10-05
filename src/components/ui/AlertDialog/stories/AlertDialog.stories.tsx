@@ -14,12 +14,12 @@ export default {
                     <h1>This is content</h1>
                 </div>
             } />
-    </SandboxEditor>,
+    </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = {
     args: {
-        children: 'This is trigger',
-    },
+        children: 'This is trigger'
+    }
 };

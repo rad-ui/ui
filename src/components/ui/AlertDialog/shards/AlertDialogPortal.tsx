@@ -5,7 +5,7 @@ export type AlertDialogPortalProps = {
     children: React.ReactNode;
 }
 
-const AlertDialogPortal = ({children} : AlertDialogPortalProps) => {
+const AlertDialogPortal = ({ children } : AlertDialogPortalProps) => {
     return (
         <Floater.Portal>
             {children}
