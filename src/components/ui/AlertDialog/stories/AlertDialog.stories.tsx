@@ -21,7 +21,7 @@ export default {
                     open={isOpen}
                     onOpenChange={handleOpenChange}
                     {...args} content={
-                        <div className="flex flex-col gap-4 text-gray-100">
+                        <div className="flex flex-col gap-4 text-gray-900 bg-gray-50">
                             <h1>This is content</h1>
                         </div>
                     } />

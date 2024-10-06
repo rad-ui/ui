@@ -6,12 +6,12 @@ export type AlertDialogContentProps = {
 }
 
 const AlertDialogContent = ({ children } : AlertDialogContentProps) => {
-    const { isOpen } = useContext(AlertDialogContext);
+    const { isOpen, rootClass } = useContext(AlertDialogContext);
 
     return (
         <>
             {isOpen && (
-                <div className="alert-content fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 bg-gray-900/50">
+                <div className={`${rootClass}-content`}>
                     {children}
                 </div>
             )}

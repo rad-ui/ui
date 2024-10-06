@@ -23,7 +23,7 @@ const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange } 
         onOpenChange(open);
     };
 
-    const props = { isOpen, handleOpenChange, floaterContext };
+    const props = { isOpen, handleOpenChange, floaterContext, rootClass };
     return (
         <AlertDialogContext.Provider value={props}>
             <div className={rootClass}>
