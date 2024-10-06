@@ -8,11 +8,10 @@ export type AlertDialogTriggerProps = {
 }
 
 const AlertDialogTrigger = ({ children, ...props } : AlertDialogTriggerProps) => {
-    const { floaterContext } = useContext(AlertDialogContext);
-    const { open, setOpen } = useContext(AlertDialogContext);
+    const { isOpen, handleOpenChange, floaterContext } = useContext(AlertDialogContext);
 
     return (
-        <ButtonPrimitive onClick={() => setOpen(true)} {...props}>
+        <ButtonPrimitive onClick={() => handleOpenChange(true)} {...props}>
             {children}
         </ButtonPrimitive>
     );

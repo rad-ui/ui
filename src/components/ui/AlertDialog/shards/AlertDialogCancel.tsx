@@ -7,9 +7,9 @@ export type AlertDialogCancelProps = {
 }
 
 const AlertDialogCancel = ({ children } : AlertDialogCancelProps) => {
-    const { setOpen } = useContext(AlertDialogContext);
+    const { handleOpenChange } = useContext(AlertDialogContext);
     return (
-        <ButtonPrimitive onClick={() => setOpen(false)}>
+        <ButtonPrimitive onClick={() => handleOpenChange(false)}>
             {children}
         </ButtonPrimitive>
     );

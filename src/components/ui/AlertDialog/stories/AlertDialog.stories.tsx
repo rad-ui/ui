@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AlertDialog from '../AlertDialog';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
@@ -7,14 +7,27 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'UI/Data-Display/AlertDialog',
     component: AlertDialog,
-    render: (args:any) => <SandboxEditor>
-        <AlertDialog
-            {...args} content={
-                <div className="flex flex-col gap-4 text-gray-100">
-                    <h1>This is content</h1>
-                </div>
-            } />
-    </SandboxEditor>
+    render: (args:any) => {
+        const [isOpen, setIsOpen] = useState(false);
+
+        const handleOpenChange = (open: boolean) => {
+            console.log('open', open);
+            setIsOpen(open);
+        };
+
+        return (
+            <SandboxEditor>
+                <AlertDialog
+                    open={isOpen}
+                    onOpenChange={handleOpenChange}
+                    {...args} content={
+                        <div className="flex flex-col gap-4 text-gray-100">
+                            <h1>This is content</h1>
+                        </div>
+                    } />
+            </SandboxEditor>
+        );
+    }
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args

@@ -7,16 +7,23 @@ import Floater from '~/core/primitives/Floater';
 export type AlertDialogRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
 const COMPONENT_NAME = 'AlertDialog';
 
-const AlertDialogRoot = ({ children, customRootClass = '' } : AlertDialogRootProps) => {
+const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange } : AlertDialogRootProps) => {
     const { context: floaterContext } = Floater.useFloating();
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const [open, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(open);
 
-    const props = { open, setOpen, floaterContext };
+    const handleOpenChange = (open: boolean) => {
+        setIsOpen(open);
+        onOpenChange(open);
+    };
+
+    const props = { isOpen, handleOpenChange, floaterContext };
     return (
         <AlertDialogContext.Provider value={props}>
             <div className={rootClass}>

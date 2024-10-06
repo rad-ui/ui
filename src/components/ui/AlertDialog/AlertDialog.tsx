@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AlertDialogRoot from './shards/AlertDialogRoot';
 import AlertDialogContent from './shards/AlertDialogContent';
 import AlertDialogTrigger from './shards/AlertDialogTrigger';
@@ -10,9 +10,10 @@ export type AlertDialogProps = {
     content: React.ReactNode;
 }
 
-const AlertDialog = ({ children, content } : AlertDialogProps) => {
+const AlertDialog = ({ children, open, onOpenChange, content } : AlertDialogProps) => {
+    const [isOpen, setIsOpen] = useState(open);
     return (
-        <AlertDialogRoot>
+        <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange}>
             <AlertDialogTrigger>
                 {children}
             </AlertDialogTrigger>
