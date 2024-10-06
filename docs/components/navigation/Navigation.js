@@ -78,6 +78,11 @@ const sections = [
                 path: "/docs/components/heading"
             },
             {
+                title: "Text",
+                path: "/docs/components/text",
+                is_new:true
+            },
+            {
                 title: "Kbd",
                 path: "/docs/components/kbd",
                 is_new:true
