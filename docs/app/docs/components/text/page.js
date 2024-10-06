@@ -1,4 +1,4 @@
-const PAGE_NAME = 'BADGE_DOCS'
+const PAGE_NAME = 'TEXT_DOCS'
 import Documentation from "@/components/layout/Documentation/Documentation"
 
 import Text from '@radui/ui/Text'
@@ -14,7 +14,7 @@ const TextDocs = () => {
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 <div className='text-gray-50 p-5 space-y-1'>
-                    <Text>Lorem ipsum</Text>
+                    <Text>This is an example of the Text component</Text>
                 </div>
             </Documentation.ComponentHero>
 

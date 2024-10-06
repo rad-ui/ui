@@ -79,7 +79,8 @@ const sections = [
             },
             {
                 title: "Text",
-                path: "/docs/components/text"
+                path: "/docs/components/text",
+                is_new:true
             },
             {
                 title: "Kbd",

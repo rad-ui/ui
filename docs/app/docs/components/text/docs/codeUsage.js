@@ -2,7 +2,7 @@ const code = {
     javascript: {
         code: `import Text from "@radui/ui/Text"
 
-const HeadingExamples = () => (
+const TextExample = () => (
     <div>
         <Text>Lorem ipsum</Text>
     </div>
