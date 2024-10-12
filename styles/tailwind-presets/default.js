@@ -5,10 +5,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                ...tokens.colors,
-            },
-        },
-    },
+                ...tokens.colors
+            }
+        }
+    }
 };
-
-

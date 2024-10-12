@@ -1,10 +1,10 @@
-const COMPONENT_NAME = 'Avatar';
-
 import React from 'react';
 
 import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';
 import AvatarFallback from './shards/AvatarFallback';
+
+const COMPONENT_NAME = 'Avatar';
 
 export type AvatarProps = {
     children?: React.ReactNode,
@@ -16,7 +16,7 @@ export type AvatarProps = {
     props?: Record<string, any>[]
 }
 
-const Avatar = ({children, customRootClass, fallback, className, src, alt, ...props}: AvatarProps) => {
+const Avatar = ({ children, customRootClass, fallback, className, src, alt, ...props }: AvatarProps) => {
     return (
         <AvatarRoot customRootClass={customRootClass}>
             <AvatarImage

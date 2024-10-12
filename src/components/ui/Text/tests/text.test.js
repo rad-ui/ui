@@ -1,6 +1,6 @@
 // MyComponent.test.js
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Text from '../Text';
 
 describe('Text Component', () => {
@@ -20,7 +20,7 @@ describe('Text Component', () => {
     });
 
     test('renders Text component with custom style', () => {
-        render(<Text style={{color: 'red'}}>I am Text!</Text>);
+        render(<Text style={{ color: 'red' }}>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveStyle('color: red');
     });
 

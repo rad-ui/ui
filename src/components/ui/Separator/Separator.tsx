@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Separator';
 
@@ -11,9 +11,9 @@ export type SeparatorProps = {
     props?: any;
 }
 
-const Separator = ({orientation = 'horizontal', className, customRootClass, ...props} : SeparatorProps) => {
+const Separator = ({ orientation = 'horizontal', className, customRootClass, ...props } : SeparatorProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const orientationClass = orientation === 'vertical'? `${rootClass}-vertical` : `${rootClass}-horizontal`;
+    const orientationClass = orientation === 'vertical' ? `${rootClass}-vertical` : `${rootClass}-horizontal`;
 
     return <div className={`${rootClass} ${orientationClass} ${className}`} {...props} ></div>;
 };
