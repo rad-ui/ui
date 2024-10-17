@@ -1,0 +1,130 @@
+{
+    "version": "v1.0.0",
+    "entity": {
+        "type": "organisation",
+        "role": "owner",
+        "name": "Rad UI",
+        "email": "pranaykothapalli@gmail.com",
+        "description": "The goal of Rad UI is to provide a set of high-quality, customizable UI components that can be used to build modern, fast, performant, accessible React applications. Building UI components is hard and unstructured, and Rad UI aims to make it easier.",
+        "webpageUrl": {
+            "url": "https://www.rad-ui.com/"
+        }
+    },
+    "projects": [
+        {
+            "guid": "rad-ui",
+            "name": "Rad UI",
+            "description": "Rad UI is an open-source, headless UI component library for building modern, fast, performant, accessible React applications",
+            "webpageUrl": {
+                "url": "https://www.rad-ui.com/",
+                "wellKnown": ""
+            },
+            "repositoryUrl": {
+                "url": "https://github.com/rad-ui/ui",
+                "wellKnown": ""
+            },
+            "licenses": [
+                "MIT"
+            ],
+            "tags": [
+                "programming"
+            ]
+        }
+    ],
+    "funding": {
+        "channels": [
+            {
+                "guid": "github-sponsors",
+                "type": "payment-provider",
+                "address": "https://github.com/sponsors/rad-ui"
+            }
+        ],
+        "plans": [
+            {
+                "guid": "individual-small",
+                "status": "active",
+                "name": "Small Donation for Individuals",
+                "description": "If you're a Rad UI user and would like to help with a small recurring donation that should be easy for you to maintain over time.",
+                "amount": 2,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            },
+            {
+                "guid": "individual-medium",
+                "status": "active",
+                "name": "Medium Donation for Individuals",
+                "description": "If you're a Rad UI user and would like to help with a medium recurring donation that should be easy for you to maintain over time.",
+                "amount": 10,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            },
+            {
+                "guid": "individual-large",
+                "status": "active",
+                "name": "Medium Donation for Individuals",
+                "description": "If you're a Rad UI user and would like to help with a large recurring donation that should be easy for you to maintain over time.",
+                "amount": 50,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            },
+            {
+                "guid": "company-small",
+                "status": "active",
+                "name": "Small Donation for Companies",
+                "description": "If your company uses Rad UI or is a supporter of Free and Open Source Software, this recurring donation should be easy for you to maintain over time.",
+                "amount": 100,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            },
+            {
+                "guid": "company-medium",
+                "status": "active",
+                "name": "Medium Donation for Companies",
+                "description": "If your company uses Rad UI or is a supporter of Free and Open Source Software, this recurring donation should be easy for you to maintain over time.",
+                "amount": 250,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            },
+            {
+                "guid": "company-large",
+                "status": "active",
+                "name": "Large Donation for Companies",
+                "description": "With this donation we'll put up your logo on our website. Contact us beforehand if you're interested in this level of donation.",
+                "amount": 1000,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            },
+            {
+                "guid": "company-sponsor",
+                "status": "active",
+                "name": "Become a Rad UI Sponsor",
+                "description": "With this donation we'll put up your logo on our website along with case studies on how Rad UI is has been beneficial to your company. Contact us beforehand if you're interested in this level of donation.",
+                "amount": 3000,
+                "currency": "USD",
+                "frequency": "monthly",
+                "channels": [
+                    "github-sponsors"
+                ]
+            }
+        ],
+        "history": []
+    }
+}
