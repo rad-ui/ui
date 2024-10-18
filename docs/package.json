@@ -24,7 +24,7 @@
     "next-cookies": "^2.0.3",
     "node-fetch": "^3.3.2",
     "nookies": "^2.5.2",
-    "postcss": "8.4.29",
+    "postcss": "8.4.47",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "refractor": "^4.8.1",
