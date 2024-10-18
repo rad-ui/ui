@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import fetch from 'node-fetch';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const url = 'https://raw.githubusercontent.com/rad-ui/ui/refs/heads/main/funding.json';
