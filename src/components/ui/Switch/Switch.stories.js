@@ -7,11 +7,12 @@ const CheckBox = (args) => {
         setIsChecked(state);
     };
     return <SandboxEditor className="space-x-1">
-        {variants.map((variant, index) => (
-            <Switch defaultChecked={args} key={index} variant={variant} onChange={handleChange} {...args} />
-        ))}
-
-    </SandboxEditor>;
+            {variants.map((variant,index) => (
+              <Switch defaultChecked={args} key={index} variant={variant} onChange={handleChange} {...args} /> 
+            ))}  
+             
+           </SandboxEditor>;
+          
 };
 
 export default {
