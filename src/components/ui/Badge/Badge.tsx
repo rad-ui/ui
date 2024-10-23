@@ -1,9 +1,7 @@
 'use client';
 import React from 'react';
 import BadgeRoot from './shards/BadgeRoot';
-
-const COMPONENT_NAME = 'Badge';
-
+import BadgeContent from './shards/BadgeContent';
 export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,
@@ -16,11 +14,11 @@ const Badge = ({ children, customRootClass, className, color, ...props }: BadgeP
     
     return <BadgeRoot customRootClass={customRootClass} className={`${className}`} color={color ?? undefined} {...props}>
         
-        {children}
+          <BadgeContent>
+             {children}
+          </BadgeContent>
     </BadgeRoot>
 };
-
-Badge.displayName = COMPONENT_NAME;
 
 Badge.Root = BadgeRoot;
 export default Badge;
