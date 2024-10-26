@@ -21,4 +21,5 @@ const Badge = ({ children, customRootClass, className, color, ...props }: BadgeP
 };
 
 Badge.Root = BadgeRoot;
+Badge.Content = BadgeContent;
 export default Badge;
