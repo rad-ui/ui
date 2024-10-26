@@ -23,7 +23,7 @@
       },
       "repositoryUrl": {
         "url": "https://github.com/rad-ui/ui",
-        "wellKnown": "https://github.com/rad-ui/ui/.well-known/funding-manifest-urls"
+        "wellKnown": "https://github.com/rad-ui/ui/blob/main/.well-known/funding-manifest-urls"
       },
       "licenses": [
         "MIT"
