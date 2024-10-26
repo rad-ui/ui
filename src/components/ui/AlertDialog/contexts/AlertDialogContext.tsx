@@ -1,10 +1,8 @@
-import { createContext } from 'react';
-import { FloatingContext } from '@floating-ui/react';
+import { createContext } from "react";
 
 type AlertDialogContextType = {
   isOpen: boolean;
   handleOpenChange: (open: boolean) => void;
-  floaterContext: FloatingContext;
   rootClass: string;
   handleOverlayClick: () => void;
 };
@@ -12,7 +10,6 @@ type AlertDialogContextType = {
 export const AlertDialogContext = createContext<AlertDialogContextType>({
   isOpen: false,
   handleOpenChange: () => {},
-  floaterContext: {} as FloatingContext,
-  rootClass: '',
+  rootClass: "",
   handleOverlayClick: () => {},
 });
