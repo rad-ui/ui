@@ -14,7 +14,7 @@ export type AlertDialogRootProps = {
 
 const COMPONENT_NAME = 'AlertDialog';
 
-const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, onClickOutside } : AlertDialogRootProps) => {
+const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, onClickOutside=()=>{} } : AlertDialogRootProps) => {
     const { context: floaterContext } = Floater.useFloating();
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const [isOpen, setIsOpen] = useState(open);
@@ -31,7 +31,7 @@ const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, o
     const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick };
     return (
         <AlertDialogContext.Provider value={props}>
-            <div className={rootClass}>
+            <div className={rootClass} >
                 {children}
             </div>
         </AlertDialogContext.Provider>
