@@ -5,15 +5,18 @@ import AlertDialogTrigger from './shards/AlertDialogTrigger';
 import AlertDialogPortal from './shards/AlertDialogPortal';
 import AlertDialogOverlay from './shards/AlertDialogOverlay';
 import AlertDialogCancel from './shards/AlertDialogCancel';
+import AlertDialogAction from './shards/AlertDialogAction';
 export type AlertDialogProps = {
     children: React.ReactNode;
     content: React.ReactNode;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
 }
 
-const AlertDialog = ({ children, open, onOpenChange, content } : AlertDialogProps) => {
+const AlertDialog = ({ children, open = false, onOpenChange, content } : AlertDialogProps) => {
     const [isOpen, setIsOpen] = useState(open);
     return (
-        <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange}>
+        <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange} >
             <AlertDialogTrigger>
                 {children}
             </AlertDialogTrigger>
@@ -21,12 +24,13 @@ const AlertDialog = ({ children, open, onOpenChange, content } : AlertDialogProp
             <AlertDialogPortal>
                 <AlertDialogOverlay/>
                 <AlertDialogContent>
-                    <div>
-                        {content}
-                    </div>
+                    {content}
                     <AlertDialogCancel>
                         Cancel
                     </AlertDialogCancel>
+                    <AlertDialogAction>
+                        Action
+                    </AlertDialogAction>
                 </AlertDialogContent>
 
             </AlertDialogPortal>
