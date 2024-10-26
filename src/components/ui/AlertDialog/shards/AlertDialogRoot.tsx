@@ -31,7 +31,7 @@ const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, o
     const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick };
     return (
         <AlertDialogContext.Provider value={props}>
-            <div className={rootClass}>
+            <div className={rootClass} >
                 {children}
             </div>
         </AlertDialogContext.Provider>
