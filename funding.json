@@ -1,7 +1,7 @@
 {
   "guid": "rad-ui",
   "version": "v1.0.0",
-  "url": "https://github.com/rad-ui/ui",
+  "url": "https://www.rad-ui.com/",
   "entity": {
     "type": "organisation",
     "role": "owner",
@@ -10,7 +10,7 @@
     "phone": "",
     "description": "The goal of Rad UI is to provide a set of high-quality, customizable UI components that can be used to build modern, fast, performant, accessible React applications. Building UI components is hard and unstructured, and Rad UI aims to make it easier.",
     "webpageUrl": {
-      "url": "https://github.com/rad-ui/ui"
+      "url": "https://www.rad-ui.com/"
     }
   },
   "projects": [
@@ -19,10 +19,11 @@
       "name": "Rad UI",
       "description": "Rad UI is an open-source, headless UI component library for building modern, fast, performant, accessible React applications",
       "webpageUrl": {
-        "url": "https://github.com/rad-ui/ui"
+        "url": "https://www.rad-ui.com/"
       },
       "repositoryUrl": {
-        "url": "https://github.com/rad-ui/ui"
+        "url": "https://github.com/rad-ui/ui",
+        "wellKnown": "https://github.com/rad-ui/ui/.well-known/funding-manifest-urls"
       },
       "licenses": [
         "MIT"
