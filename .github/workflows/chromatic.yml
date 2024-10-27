@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main  # Adjust this if your main branch has a different name
-  pull_request:
-    branches:
-      - main  # Adjust this if your main branch has a different name
+  # pull_request: # No need for PRs for now
+  #   branches:
+  #     - main  # Adjust this if your main branch has a different name
 
 jobs:
   chromatic-deployment:
