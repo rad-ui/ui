@@ -1,30 +1,32 @@
-# .github/workflows/chromatic.yml
-
-name: "Chromatic"
+name: 'Chromatic Deployment'
 
 on:
   push:
-    paths:
-      - 'src/components/**/*.{js,jsx,ts,tsx}'
-
+    branches:
+      - main  # Adjust this if your main branch has a different name
+  pull_request:
+    branches:
+      - main  # Adjust this if your main branch has a different name
 
 jobs:
-  chromatic:
+  chromatic-deployment:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Required for Chromatic to retrieve git history
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Adjust this to your project's Node.js version
 
       - name: Install dependencies
-        # ⚠️ Pick one of these, matching the package manager for your project
-        run: npm ci
-        # run: pnpm install
-        # run: yarn install --immutable --immutable-cache --check-cache
+        run: npm ci  # Use 'yarn install --frozen-lockfile' if you use Yarn
 
       - name: Publish to Chromatic
-        uses: chromaui/action@latest
+        uses: chromaui/action@v1
         with:
-          # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          # Optional: Add any additional Chromatic CLI flags here
+          # For example: --exit-zero-on-changes
