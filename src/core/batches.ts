@@ -2,7 +2,7 @@ export const getAllBatchElements = (rootElement: HTMLElement):NodeList => {
     return rootElement.querySelectorAll('[data-rad-ui-batch-element]');
 };
 
-export const getActiveBatchItem = (batches = []) => {
+export const getActiveBatchItem = (batches: NodeList) => {
     // batches is a NodeList
     let activeItem = null;
     batches.forEach((item) => {
@@ -15,7 +15,7 @@ export const getActiveBatchItem = (batches = []) => {
     return activeItem;
 };
 
-export const getNextBatchItem = (batches): Element => {
+export const getNextBatchItem = (batches: NodeList): Element => {
     const activeItem = getActiveBatchItem(batches);
     // get the next item, return it if it is not the last item
     const nextItem = activeItem?.nextElementSibling;
@@ -27,7 +27,7 @@ export const getNextBatchItem = (batches): Element => {
     return batches[batches.length - 1];
 };
 
-export const getPrevBatchItem = (batches = []) => {
+export const getPrevBatchItem = (batches: NodeList) => {
     const activeItem = getActiveBatchItem(batches);
     // get the next item, return it if it is not the last item
     const prevItem = activeItem?.previousElementSibling;

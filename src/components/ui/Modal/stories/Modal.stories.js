@@ -4,7 +4,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 
 export default {
-    title: 'Components/Modal',
+    title: 'WIP/Modal',
     component: Modal
 };
 

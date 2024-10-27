@@ -10,7 +10,7 @@ const placeholderText = ['“One of the penalties for refusing to participate in
 
 const meta: Meta<typeof Collapsible> = {
     component: Collapsible,
-    title: 'Components/Collapsible'
+    title: 'WIP/Collapsible'
 };
 
 export default meta;

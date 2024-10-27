@@ -3,7 +3,7 @@ import Heading from '~/components/ui/Heading/Heading';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'Components/Table',
+    title: 'WIP/Table',
     component: Table
 };
 

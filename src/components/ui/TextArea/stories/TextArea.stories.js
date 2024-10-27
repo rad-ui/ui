@@ -11,7 +11,7 @@ const Template = (args) => {
 };
 
 export default {
-    title: 'Components/TextArea',
+    title: 'WIP/TextArea',
     component: TextArea,
     render: (args) => <Template {...args} />
 };

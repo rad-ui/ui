@@ -6,7 +6,7 @@ import Button from '~/components/ui/Button/Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Skeleton',
+    title: 'WIP/Skeleton',
     component: Skeleton,
     render: (args) => {
         const [loading, setLoading] = React.useState(true);
