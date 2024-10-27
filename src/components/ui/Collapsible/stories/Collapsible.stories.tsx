@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Meta } from '@storybook/react';
-import Collapsible from './Collapsible';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import Button from '../Button/Button';
+import Collapsible from '~/components/ui/Collapsible/Collapsible';
+import Button from '~/components/ui/Button/Button';
 
 const placeholderText = ['“One of the penalties for refusing to participate in politics is that you end up being governed by your inferiors.“ – Plato',
     '“The superior man understands what is right; the inferior man understands what will sell.” – Confucius',
