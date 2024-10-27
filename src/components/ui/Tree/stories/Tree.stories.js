@@ -16,13 +16,37 @@ export default {
                         items: [
                             {
                                 label: 'hello child 1',
+                                items: [
+                                    {
+                                        label: 'hello child 1.1',
+                                        expanded: false,
+                                        items: [
+                                            {
+                                                label: 'hello child 1.1.1',
+                                                expanded: false,
+                                                items: [
+                                                    {
+                                                        label: 'hello child 1.1.1.1',
+                                                        expanded: false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ],
                                 expanded: false
                             }
                         ]
                     },
                     {
                         label: 'world',
-                        expanded: false
+                        expanded: false,
+                        items: [
+                            {
+                                label: 'world child 1',
+                                expanded: false
+                            }
+                        ]
                     }
                 ]}>
                 hello

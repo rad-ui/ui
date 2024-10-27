@@ -7,7 +7,7 @@ type TreeItemProps = {
     [key: string]: any;
 };
 
-const TreeItem = ({ children, className = '', ...props }: TreeItemProps) => {
+const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeItemProps) => {
     const id = useId();
     const buttonRef = useRef(null);
 
@@ -57,33 +57,44 @@ const TreeItem = ({ children, className = '', ...props }: TreeItemProps) => {
 
     // apply `data-rad-ui-focus-element` if the button is focused
 
-    return <ButtonPrimitive
-        className={className}
-        ref={buttonRef}
-        onClick={handleClick}
-        data-rad-ui-batch-element
-        id={`tree-data-item-${id}`}
-        onKeyDown={handleKeyDown}
-        onFocus={() => {
-            setIsFocused(true);
-        }}
-        onBlur={() => {
-            setIsFocused(false);
-        }}
+    return <>
 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-        {...(isFocused && { 'data-rad-ui-focus-element': true })}
-        {...props}>
+        <ButtonPrimitive
+            className={className}
+            ref={buttonRef}
+            onClick={handleClick}
+            data-rad-ui-batch-element
+            id={`tree-data-item-${id}`}
+            onKeyDown={handleKeyDown}
+            onFocus={() => {
+                setIsFocused(true);
+            }}
+            onBlur={() => {
+                setIsFocused(false);
+            }}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div>
-                {isToggled ? 'v' : '>'}
+            style={{ display: 'block', alignItems: 'center', gap: '0.5rem' }}
+            {...(isFocused && { 'data-rad-ui-focus-element': true })}
+            {...props}>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div>
+                    {isToggled ? 'v' : '>'}
+                </div>
+                <div>
+                    {children}
+                </div>
             </div>
-            <div>
-                {children}
-            </div>
-        </div>
-    </ButtonPrimitive>;
+        </ButtonPrimitive>
+        {isToggled && item.items && <>
+            {item.items.map((subItem: any) => {
+                const nextLevel = level + 1;
+                return <TreeItem level={nextLevel} key={subItem.label} item={subItem}>
+                    {subItem.label}
+                </TreeItem>;
+            })}
+        </>}
+    </>;
 };
 
 export default TreeItem;

@@ -12,20 +12,15 @@ type TreeProps = {
 
 const Tree = ({ children, items = [], ...props }: TreeProps) => {
     return <TreeRoot {...props}>
-        {items.map((item: any) => (
-            <>
-                <TreeItem key={item.label} expanded={item.expanded}>
+        {items.map((item: any) => {
+            const level = 0;
+            return <>
+                <TreeItem key={item.label} expanded={item.expanded} item={item} level={level}>
                     {item.label}
                 </TreeItem>
-                <>
-                    {item.items && item.expanded && item.items.map((subItem: any) => (
-                        <TreeItem className='ml-4' key={subItem.label} expanded={subItem.expanded}>
-                            {subItem.label}
-                        </TreeItem>
-                    ))}
-                </>
-            </>
-        ))}
+
+            </>;
+        })}
     </TreeRoot>;
 };
 
