@@ -11,13 +11,12 @@ export type BadgeProps = {
 }
 
 const Badge = ({ children, customRootClass, className, color, ...props }: BadgeProps) => {
-    
     return <BadgeRoot customRootClass={customRootClass} className={`${className}`} color={color ?? undefined} {...props}>
-        
-          <BadgeContent>
-             {children}
-          </BadgeContent>
-    </BadgeRoot>
+
+        <BadgeContent>
+            {children}
+        </BadgeContent>
+    </BadgeRoot>;
 };
 
 Badge.Root = BadgeRoot;

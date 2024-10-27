@@ -1,21 +1,19 @@
-import Avatar from '@radui/ui/Avatar';
+import Kbd from '../Kbd';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Avatar',
-    component: Avatar,
+    title: 'Components/Kbd',
+    component: Kbd,
     render: (args) => <SandboxEditor>
         <div className='flex space-x-2'>
-            <Avatar fallback="A" />
-            <Avatar fallback="PK" />
-            <Avatar src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop" />
+            <Kbd className='text-xs' >Ctrl + X</Kbd>
         </div>
     </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const AvatarProd = {
+export const All = {
     args: {
         className: ''
     }
