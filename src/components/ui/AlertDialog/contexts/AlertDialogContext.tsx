@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 type AlertDialogContextType = {
   isOpen: boolean;
@@ -8,8 +8,8 @@ type AlertDialogContextType = {
 };
 
 export const AlertDialogContext = createContext<AlertDialogContextType>({
-  isOpen: false,
-  handleOpenChange: () => {},
-  rootClass: "",
-  handleOverlayClick: () => {},
+    isOpen: false,
+    handleOpenChange: () => {},
+    rootClass: '',
+    handleOverlayClick: () => {}
 });

@@ -1,21 +1,22 @@
-import Avatar from '@radui/ui/Avatar';
+import Tooltip from '../Tooltip';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import ScrollPlayground from '~/components/tools/ScrollPlayground/ScrollPlayground';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Avatar',
-    component: Avatar,
+    title: 'Components/Tooltip',
+    component: Tooltip,
     render: (args) => <SandboxEditor>
-        <div className='flex space-x-2'>
-            <Avatar fallback="A" />
-            <Avatar fallback="PK" />
-            <Avatar src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop" />
-        </div>
+        <ScrollPlayground>
+            <Tooltip className="text-gray-1000" label="This is a tooltip">
+                    Hello, hover me!
+            </Tooltip>
+        </ScrollPlayground>
     </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const AvatarProd = {
+export const All = {
     args: {
         className: ''
     }
