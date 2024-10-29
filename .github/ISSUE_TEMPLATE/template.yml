@@ -1,0 +1,40 @@
+name: Bug Report
+description: File a bug report.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+projects: ["octo-org/1", "octo-org/44"]
+assignees:
+  - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: description
+    attributes:
+      label: Description
+      description: Describe the bug
+      placeholder: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: Related Tickets & Documents
+    attributes:
+      label: Related Tickets & Documents
+      description: Related Tickets & Documents
+      placeholder: like issue 445
+     
+    validations:
+      required: false 
+  
+  - type: textarea
+    id: Mobile & Desktop Screenshots/Recordings
+    attributes:
+      label: Mobile & Desktop Screenshots/Recordings
+      description: screenshots/recordings 
+    validations:
+      required: false
+      
+      
+
