@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Table';
 
-const TableRoot = ({children, className='', customRootClass='', ...props}:any) => {
+const TableRoot = ({ children, className = '', customRootClass = '', ...props }:any) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     // Its important to wrap the table in a div with the class 'rad-ui-table' so that the table can be styled properly

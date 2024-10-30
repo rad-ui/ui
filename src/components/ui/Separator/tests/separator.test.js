@@ -1,6 +1,6 @@
 // MyComponent.test.js
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Separator from '../Separator';
 
 describe('Separator Component', () => {
@@ -12,7 +12,7 @@ describe('Separator Component', () => {
 
     // renders with custom style
     test('renders Separator component with custom style', () => {
-        render(<Separator data-testid="separator" style={{color: 'red'}} />);
+        render(<Separator data-testid="separator" style={{ color: 'red' }} />);
         expect(screen.getByTestId('separator')).toHaveStyle('color: red');
     });
 

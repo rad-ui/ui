@@ -5,8 +5,7 @@ import ToggleItem from './shards/ToggleItem';
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-
-const ToggleGroup = ({type = 'single', items=[]}) => {
+const ToggleGroup = ({ type = 'single', items = [] }) => {
     return (
         <ToggleGroupRoot type={type} componentName={COMPONENT_NAME}>
             {
@@ -22,7 +21,6 @@ const ToggleGroup = ({type = 'single', items=[]}) => {
         </ToggleGroupRoot>
     );
 };
-
 
 ToggleGroup.displayName = COMPONENT_NAME;
 

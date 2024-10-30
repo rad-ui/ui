@@ -1,6 +1,6 @@
 // MyComponent.test.js
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Card from '../Card';
 
 describe('Card Component', () => {
@@ -19,7 +19,7 @@ describe('Card Component', () => {
 
     // renders with custom style
     test('renders Card component with custom style', () => {
-        render(<Card data-testid="card" style={{color: 'red'}} />);
+        render(<Card data-testid="card" style={{ color: 'red' }} />);
         expect(screen.getByTestId('card')).toHaveStyle('color: red');
     });
 

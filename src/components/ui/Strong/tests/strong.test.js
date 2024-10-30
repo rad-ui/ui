@@ -1,6 +1,6 @@
 // MyComponent.test.js
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Strong from '../Strong';
 
 describe('Strong Component', () => {
@@ -23,7 +23,7 @@ describe('Strong Component', () => {
     });
 
     test('renders Strong component with custom style', () => {
-        render(<Strong style={{color: 'red'}}>I am Strong!</Strong>);
+        render(<Strong style={{ color: 'red' }}>I am Strong!</Strong>);
         expect(screen.getByText('I am Strong!')).toHaveStyle('color: red');
     });
 

@@ -10,7 +10,7 @@ type TooltipProps = {
     [key: string]: any;
 };
 
-const Tooltip = ({children, label, ...props}:TooltipProps) => {
+const Tooltip = ({ children, label, ...props }:TooltipProps) => {
     return <div>
         <Popper popperName={COMPONENT_NAME} pop={'hello'} {...props}>{children}</Popper>
     </div>;

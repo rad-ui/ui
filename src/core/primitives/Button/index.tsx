@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 /**
  *
  * Notes
@@ -17,7 +16,7 @@ import React from 'react';
 
  */
 
-const ButtonPrimitive = ({role='button', label='', description='', disabled=false, children, ...props}:any) => {
+const ButtonPrimitive = ({ role = 'button', label = '', description = '', disabled = false, children, ...props }:any) => {
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
