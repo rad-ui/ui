@@ -9,7 +9,11 @@ assignees: ''
 
 ## Description
 
-A clear and concise description of what the bug is
+Please provide:
+1. A clear and concise description of what the bug is
+2. Steps to reproduce the behavior
+3. Expected behavior
+4. Actual behavior
 
 ## Related Tickets & Documents
 
