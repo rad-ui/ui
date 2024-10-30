@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
+title: "[New Feature]"
 labels: ''
 assignees: ''
 
@@ -18,34 +18,34 @@ assignees: ''
 
 ---
 
-### **🎯 Problem Statement**
+### **[optional]🎯 Problem Statement**
 
 > *Explain why this feature is needed. What problem does it solve, or how does it enhance the user experience?*  
 > _Example: "Users with visual impairments find it challenging to read the UI in light mode, so this feature would improve accessibility."_
 
 ---
 
-### **📝 Suggested Solution**
+### **[optional]📝 Suggested Solution**
 
 > *Describe a possible solution to the problem. Provide any initial ideas or mockups if available.*  
 > _Example: "Use CSS media queries to detect user color scheme preferences and apply a dark theme when appropriate."_
 
 ---
 
-### **📚 Additional Context**
+### **[optional]📚 Additional Context**
 
 > *Include any other information that could be helpful, such as references, screenshots, similar features in other tools, or links to relevant documentation.*
 
 ---
 
-### **💡 Related Issues or Features**
+### **[optional]💡 Related Issues or Features**
 
 > *List any related issues or features. Include links to other GitHub issues or PRs if applicable.*  
 > _Example: #123 (Dark mode support in header components)_
 
 ---
 
-### **🏆 Acceptance Criteria**
+### **[optional]🏆 Acceptance Criteria**
 
 > *Define what needs to happen for this feature to be considered complete. Bullet points are helpful here.*  
 > _Example:_
@@ -55,12 +55,12 @@ assignees: ''
 
 ---
 
-### **🖥️ Device/Environment Details**
+### **[optional]🖥️ Device/Environment Details**
 
 > _Optional: Describe any specific environments or devices where this feature is needed (e.g., mobile, desktop, etc.)._
 
 ---
 
-### **🗓️ Timeline**
+### **[optional]🗓️ Timeline**
 
 > *Optional: Is there a specific timeline or release this feature should be aimed for?*
