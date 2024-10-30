@@ -14,7 +14,7 @@ assignees: ''
 ## **Feature Description**
 
 > *Describe the feature you would like to see implemented. Be as specific as possible about the functionality or purpose.*  
-> _Example: "Add support for dark mode in all UI components."_
+> *Example: "Add support for dark mode in all UI components."*
 
 ---
 
