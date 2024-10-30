@@ -17,7 +17,7 @@ Please provide:
 
 ## Related Tickets & Documents
 
-eg. Relates to  [#4165]
+e.g., Relates to [#4165]
 
 ## Mobile & Desktop Screenshots/Recordings
 If applicable, add screenshots/recordings that show:
