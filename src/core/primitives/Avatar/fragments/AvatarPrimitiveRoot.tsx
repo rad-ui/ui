@@ -4,12 +4,13 @@ import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
 export interface AvatarPrimitiveRootProps {
     children: React.ReactNode;
+    src?: string;
     className?: string;
 }
 
-const AvatarPrimitiveRoot = ({ children, className = '' }: AvatarPrimitiveRootProps) => {
+const AvatarPrimitiveRoot = ({ children, className = '', src, ...props }: AvatarPrimitiveRootProps) => {
     const [isImageLoaded, setIsImageLoaded] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const [hasError, setHasError] = useState(!src);
 
     const handleLoadImage = () => {
         setIsImageLoaded(true);
@@ -24,14 +25,14 @@ const AvatarPrimitiveRoot = ({ children, className = '' }: AvatarPrimitiveRootPr
     const values = {
         isImageLoaded,
         hasError,
+        setHasError,
         handleLoadImage,
-        handleErrorImage
+        handleErrorImage,
+        src
     };
-    useEffect(() => {
-    }, [isImageLoaded, hasError]);
 
     return <AvatarPrimitiveContext.Provider value={values}>
-        <div className={className}>{children}</div>
+        <span className={className} {...props}>{children}</span>
     </AvatarPrimitiveContext.Provider>;
 };
 

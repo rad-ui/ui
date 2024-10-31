@@ -5,6 +5,7 @@ interface AvatarPrimitiveContextType {
     hasError: boolean;
     handleLoadImage: () => void;
     handleErrorImage: () => void;
+    src?: string;
 }
 
 export const AvatarPrimitiveContext = createContext<AvatarPrimitiveContextType>({} as AvatarPrimitiveContextType);

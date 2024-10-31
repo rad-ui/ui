@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AvatarPrimitive from '~/core/primitives/Avatar';
+
 import AvatarRoot from './shards/AvatarRoot';
 import AvatarImage from './shards/AvatarImage';
 import AvatarFallback from './shards/AvatarFallback';
@@ -18,16 +20,17 @@ export type AvatarProps = {
 
 const Avatar = ({ children, customRootClass, fallback, className, src, alt, ...props }: AvatarProps) => {
     return (
-        <AvatarRoot customRootClass={customRootClass}>
-            <AvatarImage
+        <AvatarPrimitive.Root src={src} customRootClass={customRootClass}>
+            <AvatarPrimitive.Image
                 src={src}
                 alt={alt}
                 className={className}
-                customRootClass={customRootClass}
                 {...props}
             />
-            <AvatarFallback customRootClass={customRootClass} fallback={fallback}/>
-        </AvatarRoot>
+            <AvatarPrimitive.Fallback>
+                {fallback}
+            </AvatarPrimitive.Fallback>
+        </AvatarPrimitive.Root>
     );
 };
 
