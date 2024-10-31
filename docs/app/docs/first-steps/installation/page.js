@@ -4,6 +4,7 @@ import Text from "@radui/ui/Text"
 import Heading from "@radui/ui/Heading"
 import Link from "@radui/ui/Link"
 import Code from "@radui/ui/Code"
+import Copy from "\\docs\\app\\docs\\components\\copy-code\\page.js"
 
 
 const PAGE_NAME = 'INSTALLATION'
@@ -23,12 +24,12 @@ const Introduction = () => {
             </Text>
 
             <Text className="mt-4 mb-1 font-medium">Using Yarn</Text>
-            <Code>
-                yarn add @radui/ui
+            <Code >
+            <Copy>yarn add @radui/ui </Copy>
             </Code>
             <Text className="mt-4 mb-1 font-medium">Using npm</Text>
             <Code>
-                npm install @radui/ui --save
+                <Copy>npm install @radui/ui --save</Copy>
             </Code>
         </Documentation.Section>
     </Documentation>
