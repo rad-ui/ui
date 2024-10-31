@@ -1,9 +1,8 @@
-const COMPONENT_NAME = 'AvatarGroup';
-
 import React from 'react';
 
-
 import AvatarGroupRoot from './shards/AvatarGroupRoot';
+
+const COMPONENT_NAME = 'AvatarGroup';
 
 // contexts
 
@@ -17,13 +16,11 @@ import AvatarGroupRoot from './shards/AvatarGroupRoot';
 //     props?: Record<string, any>[]
 // }
 
-
-const AvatarGroup = ({avatars=[], size, customRootClass='', className}) => {
+const AvatarGroup = ({ avatars = [], size, customRootClass = '', className }) => {
     return <AvatarGroupRoot>
 
     </AvatarGroupRoot>;
 };
-
 
 AvatarGroup.displayName = COMPONENT_NAME;
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import RadioPrimitive from '.';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -7,32 +7,32 @@ export default {
     component: RadioPrimitive,
     render: (args:React.ComponentProps<typeof RadioPrimitive>) => <SandboxEditor>
 
-         <RadioPrimitive {...args} />
+        <RadioPrimitive {...args} />
     </SandboxEditor>
-    
-    }
+
+};
 
 export const All = {
-     args: {
+    args: {
         role: 'radio',
         children: 'Radio',
-        checked: false,
-     }
-}
+        checked: false
+    }
+};
 
 export const WithAriaLabel = {
-     args: {
+    args: {
         role: 'radio',
         'aria-label': 'Aria label',
-        children: 'Radio',
-     }
-}
+        children: 'Radio'
+    }
+};
 
 export const Checked = {
 
-     args: {
+    args: {
         role: 'radio',
         checked: true,
-        children: 'Radio',
-     }
-}
+        children: 'Radio'
+    }
+};

@@ -1,8 +1,6 @@
-
 import React from 'react';
 
 import AvatarGroupContext from './contexts/AvatarGroupContext';
-
 
 const AvatarGroupRoot = () => {
     return (
