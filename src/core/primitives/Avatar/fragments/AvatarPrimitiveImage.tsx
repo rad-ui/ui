@@ -13,13 +13,12 @@ const AvatarPrimitiveImage = ({
     src,
     alt = 'Avatar',
     className = '',
-    status = 'loading',
     ...props
 }: AvatarRootImageProps) => {
-    const { handleErrorImage, handleLoadImage } = useContext(AvatarPrimitiveContext);
+    const { handleErrorImage, handleLoadImage, hasError } = useContext(AvatarPrimitiveContext);
 
     // If there's no src or there's an error, render nothing
-    if (!src || status === 'error') {
+    if (!src || hasError) {
         return null;
     }
 

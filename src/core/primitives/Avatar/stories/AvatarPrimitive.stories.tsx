@@ -10,9 +10,9 @@ export default {
         <div >
             <div className='flex space-x-2 w-full flex-1'>
                 <AvatarPrimitive.Root>
-                    <AvatarPrimitive.Image src='https://via.placeholder.com/150' alt='Avatar' />
+                    <AvatarPrimitive.Image src={args.src} alt='Avatar' />
                     <AvatarPrimitive.Fallback>
-                        <span>AB</span>
+                        <span>{args.fallback}</span>
                     </AvatarPrimitive.Fallback>
                 </AvatarPrimitive.Root>
 
@@ -23,8 +23,15 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
+export const WithSrc = {
     args: {
+        src: 'https://via.placeholder.com/150'
+    }
+};
 
+export const WithError = {
+    args: {
+        src: 'brokenlink---',
+        fallback: 'AB'
     }
 };

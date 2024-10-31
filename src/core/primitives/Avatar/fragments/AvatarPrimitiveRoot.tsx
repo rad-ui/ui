@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
@@ -27,6 +27,8 @@ const AvatarPrimitiveRoot = ({ children, className = '' }: AvatarPrimitiveRootPr
         handleLoadImage,
         handleErrorImage
     };
+    useEffect(() => {
+    }, [isImageLoaded, hasError]);
 
     return <AvatarPrimitiveContext.Provider value={values}>
         <div className={className}>{children}</div>
