@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+
+import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
 export interface AvatarPrimitiveRootProps {
     children: React.ReactNode;
@@ -6,7 +8,29 @@ export interface AvatarPrimitiveRootProps {
 }
 
 const AvatarPrimitiveRoot = ({ children, className = '' }: AvatarPrimitiveRootProps) => {
-    return <div className={className}>{children}</div>;
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
+
+    const handleLoadImage = () => {
+        setIsImageLoaded(true);
+        setHasError(false);
+    };
+
+    const handleErrorImage = () => {
+        setIsImageLoaded(false);
+        setHasError(true);
+    };
+
+    const values = {
+        isImageLoaded,
+        hasError,
+        handleLoadImage,
+        handleErrorImage
+    };
+
+    return <AvatarPrimitiveContext.Provider value={values}>
+        <div className={className}>{children}</div>
+    </AvatarPrimitiveContext.Provider>;
 };
 
 export default AvatarPrimitiveRoot;

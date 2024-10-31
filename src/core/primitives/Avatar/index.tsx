@@ -1,11 +1,11 @@
 import AvatarPrimitiveRoot from './fragments/AvatarPrimitiveRoot';
 import AvatarPrimitiveFallback from './fragments/AvatarPrimitiveFallback';
-import AvatarRootImage from './fragments/AvatarRootImage';
+import AvatarPrimitiveImage from './fragments/AvatarPrimitiveImage';
 
 const AvatarPrimitive = {
     Root: AvatarPrimitiveRoot,
     Fallback: AvatarPrimitiveFallback,
-    Image: AvatarRootImage
+    Image: AvatarPrimitiveImage
 } as const;
 
 export default AvatarPrimitive;
