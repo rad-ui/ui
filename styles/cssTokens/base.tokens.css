@@ -1,6 +1,6 @@
 
-  :root {
-    --rad-ui-color-gray-50: hsl(0, 0%, 99.0%);
+    :root {
+      --rad-ui-color-gray-50: hsl(0, 0%, 99.0%);
 --rad-ui-color-gray-100: hsl(0, 0%, 97.5%);
 --rad-ui-color-gray-200: hsl(0, 0%, 94.6%);
 --rad-ui-color-gray-300: hsl(0, 0%, 92.0%);
@@ -372,10 +372,9 @@
 --rad-ui-color-orange-900: #ef5f00;
 --rad-ui-color-orange-950: #cc4e00;
 --rad-ui-color-orange-1000: #582d1d;
-   
-  }
+    }
 
-  [data-accent-color=gray]{
+    [data-accent-color=gray]{
 --rad-ui-color-accent-50: var(--rad-ui-color-gray-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-gray-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-gray-200);
@@ -811,8 +810,8 @@
 }
 
 
-  .rad-ui-dark-theme {
-    --rad-ui-color-gray-50: hsl(0, 0%, 9.5%);
+    .rad-ui-dark-theme {
+      --rad-ui-color-gray-50: hsl(0, 0%, 9.5%);
 --rad-ui-color-gray-100: hsl(0, 0%, 10.5%);
 --rad-ui-color-gray-200: hsl(0, 0%, 15.8%);
 --rad-ui-color-gray-300: hsl(0, 0%, 18.9%);
@@ -1184,4 +1183,5 @@
 --rad-ui-color-orange-900: #ff801f;
 --rad-ui-color-orange-950: #ffa057;
 --rad-ui-color-orange-1000: #ffe0c2;
-  }
+    }
+  

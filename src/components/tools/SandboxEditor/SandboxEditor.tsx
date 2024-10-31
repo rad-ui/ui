@@ -1,5 +1,4 @@
-
-import React, {PropsWithChildren, useEffect, useState} from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import Button from '~/components/ui/Button/Button';
 import Separator from '~/components/ui/Separator/Separator';
 import Heading from '~/components/ui/Heading/Heading';
@@ -21,17 +20,17 @@ const RadUILogo = () => {
 
 type ColorSelectProps = {color:typeof colors[keyof typeof colors], colorName: string, changeAccentColor: (colorName: string)=>void}
 
-const ColorSelect = ({color, colorName, changeAccentColor}: ColorSelectProps) => {
+const ColorSelect = ({ color, colorName, changeAccentColor }: ColorSelectProps) => {
     const dimensions = 32;
     return <div
         onClick={() => changeAccentColor(colorName)}
         className='cursor-pointer rounded-full hover:border-gray-700 border'
-        style={{width: dimensions, height: dimensions, backgroundColor: color['light']['900']}}></div>;
+        style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></div>;
 };
 
-type SandboxProps = {className: string} & PropsWithChildren
+type SandboxProps = {className?: string} & PropsWithChildren
 
-const SandboxEditor = ({children, className} : SandboxProps) => {
+const SandboxEditor = ({ children, className } : SandboxProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     type AvailableColors = keyof typeof colors
@@ -70,7 +69,7 @@ const SandboxEditor = ({children, className} : SandboxProps) => {
                     {Object.keys(colors).map((color, idx) => {
                         const colorName = color as AvailableColors;
                         return <ColorSelect changeAccentColor={() => setColorName(colorName)} colorName={color} color={colors[colorName]} key={idx} />;
-                    },
+                    }
                     )}
 
                 </div>

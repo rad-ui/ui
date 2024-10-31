@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import AccordionRoot from './shards/AccordionRoot';
 import AccordionItem from './shards/AccordionItem';
 import AccordionHeader from './shards/AccordionHeader';
@@ -9,7 +9,7 @@ export type AccordionProps = {
     items: {content: any}[];
 }
 
-const Accordion = ({items} : AccordionProps) => {
+const Accordion = ({ items } : AccordionProps) => {
     return (
         <AccordionRoot>
             {items.map((item, index) => (

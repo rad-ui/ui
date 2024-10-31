@@ -1,8 +1,8 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-import {customClassSwitcher} from '~/core';
-import {AccordionContext} from '../contexts/AccordionContext';
-import {getAllBatchElements, getNextBatchItem, getPrevBatchItem} from '~/core/batches';
+import { customClassSwitcher } from '~/core';
+import { AccordionContext } from '../contexts/AccordionContext';
+import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
 
 const COMPONENT_NAME = 'Accordion';
 
@@ -11,7 +11,7 @@ export type AccordionRootProps = {
     customRootClass?: string;
 }
 
-const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
+const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
     const accordionRef = useRef(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
@@ -45,14 +45,14 @@ const AccordionRoot= ({children, customRootClass}: AccordionRootProps) => {
     return (
         <AccordionContext.Provider
             value={{
-                rootClass: rootClass,
+                rootClass,
                 activeItem,
                 setActiveItem,
                 focusNextItem,
                 focusPrevItem,
                 focusItem,
                 setFocusItem,
-                accordionRef,
+                accordionRef
 
             }}>
             <div className={`${rootClass}-root`} ref={accordionRef} >

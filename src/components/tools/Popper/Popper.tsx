@@ -1,7 +1,7 @@
-import React, {useState, useRef} from 'react';
-import {customClassSwitcher} from '~/core';
+import React, { useState, useRef } from 'react';
+import { customClassSwitcher } from '~/core';
 
-import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss} from '@floating-ui/react';
+import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss } from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -13,7 +13,6 @@ const GAP = 2;
  *
  *
  * For Placement https://floating-ui.com/docs/computePosition#placement
-
 
  */
 
@@ -32,47 +31,47 @@ export type PopperProps = {
 }
 
 const Popper = ({
-    popperName='',
-    customRootClass='',
-    activationStrategy='hover',
-    className='',
-    placement='top',
+    popperName = '',
+    customRootClass = '',
+    activationStrategy = 'hover',
+    className = '',
+    placement = 'top',
     children,
-    open=false,
-    hoverDelay=10,
-    showArrow=true,
-    pop=<></>,
-    ...props}: PopperProps) => {
+    open = false,
+    hoverDelay = 10,
+    showArrow = true,
+    pop = <></>,
+    ...props
+}: PopperProps) => {
     //
     const rootClass = customClassSwitcher(customRootClass, popperName);
     const arrowRef = useRef(null);
     const [isOpen, setIsOpen] = useState(open);
 
-    const {refs, floatingStyles, context} = useFloating({
-        placement: placement,
+    const { refs, floatingStyles, context } = useFloating({
+        placement,
         whileElementsMounted: autoUpdate, // this makes sure the popup is attached to the reference on scrolling etc
         open: isOpen,
         // strategy: 'fixed',
         middleware: [
             arrow({
-                element: arrowRef,
+                element: arrowRef
             }),
             offset(ARROW_HEIGHT + GAP),
             flip({
                 mainAxis: true,
-                fallbackStrategy: 'initialPlacement',
-            },
+                fallbackStrategy: 'initialPlacement'
+            }
             ),
             shift({
-                crossAxis: false,
+                crossAxis: false
             }),
             hide({
-                strategy: 'referenceHidden', // 'referenceHidden' by default
-            }),
-
+                strategy: 'referenceHidden' // 'referenceHidden' by default
+            })
 
         ],
-        onOpenChange: setIsOpen,
+        onOpenChange: setIsOpen
     });
 
     const role = useRole(context);
@@ -82,10 +81,10 @@ const Popper = ({
     // delay: hoverDelay,
     });
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([
+    const { getReferenceProps, getFloatingProps } = useInteractions([
         hover,
         role,
-        dismiss,
+        dismiss
     ]);
 
     return <span>
@@ -94,8 +93,8 @@ const Popper = ({
                 {
                     onClick: () => {
                         console.log('click');
-                    },
-                },
+                    }
+                }
             )}>{children}</span>
         {isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
             {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {customClassSwitcher} from '~/core';
+import { customClassSwitcher } from '~/core';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support
@@ -15,7 +15,7 @@ export type TextProps = {
     props?: Record<string, any>[]
 }
 
-const Text = ({children, customRootClass = '', className = '', ...props}: TextProps) => {
+const Text = ({ children, customRootClass = '', className = '', ...props }: TextProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return <p className={`${rootClass} ${className}`} {...props}>{children}</p>;
 };

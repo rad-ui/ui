@@ -1,0 +1,15 @@
+.rad-ui-radio-group{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--rad-ui-color-accent-900);
+    &.radioItems{
+        font-size: 1.2rem;
+    }
+    
+    &:focus{
+        outline: 2px solid var(--rad-ui-color-accent-900);
+        outline-offset: 2px;
+    }
+}

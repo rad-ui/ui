@@ -11,7 +11,7 @@ const indigo = {
         800: '#3e63dd',
         900: '#3358d4',
         950: '#3a5bc7',
-        1000: '#1f2d5c',
+        1000: '#1f2d5c'
     },
     dark: {
         50: '#11131f',
@@ -25,8 +25,8 @@ const indigo = {
         800: '#3e63dd',
         900: '#5472e4',
         950: '#9eb1ff',
-        1000: '#d6e1ff',
-    },
+        1000: '#d6e1ff'
+    }
 } as const;
 
 export default indigo;

@@ -1,4 +1,3 @@
-
 const grass = {
     light: {
         50: '#fbfefb',
@@ -12,7 +11,7 @@ const grass = {
         800: '#46a758',
         900: '#3e9b4f',
         950: '#2a7e3b',
-        1000: '#203c25',
+        1000: '#203c25'
 
     },
     dark: {
@@ -28,9 +27,9 @@ const grass = {
         800: '#46a758',
         900: '#53b365',
         950: '#71d083',
-        1000: '#c2f0c2',
+        1000: '#c2f0c2'
 
-    },
+    }
 } as const;
 
 export default grass;
