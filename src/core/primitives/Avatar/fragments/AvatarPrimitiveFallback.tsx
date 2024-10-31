@@ -3,17 +3,17 @@ import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
 export interface AvatarPrimitiveFallbackProps {
     children: React.ReactNode;
-    className?: string;
+    className?: string | '';
 }
 
 const AvatarPrimitiveFallback = ({ children, className = '' }: AvatarPrimitiveFallbackProps) => {
-    const { hasError } = useContext(AvatarPrimitiveContext);
+    const { hasError, fallBackRootClass } = useContext(AvatarPrimitiveContext);
 
     if (!hasError) {
         return null;
     }
 
-    return <div className={className}>{children}</div>;
+    return <span className={`${fallBackRootClass} ${className}`}>{children}</span>;
 };
 
 export default AvatarPrimitiveFallback;

@@ -5,7 +5,7 @@ import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 export interface AvatarRootImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     src?: string;
     alt?: string;
-    className?: string;
+    className?: string | '';
     status?: 'loading' | 'loaded' | 'error';
 }
 

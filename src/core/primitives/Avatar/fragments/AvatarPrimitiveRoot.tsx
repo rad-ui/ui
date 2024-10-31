@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
+import { customClassSwitcher } from '~/core/customClassSwitcher';
 
 export interface AvatarPrimitiveRootProps {
+    customRootClass?: string | '';
     children: React.ReactNode;
     src?: string;
-    className?: string;
+    className?: string | '';
 }
 
-const AvatarPrimitiveRoot = ({ children, className = '', src, ...props }: AvatarPrimitiveRootProps) => {
+const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', src, ...props }: AvatarPrimitiveRootProps) => {
+    const rootClass = customClassSwitcher(customRootClass, 'Avatar');
+    const fallBackRootClass = customClassSwitcher(customRootClass, 'Fallback');
     const [isImageLoaded, setIsImageLoaded] = useState(false);
     const [hasError, setHasError] = useState(!src);
 
@@ -23,6 +27,8 @@ const AvatarPrimitiveRoot = ({ children, className = '', src, ...props }: Avatar
     };
 
     const values = {
+        rootClass,
+        fallBackRootClass,
         isImageLoaded,
         hasError,
         setHasError,
@@ -31,8 +37,8 @@ const AvatarPrimitiveRoot = ({ children, className = '', src, ...props }: Avatar
         src
     };
 
-    return <AvatarPrimitiveContext.Provider value={values}>
-        <span className={className} {...props}>{children}</span>
+    return <AvatarPrimitiveContext.Provider value={values} >
+        <span className={`${rootClass} ${className}`} {...props}>{children}</span>
     </AvatarPrimitiveContext.Provider>;
 };
 
