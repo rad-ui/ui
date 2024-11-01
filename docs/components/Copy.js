@@ -2,7 +2,7 @@
 import { useState,useEffect } from "react"
 
 
-function Copy({ children }) {
+function Copy({ children, defClass }) {
     const [isCopied, setIsCopied] = useState(false)
 
     const handleCopy = () => {
@@ -30,7 +30,7 @@ function Copy({ children }) {
     }
 
     return(
-        <span className = "flex items-center">
+        <span className={defClass}>
             {children}
             <button 
                 onClick={handleCopy} 

@@ -2,6 +2,8 @@ import React from 'react';
 import { refractor } from 'refractor';
 import js from 'refractor/lang/javascript';
 import jsx from 'refractor/lang/jsx';
+import Copy from '@/components/Copy';
+import Code from "@radui/ui/Code"
 
 refractor.register(js);
 refractor.register(jsx);
@@ -51,7 +53,7 @@ const CodeBlock = ({ children, language="jsx" }) => {
     code = code.children.map(renderElement);
   return (
     <pre cl>
-      <code className={`language-${language} whitespace-pre-wrap`} style={{wordBreak:"break-word"}}>{code}</code>
+      <Code className={`language-${language} whitespace-pre-wrap`} style={{wordBreak:"break-word"}}><Copy>{code}</Copy></Code>
     </pre>
   );
 };

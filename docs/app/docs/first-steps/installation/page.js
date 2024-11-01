@@ -25,11 +25,11 @@ const Introduction = () => {
 
             <Text className="mt-4 mb-1 font-medium">Using Yarn</Text>
             <Code >
-                <Copy>yarn add @radui/ui</Copy>
+                <Copy defClass= {"flex items-center"}>yarn add @radui/ui</Copy>
             </Code>
             <Text className="mt-4 mb-1 font-medium">Using npm</Text>
             <Code>
-                <Copy>npm install @radui/ui --save</Copy>
+                <Copy defClass= {"flex items-center"}>npm install @radui/ui --save</Copy>
             </Code>
         </Documentation.Section>
     </Documentation>
