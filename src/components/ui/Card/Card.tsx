@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Shards
  */
-import CardRoot from './shards/CardRoot';
+import CardRoot from './fragments/CardRoot';
 
 export type CardProps = {
     children: React.ReactNode;
