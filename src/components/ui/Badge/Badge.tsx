@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import BadgeRoot from './shards/BadgeRoot';
-import BadgeContent from './shards/BadgeContent';
+import BadgeRoot from './fragments/BadgeRoot';
+import BadgeContent from './fragments/BadgeContent';
 export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,

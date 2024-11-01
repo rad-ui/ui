@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AvatarGroupRoot from './shards/AvatarGroupRoot';
+import AvatarGroupRoot from './fragments/AvatarGroupRoot';
 import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
 import AvatarPrimitiveFallback from '~/core/primitives/Avatar/fragments/AvatarPrimitiveFallback';
 import AvatarPrimitiveImage from '~/core/primitives/Avatar/fragments/AvatarPrimitiveImage';
