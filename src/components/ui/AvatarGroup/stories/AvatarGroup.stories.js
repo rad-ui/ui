@@ -15,8 +15,8 @@ export const Default = {
     args: {
         avatars: [
             { src: 'https://i.pravatar.cc/64', fallback: 'RU' },
-            { src: 'https://i.pravatar.cc/64', fallback: 'PK' },
-            { src: 'https://i.pravatar.cc/64', fallback: 'RU' }
+            { src: 'https://i.pravatar.cc/65', fallback: 'PK' },
+            { src: 'https://i.pravatar.cc/66', fallback: 'RU' }
         ]
     }
 };

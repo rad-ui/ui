@@ -28,5 +28,9 @@ const AvatarGroup = ({ avatars = [], size, customRootClass = '', className }: Av
 };
 
 AvatarGroup.displayName = COMPONENT_NAME;
+AvatarGroup.Root = AvatarGroupRoot;
+AvatarGroup.AvatarRoot = AvatarPrimitiveRoot;
+AvatarGroup.AvatarImage = AvatarPrimitiveImage;
+AvatarGroup.AvatarFallback = AvatarPrimitiveFallback;
 
 export default AvatarGroup;
