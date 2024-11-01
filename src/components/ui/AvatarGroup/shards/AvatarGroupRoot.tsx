@@ -1,6 +1,5 @@
 import React from 'react';
 
-import AvatarGroupContext from '../contexts/AvatarGroupContext';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 
 type AvatarGroupRootProps = {
@@ -9,13 +8,11 @@ type AvatarGroupRootProps = {
     className?: string;
 }
 
-const AvatarGroupRoot = ({ customRootClass = '', children, className }: AvatarGroupRootProps) => {
+const AvatarGroupRoot = ({ customRootClass = '', children, className, ...props }: AvatarGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'AvatarGroup');
     return (
-        <div className={rootClass}>
-            <AvatarGroupContext.Provider value={{}}>
-                {children}
-            </AvatarGroupContext.Provider>
+        <div className={`${rootClass} ${className}`} {...props}>
+            {children}
         </div>
     );
 };
