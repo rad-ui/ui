@@ -1,13 +1,12 @@
 import React from 'react';
 
-import AvatarGroupContext from './contexts/AvatarGroupContext';
+import AvatarGroupContext from '../contexts/AvatarGroupContext';
 
 const AvatarGroupRoot = () => {
     return (
         <div>
             <AvatarGroupContext.Provider value={{}}>
-                <AvatarGroupRoot >
-                </AvatarGroupRoot>
+               root
             </AvatarGroupContext.Provider>
 
         </div>
