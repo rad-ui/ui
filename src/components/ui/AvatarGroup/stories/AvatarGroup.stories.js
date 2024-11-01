@@ -13,6 +13,10 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = {
     args: {
-        src: 'https://i.pravatar.cc/64'
+        avatars: [
+            { src: 'https://i.pravatar.cc/64', fallback: 'RU' },
+            { src: 'https://i.pravatar.cc/64', fallback: 'PK' },
+            { src: 'https://i.pravatar.cc/64', fallback: 'RU' }
+        ]
     }
 };

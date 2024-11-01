@@ -1,14 +1,21 @@
 import React from 'react';
 
 import AvatarGroupContext from '../contexts/AvatarGroupContext';
+import { customClassSwitcher } from '~/core/customClassSwitcher';
 
-const AvatarGroupRoot = () => {
+type AvatarGroupRootProps = {
+    customRootClass?: string | '';
+    children: React.ReactNode;
+    className?: string;
+}
+
+const AvatarGroupRoot = ({ customRootClass = '', children, className }: AvatarGroupRootProps) => {
+    const rootClass = customClassSwitcher(customRootClass, 'AvatarGroup');
     return (
-        <div>
+        <div className={rootClass}>
             <AvatarGroupContext.Provider value={{}}>
-               root
+                {children}
             </AvatarGroupContext.Provider>
-
         </div>
     );
 };
