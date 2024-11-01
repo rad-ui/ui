@@ -3,8 +3,9 @@
     display: inline-flex;
     width:32px;
     height:32px;
-    border-radius: 8px;
+    border-radius: 100%;
     overflow: hidden;
+    border: 1px solid var(--rad-ui-color-gray-300);
 
 
     display: flex;
