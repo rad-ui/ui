@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 
-import ProgressRoot from './shards/ProgressRoot';
-import ProgressIndicator from './shards/ProgressIndicator';
+import ProgressRoot from './fragments/ProgressRoot';
+import ProgressIndicator from './fragments/ProgressIndicator';
 
 export const COMPONENT_NAME = 'Progress';
 

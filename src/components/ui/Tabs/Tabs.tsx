@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 
-import TabList from './shards/TabList';
-import TabContent from './shards/TabContent';
-import TabRoot from './shards/TabRoot';
+import TabList from './fragments/TabList';
+import TabContent from './fragments/TabContent';
+import TabRoot from './fragments/TabRoot';
 
 import { TabProps } from './types';
 
