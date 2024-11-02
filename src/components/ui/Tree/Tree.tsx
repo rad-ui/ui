@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TreeRoot from './shards/TreeRoot';
-import TreeItem from './shards/TreeItem';
+import TreeRoot from './fragments/TreeRoot';
+import TreeItem from './fragments/TreeItem';
 
 const COMPONENT_NAME = 'Tree';
 
