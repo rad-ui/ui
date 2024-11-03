@@ -18,7 +18,7 @@ export type TabTriggerProps = {
 const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     // use context
     const { tabs, previousTab, nextTab, activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
-    const ref = useRef(null);
+    const ref = useRef<HTMLButtonElement>(null);
 
     const isActive = activeTab === tab.value;
 
@@ -28,20 +28,20 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
 
     const handleKeyDownEvent = (e: React.KeyboardEvent) => {
         if (e.key == 'ArrowLeft') {
-            const tab = previousTab();
-            console.log(tab);
+            previousTab();
         }
         if (e.key == 'ArrowRight') {
-            const tab = nextTab();
-            console.log(tab);
+            nextTab();
         }
     };
 
     const handleFocus = (tab: TabProps) => {
-        ref.current.focus();
+        if (ref.current) {
+            ref.current?.focus();
+        }
         setActiveTab(tab.value);
 
-        // This is a really cool idea, when a focus event is triggered, we can set the active tab to the tab that is being focused on
+        // This is a good way to manage flow, when a focus event is triggered, we can set the active tab to the tab that is being focused on
         // This way, we dont need to keep track of the active tab in the parent component
         // This should be the defacto pattern we should follow for all components
     };
