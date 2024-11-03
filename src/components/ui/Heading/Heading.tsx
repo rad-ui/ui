@@ -30,7 +30,7 @@ const RENDER_AS_ENUMS = [
     }
 ];
 
-const Heading = ({ children, as = undefined, customRootClass = '', className = '' , ...props}) => {
+const Heading = ({ children, as = undefined, customRootClass = '', className = '', ...props }) => {
     const rootClass = customClassSwitcher(customRootClass, as || 'h1');
 
     if (as !== undefined && RENDER_AS_ENUMS.find((item) => item.tag === as)) {
