@@ -22,40 +22,38 @@ const TabTrigger = ({ tab, setActiveTab, activeTab, className, customRootClass, 
     const { tabs, previousTab, nextTab } = useContext(TabsRootContext);
     const ref = useRef(null);
 
-    const handleFocusTabEvent = () => {
-        // focus on the active tab
-        if (activeTab === tab.value) {
-            ref.current.focus();
-        }
-    };
-
-    useEffect(() => {
-        handleFocusTabEvent();
-    }
-    , [activeTab]);
-
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const isActive = activeTab === tab.value;
 
-    const handleClick = (tab: Tab) => {
+    const handleClick = (tab: TabProps) => {
         setActiveTab(tab.value);
     };
 
     const handleKeyDownEvent = (e: React.KeyboardEvent) => {
         if (e.key == 'ArrowLeft') {
-            previousTab();
+            const tab = previousTab();
+            console.log(tab);
         }
         if (e.key == 'ArrowRight') {
-            nextTab();
+            const tab = nextTab();
+            console.log(tab);
         }
+    };
+
+    const handleFocus = (tab: TabProps) => {
+        ref.current.focus();
+        setActiveTab(tab.value);
     };
 
     return (
         <button
             ref={ref}
             role="tab" key={index} className={`${rootClass} ${isActive ? 'active' : ''} ${className}`} {...props} onKeyDown={handleKeyDownEvent}
-            onClick={() => handleClick(tab)}>
+            onClick={() => handleClick(tab)}
+            onFocus={() => handleFocus(tab)}
+            tabIndex={isActive ? 0 : -1}
+        >
             <span className={`${rootClass}-inner`}>
                 {tab.label}
             </span>

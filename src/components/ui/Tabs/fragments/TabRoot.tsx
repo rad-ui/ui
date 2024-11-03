@@ -19,6 +19,8 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
         if (nextIndex < tabs.length) {
             setActiveTab(tabs[nextIndex].value);
         }
+
+        return tabs[nextIndex];
     };
 
     const previousTab = () => {
@@ -27,6 +29,8 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
         if (previousIndex >= 0) {
             setActiveTab(tabs[previousIndex].value);
         }
+
+        return tabs[previousIndex];
     };
 
     return (
