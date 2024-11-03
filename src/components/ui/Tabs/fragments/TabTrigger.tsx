@@ -17,7 +17,7 @@ export type TabTriggerProps = {
 
 const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     // use context
-    const { tabs, previousTab, nextTab, activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
+    const { previousTab, nextTab, activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
     const ref = useRef<HTMLButtonElement>(null);
 
     const isActive = activeTab === tab.value;
@@ -54,6 +54,7 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
             onFocus={() => handleFocus(tab)}
             tabIndex={isActive ? 0 : -1}
             data-rad-ui-batch-element
+
         >
             {tab.label}
         </button>
