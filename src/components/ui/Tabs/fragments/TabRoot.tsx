@@ -4,8 +4,6 @@ import { customClassSwitcher } from '~/core';
 
 import TabsRootContext from '../context/TabsRootContext';
 
-import { TabRootProps } from '../types';
-
 const COMPONENT_NAME = 'Tabs';
 
 const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], className, color, ...props }: TabRootProps) => {
@@ -33,15 +31,18 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
         return tabs[previousIndex];
     };
 
+    const contextValues = {
+        rootClass,
+        activeTab,
+        setActiveTab,
+        nextTab,
+        previousTab,
+        tabs
+    };
+
     return (
         <TabsRootContext.Provider
-            value={{
-                activeTab,
-                setActiveTab,
-                nextTab,
-                previousTab,
-                tabs
-            }}>
+            value={contextValues}>
             <div className={`${rootClass} ${className}`} data-accent-color={color} {...props} >
                 {children}
             </div>
