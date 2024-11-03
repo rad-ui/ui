@@ -40,6 +40,10 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     const handleFocus = (tab: TabProps) => {
         ref.current.focus();
         setActiveTab(tab.value);
+
+        // This is a really cool idea, when a focus event is triggered, we can set the active tab to the tab that is being focused on
+        // This way, we dont need to keep track of the active tab in the parent component
+        // This should be the defacto pattern we should follow for all components
     };
 
     return (
