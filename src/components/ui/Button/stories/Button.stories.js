@@ -48,7 +48,7 @@ export const Size = (args) => {
         <div className='mt-4 mb-2'>
             <p className='text-gray-950'>Button Size</p>
         </div>
-        <div className='flex'>
+        <div className='inline-flex'>
 
             {Sizes.map((size, index) => (
                 <Button key={index} size={size} >
