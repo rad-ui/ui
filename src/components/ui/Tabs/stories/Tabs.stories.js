@@ -1,6 +1,8 @@
 import Tabs from '../Tabs';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
+import Button from '~/components/ui/Button/Button';
+
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'WIP/Tabs',
@@ -36,4 +38,32 @@ export const All = {
 
         ]
     }
+};
+
+const TabInTabOutTemplate = (args) => {
+    return <SandboxEditor>
+        <Button>Click me</Button>
+        <Tabs {...args} />
+        <Button>Click me</Button>
+    </SandboxEditor>;
+};
+
+export const TabInTabOut = TabInTabOutTemplate.bind({});
+TabInTabOut.args = {
+    tabs: [{
+        label: 'Tabbing In',
+        value: 'tab_in_1',
+        content: 'Focus on the first button, press tab to move to the Tab component, it tabs into the selected tab. '
+
+    },
+    {
+        label: <div className='flex items-center space-x-2'>  <span>Tab Out</span> <ArrowIcon/></div>,
+        value: 'tab_out_2',
+        content: <div className='text-gray-1000'>
+            Once you tab out of the Tab component, you will be focused on the second button.
+        </div>
+    }
+
+    ]
+
 };
