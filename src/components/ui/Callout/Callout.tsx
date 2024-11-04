@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Shards
 */
-import CalloutRoot from './shards/CalloutRoot';
+import CalloutRoot from './fragments/CalloutRoot';
 
 export type CalloutProps = {
     children?: React.ReactNode;

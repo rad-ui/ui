@@ -28,7 +28,7 @@ const ColorSelect = ({ color, colorName, changeAccentColor }: ColorSelectProps) 
         style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></div>;
 };
 
-type SandboxProps = {className?: string} & PropsWithChildren
+type SandboxProps = {className?: string | ''} & PropsWithChildren
 
 const SandboxEditor = ({ children, className } : SandboxProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);

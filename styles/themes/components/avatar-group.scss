@@ -1,0 +1,16 @@
+.rad-ui-avatar-group {
+    display: flex;
+    flex-direction: row;
+
+    .rad-ui-avatar {
+        margin-left: -12px;
+
+        &:not(:first-child) {
+            z-index: 1;
+        }
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}

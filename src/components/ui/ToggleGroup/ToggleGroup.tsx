@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ToggleGroupRoot from './shards/ToggleGroupRoot';
-import ToggleItem from './shards/ToggleItem';
+import ToggleGroupRoot from './fragments/ToggleGroupRoot';
+import ToggleItem from './fragments/ToggleItem';
 
 const COMPONENT_NAME = 'ToggleGroup';
 

@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 
-import TextAreaRoot from './shards/TextAreaRoot';
-import TextAreaInput from './shards/TextAreaInput';
+import TextAreaRoot from './fragments/TextAreaRoot';
+import TextAreaInput from './fragments/TextAreaInput';
 
 export type TextAreaProps = {
     children: React.ReactNode;
