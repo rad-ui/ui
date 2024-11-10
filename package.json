@@ -67,7 +67,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.23.10",
     "@babel/preset-env": "7.24.0",
-    "@babel/preset-react": "7.22.15",
+    "@babel/preset-react": "7.25.9",
     "@babel/preset-typescript": "7.24.7",
     "@radui/ui": "0.0.8",
     "@rollup/plugin-alias": "5.1.0",
