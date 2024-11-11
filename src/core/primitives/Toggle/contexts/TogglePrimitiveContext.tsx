@@ -1,6 +1,9 @@
+import { createContext } from "react";
 
-const TogglePrimitiveContext = () => {
+interface TogglePrimitiveContextType {
+    rootClass: string;
+    isPressed: boolean | undefined;
+    handlePressed: () => void;
 
 }
-
-export default TogglePrimitiveContext;
+export const TogglePrimitiveContext = createContext<TogglePrimitiveContextType>({} as TogglePrimitiveContextType)

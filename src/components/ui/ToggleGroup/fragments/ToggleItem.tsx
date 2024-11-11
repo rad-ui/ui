@@ -17,6 +17,7 @@ const ToggleItem = ({ children, value = null, ...props }:any) => {
         // For Single Case
         if (type === 'single') {
             if (isActive) {
+                
                 toggleContext?.setActiveToggles([]);
                 return;
             } else {
