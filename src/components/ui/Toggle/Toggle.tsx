@@ -17,8 +17,16 @@ export type ToggleProps = {
 
 };
 
-const Toggle =({defaultPressed, customRootClass = '', children, className = '', pressed, onChange, ...props
-}:ToggleProps) => {
+const Toggle: React.FC<ToggleProps> = ({
+    defaultPressed,
+    customRootClass = '',
+    children,
+    className = '',
+    pressed,
+    onChange,
+    ...props
+}) => {
+
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
