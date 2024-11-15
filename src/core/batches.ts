@@ -7,16 +7,16 @@ export const getActiveBatchItem = (batches: NodeList) => {
     let activeItem = null;
     batches.forEach((item) => {
         // check if the item has the attribute `data-rad-ui-focus-element`
-        if (item.hasAttribute('data-rad-ui-focus-element')) {
+        if ((item as HTMLElement).hasAttribute('data-rad-ui-focus-element')) {
             activeItem = item;
         }
     });
 
-    return activeItem;
+    return activeItem as HTMLElement | null;
 };
 
 export const getNextBatchItem = (batches: NodeList): Element => {
-    const activeItem = getActiveBatchItem(batches);
+    const activeItem = getActiveBatchItem(batches) as HTMLElement | null;
     // get the next item, return it if it is not the last item
     const nextItem = activeItem?.nextElementSibling;
     if (nextItem) {
@@ -24,11 +24,11 @@ export const getNextBatchItem = (batches: NodeList): Element => {
     }
 
     // if it is the last item, return the last item
-    return batches[batches.length - 1];
+    return batches[batches.length - 1] as HTMLElement;
 };
 
 export const getPrevBatchItem = (batches: NodeList) => {
-    const activeItem = getActiveBatchItem(batches);
+    const activeItem = getActiveBatchItem(batches) as HTMLElement | null;
     // get the next item, return it if it is not the last item
     const prevItem = activeItem?.previousElementSibling;
     if (prevItem) {
@@ -36,5 +36,5 @@ export const getPrevBatchItem = (batches: NodeList) => {
     }
 
     // if it is the last item, return the last item
-    return batches[0];
+    return batches[0] as HTMLElement;
 };
