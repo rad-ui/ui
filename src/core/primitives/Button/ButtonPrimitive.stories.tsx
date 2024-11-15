@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Primitives/ButtonPrimitive',
     component: ButtonPrimitive,
-    render: (args) => <SandboxEditor>
+    render: (args: any) => <SandboxEditor>
         <div >
             <div className='flex space-x-2 w-full flex-1'>
                 <ButtonPrimitive {...args} />
