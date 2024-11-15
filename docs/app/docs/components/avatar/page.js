@@ -39,8 +39,7 @@ const AvatarDocs = () => {
             ]} >
             </Documentation.ComponentFeatures>
             <div className="max-w-screen-md">
-                <Documentation.Table columns={columns} data={data} >
-                </Documentation.Table>
+                <Documentation.Table columns={columns} data={data} />
             </div>
         </Documentation>
     </div>
