@@ -22,8 +22,6 @@ module.exports = {
         'jsx-a11y'
     ],
     rules: {
-        'jsx-a11y/alt-text': 'warn',
-        'jsx-a11y/anchor-is-valid': 'warn',
         'react/react-in-jsx-scope': 'off',
         indent: ['warn', 4],
         'key-spacing': ['warn', { beforeColon: false, afterColon: true }],
@@ -65,6 +63,8 @@ module.exports = {
             'warn',
             'always'
         ],
+        'jsx-a11y/alt-text': 'warn',
+        'jsx-a11y/anchor-is-valid': 'warn',
         'jsx-a11y/accessible-emoji': 'warn',
         'jsx-a11y/anchor-has-content': 'warn',
         'jsx-a11y/aria-activedescendant-has-tabindex': 'warn',
