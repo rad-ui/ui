@@ -7,7 +7,8 @@ module.exports = {
     extends: [
         'plugin:react/recommended',
         'eslint:recommended',
-        'standard'
+        'standard',
+        'plugin:jsx-a11y/recommended',
     ],
     overrides: [
     ],
@@ -17,9 +18,12 @@ module.exports = {
         sourceType: 'module'
     },
     plugins: [
-        'react'
+        'react',
+        'jsx-a11y',
     ],
     rules: {
+        'jsx-a11y/alt-text': 'warn',
+        'jsx-a11y/anchor-is-valid': 'warn',
         'react/react-in-jsx-scope': 'off',
         indent: ['warn', 4],
         'key-spacing': ['warn', { beforeColon: false, afterColon: true }],
