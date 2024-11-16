@@ -75,7 +75,7 @@
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
     "@rollup/plugin-typescript": "11.1.6",
-    "@storybook/addon-essentials": "7.6.17",
+    "@storybook/addon-essentials": "8.2.9",
     "@storybook/addon-interactions": "8.2.9",
     "@storybook/addon-links": "8.1.11",
     "@storybook/addon-onboarding": "1.0.11",
