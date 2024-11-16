@@ -8,6 +8,7 @@ module.exports = {
         'plugin:react/recommended',
         'eslint:recommended',
         'standard',
+        "plugin:prettier/recommended",
         'plugin:jsx-a11y/recommended',
     ],
     overrides: [
