@@ -16,9 +16,9 @@ const generatePrimitive = (Tag: string) => {
     return PrimitiveComponent;
 };
 
-const Primitive = HTMLNODES.reduce((acc: any, tag: string) => {
-    acc[tag] = generatePrimitive(tag);
-    return acc;
+const Primitive = HTMLNODES.reduce((accumulator: any, tag: string) => {
+    accumulator[tag] = generatePrimitive(tag);
+    return accumulator;
 }, {});
 
 export default Primitive;
