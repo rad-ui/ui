@@ -3,24 +3,24 @@ import Primitive from '~/core/primitives/Primitive';
 import CopyPrimitiveContext from '../contexts/CopyPrimitiveContext';
 
 // The triggering action (button) is logically part of the copying mechanism
-const CopyTrigger = ({ children, text = '', resetDelay = 2000, ...props }: any) => {
-    const { setIsCopied, isCopied } = useContext(CopyPrimitiveContext);
+const CopyTrigger = ({ children, className = '', copyContent = '', resetDelay = 2000, ...props }: any) => {
+    const { setIsCopied, isCopied, rootClass } = useContext(CopyPrimitiveContext);
 
     const handleClick = () => {
-        if (text) {
+        if (copyContent) {
             setIsCopied(true);
-            navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(copyContent);
             setTimeout(() => {
                 setIsCopied(false);
             }, resetDelay);
         }
     };
 
-    if (!text || isCopied) {
+    if (!copyContent || isCopied) {
         return null;
     }
 
-    return <Primitive.button {...props} onClick={handleClick}>{children}</Primitive.button>;
+    return <Primitive.button className={`${rootClass}-trigger ${className}`} {...props} onClick={handleClick}>{children}</Primitive.button>;
 };
 
 export default CopyTrigger;

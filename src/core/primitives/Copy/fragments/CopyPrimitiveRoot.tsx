@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
+import { customClassSwitcher } from '~/core/customClassSwitcher';
+
 import CopyPrimitiveContext from '../contexts/CopyPrimitiveContext';
 
-const CopyPrimitiveRoot = ({ children, ...props }: any) => {
+const CopyPrimitiveRoot = ({ customRootClass = '', className = '', children, ...props }: any) => {
     const [isCopied, setIsCopied] = useState(false);
+    const rootClass = customClassSwitcher(customRootClass, 'Copy');
 
     const values = {
         isCopied,
-        setIsCopied
+        setIsCopied,
+        rootClass
     };
 
     return (
         <CopyPrimitiveContext.Provider value={values}>
-            <Primitive.button {...props}>{children}</Primitive.button>
+            <Primitive.span className={`${rootClass} ${className}`} {...props}>{children}</Primitive.span>
         </CopyPrimitiveContext.Provider>
     );
 };

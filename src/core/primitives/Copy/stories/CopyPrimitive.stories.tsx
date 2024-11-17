@@ -9,7 +9,7 @@ export default {
     render: (args: any) => <SandboxEditor>
         <div >
             <CopyPrimitive.Root {...args}>
-                <CopyPrimitive.Trigger text="Hello, world!" {...args}>Copy</CopyPrimitive.Trigger>
+                <CopyPrimitive.Trigger copyContent="Hello, world!" {...args}>Copy</CopyPrimitive.Trigger>
                 <CopyPrimitive.Feedback {...args}>Copied!</CopyPrimitive.Feedback>
             </CopyPrimitive.Root>
         </div>
