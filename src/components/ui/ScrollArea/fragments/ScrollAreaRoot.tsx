@@ -18,7 +18,7 @@ const ScrollAreaRoot = ({ children, customRootClass, ...props }: any) => {
             setVerticalScrollBarHeight(scrollBarRef.current.clientHeight);
             setVerticalScrollBarPosition(scrollBarRef.current.offsetTop);
         }
-    }, [verticalScrollBarHeight, verticalScrollBarPosition]);
+    }, []);
 
     const handleFocus = () => {
         setIsHovered(true);
