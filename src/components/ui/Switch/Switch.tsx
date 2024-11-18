@@ -27,8 +27,7 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', de
     return (
         <>
             <input type='checkbox' className={`${rootClass}`} {...props} checked= {isChecked}/>
-            <button type="button" onClick={handleChecked} role="switch">
-                {isChecked ? 'on' : 'off'}</button>
+            <button type="button" onClick={handleChecked} role="switch"></button>
         </>
     );
 };
