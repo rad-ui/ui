@@ -14,11 +14,12 @@ const AvatarDocs = () => {
         {name: 'Prop', key: 'prop'},
         {name: 'Type', key: 'type'},
         {name: 'Default', key: 'default'},
+        {name: 'Description', key: 'description'},
     ];
 
     const data = [
-        {prop: 'src', type: 'string', default: 'null'},
-        {prop: 'fallback', type: 'string', default: 'null'},
+        {prop: 'src', type: 'string', default: 'null', description: 'URL of the image to be displayed as the avatar.'},
+        {prop: 'fallback', type: 'string', default: 'null', description: 'Text initials or placeholder displayed when the image fails to load or if no src is provided.'},
     ];
 
 
@@ -37,9 +38,9 @@ const AvatarDocs = () => {
                 "SSR compatible",
             ]} >
             </Documentation.ComponentFeatures>
-            <Documentation.Table columns={columns} data={data}>
-
-            </Documentation.Table>
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={columns} data={data} />
+            </div>
         </Documentation>
     </div>
 }
