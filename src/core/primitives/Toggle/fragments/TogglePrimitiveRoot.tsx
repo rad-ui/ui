@@ -17,7 +17,7 @@ const TogglePrimitiveRoot = ({children,className='',defaultPressed,pressed,onCha
      onChange(updatedPressed)
      }
 
-  return <span className={className}{...props}>{children}</span>
+  return <span className={className} onClick={handlePressed} {...props}>{children}</span>
   
 };
 
