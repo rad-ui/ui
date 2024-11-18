@@ -1,7 +1,6 @@
 import { createContext } from "react";
 
 interface TogglePrimitiveContextType {
-    rootClass: string;
     isPressed: boolean | undefined;
     handlePressed: () => void;
 
