@@ -1,14 +1,23 @@
 import React, { useContext } from 'react';
 
 import { ToggleContext } from '../contexts/toggleContext';
-import ButtonPrimitive from '~/core/primitives/Button';
+import TogglePrimitive from '~/core/primitives/Toggle';
 
-const ToggleItem = ({ children, value = null, ...props }:any) => {
+export type ToggleItemProps = {
+    children: React.ReactNode;
+    value: any;
+    props: any;
+};
+
+const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
     const toggleContext = useContext(ToggleContext);
 
     const type = toggleContext?.type;
 
     const isActive = toggleContext?.activeToggles?.includes(value);
+
+    const ariaProps:any = {};
+    const dataProps:any = {};
 
     const handleToggleSelect = () => {
         let activeToggleArray = toggleContext?.activeToggles || [];
@@ -37,17 +46,21 @@ const ToggleItem = ({ children, value = null, ...props }:any) => {
     };
 
     if (isActive) {
-        props['aria-pressed'] = 'true';
+        ariaProps['aria-pressed'] = 'true';
+        dataProps['data-active'] = 'true';
     } else {
-        props['aria-pressed'] = 'false';
+        ariaProps['aria-pressed'] = 'false';
+        dataProps['data-active'] = 'false';
     }
 
-    return <ButtonPrimitive
-        className={`${isActive ? 'bg-blue-600' : ''}`} onClick={() => {
-            handleToggleSelect();
-        }}
+    return <TogglePrimitive
+
+        onClick={handleToggleSelect}
+        {...ariaProps}
+        {...dataProps}
         {...props}
-    >{children}</ButtonPrimitive>;
+
+    >{children}</TogglePrimitive>;
 };
 
 export default ToggleItem;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { customClassSwitcher } from '~/core';
 
-import ButtonPrimitive from '~/core/primitives/Button';
 import TogglePrimitive from '~/core/primitives/Toggle';
 
 const COMPONENT_NAME = 'Toggle';
