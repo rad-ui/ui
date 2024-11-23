@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-# 🚀 Feature Request Template
+# 🚀 Feature Request
 
 ---
 
