@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 
+import Primitive from '~/core/primitives/Primitive';
+
 export interface TogglePrimitiveRootProps {
     defaultPressed? : boolean | false;
     pressed: boolean;
     children?: React.ReactNode;
     className?: string;
-    onChange : (isPressed:boolean) => void;
+    label?: string;
+    onPressedChange : (isPressed:boolean) => void;
 
 }
-const TogglePrimitiveRoot = ({ children, className = '', defaultPressed, pressed, onChange, ...props }:TogglePrimitiveRootProps) => {
+const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPressedChange, ...props }:TogglePrimitiveRootProps) => {
     const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
 
     const handlePressed = () => {
         const updatedPressed = !isPressed;
         setIsPressed(updatedPressed);
-        onChange(updatedPressed);
+        onPressedChange(updatedPressed);
     };
 
-    return <span className={className} onClick={handlePressed} {...props}>{children}</span>;
+    const ariaAttributes:any = label ? { 'aria-label': label } : {};
+    ariaAttributes['aria-pressed'] = isPressed ? 'true' : 'false';
+
+    return <Primitive.button
+        onClick={handlePressed}
+        data-state={isPressed ? 'on' : 'off'}
+        {...ariaAttributes}
+        {...props}
+    >{children}
+    </Primitive.button>;
 };
 
-export default TogglePrimitiveRoot;
+export default TogglePrimitive;
