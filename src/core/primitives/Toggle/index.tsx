@@ -1,7 +1,7 @@
-import TogglePrimitiveRoot from "./fragments/TogglePrimitiveRoot"
+import TogglePrimitiveRoot from './fragments/TogglePrimitiveRoot';
 
 const TogglePrimitive = {
-    Root: TogglePrimitiveRoot,
-}
+    Root: TogglePrimitiveRoot
+};
 
-export default TogglePrimitive
+export default TogglePrimitive;

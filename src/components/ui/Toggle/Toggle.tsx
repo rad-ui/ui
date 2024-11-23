@@ -26,7 +26,6 @@ const Toggle: React.FC<ToggleProps> = ({
     onChange,
     ...props
 }) => {
-
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
@@ -38,7 +37,7 @@ const Toggle: React.FC<ToggleProps> = ({
     };
 
     return (
-       
+
         <ButtonPrimitive
             className={`${rootClass}`} onClick ={handlePressed}
             data-state={isPressed ? 'on' : 'off'}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export interface TogglePrimitiveRootProps {
     defaultPressed? : boolean | false;
@@ -8,17 +8,16 @@ export interface TogglePrimitiveRootProps {
     onChange : (isPressed:boolean) => void;
 
 }
-const TogglePrimitiveRoot = ({children,className='',defaultPressed,pressed,onChange,...props}:TogglePrimitiveRootProps) => {
-      const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
+const TogglePrimitiveRoot = ({ children, className = '', defaultPressed, pressed, onChange, ...props }:TogglePrimitiveRootProps) => {
+    const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
 
-   const handlePressed = () => {
-     const updatedPressed = !isPressed;
-     setIsPressed(updatedPressed);
-     onChange(updatedPressed)
-     }
+    const handlePressed = () => {
+        const updatedPressed = !isPressed;
+        setIsPressed(updatedPressed);
+        onChange(updatedPressed);
+    };
 
-  return <span className={className} onClick={handlePressed} {...props}>{children}</span>
-  
+    return <span className={className} onClick={handlePressed} {...props}>{children}</span>;
 };
 
 export default TogglePrimitiveRoot;
