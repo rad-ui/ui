@@ -8,10 +8,11 @@ export interface TogglePrimitiveProps {
     children?: React.ReactNode;
     className?: string;
     label?: string;
+    disabled?: boolean;
     onPressedChange : (isPressed:boolean) => void;
 
 }
-const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPressedChange, ...props }:TogglePrimitiveProps) => {
+const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPressedChange, disabled, ...props }:TogglePrimitiveProps) => {
     const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
 
     const handlePressed = () => {
@@ -26,6 +27,7 @@ const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPres
     return <Primitive.button
         onClick={handlePressed}
         data-state={isPressed ? 'on' : 'off'}
+        disabled={disabled}
         {...ariaAttributes}
         {...props}
     >{children}

@@ -20,3 +20,9 @@ export const All = {
         className: ''
     }
 };
+
+export const Disabled = {
+    args: {
+        disabled: true
+    }
+};
