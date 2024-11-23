@@ -8,9 +8,9 @@ export default {
     render: (args:any) => {
         const [pressed, setPressed] = useState(false);
         return <SandboxEditor>
-            <TogglePrimitive.Root {...args} pressed={pressed} onPressedChange={setPressed}>
+            <TogglePrimitive {...args} pressed={pressed} onPressedChange={setPressed}>
              toggle - {pressed ? 'on' : 'off'}
-            </TogglePrimitive.Root>
+            </TogglePrimitive>
         </SandboxEditor>;
     }
 };
