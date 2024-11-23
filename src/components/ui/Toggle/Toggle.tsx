@@ -14,6 +14,7 @@ export type ToggleProps = {
     children? : React.ReactNode;
     className? : string;
     onChange : (isPressed:boolean) => void;
+
 };
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -25,6 +26,7 @@ const Toggle: React.FC<ToggleProps> = ({
     onChange,
     ...props
 }) => {
+
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
@@ -36,10 +38,11 @@ const Toggle: React.FC<ToggleProps> = ({
     };
 
     return (
+       
         <ButtonPrimitive
-            className={`${rootClass}`} onClick={handlePressed}
+            className={`${rootClass}`} onClick ={handlePressed}
             data-state={isPressed ? 'on' : 'off'}
-            type="button"
+            type='button'
             data-disabled={props.disabled ? '' : undefined}
             aria-pressed={pressed} {...props}>
             {children}
