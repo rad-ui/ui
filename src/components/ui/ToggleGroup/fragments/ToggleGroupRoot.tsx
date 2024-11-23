@@ -15,20 +15,17 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', customRootClass = 
 
     const nextItem = () => {
         const batches = getAllBatchElements(toggleGroupRef?.current);
-        const nextItem = getNextBatchItem(batches);
-        // setFocusItem(nextItem);
-        console.log('nextItem', nextItem);
+        const nextItem = getNextBatchItem(batches, true);
         if (nextItem) {
-            nextItem.focus();
+            nextItem?.focus();
         }
     };
 
     const previousItem = () => {
         const batches = getAllBatchElements(toggleGroupRef?.current);
-        const prevItem = getPrevBatchItem(batches);
-        console.log('prevItem', prevItem);
+        const prevItem = getPrevBatchItem(batches, true);
         if (prevItem) {
-            prevItem.focus();
+            prevItem?.focus();
         }
     };
 
