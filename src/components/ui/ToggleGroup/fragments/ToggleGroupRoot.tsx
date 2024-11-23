@@ -5,7 +5,7 @@ import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-const ToggleGroupRoot = ({ type = 'multiple', className = '', customRootClass = '', componentName = '', value = null, children }:any) => {
+const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, children }:any) => {
     const rootClass = customClassSwitcher(customRootClass, componentName);
     const toggleGroupRef = useRef(null);
     // value can be either a string or an array of strings
@@ -15,7 +15,7 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', customRootClass = 
 
     const nextItem = () => {
         const batches = getAllBatchElements(toggleGroupRef?.current);
-        const nextItem = getNextBatchItem(batches, true);
+        const nextItem = getNextBatchItem(batches, loop);
         if (nextItem) {
             nextItem?.focus();
         }
@@ -23,7 +23,7 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', customRootClass = 
 
     const previousItem = () => {
         const batches = getAllBatchElements(toggleGroupRef?.current);
-        const prevItem = getPrevBatchItem(batches, true);
+        const prevItem = getPrevBatchItem(batches, loop);
         if (prevItem) {
             prevItem?.focus();
         }
