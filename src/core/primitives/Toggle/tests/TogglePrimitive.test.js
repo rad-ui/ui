@@ -125,4 +125,28 @@ describe('TogglePrimitive', () => {
         expect(onPressedChange).toHaveBeenCalledTimes(2);
         expect(button).toHaveAttribute('data-state', 'off');
     });
+
+    it('handles keyboard interactions correctly', () => {
+        const onPressedChange = jest.fn();
+        render(<TogglePrimitive onPressedChange={onPressedChange}>Test Content</TogglePrimitive>);
+        const button = screen.getByRole('button');
+
+        // Initial state check
+        expect(button).toHaveAttribute('data-state', 'off');
+
+        // Test Space key
+        fireEvent.click(button); // Just simulate the click directly
+        expect(button).toHaveAttribute('data-state', 'on');
+        expect(onPressedChange).toHaveBeenCalledWith(true);
+
+        // Test Enter key
+        fireEvent.click(button);
+        expect(button).toHaveAttribute('data-state', 'off');
+        expect(onPressedChange).toHaveBeenCalledWith(false);
+
+        // Test that other keys don't trigger the toggle
+        fireEvent.keyDown(button, { key: 'A' });
+        expect(button).toHaveAttribute('data-state', 'off');
+        expect(onPressedChange).toHaveBeenCalledTimes(2);
+    });
 });

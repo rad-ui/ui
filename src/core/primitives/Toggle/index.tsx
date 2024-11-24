@@ -38,12 +38,20 @@ const TogglePrimitive = ({
         onPressedChange(updatedPressed);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+            event.preventDefault();
+            handlePressed();
+        }
+    };
+
     const ariaAttributes:any = label ? { 'aria-label': label } : {};
     ariaAttributes['aria-pressed'] = isPressed ? 'true' : 'false';
     ariaAttributes['aria-disabled'] = disabled ? 'true' : 'false';
 
     return <Primitive.button
         onClick={handlePressed}
+        onKeyDown={handleKeyDown}
         data-state={isPressed ? 'on' : 'off'}
         disabled={disabled}
         {...ariaAttributes}
