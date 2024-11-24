@@ -39,6 +39,8 @@ const TogglePrimitive = ({
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
+        // TODO: Should these be handled by the browser?
+        // Or should we add these functionalities inside the ButtonPrimitive?
         if (event.key === ' ' || event.key === 'Enter') {
             event.preventDefault();
             handlePressed();
