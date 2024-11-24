@@ -3,27 +3,45 @@ import React, { useState } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
 export interface TogglePrimitiveProps {
-    defaultPressed? : boolean | false;
-    pressed: boolean;
+    defaultPressed?: boolean;
+    pressed?: boolean;
     children?: React.ReactNode;
     className?: string;
     label?: string;
     disabled?: boolean;
-    onPressedChange : (isPressed:boolean) => void;
-
+    onPressedChange: (isPressed: boolean) => void;
 }
-const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPressedChange = () => {}, disabled, ...props }:TogglePrimitiveProps) => {
-    const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
+
+const TogglePrimitive = ({
+    children,
+    label = '',
+    defaultPressed = false,
+    pressed: controlledPressed,
+    onPressedChange = () => {},
+    disabled,
+    ...props
+}: TogglePrimitiveProps) => {
+    const [uncontrolledPressed, setUncontrolledPressed] = useState(defaultPressed);
+
+    const isControlled = controlledPressed !== undefined;
+    const isPressed = isControlled ? controlledPressed : uncontrolledPressed;
 
     const handlePressed = () => {
+        if (disabled) {
+            return;
+        }
+
         const updatedPressed = !isPressed;
-        setIsPressed(updatedPressed);
+        if (!isControlled) {
+            setUncontrolledPressed(updatedPressed);
+        }
         onPressedChange(updatedPressed);
     };
 
     const ariaAttributes:any = label ? { 'aria-label': label } : {};
     ariaAttributes['aria-pressed'] = isPressed ? 'true' : 'false';
     ariaAttributes['aria-disabled'] = disabled ? 'true' : 'false';
+
     return <Primitive.button
         onClick={handlePressed}
         data-state={isPressed ? 'on' : 'off'}

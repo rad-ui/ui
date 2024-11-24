@@ -62,4 +62,67 @@ describe('TogglePrimitive', () => {
         render(<TogglePrimitive disabled>Test Content</TogglePrimitive>);
         expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
     });
+
+    it('renders in controlled mode correctly', () => {
+        const onPressedChange = jest.fn();
+        const { rerender } = render(
+            <TogglePrimitive pressed={false} onPressedChange={onPressedChange}>
+                Test Content
+            </TogglePrimitive>
+        );
+        expect(screen.getByRole('button')).toHaveAttribute('data-state', 'off');
+
+        // Click should trigger onPressedChange but not change state directly
+        fireEvent.click(screen.getByRole('button'));
+        expect(onPressedChange).toHaveBeenCalledWith(true);
+        expect(screen.getByRole('button')).toHaveAttribute('data-state', 'off');
+
+        // State should only change when pressed prop changes
+        rerender(
+            <TogglePrimitive pressed={true} onPressedChange={onPressedChange}>
+                Test Content
+            </TogglePrimitive>
+        );
+        expect(screen.getByRole('button')).toHaveAttribute('data-state', 'on');
+    });
+
+    it('handles multiple clicks correctly in uncontrolled mode', () => {
+        render(<TogglePrimitive>Test Content</TogglePrimitive>);
+        const button = screen.getByRole('button');
+
+        fireEvent.click(button);
+        expect(button).toHaveAttribute('data-state', 'on');
+
+        fireEvent.click(button);
+        expect(button).toHaveAttribute('data-state', 'off');
+    });
+
+    it('prevents state change when disabled', () => {
+        const onPressedChange = jest.fn();
+        render(
+            <TogglePrimitive disabled onPressedChange={onPressedChange}>
+                Test Content
+            </TogglePrimitive>
+        );
+
+        fireEvent.click(screen.getByRole('button'));
+        expect(onPressedChange).not.toHaveBeenCalled();
+        expect(screen.getByRole('button')).toHaveAttribute('data-state', 'off');
+    });
+
+    it('maintains controlled state after multiple clicks', () => {
+        const onPressedChange = jest.fn();
+        render(
+            <TogglePrimitive pressed={false} onPressedChange={onPressedChange}>
+                Test Content
+            </TogglePrimitive>
+        );
+        const button = screen.getByRole('button');
+
+        fireEvent.click(button);
+        fireEvent.click(button);
+
+        expect(onPressedChange).toHaveBeenCalledTimes(2);
+        expect(button).toHaveAttribute('data-state', 'off');
+    });
 });
