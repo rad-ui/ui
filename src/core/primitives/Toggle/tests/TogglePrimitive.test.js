@@ -48,4 +48,18 @@ describe('TogglePrimitive', () => {
         render(<TogglePrimitive disabled>Test Content</TogglePrimitive>);
         expect(screen.getByText('Test Content')).toHaveAttribute('disabled');
     });
+
+    it('renders with correct ARIA attributes', () => {
+        render(<TogglePrimitive>Test Content</TogglePrimitive>);
+        const button = screen.getByRole('button');
+        expect(button).toHaveAttribute('aria-pressed', 'false');
+
+        fireEvent.click(button);
+        expect(button).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('renders with correct ARIA attributes when disabled', () => {
+        render(<TogglePrimitive disabled>Test Content</TogglePrimitive>);
+        expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
+    });
 });

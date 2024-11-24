@@ -12,7 +12,7 @@ export interface TogglePrimitiveProps {
     onPressedChange : (isPressed:boolean) => void;
 
 }
-const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPressedChange, disabled, ...props }:TogglePrimitiveProps) => {
+const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPressedChange = () => {}, disabled, ...props }:TogglePrimitiveProps) => {
     const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
 
     const handlePressed = () => {
@@ -23,7 +23,7 @@ const TogglePrimitive = ({ children, label = '', defaultPressed, pressed, onPres
 
     const ariaAttributes:any = label ? { 'aria-label': label } : {};
     ariaAttributes['aria-pressed'] = isPressed ? 'true' : 'false';
-
+    ariaAttributes['aria-disabled'] = disabled ? 'true' : 'false';
     return <Primitive.button
         onClick={handlePressed}
         data-state={isPressed ? 'on' : 'off'}
