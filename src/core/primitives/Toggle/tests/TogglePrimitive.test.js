@@ -46,7 +46,7 @@ describe('TogglePrimitive', () => {
 
     it('renders with disabled correctly', () => {
         render(<TogglePrimitive disabled>Test Content</TogglePrimitive>);
-        expect(screen.getByText('Test Content')).toHaveAttribute('disabled');
+        expect(screen.getByRole('button')).toHaveAttribute('disabled');
     });
 
     it('renders with correct ARIA attributes', () => {
