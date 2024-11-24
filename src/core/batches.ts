@@ -17,7 +17,7 @@ export const getActiveBatchItem = (batches: NodeList) => {
 
 export const getNextBatchItem = (batches: NodeList, loop = false): Element => {
     const activeItem = getActiveBatchItem(batches) as HTMLElement | null;
-    // get the next item, return it if it is not the last item
+    // Try to get the next sibling element
     const nextItem = activeItem?.nextElementSibling;
 
     if (nextItem) {
@@ -25,11 +25,11 @@ export const getNextBatchItem = (batches: NodeList, loop = false): Element => {
     }
 
     if (loop) {
-        // if it is the last item, return the first item
+        // When at the end and looping is enabled, return the first item
         return batches[0] as HTMLElement;
     }
 
-    // if it is the last item, return the last item
+    // When at the end and looping is disabled, stay on the last item
     return batches[batches.length - 1] as HTMLElement;
 };
 
