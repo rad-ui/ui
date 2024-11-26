@@ -135,12 +135,14 @@ describe('TogglePrimitive', () => {
         expect(button).toHaveAttribute('data-state', 'off');
 
         // Test Space key
-        fireEvent.click(button); // Just simulate the click directly
+        fireEvent.keyDown(button, { key: ' ' });
+        fireEvent.keyUp(button, { key: ' ' });
         expect(button).toHaveAttribute('data-state', 'on');
         expect(onPressedChange).toHaveBeenCalledWith(true);
 
         // Test Enter key
-        fireEvent.click(button);
+        fireEvent.keyDown(button, { key: 'Enter' });
+        fireEvent.keyUp(button, { key: 'Enter' });
         expect(button).toHaveAttribute('data-state', 'off');
         expect(onPressedChange).toHaveBeenCalledWith(false);
 
