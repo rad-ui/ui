@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import HoverCardContext from '../contexts/HoverCardContext';
 
 const HoverCardContent = ({ children, ...props }) => {
-    return <div {...props}>{children}</div>;
+    const { isOpen, floatingRefs, floatingStyles, getFloatingProps } = useContext(HoverCardContext);
+
+    if (!isOpen) return null;
+    return <div {...props} ref={floatingRefs.setFloating} style={floatingStyles} {...getFloatingProps()}>{children}</div>;
 };
 
 export default HoverCardContent;

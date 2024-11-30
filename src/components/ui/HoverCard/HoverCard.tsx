@@ -9,14 +9,15 @@ import HoverCardArrow from './fragments/HoverCardArrow';
 const HoverCard = ({ children, ...props }) => {
     return (
         <HoverCardRoot {...props}>
-            <HoverCardTrigger>trigger
+            <HoverCardTrigger>
+                This is a trigger yodsadas ads ads ads ad s asd ads
             </HoverCardTrigger>
-            <HoverCardPortal>
-                <HoverCardContent>
-                    <div>content</div>
-                    <HoverCardArrow />
-                </HoverCardContent>
-            </HoverCardPortal>
+            {/* <HoverCardPortal> */}
+            <HoverCardContent>
+                <div>content</div>
+                <HoverCardArrow />
+            </HoverCardContent>
+            {/* </HoverCardPortal> */}
         </HoverCardRoot>
     );
 };
