@@ -1,12 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import HoverCardContext from '../contexts/HoverCardContext';
 
 const HoverCardContent = ({ children, ...props }) => {
-    const { isOpen, floatingRefs, floatingStyles, getFloatingProps } = useContext(HoverCardContext);
+    const {
+        isOpen,
+        floatingRefs,
+        floatingStyles,
+        getFloatingProps,
+        rootClass,
+        closeWithDelay,
+        closeWithoutDelay,
+        openWithDelay
+    } = useContext(HoverCardContext);
+
+    useEffect(() => {
+        const handleScroll = () => closeWithoutDelay();
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [closeWithoutDelay]);
 
     if (!isOpen) return null;
-    return <div {...props} ref={floatingRefs.setFloating} style={floatingStyles} {...getFloatingProps()}>{children}</div>;
+    return <div
+        onPointerEnter={openWithDelay}
+        onPointerLeave={closeWithDelay}
+        className={`${rootClass}`} {...props}
+        ref={floatingRefs.setFloating}
+        style={floatingStyles}
+        {...getFloatingProps()}>{children}</div>;
 };
 
 export default HoverCardContent;

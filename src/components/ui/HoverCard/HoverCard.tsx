@@ -6,15 +6,15 @@ import HoverCardPortal from './fragments/HoverCardPortal';
 import HoverCardContent from './fragments/HoverCardContent';
 import HoverCardArrow from './fragments/HoverCardArrow';
 
-const HoverCard = ({ children, ...props }) => {
+const HoverCard = ({ children, content = undefined, ...props }) => {
     return (
         <HoverCardRoot {...props}>
             <HoverCardTrigger>
-                This is a trigger yodsadas ads ads ads ad s asd ads
+                {children}
             </HoverCardTrigger>
             {/* <HoverCardPortal> */}
             <HoverCardContent>
-                <div>content</div>
+                {content}
                 <HoverCardArrow />
             </HoverCardContent>
             {/* </HoverCardPortal> */}

@@ -1,4 +1,4 @@
-import { FloatingOverlay, FloatingPortal, FloatingFocusManager, useFloating, FloatingArrow, arrow, useRole, useInteractions, useDismiss, useHover, flip, shift, hide } from '@floating-ui/react';
+import { FloatingOverlay, FloatingPortal, FloatingFocusManager, useFloating, FloatingArrow, arrow, useRole, useInteractions, useDismiss, useHover, flip, shift, hide, offset } from '@floating-ui/react';
 
 const Floater = {
     Portal: FloatingPortal,
@@ -13,7 +13,8 @@ const Floater = {
     useHover,
     flip,
     shift,
-    hide
+    hide,
+    offset
 };
 
 export default Floater;

@@ -4,9 +4,9 @@ import Floater from '~/core/primitives/Floater';
 import HoverCardContext from '../contexts/HoverCardContext';
 
 const HoverCardArrow = ({ ...props }) => {
-    const { floatingContext, arrowRef } = useContext(HoverCardContext);
+    const { floatingContext, arrowRef, rootClass } = useContext(HoverCardContext);
 
-    return <Floater.Arrow {...props} context={floatingContext} ref={arrowRef} />;
+    return <Floater.Arrow className={`${rootClass}-arrow`} {...props} context={floatingContext} ref={arrowRef} />;
 };
 
 export default HoverCardArrow;

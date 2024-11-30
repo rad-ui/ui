@@ -5,11 +5,14 @@ import HoverCardContext from '../contexts/HoverCardContext';
 import Primitive from '~/core/primitives/Primitive';
 
 const HoverCardTrigger = ({ children, ...props }) => {
-    const { handleOpenChange, isOpen, floatingRefs } = useContext(HoverCardContext);
+    const { floatingRefs, closeWithDelay, openWithDelay } = useContext(HoverCardContext);
 
     return <>
-        {/* <button onClick={() => {}} onMouseEnter={() => handleOpenChange(true)} onMouseLeave={() => handleOpenChange(false)} ref={floatingRefs.setReference} >{children}</button> */}
-        <Primitive.button className="here" onClick={() => {}} onMouseEnter={() => handleOpenChange(true)} onMouseLeave={() => handleOpenChange(false)} ref={floatingRefs.setReference} >{children}</Primitive.button>
+        <Primitive.span
+            onClick={() => {}}
+            onMouseEnter={openWithDelay} onMouseLeave={closeWithDelay}
+            ref={floatingRefs.setReference}
+            asChild>{children}</Primitive.span>
     </>;
 };
 
