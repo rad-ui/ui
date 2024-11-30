@@ -1,5 +1,6 @@
 import HoverCard from '../HoverCard';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import Button from '~/components/ui/Button/Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -15,7 +16,7 @@ export default {
         };
         return <SandboxEditor className='bg-gray-200 h-[400px] flex items-center justify-center'>
             <HoverCard className='text-gray-900 text-center' content={<Content />} {...args} >
-                <span>Hover me</span>
+                <div className="p-10 bg-gray-100 rounded-md shadow">Hover me</div>
             </HoverCard>
         </SandboxEditor>;
     }

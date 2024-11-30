@@ -12,7 +12,8 @@ const HoverCardTrigger = ({ children, ...props }) => {
             onClick={() => {}}
             onMouseEnter={openWithDelay} onMouseLeave={closeWithDelay}
             ref={floatingRefs.setReference}
-            asChild>{children}</Primitive.span>
+            {...props}
+        >{children}</Primitive.span>
     </>;
 };
 

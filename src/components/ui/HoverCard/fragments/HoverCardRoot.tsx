@@ -16,9 +16,12 @@ type HoverCardRootProps = {
     props: React.HTMLAttributes<HTMLElement>
 }
 
-const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 300, closeDelay = 750, ...props }: HoverCardRootProps) => {
+const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }: HoverCardRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const arrowRef = useRef(null);
+    const ARROW_HEIGHT = 8;
+    const SPACING_GAP = 2;
+
     const { refs: floatingRefs, floatingStyles, context: floatingContext } = Floater.useFloating({
         placement: 'bottom',
         strategy: 'fixed',
@@ -26,18 +29,10 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
             Floater.arrow({
                 element: arrowRef
             }),
-            Floater.offset(7),
+            Floater.offset(ARROW_HEIGHT + SPACING_GAP),
             Floater.flip({
                 mainAxis: true
-                // fallbackStrategy: 'initialPlacement'
-            }
-            )
-            // Floater.shift({
-            //     crossAxis: true
-            // })
-            // Floater.hide({
-            //     strategy: 'referenceHidden' // 'referenceHidden' by default
-            // })
+            })
         ]
     });
 
