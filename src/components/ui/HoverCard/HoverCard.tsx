@@ -37,12 +37,12 @@ const HoverCard = ({
             <HoverCardTrigger>
                 {children}
             </HoverCardTrigger>
-            {/* <HoverCardPortal> */}
-            <HoverCardContent>
-                {content}
-                <HoverCardArrow />
-            </HoverCardContent>
-            {/* </HoverCardPortal> */}
+            <HoverCardPortal >
+                <HoverCardContent>
+                    {content}
+                    <HoverCardArrow />
+                </HoverCardContent>
+            </HoverCardPortal>
         </HoverCardRoot>
     );
 };

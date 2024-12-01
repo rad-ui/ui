@@ -18,6 +18,7 @@ type HoverCardRootProps = {
 
 const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }: HoverCardRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootTriggerClass = customClassSwitcher(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef(null);
     const ARROW_HEIGHT = 8;
     const SPACING_GAP = 2;
@@ -106,6 +107,7 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
         getReferenceProps,
         getFloatingProps,
         rootClass,
+        rootTriggerClass,
         closeWithDelay,
         closeWithoutDelay,
         openWithDelay

@@ -9,11 +9,12 @@ type HoverCardTriggerProps = {
     props?: React.HTMLAttributes<HTMLElement>
 }
 
-const HoverCardTrigger = ({ children, ...props }: HoverCardTriggerProps) => {
-    const { floatingRefs, closeWithDelay, openWithDelay } = useContext(HoverCardContext);
+const HoverCardTrigger = ({ children, className = '', ...props }: HoverCardTriggerProps) => {
+    const { floatingRefs, closeWithDelay, openWithDelay, rootTriggerClass } = useContext(HoverCardContext);
 
     return <>
         <Primitive.span
+            className={`${rootTriggerClass} ${className}`}
             onClick={() => {}}
             onMouseEnter={openWithDelay} onMouseLeave={closeWithDelay}
             ref={floatingRefs.setReference}
