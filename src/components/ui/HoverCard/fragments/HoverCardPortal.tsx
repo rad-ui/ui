@@ -1,6 +1,11 @@
 import React from 'react';
 
-const HoverCardPortal = ({ children, ...props }) => {
+type HoverCardPortalProps = {
+    children: React.ReactNode,
+    props: React.HTMLAttributes<HTMLElement>
+}
+
+const HoverCardPortal = ({ children, ...props }: HoverCardPortalProps) => {
     return <div {...props}>{children}</div>;
 };
 

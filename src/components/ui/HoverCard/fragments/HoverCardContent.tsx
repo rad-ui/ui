@@ -2,7 +2,12 @@ import React, { useContext, useEffect } from 'react';
 
 import HoverCardContext from '../contexts/HoverCardContext';
 
-const HoverCardContent = ({ children, ...props }) => {
+type HoverCardContentProps = {
+    children: React.ReactNode,
+    props?: React.HTMLAttributes<HTMLElement>
+}
+
+const HoverCardContent = ({ children, ...props }: HoverCardContentProps) => {
     const {
         isOpen,
         floatingRefs,

@@ -4,7 +4,12 @@ import HoverCardContext from '../contexts/HoverCardContext';
 
 import Primitive from '~/core/primitives/Primitive';
 
-const HoverCardTrigger = ({ children, ...props }) => {
+type HoverCardTriggerProps = {
+    children: React.ReactNode,
+    props?: React.HTMLAttributes<HTMLElement>
+}
+
+const HoverCardTrigger = ({ children, ...props }: HoverCardTriggerProps) => {
     const { floatingRefs, closeWithDelay, openWithDelay } = useContext(HoverCardContext);
 
     return <>

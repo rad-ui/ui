@@ -13,7 +13,7 @@ type HoverCardRootProps = {
     customRootClass: string,
     openDelay: number,
     closeDelay: number,
-    props: React.HTMLAttributes<HTMLElement>
+    props?: React.HTMLAttributes<HTMLElement>
 }
 
 const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }: HoverCardRootProps) => {
@@ -65,15 +65,11 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
     ]);
 
     const markMouseIsExiting = () => {
-        console.log('marking mouse as exiting');
         setMouseIsExiting(true);
-        console.log('\n');
     };
 
     const markMouseIsEntering = () => {
-        console.log('marking mouse as entering');
         setMouseIsExiting(false);
-        console.log('/n');
     };
 
     const openWithDelay = () => {
