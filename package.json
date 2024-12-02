@@ -70,7 +70,7 @@
     "@babel/preset-react": "7.25.9",
     "@babel/preset-typescript": "7.26.0",
     "@radui/ui": "0.0.8",
-    "@rollup/plugin-alias": "5.1.0",
+    "@rollup/plugin-alias": "5.1.1",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
