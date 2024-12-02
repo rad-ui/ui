@@ -8,7 +8,7 @@ export default {
     component: Tooltip,
     render: (args) => <SandboxEditor>
         <ScrollPlayground>
-            <Tooltip className="text-gray-1000" label="This is a tooltip">
+            <Tooltip className="text-gray-1000" label="This is a tooltip" placement='left'>
                     Hello, hover me!
             </Tooltip>
         </ScrollPlayground>

@@ -21,7 +21,19 @@ export type PopperProps = {
     customRootClass?: string;
     activationStrategy?: 'hover';
     className?: string;
-    placement?: 'top' | 'bottom' | 'bottom-start'; // TODO: fix
+    placement?:
+        | 'top'
+        | 'bottom'
+        | 'left'
+        | 'right'
+        | 'top-start'
+        | 'top-end'
+        | 'bottom-start'
+        | 'bottom-end'
+        | 'left-start'
+        | 'left-end'
+        | 'right-start'
+        | 'right-end'; 
     children?: React.ReactNode; // TODO: fix
     open?: boolean;
     hoverDelay?: number;
