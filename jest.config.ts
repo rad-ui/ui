@@ -9,7 +9,6 @@ const config: Config = {
         '^~/(.*)$': '<rootDir>/src/$1'
     },
     testMatch: ['**/*.test.(js|jsx|ts|tsx)'],
-    collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
     clearMocks: true,
     maxWorkers: '50%',
     moduleDirectories: ['node_modules', 'src'],
