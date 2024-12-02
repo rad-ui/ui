@@ -9,7 +9,7 @@ export interface TogglePrimitiveProps {
     className?: string;
     label?: string;
     disabled?: boolean;
-    onPressedChange: (isPressed: boolean) => void;
+    onPressedChange?: (isPressed: boolean) => void;
 }
 
 const TogglePrimitive = ({

@@ -1,4 +1,3 @@
-// MyComponent.test.js
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Strong from '../Strong';
@@ -6,7 +5,6 @@ import Strong from '../Strong';
 describe('Strong Component', () => {
     const Component = () => <Strong className='font-bold'>I am Strong!</Strong>;
 
-    // tests
     test('renders Strong component', () => {
         render(<Component />);
         expect(screen.getByText('I am Strong!')).toBeInTheDocument();
