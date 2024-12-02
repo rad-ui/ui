@@ -10,6 +10,8 @@ export interface TogglePrimitiveProps {
     label?: string;
     disabled?: boolean;
     onPressedChange?: (isPressed: boolean) => void;
+    // TODO: remove after introducing TS support for Primitive and its sub-components
+    asChild?: any;
 }
 
 const TogglePrimitive = ({

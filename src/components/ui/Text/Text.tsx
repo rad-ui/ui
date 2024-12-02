@@ -12,11 +12,11 @@ export type TextProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;
-    props?: Record<string, any>[]
-}
+} & React.ComponentProps<'p'>;
 
 const Text = ({ children, customRootClass = '', className = '', ...props }: TextProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
     return <p className={`${rootClass} ${className}`} {...props}>{children}</p>;
 };
 
