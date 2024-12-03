@@ -15,19 +15,25 @@ export const getActiveBatchItem = (batches: NodeList) => {
     return activeItem as HTMLElement | null;
 };
 
-export const getNextBatchItem = (batches: NodeList): Element => {
+export const getNextBatchItem = (batches: NodeList, loop = false): Element => {
     const activeItem = getActiveBatchItem(batches) as HTMLElement | null;
-    // get the next item, return it if it is not the last item
+    // Try to get the next sibling element
     const nextItem = activeItem?.nextElementSibling;
+
     if (nextItem) {
         return nextItem;
     }
 
-    // if it is the last item, return the last item
+    if (loop) {
+        // When at the end and looping is enabled, return the first item
+        return batches[0] as HTMLElement;
+    }
+
+    // When at the end and looping is disabled, stay on the last item
     return batches[batches.length - 1] as HTMLElement;
 };
 
-export const getPrevBatchItem = (batches: NodeList) => {
+export const getPrevBatchItem = (batches: NodeList, loop = false) => {
     const activeItem = getActiveBatchItem(batches) as HTMLElement | null;
     // get the next item, return it if it is not the last item
     const prevItem = activeItem?.previousElementSibling;
@@ -35,6 +41,10 @@ export const getPrevBatchItem = (batches: NodeList) => {
         return prevItem;
     }
 
-    // if it is the last item, return the last item
+    if (loop) {
+        // if it is the last item, return the last item
+        return batches[batches.length - 1] as HTMLElement;
+    }
+    // if it is the last item, return the first item
     return batches[0] as HTMLElement;
 };

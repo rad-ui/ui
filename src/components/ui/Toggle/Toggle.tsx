@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 import { customClassSwitcher } from '~/core';
 
-import ButtonPrimitive from '~/core/primitives/Button';
+import TogglePrimitive from '~/core/primitives/Toggle';
 
 const COMPONENT_NAME = 'Toggle';
 
 export type ToggleProps = {
-    defaultPressed? : boolean | false ;
-    pressed : boolean;
+    defaultPressed?: boolean;
+    pressed: boolean;
     customRootClass? : string;
     disabled? : boolean;
     children? : React.ReactNode;
@@ -18,18 +18,21 @@ export type ToggleProps = {
 };
 
 const Toggle: React.FC<ToggleProps> = ({
-    defaultPressed,
+    defaultPressed = false,
     customRootClass = '',
     children,
     className = '',
-    pressed,
+    pressed = false,
     onChange,
     ...props
 }) => {
+    if (typeof pressed !== 'boolean') {
+        throw new Error('Toggle: pressed prop must be a boolean');
+    }
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [isPressed, setIsPressed] = useState(pressed || defaultPressed);
+    const [isPressed, setIsPressed] = useState(pressed);
 
     const handlePressed = () => {
         const updatedPressed = !isPressed;
@@ -38,15 +41,16 @@ const Toggle: React.FC<ToggleProps> = ({
     };
 
     return (
-       
-        <ButtonPrimitive
-            className={`${rootClass}`} onClick ={handlePressed}
+
+        <TogglePrimitive
+            className={`${rootClass}`}
+            pressed={isPressed}
+            onPressedChange={handlePressed}
             data-state={isPressed ? 'on' : 'off'}
-            type='button'
             data-disabled={props.disabled ? '' : undefined}
-            aria-pressed={pressed} {...props}>
+            {...props}>
             {children}
-        </ButtonPrimitive>
+        </TogglePrimitive>
     );
 };
 

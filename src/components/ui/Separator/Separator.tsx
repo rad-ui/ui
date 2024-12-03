@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import { customClassSwitcher } from '~/core';
 
@@ -9,7 +8,7 @@ export type SeparatorProps = {
     className?: string;
     customRootClass?: string;
     props?: any;
-}
+} & React.ComponentProps<'div'>;
 
 const Separator = ({ orientation = 'horizontal', className, customRootClass, ...props } : SeparatorProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
