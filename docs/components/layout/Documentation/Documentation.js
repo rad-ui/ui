@@ -27,7 +27,7 @@ const Documentation = ({ title = "", description = "", currentPage = undefined, 
     return <div>
         <div>
             <div className='flex items-center space-x-4'>
-                <Heading>{title}</Heading>
+                <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
             </div>
             {description && <Text className="mb-4 text-gray-900 font-light">{description}</Text>}
         </div>
