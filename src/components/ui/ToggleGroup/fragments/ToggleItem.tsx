@@ -1,25 +1,41 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { ToggleContext } from '../contexts/toggleContext';
-import ButtonPrimitive from '~/core/primitives/Button';
+import TogglePrimitive from '~/core/primitives/Toggle';
 
-const ToggleItem = ({ children, value = null, ...props }:any) => {
-    const toggleContext = useContext(ToggleContext);
+export type ToggleItemProps = {
+    children: React.ReactNode;
+    value: any;
+    props: any;
+};
 
-    const type = toggleContext?.type;
+const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
+    const { type, activeToggles, setActiveToggles, nextItem, previousItem } = useContext(ToggleContext);
+    const isActive = activeToggles?.includes(value);
 
-    const isActive = toggleContext?.activeToggles?.includes(value);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const ariaProps:any = {};
+    const dataProps:any = {};
+
+    const handleFocus = () => {
+        setIsFocused(true);
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+    };
 
     const handleToggleSelect = () => {
-        let activeToggleArray = toggleContext?.activeToggles || [];
+        let activeToggleArray = activeToggles || [];
 
         // For Single Case
         if (type === 'single') {
             if (isActive) {
-                toggleContext?.setActiveToggles([]);
+                setActiveToggles([]);
                 return;
             } else {
-                toggleContext?.setActiveToggles([value]);
+                setActiveToggles([value]);
                 return;
             }
         }
@@ -33,21 +49,42 @@ const ToggleItem = ({ children, value = null, ...props }:any) => {
             }
         }
 
-        toggleContext?.setActiveToggles(activeToggleArray);
+        setActiveToggles(activeToggleArray);
+    };
+
+    const handleKeyDown = (e:any) => {
+        if (e.key === 'ArrowRight') {
+            // prevent scrolling when pressing arrow keys
+            e.preventDefault();
+            nextItem();
+        }
+        if (e.key === 'ArrowLeft') {
+            // prevent scrolling when pressing arrow keys
+            e.preventDefault();
+            previousItem();
+        }
     };
 
     if (isActive) {
-        props['aria-pressed'] = 'true';
+        ariaProps['aria-pressed'] = 'true';
+        dataProps['data-active'] = 'true';
     } else {
-        props['aria-pressed'] = 'false';
+        ariaProps['aria-pressed'] = 'false';
+        dataProps['data-active'] = 'false';
     }
 
-    return <ButtonPrimitive
-        className={`${isActive ? 'bg-blue-600' : ''}`} onClick={() => {
-            handleToggleSelect();
-        }}
+    return <TogglePrimitive
+        onClick={handleToggleSelect}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        {...ariaProps}
+        {...dataProps}
+        data-rad-ui-batch-element
+        onKeyDown={handleKeyDown}
+        {...isFocused ? { 'data-rad-ui-focus-element': '' } : {}}
         {...props}
-    >{children}</ButtonPrimitive>;
+
+    >{children}</TogglePrimitive>;
 };
 
 export default ToggleItem;

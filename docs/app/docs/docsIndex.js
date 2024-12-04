@@ -7,7 +7,7 @@ const DOCS_SEO = {
         next: "INSTALLATION",
         previous: null,
         description: `It's super easy to get started with Rad UI. You can install it using npm or yarn.`,
-        url: "/docs/introduction"
+        url: "/docs/first-steps/introduction"
     },
     "INSTALLATION": {
         title: `Installation${POSTFIX}`,
@@ -15,7 +15,7 @@ const DOCS_SEO = {
         next: "USAGE",
         previous: "INTRODUCTION",
         description: `It's super easy to get started with Rad UI. You can install it using npm or yarn.`,
-        url: "/docs/installation"
+        url: "/docs/first-steps/installation"
     },
     "USAGE": {
         title: `Usage${POSTFIX}`,
@@ -23,7 +23,7 @@ const DOCS_SEO = {
         next: "ACCESSIBILITY",
         previous: "INSTALLATION",
         description: `It's super easy to get started with Rad UI. You can install it using npm or yarn.`,
-        url: "/docs/usage"
+        url: "/docs/first-steps/usage"
     },
     "ACCESSIBILITY": {
         title: `Accessibility${POSTFIX}`,
@@ -31,7 +31,7 @@ const DOCS_SEO = {
         next: null,
         previous: "USAGE",
         description: `It's super easy to get started with Rad UI. You can install it using npm or yarn.`,
-        url: "/docs/accessibility"
+        url: "/docs/principles/accessibility"
     },
     "AVATAR_DOCS": {
         title: `Avatar Documentation ${POSTFIX}`,

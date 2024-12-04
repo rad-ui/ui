@@ -1,11 +1,9 @@
 'use client';
-import React, { useContext, useEffect, useRef } from 'react';
-import { customClassSwitcher } from '~/core';
+import React, { useContext, useRef } from 'react';
+
 import { TabProps } from '../types';
 
 import TabsRootContext from '../context/TabsRootContext';
-
-const COMPONENT_NAME = 'TabTrigger';
 
 export type TabTriggerProps = {
     tab: TabProps;
@@ -17,28 +15,14 @@ export type TabTriggerProps = {
     props?: Record<string, any>[]
 }
 
-const TabTrigger = ({ tab, setActiveTab, activeTab, className, customRootClass, index, ...props }: TabTriggerProps) => {
+const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     // use context
-    const { tabs, previousTab, nextTab } = useContext(TabsRootContext);
-    const ref = useRef(null);
-
-    const handleFocusTabEvent = () => {
-        // focus on the active tab
-        if (activeTab === tab.value) {
-            ref.current.focus();
-        }
-    };
-
-    useEffect(() => {
-        handleFocusTabEvent();
-    }
-    , [activeTab]);
-
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const { previousTab, nextTab, activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
+    const ref = useRef<HTMLButtonElement>(null);
 
     const isActive = activeTab === tab.value;
 
-    const handleClick = (tab: Tab) => {
+    const handleClick = (tab: TabProps) => {
         setActiveTab(tab.value);
     };
 
@@ -51,14 +35,28 @@ const TabTrigger = ({ tab, setActiveTab, activeTab, className, customRootClass, 
         }
     };
 
+    const handleFocus = (tab: TabProps) => {
+        if (ref.current) {
+            ref.current?.focus();
+        }
+        setActiveTab(tab.value);
+
+        // This is a good way to manage flow, when a focus event is triggered, we can set the active tab to the tab that is being focused on
+        // This way, we dont need to keep track of the active tab in the parent component
+        // This should be the defacto pattern we should follow for all components
+    };
+
     return (
         <button
             ref={ref}
-            role="tab" key={index} className={`${rootClass} ${isActive ? 'active' : ''} ${className}`} {...props} onKeyDown={handleKeyDownEvent}
-            onClick={() => handleClick(tab)}>
-            <span className={`${rootClass}-inner`}>
-                {tab.label}
-            </span>
+            role="tab" className={`${rootClass}-trigger ${isActive ? 'active' : ''} ${className}`} {...props} onKeyDown={handleKeyDownEvent}
+            onClick={() => handleClick(tab)}
+            onFocus={() => handleFocus(tab)}
+            tabIndex={isActive ? 0 : -1}
+            data-rad-ui-batch-element
+
+        >
+            {tab.label}
         </button>
     );
 };

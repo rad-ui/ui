@@ -69,7 +69,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
                 data-state={isOpen ? 'open' : 'closed'}
                 data-rad-ui-batch-element
                 {...shouldAddFocusDataAttribute ? { 'data-rad-ui-focus-element': '' } : {}}
-
             >
                 {children}
             </div>

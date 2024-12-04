@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 
 import { customClassSwitcher } from '~/core';
@@ -8,8 +7,7 @@ export type StrongProps = {
     children: React.ReactNode,
     className?: string,
     customRootClass?: string
-    props?: any
-}
+} & React.ComponentProps<'strong'>
 
 const Strong = ({ children, className, customRootClass, ...props }: StrongProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
