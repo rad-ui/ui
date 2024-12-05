@@ -7,7 +7,7 @@ import Text from "@radui/ui/Text";
 const CalloutExample = () => (
   <Callout color="red">
     <div className="flex items-start">
-      <Icon />
+      <BookmarkIcon />
 
       <div className="ml-2">
         <Text className="font-bold">Error</Text>
