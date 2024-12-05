@@ -1,14 +1,14 @@
 const code = {
     javascript: {
-        code: `import Progress from "@radui/ui/Progress"
+        code: `
+import Progress from "@radui/ui/Progress";
 
-const ProgressExample = () => {
-    return  <div style={{width:"200px"}}>
-                        <Progress value={90}  />
-                   </div>
-}
-
-<Kbd>Ctrl + C</Kbd>`
+const ProgressExample = () => (
+  <div style={{ width: "200px" }}>
+    <Progress value={90}  />
+  </div>
+)
+`
     },
     css: {
         code: `.rad-ui-progress {
@@ -25,7 +25,7 @@ const ProgressExample = () => {
     border-radius: 8px;
     transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
 }`
-    },
-}
+    }
+};
 
 export default code;

@@ -1,16 +1,20 @@
 const code = {
     javascript: {
-        code: `import Toggle from '@radui/ui/Toggle'"
+        code: `
+import Toggle from "@radui/ui/Toggle";
 
-const ToggleExample = ()=>{
-    const [pressed, setPressed] = React.useState(false)
+const ToggleExample = () => {
+  const [pressed, setPressed] = React.useState(false)
 
-    const handleChange = (newPressed)=>{
-        setPressed(newPressed)
-    }
-    return <Toggle defaultPressed={false} onChange={handleChange} >
-            <Icon/>
-        </Toggle>
+  const handleChange = (newPressed) => {
+    setPressed(newPressed)
+  }
+  
+  return (
+    <Toggle pressed={pressed} onChange={handleChange}>
+      <Icon />
+    </Toggle>
+  )
 }`
     },
     css: {
@@ -40,7 +44,7 @@ const ToggleExample = ()=>{
     }
 }   
 `
-    },
-}
+    }
+};
 
 export default code;
