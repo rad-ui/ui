@@ -2,13 +2,12 @@ import Text from "@radui/ui/Text"
 import Heading from "@radui/ui/Heading"
 import Link from "@radui/ui/Link"
 import Separator from "@radui/ui/Separator"
-import Badge from "@radui/ui/Badge"
 import Table from "@radui/ui/Table"
 
-import CodeBlock from "./helpers/CodeBlock"
-import ComponentHero from "./helpers/ComponentHero/ComponentHero"
-import ComponentFeatures from "./helpers/ComponentFeatures/ComponentFeatures"
-
+import CodeBlock from "@/components/layout/Documentation/helpers/CodeBlock"
+import ComponentHero from "@/components/layout/Documentation/helpers/ComponentHero/ComponentHero"
+import ComponentFeatures from "@/components/layout/Documentation/helpers/ComponentFeatures/ComponentFeatures"
+import { BookMarkLink } from "@/components/layout/Documentation/utils"
 import DOCS_SEO from '@/app/docs/docsIndex';
 
 const LeftArrow = () => {
@@ -28,7 +27,7 @@ const Documentation = ({ title = "", description = "", currentPage = undefined, 
     return <div>
         <div>
             <div className='flex items-center space-x-4'>
-                <Heading>{title}</Heading>
+                <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
             </div>
             {description && <Text className="mb-4 text-gray-900 font-light">{description}</Text>}
         </div>
@@ -49,7 +48,7 @@ const DocsTable = ({ children , columns=[], data=[]}) => {
 
    
     return <div className='mb-20'>
-        <Heading as="h6" className="mb-4">API Documentation</Heading>
+        <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
         <Table columns={columns} data={data} >
         {children}
     </Table>
