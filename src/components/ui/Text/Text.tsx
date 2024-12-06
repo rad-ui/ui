@@ -7,24 +7,14 @@ import { customClassSwitcher } from '~/core';
 // TODO: Add a core reusable function to check and render an as prop
 
 const COMPONENT_NAME = 'Text';
-const componentList = [
-    {
-        label: 'DIV',
-        tag: 'div'
-    },
-    {
-        label: 'SPAN',
-        tag: 'span'
-    },
-    {
-        label: 'P',
-        tag: 'p'
-    },
-    {
-        label: 'LABEL',
-        tag: 'label'
-    },
-]
+
+const tagMap : { [key: string]: string } = {
+    div: 'div',
+    span: 'span',
+    p: 'p',
+    label: 'label',
+  };
+
 export type TextProps = {
     children: React.ReactNode;
     customRootClass?: string;
@@ -32,13 +22,15 @@ export type TextProps = {
     as?: string;
 } & React.ComponentProps<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', as=undefined, ...props }: TextProps) => {
+const Text = ({ children, customRootClass = '', className = '', as='p' , ...props }: TextProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
-    if (!componentList.find((item) => item.tag === as)) as='p'
-
-    const { tag: Tag } = componentList.find((item) => item.tag === as);
-    return <Tag className={`${rootClass} ${className}`} {...props}>{children}</Tag>;
+    
+      
+      const Tag = tagMap[as] || 'p';
+      
+      return React.createElement(Tag, { className: `${rootClass} ${className}`, ...props }, children) 
+    
+    
 };
 
 Text.displayName = COMPONENT_NAME;

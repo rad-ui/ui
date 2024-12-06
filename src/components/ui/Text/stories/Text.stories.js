@@ -28,4 +28,11 @@ export const WithAs = {
     }
 }
 
+export const FaultyAs = {
+    args: {
+        className: 'text-gray-950',
+        as: "form"
+    }
+}
+
 
