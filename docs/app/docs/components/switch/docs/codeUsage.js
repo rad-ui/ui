@@ -1,12 +1,13 @@
 const code = {
     javascript: {
-         code: `import Switch from "@radui/ui/Switch"
+        code: `
+import Switch from "@radui/ui/Switch"
          
 const SwitchExample = () => (
     <div>
-        <Switch />   
+      <Switch />   
     </div>
-    )`
+)`
     },
     scss: {
         code: `/** Switch */
@@ -55,7 +56,7 @@ const SwitchExample = () => (
         
     }
 }`
-    },
-}
+    }
+};
 
 export default code;
