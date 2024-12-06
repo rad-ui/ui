@@ -8,15 +8,24 @@ export default {
     component: Text,
     render: (args) => <SandboxEditor>
         <div >
-            <Text className='text-gray-950'>  {`I'm not a monkey
+            <Text {...args}>  {`I'm not a monkey
 I will not dance even if the beat's funky`}  </Text>
         </div>
     </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
+export const WithoutAs = {
     args: {
-        className: ''
+        className: 'text-gray-950'
     }
 };
+
+export const WithAs = {
+    args: {
+        className: 'text-gray-950',
+        as: "div"
+    }
+}
+
+
