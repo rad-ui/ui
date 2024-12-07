@@ -8,23 +8,25 @@ import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Text';
 
-const tagMap = ['div' , 'span' ,'p','label']
+const TAGS = ['div' , 'span' ,'p','label']
 
 export type TextProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;
-    as?: 'div' | 'span' | 'p' | 'label';
+    as?: string;
 } & React.ComponentProps<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', as='p' , ...props }: TextProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-      let Tag = 'p'
-      tagMap.map((tag) => tag === as && (Tag = as)) ;
-      
-      return React.createElement(Tag, { className: `${rootClass} ${className}`, ...props }, children) 
-    
-    
+const Text = ({ children, customRootClass = '', className = '', as: Component = 'p', ...props }: TextProps) => {
+    const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+    const component = TAGS.includes(Component) ? Component : 'p';
+
+    return React.createElement(
+        component,
+        { className: `${rootClassName} ${className}`, ...props },
+        children
+    );
 };
 
 Text.displayName = COMPONENT_NAME;
