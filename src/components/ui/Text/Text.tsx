@@ -17,13 +17,13 @@ export type TextProps = {
     as?: string;
 } & React.ComponentProps<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', as: Component = 'p', ...props }: TextProps) => {
+const Text = ({ children, customRootClass = '', className = '', as= 'p', ...props }: TextProps) => {
     const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const component = TAGS.includes(Component) ? Component : 'p';
+    if (!TAGS.includes(as)) as = 'p'
 
     return React.createElement(
-        component,
+        as,
         { className: `${rootClassName} ${className}`, ...props },
         children
     );

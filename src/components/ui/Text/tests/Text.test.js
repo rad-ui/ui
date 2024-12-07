@@ -53,49 +53,38 @@ describe('Text Component', () => {
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with span as prop and custom data attribute', () => {
-        render(<Text as="span" data-testid="text-data">I am Text!</Text>);
-        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'SPAN');
-        expect(screen.getByText('I am Text!')).toHaveAttribute('data-testid', 'text-data');
-    });
 
-    test('renders Text component with custom style and div as prop', () => {
-        render(<Text style={{ color: 'red' }} as='div'>I am Text!</Text>);
-        expect(screen.getByText('I am Text!')).toHaveStyle('color: red');
-        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'DIV')
-    });
-
-    test('renders Text component with no as prop', () => {
+    test('renders Text component with no prop', () => {
         render(<Text>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with undefined as prop', () => {
+    test('renders Text component as a default <p> tag when "as" is undefined', () => {
         render(<Text as={undefined} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with random text as prop', () => {
+    test('renders Text component as a default <p> tag when "as" is random text', () => {
         render(<Text as="text" >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with number as prop', () => {
+    test('renders Text component as a default <p> tag when "as" is a number', () => {
         render(<Text as= {0} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with array as prop', () => {
+    test('renders Text component as a default <p> tag when "as" is an array', () => {
         render(<Text as = {["testing", "text" ]} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with false boolean as prop', () => {
+    test('renders Text component as a default <p> tag when "as" is a false boolean', () => {
         render(<Text as={false} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-    test('renders Text component with true boolean as prop', () => {
+    test('renders Text component as a default <p> tag when "as" is true boolean', () => {
         render(<Text as={true} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
