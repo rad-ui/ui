@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
+import { clsx } from 'clsx';
 
 type AccordionContentProps = {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, ac
 
     return (
         <div
-            className={`${rootClass}-content ${className}`}
+            className={clsx(`${rootClass}-content`, className)}
             id={`content-${index}`}
             role="region"
             aria-labelledby={`section-${index}`}

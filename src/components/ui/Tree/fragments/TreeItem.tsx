@@ -1,6 +1,7 @@
 import React, { useContext, useId, useRef, useState } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { TreeContext } from '../contexts/TreeContext';
+import { clsx } from 'clsx';
 
 type TreeItemProps = {
     children: React.ReactNode;
@@ -60,7 +61,7 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
     return <>
 
         <ButtonPrimitive
-            className={className}
+            className={clsx(className)}
             ref={buttonRef}
             onClick={handleClick}
             data-rad-ui-batch-element

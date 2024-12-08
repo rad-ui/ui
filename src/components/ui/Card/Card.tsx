@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import CardRoot from './fragments/CardRoot';
-
+import { clsx } from 'clsx';
 export type CardProps = {
     customRootClass?: string;
     className?: string;
@@ -8,7 +8,7 @@ export type CardProps = {
 } & React.ComponentProps<'div'>;
 
 const Card = ({ children, className = '', customRootClass, ...props }: PropsWithChildren<CardProps>) => (
-    <CardRoot className={className} customRootClass={customRootClass} {...props}>
+    <CardRoot className={clsx(className)} customRootClass={customRootClass} {...props}>
         {children}
     </CardRoot>
 );

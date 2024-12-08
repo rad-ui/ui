@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-
+import { clsx } from 'clsx';
 export type AlertDialogContentProps = {
     children: React.ReactNode;
 }
@@ -11,7 +11,7 @@ const AlertDialogContent = ({ children } : AlertDialogContentProps) => {
     return (
         <>
             {isOpen && (
-                <div className={`${rootClass}-content`}>
+                <div className={clsx(`${rootClass}-content`)}>
                     {children}
                 </div>
             )}

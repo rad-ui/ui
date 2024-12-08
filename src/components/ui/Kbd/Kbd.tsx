@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Kbd';
 
 export type KbdProps = {
@@ -13,7 +13,7 @@ export type KbdProps = {
 
 const Kbd = ({ children, customRootClass, className, ...props }: KbdProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <kbd className={`${rootClass} ${className}`} {...props}>{children}</kbd>;
+    return <kbd className={clsx(rootClass, className)} {...props}>{children}</kbd>;
 };
 
 export default Kbd;

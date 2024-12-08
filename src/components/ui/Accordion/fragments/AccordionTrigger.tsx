@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
+import { clsx } from 'clsx';
 
 type AccordionTriggerProps = {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
 
         <button
             type="button"
-            className={`${rootClass}-trigger ${className}`}
+            className={clsx(`${rootClass}-trigger`, className)}
             onBlur={handleBlurEvent}
             onFocus={onFocusHandler}
             onKeyDown={(e) => {
