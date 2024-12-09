@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Table';
@@ -11,9 +11,9 @@ const TableRoot = ({ children, className = '', customRootClass = '', ...props }:
     // so we created a new class for <table> element as a one off case in pattern when it comes to naming classes/conventions
     // this is because we cant style the table element directly, so we'll need to wrap it in a div and style it instead
 
-    return <div className={`${rootClass}-wrapper ${className}`} {...props} >
+    return <div className={clsx(`${rootClass}-wrapper`, className)} {...props} >
         {/* Todo: need to break this down into its own wrapper component */}
-        <table className={rootClass}>
+        <table className={clsx(rootClass)}>
             {children}
         </table>
     </div>;
