@@ -1,0 +1,23 @@
+.rad-ui-copy{
+    border: 1px solid var(--rad-ui-color-gray-700);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--rad-ui-color-gray-100);
+    border-radius: 12px;
+    cursor: pointer;
+
+    .rad-ui-copy-trigger{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .rad-ui-copy-feedback{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px;
+    }
+}

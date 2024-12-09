@@ -16,12 +16,11 @@ export type AvatarProps = {
 
 const Avatar = ({ customRootClass = '', fallback, className, src, alt, ...props }: AvatarProps) => {
     return (
-        <AvatarPrimitive.Root src={src} customRootClass={customRootClass}>
+        <AvatarPrimitive.Root src={src} customRootClass={customRootClass} {...props}>
             <AvatarPrimitive.Image
                 src={src}
                 alt={alt}
                 className={className}
-                {...props}
             />
             <AvatarPrimitive.Fallback>
                 {fallback}
