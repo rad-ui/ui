@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-
+import { clsx } from 'clsx';
 import TextAreaRoot from './fragments/TextAreaRoot';
 import TextAreaInput from './fragments/TextAreaInput';
 
@@ -11,7 +11,7 @@ export type TextAreaProps = {
 }
 
 const TextArea = ({ customRootClass = '', className = '', children, ...props }: TextAreaProps) => {
-    return <TextAreaRoot customRootClass={customRootClass} className={`${className}`}>
+    return <TextAreaRoot customRootClass={customRootClass} className={clsx(className)}>
         <TextAreaInput placeholder="enter text">
             {children}
         </TextAreaInput>

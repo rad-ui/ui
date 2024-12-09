@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Callout';
 
 type CalloutRootProps = {
@@ -13,7 +13,7 @@ type CalloutRootProps = {
 
 const CalloutRoot = ({ children, className, color, customRootClass, ...props }: CalloutRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <div className={`${rootClass} ${className}`} data-accent-color={color ?? undefined} {...props}>
+    return <div className={clsx(rootClass, className)} data-accent-color={color ?? undefined} {...props}>
         {children}
     </div>;
 };

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
@@ -55,7 +55,7 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
                 accordionRef
 
             }}>
-            <div className={`${rootClass}-root`} ref={accordionRef} >
+            <div className={clsx(${rootClass}-root)} ref={accordionRef} >
                 {children}
             </div>
         </AccordionContext.Provider>

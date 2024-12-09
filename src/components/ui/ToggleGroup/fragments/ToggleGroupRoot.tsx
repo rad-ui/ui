@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
 
@@ -38,7 +38,7 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
     };
 
     return (
-        <div className={`${rootClass} ${className}`} role="group" ref={toggleGroupRef}>
+        <div className={clsx(rootClass, className)} role="group" ref={toggleGroupRef}>
             <ToggleContext.Provider
                 value={sendValues}>
                 {children}
