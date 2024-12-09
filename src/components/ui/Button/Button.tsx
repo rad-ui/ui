@@ -21,7 +21,7 @@ const Button = ({ children, type = 'button', customRootClass = '', className = '
     return (
         <ButtonPrimitive
             type={type}
-            className={clsx(rootClass, 'button-${variant}', className, '')} data-accent-color={color ?? undefined} data-size={size}
+            className={clsx(rootClass, `button-${variant}`, className)} data-accent-color={color ?? undefined} data-size={size}
             {...props}
         >
             {children}
