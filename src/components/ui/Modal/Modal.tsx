@@ -1,6 +1,6 @@
 import React from 'react';
 import { FloatingOverlay, FloatingPortal, FloatingFocusManager, useFloating } from '@floating-ui/react';
-
+import { clsx } from 'clsx';
 export type ModalProps = {
     open: boolean;
     onClose: () => void;
@@ -15,8 +15,8 @@ export const Modal: React.FC<ModalProps> = ({ open = true, onClose, children }) 
     };
 
     return (
-        <div className="modal">
-            <div className="modal__content">
+        <div className={clsx('modal')}>
+            <div className={clsx('modal__content')}>
                 <div>
                     {children}
                 </div>
@@ -24,10 +24,10 @@ export const Modal: React.FC<ModalProps> = ({ open = true, onClose, children }) 
                     {
                         open &&
                         <FloatingPortal>
-                            <FloatingOverlay className="overlay" lockScroll>
+                            <FloatingOverlay className={clsx('overlay')} lockScroll>
                                 <FloatingFocusManager context={context}>
-                                    <div className='fixed bg-black/80 overflow-auto w-screen h-screen grid place-items-center'>
-                                        <div className='bg-white p-4 inline-block rounded-md shadow-lg'>
+                                    <div className={clsx('fixed bg-black/80 overflow-auto w-screen h-screen grid place-items-center')}>
+                                        <div className={clsx('bg-white p-4 inline-block rounded-md shadow-lg')}>
                                             <button onClick={onCloseHandler}>
                                                 Close
                                             </button>
