@@ -55,7 +55,7 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
                 accordionRef
 
             }}>
-            <div className={clsx(${rootClass}-root)} ref={accordionRef} >
+            <div className={clsx(`${rootClass}-root`)} ref={accordionRef}>
                 {children}
             </div>
         </AccordionContext.Provider>
