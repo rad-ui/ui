@@ -16,7 +16,10 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
         const { asChild = false, children, ...elementProps } = props;
 
         if (asChild && React.isValidElement(children)) {
-            return React.cloneElement(children, { ...elementProps, ref });
+            return React.cloneElement(children, { 
+                ...elementProps, 
+                ref
+            } as React.HTMLAttributes<HTMLElement>);
         }
 
         return React.createElement(elementType, { ...elementProps, ref }, children);
