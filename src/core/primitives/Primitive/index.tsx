@@ -1,24 +1,41 @@
 import React from 'react';
 
-const HTMLNODES = ['div', 'span', 'button'];
+// Define supported HTML elements
+const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button'] as const;
+type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 
-const generatePrimitive = (Tag: string) => {
-    const PrimitiveComponent = (props: any) => {
-        const { asChild, children, ...rest } = props;
+// Update type definitions to be more specific
+interface PrimitiveProps extends React.HTMLAttributes<HTMLElement> {
+  asChild?: boolean;
+  children?: React.ReactNode;
+}
+
+// Update component creation with proper typing
+const createPrimitiveComponent = (elementType: SupportedElement) => {
+    const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
+        const { asChild = false, children, ...elementProps } = props;
 
         if (asChild && React.isValidElement(children)) {
-            return React.cloneElement(children, rest);
+            return React.cloneElement(children, { 
+                ...elementProps, 
+                ref
+            } as React.HTMLAttributes<HTMLElement>);
         }
 
-        return <Tag {...rest}>{children}</Tag>;
-    };
+        return React.createElement(elementType, { ...elementProps, ref }, children);
+    });
 
+    PrimitiveComponent.displayName = `Primitive.${elementType}`;
     return PrimitiveComponent;
 };
 
-const Primitive = HTMLNODES.reduce((accumulator: any, tag: string) => {
-    accumulator[tag] = generatePrimitive(tag);
-    return accumulator;
-}, {});
+// Update the type of the final Primitive object
+const Primitive = SUPPORTED_HTML_ELEMENTS.reduce<Record<SupportedElement, React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>>>(
+    (components, elementType) => {
+        components[elementType] = createPrimitiveComponent(elementType);
+        return components;
+    },
+    {} as Record<SupportedElement, React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>>
+);
 
 export default Primitive;

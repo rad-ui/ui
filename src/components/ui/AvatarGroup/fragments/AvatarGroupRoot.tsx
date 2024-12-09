@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 
 type AvatarGroupRootProps = {
@@ -11,7 +11,7 @@ type AvatarGroupRootProps = {
 const AvatarGroupRoot = ({ customRootClass = '', children, className, ...props }: AvatarGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'AvatarGroup');
     return (
-        <div className={`${rootClass} ${className}`} {...props}>
+        <div className={clsx(rootClass, className)} {...props}>
             {children}
         </div>
     );

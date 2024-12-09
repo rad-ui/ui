@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { clsx } from 'clsx';
 import AvatarGroupRoot from './fragments/AvatarGroupRoot';
 import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
 import AvatarPrimitiveFallback from '~/core/primitives/Avatar/fragments/AvatarPrimitiveFallback';
@@ -18,7 +18,7 @@ type AvatarGroupProps = {
 }
 
 const AvatarGroup = ({ avatars = [], size, customRootClass = '', className, ...props }: AvatarGroupProps) => {
-    return <AvatarGroupRoot customRootClass={customRootClass} className={className} {...props} >
+    return <AvatarGroupRoot customRootClass={customRootClass} className={clsx(className)} {...props} >
         {avatars.map((avatar, index) => (
             <AvatarPrimitiveRoot key={index} src={avatar.src}>
                 <AvatarPrimitiveImage src={avatar.src} alt={avatar.alt} />

@@ -108,9 +108,11 @@ const Popper = ({
                     }
                 }
             )}>{children}</span>
-        {isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
-            {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
-            {pop}</div>}
+        {
+            isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
+                {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
+                {pop}</div>
+        }
     </span>;
 };
 
