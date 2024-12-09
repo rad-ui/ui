@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Badge';
 
 type BadgeRootProps = {
@@ -15,7 +15,7 @@ const BadgeRoot = ({ children, customRootClass, className, color, ...props }:Bad
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
-        <span className= {`${rootClass} ${className}`} data-accent-color={color ?? undefined} {...props}>
+        <span className={clsx(rootClass, className)} data-accent-color={color ?? undefined} {...props}>
             {children}
         </span>
     );
