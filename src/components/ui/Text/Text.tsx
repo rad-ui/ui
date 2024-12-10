@@ -8,7 +8,7 @@ import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Text';
 
-const TAGS = ['div' , 'span' ,'p','label']
+const TAGS = ['div', 'span', 'p', 'label'];
 
 export type TextProps = {
     children: React.ReactNode;
@@ -17,10 +17,10 @@ export type TextProps = {
     as?: string;
 } & React.ComponentProps<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', as= 'p', ...props }: TextProps) => {
+const Text = ({ children, customRootClass = '', className = '', as = 'p', ...props }: TextProps) => {
     const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    if (!TAGS.includes(as)) as = 'p'
+    if (!TAGS.includes(as)) as = 'p';
 
     return React.createElement(
         as,
