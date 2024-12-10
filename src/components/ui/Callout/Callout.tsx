@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { clsx } from 'clsx';
 /**
  * Shards
 */
@@ -15,7 +15,7 @@ export type CalloutProps = {
 
 const COMPONENT_NAME = 'Callout';
 const Callout = ({ children, className = '', color, customRootClass, ...props }: CalloutProps) => {
-    return (<CalloutRoot customRootClass={customRootClass} className={`${className}`} color={color ?? undefined} {...props}>
+    return (<CalloutRoot customRootClass={customRootClass} className={clsx(className)} color={color ?? undefined} {...props}>
         {children}
     </CalloutRoot>);
 };

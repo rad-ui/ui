@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { customClassSwitcher } from '~/core';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-
+import { clsx } from 'clsx';
 import Floater from '~/core/primitives/Floater';
 
 export type AlertDialogRootProps = {
@@ -31,7 +31,7 @@ const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, o
     const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick };
     return (
         <AlertDialogContext.Provider value={props}>
-            <div className={rootClass} >
+            <div className={clsx(rootClass)} >
                 {children}
             </div>
         </AlertDialogContext.Provider>
