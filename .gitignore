@@ -1,5 +1,13 @@
-coverage/
+# IDE Settings
+.idea/
+.vscode/
+.zed/
+
+# Dependencies
 node_modules/
+
+# Miscellaneous
+coverage/
 dist/
 .cache/
 .DS_Store

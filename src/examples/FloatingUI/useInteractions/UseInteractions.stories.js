@@ -1,4 +1,3 @@
-
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import UserInteractionsExample from './UseInteractionsExample';
 
@@ -10,12 +9,12 @@ export default {
         <div>
             <UserInteractionsExample/>
         </div>
-    </SandboxEditor>,
+    </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };

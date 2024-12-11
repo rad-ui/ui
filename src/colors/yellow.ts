@@ -12,7 +12,7 @@ const yellow = {
         800: '#ffe629',
         900: '#ffdc00',
         950: '#9e6c00',
-        1000: '#473b1f',
+        1000: '#473b1f'
 
     },
     dark: {
@@ -27,8 +27,8 @@ const yellow = {
         800: '#ffe629',
         900: '#ffff57',
         950: '#f5e147',
-        1000: '#f6eeb4',
-    },
+        1000: '#f6eeb4'
+    }
 } as const;
 
 export default yellow;

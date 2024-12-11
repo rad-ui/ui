@@ -25,9 +25,9 @@ function generateCSSTokens(theme) {
     }
 
     // Return the CSS variables as a string
-    cssVariables= cssVariables.join('\n');
+    cssVariables = cssVariables.join('\n');
 
-    return {cssVariables, jsVariables};
+    return { cssVariables, jsVariables };
 }
 
 export default generateCSSTokens;

@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import AccordionRoot from './shards/AccordionRoot';
-import AccordionItem from './shards/AccordionItem';
-import AccordionHeader from './shards/AccordionHeader';
-import AccordionTrigger from './shards/AccordionTrigger';
-import AccordionContent from './shards/AccordionContent';
+import React, { useState } from 'react';
+import AccordionRoot from './fragments/AccordionRoot';
+import AccordionItem from './fragments/AccordionItem';
+import AccordionHeader from './fragments/AccordionHeader';
+import AccordionTrigger from './fragments/AccordionTrigger';
+import AccordionContent from './fragments/AccordionContent';
 
 export type AccordionProps = {
     items: {content: any}[];
 }
 
-const Accordion = ({items} : AccordionProps) => {
+const Accordion = ({ items } : AccordionProps) => {
     return (
         <AccordionRoot>
             {items.map((item, index) => (

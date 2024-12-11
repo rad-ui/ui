@@ -1,4 +1,3 @@
-
 import Popper from './Popper';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -7,8 +6,8 @@ export default {
     title: 'Tools/Popper',
     component: Popper,
     render: (args) => <SandboxEditor>
-        <div className='overflow-scroll h-screen' style={{height: '200px', width: '400px'}}>
-            <div className=' bg-gray-400 p-4' style={{width: '800px', height: '1200px'}}>
+        <div className='overflow-scroll h-screen' style={{ height: '200px', width: '400px' }}>
+            <div className=' bg-gray-400 p-4' style={{ width: '800px', height: '1200px' }}>
                 <div className='block'>
                     <Popper pop="wassa" className="text-gray-1000">
                         <span>Reference Element</span>
@@ -16,12 +15,12 @@ export default {
                 </div>
             </div>
         </div>
-    </SandboxEditor>,
+    </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = {
     args: {
-        className: '',
-    },
+        className: ''
+    }
 };

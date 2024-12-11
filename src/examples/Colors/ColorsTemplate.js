@@ -1,9 +1,9 @@
-const ColorBubble = ({colorClass}) => {
+const ColorBubble = ({ colorClass }) => {
     const size = 32;
     return (
         <div
             className={`${colorClass} mr-0.5`}
-            style={{width: 100, height: size}}
+            style={{ width: 100, height: size }}
         ></div>
     );
 };
@@ -21,7 +21,7 @@ const colors = {
         'bg-gray-800',
         'bg-gray-900',
         'bg-gray-950',
-        'bg-gray-1000',
+        'bg-gray-1000'
     ],
     mauve: [
         'bg-mauve-50',
@@ -35,7 +35,7 @@ const colors = {
         'bg-mauve-800',
         'bg-mauve-900',
         'bg-mauve-950',
-        'bg-mauve-1000',
+        'bg-mauve-1000'
     ],
     slate: [
         'bg-slate-50',
@@ -49,7 +49,7 @@ const colors = {
         'bg-slate-800',
         'bg-slate-900',
         'bg-slate-950',
-        'bg-slate-1000',
+        'bg-slate-1000'
     ],
     olive: [
         'bg-olive-50',
@@ -63,7 +63,7 @@ const colors = {
         'bg-olive-800',
         'bg-olive-900',
         'bg-olive-950',
-        'bg-olive-1000',
+        'bg-olive-1000'
     ],
     sand: [
         'bg-sand-50',
@@ -77,7 +77,7 @@ const colors = {
         'bg-sand-800',
         'bg-sand-900',
         'bg-sand-950',
-        'bg-sand-1000',
+        'bg-sand-1000'
     ],
     tomato: [
         'bg-tomato-50',
@@ -91,7 +91,7 @@ const colors = {
         'bg-tomato-800',
         'bg-tomato-900',
         'bg-tomato-950',
-        'bg-tomato-1000',
+        'bg-tomato-1000'
     ],
     red: [
         'bg-red-50',
@@ -105,7 +105,7 @@ const colors = {
         'bg-red-800',
         'bg-red-900',
         'bg-red-950',
-        'bg-red-1000',
+        'bg-red-1000'
     ],
     ruby: [
         'bg-ruby-50',
@@ -119,7 +119,7 @@ const colors = {
         'bg-ruby-800',
         'bg-ruby-900',
         'bg-ruby-950',
-        'bg-ruby-1000',
+        'bg-ruby-1000'
     ],
     crimson: [
         'bg-crimson-50',
@@ -133,7 +133,7 @@ const colors = {
         'bg-crimson-800',
         'bg-crimson-900',
         'bg-crimson-950',
-        'bg-crimson-1000',
+        'bg-crimson-1000'
     ],
     pink: [
         'bg-pink-50',
@@ -147,7 +147,7 @@ const colors = {
         'bg-pink-800',
         'bg-pink-900',
         'bg-pink-950',
-        'bg-pink-1000',
+        'bg-pink-1000'
     ],
     plum: [
         'bg-plum-50',
@@ -161,7 +161,7 @@ const colors = {
         'bg-plum-800',
         'bg-plum-900',
         'bg-plum-950',
-        'bg-plum-1000',
+        'bg-plum-1000'
     ],
     purple: [
         'bg-purple-50',
@@ -175,7 +175,7 @@ const colors = {
         'bg-purple-800',
         'bg-purple-900',
         'bg-purple-950',
-        'bg-purple-1000',
+        'bg-purple-1000'
     ],
     indigo: [
         'bg-indigo-50',
@@ -189,7 +189,7 @@ const colors = {
         'bg-indigo-800',
         'bg-indigo-900',
         'bg-indigo-950',
-        'bg-indigo-1000',
+        'bg-indigo-1000'
     ],
     blue: [
         'bg-blue-50',
@@ -203,7 +203,7 @@ const colors = {
         'bg-blue-800',
         'bg-blue-900',
         'bg-blue-950',
-        'bg-blue-1000',
+        'bg-blue-1000'
     ],
     cyan: [
         'bg-cyan-50',
@@ -217,7 +217,7 @@ const colors = {
         'bg-cyan-800',
         'bg-cyan-900',
         'bg-cyan-950',
-        'bg-cyan-1000',
+        'bg-cyan-1000'
     ],
     teal: [
         'bg-teal-50',
@@ -231,7 +231,7 @@ const colors = {
         'bg-teal-800',
         'bg-teal-900',
         'bg-teal-950',
-        'bg-teal-1000',
+        'bg-teal-1000'
     ],
     jade: [
         'bg-jade-50',
@@ -245,7 +245,7 @@ const colors = {
         'bg-jade-800',
         'bg-jade-900',
         'bg-jade-950',
-        'bg-jade-1000',
+        'bg-jade-1000'
     ],
     green: [
         'bg-green-50',
@@ -259,7 +259,7 @@ const colors = {
         'bg-green-800',
         'bg-green-900',
         'bg-green-950',
-        'bg-green-1000',
+        'bg-green-1000'
     ],
     grass: [
         'bg-grass-50',
@@ -273,7 +273,7 @@ const colors = {
         'bg-grass-800',
         'bg-grass-900',
         'bg-grass-950',
-        'bg-grass-1000',
+        'bg-grass-1000'
     ],
     bronze: [
         'bg-bronze-50',
@@ -287,7 +287,7 @@ const colors = {
         'bg-bronze-800',
         'bg-bronze-900',
         'bg-bronze-950',
-        'bg-bronze-1000',
+        'bg-bronze-1000'
     ],
     gold: [
         'bg-gold-50',
@@ -301,7 +301,7 @@ const colors = {
         'bg-gold-800',
         'bg-gold-900',
         'bg-gold-950',
-        'bg-gold-1000',
+        'bg-gold-1000'
     ],
     brown: [
         'bg-brown-50',
@@ -315,7 +315,7 @@ const colors = {
         'bg-brown-800',
         'bg-brown-900',
         'bg-brown-950',
-        'bg-brown-1000',
+        'bg-brown-1000'
     ],
     orange: [
         'bg-orange-50',
@@ -329,7 +329,7 @@ const colors = {
         'bg-orange-800',
         'bg-orange-900',
         'bg-orange-950',
-        'bg-orange-1000',
+        'bg-orange-1000'
     ],
     amber: [
         'bg-amber-50',
@@ -343,7 +343,7 @@ const colors = {
         'bg-amber-800',
         'bg-amber-900',
         'bg-amber-950',
-        'bg-amber-1000',
+        'bg-amber-1000'
     ],
     yellow: [
         'bg-yellow-50',
@@ -357,7 +357,7 @@ const colors = {
         'bg-yellow-800',
         'bg-yellow-900',
         'bg-yellow-950',
-        'bg-yellow-1000',
+        'bg-yellow-1000'
     ],
     lime: [
         'bg-lime-50',
@@ -371,7 +371,7 @@ const colors = {
         'bg-lime-800',
         'bg-lime-900',
         'bg-lime-950',
-        'bg-lime-1000',
+        'bg-lime-1000'
     ],
     mint: [
         'bg-mint-50',
@@ -385,7 +385,7 @@ const colors = {
         'bg-mint-800',
         'bg-mint-900',
         'bg-mint-950',
-        'bg-mint-1000',
+        'bg-mint-1000'
     ],
     sky: [
         'bg-sky-50',
@@ -399,8 +399,8 @@ const colors = {
         'bg-sky-800',
         'bg-sky-900',
         'bg-sky-950',
-        'bg-sky-1000',
-    ],
+        'bg-sky-1000'
+    ]
 };
 
 const ColorsTemplate = () => {

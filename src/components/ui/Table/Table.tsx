@@ -1,19 +1,18 @@
 import React from 'react';
 
-import TableRoot from './shards/TableRoot';
-import TableHead from './shards/TableHead';
-import TableBody from './shards/TableBody';
-import TableRow from './shards/TableRow';
-import TableColumnCellHeader from './shards/TableColumnCellHeader';
+import TableRoot from './fragments/TableRoot';
+import TableHead from './fragments/TableHead';
+import TableBody from './fragments/TableBody';
+import TableRow from './fragments/TableRow';
+import TableColumnCellHeader from './fragments/TableColumnCellHeader';
 
-import TableCell from './shards/TableCell';
+import TableCell from './fragments/TableCell';
 
-const Table = ({columns=[], data=[]}:any) => {
+const Table = ({ columns = [], data = [] }:any) => {
     const columnMap = columns.map((column:any) => {
         return column?.key || '';
-    },
+    }
     );
-
 
     return <TableRoot>
         <TableHead>
@@ -34,7 +33,7 @@ const Table = ({columns=[], data=[]}:any) => {
                                 if (row[column]) {
                                     return <TableCell key={column} >{row[column]}</TableCell>;
                                 }
-                            },
+                            }
                             )
                         }
                     </TableRow>;
@@ -44,7 +43,6 @@ const Table = ({columns=[], data=[]}:any) => {
         </TableBody>
     </TableRoot>;
 };
-
 
 Table.Root = TableRoot;
 Table.Body = TableBody;

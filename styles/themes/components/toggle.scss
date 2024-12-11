@@ -19,7 +19,8 @@
 
     }
 
-    &:focus {
-        box-shadow: 0 0 0 2px var(--rad-ui-color-accent-1000);
+    &:focus-visible {
+        outline: 2px solid var(--rad-ui-color-accent-900);
+        outline-offset: 4px;
     }
 }   

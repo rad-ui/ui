@@ -12,7 +12,7 @@ const lime = {
         800: '#bdee63',
         900: '#b0e64c',
         950: '#5c7c2f',
-        1000: '#37401c',
+        1000: '#37401c'
 
     },
     dark: {
@@ -28,8 +28,8 @@ const lime = {
         800: '#bdee63',
         900: '#d4ff70',
         950: '#bde56c',
-        1000: '#e3f7ba',
-    },
+        1000: '#e3f7ba'
+    }
 } as const;
 
 export default lime;

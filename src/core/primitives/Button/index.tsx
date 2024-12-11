@@ -1,5 +1,5 @@
 import React, {PropsWithChildren} from 'react';
-
+import Primitive from '~/core/primitives/Primitive';
 
 /**
  *
@@ -17,6 +17,7 @@ import React, {PropsWithChildren} from 'react';
 
  */
 
+
 export type ButtonPrimitiveProps = {
     label?: string,
     description?: string
@@ -25,6 +26,7 @@ export type ButtonPrimitiveProps = {
 
 // eslint-disable-next-line react/display-name
 const ButtonPrimitive = ({role='button', label='', description='', disabled=false, children, buttonRef, ...props}: ButtonPrimitiveProps) => {
+
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
@@ -46,15 +48,15 @@ const ButtonPrimitive = ({role='button', label='', description='', disabled=fals
         }
     }
 
-    return <button
+
+    return <Primitive.button
         ref={buttonRef}
         role={role}
         disabled={disabled}
-
         {...props}
         // We allow the user to pass any other props they want
         // Is it a good idea to pass all props? Maybe not, but it's a good starting point
-    >{children}</button>;
+    >{children}</Primitive.button>;
 };
 
 export default ButtonPrimitive;

@@ -1,6 +1,5 @@
 import React from 'react';
-import {FloatingOverlay, FloatingPortal, FloatingFocusManager, useFloating} from '@floating-ui/react';
-
+import { FloatingOverlay, FloatingPortal, FloatingFocusManager, useFloating } from '@floating-ui/react';
 
 export type ModalProps = {
     open: boolean;
@@ -8,8 +7,8 @@ export type ModalProps = {
     children: React.ReactNode;
 };
 
-export const Modal: React.FC<ModalProps> = ({open=true, onClose, children}) => {
-    const {context} = useFloating();
+export const Modal: React.FC<ModalProps> = ({ open = true, onClose, children }) => {
+    const { context } = useFloating();
 
     const onCloseHandler = () => {
         onClose(false);
@@ -44,13 +43,11 @@ export const Modal: React.FC<ModalProps> = ({open=true, onClose, children}) => {
                             </FloatingOverlay>
                         </FloatingPortal>
 
-
                     }
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default Modal;

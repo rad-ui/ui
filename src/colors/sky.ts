@@ -12,7 +12,7 @@ const sky = {
         800: '#7ce2fe',
         900: '#74daf8',
         950: '#00749e',
-        1000: '#1d3e56',
+        1000: '#1d3e56'
     },
     dark: {
 
@@ -27,8 +27,8 @@ const sky = {
         800: '#7ce2fe',
         900: '#a8eeff',
         950: '#75c7f0',
-        1000: '#c2f3ff',
-    },
+        1000: '#c2f3ff'
+    }
 } as const;
 
 export default sky;

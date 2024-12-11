@@ -12,7 +12,7 @@ const orange = {
         800: '#f76b15',
         900: '#ef5f00',
         950: '#cc4e00',
-        1000: '#582d1d',
+        1000: '#582d1d'
     },
     dark: {
 
@@ -28,8 +28,8 @@ const orange = {
         800: '#f76b15',
         900: '#ff801f',
         950: '#ffa057',
-        1000: '#ffe0c2',
-    },
+        1000: '#ffe0c2'
+    }
 } as const;
 
 export default orange;

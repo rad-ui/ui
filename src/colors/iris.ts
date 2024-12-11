@@ -11,7 +11,7 @@ const iris = {
         800: '#5b5bd6',
         900: '#5151cd',
         950: '#5753c6',
-        1000: '#272962',
+        1000: '#272962'
     },
     dark: {
 
@@ -26,8 +26,8 @@ const iris = {
         800: '#5b5bd6',
         900: '#6e6ade',
         950: '#b1a9ff',
-        1000: '#e0dffe',
-    },
+        1000: '#e0dffe'
+    }
 } as const;
 
 export default iris;

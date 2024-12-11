@@ -12,7 +12,7 @@ const violet = {
         800: '#6e56cf',
         900: '#654dc4',
         950: '#6550b9',
-        1000: '#2f265f',
+        1000: '#2f265f'
 
     },
     dark: {
@@ -28,8 +28,8 @@ const violet = {
         800: '#6e56cf',
         900: '#7d66d9',
         950: '#baa7ff',
-        1000: '#e2ddfe',
-    },
+        1000: '#e2ddfe'
+    }
 } as const;
 
 export default violet;

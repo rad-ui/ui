@@ -2,7 +2,9 @@
 
 # RAD UI
 
-![RAD UI](./assets/images/rad-ui-poster.jpg)
+Head over to [Storybook](https://main--657eda33d6033847be90aaf8.chromatic.com/) to check out latest components.
+
+![RAD UI](./assets/images/rad-ui-poster.png)
 
 ## Introduction to Rad UI
 

@@ -12,7 +12,7 @@ const amber = {
         800: '#ffc53d',
         900: '#ffba18',
         950: '#ab6400',
-        1000: '#4f3422',
+        1000: '#4f3422'
 
     },
     dark: {
@@ -28,9 +28,9 @@ const amber = {
         800: '#ffc53d',
         900: '#ffd60a',
         950: '#ffca16',
-        1000: '#ffe7b3',
+        1000: '#ffe7b3'
 
-    },
+    }
 } as const;
 
 export default amber;

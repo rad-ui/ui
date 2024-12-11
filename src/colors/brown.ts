@@ -1,4 +1,3 @@
-
 const brown = {
     light: {
 
@@ -13,7 +12,7 @@ const brown = {
         800: '#ad7f58',
         900: '#a07553',
         950: '#815e46',
-        1000: '#3e332e',
+        1000: '#3e332e'
 
     },
     dark: {
@@ -29,8 +28,8 @@ const brown = {
         800: '#ad7f58',
         900: '#b88c67',
         950: '#dbb594',
-        1000: '#f2e1ca',
-    },
+        1000: '#f2e1ca'
+    }
 } as const;
 
 export default brown;

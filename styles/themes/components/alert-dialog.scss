@@ -1,0 +1,19 @@
+.rad-ui-alert-dialog-overlay {
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.rad-ui-alert-dialog-content {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--rad-ui-color-red-1000);
+  color: var(--rad-ui-color-gray-50);
+  width: 100%;
+  max-width: 800px;
+  margin: 10px auto;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+}

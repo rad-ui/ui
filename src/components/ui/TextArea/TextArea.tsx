@@ -1,10 +1,8 @@
 'use client';
 import React from 'react';
-
-
-import TextAreaRoot from './shards/TextAreaRoot';
-import TextAreaInput from './shards/TextAreaInput';
-
+import { clsx } from 'clsx';
+import TextAreaRoot from './fragments/TextAreaRoot';
+import TextAreaInput from './fragments/TextAreaInput';
 
 export type TextAreaProps = {
     children: React.ReactNode;
@@ -12,9 +10,8 @@ export type TextAreaProps = {
     className?: string;
 }
 
-
-const TextArea = ({customRootClass='', className='', children, ...props}: TextAreaProps) => {
-    return <TextAreaRoot customRootClass={customRootClass} className={`${className}`}>
+const TextArea = ({ customRootClass = '', className = '', children, ...props }: TextAreaProps) => {
+    return <TextAreaRoot customRootClass={customRootClass} className={clsx(className)}>
         <TextAreaInput placeholder="enter text">
             {children}
         </TextAreaInput>
