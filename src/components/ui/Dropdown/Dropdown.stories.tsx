@@ -2,6 +2,7 @@ import Dropdown from '~/components/ui/Dropdown/Dropdown';
 import {Meta} from '@storybook/react/*';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
+import DropdownMenu from '~/components/ui/Dropdown/Dropdown';
 
 const placeholderWords= ['Eternity', 'Wisdom', 'Truth', 'Love', 'Freedom', 'Serenity', 'Hope', 'Courage', 'Grace', 'Harmony', 'Solitude', 'Enlightenment', 'Peace', 'Joy', 'Unity', 'Transcendence', 'Mystery', 'Compassion', 'Faith', 'Destiny'].map((v) => (<div key={v}>{v}</div>));
 
@@ -16,13 +17,9 @@ export const DefaultTrigger= () => {
     return (
         <section>
             <SandboxEditor>
-                <Dropdown.Root>
-                    <Dropdown.Trigger/>
-
-                    <Dropdown.Content>
-                        {placeholderWords}
-                    </Dropdown.Content>
-                </Dropdown.Root>
+                <DropdownMenu>
+                    {placeholderWords}
+                </DropdownMenu>
             </SandboxEditor>
         </section>
     );
@@ -33,14 +30,28 @@ export const Styled = () => {
         <section>
             <SandboxEditor>
                 <Dropdown.Root defaultOpen={true}>
-                    <Dropdown.Trigger className='p-3 border border-red-500 rounded-lg'>
-                        Toggle
+                    <Dropdown.Trigger
+                        className="rounded-full w-[35px] h-[35px] inline-flex items-center justify-center bg-white shadow-[0_2px_10px] outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
                     </Dropdown.Trigger>
 
-                    <Dropdown.Content>
-                        <div className='border p-4 rounded-lg mt-2 border-red-600'>
-                        This is an example
-                        </div>
+                    <Dropdown.Content
+                        className="shadow-[0_2px_10px] rounded-md mt-3 divide-y divide-solid"
+                    >
+                        {[['Bookmark', '⌘+B'],['New Private Tab', '⌘+P'],['New Tab', '⌘+T'],['Close Tab', '⌘+W'],['Mute Tab', '⌘+M'], []].map((label) => (
+                            <div
+                                className="flex leading-8 px-4 py-1"
+                            >
+                                {label.at(0)}
+                                <div className="ml-auto pl-8">
+                                    {label.at(1)}
+                                </div>
+                            </div>
+                        ))}
+
                     </Dropdown.Content>
                 </Dropdown.Root>
             </SandboxEditor>
