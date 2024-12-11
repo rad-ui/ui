@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 
 const RENDER_AS_ENUMS = [
@@ -35,9 +35,9 @@ const Heading = ({ children, as = undefined, customRootClass = '', className = '
 
     if (as !== undefined && RENDER_AS_ENUMS.find((item) => item.tag === as)) {
         const { tag: Tag } = RENDER_AS_ENUMS.find((item) => item.tag === as);
-        return <Tag className={`${rootClass} ${className}`} {...props}>{children}</Tag>;
+        return <Tag className={clsx(rootClass, className)} {...props}>{children}</Tag>;
     }
-    return <h1 className={`${rootClass} ${className}`} {...props}>{children}</h1>;
+    return <h1 className={clsx(rootClass, className)} {...props}>{children}</h1>;
 };
 Heading.displayName = 'Heading';
 

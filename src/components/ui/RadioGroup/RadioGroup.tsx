@@ -2,6 +2,11 @@ import React, { DetailedHTMLProps, InputHTMLAttributes, PropsWithChildren } from
 import { customClassSwitcher } from '~/core';
 import RadioPrimitive from '~/core/primitives/Radio';
 const COMPONENT_NAME = 'RadioGroup';
+import React, { DetailedHTMLProps, InputHTMLAttributes, PropsWithChildren } from 'react';
+import { clsx } from 'clsx';
+import { customClassSwitcher } from '~/core';
+import RadioPrimitive from '~/core/primitives/Radio';
+const COMPONENT_NAME = 'RadioGroup';
 
 export type RadioGroupProps = {
 
@@ -14,7 +19,7 @@ const RadioGroup = ({ children, type = 'radio', className = '', customRootClass 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
-        <div className={`${rootClass} ${className}`} role='radiogroup'>
+        <div className={clsx(rootClass, className)} role='radiogroup'>
             <RadioPrimitive
                 type={type}
                 {...props}>
