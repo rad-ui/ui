@@ -3,7 +3,7 @@ import DropdownContext from '../context/DropdownContext';
 
 export type DropdownContentProps= PropsWithChildren & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export const Content = ({children, ...props}: ContentProps) => {
+export default function Content({children, ...props}: DropdownContentProps) {
     const ctx = useContext(DropdownContext);
 
     if (ctx === null) throw new Error('Component can only be used within a dropdown');
@@ -15,5 +15,5 @@ export const Content = ({children, ...props}: ContentProps) => {
             {visible && children}
         </div>
     );
-};
+}
 

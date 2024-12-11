@@ -4,7 +4,7 @@ import ButtonPrimitive, {ButtonPrimitiveProps} from '~/core/primitives/Button';
 
 export type DropdownTriggerProps = ButtonPrimitiveProps & PropsWithChildren
 
-export const Trigger = ({children, ...buttomProps}:DropdownTriggerProps) => {
+export default function Trigger({children, ...buttomProps}:DropdownTriggerProps) {
     const ctx = useContext(DropdownContext);
 
     if (ctx === null) throw new Error('Component can only be used within a dropdown');
@@ -14,4 +14,4 @@ export const Trigger = ({children, ...buttomProps}:DropdownTriggerProps) => {
     return (
         <ButtonPrimitive role='button' aria-expanded={visible} buttonRef={triggerRef} onClick={toggleVisibility} {...buttomProps}>{children || 'Toggle'}</ButtonPrimitive>
     );
-};
+}
