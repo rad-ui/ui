@@ -2,7 +2,6 @@ import Dropdown from '~/components/ui/Dropdown/Dropdown';
 import {Meta} from '@storybook/react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
-import DropdownMenu from '~/components/ui/Dropdown/Dropdown';
 
 const placeholderWords= ['Eternity', 'Wisdom', 'Truth', 'Love', 'Freedom', 'Serenity', 'Hope', 'Courage', 'Grace', 'Harmony', 'Solitude', 'Enlightenment', 'Peace', 'Joy', 'Unity', 'Transcendence', 'Mystery', 'Compassion', 'Faith', 'Destiny'].map((v) => (<div key={v}>{v}</div>));
 
@@ -17,9 +16,9 @@ export const DefaultTrigger= () => {
     return (
         <section>
             <SandboxEditor>
-                <DropdownMenu>
+                <Dropdown>
                     {placeholderWords}
-                </DropdownMenu>
+                </Dropdown>
             </SandboxEditor>
         </section>
     );
