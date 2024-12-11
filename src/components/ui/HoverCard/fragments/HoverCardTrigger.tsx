@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-
+import { clsx } from 'clsx';
 import HoverCardContext from '../contexts/HoverCardContext';
 
 import Primitive from '~/core/primitives/Primitive';
@@ -14,7 +14,7 @@ const HoverCardTrigger = ({ children, className = '', ...props }: HoverCardTrigg
 
     return <>
         <Primitive.span
-            className={`${rootTriggerClass} ${className}`}
+            className={clsx(rootTriggerClass, className)}
             onClick={() => {}}
             onMouseEnter={openWithDelay} onMouseLeave={closeWithDelay}
             ref={floatingRefs.setReference}

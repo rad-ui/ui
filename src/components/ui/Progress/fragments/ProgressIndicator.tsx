@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ProgressProps, COMPONENT_NAME } from '../Progress';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 interface IndicatorProps
   extends Pick<
     ProgressProps,
@@ -28,7 +28,7 @@ export default function ProgressIndicator({
     return (
         <div
             role="progressbar"
-            className={`${rootClass}-indicator`}
+            className={clsx(`${rootClass}-indicator`)}
             style={{ transform: `translateX(-${maxValue - value}%)` }}
             aria-valuenow={value}
             aria-valuemax={maxValue}

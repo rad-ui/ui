@@ -1,7 +1,8 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 const TableBody = ({ children, className = '', ...props }:any) => {
-    return <tbody className={className} {...props} >
+    return <tbody className={clsx(className)} {...props} >
         {children}
     </tbody>;
 };

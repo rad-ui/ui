@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext, useRef } from 'react';
-
+import { clsx } from 'clsx';
 import { TabProps } from '../types';
 
 import TabsRootContext from '../context/TabsRootContext';
@@ -49,7 +49,7 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     return (
         <button
             ref={ref}
-            role="tab" className={`${rootClass}-trigger ${isActive ? 'active' : ''} ${className}`} {...props} onKeyDown={handleKeyDownEvent}
+            role="tab" className={clsx(`${rootClass}-trigger`, `${isActive ? 'active' : ''}`, className)} {...props} onKeyDown={handleKeyDownEvent}
             onClick={() => handleClick(tab)}
             onFocus={() => handleFocus(tab)}
             tabIndex={isActive ? 0 : -1}
