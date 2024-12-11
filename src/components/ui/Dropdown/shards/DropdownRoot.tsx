@@ -2,13 +2,13 @@ import React, {PropsWithChildren, useEffect, useState} from 'react';
 import {Placement, size, useFloating} from '@floating-ui/react';
 import DropdownContext from '../context/DropdownContext';
 
-export type DropdownProps ={
+export type DropdownRootProps ={
     open?: boolean
     defaultOpen?: boolean
     placement?: Placement
 } & PropsWithChildren
 
-export const Root = ({children, open, defaultOpen = false, placement = 'bottom-start'}: DropdownProps) => {
+export const Root = ({children, open, defaultOpen = false, placement = 'bottom-start'}: DropdownRootProps) => {
     const [visible, setVisible] = useState(defaultOpen);
 
     useEffect(() => {

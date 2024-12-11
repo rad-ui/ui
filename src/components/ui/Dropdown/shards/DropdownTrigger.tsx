@@ -2,7 +2,7 @@ import React, {PropsWithChildren, useContext} from 'react';
 import DropdownContext from '../context/DropdownContext';
 import ButtonPrimitive, {ButtonPrimitiveProps} from '~/core/primitives/Button';
 
-type DropdownTriggerProps = ButtonPrimitiveProps & PropsWithChildren
+export type DropdownTriggerProps = ButtonPrimitiveProps & PropsWithChildren
 
 export const Trigger = ({children, ...buttomProps}:DropdownTriggerProps) => {
     const ctx = useContext(DropdownContext);
