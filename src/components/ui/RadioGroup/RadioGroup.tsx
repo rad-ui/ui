@@ -2,7 +2,11 @@ import React, { DetailedHTMLProps, InputHTMLAttributes, PropsWithChildren } from
 import { customClassSwitcher } from '~/core';
 import RadioPrimitive from '~/core/primitives/Radio';
 const COMPONENT_NAME = 'RadioGroup';
+import React, { DetailedHTMLProps, InputHTMLAttributes, PropsWithChildren } from 'react';
 import { clsx } from 'clsx';
+import { customClassSwitcher } from '~/core';
+import RadioPrimitive from '~/core/primitives/Radio';
+const COMPONENT_NAME = 'RadioGroup';
 
 export type RadioGroupProps = {
 
