@@ -9,7 +9,7 @@ import { clsx } from 'clsx';
 
 const COMPONENT_NAME = 'Text';
 
-const TAGS = ['div', 'span', 'p', 'label']
+const TAGS = ['div', 'span', 'p', 'label'];
 
 export type TextProps = {
     children: React.ReactNode;
