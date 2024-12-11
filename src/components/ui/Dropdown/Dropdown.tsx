@@ -1,7 +1,7 @@
-import React from 'react';
-import {Content} from './shards/DropdownContent';
-import {Trigger} from './shards/DropdownTrigger';
-import {Root} from './shards/DropdownRoot';
+import React, {PropsWithChildren} from 'react';
+import {Content, DropdownContentProps} from './shards/DropdownContent';
+import {Trigger, DropdownTriggerProps} from './shards/DropdownTrigger';
+import {Root, DropdownRootProps} from './shards/DropdownRoot';
 
 /* https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
  * CHECKLIST
@@ -10,3 +10,4 @@ import {Root} from './shards/DropdownRoot';
  * */
 
 export default {Trigger, Content, Root};
+type DropdownMenuProps = PropsWithChildren
