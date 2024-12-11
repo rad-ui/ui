@@ -1,5 +1,5 @@
 import Dropdown from '~/components/ui/Dropdown/Dropdown';
-import {Meta} from '@storybook/react/*';
+import {Meta} from '@storybook/react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
 import DropdownMenu from '~/components/ui/Dropdown/Dropdown';
@@ -41,13 +41,14 @@ export const Styled = () => {
                     <Dropdown.Content
                         className="shadow-[0_2px_10px] rounded-md mt-3 divide-y divide-solid"
                     >
-                        {[['Bookmark', '⌘+B'],['New Private Tab', '⌘+P'],['New Tab', '⌘+T'],['Close Tab', '⌘+W'],['Mute Tab', '⌘+M'], []].map((label) => (
+                        {[['Bookmark', '⌘+B'],['New Private Tab', '⌘+P'],['New Tab', '⌘+T'],['Close Tab', '⌘+W'],['Mute Tab', '⌘+M'], []].map(([name,shortcut]) => (
                             <div
                                 className="flex leading-8 px-4 py-1"
+                                key={name}
                             >
-                                {label.at(0)}
+                                {name}
                                 <div className="ml-auto pl-8">
-                                    {label.at(1)}
+                                    {shortcut}
                                 </div>
                             </div>
                         ))}

@@ -11,9 +11,9 @@ import Root, {DropdownRootProps} from './shards/DropdownRoot';
 
 const COMPONENT_NAME = 'DropdownMenu';
 
-type DropdownMenuProps = PropsWithChildren
+type DropdownProps = PropsWithChildren
 
-const DropdownMenu = ({children}: DropdownMenuProps) => {
+const Dropdown = ({children}: DropdownProps) => {
     return (
         <Root>
             <Trigger/>
@@ -24,11 +24,11 @@ const DropdownMenu = ({children}: DropdownMenuProps) => {
     );
 };
 
-DropdownMenu.displayName = COMPONENT_NAME;
-DropdownMenu.Root= Root;
-DropdownMenu.Trigger= Trigger;
-DropdownMenu.Content= Content;
+Dropdown.displayName = COMPONENT_NAME;
+Dropdown.Root= Root;
+Dropdown.Trigger= Trigger;
+Dropdown.Content= Content;
 
-export default DropdownMenu;
+export default Dropdown;
 
-export type {DropdownMenuProps, DropdownRootProps, DropdownTriggerProps, DropdownContentProps};
+export type {DropdownProps, DropdownRootProps, DropdownTriggerProps, DropdownContentProps};
