@@ -24,6 +24,18 @@ export const DefaultTrigger= () => {
     );
 };
 
+export const TriggerWithCustomText= () => {
+    return (
+        <section>
+            <SandboxEditor>
+                <Dropdown triggerContent='Open / Close'>
+                    {placeholderWords}
+                </Dropdown>
+            </SandboxEditor>
+        </section>
+    );
+};
+
 export const Styled = () => {
     return (
         <section>
