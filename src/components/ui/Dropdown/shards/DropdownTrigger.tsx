@@ -12,6 +12,6 @@ export default function Trigger({children, content, ...buttonProps}:DropdownTrig
     const {visible, toggleVisibility, triggerRef} = ctx;
 
     return (
-        <ButtonPrimitive role='button' aria-expanded={visible} buttonRef={triggerRef} onClick={toggleVisibility} {...buttonProps}>{children || content || 'Toggle'}</ButtonPrimitive>
+        <ButtonPrimitive role='button' aria-label="dropdown menu toggle" aria-haspopup="true" aria-expanded={visible} buttonRef={triggerRef} onClick={toggleVisibility} {...buttonProps}>{children || content || 'Toggle'}</ButtonPrimitive>
     );
 }
