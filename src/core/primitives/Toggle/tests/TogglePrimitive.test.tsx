@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import TogglePrimitive from '../index';
+import TogglePrimitive from '..';
 
 describe('TogglePrimitive', () => {
     it('renders children correctly', () => {

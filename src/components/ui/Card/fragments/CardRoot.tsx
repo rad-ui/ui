@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Card';
 export type CardRootProps = {
     children: React.ReactNode;
@@ -13,7 +13,7 @@ const CardRoot = ({ children, customRootClass, className = '', ...props }: CardR
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
-        <div className={`${rootClass} ${className}`} {...props} >
+        <div className={clsx(rootClass, className)} {...props} >
             {children}
         </div>
     );

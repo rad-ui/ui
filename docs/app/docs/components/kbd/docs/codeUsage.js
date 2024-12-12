@@ -1,12 +1,11 @@
 const code = {
     javascript: {
-        code: `import Kbd from "@radui/ui/Kbd"
+        code: `import Kbd from "@radui/ui/Kbd";
 
-const KbdExample = () => {
-    return <Kbd>Ctrl + C</Kbd>
-}
-
-<Kbd>Ctrl + C</Kbd>`
+const KbdExample = () => (
+  <Kbd>Ctrl + C</Kbd>
+)
+`
     },
     css: {
         code: `.rad-ui-kbd{
@@ -24,7 +23,7 @@ const KbdExample = () => {
     box-shadow:  0px 0px 3px 1px var(--rad-ui-color-gray-400);
     padding: 4px 8px;
 }`
-    },
-}
+    }
+};
 
 export default code;

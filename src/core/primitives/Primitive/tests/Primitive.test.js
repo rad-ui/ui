@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Primitive from '../index';
+import Primitive from '..';
 
 describe('Primitive', () => {
     it('renders children correctly', () => {

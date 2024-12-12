@@ -1,4 +1,5 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 export type AccordionHeaderProps = {
     children: React.ReactNode;
@@ -7,7 +8,7 @@ export type AccordionHeaderProps = {
 
 const AccordionHeader: React.FC<AccordionHeaderProps> = ({ children, className = '' }) => {
     return (
-        <div className={className}>
+        <div className={clsx(className)}>
             {children}
         </div>
     );

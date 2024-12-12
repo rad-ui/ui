@@ -1,31 +1,28 @@
 const code = {
     javascript: {
-        code: `import Accordion from "@radui/ui/Accordion"
+        code: `
+import Accordion from "@radui/ui/Accordion";
 
-const AccordionExample = () => {        
 let items = [
-    {
-        title: "React",
-        content: "React is a JavaScript library for building user interfaces."
-    },
-    {
-        title: "Angular",
-        content: "Angular is a platform and framework for building single-page client applications using HTML and TypeScript."
-    },
-    {
-        title: "Vue",
-        content: "Vue.js is a progressive framework for building user interfaces."
-    },
-
-
+  {
+    title: "React",
+    content: "React is a JavaScript library for building user interfaces."
+  },
+  {
+    title: "Angular",
+    content: "Angular is a platform and framework for building single-page client applications using HTML and TypeScript."
+  },
+  {
+    title: "Vue",
+    content: "Vue.js is a progressive framework for building user interfaces."
+  }
 ]   
 
-return <div style={{width:"400px"}}>
-    <Accordion items={items}>
-    </Accordion>
-</div>
-
-    }
+export const AccordionExample = () => ( 
+  <div style={{ width: "400px" }}>
+    <Accordion items={items} />
+  </div>
+)
 `
     },
     scss: {
@@ -79,7 +76,7 @@ return <div style={{width:"400px"}}>
                 }
             }
         }`
-    },
-}
+    }
+};
 
 export default code;

@@ -1,25 +1,28 @@
 const code = {
     javascript: {
-        code: `import ToggleGroup from '@radui/ui/ToggleGroup'
-
+        code: `
+import ToggleGroup from "@radui/ui/ToggleGroup";
 
 const items = [
-    {label: <FrameIcon/>, value: 'item1'},
-    {label: <CropIcon/>, value: 'item2'},
-    {label: <LayersIcon/>, value: 'item3'},
-    {label: <ColumnsIcon/>, value: 'item4'},
+  { label: <FrameIcon />, value: 'item1' },
+  { label: <CropIcon />, value: 'item2' },
+  { label: <LayersIcon />, value: 'item3' },
+  { label: <ColumnsIcon />, value: 'item4' }
 ];
 
-const ToggleGroupWrapper = ()=>{
-    const handleChange = (newPressed)=>{
-        console.log(newPressed)
-    }
+const ToggleGroupWrapper = () => {
+  const handleChange = (newPressed) => {
+    console.log(newPressed)
+  }
 
-    return <ToggleGroup 
-    defaultPressed={false} 
-    onChange={handleChange} 
-    type="multiple" 
-    items = {items}/>
+  return (
+    <ToggleGroup 
+      defaultPressed={false} 
+      onChange={handleChange} 
+      type="multiple" 
+      items={items}
+    />
+  )
 }`
     },
     css: {
@@ -54,7 +57,7 @@ const ToggleGroupWrapper = ()=>{
         }
     }
 }`
-    },
-}
+    }
+};
 
 export default code;

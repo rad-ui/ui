@@ -74,7 +74,7 @@
     "@babel/eslint-parser": "7.23.10",
     "@babel/preset-env": "7.24.0",
     "@babel/preset-react": "7.22.15",
-    "@babel/preset-typescript": "7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
     "@radui/ui": "0.0.8",
     "@rollup/plugin-alias": "5.1.0",
     "@rollup/plugin-babel": "6.0.4",
@@ -92,6 +92,7 @@
     "@storybook/testing-library": "0.2.2",
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/react": "16.0.0",
+    "@types/jest": "^29.5.14",
     "@types/react": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "7.0.0",
     "autoprefixer": "10.4.15",
@@ -122,11 +123,13 @@
     "storybook": "8.2.9",
     "tailwindcss": "3.4.1",
     "ts-jest": "29.1.1",
+    "ts-node": "^10.9.2",
     "tsx": "^4.17.0",
     "typescript": "5.6.3"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.20",
+    "clsx": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
