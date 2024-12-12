@@ -22,7 +22,7 @@ type TooltipProps = {
     [key: string]: any;
 };
 
-const Tooltip = ({ children, label = 'hello', placement = 'top', ...props }: TooltipProps) => {
+const Tooltip = ({ children, label, placement = 'top', ...props }: TooltipProps) => {
     return (
         <div>
             <Popper
