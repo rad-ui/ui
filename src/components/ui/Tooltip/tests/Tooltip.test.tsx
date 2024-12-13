@@ -14,13 +14,13 @@ describe('Tooltip', () => {
         render(<Tooltip label='label'>Hover me</Tooltip>);
         // tooltip is initially hidden
         expect(screen.queryByText('label')).not.toBeInTheDocument();
-        const tooltip = screen.getByText('Hover me');
-        // hover over the tooltip
-        await userEvent.hover(tooltip);
+        const text = screen.getByText('Hover me');
+        // hover over the trigger text
+        await userEvent.hover(text);
         // tooltip is visible now
         expect(screen.getByText('label')).toBeInTheDocument();
-        // unhover from the tooltip
-        await userEvent.unhover(tooltip);
+        // unhover from the trigger text
+        await userEvent.unhover(text);
         // tooltip is hidden again
         expect(screen.queryByText('label')).not.toBeInTheDocument();
     });
