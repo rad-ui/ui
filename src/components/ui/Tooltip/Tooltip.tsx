@@ -5,7 +5,7 @@ const COMPONENT_NAME = 'Tooltip';
 
 type TooltipProps = {
     children: React.ReactNode;
-    label: string;
+    label?: string;
     placement?:
         | 'top'
         | 'bottom'
@@ -22,7 +22,7 @@ type TooltipProps = {
     [key: string]: any;
 };
 
-const Tooltip = ({ children, label, placement = 'top', ...props }: TooltipProps) => {
+const Tooltip = ({ children, label = '', placement = 'top', ...props }: TooltipProps) => {
     return (
         <div>
             <Popper
