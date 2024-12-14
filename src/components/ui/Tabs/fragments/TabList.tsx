@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-
+import { clsx } from 'clsx';
 import TabTrigger from './TabTrigger';
 import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
@@ -17,7 +17,7 @@ export type TabListProps = {
 
 const TabList = ({ className = '', children }: TabListProps) => {
     const { rootClass } = useContext(TabsRootContext);
-    return <div role="tablist" aria-orientation='horizontal' aria-label="todo" className={`${rootClass}-list ${className}`}>
+    return <div role="tablist" aria-orientation='horizontal' aria-label="todo" className={clsx(`${rootClass}-list`, className)}>
         {children}
     </div>;
 };

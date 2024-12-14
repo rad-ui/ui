@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { customClassSwitcher } from '~/core';
+import { clsx } from 'clsx';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support
@@ -8,7 +9,7 @@ import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Text';
 
-const TAGS = ['div' , 'span' ,'p','label']
+const TAGS = ['div', 'span', 'p', 'label'];
 
 export type TextProps = {
     children: React.ReactNode;
@@ -17,14 +18,14 @@ export type TextProps = {
     as?: string;
 } & React.ComponentProps<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', as= 'p', ...props }: TextProps) => {
+const Text = ({ children, customRootClass = '', className = '', as = 'p', ...props }: TextProps) => {
     const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    if (!TAGS.includes(as)) as = 'p'
+    if (!TAGS.includes(as)) as = 'p';
 
     return React.createElement(
         as,
-        { className: `${rootClassName} ${className}`, ...props },
+        { className: clsx(rootClassName, className), ...props },
         children
     );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { clsx } from 'clsx';
 
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
@@ -38,7 +39,7 @@ const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', s
     };
 
     return <AvatarPrimitiveContext.Provider value={values} >
-        <span className={`${rootClass} ${className}`} {...props}>{children}</span>
+        <span className={clsx(rootClass, className)} {...props}>{children}</span>
     </AvatarPrimitiveContext.Provider>;
 };
 

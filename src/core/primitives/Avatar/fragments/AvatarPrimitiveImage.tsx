@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { clsx } from 'clsx';
 
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
@@ -28,7 +29,7 @@ const AvatarPrimitiveImage = ({
             alt={alt}
             onError={handleErrorImage}
             onLoad={handleLoadImage}
-            className={className}
+            className={clsx(className)}
             {...props}
         />
     );

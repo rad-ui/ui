@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'HoverCard';
 
 type HoverCardRootProps = {
@@ -114,7 +114,7 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
     };
 
     return <HoverCardContext.Provider value={sendValues}>
-        <div className={rootClass} {...props}>{children}</div>
+        <div className={clsx(rootClass)} {...props}>{children}</div>
     </HoverCardContext.Provider>;
 };
 
