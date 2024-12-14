@@ -1,24 +1,17 @@
-import React from 'react';
-
-/**
- * Shards
- */
-import CardRoot from './shards/CardRoot';
-
+import React, { PropsWithChildren } from 'react';
+import CardRoot from './fragments/CardRoot';
+import { clsx } from 'clsx';
 export type CardProps = {
-    children: React.ReactNode;
     customRootClass?: string;
     className?: string;
     props?: any;
-};
+} & React.ComponentProps<'div'>;
 
-const Card = ({ children, className = '', customRootClass, ...props }:CardProps) => {
-    return (
-        <CardRoot className={className} customRootClass={customRootClass} {...props}>
-            {children}
-        </CardRoot>
-    );
-};
+const Card = ({ children, className = '', customRootClass, ...props }: PropsWithChildren<CardProps>) => (
+    <CardRoot className={clsx(className)} customRootClass={customRootClass} {...props}>
+        {children}
+    </CardRoot>
+);
 
 Card.Root = CardRoot;
 export default Card;

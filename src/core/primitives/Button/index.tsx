@@ -1,4 +1,5 @@
 import React from 'react';
+import Primitive from '~/core/primitives/Primitive';
 
 /**
  *
@@ -38,14 +39,13 @@ const ButtonPrimitive = ({ role = 'button', label = '', description = '', disabl
         }
     }
 
-    return <button
+    return <Primitive.button
         role={role}
         disabled={disabled}
-
         {...props}
         // We allow the user to pass any other props they want
         // Is it a good idea to pass all props? Maybe not, but it's a good starting point
-    >{children}</button>;
+    >{children}</Primitive.button>;
 };
 
 export default ButtonPrimitive;

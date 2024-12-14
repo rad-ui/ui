@@ -16,9 +16,9 @@
       "baseUrl": "./",
       "paths": {
         "~/*": ["src/*"]
-      }
+      },
+      "types": ["jest", "@testing-library/jest-dom"]
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "build","docs"]
+    "exclude": ["node_modules", "dist", "build", "docs"]
   }
-  

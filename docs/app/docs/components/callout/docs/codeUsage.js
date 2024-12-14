@@ -1,15 +1,23 @@
 const code = {
     javascript: {
-        code: `<Callout color="red">
+        code: `
+import Callout from "@radui/ui/Callout";
+import Text from "@radui/ui/Text";
+
+const CalloutExample = () => (
+  <Callout color="red">
     <div className="flex items-start">
-        <Arrow/>
-        <div className="ml-2">
-            <Text className="font-bold">Error</Text>
-            <Text>Something went wrong. Please try again later.</Text>
-        </div>
+      <BookmarkIcon />
+
+      <div className="ml-2">
+        <Text className="font-bold">Error</Text>
+        <Text>Something went wrong. Please try again later.</Text>
+      </div>
     </div>
-</Callout>
-`},
+  </Callout>
+)
+`
+    },
     scss: {
         code: `.rad-ui-callout {
     padding:16px;
@@ -22,7 +30,7 @@ const code = {
      font-size: 14px;
      gap:8px;
  }`
-    },
-}
+    }
+};
 
 export default code;

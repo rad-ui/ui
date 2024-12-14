@@ -1,9 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 
-import TabList from './shards/TabList';
-import TabContent from './shards/TabContent';
-import TabRoot from './shards/TabRoot';
+import TabList from './fragments/TabList';
+import TabTrigger from './fragments/TabTrigger';
+import TabContent from './fragments/TabContent';
+import TabRoot from './fragments/TabRoot';
 
 import { TabProps } from './types';
 
@@ -14,12 +15,16 @@ export type TabsProps = {
 
 const Tabs = ({ tabs = [], ...props }: TabsProps) => {
     // This should be a value <`tabs.value`> that is passed in from the parent component
-    const [activeTab, setActiveTab] = useState(tabs[0].value || '');
+
     const defaultActiveTab = tabs[0].value || '';
 
     return (
         <TabRoot tabs={tabs} defaultTab={defaultActiveTab} >
-            <TabList />
+            <TabList>
+                {tabs.map((tab) => (
+                    <TabTrigger key={tab.value} tab={tab} />
+                ))}
+            </TabList>
             <TabContent />
         </TabRoot>
     );

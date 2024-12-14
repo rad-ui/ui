@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { clsx } from 'clsx';
 import AvatarPrimitive from '~/core/primitives/Avatar';
 
 const COMPONENT_NAME = 'Avatar';
@@ -20,7 +20,7 @@ const Avatar = ({ customRootClass = '', fallback, className, src, alt, ...props 
             <AvatarPrimitive.Image
                 src={src}
                 alt={alt}
-                className={className}
+                className={clsx(className)}
                 {...props}
             />
             <AvatarPrimitive.Fallback>

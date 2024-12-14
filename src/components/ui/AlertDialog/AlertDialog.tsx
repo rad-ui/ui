@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import AlertDialogRoot from './shards/AlertDialogRoot';
-import AlertDialogContent from './shards/AlertDialogContent';
-import AlertDialogTrigger from './shards/AlertDialogTrigger';
-import AlertDialogPortal from './shards/AlertDialogPortal';
-import AlertDialogOverlay from './shards/AlertDialogOverlay';
-import AlertDialogCancel from './shards/AlertDialogCancel';
-import AlertDialogAction from './shards/AlertDialogAction';
+import AlertDialogRoot from './fragments/AlertDialogRoot';
+import AlertDialogContent from './fragments/AlertDialogContent';
+import AlertDialogTrigger from './fragments/AlertDialogTrigger';
+import AlertDialogPortal from './fragments/AlertDialogPortal';
+import AlertDialogOverlay from './fragments/AlertDialogOverlay';
+import AlertDialogCancel from './fragments/AlertDialogCancel';
+import AlertDialogAction from './fragments/AlertDialogAction';
 export type AlertDialogProps = {
     children: React.ReactNode;
     content: React.ReactNode;

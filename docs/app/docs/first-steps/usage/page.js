@@ -1,16 +1,13 @@
-const PAGE_NAME = 'USAGE'
+import Documentation from '@/components/layout/Documentation/Documentation';
 
-import Documentation from "@/components/layout/Documentation/Documentation"
+import Text from '@radui/ui/Text';
+import Heading from '@radui/ui/Heading';
+import Link from '@radui/ui/Link';
 
+import SEO from '../../docsIndex';
 
-import Text from "@radui/ui/Text"
-import Heading from "@radui/ui/Heading"
-import Link from "@radui/ui/Link"
-
-import SEO from "../../docsIndex"
-export const metadata = SEO.getMetadata(PAGE_NAME)
-
-
+const PAGE_NAME = 'USAGE';
+export const metadata = SEO.getMetadata(PAGE_NAME);
 
 const Usage = () => {
     return <Documentation currentPage={PAGE_NAME} title="Usage">
@@ -33,14 +30,14 @@ export default MyButtonComponent
         </Documentation.Section>
 
         <Documentation.Section title="Importing base styles">
-        <Text className="mb-2 text-gray-1000 font-light">  Rad UI is headless, meaning it doesn't come with any styles. But we do ship a default theme that you can use to get quickly started off the ground.</Text>
+            <Text className="mb-2 text-gray-1000 font-light">  Rad UI is headless, meaning it doesn't come with any styles. But we do ship a default theme that you can use to get quickly started off the ground.</Text>
             <Documentation.CodeBlock>
-                {`import "@radui/ui/themes/default.css";`}
+                {'import "@radui/ui/themes/default.css";'}
             </Documentation.CodeBlock>
         </Documentation.Section>
 
         <Documentation.Section title="Importing tailwind presets">
-        <Text className="mb-2 text-gray-1000 font-light">If you need the default theme and would like to plugin Rad UI tokens into your tailwind project. You can import default presets that you can directly use.</Text>
+            <Text className="mb-2 text-gray-1000 font-light">If you need the default theme and would like to plugin Rad UI tokens into your tailwind project. You can import default presets that you can directly use.</Text>
             <Documentation.CodeBlock>
                 {` // tailwind.config.js
 
@@ -53,17 +50,13 @@ const config = {
   },
   plugins: [],
 };
+
 export default config;
 `}
             </Documentation.CodeBlock>
         </Documentation.Section>
 
+    </Documentation>;
+};
 
-
-    </Documentation>
-
-
-
-}
-
-export default Usage
+export default Usage;

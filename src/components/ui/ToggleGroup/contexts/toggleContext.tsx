@@ -1,3 +1,9 @@
 import { createContext } from 'react';
 
-export const ToggleContext = createContext({});
+export type ToggleContextType = {
+    type: 'single' | 'multiple';
+    activeToggles: any[];
+    setActiveToggles: (toggles: any[]) => void;
+};
+
+export const ToggleContext = createContext<ToggleContextType>({});

@@ -21,7 +21,19 @@ export type PopperProps = {
     customRootClass?: string;
     activationStrategy?: 'hover';
     className?: string;
-    placement?: 'top' | 'bottom' | 'bottom-start'; // TODO: fix
+    placement?:
+        | 'top'
+        | 'bottom'
+        | 'left'
+        | 'right'
+        | 'top-start'
+        | 'top-end'
+        | 'bottom-start'
+        | 'bottom-end'
+        | 'left-start'
+        | 'left-end'
+        | 'right-start'
+        | 'right-end';
     children?: React.ReactNode; // TODO: fix
     open?: boolean;
     hoverDelay?: number;
@@ -96,9 +108,11 @@ const Popper = ({
                     }
                 }
             )}>{children}</span>
-        {isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
-            {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
-            {pop}</div>}
+        {
+            isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
+                {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
+                {pop}</div>
+        }
     </span>;
 };
 

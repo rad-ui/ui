@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import AccordionRoot from './shards/AccordionRoot';
-import AccordionItem from './shards/AccordionItem';
-import AccordionHeader from './shards/AccordionHeader';
-import AccordionTrigger from './shards/AccordionTrigger';
-import AccordionContent from './shards/AccordionContent';
+import AccordionRoot from './fragments/AccordionRoot';
+import AccordionItem from './fragments/AccordionItem';
+import AccordionHeader from './fragments/AccordionHeader';
+import AccordionTrigger from './fragments/AccordionTrigger';
+import AccordionContent from './fragments/AccordionContent';
 
 export type AccordionProps = {
     items: {content: any}[];

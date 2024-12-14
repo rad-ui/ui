@@ -1,7 +1,7 @@
 'use client';
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
 
 // make the color prop default accent color
@@ -21,7 +21,7 @@ const Button = ({ children, type = 'button', customRootClass = '', className = '
     return (
         <ButtonPrimitive
             type={type}
-            className={`${rootClass} button-${variant} ${className} `} data-accent-color={color ?? undefined} data-size={size}
+            className={clsx(rootClass, `button-${variant}`, className)} data-accent-color={color ?? undefined} data-size={size}
             {...props}
         >
             {children}
