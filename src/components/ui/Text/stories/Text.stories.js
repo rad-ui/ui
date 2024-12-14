@@ -24,15 +24,13 @@ export const WithoutAs = {
 export const WithAs = {
     args: {
         className: 'text-gray-950',
-        as: "div"
+        as: 'div'
     }
-}
+};
 
 export const FaultyAs = {
     args: {
         className: 'text-gray-950',
-        as: "form"
+        as: 'form'
     }
-}
-
-
+};
