@@ -9,7 +9,7 @@ import Root, {DropdownRootProps} from './shards/DropdownRoot';
  * Add aria-control
  * */
 
-const COMPONENT_NAME = 'DropdownMenu';
+const COMPONENT_NAME = 'Dropdown';
 
 type DropdownProps = PropsWithChildren & {triggerContent?: string}
 
