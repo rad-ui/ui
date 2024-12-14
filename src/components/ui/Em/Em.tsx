@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Em';
 
 export type EmProps = {
@@ -13,7 +13,7 @@ export type EmProps = {
 
 const Em = ({ children, customRootClass, className, ...props }: EmProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <em className={`${rootClass} ${className}`} {...props}>
+    return <em className={clsx(rootClass, className)} {...props}>
         {children}
     </em>;
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 
 import TogglePrimitive from '~/core/primitives/Toggle';
@@ -43,7 +43,7 @@ const Toggle: React.FC<ToggleProps> = ({
     return (
 
         <TogglePrimitive
-            className={`${rootClass}`}
+            className={clsx(rootClass)}
             pressed={isPressed}
             onPressedChange={handlePressed}
             data-state={isPressed ? 'on' : 'off'}
