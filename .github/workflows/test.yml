@@ -1,15 +1,10 @@
-name: Run Jest Tests
+name: Tests
 
 on:
   push:
     branches: [ main, security-fixes ]
-    paths:
-      - 'src/**/*'
   pull_request:
-    branches:
-      - main
-    paths:
-      - 'src/**/*'
+    branches: [ main, security-fixes ]
 
 jobs:
   test:
@@ -17,12 +12,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
