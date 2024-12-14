@@ -10,6 +10,8 @@ on:
 
 jobs:
   chromatic-deployment:
+    # To run only on the main repository and not forks
+    if: github.repository == 'rad-ui/ui'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
