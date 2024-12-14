@@ -1,5 +1,6 @@
-import React, {useState, useRef, PropsWithChildren} from 'react';
-import {customClassSwitcher} from '~/core';
+import React, { useState, useRef, PropsWithChildren } from 'react';
+import { customClassSwitcher } from '~/core';
+import { clsx } from 'clsx';
 
 import {useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, Placement} from '@floating-ui/react';
 
@@ -89,7 +90,7 @@ const Popper = ({
 
     return <span>
         <span
-            className={`rad-ui-popper ${rootClass}-reference-element ${className}`} ref={refs.setReference} {...getReferenceProps(
+            className={clsx('rad-ui-popper', `${rootClass}-reference-element`, className)} ref={refs.setReference} {...getReferenceProps(
                 {
                     onClick: () => {
                         console.log('click');
@@ -97,8 +98,8 @@ const Popper = ({
                 }
             )}>{children}</span>
         {
-            isOpen && <div className={`${rootClass}-floating-element`} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
-                {showArrow && <FloatingArrow className={`rad-ui-arrow ${rootClass}-arrow`} ref={arrowRef} context={context} />}
+            isOpen && <div className={clsx(`${rootClass}-floating-element`)} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
+                {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
                 {pop}</div>
         }
     </span>;
