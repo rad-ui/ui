@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 const COMPONENT_NAME = 'Strong';
 
@@ -12,7 +12,7 @@ export type StrongProps = {
 const Strong = ({ children, className, customRootClass, ...props }: StrongProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
-        <strong className={`${rootClass} ${className}`} {...props} >{children}</strong>
+        <strong className={clsx(rootClass, className)} {...props} >{children}</strong>
     );
 };
 

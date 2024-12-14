@@ -7,8 +7,6 @@ export default {
     title: 'Components/Progress',
     component: Progress,
     render: (args) => {
-        
-
         return (<SandboxEditor>
             <div className='my-10'>
                 <Progress {...args}/>
@@ -16,7 +14,6 @@ export default {
         </SandboxEditor>);
     }
 };
-
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {

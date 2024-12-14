@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Separator';
 
 export type SeparatorProps = {
@@ -14,7 +14,7 @@ const Separator = ({ orientation = 'horizontal', className, customRootClass, ...
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const orientationClass = orientation === 'vertical' ? `${rootClass}-vertical` : `${rootClass}-horizontal`;
 
-    return <div className={`${rootClass} ${orientationClass} ${className}`} {...props} ></div>;
+    return <div className={clsx(rootClass, orientationClass, className)} {...props} ></div>;
 };
 
 Separator.displayName = COMPONENT_NAME;

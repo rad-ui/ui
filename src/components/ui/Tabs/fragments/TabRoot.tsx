@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef } from 'react';
 import { customClassSwitcher } from '~/core';
-
+import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
 
@@ -38,7 +38,7 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
     return (
         <TabsRootContext.Provider
             value={contextValues}>
-            <div ref={tabRef} className={`${rootClass} ${className}`} data-accent-color={color} {...props} >
+            <div ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props} >
                 {children}
             </div>
         </TabsRootContext.Provider>
