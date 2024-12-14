@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { ProgressProps, COMPONENT_NAME } from '../Progress';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+import { ProgressContext } from '../contexts/ProgressContext';
+
 interface IndicatorProps
   extends Pick<
     ProgressProps,
@@ -11,26 +13,22 @@ interface IndicatorProps
 }
 
 export default function ProgressIndicator({
-    value,
-    minValue = 0,
-    maxValue = 100,
     customRootClass,
     renderLabel
 }: IndicatorProps) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const { value, minValue, maxValue } = useContext(ProgressContext);
+    // Ensure value stays within bounds in production
+    const boundedValue = Math.min(Math.max(value, minValue), maxValue);
 
-    if (value < minValue || value > maxValue) {
-        throw new Error(
-            `value should be greater than or equal to ${minValue} and less than or equal to ${maxValue}`
-        );
-    }
+    console.log(boundedValue);
 
     return (
         <div
             role="progressbar"
             className={clsx(`${rootClass}-indicator`)}
-            style={{ transform: `translateX(-${maxValue - value}%)` }}
-            aria-valuenow={value}
+            style={{ transform: `translateX(-${maxValue - boundedValue}%)` }}
+            aria-valuenow={boundedValue}
             aria-valuemax={maxValue}
             aria-valuemin={minValue}
         >

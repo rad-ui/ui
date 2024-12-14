@@ -1,15 +1,17 @@
 // ToDo: fix css hierarchy
 .rad-ui-progress {
-    background:  var(--rad-ui-color-sand-600);
+    background:  var(--rad-ui-color-sand-400);
+    border: 1px solid var(--rad-ui-color-sand-400);
     overflow: hidden;
-    height:32px;
+    height:8px;
     border-radius: 8px;
+
+    .rad-ui-progress-indicator {
+        background: var(--rad-ui-color-accent-900);
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
+    }
 }
 
-.rad-ui-progress-indicator {
-    background: var(--rad-ui-color-accent-900);
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
-}
