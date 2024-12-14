@@ -3,12 +3,8 @@ name: Run Jest Tests
 on:
   push:
     branches: [ main, security-fixes ]
-    paths:
-      - 'src/**/*'
   pull_request:
     branches: [ main, security-fixes ]
-    paths:
-      - 'src/**/*'
 
 jobs:
   test:
