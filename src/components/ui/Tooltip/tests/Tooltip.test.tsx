@@ -43,13 +43,25 @@ describe('Tooltip', () => {
 
         test('renders tooltip when label is of an invalid type', async() => {
             // @ts-expect-error: label should be a string
-            expect(() => render(<Tooltip label={42}>Hover me</Tooltip>)).not.toThrow();
+            const { rerender } = render(<Tooltip label={42}>Hover me</Tooltip>);
+            // hover over the trigger text
+            await userEvent.hover(screen.getByText('Hover me'));
+            // tooltip renders without throwing an error
+            expect(screen.getByText(42)).toBeInTheDocument();
 
             // @ts-expect-error:label should be a string
-            expect(() => render(<Tooltip label={true}>Hover me</Tooltip>)).not.toThrow();
+            rerender(<Tooltip label={true}>Hover me</Tooltip>);
+            // hover over the trigger text
+            await userEvent.hover(screen.getByText('Hover me'));
+            // empty tooltip renders without throwing an error
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
 
             // @ts-expect-error: label should be a string
-            expect(() => render(<Tooltip label={null}>Hover me</Tooltip>)).not.toThrow();
+            rerender(<Tooltip label={null}>Hover me</Tooltip>);
+            // hover over the trigger text
+            await userEvent.hover(screen.getByText('Hover me'));
+            // empty tooltip renders without throwing an error
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
         });
     });
 });
