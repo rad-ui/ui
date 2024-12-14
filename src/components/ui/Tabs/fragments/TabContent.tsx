@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { customClassSwitcher } from '~/core';
 import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
+import { clsx } from 'clsx';
 const COMPONENT_NAME = 'TabContent';
 
 export type TabContentProps ={
@@ -17,7 +18,7 @@ const TabContent = ({ className, customRootClass }: TabContentProps) => {
 
     const { tabs, activeTab, setActiveTab } = useContext(TabsRootContext);
 
-    return <div className={`${rootClass} ${className}`}>
+    return <div className={clsx(rootClass, className)}>
         {tabs.map((tab, index) => {
             if (tab.value === activeTab) {
                 return <div key={index}>{tab.content}</div>;

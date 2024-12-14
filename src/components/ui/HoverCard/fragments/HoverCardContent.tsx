@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-
+import { clsx } from 'clsx';
 import HoverCardContext from '../contexts/HoverCardContext';
 
 type HoverCardContentProps = {
@@ -32,7 +32,7 @@ const HoverCardContent = ({ children, ...props }: HoverCardContentProps) => {
     return <div
         onPointerEnter={openWithDelay}
         onPointerLeave={closeWithDelay}
-        className={`${rootClass}`} {...props}
+        className={clsx(rootClass)} {...props}
         ref={floatingRefs.setFloating}
         style={floatingStyles}
         {...getFloatingProps()}>{children}</div>;

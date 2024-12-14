@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { clsx } from 'clsx';
+
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
 export interface AvatarPrimitiveFallbackProps {
@@ -13,7 +15,7 @@ const AvatarPrimitiveFallback = ({ children, className = '' }: AvatarPrimitiveFa
         return null;
     }
 
-    return <span className={`${fallBackRootClass} ${className}`}>{children}</span>;
+    return <span className={clsx(fallBackRootClass, className)}>{children}</span>;
 };
 
 export default AvatarPrimitiveFallback;

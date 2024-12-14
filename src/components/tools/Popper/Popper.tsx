@@ -33,7 +33,7 @@ export type PopperProps = {
         | 'left-start'
         | 'left-end'
         | 'right-start'
-        | 'right-end'; 
+        | 'right-end';
     children?: React.ReactNode; // TODO: fix
     open?: boolean;
     hoverDelay?: number;

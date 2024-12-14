@@ -53,7 +53,6 @@ describe('Text Component', () => {
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
-
     test('renders Text component with no prop', () => {
         render(<Text>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
@@ -75,7 +74,7 @@ describe('Text Component', () => {
     });
 
     test('renders Text component as a default <p> tag when "as" is an array', () => {
-        render(<Text as = {["testing", "text" ]} >I am Text!</Text>);
+        render(<Text as = {['testing', 'text']} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
@@ -88,5 +87,4 @@ describe('Text Component', () => {
         render(<Text as={true} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
-
 });
