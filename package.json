@@ -18,6 +18,7 @@
     "./Card": "./dist/components/Card.js",
     "./Code": "./dist/components/Code.js",
     "./Collapsible": "./dist/components/Collapsible.js",
+    "./Dropdown": "./dist/components/Dropdown.js",
     "./Em": "./dist/components/Em.js",
     "./Heading": "./dist/components/Heading.js",
     "./Kbd": "./dist/components/Kbd.js",
