@@ -2,7 +2,7 @@ name: Build RAD UI
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, security-fixes ]
 
 jobs:
   build:
