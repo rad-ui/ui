@@ -1,25 +1,34 @@
-import React from 'react';
-import Popper from '~/components/tools/Popper/Popper';
+import React, {PropsWithChildren} from 'react';
+import Content, {DropdownContentProps} from './shards/DropdownContent';
+import Trigger, {DropdownTriggerProps} from './shards/DropdownTrigger';
+import Root, {DropdownRootProps} from './shards/DropdownRoot';
 
-// TODO: fix any
-export type DropdownProps ={
-    list: {value: any}[];
-    selected: any;
-}
+/* https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+ * CHECKLIST
+ *
+ * Add aria-control
+ * */
 
-const Dropdown = ({ list = [], selected }: DropdownProps) => {
-    const PopElem = () => {
-        return <ul className='bg-white px-2 py-2 shadow-lg rounded-md'>
-            {list.map((item, index) => {
-                return <li key={index}>{item.value}</li>;
-            })}
-        </ul>;
-    };
-    return <div className='relative'>
-        <Popper open={false} placement="bottom-start" popperName="dropdown" pop={<PopElem/>}>
-            <span>Dropdown</span>
-        </Popper>
-    </div>;
+const COMPONENT_NAME = 'Dropdown';
+
+type DropdownProps = PropsWithChildren & {triggerContent?: string}
+
+const Dropdown = ({children, triggerContent}: DropdownProps) => {
+    return (
+        <Root>
+            <Trigger content={triggerContent}/>
+            <Content >
+                {children}
+            </Content>
+        </Root>
+    );
 };
 
+Dropdown.displayName = COMPONENT_NAME;
+Dropdown.Root= Root;
+Dropdown.Trigger= Trigger;
+Dropdown.Content= Content;
+
 export default Dropdown;
+
+export type {DropdownProps, DropdownRootProps, DropdownTriggerProps, DropdownContentProps};
