@@ -20,7 +20,7 @@
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "js-cookie": "^3.0.5",
-    "next": "^14.2.10",
+    "next": "^14.2.15",
     "next-cookies": "^2.0.3",
     "node-fetch": "^3.3.2",
     "nookies": "^2.5.2",
