@@ -14,11 +14,11 @@ const Disclosure = ({items}:DisclosureProps) => {
         
         <DisclosureRoot>
             {items.map((item,index) => (
-                 <DisclosureItem key={index}>
+                 <DisclosureItem key={index} value={index}>
                     <DisclosureTrigger>
-                       {item.question}
+                       {item.question}  
                     </DisclosureTrigger>
-                    <DisclosureContent>
+                    <DisclosureContent> 
                        {item.answer}
                     </DisclosureContent>
                  </DisclosureItem>

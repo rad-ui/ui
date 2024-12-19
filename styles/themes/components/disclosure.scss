@@ -1,13 +1,19 @@
 .rad-ui-disclosure-root{
-    font-size: 1.3rem;
-    color: var(--rad-ui-color-accent-900);
-    // border: 1px solid var(--rad-ui-color-accent-1000);
+    color: var(--rad-ui-color-accent-1000);
+    border: 1px solid var(--rad-ui-color-accent-500);
     border-radius: 4px;
-
+    
      .rad-ui-disclosure-item{
-         margin-top: 10px;
-         padding-left: 5px;
+         margin: 10px 0px 10px;
+         padding-left: 7px;
+         border-radius: 4px;
          
      }
-
+     .rad-ui-disclosure-trigger{
+         font-weight: 800;
+       
+     }
+     .rad-ui-disclosure-content{
+         color: var(--rad-ui-color-accent-1000);
+     }
 }

@@ -1,10 +1,8 @@
-import { createContext } from "react";
+import {createContext} from "react";
 
-type DisclosureContextType = {
-    rootClass: string;
-    activeItem: null;
-    setActiveItem: React.Dispatch<React.SetStateAction<null>>
-    
+export type DisclosureContextType = {
+   rootClass: string;
+   activeItem: null;
+   setActiveItem: (item: null) => void
 }
-
 export const DisclosureContext = createContext<DisclosureContextType>({} as DisclosureContextType)

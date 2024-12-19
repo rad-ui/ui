@@ -1,3 +1,8 @@
-import { createContext } from "react";
+import {createContext} from "react";
 
-export const DisclosureItemContext = createContext({})
+export type DisclosureItemContextType = {
+  itemValue: number | undefined;
+  setItemValue: (value: number) => void
+}
+
+export const DisclosureItemContext = createContext<DisclosureItemContextType>({} as DisclosureItemContextType)

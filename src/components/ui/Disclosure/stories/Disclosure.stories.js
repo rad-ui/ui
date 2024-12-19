@@ -18,13 +18,13 @@ export const All = {
         className: '',
         items: [
             {
-              question: "what is your full name?",
-              answer: "[full name]"
+              question: "Why can't I access certain websites?",
+              answer: "Clear your browser's cache and cookies."
             },
 
             {
-                question: "what is your favourite game?",
-                answer: "[game name]"
+              question: "Why do I keep getting disconnected from the network?",
+              answer: "Ensure that your network drivers are up-to-date."
             }
         ]
      }
