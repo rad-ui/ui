@@ -14,20 +14,22 @@ export type DisclosureRootProps = {
 const DisclosureRoot = ({children, customRootClass}:DisclosureRootProps) => {
 
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
-        // const [activeItem, setActiveItem] = useState(null)
-        
+
+        const [activeItem, setActiveItem] = useState(null);
+
     return(
 
-      //  <DisclosureContext.Provider
-      //     value={{
-      //       rootClass,
-      //       activeItem,
-      //       setActiveItem
-      //   }}>
-         <div className={clsx(`${rootClass}-root`)}>
-          {children}
-        </div>
-      //  </DisclosureContext.Provider>
+         <DisclosureContext.Provider 
+         value={{
+          rootClass,
+          activeItem,
+          setActiveItem
+          }}>
+
+           <div className={clsx(`${rootClass}-root`)}>
+             {children}
+           </div>
+        </DisclosureContext.Provider>
     )
 }
 
