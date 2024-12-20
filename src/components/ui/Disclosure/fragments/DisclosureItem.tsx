@@ -6,21 +6,18 @@ import { clsx } from "clsx";
 export type DisclosureItemProps = {
     children: React.ReactNode;
     className?: string;
-    value?: number
+    value: number
 }
 const DisclosureItem = ({children, className='', value }:DisclosureItemProps) => {
 
-    const {activeItem, rootClass} = useContext(DisclosureContext)
-    const [itemValue, setItemValue] = useState(value)
+    const { activeItem, rootClass } = useContext(DisclosureContext)
+    const [itemValue, setItemValue] = useState<number>(value)
     const [isOpen, setIsOpen] = useState(false)
 
      useEffect(() => {
-            if (activeItem === itemValue) {
-                setIsOpen(true);
-            } else {
-                setIsOpen(false);
-            }
-        }, [activeItem]);
+            setIsOpen(activeItem === itemValue)
+
+        }, [activeItem, itemValue]);
 
     return(
         <DisclosureItemContext.Provider 
@@ -31,6 +28,8 @@ const DisclosureItem = ({children, className='', value }:DisclosureItemProps) =>
          <div
          className={clsx(`${rootClass}-item`, className)}
          data-state={isOpen ? 'open' : 'closed'}
+         role="region"
+         aria-expanded={isOpen}
          >
            {children}
          

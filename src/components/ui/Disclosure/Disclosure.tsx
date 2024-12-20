@@ -6,7 +6,7 @@ import DisclosureContent from "./fragments/DisclosureContent";
 
 export type DisclosureProps = {
 
-     items:{question:string,answer: string}[]
+     items:{title:string, content: string}[]
 }
 
 const Disclosure = ({items}:DisclosureProps) => {
@@ -16,10 +16,10 @@ const Disclosure = ({items}:DisclosureProps) => {
             {items.map((item,index) => (
                  <DisclosureItem key={index} value={index}>
                     <DisclosureTrigger>
-                       {item.question}  
+                       {item.title}  
                     </DisclosureTrigger>
                     <DisclosureContent> 
-                       {item.answer}
+                       {item.content}
                     </DisclosureContent>
                  </DisclosureItem>
             

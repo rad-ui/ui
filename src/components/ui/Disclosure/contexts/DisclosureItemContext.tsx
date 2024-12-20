@@ -1,7 +1,7 @@
 import {createContext} from "react";
 
 export type DisclosureItemContextType = {
-  itemValue: number | undefined;
+  itemValue: number;
   setItemValue: (value: number) => void
 }
 

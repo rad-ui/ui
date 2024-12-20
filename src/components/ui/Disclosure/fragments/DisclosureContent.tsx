@@ -16,7 +16,9 @@ const DisclosureContent = ({children, className=''}:DisclosureContentProps) => {
      return(
           <div  
             className={clsx(`${rootClass}-content`, className)}
-            hidden={activeItem === itemValue}
+            hidden={activeItem !== itemValue}
+            role="region"
+            aria-hidden={activeItem !== itemValue}
             >
             {children}
          </div>
