@@ -13,7 +13,9 @@ export type AspectRatioProps = {
 }
 
 const AspectRatio = ({ children, customRootClass, className, ratio="1", ...props }: AspectRatioProps) => {
-    
+   
+    if (isNaN(Number(ratio)) && !ratio.match(/^(\d+)\/(\d+)$/)) ratio = "1"
+
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return <div style={{aspectRatio:ratio}} className={clsx(rootClass, className)} {...props}>{children} </div>
 }
