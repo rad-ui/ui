@@ -5,8 +5,8 @@ import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 export type AccordionItemProps = {
     children: React.ReactNode;
+    value: number;
     className?: string;
-    value?: number;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', ...props }) => {

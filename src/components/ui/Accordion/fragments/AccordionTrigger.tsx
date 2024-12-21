@@ -6,12 +6,9 @@ import { clsx } from 'clsx';
 type AccordionTriggerProps = {
   children: React.ReactNode;
   className?: string,
-  index: number,
-  activeIndex: number,
-  handleClick: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, className = '' }) => {
     const { setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem } = useContext(AccordionContext);
     const { itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent } = useContext(AccordionItemContext);
 
@@ -49,7 +46,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
             }}
             onClick={onClickHandler}
             aria-expanded={activeItem === itemValue}
-            aria-controls={`content-${index}`}
+            aria-controls={`content-${itemValue}`}
         >
             {children}
         </button>

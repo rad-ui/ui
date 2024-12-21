@@ -5,12 +5,10 @@ import { clsx } from 'clsx';
 
 type AccordionContentProps = {
   children: React.ReactNode;
-  index: number,
-  activeIndex: number,
-  className? :string
+  className?: string;
 };
 
-const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, activeIndex, className = '' }: AccordionContentProps) => {
+const AccordionContent: React.FC<AccordionContentProps> = ({ children, className = '' }: AccordionContentProps) => {
     const { activeItem, rootClass } = useContext(AccordionContext);
 
     const { itemValue } = useContext(AccordionItemContext);
@@ -18,9 +16,9 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, ac
     return (
         <div
             className={clsx(`${rootClass}-content`, className)}
-            id={`content-${index}`}
+            id={`content-${itemValue}`}
             role="region"
-            aria-labelledby={`section-${index}`}
+            aria-labelledby={`section-${itemValue}`}
             hidden={itemValue !== activeItem}>
 
             {children}
