@@ -6,7 +6,7 @@ import AccordionTrigger from './fragments/AccordionTrigger';
 import AccordionContent from './fragments/AccordionContent';
 
 export type AccordionProps = {
-    items: {content: any}[];
+    items: {title: string, content: React.ReactNode}[];
 }
 
 const Accordion = ({ items } : AccordionProps) => {
@@ -15,7 +15,7 @@ const Accordion = ({ items } : AccordionProps) => {
             {items.map((item, index) => (
                 <AccordionItem value={index} key={index} >
                     <AccordionHeader>
-                        <AccordionTrigger >
+                        <AccordionTrigger>
                             {item.title}
                         </AccordionTrigger>
                     </AccordionHeader>
