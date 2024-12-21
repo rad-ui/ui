@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+'use client';
+import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { ProgressContext } from '../contexts/ProgressContext';
@@ -15,10 +16,6 @@ const ProgressRoot = ({ value = 0, minValue = 0, maxValue = 100, children, custo
         minValue,
         maxValue
     };
-
-    useEffect(() => {
-        console.log(sendValues);
-    }, [value, minValue, maxValue]);
 
     return (
         <ProgressContext.Provider value={sendValues}>

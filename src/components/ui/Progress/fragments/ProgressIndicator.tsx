@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext } from 'react';
 import { ProgressProps, COMPONENT_NAME } from '../Progress';
 import { customClassSwitcher } from '~/core';
