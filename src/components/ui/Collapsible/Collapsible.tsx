@@ -1,5 +1,14 @@
-import React, { PropsWithChildren, ReactNode, useState } from 'react';
-import ButtonPrimitive from '~/core/primitives/Button';
+import React, {
+    Dispatch,
+    PropsWithChildren,
+    ReactNode,
+    SetStateAction,
+    useState,
+} from "react";
+import CollapsibleContent from "./fragments/CollapsibleContent";
+import CollapsibleItem from "./fragments/CollapsibleItem";
+import CollapsibleRoot from "./fragments/CollapsibleRoot";
+import CollapsibleTrigger from "./fragments/CollapsibleTrigger";
 
 /*
  * CHECKLIST
@@ -11,49 +20,78 @@ import ButtonPrimitive from '~/core/primitives/Button';
  *
  * */
 
-export type CollapsibleProps = { open?: boolean, title?: string, trigger?: ReactNode} & PropsWithChildren;
+export type CollapsibleProps = {
+  open?: boolean;
+  title?: string;
+  trigger?: ReactNode;
+  items: { content: any }[];
+  disabled?: boolean;
+  defaultOpen?: { content: any };
+  onOpenChange?: Dispatch<SetStateAction<boolean>>;
+} & PropsWithChildren;
 
-const ExpandIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className='size-6'>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-    </svg>
-);
+const Collapsible = ({ children, items, ...props }: CollapsibleProps) => {
+  //State values if not provided by the user
+  const [open, setOpen] = useState(props.open ?? false);
 
-const CollapseIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className='size-6'>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
-    </svg>
-);
+  // Disable or enable collapse
+  const disabled = props.disabled;
 
-const Collapsible = ({ children, title, trigger, ...props }: CollapsibleProps) => {
-    const [open, setOpen] = useState(props.open ?? true);
+  // Title for the component
+  const title = props.title;
 
-    const toggleCollapse = () => setOpen((p) => !p);
+  // Default Value to show
+  const defaultOpen = props.defaultOpen;
 
-    return (
-        <article>
-            <span style={{ display: 'flex', alignItems: 'center' }}>
-                {title && <p>{title}</p>}
-                {
-                    trigger ||
-                    <ButtonPrimitive style={{ marginInlineStart: 'auto' }} onClick={toggleCollapse}>{open ? <CollapseIcon/> : <ExpandIcon/>}</ButtonPrimitive>
-                }
-            </span>
+  return (
+    <CollapsibleRoot
+      open={props.open ?? open}
+      onOpenChange={props.onOpenChange ?? setOpen}
+    >
+      <span
+        style={{
+          display: "flex",
+          padding: "8px",
+          width: "full",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Title */}
+        {title && <p>{title}</p>}
 
-            <div
-                aria-hidden={!open}
-                style={{
-                    overflow: 'hidden',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: (props.open ?? open) ? 'auto' : '0',
-                    transition: 'all'
-                }}>
-                {children}
-            </div>
+        {/* Button */}
+        {!disabled && (
+          <CollapsibleTrigger>
+            {props.trigger && props.trigger}
+          </CollapsibleTrigger>
+        )}
+      </span>
 
-        </article>
-    );
+      {/* Conditonal Loop */}
+      {disabled ? (
+        // loops through all the items with no conditions
+        items.map((item) => <CollapsibleItem>{item.content}</CollapsibleItem>)
+      ) : (
+        <>
+          {/* Default value to be shown */}
+          {defaultOpen && (
+            <CollapsibleItem>{defaultOpen.content}</CollapsibleItem>
+          )}
+          {/* Collapsable Content  */}
+          <CollapsibleContent state={props.open ?? open}>
+            {items.map((item) => (
+              <>
+                {item != defaultOpen && (
+                  <CollapsibleItem>{item.content}</CollapsibleItem>
+                )}
+              </>
+            ))}
+          </CollapsibleContent>
+        </>
+      )}
+    </CollapsibleRoot>
+  );
 };
 
 export default Collapsible;
