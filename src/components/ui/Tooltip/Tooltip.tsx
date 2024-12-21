@@ -24,16 +24,14 @@ type TooltipProps = {
 
 const Tooltip = ({ children, label = '', placement = 'top', ...props }: TooltipProps) => {
     return (
-        <div>
-            <Popper
-                popperName={COMPONENT_NAME}
-                pop={label}
-                placement={placement}
-                {...props}
-            >
-                {children}
-            </Popper>
-        </div>
+        <Popper
+            popperName={COMPONENT_NAME}
+            pop={label}
+            placement={placement}
+            {...props}
+        >
+            {children}
+        </Popper>
     );
 };
 

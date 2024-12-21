@@ -30,11 +30,10 @@ const Table = ({ columns = [], data = [] }:any) => {
                     return <TableRow key={row.id} >
                         {
                             columnMap.map((column:any) => {
-                                if (row[column]) {
-                                    return <TableCell key={column} >{row[column]}</TableCell>;
-                                }
-                            }
-                            )
+                                return <TableCell key={`${row.id}-${column}`}>
+                                    {row[column] || ''}
+                                </TableCell>;
+                            })
                         }
                     </TableRow>;
                 })

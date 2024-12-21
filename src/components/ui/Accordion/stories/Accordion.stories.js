@@ -25,7 +25,7 @@ export const All = {
                     <ul>
                         <li> Summary: A hacker discovers the true nature of reality and his role in the war against its controllers.</li>
                         <li>Key Characters: Neo, Morpheus, Trinity, Agent Smith</li>
-                        <li>Memorable Quote: "There is no spoon."</li>
+                        <li>Memorable Quote: &quot;There is no spoon.&quot;</li>
                     </ul>
                 </div>
             },
@@ -35,7 +35,7 @@ export const All = {
                     <ul>
                         <li> Summary: Batman faces his greatest challenge yet as the Joker wreaks havoc on Gotham City.</li>
                         <li>Key Characters: Batman, Joker, Harvey Dent, Alfred</li>
-                        <li>Memorable Quote: "Why so serious?"</li>
+                        <li>Memorable Quote: &quot;Why so serious?&quot;</li>
                     </ul>
                 </div>
             },
@@ -43,9 +43,9 @@ export const All = {
                 title: 'Inception (2010)',
                 content: <div>
                     <ul>
-                        <li> Summary: A thief who enters people's dreams to steal their secrets must plant an idea in someone's mind.</li>
+                        <li> Summary: A thief who enters people&apos;s dreams to steal their secrets must plant an idea in someone&apos;s mind.</li>
                         <li>Key Characters: Cobb, Ariadne, Mal, Saito</li>
-                        <li>Memorable Quote: "You mustn't be afraid to dream a little bigger, darling."</li>
+                        <li>Memorable Quote: &quot;You mustn&apos;t be afraid to dream a little bigger, darling.&quot;</li>
                     </ul>
                 </div>
             },
@@ -55,7 +55,7 @@ export const All = {
                     <ul>
                         <li> Summary: A banker is wrongly convicted</li>
                         <li>Key Characters: Andy Dufresne, Red, Warden Norton, Tommy</li>
-                        <li>Memorable Quote: "Get busy living or get busy dying."</li>
+                        <li>Memorable Quote: &quot;Get busy living or get busy dying.&quot;</li>
                     </ul>
                 </div>
             }

@@ -17,8 +17,19 @@ const ThreeDots = () => {
 };
 
 const MusicBars = ({ index }) => {
-    const randomHeight = Math.floor(Math.random() * 100) + 1;
-    return <div className={`h-4  rounded-md ${index === 12 ? 'bg-gray-950 w-1.5' : 'bg-gray-700 w-1'}`} style={{ height: `${randomHeight}px` }}></div>;
+    const randomHeightBars = [
+        'h-[30px]', 'h-[25px]', 'h-[40px]', 'h-[20px]', 'h-[35px]',
+        'h-[45px]', 'h-[15px]', 'h-[30px]', 'h-[25px]', 'h-[35px]',
+        'h-[90px]', 'h-[120px]', 'h-[95px]', 'h-[90px]', 'h-[85px]',
+        'h-[75px]', 'h-[80px]', 'h-[70px]', 'h-[35px]', 'h-[25px]',
+        'h-[30px]', 'h-[35px]', 'h-[25px]', 'h-[40px]', 'h-[30px]'
+    ]
+    return <div className='flex-1 flex items-center space-x-1 justify-center'>
+        {randomHeightBars.map((bar, index) => {
+
+            return <div key={index} className={`h-4 rounded-md ${bar} ${index === 12 ? 'bg-gray-950 w-1.5' : 'bg-gray-700 w-1'}`} ></div>
+        })}
+    </div>
 };
 
 const MusicAppPlayerDemo = () => {
@@ -47,13 +58,7 @@ const MusicAppPlayerDemo = () => {
                     <div className='flex items-center w-full justify-between text-xs text-gray-950'>
                         <span>02:22</span>
                         <div className='flex-1 flex items-center space-x-1 justify-center'>
-                            {
-                                // 25 bars
-                                Array.from(Array(25)).map((_, i) => {
-                                    return <MusicBars index={i} key={i} />;
-                                })
-
-                            }
+                                     <MusicBars/>;
                         </div>
                         <span>0:19</span>
                     </div>
