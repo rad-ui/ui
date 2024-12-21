@@ -22,8 +22,6 @@ export default function ProgressIndicator({
     // Ensure value stays within bounds in production
     const boundedValue = Math.min(Math.max(value, minValue), maxValue);
 
-    console.log(boundedValue);
-
     return (
         <div
             role="progressbar"

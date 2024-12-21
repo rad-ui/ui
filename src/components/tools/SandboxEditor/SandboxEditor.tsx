@@ -24,6 +24,7 @@ const ColorSelect = ({ color, colorName, changeAccentColor }: ColorSelectProps) 
     const dimensions = 32;
     return <button
         onClick={() => changeAccentColor(colorName)}
+        aria-label={`Change accent color to ${colorName}`}
         className='cursor-pointer rounded-full hover:border-gray-700 border'
         style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></button>;
 };
