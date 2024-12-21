@@ -15,10 +15,8 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
     const accordionRef = useRef(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [activeItem, setActiveItem] = useState(null); // keeps track of the active item, stores the
-    const [focusItem, setFocusItem] = useState(null); // stores the id of the item that should be focused
-
-    useEffect(() => {}, []);
+    const [activeItem, setActiveItem] = useState<number | null>(null); // keeps track of the active item, stores the
+    const [focusItem, setFocusItem] = useState<Element | null>(null); // stores the item that should be focused
 
     const focusNextItem = () => {
         const batches = getAllBatchElements(accordionRef?.current);
@@ -51,9 +49,7 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
                 focusNextItem,
                 focusPrevItem,
                 focusItem,
-                setFocusItem,
-                accordionRef
-
+                setFocusItem
             }}>
             <div className={clsx(`${rootClass}-root`)} ref={accordionRef}>
                 {children}
