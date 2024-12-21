@@ -22,10 +22,10 @@ type ColorSelectProps = {color:typeof colors[keyof typeof colors], colorName: st
 
 const ColorSelect = ({ color, colorName, changeAccentColor }: ColorSelectProps) => {
     const dimensions = 32;
-    return <div
+    return <button
         onClick={() => changeAccentColor(colorName)}
         className='cursor-pointer rounded-full hover:border-gray-700 border'
-        style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></div>;
+        style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></button>;
 };
 
 type SandboxProps = {className?: string | ''} & PropsWithChildren
