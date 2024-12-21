@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AccordionContext } from '../contexts/AccordionContext';
@@ -12,13 +12,17 @@ export type AccordionRootProps = {
 }
 
 const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
-    const accordionRef = useRef(null);
+    const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null); // keeps track of the active item, stores the
     const [focusItem, setFocusItem] = useState<Element | null>(null); // stores the item that should be focused
 
     const focusNextItem = () => {
+        if (accordionRef?.current == null) {
+            return;
+        }
+
         const batches = getAllBatchElements(accordionRef?.current);
         const nextItem = getNextBatchItem(batches);
         setFocusItem(nextItem);
@@ -30,6 +34,10 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
     };
 
     const focusPrevItem = () => {
+        if (accordionRef?.current == null) {
+            return;
+        }
+
         const batches = getAllBatchElements(accordionRef?.current);
         const prevItem = getPrevBatchItem(batches);
         setFocusItem(prevItem);

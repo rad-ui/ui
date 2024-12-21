@@ -1,4 +1,4 @@
-import React, { useState, useContext, useId, useEffect, useRef } from 'react';
+import React, { FocusEvent, useState, useContext, useId, useEffect, useRef } from 'react';
 import { clsx } from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
@@ -39,7 +39,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
         }
     };
 
-    const handleBlurEvent = (e) => {
+    const handleBlurEvent = (e: FocusEvent<HTMLButtonElement>) => {
         // if clicked outside of the accordion, set activeItem to null
         const elem = accordionItemRef?.current;
 
