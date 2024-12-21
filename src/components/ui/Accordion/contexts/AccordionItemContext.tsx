@@ -1,3 +1,17 @@
-import { createContext } from 'react';
+import { createContext, FocusEvent } from 'react';
 
-export const AccordionItemContext = createContext({});
+type AccordionItemContextType = {
+  itemValue: number | null;
+  setItemValue: React.Dispatch<React.SetStateAction<number | null>>;
+  handleBlurEvent: (e: FocusEvent<HTMLButtonElement>) => void;
+  handleClickEvent: () => void;
+  handleFocusEvent: () => void;
+};
+
+export const AccordionItemContext = createContext<AccordionItemContextType>({
+    itemValue: null,
+    setItemValue: () => {},
+    handleBlurEvent: () => {},
+    handleClickEvent: () => {},
+    handleFocusEvent: () => {}
+});

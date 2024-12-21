@@ -10,8 +10,8 @@ export type AccordionItemProps = {
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', ...props }) => {
-    const accordionItemRef = useRef(null);
-    const [itemValue, setItemValue] = useState(value);
+    const accordionItemRef = useRef<HTMLDivElement | null>(null);
+    const [itemValue, setItemValue] = useState<number | null>(value);
     const { rootClass, activeItem, focusItem } = useContext(AccordionContext);
 
     const [isOpen, setIsOpen] = useState(itemValue === activeItem);
