@@ -5,11 +5,16 @@
     align-items:center;
     justify-content:center;
     padding:0px 12px;
-    margin:16px;
+    margin-right: 8px;
     box-sizing: border-box;
 
 
-    &:focus, &:active{
+    &:active{
+        transform: scale(0.95);
+        background-color: var(--rad-ui-color-accent-950);
+    }
+
+    &:focus-visible{
         outline: 2px solid var(--rad-ui-color-accent-900);
         outline-offset: 4px;
     }
