@@ -16,11 +16,12 @@ describe('VisuallyHidden Component', () => {
 
     test('renders VisuallyHidden component without asChild prop', () => {
         render(<VisuallyHidden >Visually Hidden</VisuallyHidden>);
-        expect(screen.getByText('Visually Hidden')).tagName === 'DIV';
+        expect(screen.getByText('Visually Hidden').tagName).toBe('DIV');
     });
 
     test('renders VisuallyHidden component with asChild prop as span', () => {
         render(<VisuallyHidden asChild><span>Visually Hidden</span></VisuallyHidden>);
-        expect(screen.getByText('Visually Hidden')).tagName === 'SPAN';
+        expect(screen.getByText('Visually Hidden').tagName).toBe('SPAN');
+
     });
 })
