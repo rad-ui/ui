@@ -24,6 +24,7 @@
 @import "./components/radio.scss";
 @import "./components/switch.scss";
 @import "./components/skeleton.scss";
+@import "./components/visuallyhidden.scss";
 
 // import .css file
 @import "../cssTokens/base.tokens";
@@ -57,7 +58,7 @@
     background-color:var(--rad-ui-color-gray-1000); 
     color: var(--rad-ui-color-gray-100);
     padding: 4px 12px;
-    border-radius: 8px;
+    border-radius: 2px;
 }
 
 .rad-ui-arrow{

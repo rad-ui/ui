@@ -88,7 +88,6 @@ module.exports = {
         'jsx-a11y/no-noninteractive-element-interactions': 'warn',
         'jsx-a11y/no-noninteractive-element-to-interactive-role': 'warn',
         'jsx-a11y/no-noninteractive-tabindex': 'warn',
-        'jsx-a11y/no-onchange': 'warn',
         'jsx-a11y/no-redundant-roles': 'warn',
         'jsx-a11y/no-static-element-interactions': 'warn',
         'jsx-a11y/role-has-required-aria-props': 'warn',

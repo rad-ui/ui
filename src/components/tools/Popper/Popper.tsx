@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 
-import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss } from '@floating-ui/react';
+import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, FloatingPortal } from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -68,7 +68,8 @@ const Popper = ({
         // strategy: 'fixed',
         middleware: [
             arrow({
-                element: arrowRef
+                element: arrowRef,
+                padding: 4
             }),
             offset(ARROW_HEIGHT + GAP),
             flip({
@@ -110,9 +111,10 @@ const Popper = ({
                 }
             )}>{children}</span>
         {
-            isOpen && <div className={clsx(`${rootClass}-floating-element`)} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
+            isOpen && <FloatingPortal> <div className={clsx(`${rootClass}-floating-element`)} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
                 {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
                 {pop}</div>
+            </FloatingPortal>
         }
     </span>;
 };
