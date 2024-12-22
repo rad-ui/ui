@@ -9,9 +9,15 @@ const LockIcon = () => {
 };
 
 const AnalyticsBar = ({ index }) => {
-    const randomHeight = Math.floor(Math.random() * 100) + 1;
-
-    return <div className='w-2 rounded-md bg-blue-800 ml-1' style={{ height: randomHeight + 'px' }}></div>;
+    // Define possible height classes (from h-8 to h-32 in increments of 4)
+    const heightClasses = [
+        'h-8', 'h-12', 'h-16', 'h-20', 'h-24', 'h-28', 'h-32'
+    ];
+    
+    // Use index to get a deterministic but varied height
+    const heightClass = heightClasses[index % heightClasses.length];
+    
+    return <div className={`w-2 rounded-md bg-blue-800 ml-1 ${heightClass}`} key={index}></div>;
 };
 
 const TrafficAnalyticsDemo = () => {

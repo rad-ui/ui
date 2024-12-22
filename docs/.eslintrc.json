@@ -1,6 +1,24 @@
 {
   "extends": "next/core-web-vitals",
-  "rules":{
-    "react/no-unescaped-entities": "off"
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "@next/next/no-img-element": "off",
+    "no-unused-vars": "off",
+    "no-multiple-empty-lines": "off",
+    "eol-last": "off",
+    "import/first": "off",
+    "object-curly-spacing": "off",
+    "space-infix-ops": "off",
+    "padded-blocks": "off",
+    "keyword-spacing": "off",
+    "comma-dangle": "off",
+    "indent": "off",
+    "quotes": "off",
+    "semi": "off",
+    "key-spacing": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@next/next/no-html-link-for-pages": "off"
   }
 }

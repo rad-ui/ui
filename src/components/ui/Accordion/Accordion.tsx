@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AccordionRoot from './fragments/AccordionRoot';
 import AccordionItem from './fragments/AccordionItem';
 import AccordionHeader from './fragments/AccordionHeader';

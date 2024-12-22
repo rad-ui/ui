@@ -20,7 +20,7 @@ const ArtistBox: React.FC = () => {
 
 const IconContainerSmall: any = ({ children }: any) => {
     return (
-        <div className='text-gray-1000 hover:text-purple-900 cursor-pointer' style={{ height: "18px", width: "18px" }}>
+        <div className='text-gray-1000 hover:text-purple-900 cursor-pointer' style={{ height: 18, width: 18 }}>
             {children}
         </div>
     );
@@ -46,15 +46,10 @@ const MusicPlayer: React.FC = () => {
                     <IconContainerSmall>
                         <TrackPreviousIcon />
                     </IconContainerSmall>
-
                     <PlayButton />
-
                     <IconContainerSmall>
                         <TrackNextIcon />
                     </IconContainerSmall>
-
-
-
                 </div>
             </div>
         </div>

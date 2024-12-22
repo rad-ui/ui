@@ -20,12 +20,7 @@ const COLOR_PREFIX = '--rad-ui-color-';
 
  */
 
-const accentColor = colors.red;
-const jsVariables = {};
 const generateAccentTokens = (theme) => {
-    const cssVariables = [];
-    const color = accentColor;
-
     let accentStyleSheet = '';
 
     for (const colorObj in colors) {
@@ -36,7 +31,7 @@ const generateAccentTokens = (theme) => {
         let cssVariableName = `[data-accent-color=${colorObj}]{`;
         cssVariableName += '\n';
         // plug in variables here
-        for (const [shadeName, shadeValue] of Object.entries(accentColors)) {
+        for (const [shadeName] of Object.entries(accentColors)) {
             cssVariableName += `${COLOR_PREFIX}accent-${shadeName}: var(${COLOR_PREFIX}${colorName}-${shadeName});`;
             cssVariableName += '\n';
         }
