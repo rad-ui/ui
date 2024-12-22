@@ -9,6 +9,7 @@ export type VisuallyHiddenProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;
+    asChild?: boolean;
     props: Record<string, any>[];
 }
 
