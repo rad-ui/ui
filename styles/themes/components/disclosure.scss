@@ -1,18 +1,39 @@
 .rad-ui-disclosure-root{
-    color: var(--rad-ui-color-accent-1000);
     border: 1px solid var(--rad-ui-color-accent-500);
     border-radius: 4px;
     
      .rad-ui-disclosure-item{
          margin: 10px 0px 10px;
          padding-left: 7px;
+
+        &:focus{
+            outline: none;
+            border: none;
+            color: black;
+        }
          
-     }
+        &:focus-within{
+            color: var(--rad-ui-color-gray-1000);
+        }
+    
+
      .rad-ui-disclosure-trigger{
-         font-weight: 800;
+         font-weight: 600;
+         color: var(--rad-ui-color-gray-1000);
+         background-color: var(--rad-ui-color-accent-100);
+
+         &:focus{
+            outline: none;
+            color: var(--rad-ui-color-accent-900);
+        
+         }
        
      }
+
      .rad-ui-disclosure-content{
-         color: var(--rad-ui-color-accent-1000);
+        background-color: var(--rad-ui-color-gray-100);
+        color: var(--rad-ui-color-gray-1000);
+
      }
+    }
 }
