@@ -59,7 +59,7 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
                 focusItem,
                 setFocusItem
             }}>
-            <div className={clsx(`${rootClass}-root`)} ref={accordionRef}>
+            <div className={clsx(`${rootClass}-root`)} ref={accordionRef} data-testid="accordion-root">
                 {children}
             </div>
         </AccordionContext.Provider>
