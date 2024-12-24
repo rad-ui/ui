@@ -4,7 +4,7 @@ import AccordionItem from './fragments/AccordionItem';
 import AccordionHeader from './fragments/AccordionHeader';
 import AccordionTrigger from './fragments/AccordionTrigger';
 import AccordionContent from './fragments/AccordionContent';
-import { isReactNode } from '~/core/types';
+import { validateReactNode } from '~/core/types';
 
 export type AccordionProps = {
     items: {title: string, content: React.ReactNode}[];
@@ -17,11 +17,11 @@ const Accordion = ({ items } : AccordionProps) => {
                 <AccordionItem value={index} key={index} >
                     <AccordionHeader>
                         <AccordionTrigger>
-                            {isReactNode(item.title) ? item.title : 'Accordion title must be a valid string'}
+                            {validateReactNode(item.title, 'title') && item.title}
                         </AccordionTrigger>
                     </AccordionHeader>
                     <AccordionContent>
-                        {isReactNode(item.content) ? item.content : 'Accordion content must be a valid React element'}
+                        {validateReactNode(item.content, 'content') && item.content}
                     </AccordionContent>
                 </AccordionItem>
             ))}

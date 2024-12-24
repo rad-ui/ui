@@ -55,19 +55,25 @@ describe('Accordion', () => {
         expect(screen.getByText('is')).not.toHaveAttribute('hidden');
     });
 
-    test('renders component when header and content are invalid', () => {
-        // @ts-expect-error: title and content should be a string and ReactNode, respectively
-        const { rerender } = render(<Accordion items={[{ title: 28, content: { key: 'value' } }]} />);
-        expect(screen.getByText(28)).toBeInTheDocument();
-        expect(screen.getByText('Accordion content must be a valid React element')).toBeInTheDocument();
+    describe('props to render are invalid', () => {
+        beforeEach(() => {
+            console.error = jest.fn();
+        });
 
-        // @ts-expect-error: title and content should be a string and ReactNode, respectively
-        rerender(<Accordion items={[{ title: { hi: 'bye' }, content: () => {} }]} />);
-        expect(screen.getByText('Accordion title must be a valid string')).toBeInTheDocument();
-        expect(screen.getByText('Accordion content must be a valid React element')).toBeInTheDocument();
+        test('renders accordion when title and content are invalid', () => {
+            // @ts-expect-error: title and content should be a string and ReactNode, respectively
+            render(<Accordion items={[{ title: { hi: 'bye' }, content: () => {} }]} />);
+            expect(console.error).toHaveBeenCalledWith('title is not a valid React node');
+            expect(console.error).toHaveBeenCalledWith('content is not a valid React node');
+        });
 
-        // @ts-expect-error: item should contain title and content keys
-        rerender(<Accordion items={[{ extra: '' }]} />);
-        expect(screen.getByTestId('accordion-root')).toBeInTheDocument();
+        test('renders accordion when title and content are missing', () => {
+            // @ts-expect-error: item should contain title and content keys
+            render(<Accordion items={[{ extra: '' }]} />);
+            expect(screen.getByTestId('accordion-root')).toBeInTheDocument();
+            // nothing is printed to the console since a value is undefined if it's not given and undefined
+            // is a valid React node
+            expect(console.error).not.toHaveBeenCalled();
+        });
     });
 });
