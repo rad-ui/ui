@@ -5,30 +5,30 @@ import userEvent from '@testing-library/user-event';
 import Button from '../Button';
 
 describe('Button', () => {
-    test('renders component', () => {
+    test('renders button', () => {
         render(<Button>button</Button>);
         expect(screen.getByText('button')).toBeInTheDocument();
     });
 
-    test('renders component with the given type', () => {
+    test('renders button with the given type', () => {
         render(<Button type='submit'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveAttribute('type', 'submit');
     });
 
-    test('renders component with the given color', () => {
+    test('renders button with the given color', () => {
         render(<Button color='white'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveAttribute('data-accent-color', 'white');
     });
 
-    test('renders component with the given variant', () => {
+    test('renders button with the given variant', () => {
         render(<Button variant='outline'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveClass('button-outline');
     });
 
-    test('renders component with the given size', () => {
+    test('renders button with the given size', () => {
         render(<Button size='small'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveAttribute('data-size', 'small');
