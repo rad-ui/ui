@@ -4,12 +4,12 @@ import { render, screen } from '@testing-library/react';
 import Progress from '../Progress';
 
 describe('Progress', () => {
-    test('renders component', () => {
+    test('renders progress bar', () => {
         render(<Progress value={0} />);
         expect(screen.getByRole('progressbar')).toBeInTheDocument();
     });
 
-    test('renders component with clamped value', () => {
+    test('renders progress bar with clamped value', () => {
         const { rerender } = render(<Progress value={-6} minValue={0} maxValue={100} />);
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0');
 
@@ -17,12 +17,12 @@ describe('Progress', () => {
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '100');
     });
 
-    test('renders component when minValue is greater than maxValue', () => {
+    test('renders progress bar when minValue is greater than maxValue', () => {
         render(<Progress value={3} minValue={5} maxValue={0} />);
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0');
     });
 
-    test('binds value to component', () => {
+    test('binds value to progress bar', () => {
         const { rerender } = render(<Progress value={1} minValue={0} maxValue={100} />);
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '1');
 

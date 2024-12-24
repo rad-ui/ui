@@ -11,7 +11,7 @@ const items: AccordionProps['items'] = [
 ];
 
 describe('Accordion', () => {
-    test('renders component', () => {
+    test('renders accordion', () => {
         render(<Accordion items={[]} />);
         expect(screen.getByTestId('accordion-root')).toBeInTheDocument();
     });
