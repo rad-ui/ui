@@ -14,7 +14,7 @@ export const validateReactNode = (value: any, name?: string): React.ReactNode =>
     }
 
     console.error(`${name || value} is not a valid React node`);
-    return false;
+    return null;
 };
 
 /**
