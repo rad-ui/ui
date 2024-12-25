@@ -12,14 +12,13 @@ export type AspectRatioProps = {
     props: Record<string, any>[];
 }
 
-const AspectRatio = ({ children, customRootClass, className, ratio="1", ...props }: AspectRatioProps) => {
-
-    if (isNaN(Number(ratio)) && !ratio.match(/^(\d+)\/(\d+)$/)) ratio = "1"
-    if (Number(ratio) <= 0) ratio = "1"
+const AspectRatio = ({ children, customRootClass, className, ratio = '1', ...props }: AspectRatioProps) => {
+    if (isNaN(Number(ratio)) && !ratio.match(/^(\d+)\/(\d+)$/)) ratio = '1';
+    if (Number(ratio) <= 0) ratio = '1';
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <div style={{aspectRatio:ratio}} className={clsx(rootClass, className)} {...props}>{children} </div>
-}
+    return <div style={{ aspectRatio: ratio }} className={clsx(rootClass, className)} {...props}>{children} </div>;
+};
 AspectRatio.displayName = COMPONENT_NAME;
 
 export default AspectRatio;
