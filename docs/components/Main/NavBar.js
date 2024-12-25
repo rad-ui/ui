@@ -50,7 +50,7 @@ const NavBar = ({darkMode,setDarkMode}) => {
     };
 
 
-    return   <div className={`px-3 py-2 flex items-center justify-between border-b border-gray-500 sticky z-20 top-0 ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-white'}`}>
+    return   <div className={`px-3 py-2 flex items-center justify-between border-b border-gray-500 sticky z-20 top-0  backdrop-blur-md backdrop-saturate-150`}>
 
     <div className='mr-3 flex space-x-8'>
         <a className='text-gray-1000 flex items-center space-x-2 text-md' href="/">
