@@ -1,9 +1,7 @@
-"use client"
+
 
 import Button from '@radui/ui/Button';
 import { useCallback, useState } from 'react';
-
-import { parseCookies, setCookie } from 'nookies';
 
 
 const DiscordLogo = () => {
@@ -32,8 +30,8 @@ const MoonIcon = () => {
 };
 
 
-const NavBar = ({darkMode,setDarkMode}) => {
-    const cookies = parseCookies();
+const NavBar =  ({darkMode,setDarkMode, cookies,setCookie}) => {
+
 
     const openLink = useCallback((url) => () => {
         window.open(url, '_blank');
