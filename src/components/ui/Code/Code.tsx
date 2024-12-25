@@ -10,8 +10,8 @@ export type CodeProps= {
     customRootClass?: string;
 }
 
-const Code = ({ children, customRootClass='' }: CodeProps) => {
-      const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
+const Code = ({ children, customRootClass = '' }: CodeProps) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return <code className={clsx(rootClass)}>
         {children}

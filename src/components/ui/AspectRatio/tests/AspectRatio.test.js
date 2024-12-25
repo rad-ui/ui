@@ -9,7 +9,7 @@ describe('AspectRatio', () => {
     });
 
     test('applies custom classes correctly', () => {
-        render(<AspectRatio  className="additional-class">Content</AspectRatio>);
+        render(<AspectRatio className="additional-class">Content</AspectRatio>);
         const divElement = screen.getByText('Content');
         expect(divElement).toHaveClass('additional-class');
     });
@@ -38,6 +38,4 @@ describe('AspectRatio', () => {
         render(<AspectRatio ratio="-5">Content</AspectRatio>);
         expect(screen.getByText('Content').style.aspectRatio).toBe('1');
     });
-
-    
 });
