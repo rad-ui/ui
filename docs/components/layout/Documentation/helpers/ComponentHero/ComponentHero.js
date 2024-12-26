@@ -1,13 +1,7 @@
 "use client"
 import CodeBlock from '../CodeBlock';
-
 import { useState } from 'react'
-
-
-
 import Tabs from "@radui/ui/Tabs"
-
-
 
 const TabContainer = ({ children }) => {
     return <div className='px-2'>
@@ -17,7 +11,6 @@ const TabContainer = ({ children }) => {
 
 const initializeTabs = (codeUsage) => {
     const tabs = []
-
     for (const key in codeUsage) {
         if (Object.hasOwnProperty.call(codeUsage, key)) {
             let language = key
@@ -32,11 +25,7 @@ const initializeTabs = (codeUsage) => {
             })
         }
     }
-
     return tabs
-
-
-
 }
 
 
