@@ -56,26 +56,22 @@ const Collapsible = ({ children, ...props }: CollapsibleProps) => {
     >
       <CollapsibleComponent.Header title={title}>
         {/* Button */}
-        
-          <CollapsibleComponent.Trigger asChild>
-            {props.trigger && props.trigger}
-          </CollapsibleComponent.Trigger>
-       
+
+        <CollapsibleComponent.Trigger asChild>
+          {props.trigger && props.trigger}
+        </CollapsibleComponent.Trigger>
       </CollapsibleComponent.Header>
 
-      {/* Conditonal Loop */}
-      {disabled ? (
-        // loops through all the items with no toggle
-         <DisabledContent />
-      )
-      :
-      (
+      {/* Conditional Loop */}
+      {disabled
+       ? <DisabledContent />
+       : (
         <>
           {/* Default Content */}
           {children && children}
-          {/* Collapsable Content  */}
+          {/* Collapsable Content */}
           <CollapsibleComponent.Content>
-              {collapsibleContent && collapsibleContent}
+            {collapsibleContent && collapsibleContent}
           </CollapsibleComponent.Content>
         </>
       )}
