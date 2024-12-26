@@ -48,7 +48,6 @@ const ComponentHero = ({ children, codeUsage = {} }) => {
         <div className='bg-gray-200 border border-gray-500 shadow p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
             {children}
         </div>
-
         <div>
             <Tabs tabs={data} />
         </div>
