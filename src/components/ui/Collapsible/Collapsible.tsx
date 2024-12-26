@@ -44,6 +44,10 @@ const Collapsible = ({ children, ...props }: CollapsibleProps) => {
   // Collapsible Content
   const collapsibleContent = props.collapsibleContent;
 
+  const DisabledContent = () => {
+    return <>{children && children}
+         {collapsibleContent && collapsibleContent}</>
+  }
   return (
     <CollapsibleComponent.Root
       open={props.open ?? open}
@@ -62,9 +66,10 @@ const Collapsible = ({ children, ...props }: CollapsibleProps) => {
       {/* Conditonal Loop */}
       {disabled ? (
         // loops through all the items with no toggle
-         <>{children && children}
-         {collapsibleContent && collapsibleContent}</>
-      ) : (
+         <DisabledContent />
+      )
+      :
+      (
         <>
           {/* Default Content */}
           {children && children}
