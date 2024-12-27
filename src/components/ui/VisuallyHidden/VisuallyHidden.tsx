@@ -14,11 +14,9 @@ export type VisuallyHiddenProps = {
 }
 
 const VisuallyHidden = ({ children, customRootClass, className, ...props }: VisuallyHiddenProps) => {
-
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <Primitive.div  className={clsx(rootClass, className)} {...props}>{children}</Primitive.div>
-
-}
+    return <Primitive.div className={clsx(rootClass, className)} {...props}>{children}</Primitive.div>;
+};
 VisuallyHidden.displayName = COMPONENT_NAME;
 
 export default VisuallyHidden;

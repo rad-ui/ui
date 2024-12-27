@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import VisuallyHidden from '../VisuallyHidden';
 
-
 describe('VisuallyHidden Component', () => {
     test('renders VisuallyHidden component', () => {
         render(<VisuallyHidden>Visually Hidden</VisuallyHidden>);
@@ -22,6 +21,5 @@ describe('VisuallyHidden Component', () => {
     test('renders VisuallyHidden component with asChild prop as span', () => {
         render(<VisuallyHidden asChild><span>Visually Hidden</span></VisuallyHidden>);
         expect(screen.getByText('Visually Hidden').tagName).toBe('SPAN');
-
     });
-})
+});
