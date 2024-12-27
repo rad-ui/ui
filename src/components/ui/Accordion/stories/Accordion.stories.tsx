@@ -1,23 +1,29 @@
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta: Meta<typeof Accordion> = {
     title: 'Components/Accordion',
     component: Accordion,
-    render: (args) => <SandboxEditor>
-        <div >
-            <div className='flex space-x-2 w-full flex-1'>
-                <Accordion {...args} />
+    decorators: [(Story) => (
+        <SandboxEditor>
+            <div>
+                <div className='flex space-x-2 w-full flex-1'>
+                    <Story />
+                </div>
             </div>
-        </div>
-    </SandboxEditor>
+        </SandboxEditor>
+    )]
 };
 
+export default meta;
+type Story = StoryObj<typeof Accordion>;
+
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
+export const All: Story = {
     args: {
-        className: '',
         items: [
             {
                 title: 'The Matrix (1999)',

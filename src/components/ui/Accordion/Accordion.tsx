@@ -5,13 +5,19 @@ import AccordionHeader from './fragments/AccordionHeader';
 import AccordionTrigger from './fragments/AccordionTrigger';
 import AccordionContent from './fragments/AccordionContent';
 
-export type AccordionProps = {
-    items: {content: any}[];
-}
+export interface AccordionItemType {
+    title: string;
+    content: React.ReactNode;
+  }
 
-const Accordion = ({ items } : AccordionProps) => {
+export interface AccordionProps {
+    className?: string;
+    items: AccordionItemType[];
+  }
+
+const Accordion = ({ items, className }: AccordionProps) => {
     return (
-        <AccordionRoot>
+        <AccordionRoot className={className}>
             {items.map((item, index) => (
                 <AccordionItem value={index} key={index} >
                     <AccordionHeader>
