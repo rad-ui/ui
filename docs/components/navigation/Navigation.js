@@ -154,6 +154,10 @@ const sections = [
             {
                 title: "Tooltip",
                 path: "/docs/components/tooltip"
+            },
+            {
+                title: "VisuallyHidden",
+                path: "/docs/components/visually-hidden"
             }
         ]
     },
