@@ -14,13 +14,23 @@ const scss_SourceCode = fs.readFileSync(
     'utf8'
 );
 
-const code = {
+const anatomy_SourceCode = fs.readFileSync(
+    path.join(process.cwd(), '/app/docs/components/accordion/docs/accordion_anatomy.tsx'),
+    'utf8'
+);
+
+export const code = {
     javascript: {
         code: example_1_SourceCode
     },
     scss: {
         code: scss_SourceCode
-    }
+    },
+   
 };
 
-export default code;
+export const anatomy = {
+    code: anatomy_SourceCode
+}
+
+export default code

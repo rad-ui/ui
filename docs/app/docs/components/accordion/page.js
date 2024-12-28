@@ -5,16 +5,22 @@ import Accordion from "@radui/ui/Accordion"
 import SEO from "../../docsIndex"
 export const metadata = SEO.getMetadata(PAGE_NAME)
 import AccordionExample from "./docs/example_1"
-import codeUsage from "./docs/codeUsage"
+import AccordionAnatomy from "./docs/accordion_anatomy"
+import {code, anatomy} from "./docs/codeUsage"
 
 const AccordionDocs = () => {
     return <div>
         <Documentation currentPage={PAGE_NAME} title={`Accordion`}
             description='Accordions are used to toggle the visibility of content. They are used in the sidebar, and in the chat.'
         >
-            <Documentation.ComponentHero codeUsage={codeUsage}>
+            {/* Component Hero */}
+            <Documentation.ComponentHero codeUsage={code}>
                    <AccordionExample />
             </Documentation.ComponentHero>
+            {/* Component Anatomy */}
+            <Documentation.Anatomy code={anatomy.code} language='jsx'>
+                
+            </Documentation.Anatomy>
 
         </Documentation>
     </div>

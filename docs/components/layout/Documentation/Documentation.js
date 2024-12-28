@@ -52,6 +52,17 @@ const DocsTable = ({ children, columns = [], data = [] }) => {
     </div>;
 };
 
+const Anatomy = ({ code, language = 'jsx' }) => {
+    return <div className='mt-10'>
+       
+        <BookMarkLink id="anatomy"> <Heading as="h6" className="mb-2">Anatomy</Heading> </BookMarkLink>
+        <Text className="mb-4 text-gray-1000">Import all parts of the component and piece them together</Text>
+        <CodeBlock className='mb-10' language={language}>
+            {code}
+        </CodeBlock>
+    </div>;
+};
+
 const Section = ({ title = '', children }) => {
     return <div>
         <Heading as="h6" className="mb-2 mt-8">{title}</Heading>
@@ -73,6 +84,7 @@ const UnderConstruction = ({ children }) => {
 };
 
 Documentation.UnderConstruction = UnderConstruction;
+Documentation.Anatomy = Anatomy;
 Documentation.Section = Section;
 Documentation.ComponentHero = ComponentHero;
 Documentation.ComponentFeatures = ComponentFeatures;
