@@ -6,14 +6,14 @@ import { DisclosureItemContext } from "../contexts/DisclosureItemContext";
 export type DisclosureTriggerProps = {
     children: React.ReactNode;
     className?: string;
-    index: number; 
 }
 
-const DisclosureTrigger = ({ children, className, index }:DisclosureTriggerProps) => {
+
+const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
        
          const { activeItem, setActiveItem, rootClass, focusNextItem, focusPrevItem } = useContext(DisclosureContext)
          const { itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent} = useContext(DisclosureItemContext)
-
+         
          const handleDisclosure = () => {
               
                 setActiveItem(activeItem === itemValue ? null : itemValue)
@@ -23,7 +23,7 @@ const DisclosureTrigger = ({ children, className, index }:DisclosureTriggerProps
          const onFocusHandler = () => {
             handleFocusEvent()
          }    
-         
+       
    return(
      
        <button
@@ -44,7 +44,6 @@ const DisclosureTrigger = ({ children, className, index }:DisclosureTriggerProps
                      }
         }}
         aria-expanded={activeItem === itemValue}
-        aria-controls={`content-${index}`}
         aria-haspopup='true'
         >
 
