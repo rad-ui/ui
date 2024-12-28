@@ -44,6 +44,10 @@ const sections = [
                 path: "/docs/components/avatar"
             },
             {
+                title: "AspectRatio",
+                path: "/docs/components/aspect-ratio"
+            },
+            {
                 title: "Badge",
                 path: "/docs/components/badge"
             },
