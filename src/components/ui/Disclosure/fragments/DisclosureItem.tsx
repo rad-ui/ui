@@ -11,7 +11,7 @@ export type DisclosureItemProps = {
 
 const DisclosureItem = ({children, className='', value}:DisclosureItemProps) => {
 
-    const disclosureItemRef = useRef(null)
+    const disclosureItemRef = useRef<HTMLDivElement>(null)
     const { activeItem, rootClass, focusItem } = useContext(DisclosureContext)
 
     const [itemValue, setItemValue] = useState<number>(value)

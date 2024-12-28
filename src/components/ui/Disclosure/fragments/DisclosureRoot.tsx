@@ -20,12 +20,12 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME)
 
         const [activeItem, setActiveItem] = useState<number | null>(null);
-        const [focusItem, setFocusItem] = useState(null);
+        const [focusItem, setFocusItem] = useState<HTMLElement | null>(null);
 
         const focusNextItem = () => {
-            const batches = getAllBatchElements(disclosureRef?.current)
+            const batches = getAllBatchElements(disclosureRef.current!)
             const nextItem = getNextBatchItem(batches)
-            setFocusItem(nextItem)
+            setFocusItem(nextItem as HTMLElement)
 
             if (nextItem){
                const button = nextItem.querySelector('button')
@@ -34,9 +34,9 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
         }
        
         const focusPrevItem = () => {
-            const batches = getAllBatchElements(disclosureRef?.current)
+            const batches = getAllBatchElements(disclosureRef?.current!)
             const prevItem = getPrevBatchItem(batches)
-            setFocusItem(prevItem)
+            setFocusItem(prevItem as HTMLElement)
           
             if (prevItem){
                const button = prevItem.querySelector('button')
@@ -64,6 +64,7 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
              ref={disclosureRef}
              role="region"
              aria-label={ariaLabel}
+             data-testid='disclosure-root'
             >
 
              {children}

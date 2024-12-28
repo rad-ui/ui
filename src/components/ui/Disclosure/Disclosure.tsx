@@ -6,7 +6,7 @@ import DisclosureContent from "./fragments/DisclosureContent";
 
 export type DisclosureProps = {
 
-     items:{title:string, content: string}[]
+     items:{title:string, content: React.ReactNode}[]
 }
 
 const Disclosure = ({items}:DisclosureProps) => {
