@@ -22,7 +22,7 @@ const AvatarDocs = () => {
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 
                     <Card className="bg-gray-50" style={{ display: "flex", gap: 20 }}>
-                        <Tooltip content="Tooltip content">
+                        <Tooltip label="Tooltip content">
                              <Text className="text-gray-950">Hello Tooltip. Hover Me!</Text>
                         </Tooltip>
                     </Card>

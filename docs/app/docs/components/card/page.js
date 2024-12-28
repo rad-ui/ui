@@ -16,13 +16,13 @@ const CardDocs = () => {
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 <Card data-accent-color="green" className="bg-gray-50 text-gray-950 flex items-center space-x-2">
-                    <Avatar fallback="PK" />
+                    <Avatar fallback="PP" />
                     <div>
                         <div className="font-medium">
-                            Peter Kowalsky
+                            Peter Parker
                         </div>
                         <div className="text-xs text-gray-800">
-                            Content Engineer
+                            Biochemist
                         </div>
                     </div>
                 </Card>
