@@ -27,7 +27,7 @@ const VisuallyHiddenDocs = () => {
         <Documentation currentPage={PAGE_NAME} title='Visually Hidden' description={`Use these helpers to visually hide elements but keep them accessible to assistive technologies.`}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 <div>
-                <VisuallyHidden asChild>
+                <VisuallyHidden asChild style={{display: "none"}}>
                     <span>This is a visually hidden text</span>
                 </VisuallyHidden>
                 </div>
