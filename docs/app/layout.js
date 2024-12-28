@@ -16,9 +16,9 @@ export const metadata = {
   description: 'Rad UI is a modern React UI Library for accessible and fast web applications',
 }
 
-export default function RootLayout({ children, ...props }) {
+export default async function RootLayout({ children, ...props }) {
 
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const darkModeSsrValue = cookieStore.get('darkMode')?.value || false
 
   return (

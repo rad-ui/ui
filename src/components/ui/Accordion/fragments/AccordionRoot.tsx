@@ -12,15 +12,16 @@ export type AccordionRootProps = {
 }
 
 const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
-    const accordionRef = useRef(null);
+    const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [activeItem, setActiveItem] = useState(null); // keeps track of the active item, stores the
-    const [focusItem, setFocusItem] = useState(null); // stores the id of the item that should be focused
+    const [activeItem, setActiveItem] = useState<number | null>(null);
+    const [focusItem, setFocusItem] = useState<Element | null>(null); // stores the id of the item that should be focused
 
     useEffect(() => {}, []);
 
     const focusNextItem = () => {
+        if (!accordionRef.current) return;
         const batches = getAllBatchElements(accordionRef?.current);
         const nextItem = getNextBatchItem(batches);
         setFocusItem(nextItem);
@@ -32,6 +33,7 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
     };
 
     const focusPrevItem = () => {
+        if (!accordionRef.current) return;
         const batches = getAllBatchElements(accordionRef?.current);
         const prevItem = getPrevBatchItem(batches);
         setFocusItem(prevItem);

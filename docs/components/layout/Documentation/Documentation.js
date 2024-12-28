@@ -34,7 +34,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
             {children}
         </div>
         <Separator />
-        <div className='flex justify-between'>
+        <div className='flex justify-between py-8'>
             <div>
                 {previous && <span className='flex items-center space-x-2'><Link className="flex items-center space-x-2" href={`${previous?.url}`}><LeftArrow /> <span> {previous?.basic_title}</span></Link></span>}
             </div>

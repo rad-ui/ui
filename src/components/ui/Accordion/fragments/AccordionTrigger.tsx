@@ -15,17 +15,17 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
     const { setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem } = useContext(AccordionContext);
     const { itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent } = useContext(AccordionItemContext);
 
-    const onClickHandler = () => {
+    const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (activeItem === itemValue) {
             setActiveItem(null);
         } else if (activeItem !== itemValue) {
             setActiveItem(itemValue);
-            handleClickEvent();
+            handleClickEvent(e);
         }
     };
 
-    const onFocusHandler = () => {
-        handleFocusEvent();
+    const onFocusHandler = (e: React.FocusEvent<HTMLButtonElement>) => {
+        handleFocusEvent(e);
     };
 
     return (

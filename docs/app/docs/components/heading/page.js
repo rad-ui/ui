@@ -14,7 +14,7 @@ const AvatarDocs = () => {
             Headings are used to display titles and subtitles.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <div className='text-gray-50 p-5 space-y-1'>
+                <div className='text-gray-1000 p-5 space-y-1'>
                     <Heading>Heading 1</Heading>
                     <Heading as="h2">Heading 2</Heading>
                     <Heading as="h3">Heading 3</Heading>

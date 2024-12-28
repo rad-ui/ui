@@ -1,71 +1,137 @@
-import React, { useState } from 'react';
-import { Meta } from '@storybook/react';
-import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import Collapsible from '~/components/ui/Collapsible/Collapsible';
-import Button from '~/components/ui/Button/Button';
+import { Meta } from "@storybook/react";
+import React, { useState } from "react";
+import SandboxEditor from "~/components/tools/SandboxEditor/SandboxEditor";
+import Collapsible from "~/components/ui/Collapsible/Collapsible";
+import Button from "../../Button/Button";
+import CollapsibleItem from "../fragments/CollapsibleItem";
 
-const placeholderText = ['“One of the penalties for refusing to participate in politics is that you end up being governed by your inferiors.“ – Plato',
-    '“The superior man understands what is right; the inferior man understands what will sell.” – Confucius',
-    '“There are no secrets on the internet.” – Paul Babicki'];
+const Items = [
+  {
+    content:
+      "“One of the penalties for refusing to participate in politics is that you end up being governed by your inferiors.“ – Plato",
+  },
+  {
+    content:
+      "“The superior man understands what is right; the inferior man understands what will sell.” – Confucius",
+  },
+  {
+    content: "“There are no secrets on the internet.” – Paul Babicki",
+  },
+];
 
 const meta: Meta<typeof Collapsible> = {
-    component: Collapsible,
-    title: 'WIP/Collapsible'
+  component: Collapsible,
+  title: "WIP/Collapsible",
 };
 
 export default meta;
 
 export const Default = () => {
-    return (<section>
-        <SandboxEditor className=''>
-            <Collapsible>
-                <div className='grid gap-4 border-2 border-zinc-200 p-2'>
-                    {placeholderText.map((text) =>
-                        <p key={text}> {text} </p>
-                    )}
-                </div>
-            </Collapsible>
-        </SandboxEditor>
-    </section>
+  const DefaultValue = () => {
+    return <CollapsibleItem>{Items[0].content}</CollapsibleItem>;
+  };
+
+  const CollapsibleContent = () => {
+    return (
+      <>
+        {Items.map((item, index) => (
+          <CollapsibleItem key={index}>{item.content}</CollapsibleItem>
+        ))}
+      </>
     );
+  };
+  return (
+    <section>
+      <SandboxEditor className="">
+        <Collapsible collapsibleContent={<CollapsibleContent />} disabled><DefaultValue /></Collapsible>
+      </SandboxEditor>
+    </section>
+  );
 };
 
 export const WithTitle = () => {
-    return (<section>
-        <SandboxEditor className=''>
-            <Collapsible title='Hello World'>
-                <div className='grid gap-4 border-2 border-zinc-200'>
-                    {placeholderText.map((text) =>
-                        <p key={text}> {text} </p>
-                    )}
-                </div>
-            </Collapsible>
-        </SandboxEditor>
-    </section>
+  const DefaultValue = () => {
+    return <CollapsibleItem>{Items[0].content}</CollapsibleItem>;
+  };
+
+  const CollapsibleContent = () => {
+    return (
+      <>
+        {Items.map((item, index) => (
+          <CollapsibleItem key={index}>{item.content}</CollapsibleItem>
+        ))}
+      </>
     );
+  };
+  return (
+    <section>
+      <SandboxEditor className="">
+        <Collapsible collapsibleContent={<CollapsibleContent />} title="Quote" disabled>
+          <DefaultValue />
+        </Collapsible>
+      </SandboxEditor>
+    </section>
+  );
 };
 
 export const ExternalTrigger = () => {
-    const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
 
-    const toggleHidden = () => setOpen((p) => !p);
+  const toggleHidden = () => setOpen((p) => !p);
 
-    return (<section>
-        <SandboxEditor className=''>
-            <Collapsible
-                title='Quotes'
-                open={open}
-                trigger={<Button onClick={toggleHidden}>{open ? 'OPEN' : 'CLOSE'}</Button>}
-            >
+  const DefaultValue = () => {
+    return <CollapsibleItem>{Items[0].content}</CollapsibleItem>;
+  }
 
-                <div className='grid gap-4 border-2 border-zinc-200'>
-                    {placeholderText.map((text) =>
-                        <p key={text}> {text} </p>
-                    )}
-                </div>
+  const CollapsibleContent = () => {
+    return (
+      <>
+        {Items.map((item, index) => (
+          <CollapsibleItem key={index}>{item.content}</CollapsibleItem>
+        ))}
+      </>
+    )
+  }
 
-            </Collapsible>
-        </SandboxEditor>
+  return (
+    <section>
+      <SandboxEditor className="">
+        <Collapsible
+          open={open}
+          onOpenChange={setOpen}
+          title="Quote"
+          trigger={
+            <Button style={{ margin: "0" }}>{open ? "CLOSE" : "OPEN"}</Button>
+          }
+          collapsibleContent={<CollapsibleContent />}
+        >
+          <DefaultValue />
+        </Collapsible>
+      </SandboxEditor>
     </section>
-    );
+  );
 };
+
+
+export const CustomTrigger = () => {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <section>
+      <SandboxEditor className="">
+        <Collapsible.Root open={open} onOpenChange={setOpen}>
+        {/* Heading & Trigger*/}
+          <Collapsible.Header title="Composable">
+            <Collapsible.Trigger>
+              <Button style={{ margin: "0" }}>{open ? "CLOSE" : "OPEN"}</Button>
+            </Collapsible.Trigger>
+          </Collapsible.Header>
+          {/* Default Value */}
+          <Collapsible.Item>{Items[0].content}</Collapsible.Item>
+          {/* Collapsible Content */}
+          <Collapsible.Content>{Items.map((item) => item != Items[0] && <CollapsibleItem>{item.content}</CollapsibleItem>)}</Collapsible.Content>
+        </Collapsible.Root>
+      </SandboxEditor>
+    </section>
+  );
+}

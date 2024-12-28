@@ -7,11 +7,12 @@ export type AccordionItemProps = {
     children: React.ReactNode;
     className?: string;
     value?: number;
+    setItemValue?: (value: number) => void;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', ...props }) => {
-    const accordionItemRef = useRef(null);
-    const [itemValue, setItemValue] = useState(value);
+    const accordionItemRef = useRef<HTMLDivElement>(null);
+    const [itemValue, setItemValue] = useState(value ?? 0);
     const { rootClass, activeItem, focusItem } = useContext(AccordionContext);
 
     const [isOpen, setIsOpen] = useState(itemValue === activeItem);
@@ -39,7 +40,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
         }
     };
 
-    const handleBlurEvent = (e) => {
+    const handleBlurEvent = (e: any) => {
         // if clicked outside of the accordion, set activeItem to null
         const elem = accordionItemRef?.current;
 
