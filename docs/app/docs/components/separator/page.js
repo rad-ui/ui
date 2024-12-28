@@ -15,12 +15,12 @@ const AvatarDocs = () => {
               Separator is used to separate content.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <div className='text-gray-50 font-normal p-5 space-y-1'>
+                <div className='text-gray-1000 font-normal p-5 space-y-1'>
                     <div>
                         <Text>Welcome to Rad UI</Text>
                     </div>
                     <Separator />
-                    <div className='flex' style={{ height: "20px" }}>
+                    <div className='flex'>
                         <Text>Modern</Text>
                         <Separator orientation="vertical" />
                         <Text>Accessible</Text>
