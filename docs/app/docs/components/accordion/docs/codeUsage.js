@@ -1,81 +1,25 @@
+import fs from 'fs';
+import path from 'path';
+import AccordionExample from './example_1';
+
+// Read the source code of the example file
+const example_1_SourceCode = fs.readFileSync(
+    path.join(process.cwd(), '/app/docs/components/accordion/docs/example_1.tsx'),
+    'utf8'
+);
+
+const path_to_scss = path.join(process.cwd(), '../styles/themes/components/accordion.scss');
+const scss_SourceCode = fs.readFileSync(
+    path_to_scss,
+    'utf8'
+);
+
 const code = {
     javascript: {
-        code: `
-import Accordion from "@radui/ui/Accordion";
-
-let items = [
-  {
-    title: "React",
-    content: "React is a JavaScript library for building user interfaces."
-  },
-  {
-    title: "Angular",
-    content: "Angular is a platform and framework for building single-page client applications using HTML and TypeScript."
-  },
-  {
-    title: "Vue",
-    content: "Vue.js is a progressive framework for building user interfaces."
-  }
-]   
-
-export const AccordionExample = () => ( 
-  <div style={{ width: "400px" }}>
-    <Accordion items={items} />
-  </div>
-)
-`
+        code: example_1_SourceCode
     },
     scss: {
-        code: `.rad-ui-accordion-root{
-            width: 100%;
-            border: 1px solid var(--rad-ui-color-gray-1000);
-            border-radius: 4px;
-            overflow: hidden;
-        
-        
-        
-            .rad-ui-accordion-item {
-                background-color: var(--rad-ui-color-gray-50);
-                // not last child
-                &:not(:last-child){
-                    border-bottom: 1px solid var(--rad-ui-color-gray-1000);
-                }
-        
-                
-                &:focus{
-                    outline: none;
-                    border: none;
-                    color:black;
-                }
-                &:focus-within{
-                    color: var(--rad-ui-color-gray-1000);
-                }
-        
-                .rad-ui-accordion-trigger{
-                    width: 100%;
-                    text-align: left;
-                    padding:16px;
-                    font-size: 1em;
-                    font-weight: 600;
-                    color: var(--rad-ui-color-gray-1000);
-                    background-color: var(--rad-ui-color-accent-100);
-        
-                    &:focus{
-                        outline: none;
-                        color: var(--rad-ui-color-accent-900);
-                    
-                    }
-                }
-        
-                .rad-ui-accordion-content {
-                    padding: 16px;
-                    font-size: 1em;
-                    background-color: var(--rad-ui-color-gray-100);
-                    color: var(--rad-ui-color-gray-1000);
-                    border-top: 1px solid var(--rad-ui-color-gray-1000);
-                }
-            }
-        }`
+        code: scss_SourceCode
     }
 };
 
