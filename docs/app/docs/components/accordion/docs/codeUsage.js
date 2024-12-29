@@ -3,11 +3,14 @@ import path from 'path';
 import AccordionExample from './example_1';
 import Kbd from '@radui/ui/Kbd';
 import Text from '@radui/ui/Text';
-import { getComponentScssSourceCode, getComponentJsxSourceCode } from '@/utils/parseSourceCode';
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
-const example_1_SourceCode = getComponentJsxSourceCode('accordion/docs/example_1.tsx');
-const scss_SourceCode = getComponentScssSourceCode('accordion');
-const anatomy_SourceCode = getComponentJsxSourceCode('accordion/docs/accordion_anatomy.tsx');
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/example_1.tsx');
+// console.log(example_1_SourceCode);
+
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/accordion.scss');
+const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/accordion_anatomy.tsx');
 
 export const code = {
     javascript: {

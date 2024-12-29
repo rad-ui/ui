@@ -3,42 +3,69 @@ import path from 'path';
 
 
 const getProjectRoot = () => {
-    // For Vercel deployment
-    if (process.env.ENVIRONMENT === 'VERCEL') {
-        return path.join(process.cwd(), '.next/server/app');
-    }
     // For local development
-    return process.cwd();
-}
-
-
-export const getComponentScssSourceCode = (componentName: string) => {
-    // This function is only meant to be used for scss files inside the styles/themes/components folder
-    try {   
-        const component_name = componentName.toLowerCase();
-        const path_to_scss = path.join(getProjectRoot(), '../styles/themes/components', `${component_name}.scss`);
-        const scss_SourceCode = fs.readFileSync(
-        path_to_scss,
-        'utf8'
-    );
-    return scss_SourceCode;
-    } catch (error) {
-        console.error('Error reading SCSS file: ', componentName, error);
-        return null;
+    if(process.env.ENVIRONMENT === 'VERCEL') {
+        return "https://raw.githubusercontent.com/rad-ui/ui/refs/heads/main/";
     }
+    const localRootPath = process.cwd()+'/../';
+    return localRootPath;
 }
 
-export const getComponentJsxSourceCode = (componentPath: string) => {
-    // This function is only meant to be used for jsx files inside the app/docs/components folder
-    const path_to_jsx = path.join(
-        getProjectRoot(),
-        process.env.ENVIRONMENT === 'VERCEL' ? 'docs/components' : 'app/docs/components',
-        componentPath
+
+
+export const getSourceCodeFromPath = async (sourcePath: string) => {
+    // This is used for development purposes
+    // If you're rendering, say for example, ROOT + docs/app/docs/components/accordion/docs/example_1.tsx, the path should be
+    // docs/app/docs/components/accordion/docs/example_1.tsx 
+    // ** Where ROOT is the root of the repo
+
+
+    // Check if its local DEV server or on ENVIRONMENT = "VERCEL"
+    // If its local DEV server, then the path is automatically set here in this function
+    // If vercel, this returns an response made from an API call to github
+    // We just need to be consistent with the path
+
+    if(process.env.ENVIRONMENT === 'VERCEL') {
+        // Return the response from github
+        return readGithubSourceCode(sourcePath);
+    }
+
+    // If its local DEV server, then the path is automatically set here in this function
+    const projectRoot = await getProjectRoot();
+    const finalSourcePath = path.join(
+        projectRoot,
+        sourcePath
     );
-    
-    const jsx_SourceCode = fs.readFileSync(
-        path_to_jsx,
+    // console.log('PATH: ', finalSourcePath);
+
+    const LOG = false;
+
+    if(LOG) {
+        // if(process.env.ENVIRONMENT === 'VERCEL') {
+        //     console.log('VERCEL ENV PATH DETECTED: WILL RETURN GITHUB SOURCE CODE PATH');
+        // } else {
+        //     console.log('LOCAL ENV PATH DETECTED: WILL RETURN LOCAL SOURCE CODE PATH');
+        // }
+
+        console.log('PROJECT ROOT: ', projectRoot);
+        console.log('SOURCE PATH: ', sourcePath);
+        console.log('PATH TO JSX: ', finalSourcePath);
+    }
+
+    const sourceCode = fs.readFileSync(
+        finalSourcePath,
         'utf8'
     );
-    return jsx_SourceCode;
+
+
+    return sourceCode;
+}
+
+
+const readGithubSourceCode = async (componentPath: string) => {
+    const root_Path = getProjectRoot(); 
+    const fullPath = `${root_Path}${componentPath}`;
+    const response = await fetch(fullPath);
+    const sourceCode = await response.text();
+    return sourceCode;
 }
