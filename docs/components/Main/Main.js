@@ -17,7 +17,7 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
 
     return (
         <Theme isDark={darkMode} >
-            <div className={`min-h-screen flex flex-col ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-white'}`} data-accent-color="red">
+            <div className={`min-h-screen flex flex-col overflow-hidden ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-white'}`} data-accent-color="red">
                 {/* Navbar start */}
                 <NavBar cookies={cookies} darkMode={darkMode} setDarkMode={setDarkMode} setCookie={setCookie} />
 

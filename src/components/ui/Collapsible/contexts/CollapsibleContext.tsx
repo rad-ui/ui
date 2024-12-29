@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction } from 'react';
 
 type CollapsibleContextType = {
   rootClass?: string;
@@ -9,11 +9,11 @@ type CollapsibleContextType = {
 };
 
 const defaultContext: CollapsibleContextType = {
-  rootClass: "",
-  open: false,
-  onOpenChange: () => {},
-  disabled: false,
-  defaultOpen: false,
+    rootClass: '',
+    open: false,
+    onOpenChange: () => {},
+    disabled: false,
+    defaultOpen: false
 };
 
 export const CollapsibleContext =
