@@ -52,6 +52,16 @@ const DocsTable = ({ children, columns = [], data = [] }) => {
     </div>;
 };
 
+const Anatomy = ({ code, language = 'jsx' }) => {
+    return <div className='mt-10'>
+        <BookMarkLink id="anatomy"> <Heading as="h2" className="mb-2">Anatomy</Heading> </BookMarkLink>
+        <Text className="mb-4 text-gray-950 font-light">Import all parts of the component and piece them together</Text>
+        <CodeBlock className='mb-10' language={language}>
+            {code}
+        </CodeBlock>
+    </div>;
+};
+
 const Section = ({ title = '', children }) => {
     return <div>
         <Heading as="h6" className="mb-2 mt-8">{title}</Heading>
@@ -72,11 +82,23 @@ const UnderConstruction = ({ children }) => {
     </div>;
 };
 
+const KeyboardShortcuts = ({ keyboardShortcuts }) => {
+    return <div className='mt-10'>
+        <BookMarkLink id="keyboard-shortcuts"> <Heading as="h2" className="mb-2">Keyboard Shortcuts</Heading> </BookMarkLink>
+        <div className='mb-10'>
+        <Table columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} >
+        </Table>
+        </div>
+    </div>;
+};
+
 Documentation.UnderConstruction = UnderConstruction;
+Documentation.Anatomy = Anatomy;
 Documentation.Section = Section;
 Documentation.ComponentHero = ComponentHero;
 Documentation.ComponentFeatures = ComponentFeatures;
 Documentation.CodeBlock = CodeBlock;
 Documentation.Table = DocsTable;
+Documentation.KeyboardShortcuts = KeyboardShortcuts;
 
 export default Documentation;
