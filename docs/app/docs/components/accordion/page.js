@@ -6,7 +6,7 @@ import SEO from "../../docsIndex"
 export const metadata = SEO.getMetadata(PAGE_NAME)
 import AccordionExample from "./docs/example_1"
 import AccordionAnatomy from "./docs/accordion_anatomy"
-import {code, anatomy} from "./docs/codeUsage"
+import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
 
 const AccordionDocs = () => {
     return <div>
@@ -18,10 +18,9 @@ const AccordionDocs = () => {
                    <AccordionExample />
             </Documentation.ComponentHero>
             {/* Component Anatomy */}
-            <Documentation.Anatomy code={anatomy.code} language='jsx'>
-                
-            </Documentation.Anatomy>
+            <Documentation.Anatomy code={anatomy.code}/>
 
+            <Documentation.KeyboardShortcuts keyboardShortcuts={keyboardShortcuts}/>
         </Documentation>
     </div>
 }
