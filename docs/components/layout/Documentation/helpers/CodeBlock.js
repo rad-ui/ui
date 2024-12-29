@@ -5,6 +5,8 @@ import jsx from 'refractor/lang/jsx';
 import scss from 'refractor/lang/scss';  // Add SCSS import
 import Copy from '@/components/Copy';
 
+import Tooltip from '@radui/ui/Tooltip'
+
 refractor.register(js);
 refractor.register(jsx);
 refractor.register(scss);
@@ -39,7 +41,9 @@ const CodeBlock = ({ children, language = 'jsx' }) => {
         <pre className="relative">
             <code className={`language-${language} whitespace-pre-wrap`} style={{ wordBreak: 'break-word' }}>{code}</code>
            <span className="absolute top-2 right-2">
-           <Copy content={copyContent} />
+           <Tooltip label="Copy" placement="bottom">
+                <Copy content={copyContent} />
+            </Tooltip>
            </span>
         </pre>
     );

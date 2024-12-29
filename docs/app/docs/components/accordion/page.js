@@ -1,43 +1,26 @@
 const PAGE_NAME = 'ACCORDION_DOCS'
 
-
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Accordion from "@radui/ui/Accordion"
 import SEO from "../../docsIndex"
 export const metadata = SEO.getMetadata(PAGE_NAME)
-
-
-import codeUsage from "./docs/codeUsage"
-
+import AccordionExample from "./docs/example_1"
+import AccordionAnatomy from "./docs/accordion_anatomy"
+import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
 
 const AccordionDocs = () => {
-    let items = [
-        {
-            title: "React",
-            content: "React is a JavaScript library for building user interfaces."
-        },
-        {
-            title: "Angular",
-            content: "Angular is a platform and framework for building single-page client applications using HTML and TypeScript."
-        },
-        {
-            title: "Vue",
-            content: "Vue.js is a progressive framework for building user interfaces."
-        },
-
-
-    ]
     return <div>
         <Documentation currentPage={PAGE_NAME} title={`Accordion`}
             description='Accordions are used to toggle the visibility of content. They are used in the sidebar, and in the chat.'
         >
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-               <div style={{width:"400px"}}>
-                    <Accordion items={items}>
-                    </Accordion>
-               </div>
+            {/* Component Hero */}
+            <Documentation.ComponentHero codeUsage={code}>
+                   <AccordionExample />
             </Documentation.ComponentHero>
+            {/* Component Anatomy */}
+            <Documentation.Anatomy code={anatomy.code}/>
 
+            <Documentation.KeyboardShortcuts keyboardShortcuts={keyboardShortcuts}/>
         </Documentation>
     </div>
 }
