@@ -3,7 +3,7 @@ const code = {
         code: `import Strong from '@radui/ui/Strong'
 
 const StrongExample = () => (
-    <div >
+    <div>
             This is a very <Strong>Strong</Strong> word
     </div>
 )`

@@ -14,7 +14,7 @@ const StrongDocs = () => {
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
             <div className='text-gray-1000'>
-            This is a very <Strong >Strong</Strong> word
+            This is a very <Strong>Strong</Strong> word
             </div>
             </Documentation.ComponentHero>
 
