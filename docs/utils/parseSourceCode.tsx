@@ -30,7 +30,12 @@ export const getComponentScssSourceCode = (componentName: string) => {
 
 export const getComponentJsxSourceCode = (componentPath: string) => {
     // This function is only meant to be used for jsx files inside the app/docs/components folder
-    const path_to_jsx = path.join(getProjectRoot(), 'app/docs/components', componentPath);
+    const path_to_jsx = path.join(
+        getProjectRoot(),
+        process.env.ENVIRONMENT === 'VERCEL' ? 'docs/components' : 'app/docs/components',
+        componentPath
+    );
+    
     const jsx_SourceCode = fs.readFileSync(
         path_to_jsx,
         'utf8'
