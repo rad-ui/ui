@@ -105,6 +105,10 @@ const sections = [
                 title: "Switch",
                 path: "/docs/components/switch"
             },
+            {
+                title: "Strong",
+                path: "/docs/components/strong"
+            },
             // {
             //     title:"Checkbox",
             //     path:"/docs/components/checkbox"
@@ -158,6 +162,10 @@ const sections = [
             {
                 title: "Tooltip",
                 path: "/docs/components/tooltip"
+            },
+            {
+                title: "VisuallyHidden",
+                path: "/docs/components/visually-hidden"
             }
         ]
     },
