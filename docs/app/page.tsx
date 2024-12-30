@@ -19,9 +19,9 @@ import TrafficAnalyticsDemo from './landingComponents/TrafficAnalyticsDemo'
 
 export default function Home() {
   return (
-    <div className='min-h-screen'>
+    <div className='h-screen'>
       <LandingBgPattern />
-      <div className='lg:p-10 h-full overflow-hidden'>
+      <div className='lg:p-10 flex flex-col overflow-scroll'>
         <HeroSection />
         {/*  */}
         <div className='text-gray-1000 p-10 mt-10 flex space-x-4 w-full overflow-x-auto relative z-10'>

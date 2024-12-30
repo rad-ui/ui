@@ -12,7 +12,7 @@ const Layout = ({ children }: any) => {
             <div className='flex-none h-full flex flex-col'>
                 <Navigation />
             </div>
-            <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-auto pt-2'>
+            <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-auto pt-[120px]'>
                 <Callout color="green">
                     <div className='flex-none'>
                         <InfoIcon />
@@ -21,7 +21,7 @@ const Layout = ({ children }: any) => {
                         Rad UI is still under active development. You are free to use it in your projects, but expect breaking changes.  If you'd like to contribute to Rad UI, please check out <Link href="/docs/contributing/before-you-start">Getting Started</Link>
                     </div>
                 </Callout>
-                <div className='mt-2'>
+                <div className='mt-2' id="docs-content">
                     {children}
                 </div>
             </div>
