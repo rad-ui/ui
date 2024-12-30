@@ -13,8 +13,8 @@ const StrongDocs = () => {
             Strong is used to define text with strong importance in bold.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-            <div className='mt-5'>
-            This is a very <Strong className='text-gray-1000'>Strong</Strong> word
+            <div className='text-gray-1000'>
+            This is a very <Strong>Strong</Strong> word
             </div>
             </Documentation.ComponentHero>
 
