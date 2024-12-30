@@ -53,7 +53,7 @@ describe('AvatarGroup', () => {
             { fallback: false, src: 'https://i.pravatar.cc/300?img=3', alt: 'Avatar 3' },
         ];
         render(<AvatarGroup avatars={brokenFallBack} />);
-        avatars.forEach(avatar => {
+        brokenFallBack.forEach(avatar => {
             const img = screen.getByAltText(avatar.alt);
             expect(img).toHaveAttribute('src', avatar.src);
         });
@@ -65,7 +65,7 @@ describe('AvatarGroup', () => {
             const img = screen.getByAltText(avatar.alt);
             fireEvent.error(img);
             // Assert that the fallback text is rendered 
-            expect(screen.getByText('A')).toBeInTheDocument();  
+            expect(screen.getByText(avatar.fallback)).toBeInTheDocument();
         });
     }); 
 });
