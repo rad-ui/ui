@@ -1,6 +1,6 @@
 const code = {
     javascript: {
-        code: `import AspectRatio from "@radui/ui/AspectRatio"`
+        code: `import AspectRatio from "@radui/ui/AspectRatio"
 
 const AspectRatioExample = () => (
     <AspectRatio ratio='16/9'>

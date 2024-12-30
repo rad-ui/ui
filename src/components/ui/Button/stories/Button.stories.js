@@ -6,7 +6,7 @@ const ArrowIcon = ({ className }) => {
 };
 
 const BUTTON_TEXT = 'Proceed';
-const Variants = ['solid', 'outline', 'soft', 'ghost'];
+const Variants = ['solid', 'soft', 'outline', 'ghost'];
 const Sizes = ['small', 'medium', 'large', 'x-large'];
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -48,12 +48,18 @@ export const Size = (args) => {
         <div className='mt-4 mb-2'>
             <p className='text-gray-950'>Button Size</p>
         </div>
-        <div className='flex'>
+        <div className=''>
 
-            {Sizes.map((size, index) => (
-                <Button key={index} size={size} >
-                    <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
-                </Button>
+            {Variants.map((variant, index) => (
+                <div key={index} className='mb-10'>
+                    <span key={index} className="inline-flex items-start space-x-2">
+                        {Sizes.map((size, index) => {
+                            return <Button key={index} size={size} variant={variant} >
+                                <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
+                            </Button>;
+                        })}
+                    </span>
+                </div>
             ))}
 
         </div>

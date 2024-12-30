@@ -5,22 +5,21 @@ import { CollapsibleContext } from '../contexts/CollapsibleContext';
 type CollapsibleContentProps = {
     children: React.ReactNode;
     className?: string;
-    
+
 }
 
-const CollapsibleContent = ({children,className=''}:CollapsibleContentProps) => {
-  
-    const {rootClass,open} = useContext(CollapsibleContext)
-  
+const CollapsibleContent = ({ children, className = '' }:CollapsibleContentProps) => {
+    const { rootClass, open } = useContext(CollapsibleContext);
+
     return (
-      <div
-        className={clsx(`${rootClass}-content`, className)}
-        aria-hidden={!open}
-        data-state={open? "expanded" : "collapsed"}
-      >
-        {open && children}
-      </div>
+        <div
+            className={clsx(`${rootClass}-content`, className)}
+            aria-hidden={!open}
+            data-state={open ? 'expanded' : 'collapsed'}
+        >
+            {open && children}
+        </div>
     );
-}
+};
 
-export default CollapsibleContent
+export default CollapsibleContent;
