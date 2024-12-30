@@ -2,6 +2,9 @@
 import CodeBlock from '../CodeBlock';
 import { useState } from 'react'
 import Tabs from "@radui/ui/Tabs"
+import Heading from "@radui/ui/Heading"
+import { BookMarkLink } from '@/components/layout/Documentation/utils';
+
 
 const TabContainer = ({ children }) => {
     return <div className='px-2'>
@@ -29,11 +32,12 @@ const initializeTabs = (codeUsage) => {
 }
 
 
-const ComponentHero = ({ children, codeUsage = {} }) => {
+const ComponentHero = ({ children, title='', codeUsage = {} }) => {
     const [activeTab, setActiveTab] = useState('tab1')
     const data = initializeTabs(codeUsage)
 
     return <div>
+        {title &&  <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
         <div className='bg-gray-200 border border-gray-500 shadow p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
             {children}
         </div>

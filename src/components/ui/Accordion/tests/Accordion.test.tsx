@@ -5,7 +5,7 @@ import Accordion, { AccordionProps } from '../Accordion';
 const defaultItems: AccordionProps['items'] = [
     { title: 'Item 1', content: <div>Content 1</div> },
     { title: 'Item 2', content: <div>Content 2</div> },
-    { title: 'Item 3', content: <div>Content 3</div> },
+    { title: 'Item 3', content: <div>Content 3</div> }
 ];
 
 describe('Accordion Component', () => {
@@ -46,7 +46,7 @@ describe('Accordion Component', () => {
         const item1Trigger = screen.getByText('Item 1');
         item1Trigger.focus();
         fireEvent.click(item1Trigger);
-        expect(screen.getByText("Content 1")).toBeInTheDocument();
+        expect(screen.getByText('Content 1')).toBeInTheDocument();
     });
 
     test('navigates to next item when down arrow is pressed', () => {

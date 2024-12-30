@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import AccordionExample from './example_1';
 import Kbd from '@radui/ui/Kbd';
 import Text from '@radui/ui/Text';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';

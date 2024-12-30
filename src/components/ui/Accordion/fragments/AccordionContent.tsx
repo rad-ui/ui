@@ -16,17 +16,18 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, ac
     const { itemValue } = useContext(AccordionItemContext);
 
     return (
-        itemValue !== activeItem ? null :
-        <div
-            className={clsx(`${rootClass}-content`, className)}
-            id={`content-${index}`}
-            role="region"
-            aria-labelledby={`section-${index}`}
+        itemValue !== activeItem
+            ? null
+            : <div
+                className={clsx(`${rootClass}-content`, className)}
+                id={`content-${index}`}
+                role="region"
+                aria-labelledby={`section-${index}`}
             >
 
-            {children}
+                {children}
 
-        </div>
+            </div>
     );
 };
 
