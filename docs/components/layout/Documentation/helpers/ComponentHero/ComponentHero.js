@@ -38,7 +38,7 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
 
     return <div>
         {title &&  <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
-        <div className='bg-gray-200 border border-gray-500 shadow p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
+        <div className='bg-gradient-to-r from-green-50 to-gray-200  border border-gray-500 shadow-md p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
             {children}
         </div>
         <div>

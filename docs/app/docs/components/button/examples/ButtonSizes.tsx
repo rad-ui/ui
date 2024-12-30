@@ -6,7 +6,7 @@ const ButtonSizes = () => {
     const variants = ['solid', 'soft', 'outline', 'ghost'];
     return <div className='flex flex-col gap-4'>
         {variants.map((variant, index) => {
-            return <div key={index} className='flex items-start gap-4'>
+            return <div key={index} className='flex items-center gap-4'>
                 {sizes.map((size, index) => {
                     return <Button key={index} size={size} variant={variant} >Click Me!</Button>
                 })}
