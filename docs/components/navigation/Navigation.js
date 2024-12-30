@@ -185,7 +185,7 @@ const Navigation = () => {
     // get path from ssr
     const pathname = usePathname();
 
-    return <div className='border-box px-1 overflow-y-auto hidden lg:block flex flex-col gap-4'>
+    return <div className='border-box px-1 overflow-y-auto lg:block flex flex-col pt-20'>
         <div className='flex-none' style={{ width: "240px" }}>
             {sections.map((section, i) => {
                 return <div key={i}>

@@ -9,7 +9,7 @@ const InfoIcon = () => {
 const Layout = ({ children }: any) => {
     return (
         <div data-accent-color="blue" className="lg:flex space-x-2 w-full h-screen overflow-hidden">
-            <div className='flex-none h-full flex flex-col gap-4'>
+            <div className='flex-none h-full flex flex-col'>
                 <Navigation />
             </div>
             <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-auto pt-2'>
