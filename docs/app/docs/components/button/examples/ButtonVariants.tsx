@@ -34,7 +34,7 @@ const ButtonVariants = () => {
       <div className="flex items-center gap-4">
         {buttonVariants.map((variant) => (
           <span key={variant}>
-            <Button variant={variant} color="green" className="space-x-2">
+            <Button variant={variant} className="space-x-2">
               <span>Click Me!</span>
               <Arrow />
             </Button>
