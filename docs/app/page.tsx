@@ -19,7 +19,7 @@ import TrafficAnalyticsDemo from './landingComponents/TrafficAnalyticsDemo'
 
 export default function Home() {
   return (
-    <div className='h-screen'>
+    <div className='h-screen overflow-scroll'>
       <LandingBgPattern />
       <div className='lg:p-10 flex flex-col overflow-scroll'>
         <HeroSection />

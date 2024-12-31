@@ -21,7 +21,7 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
                 {/* Navbar start */}
                 <NavBar cookies={cookies} darkMode={darkMode} setDarkMode={setDarkMode} setCookie={setCookie} />
                 {/* Navbar end */}
-                <div className='flex-1 absolute top-0 left-0 w-full h-screen'>
+                <div className='h-screen overflow-scroll'>
                     {children}
                 </div>
             </div>
