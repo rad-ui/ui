@@ -1,4 +1,4 @@
-const PAGE_NAME = 'ACCORDION_DOCS'
+const PAGE_NAME = 'AVATAR_GROUP_DOCS'
 import Documentation from "@/components/layout/Documentation/Documentation"
 import SEO from "../../docsIndex"
 export const metadata = SEO.getMetadata(PAGE_NAME)
