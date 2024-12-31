@@ -1,5 +1,3 @@
-import Kbd from '@radui/ui/Kbd';
-import Text from '@radui/ui/Text';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 const COMPONENT_FOLDER = 'avatar-group';
 const example_1_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/${COMPONENT_FOLDER}/docs/example_1.tsx`);
@@ -7,7 +5,7 @@ const example_1_SourceCode = await getSourceCodeFromPath(`docs/app/docs/componen
 
 
 const scss_SourceCode = await getSourceCodeFromPath(`styles/themes/components/${COMPONENT_FOLDER}.scss`);
-const anatomy_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/${COMPONENT_FOLDER}/docs/accordion_anatomy.tsx`);
+const anatomy_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/${COMPONENT_FOLDER}/docs/avatarGroup_anatomy.tsx`);
 
 export const code = {
     javascript: {
@@ -26,4 +24,4 @@ export const anatomy = {
     
 
 
-export default code
+export default code;

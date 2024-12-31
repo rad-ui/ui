@@ -1,14 +1,11 @@
 const PAGE_NAME = 'ACCORDION_DOCS'
-
 import Documentation from "@/components/layout/Documentation/Documentation"
-import Accordion from "@radui/ui/Accordion"
 import SEO from "../../docsIndex"
 export const metadata = SEO.getMetadata(PAGE_NAME)
-import AccordionExample from "./docs/example_1"
-import AccordionAnatomy from "./docs/accordion_anatomy"
-import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
+import {code, anatomy} from "./docs/codeUsage"
+import AvatarGroupExample from "./docs/example_1"
 
-const AccordionDocs = () => {
+const AvatarGroupDocs = () => {
     const columns = [
         {name: 'Prop', key: 'prop'},
         {name: 'Type', key: 'type'},
@@ -24,11 +21,11 @@ const AccordionDocs = () => {
     ];
     return <div>
         <Documentation currentPage={PAGE_NAME} title={`AvatarGroup`}
-            description=''
+            description='AvatarGroup are used to toggle the visibility of content. They are used in the sidebar, and in the chat.'
         >
             {/* Component Hero */}
             <Documentation.ComponentHero codeUsage={code}>
-                   <AccordionExample />
+                   <AvatarGroupExample/>
             </Documentation.ComponentHero>
             {/* Component Anatomy */}
             <Documentation.Anatomy code={anatomy.code}/>
@@ -42,4 +39,4 @@ const AccordionDocs = () => {
     </div>
 }
 
-export default AccordionDocs;
+export default AvatarGroupDocs;
