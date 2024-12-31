@@ -44,8 +44,14 @@ const sections = [
                 path: "/docs/components/avatar"
             },
             {
+                title: "AvatarGroup",
+                path: "/docs/components/avatar-group",
+                is_new:true
+            },
+            {
                 title: "AspectRatio",
-                path: "/docs/components/aspect-ratio"
+                path: "/docs/components/aspect-ratio",
+                is_new:true
             },
             {
                 title: "Badge",
@@ -107,7 +113,8 @@ const sections = [
             },
             {
                 title: "Strong",
-                path: "/docs/components/strong"
+                path: "/docs/components/strong",
+                is_new:true
             },
             // {
             //     title:"Checkbox",
@@ -165,7 +172,8 @@ const sections = [
             },
             {
                 title: "VisuallyHidden",
-                path: "/docs/components/visually-hidden"
+                path: "/docs/components/visually-hidden",
+                is_new:true
             }
         ]
     },
