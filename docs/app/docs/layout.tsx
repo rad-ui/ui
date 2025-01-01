@@ -12,16 +12,18 @@ const Layout = ({ children }: any) => {
             <div className='flex-none h-full flex flex-col'>
                 <Navigation />
             </div>
-            <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-auto pt-2'>
+            <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-scroll pt-2' id="docs-content">
                 <Callout color="green">
                     <div className='flex-none'>
                         <InfoIcon />
                     </div>
                     <div>
-                        Rad UI is still under active development. You are free to use it in your projects, but expect breaking changes.  If you'd like to contribute to Rad UI, please check out <Link href="/docs/contributing/before-you-start">Getting Started</Link>
+                        <div>
+                            Rad UI is under active development and looking for contributors to shape the future of the library. If you'd like to contribute to Rad UI, please check out <Link href="/docs/contributing/before-you-start">Getting Started</Link>
+                        </div>
                     </div>
                 </Callout>
-                <div className='mt-2' id="docs-content">
+                <div className='mt-2' >
                     {children}
                 </div>
             </div>

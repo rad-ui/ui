@@ -8,14 +8,15 @@ export const BookMarkLink = ({ children, id }) => {
     const sanitizedId = id.toLowerCase().replace(/[^a-z0-9-]/g, '-');
 
     const scrollToElement = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         const element = document.getElementById(sanitizedId);
         const offset = 240; // Adjust this value based on your header height
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - offset;
         const docsElement = document.querySelector('#docs-content');
-        console.log(docsElement);
-        docsElement.scrollTo({
+
+        element.scrollTo({
+            top: offsetPosition,
             behavior: 'smooth'
         });
 
