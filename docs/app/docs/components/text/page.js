@@ -13,7 +13,7 @@ const TextDocs = () => {
             Text is used to display customizable text content.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <div className='text-gray-50 p-5 space-y-1'>
+                <div className='text-gray-1000 p-5 space-y-1'>
                     <Text>This is an example of the Text component</Text>
                 </div>
             </Documentation.ComponentHero>

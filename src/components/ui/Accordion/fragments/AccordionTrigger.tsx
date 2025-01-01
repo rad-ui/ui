@@ -1,31 +1,31 @@
+import { clsx } from 'clsx';
 import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
-import { clsx } from 'clsx';
 
 type AccordionTriggerProps = {
   children: React.ReactNode;
   className?: string,
-  index: number,
-  activeIndex: number,
-  handleClick: (index: number) => void
+  index?: number,
+  activeIndex?: number,
+  handleClick?: (index: number) => void
 };
 
 const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
     const { setActiveItem, rootClass, focusNextItem, focusPrevItem, activeItem } = useContext(AccordionContext);
     const { itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent } = useContext(AccordionItemContext);
 
-    const onClickHandler = () => {
+    const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (activeItem === itemValue) {
             setActiveItem(null);
         } else if (activeItem !== itemValue) {
             setActiveItem(itemValue);
-            handleClickEvent();
+            handleClickEvent(e);
         }
     };
 
-    const onFocusHandler = () => {
-        handleFocusEvent();
+    const onFocusHandler = (e: React.FocusEvent<HTMLButtonElement>) => {
+        handleFocusEvent(e);
     };
 
     return (

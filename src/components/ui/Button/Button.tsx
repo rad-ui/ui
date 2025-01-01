@@ -9,19 +9,29 @@ const COMPONENT_NAME = 'Button';
 
 export type ButtonProps = {
     customRootClass?: string;
-    variant?: 'solid' | 'outline' | 'soft' | 'ghost';
-    size?: 'small' | 'medium' | 'large' | 'x-large';
+    variant?: string;
+    size?:string;
 } & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & PropsWithChildren
 
-const Button = ({ children, type = 'button', customRootClass = '', className = '', color, variant = 'solid', size = 'medium', ...props }: ButtonProps) => {
+const Button = ({ children, type = 'button', customRootClass = '', className = '', variant = '', size = '', ...props }: ButtonProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     // apply data attribute for accent color
     // apply attribute only if color is present
+    const data_attributes: Record<string, string> = {};
+
+    if (variant) {
+        data_attributes['data-button-variant'] = variant;
+    }
+
+    if (size) {
+        data_attributes['data-button-size'] = size;
+    }
 
     return (
         <ButtonPrimitive
             type={type}
-            className={clsx(rootClass, `button-${variant}`, className)} data-accent-color={color ?? undefined} data-size={size}
+            className={clsx(rootClass, className)}
+            {...data_attributes}
             {...props}
         >
             {children}

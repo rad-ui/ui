@@ -1,12 +1,9 @@
 "use client"
 import CodeBlock from '../CodeBlock';
-
 import { useState } from 'react'
-
-
-
 import Tabs from "@radui/ui/Tabs"
-
+import Heading from "@radui/ui/Heading"
+import { BookMarkLink } from '@/components/layout/Documentation/utils';
 
 
 const TabContainer = ({ children }) => {
@@ -17,15 +14,12 @@ const TabContainer = ({ children }) => {
 
 const initializeTabs = (codeUsage) => {
     const tabs = []
-
     for (const key in codeUsage) {
         if (Object.hasOwnProperty.call(codeUsage, key)) {
-            
             let language = key
             if(key === 'javascript') {
                 language = 'jsx'
             }
-
             const element = codeUsage[key];
             tabs.push({
                 label: key,
@@ -34,23 +28,19 @@ const initializeTabs = (codeUsage) => {
             })
         }
     }
-
     return tabs
-
-
-
 }
 
 
-const ComponentHero = ({ children, codeUsage = {} }) => {
+const ComponentHero = ({ children, title='', codeUsage = {} }) => {
     const [activeTab, setActiveTab] = useState('tab1')
     const data = initializeTabs(codeUsage)
 
     return <div>
-        <div className='bg-gradient-to-r from-indigo-900 to-purple-900 p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
+        {title &&  <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
+        <div className='bg-gradient-to-r from-green-50 to-gray-200  border border-gray-500 shadow-md p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
             {children}
         </div>
-
         <div>
             <Tabs tabs={data} />
         </div>

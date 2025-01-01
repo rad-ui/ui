@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update-rad": "npm update @radui/ui"
+    "update-rad": "npm i @radui/ui@latest"
   },
   "dependencies": {
-    "@radui/ui": "^0.0.25",
+    "@radui/ui": "^0.0.26",
     "@types/node": "20.5.9",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
