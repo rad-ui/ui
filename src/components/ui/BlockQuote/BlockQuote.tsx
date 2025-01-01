@@ -9,9 +9,9 @@ export type BlockQuoteProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;
-    props: Record<string, any>[]
+    props?: Record<string, any>[]
 }
-const BlockQuote = ({ children, customRootClass, className, ...props }: BlockQuoteProps) => {
+const BlockQuote = ({ children, customRootClass = '', className = '', ...props }: BlockQuoteProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return <blockquote className={clsx(rootClass, className)} {...props}>{children}</blockquote>;
