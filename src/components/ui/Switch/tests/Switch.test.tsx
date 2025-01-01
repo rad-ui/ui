@@ -24,7 +24,7 @@ describe('Switch Component', () => {
         const targetInput = container.querySelector('input');
         
         expect(targetInput).toBeTruthy();
-        expect(targetInput!.checked).toEqual(true);
+        expect(targetInput!).toBeChecked();
     });
 
     it('renders with user defined custom class', () => {
