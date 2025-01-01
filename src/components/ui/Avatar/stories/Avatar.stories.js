@@ -13,7 +13,7 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const withSrc = {
     args: {
-        src: 'https://i.pravatar.cc/64',
+        src: 'https://i.pravatar.cc/150?img=60',
         fallback: 'PK'
     }
 };
@@ -33,7 +33,7 @@ export const withBrokenSrc = {
 
 export const withAlt = {
     args: {
-        src: 'https://i.pravatar.cc/64',
+        src: 'https://i.pravatar.cc/150?img=60',
         alt: 'alternative text',
         fallback: 'RU'
     }
