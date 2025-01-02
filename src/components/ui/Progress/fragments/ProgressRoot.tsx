@@ -1,12 +1,12 @@
 'use client';
-import React from 'react';
+import React, { type PropsWithChildren } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { ProgressContext } from '../contexts/ProgressContext';
 
 import { ProgressProps, COMPONENT_NAME } from '../Progress';
 
-interface ProgressRootProps extends Partial<ProgressProps> {}
+interface ProgressRootProps extends Partial<ProgressProps>, PropsWithChildren {}
 
 const ProgressRoot = ({ value = 0, minValue = 0, maxValue = 100, children, customRootClass }: ProgressRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);

@@ -1,11 +1,11 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React from 'react';
 
 import ProgressRoot from './fragments/ProgressRoot';
 import ProgressIndicator from './fragments/ProgressIndicator';
 
 export const COMPONENT_NAME = 'Progress';
 
-export interface ProgressProps extends PropsWithChildren {
+export interface ProgressProps {
     value: number;
     minValue?: number,
     maxValue?: number;

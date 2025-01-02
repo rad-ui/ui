@@ -1,16 +1,13 @@
 'use client';
 import React, { useContext } from 'react';
-import { ProgressProps, COMPONENT_NAME } from '../Progress';
+import { COMPONENT_NAME } from '../Progress';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import { ProgressContext } from '../contexts/ProgressContext';
 
-interface IndicatorProps
-  extends Pick<
-    ProgressProps,
-    'value' | 'minValue' | 'maxValue' | 'customRootClass' | 'renderLabel'
-  > {
-  renderLabel?(value: number): JSX.Element
+interface IndicatorProps {
+    customRootClass?: string;
+    renderLabel?(value: number): JSX.Element;
 }
 
 export default function ProgressIndicator({
