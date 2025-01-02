@@ -19,19 +19,19 @@ describe('Button', () => {
     test('renders button with the given color', () => {
         render(<Button color='white'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('data-accent-color', 'white');
+        expect(button).toHaveAttribute('color', 'white');
     });
 
     test('renders button with the given variant', () => {
         render(<Button variant='outline'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveClass('button-outline');
+        expect(button).toHaveClass('rad-ui-button');
     });
 
     test('renders button with the given size', () => {
         render(<Button size='small'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('data-size', 'small');
+        expect(button).toHaveAttribute('data-button-size', 'small');
     });
 
     test('calls the onClick handler when the button is clicked', async() => {
