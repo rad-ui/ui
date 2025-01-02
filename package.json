@@ -123,7 +123,7 @@
     "rollup-plugin-scss": "^4.0.0",
     "sass": "^1.77.2",
     "sass-loader": "16.0.4",
-    "storybook": "8.2.9",
+    "storybook": "8.4.7",
     "tailwindcss": "3.4.1",
     "ts-jest": "29.1.1",
     "ts-node": "^10.9.2",
