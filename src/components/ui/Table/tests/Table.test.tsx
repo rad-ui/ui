@@ -5,17 +5,17 @@ import Table from '../Table';
 
 describe('Table Component', () => {
     const employeeData = [
-        { id: 1, fullName: 'John Smith', age: 23, isIntern: false },
-        { id: 2, fullName: 'Anna Donie', age: 35, isIntern: true },
-        { id: 3, fullName: 'Hannah Brown', age: 20, isIntern: true },
-        { id: 4, fullName: 'Johnathan White Jr', age: 36, isIntern: false },
+        { id: 1, fullName: 'John Smith', age: 23, isIntern: 'No' },
+        { id: 2, fullName: 'Anna Donie', age: 35, isIntern: 'Yes' },
+        { id: 3, fullName: 'Hannah Brown', age: 20, isIntern: 'Yes' },
+        { id: 4, fullName: 'Johnathan White Jr', age: 36, isIntern: 'No' },
     ];
 
     const employeeKey = [
-        { key: 1, name: 'Employee Id' },
-        { key: 2, name: 'Full Name' },
-        { key: 3, name: 'Age' },
-        { key: 4, name: 'In Internship' },
+        { key: 'id', name: 'Employee Id' },
+        { key: 'fullName', name: 'Full Name' },
+        { key: 'age', name: 'Age' },
+        { key: 'isIntern', name: 'In Internship' },
     ];
 
     let result: RenderResult;
@@ -58,9 +58,9 @@ describe('Table Component', () => {
             expect(dataCells.length).toEqual(4);
 
             dataCells.forEach((cell, cellIndex) => {
-                cell.textContent = Object.values(employeeData[rowIndex])[
-                    cellIndex
-                ].toString();
+                expect(cell.textContent).toEqual(
+                    Object.values(employeeData[rowIndex])[cellIndex].toString()
+                );
             });
         });
     });
