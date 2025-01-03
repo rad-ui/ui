@@ -74,10 +74,6 @@ const sections = [
                 path: "/docs/components/code"
             },
             {
-                title: "Disclosure",
-                path: "/docs/components/disclosure"
-            },
-            {
                 title: "Em",
                 path: "/docs/components/em"
             },
