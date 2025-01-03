@@ -44,8 +44,14 @@ const sections = [
                 path: "/docs/components/avatar"
             },
             {
+                title: "AvatarGroup",
+                path: "/docs/components/avatar-group",
+                is_new:true
+            },
+            {
                 title: "AspectRatio",
-                path: "/docs/components/aspect-ratio"
+                path: "/docs/components/aspect-ratio",
+                is_new:true
             },
             {
                 title: "Badge",
@@ -107,7 +113,8 @@ const sections = [
             },
             {
                 title: "Strong",
-                path: "/docs/components/strong"
+                path: "/docs/components/strong",
+                is_new:true
             },
             // {
             //     title:"Checkbox",
@@ -165,7 +172,8 @@ const sections = [
             },
             {
                 title: "VisuallyHidden",
-                path: "/docs/components/visually-hidden"
+                path: "/docs/components/visually-hidden",
+                is_new:true
             }
         ]
     },
@@ -185,8 +193,8 @@ const Navigation = () => {
     // get path from ssr
     const pathname = usePathname();
 
-    return <div className='border-box px-1 overflow-y-auto hidden lg:block'>
-        <div className='flex-none' style={{ width: "240px", height: "80vh" }}>
+    return <div className='border-box px-1 overflow-y-auto lg:block flex flex-col'>
+        <div className='flex-none' style={{ width: "240px" }}>
             {sections.map((section, i) => {
                 return <div key={i}>
                     <div className='px-2 py-2 font-bold text-md text-gray-1000'>{section.title}</div>
