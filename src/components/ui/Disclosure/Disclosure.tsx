@@ -29,6 +29,9 @@ const Disclosure = ({items}:DisclosureProps) => {
     )
 }
  
-Disclosure.Root = DisclosureRoot
+Disclosure.Root = DisclosureRoot;
+Disclosure.Item = DisclosureItem;
+Disclosure.Trigger = DisclosureTrigger;
+Disclosure.Content = DisclosureContent;
 
 export default Disclosure;
