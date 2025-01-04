@@ -64,7 +64,7 @@ const Anatomy = ({ code, language = 'jsx' }) => {
 
 const Section = ({ title = '', children }) => {
     return <div>
-        <Heading as="h6" className="mb-2 mt-8">{title}</Heading>
+        <BookMarkLink id={title}> <Heading as="h6" className="mb-2">{title}</Heading> </BookMarkLink>
         <div className='mb-10'>
             {children}
         </div>

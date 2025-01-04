@@ -4,16 +4,31 @@ import Link from "@radui/ui/Link"
 import Code from "@radui/ui/Code"
 import Button from "@radui/ui/Button"
 
+import StarButton from "./StarButton"
 
 
 
 const PAGE_NAME = 'CONTRIBUTING_TO_RAD_UI'
 
 
+
 const ContributingToRadUI = () => {
     const SAMPLE_COMMIT_MESSAGE = '<description>'
 
     return <Documentation currentPage={PAGE_NAME} title="Contributing to Rad UI">
+        <div className="mb-8 space-y-4">
+            <Text className="text-gray-950">
+                Contributing to Rad UI is a great way to get involved in the project and help us improve the library. There are many ways to contribute, from fixing bugs, adding new features, improving documentation, and more. We value all contributions and are grateful for your help.
+            </Text>
+            <Text className="text-gray-950">
+            If you're unsure about what to contribute on, feel free to take your time exploring the repository. 
+           </Text>
+
+            <Text className="text-gray-950">
+                You can also support us by starring the repository on GitHub.
+            </Text>
+            <StarButton />
+        </div>
         <Documentation.Section title="Join the Discord">
             <Text className="text-gray-950">
                 We have an active and a friendly community on Discord. Join us to get help, discuss ideas, and share your work.
@@ -22,9 +37,6 @@ const ContributingToRadUI = () => {
 
         </Documentation.Section>
         <Documentation.Section title="1. Finding an issue to work on">
-            <Text className="text-gray-950">
-                Contributing to Rad UI is a great way to get involved in the project and help us improve the library.
-            </Text>
             <Text className="text-gray-950 mt-4">
                 We've triaged issues in our <Link target="_blank" href="https://github.com/rad-ui/rad-ui/issues">GitHub issues</Link> to make it easier to find an issue for contributors to work on.
             </Text>
@@ -47,35 +59,35 @@ const ContributingToRadUI = () => {
             <Text className="text-gray-950">
                 Commit your work with a clear message - you can use the following prefixes:
             </Text>
-           <div className='space-y-4 mt-5'>
-           <Text>
-                For Fixes : <Code>git commit -m "Fix: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For Features : <Code>git commit -m "Feature: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For Documentation : <Code>git commit -m "Docs: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For Refactoring : <Code>git commit -m "Refactor: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For Chore : <Code>git commit -m "Chore: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>  
-                For Style : <Code>git commit -m "Style: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For Performance : <Code>git commit -m "Performance: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For Test : <Code>git commit -m "Test: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-            <Text>
-                For CI : <Code>git commit -m "CI: {SAMPLE_COMMIT_MESSAGE}"</Code>
-            </Text>
-           </div>
+            <div className='space-y-4 mt-5'>
+                <Text>
+                    For Fixes : <Code>git commit -m "Fix: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Features : <Code>git commit -m "Feature: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Documentation : <Code>git commit -m "Docs: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Refactoring : <Code>git commit -m "Refactor: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Chore : <Code>git commit -m "Chore: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Style : <Code>git commit -m "Style: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Performance : <Code>git commit -m "Performance: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For Test : <Code>git commit -m "Test: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+                <Text>
+                    For CI : <Code>git commit -m "CI: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                </Text>
+            </div>
         </Documentation.Section>
 
         <Documentation.Section title="4. Add tests if applicable">
@@ -87,7 +99,7 @@ const ContributingToRadUI = () => {
             </Text>
         </Documentation.Section>
 
-        <Documentation.Section title="5. Raise a Pull Request">    
+        <Documentation.Section title="5. Raise a Pull Request">
             <Text className="text-gray-950 mb-2">
                 Raise a Pull Request to the main branch.
             </Text>
@@ -99,7 +111,24 @@ const ContributingToRadUI = () => {
             </Text>
         </Documentation.Section>
 
-       
+        <Documentation.Section title="6. Wait for the PR to be reviewed">
+            <Text className="text-gray-950">
+                We'll review your PR and provide feedback. If there are any changes required, we'll let you know.
+            </Text>
+        </Documentation.Section>
+
+        <Documentation.Section title="7. Merge your PR">
+            <Text className="text-gray-950">
+                Once your PR is approved, we'll merge it into the main branch.
+            </Text>
+        </Documentation.Section>
+
+        <Documentation.Section title="8. Celebrate your contribution">
+            <Text className="text-gray-950">
+                Congratulations! You've contributed to Rad UI. This is just a first step. We'll be happy to have you as a contributor and work together to make Rad UI better.
+            </Text>
+        </Documentation.Section>
+
     </Documentation>
 }
 
