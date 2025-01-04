@@ -42,10 +42,7 @@ const Heading = ({ children, as = 'h1', customRootClass = '', className = '', ..
     const rootClass = customClassSwitcher(customRootClass, as || 'h1');
 
     const tag = RENDER_AS_ENUMS.find((item) => item.tag === as) ? as : 'h1';
-    
-    return React.createElement(tag, { className: clsx(rootClass, className), ...props }, children);
-    
-    
+    return React.createElement(tag, { className: clsx(rootClass, className), ...props }, children); 
 };
 Heading.displayName = 'Heading';
 
