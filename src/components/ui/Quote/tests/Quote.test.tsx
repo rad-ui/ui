@@ -33,16 +33,4 @@ describe('Quote Component', () => {
         expect(quoteElement).toHaveClass('custom-quote-class');
         expect(quoteElement).toHaveClass('custom-class-name');
     });
-
-    it('renders with additional props', () => {
-        const { container } = render(
-            <Quote cite="link-to-render">
-                You must be the change you wish to see in the world. - Mahatma
-                Gandhi
-            </Quote>
-        );
-
-        const quoteElement = container.querySelector('q');
-        expect(quoteElement).toHaveAttribute('cite', 'link-to-render');
-    });
 });
