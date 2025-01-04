@@ -64,14 +64,14 @@ const NavBar =  ({darkMode,setDarkMode, cookies,setCookie}) => {
         </ul>
     </div>
     <div className='flex items-center'>
-        <Button className="hover:bg-gray-200" color="gray" variant="surface" onClick={openLink('https://discord.gg/nMaQfeEPNp')} >
+        <Button className="hover:bg-gray-200" color="gray" variant="outline" onClick={openLink('https://discord.gg/nMaQfeEPNp')} >
             <span className='text-gray-1000'><DiscordLogo /></span>
         </Button>
-        <Button className="hover:bg-gray-200" color="gray" variant="surface" onClick={openLink('https://github.com/rad-ui/ui')} >
+        <Button className="hover:bg-gray-200" color="gray" variant="outline" onClick={openLink('https://github.com/rad-ui/ui')} >
             <span className='text-gray-1000'> <GithubLogo /></span>
         </Button>
 
-        <Button className="hover:bg-gray-200" color="gray" variant="surface" onClick={toggleDarkMode} >
+        <Button className="hover:bg-gray-200" color="gray" variant="outline" onClick={toggleDarkMode} >
             <span className='text-gray-1000'>{darkMode ? <MoonIcon /> : <SunIcon />}</span>
         </Button>
 
