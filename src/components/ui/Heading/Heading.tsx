@@ -41,7 +41,7 @@ export type HeadingProps = {
 const Heading = ({ children, as = undefined, customRootClass = '', className = '', ...props }: HeadingProps) => {
     const rootClass = customClassSwitcher(customRootClass, as || 'h1');
 
-    if (as !== undefined && RENDER_AS_ENUMS.find((item) => item.tag === as.toLowerCase())) {
+    if (as !== undefined && RENDER_AS_ENUMS.find((item) => item.tag === as)) {
         return React.createElement(as, { className: clsx(rootClass, className), ...props }, children);
     }
     return <h1 className={clsx(rootClass, className)} {...props}>{children}</h1>;
