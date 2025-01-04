@@ -30,14 +30,19 @@ const RENDER_AS_ENUMS = [
     }
 ];
 
-const Heading = ({ children, as = undefined, customRootClass = '', className = '', ...props }) => {
+export type HeadingProps = {
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+    customRootClass?: string;
+    className?: string;
+    children?: React.ReactNode;
+    props?: any;
+};
+
+const Heading = ({ children, as = 'h1', customRootClass = '', className = '', ...props }: HeadingProps) => {
     const rootClass = customClassSwitcher(customRootClass, as || 'h1');
 
-    if (as !== undefined && RENDER_AS_ENUMS.find((item) => item.tag === as)) {
-        const { tag: Tag } = RENDER_AS_ENUMS.find((item) => item.tag === as);
-        return <Tag className={clsx(rootClass, className)} {...props}>{children}</Tag>;
-    }
-    return <h1 className={clsx(rootClass, className)} {...props}>{children}</h1>;
+    const tag = RENDER_AS_ENUMS.find((item) => item.tag === as) ? as : 'h1';
+    return React.createElement(tag, { className: clsx(rootClass, className), ...props }, children); 
 };
 Heading.displayName = 'Heading';
 
