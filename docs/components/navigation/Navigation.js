@@ -187,6 +187,10 @@ const sections = [
             {
                 title: "Setting up dev environment",
                 path: "/docs/contributing/setting-up-dev-environment"
+            },
+            {
+                title: "Contributing to Rad UI",
+                path: "/docs/contributing/contributing-to-rad-ui"
             }
         ]
     }
