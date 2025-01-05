@@ -8,14 +8,14 @@ describe('Table Component', () => {
         { id: 1, fullName: 'John Smith', age: 23, isIntern: 'No' },
         { id: 2, fullName: 'Anna Donie', age: 35, isIntern: 'Yes' },
         { id: 3, fullName: 'Hannah Brown', age: 20, isIntern: 'Yes' },
-        { id: 4, fullName: 'Johnathan White Jr', age: 36, isIntern: 'No' },
+        { id: 4, fullName: 'Johnathan White Jr', age: 36, isIntern: 'No' }
     ];
 
     const employeeKey = [
         { key: 'id', name: 'Employee Id' },
         { key: 'fullName', name: 'Full Name' },
         { key: 'age', name: 'Age' },
-        { key: 'isIntern', name: 'In Internship' },
+        { key: 'isIntern', name: 'In Internship' }
     ];
 
     let result: RenderResult;
