@@ -37,7 +37,7 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
+export const AllVariants = {
     args: {
         className: ''
     }
@@ -62,6 +62,25 @@ export const Size = (args) => {
                 </div>
             ))}
 
+        </div>
+    </SandboxEditor>;
+};
+
+export const Color = (args) => {
+    return <SandboxEditor>
+        <div className='flex items-center space-x-[40px]'>
+            <div>
+                <p>Colored Button</p>
+                <Button color='red' >
+                    <div>{BUTTON_TEXT} </div> <ArrowIcon />
+                </Button>
+            </div>
+            <div>
+                <p>Theme Button</p>
+                <Button>
+                    <div>{BUTTON_TEXT} </div> <ArrowIcon />
+                </Button>
+            </div>
         </div>
     </SandboxEditor>;
 };
