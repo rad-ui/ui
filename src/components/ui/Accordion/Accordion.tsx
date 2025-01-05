@@ -13,15 +13,16 @@ export interface AccordionItemType {
 export interface AccordionProps {
     items: AccordionItemType[];
     variant?: string;
+    color?: string;
   }
 
-const Accordion = ({ items, variant = '' }: AccordionProps) => {
+const Accordion = ({ items, variant = '', color = '' }: AccordionProps) => {
     return (
-        <AccordionRoot variant={variant}>
+        <AccordionRoot variant={variant} color={color}>
             {items.map((item, index) => (
                 <AccordionItem value={index} key={index} >
                     <AccordionHeader>
-                        <AccordionTrigger >
+                        <AccordionTrigger>
                             {item.title}
                         </AccordionTrigger>
                     </AccordionHeader>

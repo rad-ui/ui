@@ -10,9 +10,11 @@ export type AccordionRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
     variant?: string | ''
+    color?: string | ''
+    loop?: boolean
 }
 
-const AccordionRoot = ({ children, customRootClass, variant = '' }: AccordionRootProps) => {
+const AccordionRoot = ({ children, customRootClass, variant = '', color = '', loop = true }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
@@ -24,12 +26,16 @@ const AccordionRoot = ({ children, customRootClass, variant = '' }: AccordionRoo
         dataAttributes['data-variant'] = variant;
     }
 
+    if (color) {
+        dataAttributes['data-accent-color'] = color;
+    }
+
     useEffect(() => {}, []);
 
     const focusNextItem = () => {
         if (!accordionRef.current) return;
         const batches = getAllBatchElements(accordionRef?.current);
-        const nextItem = getNextBatchItem(batches);
+        const nextItem = getNextBatchItem(batches, loop);
         setFocusItem(nextItem);
         if (nextItem) {
             const button = nextItem.querySelector('button');
@@ -41,7 +47,7 @@ const AccordionRoot = ({ children, customRootClass, variant = '' }: AccordionRoo
     const focusPrevItem = () => {
         if (!accordionRef.current) return;
         const batches = getAllBatchElements(accordionRef?.current);
-        const prevItem = getPrevBatchItem(batches);
+        const prevItem = getPrevBatchItem(batches, loop);
         setFocusItem(prevItem);
         if (prevItem) {
             const button = prevItem.querySelector('button');

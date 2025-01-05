@@ -1,4 +1,4 @@
-import Accordion from '../Accordion';
+import Accordion, { AccordionProps } from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
@@ -76,5 +76,12 @@ export const Outline: Story = {
     args: {
         items,
         variant: 'outline'
+    }
+};
+
+export const Color: Story = {
+    args: {
+        items,
+        color: 'blue'
     }
 };
