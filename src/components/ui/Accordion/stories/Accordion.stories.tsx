@@ -71,3 +71,10 @@ export const All: Story = {
         variant: 'solid'
     }
 };
+
+export const Outline: Story = {
+    args: {
+        items,
+        variant: 'outline'
+    }
+};
