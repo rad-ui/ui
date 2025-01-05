@@ -9,14 +9,20 @@ const COMPONENT_NAME = 'Accordion';
 export type AccordionRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
+    variant?: string | ''
 }
 
-const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
+const AccordionRoot = ({ children, customRootClass, variant = '' }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
     const [focusItem, setFocusItem] = useState<Element | null>(null); // stores the id of the item that should be focused
+
+    const dataAttributes: Record<string, string> = {};
+    if (variant) {
+        dataAttributes['data-variant'] = variant;
+    }
 
     useEffect(() => {}, []);
 
@@ -57,7 +63,7 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
                 accordionRef
 
             }}>
-            <div className={clsx(`${rootClass}-root`)} ref={accordionRef}>
+            <div className={clsx(`${rootClass}-root`)} ref={accordionRef} {...dataAttributes} >
                 {children}
             </div>
         </AccordionContext.Provider>

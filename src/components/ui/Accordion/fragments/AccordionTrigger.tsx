@@ -29,7 +29,6 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
     };
 
     return (
-
         <button
             type="button"
             className={clsx(`${rootClass}-trigger`, className)}

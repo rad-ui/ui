@@ -12,11 +12,12 @@ export interface AccordionItemType {
 
 export interface AccordionProps {
     items: AccordionItemType[];
+    variant?: string;
   }
 
-const Accordion = ({ items }: AccordionProps) => {
+const Accordion = ({ items, variant = '' }: AccordionProps) => {
     return (
-        <AccordionRoot>
+        <AccordionRoot variant={variant}>
             {items.map((item, index) => (
                 <AccordionItem value={index} key={index} >
                     <AccordionHeader>
