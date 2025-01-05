@@ -8,6 +8,6 @@ describe('Code Component', () => {
 
         const codeElement = container.querySelector('code');
         expect(codeElement).toBeInTheDocument();
-        expect(codeElement).toHaveTextContent("console.log('Hello world!');");
+        expect(codeElement).toHaveTextContent('console.log(\'Hello world!\');');
     });
-})
+});
