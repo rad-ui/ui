@@ -11,8 +11,8 @@ const ToggleGroup = ({ type = 'single', items = [] as { value: any; label: any }
             {
                 items.map((item, index) => {
                     return (
-                        <ToggleItem key={index} value={item?.value}>
-                            {item?.label}
+                        <ToggleItem key={index} value={item.value}>
+                            {item.label}
                         </ToggleItem>
                     );
                 })
