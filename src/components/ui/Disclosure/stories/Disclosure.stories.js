@@ -29,3 +29,32 @@ export const All = {
         ]
      }
 }
+
+const disclosureItems = [
+    {
+      title: 'Section 1',
+      content: 'Content for section 1'
+    },
+    {
+      title: 'Section 2',
+      content: 'Content for section 2'
+    }, 
+]
+
+export const Composed = () => {
+     return <SandboxEditor>
+         <Disclosure.Root>
+            {disclosureItems.map((item,index) => (
+            <Disclosure.Item key={index}>
+               <Disclosure.Trigger>
+                 {item.title}
+               </Disclosure.Trigger>  
+               <Disclosure.Content>
+                  {item.content}
+               </Disclosure.Content>
+            </Disclosure.Item>
+            ))}
+         </Disclosure.Root>
+
+     </SandboxEditor>
+}
