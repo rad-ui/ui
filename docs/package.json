@@ -10,7 +10,7 @@
     "update-rad": "npm i @radui/ui@latest"
   },
   "dependencies": {
-    "@radui/ui": "^0.0.26",
+    "@radui/ui": "^0.0.27",
     "@types/node": "20.5.9",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
@@ -20,7 +20,7 @@
     "eslint": "8.48.0",
     "eslint-config-next": "15.1.2",
     "js-cookie": "^3.0.5",
-    "next": "15.1.2",
+    "next": "^15.1.2",
     "next-cookies": "^2.0.3",
     "node-fetch": "^3.3.2",
     "nookies": "^2.5.2",
