@@ -43,7 +43,7 @@ const Toggle: React.FC<ToggleProps> = ({
     return (
 
         <TogglePrimitive
-            className={clsx(rootClass)}
+            className={clsx(rootClass, className)}
             pressed={isPressed}
             onPressedChange={handlePressed}
             data-state={isPressed ? 'on' : 'off'}

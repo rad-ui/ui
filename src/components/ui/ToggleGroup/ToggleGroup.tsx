@@ -5,14 +5,14 @@ import ToggleItem from './fragments/ToggleItem';
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroup = ({ type = 'single', items = [] }) => {
+const ToggleGroup = ({ type = 'single', items = [] as { value: any; label: any }[] }) => {
     return (
         <ToggleGroupRoot type={type} componentName={COMPONENT_NAME}>
             {
                 items.map((item, index) => {
                     return (
-                        <ToggleItem key={index} value={item.value}>
-                            {item.label}
+                        <ToggleItem key={index} value={item?.value}>
+                            {item?.label}
                         </ToggleItem>
                     );
                 })
