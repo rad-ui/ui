@@ -35,6 +35,5 @@ const Template = (args) => {
 export const All = {
     args: {
         className: '',
-        defaultPressed: true,
     }
 };
