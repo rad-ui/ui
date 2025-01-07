@@ -22,8 +22,8 @@ const HeroSection = () => {
           }}>Check out Colors</Button>
         </div>
         <div className="flex justify-center mt-3">
-        <Code>console.log('Pstt.. We are actively looking for rad maintainers')</Code>
-    </div>
+          <Code>console.log('Pstt.. We are actively looking for rad maintainers')</Code>
+        </div>
       </div>
     </div>
   </div>
