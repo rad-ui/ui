@@ -2,6 +2,8 @@
 "use client"
 import Button from "@radui/ui/Button"
 import Heading from "@radui/ui/Heading"
+import Badge from "@radui/ui/Badge"
+import Code from "@radui/ui/Code"
 
 const HeroSection = () => {
   return <div>
@@ -20,6 +22,9 @@ const HeroSection = () => {
             location.href = '/colors'
           }}>Check out Colors</Button>
         </div>
+        <div className="flex justify-center mt-3">
+        <Code>console.log('Pstt.. We are actively looking for rad maintainers')</Code>
+    </div>
       </div>
     </div>
   </div>
