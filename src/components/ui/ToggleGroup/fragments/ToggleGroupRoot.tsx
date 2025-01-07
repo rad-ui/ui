@@ -14,18 +14,24 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
     const [activeToggles, setActiveToggles] = useState(value || []);
 
     const nextItem = () => {
-        const batches = getAllBatchElements(toggleGroupRef?.current);
-        const nextItem = getNextBatchItem(batches, loop);
-        if (nextItem) {
-            nextItem?.focus();
+        const currentRef = toggleGroupRef.current;
+        if (currentRef) {
+            const batches = getAllBatchElements(currentRef);
+            const nextItem = getNextBatchItem(batches, loop);
+            if (nextItem) {
+                (nextItem as HTMLElement)?.focus();
+            }
         }
     };
 
     const previousItem = () => {
-        const batches = getAllBatchElements(toggleGroupRef?.current);
-        const prevItem = getPrevBatchItem(batches, loop);
-        if (prevItem) {
-            prevItem?.focus();
+        const currentRef = toggleGroupRef?.current;
+        if (currentRef) {
+            const batches = getAllBatchElements(currentRef);
+            const prevItem = getPrevBatchItem(batches, loop);
+            if (prevItem) {
+                (prevItem as HTMLElement)?.focus();
+            }
         }
     };
 
