@@ -2,7 +2,6 @@
 "use client"
 import Button from "@radui/ui/Button"
 import Heading from "@radui/ui/Heading"
-import Badge from "@radui/ui/Badge"
 import Code from "@radui/ui/Code"
 
 const HeroSection = () => {
