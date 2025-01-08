@@ -5,7 +5,7 @@ import Tooltip from "@radui/ui/Tooltip";
 const CodeWithCopy = ({ code }) => {
   const copyContent = code
     .replace(/\n{2,}/g, "\n") // Replace multiple newlines with single newline
-    .trim();
+    .trim(); // Remove leading/trailing whitespace
 
   return (
     <Code>

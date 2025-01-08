@@ -3,7 +3,7 @@ import Link from "@radui/ui/Link"
 import Code from "@radui/ui/Code"
 import Em from "@radui/ui/Em"
 import Strong from "@radui/ui/Strong"
-
+import CodeWithCopy from "@/components/CodeWithCopy"
 
 const PAGE_NAME = 'BEFORE_YOU_START'
 
@@ -24,7 +24,7 @@ const SettingUpDevEnvironment = () => {
                     <Strong className="text-gray-1000">Clone the repository:</Strong> Clone your forked repository to your local machine.
                 </li>
                 <li>
-                    <Strong className="text-gray-1000">Install dependencies:</Strong> Run <Code>npm install</Code> in the root directory. We use npm to maintain consistency in our dependencies.
+                    <Strong className="text-gray-1000">Install dependencies:</Strong> Run <CodeWithCopy code={"npm install"} /> in the root directory. We use npm to maintain consistency in our dependencies.
                 </li>
             </ul>
         </Documentation.Section>
@@ -56,7 +56,7 @@ const SettingUpDevEnvironment = () => {
                 We use Storybook for component development and testing. You can explore our existing components and work-in-progress features in the WIP section. Storybook is essential for developing and testing new components.
             </Text>
             <Text className="mb-4 text-gray-1000 font-light">
-                To start Storybook, run <Code>npm run sb</Code> in the root directory.
+                To start Storybook, run <CodeWithCopy code={"npm run sb"} /> in the root directory.
             </Text>
         </Documentation.Section>
 
@@ -65,10 +65,10 @@ const SettingUpDevEnvironment = () => {
                 To work on the documentation website, you'll need to run the development server. This is necessary for updating existing documentation, adding new pages, or modifying components.
             </Text>
             <Text className="mb-4 text-gray-1000 font-light">
-                First, navigate to the docs directory: <Code>cd docs</Code>
+                First, navigate to the docs directory: <CodeWithCopy code={"cd docs"} /> 
             </Text>
             <Text className="mb-4 text-gray-1000 font-light">
-                Then start the Next.js development server: <Code>npm run dev</Code>
+                Then start the Next.js development server: <CodeWithCopy code={"npm run dev"} />
             </Text>
         </Documentation.Section>
     </Documentation>
