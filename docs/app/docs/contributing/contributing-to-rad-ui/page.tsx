@@ -62,10 +62,10 @@ const ContributingToRadUI = () => {
             </Text>
             <div className='space-y-4 mt-5'>
                 <Text>
-                    For Fixes : <CodeWithCopy code={`git commit -m "Fix: ${SAMPLE_COMMIT_MESSAGE}`} />
+                    For Fixes : <CodeWithCopy code={`git commit -m "Fix: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Features :  <CodeWithCopy code={`git commit -m "Feature: ${SAMPLE_COMMIT_MESSAGE}`} /> 
+                    For Features :  <CodeWithCopy code={`git commit -m "Feature: ${SAMPLE_COMMIT_MESSAGE}"`} /> 
                 </Text>
                 <Text>
                     For Documentation : <CodeWithCopy code={`git commit -m "Docs: ${SAMPLE_COMMIT_MESSAGE}"`} />
