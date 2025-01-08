@@ -5,7 +5,7 @@ import ToggleItem from './fragments/ToggleItem';
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroup = ({ type = 'single', items = [] }) => {
+const ToggleGroup = ({ type = 'single', items = [] as { value: any; label: any }[] }) => {
     return (
         <ToggleGroupRoot type={type} componentName={COMPONENT_NAME}>
             {
