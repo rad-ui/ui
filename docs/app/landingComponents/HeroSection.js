@@ -21,7 +21,7 @@ const HeroSection = () => {
             location.href = '/colors'
           }}>Check out Colors</Button>
         </div>
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center mt-6">
           <Code>console.log('Pstt.. We are actively looking for rad maintainers')</Code>
         </div>
       </div>
