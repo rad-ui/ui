@@ -27,10 +27,10 @@ const Table = ({ columns = [], data = [] }:any) => {
         <TableBody>
             {
                 data.map((row:any) => {
-                    return <TableRow key={row.id} >
+                    return <TableRow key={row.key} >
                         {
                             columnMap.map((column:any) => {
-                                return <TableCell key={`${row.id}-${column}`}>
+                                return <TableCell key={`${row.key}-${column}`}>
                                     {row[column] || ''}
                                 </TableCell>;
                             })
