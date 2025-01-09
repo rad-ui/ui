@@ -10,15 +10,15 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 const Template = (args) => {
     const columns = [
-        { name: 'Name', key: 'name' },
-        { name: 'Age', key: 'age' }
+        { name: 'Name', id: 'name' },
+        { name: 'Age', id: 'age' }
     ];
 
     const data = [
-        { name: 'John Doe', age: 25, key: '1' },
-        { name: 'Jane Doe', age: 24, key: '2' },
-        { name: 'John Smith', age: 30, key: '3' },
-        { name: 'Jane Smith', age: 29, key: '4' }
+        { name: 'John Doe', age: 25, id: '1' },
+        { name: 'Jane Doe', age: 24, id: '2' },
+        { name: 'John Smith', age: 30, id: '3' },
+        { name: 'Jane Smith', age: 29, id: '4' }
     ];
 
     return <SandboxEditor>
