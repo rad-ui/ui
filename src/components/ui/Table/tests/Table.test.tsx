@@ -12,10 +12,10 @@ describe('Table Component', () => {
     ];
 
     const employeeKey = [
-        { key: 'id', name: 'Employee Id' },
-        { key: 'fullName', name: 'Full Name' },
-        { key: 'age', name: 'Age' },
-        { key: 'isIntern', name: 'In Internship' },
+        { id: 'id', name: 'Employee Id' },
+        { id: 'fullName', name: 'Full Name' },
+        { id: 'age', name: 'Age' },
+        { id: 'isIntern', name: 'In Internship' },
     ];
 
     let result: RenderResult;
