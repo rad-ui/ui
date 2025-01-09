@@ -5,6 +5,7 @@ import Code from "@radui/ui/Code"
 import Button from "@radui/ui/Button"
 
 import StarButton from "./StarButton"
+import CodeWithCopy from "@/components/CodeWithCopy"
 
 
 
@@ -61,31 +62,31 @@ const ContributingToRadUI = () => {
             </Text>
             <div className='space-y-4 mt-5'>
                 <Text>
-                    For Fixes : <Code>git commit -m "Fix: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Fixes : <CodeWithCopy code={`git commit -m "Fix: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Features : <Code>git commit -m "Feature: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Features :  <CodeWithCopy code={`git commit -m "Feature: ${SAMPLE_COMMIT_MESSAGE}"`} /> 
                 </Text>
                 <Text>
-                    For Documentation : <Code>git commit -m "Docs: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Documentation : <CodeWithCopy code={`git commit -m "Docs: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Refactoring : <Code>git commit -m "Refactor: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Refactoring : <CodeWithCopy code={`git commit -m "Refactor: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Chore : <Code>git commit -m "Chore: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Chore : <CodeWithCopy code={`git commit -m "Chore: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Style : <Code>git commit -m "Style: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Style : <CodeWithCopy code={`git commit -m "Style: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Performance : <Code>git commit -m "Performance: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Performance : <CodeWithCopy code={`git commit -m "Performance: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For Test : <Code>git commit -m "Test: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For Test : <CodeWithCopy code={`git commit -m "Test: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
                 <Text>
-                    For CI : <Code>git commit -m "CI: {SAMPLE_COMMIT_MESSAGE}"</Code>
+                    For CI : <CodeWithCopy code={`git commit -m "CI: ${SAMPLE_COMMIT_MESSAGE}"`} />
                 </Text>
             </div>
         </Documentation.Section>
