@@ -9,7 +9,9 @@ const CodeWithCopy = ({ code }) => {
             <span className="mr-2">
                 {code}
             </span>
-                <Copy content={code} />
+            <Tooltip label="Copy" placement="bottom">      
+              <Copy content={code} />
+            </Tooltip>
         </span>
     </Code>
   );
