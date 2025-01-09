@@ -10,7 +10,7 @@ import TableCell from './fragments/TableCell';
 
 const Table = ({ columns = [], data = [] }:any) => {
     const columnMap = columns.map((column:any) => {
-        return column?.key || '';
+        return column?.id || '';
     }
     );
 
@@ -19,7 +19,7 @@ const Table = ({ columns = [], data = [] }:any) => {
             <TableRow>
                 {
                     columns.map((column:any) => {
-                        return <TableColumnCellHeader key={column?.key || ''} >{column?.name || ''}</TableColumnCellHeader>;
+                        return <TableColumnCellHeader key={column?.id || ''} >{column?.name || ''}</TableColumnCellHeader>;
                     })
                 }
             </TableRow>
