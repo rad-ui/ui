@@ -23,9 +23,9 @@ export default {
                     onOpenChange={handleOpenChange}
                     {...args} content={
                         <div className="flex flex-col gap-4 ">
-                            <h2 className="text-lg font-bold">Are you sure you want to delete this item?</h2>
+                            <h2 className="text-lg font-bold">Are you sure you want to delete this account?</h2>
                             <div>
-                                <p>This action cannot be undone.</p>
+                                <p className='text-gray-900'>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
                             </div>
                         </div>
                     } />
@@ -37,7 +37,7 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = {
     args: {
-        children: 'This is trigger',
+        children: 'Delete Account',
         actionButton: <button>Delete</button>
     }
 };
