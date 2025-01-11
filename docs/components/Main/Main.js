@@ -17,11 +17,11 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
 
     return (
         <Theme isDark={darkMode} >
-            <div className={`h-screen overflow-hidden flex flex-col ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-gray-50'}`} data-accent-color="red">
+            <div className={`flex flex-col ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-gray-50'}`} data-accent-color="red">
                 {/* Navbar start */}
                 <NavBar cookies={cookies} darkMode={darkMode} setDarkMode={setDarkMode} setCookie={setCookie} />
                 {/* Navbar end */}
-                <div className='h-screen overflow-scroll'>
+                <div className=''>
                     {children}
                 </div>
             </div>
