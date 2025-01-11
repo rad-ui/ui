@@ -1,9 +1,0 @@
-repos:
-  - repo: local
-    hooks:
-      - id: stylelint
-        name: Stylelint
-        entry: npx stylelint
-        language: node
-        files: \.(css|scss|sass)$
-        additional_dependencies: ['stylelint', 'stylelint-config-standard', 'stylelint-config-standard-scss']
