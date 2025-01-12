@@ -10,14 +10,14 @@ import codeUsage from "./docs/codeUsage"
 
 const AspectRatioDocs = () => {
     const columns = [
-        {name: 'Prop', key: 'prop'},
-        {name: 'Type', key: 'type'},
-        {name: 'Default', key: 'default'},
-        {name: 'Description', key: 'description'},
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
     ];
 
     const data = [
-        {prop: 'ratio', type: 'string', default: '1', description: 'Used to set desired ratio'},
+        {prop: 'ratio', type: 'string', default: '1', description: 'Used to set desired ratio', id: 'ratio'},
         
     ];
     return <div>
