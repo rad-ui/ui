@@ -9,13 +9,14 @@ export type SkeletonProps = {
     className?: string;
     customRootClass?: string;
     loading?: boolean;
-};
+} & React.ComponentProps<'span'>;
 
 const Skeleton: React.FunctionComponent<SkeletonProps> = ({ loading = true, className = '', customRootClass = '', children, ...props }) => {
     // If loading is false, return the children
     if (!loading) return children;
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
     return <span className={clsx(rootClass, className)} {...props} >
         {children}
     </span>;
