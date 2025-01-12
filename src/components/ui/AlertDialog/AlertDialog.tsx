@@ -6,6 +6,7 @@ import AlertDialogPortal from './fragments/AlertDialogPortal';
 import AlertDialogOverlay from './fragments/AlertDialogOverlay';
 import AlertDialogCancel from './fragments/AlertDialogCancel';
 import AlertDialogAction from './fragments/AlertDialogAction';
+
 export type AlertDialogProps = {
     children: React.ReactNode;
     content: React.ReactNode;
@@ -13,10 +14,11 @@ export type AlertDialogProps = {
     onOpenChange?: (open: boolean) => void;
 }
 
-const AlertDialog = ({ children, open = false, onOpenChange, content } : AlertDialogProps) => {
-    const [isOpen, setIsOpen] = useState(open);
+const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content } : AlertDialogProps) => {
+    const [isOpen, setIsOpen] = useState(open);  
+     
     return (
-        <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange} >
+        <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange}>
             <AlertDialogTrigger>
                 {children}
             </AlertDialogTrigger>
@@ -29,7 +31,7 @@ const AlertDialog = ({ children, open = false, onOpenChange, content } : AlertDi
                         Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction>
-                        Action
+                        Continue
                     </AlertDialogAction>
                 </AlertDialogContent>
 
