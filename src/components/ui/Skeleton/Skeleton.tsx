@@ -4,7 +4,14 @@ import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Skeleton';
 
-const Skeleton = ({ loading = true, className = '', customRootClass = '', children, ...props }:any) => {
+export type SkeletonProps = {
+    children?: React.ReactNode;
+    className?: string;
+    customRootClass?: string;
+    loading?: boolean;
+};
+
+const Skeleton: React.FunctionComponent<SkeletonProps> = ({ loading = true, className = '', customRootClass = '', children, ...props }) => {
     // If loading is false, return the children
     if (!loading) return children;
 
