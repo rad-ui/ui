@@ -199,7 +199,7 @@ const sections = [
 
 
 const HamburgerIcon = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} {...props} >
       <g>
         <path
           strokeLinecap="round"
@@ -248,7 +248,7 @@ const Navigation = () => {
 
 
     return <div className=' relative border-box px-1 overflow-y-scroll lg:block flex flex-col pb-[200px] min-w-[40px] min-h-[40px]'>
-        <div onClick={toggleCollapse} className={`absolute right-2 top-3` }>{isCollapsed? <HamburgerIcon /> : <XIcon />}</div>
+        <div onClick={toggleCollapse} className={`absolute right-2 top-3 cursor-pointer` }>{isCollapsed? <HamburgerIcon /> : <XIcon />}</div>
         <div className={`${isCollapsed ? "hidden" : "block"}`}>
             <div className='flex-none' style={{ width: "240px" }}>
                 {sections.map((section, i) => {
