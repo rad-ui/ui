@@ -59,7 +59,7 @@
     "build:components": "npm run compile-components && npm run process-components",
     "build": "npm run prebuild && npm run build:css && NODE_OPTIONS='--max-old-space-size=4076' npm run build:components",
     "release": "npm publish --access public",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix && stylelint \"**/*.{css,scss,sass}\" --fix",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix && stylelint \"**/*.{css,scss,sass}\" --no-fix",
     "update-rad": "npm update @radui/ui",
     "setup:dependencies": "npm install --force",
     "setup": "npm run setup:dependencies"

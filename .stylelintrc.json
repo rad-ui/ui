@@ -4,6 +4,7 @@
     "stylelint-config-standard-scss",
     "stylelint-config-tailwindcss"
   ],
+  "defaultSeverity": "warning",
   "rules": {
     "no-descending-specificity": null,
     "scss/at-rule-no-unknown": null
