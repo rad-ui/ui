@@ -89,7 +89,7 @@ const Popper = ({
         dismiss
     ]);
 
-    return <span>
+    return <>
         <span
             className={clsx('rad-ui-popper', `${rootClass}-reference-element`, className)} ref={refs.setReference} {...getReferenceProps(
                 {
@@ -104,7 +104,7 @@ const Popper = ({
                 {pop}</div>
             </FloatingPortal>
         }
-    </span>;
+    </>;
 };
 
 export default Popper;
