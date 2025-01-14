@@ -53,7 +53,7 @@ const PlaylistHero: any = () => {
             <div className="gap-4 space-y-4">
                 <div>
                     <div>
-                        <input value="Search..." className='flex flex-1 items-center px-2 rounded-md border border-gray-400 text-gray-700' />
+                        <input placeholder="Search..." className='flex flex-1 items-center px-2 rounded-md border border-gray-400 text-gray-700' />
                     </div>
 
                 </div>
