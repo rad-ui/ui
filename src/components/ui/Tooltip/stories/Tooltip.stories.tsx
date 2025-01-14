@@ -18,11 +18,10 @@ type Story = StoryObj<typeof Tooltip>;
 
 export const Basic: Story = {
     render: () => (
-        <SandboxEditor className="">
-            <div>
+        <SandboxEditor>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center gap-3">
                 {placement.map((p) => (
-
-                    <Tooltip label='Micheal Jackson' placement={p} key={p}>
+                    <Tooltip label={p} placement={p} key={p} className='capitalize border border-neutral-600 p-4 rounded-md'>
                         <span>{p}</span>
                     </Tooltip>
                 ))}
