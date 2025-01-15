@@ -4,8 +4,15 @@ const code = {
 import Switch from "@radui/ui/Switch"
          
 const SwitchExample = () => (
+
+    const [checked, setChecked] = React.useState(true)
+
+    const handleChange = (state) => {
+          
+          setChecked(state)
+        }
     <div>
-      <Switch />   
+       <Switch checked={checked} onChange={handleChange} />   
     </div>
 )`
     },
