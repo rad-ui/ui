@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 
-import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, FloatingPortal } from '@floating-ui/react';
+import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, FloatingPortal, Placement } from '@floating-ui/react';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -22,19 +22,7 @@ export type PopperProps = {
     customRootClass?: string;
     activationStrategy?: 'hover';
     className?: string;
-    placement?:
-        | 'top'
-        | 'bottom'
-        | 'left'
-        | 'right'
-        | 'top-start'
-        | 'top-end'
-        | 'bottom-start'
-        | 'bottom-end'
-        | 'left-start'
-        | 'left-end'
-        | 'right-start'
-        | 'right-end';
+    placement?:Placement;
     children?: React.ReactNode; // TODO: fix
     open?: boolean;
     hoverDelay?: number;
@@ -101,7 +89,7 @@ const Popper = ({
         dismiss
     ]);
 
-    return <span>
+    return <>
         <span
             className={clsx('rad-ui-popper', `${rootClass}-reference-element`, className)} ref={refs.setReference} {...getReferenceProps(
                 {
@@ -116,7 +104,7 @@ const Popper = ({
                 {pop}</div>
             </FloatingPortal>
         }
-    </span>;
+    </>;
 };
 
 export default Popper;
