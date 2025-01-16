@@ -17,7 +17,7 @@ const SwitchDocs = () => {
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 <SwitchWrapper />
             </Documentation.ComponentHero>
-            {/* <Documentation.UnderConstruction/> */}
+
         </Documentation>
     </div>
 }

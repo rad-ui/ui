@@ -9,9 +9,10 @@ const SwitchWrapper = () => {
 
     const handleChange = (state) => {
         setIsChecked(state)
+
     }
     
-    return <Switch checked={isChecked} onChange={handleChange} readOnly/> 
+    return <Switch checked={isChecked} onChange={handleChange} readOnly /> 
 
 };
 
