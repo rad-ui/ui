@@ -1,20 +1,22 @@
 const code = {
     javascript: {
         code: `
-import Switch from "@radui/ui/Switch"
+import Switch from "@radui/ui/Switch";
          
-const SwitchExample = () => (
+const SwitchExample = () => {
 
     const [checked, setChecked] = React.useState(true)
 
     const handleChange = (state) => {
-          
           setChecked(state)
         }
-    <div>
-       <Switch checked={checked} onChange={handleChange} />   
-    </div>
-)`
+   
+    return (    
+       <div>
+         <Switch checked={checked} onChange={handleChange} />   
+       </div>
+ )
+}`
     },
     scss: {
         code: `/** Switch */
