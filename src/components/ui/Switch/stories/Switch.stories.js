@@ -17,7 +17,7 @@ const CheckBox = (args) => {
     };
     return <SandboxEditor className="flex flex-col gap-2">
         {variants.map((variant, index) => (
-            <Switch checked={isChecked} key={index} variant={variant} onChange={handleChange} {...args} />
+            <Switch defaultChecked={args} key={index} variant={variant} onChange={handleChange} {...args} />
         ))}
 
     </SandboxEditor>;

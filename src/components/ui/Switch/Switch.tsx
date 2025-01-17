@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
+    defaultChecked?: boolean;
     checked: boolean;
     children?: React.ReactNode;
     className?: string;
@@ -13,10 +14,10 @@ export type SwitchProps = {
     props?: any;
 }
 
-const Switch = ({ children, customRootClass = '', className = '', checked, onChange, ...props }:SwitchProps) => {
+const Switch = ({ children, customRootClass = '', className = '', defaultChecked, checked, onChange, ...props }:SwitchProps) => {
     
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const [isChecked, setIsChecked] = useState(checked);
+    const [isChecked, setIsChecked] = useState(checked || defaultChecked);
     
     const handleChecked = () => {
         const updatedState = !isChecked;

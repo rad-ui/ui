@@ -27,4 +27,23 @@ describe('Switch Component', () => {
         fireEvent.click(switchElement)
         expect(handleChange).toHaveBeenCalledWith(true)
     })
+
+    test('toggle state on when clicked', () => {
+        render(<Switch checked={true} onChange={() => {}} defaultChecked={true} />)
+        const checkbox = screen.getByRole('checkbox')
+
+        expect(checkbox).toBeChecked()
+
+        fireEvent.click(checkbox)
+        expect(checkbox).toBeChecked()      
+    })
+    
+    test('toggle state off when clicked again', () => {
+        render(<Switch checked={false} onChange={() => {}} defaultChecked={false} />)
+        const checkbox = screen.getByRole('checkbox')
+
+        fireEvent.click(checkbox)
+        expect(checkbox).not.toBeChecked()      
+    })
+
 })
