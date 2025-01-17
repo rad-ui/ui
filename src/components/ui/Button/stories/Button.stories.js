@@ -24,11 +24,11 @@ export default {
                     if (!BUTTON_TEXT) {
                         label = 'Proceed';
                     }
-                    return <Button label={`${label}`} key={index} variant={variant} >
+                    return <Button label={`${label}`} key={index} variant={variant} {...args}>
                         <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
                     </Button>;
                 })}
-                <Button>
+                <Button {...args}>
                     <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
                 </Button>
             </div>
@@ -42,6 +42,12 @@ export const All = {
         className: ''
     }
 };
+
+export const Color =  {
+    args: {
+        color: "yellow"
+    }
+}
 
 export const Size = (args) => {
     return <SandboxEditor>
