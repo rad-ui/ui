@@ -19,7 +19,7 @@ describe('Button', () => {
     test('renders button with the given color', () => {
         render(<Button color='white'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('color', 'white');
+        expect(button).toHaveAttribute('data-accent-color', 'white');
     });
 
     test('renders button with the given variant', () => {
