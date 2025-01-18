@@ -1,7 +1,7 @@
 const PAGE_NAME = 'SWITCH_DOCS'
 import Documentation from "@/components/layout/Documentation/Documentation"
 
-import SwitchWrapper from "./SwitchWrapper";
+import Switch from '@radui/ui/Switch';
 import SEO from "../../docsIndex"
 export const metadata = SEO.getMetadata(PAGE_NAME)
 
@@ -15,7 +15,7 @@ const SwitchDocs = () => {
             place where a user needs to enable or disable feature.
             `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <SwitchWrapper />
+                <Switch>On</Switch>
             </Documentation.ComponentHero>
 
         </Documentation>

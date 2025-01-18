@@ -6,7 +6,8 @@ const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
     defaultChecked?: boolean;
-    checked: boolean;
+    color?: string;
+    checked?: boolean;
     children?: React.ReactNode;
     className?: string;
     customRootClass?: string;
@@ -14,7 +15,7 @@ export type SwitchProps = {
     props?: any;
 }
 
-const Switch = ({ children, customRootClass = '', className = '', defaultChecked, checked, onChange, ...props }:SwitchProps) => {
+const Switch = ({ children, customRootClass = '', className = '', defaultChecked, color='', checked, onChange, ...props }:SwitchProps) => {
     
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const [isChecked, setIsChecked] = useState(checked || defaultChecked);
