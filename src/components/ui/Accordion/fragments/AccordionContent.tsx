@@ -5,15 +5,16 @@ import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 type AccordionContentProps = {
   children: React.ReactNode;
-  index?: number,
-  activeIndex?: number,
+  index: number,
   className? :string
 };
 
-const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, activeIndex, className = '' }: AccordionContentProps) => {
+const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, className = '' }: AccordionContentProps) => {
     const { activeItem, rootClass } = useContext(AccordionContext);
 
     const { itemValue } = useContext(AccordionItemContext);
+
+    const isOpen = activeItem === index;
 
     return (
         itemValue !== activeItem
@@ -23,6 +24,7 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, ac
                 id={`content-${index}`}
                 role="region"
                 aria-labelledby={`section-${index}`}
+                aria-hidden={!isOpen}
             >
 
                 {children}
