@@ -11,10 +11,11 @@ export type AvatarProps = {
     className?: string,
     src?: string,
     alt?: string,
+    color?:string,
     props?: Record<string, any>[]
 }
 
-const Avatar = ({ customRootClass = '', fallback, className, src, alt, ...props }: AvatarProps) => {
+const Avatar = ({ customRootClass = '', fallback, className, src, alt, color, ...props }: AvatarProps) => {
     return (
         <AvatarPrimitive.Root src={src} customRootClass={customRootClass}>
             <AvatarPrimitive.Image
@@ -23,7 +24,7 @@ const Avatar = ({ customRootClass = '', fallback, className, src, alt, ...props 
                 className={clsx(className)}
                 {...props}
             />
-            <AvatarPrimitive.Fallback>
+            <AvatarPrimitive.Fallback color={color}>
                 {fallback}
             </AvatarPrimitive.Fallback>
         </AvatarPrimitive.Root>
