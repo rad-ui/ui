@@ -14,15 +14,16 @@ type AvatarGroupProps = {
     size: 'sm' | 'md' | 'lg';
     customRootClass?: string;
     className?: string;
+    color?:string;
     props?: Record<string, any>;
 }
 
-const AvatarGroup = ({ avatars = [], size, customRootClass = '', className, ...props }: AvatarGroupProps) => {
+const AvatarGroup = ({ avatars = [], size, customRootClass = '', className, color, ...props }: AvatarGroupProps) => {
     return <AvatarGroupRoot customRootClass={customRootClass} className={clsx(className)} {...props} >
         {avatars.map((avatar, index) => (
             <AvatarPrimitiveRoot key={index} src={avatar.src}>
                 <AvatarPrimitiveImage src={avatar.src} alt={avatar.alt} />
-                <AvatarPrimitiveFallback>{avatar.fallback}</AvatarPrimitiveFallback>
+                <AvatarPrimitiveFallback color={color}>{avatar.fallback}</AvatarPrimitiveFallback>
             </AvatarPrimitiveRoot>
         ))}
     </AvatarGroupRoot>;

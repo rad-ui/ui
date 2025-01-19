@@ -24,7 +24,7 @@ const Accordion = ({ items }: AccordionProps) => {
                             {item.title}
                         </AccordionTrigger>
                     </AccordionHeader>
-                    <AccordionContent>
+                    <AccordionContent index={index}>
                         {item.content}
                     </AccordionContent>
                 </AccordionItem>
