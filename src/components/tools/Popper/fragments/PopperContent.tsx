@@ -12,14 +12,14 @@ export default function PopperContent({ showArrow, children }: PopperContentProp
 
     const { refs: { setFloating }, floatingStyles, context } = floating;
 
+    if (!isOpen) return null;
+
     return (
-        <>
-            {
-                isOpen && <FloatingPortal> <div className={clsx(`${rootClass}-floating-element`)} ref={setFloating} style={floatingStyles} {...getFloatingProps()} >
-                    {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
-                    {children}</div>
-                </FloatingPortal>
-            }
-        </>
+        <FloatingPortal root={document.body}>
+            <div className={clsx(`${rootClass}-floating-element`)} ref={setFloating} style={floatingStyles} {...getFloatingProps()} >
+                {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
+                {children}
+            </div>
+        </FloatingPortal>
     );
 }
