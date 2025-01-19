@@ -11,7 +11,7 @@ export type BadgeProps = {
 }
 
 const Badge = ({ children, customRootClass = '', className = '', color, ...props }: BadgeProps) => {
-    return <BadgeRoot customRootClass={customRootClass} className={className} color={color ?? undefined} {...props}>
+    return <BadgeRoot customRootClass={customRootClass} className={className} data-accent-color={color ?? undefined} {...props}>
         <BadgeContent>
             {children}
         </BadgeContent>
