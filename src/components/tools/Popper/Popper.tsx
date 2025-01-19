@@ -28,38 +28,26 @@ const GAP = 2;
 const COMPONENT_NAME = 'Popper';
 
 export type PopperProps = {
-    popperName?: string;
-    customRootClass?: string;
-    activationStrategy?: 'hover';
-    className?: string;
-    placement?:Placement;
-    children?: React.ReactNode; // TODO: fix
-    open?: boolean;
-    hoverDelay?: number;
-    showArrow?: boolean;
-    pop?: React.ReactNode;
-    props?: Record<string, any>[];
-}
+  pop: React.ReactNode,
+} & PopperRootProps & PopperContentProps & PopperTriggerProps;
 
 const Popper = ({
     popperName = '',
     customRootClass = '',
-    activationStrategy = 'hover',
     className = '',
     placement = 'top',
     children,
     open = false,
-    hoverDelay = 10,
     showArrow = true,
     pop = <></>,
     ...props
 }: PopperProps) => {
-  return (
-    <PopperRoot>
-      <PopperTrigger>{children}</PopperTrigger>
-      <PopperContent>{pop}</PopperContent>
-    </PopperRoot>
-  );
+    return (
+        <PopperRoot customRootClass={customRootClass} popperName={popperName} placement={placement} open={open}>
+            <PopperTrigger className={className}>{children}</PopperTrigger>
+            <PopperContent showArrow={showArrow}>{pop}</PopperContent>
+        </PopperRoot>
+    );
 };
 
 Popper.displayName = COMPONENT_NAME;
