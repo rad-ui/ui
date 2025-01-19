@@ -4,6 +4,7 @@ import { customClassSwitcher } from '~/core';
 import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, hide, shift, autoUpdate, useRole, useDismiss, Placement } from '@floating-ui/react';
 
 export type PopperRootProps = {
+  children: React.ReactNode;
   popperName?: string;
   customRootClass?: string;
   activationStrategy?: 'hover';
