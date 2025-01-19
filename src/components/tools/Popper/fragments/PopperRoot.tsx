@@ -7,13 +7,8 @@ export type PopperRootProps = {
   children: React.ReactNode;
   popperName?: string;
   customRootClass?: string;
-  activationStrategy?: 'hover';
-  className?: string;
   placement?: Placement;
   open?: boolean;
-  hoverDelay?: number;
-  showArrow?: boolean;
-  pop?: React.ReactNode;
 };
 
 const ARROW_HEIGHT = 7;
@@ -23,13 +18,8 @@ export default function PopperRoot({
     children,
     popperName = '',
     customRootClass = '',
-    activationStrategy = 'hover',
-    className = '',
     placement = 'top',
     open = false,
-    hoverDelay = 10,
-    showArrow = true,
-    pop = <></>,
     ...props
 }: PopperRootProps) {
     const rootClass = customClassSwitcher(customRootClass, popperName);
@@ -68,7 +58,6 @@ export default function PopperRoot({
     const dismiss = useDismiss(context);
 
     const hover = useHover(context, {
-    // delay: hoverDelay,
     });
 
     const interactions = useInteractions([
