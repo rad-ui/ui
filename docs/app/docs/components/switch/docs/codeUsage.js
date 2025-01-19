@@ -3,14 +3,11 @@ const code = {
         code: `
 import Switch from "@radui/ui/Switch";
          
-const SwitchExample = () => {
-   
-    return (    
-       <div>
-         <Switch />   
-       </div>
- )
-}`
+const SwitchExample = () => (
+    <div>
+      <Switch />   
+    </div>
+)`
     },
     scss: {
         code: `/** Switch */

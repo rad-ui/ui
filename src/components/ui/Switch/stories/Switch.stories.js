@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Switch from '../Switch';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -10,12 +9,10 @@ export default {
 
 const CheckBox = (args) => {
     const variants = ['classic', 'surface', 'solid'];
-    
-    const [isChecked, setIsChecked] = useState(true);
     const handleChange = (state) => {
         setIsChecked(state);
     };
-    return <SandboxEditor className="flex flex-col gap-2">
+    return <SandboxEditor className="space-x-1">
         {variants.map((variant, index) => (
             <Switch defaultChecked={args} key={index} variant={variant} onChange={handleChange} {...args} />
         ))}
