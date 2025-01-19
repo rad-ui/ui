@@ -16,7 +16,7 @@ export default {
     render: (args) => <SandboxEditor>
         <div >
             <div className='flex space-x-2'>
-                <BlockQuote className='space-x-1'>
+                <BlockQuote className='space-x-1' {...args}>
                     <div className='text-gray-950'>{BLOCKQUOTE_TEXT} </div>
                 </BlockQuote>
 
@@ -32,3 +32,9 @@ export const All = {
         className: ''
     }
 };
+
+export const Color = {
+    args: {
+        color: 'blue'
+    }
+}

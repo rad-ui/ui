@@ -26,4 +26,9 @@ describe('BlockQuote', () => {
         render(<BlockQuote data-testid='block-quote'>BlockQuote</BlockQuote>);
         expect(screen.getByTestId('block-quote')).toBeInTheDocument();
     });
+
+    test('renders BlockQuote component with color', () => {
+        render(<BlockQuote className='mr-2' color='blue'>BlockQuote</BlockQuote>);
+        expect(screen.getByText('BlockQuote')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });
