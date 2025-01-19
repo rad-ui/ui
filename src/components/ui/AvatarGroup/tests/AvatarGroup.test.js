@@ -68,4 +68,10 @@ describe('AvatarGroup', () => {
             expect(screen.getByText(avatar.fallback)).toBeInTheDocument();
         });
     });
+
+    test('renders color for fallback when src is not provided', async() => {
+        render(<AvatarGroup avatars={avatarsWithFallback} color='blue'/>);
+        expect(screen.getByText('A')).toHaveAttribute('data-accent-color', 'blue');
+        expect(screen.getByText('B')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

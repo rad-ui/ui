@@ -4,6 +4,7 @@ import SEO from '../../docsIndex';
 import codeUsage from './docs/codeUsage';
 import { code as variantCodeUsage } from './docs/variantCodeUsage';
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import { code as colorCodeUsage } from './docs/colorCodeUsage';
 import Card from '@radui/ui/Card';
 import Text from '@radui/ui/Text';
 import Separator from '@radui/ui/Separator';
@@ -11,6 +12,7 @@ import Tooltip from '@radui/ui/Tooltip';
 
 import ButtonVariants from './examples/ButtonVariants';
 import ButtonSizes from './examples/ButtonSizes';
+import ButtonColor from './examples/ButtonColor';
 
 const PAGE_NAME = 'BUTTON_DOCS';
 
@@ -46,6 +48,10 @@ const ButtonDocs = () => {
 
             <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
                 <ButtonSizes />
+            </Documentation.ComponentHero>
+
+            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+                <ButtonColor />
             </Documentation.ComponentHero>
         </Documentation>
     </div>;
