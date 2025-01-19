@@ -23,3 +23,24 @@ export const Default = {
         ]
     }
 };
+
+export const withFallback = {
+    args: {
+        avatars: [
+            { src: '', fallback: 'RU'},
+            { src: '', fallback: 'PK'},
+            { src: '', fallback: 'RU' }
+        ]
+    }
+};
+
+export const withColor = {
+    args: {
+        avatars: [
+            { src: '', fallback: 'RU'},
+            { src: '', fallback: 'PK'},
+            { src: '', fallback: 'RU' }
+        ],
+        color: 'blue' 
+    }
+}

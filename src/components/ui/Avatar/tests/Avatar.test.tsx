@@ -20,4 +20,9 @@ describe('Avatar', () => {
         render(<Avatar fallback="RU" />);
         expect(screen.getByText('RU')).toBeInTheDocument();
     });
+
+    test('renders color for fallback when src is not provided', async() => {
+        render(<Avatar fallback="RU" color='blue'/>);
+        expect(screen.getByText('RU')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

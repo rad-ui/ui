@@ -6,7 +6,7 @@ const AvatarExample = () => (
     <div style={{ display: 'flex', gap: 20 }}>
         <Avatar src="https://i.pravatar.cc/1000" />
         <Avatar fallback="RU" />
-        <Avatar fallback="AA" />
+        <Avatar fallback="AA" color='pink'/>
     </div>
 )`
     },

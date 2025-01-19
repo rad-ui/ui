@@ -41,3 +41,10 @@ export const withAlt = {
         fallback: 'RU'
     }
 };
+
+export const withColor = {
+    args: {
+        fallback: 'RU',
+        color: 'blue'
+    }
+};
