@@ -4,6 +4,10 @@ import { clsx } from 'clsx';
 
 import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, FloatingPortal, Placement } from '@floating-ui/react';
 
+import Root from './fragments/PopperRoot';
+import Content from './fragments/PopperContent';
+import Trigger from './fragments/PopperTrigger';
+
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
 
@@ -44,67 +48,10 @@ const Popper = ({
     pop = <></>,
     ...props
 }: PopperProps) => {
-    //
-    const rootClass = customClassSwitcher(customRootClass, popperName);
-    const arrowRef = useRef(null);
-    const [isOpen, setIsOpen] = useState(open);
-
-    const { refs, floatingStyles, context } = useFloating({
-        placement,
-        whileElementsMounted: autoUpdate, // this makes sure the popup is attached to the reference on scrolling etc
-        open: isOpen,
-        // strategy: 'fixed',
-        middleware: [
-            arrow({
-                element: arrowRef,
-                padding: 4
-            }),
-            offset(ARROW_HEIGHT + GAP),
-            flip({
-                mainAxis: true,
-                fallbackStrategy: 'initialPlacement'
-            }
-            ),
-            shift({
-                crossAxis: false
-            }),
-            hide({
-                strategy: 'referenceHidden' // 'referenceHidden' by default
-            })
-
-        ],
-        onOpenChange: setIsOpen
-    });
-
-    const role = useRole(context);
-    const dismiss = useDismiss(context);
-
-    const hover = useHover(context, {
-    // delay: hoverDelay,
-    });
-
-    const { getReferenceProps, getFloatingProps } = useInteractions([
-        hover,
-        role,
-        dismiss
-    ]);
-
-    return <>
-        <span
-            className={clsx('rad-ui-popper', `${rootClass}-reference-element`, className)} ref={refs.setReference} {...getReferenceProps(
-                {
-                    onClick: () => {
-                        console.log('click');
-                    }
-                }
-            )}>{children}</span>
-        {
-            isOpen && <FloatingPortal> <div className={clsx(`${rootClass}-floating-element`)} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
-                {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
-                {pop}</div>
-            </FloatingPortal>
-        }
-    </>;
+    return <Root>
+        <Trigger>{children}</Trigger>
+        <Content>{pop}</Content>
+    </Root>;
 };
 
 export default Popper;
