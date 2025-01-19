@@ -4,9 +4,13 @@ import { clsx } from 'clsx';
 
 import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, FloatingPortal, Placement } from '@floating-ui/react';
 
-import Root from './fragments/PopperRoot';
-import Content from './fragments/PopperContent';
-import Trigger from './fragments/PopperTrigger';
+import PopperRoot from './fragments/PopperRoot';
+import PopperContent from './fragments/PopperContent';
+import PopperTrigger from './fragments/PopperTrigger';
+
+import type { PopperRootProps } from './fragments/PopperRoot';
+import type { PopperContentProps } from './fragments/PopperContent';
+import type { PopperTriggerProps } from './fragments/PopperTrigger';
 
 // TODO : Use Floating Portal?
 // TODO : Collisions dont seem to be working as expected, need to investigate
@@ -20,6 +24,8 @@ const GAP = 2;
  * For Placement https://floating-ui.com/docs/computePosition#placement
 
  */
+
+const COMPONENT_NAME = 'Popper';
 
 export type PopperProps = {
     popperName?: string;
@@ -48,10 +54,21 @@ const Popper = ({
     pop = <></>,
     ...props
 }: PopperProps) => {
-    return <Root>
-        <Trigger>{children}</Trigger>
-        <Content>{pop}</Content>
-    </Root>;
+  return (
+    <PopperRoot>
+      <PopperTrigger>{children}</PopperTrigger>
+      <PopperContent>{pop}</PopperContent>
+    </PopperRoot>
+  );
 };
 
+Popper.displayName = COMPONENT_NAME;
+Popper.Root = PopperRoot;
+Popper.Trigger = PopperTrigger;
+Popper.Content = PopperContent;
+
 export default Popper;
+
+export { PopperRoot, PopperTrigger, PopperContent };
+
+export type { PopperTriggerProps, PopperContentProps, PopperRootProps };
