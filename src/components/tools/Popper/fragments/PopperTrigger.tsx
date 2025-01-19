@@ -2,11 +2,11 @@ import React, { PropsWithChildren } from 'react';
 import { clsx } from 'clsx';
 import usePopper from '../context/usePopper';
 
-export type TriggerProps = PropsWithChildren<{
+export type PopperTriggerProps = PropsWithChildren<{
   className?: string;
 }>;
 
-export default function Trigger({ children, className = '', ...props }: TriggerProps) {
+export default function PopperTrigger({ children, className = '', ...props }: TriggerProps) {
     const { rootClass, floating, interactions } = usePopper();
     const { refs: { setReference } } = floating;
     const { getReferenceProps } = interactions;
