@@ -6,7 +6,7 @@ export type PopperTriggerProps = PropsWithChildren<{
   className?: string;
 }>;
 
-export default function PopperTrigger({ children, className = '', ...props }: TriggerProps) {
+export default function PopperTrigger({ children, className = '', ...props }: PopperTriggerProps) {
     const { rootClass, floating, interactions } = usePopper();
     const { refs: { setReference } } = floating;
     const { getReferenceProps } = interactions;
