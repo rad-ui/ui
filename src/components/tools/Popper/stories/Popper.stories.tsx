@@ -2,26 +2,27 @@ import React from 'react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Popper from '../Popper';
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
-    title: 'Tools/Popper',
+// eslint-disable-next-line no-unused-vars
+import type { Meta, StoryObj } from '@storybook/react';
+
+type Story = StoryObj<typeof Popper>;
+
+const meta: Meta<typeof Popper> = {
     component: Popper,
-    render: (args: any) => <SandboxEditor>
-        <div className='h-screen overflow-scroll' style={{ height: '200px', width: '400px' }}>
-            <div className='p-4 bg-gray-400 ' style={{ width: '800px', height: '1200px' }}>
-                <div className='block'>
-                    <Popper pop="wassa" className="text-gray-1000">
-                        <span>Reference Element</span>
-                    </Popper>
-                </div>
-            </div>
-        </div>
-    </SandboxEditor>
+    title: 'tools/popper'
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Default = {
-    args: {
-        className: ''
-    }
+export default meta;
+
+export const Defult: Story = {
+    render: ({}) => (
+        <SandboxEditor className=''>
+            This is an example for popper
+            <Popper pop={'hello world'}>
+                <div>
+                      Hover Over Me
+                </div>
+            </Popper>
+        </SandboxEditor>
+    )
 };
