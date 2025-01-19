@@ -20,6 +20,7 @@ const ARROW_HEIGHT = 7;
 const GAP = 2;
 
 export default function PopperRoot({
+    children,
     popperName = '',
     customRootClass = '',
     activationStrategy = 'hover',
@@ -77,6 +78,7 @@ export default function PopperRoot({
     ]);
     return (
         <PopperContext.Provider value={{ floatingArrowRef: arrowRef, dismiss, hover, role, interactions, floating, isOpen, setIsOpen, rootClass }}>
+            {children}
         </PopperContext.Provider>
     );
 }
