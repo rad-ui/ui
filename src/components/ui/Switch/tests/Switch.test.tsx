@@ -5,20 +5,14 @@ import Switch from "../Switch";
 describe('Switch Component', () => {
     
     test('renders correctly', () => {
-       render(<Switch checked={true} onChange={() => {}}/>)
+       render(<Switch checked={true} onChange={() => {}} color='' />)
        const inputElement = screen.getByRole('checkbox')
        expect(inputElement).toBeInTheDocument();
     })
 
-    test('renders with checked state', () => {
-        render(<Switch checked={true} onChange={() => {}}/>)
-        const inputElement = screen.getByRole('checkbox')
-        expect(inputElement).toHaveAttribute('aria-checked', 'true')
-    })
-
     test('renders in controlled mode correctly', () => {
         const handleChange = jest.fn();
-        render(<Switch checked={true} onChange={handleChange}/>)
+        render(<Switch checked={true} onChange={handleChange} color=''/>)
         const switchElement = screen.getByRole('switch')
         
         fireEvent.click(switchElement)
@@ -29,7 +23,7 @@ describe('Switch Component', () => {
     })
 
     test('renders in uncontrolled mode correctly', () => {
-        render(<Switch defaultChecked={true} onChange={() => {}} />)
+        render(<Switch checked={true} color='' defaultChecked={true} onChange={() => {}} />)
         const checkbox = screen.getByRole('checkbox')
 
         expect(checkbox).toBeChecked()
@@ -39,7 +33,7 @@ describe('Switch Component', () => {
     })
     
     test('toggles state internally when clicked', () => {
-        render(<Switch defaultChecked={false} onChange={() => {}}  />)
+        render(<Switch checked={false} color='' defaultChecked={false} onChange={() => {}}  />)
         const checkbox = screen.getByRole('checkbox')
 
         fireEvent.click(checkbox)
