@@ -12,10 +12,11 @@ export default tseslint.config(
   tseslint.configs.recommended,
   jsxA11y.flatConfigs.recommended,
   {
-    files: [ '**/*.{js,jsx,ts,tsx,cjs}' ],
+    files: [ '**/*.{js,jsx,ts,tsx}' ],
     plugins: {
       react,
     },
+    ignores: ['assets/', 'dist/', '**/.config/'],
     languageOptions: {
       globals: {
         ...globals.browser,
