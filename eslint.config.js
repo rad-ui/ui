@@ -3,21 +3,16 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import typescriptParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
-// import typescriptEslint from '@typescript-eslint/eslint-plugin';
-// import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
-  // reactRecommended,
-  // react.configs.recommended,
   jsxA11y.flatConfigs.recommended,
   {
-    files: [ '**/*.{js,jsx,ts,tsx}' ],
+    files: [ '**/*.{js,jsx,ts,tsx,cjs}' ],
     plugins: {
       react,
-      // '@typescript-eslint': typescriptEslint,
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -35,20 +30,25 @@ export default tseslint.config(
       }
     },
     rules: {
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+
       // 'react/react-in-jsx-scope': 'off',
       // indent: ['off', 4], // TODO
       // 'key-spacing': ['warn', { beforeColon: false, afterColon: true }],
       // 'no-trailing-spaces': 'warn',
       // 'no-mixed-spaces-and-tabs': 'warn',
       // 'no-multi-spaces': 'warn',
-      // '@typescript-eslint/no-unused-vars': 'warn',
-      // 'no-undef': 'off',
+      'no-undef': 'off',
       // eqeqeq: 'warn',
       // 'array-callback-return': 'warn',
       // // 'react/no-unescaped-entities': 1,
       // 'no-unexpected-multiline': 'warn',
       // 'no-var': 'warn',
-      // 'prefer-const': 'warn',
+      'prefer-const': 'warn',
       // 'space-before-blocks': 'warn',
       // 'space-before-function-paren': ['warn', 'never'],
       // // 'react/jsx-first-prop-new-line': [1, 'multiline'],
