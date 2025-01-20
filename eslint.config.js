@@ -33,6 +33,7 @@ export default tseslint.config(
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-require-imports': 'warn',
 
+      'no-empty-pattern': 'warn',
       'no-undef': 'warn',
       'prefer-const': 'warn',
 
