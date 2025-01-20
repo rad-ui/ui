@@ -1,11 +1,12 @@
-import React, { PropsWithChildren } from 'react';
+import React, { isValidElement, PropsWithChildren } from 'react';
 import usePopper from '../context/usePopper';
 import clsx from 'clsx';
 import { FloatingPortal, FloatingArrow } from '@floating-ui/react';
+import Primitive from '~/core/primitives/Primitive';
 
 export type PopperContentProps = PropsWithChildren<{
     showArrow?: boolean;
-    className?: string
+    className?: string;
 }>;
 
 export default function PopperContent({ showArrow = true, className = '', children }: PopperContentProps) {
@@ -17,10 +18,10 @@ export default function PopperContent({ showArrow = true, className = '', childr
 
     return (
         <FloatingPortal root={document.body}>
-            <div className={clsx(`${rootClass}-floating-element`, className)} ref={setFloating} style={floatingStyles} {...getFloatingProps()} >
+            <Primitive.div asChild={isValidElement(children)} className={clsx(`${rootClass}-floating-element`, className)} ref={setFloating} style={floatingStyles} {...getFloatingProps()} >
                 {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
                 {children}
-            </div>
+            </Primitive.div>
         </FloatingPortal>
     );
 }
