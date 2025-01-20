@@ -15,8 +15,6 @@ export default tseslint.config(
       react,
     },
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -24,9 +22,8 @@ export default tseslint.config(
       },
       parser: typescriptParser,
       parserOptions: {
-        // ecmaFeatures: {
-        //   jsx: true,
-        // },
+        ecmaVersion: 'latest',
+        sourceType: 'module',
       }
     },
     rules: {
@@ -36,13 +33,12 @@ export default tseslint.config(
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-require-imports': 'warn',
 
-      // 'react/react-in-jsx-scope': 'off',
-      // indent: ['off', 4], // TODO
+      // indent: ['warn', 4],
       // 'key-spacing': ['warn', { beforeColon: false, afterColon: true }],
       // 'no-trailing-spaces': 'warn',
       // 'no-mixed-spaces-and-tabs': 'warn',
       // 'no-multi-spaces': 'warn',
-      'no-undef': 'off',
+      'no-undef': 'warn',
       // eqeqeq: 'warn',
       // 'array-callback-return': 'warn',
       // // 'react/no-unescaped-entities': 1,
@@ -58,21 +54,9 @@ export default tseslint.config(
       // 'comma-style': 'warn',
       // 'func-call-spacing': 'warn',
       // 'comma-spacing': ['warn', { before: false, after: true }],
-      // quotes: ['off', 'single'], // TODO
-      // // 'react/prop-types': 'off',
-      // 'prefer-rest-params': 'off',
-      // 'no-func-assign': 'off',
-      // 'no-invalid-this': 'off',
-      // // 'react/no-unknown-property': 'off',
-      // camelcase: 'off',
-      // // 'react/jsx-key': 'off',
-      // 'require-jsdoc': 'off',
-      // 'guard-for-in': 'off',
-      // 'no-empty-pattern': 'off',
+      // quotes: ['warn', 'single'],
 
-      // ignore long strings
-      // 'max-len': 'off',
-      // semi: ['off', 'always'], // TODO
+      // semi: ['warn', 'always'],
       'jsx-a11y/alt-text': 'warn',
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/accessible-emoji': 'warn',
