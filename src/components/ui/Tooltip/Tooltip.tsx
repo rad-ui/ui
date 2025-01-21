@@ -7,19 +7,27 @@ type TooltipProps = {
   children: React.ReactNode;
   label?: string;
   placement?: PopperProps['placement'];
-} & JSX.IntrinsicElements['span'];
+  showArrow?: boolean;
+  className?: string;
+}
 
-const Tooltip = ({ children, label = '', placement = 'top', ...props }: TooltipProps) => {
+const Tooltip = ({ children, label = '', showArrow = true, placement = 'top', className, ...props }: TooltipProps) => {
     return (
-        <Popper
+        <Popper.Root
             popperName={COMPONENT_NAME}
-            pop={label}
             placement={placement}
             {...props}
         >
-            {children}
-        </Popper>
+            <Popper.Trigger className={className}>
+                {children}
+            </Popper.Trigger>
+            <Popper.Content showArrow={showArrow}>
+                {label}
+            </Popper.Content>
+        </Popper.Root>
     );
 };
 
 export default Tooltip;
+
+export type { TooltipProps };
