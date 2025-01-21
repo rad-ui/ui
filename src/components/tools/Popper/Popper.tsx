@@ -1,14 +1,14 @@
-import React, { useState, useRef } from 'react';
-import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import React from 'react';
 
-import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, autoPlacement, hide, shift, autoUpdate, useRole, useDismiss, FloatingPortal, Placement } from '@floating-ui/react';
+import PopperRoot from './fragments/PopperRoot';
+import PopperContent from './fragments/PopperContent';
+import PopperTrigger from './fragments/PopperTrigger';
 
-// TODO : Use Floating Portal?
+import type { PopperRootProps } from './fragments/PopperRoot';
+import type { PopperContentProps } from './fragments/PopperContent';
+import type { PopperTriggerProps } from './fragments/PopperTrigger';
+
 // TODO : Collisions dont seem to be working as expected, need to investigate
-
-const ARROW_HEIGHT = 7;
-const GAP = 2;
 
 /**
  *
@@ -17,94 +17,38 @@ const GAP = 2;
 
  */
 
+const COMPONENT_NAME = 'Popper';
+
 export type PopperProps = {
-    popperName?: string;
-    customRootClass?: string;
-    activationStrategy?: 'hover';
-    className?: string;
-    placement?:Placement;
-    children?: React.ReactNode; // TODO: fix
-    open?: boolean;
-    hoverDelay?: number;
-    showArrow?: boolean;
-    pop?: React.ReactNode;
-    props?: Record<string, any>[];
-}
+  pop: React.ReactNode,
+} & PopperRootProps & PopperContentProps & PopperTriggerProps;
 
 const Popper = ({
     popperName = '',
     customRootClass = '',
-    activationStrategy = 'hover',
     className = '',
     placement = 'top',
     children,
     open = false,
-    hoverDelay = 10,
     showArrow = true,
     pop = <></>,
     ...props
 }: PopperProps) => {
-    //
-    const rootClass = customClassSwitcher(customRootClass, popperName);
-    const arrowRef = useRef(null);
-    const [isOpen, setIsOpen] = useState(open);
-
-    const { refs, floatingStyles, context } = useFloating({
-        placement,
-        whileElementsMounted: autoUpdate, // this makes sure the popup is attached to the reference on scrolling etc
-        open: isOpen,
-        // strategy: 'fixed',
-        middleware: [
-            arrow({
-                element: arrowRef,
-                padding: 4
-            }),
-            offset(ARROW_HEIGHT + GAP),
-            flip({
-                mainAxis: true,
-                fallbackStrategy: 'initialPlacement'
-            }
-            ),
-            shift({
-                crossAxis: false
-            }),
-            hide({
-                strategy: 'referenceHidden' // 'referenceHidden' by default
-            })
-
-        ],
-        onOpenChange: setIsOpen
-    });
-
-    const role = useRole(context);
-    const dismiss = useDismiss(context);
-
-    const hover = useHover(context, {
-    // delay: hoverDelay,
-    });
-
-    const { getReferenceProps, getFloatingProps } = useInteractions([
-        hover,
-        role,
-        dismiss
-    ]);
-
-    return <>
-        <span
-            className={clsx('rad-ui-popper', `${rootClass}-reference-element`, className)} ref={refs.setReference} {...getReferenceProps(
-                {
-                    onClick: () => {
-                        console.log('click');
-                    }
-                }
-            )}>{children}</span>
-        {
-            isOpen && <FloatingPortal> <div className={clsx(`${rootClass}-floating-element`)} ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} >
-                {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
-                {pop}</div>
-            </FloatingPortal>
-        }
-    </>;
+    return (
+        <PopperRoot customRootClass={customRootClass} popperName={popperName} placement={placement} open={open}>
+            <PopperTrigger className={className}>{children}</PopperTrigger>
+            <PopperContent showArrow={showArrow}>{pop}</PopperContent>
+        </PopperRoot>
+    );
 };
 
+Popper.displayName = COMPONENT_NAME;
+Popper.Root = PopperRoot;
+Popper.Trigger = PopperTrigger;
+Popper.Content = PopperContent;
+
 export default Popper;
+
+export { PopperRoot, PopperTrigger, PopperContent };
+
+export type { PopperTriggerProps, PopperContentProps, PopperRootProps };
