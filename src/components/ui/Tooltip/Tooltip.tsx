@@ -11,7 +11,7 @@ type TooltipProps = {
   className?: string;
 }
 
-const Tooltip = ({ children, label = '', showArrow = true, placement = 'top', className, ...props }: TooltipProps) => {
+const Tooltip = ({ children, label = '', showArrow = true, placement = 'top', className = '', ...props }: TooltipProps) => {
     return (
         <Popper.Root
             popperName={COMPONENT_NAME}
