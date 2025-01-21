@@ -11,7 +11,7 @@ describe('Code Component', () => {
         expect(codeElement).toHaveTextContent("console.log('Hello world!');");
     });
 
-    it('renders without crashing', () => {
+    it('renders Code component with correct color', () => {
         const { container } = render(<Code color='blue'>console.log('Hello world!');</Code>);
 
         const codeElement = container.querySelector('code');
