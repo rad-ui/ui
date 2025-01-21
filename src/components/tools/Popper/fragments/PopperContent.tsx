@@ -6,9 +6,10 @@ import Primitive from '~/core/primitives/Primitive';
 
 export type PopperContentProps = PropsWithChildren<{
     className?: string;
+    asChild?: boolean;
 }>;
 
-export default function PopperContent({ className = '', children }: PopperContentProps) {
+export default function PopperContent({ asChild, className = '', children }: PopperContentProps) {
     const { isOpen, rootClass, floatingArrowRef: arrowRef, floating, interactions: { getFloatingProps }, showArrow } = usePopper();
 
     const { refs: { setFloating }, floatingStyles, context } = floating;
@@ -17,7 +18,7 @@ export default function PopperContent({ className = '', children }: PopperConten
 
     return (
         <FloatingPortal root={document.body}>
-            <Primitive.div asChild={isValidElement(children)} className={clsx(`${rootClass}-floating-element`, className)} ref={setFloating} style={floatingStyles} {...getFloatingProps()} >
+            <Primitive.div asChild={asChild} className={clsx(`${rootClass}-floating-element`, className)} ref={setFloating} style={floatingStyles} {...getFloatingProps()} >
                 {showArrow && <FloatingArrow className={clsx(`rad-ui-arrow ${rootClass}-arrow`)} ref={arrowRef} context={context} />}
                 {children}
             </Primitive.div>
