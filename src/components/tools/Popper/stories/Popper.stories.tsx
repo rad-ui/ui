@@ -20,12 +20,13 @@ export const Default: Story = {
             <SandboxEditor>
                 <Popper.Root
                     placement={'right'}
+                    showArrow={true}
                 >
                     <Popper.Trigger
                         className="inline-block rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl"
                     > See Quote </Popper.Trigger>
 
-                    <Popper.Content showArrow={true} className='bg-indigo-600 rounded max-w-[30ch] p-4'>
+                    <Popper.Content className='bg-indigo-600 rounded max-w-[30ch] p-4'>
                         <blockquote cite="https://www.imdb.com/title/tt0373732/characters/nm0936762/">
                             <p> You can’t change the world, but you gotta at least try to change your part in it. - Robert Freeman, Boondocks </p>
                         </blockquote>

@@ -35,9 +35,9 @@ const Popper = ({
     ...props
 }: PopperProps) => {
     return (
-        <PopperRoot customRootClass={customRootClass} popperName={popperName} placement={placement} open={open}>
+        <PopperRoot showArrow={showArrow} customRootClass={customRootClass} popperName={popperName} placement={placement} open={open}>
             <PopperTrigger className={className}>{children}</PopperTrigger>
-            <PopperContent showArrow={showArrow}>{pop}</PopperContent>
+            <PopperContent>{pop}</PopperContent>
         </PopperRoot>
     );
 };

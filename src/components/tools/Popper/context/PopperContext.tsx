@@ -8,6 +8,7 @@ export type TPopperContext = {
   setIsOpen: (open: boolean) => void;
 
   rootClass: string;
+  showArrow: boolean;
 
   floating: UseFloatingReturn;
   interactions: UseInteractionsReturn;

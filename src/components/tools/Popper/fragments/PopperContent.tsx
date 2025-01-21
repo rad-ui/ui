@@ -5,12 +5,11 @@ import { FloatingPortal, FloatingArrow } from '@floating-ui/react';
 import Primitive from '~/core/primitives/Primitive';
 
 export type PopperContentProps = PropsWithChildren<{
-    showArrow?: boolean;
     className?: string;
 }>;
 
-export default function PopperContent({ showArrow = true, className = '', children }: PopperContentProps) {
-    const { isOpen, rootClass, floatingArrowRef: arrowRef, floating, interactions: { getFloatingProps } } = usePopper();
+export default function PopperContent({ className = '', children }: PopperContentProps) {
+    const { isOpen, rootClass, floatingArrowRef: arrowRef, floating, interactions: { getFloatingProps }, showArrow } = usePopper();
 
     const { refs: { setFloating }, floatingStyles, context } = floating;
 

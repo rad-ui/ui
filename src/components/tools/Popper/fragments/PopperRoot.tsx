@@ -9,6 +9,7 @@ export type PopperRootProps = {
   customRootClass?: string;
   placement?: Placement;
   open?: boolean;
+  showArrow?: boolean;
 };
 
 const ARROW_HEIGHT = 7;
@@ -20,6 +21,7 @@ export default function PopperRoot({
     customRootClass = '',
     placement = 'top',
     open = false,
+    showArrow = true,
     ...props
 }: PopperRootProps) {
     const rootClass = customClassSwitcher(customRootClass, popperName);
@@ -66,7 +68,7 @@ export default function PopperRoot({
         dismiss
     ]);
     return (
-        <PopperContext.Provider value={{ floatingArrowRef: arrowRef, dismiss, hover, role, interactions, floating, isOpen, setIsOpen, rootClass }}>
+        <PopperContext.Provider value={{ floatingArrowRef: arrowRef, dismiss, hover, role, interactions, floating, isOpen, setIsOpen, rootClass, showArrow }}>
             {children}
         </PopperContext.Provider>
     );
