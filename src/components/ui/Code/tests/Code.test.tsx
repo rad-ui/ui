@@ -10,4 +10,12 @@ describe('Code Component', () => {
         expect(codeElement).toBeInTheDocument();
         expect(codeElement).toHaveTextContent("console.log('Hello world!');");
     });
+
+    it('renders without crashing', () => {
+        const { container } = render(<Code color='blue'>console.log('Hello world!');</Code>);
+
+        const codeElement = container.querySelector('code');
+        expect(codeElement).toBeInTheDocument();
+        expect(codeElement).toHaveAttribute('data-accent-color', 'blue');
+    });
 })
