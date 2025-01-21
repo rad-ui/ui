@@ -26,4 +26,9 @@ describe('Badge', () => {
         render(<Badge data-testid='badge'>Badge</Badge>);
         expect(screen.getByTestId('badge')).toBeInTheDocument();
     });
+
+    test('renders Badge component with custom color', () => {
+        render(<Badge color='blue'>Badge</Badge>);
+        expect(screen.getByText('Badge')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

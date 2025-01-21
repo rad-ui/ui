@@ -8,19 +8,34 @@ export const metadata = SEO.getMetadata(PAGE_NAME)
 
 import codeUsage from "./docs/codeUsage"
 
-const AvatarDocs = () => {
+const BadgeDocs = () => {
+    const columns = [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ];
+
+    const data = [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent color of the component', id: 'color'},
+    ];
     return <div>
         <Documentation currentPage={PAGE_NAME} title='Badge' description={`
             Badges are used to display a small amount of information. They are used in the sidebar, and in the chat.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 <div style={{ display: "flex", gap: 20 }}>
-                    <Badge src="https://i.pravatar.cc/1000" fallback="GG" >Badge</Badge>
+                    <Badge>Badge</Badge>
                 </div>
             </Documentation.ComponentHero>
 
+            
+            <div className="max-w-screen-md">
+                 <Documentation.Table columns={columns} data={data} />
+            </div>
+         
         </Documentation>
     </div>
 }
 
-export default AvatarDocs;
+export default BadgeDocs;
