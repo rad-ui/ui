@@ -8,12 +8,19 @@ const COMPONENT_NAME = 'Code';
 export type CodeProps= {
     children: React.ReactNode;
     customRootClass?: string;
+    color?: string;
 }
 
-const Code = ({ children, customRootClass = '' }: CodeProps) => {
+const Code = ({ children, customRootClass = '', color='' }: CodeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    
+    const data_attributes: Record<string, string> = {};
 
-    return <code className={clsx(rootClass)}>
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
+
+    return <code className={clsx(rootClass)} {...data_attributes}>
         {children}
     </code>;
 };
