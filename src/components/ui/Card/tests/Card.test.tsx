@@ -27,4 +27,9 @@ describe('Card', () => {
         render(<Card data-testid="card" data-custom="card-data" />);
         expect(screen.getByTestId('card')).toHaveAttribute('data-custom', 'card-data');
     });
+
+    test('renders Card component with color', () => {
+        render(<Card data-testid="card" color='blue' />);
+        expect(screen.getByTestId('card')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

@@ -3,7 +3,7 @@ import Avatar from '~/components/ui/Avatar/Avatar';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const CardStory = () => {
-    return <Card className="bg-gray-200" >
+    return <Card >
         <div className='flex items-center space-x-4'>
             <Avatar
                 src='https://i.pravatar.cc/64'
@@ -11,8 +11,8 @@ const CardStory = () => {
                 size='lg'
             />
             <div>
-                <p className='font-bold text-gray-1000'>John Doe</p>
-                <p className='text-xs text-gray-800'>
+                <p className='font-bold'>John Doe</p>
+                <p className='text-xs'>
                     1 hour ago
                 </p>
             </div>
