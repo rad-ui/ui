@@ -29,4 +29,10 @@ describe('Progress', () => {
         rerender(<Progress value={2} minValue={0} maxValue={100} />);
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2');
     });
+
+    
+    test('renders progress bar with correct color', () => {
+        render(<Progress value={2} color='blue' />);
+        expect(screen.getByRole('progressbar')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

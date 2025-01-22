@@ -12,8 +12,8 @@ export default {
         console.log(value);
         return (<SandboxEditor>
             <div className='my-10 space-y-4'>
-                <Progress value={value} maxValue={100} minValue={0} />
-                <Button
+                <Progress value={value} maxValue={100} minValue={0} {...args}/>
+                <Button {...args}
                     onClick={() => {
                         // randomize value
                         setValue(Math.floor(Math.random() * 100));
@@ -29,3 +29,9 @@ export const All = {
         label: 'progress label'
     }
 };
+
+export const Color = {
+    args: {
+        color:'green'
+    }
+}
