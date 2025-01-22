@@ -5,14 +5,14 @@ import Switch from "../Switch";
 describe('Switch Component', () => {
     
     test('renders correctly', () => {
-       render(<Switch checked={true} onChange={() => {}} color='' />)
+       render(<Switch checked={true} onChange={() => {}} />)
        const inputElement = screen.getByRole('checkbox')
        expect(inputElement).toBeInTheDocument();
     })
-
+    
     test('renders in controlled mode correctly', () => {
         const handleChange = jest.fn();
-        render(<Switch checked={true} onChange={handleChange} color=''/>)
+        render(<Switch checked={true} onChange={handleChange} />)
         const switchElement = screen.getByRole('switch')
         
         fireEvent.click(switchElement)
@@ -22,22 +22,23 @@ describe('Switch Component', () => {
         expect(handleChange).toHaveBeenCalledWith(true)
     })
 
-    test('renders in uncontrolled mode correctly', () => {
-        render(<Switch checked={true} color='' defaultChecked={true} onChange={() => {}} />)
-        const checkbox = screen.getByRole('checkbox')
+    test('renders in uncontrolled mode correctly with defaultChecked', () => {
 
+        render(<Switch defaultChecked={true} onChange={() => {}}/>)
+        const checkbox = screen.getByRole('checkbox')
         expect(checkbox).toBeChecked()
-
-        fireEvent.click(checkbox)
-        expect(checkbox).toBeChecked()      
-    })
+        })
     
-    test('toggles state internally when clicked', () => {
-        render(<Switch checked={false} color='' defaultChecked={false} onChange={() => {}}  />)
+    test('toggles state independently',() => {
+        render(<Switch  defaultChecked={false} onChange={() => {}} />)
         const checkbox = screen.getByRole('checkbox')
+        expect(checkbox).not.toBeChecked()
 
         fireEvent.click(checkbox)
-        expect(checkbox).not.toBeChecked()      
-    })
-
+        expect(checkbox).toBeChecked()
+        
+        fireEvent.click(checkbox)
+        expect(checkbox).not.toBeChecked()  
+    })    
+  
 })
