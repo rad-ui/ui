@@ -7,7 +7,19 @@ import ToggleGroupWrapper from "./ToggleGroupWrapper"
 
 import codeUsage from "./docs/codeUsage"
 
-const AvatarDocs = () => {
+const ToggleGroupDocs = () => {
+    const columns = [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ];
+
+    const data = [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the toggled item', id: 'color'},
+        // {prop: 'pressed', type: 'boolean', default: 'false', description: 'Accent Color of the toggled item', id: 'pressed'},
+        // {prop: 'disabled', type: 'boolean', default: 'null', description: 'Accent Color of the toggled item', id: 'disabled'},
+    ];
     return <div>
         <Documentation currentPage={PAGE_NAME} title='ToggleGroup' description={`
            ToggleGroup is a component that allows you to group multiple toggles together. Useful for when you want to allow users to select multiple options. For example, a user can select multiple filters for a search.
@@ -17,9 +29,12 @@ const AvatarDocs = () => {
                         <ToggleGroupWrapper/>
                 </div>
             </Documentation.ComponentHero>
-
+            
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={columns} data={data} />
+            </div>
         </Documentation>
     </div>
 }
 
-export default AvatarDocs;
+export default ToggleGroupDocs;
