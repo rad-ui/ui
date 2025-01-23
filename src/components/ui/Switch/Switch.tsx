@@ -25,10 +25,17 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', de
         setIsChecked(updatedState);
         onChange(updatedState)
     };
+
+    const data_attributes: Record<string, string> = {};
+
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
     return (
         <>
             <input type='checkbox' className={clsx(rootClass)} {...props} checked= {isChecked} onChange={(e) => setIsChecked(e.target.checked)}/>
-            <button type="button" onClick={handleChecked} role="switch"></button>
+            <button type="button" onClick={handleChecked} role="switch" {...data_attributes}></button>
+           
         </>
     );
 };
