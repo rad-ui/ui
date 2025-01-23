@@ -7,7 +7,7 @@ const COMPONENT_NAME = 'Switch';
 export type SwitchProps = {
     defaultChecked? : boolean;
     checked: boolean;
-    color: string;
+    color?: string;
     children?: React.ReactNode;
     className?: string;
     customRootClass?: string;
@@ -25,10 +25,16 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', de
         setIsChecked(updatedState);
         onChange(updatedState);
     };
+
+    const data_attributes: Record<string, string> = {};
+
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
     return (
         <>
             <input type='checkbox' className={clsx(rootClass)} {...props} checked= {isChecked}/>
-            <button type="button" onClick={handleChecked} role="switch"></button>
+            <button type="button" onClick={handleChecked} role="switch" {...data_attributes}></button>
         </>
     );
 };
