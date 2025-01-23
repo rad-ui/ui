@@ -94,8 +94,7 @@ describe('ToggleGroup component', () => {
         render(<ToggleGroup type="single" items={items} color='blue'/>);
         const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
 
-        fireEvent.click(toggleGroupRoot.children[0]);
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('data-accent-color', 'blue');
+        expect(toggleGroupRoot).toHaveAttribute('data-accent-color', 'blue');
     });
 
 });

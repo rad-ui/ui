@@ -5,7 +5,7 @@ import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, children }:any) => {
+const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, color='', children }:any) => {
     const rootClass = customClassSwitcher(customRootClass, componentName);
     const toggleGroupRef = useRef(null);
     // value can be either a string or an array of strings
@@ -43,8 +43,14 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
         type
     };
 
+    const data_attributes: Record<string, string> = {};
+    
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
+
     return (
-        <div className={clsx(rootClass, className)} role="group" ref={toggleGroupRef}>
+        <div className={clsx(rootClass, className)} role="group" ref={toggleGroupRef} {...data_attributes}>
             <ToggleContext.Provider
                 value={sendValues}>
                 {children}
