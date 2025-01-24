@@ -23,10 +23,10 @@ const Tooltip = ({ children, label = '', showArrow = true, placement = 'top', cl
         >
             <Popper.Trigger asChild={true} className={className}>
                 {children}
+                <Popper.Content >
+                    {label}
+                </Popper.Content>
             </Popper.Trigger>
-            <Popper.Content >
-                {label}
-            </Popper.Content>
         </Popper.Root>
     );
 };
