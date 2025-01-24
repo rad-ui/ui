@@ -1,7 +1,7 @@
 const code = {
     javascript: {
         code: `
-import Switch from "@radui/ui/Switch"
+import Switch from "@radui/ui/Switch";
          
 const SwitchExample = () => (
     <div>
