@@ -8,7 +8,7 @@ const InfoIcon = () => {
 
 const Layout = ({ children }: any) => {
     return (
-        <div data-accent-color="blue" className="flex space-x-2 w-full h-[94vh] overflow-hidden">
+        <div data-accent-color="blue" className="flex space-x-2 w-full h-[90vh] overflow-hidden">
             <div className='flex-none h-full flex flex-col'>
                 <Navigation />
             </div>
@@ -17,6 +17,7 @@ const Layout = ({ children }: any) => {
                     <div className='flex-none'>
                         <InfoIcon />
                     </div>
+                    
                     <div>
                         <div>
                             Rad UI is under active development and looking for contributors to shape the future of the library. If you'd like to contribute to Rad UI, please check out <Link href="/docs/contributing/before-you-start">Getting Started</Link>
