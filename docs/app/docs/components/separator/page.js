@@ -9,7 +9,19 @@ export const metadata = SEO.getMetadata(PAGE_NAME)
 
 import codeUsage from "./docs/codeUsage"
 
-const AvatarDocs = () => {
+const SeparatorDocs = () => {
+    const columns = [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ];
+
+    const data = [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the separator', id: 'color'},
+        {prop: 'orientation', type: 'horizontal | vertical', default: 'horizontal', description: 'orientation of the separator', id: 'orientation'},
+    ];
+
     return <div>
         <Documentation currentPage={PAGE_NAME} title='Separator' description={`
               Separator is used to separate content.
@@ -29,9 +41,11 @@ const AvatarDocs = () => {
                     </div>
                 </div>
             </Documentation.ComponentHero>
-
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={columns} data={data} />
+            </div>
         </Documentation>
     </div>
 }
 
-export default AvatarDocs;
+export default SeparatorDocs;
