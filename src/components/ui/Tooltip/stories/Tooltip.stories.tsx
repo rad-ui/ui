@@ -22,8 +22,8 @@ export const WithArrow: Story = {
         <SandboxEditor>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center gap-3">
                 {placement.map((p) => (
-                    <Tooltip label={p} className="rounded border border-neutral-400 capitalize p-2" placement={p} key={p}>
-                        <Primitive.button >{p}</Primitive.button>
+                    <Tooltip asChild label={p} className="rounded border border-neutral-400 capitalize p-2" placement={p} key={p}>
+                        <Primitive.button>{p}</Primitive.button>
                     </Tooltip>
                 ))}
             </div>
@@ -36,7 +36,7 @@ export const WithoutArrow: Story = {
         <SandboxEditor>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center gap-3">
                 {placement.map((p) => (
-                    <Tooltip label={p} className="rounded border border-neutral-400 capitalize p-2" placement={p} key={p} showArrow={false}>
+                    <Tooltip asChild label={p} className="rounded border border-neutral-400 capitalize p-2" placement={p} key={p} showArrow={false}>
                         <Primitive.button>{p}</Primitive.button>
                     </Tooltip>
                 ))}
