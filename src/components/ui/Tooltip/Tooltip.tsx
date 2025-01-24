@@ -9,19 +9,20 @@ type TooltipProps = {
   placement?: PopperProps['placement'];
   showArrow?: boolean;
   className?: string;
-}
+};
 
 const Tooltip = ({ children, label = '', showArrow = true, placement = 'top', className = '', ...props }: TooltipProps) => {
     return (
         <Popper.Root
             popperName={COMPONENT_NAME}
             placement={placement}
+            showArrow={showArrow}
             {...props}
         >
             <Popper.Trigger className={className}>
                 {children}
             </Popper.Trigger>
-            <Popper.Content showArrow={showArrow}>
+            <Popper.Content >
                 {label}
             </Popper.Content>
         </Popper.Root>
