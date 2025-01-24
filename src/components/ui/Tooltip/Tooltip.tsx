@@ -18,9 +18,10 @@ const Tooltip = ({ children, label = '', showArrow = true, placement = 'top', cl
             popperName={COMPONENT_NAME}
             placement={placement}
             showArrow={showArrow}
+            asChild={asChild}
             {...props}
         >
-            <Popper.Trigger asChild={asChild} className={className}>
+            <Popper.Trigger asChild={true} className={className}>
                 {children}
             </Popper.Trigger>
             <Popper.Content >
