@@ -30,7 +30,7 @@ const ToggleGroupDocs = () => {
                 </div>
             </Documentation.ComponentHero>
             
-            <div className="max-w-screen-md">
+            <div>
                 <Documentation.Table columns={columns} data={data} />
             </div>
         </Documentation>
