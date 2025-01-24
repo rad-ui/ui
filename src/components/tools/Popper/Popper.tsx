@@ -32,11 +32,12 @@ const Popper = ({
     open = false,
     showArrow = true,
     pop = <></>,
+    asChild,
     ...props
 }: PopperProps) => {
     return (
         <PopperRoot showArrow={showArrow} customRootClass={customRootClass} popperName={popperName} placement={placement} open={open}>
-            <PopperTrigger className={className}>{children}</PopperTrigger>
+            <PopperTrigger asChild={asChild} className={className}>{children}</PopperTrigger>
             <PopperContent>{pop}</PopperContent>
         </PopperRoot>
     );

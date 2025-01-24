@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import PopperContext from '../context/PopperContext';
 import { customClassSwitcher } from '~/core';
 import { useFloating, useInteractions, useHover, FloatingArrow, arrow, offset, flip, hide, shift, autoUpdate, useRole, useDismiss, Placement } from '@floating-ui/react';
-import Primitive from '~/core/primitives/Primitive';
 
 export type PopperRootProps = {
   children: React.ReactNode;
@@ -11,8 +10,8 @@ export type PopperRootProps = {
   placement?: Placement;
   open?: boolean;
   showArrow?: boolean;
-  asChild?: boolean;
-} & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+};
+// & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 const ARROW_HEIGHT = 7;
 const GAP = 2;
@@ -24,7 +23,6 @@ export default function PopperRoot({
     placement = 'top',
     open = false,
     showArrow = true,
-    asChild,
     ...props
 }: PopperRootProps) {
     const rootClass = customClassSwitcher(customRootClass, popperName);
@@ -72,9 +70,7 @@ export default function PopperRoot({
     ]);
     return (
         <PopperContext.Provider value={{ floatingArrowRef: arrowRef, dismiss, hover, role, interactions, floating, isOpen, setIsOpen, rootClass, showArrow }}>
-            <Primitive.div asChild={asChild} {...props}>
-                {children}
-            </Primitive.div>
+            {children}
         </PopperContext.Provider>
     );
 }
