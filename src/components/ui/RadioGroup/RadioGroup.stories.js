@@ -15,18 +15,8 @@ const RadioButton = (args) => {
     };
     return (
         <SandboxEditor>
-            {options.map((option) => (
-                <RadioGroup
-                    className='radioItems'{...args}
-                    key={option.id}
-                    id={option.id}
-                    name='language'
-                    value={option.value}
-                    checked={language === option.value}
-                    onChange={handleChange} >
-                    <span id={option.id} >{option.label}</span>
-                </RadioGroup>
-            ))}
+
+            <RadioGroup items={options} onChange={handleChange} />
         </SandboxEditor>
     );
 };

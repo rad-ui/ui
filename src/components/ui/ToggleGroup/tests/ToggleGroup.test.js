@@ -5,7 +5,7 @@ import ToggleGroup from '../ToggleGroup';
 const items = [
     { value: 'item1', label: 'Item 1' },
     { value: 'item2', label: 'Item 2' },
-    { value: 'item3', label: 'Item 3' },
+    { value: 'item3', label: 'Item 3' }
 ];
 
 describe('ToggleGroup component', () => {
@@ -37,8 +37,6 @@ describe('ToggleGroup component', () => {
         expect(toggleGroupRoot.children[1]).toHaveAttribute('data-active', 'true');
 
         expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
-
-
     });
 
     test('ToggleGroup handles multiple selection with variation in toggles', () => {
@@ -56,7 +54,6 @@ describe('ToggleGroup component', () => {
 
         expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'true');
         expect(toggleGroupRoot.children[2]).toHaveAttribute('data-active', 'true');
-
     });
 
     test('ToggleGroup handles single selection', () => {
@@ -69,7 +66,6 @@ describe('ToggleGroup component', () => {
 
         expect(toggleGroupRoot.children[1]).toHaveAttribute('aria-pressed', 'false');
         expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
-
     });
 
     test('ToggleGroup handles single selection with variation in toggles', () => {
@@ -85,9 +81,7 @@ describe('ToggleGroup component', () => {
 
         expect(toggleGroupRoot.children[1]).toHaveAttribute('aria-pressed', 'true');
         expect(toggleGroupRoot.children[1]).toHaveAttribute('data-active', 'true');
-        
+
         expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
-
     });
-
 });

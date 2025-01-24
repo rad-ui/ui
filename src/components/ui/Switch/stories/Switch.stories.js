@@ -24,6 +24,6 @@ export const All = {};
 
 export const Color = {
     args: {
-        color:"blue"
+        color: 'blue'
     }
-}
+};

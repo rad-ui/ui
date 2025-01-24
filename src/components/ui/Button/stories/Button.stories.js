@@ -43,11 +43,11 @@ export const All = {
     }
 };
 
-export const Color =  {
+export const Color = {
     args: {
-        color: "yellow"
+        color: 'yellow'
     }
-}
+};
 
 export const Size = (args) => {
     return <SandboxEditor>

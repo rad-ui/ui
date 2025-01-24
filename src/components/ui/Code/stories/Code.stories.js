@@ -35,4 +35,4 @@ export const Color = {
     args: {
         color: 'green'
     }
-}
+};

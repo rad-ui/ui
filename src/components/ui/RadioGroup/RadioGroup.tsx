@@ -1,28 +1,27 @@
 import React, { DetailedHTMLProps, InputHTMLAttributes, PropsWithChildren } from 'react';
-import { customClassSwitcher } from '~/core';
-import RadioPrimitive from '~/core/primitives/Radio';
-import { clsx } from 'clsx';
-const COMPONENT_NAME = 'RadioGroup';
+
+import RadioGroupRoot from './fragments/RadioGroupRoot';
+import RadioGroupItem from './fragments/RadioGroupItem';
 
 export type RadioGroupProps = {
-
     children?: React.ReactNode;
     className: string;
     customRootClass: string;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & PropsWithChildren
 
-const RadioGroup = ({ children, type = 'radio', className = '', customRootClass = '', ...props }:RadioGroupProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
+const RadioGroup = ({ className = '', customRootClass = '', children, ...props }:RadioGroupProps) => {
     return (
-        <div className={clsx(rootClass, className)} role='radiogroup'>
-            <RadioPrimitive
-                type={type}
-                {...props}>
-
-                {children}
-            </RadioPrimitive>
-        </div>
+        <RadioGroupRoot className={className} customRootClass={customRootClass} {...props}>
+            <RadioGroupItem value='radio1'>
+                Radio 1
+            </RadioGroupItem>
+            <RadioGroupItem value='radio2'>
+                Radio 2
+            </RadioGroupItem>
+            <RadioGroupItem value='radio3'>
+                Radio 3
+            </RadioGroupItem>
+        </RadioGroupRoot>
     );
 };
 

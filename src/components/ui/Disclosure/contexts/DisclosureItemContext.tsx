@@ -1,4 +1,4 @@
-import {createContext} from "react";
+import { createContext } from 'react';
 
 export type DisclosureItemContextType = {
   itemValue: number;
@@ -8,4 +8,4 @@ export type DisclosureItemContextType = {
   handleFocusEvent: () => void;
 }
 
-export const DisclosureItemContext = createContext<DisclosureItemContextType>({} as DisclosureItemContextType)
+export const DisclosureItemContext = createContext<DisclosureItemContextType>({} as DisclosureItemContextType);
