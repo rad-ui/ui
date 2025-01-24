@@ -14,6 +14,7 @@ interface PrimitiveProps extends React.HTMLAttributes<HTMLElement> {
 const createPrimitiveComponent = (elementType: SupportedElement) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
+        if (asChild && Array.isArray(children)) throw new Error('React.Children only expected to receive a single React element child.');
 
         if (asChild && React.isValidElement(children)) {
             return React.cloneElement(children, {
@@ -35,7 +36,7 @@ const Primitive = SUPPORTED_HTML_ELEMENTS.reduce<Record<SupportedElement, React.
         components[elementType] = createPrimitiveComponent(elementType);
         return components;
     },
-    {} as Record<SupportedElement, React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>>
+  {} as Record<SupportedElement, React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>>
 );
 
 export default Primitive;
