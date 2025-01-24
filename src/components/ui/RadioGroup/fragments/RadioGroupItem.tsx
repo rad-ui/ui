@@ -8,7 +8,7 @@ type RadioGroupItemProps = PropsWithChildren<{
 
 const RadioGroupItem = ({ value, children }: RadioGroupItemProps) => {
     return (
-        <div>
+        <div className="rad-ui-radio-group-item">
             <RadioPrimitive value={value} name='radio' />
             <label htmlFor={value}>{children}</label>
         </div>

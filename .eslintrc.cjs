@@ -30,6 +30,7 @@ module.exports = {
         'no-multi-spaces': 'warn',
         'no-unused-vars': 'warn',
         'no-undef': 'off',
+        'import/no-absolute-path': 'off',
         eqeqeq: 'warn',
         'array-callback-return': 'warn',
         'react/no-unescaped-entities': 1,

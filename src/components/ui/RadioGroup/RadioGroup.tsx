@@ -12,17 +12,12 @@ export type RadioGroupProps = {
 const RadioGroup = ({ className = '', customRootClass = '', children, ...props }:RadioGroupProps) => {
     return (
         <RadioGroupRoot className={className} customRootClass={customRootClass} {...props}>
-            <RadioGroupItem value='radio1'>
-                Radio 1
-            </RadioGroupItem>
-            <RadioGroupItem value='radio2'>
-                Radio 2
-            </RadioGroupItem>
-            <RadioGroupItem value='radio3'>
-                Radio 3
-            </RadioGroupItem>
+
         </RadioGroupRoot>
     );
 };
+
+RadioGroup.Root = RadioGroupRoot;
+RadioGroup.Item = RadioGroupItem;
 
 export default RadioGroup;

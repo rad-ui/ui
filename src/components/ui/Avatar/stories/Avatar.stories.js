@@ -1,7 +1,7 @@
 import Avatar from '../Avatar';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import avatarImage1 from '../../../../../../../../../../assets/images/avatar-1.jpg';
-import avatarImage2 from '../../../../../../../../../../assets/images/avatar-11.jpg';
+import avatarImage1 from '/assets/images/avatar-1.jpg';
+import avatarImage2 from '/assets/images/avatar-11.jpg';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

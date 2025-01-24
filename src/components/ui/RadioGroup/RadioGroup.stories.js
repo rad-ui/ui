@@ -8,15 +8,20 @@ const RadioButton = (args) => {
         { id: 'css', value: 'css', label: 'CSS' },
         { id: 'javascript', value: 'javascript', label: 'JavaScript' }];
 
-    const [language, setLanguage] = useState({});
+    const [language, setLanguage] = useState('css');
 
     const handleChange = (e) => {
         setLanguage(e.target.value);
     };
     return (
         <SandboxEditor>
-
-            <RadioGroup items={options} onChange={handleChange} />
+            <RadioGroup.Root defaultValue={language} items={options} onChange={handleChange} >
+                {options.map((option) => (
+                    <RadioGroup.Item key={option.id} value={option.value}>
+                        {option.label}
+                    </RadioGroup.Item>
+                ))}
+            </RadioGroup.Root>
         </SandboxEditor>
     );
 };
