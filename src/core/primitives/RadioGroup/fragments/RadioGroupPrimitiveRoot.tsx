@@ -9,7 +9,7 @@ type RadioGroupRootProps = PropsWithChildren<{
     onChange?: (item: string) => void;
 }>;
 
-const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange = null }: RadioGroupPrimitiveRootProps) => {
+const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange = null, ...props }: RadioGroupPrimitiveRootProps) => {
     const [checkedItem, setCheckedItem] = useState(defaultChecked);
 
     const handleOnChange = (item: string) => {
@@ -27,7 +27,7 @@ const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange = nul
     };
 
     return <RadioGroupContext.Provider value={sendItems}>
-        <div>{children}</div>
+        <div {...props}>{children}</div>
     </RadioGroupContext.Provider>;
 };
 
