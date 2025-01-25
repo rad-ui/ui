@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Define supported HTML elements
-const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button'] as const;
+const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input'] as const;
 type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 
 // Update type definitions to be more specific

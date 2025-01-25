@@ -1,4 +1,5 @@
 import React from 'react';
+import Primitive from '~/core/primitives/Primitive';
 
 type RadioPrimitiveProps = {
     onClick: (data: any) => void;
@@ -35,9 +36,7 @@ const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onCha
     };
 
     return (
-        <>
-            <input id={value} type='radio' value={value} name={name} onClick={handleOnClick} onChange={handleOnChange} {...props} {...dataAttributes} />
-        </>
+        <Primitive.input id={value} type='radio' value={value} name={name} onClick={handleOnClick} onChange={handleOnChange} {...props} {...dataAttributes}/>
     );
 };
 
