@@ -1,4 +1,4 @@
-import RadioGroup from './RadioGroup';
+import RadioGroupPrimitive from './RadioGroupPrimitive';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import { useState } from 'react';
 
@@ -15,20 +15,20 @@ const RadioButton = (args) => {
     };
     return (
         <SandboxEditor>
-            <RadioGroup.Root defaultChecked={language} items={options} onChange={handleChange} >
+            <RadioGroupPrimitive.Root defaultChecked={language} items={options} onChange={handleChange} >
                 {options.map((option) => (
-                    <RadioGroup.Item key={option.id} value={option.value}>
+                    <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                         {option.label}
-                    </RadioGroup.Item>
+                    </RadioGroupPrimitive.Item>
                 ))}
-            </RadioGroup.Root>
+            </RadioGroupPrimitive.Root>
         </SandboxEditor>
     );
 };
 
 export default {
-    title: 'UI/Input/RadioGroup',
-    component: RadioGroup,
+    title: 'Primitives/RadioGroupPrimitive',
+    component: RadioGroupPrimitive,
     render: (args) => <RadioButton {...args}/>
 };
 
@@ -55,13 +55,13 @@ const InFormTemplate = () => {
     return (
         <SandboxEditor>
             <form onSubmit={handleFormSubmit}>
-                <RadioGroup.Root defaultChecked={language} items={options} onChange={handleChange} >
+                <RadioGroupPrimitive.Root defaultChecked={language} items={options} onChange={handleChange} >
                     {options.map((option) => (
-                        <RadioGroup.Item key={option.id} value={option.value}>
+                        <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                             {option.label}
-                        </RadioGroup.Item>
+                        </RadioGroupPrimitive.Item>
                     ))}
-                </RadioGroup.Root>
+                </RadioGroupPrimitive.Root>
                 <button type="submit">Submit</button>
             </form>
         </SandboxEditor>

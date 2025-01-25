@@ -7,7 +7,7 @@ type RadioGroupItemProps = PropsWithChildren<{
     value: string;
 }>;
 
-const RadioGroupItem = ({ value, children }: RadioGroupItemProps) => {
+const RadioGroupPrimitiveItem = ({ value, children, ...props }: RadioGroupPrimitiveItemProps) => {
     const { setCheckedItem, checkedItem, onChange } = useContext(RadioGroupContext);
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,11 +19,11 @@ const RadioGroupItem = ({ value, children }: RadioGroupItemProps) => {
     };
 
     return (
-        <div className="rad-ui-radio-group-item">
+        <div {...props}>
             <RadioPrimitive value={value} name='radio' checked={checkedItem === value} onChange={handleOnChange} />
             <label htmlFor={value}>{children}</label>
         </div>
     );
 };
 
-export default RadioGroupItem;
+export default RadioGroupPrimitiveItem;

@@ -1,10 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
-import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
 
 import RadioGroupContext from '../context/RadioGroupContext';
-
-const COMPONENT_NAME = 'RadioGroup';
 
 type RadioGroupRootProps = PropsWithChildren<{
     className?: string;
@@ -13,8 +9,7 @@ type RadioGroupRootProps = PropsWithChildren<{
     onChange?: (item: string) => void;
 }>;
 
-const RadioGroupRoot = ({ children, defaultChecked = '', className, customRootClass = '', onChange = null }: RadioGroupRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange = null }: RadioGroupPrimitiveRootProps) => {
     const [checkedItem, setCheckedItem] = useState(defaultChecked);
 
     const handleOnChange = (item: string) => {
@@ -31,7 +26,9 @@ const RadioGroupRoot = ({ children, defaultChecked = '', className, customRootCl
         onChange: handleOnChange
     };
 
-    return <RadioGroupContext.Provider value={sendItems}><div className={clsx(rootClass, className)}>{children}</div></RadioGroupContext.Provider>;
+    return <RadioGroupContext.Provider value={sendItems}>
+        <div>{children}</div>
+    </RadioGroupContext.Provider>;
 };
 
-export default RadioGroupRoot;
+export default RadioGroupPrimitiveRoot;
