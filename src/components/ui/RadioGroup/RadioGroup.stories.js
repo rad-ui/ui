@@ -15,7 +15,7 @@ const RadioButton = (args) => {
     };
     return (
         <SandboxEditor>
-            <RadioGroup.Root defaultValue={language} items={options} onChange={handleChange} >
+            <RadioGroup.Root defaultChecked={language} items={options} onChange={handleChange} >
                 {options.map((option) => (
                     <RadioGroup.Item key={option.id} value={option.value}>
                         {option.label}
@@ -33,3 +33,42 @@ export default {
 };
 
 export const All = {};
+
+const InFormTemplate = () => {
+    const options = [
+        { id: 'html', value: 'html', label: 'HTML' },
+        { id: 'css', value: 'css', label: 'CSS' },
+        { id: 'javascript', value: 'javascript', label: 'JavaScript' }];
+
+    const [language, setLanguage] = useState('');
+
+    const handleChange = (data) => {
+        console.log('change', data);
+        setLanguage(data);
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        console.log('submit', language);
+    };
+
+    return (
+        <SandboxEditor>
+            <form onSubmit={handleFormSubmit}>
+                <RadioGroup.Root defaultChecked={language} items={options} onChange={handleChange} >
+                    {options.map((option) => (
+                        <RadioGroup.Item key={option.id} value={option.value}>
+                            {option.label}
+                        </RadioGroup.Item>
+                    ))}
+                </RadioGroup.Root>
+                <button type="submit">Submit</button>
+            </form>
+        </SandboxEditor>
+    );
+};
+
+export const InForm = InFormTemplate.bind({});
+InForm.args = {
+    defaultValue: 'css'
+};

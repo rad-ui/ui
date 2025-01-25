@@ -1,25 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type RadioPrimitiveProps = {
     onClick: (data: any) => void;
-    defaultChecked: boolean;
+    onChange: (data: any) => void;
+    checked: boolean;
     name: string;
     value: string;
 };
 
-const RadioPrimitive = ({ name = '', defaultChecked = false, value = '', onClick, ...props }:RadioPrimitiveProps) => {
+const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onChange, ...props }:RadioPrimitiveProps) => {
+    const dataAttributes = {
+        'data-checked': checked.toString()
+    };
+
     const handleOnClick = (event: React.MouseEvent<HTMLInputElement>) => {
+        const isChecked = event.target?.checked;
         if (typeof onClick === 'function') {
             onClick({
-                value: event.target.value,
-                checked: event.target.checked
+                value,
+                checked: isChecked
+            });
+        }
+    };
+
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = event.target.checked;
+
+        if (typeof onChange === 'function') {
+            onChange({
+                value,
+                checked: isChecked
             });
         }
     };
 
     return (
         <>
-            <input id={value} type='radio' value={value} name={name} onClick={handleOnClick} {...props} />
+            <input id={value} type='radio' value={value} name={name} onClick={handleOnClick} onChange={handleOnChange} {...props} {...dataAttributes} />
         </>
     );
 };
