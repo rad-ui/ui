@@ -10,11 +10,11 @@ export default {
     render: (args) => <SandboxEditor>
         <div >
             <div className='flex space-x-2'>
-                <Code className='space-x-1'>
+                <Code className='space-x-1' {...args}>
          requestAnimationFrame()
                 </Code>
 
-                <Code className='space-x-1'>
+                <Code className='space-x-1' {...args}>
                     {Code_TEXT}
                 </Code>
 
@@ -30,3 +30,9 @@ export const All = {
         className: ''
     }
 };
+
+export const Color = {
+    args: {
+        color: 'green'
+    }
+}

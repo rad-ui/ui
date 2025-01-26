@@ -15,7 +15,8 @@
     outline: none;
 
     &[data-state=on]{
-        background-color: var(--rad-ui-color-accent-500);
+        background-color: var(--rad-ui-color-accent-900);
+        color: white;
 
     }
 

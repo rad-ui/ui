@@ -11,6 +11,16 @@ import codeUsage from "./docs/codeUsage"
 
 
 const BlockQuoteDocs = () => {
+    const columns = [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ];
+
+    const data = [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the quote', id: 'color'},
+    ];
     return <div>
         <Documentation currentPage={PAGE_NAME} title='BlockQuote' description={`
             BlockQuote is used to display a quote.
@@ -33,7 +43,12 @@ const BlockQuoteDocs = () => {
 
                 </div>
             </Documentation.ComponentHero>
-
+            
+            
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={columns} data={data} />
+            </div>
+        
         </Documentation>
     </div>
 }
