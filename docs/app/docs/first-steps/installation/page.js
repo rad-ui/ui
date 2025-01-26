@@ -5,7 +5,7 @@ import Heading from "@radui/ui/Heading"
 import Link from "@radui/ui/Link"
 import Code from "@radui/ui/Code"
 import Copy from "@/components/Copy"
-
+import CodeWithCopy from "@/components/CodeWithCopy"
 
 const PAGE_NAME = 'INSTALLATION'
 import SEO from "../../docsIndex"
@@ -24,23 +24,10 @@ const Introduction = () => {
             </Text>
 
             <Text className="my-2 font-medium">Using Yarn</Text>
-            <Code>
-               <span  className="flex items-center">
-                <span className="mr-2">
-                yarn add @radui/ui
-                    </span>
-                    <Copy content="yarn add @radui/ui" />
-               </span>
-            </Code>
+            <CodeWithCopy code={`yarn add @radui/ui`} />
+            
             <Text className="mt-4 mb-1 font-medium">Using npm</Text>
-            <Code>
-               <span  className="flex items-center">
-                <span className="mr-2">
-                        npm install @radui/ui --save
-                    </span>
-                    <Copy content="npm install @radui/ui --save" />
-               </span>
-            </Code>
+            <CodeWithCopy code={`npm install @radui/ui --save`} />
         </Documentation.Section>
     </Documentation>
 

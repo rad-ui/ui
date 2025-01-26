@@ -22,4 +22,9 @@ describe('Separator Component', () => {
         render(<Separator data-testid="separator" data-custom="separator-data" />);
         expect(screen.getByTestId('separator')).toHaveAttribute('data-custom', 'separator-data');
     });
+
+    test('renders Separator component with color', () => {
+        render(<Separator color='blue' data-testid="separator"/>);
+        expect(screen.getByTestId('separator')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

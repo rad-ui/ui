@@ -4,9 +4,9 @@ import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
 
 export type ToggleItemProps = {
-    children: React.ReactNode;
-    value: any;
-    props: any;
+    children?: React.ReactNode;
+    value?: any;
+    props?: any;
 };
 
 const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {

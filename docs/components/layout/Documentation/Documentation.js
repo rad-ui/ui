@@ -44,7 +44,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
 };
 
 const DocsTable = ({ children, columns = [], data = [] }) => {
-    return <div className='mb-20'>
+    return <div className='mb-20 max-w-screen-md'>
         <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
         <Table columns={columns} data={data} >
             {children}
@@ -64,7 +64,7 @@ const Anatomy = ({ code, language = 'jsx' }) => {
 
 const Section = ({ title = '', children }) => {
     return <div>
-        <Heading as="h6" className="mb-2 mt-8">{title}</Heading>
+        <BookMarkLink id={title}> <Heading as="h6" className="mb-2">{title}</Heading> </BookMarkLink>
         <div className='mb-10'>
             {children}
         </div>

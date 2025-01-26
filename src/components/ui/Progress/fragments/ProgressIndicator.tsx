@@ -1,26 +1,31 @@
 'use client';
 import React, { useContext } from 'react';
-import { ProgressProps, COMPONENT_NAME } from '../Progress';
+import { COMPONENT_NAME } from '../Progress';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import { ProgressContext } from '../contexts/ProgressContext';
 
-interface IndicatorProps
-  extends Pick<
-    ProgressProps,
-    'value' | 'minValue' | 'maxValue' | 'customRootClass' | 'renderLabel'
-  > {
-  renderLabel?(value: number): JSX.Element
+interface IndicatorProps {
+    customRootClass?: string;
+    color?:string;
+    renderLabel?(value: number): JSX.Element;
 }
 
 export default function ProgressIndicator({
     customRootClass,
-    renderLabel
+    renderLabel, 
+    color=''
 }: IndicatorProps) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const { value, minValue, maxValue } = useContext(ProgressContext);
     // Ensure value stays within bounds in production
     const boundedValue = Math.min(Math.max(value, minValue), maxValue);
+
+    const data_attributes: Record<string, string> = {};
+
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
 
     return (
         <div
@@ -30,6 +35,7 @@ export default function ProgressIndicator({
             aria-valuenow={boundedValue}
             aria-valuemax={maxValue}
             aria-valuemin={minValue}
+            {...data_attributes}
         >
             {renderLabel?.(value)}
         </div>

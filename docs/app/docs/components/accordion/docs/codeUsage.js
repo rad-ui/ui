@@ -26,11 +26,11 @@ export const keyboardShortcuts = {
     columns: [
         {
             name: 'Shortcut',
-            key: 'shortcut'
+            id: 'shortcut'
         },
         {
             name: 'Description',
-            key: 'description'
+            id: 'description'
         }
     ],
     data: [
@@ -38,37 +38,43 @@ export const keyboardShortcuts = {
             shortcut: <Kbd>Space</Kbd>,
             description: <Text>
               When focus is on an Accordion.Trigger of a collapsed section, expands the section.
-            </Text>
+            </Text>,
+            id: "space"
         },
         {
           shortcut: <Kbd>Enter</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, collapses the section.
-          </Text>
+          </Text>,
+          id: "enter"
         },
         {
           shortcut: <Kbd>Tab</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
-          </Text>
+          </Text>,
+          id: "tab"
         },
         {
           shortcut: <Kbd>Shift + Tab</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
-          </Text>
+          </Text>,
+          id: "shift-tab"
         },
         {
           shortcut: <Kbd>ArrowDown</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
-          </Text>
+          </Text>,
+          id: "arrow-down"
         },
         {
           shortcut: <Kbd>ArrowUp</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
-          </Text>
+          </Text>, 
+          id:   "arrow-up"
         },
         // {
         //   shortcut: <Kbd>ArrowRight</Kbd>,
@@ -86,13 +92,15 @@ export const keyboardShortcuts = {
           shortcut: <Kbd>Home</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger, focuses the first Accordion.Trigger. [TODO]
-          </Text>
+          </Text>,
+          id: "home"
         },
         {
           shortcut: <Kbd>End</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger, focuses the last Accordion.Trigger. [TODO]
-          </Text>
+          </Text>,
+          id: "end"
         }
     ]
 }

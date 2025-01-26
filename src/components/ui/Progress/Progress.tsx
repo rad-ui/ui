@@ -1,22 +1,23 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React from 'react';
 
 import ProgressRoot from './fragments/ProgressRoot';
 import ProgressIndicator from './fragments/ProgressIndicator';
 
 export const COMPONENT_NAME = 'Progress';
 
-export interface ProgressProps extends PropsWithChildren {
+export interface ProgressProps {
     value: number;
     minValue?: number,
     maxValue?: number;
+    color?: string;
     customRootClass?: string
     renderLabel?(value: number): JSX.Element
   }
 
-function Progress({ value = 0, maxValue = 100, minValue = 0, customRootClass, ...indicatorProps }: ProgressProps) {
+function Progress({ value = 0, maxValue = 100, minValue = 0, customRootClass, color='', ...indicatorProps }: ProgressProps) {
     return (
-        <ProgressRoot value={value} maxValue={maxValue} minValue={minValue} customRootClass={customRootClass}>
-            <ProgressIndicator customRootClass={customRootClass} {...indicatorProps}/>
+        <ProgressRoot value={value} maxValue={maxValue} minValue={minValue} customRootClass={customRootClass} >
+            <ProgressIndicator customRootClass={customRootClass} {...indicatorProps} color={color}/>
         </ProgressRoot>
     );
 }

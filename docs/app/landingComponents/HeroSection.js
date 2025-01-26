@@ -2,6 +2,7 @@
 "use client"
 import Button from "@radui/ui/Button"
 import Heading from "@radui/ui/Heading"
+import Code from "@radui/ui/Code"
 
 const HeroSection = () => {
   return <div>
@@ -19,6 +20,9 @@ const HeroSection = () => {
           <Button color="blue" variant="ghost" onClick={() => {
             location.href = '/colors'
           }}>Check out Colors</Button>
+        </div>
+        <div className="flex justify-center mt-6">
+          <Code>console.log('Pstt.. We are actively looking for rad maintainers')</Code>
         </div>
       </div>
     </div>

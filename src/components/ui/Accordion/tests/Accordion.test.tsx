@@ -1,6 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import * as axe from 'axe-core';
+
 import Accordion, { AccordionProps } from '../Accordion';
+import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 const defaultItems: AccordionProps['items'] = [
     { title: 'Item 1', content: <div>Content 1</div> },
@@ -65,5 +68,15 @@ describe('Accordion Component', () => {
         item2Trigger.focus();
         fireEvent.keyDown(item2Trigger, { key: 'ArrowUp', code: 'ArrowUp' });
         expect(item1Trigger).toHaveFocus();
+    });
+
+    test('passes accessibility checks', (done) => {
+        const { container } = render(<Accordion items={defaultItems} />);
+
+        axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } }).then((results) => {
+            expect(results.incomplete.length).toBe(0);
+            expect(results.violations.length).toBe(0);
+            done();
+        });
     });
 });

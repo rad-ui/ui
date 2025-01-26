@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-
+import { clsx } from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
@@ -8,10 +8,13 @@ export type AlertDialogTriggerProps = {
 }
 
 const AlertDialogTrigger = ({ children, ...props } : AlertDialogTriggerProps) => {
-    const { isOpen, handleOpenChange, floaterContext } = useContext(AlertDialogContext);
+    const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
 
     return (
-        <ButtonPrimitive onClick={() => handleOpenChange(true)} {...props}>
+        <ButtonPrimitive 
+           onClick={() => handleOpenChange(true)} {...props}
+           className={clsx(`${rootClass}-trigger`)}
+           >
             {children}
         </ButtonPrimitive>
     );

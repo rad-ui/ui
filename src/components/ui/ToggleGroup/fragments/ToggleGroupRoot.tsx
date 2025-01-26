@@ -5,7 +5,7 @@ import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, children }:any) => {
+const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, color='', children }:any) => {
     const rootClass = customClassSwitcher(customRootClass, componentName);
     const toggleGroupRef = useRef(null);
     // value can be either a string or an array of strings
@@ -14,18 +14,24 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
     const [activeToggles, setActiveToggles] = useState(value || []);
 
     const nextItem = () => {
-        const batches = getAllBatchElements(toggleGroupRef?.current);
-        const nextItem = getNextBatchItem(batches, loop);
-        if (nextItem) {
-            nextItem?.focus();
+        const currentRef = toggleGroupRef.current;
+        if (currentRef) {
+            const batches = getAllBatchElements(currentRef);
+            const nextItem = getNextBatchItem(batches, loop);
+            if (nextItem) {
+                (nextItem as HTMLElement)?.focus();
+            }
         }
     };
 
     const previousItem = () => {
-        const batches = getAllBatchElements(toggleGroupRef?.current);
-        const prevItem = getPrevBatchItem(batches, loop);
-        if (prevItem) {
-            prevItem?.focus();
+        const currentRef = toggleGroupRef?.current;
+        if (currentRef) {
+            const batches = getAllBatchElements(currentRef);
+            const prevItem = getPrevBatchItem(batches, loop);
+            if (prevItem) {
+                (prevItem as HTMLElement)?.focus();
+            }
         }
     };
 
@@ -37,8 +43,14 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
         type
     };
 
+    const data_attributes: Record<string, string> = {};
+    
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
+
     return (
-        <div className={clsx(rootClass, className)} role="group" ref={toggleGroupRef}>
+        <div className={clsx(rootClass, className)} role="group" ref={toggleGroupRef} {...data_attributes}>
             <ToggleContext.Provider
                 value={sendValues}>
                 {children}

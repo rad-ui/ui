@@ -11,14 +11,14 @@ import codeUsage from "./docs/codeUsage"
 const VisuallyHiddenDocs = () => {
 
     const columns = [
-        {name: 'Prop', key: 'prop'},
-        {name: 'Type', key: 'type'},
-        {name: 'Default', key: 'default'},
-        {name: 'Description', key: 'description'},
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
     ];
 
     const data = [
-        {prop: 'asChild', type: 'boolean', default: 'false', description: 'renders the children in desired element'},
+        {prop: 'asChild', type: 'boolean', default: 'false', description: 'renders the children in desired element', id: 'asChild'},
        
     ];
 
