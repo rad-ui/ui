@@ -57,7 +57,7 @@
     "prebuild": "npm run test && npm run clean",
     "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",
     "build:components": "npm run compile-components && npm run process-components",
-    "build": "npm run prebuild && npm run build:css && npm run build:components",
+    "build": "npm run prebuild && npm run build:css && NODE_OPTIONS='--max-old-space-size=4076' npm run build:components",
     "release": "npm publish --access public",
     "lint": "eslint . --fix && stylelint \"**/*.{css,scss,sass}\" --no-fix",
     "update-rad": "npm update @radui/ui",
