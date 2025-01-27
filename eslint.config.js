@@ -8,6 +8,9 @@ import react from 'eslint-plugin-react';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default tseslint.config(
+  {
+    ignores: ['assets/', 'dist/'],
+  },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   jsxA11y.flatConfigs.recommended,
@@ -16,7 +19,6 @@ export default tseslint.config(
     plugins: {
       react,
     },
-    ignores: ['assets/', 'dist/'],
     languageOptions: {
       globals: {
         ...globals.browser,
