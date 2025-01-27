@@ -3,7 +3,6 @@
 import eslint from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import typescriptParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 
@@ -25,10 +24,8 @@ export default tseslint.config(
         ...globals.node,
         ...globals.jest,
       },
-      parser: typescriptParser,
       parserOptions: {
         ecmaVersion: 'latest',
-        sourceType: 'module',
       }
     },
     rules: {
