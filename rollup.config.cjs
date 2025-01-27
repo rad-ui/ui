@@ -51,7 +51,7 @@ export default components.map((component) => {
                 format: 'es'
             }
         ],
-        external: ['react', 'react-dom'],
+        external: ['react', 'react-dom', 'react/jsx-runtime'],
         plugins: [
             aliasPluginInstance,
             babelPluginInstance,
