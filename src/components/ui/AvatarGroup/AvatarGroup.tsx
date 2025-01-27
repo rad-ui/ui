@@ -9,7 +9,7 @@ const COMPONENT_NAME = 'AvatarGroup';
 
 // contexts
 
-type AvatarGroupProps = {
+export type AvatarGroupProps = {
     avatars: { fallback: string, src: string, alt: string }[];
     size: 'sm' | 'md' | 'lg';
     customRootClass?: string;
