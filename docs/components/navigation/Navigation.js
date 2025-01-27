@@ -247,7 +247,7 @@ const Navigation = () => {
     }
 
 
-    return <div className=' relative border-box px-1 overflow-y-auto overflow-x-hidden lg:block flex flex-col pb-[200px] min-w-[40px] min-h-[40px]'>
+    return <div className=' relative border-box px-1 overflow-y-auto overflow-x-hidden lg:block flex flex-col pb-[200px] min-w-[40px] min-h-[40px] max-h-screen'>
         <div onClick={toggleCollapse} className={`absolute right-2 top-3 cursor-pointer` }>{isCollapsed? <HamburgerIcon /> : <XIcon />}</div>
         <div className={`${isCollapsed ? "hidden" : "block"}`}>
             <div className='flex-none' style={{ width: "240px" }}>

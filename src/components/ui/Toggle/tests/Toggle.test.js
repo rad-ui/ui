@@ -46,4 +46,9 @@ describe('Toggle component', () => {
         fireEvent.click(getByText('Test Toggle'));
         expect(handleChange).toHaveBeenCalledWith(false);
     });
+
+    test('Toggle renders color correctly', () => {
+        const { getByText } = render(<Toggle pressed={false} onChange={() => {}} color='blue'>Test Toggle</Toggle>);
+        expect(getByText('Test Toggle')).toHaveAttribute('data-accent-color', 'blue');
+    });
 });

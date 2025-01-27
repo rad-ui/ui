@@ -37,3 +37,10 @@ export const All = {
         className: '',
     }
 };
+
+export const Color = {
+    args: {
+        color:"blue"
+    }
+}
+

@@ -68,3 +68,13 @@ export const Single = {
         items
     }
 };
+
+export const Color = {
+    args: {
+        className: '',
+        type: 'multiple',
+        color:"blue",
+        items
+    }
+}
+
