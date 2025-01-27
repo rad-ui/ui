@@ -14,7 +14,8 @@ interface PrimitiveProps extends React.HTMLAttributes<HTMLElement> {
 const createPrimitiveComponent = (elementType: SupportedElement) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
-        if (asChild && Array.isArray(children)) throw new Error('React.Children only expected to receive a single React element child.');
+
+        if (React.Children.count(children) > 1) throw new Error('React.Children only expected to receive a single React element child.');
 
         if (asChild && React.isValidElement(children)) {
             return React.cloneElement(children, {
