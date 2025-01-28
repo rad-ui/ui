@@ -91,5 +91,4 @@ describe('ToggleGroup component', () => {
 
         expect(toggleGroupRoot).toHaveAttribute('data-accent-color', 'blue');
     });
-
 });

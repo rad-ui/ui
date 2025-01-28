@@ -1,17 +1,16 @@
-import { JSX } from 'react';
-import Disclosure, { DisclosureProps } from '../Disclosure'
+import React, { JSX } from 'react';
+import Disclosure, { DisclosureProps } from '../Disclosure';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import React from 'react';
 
 export default {
     title: 'Components/Disclosure',
     component: Disclosure,
     render: (args: JSX.IntrinsicAttributes & DisclosureProps) => <SandboxEditor>
-         
-            <div>
-                <Disclosure {...args} />
-            </div>
-        
+
+        <div>
+            <Disclosure {...args} />
+        </div>
+
     </SandboxEditor>
 };
 

@@ -5,7 +5,7 @@ import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, color='', children }:any) => {
+const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, color = '', children }:any) => {
     const rootClass = customClassSwitcher(customRootClass, componentName);
     const toggleGroupRef = useRef(null);
     // value can be either a string or an array of strings
@@ -44,7 +44,7 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
     };
 
     const data_attributes: Record<string, string> = {};
-    
+
     if (color) {
         data_attributes['data-accent-color'] = color;
     }
