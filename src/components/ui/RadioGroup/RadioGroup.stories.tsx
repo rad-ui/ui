@@ -27,7 +27,7 @@ const RadioButton = (args) => {
 };
 
 export default {
-    title: 'Components/RadioGroup',
+    title: 'WIP/RadioGroup',
     component: RadioGroup,
     render: (args) => <RadioButton {...args}/>
 };

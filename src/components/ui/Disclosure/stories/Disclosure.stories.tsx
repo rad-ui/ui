@@ -3,7 +3,7 @@ import Disclosure, { DisclosureProps } from '../Disclosure';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'Components/Disclosure',
+    title: 'WIP/Disclosure',
     component: Disclosure,
     render: (args: JSX.IntrinsicAttributes & DisclosureProps) => <SandboxEditor>
 
