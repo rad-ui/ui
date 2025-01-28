@@ -1,13 +1,15 @@
-import Avatar from '../Avatar';
+import Avatar, { AvatarProps } from '../Avatar';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import avatarImage1 from '/assets/images/avatar-1.jpg';
-import avatarImage2 from '/assets/images/avatar-11.jpg';
+import { JSX } from 'react';
+import React from 'react';
+const avatarImage1 = require('/assets/images/avatar-1.jpg');
+const avatarImage2 = require('/assets/images/avatar-11.jpg');
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Avatar',
     component: Avatar,
-    render: (args) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & AvatarProps) => <SandboxEditor>
         <Avatar {...args} />
     </SandboxEditor>
 };

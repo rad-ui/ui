@@ -84,4 +84,12 @@ describe('ToggleGroup component', () => {
 
         expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
     });
+
+    test('ToggleGroup color correctly', () => {
+        render(<ToggleGroup type="single" items={items} color='blue'/>);
+        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
+
+        expect(toggleGroupRoot).toHaveAttribute('data-accent-color', 'blue');
+    });
+
 });

@@ -1,14 +1,16 @@
-import AvatarGroup from '../AvatarGroup';
+import AvatarGroup , { AvatarGroupProps } from '../AvatarGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import avatarImage1 from '/assets/images/avatar-11.jpg';
-import avatarImage2 from '/assets/images/avatar-3.jpg';
-import avatarImage3 from '/assets/images/avatar-4.jpg';
+const avatarImage1 = require('/assets/images/avatar-11.jpg');
+const avatarImage2 = require('/assets/images/avatar-3.jpg');
+const avatarImage3 = require('/assets/images/avatar-4.jpg');
+import { JSX } from 'react';
+import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/AvatarGroup',
     component: AvatarGroup,
-    render: (args) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & AvatarGroupProps) => <SandboxEditor>
         <AvatarGroup {...args} />
     </SandboxEditor>
 };

@@ -1,5 +1,7 @@
-import BlockQuote from '../BlockQuote';
+import { JSX } from 'react';
+import BlockQuote, { BlockQuoteProps } from '../BlockQuote';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
 
 const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, and low altitude
  service. The connection topology is limited to a single point-to-point path
@@ -13,7 +15,7 @@ const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, 
 export default {
     title: 'Components/BlockQuote',
     component: BlockQuote,
-    render: (args) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & BlockQuoteProps) => <SandboxEditor>
         <div >
             <div className='flex space-x-2'>
                 <BlockQuote className='space-x-1' {...args}>

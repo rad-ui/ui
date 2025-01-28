@@ -13,6 +13,7 @@ export type ToggleProps = {
     disabled? : boolean;
     children? : React.ReactNode;
     className? : string;
+    color?: string;
     onChange : (isPressed:boolean) => void;
 
 };
@@ -22,6 +23,7 @@ const Toggle: React.FC<ToggleProps> = ({
     customRootClass = '',
     children,
     className = '',
+    color='',
     pressed = false,
     onChange,
     ...props
@@ -39,6 +41,11 @@ const Toggle: React.FC<ToggleProps> = ({
         setIsPressed(updatedPressed);
         onChange(updatedPressed);
     };
+    const data_attributes: Record<string, string> = {};
+
+    if (color) {
+        data_attributes['data-accent-color'] = color;
+    }
 
     return (
 
@@ -48,7 +55,9 @@ const Toggle: React.FC<ToggleProps> = ({
             onPressedChange={handlePressed}
             data-state={isPressed ? 'on' : 'off'}
             data-disabled={props.disabled ? '' : undefined}
-            {...props}>
+            {...props}
+            {...data_attributes}
+            >
             {children}
         </TogglePrimitive>
     );

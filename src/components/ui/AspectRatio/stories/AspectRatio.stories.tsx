@@ -1,11 +1,13 @@
-import AspectRatio from '../AspectRatio';
+import { JSX } from 'react';
+import AspectRatio, { AspectRatioProps } from '../AspectRatio';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/AspectRatio',
     component: AspectRatio,
-    render: (args) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & AspectRatioProps) => <SandboxEditor>
         <AspectRatio {...args} >
             <img
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
