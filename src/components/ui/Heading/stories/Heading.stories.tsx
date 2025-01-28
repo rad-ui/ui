@@ -1,3 +1,4 @@
+import React from "react"
 import Heading from '../Heading';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -5,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Heading',
     component: Heading,
-    render: (args) => <SandboxEditor>
+    render: () => <SandboxEditor>
         <div >
             <div className=' space-y-2'>
                 <Heading className='text-gray-1000'>

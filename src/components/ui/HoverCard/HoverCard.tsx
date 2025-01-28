@@ -6,7 +6,7 @@ import HoverCardPortal from './fragments/HoverCardPortal';
 import HoverCardContent from './fragments/HoverCardContent';
 import HoverCardArrow from './fragments/HoverCardArrow';
 
-type HoverCardProps = {
+export type HoverCardProps = {
     children: React.ReactNode,
     content: React.ReactNode,
     customRootClass?: string,

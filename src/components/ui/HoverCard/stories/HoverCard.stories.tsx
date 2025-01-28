@@ -1,12 +1,13 @@
-import HoverCard from '../HoverCard';
+import React from "react"
+import HoverCard, { HoverCardProps } from '../HoverCard';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import Button from '~/components/ui/Button/Button';
+
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/HoverCard',
     component: HoverCard,
-    render: (args) => {
+    render: (args: React.JSX.IntrinsicAttributes) => {
         const Content = () => {
             return <div>
                 <div className=' space-y-2'>
@@ -15,7 +16,7 @@ export default {
             </div>;
         };
         return <SandboxEditor className='bg-gray-200 h-[400px] flex items-center justify-center'>
-            <HoverCard className='text-gray-900 text-center' content={<Content />} {...args} >
+            <HoverCard  content={<Content />} {...args} >
                 <div className="p-10 bg-gray-100 rounded-md shadow">Hover me</div>
             </HoverCard>
         </SandboxEditor>;
@@ -24,7 +25,9 @@ export default {
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
-
+    args: {
+        className:'text-gray-900 text-center'
+    }
 };
 
 export const Controlled = {
