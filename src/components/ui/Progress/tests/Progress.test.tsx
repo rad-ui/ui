@@ -30,7 +30,6 @@ describe('Progress', () => {
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2');
     });
 
-    
     test('renders progress bar with correct color', () => {
         render(<Progress value={2} color='blue' />);
         expect(screen.getByRole('progressbar')).toHaveAttribute('data-accent-color', 'blue');

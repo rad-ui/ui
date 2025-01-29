@@ -5,7 +5,7 @@ import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Dropdown',
+    title: 'WIP/Dropdown',
     component: Dropdown,
     render: () => <SandboxEditor>
         <div className=' bg-gray-400 p-4 overflow-auto' style={{ height: '200px' }}>

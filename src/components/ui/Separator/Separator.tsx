@@ -11,7 +11,7 @@ export type SeparatorProps = {
     props?: any;
 } & React.ComponentProps<'div'>;
 
-const Separator = ({ orientation = 'horizontal', className, customRootClass, color='', ...props } : SeparatorProps) => {
+const Separator = ({ orientation = 'horizontal', className, customRootClass, color = '', ...props } : SeparatorProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const orientationClass = orientation === 'vertical' ? `${rootClass}-vertical` : `${rootClass}-horizontal`;
     const data_attributes: Record<string, string> = {};

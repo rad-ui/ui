@@ -9,7 +9,7 @@ export interface AvatarPrimitiveFallbackProps {
     color?: string;
 }
 
-const AvatarPrimitiveFallback = ({ children, className = '' , color = ''}: AvatarPrimitiveFallbackProps) => {
+const AvatarPrimitiveFallback = ({ children, className = '', color = '' }: AvatarPrimitiveFallbackProps) => {
     const { hasError, fallBackRootClass } = useContext(AvatarPrimitiveContext);
 
     if (!hasError) {

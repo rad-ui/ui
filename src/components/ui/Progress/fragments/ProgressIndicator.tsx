@@ -13,8 +13,8 @@ interface IndicatorProps {
 
 export default function ProgressIndicator({
     customRootClass,
-    renderLabel, 
-    color=''
+    renderLabel,
+    color = ''
 }: IndicatorProps) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const { value, minValue, maxValue } = useContext(ProgressContext);
