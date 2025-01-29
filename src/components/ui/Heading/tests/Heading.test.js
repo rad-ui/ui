@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Heading from '../Heading';
 
-
 describe('Heading', () => {
     test('renders children correctly', () => {
         render(<Heading>Test Content</Heading>);
@@ -20,7 +19,6 @@ describe('Heading', () => {
         const element = screen.getByText('Test Content');
         expect(element.tagName.toLowerCase()).toBe('h2');
     });
-
 
     test('Heading renders default h1 tag when as prop is not provided', () => {
         render(<Heading>Test Content</Heading>);
