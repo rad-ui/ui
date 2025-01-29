@@ -8,6 +8,8 @@ export const metadata = {
 import HeroSection from './landingComponents/HeroSection'
 import LandingBgPattern from '@/components/Backgrounds/LandingBgPattern'
 
+import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
+
 import MusicAppPlayerDemo from './landingComponents/MusicAppPlayerDemo'
 import ToolbarDemo from './landingComponents/ToolbarDemo'
 import AddToCartDemo from './landingComponents/AddToCartDemo'
@@ -19,9 +21,9 @@ import TrafficAnalyticsDemo from './landingComponents/TrafficAnalyticsDemo'
 
 export default function Home() {
   return (
-    <div className='min-h-screen '>
+      <FullHeightScroll >
       <LandingBgPattern />
-      <div className='lg:p-10 flex flex-col'>
+      <div className='lg:p-10'>
         <HeroSection />
         {/*  */}
         <div className='text-gray-1000 p-10 mt-10 flex space-x-4 w-full overflow-x-auto relative z-10'>
@@ -47,6 +49,6 @@ export default function Home() {
         </div>
         {/*  */}
       </div>
-    </div>
+    </FullHeightScroll>
   )
 }
