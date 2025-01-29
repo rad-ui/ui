@@ -3,7 +3,9 @@
 import path from 'path';
 import NavItem from './NavItem.js'
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useEffect } from 'react';
+
+import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 
 const sections = [
     {
@@ -240,24 +242,24 @@ const HamburgerIcon = (props) => (
 const Navigation = () => {
     // get path from ssr
     const pathname = usePathname();
-    const [isCollapsed, setIsCollapsed] = useState(false);
 
-    const toggleCollapse = () => {
-        setIsCollapsed(!isCollapsed);
-    }
+    const {isDocsNavOpen,setIsDocsNavOpen} = useContext(NavBarContext);
+
+    const mobileClasses = "fixed w-full lg:block lg:w-auto z-10"
 
 
-    return <div className=' relative border-box px-1 overflow-y-auto overflow-x-hidden lg:block flex flex-col pb-[200px] min-w-[40px] min-h-[40px]'>
-        <div onClick={toggleCollapse} className={`absolute right-2 top-3 cursor-pointer` }>{isCollapsed? <HamburgerIcon /> : <XIcon />}</div>
-        <div className={`${isCollapsed ? "hidden" : "block"}`}>
-            <div className='flex-none' style={{ width: "240px" }}>
+    
+
+    return <div className={`${isDocsNavOpen ? mobileClasses : ""} lg:relative lg:w-full lg:block border-box overflow-y-auto overflow-x-hidden  flex flex-col h-full`}>
+        <div className={`${isDocsNavOpen ? "block  " : "hidden lg:block"}`}>
+            <div className='flex-none pb-20 w-full lg:w-[240px] bg-gray-50 lg:bg-transparent'>
                 {sections.map((section, i) => {
                     return <div key={i}>
                         <div className='px-2 py-2 font-bold text-md text-gray-1000'>{section.title}</div>
                         <ul>
                             {section.items.map((item, itemKey) => {
-                                return <li key={itemKey}>
-                                    <NavItem item={item} path={pathname} />
+                                return <li key={itemKey} onClick={() => setIsDocsNavOpen(false)}>
+                                    <NavItem item={item} path={pathname} setIsDocsNavOpen={setIsDocsNavOpen} />
                                 </li>
                             })}
                         </ul>
