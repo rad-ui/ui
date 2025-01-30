@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Progress, { ProgressProps } from '../Progress';
+import Progress from '../Progress';
 import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
