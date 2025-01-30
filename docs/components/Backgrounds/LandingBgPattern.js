@@ -3,7 +3,7 @@
 import React from 'react';
 
 export default function LandingBgPattern() {
-    return <div className='fixed' style={{ width: "100vw", zIndex: "1", pointerEvents: "none" }}>
+    return <div className='fixed hidden md:block' style={{ zIndex: "1", pointerEvents: "none" }}>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1422 800"><g strokeWidth="1"
       style={{
         stroke: "var(--rad-ui-color-gray-500)",
