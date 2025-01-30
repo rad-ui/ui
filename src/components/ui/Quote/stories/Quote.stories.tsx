@@ -1,3 +1,4 @@
+import React from 'react';
 import Quote from '../Quote';
 import Text from '~/components/ui/Text/Text';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
@@ -6,7 +7,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Quote',
     component: Quote,
-    render: (args) => <SandboxEditor>
+    render: (args:any) => <SandboxEditor>
         <div className='text-gray-950'>
             <Text className='text-gray-950'> <Quote> {`I'm not a monkey
 I will not dance even if the beat's funky`}</Quote>  - Mike Shinoda </Text>

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import Progress from '../Progress';
+import React, { useEffect, useState } from 'react';
+import Progress, { ProgressProps } from '../Progress';
 import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -7,7 +7,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Progress',
     component: Progress,
-    render: (args) => {
+    render: (args: React.JSX.IntrinsicAttributes) => {
         const [value, setValue] = useState(10);
         console.log(value);
         return (<SandboxEditor>
