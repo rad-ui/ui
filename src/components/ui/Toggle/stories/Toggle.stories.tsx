@@ -5,7 +5,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Toggle',
     component: Toggle,
-    render: (args) => <Template {...args} />
+    render: (args: React.JSX.IntrinsicAttributes) => <Template {...args} />
 };
 
 const MoveIcon = () => {
@@ -16,9 +16,9 @@ const MoveIcon = () => {
 
 const DEFAULT_PRESSED_STATE = false;
 
-const Template = (args) => {
+const Template = (args: any) => {
     const [isPressed, setIsPressed] = React.useState(DEFAULT_PRESSED_STATE);
-    const handleChange = (state) => {
+    const handleChange = (state: boolean) => {
         setIsPressed(state);
     };
     return <SandboxEditor className="space-y-4 pt-4">
