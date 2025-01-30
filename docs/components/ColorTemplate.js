@@ -13,10 +13,10 @@ const ColorBubble = ({ colorClass }) => {
   const ColorTemplate = () => {
   
   
-    return <div>
+    return <div className="overflow-x-scroll">
   
-      <div className={`p-4 space-y-0.5 `}>
-      <div className='flex'>
+      <div className={`p-4 space-y-0.5 max-w-[1200px] min-w-[800px] mx-auto`}>
+      <div className='flex mx-auto'>
                 <ColorBubble colorClass='bg-gray-50' />
                 <ColorBubble colorClass='bg-gray-100' />
                 <ColorBubble colorClass='bg-gray-200' />

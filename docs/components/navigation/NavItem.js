@@ -7,7 +7,7 @@ import Badge from "@radui/ui/Badge"
 
 import { useRouter } from 'next/navigation'
 
-const NavItem = ({ item, path }) => {
+const NavItem = ({ item, path,setIsDocsNavOpen }) => {
     const router = useRouter()
 
     const isCurrentPath = path === item?.path;
