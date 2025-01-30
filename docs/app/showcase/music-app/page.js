@@ -7,7 +7,7 @@ import TopArtists from './helpers/sections/TopArtists'
 import PlaylistHero from './helpers/sections/PlaylistHero'
 const MusicAppPage = () => {
     return <div >
-        <div className='flex h-ful'>
+        <div className='flex h-full'>
             {/* Sidebar */}
             <MusicSidebar/>
             {/* Main Content */}
