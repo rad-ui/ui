@@ -1,3 +1,4 @@
+import React from 'react';
 import Text from '../Text';
 
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
@@ -6,7 +7,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Text',
     component: Text,
-    render: (args) => <SandboxEditor>
+    render: (args: React.JSX.IntrinsicAttributes) => <SandboxEditor>
         <div >
             <Text {...args}>  {`I'm not a monkey
 I will not dance even if the beat's funky`}  </Text>

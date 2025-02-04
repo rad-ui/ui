@@ -1,0 +1,31 @@
+.rad-ui-radio-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+
+
+    .rad-ui-radio-cards-item {
+        input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        display: flex;
+        gap: 0.5rem;
+        border: 1px solid var(--rad-ui-color-gray-500);
+        border-radius: 8px;
+
+        padding: 1rem;
+
+        &[data-checked="true"] {
+            border: 1px solid var(--rad-ui-color-accent-800);
+            background-color: var(--rad-ui-color-accent-100);
+        }
+
+        &:focus-within {
+            border: 1px solid var(--rad-ui-color-accent-800);
+            background-color: var(--rad-ui-color-accent-100);
+        }
+    }
+}

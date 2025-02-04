@@ -13,5 +13,5 @@ export const ToggleContext = createContext<ToggleContextType>({
     activeToggles: [],
     setActiveToggles: () => {},
     nextItem: () => {},
-    previousItem: () => {},
+    previousItem: () => {}
 });

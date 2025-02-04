@@ -11,9 +11,9 @@ export type CodeProps= {
     color?: string;
 }
 
-const Code = ({ children, customRootClass = '', color='' }: CodeProps) => {
+const Code = ({ children, customRootClass = '', color = '' }: CodeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    
+
     const data_attributes: Record<string, string> = {};
 
     if (color) {

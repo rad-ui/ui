@@ -1,12 +1,14 @@
-import Separator from '../Separator';
+import { JSX, ClassAttributes, HTMLAttributes } from 'react';
+import Separator, {SeparatorProps} from '../Separator';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
 
 const textClasses = 'text-gray-950 text-sm font-light';
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Separator',
     component: Separator,
-    render: (args) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & SeparatorProps) => <SandboxEditor>
         <div className='mt-5'>
             <div className='text-gray-950 font-bold text-xl'>Did you know Rad UI is great toolkit for your SaaS needs?</div>
             <Separator {...args} />
@@ -30,6 +32,6 @@ export const All = {
 
 export const Color = {
     args: {
-        color: "blue"
+        color: 'blue'
     }
-}
+};

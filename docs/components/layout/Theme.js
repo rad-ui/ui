@@ -1,7 +1,7 @@
 'use client'
-const Theme = ({ children, darkMode=false }) => {
+const Theme = ({ children, className='', darkMode=false }) => {
     return (
-        <div className={`${darkMode==='true'?'rad-ui-dark-theme':''}`} >
+        <div className={`${className} ${darkMode==='true'?'rad-ui-dark-theme':''}`} >
             {children}
         </div>
     )

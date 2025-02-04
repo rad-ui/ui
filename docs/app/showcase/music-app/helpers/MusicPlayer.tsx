@@ -39,7 +39,7 @@ const PlayButton: React.FC = () => {
 
 const MusicPlayer: React.FC = () => {
     return (
-        <div className='fixed text-black bg-gradient-to-l from-gray-400 to-gray-50 text-gray-1000 bottom-0 w-full px-4 py-4 left-0 shadow-xl border border-gray-500 backdrop-blur-sm'>
+        <div className='text-black bg-gradient-to-l from-gray-400 to-gray-50 text-gray-1000 bottom-0 w-full px-4 py-4 left-0 shadow-xl border border-gray-500 backdrop-blur-sm'>
             <div className='flex items-center space-x-8'>
                 <ArtistBox />
                 <div className='text-black flex items-center space-x-4'>

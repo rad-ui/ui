@@ -10,10 +10,10 @@ export type AlertDialogActionProps = {
 const AlertDialogAction = ({ children } : AlertDialogActionProps) => {
     const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
     return (
-        <ButtonPrimitive 
+        <ButtonPrimitive
             onClick={() => handleOpenChange(false)}
             className={clsx(`${rootClass}-action`)}
-            >
+        >
             {children}
         </ButtonPrimitive>
     );

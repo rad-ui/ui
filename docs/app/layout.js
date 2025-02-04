@@ -23,7 +23,7 @@ export default async function RootLayout({ children, ...props }) {
 
   return (
     <html lang="en">
-      <body className="h-screen flex flex-col overflow-hidden">
+      <body className="h-screen overflow-hidden">
         <Main darkModeSsrValue={darkModeSsrValue}>
           {children}
         </Main>

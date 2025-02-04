@@ -5,16 +5,16 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/ToggleGroup',
     component: ToggleGroup,
-    render: (args) => <Template {...args} />
+    render: (args: React.JSX.IntrinsicAttributes) => <Template {...args} />
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 
 const DEFAULT_PRESSED_STATE = false;
 
-const Template = (args) => {
+const Template = (args: any) => {
     const [isPressed, setIsPressed] = React.useState(DEFAULT_PRESSED_STATE);
-    const handleChange = (state) => {
+    const handleChange = (state: boolean) => {
         setIsPressed(state);
     };
     return (
@@ -73,8 +73,7 @@ export const Color = {
     args: {
         className: '',
         type: 'multiple',
-        color:"blue",
+        color: 'blue',
         items
     }
-}
-
+};

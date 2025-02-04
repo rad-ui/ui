@@ -1,10 +1,9 @@
-import AvatarGroup , { AvatarGroupProps } from '../AvatarGroup';
+import AvatarGroup, { AvatarGroupProps } from '../AvatarGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React, { JSX } from 'react';
 const avatarImage1 = require('/assets/images/avatar-11.jpg');
 const avatarImage2 = require('/assets/images/avatar-3.jpg');
 const avatarImage3 = require('/assets/images/avatar-4.jpg');
-import { JSX } from 'react';
-import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -29,8 +28,8 @@ export const Default = {
 export const withFallback = {
     args: {
         avatars: [
-            { src: '', fallback: 'RU'},
-            { src: '', fallback: 'PK'},
+            { src: '', fallback: 'RU' },
+            { src: '', fallback: 'PK' },
             { src: '', fallback: 'RU' }
         ]
     }
@@ -39,10 +38,10 @@ export const withFallback = {
 export const withColor = {
     args: {
         avatars: [
-            { src: '', fallback: 'RU'},
-            { src: '', fallback: 'PK'},
+            { src: '', fallback: 'RU' },
+            { src: '', fallback: 'PK' },
             { src: '', fallback: 'RU' }
         ],
-        color: 'blue' 
+        color: 'blue'
     }
-}
+};
