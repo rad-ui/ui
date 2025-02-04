@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import Switch from '../Switch';
+import { JSX, useState } from 'react';
+import Switch, { SwitchProps } from '../Switch';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
 
 export default {
     title: 'Components/Switch',
     component: Switch,
-    render: (args) => <CheckBox {...args}/>
+    render: (args: JSX.IntrinsicAttributes & SwitchProps) => <CheckBox {...args}/>
 };
 
-const CheckBox = (args) => {
+const CheckBox = (args: SwitchProps) => {
     const variants = ['classic', 'surface', 'solid'];
     const [isChecked, setIsChecked] = useState(true);
 
-    const handleChange = (state) => {
+    const handleChange = (state: boolean | ((prevState: boolean) => boolean)) => {
         setIsChecked(state);
     };
     return <SandboxEditor className="flex flex-col gap-2">
