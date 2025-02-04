@@ -11,10 +11,10 @@ const AlertDialogTrigger = ({ children, ...props } : AlertDialogTriggerProps) =>
     const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
 
     return (
-        <ButtonPrimitive 
-           onClick={() => handleOpenChange(true)} {...props}
-           className={clsx(`${rootClass}-trigger`)}
-           >
+        <ButtonPrimitive
+            onClick={() => handleOpenChange(true)} {...props}
+            className={clsx(`${rootClass}-trigger`)}
+        >
             {children}
         </ButtonPrimitive>
     );

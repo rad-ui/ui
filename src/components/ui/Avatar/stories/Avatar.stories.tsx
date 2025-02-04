@@ -1,7 +1,6 @@
 import Avatar, { AvatarProps } from '../Avatar';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { JSX } from 'react';
-import React from 'react';
+import React, { JSX } from 'react';
 const avatarImage1 = require('/assets/images/avatar-1.jpg');
 const avatarImage2 = require('/assets/images/avatar-11.jpg');
 

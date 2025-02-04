@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Progress from '../Progress';
 import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
@@ -7,13 +7,14 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Progress',
     component: Progress,
-    render: (args) => {
+    render: (args: React.JSX.IntrinsicAttributes) => {
         const [value, setValue] = useState(10);
         console.log(value);
         return (<SandboxEditor>
             <div className='my-10 space-y-4'>
                 <Progress value={value} maxValue={100} minValue={0} {...args}/>
-                <Button {...args}
+                <Button
+                    {...args}
                     onClick={() => {
                         // randomize value
                         setValue(Math.floor(Math.random() * 100));
@@ -32,6 +33,6 @@ export const All = {
 
 export const Color = {
     args: {
-        color:'green'
+        color: 'green'
     }
-}
+};

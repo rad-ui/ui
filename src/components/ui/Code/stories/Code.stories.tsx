@@ -11,7 +11,7 @@ export default {
     render: (args: React.JSX.IntrinsicAttributes & CodeProps) => <SandboxEditor>
         <div >
             <div className='flex space-x-2'>
-                <Code  {...args}>
+                <Code {...args}>
          requestAnimationFrame()
                 </Code>
 
@@ -28,13 +28,13 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className :'space-x-1'
+        className: 'space-x-1'
     }
 };
 
 export const Color = {
     args: {
-        className:'space-x-1',
+        className: 'space-x-1',
         color: 'green'
     }
-}
+};

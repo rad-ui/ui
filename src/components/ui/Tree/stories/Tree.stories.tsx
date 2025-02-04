@@ -1,12 +1,12 @@
 import Tree from '../Tree';
-
+import React from 'react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'WIP/Tree',
     component: Tree,
-    render: (args) => <SandboxEditor>
+    render: () => <SandboxEditor>
         <div >
             <Tree
                 items={[

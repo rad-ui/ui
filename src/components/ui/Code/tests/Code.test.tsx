@@ -8,7 +8,7 @@ describe('Code Component', () => {
 
         const codeElement = container.querySelector('code');
         expect(codeElement).toBeInTheDocument();
-        expect(codeElement).toHaveTextContent("console.log('Hello world!');");
+        expect(codeElement).toHaveTextContent('console.log(\'Hello world!\');');
     });
 
     it('renders Code component with correct color', () => {
@@ -18,4 +18,4 @@ describe('Code Component', () => {
         expect(codeElement).toBeInTheDocument();
         expect(codeElement).toHaveAttribute('data-accent-color', 'blue');
     });
-})
+});

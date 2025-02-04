@@ -8,7 +8,7 @@ import Button from '~/components/ui/Button/Button';
 export default {
     title: 'WIP/Skeleton',
     component: Skeleton,
-    render: (args) => {
+    render: () => {
         const [loading, setLoading] = React.useState(true);
 
         const timeOutLoading = () => {
