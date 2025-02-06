@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import Kbd, { KbdProps } from '../Kbd';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 

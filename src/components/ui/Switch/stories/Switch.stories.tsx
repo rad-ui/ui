@@ -1,7 +1,6 @@
-import { JSX, useState } from 'react';
+import React, { JSX, useState } from 'react';
 import Switch, { SwitchProps } from '../Switch';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import React from 'react';
 
 export default {
     title: 'Components/Switch',

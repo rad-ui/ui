@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import Em, { EmProps } from '../Em';
 import Heading from '../../Heading/Heading';
 

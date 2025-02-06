@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import Heading from '../Heading';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
