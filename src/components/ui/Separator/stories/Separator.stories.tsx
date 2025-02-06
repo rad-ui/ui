@@ -1,7 +1,6 @@
-import { JSX, ClassAttributes, HTMLAttributes } from 'react';
-import Separator, {SeparatorProps} from '../Separator';
+import React, { JSX, ClassAttributes, HTMLAttributes } from 'react';
+import Separator, { SeparatorProps } from '../Separator';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import React from 'react';
 
 const textClasses = 'text-gray-950 text-sm font-light';
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

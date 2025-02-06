@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import Link, { LinkProps } from '../Link';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -17,7 +17,7 @@ export default {
 export const All = {
     args: {
         className: '',
-        href:"https://www.google.com",
-        target:"_blank"
+        href: 'https://www.google.com',
+        target: '_blank'
     }
 };
