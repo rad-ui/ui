@@ -1,3 +1,5 @@
+// A simple wrapper for useLayoutEffect that does not throw an error on server components
+
 import { useLayoutEffect as ReactUseLayoutEffect } from 'react';
 
 // When we use useLayoutEffect in a server component, it will throw an error.
