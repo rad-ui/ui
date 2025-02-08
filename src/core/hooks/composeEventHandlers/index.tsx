@@ -1,15 +1,9 @@
 type EventHandler<E = React.SyntheticEvent> = (event: E) => void;
 
-type ComposeEventHandlersOptions = {
-    originalEventHandler?: EventHandler<React.SyntheticEvent>;
-    ourEventHandler?: EventHandler<React.SyntheticEvent>;
-    checkForDefaultPrevented?: boolean;
-}
-
 function composeEventHandlers<E extends React.SyntheticEvent>(
     originalEventHandler?: EventHandler<E>,
     ourEventHandler?: EventHandler<E>,
-    { checkForDefaultPrevented = true }: ComposeEventHandlersOptions = {}
+    { checkForDefaultPrevented = true } = {}
 ) {
     // Returns a function that handles the event
     return function handleEvent(event: E) {
@@ -24,7 +18,5 @@ function composeEventHandlers<E extends React.SyntheticEvent>(
         }
     };
 }
-
-export type { ComposeEventHandlersOptions, EventHandler };
 
 export default composeEventHandlers;

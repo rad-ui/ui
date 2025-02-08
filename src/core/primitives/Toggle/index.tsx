@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 export interface TogglePrimitiveProps {
     defaultPressed?: boolean;
     pressed?: boolean;
     children?: React.ReactNode;
     className?: string;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
     label?: string;
     disabled?: boolean;
     onPressedChange?: (isPressed: boolean) => void;
@@ -28,7 +31,7 @@ const TogglePrimitive = ({
     const isControlled = controlledPressed !== undefined;
     const isPressed = isControlled ? controlledPressed : uncontrolledPressed;
 
-    const handlePressed = () => {
+    const handleTogglePressed = composeEventHandlers(props.onClick, () => {
         if (disabled) {
             return;
         }
@@ -38,14 +41,12 @@ const TogglePrimitive = ({
             setUncontrolledPressed(updatedPressed);
         }
         onPressedChange(updatedPressed);
-    };
+    });
 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        // TODO: Should these be handled by the browser?
-        // Or should we add these functionalities inside the ButtonPrimitive?
+    const handleKeyDown = (event: any) => {
         if (event.key === ' ' || event.key === 'Enter') {
             event.preventDefault();
-            handlePressed();
+            handleTogglePressed(event);
         }
     };
 
@@ -54,8 +55,8 @@ const TogglePrimitive = ({
     ariaAttributes['aria-disabled'] = disabled ? 'true' : 'false';
 
     return <Primitive.button
-        onClick={handlePressed}
-        onKeyDown={handleKeyDown}
+        onClick={composeEventHandlers(props.onClick, handleTogglePressed)}
+        onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
         data-state={isPressed ? 'on' : 'off'}
         disabled={disabled}
         {...ariaAttributes}
