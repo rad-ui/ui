@@ -11,8 +11,27 @@ const TestComponent = () => {
 };
 
 describe('useLayoutEffect', () => {
-    test('Test for SSR environment and check if the component still mounts as expected', (done) => {
+    it('should mount without errors in SSR environment', () => {
         render(<TestComponent />);
-        done();
+    });
+
+    it('should execute effect in browser environment', () => {
+        const mockFn = jest.fn();
+        const TestComponent = () => {
+            useLayoutEffect(() => {
+                mockFn();
+            }, []);
+            return <div>Hello</div>;
+        };
+
+        // Mock document existence
+        const originalDocument = global.document;
+        global.document = {} as typeof document;
+
+        render(<TestComponent />);
+        expect(mockFn).toHaveBeenCalledTimes(1);
+
+        // Cleanup
+        global.document = originalDocument;
     });
 });
