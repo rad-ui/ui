@@ -1,10 +1,12 @@
 type EventHandler<E = React.SyntheticEvent> = (event: E) => void;
 
-function composeEventHandlers<E extends React.SyntheticEvent>(
+// From Radix UI - packages/core/primitive/src/primitive.tsx
+
+const composeEventHandlers = <E extends React.SyntheticEvent>(
     originalEventHandler?: EventHandler<E>,
     ourEventHandler?: EventHandler<E>,
     { checkForDefaultPrevented = true } = {}
-) {
+) => {
     // Returns a function that handles the event
     return function handleEvent(event: E) {
         // If the original event handler is defined, call it
@@ -17,6 +19,6 @@ function composeEventHandlers<E extends React.SyntheticEvent>(
             return ourEventHandler?.(event);
         }
     };
-}
+};
 
 export default composeEventHandlers;

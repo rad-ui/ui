@@ -13,6 +13,8 @@ const Layout = ({ children }: any) => {
                 <Navigation />
             </div>
             <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-scroll pt-2' id="docs-content">
+               
+                <div className='mt-2 max-w-[1440px] mx-auto' >
                 <Callout color="green">
                     <div className='flex-none'>
                         <InfoIcon />
@@ -23,7 +25,6 @@ const Layout = ({ children }: any) => {
                         </div>
                     </div>
                 </Callout>
-                <div className='mt-2' >
                     {children}
                 </div>
             </div>
