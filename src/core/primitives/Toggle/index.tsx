@@ -31,7 +31,7 @@ const TogglePrimitive = ({
     const isControlled = controlledPressed !== undefined;
     const isPressed = isControlled ? controlledPressed : uncontrolledPressed;
 
-    const handleTogglePressed = composeEventHandlers(props.onClick, () => {
+    const handleTogglePressed = () => {
         if (disabled) {
             return;
         }
@@ -41,12 +41,12 @@ const TogglePrimitive = ({
             setUncontrolledPressed(updatedPressed);
         }
         onPressedChange(updatedPressed);
-    });
+    };
 
     const handleKeyDown = (event: any) => {
         if (event.key === ' ' || event.key === 'Enter') {
             event.preventDefault();
-            handleTogglePressed(event);
+            handleTogglePressed();
         }
     };
 
