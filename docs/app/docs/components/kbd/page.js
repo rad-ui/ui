@@ -15,7 +15,7 @@ const AvatarDocs = () => {
             Kbd is a component that can be used to display keyboard keys.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <Card className="flex items-center justify-center bg-gray-50" style={{width:"600px",height:"120px"}}>
+                <Card className="flex items-center justify-center bg-gray-50 w-[80%]  h-24" >
                    <Kbd>Ctrl + C</Kbd>
                 </Card>
             </Documentation.ComponentHero>

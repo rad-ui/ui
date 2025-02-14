@@ -26,8 +26,8 @@ const ProgressDocs = () => {
             Progress component is used to show the progress of a task. It can be used to show the progress of a file upload, a download, a form submission, or any other task that requires progress to be shown.
         `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <Card className="flex items-center justify-center bg-gray-50" style={{width:"600px",height:"120px"}}>
-                   <div style={{width:"200px"}}>
+                <Card className="flex items-center justify-center bg-gray-50 w-64 sm:w-80 h-24 ">
+                   <div style={{width:"90%"}}>
                         <Progress value={90}  />
                    </div>
                 </Card>
