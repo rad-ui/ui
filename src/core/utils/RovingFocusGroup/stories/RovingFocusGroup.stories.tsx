@@ -1,0 +1,42 @@
+import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
+
+import RovingFocusGroup from '../index';
+
+// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+export default {
+    title: 'WIP/RovingFocusGroup',
+    component: RovingFocusGroup,
+    render: () => <>
+        <SandboxEditor className="space-y-2">
+            <RovingFocusGroup.Root className="flex items-center gap-2">
+                <RovingFocusGroup.Group className="flex gap-2 border border-green-500 p-2">
+                    <RovingFocusGroup.Item>
+                        <button>Button 1 Group 1</button>
+                    </RovingFocusGroup.Item>
+                    <RovingFocusGroup.Item>
+                        <button>Button 2 Group 1</button>
+                    </RovingFocusGroup.Item>
+                    <RovingFocusGroup.Item>
+                        <button>Button 3 Group 1</button>
+                    </RovingFocusGroup.Item>
+                </RovingFocusGroup.Group>
+                <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2">
+                    <RovingFocusGroup.Item>
+                        <button>Button 1 Group 2</button>
+                    </RovingFocusGroup.Item>
+                    <RovingFocusGroup.Item>
+                        <button>Button 2 Group 2</button>
+                    </RovingFocusGroup.Item>
+                </RovingFocusGroup.Group>
+            </RovingFocusGroup.Root>
+        </SandboxEditor>
+    </>
+};
+
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const All = {
+    args: {
+        className: ''
+    }
+};
