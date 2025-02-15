@@ -9,8 +9,26 @@ export default {
     component: RovingFocusGroup,
     render: () => <>
         <SandboxEditor className="space-y-2">
-            <RovingFocusGroup.Root>
-                <div>RovingFocusGroup</div>
+            <RovingFocusGroup.Root className="flex items-center gap-2">
+                <RovingFocusGroup.Group className="flex gap-2 border border-green-500 p-2">
+                    <RovingFocusGroup.Item>
+                        <button>Button 1 Group 1</button>
+                    </RovingFocusGroup.Item>
+                    <RovingFocusGroup.Item>
+                        <button>Button 2 Group 1</button>
+                    </RovingFocusGroup.Item>
+                    <RovingFocusGroup.Item>
+                        <button>Button 3 Group 1</button>
+                    </RovingFocusGroup.Item>
+                </RovingFocusGroup.Group>
+                <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2">
+                    <RovingFocusGroup.Item>
+                        <button>Button 1 Group 2</button>
+                    </RovingFocusGroup.Item>
+                    <RovingFocusGroup.Item>
+                        <button>Button 2 Group 2</button>
+                    </RovingFocusGroup.Item>
+                </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
         </SandboxEditor>
     </>
