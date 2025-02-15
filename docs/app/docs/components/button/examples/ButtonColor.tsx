@@ -8,7 +8,7 @@ const ButtonColor = () => {
         {variants.map((variant, index) => {
             return <div key={index} className='flex items-center gap-4'>
                 {sizes.map((size, index) => {
-                    return <Button key={index} size={size} variant={variant} color='pink' >Click Me!</Button>
+                    return <Button key={index} size={size} variant={variant} color='pink'>Button</Button>
                 })}
             </div>
         })}

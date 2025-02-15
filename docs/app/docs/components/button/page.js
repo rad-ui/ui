@@ -41,10 +41,11 @@ const ButtonDocs = () => {
                     <Button color="green" className="space-x-2" ><span>Click Me! </span><Arrow /></Button>
                 </div>
             </Documentation.ComponentHero>
-
+            
             <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
                 <ButtonVariants />
             </Documentation.ComponentHero>
+  
 
             <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
                 <ButtonSizes />

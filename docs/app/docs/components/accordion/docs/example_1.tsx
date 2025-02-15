@@ -16,7 +16,7 @@ let items = [
 ]       
 
 const AccordionExample = () => ( 
-  <div style={{ width: "400px" }}>
+  <div className="w-64 md:w-96">
     <Accordion items={items} />
   </div>
 )
