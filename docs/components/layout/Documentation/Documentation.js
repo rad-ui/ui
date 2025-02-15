@@ -46,7 +46,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
 const DocsTable = ({ children, columns = [], data = [] }) => {
     return <div className='mb-20 max-w-screen-md'>
         <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
-        <Table columns={columns} data={data} >
+        <Table columns={columns} data={data} color="gray" >
             {children}
         </Table>
     </div>;
