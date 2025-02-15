@@ -35,7 +35,7 @@ const ButtonVariants = () => {
         {buttonVariants.map((variant) => (
           <span key={variant}>
             <Button variant={variant} className="space-x-2">
-              <span>Click Me!</span>
+              <span >Button</span>
               <Arrow />
             </Button>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
