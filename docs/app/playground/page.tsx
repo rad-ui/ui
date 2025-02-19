@@ -10,21 +10,27 @@ import LinkPlayground from "./components/LinkPlayground"
 import TextPlayground from "./components/TextPlayground"
 import QuotePlayground from "./components/QuotePlayground"
 
+import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
+
+
 const Playground = () => {
     return (
-        <div className='text-gray-900 p-8'>
-            <AvatarPlayground/>
-            <BadgePlayground/>
-            <ButtonPlayground/>
-            <BlockquotePlayground/>
-            <CodePlayground/>
-            <HeadingPlayground/>
-            <EmPlayground/>
-            <SeparatorPlayground/>
-            <LinkPlayground/>
-            <TextPlayground/>
-            <QuotePlayground/>
-        </div>
+        <FullHeightScroll>  
+            <div className='text-gray-900 p-8'>
+                <AvatarPlayground/>
+                <BadgePlayground/>
+                <ButtonPlayground/>
+                <BlockquotePlayground/>
+                <CodePlayground/>
+                <HeadingPlayground/>
+                <EmPlayground/>
+                <SeparatorPlayground/>
+                <LinkPlayground/>
+                <TextPlayground/>
+                <QuotePlayground />
+            </div>
+        </FullHeightScroll>
+
     );
     }
 

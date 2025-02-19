@@ -10,10 +10,10 @@ export type AlertDialogCancelProps = {
 const AlertDialogCancel = ({ children } : AlertDialogCancelProps) => {
     const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
     return (
-        <ButtonPrimitive 
+        <ButtonPrimitive
             onClick={() => handleOpenChange(false)}
             className={clsx(`${rootClass}-cancel`)}
-            >
+        >
             {children}
         </ButtonPrimitive>
     );

@@ -15,8 +15,8 @@ export type AlertDialogProps = {
 }
 
 const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content } : AlertDialogProps) => {
-    const [isOpen, setIsOpen] = useState(open);  
-     
+    const [isOpen, setIsOpen] = useState(open);
+
     return (
         <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange}>
             <AlertDialogTrigger>

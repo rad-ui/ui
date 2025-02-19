@@ -14,7 +14,7 @@ export interface ProgressProps {
     renderLabel?(value: number): JSX.Element
   }
 
-function Progress({ value = 0, maxValue = 100, minValue = 0, customRootClass, color='', ...indicatorProps }: ProgressProps) {
+function Progress({ value = 0, maxValue = 100, minValue = 0, customRootClass, color = '', ...indicatorProps }: ProgressProps) {
     return (
         <ProgressRoot value={value} maxValue={maxValue} minValue={minValue} customRootClass={customRootClass} >
             <ProgressIndicator customRootClass={customRootClass} {...indicatorProps} color={color}/>

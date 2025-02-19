@@ -23,7 +23,7 @@ const Toggle: React.FC<ToggleProps> = ({
     customRootClass = '',
     children,
     className = '',
-    color='',
+    color = '',
     pressed = false,
     onChange,
     ...props
@@ -57,7 +57,7 @@ const Toggle: React.FC<ToggleProps> = ({
             data-disabled={props.disabled ? '' : undefined}
             {...props}
             {...data_attributes}
-            >
+        >
             {children}
         </TogglePrimitive>
     );

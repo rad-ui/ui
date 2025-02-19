@@ -10,8 +10,7 @@ export type BadgeProps = {
     props?: object[],
 }
 
-const Badge = ({ children, customRootClass = '', className = '', color='', ...props }: BadgeProps) => {
-    
+const Badge = ({ children, customRootClass = '', className = '', color = '', ...props }: BadgeProps) => {
     const data_attributes: Record<string, string> = {};
 
     if (color) {

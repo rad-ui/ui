@@ -1,12 +1,13 @@
 import Heading from '~/components/ui/Heading/Heading';
 import Dropdown from '~/components/ui/Dropdown/Dropdown';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Dropdown',
+    title: 'WIP/Dropdown',
     component: Dropdown,
-    render: (args) => <SandboxEditor>
+    render: () => <SandboxEditor>
         <div className=' bg-gray-400 p-4 overflow-auto' style={{ height: '200px' }}>
             <div className='block' style={{ height: '400px' }}>
                 <div style={{ marginBottom: '200px' }}>

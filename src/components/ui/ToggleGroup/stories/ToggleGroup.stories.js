@@ -73,8 +73,7 @@ export const Color = {
     args: {
         className: '',
         type: 'multiple',
-        color:"blue",
+        color: 'blue',
         items
     }
-}
-
+};

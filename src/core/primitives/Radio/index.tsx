@@ -1,17 +1,42 @@
 import React from 'react';
+import Primitive from '~/core/primitives/Primitive';
 
-const RadioPrimitive = ({ role = 'radio', label = '', id, value, defaultChecked, onChange, checked, children, ...props }:any) => {
-    const ariaProps = {
-        'aria-label': label || undefined,
-        'aria-checked': checked ? 'true' : 'false',
-        'data-checked': checked ? 'true' : 'false'
+type RadioPrimitiveProps = {
+    onClick: (data: any) => void;
+    onChange: (data: any) => void;
+    checked: boolean;
+    name: string;
+    value: string;
+};
+
+const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onChange, ...props }:RadioPrimitiveProps) => {
+    const dataAttributes = {
+        'data-checked': checked.toString()
+    };
+
+    const handleOnClick = (event: React.MouseEvent<HTMLInputElement>) => {
+        const isChecked = event.target?.checked;
+        if (typeof onClick === 'function') {
+            onClick({
+                value,
+                checked: isChecked
+            });
+        }
+    };
+
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = event.target.checked;
+
+        if (typeof onChange === 'function') {
+            onChange({
+                value,
+                checked: isChecked
+            });
+        }
     };
 
     return (
-        <div>
-            <input type='radio' id={id} {...ariaProps} {...props} value={value} checked={defaultChecked} onChange={onChange} />
-            <label htmlFor={id}> {children}</label>
-        </div>
+        <Primitive.input id={value} type='radio' value={value} name={name} onClick={handleOnClick} onChange={handleOnChange} {...props} {...dataAttributes}/>
     );
 };
 

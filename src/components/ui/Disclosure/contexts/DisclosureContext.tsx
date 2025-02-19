@@ -1,4 +1,4 @@
-import {createContext} from "react";
+import { createContext } from 'react';
 
 export type DisclosureContextType = {
    rootClass: string;
@@ -10,4 +10,4 @@ export type DisclosureContextType = {
    focusNextItem: () => void;
    focusPrevItem: () => void;
 }
-export const DisclosureContext = createContext<DisclosureContextType>({} as DisclosureContextType)
+export const DisclosureContext = createContext<DisclosureContextType>({} as DisclosureContextType);

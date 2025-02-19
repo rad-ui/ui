@@ -10,8 +10,8 @@ export default {
 
 const CheckBox = (args) => {
     const variants = ['classic', 'surface', 'solid'];
-    const [isChecked, setIsChecked] = useState(true)
-    
+    const [isChecked, setIsChecked] = useState(true);
+
     const handleChange = (state) => {
         setIsChecked(state);
     };
@@ -29,22 +29,21 @@ export const controlled = () => {
     const [checked, setChecked] = useState(true);
 
     const handleToggle = () => {
-         setChecked((prev) => !prev)
-    }
-         return <SandboxEditor>
-            <Switch checked={checked} onChange={handleToggle}/>
-        </SandboxEditor>
-}
+        setChecked((prev) => !prev);
+    };
+    return <SandboxEditor>
+        <Switch checked={checked} onChange={handleToggle}/>
+    </SandboxEditor>;
+};
 
 export const Uncontrolled = () => {
-    
-        return <SandboxEditor>
-            <Switch defaultChecked ={true} onChange={() => {}}/>
+    return <SandboxEditor>
+        <Switch defaultChecked ={true} onChange={() => {}}/>
 
-        </SandboxEditor>
-}
+    </SandboxEditor>;
+};
 export const Color = {
     args: {
-        color:"blue"
+        color: 'blue'
     }
-}
+};
