@@ -1,15 +1,14 @@
-import Quote from '../Quote';
-import Text from '~/components/ui/Text/Text';
+import React from 'react';
+import Link, { LinkProps } from '../Link';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Quote',
-    component: Quote,
-    render: (args) => <SandboxEditor>
+    title: 'Components/Link',
+    component: Link,
+    render: (args: React.JSX.IntrinsicAttributes & LinkProps) => <SandboxEditor>
         <div className='text-gray-950'>
-            <Text className='text-gray-950'> <Quote> {`I'm not a monkey
-I will not dance even if the beat's funky`}</Quote>  - Mike Shinoda </Text>
+            <Link {...args}>Hello</Link>
         </div>
     </SandboxEditor>
 };
@@ -17,6 +16,8 @@ I will not dance even if the beat's funky`}</Quote>  - Mike Shinoda </Text>
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: ''
+        className: '',
+        href: 'https://www.google.com',
+        target: '_blank'
     }
 };

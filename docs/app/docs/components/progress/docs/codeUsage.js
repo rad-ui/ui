@@ -4,7 +4,7 @@ const code = {
 import Progress from "@radui/ui/Progress";
 
 const ProgressExample = () => (
-  <div style={{ width: "200px" }}>
+  <div style={{ width: "90%" }}>
     <Progress value={90}  />
   </div>
 )

@@ -8,7 +8,7 @@ export default {
     component: Modal
 };
 
-const Template = (args) => {
+const Template = (args: any) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const toggle = () => {

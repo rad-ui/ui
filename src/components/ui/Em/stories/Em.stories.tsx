@@ -1,4 +1,5 @@
-import Em from '../Em';
+import React from 'react';
+import Em, { EmProps } from '../Em';
 import Heading from '../../Heading/Heading';
 
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
@@ -7,12 +8,12 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'Components/Em',
     component: Em,
-    render: (args) => <SandboxEditor>
+    render: (args: EmProps) => <SandboxEditor>
         <div >
             <div className='flex space-x-2'>
 
                 <Heading className="text-gray-1000">
-                    Hello <Em className='text-gray-950'>World,</Em> How you doin?
+                    Hello <Em {...args}>World,</Em> How you doin?
                 </Heading>
 
             </div>
@@ -24,6 +25,6 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: ''
+        className: 'text-gray-950'
     }
 };

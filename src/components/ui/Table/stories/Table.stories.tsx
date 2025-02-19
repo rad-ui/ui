@@ -1,6 +1,7 @@
 import Table from '../Table';
 import Heading from '~/components/ui/Heading/Heading';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import React from 'react';
 
 export default {
     title: 'WIP/Table',
@@ -8,7 +9,7 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-const Template = (args) => {
+const Template = (args: any) => {
     const columns = [
         { name: 'Name', id: 'name' },
         { name: 'Age', id: 'age' }

@@ -1,4 +1,5 @@
-import Separator from '../Separator';
+import React, { JSX, ClassAttributes, HTMLAttributes } from 'react';
+import Separator, { SeparatorProps } from '../Separator';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const textClasses = 'text-gray-950 text-sm font-light';
@@ -6,7 +7,7 @@ const textClasses = 'text-gray-950 text-sm font-light';
 export default {
     title: 'Components/Separator',
     component: Separator,
-    render: (args) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & SeparatorProps) => <SandboxEditor>
         <div className='mt-5'>
             <div className='text-gray-950 font-bold text-xl'>Did you know Rad UI is great toolkit for your SaaS needs?</div>
             <Separator {...args} />

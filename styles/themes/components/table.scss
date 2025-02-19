@@ -1,7 +1,5 @@
 .rad-ui-table-wrapper{
-
-    border: 1px solid var(--rad-ui-color-accent-400);
-    box-shadow: 0 2px 20px 20px var(--rad-ui-color-accent-50);
+    border: 1px solid var(--rad-ui-color-accent-500);
     border-radius: 12px;
     overflow: hidden;
 
@@ -15,31 +13,36 @@
         color: var(--rad-ui-color-gray-1000);
 
         .header{
-            padding: 0.75rem 1rem;
+            padding: 12px;
             vertical-align: inherit;
             font-weight: 700;
+            font-size:14px;
+            border-bottom: 1px solid var(--rad-ui-color-accent-500);
 
             .cell-header{
-                padding: 0.75rem 1rem;
+                padding: 12px;
                 vertical-align: inherit;
-                font-weight: 700;
-                background-color: var(--rad-ui-color-accent-100);
+                font-weight: 500;
+                background-color: var(--rad-ui-color-accent-200);
             }
         }
     
         .row{
             vertical-align: inherit;
-            border-bottom: 1px solid var(--rad-ui-color-accent-400);
-
+            border-bottom: 1px solid var(--rad-ui-color-accent-300);
             background-color: var(--rad-ui-color-accent-50);
+
+            &:last-child{
+                border-bottom: none;
+            }
         }
     
         .cell{
             padding: 0.75rem 1rem;
             vertical-align: inherit;
-            border-bottom: 1px solid var(--rad-ui-color-accent-400);
-            color: var(--rad-ui-color-gray-950);
+            color: var(--rad-ui-color-gray-1000);
             font-weight: 300;
+            font-size: 14px;
         }
     }
 
