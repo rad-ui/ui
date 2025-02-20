@@ -1,7 +1,5 @@
 import Link from '@radui/ui/Link';
 import Navigation from '@/components/navigation/Navigation';
-import Documentation from "@/components/layout/newDocumentation/Documentation"
-
 import Callout from '@radui/ui/Callout';
 
 const InfoIcon = () => {
@@ -13,29 +11,26 @@ const layout = ({ children }: any) => {
     
 
     return (
-        <div className= "h-screen md:flex ">
+        <div className= " md:flex max-h-screen overflow-y-auto">
             <div className='md:flex'>
                 <Navigation />
             </div>
             <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-scroll pt-2' id="docs-content">
-            <div className=' p-4 md:mx-auto md:max-w-[1440px]'>
-                <Callout color="green">
-                                    <div className='flex-none'>
-                                        <InfoIcon />
-                                    </div>
-                                    <div>
-                                        <div >
-                                            Rad UI is under active development and looking for contributors to shape the future of the library. If you'd like to contribute to Rad UI, please check out <Link href="/docs/contributing/before-you-start">Getting Started</Link>
-                                        </div>
-                                    </div>
-                                </Callout>
-                <div className=''>
-                
-                {children}
-               
+                <div className=' p-4 md:mx-auto md:max-w-[1440px]'>
+                    <Callout color="green">
+                        <div className='flex-none'>
+                            <InfoIcon />
+                        </div>
+                        
+                        <div >
+                          Rad UI is under active development and looking for contributors to shape the future of the library. If you'd like to contribute to Rad UI, please check out <Link href="/docs/contributing/before-you-start">Getting Started</Link>
+                        </div>
+                                     
+                    </Callout>
+                    <div >
+                        {children}
+                    </div>
                 </div>
-                </div>
-
             </div>
         </div>
     )
