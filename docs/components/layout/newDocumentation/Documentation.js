@@ -23,28 +23,28 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
     const next = DOCS_SEO.getNext(currentPage);
     const NEXT_PAGE_TITLE = next?.basic_title || '';
 
-    return <div className='w-full max-w-screen-lg mx-auto'>
+    return <div>
         <div>
-            <div className='flex items-center space-x-4'>
+            <div className=''>
                 <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
             </div>
             {description && <Text className="mb-4 text-gray-900 font-light">{description}</Text>}
         </div>
-        <div className='mt-4'>
+        <div className=''>
             {children}
         </div>
         <Separator />
-        <div className='flex justify-between py-8'>
+        <div className=''>
             <div>
-                {previous && <span className='flex items-center space-x-2'><Link className="flex items-center space-x-2" href={`${previous?.url}`}><LeftArrow /> <span> {previous?.basic_title}</span></Link></span>}
+                {previous && <span className=''><Link className="flex items-center space-x-2" href={`${previous?.url}`}><LeftArrow /> <span> {previous?.basic_title}</span></Link></span>}
             </div>
-            {next && <span className='flex items-center space-x-2'><Link className="flex items-center space-x-2" href={`${next?.url}`}><span> {next?.basic_title}</span><RightArrow /> </Link></span>}
+            {next && <span className=''><Link className="flex items-center space-x-2" href={`${next?.url}`}><span> {next?.basic_title}</span><RightArrow /> </Link></span>}
         </div>
     </div>;
 };
 
 const DocsTable = ({ children, columns = [], data = [] }) => {
-    return <div className='mb-20'>
+    return <div className=''>
         <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
         <Table columns={columns} data={data} color="gray" >
             {children}
@@ -53,7 +53,7 @@ const DocsTable = ({ children, columns = [], data = [] }) => {
 };
 
 const Anatomy = ({ code, language = 'jsx' }) => {
-    return <div className='mt-10'>
+    return <div className=''>
         <BookMarkLink id="anatomy"> <Heading as="h2" className="mb-2">Anatomy</Heading> </BookMarkLink>
         <Text className="mb-4 text-gray-950 font-light">Import all parts of the component and piece them together</Text>
         <CodeBlock className='mb-10' language={language}>
