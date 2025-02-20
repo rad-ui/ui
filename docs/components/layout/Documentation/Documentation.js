@@ -23,7 +23,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
     const next = DOCS_SEO.getNext(currentPage);
     const NEXT_PAGE_TITLE = next?.basic_title || '';
 
-    return <div>
+    return <div className='w-full max-w-screen-lg mx-auto'>
         <div>
             <div className='flex items-center space-x-4'>
                 <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
@@ -44,7 +44,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
 };
 
 const DocsTable = ({ children, columns = [], data = [] }) => {
-    return <div className='mb-20 max-w-screen-md'>
+    return <div className='mb-20'>
         <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
         <Table columns={columns} data={data} color="gray" >
             {children}
@@ -72,7 +72,7 @@ const Section = ({ title = '', children }) => {
 };
 
 const UnderConstruction = ({ children }) => {
-    return <div className='bg-gray-200 text-gray-1000 p-4 rounded-md'>
+    return <div className='bg-gray-200 text-gray-1000  rounded-md'>
         <Text className="mb-2 text-gray-1000 font-bold">
             Docs Under Construction
         </Text>
