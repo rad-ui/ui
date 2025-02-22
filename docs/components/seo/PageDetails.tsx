@@ -12,10 +12,10 @@ type TitleAndMetaTagsProps = {
 };
 
 export function PageDetails({
-	title = "Radix UI",
+	title = "Rad UI",
 	description = "Everything you need to build a design system, website or web app.",
 	image,
-	url = "https://radix-ui.com",
+	url = "https://rad-ui.com",
 	pathname,
 }: TitleAndMetaTagsProps) {
 
@@ -38,7 +38,7 @@ export function PageDetails({
 			<meta property="og:description" content={description} />
 			{imageUrl && <meta property="og:image" content={imageUrl} />}
 
-			<meta name="twitter:site" content="@radix_ui" />
+			{/* <meta name="twitter:site" content="@rad_ui" /> */}
 			<meta name="twitter:card" content="summary_large_image" />
 		</Head>
 	);

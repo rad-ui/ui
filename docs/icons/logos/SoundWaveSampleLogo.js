@@ -1,5 +1,5 @@
 const SoundWaveSampleLogo = ()=>{
-    const firstColor = "var(--radix-color-gray-1000)";
+    const firstColor = "var(--rad-ui-color-gray-900)";
     const secondColor = "text-gray-1000"
 
     return <svg viewBox="0 0 828 224" fill="none"
