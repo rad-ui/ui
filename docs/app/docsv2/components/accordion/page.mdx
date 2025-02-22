@@ -3,15 +3,18 @@ import AccordionExample from "./docs/example_1"
 import AccordionAnatomy from "./docs/accordion_anatomy"
 import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
 
- <Documentation  title={`Accordion`}
-            description='Accordions are used to toggle the visibility of content. They are used in the sidebar, and in the chat.'
-        >
-            {/* Component Hero */}
-            {/* <Documentation.ComponentHero codeUsage={code}>
-                   <AccordionExample />
-            </Documentation.ComponentHero>
-            {/* Component Anatomy */}
-            <Documentation.Anatomy code={anatomy.code}/>
+<Documentation
+    title={`Accordion`}
+    description='Accordions are used to toggle the visibility of content. They are used in the sidebar, and in the chat.'
+>
+    {/* Component Hero */}
+    <Documentation.ComponentHero codeUsage={code}>
+        <AccordionExample />
+    </Documentation.ComponentHero>
 
-            <Documentation.KeyboardShortcuts keyboardShortcuts={keyboardShortcuts}/>
-        </Documentation>
+    {/* Component Anatomy */}
+    <Documentation.Anatomy code={anatomy.code} />
+
+    {/* Keyboard Shortcuts */}
+    <Documentation.KeyboardShortcuts keyboardShortcuts={keyboardShortcuts} />
+</Documentation>
