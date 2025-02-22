@@ -1,5 +1,6 @@
 import PageDetails from "@/components/seo/PageDetails";
-
+import Navigation from '@/components/navigation/Navigation';
+import docsNavigationSections from "./docsNavigationSections";
 
 
 type Doc = {
@@ -9,9 +10,16 @@ type Doc = {
 
 const Layout = ({  children }: Doc) => {
     return (
-        <div className="p-4">
-            <PageDetails  />
-            {children}
+        <div className= "md:flex max-h-screen overflow-y-auto">
+             <div className='md:flex'>
+                <Navigation customSections={docsNavigationSections} />
+            </div>
+            <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-scroll pt-2' id="docs-content">
+                <div className=' p-4 md:mx-auto md:max-w-[1440px]'>
+                    <PageDetails  />
+                    {children}
+                </div>
+            </div>
         </div>
     )
 }
