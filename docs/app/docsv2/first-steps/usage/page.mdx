@@ -1,0 +1,50 @@
+# Usage
+
+## Importing components
+
+
+```tsx
+import Button from "@rad-ui/ui/Button";
+```
+
+## Using components
+Integrating Rad UI into your project is straightforward. Simply import the components you need and start building. We recommend wrapping components with your own abstractions to streamline usage, customize behavior, and remove unnecessary features. This approach allows you to maintain consistency across your project while taking full advantage of Rad UI’s flexibility and powerful APIs.
+
+```tsx
+const ComponentDemo = () => {
+    return (
+        <Button>Click me</Button>
+    )
+}
+```
+
+## Importing base styles
+Rad UI is headless out of the box, meaning it doesn't come with any styles. But we do ship a default theme that you can use to get quickly started off the ground.
+
+```tsx
+import "@radui/ui/themes/default.css";
+```
+
+# Tailwind presets
+Rad UI also provides fist class support for Tailwind CSS. You can import the preset and have access to Rad UI's design system tokens in your Tailwind CSS.
+
+```tsx
+ // tailwind.config.js
+
+const config = {
+  presets:[
+    require("@radui/ui/themes/tailwind-presets/default.js") // import this
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+export default config;
+```
+
+
+
+
+

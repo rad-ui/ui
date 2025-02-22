@@ -2,6 +2,9 @@ import type { MDXComponents } from 'mdx/types'
 
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
+
+import Documentation from '@/components/layout/Documentation/Documentation';
+
  
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -30,7 +33,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     strong: ({ children }) => (
       <Text className="text-gray-1000 inline-block font-bold" >{children}</Text>
     ),
-    
+    code: ({ children }) => (
+      <Documentation.CodeBlock>
+        {children}
+      </Documentation.CodeBlock>
+    ),
     
     // img: (props) => (
     //   <Image
