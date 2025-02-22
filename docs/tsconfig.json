@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/docs/first-steps/installation/page.js", "app/docs/first-steps/introduction/page.js", "app/layout.js", "app/docs/first-steps/usage/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/docs/first-steps/installation/page.js", "app/docs/first-steps/introduction/page.js", "app/layout.js", "app/docs/first-steps/usage/page.js", "app/docsv2/page.mdx"],
   "exclude": ["node_modules"]
 }

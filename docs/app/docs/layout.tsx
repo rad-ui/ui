@@ -7,9 +7,6 @@ const InfoIcon = () => {
 };
 
 const layout = ({ children }: any) => {
-
-    
-
     return (
         <div className= " md:flex max-h-screen overflow-y-auto">
             <div className='md:flex'>
