@@ -27,6 +27,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     p: ({ children }) => (
       <Text className="text-gray-950 mb-4" >{children}</Text>
     ),
+    strong: ({ children }) => (
+      <Text className="text-gray-1000 inline-block font-bold" >{children}</Text>
+    ),
     
     
     // img: (props) => (

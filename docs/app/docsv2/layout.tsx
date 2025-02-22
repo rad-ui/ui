@@ -1,6 +1,7 @@
 import PageDetails from "@/components/seo/PageDetails";
 import Navigation from '@/components/navigation/Navigation';
 import docsNavigationSections from "./docsNavigationSections";
+import EditPageOnGithub from "@/components/docsHelpers/EditPageOnGithub";
 
 
 type Doc = {
@@ -9,6 +10,9 @@ type Doc = {
 
 
 const Layout = ({  children }: Doc) => {
+
+
+
     return (
         <div className= "md:flex max-h-screen overflow-y-auto">
              <div className='md:flex'>
@@ -18,6 +22,7 @@ const Layout = ({  children }: Doc) => {
                 <div className=' p-4 md:mx-auto md:max-w-[1440px]'>
                     <PageDetails  />
                     {children}
+                    <EditPageOnGithub />
                 </div>
             </div>
         </div>
