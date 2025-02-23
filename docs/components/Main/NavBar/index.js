@@ -161,7 +161,7 @@ const NavBar = ({ darkMode, setDarkMode, cookies, setCookie }) => {
             <li>
               <a
                 className="text-gray-950 hover:text-gray-1000"
-                href="/docs/first-steps/introduction"
+                href="/docsv2/first-steps/introduction"
               >
                 Docs
               </a>

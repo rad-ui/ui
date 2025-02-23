@@ -265,7 +265,7 @@ const Navigation = ({customSections}) => {
 
     const finalSections = customSections || sections;
 
-    return <div className={`${isDocsNavOpen ? mobileClasses : ""} lg:relative lg:w-full lg:block border-box overflow-y-auto overflow-x-hidden  hover:bg-gray-50 flex flex-col h-full`}>
+    return <div className={`${isDocsNavOpen ? mobileClasses : ""} lg:relative lg:w-full lg:block border-box overflow-y-auto overflow-x-hidden flex flex-col h-full`}>
         <div className={`${isDocsNavOpen ? "block  " : "hidden lg:block"}`}>
             <div className='flex-none pb-20 w-full lg:w-[240px] bg-gray-50 lg:bg-transparent'>
                 {finalSections.map((section, i) => {
