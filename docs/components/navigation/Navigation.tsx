@@ -8,192 +8,10 @@ import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 
 const sections = [
     {
-        title: "First Steps",
+        type: "CATEGORY",
         items: [
-            {
-                title: "Introduction",
-                path: "/docs/first-steps/introduction"
-            },
-            {
-                title: "Installation",
-                path: "/docs/first-steps/installation"
-            },
-            {
-                title: "Usage",
-                path: "/docs/first-steps/usage"
-            }
-        ]
-    },
-    {
-        title: "Principles",
-        items: [
-            {
-                title: "Accessibility",
-                path: "/docs/principles/accessibility"
-            }
-        ]
-    },
-    {
-        title: "Components",
-        items: [
-            {
-                title:"Accordion",
-                path:"/docs/components/accordion",
-                is_new:true
-            },
-            {
-                title: "Avatar",
-                path: "/docs/components/avatar"
-            },
-            {
-                title: "AvatarGroup",
-                path: "/docs/components/avatar-group",
-                is_new:true
-            },
-            {
-                title: "AspectRatio",
-                path: "/docs/components/aspect-ratio",
-                is_new:true
-            },
-            {
-                title: "Badge",
-                path: "/docs/components/badge"
-            },
-            {
-                title: "Button",
-                path: "/docs/components/button"
-            },
-            {   
-                title: "BlockQuote",
-                path: "/docs/components/blockquote"
-            },
-            {
-                title: "Callout",
-                path: "/docs/components/callout",
-                is_new:true
-            },
-            {
-                title: "Card",
-                path: "/docs/components/card"
-            },
-
-            {
-                title: "Code",
-                path: "/docs/components/code"
-            },
-            {
-                title: "Em",
-                path: "/docs/components/em"
-            },
-            {
-                title: "Heading",
-                path: "/docs/components/heading"
-            },
-            {
-                title: "Text",
-                path: "/docs/components/text",
-                is_new:true
-            },
-            {
-                title: "Kbd",
-                path: "/docs/components/kbd",
-                is_new:true
-            },
-            {
-                title: "Progress",
-                path: "/docs/components/progress",
-                is_new:true
-            },
-           
-            {
-                title: "Separator",
-                path: "/docs/components/separator"
-            },
-            {
-                title: "Switch",
-                path: "/docs/components/switch"
-            },
-            {
-                title: "Strong",
-                path: "/docs/components/strong",
-                is_new:true
-            },
-            // {
-            //     title:"Checkbox",
-            //     path:"/docs/components/checkbox"
-            // },
-            // {
-            //     title:"Collapsible",
-            //     path:"/docs/components/collapsible"
-            // },
-            // {
-            //     title:"ContextMenu",
-            //     path:"/docs/components/context-menu"
-            // },
-            // {
-            //     title:"Dialog",
-            //     path:"/docs/components/dialog"
-            // },
-            // {
-            //     title: "Dropdown",
-            //     path: "/docs/components/dropdown"
-            // },
-            // {
-            //     title:"Form",
-            //     path:"/docs/components/form"
-            // },
-            // {
-            //     title:"Popover",
-            //     path:"/docs/components/popover"
-            // },
-            // {
-            //     title:"Progress",
-            //     path:"/docs/components/progress"
-            // },
-            // {
-            //     title:"Radio",
-            //     path:"/docs/components/radio"
-            // },
-            // {
-            //     title:"ScrollArea",
-            //     path:"/docs/components/scroll-area"
-            // }
-            {
-                title: "Toggle",
-                path : "/docs/components/toggle",
-                is_new:true
-            },
-            {
-                title: "ToggleGroup",
-                path: "/docs/components/toggle-group",
-                is_new:true
-            },
-            {
-                title: "Tooltip",
-                path: "/docs/components/tooltip"
-            },
-            {
-                title: "VisuallyHidden",
-                path: "/docs/components/visually-hidden",
-                is_new:true
-            }
-        ]
-    },
-    {
-        title: "Contributing",
-        items: [
-            {
-                title: "Before you start",
-                path: "/docs/contributing/before-you-start"
-            },
-            {
-                title: "Setting up dev environment",
-                path: "/docs/contributing/setting-up-dev-environment"
-            },
-            {
-                title: "Contributing to Rad UI",
-                path: "/docs/contributing/contributing-to-rad-ui"
-            }
+            {title: "Documentation", path: "/docs/first-steps/introduction"},
+            {title: "Showcase", path: "/showcase/music-app"}
         ]
     }
 ]
@@ -254,19 +72,21 @@ const Category = ({categoryItem,pathname,setIsDocsNavOpen}) => {
 
 
 
-const Navigation = ({customSections}:{customSections?: any}) => {
+const Navigation = ({customSections, hideOnDesktop}:{customSections?: any, hideOnDesktop?: boolean}) => {
     // get path from ssr
     const pathname = usePathname();
 
     const {isDocsNavOpen,setIsDocsNavOpen} = useContext(NavBarContext) as {isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void};
 
-    const mobileClasses = "fixed w-full lg:block lg:w-auto z-10"
+   
 
     const finalSections = customSections || sections;
+    const mobileClasses = "fixed w-full lg:block lg:w-auto"
+    const desktopClasses = hideOnDesktop?"flex h-full lg:hidden":""
 
-    return <div className={`${isDocsNavOpen ? mobileClasses : ""} lg:relative lg:w-full lg:block border-box overflow-y-auto overflow-x-hidden flex flex-col h-full`}>
-        <div className={`${isDocsNavOpen ? "block  " : "hidden lg:block"}`}>
-            <div className='flex-none pb-20 w-full lg:w-[240px] bg-gray-50 lg:bg-transparent'>
+    return <div className={`${isDocsNavOpen ? mobileClasses : ""}  lg:relative lg:w-full lg:block border-box overflow-y-auto overflow-x-hidden flex flex-col h-full z-50`}>
+        <div className={`${isDocsNavOpen ? "" : "hidden"} ${desktopClasses}`}>
+            <div className='flex-none h-full pb-20 w-full lg:w-[240px] bg-gray-50 lg:bg-transparent'>
                 {finalSections.map((section, i) => {
                     const isCategory = section.type === "CATEGORY";
                     if(isCategory){
