@@ -1,3 +1,15 @@
-# Kbd
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Kbd from "@radui/ui/Kbd"
+import Card from "@radui/ui/Card"
+import codeUsage from "./docs/codeUsage"
 
-## Under Construction
+  <Documentation  title='Kbd' description={`
+            Kbd is a component that can be used to display keyboard keys.
+        `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+                <Card className="flex items-center justify-center bg-gray-50 w-[80%]  h-24" >
+                   <Kbd>Ctrl + C</Kbd>
+                </Card>
+            </Documentation.ComponentHero>
+
+        </Documentation>
