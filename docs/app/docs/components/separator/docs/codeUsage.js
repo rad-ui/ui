@@ -37,4 +37,19 @@ const SeparatorExample = () => (
     },
 }
 
+
+export const SeparatorTable = {
+    columns: [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ],
+
+    data: [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the separator', id: 'color'},
+        {prop: 'orientation', type: 'horizontal | vertical', default: 'horizontal', description: 'orientation of the separator', id: 'orientation'},
+    ]
+};
+
 export default code;

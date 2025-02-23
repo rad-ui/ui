@@ -4,6 +4,8 @@ import Button from "@radui/ui/Button";
 import { useCallback, useState, useContext } from "react";
 import { NavBarContext } from "@/components/Main/NavBar/NavBarContext";
 
+import Link from "next/link";
+
 const DiscordLogo = () => {
   return (
     <svg
@@ -159,20 +161,20 @@ const NavBar = ({ darkMode, setDarkMode, cookies, setCookie }) => {
         <div className="hidden lg:block">
           <ul className="text-sm flex items-center space-x-4">
             <li>
-              <a
+              <Link
                 className="text-gray-950 hover:text-gray-1000"
-                href="/docsv2/first-steps/introduction"
+                href="/docs/first-steps/introduction"
               >
                 Docs
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 className="text-gray-950 hover:text-gray-1000"
                 href="/showcase/music-app"
               >
                 Showcase
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

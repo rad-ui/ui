@@ -5,15 +5,15 @@ const docsNavigationSections = [
         items:[
             {
                 title:"Introduction",
-                path:"/docsv2/first-steps/introduction"
+                path:"/docs/first-steps/introduction"
             },
             {
                 title:"Installation",
-                path:"/docsv2/first-steps/installation"
+                path:"/docs/first-steps/installation"
             },
             {
                 title:"Usage",
-                path:"/docsv2/first-steps/usage"
+                path:"/docs/first-steps/usage"
             }
         ]
     },
@@ -23,7 +23,7 @@ const docsNavigationSections = [
         items:[
             {
                 title:"Accessibility",
-                path:"/docsv2/guides/accessibility"
+                path:"/docs/guides/accessibility"
             }
         ]
     },
@@ -33,91 +33,91 @@ const docsNavigationSections = [
         items:[
             {
                 title:"Accordion",
-                path:"/docsv2/components/accordion"
+                path:"/docs/components/accordion"
             },
             {
                 title:"Avatar",
-                path:"/docsv2/components/avatar"
+                path:"/docs/components/avatar"
             },
             {
                 title:"AvatarGroup",
-                path:"/docsv2/components/avatar-group"
+                path:"/docs/components/avatar-group"
             },
             {
                 title:"AspectRatio",
-                path:"/docsv2/components/aspect-ratio"
+                path:"/docs/components/aspect-ratio"
             },
             {
                 title:"Badge",
-                path:"/docsv2/components/badge"
+                path:"/docs/components/badge"
             },
             {
                 title:"Button",
-                path:"/docsv2/components/button"
+                path:"/docs/components/button"
             },
             {
                 title:"BlockQuote",
-                path:"/docsv2/components/blockquote"
+                path:"/docs/components/blockquote"
             },
             {
                 title:"Callout",
-                path:"/docsv2/components/callout"
+                path:"/docs/components/callout"
             },
             {
                 title:"Card",
-                path:"/docsv2/components/card"
+                path:"/docs/components/card"
             },
             {
                 title:"Code",
-                path:"/docsv2/components/code"
+                path:"/docs/components/code"
             },
             {
                 title:"Em",
-                path:"/docsv2/components/em"
+                path:"/docs/components/em"
             },
             {
                 title:"Heading",
-                path:"/docsv2/components/heading"
+                path:"/docs/components/heading"
             },
             {
                 title:"Text",
-                path:"/docsv2/components/text"
+                path:"/docs/components/text"
             },
             {
                 title:"Kbd",
-                path:"/docsv2/components/kbd"
+                path:"/docs/components/kbd"
             },
             {
                 title:"Progress",
-                path:"/docsv2/components/progress"
+                path:"/docs/components/progress"
             },
             {
                 title:"Separator",
-                path:"/docsv2/components/separator"
+                path:"/docs/components/separator"
             },
             {
                 title:"Strong",
-                path:"/docsv2/components/strong"
+                path:"/docs/components/strong"
             },
             {
                 title:"Switch",
-                path:"/docsv2/components/switch"
+                path:"/docs/components/switch"
             },
             {
                 title:"Toggle",
-                path:"/docsv2/components/toggle"
+                path:"/docs/components/toggle"
             },
             {
                 title:"ToggleGroup",
-                path:"/docsv2/components/toggle-group"
+                path:"/docs/components/toggle-group"
             },
             {
                 title:"Tooltip",
-                path:"/docsv2/components/tooltip"
+                path:"/docs/components/tooltip"
             },
             {
                 title:"VisuallyHidden",
-                path:"/docsv2/components/visually-hidden"
+                path:"/docs/components/visually-hidden"
             }
             
         ]
@@ -128,15 +128,15 @@ const docsNavigationSections = [
         items:[
             {
                 title:"Before You Start",
-                path:"/docsv2/contributing/before-you-start"
+                path:"/docs/contributing/before-you-start"
             },
             {
                 title:"Setting Up Dev Environment",
-                path:"/docsv2/contributing/setting-up-dev-environment"
+                path:"/docs/contributing/setting-up-dev-environment"
             },
             {
                 title:"Contributing to Rad UI",
-                path:"/docsv2/contributing/contributing-to-rad-ui"
+                path:"/docs/contributing/contributing-to-rad-ui"
             }
         ]
     }
@@ -145,15 +145,15 @@ const docsNavigationSections = [
     //     items: [
     //         {
     //             title: "Introduction",
-    //             path: "/docsv2/first-steps/introduction"
+    //             path: "/docs/first-steps/introduction"
     //         },
     //         {
     //             title: "Installation",
-    //             path: "/docsv2/first-steps/installation"
+    //             path: "/docs/first-steps/installation"
     //         },
     //         {
     //             title: "Usage",
-    //             path: "/docsv2/first-steps/usage"
+    //             path: "/docs/first-steps/usage"
     //         }
     //     ]
     // },
@@ -162,7 +162,7 @@ const docsNavigationSections = [
     //     items: [
     //         {
     //             title: "Accessibility",
-    //             path: "/docsv2/principles/accessibility"
+    //             path: "/docs/principles/accessibility"
     //         }
     //     ]
     // },
@@ -171,143 +171,143 @@ const docsNavigationSections = [
     //     items: [
     //         {
     //             title:"Accordion",
-    //             path:"/docsv2/components/accordion",
+    //             path:"/docs/components/accordion",
     //             is_new:true
     //         },
     //         {
     //             title: "Avatar",
-    //             path: "/docsv2/components/avatar"
+    //             path: "/docs/components/avatar"
     //         },
     //         {
     //             title: "AvatarGroup",
-    //             path: "/docsv2/components/avatar-group",
+    //             path: "/docs/components/avatar-group",
     //             is_new:true
     //         },
     //         {
     //             title: "AspectRatio",
-    //             path: "/docsv2/components/aspect-ratio",
+    //             path: "/docs/components/aspect-ratio",
     //             is_new:true
     //         },
     //         {
     //             title: "Badge",
-    //             path: "/docsv2/components/badge"
+    //             path: "/docs/components/badge"
     //         },
     //         {
     //             title: "Button",
-    //             path: "/docsv2/components/button"
+    //             path: "/docs/components/button"
     //         },
     //         {   
     //             title: "BlockQuote",
-    //             path: "/docsv2/components/blockquote"
+    //             path: "/docs/components/blockquote"
     //         },
     //         {
     //             title: "Callout",
-    //             path: "/docsv2/components/callout",
+    //             path: "/docs/components/callout",
     //             is_new:true
     //         },
     //         {
     //             title: "Card",
-    //             path: "/docsv2/components/card"
+    //             path: "/docs/components/card"
     //         },
 
     //         {
     //             title: "Code",
-    //             path: "/docsv2/components/code"
+    //             path: "/docs/components/code"
     //         },
     //         {
     //             title: "Em",
-    //             path: "/docsv2/components/em"
+    //             path: "/docs/components/em"
     //         },
     //         {
     //             title: "Heading",
-    //             path: "/docsv2/components/heading"
+    //             path: "/docs/components/heading"
     //         },
     //         {
     //             title: "Text",
-    //             path: "/docsv2/components/text",
+    //             path: "/docs/components/text",
     //             is_new:true
     //         },
     //         {
     //             title: "Kbd",
-    //             path: "/docsv2/components/kbd",
+    //             path: "/docs/components/kbd",
     //             is_new:true
     //         },
     //         {
     //             title: "Progress",
-    //             path: "/docsv2/components/progress",
+    //             path: "/docs/components/progress",
     //             is_new:true
     //         },
            
     //         {
     //             title: "Separator",
-    //             path: "/docsv2/components/separator"
+    //             path: "/docs/components/separator"
     //         },
     //         {
     //             title: "Switch",
-    //             path: "/docsv2/components/switch"
+    //             path: "/docs/components/switch"
     //         },
     //         {
     //             title: "Strong",
-    //             path: "/docsv2/components/strong",
+    //             path: "/docs/components/strong",
     //             is_new:true
     //         },
     //         // {
     //         //     title:"Checkbox",
-    //         //     path:"/docsv2/components/checkbox"
+    //         //     path:"/docs/components/checkbox"
     //         // },
     //         // {
     //         //     title:"Collapsible",
-    //         //     path:"/docsv2/components/collapsible"
+    //         //     path:"/docs/components/collapsible"
     //         // },
     //         // {
     //         //     title:"ContextMenu",
-    //         //     path:"/docsv2/components/context-menu"
+    //         //     path:"/docs/components/context-menu"
     //         // },
     //         // {
     //         //     title:"Dialog",
-    //         //     path:"/docsv2/components/dialog"
+    //         //     path:"/docs/components/dialog"
     //         // },
     //         // {
     //         //     title: "Dropdown",
-    //         //     path: "/docsv2/components/dropdown"
+    //         //     path: "/docs/components/dropdown"
     //         // },
     //         // {
     //         //     title:"Form",
-    //         //     path:"/docsv2/components/form"
+    //         //     path:"/docs/components/form"
     //         // },
     //         // {
     //         //     title:"Popover",
-    //         //     path:"/docsv2/components/popover"
+    //         //     path:"/docs/components/popover"
     //         // },
     //         // {
     //         //     title:"Progress",
-    //         //     path:"/docsv2/components/progress"
+    //         //     path:"/docs/components/progress"
     //         // },
     //         // {
     //         //     title:"Radio",
-    //         //     path:"/docsv2/components/radio"
+    //         //     path:"/docs/components/radio"
     //         // },
     //         // {
     //         //     title:"ScrollArea",
-    //         //     path:"/docsv2/components/scroll-area"
+    //         //     path:"/docs/components/scroll-area"
     //         // }
     //         {
     //             title: "Toggle",
-    //             path : "/docsv2/components/toggle",
+    //             path : "/docs/components/toggle",
     //             is_new:true
     //         },
     //         {
     //             title: "ToggleGroup",
-    //             path: "/docsv2/components/toggle-group",
+    //             path: "/docs/components/toggle-group",
     //             is_new:true
     //         },
     //         {
     //             title: "Tooltip",
-    //             path: "/docsv2/components/tooltip"
+    //             path: "/docs/components/tooltip"
     //         },
     //         {
     //             title: "VisuallyHidden",
-    //             path: "/docsv2/components/visually-hidden",
+    //             path: "/docs/components/visually-hidden",
     //             is_new:true
     //         }
     //     ]
@@ -317,15 +317,15 @@ const docsNavigationSections = [
     //     items: [
     //         {
     //             title: "Before you start",
-    //             path: "/docsv2/contributing/before-you-start"
+    //             path: "/docs/contributing/before-you-start"
     //         },
     //         {
     //             title: "Setting up dev environment",
-    //             path: "/docsv2/contributing/setting-up-dev-environment"
+    //             path: "/docs/contributing/setting-up-dev-environment"
     //         },
     //         {
     //             title: "Contributing to Rad UI",
-    //             path: "/docsv2/contributing/contributing-to-rad-ui"
+    //             path: "/docs/contributing/contributing-to-rad-ui"
     //         }
     //     ]
     // }
