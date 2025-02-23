@@ -16,5 +16,19 @@ const AspectRatioExample = () => (
 }
 }
 
+export const AspectRatioTable = {
+     columns : [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ],
+
+     data :[
+        {prop: 'ratio', type: 'string', default: '1', description: 'Used to set desired ratio', id: 'ratio'},
+        
+    ]
+}
+
 
 export default code;
