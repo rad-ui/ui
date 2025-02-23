@@ -96,12 +96,12 @@ const docsNavigationSections = [
                 path:"/docsv2/components/separator"
             },
             {
-                title:"Switch",
-                path:"/docsv2/components/switch"
-            },
-            {
                 title:"Strong",
                 path:"/docsv2/components/strong"
+            },
+            {
+                title:"Switch",
+                path:"/docsv2/components/switch"
             },
             {
                 title:"Toggle",

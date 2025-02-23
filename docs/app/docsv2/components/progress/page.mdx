@@ -1,3 +1,26 @@
-# Progress
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Progress from "@radui/ui/Progress"
+import codeUsage, { ProgressTable } from "./docs/codeUsage"
+import Card from "@radui/ui/Card"
 
-## Under Construction
+
+
+
+
+
+<Documentation title='Progress' description={`
+            Progress component is used to show the progress of a task. It can be used to show the progress of a file upload, a download, a form submission, or any other task that requires progress to be shown.
+        `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+                <Card className="flex items-center justify-center bg-gray-50 w-64 sm:w-80 h-24 ">
+                   <div style={{width:"90%"}}>
+                        <Progress value={90}  />
+                   </div>
+                </Card>
+            </Documentation.ComponentHero>
+
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={ProgressTable.columns} data={ProgressTable.data} />
+            </div>
+            
+        </Documentation>
