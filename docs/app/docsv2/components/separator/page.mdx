@@ -1,3 +1,29 @@
-# Separator
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Separator from "@radui/ui/Separator"
+import codeUsage, { SeparatorTable } from "./docs/codeUsage"
+import Text from "@radui/ui/Text"
 
-## Under Construction
+
+
+<Documentation  title='Separator' description={`
+              Separator is used to separate content.
+        `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+                <div className='text-gray-1000 font-normal p-5 space-y-1'>
+                    <div>
+                        <Text>Welcome to Rad UI</Text>
+                    </div>
+                    <Separator />
+                    <div className='flex'>
+                        <Text>Modern</Text>
+                        <Separator orientation="vertical" />
+                        <Text>Accessible</Text>
+                        <Separator orientation="vertical" />
+                        <Text>Performant</Text>
+                    </div>
+                </div>
+            </Documentation.ComponentHero>
+            <div >
+                <Documentation.Table columns={SeparatorTable.columns} data={SeparatorTable.data} />
+            </div>
+        </Documentation>
