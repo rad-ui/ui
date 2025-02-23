@@ -121,6 +121,24 @@ const docsNavigationSections = [
             }
             
         ]
+    },
+    {
+        type:"CATEGORY",
+        title:"Contributing",
+        items:[
+            {
+                title:"Before You Start",
+                path:"/docsv2/contributing/before-you-start"
+            },
+            {
+                title:"Setting Up Dev Environment",
+                path:"/docsv2/contributing/setting-up-dev-environment"
+            },
+            {
+                title:"Contributing to Rad UI",
+                path:"/docsv2/contributing/contributing-to-rad-ui"
+            }
+        ]
     }
     // {
     //     title: "First Steps",

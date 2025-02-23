@@ -1,7 +1,7 @@
 "use client";
-import { useContext } from "react";
+
 import Button from "@radui/ui/Button";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext } from "react";
 import { NavBarContext } from "@/components/Main/NavBar/NavBarContext";
 
 const DiscordLogo = () => {

@@ -1,9 +1,8 @@
 "use client"
 
-import path from 'path';
 import NavItem from './NavItem.js'
 import { usePathname } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 
@@ -255,11 +254,11 @@ const Category = ({categoryItem,pathname,setIsDocsNavOpen}) => {
 
 
 
-const Navigation = ({customSections}) => {
+const Navigation = ({customSections}:{customSections?: any}) => {
     // get path from ssr
     const pathname = usePathname();
 
-    const {isDocsNavOpen,setIsDocsNavOpen} = useContext(NavBarContext);
+    const {isDocsNavOpen,setIsDocsNavOpen} = useContext(NavBarContext) as {isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void};
 
     const mobileClasses = "fixed w-full lg:block lg:w-auto z-10"
 
