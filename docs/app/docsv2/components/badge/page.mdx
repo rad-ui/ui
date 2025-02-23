@@ -1,3 +1,19 @@
-# Badge
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Badge from "@radui/ui/Badge"
+import codeUsage, {BadgeTable} from "./docs/codeUsage"
 
-## Under Construction
+<Documentation  title={`Badge`} description={`
+            Badges are used to display a small amount of information. They are used in the sidebar, and in the chat.
+        `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+                
+                    <Badge>Badge</Badge>
+              
+            </Documentation.ComponentHero>
+
+            
+           
+                 <Documentation.Table columns={BadgeTable.columns} data={BadgeTable.data} />
+      
+         
+        </Documentation>

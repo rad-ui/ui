@@ -10,6 +10,8 @@
     "update-rad": "npm i @radui/ui@latest"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.0",
+    "@next/mdx": "^15.1.7",
     "@radui/ui": "^0.0.29",
     "@types/node": "20.5.9",
     "@types/react": "19.0.2",
