@@ -1,3 +1,21 @@
-# Toggle Group
+import Documentation from "@/components/layout/Documentation/Documentation"
+import ToggleGroup from "@radui/ui/ToggleGroup"
+import codeUsage, { ToggleGroupTable } from "./docs/codeUsage"
+import ToggleGroupExampleBasic from "./docs/toggle-group-example-basic"
 
-## Under Construction
+
+<Documentation 
+    title={`Toggle Group`} 
+    description={`
+        ToggleGroup is a component that allows you to group multiple toggles together. Useful for when you want to allow users to select multiple options. For example, a user can select multiple filters for a search.
+    `}
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <ToggleGroupExampleBasic/>
+    </Documentation.ComponentHero>
+
+    <Documentation.Table 
+        columns={ToggleGroupTable.columns} 
+        data={ToggleGroupTable.data} 
+    />
+</Documentation>

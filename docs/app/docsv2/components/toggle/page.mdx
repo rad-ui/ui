@@ -1,3 +1,20 @@
-# Toggle
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Toggle from "@radui/ui/Toggle"
+import codeUsage, { ToggleTable } from "./docs/codeUsage"
+import ToggleExampleBasic from "./docs/toggle-example-basic"
 
-## Under Construction
+<Documentation 
+    title={`Toggle`} 
+    description={`
+        Toggles are used to switch between two states. They are commonly used in settings, forms, and more.
+    `}
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <ToggleExampleBasic/>
+    </Documentation.ComponentHero>
+
+    <Documentation.Table 
+        columns={ToggleTable.columns} 
+        data={ToggleTable.data} 
+    />
+</Documentation>
