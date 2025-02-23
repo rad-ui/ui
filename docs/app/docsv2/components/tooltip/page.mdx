@@ -1,3 +1,22 @@
-# Tooltip
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Tooltip from "@radui/ui/Tooltip"
+import Card from "@radui/ui/Card"
+import Text from "@radui/ui/Text"
+import codeUsage, { TooltipTable } from "./docs/codeUsage"
 
-## Under Construction
+<Documentation 
+    title={`Tooltip`} 
+    description={`
+        Tooltips are used to display a small amount of information. They are used in the sidebar, and in the chat.
+    `}
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <Card className="bg-gray-50" style={{ display: "flex", gap: 20 }}>
+                        <Tooltip label="Tooltip content">
+                             <Text className="text-gray-950">Hello Tooltip. Hover Me!</Text>
+                        </Tooltip>
+                    </Card>
+    </Documentation.ComponentHero>
+
+   
+</Documentation>
