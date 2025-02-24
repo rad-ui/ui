@@ -5,7 +5,7 @@ import Navigation from "@/components/navigation/Navigation"
 export default function Home() {
   return (
    <FullHeightScroll>
-      <Navigation hideOnDesktop={true} />
+      <Navigation/>
       <div className='w-full' >
          <ColorTemplate/>
       </div>

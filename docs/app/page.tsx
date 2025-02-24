@@ -23,7 +23,7 @@ export default function Home() {
   return (
       <FullHeightScroll >
       <LandingBgPattern />
-      <Navigation hideOnDesktop={true} />
+      <Navigation />
       <div className='lg:p-10'>
         <HeroSection />
         {/*  */}

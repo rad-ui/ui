@@ -8,7 +8,7 @@ import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScr
 
 const ShowCase = ({children})=>{
     return <FullHeightScroll>
-         <Navigation hideOnDesktop={true} />
+         <Navigation />
         <div className='p-4 text-gray-1000'>
             <Heading as="h6" className='my-4'>
                 Music App

@@ -16,7 +16,7 @@ import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScr
 const Playground = () => {
     return (
         <FullHeightScroll>  
-            <Navigation hideOnDesktop={true} />
+            <Navigation/>
             <div className='text-gray-900 p-8'>
                 <AvatarPlayground/>
                 <BadgePlayground/>

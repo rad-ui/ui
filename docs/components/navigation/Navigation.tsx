@@ -72,10 +72,9 @@ const Category = ({categoryItem,pathname,setIsDocsNavOpen}) => {
 
 
 
-const Navigation = ({customSections, hideOnDesktop}:{customSections?: any, hideOnDesktop?: boolean}) => {
+const Navigation = ({customSections, hideOnDesktop=true}:{customSections?: any, hideOnDesktop?: boolean}) => {
     // get path from ssr
     const pathname = usePathname();
-
     const {isDocsNavOpen,setIsDocsNavOpen} = useContext(NavBarContext) as {isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void};
 
    
