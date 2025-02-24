@@ -74,7 +74,7 @@
   "author": "Pranay Kothapalli",
   "license": "ISC",
   "devDependencies": {
-    "@babel/eslint-parser": "7.23.10",
+    "@babel/eslint-parser": "7.26.8",
     "@babel/preset-env": "7.24.0",
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "^7.24.7",
