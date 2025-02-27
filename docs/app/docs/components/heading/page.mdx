@@ -1,6 +1,6 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Heading from "@radui/ui/Heading"
-import codeUsage from "./docs/codeUsage"
+import codeUsage, { headingBasicUsageExample } from "./docs/codeUsage"
 
 
 
@@ -18,4 +18,8 @@ import codeUsage from "./docs/codeUsage"
                 </div>
             </Documentation.ComponentHero>
 
-        </Documentation>
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={headingBasicUsageExample.columns} data={headingBasicUsageExample.data} />
+            </div>
+
+</Documentation>
