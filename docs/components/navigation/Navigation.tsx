@@ -29,7 +29,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
       //customSections || sections;
 
       useEffect(()=>{
-        if(pathname == "/docs/first-steps/introduction"){
+        if(pathname.includes("/docs/")){
             setSections(docsSections)
         }
         else{
