@@ -9,14 +9,12 @@ import SeparatorPlayground from "./components/SeparatorPlayground"
 import LinkPlayground from "./components/LinkPlayground"
 import TextPlayground from "./components/TextPlayground"
 import QuotePlayground from "./components/QuotePlayground"
-import Navigation from "@/components/navigation/Navigation"
 import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
 
 
 const Playground = () => {
     return (
         <FullHeightScroll>  
-            <Navigation hideOnDesktop={true} />
             <div className='text-gray-900 p-8'>
                 <AvatarPlayground/>
                 <BadgePlayground/>

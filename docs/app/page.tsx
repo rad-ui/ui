@@ -16,14 +16,13 @@ import AddToCartDemo from './landingComponents/AddToCartDemo'
 import YourTeamDemo from './landingComponents/YourTeamDemo'
 import TrafficAnalyticsDemo from './landingComponents/TrafficAnalyticsDemo'
 
-import Navigation from '@/components/navigation/Navigation'
+
 
 
 export default function Home() {
   return (
       <FullHeightScroll >
       <LandingBgPattern />
-      <Navigation hideOnDesktop={true} />
       <div className='lg:p-10'>
         <HeroSection />
         {/*  */}
