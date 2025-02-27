@@ -1,3 +1,5 @@
+"use client"
+
 import PageDetails from "@/components/seo/PageDetails";
 import Navigation from '@/components/navigation/Navigation';
 import docsNavigationSections from "./docsNavigationSections";
@@ -10,12 +12,9 @@ type Doc = {
 
 
 const Layout = ({  children }: Doc) => {
-
-
-
-    return (
+    return (    
         <div className= "md:flex max-h-screen overflow-y-auto">
-             <div className='md:flex hidden'>
+             <div className='md:flex hidden overflow-y-auto'>
                 <Navigation customSections={docsNavigationSections} hideOnDesktop={false} />
             </div>
             <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-scroll pt-2' id="docs-content">

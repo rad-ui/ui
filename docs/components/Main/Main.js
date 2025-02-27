@@ -13,10 +13,27 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
     const cookies = parseCookies();
     const [darkMode, setDarkMode] = useState(darkModeSsrValue === 'true');
     const [isDocsNavOpen,setIsDocsNavOpen] = useState(false);
+    const [docSections,setDocSections] = useState([]);
+
+    const useDefaultNavSections = ()=>{
+        const sections = [
+            {
+                type: "CATEGORY",
+                items: [
+                    { title: "Documentation", path: "/docs/first-steps/introduction" },
+                    { title: "Showcase", path: "/showcase/music-app" }
+                ]
+            }
+          ]
+          setDocSections(sections);
+    }
 
     const sendValues = {
         isDocsNavOpen,
-        setIsDocsNavOpen
+        setIsDocsNavOpen,
+        docSections,
+        setDocSections,
+        useDefaultNavSections
     }
 
 
