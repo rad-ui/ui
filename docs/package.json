@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
-    "@next/mdx": "^15.1.7",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.2.0",
     "@radui/ui": "^0.0.29",
+    "@types/mdx": "^2.0.13",
     "@types/node": "20.5.9",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
