@@ -1,3 +1,11 @@
 import { createContext } from "react";
 
-export const NavBarContext = createContext({});
+type NavBarContextType = {
+    isDocsNavOpen: boolean;
+    setIsDocsNavOpen: (isDocsNavOpen: boolean) => void;
+}
+
+export const NavBarContext = createContext<NavBarContextType>({
+    isDocsNavOpen: false,
+    setIsDocsNavOpen: () => {}
+});
