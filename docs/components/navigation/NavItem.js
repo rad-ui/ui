@@ -5,10 +5,8 @@ import Link from 'next/link'
 import Badge from "@radui/ui/Badge"
 
 
-import { useRouter } from 'next/navigation'
-
 const NavItem = ({ item, path,setIsDocsNavOpen }) => {
-    const router = useRouter()
+
 
     const isCurrentPath = path === item?.path;
     const baseItemClasses = "block px-2 py-1 text-sm l mb-0.5 cursor-pointer mb-1 border-l-4 rounded-sm "

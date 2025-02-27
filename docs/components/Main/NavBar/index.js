@@ -4,21 +4,11 @@ import NavRoot from "./helpers/NavRoot"
 import Navigation from "@/components/navigation/Navigation"
 import { NavBarContext } from "./NavBarContext"
 import { useContext, useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-
 
 
 const NavBar = ({ darkMode, setDarkMode, cookies, setCookie }) => {
   const [currentRoutePath,setCurrentRoutePath] = useState(null);
-  const { isDocsNavOpen, setDocSections } = useContext(NavBarContext);
-
-  const router = useRouter()
-
-  useEffect(()=>{
-    console.log(router.pathname);
-    setCurrentRoutePath(router.pathname);
-  },[])
-
+  const { isDocsNavOpen } = useContext(NavBarContext);
 
   return <div className="relative">
     <NavRoot darkMode={darkMode} setDarkMode={setDarkMode} cookies={cookies} setCookie={setCookie} />
