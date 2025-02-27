@@ -15,7 +15,7 @@ const Layout = ({  children }: Doc) => {
 
     return (
         <div className= "md:flex max-h-screen overflow-y-auto">
-             <div className='md:flex'>
+             <div className='md:flex hidden'>
                 <Navigation customSections={docsNavigationSections} hideOnDesktop={false} />
             </div>
             <div className='lg:px-4 text-gray-1000 flex-1 flex flex-col gap-4 overflow-y-scroll pt-2' id="docs-content">

@@ -1,14 +1,12 @@
 
 import Heading from "@radui/ui/Heading"
 import Separator from "@radui/ui/Separator"
-import Navigation from "@/components/navigation/Navigation"
 
 import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
 
 
 const ShowCase = ({children})=>{
     return <FullHeightScroll>
-         <Navigation />
         <div className='p-4 text-gray-1000'>
             <Heading as="h6" className='my-4'>
                 Music App
