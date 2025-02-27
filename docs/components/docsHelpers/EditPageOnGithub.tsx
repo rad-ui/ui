@@ -8,7 +8,7 @@ const EditPageOnGithub = () => {
     const page = pathname.split("/").slice(2).join("/");
 
 
-    const currentDocsPath = "docs/app/docsv2/" + page;
+    const currentDocsPath = "docs/app/docs/" + page;
 
   return (
     <div>
