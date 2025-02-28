@@ -21,7 +21,7 @@ export const TooltipTable = {
      {name: 'Description', id: 'description'},
     ],
     data: [
-     {prop: 'content', type: 'string', default: 'Tooltip content', description: 'content/text on hover', id: 'src'},
+     {prop: 'content', type: 'string', default: 'null', description: 'content/text on hover', id: 'src'},
     ]
  }
 export default code;
