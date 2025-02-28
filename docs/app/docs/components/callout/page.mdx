@@ -1,7 +1,7 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import Callout from '@radui/ui/Callout';
 import Text from '@radui/ui/Text';
-import codeUsage, { BookmarkIcon } from './docs/codeUsage';
+import codeUsage, { BookmarkIcon,calloutBasicUsageExample } from './docs/codeUsage';
 
 <Documentation title={`Callout`} description={`
             Callout is a component that can be used to display a message or a notification to the user.
@@ -18,4 +18,8 @@ import codeUsage, { BookmarkIcon } from './docs/codeUsage';
                     
                 </Callout>
             </Documentation.ComponentHero>
+
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={calloutBasicUsageExample.columns} data={calloutBasicUsageExample.data} />
+            </div>
         </Documentation>
