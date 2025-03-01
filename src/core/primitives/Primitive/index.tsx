@@ -15,7 +15,7 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
         
-        if (children?.length) throw new Error("children is only expected to receive a single React element child. Try trimming spaces.")
+        if (React.Children.count(children) > 1) throw new Error("children is only expected to receive a single React element child. Try trimming spaces.")
 
         if (asChild && React.isValidElement(children)) {
             return React.cloneElement(children, {
