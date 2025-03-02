@@ -1,0 +1,42 @@
+.rad-ui-scroll-area {
+   overflow: hidden;
+   width: 100%;
+   border: 1px solid red;
+   height: 200px;
+   position: relative;
+   scrollbar-width: none;
+
+   .rad-ui-scroll-area-viewport {
+      overflow: scroll;
+      scrollbar-width: none;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    
+
+      ::-webkit-scrollbar {
+         display: none;
+      }
+   }
+
+   .rad-ui-scroll-area-scroll-bar {
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      background-color: lightgray;
+      width: 10px;
+
+      &:hover {
+         background-color: gray;
+      }
+
+      .rad-ui-scroll-area-scroll-bar-thumb {
+         background-color: red;
+         width: 100%;
+         height: 8px;
+         position: absolute;
+         z-index: 100;
+      }
+      
+   }
+}
