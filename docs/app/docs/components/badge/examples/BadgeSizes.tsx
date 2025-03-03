@@ -9,7 +9,7 @@ const BadgeSizes = () => {
             return <div key={index} className='flex items-center gap-4'>
                 {sizes.map((size, index) => {
                     return <Badge key={index} size={size} variant={variant}>
-                        <span>Button</span>
+                        <span>Badge</span>
                         </Badge>
                 })}
             </div>

@@ -27,16 +27,6 @@
         color: var(--rad-ui-color-accent-950);
         background-color:  var(--rad-ui-color-accent-400);
 
-       
-
-        &:active{
-            border-top: 4px solid var(--rad-ui-color-accent-900);
-            border-left: 1px solid var(--rad-ui-color-accent-900);
-            border-right: 1px solid var(--rad-ui-color-accent-900);
-            background-color: var(--rad-ui-color-accent-600);
-            color: var(--rad-ui-color-accent-900);
-        }
-
       
     }
 
@@ -48,7 +38,7 @@
         
     }
 
-    /** Button Sizes */
+    /** Badge Sizes */
     &[data-button-size="small"]{
         font-size: small;
         padding: 4px 8px;

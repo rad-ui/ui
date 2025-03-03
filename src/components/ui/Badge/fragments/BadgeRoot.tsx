@@ -13,7 +13,7 @@ type BadgeRootProps = {
      props?: Record<string, any>[]
 }
 
-const BadgeRoot = ({ children, customRootClass, className, variant = '', size = '', color, ...props }:BadgeRootProps) => {
+const BadgeRoot = ({ children, customRootClass, className, variant = '', size = '', color = '', ...props }:BadgeRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const data_attributes: Record<string, string> = {};
 

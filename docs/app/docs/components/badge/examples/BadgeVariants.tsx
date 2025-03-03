@@ -22,7 +22,7 @@ const Arrow = () => (
 
 const BadgeVariants = () => {
   const badgeVariants = ['solid', 'soft', 'outline', 'ghost'];
-  const badgetyleDescription = {
+  const badgestyleDescription = {
     solid: 'Solid badge are the most common type of badge. They have a solid background color and a border.',
     soft: 'Soft badge have a soft background color and a border.',
     outline: 'Outline badge have a border and a background color.',
@@ -36,10 +36,9 @@ const BadgeVariants = () => {
           <span key={variant}>
             <Badge variant={variant} className="space-x-2">
               <span >badge</span>
-              <Arrow />
             </Badge>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
-            <Tooltip label={badgetyleDescription[variant]} placement="bottom">
+            <Tooltip label={badgestyleDescription[variant]} placement="bottom">
               <Text className="text-gray-800 font-light inline-block cursor-help">
                 {variant}
               </Text>
