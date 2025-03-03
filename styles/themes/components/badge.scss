@@ -3,9 +3,73 @@
     background-color: var(--rad-ui-color-accent-300);
     color: var(--rad-ui-color-accent-950);
     padding:4px 8px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
     border-radius: 4px;
+
+     /** Now we declare other variants to support the Badge component */
+     &[data-button-variant="outline"]{
+        background-color: transparent;
+        color: var(--rad-ui-color-accent-900);
+        border: 1px solid var(--rad-ui-color-accent-900);
+
+       
+    }
+
+    &[data-button-variant="soft"]{
+        border-top: 2px solid var(--rad-ui-color-accent-900);
+        border-left: 1px solid var(--rad-ui-color-accent-600);
+        border-right: 1px solid var(--rad-ui-color-accent-600);
+        border-bottom: 1px solid var(--rad-ui-color-accent-600);
+        color: var(--rad-ui-color-accent-950);
+        background-color:  var(--rad-ui-color-accent-400);
+
+       
+
+        &:active{
+            border-top: 4px solid var(--rad-ui-color-accent-900);
+            border-left: 1px solid var(--rad-ui-color-accent-900);
+            border-right: 1px solid var(--rad-ui-color-accent-900);
+            background-color: var(--rad-ui-color-accent-600);
+            color: var(--rad-ui-color-accent-900);
+        }
+
+      
+    }
+
+    &[data-button-variant="ghost"]{
+        background-color: transparent;
+        color: var(--rad-ui-color-accent-900);
+        border: 1px solid transparent;
+
+        
+    }
+
+    /** Button Sizes */
+    &[data-button-size="small"]{
+        font-size: small;
+        padding: 4px 8px;
+        height: 24px;
+    }
+
+    &[data-button-size="medium"]{
+        font-size: medium;
+        padding: 4px 12px;
+        height: 32px;
+    }
+
+    &[data-button-size="large"]{
+        font-size: large;
+        padding: 4px 16px;
+        height: 40px;
+    }
+
+    &[data-button-size="x-large"]{
+        font-size: x-large;
+        padding: 4px 24px;
+        height: 48px;
+    }
 }
