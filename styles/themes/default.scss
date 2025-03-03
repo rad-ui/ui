@@ -1,35 +1,35 @@
-@import "./components/accordion.scss";
-@import "./components/alert-dialog.scss";
-@import "./components/avatar.scss";
-@import "./components/avatar-group.scss";
-@import "./components/badge.scss";
-@import "./components/blockquote.scss";
-@import "./components/button.scss";
-@import "./components/callout.scss";
-@import "./components/card.scss";
-@import "./components/table.scss";
-@import "./components/code.scss";
-@import "./components/disclosure.scss";
-@import "./components/heading.scss";
-@import "./components/hover-card.scss";
-@import "./components/kbd.scss";
-@import "./components/link.scss";
-@import "./components/separator.scss";
-@import "./components/tabs.scss";
-@import "./components/text.scss";
-@import "./components/textarea.scss";
-@import "./components/progress.scss";
-@import "./components/toggle.scss";
-@import "./components/toggle-group.scss";
-@import "./components/radio.scss";
-@import "./components/radiocards.scss";
-@import "./components/switch.scss";
-@import "./components/skeleton.scss";
-@import "./components/visuallyhidden.scss";
-@import "./components/collapsible.scss";
+@use "components/accordion.scss";
+@use "components/alert-dialog.scss";
+@use "components/avatar.scss";
+@use "components/avatar-group.scss";
+@use "components/badge.scss";
+@use "components/blockquote.scss";
+@use "components/button.scss";
+@use "components/callout.scss";
+@use "components/card.scss";
+@use "components/table.scss";
+@use "components/code.scss";
+@use "components/disclosure.scss";
+@use "components/heading.scss";
+@use "components/hover-card.scss";
+@use "components/kbd.scss";
+@use "components/link.scss";
+@use "components/separator.scss";
+@use "components/tabs.scss";
+@use "components/text.scss";
+@use "components/textarea.scss";
+@use "components/progress.scss";
+@use "components/toggle.scss";
+@use "components/toggle-group.scss";
+@use "components/radio.scss";
+@use "components/radiocards.scss";
+@use "components/switch.scss";
+@use "components/skeleton.scss";
+@use "components/visuallyhidden.scss";
+@use "components/collapsible.scss";
 
 // import .css file
-@import "../cssTokens/base.tokens";
+@use "../cssTokens/base.tokens";
 
 
 
