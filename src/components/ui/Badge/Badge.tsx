@@ -3,15 +3,13 @@ import React from 'react';
 import BadgeRoot from './fragments/BadgeRoot';
 import BadgeContent from './fragments/BadgeContent';
 
-type BadgeVariant = 'solid' | 'soft' | 'outline' | 'ghost' | '';
-type BadgeSize = 'small' | 'medium' | 'large' | 'x-large' | '';
 
 export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,
     className?: string,
-    variant?: BadgeVariant;
-    size?: BadgeSize
+    variant?: string,
+    size?: string,
     color?: string,
     props?: object[],
 }

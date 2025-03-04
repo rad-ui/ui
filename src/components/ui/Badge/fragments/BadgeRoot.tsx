@@ -2,16 +2,15 @@ import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Badge';
-type BadgeVariant = 'solid' | 'soft' | 'outline' | 'ghost' | '';
-type BadgeSize = 'small' | 'medium' | 'large' | 'x-large' | '';
+
 
 
 type BadgeRootProps = {
      children: React.ReactNode;
      customRootClass?: string;
      color?: string;
-     variant?: BadgeVariant;
-     size?: BadgeSize;
+     variant?: string;
+     size?: string;
      className?: string;
      props?: Record<string, any>[]
 }
