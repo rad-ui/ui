@@ -20,7 +20,7 @@
     }
 
     &[data-badge-variant="soft"]{
-        border-top: 2px solid var(--rad-ui-color-accent-900);
+        border-top: 1px solid var(--rad-ui-color-accent-600);
         border-left: 1px solid var(--rad-ui-color-accent-600);
         border-right: 1px solid var(--rad-ui-color-accent-600);
         border-bottom: 1px solid var(--rad-ui-color-accent-600);
@@ -30,13 +30,6 @@
       
     }
 
-    &[data-badge-variant="ghost"]{
-        background-color: transparent;
-        color: var(--rad-ui-color-accent-900);
-        border: 1px solid transparent;
-
-        
-    }
 
     /** Badge Sizes */
     &[data-badge-size="small"]{
