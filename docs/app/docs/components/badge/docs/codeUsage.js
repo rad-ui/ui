@@ -33,6 +33,9 @@ export const BadgeTable ={
 
      data : [
         {prop: 'color', type: 'string', default: 'null', description: 'Accent color of the component', id: 'color'},
+        {prop: 'size', type: 'string', default: 'null', description: 'Size of the component', id: 'size'},
+        {prop: 'variant', type: 'string', default: 'null', description: 'Variant of the component', id: 'variant'},
+
     ]
 }
 export default code;

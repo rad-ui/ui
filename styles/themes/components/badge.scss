@@ -3,9 +3,56 @@
     background-color: var(--rad-ui-color-accent-300);
     color: var(--rad-ui-color-accent-950);
     padding:4px 8px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
     border-radius: 4px;
+
+     /** Now we declare other variants to support the Badge component */
+     &[data-badge-variant="outline"]{
+        background-color: transparent;
+        color: var(--rad-ui-color-accent-900);
+        border: 1px solid var(--rad-ui-color-accent-900);
+
+       
+    }
+
+    &[data-badge-variant="soft"]{
+        border-top: 1px solid var(--rad-ui-color-accent-600);
+        border-left: 1px solid var(--rad-ui-color-accent-600);
+        border-right: 1px solid var(--rad-ui-color-accent-600);
+        border-bottom: 1px solid var(--rad-ui-color-accent-600);
+        color: var(--rad-ui-color-accent-950);
+        background-color:  var(--rad-ui-color-accent-400);
+
+      
+    }
+
+
+    /** Badge Sizes */
+    &[data-badge-size="small"]{
+        font-size: small;
+        padding: 4px 8px;
+        height: 24px;
+    }
+
+    &[data-badge-size="medium"]{
+        font-size: medium;
+        padding: 4px 12px;
+        height: 32px;
+    }
+
+    &[data-badge-size="large"]{
+        font-size: large;
+        padding: 4px 16px;
+        height: 40px;
+    }
+
+    &[data-badge-size="x-large"]{
+        font-size: x-large;
+        padding: 4px 24px;
+        height: 48px;
+    }
 }
