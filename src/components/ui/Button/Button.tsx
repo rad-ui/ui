@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren } fro
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
-import  { createDataAttributes, mergeAttributes }  from "~/core/createDataAttributes"
+import  { createDataAttribute, composeAttributes }  from "~/core/hooks/createDataAttribute"
 
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
@@ -19,15 +19,15 @@ const Button = ({ children, type = 'button', customRootClass = '', className = '
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     // apply data attribute for accent color
     // apply attribute only if color is present
-    const dataAttributes = createDataAttributes("button", { variant, size });
-    const accentAttributes = createDataAttributes("accent", { color });
-    const mergedAttributes = mergeAttributes(dataAttributes, accentAttributes);
+    const dataAttributes = createDataAttribute("button", { variant, size });
+    const accentAttributes = createDataAttribute("accent", { color });
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     return (
         <ButtonPrimitive
             type={type}
             className={clsx(rootClass, className)}
-            {...mergedAttributes}
+            {...composedAttributes}
             {...props}
         >
             {children}
