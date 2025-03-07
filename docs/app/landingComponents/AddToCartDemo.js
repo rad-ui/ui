@@ -17,24 +17,18 @@ const IconContainer = ({ children }) => {
 
 const AddToCartDemo = () => {
     return <div className='p-4 border border-gray-400 rounded-md bg-gray-100 flex space-x-4'>
-        <img className='rounded-md' width={180} src="https://assets.myntassets.com/fl_progressive/h_960,q_80,w_720/v1/assets/images/1786273/2017/3/9/11489045721622-LINKIN-PARK-Men-Tshirts-6821489045721432-2.jpg" alt="" />
-
+       
         <div className='flex-1'>
             <div className='flex space-x-2 items-center mb-2'>
-                <Text className="text-gray-800">Linkin Park Underground</Text>
-                <Badge color="crimson" >New</Badge>
+                <Text className="text-gray-900">Join the Ultimate Fan Experience</Text>
             </div>
-            <Heading as="h6" className="mb-4">Linkin Park - Rounded Tee</Heading>
+            <Heading as="h6" className="mb-4 text-gray-900">Limited Edition Band Tee - A Must-Have for Music Lovers!</Heading>
             <div className='flex items-center space-x-2'>
                 <Button color="gold" variant="soft">Add to Cart</Button>
                 <IconContainer>
                     <HeartIcon />
                 </IconContainer>
             </div>
-
-            <Text className="text-gray-900 mt-4">
-                Get comfortable in this amazing tee from Linkin Park. Team it with a pair of jeans and sneakers for a cool look.
-            </Text>
         </div>
 
     </div>;

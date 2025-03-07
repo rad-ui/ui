@@ -30,18 +30,14 @@ const YourTeamDemo = () => {
         <div className='flex items-center justify-between'>
             <Text className="font-bold">Your Team</Text>
             <Link>Edit</Link>
-
         </div>
         <Separator />
         <div className='my-4 space-y-4'>
-            <UserItem src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJqIVJmQ3hq3adzrQYZVTqTxKSxyY2zbZNaw&usqp=CAU"} name="Mike Shinoda" />
-            <UserItem name="Chester Bennington" data-accent-color="blue" />
-            <UserItem name="Rob Bourdon" data-accent-color="green" />
-            <UserItem name="Brad Delson" data-accent-color="gold" />
-            <UserItem name="Joe Hahn" data-accent-color="gray" />
-            <UserItem name="Dave Farrell" data-accent-color="crimson" />
+            <UserItem src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJqIVJmQ3hq3adzrQYZVTqTxKSxyY2zbZNaw&usqp=CAU"} name="John Doe" />
+            <UserItem name="Jane Smith" data-accent-color="blue" />
+            <UserItem name="Alice Johnson" data-accent-color="green" />
+            <UserItem name="Bob Brown" data-accent-color="gold" />
         </div>
-
     </div>
 }
 
