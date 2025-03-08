@@ -3,7 +3,13 @@ import Primitive from '~/core/primitives/Primitive';
 
 import { RovingFocusGroupContext } from '../context/RovingFocuGroupContext';
 
-const RovingFocusGroup = ({ children, ...props }: { children: React.ReactNode }) => {
+type RovingFocusGroupProps = {
+    children: React.ReactNode;
+    direction?: 'horizontal' | 'vertical';
+    loop?: boolean;
+};
+
+const RovingFocusGroup = ({ children, direction = 'horizontal', loop = true, ...props }: RovingFocusGroupProps) => {
     const groupRef = useRef<HTMLDivElement>(null);
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -25,7 +31,9 @@ const RovingFocusGroup = ({ children, ...props }: { children: React.ReactNode })
         focusItems,
         setFocusItems,
         addFocusItem,
-        groupRef
+        groupRef,
+        direction,
+        loop
     };
 
     return <RovingFocusGroupContext.Provider value={sendValues}>

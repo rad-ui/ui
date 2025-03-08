@@ -17,7 +17,7 @@ export default {
                         <Button>Button 1 Group 1</Button>
                     </RovingFocusGroup.Item>
                     <RovingFocusGroup.Item>
-                        <input type="text" className="border border-green-500" />
+                        <Button>Button 2 Group 1</Button>
                     </RovingFocusGroup.Item>
                     <RovingFocusGroup.Item>
                         <a href="#" className="border border-green-500">Link 1 Group 1</a>

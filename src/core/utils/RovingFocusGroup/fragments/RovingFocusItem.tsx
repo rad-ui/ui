@@ -6,7 +6,7 @@ import { RovingFocusGroupContext } from '../context/RovingFocuGroupContext';
 
 const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNode }>(({ children, ...props }, ref) => {
     const id = useId();
-    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
+    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef, direction, loop } = useContext(RovingFocusGroupContext);
 
     useEffect(() => {
         // we check if the item is in the focusItems array, if not we add it
@@ -31,18 +31,46 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         switch (event.key) {
-        case 'ArrowUp':
-        case 'ArrowLeft':
-            // Logic to move focus to the previous item
-            setFocusedItemId(focusItems[focusItems.indexOf(id) - 1]);
-
+        case 'ArrowUp': {
+            if (direction === 'vertical') {
+                // Logic to move focus to the previous item
+                const previousIndex = focusItems.indexOf(id) - 1;
+                if (previousIndex >= 0) {
+                    setFocusedItemId(focusItems[previousIndex]);
+                }
+            }
             break;
-        case 'ArrowDown':
-        case 'ArrowRight':
-            // Logic to move focus to the next item
-            setFocusedItemId(focusItems[focusItems.indexOf(id) + 1]);
-
+        }
+        case 'ArrowLeft': {
+            if (direction === 'horizontal') {
+                // Logic to move focus to the previous item
+                const previousIndex = focusItems.indexOf(id) - 1;
+                if (previousIndex >= 0) {
+                    setFocusedItemId(focusItems[previousIndex]);
+                }
+            }
             break;
+        }
+        case 'ArrowDown': {
+            if (direction === 'vertical') {
+                // Logic to move focus to the next item
+                const nextIndex = focusItems.indexOf(id) + 1;
+                if (nextIndex < focusItems.length) {
+                    setFocusedItemId(focusItems[nextIndex]);
+                }
+            }
+            break;
+        }
+        case 'ArrowRight': {
+            if (direction === 'horizontal') {
+                // Check if it's not the last item before moving focus to the next item
+                const nextIndex = focusItems.indexOf(id) + 1;
+                if (nextIndex < focusItems.length) {
+                    setFocusedItemId(focusItems[nextIndex]);
+                }
+            }
+            break;
+        }
         case 'Tab':
             // Logic to handle tab key if needed
             console.log('Tab');
