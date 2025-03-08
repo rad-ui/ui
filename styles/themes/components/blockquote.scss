@@ -2,4 +2,33 @@
     border-color: var(--rad-ui-color-accent-600);
     border-left-width: 0.5rem;
     padding-left: 0.75rem; // Assuming 1rem = 16px
+
+    // BlockQuote Variants - TODO
+      
+    /** BlockQuote Sizes */
+    &[data-block-quote-size="small"]{
+        font-size: small;
+        padding: 4px 10px;
+      
+    }
+
+    &[data-block-quote-size="medium"]{
+        font-size: medium;
+        padding: 4px 10px;
+    
+    }
+
+    &[data-block-quote-size="large"]{
+        font-size: large;
+        padding: 4px 10px;
+    
+    }
+
+    &[data-block-quote-size="x-large"]{
+        font-size: x-large;
+        padding: 4px 10px;
+       
+    }
 }
+
+
