@@ -5,6 +5,8 @@ import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
 
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+
 const COMPONENT_NAME = 'Tabs';
 
 const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], className, color, ...props }: TabRootProps) => {
@@ -14,33 +16,20 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
 
     const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '');
 
-    const nextTab = () => {
-        const batches = getAllBatchElements(tabRef?.current);
-        const nextItem = getNextBatchItem(batches);
-        nextItem.focus();
-    };
-
-    const previousTab = () => {
-        const batches = getAllBatchElements(tabRef?.current);
-        const prevItem = getPrevBatchItem(batches);
-        prevItem.focus();
-    };
-
     const contextValues = {
         rootClass,
         activeTab,
         setActiveTab,
-        nextTab,
-        previousTab,
         tabs
     };
 
     return (
         <TabsRootContext.Provider
             value={contextValues}>
-            <div ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props} >
+            <RovingFocusGroup.Root ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props}>
                 {children}
-            </div>
+            </RovingFocusGroup.Root>
+
         </TabsRootContext.Provider>
     );
 };
