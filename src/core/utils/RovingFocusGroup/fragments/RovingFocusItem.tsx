@@ -37,6 +37,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 const previousIndex = focusItems.indexOf(id) - 1;
                 if (previousIndex >= 0) {
                     setFocusedItemId(focusItems[previousIndex]);
+                } else {
+                    if (loop) {
+                        setFocusedItemId(focusItems[focusItems.length - 1]);
+                    }
                 }
             }
             break;
@@ -47,6 +51,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 const previousIndex = focusItems.indexOf(id) - 1;
                 if (previousIndex >= 0) {
                     setFocusedItemId(focusItems[previousIndex]);
+                } else {
+                    if (loop) {
+                        setFocusedItemId(focusItems[focusItems.length - 1]);
+                    }
                 }
             }
             break;
@@ -57,6 +65,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 const nextIndex = focusItems.indexOf(id) + 1;
                 if (nextIndex < focusItems.length) {
                     setFocusedItemId(focusItems[nextIndex]);
+                } else {
+                    if (loop) {
+                        setFocusedItemId(focusItems[0]);
+                    }
                 }
             }
             break;
@@ -67,6 +79,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 const nextIndex = focusItems.indexOf(id) + 1;
                 if (nextIndex < focusItems.length) {
                     setFocusedItemId(focusItems[nextIndex]);
+                } else {
+                    if (loop) {
+                        setFocusedItemId(focusItems[0]);
+                    }
                 }
             }
             break;

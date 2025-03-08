@@ -9,10 +9,10 @@ import Button from '~/components/ui/Button/Button';
 export default {
     title: 'WIP/RovingFocusGroup',
     component: RovingFocusGroup,
-    render: () => <>
+    render: (args) => <>
         <SandboxEditor className="space-y-2">
             <RovingFocusGroup.Root className="flex items-center gap-2">
-                <RovingFocusGroup.Group className="flex gap-2 border border-green-500 p-2">
+                <RovingFocusGroup.Group className="flex gap-2 border border-green-500 p-2" {...args}>
                     <RovingFocusGroup.Item>
                         <Button>Button 1 Group 1</Button>
                     </RovingFocusGroup.Item>
@@ -23,7 +23,7 @@ export default {
                         <a href="#" className="border border-green-500">Link 1 Group 1</a>
                     </RovingFocusGroup.Item>
                 </RovingFocusGroup.Group>
-                <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2">
+                <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2" {...args}>
                     <RovingFocusGroup.Item>
                         <Button>Button 1 Group 2</Button>
                     </RovingFocusGroup.Item>
@@ -37,8 +37,18 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
+export const Horizontal = {
     args: {
-        className: ''
+        className: '',
+        direction: 'horizontal',
+        loop: true
+    }
+};
+
+export const Vertical = {
+    args: {
+        className: '',
+        direction: 'vertical',
+        loop: true
     }
 };
