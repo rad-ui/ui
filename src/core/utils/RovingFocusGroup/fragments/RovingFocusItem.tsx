@@ -14,17 +14,22 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
             addFocusItem(id);
         }
 
-        if (focusedItemId === id) {
-            if (groupRef.current) {
-                // Sanitize the id to ensure it's a valid CSS selector
-                const sanitizedId = CSS.escape(id);
-                const item = groupRef?.current?.querySelector(`#${sanitizedId}`);
-                if (item) {
-                    item.focus();
-                }
+        //
+
+        //
+    }, [focusItems, focusedItemId]);
+
+    const focusItemWithId = (id: string) => {
+        if (groupRef.current) {
+            setFocusedItemId(id);
+            // Sanitize the id to ensure it's a valid CSS selector
+            const sanitizedId = CSS.escape(id);
+            const item = groupRef?.current?.querySelector(`#${sanitizedId}`);
+            if (item) {
+                item.focus();
             }
         }
-    }, [focusItems, focusedItemId]);
+    };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         switch (event.key) {
@@ -33,10 +38,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 // Logic to move focus to the previous item
                 const previousIndex = focusItems.indexOf(id) - 1;
                 if (previousIndex >= 0) {
-                    setFocusedItemId(focusItems[previousIndex]);
+                    focusItemWithId(focusItems[previousIndex]);
                 } else {
                     if (loop) {
-                        setFocusedItemId(focusItems[focusItems.length - 1]);
+                        focusItemWithId(focusItems[focusItems.length - 1]);
                     }
                 }
             }
@@ -47,10 +52,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 // Logic to move focus to the previous item
                 const previousIndex = focusItems.indexOf(id) - 1;
                 if (previousIndex >= 0) {
-                    setFocusedItemId(focusItems[previousIndex]);
+                    focusItemWithId(focusItems[previousIndex]);
                 } else {
                     if (loop) {
-                        setFocusedItemId(focusItems[focusItems.length - 1]);
+                        focusItemWithId(focusItems[focusItems.length - 1]);
                     }
                 }
             }
@@ -61,10 +66,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 // Logic to move focus to the next item
                 const nextIndex = focusItems.indexOf(id) + 1;
                 if (nextIndex < focusItems.length) {
-                    setFocusedItemId(focusItems[nextIndex]);
+                    focusItemWithId(focusItems[nextIndex]);
                 } else {
                     if (loop) {
-                        setFocusedItemId(focusItems[0]);
+                        focusItemWithId(focusItems[0]);
                     }
                 }
             }
@@ -75,10 +80,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
                 // Check if it's not the last item before moving focus to the next item
                 const nextIndex = focusItems.indexOf(id) + 1;
                 if (nextIndex < focusItems.length) {
-                    setFocusedItemId(focusItems[nextIndex]);
+                    focusItemWithId(focusItems[nextIndex]);
                 } else {
                     if (loop) {
-                        setFocusedItemId(focusItems[0]);
+                        focusItemWithId(focusItems[0]);
                     }
                 }
             }

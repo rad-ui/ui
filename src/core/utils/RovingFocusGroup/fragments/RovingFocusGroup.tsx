@@ -23,7 +23,7 @@ const RovingFocusGroup = ({ children, direction = 'horizontal', loop = true, ...
         if (!focusedItemId && focusItems.length > 0) {
             setFocusedItemId(focusItems[0]);
         }
-    }, [focusItems]);
+    }, [focusItems, focusedItemId]);
 
     const sendValues = {
         focusedItemId,
