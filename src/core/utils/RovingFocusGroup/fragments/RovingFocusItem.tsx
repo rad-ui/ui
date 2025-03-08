@@ -15,10 +15,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
         }
 
         if (focusedItemId === id) {
-            console.log('focusedItemId', focusedItemId);
-            console.log('groupRef', groupRef);
             if (groupRef.current) {
-                console.log('groupRef.current', groupRef.current);
                 // Sanitize the id to ensure it's a valid CSS selector
                 const sanitizedId = CSS.escape(id);
                 const item = groupRef?.current?.querySelector(`#${sanitizedId}`);
