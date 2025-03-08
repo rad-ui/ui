@@ -1,0 +1,57 @@
+# Setting Up Dev Environment
+
+## Cloning the repository
+
+Follow these steps to set up your development environment:
+
+- Fork the repository: Create a fork of the Rad UI repository to your GitHub account.
+- Clone the repository: Clone your forked repository to your local machine.
+- Install dependencies: Run 
+
+```bash
+npm install
+```
+
+ in the root directory. We use npm to maintain consistency in our dependencies.
+
+## Understanding the code structure
+
+The project is organized into these main directories:
+
+- docs: Contains the documentation website built with Next.js and Tailwind CSS. You're currently reading content from this directory. Use global search to quickly locate specific documentation.
+- src: Contains the core component library source code.
+- scripts: Contains utility scripts for building and managing library assets.
+- styles: Contains the production-ready component styles.
+
+Take some time to explore the codebase and understand its structure. The organization is straightforward, making it easy to start contributing once you're familiar with it.
+
+## Running Storybook
+
+We use Storybook for component development and testing. You can explore our existing components and work-in-progress features in the WIP section. Storybook is essential for developing and testing new components.
+
+To start Storybook, run 
+
+```bash
+npm run sb
+```
+
+ in the root directory.
+
+## Running the Documentation Website Dev Server
+
+To work on the documentation website, you'll need to run the development server. This is necessary for updating existing documentation, adding new pages, or modifying components.
+
+First, navigate to the docs directory: 
+
+```bash
+cd docs
+```
+
+Then start the Next.js development server: 
+
+```bash
+npm run dev
+```
+
+
+

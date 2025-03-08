@@ -2,22 +2,22 @@
 import React from 'react';
 import BadgeRoot from './fragments/BadgeRoot';
 import BadgeContent from './fragments/BadgeContent';
+
+
 export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,
     className?: string,
+    variant?: string,
+    size?: string,
     color?: string,
     props?: object[],
 }
 
-const Badge = ({ children, customRootClass = '', className = '', color = '', ...props }: BadgeProps) => {
-    const data_attributes: Record<string, string> = {};
+const Badge = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: BadgeProps) => {
 
-    if (color) {
-        data_attributes['data-accent-color'] = color;
-    }
 
-    return <BadgeRoot customRootClass={customRootClass} className={className} {...data_attributes} {...props}>
+    return <BadgeRoot customRootClass={customRootClass} className={className} color={color} variant={variant} size={size} {...props}>
         <BadgeContent>
             {children}
         </BadgeContent>

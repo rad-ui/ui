@@ -1,0 +1,13 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Strong from "@radui/ui/Strong"
+import codeUsage from "./docs/codeUsage"
+
+ <Documentation  title='Strong' description={`
+            Strong is used to define text with strong importance in bold.
+        `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+            <div className='text-gray-1000'>
+            This is a very <Strong>Strong</Strong> word
+            </div>
+            </Documentation.ComponentHero>
+</Documentation>

@@ -1,0 +1,38 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Badge from "@radui/ui/Badge"
+import codeUsage, { BadgeTable } from "./docs/codeUsage"
+import { code as variantCodeUsage } from './docs/variantCodeUsage';
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import { code as colorCodeUsage } from './docs/colorCodeUsage';
+import BadgeVariants from './examples/BadgeVariants';
+import BadgeSizes from './examples/BadgeSizes';
+import BadgeColor from './examples/BadgeColor';
+
+<Documentation 
+    title={`Badge`} 
+    description={`
+        Badges are used to display a small amount of information. They are used in the sidebar, and in the chat.
+    `}
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <Badge>Badge</Badge>
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+                <BadgeVariants />
+            </Documentation.ComponentHero>
+  
+
+            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+                <BadgeSizes />
+            </Documentation.ComponentHero>
+
+            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+                <BadgeColor />
+            </Documentation.ComponentHero>
+
+    <Documentation.Table 
+        columns={BadgeTable.columns} 
+        data={BadgeTable.data} 
+    />
+</Documentation>

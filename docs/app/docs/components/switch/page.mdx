@@ -1,0 +1,22 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Switch from "@radui/ui/Switch"
+import codeUsage, { SwitchTable } from "./docs/codeUsage"
+
+
+
+
+
+
+
+<Documentation  title='Switch' description={`
+            Switch is used to toggle between two states on and off. You can commonly used in settings panel, forms and any other 
+            place where a user needs to enable or disable feature.
+            `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+                <Switch>On</Switch>
+            </Documentation.ComponentHero>
+            <div className="max-w-screen-md">
+                <Documentation.Table columns={SwitchTable.columns} data={SwitchTable.data} />
+            </div>
+            {/* <Documentation.UnderConstruction/> */}
+        </Documentation>

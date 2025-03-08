@@ -1,0 +1,22 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import codeUsage, { BlockQuoteTable } from "./docs/codeUsage"
+import BlockQuote from "@radui/ui/BlockQuote"
+
+<Documentation title={`BlockQuote`} description={`
+            BlockQuote is used to display a quote.
+        `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+               
+                    <BlockQuote color="green">
+                        "Behind every great man is a woman rolling her eyes." — Jim Carrey
+                    </BlockQuote>
+                    
+
+              
+            </Documentation.ComponentHero>
+            
+            
+                <Documentation.Table columns={BlockQuoteTable.columns} data={BlockQuoteTable.data} />
+           
+        
+        </Documentation>

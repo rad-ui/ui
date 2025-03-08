@@ -20,4 +20,16 @@ const CodeExample = () => (
     },
 }
 
+export const CodeTable = {
+    columns : [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ],
+    data : [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the code', id: 'color'},
+    ]
+}
+
 export default code;

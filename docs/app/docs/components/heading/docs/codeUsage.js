@@ -57,4 +57,16 @@ const HeadingExamples = () => (
     },
 }
 
+export const headingBasicUsageExample = {
+    columns: [
+     {name: 'Prop', id: 'prop'},
+     {name: 'Type', id: 'type'},
+     {name: 'Default', id: 'default'},
+     {name: 'Description', id: 'description'},
+    ],
+    data: [
+     {prop: 'as', type: 'string', default: 'h1', description: 'Allows the component to render different heading levels (h1 to h6)', id: 'src'},
+    ]
+ }
+
 export default code;

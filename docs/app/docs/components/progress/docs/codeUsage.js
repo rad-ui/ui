@@ -4,7 +4,7 @@ const code = {
 import Progress from "@radui/ui/Progress";
 
 const ProgressExample = () => (
-  <div style={{ width: "200px" }}>
+  <div style={{ width: "90%" }}>
     <Progress value={90}  />
   </div>
 )
@@ -28,4 +28,20 @@ const ProgressExample = () => (
     }
 };
 
+
+export const ProgressTable = {
+    columns: [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ],
+
+    data: [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the progress bar', id: 'color'},
+        { prop: 'value', type: 'number', default: '0', description: 'Current value of the progress bar.', id: 'value' },
+        { prop: 'maxValue', type: 'number', default: '100', description: 'Maximum value of the progress bar.', id: 'maxValue' },
+        { prop: 'minValue', type: 'number', default: '0', description: 'Minimum value of the progress bar.', id: 'minValue' },
+    ]
+};
 export default code;
