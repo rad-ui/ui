@@ -17,10 +17,10 @@ export default {
                         <Button>Button 1 Group 1</Button>
                     </RovingFocusGroup.Item>
                     <RovingFocusGroup.Item>
-                        <Button>Button 2 Group 1</Button>
+                        <input type="text" className="border border-green-500" />
                     </RovingFocusGroup.Item>
                     <RovingFocusGroup.Item>
-                        <Button>Button 3 Group 1</Button>
+                        <a href="#" className="border border-green-500">Link 1 Group 1</a>
                     </RovingFocusGroup.Item>
                 </RovingFocusGroup.Group>
                 <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2">

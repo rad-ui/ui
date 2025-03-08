@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useId } from 'react';
+import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 
@@ -6,25 +6,42 @@ import { RovingFocusGroupContext } from '../context/RovingFocuGroupContext';
 
 const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNode }>(({ children, ...props }, ref) => {
     const id = useId();
-    const { focusedItemId, setFocusedItemId } = useContext(RovingFocusGroupContext);
+    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
+
+    useEffect(() => {
+        // we check if the item is in the focusItems array, if not we add it
+        if (!focusItems.includes(id)) {
+            addFocusItem(id);
+        }
+
+        if (focusedItemId === id) {
+            console.log('focusedItemId', focusedItemId);
+            console.log('groupRef', groupRef);
+            if (groupRef.current) {
+                console.log('groupRef.current', groupRef.current);
+                // Sanitize the id to ensure it's a valid CSS selector
+                const sanitizedId = CSS.escape(id);
+                const item = groupRef?.current?.querySelector(`#${sanitizedId}`);
+                if (item) {
+                    item.focus();
+                }
+            }
+        }
+    }, [focusItems, focusedItemId]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         switch (event.key) {
         case 'ArrowUp':
         case 'ArrowLeft':
             // Logic to move focus to the previous item
-            setFocusedItemId((prevId) => {
-                // Implement logic to determine the previous item ID
-                return prevId; // Replace with actual logic
-            });
+            setFocusedItemId(focusItems[focusItems.indexOf(id) - 1]);
+
             break;
         case 'ArrowDown':
         case 'ArrowRight':
             // Logic to move focus to the next item
-            setFocusedItemId((prevId) => {
-                // Implement logic to determine the next item ID
-                return prevId; // Replace with actual logic
-            });
+            setFocusedItemId(focusItems[focusItems.indexOf(id) + 1]);
+
             break;
         case 'Tab':
             // Logic to handle tab key if needed
