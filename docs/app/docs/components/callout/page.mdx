@@ -2,6 +2,12 @@ import Documentation from '@/components/layout/Documentation/Documentation';
 import Callout from '@radui/ui/Callout';
 import Text from '@radui/ui/Text';
 import codeUsage, { BookmarkIcon,calloutTable } from './docs/codeUsage';
+import { code as variantCodeUsage } from './docs/variantCodeUsage';
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import { code as colorCodeUsage } from './docs/colorCodeUsage';
+import CalloutVariants from './examples/CalloutVariants';
+import CalloutSizes from './examples/CalloutSizes';
+import CalloutColor from './examples/CalloutColor';
 
 <Documentation title={`Callout`} description={`
             Callout is a component that can be used to display a message or a notification to the user.
@@ -19,6 +25,19 @@ import codeUsage, { BookmarkIcon,calloutTable } from './docs/codeUsage';
                 </Callout>
             </Documentation.ComponentHero>
 
+               <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+                <CalloutVariants />
+            </Documentation.ComponentHero>
+  
+
+            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+                <CalloutSizes />
+            </Documentation.ComponentHero>
+
+            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+                <CalloutColor />
+            </Documentation.ComponentHero>
+            
             <div className="max-w-screen-md">
                 <Documentation.Table columns={calloutTable.columns} data={calloutTable.data} />
             </div>
