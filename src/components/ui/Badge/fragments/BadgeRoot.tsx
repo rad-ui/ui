@@ -3,8 +3,6 @@ import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 const COMPONENT_NAME = 'Badge';
 
-
-
 type BadgeRootProps = {
      children: React.ReactNode;
      customRootClass?: string;

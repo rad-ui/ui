@@ -3,7 +3,6 @@ import React from 'react';
 import BadgeRoot from './fragments/BadgeRoot';
 import BadgeContent from './fragments/BadgeContent';
 
-
 export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,
@@ -15,8 +14,6 @@ export type BadgeProps = {
 }
 
 const Badge = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: BadgeProps) => {
-
-
     return <BadgeRoot customRootClass={customRootClass} className={className} color={color} variant={variant} size={size} {...props}>
         <BadgeContent>
             {children}
