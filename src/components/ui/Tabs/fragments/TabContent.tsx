@@ -16,7 +16,7 @@ export type TabContentProps ={
 const TabContent = ({ className, customRootClass }: TabContentProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const { tabs, activeTab, setActiveTab } = useContext(TabsRootContext);
+    const { tabs, activeTab } = useContext(TabsRootContext);
 
     return <div className={clsx(rootClass, className)}>
         {tabs.map((tab, index) => {

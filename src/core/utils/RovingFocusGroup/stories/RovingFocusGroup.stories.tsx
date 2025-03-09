@@ -11,8 +11,8 @@ export default {
     component: RovingFocusGroup,
     render: (args) => <>
         <SandboxEditor className="space-y-2">
-            <RovingFocusGroup.Root className="flex items-center gap-2">
-                <RovingFocusGroup.Group className="flex gap-2 border border-green-500 p-2" {...args}>
+            <RovingFocusGroup.Root className="flex items-center gap-2" {...args}>
+                <RovingFocusGroup.Group className="flex gap-2 border border-green-500 p-2" >
                     <RovingFocusGroup.Item>
                         <Button>Button 1 Group 1</Button>
                     </RovingFocusGroup.Item>
@@ -23,7 +23,7 @@ export default {
                         <a href="#" className="border border-green-500">Link 1 Group 1</a>
                     </RovingFocusGroup.Item>
                 </RovingFocusGroup.Group>
-                <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2" {...args}>
+                <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2" >
                     <RovingFocusGroup.Item>
                         <Button>Button 1 Group 2</Button>
                     </RovingFocusGroup.Item>
@@ -39,7 +39,6 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Horizontal = {
     args: {
-        className: '',
         direction: 'horizontal',
         loop: true
     }
@@ -47,7 +46,6 @@ export const Horizontal = {
 
 export const Vertical = {
     args: {
-        className: '',
         direction: 'vertical',
         loop: true
     }

@@ -5,11 +5,9 @@ import { RovingFocusGroupContext } from '../context/RovingFocuGroupContext';
 
 type RovingFocusGroupProps = {
     children: React.ReactNode;
-    direction?: 'horizontal' | 'vertical';
-    loop?: boolean;
 };
 
-const RovingFocusGroup = ({ children, direction = 'horizontal', loop = true, ...props }: RovingFocusGroupProps) => {
+const RovingFocusGroup = ({ children, ...props }: RovingFocusGroupProps) => {
     const groupRef = useRef<HTMLDivElement>(null);
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -31,9 +29,7 @@ const RovingFocusGroup = ({ children, direction = 'horizontal', loop = true, ...
         focusItems,
         setFocusItems,
         addFocusItem,
-        groupRef,
-        direction,
-        loop
+        groupRef
     };
 
     return <RovingFocusGroupContext.Provider value={sendValues}>

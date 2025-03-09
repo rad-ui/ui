@@ -3,10 +3,12 @@ import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
 import { RovingFocusGroupContext } from '../context/RovingFocuGroupContext';
+import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
 
 const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNode }>(({ children, ...props }, ref) => {
     const id = useId();
-    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef, direction, loop } = useContext(RovingFocusGroupContext);
+    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
+    const { direction, loop } = useContext(RovingFocusRootContext);
 
     useEffect(() => {
         // we check if the item is in the focusItems array, if not we add it

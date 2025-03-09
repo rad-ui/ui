@@ -3,7 +3,6 @@ import React, { useState, useRef } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
-import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
@@ -24,9 +23,8 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
     };
 
     return (
-        <TabsRootContext.Provider
-            value={contextValues}>
-            <RovingFocusGroup.Root ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props}>
+        <TabsRootContext.Provider value={contextValues}>
+            <RovingFocusGroup.Root direction="horizontal" loop ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props}>
                 {children}
             </RovingFocusGroup.Root>
 
