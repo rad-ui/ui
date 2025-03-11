@@ -1,4 +1,4 @@
-import { createDataAttribute, composeAttributes } from ".";
+import { useCreateDataAttribute, useComposeAttributes } from ".";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Button from "~/components/ui/Button/Button";
@@ -10,9 +10,9 @@ describe("createDataAttribute", () => {
     const size = "large";
     const color = "red";
     
-    const dataAttributes = createDataAttribute("button", { variant, size });
-    const accentAttributes = createDataAttribute("accent", { color });
-    const composedAttributes = composeAttributes(
+    const dataAttributes = useCreateDataAttribute("button", { variant, size });
+    const accentAttributes = useCreateDataAttribute("accent", { color });
+    const composedAttributes = useComposeAttributes(
       dataAttributes,
       accentAttributes
     );
@@ -30,9 +30,9 @@ describe("createDataAttribute", () => {
     const size = undefined;
     const color = "";
     
-    const dataAttributes = createDataAttribute("button", { variant, size });
-    const accentAttributes = createDataAttribute("accent", { color });
-    const composedAttributes = composeAttributes(
+    const dataAttributes = useCreateDataAttribute("button", { variant, size });
+    const accentAttributes = useCreateDataAttribute("accent", { color });
+    const composedAttributes = useComposeAttributes(
       dataAttributes,
       accentAttributes
     );
