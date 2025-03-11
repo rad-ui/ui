@@ -2,6 +2,10 @@ import Documentation from '@/components/layout/Documentation/Documentation';
 import Card from '@radui/ui/Card';
 import Avatar from '@radui/ui/Avatar';
 import codeUsage from './docs/codeUsage';
+import { code as variantCodeUsage } from './docs/variantCodeUsage';
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import CardVariants from './examples/CardVariants';
+import CardSizes from './examples/CardSizes';
 
 <Documentation title={`Card`} description={`
             Cards are used to group related information and actions. They are used to display information in a structured way.
@@ -15,4 +19,14 @@ import codeUsage from './docs/codeUsage';
                     </div>
                 </Card>
             </Documentation.ComponentHero>
+
+             <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+                <CardVariants />
+            </Documentation.ComponentHero>
+  
+
+            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+                <CardSizes />
+            </Documentation.ComponentHero>
+
         </Documentation>
