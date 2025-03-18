@@ -21,6 +21,11 @@ module.exports = {
         'react',
         'jsx-a11y'
     ],
+    settings: {
+        react: {
+            version: '18.2.0'
+        }
+    },
     rules: {
         'react/react-in-jsx-scope': 'off',
         indent: ['warn', 4],
