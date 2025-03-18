@@ -4,7 +4,7 @@ import { RadioGroupContext } from '../context/RadioGroupContext';
 import clsx from 'clsx';
 
 const RadioGroupItem = ({ children, className = '', ...props }: { children: React.ReactNode } & RadioGroupPrimitive.ItemProps) => {
-    const { defaultChecked, onChange, rootClass } = useContext(RadioGroupContext);
+    const { rootClass } = useContext(RadioGroupContext);
     return <RadioGroupPrimitive.Item className={clsx(`${rootClass}-item`, className)} {...props}>{children}</RadioGroupPrimitive.Item>;
 };
 
