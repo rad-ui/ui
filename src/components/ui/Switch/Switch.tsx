@@ -34,7 +34,13 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', de
     return (
         <>
             <input type='checkbox' className={clsx(rootClass)} {...props} checked= {isChecked} onChange={(e) => setIsChecked(e.target.checked)}/>
-            <button type="button" onClick={handleChecked} role="switch" {...data_attributes}></button>
+            <button
+                type="button"
+                onClick={handleChecked}
+                role="switch"
+                aria-checked={isChecked}
+                {...data_attributes}
+            ></button>
 
         </>
     );
