@@ -11,6 +11,25 @@ module.exports = {
         'plugin:jsx-a11y/recommended'
     ],
     overrides: [
+        {
+            // For story files
+            files: ['**/*.stories.js', '**/*.stories.jsx', '**/*.stories.ts', '**/*.stories.tsx'],
+            rules: {
+                'no-unused-vars': 'off',
+                'react/no-unescaped-entities': 'off',
+                eqeqeq: 'off',
+                'jsx-a11y/role-supports-aria-props': 'off',
+                'jsx-a11y/role-has-required-aria-props': 'off'
+            }
+        },
+        {
+            // For test files
+            files: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
+            rules: {
+                'no-unused-vars': 'off',
+                'react/no-unescaped-entities': 'off'
+            }
+        }
     ],
     parser: '@babel/eslint-parser',
     parserOptions: {
@@ -88,7 +107,7 @@ module.exports = {
         'jsx-a11y/media-has-caption': 'warn',
         'jsx-a11y/mouse-events-have-key-events': 'warn',
         'jsx-a11y/no-access-key': 'warn',
-        'jsx-a11y/no-autofocus': 'warn',
+        'jsx-a11y/no-autofocus': 'off', // Turning this off as it's commonly used in modals
         'jsx-a11y/no-distracting-elements': 'warn',
         'jsx-a11y/no-interactive-element-to-noninteractive-role': 'warn',
         'jsx-a11y/no-noninteractive-element-interactions': 'warn',
