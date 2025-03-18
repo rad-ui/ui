@@ -1,32 +1,32 @@
-@use "components/accordion.scss";
-@use "components/alert-dialog.scss";
-@use "components/avatar.scss";
-@use "components/avatar-group.scss";
-@use "components/badge.scss";
-@use "components/blockquote.scss";
-@use "components/button.scss";
-@use "components/callout.scss";
-@use "components/card.scss";
-@use "components/table.scss";
-@use "components/code.scss";
-@use "components/disclosure.scss";
-@use "components/heading.scss";
-@use "components/hover-card.scss";
-@use "components/kbd.scss";
-@use "components/link.scss";
-@use "components/separator.scss";
-@use "components/tabs.scss";
-@use "components/text.scss";
-@use "components/textarea.scss";
-@use "components/progress.scss";
-@use "components/toggle.scss";
-@use "components/toggle-group.scss";
-@use "components/radio.scss";
-@use "components/radiocards.scss";
-@use "components/switch.scss";
-@use "components/skeleton.scss";
-@use "components/visuallyhidden.scss";
-@use "components/collapsible.scss";
+@use "components/accordion";
+@use "components/alert-dialog";
+@use "components/avatar";
+@use "components/avatar-group";
+@use "components/badge";
+@use "components/blockquote";
+@use "components/button";
+@use "components/callout";
+@use "components/card";
+@use "components/table";
+@use "components/code";
+@use "components/disclosure";
+@use "components/heading";
+@use "components/hover-card";
+@use "components/kbd";
+@use "components/link";
+@use "components/separator";
+@use "components/tabs";
+@use "components/text";
+@use "components/textarea";
+@use "components/progress";
+@use "components/toggle";
+@use "components/toggle-group";
+@use "components/radio";
+@use "components/radiocards";
+@use "components/switch";
+@use "components/skeleton";
+@use "components/visuallyhidden";
+@use "components/collapsible";
 
 // import .css file
 @use "../cssTokens/base.tokens";
@@ -53,9 +53,11 @@
 .rad-ui-tooltip{
     
 }
+
 .rad-ui-tooltip-reference-element{
 
 }
+
 .rad-ui-tooltip-floating-element{
     background-color:var(--rad-ui-color-gray-1000); 
     color: var(--rad-ui-color-gray-100);

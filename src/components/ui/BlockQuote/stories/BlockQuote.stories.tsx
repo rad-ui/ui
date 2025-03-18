@@ -50,15 +50,15 @@ export const Size = () => {
         </div>
         <div>
 
-                <div className='mb-10'>
-                    <span className="flex flex-col gap-3">
-                        {Sizes.map((size, index) => {
-                            return <BlockQuote key={index} size={size} >
-                                <div>{BLOCKQUOTE_TEXT} </div>
-                            </BlockQuote>;
-                        })}
-                    </span>
-                </div>
+            <div className='mb-10'>
+                <span className="flex flex-col gap-3">
+                    {Sizes.map((size, index) => {
+                        return <BlockQuote key={index} size={size} >
+                            <div>{BLOCKQUOTE_TEXT} </div>
+                        </BlockQuote>;
+                    })}
+                </span>
+            </div>
 
         </div>
     </SandboxEditor>;
@@ -74,6 +74,6 @@ export const Variant = () => {
             <BlockQuote>
                 <div>{BLOCKQUOTE_TEXT}</div>
             </BlockQuote>
-       </div>
+        </div>
     </SandboxEditor>;
 };

@@ -6,16 +6,17 @@
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    padding:0px 12px;
+    padding:0 12px;
     margin-right: 8px;
-    box-sizing: border-box;
     background-color: var(--rad-ui-color-accent-900);
     color:var(--rad-ui-color-accent-50);
     box-sizing: border-box;
+
     &:hover{
         background-color: var(--rad-ui-color-accent-1000);
         color: var(--rad-ui-color-accent-50);
     }
+
     &:active{
         background-color: var(--rad-ui-color-accent-1000);
         transform: scale(0.96);
