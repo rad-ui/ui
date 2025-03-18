@@ -1,6 +1,12 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import Code from '@radui/ui/Code';
 import codeUsage, { CodeTable } from './docs/codeUsage';
+import { code as variantCodeUsage } from './docs/variantCodeUsage';
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import { code as colorCodeUsage } from './docs/colorCodeUsage';
+import CodeVariants from './examples/CodeVariants';
+import CodeSizes from './examples/CodeSizes';
+import CodeColor from './examples/CodeColor';
 
 <Documentation
            title={`Code`} description={`
@@ -12,8 +18,23 @@ import codeUsage, { CodeTable } from './docs/codeUsage';
                 </div>
             </Documentation.ComponentHero>
 
-        </Documentation>
+               <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+                <CodeVariants />
+            </Documentation.ComponentHero>
+  
 
+            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+                <CodeSizes />
+            </Documentation.ComponentHero>
+
+            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+                <CodeColor />
+            </Documentation.ComponentHero>
+            
+             <Documentation.Table columns={CodeTable.columns} data={CodeTable.data} />
+        </Documentation>
+                  
+            
      
-                <Documentation.Table columns={CodeTable.columns} data={CodeTable.data} />
+              
            
