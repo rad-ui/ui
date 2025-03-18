@@ -14,7 +14,7 @@ export type BlockQuoteProps = {
     size?: string;
     props?: Record<string, any>[]
 }
-const BlockQuote = ({ children, customRootClass = '', className = '', color = '', variant= '', size= '', ...props }: BlockQuoteProps) => {
+const BlockQuote = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: BlockQuoteProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const data_attributes: Record<string, string> = {};
@@ -27,11 +27,9 @@ const BlockQuote = ({ children, customRootClass = '', className = '', color = ''
         data_attributes['data-block-quote-size'] = size;
     }
 
-
     if (color) {
         data_attributes['data-accent-color'] = color;
     }
-    
 
     return <blockquote className={clsx(rootClass, className)} {...props} {...data_attributes}> {children}</blockquote>;
 };

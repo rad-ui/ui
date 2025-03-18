@@ -16,13 +16,13 @@ export default {
     component: Badge,
     render: () => <SandboxEditor>
         <div className='flex space-x-2'>
-            <Badge  >Plum</Badge>
+            <Badge >Plum</Badge>
             <Separator orientation="vertical" />
-            <Badge  color="plum">Plum</Badge>
-            <Badge  color="red" >Red</Badge>
-            <Badge  color="gray" >Gray</Badge>
+            <Badge color="plum">Plum</Badge>
+            <Badge color="red" >Red</Badge>
+            <Badge color="gray" >Gray</Badge>
             <Separator orientation="vertical" />
-            <Badge  >
+            <Badge >
 
                 <div>
                     With Icon
@@ -70,11 +70,11 @@ export const Variant = () => {
         </div>
         <div className='flex space-x-2'>
 
-                        {Variants.map((variant, index) => {
-                            return <Badge key={index}  variant={variant} >
-                                <div>{BadgeText} </div>
-                            </Badge>;
-                        })}
+            {Variants.map((variant, index) => {
+                return <Badge key={index} variant={variant} >
+                    <div>{BadgeText} </div>
+                </Badge>;
+            })}
 
         </div>
     </SandboxEditor>;

@@ -16,11 +16,11 @@ export type CalloutProps = {
 }
 
 const COMPONENT_NAME = 'Callout';
-const Callout = ({ children, className = '', color, variant='', size='', customRootClass, ...props }: CalloutProps) => {
+const Callout = ({ children, className = '', color, variant = '', size = '', customRootClass, ...props }: CalloutProps) => {
     return (
-    <CalloutRoot customRootClass={customRootClass} className={clsx(className)} color={color ?? undefined} variant={variant} size={size} {...props}>
-        {children}
-    </CalloutRoot>);
+        <CalloutRoot customRootClass={customRootClass} className={clsx(className)} color={color ?? undefined} variant={variant} size={size} {...props}>
+            {children}
+        </CalloutRoot>);
 };
 
 Callout.displayName = COMPONENT_NAME;

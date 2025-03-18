@@ -8,8 +8,7 @@
         .rad-ui-tabs-trigger {
             color: var(--rad-ui-color-accent-600);
             font-family: inherit;
-            padding: 10px 10px;
-        
+            padding: 10px;
             display: flex;
             align-items: center;
             height:42px;
@@ -29,7 +28,7 @@
     }
 
     .rad-ui-tab-content{
-        padding:20px 0px;
+        padding:20px 0;
         color : var(--rad-ui-color-gray-1000);
     }
     
