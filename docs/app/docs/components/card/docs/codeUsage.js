@@ -2,9 +2,13 @@ const code = {
     javascript: {
         code: `import Card from "@radui/ui/Card"
         
-const ButtonExample = () => (
+const CardExample = () => (
     <Card>
-        Hello Card content
+        <Avatar fallback="PP" />
+          <div>
+            <span className="font-medium">Peter Parker</span>
+            <span>Biochemist</span>
+          </div>
     </Card>
 )`
     },
