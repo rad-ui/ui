@@ -254,3 +254,77 @@ export const DisabledItems = {
         </SandboxEditor>
     )
 };
+
+// Story demonstrating the ARIA roles and attributes for screen reader accessibility
+export const AccessibilityDemo = {
+    render: () => (
+        <SandboxEditor className="space-y-8 bg-gray-50">
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h2 className="text-lg font-semibold mb-2">Screen Reader Accessibility</h2>
+                <p className="mb-1">This example demonstrates ARIA roles and attributes for screen reader accessibility.</p>
+                <p className="mb-1"><strong>Features:</strong> Proper ARIA roles, labels, and states for screen readers.</p>
+                <p className="text-sm text-gray-600">The component uses listbox/option pattern with aria-selected state.</p>
+            </div>
+
+            <div className="space-y-6">
+                <div>
+                    <h3 className="text-md font-medium mb-2">ARIA Labeled Navigation Example</h3>
+                    <RovingFocusGroup.Root
+                        direction="horizontal"
+                        loop={true}
+                        aria-label="Main navigation menu"
+                        className="rounded-md border border-blue-500 p-4"
+                    >
+                        <RovingFocusGroup.Group
+                            className="flex gap-3"
+                            aria-label="Primary actions"
+                        >
+                            <RovingFocusGroup.Item aria-label="Dashboard view">
+                                <Button>Dashboard</Button>
+                            </RovingFocusGroup.Item>
+                            <RovingFocusGroup.Item aria-label="User profile settings">
+                                <Button>Profile</Button>
+                            </RovingFocusGroup.Item>
+                            <RovingFocusGroup.Item aria-label="System settings">
+                                <Button>Settings</Button>
+                            </RovingFocusGroup.Item>
+                            <RovingFocusGroup.Item>
+                                <Button disabled className="opacity-50">Admin (Disabled)</Button>
+                            </RovingFocusGroup.Item>
+                        </RovingFocusGroup.Group>
+                    </RovingFocusGroup.Root>
+                </div>
+
+                <div>
+                    <h3 className="text-md font-medium mb-2">ARIA Attributes Explained</h3>
+                    <div className="grid grid-cols-2 gap-4 text-sm border border-gray-200 p-4 rounded-md">
+                        <div className="font-semibold">Root Component</div>
+                        <div>role="listbox", aria-orientation, aria-label</div>
+
+                        <div className="font-semibold">Group Component</div>
+                        <div>role="group", aria-label</div>
+
+                        <div className="font-semibold">Item Component</div>
+                        <div>role="option", aria-selected, aria-disabled</div>
+
+                        <div className="font-semibold">Navigation</div>
+                        <div>Arrow keys, Home/End, with proper ARIA states</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h3 className="text-md font-medium mb-2">Screen Reader Testing Instructions</h3>
+                <p className="text-sm text-gray-600">Use VoiceOver (Mac) or NVDA/JAWS (Windows) to test the component.</p>
+                <p className="text-sm text-gray-600 mt-1">Tab to the group, then use arrow keys to navigate between options.</p>
+                <p className="text-sm text-gray-600 mt-1">The screen reader should announce:</p>
+                <ul className="list-disc pl-5 text-sm text-gray-600 mt-1">
+                    <li>When you enter the navigation menu</li>
+                    <li>The name of each option as you navigate</li>
+                    <li>The selected state of the focused option</li>
+                    <li>When an option is disabled</li>
+                </ul>
+            </div>
+        </SandboxEditor>
+    )
+};

@@ -16,17 +16,21 @@ import RovingFocusItem from './fragments/RovingFocusItem';
  * - Optional looping when reaching the end of a group
  * - Prevents default scrolling behavior when using arrow keys
  * - Automatically respects disabled state of child elements
+ * - Comprehensive ARIA roles and attributes for screen readers
  *
  * Accessibility benefits:
  * - Follows WAI-ARIA best practices for keyboard navigation
  * - Improves navigation for keyboard and screen reader users
  * - Maintains a single tab stop within a group of related elements
  * - Properly identifies and skips disabled elements during navigation
+ * - Uses appropriate ARIA roles (listbox/option pattern)
+ * - Provides aria-selected state for the currently focused item
+ * - Supports proper labeling with aria-label and aria-labelledby
  *
  * @example
- * <RovingFocusGroup.Root direction="horizontal" loop={true}>
- *   <RovingFocusGroup.Group className="flex gap-2">
- *     <RovingFocusGroup.Item>
+ * <RovingFocusGroup.Root direction="horizontal" loop={true} aria-label="Main Menu">
+ *   <RovingFocusGroup.Group className="flex gap-2" aria-label="Navigation Section">
+ *     <RovingFocusGroup.Item aria-label="First option">
  *       <Button>Option 1</Button>
  *     </RovingFocusGroup.Item>
  *     <RovingFocusGroup.Item>

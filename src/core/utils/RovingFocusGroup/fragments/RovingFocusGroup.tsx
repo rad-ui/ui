@@ -6,9 +6,13 @@ import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 /**
  * Props for the RovingFocusGroup component
  * @property {React.ReactNode} children - Child components (should include RovingFocusItem components)
+ * @property {string} [aria-label] - Accessible label for this specific group
+ * @property {string} [aria-labelledby] - ID of an element that labels this specific group
  */
 type RovingFocusGroupProps = {
     children: React.ReactNode;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -19,12 +23,17 @@ type RovingFocusGroupProps = {
  * Each group maintains its own list of focusable items and tracks which item has focus.
  *
  * @example
- * <RovingFocusGroup className="flex gap-2">
+ * <RovingFocusGroup className="flex gap-2" aria-label="Navigation section">
  *   <RovingFocusItem><Button>Item 1</Button></RovingFocusItem>
  *   <RovingFocusItem><Button>Item 2</Button></RovingFocusItem>
  * </RovingFocusGroup>
  */
-const RovingFocusGroup = ({ children, ...props }: RovingFocusGroupProps) => {
+const RovingFocusGroup = ({
+    children,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    ...props
+}: RovingFocusGroupProps) => {
     const groupRef = useRef<HTMLDivElement>(null);
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -55,7 +64,14 @@ const RovingFocusGroup = ({ children, ...props }: RovingFocusGroupProps) => {
     };
 
     return <RovingFocusGroupContext.Provider value={sendValues}>
-        <Primitive.div id={groupId} ref={groupRef} {...props}>
+        <Primitive.div
+            id={groupId}
+            ref={groupRef}
+            role="group"
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledBy}
+            {...props}
+        >
             {children}
         </Primitive.div>
     </RovingFocusGroupContext.Provider>;

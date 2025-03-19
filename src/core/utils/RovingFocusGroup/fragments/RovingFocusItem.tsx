@@ -8,9 +8,13 @@ import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
 /**
  * Props for the RovingFocusItem component
  * @property {React.ReactNode} children - Child component that will receive focus (usually a button or other interactive element)
+ * @property {string} [aria-label] - Accessible label for this item
+ * @property {string} [aria-labelledby] - ID of an element that labels this item
  */
 type RovingFocusItemProps = {
     children: React.ReactNode;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
@@ -22,7 +26,7 @@ type RovingFocusItemProps = {
  * Automatically respects the disabled state of child elements.
  *
  * @example
- * <RovingFocusItem>
+ * <RovingFocusItem aria-label="Navigation option">
  *   <Button>Focusable Item</Button>
  * </RovingFocusItem>
  *
@@ -30,7 +34,12 @@ type RovingFocusItemProps = {
  *   <Button disabled>Disabled Item (skipped during navigation)</Button>
  * </RovingFocusItem>
  */
-const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ children, ...props }, ref) => {
+const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
+    children,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    ...props
+}, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
     const { direction, loop } = useContext(RovingFocusRootContext);
@@ -39,6 +48,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
     const isDisabled = child?.props?.disabled === true;
+
+    // Is this item currently selected
+    const isSelected = focusedItemId === id;
 
     // Register this item with the parent group
     useEffect(() => {
@@ -226,11 +238,16 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
     return <Primitive.button
         asChild
         onFocus={handleFocus}
-        tabIndex={!isDisabled && focusedItemId === id ? 0 : -1}
+        tabIndex={!isDisabled && isSelected ? 0 : -1}
         ref={ref}
         id={id}
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}
+        role="option"
+        aria-selected={isSelected}
+        aria-disabled={isDisabled}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         {...props}
     >
         {children}
