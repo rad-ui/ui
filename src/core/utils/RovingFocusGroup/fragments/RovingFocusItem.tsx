@@ -40,6 +40,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         switch (event.key) {
         case 'ArrowUp': {
+            // Prevent default to stop page scrolling
+            event.preventDefault();
+
             if (direction === 'vertical') {
                 // Logic to move focus to the previous item
                 const previousIndex = focusItems.indexOf(id) - 1;
@@ -54,6 +57,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
             break;
         }
         case 'ArrowLeft': {
+            // Prevent default to stop container scrolling
+            event.preventDefault();
+
             if (direction === 'horizontal') {
                 // Logic to move focus to the previous item
                 const previousIndex = focusItems.indexOf(id) - 1;
@@ -68,6 +74,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
             break;
         }
         case 'ArrowDown': {
+            // Prevent default to stop page scrolling
+            event.preventDefault();
+
             if (direction === 'vertical') {
                 // Logic to move focus to the next item
                 const nextIndex = focusItems.indexOf(id) + 1;
@@ -82,6 +91,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
             break;
         }
         case 'ArrowRight': {
+            // Prevent default to stop container scrolling
+            event.preventDefault();
+
             if (direction === 'horizontal') {
                 // Check if it's not the last item before moving focus to the next item
                 const nextIndex = focusItems.indexOf(id) + 1;
