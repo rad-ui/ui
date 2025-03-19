@@ -68,7 +68,7 @@ export const Size = () => {
                     <span key={index} className="inline-flex items-start space-x-2">
                         {Sizes.map((size, index) => {
                             return <Callout key={index} size={size} variant={variant} >
-                                 <InfoIcon/> <span>This is a Callout</span>
+                                <InfoIcon/> <span>This is a Callout</span>
                             </Callout>;
                         })}
                     </span>
@@ -86,11 +86,11 @@ export const Variant = () => {
         </div>
         <div className='flex space-x-2'>
 
-                        {Variants.map((variant, index) => {
-                            return <Callout key={index}  variant={variant} >
-                                 <InfoIcon/> <span>This is a Callout</span>
-                            </Callout>;
-                        })}
+            {Variants.map((variant, index) => {
+                return <Callout key={index} variant={variant} >
+                    <InfoIcon/> <span>This is a Callout</span>
+                </Callout>;
+            })}
 
         </div>
     </SandboxEditor>;

@@ -27,10 +27,10 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     };
 
     const handleKeyDownEvent = (e: React.KeyboardEvent) => {
-        if (e.key == 'ArrowLeft') {
+        if (e.key === 'ArrowLeft') {
             previousTab();
         }
-        if (e.key == 'ArrowRight') {
+        if (e.key === 'ArrowRight') {
             nextTab();
         }
     };

@@ -67,7 +67,7 @@ const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps)
                 id={`disclosure-data-item-${id}`}
                 role="region"
                 aria-labelledby={`disclosure-trigger-${id}`}
-                aria-expanded={isOpen}
+                data-expanded={isOpen}
                 data-rad-ui-batch-element
                 {...shouldAddFocusDataAttribute ? { 'data-rad-ui-focus-element': '' } : {}}
             >

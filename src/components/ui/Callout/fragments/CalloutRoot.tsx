@@ -13,7 +13,7 @@ type CalloutRootProps = {
     props?: Record<any, any>[]
 }
 
-const CalloutRoot = ({ children, className, color, variant='', size='', customRootClass, ...props }: CalloutRootProps) => {
+const CalloutRoot = ({ children, className, color, variant = '', size = '', customRootClass, ...props }: CalloutRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const data_attributes: Record<string, string> = {};
 
