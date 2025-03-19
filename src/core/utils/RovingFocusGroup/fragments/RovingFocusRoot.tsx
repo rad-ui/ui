@@ -2,10 +2,16 @@ import React from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 
-import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
+import { RovingFocusRootContext, RovingFocusRootContextTypes } from '../context/RovingFocusRootContext';
 
-const RovingFocusRoot = ({ children, direction = 'horizontal', loop = true, ...props }: { children: React.ReactNode, direction?: 'horizontal' | 'vertical', loop?: boolean }) => {
-    const sendValues = {
+type RovingFocusRootProps = {
+    children: React.ReactNode;
+    direction?: 'horizontal' | 'vertical';
+    loop?: boolean;
+} & React.HTMLAttributes<HTMLDivElement>;
+
+const RovingFocusRoot = ({ children, direction = 'horizontal', loop = true, ...props }: RovingFocusRootProps) => {
+    const sendValues: RovingFocusRootContextTypes = {
         direction,
         loop
     };

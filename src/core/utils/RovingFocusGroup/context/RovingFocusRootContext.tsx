@@ -1,3 +1,13 @@
 import { createContext } from 'react';
 
-export const RovingFocusRootContext = createContext({});
+// Define the type for the context
+export type RovingFocusRootContextTypes = {
+  direction: 'horizontal' | 'vertical';
+  loop: boolean;
+}
+
+// Create context with proper type and default values
+export const RovingFocusRootContext = createContext<RovingFocusRootContextTypes>({
+    direction: 'horizontal',
+    loop: true
+});

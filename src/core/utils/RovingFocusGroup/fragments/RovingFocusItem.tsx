@@ -2,13 +2,17 @@ import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 
-import { RovingFocusGroupContext } from '../context/RovingFocuGroupContext';
-import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
+import { RovingFocusGroupContext, RovingFocusGroupContextTypes } from '../context/RovingFocusGroupContext';
+import { RovingFocusRootContext, RovingFocusRootContextTypes } from '../context/RovingFocusRootContext';
 
-const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNode }>(({ children, ...props }, ref) => {
+type RovingFocusItemProps = {
+    children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ children, ...props }, ref) => {
     const id = useId();
-    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { direction, loop } = useContext(RovingFocusRootContext);
+    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext<RovingFocusGroupContextTypes>(RovingFocusGroupContext);
+    const { direction, loop } = useContext<RovingFocusRootContextTypes>(RovingFocusRootContext);
 
     useEffect(() => {
         // we check if the item is in the focusItems array, if not we add it
@@ -22,13 +26,13 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, { children: React.ReactNod
     }, [focusItems, focusedItemId]);
 
     const focusItemWithId = (id: string) => {
-        if (groupRef.current) {
+        if (groupRef && groupRef.current) {
             setFocusedItemId(id);
             // Sanitize the id to ensure it's a valid CSS selector
             const sanitizedId = CSS.escape(id);
-            const item = groupRef?.current?.querySelector(`#${sanitizedId}`);
+            const item = groupRef.current.querySelector(`#${sanitizedId}`);
             if (item) {
-                item.focus();
+                (item as HTMLElement).focus();
             }
         }
     };
