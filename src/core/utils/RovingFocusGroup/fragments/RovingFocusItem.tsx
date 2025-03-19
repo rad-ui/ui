@@ -5,15 +5,32 @@ import Primitive from '~/core/primitives/Primitive';
 import { RovingFocusGroupContext, RovingFocusGroupContextTypes } from '../context/RovingFocusGroupContext';
 import { RovingFocusRootContext, RovingFocusRootContextTypes } from '../context/RovingFocusRootContext';
 
+/**
+ * Props for the RovingFocusItem component
+ * @property {React.ReactNode} children - Child component that will receive focus (usually a button or other interactive element)
+ */
 type RovingFocusItemProps = {
     children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+/**
+ * Individual focusable item in a roving focus group
+ *
+ * Handles keyboard navigation between items and manages focus states.
+ * Uses the tabindex attribute to control which item is focusable.
+ * Only one item in a group will have tabIndex={0} at a time.
+ *
+ * @example
+ * <RovingFocusItem>
+ *   <Button>Focusable Item</Button>
+ * </RovingFocusItem>
+ */
 const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ children, ...props }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext<RovingFocusGroupContextTypes>(RovingFocusGroupContext);
     const { direction, loop } = useContext<RovingFocusRootContextTypes>(RovingFocusRootContext);
 
+    // Register this item with the parent group
     useEffect(() => {
         // we check if the item is in the focusItems array, if not we add it
         if (!focusItems.includes(id)) {
@@ -25,6 +42,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         //
     }, [focusItems, focusedItemId]);
 
+    /**
+     * Focuses an item by its ID
+     * @param id - ID of the item to focus
+     */
     const focusItemWithId = (id: string) => {
         if (groupRef && groupRef.current) {
             setFocusedItemId(id);
@@ -37,7 +58,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         }
     };
 
-    // Helper function to focus the previous item
+    /**
+     * Focuses the previous item in the group
+     * If at the first item and loop=true, will focus the last item
+     */
     const focusPreviousItem = () => {
         const previousIndex = focusItems.indexOf(id) - 1;
         if (previousIndex >= 0) {
@@ -48,7 +72,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         }
     };
 
-    // Helper function to focus the next item
+    /**
+     * Focuses the next item in the group
+     * If at the last item and loop=true, will focus the first item
+     */
     const focusNextItem = () => {
         const nextIndex = focusItems.indexOf(id) + 1;
         if (nextIndex < focusItems.length) {
@@ -59,6 +86,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         }
     };
 
+    /**
+     * Handles keyboard navigation between items
+     * Prevents default scrolling behavior for arrow keys
+     */
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         // Always prevent default for arrow keys to stop scrolling
         switch (event.key) {
@@ -99,12 +130,23 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         }
     };
 
+    /**
+     * Updates focus state when this item receives focus
+     */
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setFocusedItemId(id);
     };
 
-    return <Primitive.button asChild onFocus={handleFocus} tabIndex={focusedItemId === id ? 0 : -1} ref={ref} id={id} onKeyDown={handleKeyDown} {...props}>
+    return <Primitive.button
+        asChild
+        onFocus={handleFocus}
+        tabIndex={focusedItemId === id ? 0 : -1}
+        ref={ref}
+        id={id}
+        onKeyDown={handleKeyDown}
+        {...props}
+    >
         {children}
     </Primitive.button>;
 });
