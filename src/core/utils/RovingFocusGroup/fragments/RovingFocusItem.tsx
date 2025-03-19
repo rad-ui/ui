@@ -37,79 +37,63 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         }
     };
 
+    // Helper function to focus the previous item
+    const focusPreviousItem = () => {
+        const previousIndex = focusItems.indexOf(id) - 1;
+        if (previousIndex >= 0) {
+            focusItemWithId(focusItems[previousIndex]);
+        } else if (loop) {
+            // If we're at the first item and loop is enabled, go to the last item
+            focusItemWithId(focusItems[focusItems.length - 1]);
+        }
+    };
+
+    // Helper function to focus the next item
+    const focusNextItem = () => {
+        const nextIndex = focusItems.indexOf(id) + 1;
+        if (nextIndex < focusItems.length) {
+            focusItemWithId(focusItems[nextIndex]);
+        } else if (loop) {
+            // If we're at the last item and loop is enabled, go to the first item
+            focusItemWithId(focusItems[0]);
+        }
+    };
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        // Always prevent default for arrow keys to stop scrolling
         switch (event.key) {
-        case 'ArrowUp': {
-            // Prevent default to stop page scrolling
+        case 'ArrowUp':
             event.preventDefault();
-
             if (direction === 'vertical') {
-                // Logic to move focus to the previous item
-                const previousIndex = focusItems.indexOf(id) - 1;
-                if (previousIndex >= 0) {
-                    focusItemWithId(focusItems[previousIndex]);
-                } else {
-                    if (loop) {
-                        focusItemWithId(focusItems[focusItems.length - 1]);
-                    }
-                }
+                focusPreviousItem();
             }
             break;
-        }
-        case 'ArrowLeft': {
-            // Prevent default to stop container scrolling
-            event.preventDefault();
 
+        case 'ArrowLeft':
+            event.preventDefault();
             if (direction === 'horizontal') {
-                // Logic to move focus to the previous item
-                const previousIndex = focusItems.indexOf(id) - 1;
-                if (previousIndex >= 0) {
-                    focusItemWithId(focusItems[previousIndex]);
-                } else {
-                    if (loop) {
-                        focusItemWithId(focusItems[focusItems.length - 1]);
-                    }
-                }
+                focusPreviousItem();
             }
             break;
-        }
-        case 'ArrowDown': {
-            // Prevent default to stop page scrolling
-            event.preventDefault();
 
+        case 'ArrowDown':
+            event.preventDefault();
             if (direction === 'vertical') {
-                // Logic to move focus to the next item
-                const nextIndex = focusItems.indexOf(id) + 1;
-                if (nextIndex < focusItems.length) {
-                    focusItemWithId(focusItems[nextIndex]);
-                } else {
-                    if (loop) {
-                        focusItemWithId(focusItems[0]);
-                    }
-                }
+                focusNextItem();
             }
             break;
-        }
-        case 'ArrowRight': {
-            // Prevent default to stop container scrolling
-            event.preventDefault();
 
+        case 'ArrowRight':
+            event.preventDefault();
             if (direction === 'horizontal') {
-                // Check if it's not the last item before moving focus to the next item
-                const nextIndex = focusItems.indexOf(id) + 1;
-                if (nextIndex < focusItems.length) {
-                    focusItemWithId(focusItems[nextIndex]);
-                } else {
-                    if (loop) {
-                        focusItemWithId(focusItems[0]);
-                    }
-                }
+                focusNextItem();
             }
             break;
-        }
+
         case 'Tab':
             // Tab key is handled by the browser for normal tab navigation
             break;
+
         default:
             break;
         }
