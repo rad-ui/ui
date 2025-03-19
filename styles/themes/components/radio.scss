@@ -22,7 +22,7 @@
             margin:0;
             border:none;
 
-            &:before{
+            &::before{
                 content: '';
                 display: inline-block;
                 width: 20px;
@@ -32,12 +32,12 @@
             }
 
             &[data-checked="true"]{
-               &:after{
+               &::after{
                 content: '';
                }
             }
 
-            &:after{
+            &::after{
                 display: inline-block;
                 position: absolute;
                 transform: scale(0.4);

@@ -1,8 +1,7 @@
 .rad-ui-alert-dialog{
-
   .rad-ui-alert-dialog-overlay {
     z-index: 50;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgb(0 0 0 / 80%);
   }
   
   .rad-ui-alert-dialog-trigger{
@@ -22,10 +21,12 @@
     border-radius: 4px;
     padding: 5px 10px;
     color: var(--rad-ui-color-gray-1000);
+
     &:hover{
       background-color: var(--rad-ui-color-gray-500);
     }
   }
+
   .rad-ui-alert-dialog-action{
     margin: 20px 2px;
     background-color: var(--rad-ui-color-gray-1000);
@@ -38,6 +39,7 @@
       opacity: 0.89;
     }
   }
+
   .rad-ui-alert-dialog-content {
     padding: 16px;
     border-radius: 8px;
