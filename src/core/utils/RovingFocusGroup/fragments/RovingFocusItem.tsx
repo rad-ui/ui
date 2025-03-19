@@ -36,11 +36,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
         if (!focusItems.includes(id)) {
             addFocusItem(id);
         }
-
-        //
-
-        //
-    }, [focusItems, focusedItemId]);
+    }, [focusItems, focusedItemId, id, addFocusItem]);
 
     /**
      * Focuses an item by its ID
@@ -87,6 +83,24 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
     };
 
     /**
+     * Focuses the first item in the group
+     */
+    const focusFirstItem = () => {
+        if (focusItems.length > 0) {
+            focusItemWithId(focusItems[0]);
+        }
+    };
+
+    /**
+     * Focuses the last item in the group
+     */
+    const focusLastItem = () => {
+        if (focusItems.length > 0) {
+            focusItemWithId(focusItems[focusItems.length - 1]);
+        }
+    };
+
+    /**
      * Handles keyboard navigation between items
      * Prevents default scrolling behavior for arrow keys
      */
@@ -119,6 +133,16 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
             if (direction === 'horizontal') {
                 focusNextItem();
             }
+            break;
+
+        case 'Home':
+            event.preventDefault();
+            focusFirstItem();
+            break;
+
+        case 'End':
+            event.preventDefault();
+            focusLastItem();
             break;
 
         case 'Tab':
