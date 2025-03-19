@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useId, useRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
-import { RovingFocusGroupContext, RovingFocusGroupContextTypes } from '../context/RovingFocusGroupContext';
+import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 
 /**
  * Props for the RovingFocusGroup component
@@ -45,7 +45,7 @@ const RovingFocusGroup = ({ children, ...props }: RovingFocusGroupProps) => {
         }
     }, [focusItems, focusedItemId]);
 
-    const sendValues: RovingFocusGroupContextTypes = {
+    const sendValues = {
         focusedItemId,
         setFocusedItemId,
         focusItems,

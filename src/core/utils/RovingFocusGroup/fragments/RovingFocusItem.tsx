@@ -2,8 +2,8 @@ import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 
-import { RovingFocusGroupContext, RovingFocusGroupContextTypes } from '../context/RovingFocusGroupContext';
-import { RovingFocusRootContext, RovingFocusRootContextTypes } from '../context/RovingFocusRootContext';
+import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
+import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
 
 /**
  * Props for the RovingFocusItem component
@@ -27,8 +27,8 @@ type RovingFocusItemProps = {
  */
 const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ children, ...props }, ref) => {
     const id = useId();
-    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext<RovingFocusGroupContextTypes>(RovingFocusGroupContext);
-    const { direction, loop } = useContext<RovingFocusRootContextTypes>(RovingFocusRootContext);
+    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
+    const { direction, loop } = useContext(RovingFocusRootContext);
 
     // Register this item with the parent group
     useEffect(() => {
