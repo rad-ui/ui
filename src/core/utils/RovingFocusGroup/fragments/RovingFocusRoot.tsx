@@ -2,7 +2,7 @@ import React from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 
-import { RovingFocusRootContext, RovingFocusRootContextTypes } from '../context/RovingFocusRootContext';
+import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
 
 /**
  * Props for the RovingFocusRoot component
@@ -31,7 +31,7 @@ type RovingFocusRootProps = {
  * </RovingFocusRoot>
  */
 const RovingFocusRoot = ({ children, direction = 'horizontal', loop = true, ...props }: RovingFocusRootProps) => {
-    const sendValues: RovingFocusRootContextTypes = {
+    const sendValues = {
         direction,
         loop
     };
