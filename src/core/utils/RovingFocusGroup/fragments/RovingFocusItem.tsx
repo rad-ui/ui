@@ -19,16 +19,26 @@ type RovingFocusItemProps = {
  * Handles keyboard navigation between items and manages focus states.
  * Uses the tabindex attribute to control which item is focusable.
  * Only one item in a group will have tabIndex={0} at a time.
+ * Automatically respects the disabled state of child elements.
  *
  * @example
  * <RovingFocusItem>
  *   <Button>Focusable Item</Button>
+ * </RovingFocusItem>
+ *
+ * <RovingFocusItem>
+ *   <Button disabled>Disabled Item (skipped during navigation)</Button>
  * </RovingFocusItem>
  */
 const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ children, ...props }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
     const { direction, loop } = useContext(RovingFocusRootContext);
+
+    // Check if the child element is disabled
+    const childrenArray = React.Children.toArray(children);
+    const child = childrenArray[0] as React.ReactElement;
+    const isDisabled = child?.props?.disabled === true;
 
     // Register this item with the parent group
     useEffect(() => {
@@ -39,7 +49,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
     }, [focusItems, focusedItemId, id, addFocusItem]);
 
     /**
-     * Focuses an item by its ID
+     * Focuses an item by its ID, skipping disabled items
      * @param id - ID of the item to focus
      */
     const focusItemWithId = (id: string) => {
@@ -55,48 +65,94 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
     };
 
     /**
-     * Focuses the previous item in the group
-     * If at the first item and loop=true, will focus the last item
+     * Finds the next enabled item index from a starting position
+     * @param startIndex - Index to start searching from
+     * @param step - Direction to move (-1 for previous, 1 for next)
+     * @returns Index of the next enabled item, or -1 if none found
+     */
+    const findEnabledItemIndex = (startIndex: number, step: number): number => {
+        let currentIndex = startIndex;
+
+        // Loop at most once through all items to avoid infinite loops
+        for (let i = 0; i < focusItems.length; i++) {
+            currentIndex = currentIndex + step;
+
+            // Handle wrapping when loop is enabled
+            if (loop) {
+                if (currentIndex < 0) currentIndex = focusItems.length - 1;
+                if (currentIndex >= focusItems.length) currentIndex = 0;
+            } else {
+                // Stop if we've reached the end
+                if (currentIndex < 0 || currentIndex >= focusItems.length) {
+                    return -1;
+                }
+            }
+
+            // Check if this item is enabled by finding the element and checking for disabled children
+            const itemId = focusItems[currentIndex];
+            const itemElement = groupRef?.current?.querySelector(`#${CSS.escape(itemId)}`) as HTMLElement;
+            if (!itemElement) continue;
+
+            // Check the data attribute that we set to indicate if child is disabled
+            const childIsDisabled = itemElement.getAttribute('data-child-disabled') === 'true';
+
+            if (!childIsDisabled) {
+                return currentIndex;
+            }
+        }
+
+        return -1; // No enabled items found
+    };
+
+    /**
+     * Focuses the previous enabled item in the group
+     * If at the first item and loop=true, will focus the last enabled item
      */
     const focusPreviousItem = () => {
-        const previousIndex = focusItems.indexOf(id) - 1;
-        if (previousIndex >= 0) {
-            focusItemWithId(focusItems[previousIndex]);
-        } else if (loop) {
-            // If we're at the first item and loop is enabled, go to the last item
-            focusItemWithId(focusItems[focusItems.length - 1]);
+        const currentIndex = focusItems.indexOf(id);
+        const previousEnabledIndex = findEnabledItemIndex(currentIndex, -1);
+
+        if (previousEnabledIndex !== -1) {
+            focusItemWithId(focusItems[previousEnabledIndex]);
         }
     };
 
     /**
-     * Focuses the next item in the group
-     * If at the last item and loop=true, will focus the first item
+     * Focuses the next enabled item in the group
+     * If at the last item and loop=true, will focus the first enabled item
      */
     const focusNextItem = () => {
-        const nextIndex = focusItems.indexOf(id) + 1;
-        if (nextIndex < focusItems.length) {
-            focusItemWithId(focusItems[nextIndex]);
-        } else if (loop) {
-            // If we're at the last item and loop is enabled, go to the first item
-            focusItemWithId(focusItems[0]);
+        const currentIndex = focusItems.indexOf(id);
+        const nextEnabledIndex = findEnabledItemIndex(currentIndex, 1);
+
+        if (nextEnabledIndex !== -1) {
+            focusItemWithId(focusItems[nextEnabledIndex]);
         }
     };
 
     /**
-     * Focuses the first item in the group
+     * Focuses the first enabled item in the group
      */
     const focusFirstItem = () => {
         if (focusItems.length > 0) {
-            focusItemWithId(focusItems[0]);
+            // Find first enabled item
+            const firstEnabledIndex = findEnabledItemIndex(-1, 1);
+            if (firstEnabledIndex !== -1) {
+                focusItemWithId(focusItems[firstEnabledIndex]);
+            }
         }
     };
 
     /**
-     * Focuses the last item in the group
+     * Focuses the last enabled item in the group
      */
     const focusLastItem = () => {
         if (focusItems.length > 0) {
-            focusItemWithId(focusItems[focusItems.length - 1]);
+            // Find last enabled item
+            const lastEnabledIndex = findEnabledItemIndex(focusItems.length, -1);
+            if (lastEnabledIndex !== -1) {
+                focusItemWithId(focusItems[lastEnabledIndex]);
+            }
         }
     };
 
@@ -105,6 +161,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
      * Prevents default scrolling behavior for arrow keys
      */
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        // Don't handle navigation if this item has a disabled child
+        if (isDisabled) return;
+
         // Always prevent default for arrow keys to stop scrolling
         switch (event.key) {
         case 'ArrowUp':
@@ -159,16 +218,19 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
      */
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        setFocusedItemId(id);
+        if (!isDisabled) {
+            setFocusedItemId(id);
+        }
     };
 
     return <Primitive.button
         asChild
         onFocus={handleFocus}
-        tabIndex={focusedItemId === id ? 0 : -1}
+        tabIndex={!isDisabled && focusedItemId === id ? 0 : -1}
         ref={ref}
         id={id}
         onKeyDown={handleKeyDown}
+        data-child-disabled={isDisabled}
         {...props}
     >
         {children}

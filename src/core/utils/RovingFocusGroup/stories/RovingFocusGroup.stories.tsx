@@ -152,3 +152,105 @@ export const KeyboardNavigation = {
         </SandboxEditor>
     )
 };
+
+// Story demonstrating the disabled state functionality
+export const DisabledItems = {
+    render: () => (
+        <SandboxEditor className="space-y-8 bg-gray-50">
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h2 className="text-lg font-semibold mb-2">Disabled Items Demonstration</h2>
+                <p className="mb-1">This example shows how disabled buttons are automatically skipped during keyboard navigation.</p>
+                <p className="mb-1"><strong>Instructions:</strong> Use arrow keys, Home, and End to navigate. Notice how disabled buttons are skipped.</p>
+                <p className="text-sm text-gray-600">Simply use the standard disabled attribute on your buttons, inputs, or other elements.</p>
+            </div>
+
+            <div className="space-y-6">
+                <div>
+                    <h3 className="text-md font-medium mb-2">Horizontal Navigation with Disabled Items</h3>
+                    <RovingFocusGroup.Root direction="horizontal" loop={true}>
+                        <RovingFocusGroup.Group className="border border-blue-500 p-4">
+                            <div className="flex gap-3">
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 1</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button disabled className="opacity-50 cursor-not-allowed">Disabled Item</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 3</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button disabled className="opacity-50 cursor-not-allowed">Disabled Item</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 5</Button>
+                                </RovingFocusGroup.Item>
+                            </div>
+                        </RovingFocusGroup.Group>
+                    </RovingFocusGroup.Root>
+                </div>
+
+                <div>
+                    <h3 className="text-md font-medium mb-2">Vertical Navigation with Disabled Items</h3>
+                    <div className="flex gap-8">
+                        <div>
+                            <h4 className="text-sm font-medium mb-2">With looping enabled</h4>
+                            <RovingFocusGroup.Root direction="vertical" loop={true}>
+                                <RovingFocusGroup.Group className="border border-green-500 p-4">
+                                    <div className="flex flex-col gap-2">
+                                        <RovingFocusGroup.Item>
+                                            <Button>First Item</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button disabled className="opacity-50 cursor-not-allowed">Disabled</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button>Middle Item</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button disabled className="opacity-50 cursor-not-allowed">Disabled</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button>Last Item</Button>
+                                        </RovingFocusGroup.Item>
+                                    </div>
+                                </RovingFocusGroup.Group>
+                            </RovingFocusGroup.Root>
+                        </div>
+
+                        <div>
+                            <h4 className="text-sm font-medium mb-2">With looping disabled</h4>
+                            <RovingFocusGroup.Root direction="vertical" loop={false}>
+                                <RovingFocusGroup.Group className="border border-red-500 p-4">
+                                    <div className="flex flex-col gap-2">
+                                        <RovingFocusGroup.Item>
+                                            <Button>First Item</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button disabled className="opacity-50 cursor-not-allowed">Disabled</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button>Middle Item</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button disabled className="opacity-50 cursor-not-allowed">Disabled</Button>
+                                        </RovingFocusGroup.Item>
+                                        <RovingFocusGroup.Item>
+                                            <Button>Last Item</Button>
+                                        </RovingFocusGroup.Item>
+                                    </div>
+                                </RovingFocusGroup.Group>
+                            </RovingFocusGroup.Root>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h3 className="text-md font-medium mb-2">Home/End Key Navigation</h3>
+                <p className="text-sm text-gray-600">Press Home to jump to the first enabled item, End to jump to the last enabled item.</p>
+                <p className="text-sm text-gray-600 mt-1">On Mac, use Fn+Left Arrow for Home and Fn+Right Arrow for End.</p>
+            </div>
+        </SandboxEditor>
+    )
+};
