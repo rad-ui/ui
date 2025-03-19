@@ -37,7 +37,6 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
 
     return (
         <RovingFocusGroup.Item
-            asChild
             onFocus={() => handleFocus(tab)}
         >
             <button

@@ -73,7 +73,6 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
                         {Object.keys(colors).map((color, idx) => {
                             const colorName = color as AvailableColors;
                             return <RovingFocusGroup.Item
-                                asChild
                                 key={idx}
                                 className='cursor-pointer rounded-full inline-block w-8 h-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                 onFocus={() => setColorName(colorName)}
