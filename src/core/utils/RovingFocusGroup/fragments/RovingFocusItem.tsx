@@ -108,8 +108,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({ c
             break;
         }
         case 'Tab':
-            // Logic to handle tab key if needed
-            console.log('Tab');
+            // Tab key is handled by the browser for normal tab navigation
             break;
         default:
             break;
