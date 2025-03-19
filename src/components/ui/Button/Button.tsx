@@ -21,13 +21,13 @@ const Button = ({ children, type = 'button', customRootClass = '', className = '
     // apply attribute only if color is present
     const dataAttributes = useCreateDataAttribute("button", { variant, size });
     const accentAttributes = useCreateDataAttribute("accent", { color });
-    const composedAttributes = useComposeAttributes(dataAttributes, accentAttributes);
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return (
         <ButtonPrimitive
             type={type}
             className={clsx(rootClass, className)}
-            {...composedAttributes}
+            {...composedAttributes()}
             {...props}
         >
             {children}
