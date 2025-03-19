@@ -40,6 +40,7 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
     const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
 
     // when hovered out, we set this to true, after delay we check if it's still true and then we set open to false
+    // eslint-disable-next-line no-unused-vars
     const [mouseIsExiting, setMouseIsExiting] = useState(false);
 
     const isControlled = controlledOpen !== undefined;

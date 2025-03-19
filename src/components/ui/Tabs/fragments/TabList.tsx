@@ -1,11 +1,13 @@
 'use client';
 import React, { useContext } from 'react';
 import { clsx } from 'clsx';
-import TabTrigger from './TabTrigger';
 import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
 
 const COMPONENT_NAME = 'TabList';
+
+// Define the Tab type if it's not imported
+type Tab = string | number;
 
 export type TabListProps = {
     tabs?: Tab[]
@@ -13,6 +15,7 @@ export type TabListProps = {
     customRootClass?: string;
     setActiveTab: React.Dispatch<Tab>;
     activeTab: TabProps;
+    children?: React.ReactNode;
 }
 
 const TabList = ({ className = '', children }: TabListProps) => {
