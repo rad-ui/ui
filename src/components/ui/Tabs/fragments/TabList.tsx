@@ -4,6 +4,8 @@ import { clsx } from 'clsx';
 import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
 
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+
 const COMPONENT_NAME = 'TabList';
 
 // Define the Tab type if it's not imported
@@ -20,9 +22,9 @@ export type TabListProps = {
 
 const TabList = ({ className = '', children }: TabListProps) => {
     const { rootClass } = useContext(TabsRootContext);
-    return <div role="tablist" aria-orientation='horizontal' aria-label="todo" className={clsx(`${rootClass}-list`, className)}>
+    return <RovingFocusGroup.Group role="tablist" aria-orientation='horizontal' aria-label="todo" className={clsx(`${rootClass}-list`, className)}>
         {children}
-    </div>;
+    </RovingFocusGroup.Group>;
 };
 
 TabList.displayName = COMPONENT_NAME;

@@ -5,6 +5,8 @@ import { TabProps } from '../types';
 
 import TabsRootContext from '../context/TabsRootContext';
 
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+
 export type TabTriggerProps = {
     tab: TabProps;
     setActiveTab: React.Dispatch<Tab>;
@@ -17,23 +19,10 @@ export type TabTriggerProps = {
 
 const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     // use context
-    const { previousTab, nextTab, activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
+    const { activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
     const ref = useRef<HTMLButtonElement>(null);
 
     const isActive = activeTab === tab.value;
-
-    const handleClick = (tab: TabProps) => {
-        setActiveTab(tab.value);
-    };
-
-    const handleKeyDownEvent = (e: React.KeyboardEvent) => {
-        if (e.key === 'ArrowLeft') {
-            previousTab();
-        }
-        if (e.key === 'ArrowRight') {
-            nextTab();
-        }
-    };
 
     const handleFocus = (tab: TabProps) => {
         if (ref.current) {
@@ -47,17 +36,15 @@ const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
     };
 
     return (
-        <button
-            ref={ref}
-            role="tab" className={clsx(`${rootClass}-trigger`, `${isActive ? 'active' : ''}`, className)} {...props} onKeyDown={handleKeyDownEvent}
-            onClick={() => handleClick(tab)}
+        <RovingFocusGroup.Item
             onFocus={() => handleFocus(tab)}
-            tabIndex={isActive ? 0 : -1}
-            data-rad-ui-batch-element
-
         >
-            {tab.label}
-        </button>
+            <button
+                ref={ref}
+                className={clsx(`${rootClass}-trigger`, `${isActive ? 'active' : ''}`, className)} role="tab"{...props}>
+                {tab.label}
+            </button>
+        </RovingFocusGroup.Item>
     );
 };
 
