@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
 import TabList from './fragments/TabList';
 import TabTrigger from './fragments/TabTrigger';
