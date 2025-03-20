@@ -28,8 +28,8 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, direc
 
     return (
         <ToggleContext.Provider value={sendValues}>
-            <RovingFocusGroup.Root loop={loop} direction={direction} {...data_attributes}>
-                <RovingFocusGroup.Group className={clsx(rootClass, className)} >
+            <RovingFocusGroup.Root loop={loop} direction={direction} className={clsx(rootClass, className)} {...data_attributes}>
+                <RovingFocusGroup.Group >
                     {children}
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
