@@ -13,7 +13,7 @@ export type CodeProps= {
     color?: string;
 }
 
-const Code = ({ children, customRootClass = '', color = '', variant= '', size= '' }: CodeProps) => {
+const Code = ({ children, customRootClass = '', color = '', variant = '', size = '' }: CodeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const data_attributes: Record<string, string> = {};
