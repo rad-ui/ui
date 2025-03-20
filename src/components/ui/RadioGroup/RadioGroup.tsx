@@ -2,15 +2,15 @@ import React from 'react';
 import RadioGroupRoot from './fragments/RadioGroupRoot';
 import RadioGroupItem from './fragments/RadioGroupItem';
 
-// Empty props type - only supporting fragment exports for now
+// Empty props type - only supporting fragment exports
 export type RadioGroupProps = React.HTMLAttributes<HTMLDivElement> & {
     children?: React.ReactNode;
 };
 
-// Minimal implementation - we're not supporting direct usage yet
-const RadioGroup = ({ children, ...props }: RadioGroupProps) => {
-    console.warn('Direct usage of RadioGroup is not supported yet. Please use RadioGroup.Root and RadioGroup.Item instead.');
-    return <div {...props}>{children}</div>;
+// Empty implementation - we don't support direct usage
+const RadioGroup = () => {
+    console.warn('Direct usage of RadioGroup is not supported. Please use RadioGroup.Root and RadioGroup.Item instead.');
+    return null;
 };
 
 // Export fragments via direct assignment pattern

@@ -5,15 +5,15 @@ import CollapsibleItem from './fragments/CollapsibleItem';
 import CollapsibleRoot from './fragments/CollapsibleRoot';
 import CollapsibleTrigger from './fragments/CollapsibleTrigger';
 
-// Empty props type - only supporting fragment exports for now
+// Empty props type - only supporting fragment exports
 export type CollapsibleProps = React.HTMLAttributes<HTMLDivElement> & {
     children?: React.ReactNode;
 };
 
-// Minimal implementation - we're not supporting direct usage yet
-const Collapsible = ({ children, ...props }: CollapsibleProps) => {
-    console.warn('Direct usage of Collapsible is not supported yet. Please use Collapsible.Root, Collapsible.Header, etc. instead.');
-    return <div {...props}>{children}</div>;
+// Empty implementation - we don't support direct usage
+const Collapsible = () => {
+    console.warn('Direct usage of Collapsible is not supported. Please use Collapsible.Root, Collapsible.Header, etc. instead.');
+    return null;
 };
 
 // Export fragments via direct assignment pattern
