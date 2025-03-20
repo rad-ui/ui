@@ -6,45 +6,15 @@ import HoverCardPortal from './fragments/HoverCardPortal';
 import HoverCardContent from './fragments/HoverCardContent';
 import HoverCardArrow from './fragments/HoverCardArrow';
 
-export type HoverCardProps = {
-    children: React.ReactNode,
-    content: React.ReactNode,
-    customRootClass?: string,
-    openDelay?: number,
-    closeDelay?: number,
-    onOpenChange?: (open: boolean) => void
-    props?: React.HTMLAttributes<HTMLElement>,
-}
+// Empty props type - only supporting fragment exports
+export type HoverCardProps = React.HTMLAttributes<HTMLDivElement> & {
+    children?: React.ReactNode;
+};
 
-const HoverCard = ({
-    children,
-    onOpenChange = () => { },
-    content = undefined,
-    customRootClass = '',
-    openDelay = 100,
-    closeDelay = 200,
-    ...props
-}: HoverCardProps) => {
-    return (
-        <HoverCardRoot
-            open={undefined}
-            onOpenChange={onOpenChange}
-            openDelay={openDelay}
-            closeDelay={closeDelay}
-            customRootClass={customRootClass}
-            {...props}
-        >
-            <HoverCardTrigger>
-                {children}
-            </HoverCardTrigger>
-            <HoverCardPortal >
-                <HoverCardContent>
-                    {content}
-                    <HoverCardArrow />
-                </HoverCardContent>
-            </HoverCardPortal>
-        </HoverCardRoot>
-    );
+// Empty implementation - we don't support direct usage
+const HoverCard = () => {
+    console.warn('Direct usage of HoverCard is not supported. Please use HoverCard.Root, HoverCard.Trigger, etc. instead.');
+    return null;
 };
 
 HoverCard.Root = HoverCardRoot;
