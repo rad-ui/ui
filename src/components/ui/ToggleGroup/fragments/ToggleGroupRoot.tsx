@@ -76,8 +76,8 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
 
     return (
         <ToggleContext.Provider value={sendValues}>
-            <RovingFocusGroup.Root loop={loop} direction={direction} className={clsx(rootClass, className)} {...data_attributes}>
-                <RovingFocusGroup.Group >
+            <RovingFocusGroup.Root loop={loop} direction={direction} >
+                <RovingFocusGroup.Group className={clsx(rootClass, className)} {...data_attributes}>
                     {children}
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
