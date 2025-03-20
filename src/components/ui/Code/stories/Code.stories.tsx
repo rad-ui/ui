@@ -3,8 +3,8 @@ import Code, { CodeProps } from '../Code';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const Code_TEXT = 'console.log()';
-const Variants = ['soft','outline'];
-const Sizes = ['small','medium','large','x-large'];
+const Variants = ['soft', 'outline'];
+const Sizes = ['small', 'medium', 'large', 'x-large'];
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -53,8 +53,8 @@ export const Size = () => {
                     <span key={index} className="inline-flex items-start space-x-2">
                         {Sizes.map((size, index) => {
                             return <Code key={index} size={size} variant={variant}>
-                                 
-                                   {Code_TEXT}
+
+                                {Code_TEXT}
 
                             </Code>;
                         })}
@@ -73,11 +73,11 @@ export const Variant = () => {
         </div>
         <div className='flex space-x-2'>
 
-                        {Variants.map((variant, index) => {
-                            return <Code key={index}  variant={variant} >
-                                 {Code_TEXT}
-                            </Code>;
-                        })}
+            {Variants.map((variant, index) => {
+                return <Code key={index} variant={variant} >
+                    {Code_TEXT}
+                </Code>;
+            })}
 
         </div>
     </SandboxEditor>;

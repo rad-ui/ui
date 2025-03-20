@@ -4,51 +4,83 @@ import Toggle from '../Toggle';
 
 describe('Toggle component', () => {
     test('renders children correctly', () => {
-        const { getByText } = render(<Toggle pressed={false} onChange={() => {}}>Test Toggle</Toggle>);
+        const { getByText } = render(<Toggle onChange={() => {}}>Test Toggle</Toggle>);
         expect(getByText('Test Toggle')).toBeInTheDocument();
     });
 
     test('applies customRootClass correctly', () => {
-        const { container } = render(<Toggle pressed={false} customRootClass="custom-class" onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle customRootClass="custom-class" onChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveClass('custom-class');
     });
 
     test('applies className correctly', () => {
-        const { container } = render(<Toggle pressed={false} className="test-class" onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle className="test-class" onChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveClass('test-class');
     });
 
-    test('handles pressed state correctly', () => {
-        const { container, rerender } = render(<Toggle pressed={false} onChange={() => {}}>Test Toggle</Toggle>);
+    // Test controlled mode
+    test('handles controlled mode correctly', () => {
+        const handleChange = jest.fn();
+        const { container, rerender } = render(
+            <Toggle pressed={false} onChange={handleChange}>Test Toggle</Toggle>
+        );
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
 
-        rerender(<Toggle pressed={false} onChange={() => {}}>Test Toggle</Toggle>);
+        // Click toggle
         fireEvent.click(container.firstChild);
+
+        // onChange should be called with true
+        expect(handleChange).toHaveBeenCalledWith(true);
+
+        // State should not change until prop changes (still false)
+        expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
+
+        // Update props to reflect new state
+        rerender(<Toggle pressed={true} onChange={handleChange}>Test Toggle</Toggle>);
+        expect(container.firstChild).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    // Test uncontrolled mode
+    test('handles uncontrolled mode correctly', () => {
+        const handleChange = jest.fn();
+        const { container } = render(
+            <Toggle defaultPressed={false} onChange={handleChange}>Test Toggle</Toggle>
+        );
+        expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
+
+        // Click toggle
+        fireEvent.click(container.firstChild);
+
+        // onChange should be called with true
+        expect(handleChange).toHaveBeenCalledWith(true);
+
+        // State should update internally (now true)
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'true');
 
-        rerender(<Toggle pressed={true} onChange={() => {}}>Test Toggle</Toggle>);
+        // Click again
         fireEvent.click(container.firstChild);
+
+        // onChange should be called with false
+        expect(handleChange).toHaveBeenCalledWith(false);
+
+        // State should update internally (back to false)
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
     });
 
     test('handles disabled state correctly', () => {
-        const { container } = render(<Toggle pressed={false} disabled={true} onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle disabled={true} onChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toBeDisabled();
     });
 
-    test('calls onChange callback correctly', () => {
-        const handleChange = jest.fn();
-        const { getByText } = render(<Toggle pressed={false} onChange={handleChange}>Test Toggle</Toggle>);
-
-        fireEvent.click(getByText('Test Toggle'));
-        expect(handleChange).toHaveBeenCalledWith(true);
-
-        fireEvent.click(getByText('Test Toggle'));
-        expect(handleChange).toHaveBeenCalledWith(false);
+    test('honors defaultPressed in uncontrolled mode', () => {
+        const { container } = render(
+            <Toggle defaultPressed={true} onChange={() => {}}>Test Toggle</Toggle>
+        );
+        expect(container.firstChild).toHaveAttribute('aria-pressed', 'true');
     });
 
     test('Toggle renders color correctly', () => {
-        const { getByText } = render(<Toggle pressed={false} onChange={() => {}} color='blue'>Test Toggle</Toggle>);
+        const { getByText } = render(<Toggle onChange={() => {}} color='blue'>Test Toggle</Toggle>);
         expect(getByText('Test Toggle')).toHaveAttribute('data-accent-color', 'blue');
     });
 });

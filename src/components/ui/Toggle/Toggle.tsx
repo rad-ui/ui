@@ -1,46 +1,72 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
+import useControllableState from '~/core/hooks/useControllableState';
 
 import TogglePrimitive from '~/core/primitives/Toggle';
 
 const COMPONENT_NAME = 'Toggle';
 
+/**
+ * Props for the Toggle component
+ * @typedef ToggleProps
+ */
 export type ToggleProps = {
+    /** Initial state when in uncontrolled mode */
     defaultPressed?: boolean;
-    pressed: boolean;
+    /** Current pressed state (for controlled mode) */
+    pressed?: boolean;
+    /** Optional custom root class name to override default styling */
     customRootClass? : string;
+    /** Whether the toggle is disabled */
     disabled? : boolean;
+    /** Content to render inside the toggle */
     children? : React.ReactNode;
+    /** Additional class names to apply */
     className? : string;
+    /** Accent color for the toggle */
     color?: string;
+    /** Callback fired when toggle state changes */
     onChange : (isPressed:boolean) => void;
-
 };
 
+/**
+ * Toggle component that can be used in either controlled or uncontrolled mode.
+ *
+ * @example
+ * // Controlled mode
+ * const [pressed, setPressed] = useState(false);
+ * <Toggle pressed={pressed} onChange={setPressed}>Toggle Me</Toggle>
+ *
+ * @example
+ * // Uncontrolled mode
+ * <Toggle defaultPressed={false} onChange={(isPressed) => console.log(isPressed)}>Toggle Me</Toggle>
+ *
+ * @param {ToggleProps} props - The component props
+ * @returns {JSX.Element} The Toggle component
+ */
 const Toggle: React.FC<ToggleProps> = ({
     defaultPressed = false,
     customRootClass = '',
     children,
     className = '',
     color = '',
-    pressed = false,
+    pressed,
     onChange,
     ...props
 }) => {
-    if (typeof pressed !== 'boolean') {
-        throw new Error('Toggle: pressed prop must be a boolean');
-    }
+    // Use our new hook to handle controlled/uncontrolled state
+    const [isPressed, setIsPressed] = useControllableState<boolean>(
+        pressed,
+        defaultPressed,
+        onChange
+    );
+
+    // We don't need the validation anymore since the hook handles this
+    // This is now handled by the hook's type safety and error messages
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [isPressed, setIsPressed] = useState(pressed);
-
-    const handlePressed = () => {
-        const updatedPressed = !isPressed;
-        setIsPressed(updatedPressed);
-        onChange(updatedPressed);
-    };
     const data_attributes: Record<string, string> = {};
 
     if (color) {
@@ -48,11 +74,10 @@ const Toggle: React.FC<ToggleProps> = ({
     }
 
     return (
-
         <TogglePrimitive
             className={clsx(rootClass, className)}
             pressed={isPressed}
-            onPressedChange={handlePressed}
+            onPressedChange={setIsPressed}
             data-state={isPressed ? 'on' : 'off'}
             data-disabled={props.disabled ? '' : undefined}
             {...props}
