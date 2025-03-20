@@ -4,19 +4,43 @@ import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
+/**
+ * Props for the ToggleItem component
+ * @typedef ToggleItemProps
+ */
 export type ToggleItemProps = {
+    /** Content to render inside the toggle item */
     children?: React.ReactNode;
+    /** Value associated with this toggle item, used for selection state */
     value?: any;
-    props?: any;
+    /** Additional props to pass to the underlying TogglePrimitive */
+    [key: string]: any;
 };
 
+/**
+ * Individual toggle item to be used within a ToggleGroup.
+ * Receives context from ToggleGroupRoot for selection state management
+ * and uses RovingFocusGroup.Item for keyboard navigation.
+ *
+ * @example
+ * <ToggleGroup.Root>
+ *   <ToggleItem value="bold">B</ToggleItem>
+ *   <ToggleItem value="italic">I</ToggleItem>
+ * </ToggleGroup.Root>
+ *
+ * @param {ToggleItemProps} props - Component props
+ * @returns {JSX.Element} The ToggleItem component
+ */
 const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
     const { type, activeToggles, setActiveToggles } = useContext(ToggleContext);
     const isActive = activeToggles?.includes(value);
 
-    const ariaProps:any = {};
-    const dataProps:any = {};
+    const ariaProps:Record<string, string> = {};
+    const dataProps:Record<string, string> = {};
 
+    /**
+     * Handles the toggle selection/deselection based on the group type (single/multiple)
+     */
     const handleToggleSelect = () => {
         let activeToggleArray = activeToggles || [];
 
@@ -43,6 +67,7 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
         setActiveToggles(activeToggleArray);
     };
 
+    // Set appropriate ARIA and data attributes based on active state
     if (isActive) {
         ariaProps['aria-pressed'] = 'true';
         dataProps['data-active'] = 'true';

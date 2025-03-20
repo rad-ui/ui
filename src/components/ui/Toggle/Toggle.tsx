@@ -7,17 +7,44 @@ import TogglePrimitive from '~/core/primitives/Toggle';
 
 const COMPONENT_NAME = 'Toggle';
 
+/**
+ * Props for the Toggle component
+ * @typedef ToggleProps
+ */
 export type ToggleProps = {
+    /** Initial state when in uncontrolled mode */
     defaultPressed?: boolean;
-    pressed?: boolean; // Make optional to support uncontrolled mode
+    /** Current pressed state (for controlled mode) */
+    pressed?: boolean;
+    /** Optional custom root class name to override default styling */
     customRootClass? : string;
+    /** Whether the toggle is disabled */
     disabled? : boolean;
+    /** Content to render inside the toggle */
     children? : React.ReactNode;
+    /** Additional class names to apply */
     className? : string;
+    /** Accent color for the toggle */
     color?: string;
+    /** Callback fired when toggle state changes */
     onChange : (isPressed:boolean) => void;
 };
 
+/**
+ * Toggle component that can be used in either controlled or uncontrolled mode.
+ *
+ * @example
+ * // Controlled mode
+ * const [pressed, setPressed] = useState(false);
+ * <Toggle pressed={pressed} onChange={setPressed}>Toggle Me</Toggle>
+ *
+ * @example
+ * // Uncontrolled mode
+ * <Toggle defaultPressed={false} onChange={(isPressed) => console.log(isPressed)}>Toggle Me</Toggle>
+ *
+ * @param {ToggleProps} props - The component props
+ * @returns {JSX.Element} The Toggle component
+ */
 const Toggle: React.FC<ToggleProps> = ({
     defaultPressed = false,
     customRootClass = '',
