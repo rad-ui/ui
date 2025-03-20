@@ -16,12 +16,9 @@ export type KbdProps = {
 const Kbd = ({ children, customRootClass, className, size= '', ...props }: KbdProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     
-    const data_attributes: Record<string, string> = {};
+    const dataAttributes = useCreateDataAttribute('kbd', { size })
 
-    if (size) {
-        data_attributes['data-kbd-size'] = size;
-    }
-    return <kbd className={clsx(rootClass, className)} {...data_attributes} {...props}>{children}</kbd>;
+    return <kbd className={clsx(rootClass, className)} {...dataAttributes()} {...props}>{children}</kbd>;
 };
 
 export default Kbd;
