@@ -47,5 +47,7 @@ Table.Root = TableRoot;
 Table.Body = TableBody;
 Table.Head = TableHead;
 Table.Row = TableRow;
+Table.Cell = TableCell;
+Table.ColumnCellHeader = TableColumnCellHeader;
 
 export default Table;

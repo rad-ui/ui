@@ -47,4 +47,10 @@ const HoverCard = ({
     );
 };
 
+HoverCard.Root = HoverCardRoot;
+HoverCard.Trigger = HoverCardTrigger;
+HoverCard.Portal = HoverCardPortal;
+HoverCard.Content = HoverCardContent;
+HoverCard.Arrow = HoverCardArrow;
+
 export default HoverCard;

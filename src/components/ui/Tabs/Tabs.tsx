@@ -33,5 +33,6 @@ const Tabs = ({ tabs = [], ...props }: TabsProps) => {
 Tabs.List = TabList;
 Tabs.Content = TabContent;
 Tabs.Root = TabRoot;
+Tabs.Trigger = TabTrigger;
 
 export default Tabs;

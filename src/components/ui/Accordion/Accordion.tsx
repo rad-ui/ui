@@ -34,5 +34,9 @@ const Accordion = ({ items }: AccordionProps) => {
 };
 
 Accordion.Root = AccordionRoot;
+Accordion.Item = AccordionItem;
+Accordion.Header = AccordionHeader;
+Accordion.Trigger = AccordionTrigger;
+Accordion.Content = AccordionContent;
 
 export default Accordion;
