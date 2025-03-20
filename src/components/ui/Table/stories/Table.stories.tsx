@@ -22,12 +22,24 @@ type Story = StoryObj<any>;
 
 // Table example using composable API
 const TableExample = () => {
-    const columns = [
+    // Define the types for our columns and data
+    type Person = {
+        name: string;
+        age: number;
+        id: string;
+    };
+
+    type Column = {
+        name: string;
+        id: keyof Person;
+    };
+
+    const columns: Column[] = [
         { name: 'Name', id: 'name' },
         { name: 'Age', id: 'age' }
     ];
 
-    const data = [
+    const data: Person[] = [
         { name: 'John Doe', age: 25, id: '1' },
         { name: 'Jane Doe', age: 24, id: '2' },
         { name: 'John Smith', age: 30, id: '3' },

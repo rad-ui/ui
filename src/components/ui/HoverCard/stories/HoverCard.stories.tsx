@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HoverCard from '../HoverCard';
+import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -8,66 +9,83 @@ const meta: Meta<typeof HoverCard> = {
     title: 'WIP/HoverCard',
     component: HoverCard,
     decorators: [(Story) => (
-        <SandboxEditor className='bg-gray-200 h-[400px] flex items-center justify-center'>
-            <Story />
+        <SandboxEditor>
+            <div className="flex min-h-[350px] w-full items-center justify-center">
+                <Story />
+            </div>
         </SandboxEditor>
     )]
 };
 
 export default meta;
-type Story = StoryObj<typeof HoverCard>;
+type Story = StoryObj<any>;
 
-// Create a HoverCard example component using the composable API
+// HoverCard example using composable API
 const HoverCardExample = () => {
-    const Content = () => {
-        return (
-            <div>
-                <div className='space-y-2'>
-                    The quick brown fox jumps over the lazy dog
-                </div>
-            </div>
-        );
-    };
-
     return (
-        <HoverCard.Root openDelay={100} closeDelay={200}>
-            <HoverCard.Trigger>
-                <div className="p-10 bg-gray-100 rounded-md shadow">Hover me</div>
-            </HoverCard.Trigger>
-            <HoverCard.Portal rootElement={undefined} props={{}}>
+        <div className="flex w-full items-center justify-center">
+            <HoverCard.Root
+                openDelay={100}
+                closeDelay={200}
+                open={undefined}
+                onOpenChange={() => {}}
+                customRootClass=""
+            >
+                <HoverCard.Trigger>
+                    <Button variant="secondary" className="my-0" size="small">
+                        Hover over me
+                    </Button>
+                </HoverCard.Trigger>
                 <HoverCard.Content>
-                    <Content />
-                    <HoverCard.Arrow />
+                    <div className="p-2 max-w-md">
+                        <div className="mb-2 text-base font-medium">Introduction to HoverCard</div>
+                        <p className="text-sm text-muted">
+                            The HoverCard component is a popup that displays when a user hovers over a trigger.
+                            It's perfect for providing additional information without requiring a click.
+                        </p>
+                    </div>
                 </HoverCard.Content>
-            </HoverCard.Portal>
-        </HoverCard.Root>
+            </HoverCard.Root>
+        </div>
     );
 };
 
 // Controlled HoverCard example
 const ControlledHoverCardExample = () => {
-    const Content = () => {
-        return (
-            <div>
-                <div className='space-y-2'>
-                    The quick brown fox jumps over the lazy dog
-                </div>
-            </div>
-        );
-    };
+    const [open, setOpen] = useState(true);
 
     return (
-        <HoverCard.Root open={true} onOpenChange={() => {}}>
-            <HoverCard.Trigger>
-                <div className="p-10 bg-gray-100 rounded-md shadow">Hover me (Controlled)</div>
-            </HoverCard.Trigger>
-            <HoverCard.Portal rootElement={undefined} props={{}}>
+        <div className="flex w-full items-center justify-center">
+            <HoverCard.Root
+                open={open}
+                onOpenChange={setOpen}
+                openDelay={100}
+                closeDelay={200}
+                customRootClass=""
+            >
+                <HoverCard.Trigger>
+                    <Button variant="secondary" className="my-0" size="small">
+                        {open ? 'Card visible' : 'Hover over me'}
+                    </Button>
+                </HoverCard.Trigger>
                 <HoverCard.Content>
-                    <Content />
-                    <HoverCard.Arrow />
+                    <div className="p-2 max-w-md">
+                        <div className="mb-2 text-base font-medium">Controlled HoverCard</div>
+                        <p className="text-sm text-muted">
+                            This is a controlled example. The state is managed externally.
+                        </p>
+                        <Button
+                            variant="secondary"
+                            size="small"
+                            className="mt-2"
+                            onClick={() => setOpen(false)}
+                        >
+                            Close
+                        </Button>
+                    </div>
                 </HoverCard.Content>
-            </HoverCard.Portal>
-        </HoverCard.Root>
+            </HoverCard.Root>
+        </div>
     );
 };
 
