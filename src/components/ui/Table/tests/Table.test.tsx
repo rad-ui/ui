@@ -23,7 +23,28 @@ describe('Table Component', () => {
 
     beforeEach(() => {
         result = render(
-            <Table columns={employeeKey} data={employeeData}></Table>
+            <Table.Root>
+                <Table.Head>
+                    <Table.Row>
+                        {employeeKey.map((column) => (
+                            <Table.ColumnCellHeader key={column.id}>
+                                {column.name}
+                            </Table.ColumnCellHeader>
+                        ))}
+                    </Table.Row>
+                </Table.Head>
+                <Table.Body>
+                    {employeeData.map((row) => (
+                        <Table.Row key={row.id}>
+                            {employeeKey.map((column) => (
+                                <Table.Cell key={`${row.id}-${column.id}`}>
+                                    {String(row[column.id as keyof typeof row])}
+                                </Table.Cell>
+                            ))}
+                        </Table.Row>
+                    ))}
+                </Table.Body>
+            </Table.Root>
         );
         container = result.container;
     });

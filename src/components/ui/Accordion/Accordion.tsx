@@ -5,34 +5,21 @@ import AccordionHeader from './fragments/AccordionHeader';
 import AccordionTrigger from './fragments/AccordionTrigger';
 import AccordionContent from './fragments/AccordionContent';
 
-export interface AccordionItemType {
-    title: string;
-    content: React.ReactNode;
-  }
+// Empty props type - only supporting fragment exports
+export type AccordionProps = React.HTMLAttributes<HTMLDivElement> & {
+    children?: React.ReactNode;
+};
 
-export interface AccordionProps {
-    items: AccordionItemType[];
-  }
-
-const Accordion = ({ items }: AccordionProps) => {
-    return (
-        <AccordionRoot>
-            {items.map((item, index) => (
-                <AccordionItem value={index} key={index} >
-                    <AccordionHeader>
-                        <AccordionTrigger >
-                            {item.title}
-                        </AccordionTrigger>
-                    </AccordionHeader>
-                    <AccordionContent index={index}>
-                        {item.content}
-                    </AccordionContent>
-                </AccordionItem>
-            ))}
-        </AccordionRoot>
-    );
+// Empty implementation - we don't support direct usage
+const Accordion = () => {
+    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead.');
+    return null;
 };
 
 Accordion.Root = AccordionRoot;
+Accordion.Item = AccordionItem;
+Accordion.Header = AccordionHeader;
+Accordion.Trigger = AccordionTrigger;
+Accordion.Content = AccordionContent;
 
 export default Accordion;

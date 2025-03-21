@@ -1,22 +1,14 @@
 'use client';
 import React, { useContext } from 'react';
 import { clsx } from 'clsx';
-import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'TabList';
 
-// Define the Tab type if it's not imported
-type Tab = string | number;
-
 export type TabListProps = {
-    tabs?: Tab[]
     className?: string;
-    customRootClass?: string;
-    setActiveTab: React.Dispatch<Tab>;
-    activeTab: TabProps;
     children?: React.ReactNode;
 }
 
