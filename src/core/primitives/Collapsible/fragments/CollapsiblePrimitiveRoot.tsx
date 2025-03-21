@@ -31,6 +31,14 @@ export type CollapsiblePrimitiveRootProps = {
    */
   className?: string;
   /**
+   * Duration of the height transition animation in milliseconds
+   */
+  transitionDuration?: number;
+  /**
+   * CSS timing function for the transition
+   */
+  transitionTimingFunction?: string;
+  /**
    * Additional props to be spread on the root element
    */
   [key: string]: any;
@@ -42,6 +50,8 @@ const CollapsiblePrimitiveRoot = ({
     open,
     onOpenChange,
     disabled = false,
+    transitionDuration = 300,
+    transitionTimingFunction = 'ease-out',
     ...props
 }: CollapsiblePrimitiveRootProps) => {
     const contentId = useId();
@@ -64,7 +74,9 @@ const CollapsiblePrimitiveRoot = ({
                 open: isOpen,
                 onOpenChange: handleOpenChange,
                 disabled,
-                contentId
+                contentId,
+                transitionDuration,
+                transitionTimingFunction
             }}
         >
             <Primitive.div

@@ -149,6 +149,7 @@ export const AnimationDisabled: Story = {
                 <CollapsiblePrimitive.Root
                     open={isOpen}
                     onOpenChange={(open) => setIsOpen(open)}
+                    transitionDuration={0}
                 >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px' }}>
                         <span>No Animation</span>
@@ -165,7 +166,6 @@ export const AnimationDisabled: Story = {
                         </CollapsiblePrimitive.Trigger>
                     </div>
                     <CollapsiblePrimitive.Content
-                        transitionDuration={0}
                         style={{
                             display: isOpen ? 'block' : 'none',
                             height: 'auto'
@@ -190,6 +190,8 @@ export const CustomAnimation: Story = {
                 <CollapsiblePrimitive.Root
                     open={isOpen}
                     onOpenChange={(open) => setIsOpen(open)}
+                    transitionDuration={800}
+                    transitionTimingFunction="cubic-bezier(0.34, 1.56, 0.64, 1)" // Spring-like bounce effect
                 >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px' }}>
                         <span>Custom Animation</span>
@@ -205,10 +207,7 @@ export const CustomAnimation: Story = {
                             {isOpen ? 'Close' : 'Open'}
                         </CollapsiblePrimitive.Trigger>
                     </div>
-                    <CollapsiblePrimitive.Content
-                        transitionDuration={800}
-                        transitionTimingFunction="cubic-bezier(0.34, 1.56, 0.64, 1)" // Spring-like bounce effect
-                    >
+                    <CollapsiblePrimitive.Content>
                         <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
                             <p>This content uses a custom animation with a spring effect that takes 800ms to complete.</p>
                             <p>The animation is controlled through props instead of inline styles, making the component truly headless.</p>

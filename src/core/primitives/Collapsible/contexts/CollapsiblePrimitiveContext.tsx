@@ -1,5 +1,13 @@
 import React, { createContext, useContext } from 'react';
 
+/**
+ * Context value for CollapsiblePrimitive
+ *
+ * This context provides a single source of truth for the open state
+ * throughout the component tree. Only the Root component should control
+ * the open state - child components like Trigger and Content should only
+ * read from and update the context, not override it with local props.
+ */
 export type CollapsiblePrimitiveContextValue = {
   /**
    * Whether the collapsible is open
@@ -17,6 +25,14 @@ export type CollapsiblePrimitiveContextValue = {
    * Unique ID for ARIA relationships
    */
   contentId: string;
+  /**
+   * Duration of the height transition animation in milliseconds
+   */
+  transitionDuration: number;
+  /**
+   * CSS timing function for the transition
+   */
+  transitionTimingFunction: string;
 };
 
 export const CollapsiblePrimitiveContext = createContext<CollapsiblePrimitiveContextValue | undefined>(undefined);

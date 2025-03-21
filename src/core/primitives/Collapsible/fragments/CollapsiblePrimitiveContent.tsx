@@ -12,22 +12,9 @@ export type CollapsiblePrimitiveContentProps = {
    */
   className?: string;
   /**
-   * Whether the content is open (optional, overrides context value if provided)
-   * When not provided, the open state is automatically derived from context
-   */
-  open?: boolean;
-  /**
    * For Polymorphic component support
    */
   asChild?: boolean;
-  /**
-   * Duration of the height transition animation in milliseconds
-   */
-  transitionDuration?: number;
-  /**
-   * CSS timing function for the transition
-   */
-  transitionTimingFunction?: string;
   /**
    * Additional props to be spread on the content element
    */
@@ -37,16 +24,16 @@ export type CollapsiblePrimitiveContentProps = {
 const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, CollapsiblePrimitiveContentProps>(
     ({
         children,
-        open: openProp,
         className,
         asChild = false,
-        transitionDuration = 300,
-        transitionTimingFunction = 'ease-out',
         ...props
     }, forwardedRef) => {
-        const { open: contextOpen, contentId } = useCollapsiblePrimitiveContext();
-        // Allow prop to override context
-        const open = openProp !== undefined ? openProp : contextOpen;
+        const {
+            open,
+            contentId,
+            transitionDuration,
+            transitionTimingFunction
+        } = useCollapsiblePrimitiveContext();
 
         const ref = useRef<HTMLDivElement>(null);
         const combinedRef = (forwardedRef || ref) as React.RefObject<HTMLDivElement>;
@@ -69,7 +56,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
                 // After animation completes, set height to undefined for responsive flexibility
                 animationTimeoutRef.current = setTimeout(() => {
                     setHeight(undefined);
-                }, transitionDuration); // Use the custom transition duration
+                }, transitionDuration); // Use the transition duration from context
             } else {
                 // Closing - First set to current height
                 setHeight(ref.current.scrollHeight);
