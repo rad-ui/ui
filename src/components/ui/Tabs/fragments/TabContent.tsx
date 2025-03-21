@@ -13,19 +13,17 @@ export type TabContentProps ={
     customRootClass?: string;
 }
 
-const TabContent = ({ className, customRootClass }: TabContentProps) => {
+const TabContent = ({ className = '', value, children, customRootClass }: TabContentProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const { tabs, activeTab } = useContext(TabsRootContext);
+    const { value: activeValue } = useContext(TabsRootContext);
+
+    if (activeValue !== value) {
+        return null;
+    }
 
     return <div className={clsx(rootClass, className)}>
-        {tabs.map((tab, index) => {
-            if (tab.value === activeTab) {
-                return <div key={index}>{tab.content}</div>;
-            }
-            return null;
-        })
-        }
+        {children}
     </div>;
 };
 
