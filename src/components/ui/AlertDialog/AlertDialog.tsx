@@ -47,4 +47,12 @@ const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content 
     );
 };
 
+AlertDialog.Root = AlertDialogRoot;
+AlertDialog.Content = AlertDialogContent;
+AlertDialog.Trigger = AlertDialogTrigger;
+AlertDialog.Portal = AlertDialogPortal;
+AlertDialog.Overlay = AlertDialogOverlay;
+AlertDialog.Cancel = AlertDialogCancel;
+AlertDialog.Action = AlertDialogAction;
+
 export default AlertDialog;

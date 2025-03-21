@@ -5,25 +5,21 @@ import TreeItem from './fragments/TreeItem';
 
 const COMPONENT_NAME = 'Tree';
 
-type TreeProps = {
-    children: React.ReactNode;
-    [key: string]: any;
+// Empty props type - only supporting fragment exports
+export type TreeProps = React.HTMLAttributes<HTMLDivElement> & {
+    children?: React.ReactNode;
 };
 
-const Tree = ({ children, items = [], ...props }: TreeProps) => {
-    return <TreeRoot {...props}>
-        {items.map((item: any) => {
-            const level = 0;
-            return <>
-                <TreeItem key={item.label} expanded={item.expanded} item={item} level={level}>
-                    {item.label}
-                </TreeItem>
-
-            </>;
-        })}
-    </TreeRoot>;
+// Empty implementation - we don't support direct usage
+const Tree = () => {
+    console.warn('Direct usage of Tree is not supported. Please use Tree.Root and Tree.Item instead.');
+    return null;
 };
 
 Tree.displayName = COMPONENT_NAME;
+
+// Export fragments via direct assignment pattern
+Tree.Root = TreeRoot;
+Tree.Item = TreeItem;
 
 export default Tree;
