@@ -1,6 +1,7 @@
-import React, { useState, useId } from 'react';
+import React, { useId } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { CollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
+import useControllableState from '~/core/hooks/useControllableState';
 
 export type CollapsiblePrimitiveRootProps = {
   /**
@@ -17,6 +18,8 @@ export type CollapsiblePrimitiveRootProps = {
   onOpenChange?: (open: boolean) => void;
   /**
    * Content to be rendered inside the collapsible
+   * Should include CollapsiblePrimitive.Trigger and CollapsiblePrimitive.Content components,
+   * which will automatically connect to this root component via context
    */
   children?: React.ReactNode;
   /**
@@ -36,23 +39,23 @@ export type CollapsiblePrimitiveRootProps = {
 const CollapsiblePrimitiveRoot = ({
     children,
     defaultOpen = false,
-    open: controlledOpen,
+    open,
     onOpenChange,
     disabled = false,
     ...props
 }: CollapsiblePrimitiveRootProps) => {
-    const [uncontrolledOpen, setUncontrolledOpen] = useState<boolean>(defaultOpen);
-    const isControlled = controlledOpen !== undefined;
-    const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
     const contentId = useId();
 
-    const handleOpenChange = (open: boolean) => {
-        if (disabled) return;
+    // Using the useControllableState hook to manage state
+    const [isOpen, setIsOpen] = useControllableState<boolean>(
+        open,
+        defaultOpen,
+        onOpenChange
+    );
 
-        if (!isControlled) {
-            setUncontrolledOpen(open);
-        }
-        onOpenChange?.(open);
+    const handleOpenChange = (newOpen: boolean) => {
+        if (disabled) return;
+        setIsOpen(newOpen);
     };
 
     return (

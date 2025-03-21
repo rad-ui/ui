@@ -12,7 +12,8 @@ export type CollapsiblePrimitiveContentProps = {
    */
   className?: string;
   /**
-   * Whether the content is open (overrides context value)
+   * Whether the content is open (optional, overrides context value if provided)
+   * When not provided, the open state is automatically derived from context
    */
   open?: boolean;
   /**

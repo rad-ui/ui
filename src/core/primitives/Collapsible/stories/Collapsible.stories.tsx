@@ -33,7 +33,6 @@ export const Default: Story = {
                         </CollapsiblePrimitive.Trigger>
                     </div>
                     <CollapsiblePrimitive.Content
-                        open={false}
                         data-radui-collapsible-content
                     >
                         <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
@@ -60,7 +59,6 @@ export const Controlled: Story = {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px' }}>
                         <span>Controlled Collapsible</span>
                         <CollapsiblePrimitive.Trigger
-                            onClick={() => setIsOpen(!isOpen)}
                             style={{
                                 background: 'none',
                                 border: '1px solid #ddd',
@@ -72,7 +70,7 @@ export const Controlled: Story = {
                             {isOpen ? 'Close' : 'Open'}
                         </CollapsiblePrimitive.Trigger>
                     </div>
-                    <CollapsiblePrimitive.Content open={isOpen}>
+                    <CollapsiblePrimitive.Content>
                         <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
                             <p>This is controlled collapsible content using React state.</p>
                             <p>Current state: {isOpen ? 'Open' : 'Closed'}</p>
@@ -120,7 +118,6 @@ export const MultipleCollapsibles: Story = {
                         >
                             <span>Item {id.replace('item', '')}</span>
                             <CollapsiblePrimitive.Trigger
-                                onClick={() => toggleItem(id)}
                                 style={{
                                     background: 'none',
                                     border: 'none',
@@ -131,7 +128,7 @@ export const MultipleCollapsibles: Story = {
                                 {isOpen ? '▲' : '▼'}
                             </CollapsiblePrimitive.Trigger>
                         </div>
-                        <CollapsiblePrimitive.Content open={isOpen}>
+                        <CollapsiblePrimitive.Content>
                             <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '4px' }}>
                                 <p>Content for {id}</p>
                             </div>
@@ -156,7 +153,6 @@ export const AnimationDisabled: Story = {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px' }}>
                         <span>No Animation</span>
                         <CollapsiblePrimitive.Trigger
-                            onClick={() => setIsOpen(!isOpen)}
                             style={{
                                 background: 'none',
                                 border: '1px solid #ddd',
@@ -169,7 +165,6 @@ export const AnimationDisabled: Story = {
                         </CollapsiblePrimitive.Trigger>
                     </div>
                     <CollapsiblePrimitive.Content
-                        open={isOpen}
                         transitionDuration={0}
                         style={{
                             display: isOpen ? 'block' : 'none',
@@ -199,7 +194,6 @@ export const CustomAnimation: Story = {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px' }}>
                         <span>Custom Animation</span>
                         <CollapsiblePrimitive.Trigger
-                            onClick={() => setIsOpen(!isOpen)}
                             style={{
                                 background: 'none',
                                 border: '1px solid #ddd',
@@ -212,7 +206,6 @@ export const CustomAnimation: Story = {
                         </CollapsiblePrimitive.Trigger>
                     </div>
                     <CollapsiblePrimitive.Content
-                        open={isOpen}
                         transitionDuration={800}
                         transitionTimingFunction="cubic-bezier(0.34, 1.56, 0.64, 1)" // Spring-like bounce effect
                     >

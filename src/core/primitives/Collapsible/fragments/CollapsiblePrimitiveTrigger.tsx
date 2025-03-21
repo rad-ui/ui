@@ -17,6 +17,9 @@ export type CollapsiblePrimitiveTriggerProps = {
   asChild?: boolean;
   /**
    * Additional props to be spread on the trigger element
+   *
+   * Note: open state, disabled state, and toggle functionality are
+   * now automatically handled through context from CollapsiblePrimitive.Root
    */
   [key: string]: any;
 };
