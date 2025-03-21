@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import Primitive from '~/core/primitives/Primitive';
+import { CollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
-export interface CollapsibleRootProps {
+export type CollapsiblePrimitiveRootProps = {
   /**
    * Whether the collapsible is open by default (uncontrolled)
    */
@@ -30,39 +31,48 @@ export interface CollapsibleRootProps {
    * Additional props to be spread on the root element
    */
   [key: string]: any;
-}
+};
 
-const CollapsibleRoot = ({
+const CollapsiblePrimitiveRoot = ({
     children,
     defaultOpen = false,
     open: controlledOpen,
     onOpenChange,
     disabled = false,
     ...props
-}: CollapsibleRootProps) => {
+}: CollapsiblePrimitiveRootProps) => {
     const [uncontrolledOpen, setUncontrolledOpen] = useState<boolean>(defaultOpen);
     const isControlled = controlledOpen !== undefined;
     const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
+    const contentId = useId();
 
-    const toggleCollapsible = () => {
+    const handleOpenChange = (open: boolean) => {
         if (disabled) return;
 
-        const newOpenState = !isOpen;
         if (!isControlled) {
-            setUncontrolledOpen(newOpenState);
+            setUncontrolledOpen(open);
         }
-        onOpenChange?.(newOpenState);
+        onOpenChange?.(open);
     };
 
     return (
-        <Primitive.div
-            {...props}
-            data-state={isOpen ? 'open' : 'closed'}
-            data-disabled={disabled ? '' : undefined}
+        <CollapsiblePrimitiveContext.Provider
+            value={{
+                open: isOpen,
+                onOpenChange: handleOpenChange,
+                disabled,
+                contentId
+            }}
         >
-            {children}
-        </Primitive.div>
+            <Primitive.div
+                {...props}
+                data-state={isOpen ? 'open' : 'closed'}
+                data-disabled={disabled ? '' : undefined}
+            >
+                {children}
+            </Primitive.div>
+        </CollapsiblePrimitiveContext.Provider>
     );
 };
 
-export default CollapsibleRoot;
+export default CollapsiblePrimitiveRoot;

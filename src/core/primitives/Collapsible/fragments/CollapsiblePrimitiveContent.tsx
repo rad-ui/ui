@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
+import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
-export interface CollapsibleContentProps {
+export type CollapsiblePrimitiveContentProps = {
   /**
    * Content to be rendered inside the collapsible content
    */
@@ -11,7 +12,7 @@ export interface CollapsibleContentProps {
    */
   className?: string;
   /**
-   * Whether the content is open
+   * Whether the content is open (overrides context value)
    */
   open?: boolean;
   /**
@@ -30,18 +31,22 @@ export interface CollapsibleContentProps {
    * Additional props to be spread on the content element
    */
   [key: string]: any;
-}
+};
 
-const CollapsibleContent = React.forwardRef<HTMLDivElement, CollapsibleContentProps>(
+const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, CollapsiblePrimitiveContentProps>(
     ({
         children,
-        open,
+        open: openProp,
         className,
         asChild = false,
         transitionDuration = 300,
         transitionTimingFunction = 'ease-out',
         ...props
     }, forwardedRef) => {
+        const { open: contextOpen, contentId } = useCollapsiblePrimitiveContext();
+        // Allow prop to override context
+        const open = openProp !== undefined ? openProp : contextOpen;
+
         const ref = useRef<HTMLDivElement>(null);
         const combinedRef = (forwardedRef || ref) as React.RefObject<HTMLDivElement>;
         const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
@@ -89,6 +94,7 @@ const CollapsibleContent = React.forwardRef<HTMLDivElement, CollapsibleContentPr
 
         return (
             <Primitive.div
+                id={contentId}
                 ref={combinedRef}
                 aria-hidden={!open}
                 data-state={open ? 'open' : 'closed'}
@@ -106,6 +112,6 @@ const CollapsibleContent = React.forwardRef<HTMLDivElement, CollapsibleContentPr
     }
 );
 
-CollapsibleContent.displayName = 'CollapsibleContent';
+CollapsiblePrimitiveContent.displayName = 'CollapsiblePrimitiveContent';
 
-export default CollapsibleContent;
+export default CollapsiblePrimitiveContent;

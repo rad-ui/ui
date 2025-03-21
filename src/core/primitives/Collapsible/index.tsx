@@ -1,12 +1,12 @@
 import React from 'react';
-import CollapsibleRoot from './fragments/CollapsibleRoot';
-import CollapsibleContent from './fragments/CollapsibleContent';
-import CollapsibleTrigger from './fragments/CollapsibleTrigger';
+import CollapsiblePrimitiveRoot from './fragments/CollapsiblePrimitiveRoot';
+import CollapsiblePrimitiveContent from './fragments/CollapsiblePrimitiveContent';
+import CollapsiblePrimitiveTrigger from './fragments/CollapsiblePrimitiveTrigger';
 
 // Re-export component types
-export type { CollapsibleRootProps } from './fragments/CollapsibleRoot';
-export type { CollapsibleContentProps } from './fragments/CollapsibleContent';
-export type { CollapsibleTriggerProps } from './fragments/CollapsibleTrigger';
+export type { CollapsiblePrimitiveRootProps } from './fragments/CollapsiblePrimitiveRoot';
+export type { CollapsiblePrimitiveContentProps } from './fragments/CollapsiblePrimitiveContent';
+export type { CollapsiblePrimitiveTriggerProps } from './fragments/CollapsiblePrimitiveTrigger';
 
 // Empty props type - only supporting fragment exports
 export type CollapsiblePrimitiveProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -20,8 +20,8 @@ const CollapsiblePrimitive = () => {
 };
 
 // Export fragments via direct assignment pattern
-CollapsiblePrimitive.Root = CollapsibleRoot;
-CollapsiblePrimitive.Content = CollapsibleContent;
-CollapsiblePrimitive.Trigger = CollapsibleTrigger;
+CollapsiblePrimitive.Root = CollapsiblePrimitiveRoot;
+CollapsiblePrimitive.Content = CollapsiblePrimitiveContent;
+CollapsiblePrimitive.Trigger = CollapsiblePrimitiveTrigger;
 
 export default CollapsiblePrimitive;
