@@ -8,18 +8,23 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Tabs';
 
-const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], className, color, ...props }: TabRootProps) => {
+const TabRoot = ({ children, defaultTab = '', onValueChange = () => {}, customRootClass = '', className, color, ...props }: TabRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const tabRef = useRef(null);
 
-    const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '');
+    const [value, setValue] = useState(defaultTab);
+
+    const handleTabChange = (value: string) => {
+        setValue(value);
+        onValueChange(value);
+    };
 
     const contextValues = {
         rootClass,
-        activeTab,
-        setActiveTab,
-        tabs
+        value,
+        setValue,
+        handleTabChange
     };
 
     return (
@@ -27,7 +32,6 @@ const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], classN
             <RovingFocusGroup.Root direction="horizontal" loop ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props}>
                 {children}
             </RovingFocusGroup.Root>
-
         </TabsRootContext.Provider>
     );
 };
