@@ -21,6 +21,18 @@ describe('Avatar', () => {
         expect(screen.getByText('RU')).toBeInTheDocument();
     });
 
+    test('renders avatar with the given variant', () => {
+        render(<Avatar fallback="RU" variant='outline'/>);
+        const fallback = screen.getByText('RU');
+        expect(fallback.parentElement).toHaveAttribute('data-avatar-variant', 'outline');
+    });
+    
+    test('renders avatar with the given size', () => {
+        render(<Avatar fallback="RU"size='small'/>);
+        const fallback = screen.getByText('RU');
+        expect(fallback.parentElement).toHaveAttribute('data-avatar-size', 'small');
+    });
+
     test('renders color for fallback when src is not provided', async() => {
         render(<Avatar fallback="RU" color='blue'/>);
         expect(screen.getByText('RU')).toHaveAttribute('data-accent-color', 'blue');
