@@ -26,7 +26,6 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<HTMLButtonElement, Collapsi
 
         const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
             // Allow event to propagate while still calling onOpenChange
-            console.log(props.onClick);
             props.onClick?.(event);
             if (!disabled) {
                 onOpenChange(!open);

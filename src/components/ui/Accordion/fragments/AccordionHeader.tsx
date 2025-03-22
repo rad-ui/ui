@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { clsx } from 'clsx';
+import { AccordionContext } from '../contexts/AccordionContext';
 
 export type AccordionHeaderProps = {
     children: React.ReactNode;
@@ -7,8 +8,9 @@ export type AccordionHeaderProps = {
 }
 
 const AccordionHeader: React.FC<AccordionHeaderProps> = ({ children, className = '' }) => {
+    const { rootClass } = useContext(AccordionContext);
     return (
-        <div className={clsx(className)}>
+        <div className={clsx(`${rootClass}-header`, className)}>
             {children}
         </div>
     );

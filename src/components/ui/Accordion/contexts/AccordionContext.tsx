@@ -9,6 +9,7 @@ interface AccordionContextType {
     focusNextItem: () => void;
     focusPrevItem: () => void;
     accordionRef?: React.RefObject<HTMLDivElement | null>;
+    transitionDuration?: number;
   }
 
 export const AccordionContext = createContext<AccordionContextType>({
@@ -19,5 +20,6 @@ export const AccordionContext = createContext<AccordionContextType>({
     setFocusItem: () => {},
     focusNextItem: () => {},
     focusPrevItem: () => {},
-    accordionRef: undefined
+    accordionRef: undefined,
+    transitionDuration: 0
 });
