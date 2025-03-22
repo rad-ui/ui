@@ -1,3 +1,4 @@
+'use client';
 import { clsx } from 'clsx';
 import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
