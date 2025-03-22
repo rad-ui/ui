@@ -1,6 +1,6 @@
 "use client"
 import CodeBlock from '../CodeBlock';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Tabs from "@radui/ui/Tabs"
 import Heading from "@radui/ui/Heading"
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
@@ -33,9 +33,10 @@ const initializeTabs = (codeUsage) => {
 
 
 const ComponentHero = ({ children, title='', codeUsage = {} }) => {
-    const [activeTab, setActiveTab] = useState('tab1')
-    const data = initializeTabs(codeUsage)
-    console.log(data)
+   
+    let data =  initializeTabs(codeUsage)
+    const [activeTab, setActiveTab] = useState(data[0]?.value)
+
 
     return <div>
         {title &&  <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
@@ -44,17 +45,17 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
         </div>
         <div>
             <div>
-                <Tabs.Root>
+                <Tabs.Root defaultValue={activeTab} onValueChange={(value)=>{
+                    setActiveTab(value)
+                }}>
                     <Tabs.List>
                         {data.map((tab, index) => (
                             <Tabs.Trigger key={index} value={tab.value}>{tab.label}</Tabs.Trigger>
                         ))}
                     </Tabs.List>
-
-                        {data.map((tab, index) => (
+                    {data.map((tab, index) => (
                             <Tabs.Content key={index} value={tab.value}>{tab.content}</Tabs.Content>
                         ))}
-
                 </Tabs.Root>
             </div>
         </div>

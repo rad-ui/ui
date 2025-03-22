@@ -19,8 +19,6 @@ const RightArrow = () => {
 };
 
 const Documentation = ({ title = '', description = '', currentPage = undefined, children }) => {
-
-
     return <div className='w-full max-w-screen-lg mx-auto'>
         <div>
             <div className='flex items-center space-x-4'>
@@ -36,11 +34,14 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
 };
 
 const DocsTable = ({ children, columns = [], data = [] }) => {
+
+    console.log(Table)
     return <div className='mb-20'>
         <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
-        <Table columns={columns} data={data} color="gray" >
+
+        {/* <Table columns={columns} data={data} color="gray" >
             {children}
-        </Table>
+        </Table> */}
     </div>;
 };
 
@@ -78,8 +79,8 @@ const KeyboardShortcuts = ({ keyboardShortcuts }) => {
     return <div className='mt-10'>
         <BookMarkLink id="keyboard-shortcuts"> <Heading as="h2" className="mb-2">Keyboard Shortcuts</Heading> </BookMarkLink>
         <div className='mb-10'>
-        <Table columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} >
-        </Table>
+        {/* <Table columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} >
+        </Table> */}
         </div>
     </div>;
 };
