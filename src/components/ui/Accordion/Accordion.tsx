@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import AccordionRoot from './fragments/AccordionRoot';
 import AccordionItem from './fragments/AccordionItem';
