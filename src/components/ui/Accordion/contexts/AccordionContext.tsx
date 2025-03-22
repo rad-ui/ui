@@ -6,6 +6,7 @@ interface AccordionContextType {
     setActiveItem: (item: number | null) => void;
     accordionRef?: React.RefObject<HTMLDivElement | null>;
     transitionDuration?: number;
+    transitionTimingFunction?: string;
 }
 
 export const AccordionContext = createContext<AccordionContextType>({
@@ -13,5 +14,6 @@ export const AccordionContext = createContext<AccordionContextType>({
     activeItem: null,
     setActiveItem: () => {},
     accordionRef: undefined,
-    transitionDuration: 0
+    transitionDuration: 0,
+    transitionTimingFunction: 'ease-out'
 });

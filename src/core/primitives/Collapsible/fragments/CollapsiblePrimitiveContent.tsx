@@ -38,8 +38,16 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
         const ref = useRef<HTMLDivElement>(null);
         const combinedRef = (forwardedRef || ref) as React.RefObject<HTMLDivElement>;
         const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
+        const [shouldRender, setShouldRender] = useState(open);
         const animationTimeoutRef = useRef<NodeJS.Timeout>();
         const rafRef = useRef<number>();
+
+        // When opening, we need to immediately render
+        useEffect(() => {
+            if (open) {
+                setShouldRender(true);
+            }
+        }, [open]);
 
         useEffect(() => {
             // Clear any existing timeout and animation frames to avoid conflicts
@@ -56,39 +64,40 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
             // Handle the case when transitionDuration is 0 - no animation
             if (transitionDuration === 0) {
                 setHeight(open ? undefined : 0);
+
+                // For instant changes, also update visibility immediately
+                if (!open) {
+                    setTimeout(() => setShouldRender(false), 0);
+                }
                 return;
             }
 
             if (open) {
-                // First set height to 0 if it was previously undefined to ensure proper animation start state
-                if (height === undefined) {
-                    setHeight(0);
+                // Opening animation
+                // First set height to 0 to ensure proper animation start state
+                setHeight(0);
 
-                    // Use RAF to ensure the DOM has updated with the new height
+                // Use RAF to ensure the DOM has updated with the new height
+                rafRef.current = requestAnimationFrame(() => {
+                    // Force a reflow
+                    const _ = ref.current?.offsetHeight;
+
+                    // Now measure and start animation in the next frame
                     rafRef.current = requestAnimationFrame(() => {
-                        // Force a reflow
-                        const _ = ref.current?.offsetHeight;
-
-                        // Now measure and start animation in the next frame
-                        rafRef.current = requestAnimationFrame(() => {
-                            if (ref.current) {
-                                const contentHeight = ref.current.scrollHeight;
-                                setHeight(contentHeight);
-                            }
-                        });
+                        if (ref.current) {
+                            const contentHeight = ref.current.scrollHeight;
+                            setHeight(contentHeight);
+                        }
                     });
-                } else {
-                    // Direct measurement for normal case
-                    const contentHeight = ref.current.scrollHeight;
-                    setHeight(contentHeight);
-                }
+                });
 
                 // After animation completes, set height to undefined for responsive flexibility
                 animationTimeoutRef.current = setTimeout(() => {
                     setHeight(undefined);
                 }, transitionDuration);
             } else {
-                // Closing - First set to current height to ensure smooth start
+                // Closing animation
+                // First set to current height to ensure smooth start
                 const contentHeight = ref.current.scrollHeight;
                 setHeight(contentHeight);
 
@@ -102,6 +111,11 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
                         setHeight(0);
                     });
                 });
+
+                // After animation completes, we can hide the element completely
+                animationTimeoutRef.current = setTimeout(() => {
+                    setShouldRender(false);
+                }, transitionDuration);
             }
 
             return () => {
@@ -112,7 +126,12 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
                     cancelAnimationFrame(rafRef.current);
                 }
             };
-        }, [open, transitionDuration, height]);
+        }, [open, transitionDuration]);
+
+        // Don't render anything if closed and animation is complete
+        if (!shouldRender && !open) {
+            return null;
+        }
 
         return (
             <Primitive.div

@@ -15,7 +15,7 @@ export type AccordionItemProps = {
 const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', ...props }) => {
     const accordionItemRef = useRef<HTMLDivElement>(null);
     const [itemValue, setItemValue] = useState(value ?? 0);
-    const { rootClass, activeItem, transitionDuration } = useContext(AccordionContext);
+    const { rootClass, activeItem, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
 
     const [isOpen, setIsOpen] = useState(itemValue === activeItem);
     useEffect(() => {
@@ -30,7 +30,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
 
     return (
         <AccordionItemContext.Provider value={{ itemValue, setItemValue }}>
-            <CollapsiblePrimitive.Root open={isOpen} transitionDuration={transitionDuration} asChild>
+            <CollapsiblePrimitive.Root
+                open={isOpen}
+                transitionDuration={transitionDuration}
+                transitionTimingFunction={transitionTimingFunction}
+                asChild
+            >
                 <div
                     ref={accordionItemRef}
                     className={clsx(`${rootClass}-item`, className)} {...props}

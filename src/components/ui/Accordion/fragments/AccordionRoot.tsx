@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AccordionContext } from '../contexts/AccordionContext';
@@ -11,16 +11,15 @@ export type AccordionRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
     transitionDuration?: number;
+    transitionTimingFunction?: string;
     direction?: 'horizontal' | 'vertical';
 }
 
-const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 0, customRootClass }: AccordionRootProps) => {
+const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 300, transitionTimingFunction = 'cubic-bezier(0.16, 1, 0.3, 1)', customRootClass }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
-
-    useEffect(() => {}, []);
 
     return (
         <AccordionContext.Provider
@@ -29,15 +28,17 @@ const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 
                 activeItem,
                 setActiveItem,
                 accordionRef,
-                transitionDuration
+                transitionDuration,
+                transitionTimingFunction
             }}>
-            <RovingFocusGroup.Root direction={direction} >
-                <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)} ref={accordionRef}>
-                    {children}
+            <RovingFocusGroup.Root direction={direction}>
+                <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)}>
+                    <div ref={accordionRef}>
+                        {children}
+                    </div>
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
         </AccordionContext.Provider>
-
     );
 };
 
