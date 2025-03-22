@@ -20,4 +20,6 @@ const TableRoot = ({ children, className = '', customRootClass = '', ...props }:
     </div>;
 };
 
+TableRoot.displayName = COMPONENT_NAME;
+
 export default TableRoot;
