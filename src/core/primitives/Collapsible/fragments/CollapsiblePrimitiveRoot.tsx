@@ -51,7 +51,7 @@ const CollapsiblePrimitiveRoot = ({
     onOpenChange,
     disabled = false,
     transitionDuration = 300,
-    transitionTimingFunction = 'ease-out',
+    transitionTimingFunction = 'linear',
     ...props
 }: CollapsiblePrimitiveRootProps) => {
     const contentId = useId();

@@ -1,48 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AccordionContext } from '../contexts/AccordionContext';
-import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Accordion';
 
 export type AccordionRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
+    transitionDuration?: number;
+    transitionTimingFunction?: string;
+    direction?: 'horizontal' | 'vertical';
 }
 
-const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
+const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
-    const [focusItem, setFocusItem] = useState<Element | null>(null); // stores the id of the item that should be focused
-
-    useEffect(() => {}, []);
-
-    const focusNextItem = () => {
-        if (!accordionRef.current) return;
-        const batches = getAllBatchElements(accordionRef?.current);
-        const nextItem = getNextBatchItem(batches);
-        setFocusItem(nextItem);
-        if (nextItem) {
-            const button = nextItem.querySelector('button');
-            // focus button
-            button?.focus();
-        }
-    };
-
-    const focusPrevItem = () => {
-        if (!accordionRef.current) return;
-        const batches = getAllBatchElements(accordionRef?.current);
-        const prevItem = getPrevBatchItem(batches);
-        setFocusItem(prevItem);
-        if (prevItem) {
-            const button = prevItem.querySelector('button');
-            // focus button
-            button?.focus();
-        }
-    };
 
     return (
         <AccordionContext.Provider
@@ -50,18 +27,18 @@ const AccordionRoot = ({ children, customRootClass }: AccordionRootProps) => {
                 rootClass,
                 activeItem,
                 setActiveItem,
-                focusNextItem,
-                focusPrevItem,
-                focusItem,
-                setFocusItem,
-                accordionRef
-
+                accordionRef,
+                transitionDuration,
+                transitionTimingFunction
             }}>
-            <div className={clsx(`${rootClass}-root`)} ref={accordionRef}>
-                {children}
-            </div>
+            <RovingFocusGroup.Root direction={direction}>
+                <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)}>
+                    <div ref={accordionRef}>
+                        {children}
+                    </div>
+                </RovingFocusGroup.Group>
+            </RovingFocusGroup.Root>
         </AccordionContext.Provider>
-
     );
 };
 
