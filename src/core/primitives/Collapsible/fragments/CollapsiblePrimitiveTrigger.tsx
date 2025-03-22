@@ -8,10 +8,6 @@ export type CollapsiblePrimitiveTriggerProps = {
    */
   children?: React.ReactNode;
   /**
-   * CSS class name for custom styling
-   */
-  className?: string;
-  /**
    * For Polymorphic component support
    */
   asChild?: boolean;
@@ -25,11 +21,12 @@ export type CollapsiblePrimitiveTriggerProps = {
 };
 
 const CollapsiblePrimitiveTrigger = React.forwardRef<HTMLButtonElement, CollapsiblePrimitiveTriggerProps>(
-    ({ children, className, asChild = false, ...props }, forwardedRef) => {
+    ({ children, asChild = false, ...props }, forwardedRef) => {
         const { open, onOpenChange, disabled, contentId } = useCollapsiblePrimitiveContext();
 
         const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
             // Allow event to propagate while still calling onOpenChange
+            console.log(props.onClick);
             props.onClick?.(event);
             if (!disabled) {
                 onOpenChange(!open);
@@ -43,8 +40,8 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<HTMLButtonElement, Collapsi
                 data-state={open ? 'open' : 'closed'}
                 data-disabled={disabled ? 'true' : undefined}
                 ref={forwardedRef}
-                className={className}
                 onClick={handleClick}
+                asChild={asChild}
                 {...props}
             >
                 {children}
