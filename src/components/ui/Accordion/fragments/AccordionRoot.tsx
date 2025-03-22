@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
