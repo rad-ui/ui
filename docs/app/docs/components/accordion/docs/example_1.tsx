@@ -13,12 +13,24 @@ let items = [
     title: "Vue",
     content: "Vue.js is a progressive framework for building user interfaces."
   }
-]       
+]
 
-const AccordionExample = () => ( 
+const AccordionExample = () => {
+
+
+  return (
   <div className="w-64 md:w-96">
-    <Accordion items={items} />
-  </div>
-)
+    <Accordion.Root>
+      {items.map((item, index) => (
+        <Accordion.Item key={index} value={`item-${index}`}>
+          <Accordion.Header>
+            <Accordion.Trigger index={index}>{item.title}</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content index={index}>{item.content}</Accordion.Content>
+        </Accordion.Item>
+      ))}
+    </Accordion.Root>
+  </div>)
+}
 
 export default AccordionExample;
