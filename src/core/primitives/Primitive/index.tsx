@@ -15,7 +15,6 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
 
-        // Improved asChild implementation
         if (asChild) {
             // Check if there's exactly one child and it's a valid element
             const childrenArray = React.Children.toArray(children);
@@ -29,6 +28,7 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
             const child = childrenArray[0] as React.ReactElement;
 
             // Merge refs if child already has one
+            // TODO: This can be made into a utility function
             const mergedRef = (childRef: any) => {
                 if (typeof ref === 'function') ref(childRef);
                 else if (ref) ref.current = childRef;
@@ -41,6 +41,7 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
 
             // Clone with proper type handling and proper prop merging
             // We prioritize the child's props over elementProps
+            // TODO: Utilities for merging props and refs can be created and used here
             return React.cloneElement(child, {
                 // Start with all the elementProps
                 ...elementProps,
