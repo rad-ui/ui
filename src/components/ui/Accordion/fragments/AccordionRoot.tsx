@@ -15,7 +15,7 @@ export type AccordionRootProps = {
     direction?: 'horizontal' | 'vertical';
 }
 
-const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 300, transitionTimingFunction = 'linear', customRootClass }: AccordionRootProps) => {
+const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
