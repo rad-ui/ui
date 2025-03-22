@@ -1,42 +1,35 @@
 "use client"
 import CodeBlock from '../CodeBlock';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Tabs from "@radui/ui/Tabs"
 import Heading from "@radui/ui/Heading"
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
 
-
-const TabContainer = ({ children }) => {
-    return <div className='px-2'>
-        {children}
-    </div>
-}
-
-const initializeTabs = (codeUsage) => {
-    const tabs = []
-    for (const key in codeUsage) {
-        if (Object.hasOwnProperty.call(codeUsage, key)) {
-            let language = key
-            if(key === 'javascript') {
-                language = 'jsx'
-            }
-            const element = codeUsage[key];
-            tabs.push({
-                label: key,
-                value: key,
-                content: <CodeBlock language={language} >{codeUsage[key]?.code}</CodeBlock>,
-            })
-        }
-    }
-    return tabs
-}
-
+import CodeTabs from './CodeTabs';
 
 const ComponentHero = ({ children, title='', codeUsage = {} }) => {
    
-    let data =  initializeTabs(codeUsage)
-    const [activeTab, setActiveTab] = useState(data[0]?.value)
-
+    const initializeTabs = (codeUsage) => {
+        const tabs = []
+        for (const key in codeUsage) {
+            if (Object.hasOwnProperty.call(codeUsage, key)) {
+                let language = key
+                if(key === 'javascript') {
+                    language = 'jsx'
+                }
+                const element = codeUsage[key];
+                tabs.push({
+                    label: key,
+                    value: key,
+                    content: <CodeBlock language={language} >{codeUsage[key]?.code}</CodeBlock>,
+                })
+            }
+        }
+        return tabs
+    }
+   
+    // Use useMemo to avoid recalculating tabs unnecessarily
+    const data = useMemo(() => initializeTabs(codeUsage), [codeUsage]);
 
     return <div>
         {title &&  <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
@@ -45,22 +38,10 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
         </div>
         <div>
             <div>
-                <Tabs.Root defaultValue={activeTab} onValueChange={(value)=>{
-                    setActiveTab(value)
-                }}>
-                    <Tabs.List>
-                        {data.map((tab, index) => (
-                            <Tabs.Trigger key={index} value={tab.value}>{tab.label}</Tabs.Trigger>
-                        ))}
-                    </Tabs.List>
-                    {data.map((tab, index) => (
-                            <Tabs.Content key={index} value={tab.value}>{tab.content}</Tabs.Content>
-                        ))}
-                </Tabs.Root>
+                <CodeTabs data={data} />
             </div>
         </div>
     </div>
-
 }
 
 export default ComponentHero;

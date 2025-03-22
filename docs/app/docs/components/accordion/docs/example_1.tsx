@@ -1,3 +1,4 @@
+"use client"
 import Accordion from "@radui/ui/Accordion";
 
 let items = [

@@ -29,7 +29,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
         <div className='mt-4'>
             {children}
         </div>
-        <Separator />
+        <Separator className="my-10" />
     </div>;
 };
 
