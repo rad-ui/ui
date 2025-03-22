@@ -5,6 +5,7 @@ import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import Primitive from '~/core/primitives/Primitive';
 
 type AccordionTriggerProps = {
   children: React.ReactNode;
@@ -30,8 +31,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
     return (
         <RovingFocusGroup.Item>
             <CollapsiblePrimitive.Trigger asChild>
-                <button
-                    type="button"
+                <Primitive.button
                     className={clsx(`${rootClass}-trigger`, className)}
                     ref={triggerRef}
                     onClick={onClickHandler}
@@ -39,7 +39,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
                     aria-controls={`content-${index}`}
                 >
                     {children}
-                </button>
+                </Primitive.button>
             </CollapsiblePrimitive.Trigger>
         </RovingFocusGroup.Item>
 
