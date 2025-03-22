@@ -35,6 +35,7 @@ const initializeTabs = (codeUsage) => {
 const ComponentHero = ({ children, title='', codeUsage = {} }) => {
     const [activeTab, setActiveTab] = useState('tab1')
     const data = initializeTabs(codeUsage)
+    console.log(data)
 
     return <div>
         {title &&  <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
@@ -42,7 +43,20 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
             {children}
         </div>
         <div>
-            <Tabs tabs={data} />
+            <div>
+                <Tabs.Root>
+                    <Tabs.List>
+                        {data.map((tab, index) => (
+                            <Tabs.Trigger key={index} value={tab.value}>{tab.label}</Tabs.Trigger>
+                        ))}
+                    </Tabs.List>
+
+                        {data.map((tab, index) => (
+                            <Tabs.Content key={index} value={tab.value}>{tab.content}</Tabs.Content>
+                        ))}
+
+                </Tabs.Root>
+            </div>
         </div>
     </div>
 
