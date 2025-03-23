@@ -6,43 +6,45 @@ import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
+import useControllableState from '~/core/hooks/useControllableState';
+
 const COMPONENT_NAME = 'Tabs';
 
 export type TabRootProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;
+    value?: string;
     color?: string;
-    defaultTab?: string;
-    [key: string]: any;
-};
-
-type TabRootComponentProps = TabRootProps & {
-  onValueChange?: (value: string) => void
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
 };
 
 const TabRoot = ({
     children,
-    defaultTab = '',
+    defaultValue = '',
     onValueChange = () => {},
     customRootClass = '',
+    value,
     className,
     color,
     ...props
-}: TabRootComponentProps) => {
+}: TabRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [value, setValue] = useState(defaultTab);
+    const [tabValue, setTabValue] = useControllableState<string>(
+        value,
+        defaultValue || '',
+        onValueChange
+    );
 
     const handleTabChange = (value: string) => {
-        setValue(value);
-        onValueChange(value);
+        setTabValue(value);
     };
 
     const contextValues = {
         rootClass,
-        value,
-        setValue,
+        tabValue,
         handleTabChange
     };
 

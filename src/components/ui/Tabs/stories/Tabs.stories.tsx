@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tabs from '../Tabs';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
@@ -31,9 +31,9 @@ const TabsExample = () => {
 
     const [activeTab, setActiveTab] = useState('meteora');
 
-    const handleTabChange = (tab: TabProps) => {
-        console.log('tab', tab);
-        setActiveTab(tab.value);
+    const handleTabChange = (value: string) => {
+        // console.log('tab', value);
+        setActiveTab(value);
     };
 
     return (
@@ -42,7 +42,7 @@ const TabsExample = () => {
             {/* Using the actual Tabs composable API */}
             <div className="border  shadow rounded-md p-4">
                 <Tabs.Root
-                    defaultTab={activeTab}
+                    defaultValue={activeTab}
                     onValueChange={handleTabChange}
                 >
                     <Tabs.List>
@@ -83,4 +83,172 @@ export const All: Story = {
 
 export const TabInTabOut: Story = {
     render: () => <TabInTabOutExample />
+};
+
+// Dynamic Tabs example
+const DynamicTabsExample = () => {
+    // Initialize with default placeholder tabs
+    const [tabs, setTabs] = useState<string[]>(['placeholder1', 'placeholder2']);
+    const [activeTab, setActiveTab] = useState<string>('placeholder1');
+
+    useEffect(() => {
+        // Simulate loading tabs from an API after 2 seconds
+        const timer = setTimeout(() => {
+            const newTabs = ['first', 'second', 'third'];
+            setTabs(newTabs);
+            setActiveTab(newTabs[1]);
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleTabChange = (value: string) => {
+        setActiveTab(value);
+    };
+
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <Tabs.Root
+                    defaultValue={activeTab}
+                    onValueChange={handleTabChange}
+                >
+                    <Tabs.List>
+                        {tabs.map((tab) => (
+                            <Tabs.Trigger key={tab} value={tab}>
+                                {tab.charAt(0).toUpperCase() + tab.slice(1)} Tab
+                            </Tabs.Trigger>
+                        ))}
+                    </Tabs.List>
+
+                    {tabs.map((tab) => (
+                        <Tabs.Content key={tab} value={tab}>
+                            <div className="p-4">
+                                {tab.includes('placeholder')
+                                    ? 'This is a default tab that will update soon...'
+                                    : `Content for the ${tab} tab that was loaded dynamically after a delay.`}
+                            </div>
+                        </Tabs.Content>
+                    ))}
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+export const DynamicTabs: Story = {
+    render: () => <DynamicTabsExample />
+};
+
+// Controlled Tabs example (explicit state management)
+const ControlledTabsExample = () => {
+    const [value, setValue] = useState('tab1');
+
+    const handleValueChange = (newValue: string) => {
+        console.log('Tab changed to:', newValue);
+        setValue(newValue);
+    };
+
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Controlled Tabs</strong> - Current tab: {value}
+                </div>
+
+                <div className="mb-4">
+                    <button
+                        onClick={() => setValue('tab1')}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab1' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        Select Tab 1
+                    </button>
+                    <button
+                        onClick={() => setValue('tab2')}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab2' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        Select Tab 2
+                    </button>
+                    <button
+                        onClick={() => setValue('tab3')}
+                        className={`px-4 py-2 rounded ${value === 'tab3' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        Select Tab 3
+                    </button>
+                </div>
+
+                <Tabs.Root
+                    value={value}
+                    onValueChange={handleValueChange}
+                >
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1 (Controlled)
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 (Controlled)
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3 (Controlled)
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Uncontrolled Tabs example (internal state management)
+const UncontrolledTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Uncontrolled Tabs</strong> - Using defaultValue
+                </div>
+
+                <Tabs.Root defaultValue="tab2">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1 (Uncontrolled)
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 (Uncontrolled) - This tab is selected by default
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3 (Uncontrolled)
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+export const ControlledTabs: Story = {
+    render: () => <ControlledTabsExample />
+};
+
+export const UncontrolledTabs: Story = {
+    render: () => <UncontrolledTabsExample />
 };
