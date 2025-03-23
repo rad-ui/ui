@@ -9,7 +9,7 @@ on:
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
     runs-on: ubuntu-latest
 
     steps:
@@ -18,44 +18,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check for Tag
-        id: check_tag
-        run: |
-          # Get the SHA of the merge commit
-          MERGE_SHA=${{ github.event.pull_request.merge_commit_sha }}
-          echo "Checking for tags on merge commit $MERGE_SHA"
-          
-          # List tags that point to this commit and filter for version tags
-          VERSION_TAG=$(git tag --points-at $MERGE_SHA | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+.*' || echo "")
-          
-          if [[ -n "$VERSION_TAG" ]]; then
-            echo "Found version tag: $VERSION_TAG"
-            echo "has_tag=true" >> $GITHUB_OUTPUT
-            echo "version=${VERSION_TAG#v}" >> $GITHUB_OUTPUT
-          else
-            echo "No version tag found on merge commit"
-            echo "has_tag=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Set up Node.js
-        if: steps.check_tag.outputs.has_tag == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Install Dependencies
-        if: steps.check_tag.outputs.has_tag == 'true'
         run: npm ci
 
       - name: Build Package
-        if: steps.check_tag.outputs.has_tag == 'true'
         run: npm run build
 
+      - name: Get current version
+        id: package_version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Publish to npm
-        if: steps.check_tag.outputs.has_tag == 'true'
-        run: |
-          npm version ${{ steps.check_tag.outputs.version }} --no-git-tag-version
-          npm publish --access public
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
