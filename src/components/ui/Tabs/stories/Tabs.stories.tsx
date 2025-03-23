@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tabs from '../Tabs';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TabProps } from '../types';
+import { TabProps } from '../fragments/TabContent';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Tabs> = {
@@ -31,9 +31,9 @@ const TabsExample = () => {
 
     const [activeTab, setActiveTab] = useState('meteora');
 
-    const handleTabChange = (tab: TabProps) => {
-        console.log('tab', tab);
-        setActiveTab(tab.value);
+    const handleTabChange = (value: string) => {
+        // console.log('tab', value);
+        setActiveTab(value);
     };
 
     return (
@@ -42,7 +42,7 @@ const TabsExample = () => {
             {/* Using the actual Tabs composable API */}
             <div className="border  shadow rounded-md p-4">
                 <Tabs.Root
-                    defaultTab={activeTab}
+                    defaultValue={activeTab}
                     onValueChange={handleTabChange}
                 >
                     <Tabs.List>
@@ -83,4 +83,383 @@ export const All: Story = {
 
 export const TabInTabOut: Story = {
     render: () => <TabInTabOutExample />
+};
+
+// Dynamic Tabs example
+const DynamicUncontrolledTabsExample = () => {
+    // Initialize with default placeholder tabs
+    const [tabs, setTabs] = useState<string[]>(['placeholder1', 'placeholder2']);
+    const [activeTab, setActiveTab] = useState<string>('placeholder1');
+
+    useEffect(() => {
+        // Simulate loading tabs from an API after 2 seconds
+        const timer = setTimeout(() => {
+            const newTabs = ['first', 'second', 'third'];
+            setTabs(newTabs);
+            setActiveTab(newTabs[1]);
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <Tabs.Root
+                    defaultValue={activeTab}
+                >
+                    <Tabs.List>
+                        {tabs.map((tab) => (
+                            <Tabs.Trigger key={tab} value={tab}>
+                                {tab.charAt(0).toUpperCase() + tab.slice(1)} Tab
+                            </Tabs.Trigger>
+                        ))}
+                    </Tabs.List>
+
+                    {tabs.map((tab) => (
+                        <Tabs.Content key={tab} value={tab}>
+                            <div className="p-4">
+                                {tab.includes('placeholder')
+                                    ? 'This is a default tab that will update soon...'
+                                    : `Content for the ${tab} tab that was loaded dynamically after a delay.`}
+                            </div>
+                        </Tabs.Content>
+                    ))}
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+export const DynamicUncontrolledTabs: Story = {
+    render: () => <DynamicUncontrolledTabsExample />
+};
+
+// Controlled Tabs example (explicit state management)
+const ControlledTabsExample = () => {
+    const [value, setValue] = useState('tab1');
+
+    const handleValueChange = (newValue: string) => {
+        console.log('Tab changed to:', newValue);
+        setValue(newValue);
+    };
+
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Controlled Tabs</strong> - Current tab: {value}
+                </div>
+
+                <div className="mb-4">
+                    <button
+                        onClick={() => setValue('tab1')}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab1' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        Select Tab 1
+                    </button>
+                    <button
+                        onClick={() => setValue('tab2')}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab2' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        Select Tab 2
+                    </button>
+                    <button
+                        onClick={() => setValue('tab3')}
+                        className={`px-4 py-2 rounded ${value === 'tab3' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        Select Tab 3
+                    </button>
+                </div>
+
+                <Tabs.Root
+                    value={value}
+                    onValueChange={handleValueChange}
+                >
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1 (Controlled)
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 (Controlled)
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3 (Controlled)
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Uncontrolled Tabs example (internal state management)
+const UncontrolledTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Uncontrolled Tabs</strong> - Using defaultValue
+                </div>
+
+                <Tabs.Root defaultValue="tab2">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1 (Uncontrolled)
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 (Uncontrolled) - This tab is selected by default
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3 (Uncontrolled)
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+export const ControlledTabs: Story = {
+    render: () => <ControlledTabsExample />
+};
+
+export const UncontrolledTabs: Story = {
+    render: () => <UncontrolledTabsExample />
+};
+
+// =================== TESTS ===================
+
+// Test for disabled tabs
+const DisabledTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Disabled Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs with disabled states - the second tab should be disabled and not selectable.
+                    </p>
+                </div>
+
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2" disabled aria-disabled="true">Tab 2 (Disabled)</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 - This content should not be visible since the tab is disabled
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Test for many tabs (horizontal scrolling)
+const ManyTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Many Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs with many items to ensure proper horizontal scrolling/overflow behavior.
+                    </p>
+                </div>
+
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List className="overflow-x-auto">
+                        {[...Array(10)].map((_, i) => (
+                            <Tabs.Trigger key={i} value={`tab${i + 1}`}>Tab {i + 1}</Tabs.Trigger>
+                        ))}
+                    </Tabs.List>
+
+                    {[...Array(10)].map((_, i) => (
+                        <Tabs.Content key={i} value={`tab${i + 1}`}>
+                            <div className="p-4 bg-gray-100 mt-2">
+                                Content for Tab {i + 1}
+                            </div>
+                        </Tabs.Content>
+                    ))}
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Test for nested tabs
+const NestedTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Nested Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs nested within other tabs to ensure proper context isolation.
+                    </p>
+                </div>
+
+                <Tabs.Root defaultValue="outer1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="outer1">Outer Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="outer2">Outer Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="outer1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            <h3 className="font-medium mb-2">Outer Tab 1 Content</h3>
+
+                            <Tabs.Root defaultValue="inner1">
+                                <Tabs.List>
+                                    <Tabs.Trigger value="inner1">Inner Tab 1</Tabs.Trigger>
+                                    <Tabs.Trigger value="inner2">Inner Tab 2</Tabs.Trigger>
+                                </Tabs.List>
+
+                                <Tabs.Content value="inner1">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 1 Content
+                                    </div>
+                                </Tabs.Content>
+                                <Tabs.Content value="inner2">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 2 Content
+                                    </div>
+                                </Tabs.Content>
+                            </Tabs.Root>
+                        </div>
+                    </Tabs.Content>
+
+                    <Tabs.Content value="outer2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            <h3 className="font-medium mb-2">Outer Tab 2 Content</h3>
+
+                            <Tabs.Root defaultValue="inner3">
+                                <Tabs.List>
+                                    <Tabs.Trigger value="inner3">Inner Tab 3</Tabs.Trigger>
+                                    <Tabs.Trigger value="inner4">Inner Tab 4</Tabs.Trigger>
+                                </Tabs.List>
+
+                                <Tabs.Content value="inner3">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 3 Content
+                                    </div>
+                                </Tabs.Content>
+                                <Tabs.Content value="inner4">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 4 Content
+                                    </div>
+                                </Tabs.Content>
+                            </Tabs.Root>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Test for programmatic tab changes
+const ProgrammaticTabsExample = () => {
+    const [activeTab, setActiveTab] = useState('tab1');
+
+    useEffect(() => {
+        // Change tabs programmatically every 2 seconds
+        const tabIds = ['tab1', 'tab2', 'tab3'];
+        let currentIndex = 0;
+
+        const interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % tabIds.length;
+            setActiveTab(tabIds[currentIndex]);
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Programmatic Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs that change automatically every 2 seconds. Current tab: {activeTab}
+                    </p>
+                </div>
+
+                <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1 - This will automatically change in 2 seconds
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 - This will automatically change in 2 seconds
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3 - This will automatically change in 2 seconds
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+export const DisabledTabs: Story = {
+    render: () => <DisabledTabsExample />
+};
+
+export const ManyTabs: Story = {
+    render: () => <ManyTabsExample />
+};
+
+export const NestedTabs: Story = {
+    render: () => <NestedTabsExample />
+};
+
+export const ProgrammaticTabs: Story = {
+    render: () => <ProgrammaticTabsExample />
 };

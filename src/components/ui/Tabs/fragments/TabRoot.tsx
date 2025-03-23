@@ -1,35 +1,62 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
+import useControllableState from '~/core/hooks/useControllableState';
+
 const COMPONENT_NAME = 'Tabs';
 
-const TabRoot = ({ children, defaultTab = '', onValueChange = () => {}, customRootClass = '', className, color, ...props }: TabRootProps) => {
+export type TabRootProps = {
+    children: React.ReactNode;
+    customRootClass?: string;
+    className?: string;
+    value?: string;
+    color?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
+};
+
+const TabRoot = ({
+    children,
+    defaultValue = '',
+    onValueChange = () => {},
+    customRootClass = '',
+    value,
+    className,
+    color,
+    ...props
+}: TabRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const tabRef = useRef(null);
-
-    const [value, setValue] = useState(defaultTab);
+    const [tabValue, setTabValue] = useControllableState<string>(
+        value,
+        defaultValue || '',
+        onValueChange
+    );
 
     const handleTabChange = (value: string) => {
-        setValue(value);
-        onValueChange(value);
+        setTabValue(value);
     };
+
+    useEffect(() => {
+        if (defaultValue) {
+            handleTabChange(defaultValue);
+        }
+    }, [defaultValue]);
 
     const contextValues = {
         rootClass,
-        value,
-        setValue,
+        tabValue,
         handleTabChange
     };
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root direction="horizontal" loop ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props}>
+            <RovingFocusGroup.Root direction="horizontal" loop className={clsx(rootClass, className)} data-accent-color={color} {...props}>
                 {children}
             </RovingFocusGroup.Root>
         </TabsRootContext.Provider>

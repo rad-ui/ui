@@ -13,7 +13,11 @@ export type TabListProps = {
 }
 
 const TabList = ({ className = '', children }: TabListProps) => {
-    const { rootClass } = useContext(TabsRootContext);
+    const context = useContext(TabsRootContext);
+    if (!context) throw new Error('TabList must be used within a TabRoot');
+
+    const { rootClass } = context;
+
     return <RovingFocusGroup.Group role="tablist" aria-orientation='horizontal' aria-label="todo" className={clsx(`${rootClass}-list`, className)}>
         {children}
     </RovingFocusGroup.Group>;
