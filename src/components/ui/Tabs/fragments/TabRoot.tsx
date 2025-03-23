@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
@@ -8,10 +8,29 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Tabs';
 
-const TabRoot = ({ children, defaultTab = '', onValueChange = () => {}, customRootClass = '', className, color, ...props }: TabRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+export type TabRootProps = {
+    children: React.ReactNode;
+    customRootClass?: string;
+    className?: string;
+    color?: string;
+    defaultTab?: string;
+    [key: string]: any;
+};
 
-    const tabRef = useRef(null);
+type TabRootComponentProps = TabRootProps & {
+  onValueChange?: (value: string) => void
+};
+
+const TabRoot = ({
+    children,
+    defaultTab = '',
+    onValueChange = () => {},
+    customRootClass = '',
+    className,
+    color,
+    ...props
+}: TabRootComponentProps) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [value, setValue] = useState(defaultTab);
 
@@ -29,7 +48,7 @@ const TabRoot = ({ children, defaultTab = '', onValueChange = () => {}, customRo
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root direction="horizontal" loop ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props}>
+            <RovingFocusGroup.Root direction="horizontal" loop className={clsx(rootClass, className)} data-accent-color={color} {...props}>
                 {children}
             </RovingFocusGroup.Root>
         </TabsRootContext.Provider>

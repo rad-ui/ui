@@ -3,7 +3,7 @@ import Tabs from '../Tabs';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TabProps } from '../types';
+import { TabProps } from '../fragments/TabContent';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Tabs> = {
