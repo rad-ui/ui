@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "@radui/ui/Link";
 
 const EditPageOnGithub = () => {
 
@@ -11,8 +12,8 @@ const EditPageOnGithub = () => {
     const currentDocsPath = "docs/app/docs/" + page;
 
   return (
-    <div>
-      <a href={`https://github.com/rad-ui/rad-ui/edit/main/${currentDocsPath}/page.mdx`}>Edit this page on GitHub</a>
+    <div className="w-full max-w-screen-lg mx-auto mt-2">
+      <Link href={`https://github.com/rad-ui/rad-ui/edit/main/${currentDocsPath}/page.mdx`}>Edit this page on GitHub</Link>
     </div>
   );
 };

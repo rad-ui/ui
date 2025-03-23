@@ -23,7 +23,7 @@ const Avatar = ({ customRootClass = '', fallback, className, src, alt, variant =
     const accentAttributes = useCreateDataAttribute('accent', { color });
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
     return (
-        <AvatarPrimitive.Root src={src} customRootClass={customRootClass}  {...composedAttributes()}>
+        <AvatarPrimitive.Root src={src} customRootClass={customRootClass} {...composedAttributes()}>
             <AvatarPrimitive.Image
                 src={src}
                 alt={alt}

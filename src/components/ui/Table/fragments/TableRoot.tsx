@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
@@ -18,5 +19,7 @@ const TableRoot = ({ children, className = '', customRootClass = '', ...props }:
         </table>
     </div>;
 };
+
+TableRoot.displayName = COMPONENT_NAME;
 
 export default TableRoot;

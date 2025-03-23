@@ -13,10 +13,10 @@ export type KbdProps = {
     props: Record<string, any>[];
 }
 
-const Kbd = ({ children, customRootClass, className, size= '', ...props }: KbdProps) => {
+const Kbd = ({ children, customRootClass, className, size = '', ...props }: KbdProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    
-    const dataAttributes = useCreateDataAttribute('kbd', { size })
+
+    const dataAttributes = useCreateDataAttribute('kbd', { size });
 
     return <kbd className={clsx(rootClass, className)} {...dataAttributes()} {...props}>{children}</kbd>;
 };

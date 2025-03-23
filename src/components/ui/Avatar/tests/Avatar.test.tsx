@@ -26,7 +26,7 @@ describe('Avatar', () => {
         const fallback = screen.getByText('RU');
         expect(fallback.parentElement).toHaveAttribute('data-avatar-variant', 'outline');
     });
-    
+
     test('renders avatar with the given size', () => {
         render(<Avatar fallback="RU"size='small'/>);
         const fallback = screen.getByText('RU');
