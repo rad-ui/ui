@@ -102,10 +102,6 @@ const DynamicUncontrolledTabsExample = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    const handleTabChange = (value: string) => {
-        setActiveTab(value);
-    };
-
     return (
         <div className="w-full my-4">
             <div className="border shadow rounded-md p-4">
