@@ -13,9 +13,10 @@ export type TabTriggerProps = {
     props?: Record<string, any>[];
     value?: string;
     children?: React.ReactNode;
+    disabled?: boolean;
 }
 
-const TabTrigger = ({ value, children, className = '', ...props }: TabTriggerProps) => {
+const TabTrigger = ({ value, children, className = '', disabled, ...props }: TabTriggerProps) => {
     // use context
     const context = useContext(TabsRootContext);
     if (!context) throw new Error('TabTrigger must be used within a TabRoot');
@@ -26,19 +27,42 @@ const TabTrigger = ({ value, children, className = '', ...props }: TabTriggerPro
     const isActive = value === activeValue;
 
     const handleFocus = (tabValue: string) => {
+        if (disabled) return; // Don't handle focus events when disabled
+
         if (ref.current) {
             ref.current?.focus();
         }
         handleTabChange(tabValue);
     };
 
+    // Add explicit click handler
+    const handleClick = (e: React.MouseEvent) => {
+        if (disabled) return; // Don't handle click events when disabled
+
+        if (value) {
+            handleTabChange(value);
+        }
+    };
+
     return (
         <RovingFocusGroup.Item
-            onFocus={() => value && handleFocus(value)}
+            onFocus={() => value && !disabled && handleFocus(value)}
         >
             <button
                 ref={ref}
-                className={clsx(`${rootClass}-trigger`, `${isActive ? 'active' : ''}`, className)} role="tab"{...props}>
+                onClick={handleClick}
+                className={clsx(
+                    `${rootClass}-trigger`,
+                    isActive ? 'active' : '',
+                    disabled ? 'disabled' : '',
+                    className
+                )}
+                role="tab"
+                aria-selected={isActive}
+                aria-disabled={disabled}
+                disabled={disabled}
+                {...props}
+            >
                 {children}
             </button>
         </RovingFocusGroup.Item>

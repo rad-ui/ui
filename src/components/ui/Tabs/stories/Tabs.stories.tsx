@@ -247,3 +247,219 @@ export const ControlledTabs: Story = {
 export const UncontrolledTabs: Story = {
     render: () => <UncontrolledTabsExample />
 };
+
+// =================== TESTS ===================
+
+// Test for disabled tabs
+const DisabledTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Disabled Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs with disabled states - the second tab should be disabled and not selectable.
+                    </p>
+                </div>
+
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2" disabled aria-disabled="true">Tab 2 (Disabled)</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 - This content should not be visible since the tab is disabled
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Test for many tabs (horizontal scrolling)
+const ManyTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Many Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs with many items to ensure proper horizontal scrolling/overflow behavior.
+                    </p>
+                </div>
+
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List className="overflow-x-auto">
+                        {[...Array(10)].map((_, i) => (
+                            <Tabs.Trigger key={i} value={`tab${i + 1}`}>Tab {i + 1}</Tabs.Trigger>
+                        ))}
+                    </Tabs.List>
+
+                    {[...Array(10)].map((_, i) => (
+                        <Tabs.Content key={i} value={`tab${i + 1}`}>
+                            <div className="p-4 bg-gray-100 mt-2">
+                                Content for Tab {i + 1}
+                            </div>
+                        </Tabs.Content>
+                    ))}
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Test for nested tabs
+const NestedTabsExample = () => {
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Nested Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs nested within other tabs to ensure proper context isolation.
+                    </p>
+                </div>
+
+                <Tabs.Root defaultValue="outer1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="outer1">Outer Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="outer2">Outer Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="outer1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            <h3 className="font-medium mb-2">Outer Tab 1 Content</h3>
+
+                            <Tabs.Root defaultValue="inner1">
+                                <Tabs.List>
+                                    <Tabs.Trigger value="inner1">Inner Tab 1</Tabs.Trigger>
+                                    <Tabs.Trigger value="inner2">Inner Tab 2</Tabs.Trigger>
+                                </Tabs.List>
+
+                                <Tabs.Content value="inner1">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 1 Content
+                                    </div>
+                                </Tabs.Content>
+                                <Tabs.Content value="inner2">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 2 Content
+                                    </div>
+                                </Tabs.Content>
+                            </Tabs.Root>
+                        </div>
+                    </Tabs.Content>
+
+                    <Tabs.Content value="outer2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            <h3 className="font-medium mb-2">Outer Tab 2 Content</h3>
+
+                            <Tabs.Root defaultValue="inner3">
+                                <Tabs.List>
+                                    <Tabs.Trigger value="inner3">Inner Tab 3</Tabs.Trigger>
+                                    <Tabs.Trigger value="inner4">Inner Tab 4</Tabs.Trigger>
+                                </Tabs.List>
+
+                                <Tabs.Content value="inner3">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 3 Content
+                                    </div>
+                                </Tabs.Content>
+                                <Tabs.Content value="inner4">
+                                    <div className="p-4 bg-white mt-2 border">
+                                        Inner Tab 4 Content
+                                    </div>
+                                </Tabs.Content>
+                            </Tabs.Root>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+// Test for programmatic tab changes
+const ProgrammaticTabsExample = () => {
+    const [activeTab, setActiveTab] = useState('tab1');
+
+    useEffect(() => {
+        // Change tabs programmatically every 2 seconds
+        const tabIds = ['tab1', 'tab2', 'tab3'];
+        let currentIndex = 0;
+
+        const interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % tabIds.length;
+            setActiveTab(tabIds[currentIndex]);
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <div className="mb-4">
+                    <strong>Programmatic Tabs Test</strong>
+                    <p className="text-sm text-gray-500">
+                        Testing tabs that change automatically every 2 seconds. Current tab: {activeTab}
+                    </p>
+                </div>
+
+                <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value="tab1">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 1 - This will automatically change in 2 seconds
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 2 - This will automatically change in 2 seconds
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3">
+                        <div className="p-4 bg-gray-100 mt-2">
+                            Content for Tab 3 - This will automatically change in 2 seconds
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    );
+};
+
+export const DisabledTabs: Story = {
+    render: () => <DisabledTabsExample />
+};
+
+export const ManyTabs: Story = {
+    render: () => <ManyTabsExample />
+};
+
+export const NestedTabs: Story = {
+    render: () => <NestedTabsExample />
+};
+
+export const ProgrammaticTabs: Story = {
+    render: () => <ProgrammaticTabsExample />
+};
