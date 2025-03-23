@@ -26,7 +26,7 @@ const TabContent = ({ className = '', value, children, customRootClass }: TabCon
 
     const context = useContext(TabsRootContext);
     if (!context) throw new Error('TabContent must be used within a TabRoot');
-    const { value: activeValue } = context;
+    const { tabValue: activeValue } = context;
 
     if (activeValue !== value) {
         return null;

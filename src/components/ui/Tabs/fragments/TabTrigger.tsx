@@ -19,7 +19,7 @@ const TabTrigger = ({ value, children, className = '', ...props }: TabTriggerPro
     // use context
     const context = useContext(TabsRootContext);
     if (!context) throw new Error('TabTrigger must be used within a TabRoot');
-    const { value: activeValue, handleTabChange, rootClass } = context;
+    const { tabValue: activeValue, handleTabChange, rootClass } = context;
 
     const ref = useRef<HTMLButtonElement>(null);
 
@@ -30,10 +30,6 @@ const TabTrigger = ({ value, children, className = '', ...props }: TabTriggerPro
             ref.current?.focus();
         }
         handleTabChange(tabValue);
-
-        // This is a good way to manage flow, when a focus event is triggered, we can set the active tab to the tab that is being focused on
-        // This way, we dont need to keep track of the active tab in the parent component
-        // This should be the defacto pattern we should follow for all components
     };
 
     return (

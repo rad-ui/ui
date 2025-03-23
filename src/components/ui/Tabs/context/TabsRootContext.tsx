@@ -2,8 +2,7 @@ import { createContext } from 'react';
 
 export type TabsRootContextType = {
   rootClass: string;
-  value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  tabValue: string;
   handleTabChange: (value: string) => void;
 } | null;
 
