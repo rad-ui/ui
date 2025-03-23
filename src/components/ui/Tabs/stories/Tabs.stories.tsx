@@ -86,7 +86,7 @@ export const TabInTabOut: Story = {
 };
 
 // Dynamic Tabs example
-const DynamicTabsExample = () => {
+const DynamicUncontrolledTabsExample = () => {
     // Initialize with default placeholder tabs
     const [tabs, setTabs] = useState<string[]>(['placeholder1', 'placeholder2']);
     const [activeTab, setActiveTab] = useState<string>('placeholder1');
@@ -111,7 +111,6 @@ const DynamicTabsExample = () => {
             <div className="border shadow rounded-md p-4">
                 <Tabs.Root
                     defaultValue={activeTab}
-                    onValueChange={handleTabChange}
                 >
                     <Tabs.List>
                         {tabs.map((tab) => (
@@ -136,8 +135,8 @@ const DynamicTabsExample = () => {
     );
 };
 
-export const DynamicTabs: Story = {
-    render: () => <DynamicTabsExample />
+export const DynamicUncontrolledTabs: Story = {
+    render: () => <DynamicUncontrolledTabsExample />
 };
 
 // Controlled Tabs example (explicit state management)

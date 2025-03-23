@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
@@ -41,6 +41,12 @@ const TabRoot = ({
     const handleTabChange = (value: string) => {
         setTabValue(value);
     };
+
+    useEffect(() => {
+        if (defaultValue) {
+            handleTabChange(defaultValue);
+        }
+    }, [defaultValue]);
 
     const contextValues = {
         rootClass,
