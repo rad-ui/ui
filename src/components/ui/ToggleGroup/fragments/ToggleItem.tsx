@@ -1,31 +1,46 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
+/**
+ * Props for the ToggleItem component
+ * @typedef ToggleItemProps
+ */
 export type ToggleItemProps = {
+    /** Content to render inside the toggle item */
     children?: React.ReactNode;
+    /** Value associated with this toggle item, used for selection state */
     value?: any;
-    props?: any;
+    /** Additional props to pass to the underlying TogglePrimitive */
+    [key: string]: any;
 };
 
+/**
+ * Individual toggle item to be used within a ToggleGroup.
+ * Receives context from ToggleGroupRoot for selection state management
+ * and uses RovingFocusGroup.Item for keyboard navigation.
+ *
+ * @example
+ * <ToggleGroup.Root>
+ *   <ToggleItem value="bold">B</ToggleItem>
+ *   <ToggleItem value="italic">I</ToggleItem>
+ * </ToggleGroup.Root>
+ *
+ * @param {ToggleItemProps} props - Component props
+ * @returns {JSX.Element} The ToggleItem component
+ */
 const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
-    const { type, activeToggles, setActiveToggles, nextItem, previousItem } = useContext(ToggleContext);
+    const { type, activeToggles, setActiveToggles } = useContext(ToggleContext);
     const isActive = activeToggles?.includes(value);
 
-    const [isFocused, setIsFocused] = useState(false);
+    const ariaProps:Record<string, string> = {};
+    const dataProps:Record<string, string> = {};
 
-    const ariaProps:any = {};
-    const dataProps:any = {};
-
-    const handleFocus = () => {
-        setIsFocused(true);
-    };
-
-    const handleBlur = () => {
-        setIsFocused(false);
-    };
-
+    /**
+     * Handles the toggle selection/deselection based on the group type (single/multiple)
+     */
     const handleToggleSelect = () => {
         let activeToggleArray = activeToggles || [];
 
@@ -52,19 +67,7 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
         setActiveToggles(activeToggleArray);
     };
 
-    const handleKeyDown = (e:any) => {
-        if (e.key === 'ArrowRight') {
-            // prevent scrolling when pressing arrow keys
-            e.preventDefault();
-            nextItem();
-        }
-        if (e.key === 'ArrowLeft') {
-            // prevent scrolling when pressing arrow keys
-            e.preventDefault();
-            previousItem();
-        }
-    };
-
+    // Set appropriate ARIA and data attributes based on active state
     if (isActive) {
         ariaProps['aria-pressed'] = 'true';
         dataProps['data-active'] = 'true';
@@ -73,18 +76,14 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
         dataProps['data-active'] = 'false';
     }
 
-    return <TogglePrimitive
-        onClick={handleToggleSelect}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        {...ariaProps}
-        {...dataProps}
-        data-rad-ui-batch-element
-        onKeyDown={handleKeyDown}
-        {...isFocused ? { 'data-rad-ui-focus-element': '' } : {}}
-        {...props}
-
-    >{children}</TogglePrimitive>;
+    return <RovingFocusGroup.Item>
+        <TogglePrimitive
+            onClick={handleToggleSelect}
+            {...ariaProps}
+            {...dataProps}
+            {...props}
+        >{children}</TogglePrimitive>
+    </RovingFocusGroup.Item>;
 };
 
 export default ToggleItem;

@@ -6,6 +6,7 @@
 
     .rad-ui-accordion-item {
         background-color: var(--rad-ui-color-gray-50);
+
         // not last child
         &:not(:last-child){
             border-bottom: 1px solid var(--rad-ui-color-gray-1000);
@@ -17,6 +18,7 @@
             border: none;
             color:black;
         }
+
         &:focus-within{
             color: var(--rad-ui-color-gray-1000);
         }

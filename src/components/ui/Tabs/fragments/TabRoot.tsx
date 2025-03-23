@@ -1,46 +1,64 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
-import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+
+import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Tabs';
 
-const TabRoot = ({ children, defaultTab = '', customRootClass, tabs = [], className, color, ...props }: TabRootProps) => {
+export type TabRootProps = {
+    children: React.ReactNode;
+    customRootClass?: string;
+    className?: string;
+    value?: string;
+    color?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
+};
+
+const TabRoot = ({
+    children,
+    defaultValue = '',
+    onValueChange = () => {},
+    customRootClass = '',
+    value,
+    className,
+    color,
+    ...props
+}: TabRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const tabRef = useRef(null);
+    const [tabValue, setTabValue] = useControllableState<string>(
+        value,
+        defaultValue || '',
+        onValueChange
+    );
 
-    const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].value || '');
-
-    const nextTab = () => {
-        const batches = getAllBatchElements(tabRef?.current);
-        const nextItem = getNextBatchItem(batches);
-        nextItem.focus();
+    const handleTabChange = (value: string) => {
+        setTabValue(value);
     };
 
-    const previousTab = () => {
-        const batches = getAllBatchElements(tabRef?.current);
-        const prevItem = getPrevBatchItem(batches);
-        prevItem.focus();
-    };
+    useEffect(() => {
+        if (defaultValue) {
+            handleTabChange(defaultValue);
+        }
+    }, [defaultValue]);
 
     const contextValues = {
         rootClass,
-        activeTab,
-        setActiveTab,
-        nextTab,
-        previousTab,
-        tabs
+        tabValue,
+        handleTabChange
     };
 
     return (
-        <TabsRootContext.Provider
-            value={contextValues}>
-            <div ref={tabRef} className={clsx(rootClass, className)} data-accent-color={color} {...props} >
+        <TabsRootContext.Provider value={contextValues}>
+            <RovingFocusGroup.Root direction="horizontal" loop className={clsx(rootClass, className)} data-accent-color={color} {...props}>
                 {children}
-            </div>
+            </RovingFocusGroup.Root>
         </TabsRootContext.Provider>
     );
 };

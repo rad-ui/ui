@@ -15,11 +15,41 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
 
-        if (asChild && React.isValidElement(children)) {
-            return React.cloneElement(children, {
+        if (asChild) {
+            // Check if there's exactly one child and it's a valid element
+            const childrenArray = React.Children.toArray(children);
+            if (childrenArray.length !== 1 || !React.isValidElement(childrenArray[0])) {
+                console.warn(
+                    `Primitive.${elementType}: asChild prop requires exactly one valid child element.`
+                );
+                return React.createElement(elementType, { ...elementProps, ref }, children);
+            }
+
+            const child = childrenArray[0] as React.ReactElement;
+
+            // Merge refs if child already has one
+            // TODO: This can be made into a utility function
+            const mergedRef = (childRef: any) => {
+                if (typeof ref === 'function') ref(childRef);
+                else if (ref) ref.current = childRef;
+
+                // Access ref safely using type assertion
+                const childOriginalRef = (child as any).ref;
+                if (typeof childOriginalRef === 'function') childOriginalRef(childRef);
+                else if (childOriginalRef) (childOriginalRef as React.MutableRefObject<any>).current = childRef;
+            };
+
+            // Clone with proper type handling and proper prop merging
+            // We prioritize the child's props over elementProps
+            // TODO: Utilities for merging props and refs can be created and used here
+            return React.cloneElement(child, {
+                // Start with all the elementProps
                 ...elementProps,
-                ref
-            } as React.HTMLAttributes<HTMLElement>);
+                // Override with the child's own props to preserve them
+                ...child.props,
+                // Only forward ref if it exists
+                ...(ref ? { ref: mergedRef } : {})
+            });
         }
 
         return React.createElement(elementType, { ...elementProps, ref }, children);

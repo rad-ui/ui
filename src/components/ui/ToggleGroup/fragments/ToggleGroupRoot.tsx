@@ -1,43 +1,68 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
-import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, customRootClass = '', componentName = '', value = null, color = '', children }:any) => {
+/**
+ * Props for the ToggleGroupRoot component
+ * @typedef ToggleGroupRootProps
+ */
+interface ToggleGroupRootProps {
+    /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
+    type?: 'single' | 'multiple';
+    /** Additional CSS class names to apply */
+    className?: string;
+    /** Whether focus should loop from last to first and vice versa */
+    loop?: boolean;
+    /** Direction of the toggle group - affects keyboard navigation */
+    direction?: 'horizontal' | 'vertical';
+    /** Custom root class name to override default styling */
+    customRootClass?: string;
+    /** Name of the component for CSS class generation */
+    componentName?: string;
+    /** Initial value or values for the toggle group */
+    value?: any;
+    /** Accent color for the toggle group */
+    color?: string;
+    /** Child elements */
+    children?: React.ReactNode;
+}
+
+/**
+ * Root component for ToggleGroup that provides context and layout.
+ * Handles the state management for active toggles and provides accessibility
+ * features through RovingFocusGroup for keyboard navigation.
+ *
+ * @example
+ * <ToggleGroupRoot type="multiple" direction="horizontal">
+ *   <ToggleItem value="bold">B</ToggleItem>
+ *   <ToggleItem value="italic">I</ToggleItem>
+ * </ToggleGroupRoot>
+ *
+ * @param {ToggleGroupRootProps} props - Component props
+ * @returns {JSX.Element} The ToggleGroupRoot component
+ */
+const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
+    type = 'multiple',
+    className = '',
+    loop = true,
+    direction = 'horizontal',
+    customRootClass = '',
+    componentName = '',
+    value = null,
+    color = '',
+    children
+}) => {
     const rootClass = customClassSwitcher(customRootClass, componentName);
-    const toggleGroupRef = useRef(null);
+
     // value can be either a string or an array of strings
     // if its null, then no toggles are active
-
     const [activeToggles, setActiveToggles] = useState(value || []);
 
-    const nextItem = () => {
-        const currentRef = toggleGroupRef.current;
-        if (currentRef) {
-            const batches = getAllBatchElements(currentRef);
-            const nextItem = getNextBatchItem(batches, loop);
-            if (nextItem) {
-                (nextItem as HTMLElement)?.focus();
-            }
-        }
-    };
-
-    const previousItem = () => {
-        const currentRef = toggleGroupRef?.current;
-        if (currentRef) {
-            const batches = getAllBatchElements(currentRef);
-            const prevItem = getPrevBatchItem(batches, loop);
-            if (prevItem) {
-                (prevItem as HTMLElement)?.focus();
-            }
-        }
-    };
-
     const sendValues = {
-        nextItem,
-        previousItem,
         activeToggles,
         setActiveToggles,
         type
@@ -50,12 +75,13 @@ const ToggleGroupRoot = ({ type = 'multiple', className = '', loop = true, custo
     }
 
     return (
-        <div className={clsx(rootClass, className)} role="group" ref={toggleGroupRef} {...data_attributes}>
-            <ToggleContext.Provider
-                value={sendValues}>
-                {children}
-            </ToggleContext.Provider>
-        </div>
+        <ToggleContext.Provider value={sendValues}>
+            <RovingFocusGroup.Root loop={loop} direction={direction} >
+                <RovingFocusGroup.Group className={clsx(rootClass, className)} {...data_attributes}>
+                    {children}
+                </RovingFocusGroup.Group>
+            </RovingFocusGroup.Root>
+        </ToggleContext.Provider>
     );
 };
 

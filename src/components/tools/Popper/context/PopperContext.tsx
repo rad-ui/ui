@@ -1,5 +1,5 @@
 // TODO: use native floating.tsx instead of floating-ui/react
-import type { ArrowOptions, ElementProps, useDismiss, UseFloatingReturn, useHover, UseInteractionsReturn } from '@floating-ui/react';
+import type { UseFloatingReturn, UseInteractionsReturn, useDismiss, useHover } from '@floating-ui/react';
 import { useRole } from '@floating-ui/react';
 import { createContext } from 'react';
 

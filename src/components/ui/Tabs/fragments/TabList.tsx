@@ -1,25 +1,26 @@
 'use client';
 import React, { useContext } from 'react';
 import { clsx } from 'clsx';
-import TabTrigger from './TabTrigger';
-import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'TabList';
 
 export type TabListProps = {
-    tabs?: Tab[]
     className?: string;
-    customRootClass?: string;
-    setActiveTab: React.Dispatch<Tab>;
-    activeTab: TabProps;
+    children?: React.ReactNode;
 }
 
 const TabList = ({ className = '', children }: TabListProps) => {
-    const { rootClass } = useContext(TabsRootContext);
-    return <div role="tablist" aria-orientation='horizontal' aria-label="todo" className={clsx(`${rootClass}-list`, className)}>
+    const context = useContext(TabsRootContext);
+    if (!context) throw new Error('TabList must be used within a TabRoot');
+
+    const { rootClass } = context;
+
+    return <RovingFocusGroup.Group role="tablist" aria-orientation='horizontal' aria-label="todo" className={clsx(`${rootClass}-list`, className)}>
         {children}
-    </div>;
+    </RovingFocusGroup.Group>;
 };
 
 TabList.displayName = COMPONENT_NAME;

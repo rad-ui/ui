@@ -1,8 +1,10 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { forwardRef, PropsWithChildren, useEffect, useState } from 'react';
 import Button from '~/components/ui/Button/Button';
 import Separator from '~/components/ui/Separator/Separator';
 import Heading from '~/components/ui/Heading/Heading';
 import Text from '~/components/ui/Text/Text';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 import colors from '~/colors';
 
@@ -22,11 +24,11 @@ type ColorSelectProps = {color:typeof colors[keyof typeof colors], colorName: st
 
 const ColorSelect = ({ color, colorName, changeAccentColor }: ColorSelectProps) => {
     const dimensions = 32;
-    return <button
-        onClick={() => changeAccentColor(colorName)}
+    return <span
         aria-label={`Change accent color to ${colorName}`}
-        className='cursor-pointer rounded-full hover:border-gray-700 border'
-        style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></button>;
+        className='cursor-pointer rounded-full inline-flex'
+        style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}
+    ></span>;
 };
 
 type SandboxProps = {className?: string | ''} & PropsWithChildren
@@ -54,7 +56,7 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
                     <RadUILogo/>
                 </div>
                 <Separator orientation='vertical' />
-                <Button description="Click this button" variant="outline" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
+                <Button description="Click this button" variant="solid" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
             </div>
             <Separator />
             <div>
@@ -66,14 +68,25 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
                     </Text>
                 </div>
                 <Separator />
-                <div className='flex space-x-2 my-1'>
-                    {Object.keys(colors).map((color, idx) => {
-                        const colorName = color as AvailableColors;
-                        return <ColorSelect changeAccentColor={() => setColorName(colorName)} colorName={color} color={colors[colorName]} key={idx} />;
-                    }
-                    )}
+                <RovingFocusGroup.Root >
+                    <RovingFocusGroup.Group className='flex space-x-1 my-1'>
+                        {Object.keys(colors).map((color, idx) => {
+                            const colorName = color as AvailableColors;
+                            return <RovingFocusGroup.Item
+                                key={idx}
+                                className='cursor-pointer rounded-full inline-block w-8 h-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                                onFocus={() => setColorName(colorName)}
+                                onClick={() => setColorName(colorName)}
+                            >
+                                <button>
+                                    <ColorSelect colorName={color} color={colors[colorName]}/>
+                                </button>
+                            </RovingFocusGroup.Item>;
+                        }
+                        )}
+                    </RovingFocusGroup.Group>
 
-                </div>
+                </RovingFocusGroup.Root>
             </div>
         </div>
         <Separator/>

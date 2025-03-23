@@ -1,37 +1,25 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
 import TabList from './fragments/TabList';
 import TabTrigger from './fragments/TabTrigger';
 import TabContent from './fragments/TabContent';
 import TabRoot from './fragments/TabRoot';
 
-import { TabProps } from './types';
+// Empty props type - only supporting fragment exports
+export type TabsProps = React.HTMLAttributes<HTMLDivElement> & {
+    children?: React.ReactNode;
+};
 
-export type TabsProps = {
-    tabs?: TabProps[]
-    props?: Record<string, any>[]
-}
-
-const Tabs = ({ tabs = [], ...props }: TabsProps) => {
-    // This should be a value <`tabs.value`> that is passed in from the parent component
-
-    const defaultActiveTab = tabs[0].value || '';
-
-    return (
-        <TabRoot tabs={tabs} defaultTab={defaultActiveTab} >
-            <TabList>
-                {tabs.map((tab) => (
-                    <TabTrigger key={tab.value} tab={tab} />
-                ))}
-            </TabList>
-            <TabContent />
-        </TabRoot>
-    );
+// Empty implementation - we don't support direct usage
+const Tabs = () => {
+    console.warn('Direct usage of Tabs is not supported. Please use Tabs.Root, Tabs.List, etc. instead.');
+    return null;
 };
 
 Tabs.List = TabList;
 Tabs.Content = TabContent;
 Tabs.Root = TabRoot;
+Tabs.Trigger = TabTrigger;
 
 export default Tabs;

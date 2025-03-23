@@ -2,7 +2,7 @@ import Text from '@radui/ui/Text';
 import Heading from '@radui/ui/Heading';
 import Link from '@radui/ui/Link';
 import Separator from '@radui/ui/Separator';
-import Table from '@radui/ui/Table';
+import DocsTable from './helpers/DocsTable';
 
 import CodeBlock from '@/components/layout/Documentation/helpers/CodeBlock';
 import ComponentHero from '@/components/layout/Documentation/helpers/ComponentHero/ComponentHero';
@@ -19,8 +19,6 @@ const RightArrow = () => {
 };
 
 const Documentation = ({ title = '', description = '', currentPage = undefined, children }) => {
-
-
     return <div className='w-full max-w-screen-lg mx-auto'>
         <div>
             <div className='flex items-center space-x-4'>
@@ -31,18 +29,10 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
         <div className='mt-4'>
             {children}
         </div>
-        <Separator />
+        <Separator className="my-10" />
     </div>;
 };
 
-const DocsTable = ({ children, columns = [], data = [] }) => {
-    return <div className='mb-20'>
-        <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">API Documentation</Heading> </BookMarkLink>
-        <Table columns={columns} data={data} color="gray" >
-            {children}
-        </Table>
-    </div>;
-};
 
 const Anatomy = ({ code, language = 'jsx' }) => {
     return <div className='mt-10'>
@@ -78,8 +68,8 @@ const KeyboardShortcuts = ({ keyboardShortcuts }) => {
     return <div className='mt-10'>
         <BookMarkLink id="keyboard-shortcuts"> <Heading as="h2" className="mb-2">Keyboard Shortcuts</Heading> </BookMarkLink>
         <div className='mb-10'>
-        <Table columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} >
-        </Table>
+        {/* <Table columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} >
+        </Table> */}
         </div>
     </div>;
 };

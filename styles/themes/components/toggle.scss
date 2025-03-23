@@ -11,10 +11,9 @@
     align-items: center;
     justify-content: center;
     border: 0 none;
-
     outline: none;
 
-    &[data-state=on]{
+    &[data-state="on"]{
         background-color: var(--rad-ui-color-accent-900);
         color: white;
 

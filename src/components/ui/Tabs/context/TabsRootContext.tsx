@@ -1,5 +1,11 @@
 import { createContext } from 'react';
 
-const TabsRootContext = createContext(null);
+export type TabsRootContextType = {
+  rootClass: string;
+  tabValue: string;
+  handleTabChange: (value: string) => void;
+} | null;
+
+const TabsRootContext = createContext<TabsRootContextType>(null);
 
 export default TabsRootContext;

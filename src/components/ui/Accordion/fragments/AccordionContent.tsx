@@ -1,7 +1,10 @@
+'use client';
 import { clsx } from 'clsx';
 import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
+
+import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
 type AccordionContentProps = {
   children: React.ReactNode;
@@ -19,7 +22,8 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, cl
     return (
         itemValue !== activeItem
             ? null
-            : <div
+            : <CollapsiblePrimitive.Content
+                asChild
                 className={clsx(`${rootClass}-content`, className)}
                 id={`content-${index}`}
                 role="region"
@@ -29,7 +33,7 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, cl
 
                 {children}
 
-            </div>
+            </CollapsiblePrimitive.Content>
     );
 };
 
