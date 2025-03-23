@@ -21,7 +21,9 @@ export type TextProps = {
 const Text = ({ children, customRootClass = '', className = '', as = 'p', ...props }: TextProps) => {
     const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    if (!TAGS.includes(as)) as = 'p';
+    if (!TAGS.includes(as)) {
+        as = 'p';
+    }
 
     return React.createElement(
         as,
