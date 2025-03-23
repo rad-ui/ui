@@ -17,8 +17,14 @@ export type AlertDialogProps = {
 const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content } : AlertDialogProps) => {
     const [isOpen, setIsOpen] = useState(open);
 
+    // Update local state when parent state changes
+    const handleOpenChange = (newOpen: boolean) => {
+        setIsOpen(newOpen);
+        onOpenChange(newOpen);
+    };
+
     return (
-        <AlertDialogRoot open={isOpen} onOpenChange={onOpenChange}>
+        <AlertDialogRoot open={isOpen} onOpenChange={handleOpenChange}>
             <AlertDialogTrigger>
                 {children}
             </AlertDialogTrigger>
@@ -40,5 +46,13 @@ const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content 
         </AlertDialogRoot>
     );
 };
+
+AlertDialog.Root = AlertDialogRoot;
+AlertDialog.Content = AlertDialogContent;
+AlertDialog.Trigger = AlertDialogTrigger;
+AlertDialog.Portal = AlertDialogPortal;
+AlertDialog.Overlay = AlertDialogOverlay;
+AlertDialog.Cancel = AlertDialogCancel;
+AlertDialog.Action = AlertDialogAction;
 
 export default AlertDialog;

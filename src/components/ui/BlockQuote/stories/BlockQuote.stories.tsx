@@ -11,6 +11,9 @@ const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, 
  avoidance system, which increases availability.`;
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const Variants = []; // TODO
+const Sizes = ['small', 'medium', 'large', 'x-large'];
+
 export default {
     title: 'Components/BlockQuote',
     component: BlockQuote,
@@ -38,4 +41,39 @@ export const Color = {
     args: {
         color: 'blue'
     }
+};
+
+export const Size = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950'>BlockQuote Size</p>
+        </div>
+        <div>
+
+            <div className='mb-10'>
+                <span className="flex flex-col gap-3">
+                    {Sizes.map((size, index) => {
+                        return <BlockQuote key={index} size={size} >
+                            <div>{BLOCKQUOTE_TEXT} </div>
+                        </BlockQuote>;
+                    })}
+                </span>
+            </div>
+
+        </div>
+    </SandboxEditor>;
+};
+
+export const Variant = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950'>BlockQuote Variant</p>
+        </div>
+        <div className='flex flex-col gap-3'>
+            {/* TODO */}
+            <BlockQuote>
+                <div>{BLOCKQUOTE_TEXT}</div>
+            </BlockQuote>
+        </div>
+    </SandboxEditor>;
 };

@@ -68,14 +68,10 @@ code .selector {
 
 .background-animate {
   background-size: 400%;
-
-
-
   animation: AnimationName 10s ease infinite;
 }
 
 @keyframes AnimationName {
-
   0%,
   100% {
     background-position: 0% 50%;

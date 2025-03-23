@@ -10,13 +10,12 @@ const items = [
 
 describe('ToggleGroup component', () => {
     test('renders correctly', () => {
-        const { container } = render(<ToggleGroup items={items}/>);
+        const { container, getAllByText } = render(<ToggleGroup items={items}/>);
         expect(container.firstChild).toBeInTheDocument();
-        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
 
-        for (let i = 0; i < items.length; i++) {
-            expect(toggleGroupRoot.children[i]).toBeInTheDocument();
-        }
+        // Verify all items are rendered
+        const itemElements = getAllByText(/Item/);
+        expect(itemElements.length).toBe(items.length);
     });
 
     test('renders the correct number of ToggleItem components', () => {
@@ -25,69 +24,78 @@ describe('ToggleGroup component', () => {
     });
 
     test('ToggleGroup handles multiple selection', () => {
-        render(<ToggleGroup type="multiple" items={items}/>);
-        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
-        fireEvent.click(toggleGroupRoot.children[0]);
-        fireEvent.click(toggleGroupRoot.children[1]);
+        const { getByText } = render(<ToggleGroup type="multiple" items={items}/>);
 
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('aria-pressed', 'true');
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('data-active', 'true');
+        // Click on first two items
+        fireEvent.click(getByText('Item 1'));
+        fireEvent.click(getByText('Item 2'));
 
-        expect(toggleGroupRoot.children[1]).toHaveAttribute('aria-pressed', 'true');
-        expect(toggleGroupRoot.children[1]).toHaveAttribute('data-active', 'true');
+        // Check if they are pressed/active
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'true');
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-active', 'true');
 
-        expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'true');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-active', 'true');
+
+        // Third item should not be pressed
+        expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
     test('ToggleGroup handles multiple selection with variation in toggles', () => {
-        render(<ToggleGroup type="multiple" items={items}/>);
-        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
-        fireEvent.click(toggleGroupRoot.children[0]);
-        fireEvent.click(toggleGroupRoot.children[1]);
-        fireEvent.click(toggleGroupRoot.children[2]);
-        fireEvent.click(toggleGroupRoot.children[1]);
+        const { getByText } = render(<ToggleGroup type="multiple" items={items}/>);
 
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('aria-pressed', 'true');
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('data-active', 'true');
+        // Perform a series of clicks
+        fireEvent.click(getByText('Item 1'));
+        fireEvent.click(getByText('Item 2'));
+        fireEvent.click(getByText('Item 3'));
+        fireEvent.click(getByText('Item 2')); // Un-toggle the second item
 
-        expect(toggleGroupRoot.children[1]).toHaveAttribute('aria-pressed', 'false');
+        // Check the final state
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'true');
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-active', 'true');
 
-        expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'true');
-        expect(toggleGroupRoot.children[2]).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'false');
+
+        expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'true');
+        expect(getByText('Item 3').closest('button')).toHaveAttribute('data-active', 'true');
     });
 
     test('ToggleGroup handles single selection', () => {
-        render(<ToggleGroup type="single" items={items}/>);
-        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
-        fireEvent.click(toggleGroupRoot.children[0]);
+        const { getByText } = render(<ToggleGroup type="single" items={items}/>);
 
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('aria-pressed', 'true');
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('data-active', 'true');
+        // Click the first item
+        fireEvent.click(getByText('Item 1'));
 
-        expect(toggleGroupRoot.children[1]).toHaveAttribute('aria-pressed', 'false');
-        expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
+        // Check if it's pressed/active
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'true');
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-active', 'true');
+
+        // Others should not be pressed
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'false');
+        expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
     test('ToggleGroup handles single selection with variation in toggles', () => {
-        render(<ToggleGroup type="single" items={items}/>);
-        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
+        const { getByText } = render(<ToggleGroup type="single" items={items}/>);
 
-        fireEvent.click(toggleGroupRoot.children[0]);
-        fireEvent.click(toggleGroupRoot.children[1]);
-        fireEvent.click(toggleGroupRoot.children[2]);
-        fireEvent.click(toggleGroupRoot.children[1]);
+        // Perform a series of clicks
+        fireEvent.click(getByText('Item 1'));
+        fireEvent.click(getByText('Item 2'));
+        fireEvent.click(getByText('Item 3'));
+        fireEvent.click(getByText('Item 2')); // Select the second item again
 
-        expect(toggleGroupRoot.children[0]).toHaveAttribute('aria-pressed', 'false');
+        // Check final state
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'false');
 
-        expect(toggleGroupRoot.children[1]).toHaveAttribute('aria-pressed', 'true');
-        expect(toggleGroupRoot.children[1]).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'true');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-active', 'true');
 
-        expect(toggleGroupRoot.children[2]).toHaveAttribute('aria-pressed', 'false');
+        expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
     test('ToggleGroup color correctly', () => {
-        render(<ToggleGroup type="single" items={items} color='blue'/>);
-        const toggleGroupRoot = document.querySelector('.rad-ui-toggle-group');
+        const { container } = render(<ToggleGroup type="single" items={items} color='blue'/>);
+        const toggleGroupRoot = container.querySelector('.rad-ui-toggle-group');
 
         expect(toggleGroupRoot).toHaveAttribute('data-accent-color', 'blue');
     });

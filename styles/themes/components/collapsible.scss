@@ -1,5 +1,4 @@
 .rad-ui-collapsible-root{
-    
     width: 70%;
 
     .rad-ui-collapsible-header{
@@ -15,6 +14,7 @@
         &[data-state="collapsed"]{
             // add collapsed styles here
         }
+
         &[data-state="expanded"]{
             // add expanded styles here
         }
@@ -24,10 +24,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
         .rad-ui-collapsible-button{
             height: fit-content;
         }
     }
+
     .rad-ui-collapsible-item{
         padding: 10px;
         border: 1px solid var(--rad-ui-color-gray-1000);

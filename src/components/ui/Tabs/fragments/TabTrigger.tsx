@@ -1,63 +1,71 @@
 'use client';
 import React, { useContext, useRef } from 'react';
 import { clsx } from 'clsx';
-import { TabProps } from '../types';
+import { TabProps } from './TabContent';
 
-import TabsRootContext from '../context/TabsRootContext';
+import TabsRootContext, { TabsRootContextType } from '../context/TabsRootContext';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 export type TabTriggerProps = {
-    tab: TabProps;
-    setActiveTab: React.Dispatch<Tab>;
-    activeTab: TabProps;
+    tab?: TabProps;
     className?: string;
-    customRootClass?: string;
-    index: number;
-    props?: Record<string, any>[]
+    props?: Record<string, any>[];
+    value?: string;
+    children?: React.ReactNode;
+    disabled?: boolean;
 }
 
-const TabTrigger = ({ tab, className = '', ...props }: TabTriggerProps) => {
+const TabTrigger = ({ value, children, className = '', disabled, ...props }: TabTriggerProps) => {
     // use context
-    const { previousTab, nextTab, activeTab, setActiveTab, rootClass } = useContext(TabsRootContext);
+    const context = useContext(TabsRootContext);
+    if (!context) throw new Error('TabTrigger must be used within a TabRoot');
+    const { tabValue: activeValue, handleTabChange, rootClass } = context;
+
     const ref = useRef<HTMLButtonElement>(null);
 
-    const isActive = activeTab === tab.value;
+    const isActive = value === activeValue;
 
-    const handleClick = (tab: TabProps) => {
-        setActiveTab(tab.value);
-    };
+    const handleFocus = (tabValue: string) => {
+        if (disabled) return; // Don't handle focus events when disabled
 
-    const handleKeyDownEvent = (e: React.KeyboardEvent) => {
-        if (e.key == 'ArrowLeft') {
-            previousTab();
-        }
-        if (e.key == 'ArrowRight') {
-            nextTab();
-        }
-    };
-
-    const handleFocus = (tab: TabProps) => {
         if (ref.current) {
             ref.current?.focus();
         }
-        setActiveTab(tab.value);
+        handleTabChange(tabValue);
+    };
 
-        // This is a good way to manage flow, when a focus event is triggered, we can set the active tab to the tab that is being focused on
-        // This way, we dont need to keep track of the active tab in the parent component
-        // This should be the defacto pattern we should follow for all components
+    // Add explicit click handler
+    const handleClick = (e: React.MouseEvent) => {
+        if (disabled) return; // Don't handle click events when disabled
+
+        if (value) {
+            handleTabChange(value);
+        }
     };
 
     return (
-        <button
-            ref={ref}
-            role="tab" className={clsx(`${rootClass}-trigger`, `${isActive ? 'active' : ''}`, className)} {...props} onKeyDown={handleKeyDownEvent}
-            onClick={() => handleClick(tab)}
-            onFocus={() => handleFocus(tab)}
-            tabIndex={isActive ? 0 : -1}
-            data-rad-ui-batch-element
-
+        <RovingFocusGroup.Item
+            onFocus={() => value && !disabled && handleFocus(value)}
         >
-            {tab.label}
-        </button>
+            <button
+                ref={ref}
+                onClick={handleClick}
+                className={clsx(
+                    `${rootClass}-trigger`,
+                    isActive ? 'active' : '',
+                    disabled ? 'disabled' : '',
+                    className
+                )}
+                role="tab"
+                aria-selected={isActive}
+                aria-disabled={disabled}
+                disabled={disabled}
+                {...props}
+            >
+                {children}
+            </button>
+        </RovingFocusGroup.Item>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';

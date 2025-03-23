@@ -1,31 +1,39 @@
 'use client';
 import React, { useContext } from 'react';
 import { customClassSwitcher } from '~/core';
-import { TabProps } from '../types';
 import TabsRootContext from '../context/TabsRootContext';
 import { clsx } from 'clsx';
+
 const COMPONENT_NAME = 'TabContent';
 
-export type TabContentProps ={
+export type TabProps = {
+    label: string;
+    value: string;
+    content: React.ReactNode;
+};
+
+export type TabContentProps = {
     tabs?: TabProps[]
-    activeTab: TabProps
+    activeTab?: TabProps
     className?: string;
     customRootClass?: string;
+    value?: string;
+    children?: React.ReactNode;
 }
 
-const TabContent = ({ className, customRootClass }: TabContentProps) => {
+const TabContent = ({ className = '', value, children, customRootClass }: TabContentProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const { tabs, activeTab, setActiveTab } = useContext(TabsRootContext);
+    const context = useContext(TabsRootContext);
+    if (!context) throw new Error('TabContent must be used within a TabRoot');
+    const { tabValue: activeValue } = context;
+
+    if (activeValue !== value) {
+        return null;
+    }
 
     return <div className={clsx(rootClass, className)}>
-        {tabs.map((tab, index) => {
-            if (tab.value === activeTab) {
-                return <div key={index}>{tab.content}</div>;
-            }
-            return null;
-        })
-        }
+        {children}
     </div>;
 };
 
