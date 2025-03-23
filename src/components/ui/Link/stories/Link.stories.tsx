@@ -2,7 +2,7 @@ import React from 'react';
 import Link, { LinkProps } from '../Link';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-const Sizes = ['small', 'medium', 'large', 'x-large']
+const Sizes = ['small', 'medium', 'large', 'x-large'];
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -30,11 +30,11 @@ export const Size = () => {
             <p className='text-gray-950'>Link Size</p>
         </div>
         <div>
-              <div className='flex flex-col'>
-                        {Sizes.map((size, index) => {
-                            return <Link key={index} href= 'https://www.google.com' size={size}>Hello</Link>;
-                        })}
-               </div>
+            <div className='flex flex-col'>
+                {Sizes.map((size, index) => {
+                    return <Link key={index} href= 'https://www.google.com' size={size}>Hello</Link>;
+                })}
+            </div>
 
         </div>
     </SandboxEditor>;

@@ -18,9 +18,9 @@ export type LinkProps = {
 // TODO: in the previous return value
 // return <a href={href} alt={alt} className={clsx(rootClass, className)} {...props}>{children}</a>;
 // 'alt' prop does not exist on an anchor element
-const Link = ({ children, href = '#', customRootClass, className, size= '', ...props }: LinkProps) => {
+const Link = ({ children, href = '#', customRootClass, className, size = '', ...props }: LinkProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const dataAttributes = useCreateDataAttribute('link', { size })
+    const dataAttributes = useCreateDataAttribute('link', { size });
 
     return <a href={href} className={clsx(rootClass, className)} {...dataAttributes()} {...props}>{children}</a>;
 };
