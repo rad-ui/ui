@@ -20,7 +20,6 @@ describe('Disclosure', () => {
         });
     });
 
-
     test('shows content when an item is clicked', () => {
         render(<Disclosure items={items} />);
         fireEvent.click(screen.getByText('Item 1'));
@@ -33,6 +32,4 @@ describe('Disclosure', () => {
         fireEvent.click(button);
         expect(screen.getByText('Content 1')).not.toHaveAttribute('');
     });
-
-  
 });
