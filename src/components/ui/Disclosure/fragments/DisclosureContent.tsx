@@ -16,15 +16,14 @@ const DisclosureContent = ({ children, className = '' }:DisclosureContentProps) 
     return (
         itemValue !== activeItem
             ? null
-            :
-        <CollapsiblePrimitive.Content
-            className={clsx(`${rootClass}-content`, className)}
-          
-            role="region"
-            aria-hidden={activeItem !== itemValue}
-        >
-            {children}
-       </CollapsiblePrimitive.Content>
+            : <CollapsiblePrimitive.Content
+                className={clsx(`${rootClass}-content`, className)}
+
+                role="region"
+                aria-hidden={activeItem !== itemValue}
+            >
+                {children}
+            </CollapsiblePrimitive.Content>
     );
 };
 
