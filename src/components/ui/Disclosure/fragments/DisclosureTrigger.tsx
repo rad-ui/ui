@@ -14,13 +14,21 @@ const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
     const { activeItem, setActiveItem, rootClass } = useContext(DisclosureContext);
     const { itemValue } = useContext(DisclosureItemContext);
 
+    const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (activeItem === itemValue) {
+            setActiveItem(null);
+        } else if (activeItem !== itemValue) {
+            setActiveItem(itemValue);
+        }
+    };
+
     return (
         <RovingFocusGroup.Item>
             <CollapsiblePrimitive.Trigger asChild>
                 <button
                     type='button'
                     className={clsx(`${rootClass}-trigger`, className)}
-
+                    onClick={onClickHandler}
                     aria-expanded={activeItem === itemValue}
                     aria-haspopup='true'
                 >
