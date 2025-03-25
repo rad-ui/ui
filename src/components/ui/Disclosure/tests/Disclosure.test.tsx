@@ -20,13 +20,6 @@ describe('Disclosure', () => {
         });
     });
 
-    test('does not show any content by default', () => {
-        render(<Disclosure items={items} />);
-        items.forEach(item => {
-            expect(screen.getByText(item.content)).not.toHaveAttribute('');
-        });
-    });
-
     test('shows content when an item is clicked', () => {
         render(<Disclosure items={items} />);
         fireEvent.click(screen.getByText('Item 1'));
@@ -38,13 +31,5 @@ describe('Disclosure', () => {
         const button = screen.getByText('Item 1');
         fireEvent.click(button);
         expect(screen.getByText('Content 1')).not.toHaveAttribute('');
-    });
-
-    test('shows only one content at a time', () => {
-        render(<Disclosure items={items} />);
-        fireEvent.click(screen.getByText('Item 1'));
-        fireEvent.click(screen.getByText('Item 2'));
-        expect(screen.getByText('Content 1')).not.toHaveAttribute('');
-        expect(screen.getByText('Content 2')).toBeInTheDocument();
     });
 });

@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
+import CollapsiblePrimitive from '~/core/primitives/Collapsible';
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 export type DisclosureTriggerProps = {
     children: React.ReactNode;
@@ -9,44 +11,32 @@ export type DisclosureTriggerProps = {
 }
 
 const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
-    const { activeItem, setActiveItem, rootClass, focusNextItem, focusPrevItem } = useContext(DisclosureContext);
-    const { itemValue, handleBlurEvent, handleClickEvent, handleFocusEvent } = useContext(DisclosureItemContext);
+    const { activeItem, setActiveItem, rootClass } = useContext(DisclosureContext);
+    const { itemValue } = useContext(DisclosureItemContext);
 
-    const handleDisclosure = () => {
-        setActiveItem(activeItem === itemValue ? null : itemValue);
-        handleClickEvent();
-    };
-
-    const onFocusHandler = () => {
-        handleFocusEvent();
+    const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (activeItem === itemValue) {
+            setActiveItem(null);
+        } else if (activeItem !== itemValue) {
+            setActiveItem(itemValue);
+        }
     };
 
     return (
+        <RovingFocusGroup.Item>
+            <CollapsiblePrimitive.Trigger asChild>
+                <button
+                    type='button'
+                    className={clsx(`${rootClass}-trigger`, className)}
+                    onClick={onClickHandler}
+                    aria-expanded={activeItem === itemValue}
+                    aria-haspopup='true'
+                >
 
-        <button
-            type='button'
-            className={clsx(`${rootClass}-trigger`, className)}
-            onClick={handleDisclosure}
-            onBlur={handleBlurEvent}
-            onFocus={onFocusHandler}
-            onKeyDown={(e) => {
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    focusNextItem();
-                }
-
-                if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    focusPrevItem();
-                }
-            }}
-            aria-expanded={activeItem === itemValue}
-            aria-haspopup='true'
-        >
-
-            {children}
-        </button>
-
+                    {children}
+                </button>
+            </CollapsiblePrimitive.Trigger>
+        </RovingFocusGroup.Item>
     );
 };
 

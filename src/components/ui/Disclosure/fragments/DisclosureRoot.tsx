@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
-import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Disclosure';
 
@@ -19,29 +20,6 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
-    const [focusItem, setFocusItem] = useState<HTMLElement | null>(null);
-
-    const focusNextItem = () => {
-        const batches = getAllBatchElements(disclosureRef.current!);
-        const nextItem = getNextBatchItem(batches);
-        setFocusItem(nextItem as HTMLElement);
-
-        if (nextItem) {
-            const button = nextItem.querySelector('button');
-            button?.focus();
-        }
-    };
-
-    const focusPrevItem = () => {
-        const batches = getAllBatchElements(disclosureRef?.current!);
-        const prevItem = getPrevBatchItem(batches);
-        setFocusItem(prevItem as HTMLElement);
-
-        if (prevItem) {
-            const button = prevItem.querySelector('button');
-            button?.focus();
-        }
-    };
 
     return (
 
@@ -50,24 +28,24 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
                 rootClass,
                 activeItem,
                 setActiveItem,
-                disclosureRef,
-                focusNextItem,
-                focusPrevItem,
-                focusItem,
-                setFocusItem
+                disclosureRef
 
             }}>
+            <RovingFocusGroup.Root>
+                <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)}>
+                    <div
+                        className={clsx(`${rootClass}-root`)}
+                        ref={disclosureRef}
+                        role="region"
+                        aria-label={ariaLabel}
+                        data-testid='disclosure-root'
+                    >
 
-            <div
-                className={clsx(`${rootClass}-root`)}
-                ref={disclosureRef}
-                role="region"
-                aria-label={ariaLabel}
-                data-testid='disclosure-root'
-            >
+                        {children}
+                    </div>
+                </RovingFocusGroup.Group>
+            </RovingFocusGroup.Root>
 
-                {children}
-            </div>
         </DisclosureContext.Provider>
     );
 };
