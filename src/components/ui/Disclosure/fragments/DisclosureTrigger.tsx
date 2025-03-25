@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
+import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
 export type DisclosureTriggerProps = {
     children: React.ReactNode;
@@ -22,7 +23,7 @@ const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
     };
 
     return (
-
+        <CollapsiblePrimitive.Trigger asChild>
         <button
             type='button'
             className={clsx(`${rootClass}-trigger`, className)}
@@ -46,7 +47,7 @@ const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
 
             {children}
         </button>
-
+        </CollapsiblePrimitive.Trigger>
     );
 };
 

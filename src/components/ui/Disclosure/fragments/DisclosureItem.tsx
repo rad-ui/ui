@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState, useId } from 'react';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
 import { clsx } from 'clsx';
+import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
 export type DisclosureItemProps = {
     children: React.ReactNode;
@@ -60,6 +61,10 @@ const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps)
                 handleClickEvent,
                 handleFocusEvent
             }}>
+            <CollapsiblePrimitive.Root
+                            open={isOpen}
+                            asChild
+                        >
             <div
                 className={clsx(`${rootClass}-item`, className)}
                 ref={disclosureItemRef}
@@ -74,6 +79,7 @@ const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps)
                 {children}
 
             </div>
+            </CollapsiblePrimitive.Root>
         </DisclosureItemContext.Provider>
     );
 };
