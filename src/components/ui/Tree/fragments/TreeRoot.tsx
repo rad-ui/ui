@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 
 import { TreeContext } from '../contexts/TreeContext';
-import { getAllBatchElements, getNextBatchItem, getPrevBatchItem } from '~/core/batches';
+
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import Primitive from '~/core/primitives/Primitive';
 
 type TreeRootProps = {
     children: React.ReactNode;
@@ -10,24 +12,19 @@ type TreeRootProps = {
 
 const TreeRoot = ({ children, ...props }: TreeRootProps) => {
     const treeRef = useRef(null);
-    const moveUp = () => {
-        const batches = getAllBatchElements(treeRef?.current);
-        console.log(batches);
-        const prevItem = getPrevBatchItem(batches);
-        return prevItem;
-    };
-    const moveDown = () => {
-        const batches = getAllBatchElements(treeRef?.current);
-        console.log(batches);
-        const nextItem = getNextBatchItem(batches);
-        return nextItem;
-    };
+
     return (
-        <TreeContext.Provider value={{ treeRef, moveUp, moveDown }}>
-            <div
-                {...props}
-                ref={treeRef}
-            >{children}</div>
+        <TreeContext.Provider value={{}}>
+            <RovingFocusGroup.Root direction='vertical'>
+                <RovingFocusGroup.Group>
+                    <Primitive.div
+                        {...props}
+                        ref={treeRef}
+                    >{children}</Primitive.div>
+                </RovingFocusGroup.Group>
+
+            </RovingFocusGroup.Root>
+
         </TreeContext.Provider>
     );
 };
