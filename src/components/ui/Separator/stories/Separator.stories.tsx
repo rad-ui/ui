@@ -45,7 +45,7 @@ export const Size = () => {
         <div>
             <div className='flex flex-col'>
                 {Sizes.map((size, index) => {
-                    return <div>
+                    return <div className='w-full'>
                           <Separator key={index} size={size} />
                           </div>
                 })}
@@ -53,3 +53,39 @@ export const Size = () => {
        </div>
     </SandboxEditor>;
 };
+
+const HorizontalTemplate = () => {
+      return (
+        <SandboxEditor>
+            <div>
+            <p className='text-gray-950 my-3'>Horizontal Separator</p>
+                <div className={textClasses}>Step 1</div>
+                <Separator/>
+                <div className={textClasses}>Step 2</div>
+                <Separator />
+                <div className={textClasses}>Step 3</div>
+            </div>
+        </SandboxEditor>
+      )
+}
+    
+export const Horizontal = HorizontalTemplate.bind({})
+
+const VerticalTemplate = () => {
+    return (
+      <SandboxEditor>
+          <div>
+          <p className='text-gray-950 my-3'>Vertical Separator</p>
+          <div className='flex items-center'>
+                <div className={textClasses}>Home</div>
+                <Separator orientation='vertical'/>
+                <div className={textClasses}>About</div>
+                <Separator orientation='vertical'/>
+                <div className={textClasses}>Contact</div>
+            </div>
+          </div>
+      </SandboxEditor>
+    )
+}
+  
+export const Vertical = VerticalTemplate.bind({})

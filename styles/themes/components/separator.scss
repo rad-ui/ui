@@ -4,19 +4,19 @@
     align-self: stretch;
    
     &[data-separator-size="small"]{
-        width: 100px;
+       max-width: 24rem;
     }
 
     &[data-separator-size="medium"]{
-        width: 200px;
+        max-width: 28rem;
     }
 
     &[data-separator-size="large"]{
-        width: 300px;
+        max-width: 32rem;
     }
 
     &[data-separator-size="x-large"]{
-        width: 500px;
+        max-width: 36rem;
     }
 }
 
