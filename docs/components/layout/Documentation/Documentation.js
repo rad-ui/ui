@@ -8,6 +8,7 @@ import CodeBlock from '@/components/layout/Documentation/helpers/CodeBlock';
 import ComponentHero from '@/components/layout/Documentation/helpers/ComponentHero/ComponentHero';
 import ComponentFeatures from '@/components/layout/Documentation/helpers/ComponentFeatures/ComponentFeatures';
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
+import KeyboardInteractionsTable from './helpers/KeyboardInteractionsTable';
 
 
 const LeftArrow = () => {
@@ -65,13 +66,7 @@ const UnderConstruction = ({ children }) => {
 };
 
 const KeyboardShortcuts = ({ keyboardShortcuts }) => {
-    return <div className='mt-10'>
-        <BookMarkLink id="keyboard-shortcuts"> <Heading as="h2" className="mb-2">Keyboard Shortcuts</Heading> </BookMarkLink>
-        <div className='mb-10'>
-        {/* <Table columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} >
-        </Table> */}
-        </div>
-    </div>;
+    return <KeyboardInteractionsTable columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 };
 
 Documentation.UnderConstruction = UnderConstruction;

@@ -15,8 +15,6 @@ import codeUsage, { SwitchTable } from "./docs/codeUsage"
             <Documentation.ComponentHero codeUsage={codeUsage}>
                 <Switch>On</Switch>
             </Documentation.ComponentHero>
-            <div className="max-w-screen-md">
-                <Documentation.Table columns={SwitchTable.columns} data={SwitchTable.data} />
-            </div>
-            {/* <Documentation.UnderConstruction/> */}
+
+            <Documentation.Table columns={SwitchTable.columns} data={SwitchTable.data} />
         </Documentation>
