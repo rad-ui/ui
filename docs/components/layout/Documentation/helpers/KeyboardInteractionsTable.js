@@ -4,10 +4,9 @@ import { BookMarkLink } from '@/components/layout/Documentation/utils';
 import Heading from '@radui/ui/Heading';
 
 
-const DocsTable = ({ title = 'API Documentation', columns = [], data = [] }) => {
-    return <div>
-        <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">{title}</Heading> </BookMarkLink>
-
+const KeyboardInteractionsTable = ({ title = 'Keyboard Interactions', columns = [], data = [] }) => {
+    return <div className='my-10'>
+        <BookMarkLink id="keyboard-interactions"> <Heading as="h6" className="mb-4">{title}</Heading> </BookMarkLink>
         <Table.Root>
             <Table.Head>
                 <Table.Row>
@@ -29,4 +28,4 @@ const DocsTable = ({ title = 'API Documentation', columns = [], data = [] }) => 
     </div>
 }
 
-export default DocsTable;
+export default KeyboardInteractionsTable;
