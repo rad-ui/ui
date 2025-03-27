@@ -1,23 +1,14 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+// const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/em.scss');
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/em/docs/EmExample.tsx');
+
 const code = {
     javascript: {
-        code: `import Em from "@radui/ui/Em"
-
-const EmExample = () => (
-    <div>
-        <Text>
-            I have a dream of a scene between the green hills.
-            <br />
-            <Em>Clouds</Em> pull away and the sunlight's revealed.
-            <br />
-            People don't talk about keeping it <Em>real</Em>.
-            <br />
-            <Em>It's understood</Em> that they actually will.
-        </Text>
-    </div>
-)`
+        code: example_1_SourceCode,
     },
     css: {
-        code: `todo`
+        code: 'todo'
     },
 }
 

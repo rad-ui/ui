@@ -12,9 +12,7 @@ const TextExample = () => (
         code: `.rad-ui-text{
     font-size: 16px;
     line-height: 24px;
-}
-
-
+    }
 `
     },
 }
