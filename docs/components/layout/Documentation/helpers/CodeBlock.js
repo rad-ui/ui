@@ -38,7 +38,7 @@ const CodeBlock = ({ children, language = 'jsx' }) => {
         .trim(); // Remove leading/trailing whitespace
     
     return (
-        <pre className="relative">
+        <pre className="relative mb-8">
             <code className={`language-${language} whitespace-pre-wrap`} style={{ wordBreak: 'break-word' }}>{code}</code>
            <span className="absolute top-2 right-2">
            <Tooltip label="Copy" placement="bottom">

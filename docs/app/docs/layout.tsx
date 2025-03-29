@@ -18,9 +18,12 @@ const Layout = ({  children }: Doc) => {
             </div>
             <div className='text-gray-1000 flex flex-col overflow-y-auto flex-1' id="docs-content">
                 <div className=' p-4 md:mx-auto md:max-w-[1440px] w-full'>
+                    <div className="w-full max-w-screen-lg mx-auto">
                     <PageDetails  />
                     {children}
                     <EditPageOnGithub />
+                    </div>
+                   
                 </div>
             </div>
         </div>

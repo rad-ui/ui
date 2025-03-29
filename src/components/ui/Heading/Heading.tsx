@@ -3,47 +3,46 @@ import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 
-const RENDER_AS_ENUMS = [
-    {
-        label: 'H1',
-        tag: 'h1'
-    },
-    {
-        label: 'H2',
-        tag: 'h2'
-    },
-    {
-        label: 'H3',
-        tag: 'h3'
-    },
-    {
-        label: 'H4',
-        tag: 'h4'
-    },
-    {
-        label: 'H5',
-        tag: 'h5'
-    },
-    {
-        label: 'H6',
-        tag: 'h6'
-    }
-];
+export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
+/**
+ * Heading component that renders HTML heading elements (h1-h6)
+ * with customizable styling.
+ */
 export type HeadingProps = {
-    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+    /** HTML heading tag to render */
+    as?: HeadingTag;
+    /** Custom root class for specialized styling */
     customRootClass?: string;
+    /** Additional class names to apply */
     className?: string;
+    /** Content of the heading */
     children?: React.ReactNode;
-    props?: any;
+} & React.HTMLAttributes<HTMLHeadingElement>;
+
+/**
+ * Renders a heading element with customizable tag and styling
+ */
+const Heading = ({
+    children,
+    as = 'h1',
+    customRootClass = '',
+    className = '',
+    ...props
+}: HeadingProps) => {
+    const rootClass = customClassSwitcher(customRootClass, as);
+
+    // Check if the heading tag is valid
+    if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as)) {
+        as = 'h1';
+    }
+
+    return React.createElement(as, {
+        className: clsx(rootClass, className),
+        ...props
+    }, children);
 };
 
-const Heading = ({ children, as = 'h1', customRootClass = '', className = '', ...props }: HeadingProps) => {
-    const rootClass = customClassSwitcher(customRootClass, as || 'h1');
-
-    const tag = RENDER_AS_ENUMS.find((item) => item.tag === as) ? as : 'h1';
-    return React.createElement(tag, { className: clsx(rootClass, className), ...props }, children);
-};
 Heading.displayName = 'Heading';
 
 export default Heading;
