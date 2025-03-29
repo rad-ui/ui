@@ -1,10 +1,8 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
 import codeUsage, { BlockQuoteTable } from "./docs/codeUsage"
 import BlockQuote from "@radui/ui/BlockQuote"
-import { code as variantCodeUsage } from './docs/variantCodeUsage';
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import { code as colorCodeUsage } from './docs/colorCodeUsage';
-import BlockQuoteVariants from './examples/BlockQuoteVariants';
 import BlockQuoteSizes from './examples/BlockQuoteSizes';
 import BlockQuoteColor from './examples/BlockQuoteColor';
 
@@ -19,12 +17,6 @@ import BlockQuoteColor from './examples/BlockQuoteColor';
                     
             </Documentation.ComponentHero>
             
-           
-
-            <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
-                <BlockQuoteVariants />
-            </Documentation.ComponentHero>
-  
 
             <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
                 <BlockQuoteSizes />
