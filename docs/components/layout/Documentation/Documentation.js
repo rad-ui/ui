@@ -20,7 +20,7 @@ const RightArrow = () => {
 };
 
 const Documentation = ({ title = '', description = '', currentPage = undefined, children }) => {
-    return <div className='w-full max-w-screen-lg mx-auto'>
+    return <div>
         <div>
             <div className='flex items-center space-x-4'>
                 <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
