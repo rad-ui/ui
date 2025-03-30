@@ -2,8 +2,6 @@ import { Meta } from '@storybook/react';
 import React, { useState } from 'react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Collapsible from '~/components/ui/Collapsible/Collapsible';
-import Button from '../../Button/Button';
-import CollapsibleItem from '../fragments/CollapsibleItem';
 
 const Items = [
     {
@@ -36,16 +34,6 @@ export const Default = () => {
                             Trigger
                         </div>
                     </Collapsible.Trigger>
-
-                    <div className="bg-gray-200 p-4 rounded-md mt-4">
-                            I have a dream of a scene between the green hills
-                            Clouds pull away and the sunlight's revealed
-                            People don't talk about keeping it real
-                            It's understood that they actually will
-                            And intoxicated and stimulated MCs
-                            Staring in the trees, paranoid, are gone in the breeze
-
-                    </div>
 
                     <Collapsible.Content className="space-y-2">
                         <div>
