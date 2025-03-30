@@ -16,7 +16,7 @@ type CollapsibleTriggerProps = {
 const CollapsibleTrigger = ({ children, className, ...props }: CollapsibleTriggerProps) => {
     const { rootClass } = useContext(CollapsibleContext);
     const triggerClass = rootClass ? `${rootClass}-trigger` : '';
-    return <CollapsiblePrimitive.Trigger {...props} className={clsx(triggerClass, className)}>{children}</CollapsiblePrimitive.Trigger>;
+    return <CollapsiblePrimitive.Trigger className={clsx(triggerClass, className)} {...props}>{children}</CollapsiblePrimitive.Trigger>;
 };
 
 export default CollapsibleTrigger;
