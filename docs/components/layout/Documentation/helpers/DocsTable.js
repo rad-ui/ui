@@ -5,9 +5,10 @@ import Heading from '@radui/ui/Heading';
 
 
 const DocsTable = ({ title = 'API Documentation', columns = [], data = [] }) => {
-    return <div>
-        <BookMarkLink id="api-documentation"> <Heading as="h6" className="mb-4">{title}</Heading> </BookMarkLink>
-
+    return <div className="my-10">
+        <div className="mb-4">
+            <BookMarkLink id="api-documentation"> <Heading as="h6">{title}</Heading> </BookMarkLink>
+        </div>
         <Table.Root>
             <Table.Head>
                 <Table.Row>
