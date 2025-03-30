@@ -1,33 +1,16 @@
 import clsx from 'clsx';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { CollapsibleContext } from '../contexts/CollapsibleContext';
+import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
 const COMPONENT_NAME = 'Collapsible';
 
-export type CollapsibleRootProps = {
-  children: React.ReactNode;
-  customRootClass?: string;
-  open: boolean;
-  onOpenChange: Dispatch<SetStateAction<boolean>>;
-  className?: string
-  disabled?: boolean
-};
-
-const CollapsibleRoot = ({ children, className = '', disabled, customRootClass, open, onOpenChange }: CollapsibleRootProps) => {
+const CollapsibleRoot = ({ children, className = '', transitionDuration = 0, disabled, customRootClass, open, defaultOpen, onOpenChange }: CollapsibleRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
-    return (
-        <CollapsibleContext.Provider
-            value={{
-                rootClass,
-                open,
-                onOpenChange,
-                disabled
-            }}
-        ><div className={clsx(`${rootClass}-root`, className)}>
-                {children}</div></CollapsibleContext.Provider>
-    );
+    return <CollapsibleContext.Provider value={{ rootClass }}>
+        <CollapsiblePrimitive.Root className={clsx(rootClass, className)} defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} disabled={disabled} transitionDuration={transitionDuration}>{children}</CollapsiblePrimitive.Root>
+    </CollapsibleContext.Provider>;
 };
 
 export default CollapsibleRoot;
