@@ -7,7 +7,7 @@ const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/componen
 
 
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/accordion.scss');
-const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/accordion_anatomy.tsx');
+const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/anatomy.tsx');
 
 export const code = {
     javascript: {
