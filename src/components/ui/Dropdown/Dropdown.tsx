@@ -1,5 +1,4 @@
 import React from 'react';
-import Popper from '~/components/tools/Popper/Popper';
 
 // TODO: fix any
 export type DropdownProps ={
@@ -16,9 +15,9 @@ const Dropdown = ({ list = [], selected }: DropdownProps) => {
         </ul>;
     };
     return <div className='relative'>
-        <Popper open={false} placement="bottom-start" popperName="dropdown" pop={<PopElem/>}>
-            <span>Dropdown</span>
-        </Popper>
+
+        <span>Dropdown</span>
+
     </div>;
 };
 

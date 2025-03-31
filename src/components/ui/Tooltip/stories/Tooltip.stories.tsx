@@ -19,11 +19,16 @@ type Story = StoryObj<typeof Tooltip>;
 export const Basic: Story = {
     render: () => (
         <SandboxEditor>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center gap-3">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center gap-3 p-[200px]">
                 {placement.map((p) => (
-                    <Tooltip label={p} placement={p} key={p} className='capitalize border border-neutral-600 p-4 rounded-md'>
-                        <span>{p}</span>
-                    </Tooltip>
+                    <Tooltip.Root key={p} placement={p}>
+                        <Tooltip.Trigger asChild>
+                            <button className='bg-red-500'>Trigger</button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>
+                            <p>{p}</p>
+                        </Tooltip.Content>
+                    </Tooltip.Root>
                 ))}
             </div>
         </SandboxEditor>
