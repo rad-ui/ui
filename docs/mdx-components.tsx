@@ -34,7 +34,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <Text className="text-gray-1000 inline-block font-bold" >{children}</Text>
     ),
     code: ({ children }) => (
-      <Documentation.CodeBlock>
+      <Documentation.CodeBlock inline>
         {children}
       </Documentation.CodeBlock>
     ),

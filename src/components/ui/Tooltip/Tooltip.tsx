@@ -1,25 +1,17 @@
+'use client';
 import React from 'react';
-import Popper, { PopperProps } from '~/components/tools/Popper/Popper';
 
-const COMPONENT_NAME = 'Tooltip';
+import TooltipRoot from './fragments/TooltipRoot';
+import TooltipTrigger from './fragments/TooltipTrigger';
+import TooltipContent from './fragments/TooltipContent';
 
-type TooltipProps = {
-  children: React.ReactNode;
-  label?: string;
-  placement?: PopperProps['placement'];
-} & JSX.IntrinsicElements['span'];
-
-const Tooltip = ({ children, label = '', placement = 'top', ...props }: TooltipProps) => {
-    return (
-        <Popper
-            popperName={COMPONENT_NAME}
-            pop={label}
-            placement={placement}
-            {...props}
-        >
-            {children}
-        </Popper>
-    );
+const Tooltip = () => {
+    console.warn('Direct usage of Tabs is not supported. Please use Tabs.Root, Tabs.List, etc. instead.');
+    return null;
 };
+
+Tooltip.Root = TooltipRoot;
+Tooltip.Trigger = TooltipTrigger;
+Tooltip.Content = TooltipContent;
 
 export default Tooltip;

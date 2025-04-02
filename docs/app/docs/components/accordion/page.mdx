@@ -16,5 +16,5 @@ import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
     <Documentation.Anatomy code={anatomy.code} />
 
     {/* Keyboard Shortcuts */}
-    <Documentation.KeyboardShortcuts keyboardShortcuts={keyboardShortcuts} />
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 </Documentation>

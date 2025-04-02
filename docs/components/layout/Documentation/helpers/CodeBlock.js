@@ -30,7 +30,7 @@ const renderElement = (element, index) => {
     }
 };
 
-const CodeBlock = ({ children, language = 'jsx' }) => {
+const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
     const [expanded, setExpanded] = useState(false);
     let code = refractor.highlight(children, language);
     code = code.children.map((child, index) => renderElement(child, index));
@@ -39,25 +39,46 @@ const CodeBlock = ({ children, language = 'jsx' }) => {
     const copyContent = children
         .replace(/\n{2,}/g, '\n') // Replace multiple newlines with single newline
         .trim(); // Remove leading/trailing whitespace
-    
+
+    let height = 'auto';
+    let maxHeight = 'auto';
+
+    if(expanded) {
+        if(!inline){
+            height = 'auto';
+            maxHeight = 640;
+        }
+      
+    }
+    else{
+        if(!inline){
+            height = 180;
+            maxHeight = 640;
+        }
+
+           
+
+    }
     return (
         <pre className="relative mb-8">
            <div className="relative ">
            <code className={`language-${language} whitespace-pre-wrap`} style={{ wordBreak: 'break-word' }}
                 style={{
-                    height: expanded ? 'auto' : 180,
-                    maxHeight: 640,
+                    height: height,
+                    maxHeight: maxHeight,
                     overflowY: expanded ? 'scroll' : 'hidden',
-                    
                 }}
             >{code}</code>
-            {!expanded && <div className="code-block-blur"></div>}
-            <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
-               
-                <Button  size="small" onClick={() => setExpanded(!expanded)}>
-                    Show {expanded ? 'less' : 'more'}
-                </Button>
-            </div>
+            {!inline && <>
+                {!expanded && <div className="code-block-blur"></div>}
+                <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
+                
+                    <Button  size="small" onClick={() => setExpanded(!expanded)}>
+                        Show {expanded ? 'less' : 'more'}
+                    </Button>
+                </div>
+            </>}
+           
            </div>
            <span className="absolute top-2 right-2">
            <Tooltip label="Copy" placement="bottom">
