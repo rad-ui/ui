@@ -67,7 +67,6 @@ export const Size = () => {
     </SandboxEditor>;
 };
 
-
 export const Variant = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>

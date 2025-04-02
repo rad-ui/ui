@@ -62,11 +62,12 @@ const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
     return (
         <pre className="relative mb-8">
            <div className="relative ">
-           <code className={`language-${language} whitespace-pre-wrap`} style={{ wordBreak: 'break-word' }}
+           <code className={`language-${language} whitespace-pre-wrap`}
                 style={{
                     height: height,
                     maxHeight: maxHeight,
                     overflowY: expanded ? 'scroll' : 'hidden',
+                    wordBreak: 'break-word',
                 }}
             >{code}</code>
             {!inline && <>

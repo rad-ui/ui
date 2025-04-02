@@ -2,18 +2,22 @@
 import Table from "@radui/ui/Table"
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
 import Heading from '@radui/ui/Heading';
+import Text from '@radui/ui/Text';
+import Code from '@radui/ui/Code';
 
-
-const DocsTable = ({ title = 'API Documentation', columns = [], data = [] }) => {
-    return <div className="my-10">
-        <div className="mb-4">
-            <BookMarkLink id="api-documentation"> <Heading as="h6">{title}</Heading> </BookMarkLink>
+const DocsTable = ({ title = 'API Documentation', isAPI=false, description = '', columns = [], data = [] }) => {
+    return <div className="my-20">
+        <div className="mb-4 space-y-2">
+            <BookMarkLink id="api-documentation"> <Heading as={isAPI ? "h3" : "h2"}>{title}</Heading> </BookMarkLink>
+            <Text className="text-gray-950">{description}</Text>
         </div>
         <Table.Root>
             <Table.Head>
                 <Table.Row>
                     {columns.map((column, idx) => (
-                        <Table.ColumnCellHeader key={idx}>{column.name}</Table.ColumnCellHeader>
+                        <Table.ColumnCellHeader key={idx}>
+                            {column.name}
+                        </Table.ColumnCellHeader>
                     ))}
                 </Table.Row>
             </Table.Head>

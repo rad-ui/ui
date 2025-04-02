@@ -3,11 +3,13 @@ import Text from '@radui/ui/Text';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/example_1.tsx');
-// console.log(example_1_SourceCode);
-
 
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/accordion.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/anatomy.tsx');
+
+//
+
+import root_api_SourceCode from './api/root.tsx';
 
 export const code = {
     javascript: {
@@ -20,6 +22,10 @@ export const code = {
 
 export const anatomy = {
     code: anatomy_SourceCode
+}
+
+export const api_documentation = {
+    root: root_api_SourceCode
 }
 
 export const keyboardShortcuts = {
