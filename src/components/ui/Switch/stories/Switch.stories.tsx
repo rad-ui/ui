@@ -2,6 +2,9 @@ import React, { JSX, useState } from 'react';
 import Switch, { SwitchProps } from '../Switch';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
+const Variants = ['surface', 'soft'];
+const Sizes = ['small', 'medium', 'large', 'x-large'];
+
 export default {
     title: 'Components/Switch',
     component: Switch,
@@ -46,4 +49,37 @@ export const Color = {
     args: {
         color: 'blue'
     }
+};
+
+export const Size = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950'>Switch Size</p>
+        </div>
+        <div>
+            <div className='flex flex-col gap-2'>
+                {Sizes.map((size, index) => {
+                    return <Switch key={index} size={size} />;
+                })}
+            </div>
+
+        </div>
+    </SandboxEditor>;
+};
+
+
+export const Variant = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950'>Switch Variant</p>
+        </div>
+        <div>
+            <div className='flex flex-col gap-2'>
+                {Variants.map((variant, index) => {
+                    return <Switch key={index} variant={variant} />;
+                })}
+            </div>
+
+        </div>
+    </SandboxEditor>;
 };

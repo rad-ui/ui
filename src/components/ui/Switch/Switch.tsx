@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+import { useComposeAttributes, useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
     defaultChecked? : boolean;
     checked?: boolean;
     color?: string;
+    variant?: string;
+    size?: string;
     children?: React.ReactNode;
     className?: string;
     customRootClass?: string;
@@ -15,7 +18,7 @@ export type SwitchProps = {
     props?: any;
 }
 
-const Switch = ({ children, customRootClass = '', className = '', color = '', defaultChecked, checked, onChange, ...props }:SwitchProps) => {
+const Switch = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', defaultChecked, checked, onChange, ...props }:SwitchProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [isChecked, setIsChecked] = useState(checked || defaultChecked);
@@ -26,11 +29,10 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', de
         onChange(updatedState);
     };
 
-    const data_attributes: Record<string, string> = {};
+    const dataAttributes = useCreateDataAttribute('switch', { variant, size });
+    const accentAttributes = useCreateDataAttribute('accent', { color });
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes())
 
-    if (color) {
-        data_attributes['data-accent-color'] = color;
-    }
     return (
         <>
             <input type='checkbox' className={clsx(rootClass)} {...props} checked= {isChecked} onChange={(e) => setIsChecked(e.target.checked)}/>
@@ -39,7 +41,7 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', de
                 onClick={handleChecked}
                 role="switch"
                 aria-checked={isChecked}
-                {...data_attributes}
+                {...composedAttributes()}
             ></button>
 
         </>
