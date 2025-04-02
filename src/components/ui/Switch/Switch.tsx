@@ -31,7 +31,7 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', va
 
     const dataAttributes = useCreateDataAttribute('switch', { variant, size });
     const accentAttributes = useCreateDataAttribute('accent', { color });
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes())
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return (
         <>

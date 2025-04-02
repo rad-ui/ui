@@ -1,10 +1,10 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import AccordionExample from "./docs/example_1"
-import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
+import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
 
 <Documentation
     title={`Accordion`}
-    description='Accordions are used to toggle the visibility of content. They are used in the sidebar, and in the chat.'
+    description='Accordions are a common UX pattern that can help reduce the amount of information presented to users. They are used to toggle the visibility of content, condensing information and reducing clutter.'
 >
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
@@ -13,6 +13,9 @@ import {code, anatomy, keyboardShortcuts} from "./docs/codeUsage"
 
     {/* Component Anatomy */}
     <Documentation.Anatomy code={anatomy.code} />
+
+    {/* API Documentation */}
+    <Documentation.Table isAPI title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
 
     {/* Keyboard Shortcuts */}
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
