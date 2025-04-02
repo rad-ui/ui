@@ -4,16 +4,14 @@ import path from "path"
 
 const config = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [
-    {
-      name: '@storybook/addon-styling',
-      options: {
-        postCss: {
-          implementation: require.resolve('postcss'),
-        },
+  addons: [{
+    name: '@storybook/addon-styling',
+    options: {
+      postCss: {
+        implementation: require.resolve('postcss'),
       },
     },
-  ],
+  }, '@storybook/addon-a11y'],
   webpackFinal: async (config) => {
 
     config.module.rules.push({

@@ -1,7 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
 
+body {
+  font-family: Inter, sans-serif;
+}
 
 
 
@@ -72,12 +76,29 @@ code .selector {
 }
 
 @keyframes AnimationName {
-  0%,
-  100% {
+  0%,100% {
     background-position: 0% 50%;
   }
 
   50% {
     background-position: 100% 50%;
+  }
+}
+
+
+
+.code-block-blur {
+  position: relative;
+
+  &::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    display: block;
+    height: 100px;
+    width: 100%;
+    bottom: 0px;
+    background: linear-gradient(180deg, #0000, var(--rad-ui-color-gray-100) 70%);
+    opacity: .9;
   }
 }
