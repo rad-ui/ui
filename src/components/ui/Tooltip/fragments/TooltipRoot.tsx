@@ -5,8 +5,8 @@ import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRo
 
 const COMPONENT_NAME = 'Tooltip';
 
-const TooltipRoot = ({ children, placement = 'top' }: { children: React.ReactNode, placement?: Placement } & JSX.IntrinsicElements['div']) => {
-    const arrowRef = useRef<HTMLDivElement>(null);
+const TooltipRoot = ({ children, placement = 'top' }: { children: React.ReactNode, placement?: 'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end' } & JSX.IntrinsicElements['div']) => {
+    const arrowRef = useRef<SVGSVGElement>(null);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +52,7 @@ const TooltipRoot = ({ children, placement = 'top' }: { children: React.ReactNod
     ]);
 
     return (
-        <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context }}>
+        <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef }}>
             {children}
         </TooltipContext.Provider>
     );
