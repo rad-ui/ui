@@ -21,9 +21,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
     const [itemValue, setItemValue] = useState(value ?? 0);
     const { rootClass, activeItems, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
 
-    const [isOpen, setIsOpen] = useState(activeItems.includes(itemValue));
+    const [isOpen, setIsOpen] = useState(activeItems?.includes(itemValue));
     useEffect(() => {
-        if (activeItems.includes(itemValue)) {
+        if (activeItems?.includes(itemValue)) {
             setIsOpen(true);
         } else {
             setIsOpen(false);
