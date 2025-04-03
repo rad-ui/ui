@@ -2,8 +2,8 @@ import { createContext } from 'react';
 
 interface AccordionContextType {
     rootClass?: string | null;
-    activeItems?: number[] | null;
-    setActiveItems: (items: number[]) => void;
+    activeItems: (number | string)[];
+    setActiveItems: (items: (number | string)[]) => void;
     accordionRef?: React.RefObject<HTMLDivElement | null>;
     transitionDuration?: number;
     transitionTimingFunction?: string;

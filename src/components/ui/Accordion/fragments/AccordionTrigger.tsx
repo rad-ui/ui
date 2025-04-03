@@ -22,17 +22,20 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
     const { itemValue, disabled } = useContext(AccordionItemContext);
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        // Create safe array regardless of activeItems state
+        const currentActiveItems = activeItems || [];
+
         if (openMultiple) {
             // check if the item is already part of the array
-            if (activeItems?.includes(itemValue)) {
-                setActiveItems(activeItems.filter((item) => item !== itemValue));
+            if (currentActiveItems.includes(itemValue)) {
+                setActiveItems(currentActiveItems.filter((item) => item !== itemValue));
             } else {
-                setActiveItems([...activeItems, itemValue]);
+                setActiveItems([...currentActiveItems, itemValue]);
             }
         } else {
-            if (activeItems?.includes(itemValue)) {
+            if (currentActiveItems.includes(itemValue)) {
                 setActiveItems([]);
-            } else if (!activeItems?.includes(itemValue)) {
+            } else {
                 setActiveItems([itemValue]);
             }
         }
@@ -44,16 +47,15 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
                 <Primitive.button
                     className={clsx(`${rootClass}-trigger`, className)}
                     ref={triggerRef}
-                    disabled={disabled}
+                    aria-disabled={disabled}
                     onClick={onClickHandler}
-                    aria-expanded={activeItems?.includes(itemValue)}
+                    aria-expanded={activeItems.includes(itemValue)}
                     aria-controls={`content-${index}`}
                 >
                     {children}
                 </Primitive.button>
             </CollapsiblePrimitive.Trigger>
         </RovingFocusGroup.Item>
-
     );
 };
 

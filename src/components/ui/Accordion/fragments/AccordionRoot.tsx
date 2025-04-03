@@ -24,7 +24,7 @@ const AccordionRoot = ({ children, orientation = 'vertical', asChild, transition
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [activeItems, setActiveItems] = useState<number[]>([]);
+    const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
 
     return (
         <AccordionContext.Provider

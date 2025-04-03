@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
 interface AccordionItemContextType {
-    itemValue: number;
-    setItemValue: (value: number) => void;
+    itemValue: number | string;
+    setItemValue: (value: number | string) => void;
     disabled: boolean;
 }
 
