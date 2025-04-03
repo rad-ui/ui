@@ -42,7 +42,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { direction, loop } = useContext(RovingFocusRootContext);
+    const { orientation, loop } = useContext(RovingFocusRootContext);
 
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
@@ -79,7 +79,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     /**
      * Finds the next enabled item index from a starting position
      * @param startIndex - Index to start searching from
-     * @param step - Direction to move (-1 for previous, 1 for next)
+     * @param step - orientation to move (-1 for previous, 1 for next)
      * @returns Index of the next enabled item, or -1 if none found
      */
     const findEnabledItemIndex = (startIndex: number, step: number): number => {
@@ -180,28 +180,28 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         switch (event.key) {
         case 'ArrowUp':
             event.preventDefault();
-            if (direction === 'vertical') {
+            if (orientation === 'vertical') {
                 focusPreviousItem();
             }
             break;
 
         case 'ArrowLeft':
             event.preventDefault();
-            if (direction === 'horizontal') {
+            if (orientation === 'horizontal') {
                 focusPreviousItem();
             }
             break;
 
         case 'ArrowDown':
             event.preventDefault();
-            if (direction === 'vertical') {
+            if (orientation === 'vertical') {
                 focusNextItem();
             }
             break;
 
         case 'ArrowRight':
             event.preventDefault();
-            if (direction === 'horizontal') {
+            if (orientation === 'horizontal') {
                 focusNextItem();
             }
             break;

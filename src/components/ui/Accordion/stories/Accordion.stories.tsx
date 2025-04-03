@@ -92,3 +92,7 @@ export const All: Story = {
 export const WithAnimation: Story = {
     render: () => <AccordionExample transitionDuration={200} />
 };
+
+export const OpenMultiple: Story = {
+    render: () => <AccordionExample openMultiple />
+};

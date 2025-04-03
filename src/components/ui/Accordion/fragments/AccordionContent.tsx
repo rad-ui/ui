@@ -13,16 +13,15 @@ type AccordionContentProps = {
 };
 
 const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, className = '' }: AccordionContentProps) => {
-    const { activeItem, rootClass } = useContext(AccordionContext);
-
+    const { activeItems, rootClass } = useContext(AccordionContext);
     const { itemValue } = useContext(AccordionItemContext);
 
-    const isOpen = activeItem === index;
+    // Use itemValue to determine if this content should be visible
+    const isOpen = activeItems.includes(itemValue);
 
     return (
-        itemValue !== activeItem
-            ? null
-            : <CollapsiblePrimitive.Content
+        isOpen
+            ? <CollapsiblePrimitive.Content
                 asChild
                 className={clsx(`${rootClass}-content`, className)}
                 id={`content-${index}`}
@@ -30,10 +29,9 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, cl
                 aria-labelledby={`section-${index}`}
                 aria-hidden={!isOpen}
             >
-
                 {children}
-
             </CollapsiblePrimitive.Content>
+            : null
     );
 };
 

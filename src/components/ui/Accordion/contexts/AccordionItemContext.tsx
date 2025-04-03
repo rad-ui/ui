@@ -1,11 +1,13 @@
 import { createContext } from 'react';
 
 interface AccordionItemContextType {
-    itemValue: number;
-    setItemValue: (value: number) => void;
+    itemValue: number | string;
+    setItemValue: (value: number | string) => void;
+    disabled: boolean;
 }
 
 export const AccordionItemContext = createContext<AccordionItemContextType>({
     itemValue: 0,
-    setItemValue: () => {}
+    setItemValue: () => {},
+    disabled: false
 });

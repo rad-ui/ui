@@ -18,32 +18,44 @@ type AccordionTriggerProps = {
 
 const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
     const triggerRef = useRef<HTMLButtonElement>(null);
-    const { setActiveItem, rootClass, activeItem } = useContext(AccordionContext);
-    const { itemValue } = useContext(AccordionItemContext);
+    const { setActiveItems, rootClass, activeItems, openMultiple } = useContext(AccordionContext);
+    const { itemValue, disabled } = useContext(AccordionItemContext);
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (activeItem === itemValue) {
-            setActiveItem(null);
-        } else if (activeItem !== itemValue) {
-            setActiveItem(itemValue);
+        // Create safe array regardless of activeItems state
+        const currentActiveItems = activeItems || [];
+
+        if (openMultiple) {
+            // check if the item is already part of the array
+            if (currentActiveItems.includes(itemValue)) {
+                setActiveItems(currentActiveItems.filter((item) => item !== itemValue));
+            } else {
+                setActiveItems([...currentActiveItems, itemValue]);
+            }
+        } else {
+            if (currentActiveItems.includes(itemValue)) {
+                setActiveItems([]);
+            } else {
+                setActiveItems([itemValue]);
+            }
         }
     };
 
     return (
         <RovingFocusGroup.Item>
-            <CollapsiblePrimitive.Trigger asChild>
+            <CollapsiblePrimitive.Trigger disabled={disabled} asChild>
                 <Primitive.button
                     className={clsx(`${rootClass}-trigger`, className)}
                     ref={triggerRef}
+                    aria-disabled={disabled}
                     onClick={onClickHandler}
-                    aria-expanded={activeItem === itemValue}
+                    aria-expanded={activeItems.includes(itemValue)}
                     aria-controls={`content-${index}`}
                 >
                     {children}
                 </Primitive.button>
             </CollapsiblePrimitive.Trigger>
         </RovingFocusGroup.Item>
-
     );
 };
 
