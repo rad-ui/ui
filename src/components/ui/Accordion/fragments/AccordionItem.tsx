@@ -5,6 +5,7 @@ import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
+import Primitive from '~/core/primitives/Primitive';
 
 export type AccordionItemProps = {
     children: React.ReactNode;
@@ -12,9 +13,10 @@ export type AccordionItemProps = {
     value?: number;
     setItemValue?: (value: number) => void;
     disabled?: boolean;
+    asChild?: boolean;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', disabled = false, ...props }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', disabled = false, asChild = false, ...props }) => {
     const accordionItemRef = useRef<HTMLDivElement>(null);
     const [itemValue, setItemValue] = useState(value ?? 0);
     const { rootClass, activeItem, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
@@ -39,15 +41,16 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
                 transitionTimingFunction={transitionTimingFunction}
                 asChild
             >
-                <div
+                <Primitive.div
                     ref={accordionItemRef}
                     className={clsx(`${rootClass}-item`, className)} {...props}
                     id={`accordion-data-item-${id}`}
                     role="region"
                     data-state={isOpen ? 'open' : 'closed'}
+                    asChild={asChild}
                 >
                     {children}
-                </div>
+                </Primitive.div>
             </CollapsiblePrimitive.Root>
 
         </AccordionItemContext.Provider>

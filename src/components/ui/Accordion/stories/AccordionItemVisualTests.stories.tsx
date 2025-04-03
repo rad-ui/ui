@@ -38,3 +38,30 @@ const DisabledTemplate: Story = (args) => <SandboxEditor>
 </SandboxEditor>;
 
 export const Disabled = DisabledTemplate.bind({});
+
+const AsChildTemplate: Story = (args) => <SandboxEditor>
+    <Accordion.Root>
+        <Accordion.Item value={'1'} asChild>
+            <span style={{ display: 'block' }}>
+                <Accordion.Trigger >
+                Trigger
+                </Accordion.Trigger>
+                <Accordion.Content index={0}>
+                Content
+                </Accordion.Content>
+            </span>
+        </Accordion.Item>
+        <Accordion.Item value={'2'} asChild disabled>
+            <span style={{ display: 'block' }}>
+                <Accordion.Trigger >
+                Trigger
+                </Accordion.Trigger>
+                <Accordion.Content index={0}>
+                Content
+                </Accordion.Content>
+            </span>
+        </Accordion.Item>
+    </Accordion.Root>
+</SandboxEditor>;
+
+export const AsChild = AsChildTemplate.bind({});
