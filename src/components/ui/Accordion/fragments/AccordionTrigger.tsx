@@ -19,7 +19,7 @@ type AccordionTriggerProps = {
 const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
     const triggerRef = useRef<HTMLButtonElement>(null);
     const { setActiveItem, rootClass, activeItem } = useContext(AccordionContext);
-    const { itemValue } = useContext(AccordionItemContext);
+    const { itemValue, disabled } = useContext(AccordionItemContext);
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (activeItem === itemValue) {
@@ -31,10 +31,11 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
 
     return (
         <RovingFocusGroup.Item>
-            <CollapsiblePrimitive.Trigger asChild>
+            <CollapsiblePrimitive.Trigger disabled={disabled} asChild>
                 <Primitive.button
                     className={clsx(`${rootClass}-trigger`, className)}
                     ref={triggerRef}
+                    disabled={disabled}
                     onClick={onClickHandler}
                     aria-expanded={activeItem === itemValue}
                     aria-controls={`content-${index}`}

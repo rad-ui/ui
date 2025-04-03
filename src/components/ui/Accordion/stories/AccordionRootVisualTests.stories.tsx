@@ -46,3 +46,57 @@ const AsChildTemplate: Story = (args) => {
 };
 
 export const AsChild = AsChildTemplate.bind({});
+
+const HorizontalTemplate: Story = (args) => {
+    return (
+        <SandboxEditor>
+            <Accordion.Root orientation="horizontal">
+                <Accordion.Item value={'1'}>
+                    <Accordion.Trigger>
+                        Item 1
+                    </Accordion.Trigger>
+                    <Accordion.Content index={0}>
+                        abc
+                    </Accordion.Content>
+                </Accordion.Item>
+                <Accordion.Item value={'2'}>
+                    <Accordion.Trigger>
+                        Item 2
+                    </Accordion.Trigger>
+                    <Accordion.Content index={1}>
+                        abc
+                    </Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        </SandboxEditor>
+    );
+};
+
+export const Horizontal = HorizontalTemplate.bind({});
+
+const LoopOffTemplate: Story = (args) => {
+    return (
+        <SandboxEditor>
+            <Accordion.Root loop={false}>
+                <Accordion.Item value={'1'}>
+                    <Accordion.Trigger>
+                        Item 1
+                    </Accordion.Trigger>
+                    <Accordion.Content index={0}>
+                        abc
+                    </Accordion.Content>
+                </Accordion.Item>
+                <Accordion.Item value={'2'}>
+                    <Accordion.Trigger>
+                        Item 2
+                    </Accordion.Trigger>
+                    <Accordion.Content index={1}>
+                        abc
+                    </Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        </SandboxEditor>
+    );
+};
+
+export const LoopOff = LoopOffTemplate.bind({});

@@ -11,9 +11,10 @@ export type AccordionItemProps = {
     className?: string;
     value?: number;
     setItemValue?: (value: number) => void;
+    disabled?: boolean;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', ...props }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', disabled = false, ...props }) => {
     const accordionItemRef = useRef<HTMLDivElement>(null);
     const [itemValue, setItemValue] = useState(value ?? 0);
     const { rootClass, activeItem, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
@@ -30,9 +31,10 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
     const id = useId();
 
     return (
-        <AccordionItemContext.Provider value={{ itemValue, setItemValue }}>
+        <AccordionItemContext.Provider value={{ itemValue, setItemValue, disabled }}>
             <CollapsiblePrimitive.Root
                 open={isOpen}
+                disabled={disabled}
                 transitionDuration={transitionDuration}
                 transitionTimingFunction={transitionTimingFunction}
                 asChild

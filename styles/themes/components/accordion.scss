@@ -5,6 +5,13 @@
     overflow: hidden;
 
     .rad-ui-accordion-item {
+
+        &[data-disabled]{
+            opacity: 0.3;
+            pointer-events: none;
+            cursor: not-allowed !important;
+        }
+        
         background-color: var(--rad-ui-color-gray-50);
 
         // not last child
@@ -29,12 +36,12 @@
             padding:16px;
             font-size: 1em;
             font-weight: 600;
-            color: var(--rad-ui-color-gray-1000);
+            color: var(--rad-ui-color-gray-800);
             background-color: var(--rad-ui-color-accent-100);
 
             &:focus{
                 outline: none;
-                color: var(--rad-ui-color-accent-900);
+                color: var(--rad-ui-color-accent-1000);
             
             }
         }
