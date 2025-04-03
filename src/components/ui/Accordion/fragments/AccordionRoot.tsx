@@ -13,10 +13,10 @@ export type AccordionRootProps = {
     customRootClass?: string;
     transitionDuration?: number;
     transitionTimingFunction?: string;
-    direction?: 'horizontal' | 'vertical';
+    orientation?: 'horizontal' | 'vertical';
 }
 
-const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass }: AccordionRootProps) => {
+const AccordionRoot = ({ children, orientation = 'vertical', transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
@@ -32,7 +32,7 @@ const AccordionRoot = ({ children, direction = 'vertical', transitionDuration = 
                 transitionDuration,
                 transitionTimingFunction
             }}>
-            <RovingFocusGroup.Root direction={direction}>
+            <RovingFocusGroup.Root direction={orientation}>
                 <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)}>
                     <div ref={accordionRef}>
                         {children}
