@@ -15,7 +15,7 @@ const TreeRoot = ({ children, ...props }: TreeRootProps) => {
 
     return (
         <TreeContext.Provider value={{}}>
-            <RovingFocusGroup.Root direction='vertical'>
+            <RovingFocusGroup.Root orientation='vertical'>
                 <RovingFocusGroup.Group>
                     <Primitive.div
                         {...props}

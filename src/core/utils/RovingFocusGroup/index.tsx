@@ -28,7 +28,7 @@ import RovingFocusItem from './fragments/RovingFocusItem';
  * - Supports proper labeling with aria-label and aria-labelledby
  *
  * @example
- * <RovingFocusGroup.Root direction="horizontal" loop={true} aria-label="Main Menu">
+ * <RovingFocusGroup.Root orientation="horizontal" loop={true} aria-label="Main Menu">
  *   <RovingFocusGroup.Group className="flex gap-2" aria-label="Navigation Section">
  *     <RovingFocusGroup.Item aria-label="First option">
  *       <Button>Option 1</Button>

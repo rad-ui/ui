@@ -17,8 +17,8 @@ interface ToggleGroupRootProps {
     className?: string;
     /** Whether focus should loop from last to first and vice versa */
     loop?: boolean;
-    /** Direction of the toggle group - affects keyboard navigation */
-    direction?: 'horizontal' | 'vertical';
+    /** Orientation of the toggle group - affects keyboard navigation */
+    orientation?: 'horizontal' | 'vertical';
     /** Custom root class name to override default styling */
     customRootClass?: string;
     /** Name of the component for CSS class generation */
@@ -37,7 +37,7 @@ interface ToggleGroupRootProps {
  * features through RovingFocusGroup for keyboard navigation.
  *
  * @example
- * <ToggleGroupRoot type="multiple" direction="horizontal">
+ * <ToggleGroupRoot type="multiple" orientation="horizontal">
  *   <ToggleItem value="bold">B</ToggleItem>
  *   <ToggleItem value="italic">I</ToggleItem>
  * </ToggleGroupRoot>
@@ -49,7 +49,7 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
     type = 'multiple',
     className = '',
     loop = true,
-    direction = 'horizontal',
+    orientation = 'horizontal',
     customRootClass = '',
     componentName = '',
     value = null,
@@ -76,7 +76,7 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
 
     return (
         <ToggleContext.Provider value={sendValues}>
-            <RovingFocusGroup.Root loop={loop} direction={direction} >
+            <RovingFocusGroup.Root loop={loop} orientation={orientation} >
                 <RovingFocusGroup.Group className={clsx(rootClass, className)} {...data_attributes}>
                     {children}
                 </RovingFocusGroup.Group>

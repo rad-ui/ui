@@ -7,7 +7,7 @@ import Button from '~/components/ui/Button/Button';
 
 // Define args type to fix linter error
 type StoryArgs = {
-    direction?: 'horizontal' | 'vertical';
+    orientation?: 'horizontal' | 'vertical';
     loop?: boolean;
 };
 
@@ -45,14 +45,14 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Horizontal = {
     args: {
-        direction: 'horizontal',
+        orientation: 'horizontal',
         loop: true
     }
 };
 
 export const Vertical = {
     args: {
-        direction: 'vertical',
+        orientation: 'vertical',
         loop: true
     }
 };
@@ -71,7 +71,7 @@ export const KeyboardNavigation = {
             <div className="space-y-6 bg-gray-50">
                 <div>
                     <h3 className="text-md font-medium mb-2">Vertical Navigation (Up/Down keys)</h3>
-                    <RovingFocusGroup.Root direction="vertical" loop={true}>
+                    <RovingFocusGroup.Root orientation="vertical" loop={true}>
                         <RovingFocusGroup.Group className="border border-blue-500 p-2">
                             <div className="flex flex-col gap-2">
                                 <RovingFocusGroup.Item>
@@ -98,7 +98,7 @@ export const KeyboardNavigation = {
                     <h3 className="text-md font-medium mb-2">Horizontal Navigation (Left/Right keys)</h3>
                     <p className="text-sm text-gray-600 mb-2">This container has horizontally scrollable content but arrow keys won't trigger scrolling</p>
                     <div className="overflow-x-auto pb-4 border border-gray-200 max-w-[500px]">
-                        <RovingFocusGroup.Root direction="horizontal" loop={true}>
+                        <RovingFocusGroup.Root orientation="horizontal" loop={true}>
                             <RovingFocusGroup.Group className="border border-green-500 p-2 min-w-max">
                                 <div className="flex gap-2">
                                     <RovingFocusGroup.Item>
@@ -167,7 +167,7 @@ export const DisabledItems = {
             <div className="space-y-6">
                 <div>
                     <h3 className="text-md font-medium mb-2">Horizontal Navigation with Disabled Items</h3>
-                    <RovingFocusGroup.Root direction="horizontal" loop={true}>
+                    <RovingFocusGroup.Root orientation="horizontal" loop={true}>
                         <RovingFocusGroup.Group className="border border-blue-500 p-4">
                             <div className="flex gap-3">
                                 <RovingFocusGroup.Item>
@@ -195,7 +195,7 @@ export const DisabledItems = {
                     <div className="flex gap-8">
                         <div>
                             <h4 className="text-sm font-medium mb-2">With looping enabled</h4>
-                            <RovingFocusGroup.Root direction="vertical" loop={true}>
+                            <RovingFocusGroup.Root orientation="vertical" loop={true}>
                                 <RovingFocusGroup.Group className="border border-green-500 p-4">
                                     <div className="flex flex-col gap-2">
                                         <RovingFocusGroup.Item>
@@ -220,7 +220,7 @@ export const DisabledItems = {
 
                         <div>
                             <h4 className="text-sm font-medium mb-2">With looping disabled</h4>
-                            <RovingFocusGroup.Root direction="vertical" loop={false}>
+                            <RovingFocusGroup.Root orientation="vertical" loop={false}>
                                 <RovingFocusGroup.Group className="border border-red-500 p-4">
                                     <div className="flex flex-col gap-2">
                                         <RovingFocusGroup.Item>
@@ -270,7 +270,7 @@ export const AccessibilityDemo = {
                 <div>
                     <h3 className="text-md font-medium mb-2">ARIA Labeled Navigation Example</h3>
                     <RovingFocusGroup.Root
-                        direction="horizontal"
+                        orientation="horizontal"
                         loop={true}
                         aria-label="Main navigation menu"
                         className="rounded-md border border-blue-500 p-4"
