@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main, security-fixes ]
     paths:
-      - 'src/components/ui/**'  # Only run when files in this directory change
+      - 'src/**'  # Only run when files in this directory change
       - 'styles/**'
       - 'package.json'
 jobs:

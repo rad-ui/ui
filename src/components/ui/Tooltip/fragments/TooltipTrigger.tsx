@@ -5,7 +5,13 @@ import Primitive from '~/core/primitives/Primitive';
 import { useMergeRefs } from '@floating-ui/react';
 
 const TooltipTrigger = forwardRef(({ children, asChild, ...props }: { children: React.ReactNode, asChild?: boolean } & JSX.IntrinsicElements['button'], propRef: React.Ref<HTMLButtonElement>) => {
-    const { setIsOpen, isOpen, interactions, data, context } = useContext(TooltipContext);
+    const tooltipContext = useContext(TooltipContext);
+
+    if (!tooltipContext) {
+        throw new Error('TooltipTrigger must be used within a TooltipRoot component');
+    }
+
+    const { setIsOpen, isOpen, interactions, data, context } = tooltipContext;
 
     const { getReferenceProps } = interactions;
 

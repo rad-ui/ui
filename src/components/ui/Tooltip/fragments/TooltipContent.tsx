@@ -6,7 +6,14 @@ import { useMergeRefs, FloatingPortal, FloatingArrow } from '@floating-ui/react'
 import Primitive from '~/core/primitives/Primitive';
 
 const TooltipContent = forwardRef(({ children, showArrow = true, ...props }: { children: React.ReactNode, showArrow?: boolean } & JSX.IntrinsicElements['div'], propRef: React.Ref<HTMLDivElement>) => {
-    const { isOpen, data, interactions, context, arrowRef } = useContext(TooltipContext);
+    const tooltipContext = useContext(TooltipContext);
+
+    if (!tooltipContext) {
+        throw new Error('TooltipContent must be used within a TooltipRoot component');
+    }
+
+    const { isOpen, data, interactions, context } = tooltipContext;
+    const arrowRef = tooltipContext.arrowRef;
 
     const ref = useMergeRefs([context.refs.setFloating, propRef]);
 

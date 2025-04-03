@@ -5,7 +5,7 @@ on:
     branches:
       - main  # Adjust this if your main branch has a different name
     paths:
-      - 'src/components/ui/**'  # Only run when files in this directory change
+      - 'src/**'  # Only run when files in this directory change
       - 'styles/**'
   # pull_request: # No need for PRs for now
   #   branches:
