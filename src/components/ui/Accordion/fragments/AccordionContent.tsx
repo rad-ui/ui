@@ -13,16 +13,19 @@ type AccordionContentProps = {
 };
 
 const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, className = '' }: AccordionContentProps) => {
-    const { activeItem, rootClass } = useContext(AccordionContext);
+    const { activeItems, rootClass } = useContext(AccordionContext);
 
     const { itemValue } = useContext(AccordionItemContext);
 
-    const isOpen = activeItem === index;
+    const isOpen = activeItems?.includes(index) ?? false;
+    console.log(activeItems);
+    console.log(itemValue);
+
+    console.log(activeItems?.includes(itemValue));
 
     return (
-        itemValue !== activeItem
-            ? null
-            : <CollapsiblePrimitive.Content
+        activeItems?.includes(itemValue)
+            ? <CollapsiblePrimitive.Content
                 asChild
                 className={clsx(`${rootClass}-content`, className)}
                 id={`content-${index}`}
@@ -34,6 +37,7 @@ const AccordionContent: React.FC<AccordionContentProps> = ({ children, index, cl
                 {children}
 
             </CollapsiblePrimitive.Content>
+            : ''
     );
 };
 

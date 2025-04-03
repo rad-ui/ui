@@ -19,16 +19,16 @@ export type AccordionItemProps = {
 const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', disabled = false, asChild = false, ...props }) => {
     const accordionItemRef = useRef<HTMLDivElement>(null);
     const [itemValue, setItemValue] = useState(value ?? 0);
-    const { rootClass, activeItem, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
+    const { rootClass, activeItems, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
 
-    const [isOpen, setIsOpen] = useState(itemValue === activeItem);
+    const [isOpen, setIsOpen] = useState(activeItems.includes(itemValue));
     useEffect(() => {
-        if (itemValue === activeItem) {
+        if (activeItems.includes(itemValue)) {
             setIsOpen(true);
         } else {
             setIsOpen(false);
         }
-    }, [activeItem]);
+    }, [activeItems]);
 
     const id = useId();
 
@@ -47,7 +47,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
                     id={`accordion-data-item-${id}`}
                     role="region"
                     data-state={isOpen ? 'open' : 'closed'}
-                    asChild={asChild}
                 >
                     {children}
                 </Primitive.div>

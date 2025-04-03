@@ -17,23 +17,25 @@ export type AccordionRootProps = {
     orientation?: 'horizontal' | 'vertical';
     asChild?: boolean;
     loop?: boolean;
+    openMultiple?: boolean;
 }
 
-const AccordionRoot = ({ children, orientation = 'vertical', asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true }: AccordionRootProps) => {
+const AccordionRoot = ({ children, orientation = 'vertical', asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [activeItem, setActiveItem] = useState<number | null>(null);
+    const [activeItems, setActiveItems] = useState<number[]>([]);
 
     return (
         <AccordionContext.Provider
             value={{
                 rootClass,
-                activeItem,
-                setActiveItem,
+                activeItems,
+                setActiveItems,
                 accordionRef,
                 transitionDuration,
-                transitionTimingFunction
+                transitionTimingFunction,
+                openMultiple
             }}>
             <RovingFocusGroup.Root orientation={orientation} loop={loop}>
                 <RovingFocusGroup.Group >

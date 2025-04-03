@@ -18,14 +18,23 @@ type AccordionTriggerProps = {
 
 const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
     const triggerRef = useRef<HTMLButtonElement>(null);
-    const { setActiveItem, rootClass, activeItem } = useContext(AccordionContext);
+    const { setActiveItems, rootClass, activeItems, openMultiple } = useContext(AccordionContext);
     const { itemValue, disabled } = useContext(AccordionItemContext);
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (activeItem === itemValue) {
-            setActiveItem(null);
-        } else if (activeItem !== itemValue) {
-            setActiveItem(itemValue);
+        if (openMultiple) {
+            // check if the item is already part of the array
+            if (activeItems?.includes(itemValue)) {
+                setActiveItems(activeItems.filter((item) => item !== itemValue));
+            } else {
+                setActiveItems([...activeItems, itemValue]);
+            }
+        } else {
+            if (activeItems?.includes(itemValue)) {
+                setActiveItems([]);
+            } else if (!activeItems?.includes(itemValue)) {
+                setActiveItems([itemValue]);
+            }
         }
     };
 
@@ -37,7 +46,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
                     ref={triggerRef}
                     disabled={disabled}
                     onClick={onClickHandler}
-                    aria-expanded={activeItem === itemValue}
+                    aria-expanded={activeItems?.includes(itemValue)}
                     aria-controls={`content-${index}`}
                 >
                     {children}
