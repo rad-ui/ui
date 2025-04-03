@@ -9,11 +9,11 @@ export default {
 
         <div className='flex flex-col gap-2'>
             <span>
-                <RadioPrimitive name='radio' value='radio' onClick={() => {}} />
+                <RadioPrimitive name='radio' value='radio' checked={true} />
                 <label htmlFor='radio'>Radio 1</label>
             </span>
             <span>
-                <RadioPrimitive name='radio' value='radio2' onClick={() => {}} />
+                <RadioPrimitive name='radio' value='radio2'/>
                 <label htmlFor='radio2'>Radio 2</label>
             </span>
         </div>
@@ -23,8 +23,6 @@ export default {
 
 export const All = {
     args: {
-        checked: true,
-        value: 'radio',
         onClick: (data: any) => {
             console.log('data', data);
         }
