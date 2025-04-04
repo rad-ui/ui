@@ -15,15 +15,16 @@ export type AvatarProps = {
     src?: string,
     alt?: string,
     color?:string,
+    asChild?: boolean,
     props?: Record<string, any>[]
 }
 
-const Avatar = ({ customRootClass = '', fallback, className, src, alt, variant = '', size = '', color, ...props }: AvatarProps) => {
+const Avatar = ({ customRootClass = '', fallback, className, src, alt, variant = '', size = '', asChild = false, color, ...props }: AvatarProps) => {
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
     const accentAttributes = useCreateDataAttribute('accent', { color });
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
     return (
-        <AvatarPrimitive.Root src={src} customRootClass={customRootClass} {...composedAttributes()}>
+        <AvatarPrimitive.Root src={src} customRootClass={customRootClass} asChild={asChild} {...composedAttributes()}>
             <AvatarPrimitive.Image
                 src={src}
                 alt={alt}
