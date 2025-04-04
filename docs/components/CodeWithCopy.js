@@ -5,11 +5,11 @@ import Tooltip from "@radui/ui/Tooltip";
 const CodeWithCopy = ({ code }) => {
   return (
     <Code>
-       <span  className="flex items-center">
+       <span className="flex items-center">
             <span className="mr-2">
                 {code}
             </span>
-            <Tooltip label="Copy" placement="bottom">      
+            <Tooltip label="Copy" placement="bottom">
               <Copy content={code} />
             </Tooltip>
         </span>

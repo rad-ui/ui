@@ -1,13 +1,13 @@
 import Accordion from "@radui/ui/Accordion";
 
-export default ()=>{
+export default () => {
     return (
         <Accordion.Root>
             <Accordion.Item>
                 <Accordion.Header>
-                    <Accordion.Trigger/>
+                    <Accordion.Trigger />
                 </Accordion.Header>
-                <Accordion.Content/>
+                <Accordion.Content />
             </Accordion.Item>
         </Accordion.Root>
     )

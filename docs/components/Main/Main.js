@@ -12,7 +12,7 @@ import NavBar from './NavBar';
 const MainLayout = ({ darkModeSsrValue, children }) => {
     const cookies = parseCookies();
     const [darkMode, setDarkMode] = useState(darkModeSsrValue === 'true');
-    const [isDocsNavOpen,setIsDocsNavOpen] = useState(false);
+    const [isDocsNavOpen, setIsDocsNavOpen] = useState(false);
 
     const sendValues = {
         isDocsNavOpen,
@@ -32,7 +32,7 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
                 </>
             </div>
                 </NavBarContext.Provider>
-               
+
 
         </Theme>
     );

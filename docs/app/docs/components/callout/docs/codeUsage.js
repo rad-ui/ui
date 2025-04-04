@@ -40,7 +40,7 @@ export const calloutTable = {
    {name: 'Description', id: 'description'},
   ],
   data: [
-   { prop: 'color', type: 'string', default: 'null', description: 'Accent color of the Callout text.', id: 'color' },  ]
+   { prop: 'color', type: 'string', default: 'null', description: 'Accent color of the Callout text.', id: 'color' },]
 }
 
 export default code;

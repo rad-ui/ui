@@ -1,6 +1,6 @@
 {
   "name": "@radui/ui",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "",
   "main": "dist",
   "type": "module",
@@ -78,7 +78,7 @@
     "@babel/preset-env": "7.24.0",
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "^7.24.7",
-    "@radui/ui": "0.0.25",
+    "@radui/ui": "^0.0.37",
     "@rollup/plugin-alias": "5.1.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",

@@ -21,7 +21,7 @@ export const anatomy = {
 }
 
 
-    
+
 
 
 export default code;

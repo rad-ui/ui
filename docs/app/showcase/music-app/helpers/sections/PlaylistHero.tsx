@@ -14,17 +14,23 @@ const InteractiveAlbums: any = () => {
 
 
     return <>
-        <img onMouseEnter={() => {
-            setIndexHovered(0)
-        }} className='absolute right-40 top-10 rotate-0 rounded-full' width="300" src="https://upload.wikimedia.org/wikipedia/en/2/2a/Linkin_Park_Hybrid_Theory_Album_Cover.jpg" />
-        <img onMouseEnter={() => {
-            setIndexHovered(1)
-        }} className='absolute right-20 top-10 rotate-[45deg] rounded-full' width="300"
+        <img
+            alt="Linkin Park"
+            onMouseEnter={() => {
+                setIndexHovered(0)
+            }} className='absolute right-40 top-10 rotate-0 rounded-full' width="300" src="https://upload.wikimedia.org/wikipedia/en/2/2a/Linkin_Park_Hybrid_Theory_Album_Cover.jpg" />
+        <img
+            alt="Three Days Grace"
+            onMouseEnter={() => {
+                setIndexHovered(1)
+            }} className='absolute right-20 top-10 rotate-[45deg] rounded-full' width="300"
             src="https://upload.wikimedia.org/wikipedia/en/2/28/Three_days_grace_pain.png"
         />
-        <img onMouseEnter={() => {
-            setIndexHovered(2)
-        }} className={`absolute right-0 top-10 rotate-[90deg] rounded-full `} width="300"
+        <img
+            alt="Avenged Sevenfold"
+            onMouseEnter={() => {
+                setIndexHovered(2)
+            }} className={`absolute right-0 top-10 rotate-[90deg] rounded-full `} width="300"
             src="https://images.squarespace-cdn.com/content/v1/56720f37dc5cb4b9e2d7ae94/1567996721263-CQNAONU89XR9F032OLZM/image-asset.jpeg" />
 
     </>

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Badge from "@radui/ui/Badge"
 
 
-const NavItem = ({ item, path,setIsDocsNavOpen }) => {
+const NavItem = ({ item, path, setIsDocsNavOpen }) => {
 
 
     const isCurrentPath = path === item?.path;

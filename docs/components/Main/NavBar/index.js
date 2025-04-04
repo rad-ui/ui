@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react"
 
 
 const NavBar = ({ darkMode, setDarkMode, cookies, setCookie }) => {
-  const [currentRoutePath,setCurrentRoutePath] = useState(null);
+  const [currentRoutePath, setCurrentRoutePath] = useState(null);
   const { isDocsNavOpen } = useContext(NavBarContext);
 
   return <div className="relative">
