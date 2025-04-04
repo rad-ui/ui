@@ -4,6 +4,8 @@ import Card from "@radui/ui/Card"
 import Text from "@radui/ui/Text"
 import codeUsage, { TooltipTable } from "./docs/codeUsage"
 
+import TooltipExample1 from "./docs/examples/tooltip_example1"
+
 <Documentation 
     title={`Tooltip`} 
     description={`
@@ -11,11 +13,7 @@ import codeUsage, { TooltipTable } from "./docs/codeUsage"
     `}
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
-        <Card className="bg-gray-50" style={{ display: "flex", gap: 20 }}>
-                        <Tooltip label="Tooltip content">
-                             <Text className="text-gray-950">Hello Tooltip. Hover Me!</Text>
-                        </Tooltip>
-                    </Card>
+        <TooltipExample1 />
     </Documentation.ComponentHero>
             <Documentation.Table columns={TooltipTable.columns} data={TooltipTable.data} />
 </Documentation>

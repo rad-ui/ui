@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 
 import TooltipRoot from './fragments/TooltipRoot';
 import TooltipTrigger from './fragments/TooltipTrigger';

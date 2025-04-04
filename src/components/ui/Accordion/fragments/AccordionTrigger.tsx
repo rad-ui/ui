@@ -12,7 +12,6 @@ type AccordionTriggerProps = {
   children: React.ReactNode;
   className?: string,
   index?: number,
-  activeIndex?: number,
   handleClick?: (index: number) => void
 };
 

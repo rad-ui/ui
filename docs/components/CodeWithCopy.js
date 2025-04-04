@@ -1,6 +1,7 @@
 import Code from "@radui/ui/Code";
 import Copy from "@/components/Copy";
-import Tooltip from "@radui/ui/Tooltip";
+
+import TooltipWrapper from "@/components/ui/Tooltip";
 
 const CodeWithCopy = ({ code }) => {
   return (
@@ -9,9 +10,9 @@ const CodeWithCopy = ({ code }) => {
             <span className="mr-2">
                 {code}
             </span>
-            <Tooltip label="Copy" placement="bottom">
+            <TooltipWrapper label="Copy" placement="bottom">
               <Copy content={code} />
-            </Tooltip>
+            </TooltipWrapper>
         </span>
     </Code>
   );
