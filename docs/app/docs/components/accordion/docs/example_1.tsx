@@ -1,7 +1,7 @@
 "use client"
 import Accordion from "@radui/ui/Accordion";
 
-let items = [
+const items = [
   {
     title: "React",
     content: "React is a JavaScript library for building user interfaces."

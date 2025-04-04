@@ -11,11 +11,13 @@ import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUs
         <AccordionExample />
     </Documentation.ComponentHero>
 
+
     {/* Component Anatomy */}
+    <Documentation.Section title="API Documentation" as="h2"  />
     <Documentation.Anatomy code={anatomy.code} />
 
     {/* API Documentation */}
-    <Documentation.Table isAPI title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
 
     {/* Keyboard Shortcuts */}
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />

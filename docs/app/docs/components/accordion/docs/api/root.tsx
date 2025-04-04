@@ -13,15 +13,54 @@ const data = {
         {
             name: "Default",
             id : "default",
+        },
+        {
+            name : "",
+            id : "info_tooltips",
         }
     ],
     data:[
        {
-        prop : "className",
+        prop : {
+            name : "className",
+            info_tooltips : "The class name for the Accordion."
+        },
         type : "string",
         default : "--",
        },
-        
+       {
+        prop : {
+            name : "openMultiple",
+            info_tooltips : "Whether to allow multiple items to be open at once."
+        },
+        type : "boolean",
+        default : "false",
+       },
+       {
+        prop: {
+            name : "asChild",
+            info_tooltips: 'Whether to use the child component as the Accordion.'
+        },
+        type: 'boolean',
+        default: 'false',
+       },
+       {
+        prop: {
+            name : "loop",
+            info_tooltips: 'Whether to loop through the Accordion items.'
+        },
+        type: 'boolean',
+        default: 'true',
+       },
+       {
+        prop: {
+            name : "orientation",
+            info_tooltips: 'The orientation of the Accordion.'
+        },
+        type: 'enum',
+        enum_values : ['horizontal', 'vertical'],
+        default: 'horizontal',
+       }
     ]
 }
 

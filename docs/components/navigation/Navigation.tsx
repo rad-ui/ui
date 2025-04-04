@@ -21,21 +21,21 @@ const defaultSections = [
 
 
 const Navigation = ({ customSections }: { customSections?: any }) => {
-      // get path from ssr
-      const pathname = usePathname();
-      const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
-  
-    const [sections,setSections] = useState(defaultSections)
-      //customSections || sections;
+    // get path from ssr
+    const pathname = usePathname();
+    const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
 
-      useEffect(()=>{
-        if(pathname.includes("/docs/")){
+    const [sections, setSections] = useState(defaultSections)
+    // customSections || sections;
+
+    useEffect(() => {
+        if (pathname.includes("/docs/")) {
             setSections(docsSections)
         }
-        else{
+        else {
             setSections(defaultSections)
         }
-      },[pathname])
+    }, [pathname])
 
 
     const Category = ({ categoryItem, pathname, setIsDocsNavOpen }) => {
@@ -53,7 +53,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
 
 
 
-  
+
 
     return <div className='flex-none h-full pb-20 w-full lg:w-[240px] lg:bg-transparent'>
         {sections.map((section, i) => {

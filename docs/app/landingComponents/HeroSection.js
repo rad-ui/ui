@@ -13,14 +13,14 @@ import YourTeamDemo from "./YourTeamDemo"
 
 const ForwardArrowIcon = () => {
   return <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <mask id="mask0_245_304"  maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+  <mask id="mask0_245_304" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
   <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
   </mask>
   <g mask="url(#mask0_245_304)">
   <path d="M16.175 13.5H5C4.71667 13.5 4.47917 13.4042 4.2875 13.2125C4.09583 13.0208 4 12.7833 4 12.5C4 12.2167 4.09583 11.9792 4.2875 11.7875C4.47917 11.5958 4.71667 11.5 5 11.5H16.175L11.275 6.6C11.075 6.4 10.9792 6.16667 10.9875 5.9C10.9958 5.63334 11.1 5.4 11.3 5.2C11.5 5.01667 11.7333 4.92084 12 4.9125C12.2667 4.90417 12.5 5 12.7 5.2L19.3 11.8C19.4 11.9 19.4708 12.0083 19.5125 12.125C19.5542 12.2417 19.575 12.3667 19.575 12.5C19.575 12.6333 19.5542 12.7583 19.5125 12.875C19.4708 12.9917 19.4 13.1 19.3 13.2L12.7 19.8C12.5167 19.9833 12.2875 20.075 12.0125 20.075C11.7375 20.075 11.5 19.9833 11.3 19.8C11.1 19.6 11 19.3625 11 19.0875C11 18.8125 11.1 18.575 11.3 18.375L16.175 13.5Z" fill="#2B9A66"/>
   </g>
   </svg>
-  
+
 }
 
 const CommunityIcon = () => {
@@ -34,29 +34,29 @@ const CommunityIcon = () => {
   </svg>
 }
 
-const CodeIcon = ()=>{
+const CodeIcon = () => {
   return <svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <mask id="mask0_204_678"  maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="49">
+  <mask id="mask0_204_678" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="49">
   <rect y="0.5" width="48" height="48" fill="#D9D9D9"/>
   </mask>
   <g mask="url(#mask0_204_678)">
   <path d="M16 36.4L4 24.4L16.1 12.3L18.25 14.45L8.3 24.4L18.15 34.25L16 36.4ZM31.9 36.5L29.75 34.35L39.7 24.4L29.85 14.55L32 12.4L44 24.4L31.9 36.5Z" fill="#2B9A66"/>
   </g>
   </svg>
-  
+
 }
 
 
-const BookIcon = ()=>{
+const BookIcon = () => {
   return <svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <mask id="mask0_204_668"  maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="49">
+  <mask id="mask0_204_668" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="49">
   <rect y="0.5" width="48" height="48" fill="#D9D9D9"/>
   </mask>
   <g mask="url(#mask0_204_668)">
   <path d="M12.4 33.5C14.1857 33.5 15.9237 33.7083 17.614 34.125C19.3047 34.5417 20.9667 35.1667 22.6 36V14.65C21.1 13.65 19.473 12.875 17.719 12.325C15.965 11.775 14.192 11.5 12.4 11.5C11.1333 11.5 9.89167 11.6583 8.675 11.975C7.45833 12.2917 6.23333 12.6833 5 13.15V34.85C6.03333 34.3833 7.20833 34.0417 8.525 33.825C9.84167 33.6083 11.1333 33.5 12.4 33.5ZM25.6 36C27.2667 35.1667 28.9 34.5417 30.5 34.125C32.1 33.7083 33.8 33.5 35.6 33.5C36.8667 33.5 38.175 33.6 39.525 33.8C40.875 34 42.0333 34.2667 43 34.6V13.15C41.8667 12.5833 40.6697 12.1667 39.409 11.9C38.1483 11.6333 36.8787 11.5 35.6 11.5C33.8 11.5 32.0583 11.775 30.375 12.325C28.6917 12.875 27.1 13.65 25.6 14.65V36ZM24.1 40.5C22.4 39.2333 20.55 38.2583 18.55 37.575C16.55 36.8917 14.5 36.55 12.4 36.55C11.182 36.55 9.98583 36.7 8.8115 37C7.63717 37.3 6.46667 37.6667 5.3 38.1C4.53 38.4667 3.7875 38.4167 3.0725 37.95C2.3575 37.4833 2 36.8167 2 35.95V12.8C2 12.3 2.11667 11.8417 2.35 11.425C2.58333 11.0083 2.93333 10.6833 3.4 10.45C4.8 9.78333 6.2565 9.29167 7.7695 8.975C9.28283 8.65833 10.8263 8.5 12.4 8.5C14.5 8.5 16.5417 8.78333 18.525 9.35C20.5083 9.91667 22.3667 10.7833 24.1 11.95C25.8 10.7833 27.625 9.91667 29.575 9.35C31.525 8.78333 33.5333 8.5 35.6 8.5C37.1623 8.5 38.6945 8.65833 40.1965 8.975C41.6988 9.29167 43.15 9.78333 44.55 10.45C45.0167 10.6833 45.375 11.0083 45.625 11.425C45.875 11.8417 46 12.3 46 12.8V35.95C46 36.8797 45.625 37.5872 44.875 38.0725C44.125 38.5575 43.3833 38.5667 42.65 38.1C41.5167 37.6333 40.3628 37.2583 39.1885 36.975C38.0142 36.6917 36.818 36.55 35.6 36.55C33.5 36.55 31.4833 36.9 29.55 37.6C27.6167 38.3 25.8 39.2667 24.1 40.5Z" fill="#2B9A66"/>
   </g>
   </svg>
-  
+
 }
 
 const ComputerIcon = () => {
@@ -112,7 +112,7 @@ const FeatureCard = ({ title, description, icon }) => {
 
 const IntegrationCard = ({ title, description, icon, cta="", ctaLink }) => {
 
-  const onClickHandler = ()=>{
+  const onClickHandler = () => {
     // open link - > /docs/installation
     window.open(ctaLink, '_blank');
   }
@@ -146,11 +146,13 @@ const HeroSection = () => {
 
       <div>
         <div className='flex justify-center mt-5 space-x-2'>
-          <Button color="green" variant="solid" onClick={() => {
+          <Button
+color="green" variant="solid" onClick={() => {
             location.href = '/playground'
           }}>Go to playground</Button>
 
-          <Button color="blue" variant="ghost" onClick={() => {
+          <Button
+color="blue" variant="ghost" onClick={() => {
             location.href = '/colors'
           }}>Check out Colors</Button>
         </div>
@@ -229,17 +231,17 @@ const HeroSection = () => {
 
   </div>
 
-  {/* Old Hero Section */ }
-  return <div>
-    <div className='py-20 mb-10 relative'>
-      <div className='relative z-10'>
-        <Heading className="text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-1000">
-          Build <div className='inline-block text-transparent bg-clip-text bg-gradient-to-t from-green-800 to-green-950'>Effortless, </div> <br />
-          No <div className='inline-block text-transparent bg-clip-text bg-gradient-to-t from-crimson-700 to-crimson-950'> Compromise UI</div> Fast.
-        </Heading>
-      </div>
-    </div>
-  </div>
+
+  // return <div>
+  //   <div className='py-20 mb-10 relative'>
+  //     <div className='relative z-10'>
+  //       <Heading className="text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-1000">
+  //         Build <div className='inline-block text-transparent bg-clip-text bg-gradient-to-t from-green-800 to-green-950'>Effortless, </div> <br />
+  //         No <div className='inline-block text-transparent bg-clip-text bg-gradient-to-t from-crimson-700 to-crimson-950'> Compromise UI</div> Fast.
+  //       </Heading>
+  //     </div>
+  //   </div>
+  // </div>
 }
 
 export default HeroSection;

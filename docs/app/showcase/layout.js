@@ -5,7 +5,7 @@ import Separator from "@radui/ui/Separator"
 import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
 
 
-const ShowCase = ({children})=>{
+const ShowCase = ({children}) => {
     return <FullHeightScroll>
         <div className='p-4 text-gray-1000'>
             <Heading as="h6" className='my-4'>

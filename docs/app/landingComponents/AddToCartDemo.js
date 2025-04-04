@@ -17,7 +17,7 @@ const IconContainer = ({ children }) => {
 
 const AddToCartDemo = () => {
     return <div className='p-4 border border-gray-400 rounded-md bg-gray-100 flex space-x-4'>
-       
+
         <div className='flex-1'>
             <div className='flex space-x-2 items-center mb-2'>
                 <Text className="text-gray-900">Join the Ultimate Fan Experience</Text>

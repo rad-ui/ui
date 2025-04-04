@@ -6,11 +6,11 @@ import RowsIcon from "@/icons/Rows"
 import SoundWaveSampleLogo from "@/icons/logos/SoundWaveSampleLogo"
 
 import Text from "@radui/ui/Text"
-const MenuItem = ({children, label="", active=false})=>{
+const MenuItem = ({children, label="", active=false}) => {
     const DIMENSIONS = 18;
     return <div className={`flex items-center space-x-2 cursor-pointer`}>
                 <div className='flex items-center space-x-2'>
-                    <div className='flex-none' style={{width:DIMENSIONS,height:DIMENSIONS}}>{children}</div>
+                    <div className='flex-none' style={{width:DIMENSIONS, height:DIMENSIONS}}>{children}</div>
                     <Text className={`${active?'!font-medium text-gray-1000':'font-light text-gray-900 hover:text-gray-1000 !hover:font-medium'}`}>{label}</Text>
                 </div>
         </div>
@@ -19,11 +19,11 @@ const MenuItem = ({children, label="", active=false})=>{
 const MusicSidebar = () => {
    return <div className='bg-gray-50 border flex-none p-4' style={{width:"220px"}}>
                 <div className='mb-4 text-gray-1000' style={{width:"70%"}}>
-                    <SoundWaveSampleLogo/> 
+                    <SoundWaveSampleLogo/>
                 </div>
                 <div className='space-y-2'>
                     <MenuItem label="Home" active={true}><HomeIcon/></MenuItem>
-                    <MenuItem label="Explore"  ><RocketIcon/></MenuItem>
+                    <MenuItem label="Explore" ><RocketIcon/></MenuItem>
                     <MenuItem label="Genres"> <DiscIcon/></MenuItem>
                 </div>
 

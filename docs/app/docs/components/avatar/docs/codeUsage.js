@@ -58,5 +58,5 @@ export const avatarBasicUsageExample = {
      {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the text initials or placeholder displayed when the image fails to load or if no src is provided.', id: 'color'},
     ]
  }
- 
+
 export default code;

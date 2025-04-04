@@ -4,9 +4,8 @@ import Tabs from "@radui/ui/Tabs"
 
 const CodeTabs = ({ data }) => {
     const [activeTab, setActiveTab] = useState(data[0]?.value)
-   console.log(activeTab)
 
-    return  <Tabs.Root defaultValue={activeTab}>
+    return <Tabs.Root defaultValue={activeTab}>
         <Tabs.List>
             {data.map((tab, index) => (
                 <Tabs.Trigger key={index} value={tab.value}>{tab.label}</Tabs.Trigger>

@@ -14,7 +14,7 @@ import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScr
 
 const Playground = () => {
     return (
-        <FullHeightScroll>  
+        <FullHeightScroll>
             <div className='text-gray-900 p-8'>
                 <AvatarPlayground/>
                 <BadgePlayground/>
