@@ -12,27 +12,8 @@ const InfoIcon = () => {
 }
 
 const InfoRenderer = ({ row }) => {
-
-    const prop = row.prop
-    let infoText = ""
-    switch(row.prop){
-        case "className":
-            infoText = "The class name for the component."
-            break;
-        case "asChild":
-            infoText = "Whether to use the child component as the Accordion."
-            break;
-        case "loop":
-            infoText = "Whether to loop through the Accordion items."
-            break;
-        case "orientation":
-            infoText = "The orientation of the Accordion."
-            break;
-        case "openMultiple":
-            infoText = "Whether to allow multiple items to be open at once."
-            break;
-    }
-
+    const prop = row.prop.name
+    const infoText = row.prop.info_tooltips
     return <span className="text-gray-950 !text-sm">
         <div className="flex items-center gap-2 text-gray-950">
             <Text className="text-gray-950 !text-sm">{prop}</Text>
