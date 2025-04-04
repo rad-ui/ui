@@ -86,7 +86,7 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
     return (
         <div className="mt-10 mb-20">
             <div className="mb-4 space-y-2">
-                <BookMarkLink id="api-documentation"> <Heading as={as}>{title}</Heading> </BookMarkLink>
+                <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}> <Heading as={as}>{title}</Heading> </BookMarkLink>
                 <Text className="text-gray-950">{description}</Text>
             </div>
             <Table.Root>

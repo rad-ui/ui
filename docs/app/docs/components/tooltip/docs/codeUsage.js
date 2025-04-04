@@ -1,12 +1,10 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/examples/tooltip_example1.tsx');
+
 const code = {
     javascript: {
-        code: `import Tooltip from "@radui/ui/Tooltip"
-
-const ToolTipExample = () => (
-    <Tooltip content="Tooltip content">
-        Hello Tooltip. Hover Me!
-    </Tooltip>
-)`
+        code: example_1_SourceCode
     },
     css: {
         code: `todo`

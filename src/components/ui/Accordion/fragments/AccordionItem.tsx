@@ -11,7 +11,6 @@ export type AccordionItemProps = {
     children: React.ReactNode;
     className?: string;
     value?: number | string;
-    setItemValue?: (value: number | string) => void;
     disabled?: boolean;
     asChild?: boolean;
 }

@@ -13,17 +13,13 @@ const data = {
         {
             name: "Default",
             id : "default",
-        },
-        {
-            name : "",
-            id : "info_tooltips",
         }
     ],
     data:[
        {
         prop : {
             name : "className",
-            info_tooltips : "The class name for the Accordion."
+            info_tooltips : "The class name for the AccordionRoot."
         },
         type : "string",
         default : "--",
