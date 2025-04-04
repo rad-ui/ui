@@ -1,8 +1,9 @@
 import Callout from '@radui/ui/Callout';
 import Text from "@radui/ui/Text";
 import Separator from '@radui/ui/Separator';
-import Tooltip from '@radui/ui/Tooltip';
+
 import { BookmarkIcon } from '../docs/codeUsage';
+import TooltipWrapper from '@/components/ui/Tooltip';
 
 const CalloutVariants = () => {
   const calloutVariants = ['soft', 'outline'];
@@ -22,11 +23,11 @@ const CalloutVariants = () => {
                 <Text>Something went wrong. Please try again later.</Text>
             </Callout>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
-            <Tooltip label={calloutStyleDescription[variant]} placement="bottom">
+            <TooltipWrapper label={calloutStyleDescription[variant]} placement="bottom">
               <Text className="text-gray-800 font-light inline-block cursor-help">
                 {variant}
               </Text>
-            </Tooltip>
+            </TooltipWrapper>
           </span>
         ))}
       </div>

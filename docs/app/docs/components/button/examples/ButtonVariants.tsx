@@ -1,7 +1,9 @@
 import Text from '@radui/ui/Text';
 import Separator from '@radui/ui/Separator';
-import Tooltip from '@radui/ui/Tooltip';
+
 import Button from '@radui/ui/Button';
+
+import TooltipWrapper from '@/components/ui/Tooltip';
 
 const Arrow = () => (
   <svg
@@ -39,11 +41,11 @@ const ButtonVariants = () => {
               <Arrow />
             </Button>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
-            <Tooltip label={buttonStyleDescription[variant]} placement="bottom">
+            <TooltipWrapper label={buttonStyleDescription[variant]} placement="bottom">
               <Text className="text-gray-800 font-light inline-block cursor-help">
                 {variant}
               </Text>
-            </Tooltip>
+            </TooltipWrapper>
           </span>
         ))}
       </div>

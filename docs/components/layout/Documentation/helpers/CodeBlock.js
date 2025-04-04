@@ -6,7 +6,7 @@ import jsx from 'refractor/lang/jsx';
 import scss from 'refractor/lang/scss'; // Add SCSS import
 import Copy from '@/components/Copy';
 
-import Tooltip from '@radui/ui/Tooltip'
+import TooltipWrapper from '@/components/ui/Tooltip';
 import Button from '@radui/ui/Button'
 
 refractor.register(js);
@@ -82,9 +82,9 @@ className={`language-${language} whitespace-pre-wrap`}
 
            </div>
            <span className="absolute top-2 right-2">
-           <Tooltip label="Copy" placement="bottom">
+           <TooltipWrapper label="Copy" placement="bottom">
                 <Copy content={copyContent} />
-            </Tooltip>
+            </TooltipWrapper>
            </span>
         </pre>
     );
