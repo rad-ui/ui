@@ -37,4 +37,14 @@ describe('Avatar', () => {
         render(<Avatar fallback="RU" color='blue'/>);
         expect(screen.getByText('RU')).toHaveAttribute('data-accent-color', 'blue');
     });
+
+    test('renders avatar with the given asChild', () => {
+        render(<Avatar.Root>WithoutAschild</Avatar.Root>);
+        const WithoutAschild = screen.getByText('WithoutAschild');
+        expect(WithoutAschild.tagName).toBe("SPAN");
+
+        render(<Avatar.Root asChild><div>WithAschild</div></Avatar.Root>);
+        const div = screen.getByText('WithAschild');
+        expect(div.tagName).toBe("DIV");
+    });
 });
