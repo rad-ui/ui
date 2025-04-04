@@ -73,7 +73,6 @@ const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
             {!inline && <>
                 {!expanded && <div className="code-block-blur"></div>}
                 <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
-                
                     <Button  size="small" onClick={() => setExpanded(!expanded)}>
                         Show {expanded ? 'less' : 'more'}
                     </Button>

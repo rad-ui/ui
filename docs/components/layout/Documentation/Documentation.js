@@ -34,10 +34,9 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
     </div>;
 };
 
-
-const Anatomy = ({ code, language = 'jsx' }) => {
+const Anatomy = ({ code, as = "h3", language = 'jsx' }) => {
     return <div className='mt-10'>
-        <BookMarkLink id="anatomy"> <Heading as="h2" className="mb-2">Anatomy</Heading> </BookMarkLink>
+        <BookMarkLink id="anatomy"> <Heading as={as} className="mb-2">Anatomy</Heading> </BookMarkLink>
         <Text className="mb-4 text-gray-950 font-light">Import all parts of the component and piece them together</Text>
         <CodeBlock className='mb-10' language={language}>
             {code}
@@ -45,12 +44,13 @@ const Anatomy = ({ code, language = 'jsx' }) => {
     </div>;
 };
 
-const Section = ({ title = '', children }) => {
+const Section = ({ title = '', as = "h2", children }) => {
     return <div>
-        <BookMarkLink id={title}> <Heading as="h6" className="mb-2">{title}</Heading> </BookMarkLink>
-        <div className='mb-10'>
+        <BookMarkLink id={title}> <Heading as={as} className="mb-2">{title}</Heading> </BookMarkLink>
+        <div className=''>
             {children}
         </div>
+        <Separator className="my-10" />
     </div>;
 };
 
