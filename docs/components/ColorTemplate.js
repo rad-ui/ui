@@ -8,13 +8,13 @@ const ColorBubble = ({ colorClass }) => {
       </div>
     )
   }
-  
-  
+
+
   const ColorTemplate = () => {
-  
-  
+
+
     return <div className="overflow-x-scroll">
-  
+
       <div className={`p-4 space-y-0.5 max-w-[1200px] min-w-[800px] mx-auto`}>
       <div className='flex mx-auto'>
                 <ColorBubble colorClass='bg-gray-50' />
@@ -445,7 +445,7 @@ const ColorBubble = ({ colorClass }) => {
             </div>
       </div>
     </div>
-  
+
   }
-  
+
   export default ColorTemplate

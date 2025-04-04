@@ -13,10 +13,10 @@ const AnalyticsBar = ({ index }) => {
     const heightClasses = [
         'h-8', 'h-12', 'h-16', 'h-20', 'h-24', 'h-28', 'h-32'
     ];
-    
+
     // Use index to get a deterministic but varied height
     const heightClass = heightClasses[index % heightClasses.length];
-    
+
     return <div className={`w-2 rounded-md bg-blue-800 ml-1 ${heightClass}`} key={index}></div>;
 };
 

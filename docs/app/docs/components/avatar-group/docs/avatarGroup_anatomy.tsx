@@ -1,8 +1,8 @@
 import AvatarGroup from "@radui/ui/AvatarGroup";
 
-export default ()=>{
+export default () => {
     return (
-        <AvatarGroup.Root> 
+        <AvatarGroup.Root>
             <AvatarGroup.AvatarRoot>
                 <AvatarGroup.AvatarImage />
                 <AvatarGroup.AvatarFallback />

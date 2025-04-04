@@ -12,7 +12,7 @@ const AspectRatioExample = () => (
             />
     </AspectRatio>
 )`
-    
+
 }
 }
 
@@ -26,7 +26,7 @@ export const AspectRatioTable = {
 
      data :[
         {prop: 'ratio', type: 'string', default: '1', description: 'Used to set desired ratio', id: 'ratio'},
-        
+
     ]
 }
 

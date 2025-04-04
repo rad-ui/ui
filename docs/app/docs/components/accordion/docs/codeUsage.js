@@ -79,7 +79,7 @@ export const keyboardShortcuts = {
           shortcut: <Kbd>ArrowUp</Kbd>,
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
-          </Text>, 
+          </Text>,
           id:   "arrow-up"
         },
         // {

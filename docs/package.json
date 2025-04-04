@@ -6,7 +6,7 @@
     "dev": "rimraf .next && next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix",
     "update-rad": "npm i @radui/ui@latest"
   },
   "dependencies": {

@@ -119,7 +119,7 @@ const docsNavigationSections = [
                 title:"VisuallyHidden",
                 path:"/docs/components/visually-hidden"
             }
-            
+
         ]
     },
     {
@@ -196,7 +196,7 @@ const docsNavigationSections = [
     //             title: "Button",
     //             path: "/docs/components/button"
     //         },
-    //         {   
+    //         {
     //             title: "BlockQuote",
     //             path: "/docs/components/blockquote"
     //         },
@@ -237,7 +237,7 @@ const docsNavigationSections = [
     //             path: "/docs/components/progress",
     //             is_new:true
     //         },
-           
+
     //         {
     //             title: "Separator",
     //             path: "/docs/components/separator"

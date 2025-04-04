@@ -19,7 +19,7 @@ export const VisuallyHiddenTable = {
    ],
    data : [
        {prop: 'asChild', type: 'boolean', default: 'false', description: 'renders the children in desired element', id: 'asChild'},
-      
+
    ]
 }
 

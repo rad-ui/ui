@@ -52,13 +52,13 @@ const GithubLogo = () => {
   );
 };
 
-const IconWrapper = ({children, href})=>{
+const IconWrapper = ({children, href}) => {
   return <a href={href} className="text-gray-1000" target="_blank" rel="noopener noreferrer">
     {children}
   </a>
 }
 
-const JoinCommunity = ()=>{
+const JoinCommunity = () => {
   return <div className="bg-gradient-to-b from-gray-50 to-green-200 rounded-lg p-6 border border-gray-700 space-y-6 mb-10">
     <Heading as="h2" className="text-gray-1000">Join the Community</Heading>
     <Text className="text-gray-950">Join the community to get the latest news and updates.</Text>
@@ -73,7 +73,7 @@ const JoinCommunity = ()=>{
   </div>
 }
 
-const DesignedBy = ()=>{
+const DesignedBy = () => {
   return <div className="my-10 text-gray-1000 text-right px-4">
    <div>
     <Text>Website designed by <Link href="https://carmenw.design/" target="_blank" rel="noopener noreferrer">Carmen</Link> and <Link href="https://maryandesign.net/" target="_blank" rel="noopener noreferrer">Maryan</Link>.</Text>

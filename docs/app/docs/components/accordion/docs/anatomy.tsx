@@ -1,6 +1,6 @@
 import Accordion from "@radui/ui/Accordion";
 
-export default ()=>{
+export default () => {
     return (
         <Accordion.Root>
             <Accordion.Item>
