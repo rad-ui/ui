@@ -39,8 +39,12 @@ describe('Avatar', () => {
     });
 
     test('renders avatar with the given asChild', () => {
-        render(<Avatar.Root asChild><div>Avatar</div></Avatar.Root>);
-        const div = screen.getByText('Avatar');
+        render(<Avatar.Root>WithoutAschild</Avatar.Root>);
+        const WithoutAschild = screen.getByText('WithoutAschild');
+        expect(WithoutAschild.tagName).toBe("SPAN");
+
+        render(<Avatar.Root asChild><div>WithAschild</div></Avatar.Root>);
+        const div = screen.getByText('WithAschild');
         expect(div.tagName).toBe("DIV");
     });
 });
