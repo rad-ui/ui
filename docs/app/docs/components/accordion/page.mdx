@@ -1,11 +1,18 @@
+import PageDetails from '@/components/seo/PageDetails';
+
 import Documentation from '@/components/layout/Documentation/Documentation';
 import AccordionExample from "./docs/example_1"
 import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
+
+import seo from "./docs/seo"
+
+export const metadata = seo;
 
 <Documentation
     title={`Accordion`}
     description='Accordions are a common UX pattern that can help reduce the amount of information presented to users. They are used to toggle the visibility of content, condensing information and reducing clutter.'
 >
+
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
         <AccordionExample />
