@@ -3,17 +3,20 @@ import Code from '@radui/ui/Code';
 import codeUsage, { CodeTable } from './docs/codeUsage';
 
 <Documentation
-           title={`Code`} description={`
-           Code is used to display inline code.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-                <div className='bg-gray-100 p-5 flex items-center rounded-md shadow'>
-                    <Code className="space-x-2" style={{ margin: 0 }}>console.log('This is some code')</Code>
-                </div>
-            </Documentation.ComponentHero>
+  title="Code" 
+  description="Code is used to display inline code."
+>
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <div className='bg-gray-100 p-5 flex items-center rounded-md shadow'>
+      <Code className="space-x-2" style={{ margin: 0 }}>console.log('This is some code')</Code>
+    </div>
+  </Documentation.ComponentHero>
 
-            <Documentation.Table columns={CodeTable.columns} data={CodeTable.data} />
-        </Documentation>
+  <Documentation.Table 
+    columns={CodeTable.columns} 
+    data={CodeTable.data} 
+  />
+</Documentation>
 
      
                 
