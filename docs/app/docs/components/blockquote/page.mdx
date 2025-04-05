@@ -1,32 +1,47 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
-import codeUsage, { BlockQuoteTable } from "./docs/codeUsage"
 import BlockQuote from "@radui/ui/BlockQuote"
+import codeUsage, { BlockQuoteTable, api_documentation, features } from "./docs/codeUsage"
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import { code as colorCodeUsage } from './docs/colorCodeUsage';
 import BlockQuoteSizes from './examples/BlockQuoteSizes';
 import BlockQuoteColor from './examples/BlockQuoteColor';
+import seo from './docs/seo';
 
-<Documentation title={`BlockQuote`} description={`
-            BlockQuote is used to display a quote.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-               
-                    <BlockQuote color="green">
-                        "Behind every great man is a woman rolling her eyes." — Jim Carrey
-                    </BlockQuote>
-                    
-            </Documentation.ComponentHero>
-            
+export const metadata = seo;
 
-            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
-                <BlockQuoteSizes />
-            </Documentation.ComponentHero>
+<Documentation 
+  title="BlockQuote" 
+  description="BlockQuote is a component that visually distinguishes quoted content, making it perfect for testimonials, citations, and emphasizing important passages."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <BlockQuote color="green">
+      "Behind every great man is a woman rolling her eyes." — Jim Carrey
+    </BlockQuote>
+  </Documentation.ComponentHero>
 
-            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
-                <BlockQuoteColor />
-            </Documentation.ComponentHero>
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+  
+  {/* Size Examples */}
+  <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+    <BlockQuoteSizes />
+  </Documentation.ComponentHero>
 
+  {/* Color Examples */}
+  <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+    <BlockQuoteColor />
+  </Documentation.ComponentHero>
 
-             <Documentation.Table columns={BlockQuoteTable.columns} data={BlockQuoteTable.data} />
-        
-        </Documentation>
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="BlockQuote" 
+    description={api_documentation.blockquote.description}
+    columns={api_documentation.blockquote.columns} 
+    data={api_documentation.blockquote.data} 
+  />
+</Documentation>
