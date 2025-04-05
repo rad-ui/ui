@@ -1,3 +1,6 @@
+// Import API documentation
+import heading_api_SourceCode from './api/heading.tsx';
+
 const code = {
     javascript: {
         code: `import Heading from "@radui/ui/Heading"
@@ -57,6 +60,20 @@ const HeadingExamples = () => (
     },
 }
 
+// API documentation
+export const api_documentation = {
+    heading: heading_api_SourceCode
+};
+
+// Component features
+export const features = [
+    "Six different heading levels (h1-h6)",
+    "Each heading level has appropriate styling out of the box",
+    "Preserves semantic meaning with proper HTML tags",
+    "Customizable with className and style props"
+];
+
+// Legacy table export - keeping for backward compatibility
 export const headingBasicUsageExample = {
     columns: [
      {name: 'Prop', id: 'prop'},
@@ -67,6 +84,6 @@ export const headingBasicUsageExample = {
     data: [
      {prop: 'as', type: 'string', default: 'h1', description: 'Allows the component to render different heading levels (h1 to h6)', id: 'src'},
     ]
- }
+}
 
 export default code;
