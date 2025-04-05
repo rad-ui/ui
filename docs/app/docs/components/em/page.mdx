@@ -1,14 +1,33 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Em from "@radui/ui/Em"
 import Text from "@radui/ui/Text"
-import codeUsage from "./docs/codeUsage"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
 import EmExample from "./docs/EmExample"
+import seo from "./docs/seo"
 
-<Documentation  title={`Em`} description={`
-           Em is used to emphasize text.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-                <EmExample />
-            </Documentation.ComponentHero>
+export const metadata = seo;
 
-        </Documentation>
+<Documentation  
+  title="Em" 
+  description="Em is used to emphasize text with semantic meaning through the HTML <em> element."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <EmExample />
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Em" 
+    description={api_documentation.em.description}
+    columns={api_documentation.em.columns} 
+    data={api_documentation.em.data} 
+  />
+</Documentation>

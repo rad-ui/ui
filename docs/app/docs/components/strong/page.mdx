@@ -1,13 +1,33 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Strong from "@radui/ui/Strong"
-import codeUsage from "./docs/codeUsage"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+import seo from "./docs/seo"
 
- <Documentation  title='Strong' description={`
-            Strong is used to define text with strong importance in bold.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-            <div className='text-gray-1000'>
-              <p>This is a <Strong>very important</Strong> message.</p>
-            </div>
-            </Documentation.ComponentHero>
+export const metadata = seo;
+
+<Documentation 
+  title="Strong" 
+  description="The Strong component semantically marks text as important by rendering it with strong importance using the HTML strong element."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <div className='text-gray-1000'>
+      <p>This is a <Strong>very important</Strong> message.</p>
+    </div>
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Strong" 
+    description={api_documentation.strong.description}
+    columns={api_documentation.strong.columns} 
+    data={api_documentation.strong.data} 
+  />
 </Documentation>

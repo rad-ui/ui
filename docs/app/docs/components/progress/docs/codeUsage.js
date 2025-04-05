@@ -1,3 +1,6 @@
+// Import API documentation
+import progress_api_SourceCode from './api/progress.tsx';
+
 const code = {
     javascript: {
         code: `
@@ -28,7 +31,22 @@ const ProgressExample = () => (
     }
 };
 
+// API documentation
+export const api_documentation = {
+    progress: progress_api_SourceCode
+};
 
+// Component features
+export const features = [
+    "Displays completion status visually as a horizontal bar",
+    "Supports minimum and maximum value configuration",
+    "Customizable color themes",
+    "Smooth animations for value changes",
+    "Option to add custom labels with renderLabel prop",
+    "Follows accessibility best practices with proper ARIA attributes"
+];
+
+// Kept for backwards compatibility
 export const ProgressTable = {
     columns: [
         {name: 'Prop', id: 'prop'},
@@ -44,4 +62,5 @@ export const ProgressTable = {
         { prop: 'minValue', type: 'number', default: '0', description: 'Minimum value of the progress bar.', id: 'minValue' },
     ]
 };
+
 export default code;

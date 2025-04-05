@@ -1,3 +1,8 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+// Import API documentation
+import text_api_SourceCode from './api/text.tsx';
+
 const code = {
     javascript: {
         code: `import Text from "@radui/ui/Text"
@@ -17,4 +22,17 @@ const TextExample = () => (
     },
 }
 
-export default code;
+// API documentation
+export const api_documentation = {
+    text: text_api_SourceCode
+};
+
+// Component features
+export const features = [
+    "Renders as different HTML elements (p, span, div, label)",
+    "Customizable with className and style props",
+    "Preserves accessibility with proper semantic elements",
+    "Lightweight and simple to use"
+];
+
+export default code; 

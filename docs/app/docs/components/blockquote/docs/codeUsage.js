@@ -1,13 +1,15 @@
+// Import API documentation
+import blockquote_api_SourceCode from './api/blockquote.tsx';
+
 const code = {
     javascript: {
         code: `import BlockQuote from "@radui/ui/BlockQuote"
 
 const BlockQuoteExample = () => (
     <div>
-        <BlockQuote> When my time comes, forget the wrong that I've done.
-        Help me leave behind some reasons to be missed.
-        Don't resent me and when you're feeling empty, keep me in your memory.
-        Leave out all the rest, leave out all the rest. </BlockQuote>
+        <BlockQuote color="green">
+            "Behind every great man is a woman rolling her eyes." — Jim Carrey
+        </BlockQuote>
     </div>
 )`
     },
@@ -20,6 +22,21 @@ const BlockQuoteExample = () => (
     },
 }
 
+// API documentation
+export const api_documentation = {
+    blockquote: blockquote_api_SourceCode
+};
+
+// Component features
+export const features = [
+    "Multiple size options: small, medium, large, x-large",
+    "Customizable with different color themes",
+    "Clean and simple styling for emphasized quotes",
+    "Follows typography best practices",
+    "Perfect for testimonials and citations"
+];
+
+// Kept for backwards compatibility
 export const BlockQuoteTable = {
    columns : [
         {name: 'Prop', id: 'prop'},

@@ -13,10 +13,6 @@ const data = {
         {
             name: "Default",
             id : "default",
-        },
-        {
-            name : "",
-            id : "info_tooltips",
         }
     ],
     data:[

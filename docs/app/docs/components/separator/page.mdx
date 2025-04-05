@@ -1,29 +1,44 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Separator from "@radui/ui/Separator"
-import codeUsage, { SeparatorTable } from "./docs/codeUsage"
 import Text from "@radui/ui/Text"
+import codeUsage, { SeparatorTable, api_documentation, features } from "./docs/codeUsage"
+import seo from "./docs/seo"
 
+export const metadata = seo;
 
+<Documentation 
+  title="Separator" 
+  description="The Separator component visually divides content using horizontal or vertical lines, creating clear distinctions between different sections and improving visual organization."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <div className='text-gray-1000 font-normal p-5 space-y-1'>
+      <div>
+        <Text>Welcome to Rad UI</Text>
+      </div>
+      <Separator />
+      <div className='flex items-center'>
+        <Text>Modern</Text>
+        <Separator orientation="vertical" />
+        <Text>Accessible</Text>
+        <Separator orientation="vertical" />
+        <Text>Performant</Text>
+      </div>
+    </div>
+  </Documentation.ComponentHero>
 
-<Documentation  title='Separator' description={`
-              Separator is used to separate content.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-                <div className='text-gray-1000 font-normal p-5 space-y-1'>
-                    <div>
-                        <Text>Welcome to Rad UI</Text>
-                    </div>
-                    <Separator />
-                    <div className='flex'>
-                        <Text>Modern</Text>
-                        <Separator orientation="vertical" />
-                        <Text>Accessible</Text>
-                        <Separator orientation="vertical" />
-                        <Text>Performant</Text>
-                    </div>
-                </div>
-            </Documentation.ComponentHero>
-            <div >
-                <Documentation.Table columns={SeparatorTable.columns} data={SeparatorTable.data} />
-            </div>
-        </Documentation>
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Separator" 
+    description={api_documentation.separator.description}
+    columns={api_documentation.separator.columns} 
+    data={api_documentation.separator.data} 
+  />
+</Documentation>

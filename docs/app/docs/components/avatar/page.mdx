@@ -1,24 +1,26 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-
 import AvatarExample from "./docs/AvatarExample"
 import codeUsage, { avatarBasicUsageExample } from "./docs/codeUsage"
 
-
 <Documentation 
-    title='Avatar' 
-    description={`Avatars are used to represent a user or a brand. They are used in the header, sidebar, and in the chat.`}
+  title="Avatar" 
+  description="Avatars are used to represent a user or a brand. They are used in the header, sidebar, and in the chat."
 >
-    <Documentation.ComponentHero codeUsage={codeUsage}>
-        <AvatarExample />
-    </Documentation.ComponentHero>
-    
-    <Documentation.ComponentFeatures features={[
-        "Adds a fallback if the image is not available",
-        // "Accepts a custom fallback",
-        "SSR compatible",
-    ]} /> 
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <AvatarExample />
+  </Documentation.ComponentHero>
+  
+  <Documentation.ComponentFeatures 
+    features={[
+      "Adds a fallback if the image is not available",
+      // "Accepts a custom fallback",
+      "SSR compatible",
+    ]} 
+  /> 
 
-
-        <Documentation.Table columns={avatarBasicUsageExample.columns} data={avatarBasicUsageExample.data} />
+  <Documentation.Table 
+    columns={avatarBasicUsageExample.columns} 
+    data={avatarBasicUsageExample.data} 
+  />
 </Documentation>
 

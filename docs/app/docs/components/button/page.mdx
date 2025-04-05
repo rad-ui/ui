@@ -1,33 +1,52 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from '@/components/layout/Documentation/Documentation';
 import Button from '@radui/ui/Button';
-import codeUsage, { Arrow } from './docs/codeUsage';
+import codeUsage, { Arrow, api_documentation, features } from './docs/codeUsage';
 import { code as variantCodeUsage } from './docs/variantCodeUsage';
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import { code as colorCodeUsage } from './docs/colorCodeUsage';
 import ButtonVariants from './examples/ButtonVariants';
 import ButtonSizes from './examples/ButtonSizes';
 import ButtonColor from './examples/ButtonColor';
+import seo from './docs/seo';
+
+export const metadata = seo;
 
 <Documentation
-            title={`Button`} description={`
-            Buttons are used to trigger an action. You can use them in forms, dialogs, and more.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-                
-                    <Button color="green" className="space-x-2" ><span>Click Me! </span><Arrow /></Button>
-                
-            </Documentation.ComponentHero>
-            
-            <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
-                <ButtonVariants />
-            </Documentation.ComponentHero>
+  title="Button" 
+  description="Buttons are interactive elements used to trigger actions, submit forms, and navigate users through an application."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <Button color="green" className="space-x-2" ><span>Click Me! </span><Arrow /></Button>
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
   
+  {/* Variant Examples */}
+  <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+    <ButtonVariants />
+  </Documentation.ComponentHero>
 
-            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
-                <ButtonSizes />
-            </Documentation.ComponentHero>
+  {/* Size Examples */}
+  <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+    <ButtonSizes />
+  </Documentation.ComponentHero>
 
-            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
-                <ButtonColor />
-            </Documentation.ComponentHero>
-        </Documentation>
+  {/* Color Examples */}
+  <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+    <ButtonColor />
+  </Documentation.ComponentHero>
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Button" 
+    description={api_documentation.button.description}
+    columns={api_documentation.button.columns} 
+    data={api_documentation.button.data} 
+  />
+</Documentation>

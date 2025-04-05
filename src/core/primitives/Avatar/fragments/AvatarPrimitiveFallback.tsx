@@ -11,7 +11,7 @@ export interface AvatarPrimitiveFallbackProps {
     asChild?: boolean;
 }
 
-const AvatarPrimitiveFallback = ({ children, className = '', color = '',asChild = false }: AvatarPrimitiveFallbackProps) => {
+const AvatarPrimitiveFallback = ({ children, className = '', color = '', asChild = false }: AvatarPrimitiveFallbackProps) => {
     const { hasError, fallBackRootClass } = useContext(AvatarPrimitiveContext);
 
     if (!hasError) {
