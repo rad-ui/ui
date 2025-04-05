@@ -1,15 +1,34 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Kbd from "@radui/ui/Kbd"
 import Card from "@radui/ui/Card"
-import codeUsage from "./docs/codeUsage"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+import seo from "./docs/seo"
 
-  <Documentation  title='Kbd' description={`
-            Kbd is a component that can be used to display keyboard keys.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-                <Card className="flex items-center justify-center bg-gray-50 w-[80%]  h-24" >
-                   <Kbd>Ctrl + C</Kbd>
-                </Card>
-            </Documentation.ComponentHero>
+export const metadata = seo;
 
-        </Documentation>
+<Documentation 
+  title="Kbd" 
+  description="The Kbd component visually represents keyboard keys and shortcuts, making it easy to communicate keyboard interactions in documentation and interfaces."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <Card className="flex items-center justify-center bg-gray-50 w-[80%] h-24">
+      <Kbd>Ctrl + C</Kbd>
+    </Card>
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Kbd" 
+    description={api_documentation.kbd.description}
+    columns={api_documentation.kbd.columns} 
+    data={api_documentation.kbd.data} 
+  />
+</Documentation>
