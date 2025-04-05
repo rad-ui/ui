@@ -1,5 +1,5 @@
 export default {
-  title: 'Button Component',
+  title: 'Button - Rad UI',
   description: 'A versatile button component for user interactions with multiple variants, sizes, and color options',
   keywords: [
     'button',

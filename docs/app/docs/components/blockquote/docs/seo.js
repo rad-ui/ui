@@ -1,5 +1,5 @@
 export default {
-  title: 'BlockQuote Component',
+  title: 'BlockQuote - Rad UI',
   description: 'A versatile blockquote component for displaying quoted content with different sizes and color options',
   keywords: [
     'blockquote',

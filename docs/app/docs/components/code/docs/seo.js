@@ -1,5 +1,5 @@
 export default {
-  title: 'Code Component',
+  title: 'Code - Rad UI',
   description: 'A component for displaying inline code snippets with semantic HTML',
   keywords: [
     'code',

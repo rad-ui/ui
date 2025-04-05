@@ -1,5 +1,5 @@
 export default {
-  title: 'Heading Component',
+  title: 'Heading - Rad UI',
   description: 'A flexible component for displaying headings with different levels and customizable styling',
   keywords: [
     'heading',

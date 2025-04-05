@@ -1,5 +1,5 @@
 export default {
-  title: 'Separator Component',
+  title: 'Separator - Rad UI',
   description: 'A component for visually separating content with horizontal or vertical lines',
   keywords: [
     'separator',

@@ -1,7 +1,17 @@
 const metadata = {
-    title: 'Accordion | Rad UI',
-    description: 'Accordions are a common UX pattern that can help reduce the amount of information presented to users. They are used to toggle the visibility of content, condensing information and reducing clutter.',
-    keywords: 'accordion, react component, UI component, collapsible content, expandable panels, rad ui, accessibility, a11y, keyboard navigation, disclosure component',
+    title: 'Accordion - Rad UI',
+    description: 'A versatile accordion component for organizing content in collapsible sections.',
+    keywords: [
+      'accordion',
+      'collapse',
+      'expandable',
+      'collapsible',
+      'disclosure',
+      'content organization',
+      'ui component',
+      'react',
+      'radui'
+    ],
     authors: [{ name: 'Rad UI Team' }, { name: 'Pranay Kothapalli' }],
     // openGraph: {
     //   type: 'website',

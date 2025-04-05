@@ -1,5 +1,5 @@
 export default {
-  title: 'Text Component',
+  title: 'Text - Rad UI',
   description: 'A flexible component for displaying text content with customizable styling',
   keywords: [
     'text',

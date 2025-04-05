@@ -1,5 +1,5 @@
 export default {
-  title: 'Tooltip Component',
+  title: 'Tooltip - Rad UI',
   description: 'Display additional information on hover with the Tooltip component',
   keywords: [
     'tooltip',

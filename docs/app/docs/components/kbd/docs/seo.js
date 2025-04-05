@@ -1,5 +1,5 @@
 export default {
-  title: 'Kbd Component',
+  title: 'Kbd - Rad UI',
   description: 'A component for displaying keyboard key representations and shortcuts in documentation',
   keywords: [
     'kbd',

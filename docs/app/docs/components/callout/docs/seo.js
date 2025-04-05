@@ -1,5 +1,5 @@
 export default {
-  title: 'Callout Component',
+  title: 'Callout - Rad UI',
   description: 'A component for displaying important messages, warnings, or notifications with custom styling options',
   keywords: [
     'callout',

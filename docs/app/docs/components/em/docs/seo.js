@@ -1,5 +1,5 @@
 export default {
-  title: 'Em Component',
+  title: 'Em - Rad UI',
   description: 'A component for emphasizing text with semantic <em> HTML element',
   keywords: [
     'emphasis',

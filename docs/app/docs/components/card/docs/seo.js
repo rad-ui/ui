@@ -1,5 +1,5 @@
 export default {
-  title: 'Card Component',
+  title: 'Card - Rad UI',
   description: 'A container component for grouping related content and actions with consistent styling',
   keywords: [
     'card',

@@ -1,5 +1,5 @@
 export default {
-  title: 'Strong Component',
+  title: 'Strong - Rad UI',
   description: 'A component for highlighting important text with semantic HTML strong element',
   keywords: [
     'strong',

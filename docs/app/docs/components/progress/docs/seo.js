@@ -1,5 +1,5 @@
 export default {
-  title: 'Progress Component',
+  title: 'Progress - Rad UI',
   description: 'A component for displaying the completion status of tasks, uploads, or other processes',
   keywords: [
     'progress',
