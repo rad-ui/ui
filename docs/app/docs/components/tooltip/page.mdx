@@ -1,19 +1,64 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Tooltip from "@radui/ui/Tooltip"
 import Card from "@radui/ui/Card"
 import Text from "@radui/ui/Text"
-import codeUsage, { TooltipTable } from "./docs/codeUsage"
-
+import codeUsage, { TooltipTable, anatomy, api_documentation, keyboardShortcuts } from "./docs/codeUsage"
 import TooltipExample1 from "./docs/examples/tooltip_example1"
+import seo from "./docs/seo"
+
+export const metadata = seo;
 
 <Documentation 
-    title={`Tooltip`} 
-    description={`
-        Tooltips are used to display a small amount of information. They are used in the sidebar, and in the chat.
-    `}
+  title="Tooltip" 
+  description="Tooltips provide additional context or information about an element when users hover or focus on it. They help improve user experience by explaining functionality without cluttering the interface."
 >
-    <Documentation.ComponentHero codeUsage={codeUsage}>
-        <TooltipExample1 />
-    </Documentation.ComponentHero>
-            <Documentation.Table columns={TooltipTable.columns} data={TooltipTable.data} />
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <TooltipExample1 />
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={[
+      "Accessible by keyboard and screen readers",
+      "Follows WAI-ARIA tooltip pattern",
+      "Appears on hover or focus",
+      "Automatically positions itself",
+      "Dismissable with Escape key"
+    ]} 
+  />
+
+  {/* Component Anatomy */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Anatomy code={anatomy.code} />
+
+  {/* API Documentation */}
+  <Documentation.Table 
+    title="Root" 
+    description={api_documentation.root.description}
+    columns={api_documentation.root.columns} 
+    data={api_documentation.root.data} 
+  />
+
+  <Documentation.Table 
+    title="Trigger" 
+    description={api_documentation.trigger.description}
+    columns={api_documentation.trigger.columns} 
+    data={api_documentation.trigger.data} 
+  />
+
+  <Documentation.Table 
+    title="Content" 
+    description={api_documentation.content.description}
+    columns={api_documentation.content.columns} 
+    data={api_documentation.content.data} 
+  />
+
+  {/* Keyboard Shortcuts */}
+  <Documentation.Table 
+    title="Keyboard Interactions" 
+    columns={keyboardShortcuts.columns}
+    data={keyboardShortcuts.data}
+  />
 </Documentation>
