@@ -1,42 +1,57 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from '@/components/layout/Documentation/Documentation';
 import Callout from '@radui/ui/Callout';
 import Text from '@radui/ui/Text';
-import codeUsage, { BookmarkIcon,calloutTable } from './docs/codeUsage';
+import codeUsage, { BookmarkIcon, api_documentation, features } from './docs/codeUsage';
 import { code as variantCodeUsage } from './docs/variantCodeUsage';
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import { code as colorCodeUsage } from './docs/colorCodeUsage';
 import CalloutVariants from './examples/CalloutVariants';
 import CalloutSizes from './examples/CalloutSizes';
 import CalloutColor from './examples/CalloutColor';
+import seo from './docs/seo';
 
-<Documentation title={`Callout`} description={`
-            Callout is a component that can be used to display a message or a notification to the user.
-        `}>
-            <Documentation.ComponentHero codeUsage={codeUsage}>
-                <Callout color="red">
-                    
-                        <BookmarkIcon />
+export const metadata = seo;
 
-                        
-                            <Text className="font-bold">Error</Text>
-                            <Text>Something went wrong. Please try again later.</Text>
-                        
-                    
-                </Callout>
-            </Documentation.ComponentHero>
+<Documentation 
+  title="Callout" 
+  description="Callout is a component that displays important messages, warnings, or notifications with customizable styling to draw attention to specific information."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <Callout color="red">
+      <BookmarkIcon />
+      <Text className="font-bold">Error</Text>
+      <Text>Something went wrong. Please try again later.</Text>
+    </Callout>
+  </Documentation.ComponentHero>
 
-               <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
-                <CalloutVariants />
-            </Documentation.ComponentHero>
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* Variant Examples */}
+  <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+    <CalloutVariants />
+  </Documentation.ComponentHero>
+
+  {/* Size Examples */}
+  <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+    <CalloutSizes />
+  </Documentation.ComponentHero>
+
+  {/* Color Examples */}
+  <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+    <CalloutColor />
+  </Documentation.ComponentHero>
   
-
-            <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
-                <CalloutSizes />
-            </Documentation.ComponentHero>
-
-            <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
-                <CalloutColor />
-            </Documentation.ComponentHero>
-            
-                <Documentation.Table columns={calloutTable.columns} data={calloutTable.data} />
-        </Documentation>
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Callout" 
+    description={api_documentation.callout.description}
+    columns={api_documentation.callout.columns} 
+    data={api_documentation.callout.data} 
+  />
+</Documentation>
