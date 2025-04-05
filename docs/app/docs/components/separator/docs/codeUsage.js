@@ -1,6 +1,10 @@
+// Import API documentation
+import separator_api_SourceCode from './api/separator.tsx';
+
 const code = {
     javascript: {
         code: `import Separator from "@radui/ui/Separator"
+import Text from "@radui/ui/Text"
 
 const SeparatorExample = () => (
     <div>
@@ -8,7 +12,7 @@ const SeparatorExample = () => (
             <Text>Welcome to Rad UI</Text>
         </div>
         <Separator />
-        <div style={{ height: "20px", display:"flex" }}>
+        <div style={{ display:"flex", alignItems: "center" }}>
             <Text>Modern</Text>
             <Separator orientation="vertical" />
             <Text>Accessible</Text>
@@ -37,7 +41,21 @@ const SeparatorExample = () => (
     },
 }
 
+// API documentation
+export const api_documentation = {
+    separator: separator_api_SourceCode
+};
 
+// Component features
+export const features = [
+    "Support for both horizontal and vertical orientation",
+    "Customizable with different color themes",
+    "Helps establish visual hierarchy in layouts",
+    "Simple integration with minimal props required",
+    "Lightweight implementation with proper spacing"
+];
+
+// Kept for backwards compatibility
 export const SeparatorTable = {
     columns: [
         {name: 'Prop', id: 'prop'},
