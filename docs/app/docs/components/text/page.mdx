@@ -1,14 +1,33 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Text from "@radui/ui/Text"
-import codeUsage from "./docs/codeUsage"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+import seo from "./docs/seo"
+
+export const metadata = seo;
 
 <Documentation 
   title="Text" 
-  description="Text is used to display customizable text content."
+  description="Text is used to display customizable text content with control over its HTML element type."
 >
+  {/* Component Hero */}
   <Documentation.ComponentHero codeUsage={codeUsage}>
     <div className='text-gray-1000 p-5 space-y-1'>
       <Text>The best way to predict the future is to invent it.</Text>
     </div>
   </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table 
+    title="Text" 
+    description={api_documentation.text.description}
+    columns={api_documentation.text.columns} 
+    data={api_documentation.text.data} 
+  />
 </Documentation>
