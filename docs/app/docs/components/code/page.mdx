@@ -1,20 +1,34 @@
+import PageDetails from '@/components/seo/PageDetails';
 import Documentation from '@/components/layout/Documentation/Documentation';
 import Code from '@radui/ui/Code';
-import codeUsage, { CodeTable } from './docs/codeUsage';
+import codeUsage, { api_documentation, features } from './docs/codeUsage';
+import seo from './docs/seo';
+
+export const metadata = seo;
 
 <Documentation
   title="Code" 
-  description="Code is used to display inline code."
+  description="Code is used to display inline code snippets with appropriate formatting and semantic meaning."
 >
+  {/* Component Hero */}
   <Documentation.ComponentHero codeUsage={codeUsage}>
     <div className='bg-gray-100 p-5 flex items-center rounded-md shadow'>
       <Code className="space-x-2" style={{ margin: 0 }}>console.log('This is some code')</Code>
     </div>
   </Documentation.ComponentHero>
 
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
   <Documentation.Table 
-    columns={CodeTable.columns} 
-    data={CodeTable.data} 
+    title="Code" 
+    description={api_documentation.code.description}
+    columns={api_documentation.code.columns} 
+    data={api_documentation.code.data} 
   />
 </Documentation>
 
