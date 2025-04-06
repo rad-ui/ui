@@ -18,9 +18,12 @@ export type AccordionRootProps = {
     asChild?: boolean;
     loop?: boolean;
     openMultiple?: boolean;
+    value?: string | string[];
+    defaultValue?: string | string[];
+    onValueChange?: (value: string | string[]) => void
 }
 
-const AccordionRoot = ({ children, orientation = 'vertical', asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
+const AccordionRoot = ({ children, orientation = 'vertical', asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false, value, defaultValue, onValueChange }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
@@ -35,7 +38,10 @@ const AccordionRoot = ({ children, orientation = 'vertical', asChild, transition
                 accordionRef,
                 transitionDuration,
                 transitionTimingFunction,
-                openMultiple
+                openMultiple,
+                value, 
+                defaultValue, 
+                onValueChange
             }}>
             <RovingFocusGroup.Root orientation={orientation} loop={loop}>
                 <RovingFocusGroup.Group >
