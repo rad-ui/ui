@@ -26,7 +26,7 @@ const AccordionExample = () => {
   <div className="w-64 md:w-96">
     <Accordion.Root>
       {items.map((item) => (
-        <Accordion.Item key={item.id} value={`${item.id}`}>
+        <Accordion.Item value={`${item.id}`}>
           <Accordion.Header>
             <Accordion.Trigger>{item.title}</Accordion.Trigger>
           </Accordion.Header>
