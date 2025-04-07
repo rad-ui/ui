@@ -20,6 +20,7 @@ const AvatarPrimitiveImage = ({
 
     // If there's no src or there's an error, render nothing
     if (!src || hasError) {
+        if(!src) handleErrorImage()
         return null;
     }
 

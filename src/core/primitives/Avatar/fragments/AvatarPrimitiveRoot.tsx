@@ -17,7 +17,7 @@ const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', a
     const rootClass = customClassSwitcher(customRootClass, 'Avatar');
     const fallBackRootClass = customClassSwitcher(customRootClass, 'Fallback');
     const [isImageLoaded, setIsImageLoaded] = useState(false);
-    const [hasError, setHasError] = useState(!src);
+    const [hasError, setHasError] = useState(false);
 
     const handleLoadImage = () => {
         setIsImageLoaded(true);
