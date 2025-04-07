@@ -6,7 +6,7 @@ const generateComponentsSitemaps = ()=>{
   docsNavigationSections.map((section)=>{
     return section.items.map((item)=>{
       allPages.push({
-        url: `https://www.radui.com${item.path}`,
+        url: `https://www.rad-ui.com${item.path}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 1,
@@ -20,7 +20,7 @@ export default function sitemap() {
     return [
       {
         // default home page
-        url: 'https://www.radui.com',
+        url: 'https://www.rad-ui.com',
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 1,
