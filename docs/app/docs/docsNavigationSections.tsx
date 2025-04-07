@@ -1,4 +1,4 @@
-const docsNavigationSections = [
+export const docsNavigationSections = [
     {
         type:"CATEGORY",
         title:"First Steps",
