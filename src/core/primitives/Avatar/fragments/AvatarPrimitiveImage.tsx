@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { clsx } from 'clsx';
 
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
@@ -19,9 +19,14 @@ const AvatarPrimitiveImage = ({
     const { handleErrorImage, handleLoadImage, hasError } = useContext(AvatarPrimitiveContext);
 
     // If there's no src or there's an error, render nothing
-    if (!src || hasError) {
+    if (hasError) {
         return null;
     }
+    useEffect(() => {
+        if (!src && !hasError) {
+            handleErrorImage();
+        }
+    }, [src, handleErrorImage, hasError]);
 
     return (
         <img

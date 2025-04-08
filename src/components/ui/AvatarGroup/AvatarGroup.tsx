@@ -21,7 +21,7 @@ export type AvatarGroupProps = {
 const AvatarGroup = ({ avatars = [], size, customRootClass = '', className, color, ...props }: AvatarGroupProps) => {
     return <AvatarGroupRoot customRootClass={customRootClass} className={clsx(className)} {...props} >
         {avatars.map((avatar, index) => (
-            <AvatarPrimitiveRoot key={index} src={avatar.src}>
+            <AvatarPrimitiveRoot key={index}>
                 <AvatarPrimitiveImage src={avatar.src} alt={avatar.alt} />
                 <AvatarPrimitiveFallback color={color}>{avatar.fallback}</AvatarPrimitiveFallback>
             </AvatarPrimitiveRoot>

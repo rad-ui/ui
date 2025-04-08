@@ -25,7 +25,7 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const WithSrc = {
     args: {
-        src: 'https://via.placeholder.com/150'
+        src: 'https://i.pravatar.cc/64'
     }
 };
 

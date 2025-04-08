@@ -8,16 +8,15 @@ import Primitive from '~/core/primitives/Primitive';
 export interface AvatarPrimitiveRootProps {
     customRootClass?: string | '';
     children: React.ReactNode;
-    src?: string;
     className?: string | '';
     asChild?: boolean;
 }
 
-const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', asChild = false, src, ...props }: AvatarPrimitiveRootProps) => {
+const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', asChild = false, ...props }: AvatarPrimitiveRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, 'Avatar');
     const fallBackRootClass = customClassSwitcher(customRootClass, 'Fallback');
     const [isImageLoaded, setIsImageLoaded] = useState(false);
-    const [hasError, setHasError] = useState(!src);
+    const [hasError, setHasError] = useState(false);
 
     const handleLoadImage = () => {
         setIsImageLoaded(true);
@@ -37,7 +36,6 @@ const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', a
         setHasError,
         handleLoadImage,
         handleErrorImage,
-        src
     };
 
     return <AvatarPrimitiveContext.Provider value={values} >
