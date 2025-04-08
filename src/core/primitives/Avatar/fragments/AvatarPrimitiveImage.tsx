@@ -22,7 +22,11 @@ const AvatarPrimitiveImage = ({
     if (hasError) {
         return null;
     }
-    useEffect(()=>{if(!src) handleErrorImage()},[])
+    useEffect(() => {
+        if (!src && !hasError) {
+            handleErrorImage();
+        }
+    }, [src, handleErrorImage, hasError]);
 
     return (
         <img
