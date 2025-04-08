@@ -3,4 +3,35 @@
     padding: 12px;
     border-radius: 4px;
     box-shadow: 1px 1px 4px 1px var(--rad-ui-color-gray-200);
+
+    &[data-card-variant="outline"]{
+        color: var(--rad-ui-color-gray-900);
+        border: 1px solid var(--rad-ui-color-gray-900);
+    }
+
+    &[data-card-variant="soft"]{
+        color: var(--rad-ui-color-gray-950);
+        background-color:  var(--rad-ui-color-gray-400);  
+    }
+
+    /** Card Sizes */
+    &[data-card-size="small"]{
+        font-size: small;
+        height: 3.5rem;
+    }
+
+    &[data-card-size="medium"]{
+        font-size: medium;
+        height: 4rem;
+    }
+
+    &[data-card-size="large"]{
+        font-size: large;
+        height: 4.5rem;
+    }
+
+    &[data-card-size="x-large"]{
+        font-size: x-large;
+        height: 5rem;
+    }
 }
