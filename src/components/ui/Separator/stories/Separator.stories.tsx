@@ -3,6 +3,8 @@ import Separator, { SeparatorProps } from '../Separator';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const textClasses = 'text-gray-950 text-sm font-light';
+const Sizes = ['small', 'medium', 'large', 'x-large'];
+
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Separator',
@@ -34,3 +36,56 @@ export const Color = {
         color: 'blue'
     }
 };
+
+export const Size = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950'>Separator Size</p>
+        </div>
+        <div>
+            <div className='flex flex-col'>
+                {Sizes.map((size, index) => {
+                    return <div className='w-full'>
+                          <Separator key={index} size={size} />
+                          </div>
+                })}
+            </div>
+       </div>
+    </SandboxEditor>;
+};
+
+const HorizontalTemplate = () => {
+      return (
+        <SandboxEditor>
+            <div>
+            <p className='text-gray-950 my-3'>Horizontal Separator</p>
+                <div className={textClasses}>Step 1</div>
+                <Separator/>
+                <div className={textClasses}>Step 2</div>
+                <Separator />
+                <div className={textClasses}>Step 3</div>
+            </div>
+        </SandboxEditor>
+      )
+}
+    
+export const Horizontal = HorizontalTemplate.bind({})
+
+const VerticalTemplate = () => {
+    return (
+      <SandboxEditor>
+          <div>
+          <p className='text-gray-950 my-3'>Vertical Separator</p>
+          <div className='flex items-center'>
+                <div className={textClasses}>Home</div>
+                <Separator orientation='vertical'/>
+                <div className={textClasses}>About</div>
+                <Separator orientation='vertical'/>
+                <div className={textClasses}>Contact</div>
+            </div>
+          </div>
+      </SandboxEditor>
+    )
+}
+  
+export const Vertical = VerticalTemplate.bind({})
