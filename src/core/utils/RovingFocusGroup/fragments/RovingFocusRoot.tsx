@@ -18,6 +18,7 @@ type RovingFocusRootProps = {
     loop?: boolean;
     'aria-label'?: string;
     'aria-labelledby'?: string;
+    rovingFocusDisabled?:boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -40,11 +41,13 @@ const RovingFocusRoot = ({
     loop = true,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
+    rovingFocusDisabled = false,
     ...props
 }: RovingFocusRootProps) => {
     const sendValues = {
         orientation,
-        loop
+        loop,
+        rovingFocusDisabled,
     };
 
     return <RovingFocusRootContext.Provider value={sendValues}>
