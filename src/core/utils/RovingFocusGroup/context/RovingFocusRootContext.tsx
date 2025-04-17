@@ -8,6 +8,7 @@ import { createContext } from 'react';
 export type RovingFocusRootContextTypes = {
   orientation: 'horizontal' | 'vertical';
   loop: boolean;
+  rovingFocusDisabled:boolean;
 }
 
 /**
@@ -16,5 +17,6 @@ export type RovingFocusRootContextTypes = {
  */
 export const RovingFocusRootContext = createContext<RovingFocusRootContextTypes>({
     orientation: 'horizontal',
-    loop: true
+    loop: true,
+    rovingFocusDisabled:true,
 });
