@@ -18,7 +18,7 @@ type RovingFocusRootProps = {
     loop?: boolean;
     'aria-label'?: string;
     'aria-labelledby'?: string;
-    rovingFocusDisabled?:boolean;
+    rovingFocusDisabled?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 /**

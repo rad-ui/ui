@@ -21,7 +21,7 @@ export type AccordionRootProps = {
     openMultiple?: boolean;
 }
 
-const AccordionRoot = ({ children, orientation = 'vertical', rovingFocusDisabled=true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
+const AccordionRoot = ({ children, orientation = 'vertical', rovingFocusDisabled= true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
