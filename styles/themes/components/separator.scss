@@ -2,6 +2,22 @@
 .rad-ui-separator {
     background-color: var(--rad-ui-color-gray-600);
     align-self: stretch;
+   
+    &[data-separator-size="small"]{
+       max-width: 24rem;
+    }
+
+    &[data-separator-size="medium"]{
+        max-width: 28rem;
+    }
+
+    &[data-separator-size="large"]{
+        max-width: 32rem;
+    }
+
+    &[data-separator-size="x-large"]{
+        max-width: 36rem;
+    }
 }
 
 .rad-ui-separator[data-accent-color] {
