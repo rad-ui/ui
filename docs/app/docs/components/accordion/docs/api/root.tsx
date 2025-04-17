@@ -59,7 +59,7 @@ const data = {
        },
        {
         prop: {
-            name : "rovingFocusDisabled",
+            name : "disableTabIndexing",
             info_tooltips: 'Disables the roving tabindex behavior for keyboard navigation.'
         },
         type: 'boolean',

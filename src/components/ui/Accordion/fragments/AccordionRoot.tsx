@@ -17,11 +17,11 @@ export type AccordionRootProps = {
     orientation?: 'horizontal' | 'vertical';
     asChild?: boolean;
     loop?: boolean;
-    rovingFocusDisabled?: boolean;
+    disableTabIndexing?: boolean;
     openMultiple?: boolean;
 }
 
-const AccordionRoot = ({ children, orientation = 'vertical', rovingFocusDisabled= true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
+const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing = true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
@@ -38,7 +38,7 @@ const AccordionRoot = ({ children, orientation = 'vertical', rovingFocusDisabled
                 transitionTimingFunction,
                 openMultiple
             }}>
-            <RovingFocusGroup.Root orientation={orientation} loop={loop} rovingFocusDisabled={rovingFocusDisabled} >
+            <RovingFocusGroup.Root orientation={orientation} loop={loop} disableTabIndexing={disableTabIndexing} >
                 <RovingFocusGroup.Group >
                     <Primitive.div className={clsx(`${rootClass}-root`)} ref={accordionRef} asChild={asChild}>
                         {children}

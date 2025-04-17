@@ -42,8 +42,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { orientation, loop, rovingFocusDisabled } = useContext(RovingFocusRootContext);
-
+    const { orientation, loop, disableTabIndexing } = useContext(RovingFocusRootContext);
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
@@ -51,6 +50,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 
     // Is this item currently selected
     const isSelected = focusedItemId === id;
+    const tabIndex = disableTabIndexing ? 0 : !isDisabled && isSelected ? 0 : -1;
 
     // Register this item with the parent group
     useEffect(() => {
@@ -238,7 +238,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     return <Primitive.button
         asChild
         onFocus={handleFocus}
-        tabIndex={rovingFocusDisabled ? 0 : !isDisabled && isSelected ? 0 : -1}
+        tabIndex={tabIndex}
         ref={ref}
         id={id}
         onKeyDown={handleKeyDown}
