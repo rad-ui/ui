@@ -56,6 +56,14 @@ const data = {
         type: 'enum',
         enum_values : ['horizontal', 'vertical'],
         default: 'horizontal',
+       },
+       {
+        prop: {
+            name : "disableTabIndexing",
+            info_tooltips: 'Disables the roving tabindex behavior for keyboard navigation.'
+        },
+        type: 'boolean',
+        default: 'true',
        }
     ]
 }
