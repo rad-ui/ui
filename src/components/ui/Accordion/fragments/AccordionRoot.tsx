@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AccordionContext } from '../contexts/AccordionContext';
-
+import useControllableState from '~/core/hooks/useControllableState';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 
@@ -19,13 +19,20 @@ export type AccordionRootProps = {
     loop?: boolean;
     disableTabIndexing?: boolean;
     openMultiple?: boolean;
+    value?: (number | string)[];
+    defaultValue?: (number | string)[];
+    onValueChange?: (value: (number | string)[]) => void;
 }
 
-const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing = true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false }: AccordionRootProps) => {
+const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing = true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false, value, defaultValue = [], onValueChange }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
+    const [activeItems, setActiveItems] = useControllableState<(number | string)[]>(
+        value,
+        defaultValue,
+        onValueChange
+    );
 
     return (
         <AccordionContext.Provider
