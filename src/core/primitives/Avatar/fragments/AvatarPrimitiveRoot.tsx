@@ -35,7 +35,7 @@ const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', a
         hasError,
         setHasError,
         handleLoadImage,
-        handleErrorImage,
+        handleErrorImage
     };
 
     return <AvatarPrimitiveContext.Provider value={values} >

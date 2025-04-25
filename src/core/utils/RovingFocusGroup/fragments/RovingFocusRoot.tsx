@@ -47,7 +47,7 @@ const RovingFocusRoot = ({
     const sendValues = {
         orientation,
         loop,
-        disableTabIndexing,
+        disableTabIndexing
     };
 
     return <RovingFocusRootContext.Provider value={sendValues}>

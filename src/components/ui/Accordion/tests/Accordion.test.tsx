@@ -104,51 +104,50 @@ describe('Accordion Component', () => {
 
     test('controlled mode responds to external value changes', () => {
         const TestWithControls = () => {
-          const [value, setValue] = React.useState<(number | string)[]>([]);
-          
-          return (
-            <>
-              <button onClick={() => setValue([])}>Close All</button>
-              <button onClick={() => setValue([1])}>Open 2</button>
-              <button onClick={() => setValue([0, 2])}>Open 1 & 3</button>
-              <TestAccordion value={value} onValueChange={setValue} openMultiple />
-            </>
-          );
+            const [value, setValue] = React.useState<(number | string)[]>([]);
+
+            return (
+                <>
+                    <button onClick={() => setValue([])}>Close All</button>
+                    <button onClick={() => setValue([1])}>Open 2</button>
+                    <button onClick={() => setValue([0, 2])}>Open 1 & 3</button>
+                    <TestAccordion value={value} onValueChange={setValue} openMultiple />
+                </>
+            );
         };
-        
+
         render(<TestWithControls />);
-        
+
         // Initially all closed
         expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
         expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
-        
+
         // Open item 2
         fireEvent.click(screen.getByText('Open 2'));
         expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         expect(screen.getByText('Content 2')).toBeInTheDocument();
         expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
-        
+
         // Open items 1 & 3
         fireEvent.click(screen.getByText('Open 1 & 3'));
         expect(screen.getByText('Content 1')).toBeInTheDocument();
         expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
         expect(screen.getByText('Content 3')).toBeInTheDocument();
-        
+
         // Close all
         fireEvent.click(screen.getByText('Close All'));
         expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
         expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
-      });
+    });
 
-    
-      test('works with defaultValue to show initial item', () => {
+    test('works with defaultValue to show initial item', () => {
         render(<TestAccordion defaultValue={[2]} />);
-        
+
         // Item 3 content should be visible initially
         expect(screen.getByText('Content 3')).toBeInTheDocument();
         expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
-      });    
+    });
 });

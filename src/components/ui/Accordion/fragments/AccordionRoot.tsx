@@ -30,8 +30,8 @@ const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing 
 
     const [activeItems, setActiveItems] = useControllableState<(number | string)[]>(
         value,
-        defaultValue,
-        onValueChange
+    defaultValue,
+    onValueChange
     );
 
     return (
