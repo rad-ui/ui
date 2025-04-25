@@ -1,6 +1,7 @@
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import type { Meta, StoryObj } from '@storybook/react';
+import  Button  from '../../Button/Button';
 import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -95,4 +96,24 @@ export const WithAnimation: Story = {
 
 export const OpenMultiple: Story = {
     render: () => <AccordionExample openMultiple />
+};
+
+export const WithDeafultValue: Story = {
+    render: () => <AccordionExample defaultValue={[2]} />    
+};
+
+export const ControlledValue: Story = {
+    render: () => {
+        const [value, setValue] = React.useState<number[]>([]);
+
+        return (
+            <>
+            <Button onClick={() => setValue([])}>Close All</Button>
+            <Button onClick={() => setValue([1])}>Open 2</Button>
+            <Button onClick={() => setValue([0])}>Open 0</Button>
+            <Button onClick={() => setValue([0, 1])}>Open 0, 1</Button>
+            <AccordionExample value={value} onValueChange={setValue} />
+            </>
+        );
+    }
 };
