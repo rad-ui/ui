@@ -105,14 +105,16 @@ export const WithDeafultValue: Story = {
 export const ControlledValue: Story = {
     render: () => {
         const [value, setValue] = React.useState<number[]>([]);
+        const [multiple, setMultiple] = React.useState(false);
 
         return (
             <>
+                <Button onClick={() => setMultiple(!multiple)}>{`Toggle Open Multiple (${multiple ? 'on' : 'off'})`}</Button>
                 <Button onClick={() => setValue([])}>Close All</Button>
                 <Button onClick={() => setValue([1])}>Open 2</Button>
                 <Button onClick={() => setValue([0])}>Open 0</Button>
                 <Button onClick={() => setValue([0, 1])}>Open 0, 1</Button>
-                <AccordionExample value={value} onValueChange={setValue} />
+                <AccordionExample value={value} onValueChange={setValue} openMultiple={multiple} />
             </>
         );
     }
