@@ -27,13 +27,17 @@ export type AccordionRootProps = {
 const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing = true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false, value, defaultValue = [], onValueChange }: AccordionRootProps) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    if (!openMultiple) {
-         if (defaultValue) defaultValue= [defaultValue[0]]
-         if (value) value= [value[0]]
-    };
+    const processedValue = value !== undefined
+        ? (openMultiple ? value : (value.length > 0 ? [value[0]] : []))
+        : undefined;
+
+    const processedDefaultValue = openMultiple
+        ? defaultValue
+        : (defaultValue.length > 0 ? [defaultValue[0]] : []);
+
     const [activeItems, setActiveItems] = useControllableState<(number | string)[]>(
-        value,
-    defaultValue,
+        processedValue,
+    processedDefaultValue,
     onValueChange
     );
 
