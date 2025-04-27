@@ -1,6 +1,7 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+import { useComposeAttributes, useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Separator';
 
 export type SeparatorProps = {
@@ -8,18 +9,17 @@ export type SeparatorProps = {
     className?: string;
     customRootClass?: string;
     color?: string;
+    size?: string;
     props?: any;
 } & React.ComponentProps<'div'>;
 
-const Separator = ({ orientation = 'horizontal', className, customRootClass, color = '', ...props } : SeparatorProps) => {
+const Separator = ({ orientation = 'horizontal', className, customRootClass, color = '', size = '', ...props } : SeparatorProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const orientationClass = orientation === 'vertical' ? `${rootClass}-vertical` : `${rootClass}-horizontal`;
-    const data_attributes: Record<string, string> = {};
-
-    if (color) {
-        data_attributes['data-accent-color'] = color;
-    }
-    return <div className={clsx(rootClass, orientationClass, className)} {...props} {...data_attributes}></div>;
+    const dataAttributes = useCreateDataAttribute('separator', { size });
+    const accentAttributes = useCreateDataAttribute('accent', { color });
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes())
+    return <div className={clsx(rootClass, orientationClass, className)} {...composedAttributes()} {...props} ></div>;
 };
 
 Separator.displayName = COMPONENT_NAME;
