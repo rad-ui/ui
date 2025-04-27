@@ -1,0 +1,30 @@
+.rad-ui-data-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+
+
+    .rad-ui-data-list-item {
+    display:grid;
+    grid-template-columns: subgrid;
+    gap: inherit;
+    grid-column: span 2;
+
+        .rad-ui-data-list-label {
+            grid-column: 1;
+            color: var(--rad-ui-color-gray-900);
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.1px;
+        }
+
+        .rad-ui-data-list-value {
+            grid-column: 2;
+            color: var(--rad-ui-color-gray-1000);
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.1px;
+        }
+    }
+}
+
