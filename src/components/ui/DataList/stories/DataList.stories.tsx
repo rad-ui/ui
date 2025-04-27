@@ -35,7 +35,7 @@ export const Default = () => {
                     <DataList.Item>
                         <DataList.Label>Status</DataList.Label>
                         <DataList.Value>
-                            <Badge>Active</Badge>
+                            <Badge color="green" size="small">Active</Badge>
                         </DataList.Value>
                     </DataList.Item>
                     <DataList.Item>

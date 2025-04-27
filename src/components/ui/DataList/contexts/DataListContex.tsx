@@ -1,5 +1,11 @@
 import { createContext } from 'react';
 
-const DataListContext = createContext({});
+interface DataListContextType {
+    rootClass?: string;
+}
+
+const DataListContext = createContext<DataListContextType>({
+    rootClass: 'DataList'
+});
 
 export default DataListContext;
