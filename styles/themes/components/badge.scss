@@ -4,7 +4,7 @@
     color: var(--rad-ui-color-accent-950);
     padding:4px 8px;
     height: 32px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
@@ -26,8 +26,6 @@
         border-bottom: 1px solid var(--rad-ui-color-accent-600);
         color: var(--rad-ui-color-accent-950);
         background-color:  var(--rad-ui-color-accent-400);
-
-      
     }
 
 
