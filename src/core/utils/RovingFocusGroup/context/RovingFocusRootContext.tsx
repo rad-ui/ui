@@ -18,5 +18,5 @@ export type RovingFocusRootContextTypes = {
 export const RovingFocusRootContext = createContext<RovingFocusRootContextTypes>({
     orientation: 'horizontal',
     loop: true,
-    disableTabIndexing: false,
+    disableTabIndexing: false
 });

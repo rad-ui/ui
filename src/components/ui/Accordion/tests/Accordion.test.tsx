@@ -3,6 +3,7 @@ import React from 'react';
 import * as axe from 'axe-core';
 
 import Accordion from '../Accordion';
+import { AccordionRootProps } from '../fragments/AccordionRoot';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 // Test items to use in our composable accordion
@@ -13,9 +14,9 @@ const testItems = [
 ];
 
 // Create a test accordion component using the composable pattern
-const TestAccordion = () => {
+const TestAccordion = (props: Partial<AccordionRootProps>) => {
     return (
-        <Accordion.Root>
+        <Accordion.Root {...props}>
             {testItems.map((item, index) => (
                 <Accordion.Item value={index} key={index}>
                     <Accordion.Header>
@@ -99,5 +100,54 @@ describe('Accordion Component', () => {
             expect(results.violations.length).toBe(0);
             done();
         });
+    });
+
+    test('controlled mode responds to external value changes', () => {
+        const TestWithControls = () => {
+            const [value, setValue] = React.useState<(number | string)[]>([]);
+
+            return (
+                <>
+                    <button onClick={() => setValue([])}>Close All</button>
+                    <button onClick={() => setValue([1])}>Open 2</button>
+                    <button onClick={() => setValue([0, 2])}>Open 1 & 3</button>
+                    <TestAccordion value={value} onValueChange={setValue} openMultiple />
+                </>
+            );
+        };
+
+        render(<TestWithControls />);
+
+        // Initially all closed
+        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+        expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+
+        // Open item 2
+        fireEvent.click(screen.getByText('Open 2'));
+        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        expect(screen.getByText('Content 2')).toBeInTheDocument();
+        expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+
+        // Open items 1 & 3
+        fireEvent.click(screen.getByText('Open 1 & 3'));
+        expect(screen.getByText('Content 1')).toBeInTheDocument();
+        expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+        expect(screen.getByText('Content 3')).toBeInTheDocument();
+
+        // Close all
+        fireEvent.click(screen.getByText('Close All'));
+        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+        expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+    });
+
+    test('works with defaultValue to show initial item', () => {
+        render(<TestAccordion defaultValue={[2]} />);
+
+        // Item 3 content should be visible initially
+        expect(screen.getByText('Content 3')).toBeInTheDocument();
+        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
     });
 });

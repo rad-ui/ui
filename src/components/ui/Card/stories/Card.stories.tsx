@@ -53,17 +53,17 @@ export const Size = () => {
                     <span key={index} className="inline-flex items-start space-x-2">
                         {Sizes.map((size, index) => {
                             return <Card key={index} size={size} variant={variant} >
-                                    <div className='flex items-center space-x-4'>
-                                      <Avatar
-                                       src='https://i.pravatar.cc/64'
-                                       alt='avatar'
+                                <div className='flex items-center space-x-4'>
+                                    <Avatar
+                                        src='https://i.pravatar.cc/64'
+                                        alt='avatar'
                                     />
-                                  <div>
-                                    <p className='font-bold text-gray-1000'>John Doe</p>
-                                    <p className='text-xs text-gray-800'>
+                                    <div>
+                                        <p className='font-bold text-gray-1000'>John Doe</p>
+                                        <p className='text-xs text-gray-800'>
                                      1 hour ago
-                                    </p>
-                                  </div>
+                                        </p>
+                                    </div>
                                 </div>
                             </Card>;
                         })}
@@ -85,16 +85,16 @@ export const Variant = () => {
             {Variants.map((variant, index) => {
                 return <Card key={index} variant={variant} >
                     <div className='flex items-center space-x-4'>
-                         <Avatar
-                          src='https://i.pravatar.cc/64'
-                          alt='avatar'
+                        <Avatar
+                            src='https://i.pravatar.cc/64'
+                            alt='avatar'
                         />
-                       <div>
-                         <p className='font-bold text-gray-1000'>John Doe</p>
-                         <p className='text-xs text-gray-800'>
+                        <div>
+                            <p className='font-bold text-gray-1000'>John Doe</p>
+                            <p className='text-xs text-gray-800'>
                           1 hour ago
-                         </p>
-                       </div>
+                            </p>
+                        </div>
                     </div>
                 </Card>;
             })}
