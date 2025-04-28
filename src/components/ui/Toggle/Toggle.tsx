@@ -70,7 +70,7 @@ const Toggle: React.FC<ToggleProps> = ({
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-accent-color'] = color;
+        data_attributes['data-rad-ui-accent-color'] = color;
     }
 
     return (

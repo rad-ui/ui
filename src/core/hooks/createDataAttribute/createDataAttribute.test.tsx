@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useCreateDataAttribute, useComposeAttributes } from '.';
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '.';
 
 /**
  * Test case: Verify that attributes are correctly created and applied.
@@ -12,7 +12,7 @@ test('attributes are created and applied', () => {
 
     // Render the hook for creating data attributes with the prefix "accent"
     const { result: accentAttributes } = renderHook(() =>
-        useCreateDataAttribute('accent', { color: 'red' })
+        useCreateDataAccentColorAttribute('red')
     );
 
     // Render the hook that merges the two attribute objects into a single object
@@ -24,7 +24,7 @@ test('attributes are created and applied', () => {
     expect(composedAttributes.current()).toEqual({
         'data-button-variant': 'primary',
         'data-button-size': 'large',
-        'data-accent-color': 'red'
+        'data-rad-ui-accent-color': 'red'
     });
 });
 
@@ -39,7 +39,7 @@ test('attributes are created and applied with undefined and empty values', () =>
 
     // Render the hook with an empty string for color (should be ignored)
     const { result: accentAttributes } = renderHook(() =>
-        useCreateDataAttribute('accent', { color: '' })
+        useCreateDataAccentColorAttribute('')
     );
 
     // Merge the attributes

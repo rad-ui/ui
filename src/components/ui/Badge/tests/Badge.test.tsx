@@ -29,6 +29,6 @@ describe('Badge', () => {
 
     test('renders Badge component with custom color', () => {
         render(<Badge color='blue'>Badge</Badge>);
-        expect(screen.getByText('Badge')).toHaveAttribute('data-accent-color', 'blue');
+        expect(screen.getByText('Badge')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 });

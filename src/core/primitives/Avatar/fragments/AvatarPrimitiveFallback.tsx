@@ -18,7 +18,7 @@ const AvatarPrimitiveFallback = ({ children, className = '', color = '', asChild
         return null;
     }
 
-    return <Primitive.span className={clsx(fallBackRootClass, className)} data-accent-color={color} asChild={asChild}>{children}</Primitive.span>;
+    return <Primitive.span className={clsx(fallBackRootClass, className)} data-rad-ui-accent-color={color} asChild={asChild}>{children}</Primitive.span>;
 };
 
 export default AvatarPrimitiveFallback;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { clsx } from 'clsx';
 import AvatarPrimitive from '~/core/primitives/Avatar';
-import { useCreateDataAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Avatar';
 
@@ -19,9 +19,9 @@ export type AvatarProps = {
     props?: Record<string, any>[]
 }
 
-const Avatar = ({ customRootClass = '', fallback, className, src, alt, variant = '', size = '', asChild = false, color, ...props }: AvatarProps) => {
+const Avatar = ({ customRootClass = '', fallback, className, src, alt, variant = '', size = '', asChild = false, color = '', ...props }: AvatarProps) => {
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
-    const accentAttributes = useCreateDataAttribute('accent', { color });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
     return (
         <AvatarPrimitive.Root customRootClass={customRootClass} asChild={asChild} {...composedAttributes()}>

@@ -29,6 +29,6 @@ describe('BlockQuote', () => {
 
     test('renders BlockQuote component with color', () => {
         render(<BlockQuote className='mr-2' color='blue'>BlockQuote</BlockQuote>);
-        expect(screen.getByText('BlockQuote')).toHaveAttribute('data-accent-color', 'blue');
+        expect(screen.getByText('BlockQuote')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 });

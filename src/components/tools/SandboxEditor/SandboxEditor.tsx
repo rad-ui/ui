@@ -6,6 +6,8 @@ import Text from '~/components/ui/Text/Text';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
+import Theme from '~/components/ui/Theme/Theme';
+
 import colors from '~/colors';
 
 const SunIcon = () => {
@@ -48,7 +50,10 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
         setIsDarkMode(!isDarkMode);
     };
 
-    return <div data-accent-color={colorName} className={`p-4 shadow-sm text-gray-900 h-screen border border-gray-300 bg-gray-50 ${isDarkMode ? 'rad-ui-dark-theme' : ''}`}>
+    return <Theme
+        appearance={isDarkMode ? 'dark' : 'light'}
+        accentColor={colorName}
+        className={'p-4 shadow-sm text-gray-900 h-screen border border-gray-300 bg-gray-50'}>
         <div className='mb-4'>
             {/* @ts-ignore */}
             <div className='flex items-center space-x-4'>
@@ -93,7 +98,7 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
         <div className={`${className}`} >
             {children}
         </div>
-    </div>;
+    </Theme>;
 };
 
 export default SandboxEditor;

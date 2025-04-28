@@ -26,10 +26,10 @@ const CalloutRoot = ({ children, className, color, variant = '', size = '', cust
     }
 
     if (color) {
-        data_attributes['data-accent-color'] = color;
+        data_attributes['data-rad-ui-accent-color'] = color;
     }
 
-    return <div className={clsx(rootClass, className)} data-accent-color={color ?? undefined} {...data_attributes} {...props}>
+    return <div className={clsx(rootClass, className)} data-rad-ui-accent-color={color ?? undefined} {...data_attributes} {...props}>
         {children}
     </div>;
 };

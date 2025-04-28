@@ -26,7 +26,7 @@ const BadgeRoot = ({ children, customRootClass, className, variant = '', size = 
     }
 
     if (color) {
-        data_attributes['data-accent-color'] = color;
+        data_attributes['data-rad-ui-accent-color'] = color;
     }
 
     return (
