@@ -50,7 +50,10 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
         setIsDarkMode(!isDarkMode);
     };
 
-    return <Theme appearance={isDarkMode ? 'dark' : 'light'} data-accent-color={colorName} className={'p-4 shadow-sm text-gray-900 h-screen border border-gray-300 bg-gray-50'}>
+    return <Theme
+        appearance={isDarkMode ? 'dark' : 'light'}
+        accentColor={colorName}
+        className={'p-4 shadow-sm text-gray-900 h-screen border border-gray-300 bg-gray-50'}>
         <div className='mb-4'>
             {/* @ts-ignore */}
             <div className='flex items-center space-x-4'>
