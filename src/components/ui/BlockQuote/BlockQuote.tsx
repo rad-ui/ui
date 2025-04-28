@@ -28,7 +28,7 @@ const BlockQuote = ({ children, customRootClass = '', className = '', color = ''
     }
 
     if (color) {
-        data_attributes['data-accent-color'] = color;
+        data_attributes['data-rad-ui-accent-color'] = color;
     }
 
     return <blockquote className={clsx(rootClass, className)} {...props} {...data_attributes}> {children}</blockquote>;

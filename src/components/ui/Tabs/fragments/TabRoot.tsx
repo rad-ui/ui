@@ -56,7 +56,7 @@ const TabRoot = ({
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root orientation="horizontal" loop className={clsx(rootClass, className)} data-accent-color={color} {...props}>
+            <RovingFocusGroup.Root orientation="horizontal" loop className={clsx(rootClass, className)} data-rad-ui-accent-color={color} {...props}>
                 {children}
             </RovingFocusGroup.Root>
         </TabsRootContext.Provider>

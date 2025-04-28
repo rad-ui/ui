@@ -1,161 +1,161 @@
 
     :root {
-      --rad-ui-color-gray-50: hsl(0deg 0% 99.0%);
---rad-ui-color-gray-100: hsl(0deg 0% 97.5%);
---rad-ui-color-gray-200: hsl(0deg 0% 94.6%);
---rad-ui-color-gray-300: hsl(0deg 0% 92.0%);
---rad-ui-color-gray-400: hsl(0deg 0% 89.5%);
---rad-ui-color-gray-500: hsl(0deg 0% 86.8%);
---rad-ui-color-gray-600: hsl(0deg 0% 83.0%);
---rad-ui-color-gray-700: hsl(0deg 0% 73.2%);
---rad-ui-color-gray-800: hsl(0deg 0% 55.2%);
---rad-ui-color-gray-900: hsl(0deg 0% 50.3%);
---rad-ui-color-gray-950: hsl(0deg 0% 39.3%);
---rad-ui-color-gray-1000: hsl(0deg 0% 12.5%);
---rad-ui-color-mauve-50: hsl(300deg 26.0% 99.0%);
---rad-ui-color-mauve-100: hsl(270deg 20.0% 98.0%);
---rad-ui-color-mauve-200: hsl(267deg 13.8% 95.3%);
---rad-ui-color-mauve-300: hsl(265deg 12.2% 92.7%);
---rad-ui-color-mauve-400: hsl(263deg 11.6% 90.3%);
---rad-ui-color-mauve-500: hsl(261deg 11.1% 87.7%);
---rad-ui-color-mauve-600: hsl(257deg 10.8% 84.3%);
---rad-ui-color-mauve-700: hsl(249deg 10.4% 75.5%);
---rad-ui-color-mauve-800: hsl(252deg 6.0% 57.3%);
---rad-ui-color-mauve-900: hsl(250deg 5.0% 52.3%);
---rad-ui-color-mauve-950: hsl(252deg 5.0% 40.7%);
---rad-ui-color-mauve-1000: hsl(260deg 10.0% 13.5%);
---rad-ui-color-slate-50: hsl(240deg 22.0% 99.0%);
---rad-ui-color-slate-100: hsl(240deg 20.0% 98.0%);
---rad-ui-color-slate-200: hsl(239deg 13.4% 95.4%);
---rad-ui-color-slate-300: hsl(238deg 11.8% 92.9%);
---rad-ui-color-slate-400: hsl(237deg 11.1% 90.5%);
---rad-ui-color-slate-500: hsl(236deg 10.6% 87.9%);
---rad-ui-color-slate-600: hsl(234deg 10.4% 84.4%);
---rad-ui-color-slate-700: hsl(231deg 10.2% 75.1%);
---rad-ui-color-slate-800: hsl(230deg 6.0% 57.0%);
---rad-ui-color-slate-900: hsl(227deg 5.2% 51.8%);
---rad-ui-color-slate-950: hsl(227deg 5.0% 40.2%);
---rad-ui-color-slate-1000: hsl(210deg 12.0% 12.5%);
---rad-ui-color-sage-50: hsl(155deg 30.0% 98.8%);
---rad-ui-color-sage-100: hsl(150deg 14.3% 97.3%);
---rad-ui-color-sage-200: hsl(150deg 8.0% 94.5%);
---rad-ui-color-sage-300: hsl(150deg 6.0% 92.0%);
---rad-ui-color-sage-400: hsl(150deg 4.9% 89.5%);
---rad-ui-color-sage-500: hsl(150deg 4.3% 86.7%);
---rad-ui-color-sage-600: hsl(150deg 3.7% 82.8%);
---rad-ui-color-sage-700: hsl(150deg 2.9% 72.9%);
---rad-ui-color-sage-800: hsl(155deg 3.5% 54.2%);
---rad-ui-color-sage-900: hsl(158deg 2.9% 49.3%);
---rad-ui-color-sage-950: hsl(155deg 3.0% 38.5%);
---rad-ui-color-sage-1000: hsl(155deg 12.0% 11.5%);
---rad-ui-color-olive-50: hsl(110deg 20.0% 99.0%);
---rad-ui-color-olive-100: hsl(120deg 16.7% 97.6%);
---rad-ui-color-olive-200: hsl(118deg 8.4% 94.8%);
---rad-ui-color-olive-300: hsl(116deg 6.0% 92.1%);
---rad-ui-color-olive-400: hsl(115deg 4.9% 89.4%);
---rad-ui-color-olive-500: hsl(113deg 4.2% 86.5%);
---rad-ui-color-olive-600: hsl(111deg 3.6% 82.6%);
---rad-ui-color-olive-700: hsl(105deg 2.9% 72.9%);
---rad-ui-color-olive-800: hsl(110deg 3.0% 54.5%);
---rad-ui-color-olive-900: hsl(105deg 2.7% 49.4%);
---rad-ui-color-olive-950: hsl(110deg 3.0% 38.5%);
---rad-ui-color-olive-1000: hsl(110deg 8.0% 12.0%);
---rad-ui-color-sand-50: hsl(50deg 20.0% 99.0%);
---rad-ui-color-sand-100: hsl(60deg 7.7% 97.5%);
---rad-ui-color-sand-200: hsl(59deg 5.8% 94.5%);
---rad-ui-color-sand-300: hsl(58deg 5.3% 91.8%);
---rad-ui-color-sand-400: hsl(57deg 5.1% 89.0%);
---rad-ui-color-sand-500: hsl(56deg 5.0% 86.0%);
---rad-ui-color-sand-600: hsl(54deg 4.9% 81.8%);
---rad-ui-color-sand-700: hsl(51deg 5.0% 72.4%);
---rad-ui-color-sand-800: hsl(60deg 3.0% 53.9%);
---rad-ui-color-sand-900: hsl(60deg 2.6% 49.0%);
---rad-ui-color-sand-950: hsl(50deg 2.5% 38.0%);
---rad-ui-color-sand-1000: hsl(50deg 8.0% 12.0%);
---rad-ui-color-tomato-50: hsl(10deg 100% 99.4%);
---rad-ui-color-tomato-100: hsl(8deg 100% 98.4%);
---rad-ui-color-tomato-200: hsl(8deg 100% 96.6%);
---rad-ui-color-tomato-300: hsl(8deg 100% 94.3%);
---rad-ui-color-tomato-400: hsl(8deg 92.8% 91.0%);
---rad-ui-color-tomato-500: hsl(9deg 84.7% 86.3%);
---rad-ui-color-tomato-600: hsl(10deg 77.3% 79.5%);
---rad-ui-color-tomato-700: hsl(10deg 71.6% 71.0%);
---rad-ui-color-tomato-800: hsl(10deg 78.0% 54.0%);
---rad-ui-color-tomato-900: hsl(10deg 71.4% 49.4%);
---rad-ui-color-tomato-950: hsl(10deg 82.0% 42.0%);
---rad-ui-color-tomato-1000: hsl(8deg 50.0% 24.0%);
---rad-ui-color-red-50: hsl(359deg 100% 99.4%);
---rad-ui-color-red-100: hsl(0deg 100% 98.4%);
---rad-ui-color-red-200: hsl(360deg 100% 96.8%);
---rad-ui-color-red-300: hsl(360deg 97.9% 94.8%);
---rad-ui-color-red-400: hsl(360deg 90.2% 91.9%);
---rad-ui-color-red-500: hsl(360deg 81.7% 87.8%);
---rad-ui-color-red-600: hsl(359deg 74.2% 81.7%);
---rad-ui-color-red-700: hsl(359deg 69.5% 74.3%);
---rad-ui-color-red-800: hsl(358deg 75.0% 59.0%);
---rad-ui-color-red-900: hsl(358deg 67.4% 54.6%);
---rad-ui-color-red-950: hsl(358deg 65.0% 47.0%);
---rad-ui-color-red-1000: hsl(350deg 63.0% 24.0%);
---rad-ui-color-ruby-50: hsl(348deg 100% 99.5%);
---rad-ui-color-ruby-100: hsl(345deg 100% 98.4%);
---rad-ui-color-ruby-200: hsl(345deg 89.9% 96.7%);
---rad-ui-color-ruby-300: hsl(346deg 82.6% 94.4%);
---rad-ui-color-ruby-400: hsl(346deg 75.8% 91.4%);
---rad-ui-color-ruby-500: hsl(347deg 69.3% 87.1%);
---rad-ui-color-ruby-600: hsl(348deg 64.3% 80.9%);
---rad-ui-color-ruby-700: hsl(348deg 61.5% 73.5%);
---rad-ui-color-ruby-800: hsl(348deg 75.0% 58.5%);
---rad-ui-color-ruby-900: hsl(347deg 68.6% 54.1%);
---rad-ui-color-ruby-950: hsl(345deg 70.0% 46.5%);
---rad-ui-color-ruby-1000: hsl(344deg 63.0% 24.0%);
---rad-ui-color-crimson-50: hsl(332deg 100% 99.4%);
---rad-ui-color-crimson-100: hsl(330deg 100% 98.4%);
---rad-ui-color-crimson-200: hsl(331deg 85.6% 96.6%);
---rad-ui-color-crimson-300: hsl(331deg 78.1% 94.2%);
---rad-ui-color-crimson-400: hsl(332deg 72.1% 91.1%);
---rad-ui-color-crimson-500: hsl(333deg 67.0% 86.7%);
---rad-ui-color-crimson-600: hsl(335deg 63.5% 80.4%);
---rad-ui-color-crimson-700: hsl(336deg 62.3% 72.9%);
---rad-ui-color-crimson-800: hsl(336deg 80.0% 57.8%);
---rad-ui-color-crimson-900: hsl(336deg 71.3% 52.8%);
---rad-ui-color-crimson-950: hsl(336deg 75.0% 45.5%);
---rad-ui-color-crimson-1000: hsl(332deg 63.0% 23.5%);
---rad-ui-color-pink-50: hsl(322deg 100% 99.4%);
---rad-ui-color-pink-100: hsl(323deg 100% 98.4%);
---rad-ui-color-pink-200: hsl(323deg 86.3% 96.5%);
---rad-ui-color-pink-300: hsl(323deg 78.7% 94.2%);
---rad-ui-color-pink-400: hsl(323deg 72.2% 91.1%);
---rad-ui-color-pink-500: hsl(323deg 66.3% 86.6%);
---rad-ui-color-pink-600: hsl(323deg 62.0% 80.1%);
---rad-ui-color-pink-700: hsl(323deg 60.3% 72.4%);
---rad-ui-color-pink-800: hsl(322deg 65.0% 54.5%);
---rad-ui-color-pink-900: hsl(322deg 62.0% 49.6%);
---rad-ui-color-pink-950: hsl(322deg 75.0% 44.0%);
---rad-ui-color-pink-1000: hsl(320deg 70.0% 23.2%);
---rad-ui-color-plum-50: hsl(292deg 90.0% 99.4%);
---rad-ui-color-plum-100: hsl(300deg 100% 98.6%);
---rad-ui-color-plum-200: hsl(299deg 71.2% 96.4%);
---rad-ui-color-plum-300: hsl(299deg 62.0% 93.8%);
---rad-ui-color-plum-400: hsl(298deg 56.1% 90.5%);
---rad-ui-color-plum-500: hsl(296deg 51.3% 85.8%);
---rad-ui-color-plum-600: hsl(295deg 48.2% 78.9%);
---rad-ui-color-plum-700: hsl(292deg 47.7% 70.8%);
---rad-ui-color-plum-800: hsl(292deg 45.0% 51.0%);
---rad-ui-color-plum-900: hsl(292deg 50.2% 46.9%);
---rad-ui-color-plum-950: hsl(292deg 60.0% 42.5%);
---rad-ui-color-plum-1000: hsl(291deg 57.0% 23.2%);
---rad-ui-color-purple-50: hsl(280deg 65.0% 99.4%);
---rad-ui-color-purple-100: hsl(276deg 100% 99.0%);
---rad-ui-color-purple-200: hsl(276deg 83.1% 97.0%);
---rad-ui-color-purple-300: hsl(275deg 76.4% 94.7%);
---rad-ui-color-purple-400: hsl(275deg 70.8% 91.8%);
---rad-ui-color-purple-500: hsl(274deg 65.4% 87.8%);
---rad-ui-color-purple-600: hsl(273deg 61.0% 81.7%);
---rad-ui-color-purple-700: hsl(272deg 60.0% 73.5%);
---rad-ui-color-purple-800: hsl(272deg 51.0% 54.0%);
---rad-ui-color-purple-900: hsl(272deg 46.8% 50.3%);
---rad-ui-color-purple-950: hsl(272deg 50.0% 45.8%);
---rad-ui-color-purple-1000: hsl(270deg 50.0% 25.0%);
+      --rad-ui-color-gray-50: hsl(0, 0%, 99.0%);
+--rad-ui-color-gray-100: hsl(0, 0%, 97.5%);
+--rad-ui-color-gray-200: hsl(0, 0%, 94.6%);
+--rad-ui-color-gray-300: hsl(0, 0%, 92.0%);
+--rad-ui-color-gray-400: hsl(0, 0%, 89.5%);
+--rad-ui-color-gray-500: hsl(0, 0%, 86.8%);
+--rad-ui-color-gray-600: hsl(0, 0%, 83.0%);
+--rad-ui-color-gray-700: hsl(0, 0%, 73.2%);
+--rad-ui-color-gray-800: hsl(0, 0%, 55.2%);
+--rad-ui-color-gray-900: hsl(0, 0%, 50.3%);
+--rad-ui-color-gray-950: hsl(0, 0%, 39.3%);
+--rad-ui-color-gray-1000: hsl(0, 0%, 12.5%);
+--rad-ui-color-mauve-50: hsl(300, 26.0%, 99.0%);
+--rad-ui-color-mauve-100: hsl(270, 20.0%, 98.0%);
+--rad-ui-color-mauve-200: hsl(267, 13.8%, 95.3%);
+--rad-ui-color-mauve-300: hsl(265, 12.2%, 92.7%);
+--rad-ui-color-mauve-400: hsl(263, 11.6%, 90.3%);
+--rad-ui-color-mauve-500: hsl(261, 11.1%, 87.7%);
+--rad-ui-color-mauve-600: hsl(257, 10.8%, 84.3%);
+--rad-ui-color-mauve-700: hsl(249, 10.4%, 75.5%);
+--rad-ui-color-mauve-800: hsl(252, 6.0%, 57.3%);
+--rad-ui-color-mauve-900: hsl(250, 5.0%, 52.3%);
+--rad-ui-color-mauve-950: hsl(252, 5.0%, 40.7%);
+--rad-ui-color-mauve-1000: hsl(260, 10.0%, 13.5%);
+--rad-ui-color-slate-50: hsl(240, 22.0%, 99.0%);
+--rad-ui-color-slate-100: hsl(240, 20.0%, 98.0%);
+--rad-ui-color-slate-200: hsl(239, 13.4%, 95.4%);
+--rad-ui-color-slate-300: hsl(238, 11.8%, 92.9%);
+--rad-ui-color-slate-400: hsl(237, 11.1%, 90.5%);
+--rad-ui-color-slate-500: hsl(236, 10.6%, 87.9%);
+--rad-ui-color-slate-600: hsl(234, 10.4%, 84.4%);
+--rad-ui-color-slate-700: hsl(231, 10.2%, 75.1%);
+--rad-ui-color-slate-800: hsl(230, 6.0%, 57.0%);
+--rad-ui-color-slate-900: hsl(227, 5.2%, 51.8%);
+--rad-ui-color-slate-950: hsl(227, 5.0%, 40.2%);
+--rad-ui-color-slate-1000: hsl(210, 12.0%, 12.5%);
+--rad-ui-color-sage-50: hsl(155, 30.0%, 98.8%);
+--rad-ui-color-sage-100: hsl(150, 14.3%, 97.3%);
+--rad-ui-color-sage-200: hsl(150, 8.0%, 94.5%);
+--rad-ui-color-sage-300: hsl(150, 6.0%, 92.0%);
+--rad-ui-color-sage-400: hsl(150, 4.9%, 89.5%);
+--rad-ui-color-sage-500: hsl(150, 4.3%, 86.7%);
+--rad-ui-color-sage-600: hsl(150, 3.7%, 82.8%);
+--rad-ui-color-sage-700: hsl(150, 2.9%, 72.9%);
+--rad-ui-color-sage-800: hsl(155, 3.5%, 54.2%);
+--rad-ui-color-sage-900: hsl(158, 2.9%, 49.3%);
+--rad-ui-color-sage-950: hsl(155, 3.0%, 38.5%);
+--rad-ui-color-sage-1000: hsl(155, 12.0%, 11.5%);
+--rad-ui-color-olive-50: hsl(110, 20.0%, 99.0%);
+--rad-ui-color-olive-100: hsl(120, 16.7%, 97.6%);
+--rad-ui-color-olive-200: hsl(118, 8.4%, 94.8%);
+--rad-ui-color-olive-300: hsl(116, 6.0%, 92.1%);
+--rad-ui-color-olive-400: hsl(115, 4.9%, 89.4%);
+--rad-ui-color-olive-500: hsl(113, 4.2%, 86.5%);
+--rad-ui-color-olive-600: hsl(111, 3.6%, 82.6%);
+--rad-ui-color-olive-700: hsl(105, 2.9%, 72.9%);
+--rad-ui-color-olive-800: hsl(110, 3.0%, 54.5%);
+--rad-ui-color-olive-900: hsl(105, 2.7%, 49.4%);
+--rad-ui-color-olive-950: hsl(110, 3.0%, 38.5%);
+--rad-ui-color-olive-1000: hsl(110, 8.0%, 12.0%);
+--rad-ui-color-sand-50: hsl(50, 20.0%, 99.0%);
+--rad-ui-color-sand-100: hsl(60, 7.7%, 97.5%);
+--rad-ui-color-sand-200: hsl(59, 5.8%, 94.5%);
+--rad-ui-color-sand-300: hsl(58, 5.3%, 91.8%);
+--rad-ui-color-sand-400: hsl(57, 5.1%, 89.0%);
+--rad-ui-color-sand-500: hsl(56, 5.0%, 86.0%);
+--rad-ui-color-sand-600: hsl(54, 4.9%, 81.8%);
+--rad-ui-color-sand-700: hsl(51, 5.0%, 72.4%);
+--rad-ui-color-sand-800: hsl(60, 3.0%, 53.9%);
+--rad-ui-color-sand-900: hsl(60, 2.6%, 49.0%);
+--rad-ui-color-sand-950: hsl(50, 2.5%, 38.0%);
+--rad-ui-color-sand-1000: hsl(50, 8.0%, 12.0%);
+--rad-ui-color-tomato-50: hsl(10, 100%, 99.4%);
+--rad-ui-color-tomato-100: hsl(8, 100%, 98.4%);
+--rad-ui-color-tomato-200: hsl(8, 100%, 96.6%);
+--rad-ui-color-tomato-300: hsl(8, 100%, 94.3%);
+--rad-ui-color-tomato-400: hsl(8, 92.8%, 91.0%);
+--rad-ui-color-tomato-500: hsl(9, 84.7%, 86.3%);
+--rad-ui-color-tomato-600: hsl(10, 77.3%, 79.5%);
+--rad-ui-color-tomato-700: hsl(10, 71.6%, 71.0%);
+--rad-ui-color-tomato-800: hsl(10, 78.0%, 54.0%);
+--rad-ui-color-tomato-900: hsl(10, 71.4%, 49.4%);
+--rad-ui-color-tomato-950: hsl(10, 82.0%, 42.0%);
+--rad-ui-color-tomato-1000: hsl(8, 50.0%, 24.0%);
+--rad-ui-color-red-50: hsl(359, 100%, 99.4%);
+--rad-ui-color-red-100: hsl(0, 100%, 98.4%);
+--rad-ui-color-red-200: hsl(360, 100%, 96.8%);
+--rad-ui-color-red-300: hsl(360, 97.9%, 94.8%);
+--rad-ui-color-red-400: hsl(360, 90.2%, 91.9%);
+--rad-ui-color-red-500: hsl(360, 81.7%, 87.8%);
+--rad-ui-color-red-600: hsl(359, 74.2%, 81.7%);
+--rad-ui-color-red-700: hsl(359, 69.5%, 74.3%);
+--rad-ui-color-red-800: hsl(358, 75.0%, 59.0%);
+--rad-ui-color-red-900: hsl(358, 67.4%, 54.6%);
+--rad-ui-color-red-950: hsl(358, 65.0%, 47.0%);
+--rad-ui-color-red-1000: hsl(350, 63.0%, 24.0%);
+--rad-ui-color-ruby-50: hsl(348, 100%, 99.5%);
+--rad-ui-color-ruby-100: hsl(345, 100%, 98.4%);
+--rad-ui-color-ruby-200: hsl(345, 89.9%, 96.7%);
+--rad-ui-color-ruby-300: hsl(346, 82.6%, 94.4%);
+--rad-ui-color-ruby-400: hsl(346, 75.8%, 91.4%);
+--rad-ui-color-ruby-500: hsl(347, 69.3%, 87.1%);
+--rad-ui-color-ruby-600: hsl(348, 64.3%, 80.9%);
+--rad-ui-color-ruby-700: hsl(348, 61.5%, 73.5%);
+--rad-ui-color-ruby-800: hsl(348, 75.0%, 58.5%);
+--rad-ui-color-ruby-900: hsl(347, 68.6%, 54.1%);
+--rad-ui-color-ruby-950: hsl(345, 70.0%, 46.5%);
+--rad-ui-color-ruby-1000: hsl(344, 63.0%, 24.0%);
+--rad-ui-color-crimson-50: hsl(332, 100%, 99.4%);
+--rad-ui-color-crimson-100: hsl(330, 100%, 98.4%);
+--rad-ui-color-crimson-200: hsl(331, 85.6%, 96.6%);
+--rad-ui-color-crimson-300: hsl(331, 78.1%, 94.2%);
+--rad-ui-color-crimson-400: hsl(332, 72.1%, 91.1%);
+--rad-ui-color-crimson-500: hsl(333, 67.0%, 86.7%);
+--rad-ui-color-crimson-600: hsl(335, 63.5%, 80.4%);
+--rad-ui-color-crimson-700: hsl(336, 62.3%, 72.9%);
+--rad-ui-color-crimson-800: hsl(336, 80.0%, 57.8%);
+--rad-ui-color-crimson-900: hsl(336, 71.3%, 52.8%);
+--rad-ui-color-crimson-950: hsl(336, 75.0%, 45.5%);
+--rad-ui-color-crimson-1000: hsl(332, 63.0%, 23.5%);
+--rad-ui-color-pink-50: hsl(322, 100%, 99.4%);
+--rad-ui-color-pink-100: hsl(323, 100%, 98.4%);
+--rad-ui-color-pink-200: hsl(323, 86.3%, 96.5%);
+--rad-ui-color-pink-300: hsl(323, 78.7%, 94.2%);
+--rad-ui-color-pink-400: hsl(323, 72.2%, 91.1%);
+--rad-ui-color-pink-500: hsl(323, 66.3%, 86.6%);
+--rad-ui-color-pink-600: hsl(323, 62.0%, 80.1%);
+--rad-ui-color-pink-700: hsl(323, 60.3%, 72.4%);
+--rad-ui-color-pink-800: hsl(322, 65.0%, 54.5%);
+--rad-ui-color-pink-900: hsl(322, 62.0%, 49.6%);
+--rad-ui-color-pink-950: hsl(322, 75.0%, 44.0%);
+--rad-ui-color-pink-1000: hsl(320, 70.0%, 23.2%);
+--rad-ui-color-plum-50: hsl(292, 90.0%, 99.4%);
+--rad-ui-color-plum-100: hsl(300, 100%, 98.6%);
+--rad-ui-color-plum-200: hsl(299, 71.2%, 96.4%);
+--rad-ui-color-plum-300: hsl(299, 62.0%, 93.8%);
+--rad-ui-color-plum-400: hsl(298, 56.1%, 90.5%);
+--rad-ui-color-plum-500: hsl(296, 51.3%, 85.8%);
+--rad-ui-color-plum-600: hsl(295, 48.2%, 78.9%);
+--rad-ui-color-plum-700: hsl(292, 47.7%, 70.8%);
+--rad-ui-color-plum-800: hsl(292, 45.0%, 51.0%);
+--rad-ui-color-plum-900: hsl(292, 50.2%, 46.9%);
+--rad-ui-color-plum-950: hsl(292, 60.0%, 42.5%);
+--rad-ui-color-plum-1000: hsl(291, 57.0%, 23.2%);
+--rad-ui-color-purple-50: hsl(280, 65.0%, 99.4%);
+--rad-ui-color-purple-100: hsl(276, 100%, 99.0%);
+--rad-ui-color-purple-200: hsl(276, 83.1%, 97.0%);
+--rad-ui-color-purple-300: hsl(275, 76.4%, 94.7%);
+--rad-ui-color-purple-400: hsl(275, 70.8%, 91.8%);
+--rad-ui-color-purple-500: hsl(274, 65.4%, 87.8%);
+--rad-ui-color-purple-600: hsl(273, 61.0%, 81.7%);
+--rad-ui-color-purple-700: hsl(272, 60.0%, 73.5%);
+--rad-ui-color-purple-800: hsl(272, 51.0%, 54.0%);
+--rad-ui-color-purple-900: hsl(272, 46.8%, 50.3%);
+--rad-ui-color-purple-950: hsl(272, 50.0%, 45.8%);
+--rad-ui-color-purple-1000: hsl(270, 50.0%, 25.0%);
 --rad-ui-color-violet-50: #fdfcfe;
 --rad-ui-color-violet-100: #faf8ff;
 --rad-ui-color-violet-200: #f4f0fe;
@@ -374,7 +374,7 @@
 --rad-ui-color-orange-1000: #582d1d;
     }
 
-    [data-accent-color="gray"]{
+    [data-rad-ui-accent-color=gray]{
 --rad-ui-color-accent-50: var(--rad-ui-color-gray-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-gray-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-gray-200);
@@ -388,8 +388,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-gray-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-gray-1000);
 }
-
-[data-accent-color="mauve"]{
+[data-rad-ui-accent-color=mauve]{
 --rad-ui-color-accent-50: var(--rad-ui-color-mauve-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-mauve-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-mauve-200);
@@ -403,8 +402,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-mauve-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-mauve-1000);
 }
-
-[data-accent-color="slate"]{
+[data-rad-ui-accent-color=slate]{
 --rad-ui-color-accent-50: var(--rad-ui-color-slate-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-slate-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-slate-200);
@@ -418,8 +416,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-slate-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-slate-1000);
 }
-
-[data-accent-color="sage"]{
+[data-rad-ui-accent-color=sage]{
 --rad-ui-color-accent-50: var(--rad-ui-color-sage-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-sage-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-sage-200);
@@ -433,8 +430,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-sage-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-sage-1000);
 }
-
-[data-accent-color="olive"]{
+[data-rad-ui-accent-color=olive]{
 --rad-ui-color-accent-50: var(--rad-ui-color-olive-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-olive-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-olive-200);
@@ -448,8 +444,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-olive-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-olive-1000);
 }
-
-[data-accent-color="sand"]{
+[data-rad-ui-accent-color=sand]{
 --rad-ui-color-accent-50: var(--rad-ui-color-sand-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-sand-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-sand-200);
@@ -463,8 +458,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-sand-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-sand-1000);
 }
-
-[data-accent-color="tomato"]{
+[data-rad-ui-accent-color=tomato]{
 --rad-ui-color-accent-50: var(--rad-ui-color-tomato-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-tomato-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-tomato-200);
@@ -478,8 +472,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-tomato-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-tomato-1000);
 }
-
-[data-accent-color="red"]{
+[data-rad-ui-accent-color=red]{
 --rad-ui-color-accent-50: var(--rad-ui-color-red-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-red-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-red-200);
@@ -493,8 +486,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-red-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-red-1000);
 }
-
-[data-accent-color="ruby"]{
+[data-rad-ui-accent-color=ruby]{
 --rad-ui-color-accent-50: var(--rad-ui-color-ruby-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-ruby-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-ruby-200);
@@ -508,8 +500,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-ruby-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-ruby-1000);
 }
-
-[data-accent-color="crimson"]{
+[data-rad-ui-accent-color=crimson]{
 --rad-ui-color-accent-50: var(--rad-ui-color-crimson-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-crimson-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-crimson-200);
@@ -523,8 +514,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-crimson-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-crimson-1000);
 }
-
-[data-accent-color="pink"]{
+[data-rad-ui-accent-color=pink]{
 --rad-ui-color-accent-50: var(--rad-ui-color-pink-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-pink-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-pink-200);
@@ -538,8 +528,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-pink-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-pink-1000);
 }
-
-[data-accent-color="plum"]{
+[data-rad-ui-accent-color=plum]{
 --rad-ui-color-accent-50: var(--rad-ui-color-plum-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-plum-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-plum-200);
@@ -553,8 +542,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-plum-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-plum-1000);
 }
-
-[data-accent-color="purple"]{
+[data-rad-ui-accent-color=purple]{
 --rad-ui-color-accent-50: var(--rad-ui-color-purple-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-purple-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-purple-200);
@@ -568,8 +556,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-purple-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-purple-1000);
 }
-
-[data-accent-color="violet"]{
+[data-rad-ui-accent-color=violet]{
 --rad-ui-color-accent-50: var(--rad-ui-color-violet-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-violet-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-violet-200);
@@ -583,8 +570,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-violet-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-violet-1000);
 }
-
-[data-accent-color="iris"]{
+[data-rad-ui-accent-color=iris]{
 --rad-ui-color-accent-50: var(--rad-ui-color-iris-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-iris-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-iris-200);
@@ -598,8 +584,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-iris-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-iris-1000);
 }
-
-[data-accent-color="indigo"]{
+[data-rad-ui-accent-color=indigo]{
 --rad-ui-color-accent-50: var(--rad-ui-color-indigo-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-indigo-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-indigo-200);
@@ -613,8 +598,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-indigo-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-indigo-1000);
 }
-
-[data-accent-color="blue"]{
+[data-rad-ui-accent-color=blue]{
 --rad-ui-color-accent-50: var(--rad-ui-color-blue-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-blue-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-blue-200);
@@ -628,8 +612,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-blue-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-blue-1000);
 }
-
-[data-accent-color="cyan"]{
+[data-rad-ui-accent-color=cyan]{
 --rad-ui-color-accent-50: var(--rad-ui-color-cyan-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-cyan-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-cyan-200);
@@ -643,8 +626,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-cyan-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-cyan-1000);
 }
-
-[data-accent-color="teal"]{
+[data-rad-ui-accent-color=teal]{
 --rad-ui-color-accent-50: var(--rad-ui-color-teal-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-teal-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-teal-200);
@@ -658,8 +640,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-teal-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-teal-1000);
 }
-
-[data-accent-color="jade"]{
+[data-rad-ui-accent-color=jade]{
 --rad-ui-color-accent-50: var(--rad-ui-color-jade-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-jade-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-jade-200);
@@ -673,8 +654,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-jade-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-jade-1000);
 }
-
-[data-accent-color="green"]{
+[data-rad-ui-accent-color=green]{
 --rad-ui-color-accent-50: var(--rad-ui-color-green-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-green-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-green-200);
@@ -688,8 +668,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-green-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-green-1000);
 }
-
-[data-accent-color="grass"]{
+[data-rad-ui-accent-color=grass]{
 --rad-ui-color-accent-50: var(--rad-ui-color-grass-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-grass-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-grass-200);
@@ -703,8 +682,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-grass-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-grass-1000);
 }
-
-[data-accent-color="brown"]{
+[data-rad-ui-accent-color=brown]{
 --rad-ui-color-accent-50: var(--rad-ui-color-brown-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-brown-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-brown-200);
@@ -718,8 +696,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-brown-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-brown-1000);
 }
-
-[data-accent-color="bronze"]{
+[data-rad-ui-accent-color=bronze]{
 --rad-ui-color-accent-50: var(--rad-ui-color-bronze-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-bronze-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-bronze-200);
@@ -733,8 +710,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-bronze-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-bronze-1000);
 }
-
-[data-accent-color="gold"]{
+[data-rad-ui-accent-color=gold]{
 --rad-ui-color-accent-50: var(--rad-ui-color-gold-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-gold-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-gold-200);
@@ -748,8 +724,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-gold-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-gold-1000);
 }
-
-[data-accent-color="sky"]{
+[data-rad-ui-accent-color=sky]{
 --rad-ui-color-accent-50: var(--rad-ui-color-sky-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-sky-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-sky-200);
@@ -763,8 +738,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-sky-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-sky-1000);
 }
-
-[data-accent-color="mint"]{
+[data-rad-ui-accent-color=mint]{
 --rad-ui-color-accent-50: var(--rad-ui-color-mint-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-mint-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-mint-200);
@@ -778,8 +752,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-mint-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-mint-1000);
 }
-
-[data-accent-color="lime"]{
+[data-rad-ui-accent-color=lime]{
 --rad-ui-color-accent-50: var(--rad-ui-color-lime-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-lime-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-lime-200);
@@ -793,8 +766,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-lime-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-lime-1000);
 }
-
-[data-accent-color="yellow"]{
+[data-rad-ui-accent-color=yellow]{
 --rad-ui-color-accent-50: var(--rad-ui-color-yellow-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-yellow-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-yellow-200);
@@ -808,8 +780,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-yellow-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-yellow-1000);
 }
-
-[data-accent-color="amber"]{
+[data-rad-ui-accent-color=amber]{
 --rad-ui-color-accent-50: var(--rad-ui-color-amber-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-amber-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-amber-200);
@@ -823,8 +794,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-amber-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-amber-1000);
 }
-
-[data-accent-color="orange"]{
+[data-rad-ui-accent-color=orange]{
 --rad-ui-color-accent-50: var(--rad-ui-color-orange-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-orange-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-orange-200);
@@ -840,163 +810,163 @@
 }
 
 
-    .rad-ui-dark-theme {
-      --rad-ui-color-gray-50: hsl(0deg 0% 9.5%);
---rad-ui-color-gray-100: hsl(0deg 0% 10.5%);
---rad-ui-color-gray-200: hsl(0deg 0% 15.8%);
---rad-ui-color-gray-300: hsl(0deg 0% 18.9%);
---rad-ui-color-gray-400: hsl(0deg 0% 21.7%);
---rad-ui-color-gray-500: hsl(0deg 0% 24.7%);
---rad-ui-color-gray-600: hsl(0deg 0% 29.1%);
---rad-ui-color-gray-700: hsl(0deg 0% 37.5%);
---rad-ui-color-gray-800: hsl(0deg 0% 43.0%);
---rad-ui-color-gray-900: hsl(0deg 0% 50.7%);
---rad-ui-color-gray-950: hsl(0deg 0% 69.5%);
---rad-ui-color-gray-1000: hsl(0deg 0% 93.5%);
---rad-ui-color-mauve-50: hsl(300deg 5.0% 9.5%);
---rad-ui-color-mauve-100: hsl(300deg 7.1% 11.0%);
---rad-ui-color-mauve-200: hsl(290deg 6.2% 16.2%);
---rad-ui-color-mauve-300: hsl(285deg 5.8% 19.5%);
---rad-ui-color-mauve-400: hsl(280deg 5.6% 22.4%);
---rad-ui-color-mauve-500: hsl(276deg 5.4% 25.7%);
---rad-ui-color-mauve-600: hsl(269deg 5.3% 30.3%);
---rad-ui-color-mauve-700: hsl(258deg 5.0% 39.2%);
---rad-ui-color-mauve-800: hsl(250deg 5.0% 45.0%);
---rad-ui-color-mauve-900: hsl(252deg 4.3% 52.3%);
---rad-ui-color-mauve-950: hsl(250deg 6.0% 70.5%);
---rad-ui-color-mauve-1000: hsl(240deg 7.0% 93.8%);
---rad-ui-color-slate-50: hsl(240deg 5.0% 9.8%);
---rad-ui-color-slate-100: hsl(240deg 6.9% 11.4%);
---rad-ui-color-slate-200: hsl(227deg 6.7% 16.4%);
---rad-ui-color-slate-300: hsl(222deg 6.6% 19.4%);
---rad-ui-color-slate-400: hsl(218deg 6.5% 22.1%);
---rad-ui-color-slate-500: hsl(214deg 6.4% 25.1%);
---rad-ui-color-slate-600: hsl(209deg 6.2% 29.4%);
---rad-ui-color-slate-700: hsl(202deg 5.8% 37.5%);
---rad-ui-color-slate-800: hsl(220deg 6.0% 44.0%);
---rad-ui-color-slate-900: hsl(218deg 5.3% 51.5%);
---rad-ui-color-slate-950: hsl(220deg 7.0% 70.0%);
---rad-ui-color-slate-1000: hsl(220deg 7.0% 93.5%);
---rad-ui-color-sage-50: hsl(155deg 7.0% 9.2%);
---rad-ui-color-sage-100: hsl(150deg 7.7% 10.2%);
---rad-ui-color-sage-200: hsl(150deg 7.0% 15.5%);
---rad-ui-color-sage-300: hsl(152deg 4.7% 18.3%);
---rad-ui-color-sage-400: hsl(153deg 4.2% 21.1%);
---rad-ui-color-sage-500: hsl(153deg 3.7% 24.2%);
---rad-ui-color-sage-600: hsl(154deg 3.3% 28.7%);
---rad-ui-color-sage-700: hsl(156deg 2.6% 37.1%);
---rad-ui-color-sage-800: hsl(155deg 6.0% 41.5%);
---rad-ui-color-sage-900: hsl(157deg 4.6% 49.2%);
---rad-ui-color-sage-950: hsl(155deg 5.0% 68.3%);
---rad-ui-color-sage-1000: hsl(155deg 7.0% 93.0%);
---rad-ui-color-olive-50: hsl(110deg 5.0% 9.2%);
---rad-ui-color-olive-100: hsl(120deg 5.7% 10.4%);
---rad-ui-color-olive-200: hsl(120deg 4.3% 15.4%);
---rad-ui-color-olive-300: hsl(120deg 3.9% 18.5%);
---rad-ui-color-olive-400: hsl(120deg 3.6% 21.2%);
---rad-ui-color-olive-500: hsl(120deg 3.3% 24.3%);
---rad-ui-color-olive-600: hsl(120deg 3.0% 28.7%);
---rad-ui-color-olive-700: hsl(120deg 2.6% 37.1%);
---rad-ui-color-olive-800: hsl(110deg 6.0% 41.5%);
---rad-ui-color-olive-900: hsl(106deg 4.6% 49.3%);
---rad-ui-color-olive-950: hsl(110deg 5.0% 68.8%);
---rad-ui-color-olive-1000: hsl(110deg 7.0% 93.0%);
---rad-ui-color-sand-50: hsl(60deg 6.0% 9.0%);
---rad-ui-color-sand-100: hsl(60deg 6.9% 10.4%);
---rad-ui-color-sand-200: hsl(60deg 5.2% 15.4%);
---rad-ui-color-sand-300: hsl(60deg 4.7% 18.5%);
---rad-ui-color-sand-400: hsl(60deg 4.4% 21.2%);
---rad-ui-color-sand-500: hsl(60deg 4.1% 24.3%);
---rad-ui-color-sand-600: hsl(60deg 3.8% 28.7%);
---rad-ui-color-sand-700: hsl(60deg 3.3% 37.1%);
---rad-ui-color-sand-800: hsl(60deg 6.0% 41.5%);
---rad-ui-color-sand-900: hsl(60deg 4.6% 49.3%);
---rad-ui-color-sand-950: hsl(60deg 5.0% 68.8%);
---rad-ui-color-sand-1000: hsl(60deg 7.0% 93.0%);
---rad-ui-color-tomato-50: hsl(10deg 23.0% 9.4%);
---rad-ui-color-tomato-100: hsl(10deg 39.0% 11.6%);
---rad-ui-color-tomato-200: hsl(9deg 48.3% 15.5%);
---rad-ui-color-tomato-300: hsl(9deg 53.0% 18.1%);
---rad-ui-color-tomato-400: hsl(9deg 57.0% 20.7%);
---rad-ui-color-tomato-500: hsl(9deg 61.8% 24.5%);
---rad-ui-color-tomato-600: hsl(9deg 68.4% 31.1%);
---rad-ui-color-tomato-700: hsl(10deg 80.4% 43.9%);
---rad-ui-color-tomato-800: hsl(10deg 78.0% 54.0%);
---rad-ui-color-tomato-900: hsl(10deg 88.4% 64.1%);
---rad-ui-color-tomato-950: hsl(10deg 100% 72.0%);
---rad-ui-color-tomato-1000: hsl(10deg 85.0% 89.0%);
---rad-ui-color-red-50: hsl(353deg 23.0% 9.8%);
---rad-ui-color-red-100: hsl(354deg 30.2% 12.4%);
---rad-ui-color-red-200: hsl(353deg 40.8% 16.4%);
---rad-ui-color-red-300: hsl(353deg 46.3% 19.2%);
---rad-ui-color-red-400: hsl(353deg 51.2% 22.1%);
---rad-ui-color-red-500: hsl(353deg 57.3% 26.2%);
---rad-ui-color-red-600: hsl(354deg 65.7% 33.2%);
---rad-ui-color-red-700: hsl(358deg 75.0% 47.1%);
---rad-ui-color-red-800: hsl(358deg 75.0% 59.0%);
---rad-ui-color-red-900: hsl(359deg 84.8% 67.6%);
---rad-ui-color-red-950: hsl(358deg 100% 76.0%);
---rad-ui-color-red-1000: hsl(350deg 100% 91.0%);
---rad-ui-color-ruby-50: hsl(343deg 23.0% 10.0%);
---rad-ui-color-ruby-100: hsl(349deg 33.3% 12.4%);
---rad-ui-color-ruby-200: hsl(348deg 42.2% 16.4%);
---rad-ui-color-ruby-300: hsl(348deg 46.8% 19.1%);
---rad-ui-color-ruby-400: hsl(348deg 50.7% 21.7%);
---rad-ui-color-ruby-500: hsl(348deg 56.0% 25.7%);
---rad-ui-color-ruby-600: hsl(348deg 64.3% 33.0%);
---rad-ui-color-ruby-700: hsl(348deg 77.0% 46.1%);
---rad-ui-color-ruby-800: hsl(348deg 75.0% 58.5%);
---rad-ui-color-ruby-900: hsl(349deg 84.1% 67.1%);
---rad-ui-color-ruby-950: hsl(348deg 100% 76.0%);
---rad-ui-color-ruby-1000: hsl(340deg 95.0% 91.0%);
---rad-ui-color-crimson-50: hsl(335deg 20.0% 9.6%);
---rad-ui-color-crimson-100: hsl(336deg 32.3% 12.2%);
---rad-ui-color-crimson-200: hsl(336deg 40.2% 16.0%);
---rad-ui-color-crimson-300: hsl(336deg 44.4% 18.5%);
---rad-ui-color-crimson-400: hsl(336deg 48.4% 21.3%);
---rad-ui-color-crimson-500: hsl(336deg 53.9% 25.5%);
---rad-ui-color-crimson-600: hsl(336deg 62.7% 32.8%);
---rad-ui-color-crimson-700: hsl(336deg 80.0% 45.1%);
---rad-ui-color-crimson-800: hsl(336deg 80.0% 57.8%);
---rad-ui-color-crimson-900: hsl(339deg 87.0% 67.2%);
---rad-ui-color-crimson-950: hsl(341deg 100% 76.0%);
---rad-ui-color-crimson-1000: hsl(330deg 90.0% 91.0%);
---rad-ui-color-pink-50: hsl(318deg 20.0% 9.6%);
---rad-ui-color-pink-100: hsl(318deg 32.3% 12.2%);
---rad-ui-color-pink-200: hsl(318deg 37.1% 15.7%);
---rad-ui-color-pink-300: hsl(318deg 39.8% 18.1%);
---rad-ui-color-pink-400: hsl(318deg 42.3% 20.8%);
---rad-ui-color-pink-500: hsl(318deg 45.8% 24.9%);
---rad-ui-color-pink-600: hsl(318deg 51.2% 32.2%);
---rad-ui-color-pink-700: hsl(318deg 60.0% 46.1%);
---rad-ui-color-pink-800: hsl(318deg 65.0% 54.5%);
---rad-ui-color-pink-900: hsl(318deg 71.5% 63.2%);
---rad-ui-color-pink-950: hsl(318deg 90.0% 75.0%);
---rad-ui-color-pink-1000: hsl(318deg 90.0% 90.5%);
---rad-ui-color-plum-50: hsl(301deg 20.0% 9.4%);
---rad-ui-color-plum-100: hsl(300deg 28.8% 11.6%);
---rad-ui-color-plum-200: hsl(299deg 31.8% 15.5%);
---rad-ui-color-plum-300: hsl(298deg 33.4% 18.3%);
---rad-ui-color-plum-400: hsl(297deg 34.6% 21.0%);
---rad-ui-color-plum-500: hsl(296deg 36.0% 25.1%);
---rad-ui-color-plum-600: hsl(295deg 37.9% 32.7%);
---rad-ui-color-plum-700: hsl(292deg 40.2% 47.8%);
---rad-ui-color-plum-800: hsl(292deg 45.0% 51.0%);
---rad-ui-color-plum-900: hsl(291deg 51.2% 60.2%);
---rad-ui-color-plum-950: hsl(290deg 70.0% 74.0%);
---rad-ui-color-plum-1000: hsl(300deg 60.0% 89.5%);
---rad-ui-color-purple-50: hsl(284deg 20.0% 9.6%);
---rad-ui-color-purple-100: hsl(284deg 31.1% 12.0%);
---rad-ui-color-purple-200: hsl(282deg 35.1% 16.8%);
---rad-ui-color-purple-300: hsl(281deg 36.9% 20.1%);
---rad-ui-color-purple-400: hsl(280deg 38.1% 23.0%);
---rad-ui-color-purple-500: hsl(278deg 39.5% 27.3%);
---rad-ui-color-purple-600: hsl(276deg 41.1% 35.1%);
---rad-ui-color-purple-700: hsl(272deg 42.7% 50.0%);
---rad-ui-color-purple-800: hsl(272deg 51.0% 54.0%);
---rad-ui-color-purple-900: hsl(271deg 57.8% 61.2%);
---rad-ui-color-purple-950: hsl(270deg 90.0% 78.0%);
---rad-ui-color-purple-1000: hsl(275deg 75.0% 91.5%);
+    [data-rad-ui-theme="dark"] {
+      --rad-ui-color-gray-50: hsl(0, 0%, 9.5%);
+--rad-ui-color-gray-100: hsl(0, 0%, 10.5%);
+--rad-ui-color-gray-200: hsl(0, 0%, 15.8%);
+--rad-ui-color-gray-300: hsl(0, 0%, 18.9%);
+--rad-ui-color-gray-400: hsl(0, 0%, 21.7%);
+--rad-ui-color-gray-500: hsl(0, 0%, 24.7%);
+--rad-ui-color-gray-600: hsl(0, 0%, 29.1%);
+--rad-ui-color-gray-700: hsl(0, 0%, 37.5%);
+--rad-ui-color-gray-800: hsl(0, 0%, 43.0%);
+--rad-ui-color-gray-900: hsl(0, 0%, 50.7%);
+--rad-ui-color-gray-950: hsl(0, 0%, 69.5%);
+--rad-ui-color-gray-1000: hsl(0, 0%, 93.5%);
+--rad-ui-color-mauve-50: hsl(300, 5.0%, 9.5%);
+--rad-ui-color-mauve-100: hsl(300, 7.1%, 11.0%);
+--rad-ui-color-mauve-200: hsl(290, 6.2%, 16.2%);
+--rad-ui-color-mauve-300: hsl(285, 5.8%, 19.5%);
+--rad-ui-color-mauve-400: hsl(280, 5.6%, 22.4%);
+--rad-ui-color-mauve-500: hsl(276, 5.4%, 25.7%);
+--rad-ui-color-mauve-600: hsl(269, 5.3%, 30.3%);
+--rad-ui-color-mauve-700: hsl(258, 5.0%, 39.2%);
+--rad-ui-color-mauve-800: hsl(250, 5.0%, 45.0%);
+--rad-ui-color-mauve-900: hsl(252, 4.3%, 52.3%);
+--rad-ui-color-mauve-950: hsl(250, 6.0%, 70.5%);
+--rad-ui-color-mauve-1000: hsl(240, 7.0%, 93.8%);
+--rad-ui-color-slate-50: hsl(240, 5.0%, 9.8%);
+--rad-ui-color-slate-100: hsl(240, 6.9%, 11.4%);
+--rad-ui-color-slate-200: hsl(227, 6.7%, 16.4%);
+--rad-ui-color-slate-300: hsl(222, 6.6%, 19.4%);
+--rad-ui-color-slate-400: hsl(218, 6.5%, 22.1%);
+--rad-ui-color-slate-500: hsl(214, 6.4%, 25.1%);
+--rad-ui-color-slate-600: hsl(209, 6.2%, 29.4%);
+--rad-ui-color-slate-700: hsl(202, 5.8%, 37.5%);
+--rad-ui-color-slate-800: hsl(220, 6.0%, 44.0%);
+--rad-ui-color-slate-900: hsl(218, 5.3%, 51.5%);
+--rad-ui-color-slate-950: hsl(220, 7.0%, 70.0%);
+--rad-ui-color-slate-1000: hsl(220, 7.0%, 93.5%);
+--rad-ui-color-sage-50: hsl(155, 7.0%, 9.2%);
+--rad-ui-color-sage-100: hsl(150, 7.7%, 10.2%);
+--rad-ui-color-sage-200: hsl(150, 7.0%, 15.5%);
+--rad-ui-color-sage-300: hsl(152, 4.7%, 18.3%);
+--rad-ui-color-sage-400: hsl(153, 4.2%, 21.1%);
+--rad-ui-color-sage-500: hsl(153, 3.7%, 24.2%);
+--rad-ui-color-sage-600: hsl(154, 3.3%, 28.7%);
+--rad-ui-color-sage-700: hsl(156, 2.6%, 37.1%);
+--rad-ui-color-sage-800: hsl(155, 6.0%, 41.5%);
+--rad-ui-color-sage-900: hsl(157, 4.6%, 49.2%);
+--rad-ui-color-sage-950: hsl(155, 5.0%, 68.3%);
+--rad-ui-color-sage-1000: hsl(155, 7.0%, 93.0%);
+--rad-ui-color-olive-50: hsl(110, 5.0%, 9.2%);
+--rad-ui-color-olive-100: hsl(120, 5.7%, 10.4%);
+--rad-ui-color-olive-200: hsl(120, 4.3%, 15.4%);
+--rad-ui-color-olive-300: hsl(120, 3.9%, 18.5%);
+--rad-ui-color-olive-400: hsl(120, 3.6%, 21.2%);
+--rad-ui-color-olive-500: hsl(120, 3.3%, 24.3%);
+--rad-ui-color-olive-600: hsl(120, 3.0%, 28.7%);
+--rad-ui-color-olive-700: hsl(120, 2.6%, 37.1%);
+--rad-ui-color-olive-800: hsl(110, 6.0%, 41.5%);
+--rad-ui-color-olive-900: hsl(106, 4.6%, 49.3%);
+--rad-ui-color-olive-950: hsl(110, 5.0%, 68.8%);
+--rad-ui-color-olive-1000: hsl(110, 7.0%, 93.0%);
+--rad-ui-color-sand-50: hsl(60, 6.0%, 9.0%);
+--rad-ui-color-sand-100: hsl(60, 6.9%, 10.4%);
+--rad-ui-color-sand-200: hsl(60, 5.2%, 15.4%);
+--rad-ui-color-sand-300: hsl(60, 4.7%, 18.5%);
+--rad-ui-color-sand-400: hsl(60, 4.4%, 21.2%);
+--rad-ui-color-sand-500: hsl(60, 4.1%, 24.3%);
+--rad-ui-color-sand-600: hsl(60, 3.8%, 28.7%);
+--rad-ui-color-sand-700: hsl(60, 3.3%, 37.1%);
+--rad-ui-color-sand-800: hsl(60, 6.0%, 41.5%);
+--rad-ui-color-sand-900: hsl(60, 4.6%, 49.3%);
+--rad-ui-color-sand-950: hsl(60, 5.0%, 68.8%);
+--rad-ui-color-sand-1000: hsl(60, 7.0%, 93.0%);
+--rad-ui-color-tomato-50: hsl(10, 23.0%, 9.4%);
+--rad-ui-color-tomato-100: hsl(10, 39.0%, 11.6%);
+--rad-ui-color-tomato-200: hsl(9, 48.3%, 15.5%);
+--rad-ui-color-tomato-300: hsl(9, 53.0%, 18.1%);
+--rad-ui-color-tomato-400: hsl(9, 57.0%, 20.7%);
+--rad-ui-color-tomato-500: hsl(9, 61.8%, 24.5%);
+--rad-ui-color-tomato-600: hsl(9, 68.4%, 31.1%);
+--rad-ui-color-tomato-700: hsl(10, 80.4%, 43.9%);
+--rad-ui-color-tomato-800: hsl(10, 78.0%, 54.0%);
+--rad-ui-color-tomato-900: hsl(10, 88.4%, 64.1%);
+--rad-ui-color-tomato-950: hsl(10, 100%, 72.0%);
+--rad-ui-color-tomato-1000: hsl(10, 85.0%, 89.0%);
+--rad-ui-color-red-50: hsl(353, 23.0%, 9.8%);
+--rad-ui-color-red-100: hsl(354, 30.2%, 12.4%);
+--rad-ui-color-red-200: hsl(353, 40.8%, 16.4%);
+--rad-ui-color-red-300: hsl(353, 46.3%, 19.2%);
+--rad-ui-color-red-400: hsl(353, 51.2%, 22.1%);
+--rad-ui-color-red-500: hsl(353, 57.3%, 26.2%);
+--rad-ui-color-red-600: hsl(354, 65.7%, 33.2%);
+--rad-ui-color-red-700: hsl(358, 75.0%, 47.1%);
+--rad-ui-color-red-800: hsl(358, 75.0%, 59.0%);
+--rad-ui-color-red-900: hsl(359, 84.8%, 67.6%);
+--rad-ui-color-red-950: hsl(358, 100%, 76.0%);
+--rad-ui-color-red-1000: hsl(350, 100%, 91.0%);
+--rad-ui-color-ruby-50: hsl(343, 23.0%, 10.0%);
+--rad-ui-color-ruby-100: hsl(349, 33.3%, 12.4%);
+--rad-ui-color-ruby-200: hsl(348, 42.2%, 16.4%);
+--rad-ui-color-ruby-300: hsl(348, 46.8%, 19.1%);
+--rad-ui-color-ruby-400: hsl(348, 50.7%, 21.7%);
+--rad-ui-color-ruby-500: hsl(348, 56.0%, 25.7%);
+--rad-ui-color-ruby-600: hsl(348, 64.3%, 33.0%);
+--rad-ui-color-ruby-700: hsl(348, 77.0%, 46.1%);
+--rad-ui-color-ruby-800: hsl(348, 75.0%, 58.5%);
+--rad-ui-color-ruby-900: hsl(349, 84.1%, 67.1%);
+--rad-ui-color-ruby-950: hsl(348, 100%, 76.0%);
+--rad-ui-color-ruby-1000: hsl(340, 95.0%, 91.0%);
+--rad-ui-color-crimson-50: hsl(335, 20.0%, 9.6%);
+--rad-ui-color-crimson-100: hsl(336, 32.3%, 12.2%);
+--rad-ui-color-crimson-200: hsl(336, 40.2%, 16.0%);
+--rad-ui-color-crimson-300: hsl(336, 44.4%, 18.5%);
+--rad-ui-color-crimson-400: hsl(336, 48.4%, 21.3%);
+--rad-ui-color-crimson-500: hsl(336, 53.9%, 25.5%);
+--rad-ui-color-crimson-600: hsl(336, 62.7%, 32.8%);
+--rad-ui-color-crimson-700: hsl(336, 80.0%, 45.1%);
+--rad-ui-color-crimson-800: hsl(336, 80.0%, 57.8%);
+--rad-ui-color-crimson-900: hsl(339, 87.0%, 67.2%);
+--rad-ui-color-crimson-950: hsl(341, 100%, 76.0%);
+--rad-ui-color-crimson-1000: hsl(330, 90.0%, 91.0%);
+--rad-ui-color-pink-50: hsl(318, 20.0%, 9.6%);
+--rad-ui-color-pink-100: hsl(318, 32.3%, 12.2%);
+--rad-ui-color-pink-200: hsl(318, 37.1%, 15.7%);
+--rad-ui-color-pink-300: hsl(318, 39.8%, 18.1%);
+--rad-ui-color-pink-400: hsl(318, 42.3%, 20.8%);
+--rad-ui-color-pink-500: hsl(318, 45.8%, 24.9%);
+--rad-ui-color-pink-600: hsl(318, 51.2%, 32.2%);
+--rad-ui-color-pink-700: hsl(318, 60.0%, 46.1%);
+--rad-ui-color-pink-800: hsl(318, 65.0%, 54.5%);
+--rad-ui-color-pink-900: hsl(318, 71.5%, 63.2%);
+--rad-ui-color-pink-950: hsl(318, 90.0%, 75.0%);
+--rad-ui-color-pink-1000: hsl(318, 90.0%, 90.5%);
+--rad-ui-color-plum-50: hsl(301, 20.0%, 9.4%);
+--rad-ui-color-plum-100: hsl(300, 28.8%, 11.6%);
+--rad-ui-color-plum-200: hsl(299, 31.8%, 15.5%);
+--rad-ui-color-plum-300: hsl(298, 33.4%, 18.3%);
+--rad-ui-color-plum-400: hsl(297, 34.6%, 21.0%);
+--rad-ui-color-plum-500: hsl(296, 36.0%, 25.1%);
+--rad-ui-color-plum-600: hsl(295, 37.9%, 32.7%);
+--rad-ui-color-plum-700: hsl(292, 40.2%, 47.8%);
+--rad-ui-color-plum-800: hsl(292, 45.0%, 51.0%);
+--rad-ui-color-plum-900: hsl(291, 51.2%, 60.2%);
+--rad-ui-color-plum-950: hsl(290, 70.0%, 74.0%);
+--rad-ui-color-plum-1000: hsl(300, 60.0%, 89.5%);
+--rad-ui-color-purple-50: hsl(284, 20.0%, 9.6%);
+--rad-ui-color-purple-100: hsl(284, 31.1%, 12.0%);
+--rad-ui-color-purple-200: hsl(282, 35.1%, 16.8%);
+--rad-ui-color-purple-300: hsl(281, 36.9%, 20.1%);
+--rad-ui-color-purple-400: hsl(280, 38.1%, 23.0%);
+--rad-ui-color-purple-500: hsl(278, 39.5%, 27.3%);
+--rad-ui-color-purple-600: hsl(276, 41.1%, 35.1%);
+--rad-ui-color-purple-700: hsl(272, 42.7%, 50.0%);
+--rad-ui-color-purple-800: hsl(272, 51.0%, 54.0%);
+--rad-ui-color-purple-900: hsl(271, 57.8%, 61.2%);
+--rad-ui-color-purple-950: hsl(270, 90.0%, 78.0%);
+--rad-ui-color-purple-1000: hsl(275, 75.0%, 91.5%);
 --rad-ui-color-violet-50: #14121f;
 --rad-ui-color-violet-100: #1b1525;
 --rad-ui-color-violet-200: #291f43;

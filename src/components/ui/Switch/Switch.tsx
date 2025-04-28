@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
-import { useComposeAttributes, useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
+import { useComposeAttributes, useCreateDataAttribute, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Switch';
 
 export type SwitchProps = {
@@ -30,7 +30,7 @@ const Switch = ({ children, customRootClass = '', className = '', color = '', va
     };
 
     const dataAttributes = useCreateDataAttribute('switch', { variant, size });
-    const accentAttributes = useCreateDataAttribute('accent', { color });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return (

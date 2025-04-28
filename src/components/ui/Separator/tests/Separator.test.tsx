@@ -25,6 +25,6 @@ describe('Separator Component', () => {
 
     test('renders Separator component with color', () => {
         render(<Separator color='blue' data-testid="separator"/>);
-        expect(screen.getByTestId('separator')).toHaveAttribute('data-accent-color', 'blue');
+        expect(screen.getByTestId('separator')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 });

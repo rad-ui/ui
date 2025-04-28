@@ -38,3 +38,18 @@ export const useComposeAttributes = (
         return Object.assign({}, ...attributeObjects.filter((obj) => obj !== null));
     }, [attributeObjects]); // Dependencies: recompute only if attributeObjects change
 };
+
+/**
+ * Custom hook to generate `data-rad-ui-accent-color` attributes dynamically.
+ *
+ * @param {string} color - The color to be used for the data attribute.
+ * @returns {Function} - A memoized function that returns an object containing the `data-rad-ui-accent-color` attribute.
+ */
+export const useCreateDataAccentColorAttribute = (
+    color: string
+) => {
+    return useCallback(() => {
+        if (!color) return {};
+        return { 'data-rad-ui-accent-color': color };
+    }, [color]);
+};

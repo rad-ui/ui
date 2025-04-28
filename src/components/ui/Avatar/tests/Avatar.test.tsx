@@ -35,7 +35,7 @@ describe('Avatar', () => {
 
     test('renders color for fallback when src is not provided', async() => {
         render(<Avatar fallback="RU" color='blue'/>);
-        expect(screen.getByText('RU')).toHaveAttribute('data-accent-color', 'blue');
+        expect(screen.getByText('RU')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 
     test('renders avatar with the given asChild', () => {
