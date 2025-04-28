@@ -25,7 +25,7 @@ try {
 
     ${accentTokens}
 
-    .rad-ui-dark-theme {
+    [data-rad-ui-theme="dark"] {
       ${darkThemeCss}
     }
   `;
