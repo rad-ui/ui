@@ -19,6 +19,12 @@ const Theme = ({ appearance = 'light', accentColor = '', children, ...props }: T
         }
     }, [appearance]);
 
+    useEffect(() => {
+        if (accentColor) {
+            setThemeAccentColor(accentColor);
+        }
+    }, [accentColor]);
+
     return <div data-rad-ui-theme={theme} data-rad-ui-accent-color={themeAccentColor} {...props}>{children}</div>;
 };
 
