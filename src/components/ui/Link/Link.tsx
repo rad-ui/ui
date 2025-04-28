@@ -10,10 +10,10 @@ const COMPONENT_NAME = 'Link';
 export type LinkProps = {
     children: React.ReactNode;
     href: string;
-    customRootClass: string;
+    customRootClass?: string;
     size?: string;
-    className: string;
-    props: Record<string, any>[];
+    className?: string;
+    props?: Record<string, any>[];
 }
 
 // TODO: in the previous return value
