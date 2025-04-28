@@ -3,16 +3,17 @@ import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { useCreateDataAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
+import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Link';
 
 export type LinkProps = {
     children: React.ReactNode;
     href: string;
-    customRootClass: string;
+    customRootClass?: string;
     size?: string;
-    className: string;
-    props: Record<string, any>[];
+    className?: string;
+    props?: Record<string, any>[];
 }
 
 // TODO: in the previous return value
@@ -21,8 +22,8 @@ export type LinkProps = {
 const Link = ({ children, href = '#', customRootClass, className, size = '', ...props }: LinkProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const dataAttributes = useCreateDataAttribute('link', { size });
-
-    return <a href={href} className={clsx(rootClass, className)} {...dataAttributes()} {...props}>{children}</a>;
+    // @ts-ignore
+    return <Primitive.a href={href} className={clsx(rootClass, className)} {...dataAttributes()} {...props}>{children}</Primitive.a>;
 };
 
 Link.displayName = COMPONENT_NAME;
