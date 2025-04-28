@@ -17,7 +17,7 @@ const Separator = ({ orientation = 'horizontal', className, customRootClass, col
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-accent-color'] = color;
+        data_attributes['data-rad-ui-accent-color'] = color;
     }
     return <div className={clsx(rootClass, orientationClass, className)} {...props} {...data_attributes}></div>;
 };

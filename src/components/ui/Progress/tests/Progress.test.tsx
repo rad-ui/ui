@@ -32,6 +32,6 @@ describe('Progress', () => {
 
     test('renders progress bar with correct color', () => {
         render(<Progress value={2} color='blue' />);
-        expect(screen.getByRole('progressbar')).toHaveAttribute('data-accent-color', 'blue');
+        expect(screen.getByRole('progressbar')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 });

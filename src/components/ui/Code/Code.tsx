@@ -27,7 +27,7 @@ const Code = ({ children, customRootClass = '', color = '', variant = '', size =
     }
 
     if (color) {
-        data_attributes['data-accent-color'] = color;
+        data_attributes['data-rad-ui-accent-color'] = color;
     }
 
     return <code className={clsx(rootClass)} {...data_attributes}>
