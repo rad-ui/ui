@@ -15,36 +15,8 @@ export type AlertDialogProps = {
 }
 
 const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content } : AlertDialogProps) => {
-    const [isOpen, setIsOpen] = useState(open);
-
-    // Update local state when parent state changes
-    const handleOpenChange = (newOpen: boolean) => {
-        setIsOpen(newOpen);
-        onOpenChange(newOpen);
-    };
-
-    return (
-        <AlertDialogRoot open={isOpen} onOpenChange={handleOpenChange}>
-            <AlertDialogTrigger>
-                {children}
-            </AlertDialogTrigger>
-
-            <AlertDialogPortal>
-                <AlertDialogOverlay/>
-                <AlertDialogContent>
-                    {content}
-                    <AlertDialogCancel>
-                        Cancel
-                    </AlertDialogCancel>
-                    <AlertDialogAction>
-                        Continue
-                    </AlertDialogAction>
-                </AlertDialogContent>
-
-            </AlertDialogPortal>
-
-        </AlertDialogRoot>
-    );
+    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead.');
+    return null;
 };
 
 AlertDialog.Root = AlertDialogRoot;

@@ -7,11 +7,12 @@ export type AlertDialogTriggerProps = {
     children: React.ReactNode;
 }
 
-const AlertDialogTrigger = ({ children, ...props } : AlertDialogTriggerProps) => {
+const AlertDialogTrigger = ({ children, asChild, ...props } : AlertDialogTriggerProps) => {
     const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
 
     return (
         <ButtonPrimitive
+            asChild={asChild}
             onClick={() => handleOpenChange(true)} {...props}
             className={clsx(`${rootClass}-trigger`)}
         >
