@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import generateCSSTokens from './generateCSSTokens.js';
-import generateAccentTokens from './generateAccentTokens.js';
+import generateCSSTokens from './transformers/generateCSSTokens.js';
+import generateAccentTokens from './transformers/generateAccentTokens.js';
 
 try {
     // Generate CSS variables for the light theme
