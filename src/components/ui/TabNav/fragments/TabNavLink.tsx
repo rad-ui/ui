@@ -9,16 +9,18 @@ export type TabNavLinkProps = {
     className?: string,
     href?: string,
     disabled?: boolean,
-
+    asChild?: boolean
 }
 
-const TabNavLink = ({ className = '', href = '#', children, disabled }: TabNavLinkProps) => {
+const TabNavLink = ({ className = '', href = '#', children, disabled, asChild }: TabNavLinkProps) => {
     const { rootClass } = useContext(TabNavContext);
+    if (asChild) disabled = false;
 
     return (
         <RovingFocusGroup.Item >
             <Primitive.a
                 className={clsx(`${rootClass}-link`, className)}
+                asChild={asChild}
                 aria-disabled={disabled}
                 // @ts-expect-error
                 disabled={disabled}

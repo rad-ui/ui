@@ -20,10 +20,9 @@ const TabNavRoot = ({
     className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', ...props
 }: TabNavRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    
 
     const contextValues = {
-        rootClass,
+        rootClass
     };
     return (
         <TabNavContext.Provider value={contextValues}>

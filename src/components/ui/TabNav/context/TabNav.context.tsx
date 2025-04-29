@@ -5,7 +5,7 @@ interface TabNavContextType {
 }
 
 const TabNavContext = createContext<TabNavContextType>({
-    rootClass: '',
+    rootClass: ''
 });
 
 export default TabNavContext;
