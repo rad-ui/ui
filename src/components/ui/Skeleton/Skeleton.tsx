@@ -2,17 +2,26 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
-import Primitive from '~/core/primitives/Primitive';
 const COMPONENT_NAME = 'Skeleton';
 
-const Skeleton = ({ loading = true, className = '', customRootClass = '', children, ...props }:any) => {
+export type SkeletonProps = {
+    loading:boolean;
+    className?:string;
+    customRootClass?:string;
+    children:React.ReactNode;
+    height:Number;
+    width:Number
+
+}
+
+const Skeleton = ({ loading = true, className = '', customRootClass = '', children,height, width, ...props }:SkeletonProps) => {
     // If loading is false, return the children
     if (!loading) return children;
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <Primitive.span className={clsx(rootClass, className)} {...props} asChild>
-        {children}
-    </Primitive.span>;
+    return <div className={clsx(rootClass, className)} {...props} data-height={height} data-width={width}>
+        
+    </div>;
 };
 
 Skeleton.displayName = COMPONENT_NAME;

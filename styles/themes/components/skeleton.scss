@@ -12,6 +12,14 @@
     user-select: none !important;
     cursor: default !important;
 
+    &[data-height] {
+        height: attr(data-height px);
+      }
+
+    &[data-width] {
+        width: attr(data-width px);
+    }
+
     @keyframes skeleton-shimmer {
         0% {
             background-color: var(--rad-ui-color-gray-200);
