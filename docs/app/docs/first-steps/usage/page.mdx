@@ -1,7 +1,7 @@
 # Usage
 
 ## Importing components
-
+To use Rad UI components, you need to import them from the "@radui/ui" package.
 
 ```tsx
 import Button from "@radui/ui/Button";
@@ -25,8 +25,28 @@ Rad UI is headless out of the box, meaning it doesn't come with any styles. But 
 import "@radui/ui/themes/default.css";
 ```
 
-# Tailwind presets
-Rad UI also provides fist class support for Tailwind CSS. You can import the preset and have access to Rad UI's design system tokens in your Tailwind CSS.
+
+## Configuring the theme
+Rad UI ships a theme component that you can use to configure all your global app preferences in a single place.
+
+```tsx
+import Theme from "@radui/ui/Theme";
+
+const App = () => {
+    return (
+        <Theme appearance="dark" accentColor="gray">
+            <App />
+        </Theme>
+    )
+}
+```
+
+
+
+## Tailwind presets
+Rad UI also provides first class support for Tailwind CSS. You can import the preset and have access to Rad UI's design system tokens in your Tailwind CSS.
+
+### For Tailwind CSS v3
 
 ```tsx
  // tailwind.config.js
@@ -44,7 +64,9 @@ const config = {
 export default config;
 ```
 
+### For Tailwind CSS v4
 
+We are actively working on a Tailwind CSS v4 preset so you can use the latest and greatest from Tailwind CSS with minimal configuration.
 
 
 
