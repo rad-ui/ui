@@ -1,23 +1,27 @@
 .rad-ui-tab-nav{
     display: flex;
-    gap: 6px;
+        box-shadow: inset 0 -1px 0 0 var(--rad-ui-color-gray-500);
 
     .rad-ui-tab-nav-link {
-        background-color: white;
-        color: #65636d;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 1px;
+        color: var(--rad-ui-color-accent-600);
+            font-family: inherit;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            height:42px;
+            font-size: 15px;
+            line-height: 1;
+            cursor: pointer;
 
-        &:focus-visible {
-            outline: 2px solid var(--rad-ui-color-accent-900);
-            outline-offset: 2px;
-        }
+            &[aria-selected="true"]{
+                color: var(--rad-ui-color-accent-950);
+                border-bottom:2px solid var(--rad-ui-color-accent-900);
+            }
 
-        &:hover{
-            background-color: var(--rad-ui-color-accent-300);
-            color: var(--rad-ui-color-accent-950);
-        }
+            &:hover{
+                color: var(--rad-ui-color-accent-900);
+            }
+
+       
 }
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { clsx } from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
@@ -15,11 +15,12 @@ export type TabNavLinkProps = {
 const TabNavLink = ({ className = '', href = '#', children, disabled }: TabNavLinkProps) => {
     const { rootClass } = useContext(TabNavContext);
 
+
     return (
         <RovingFocusGroup.Item>
             <Primitive.a
                 className={clsx(`${rootClass}-link`, className)}
-                data-disabled={disabled}
+                aria-disabled={disabled}
                 {...disabled ? {} : { href }}
             >
                 {children}
