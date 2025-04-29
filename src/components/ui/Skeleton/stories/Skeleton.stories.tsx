@@ -1,12 +1,12 @@
 import Skeleton from '../Skeleton';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-
+import Card from '~/components/ui/Card/Card';
 import React, { useEffect } from 'react';
 import Button from '~/components/ui/Button/Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'WIP/Skeleton',
+    title: 'Components/Skeleton',
     component: Skeleton,
     render: () => {
         const [loading, setLoading] = React.useState(true);
@@ -51,6 +51,11 @@ export default {
                 <div>
                     <Skeleton loading={loading}>
                         <Button>Click me</Button>
+                    </Skeleton>
+                </div>
+                <div className='mt-5'>
+                    <Skeleton loading={loading}>
+                        <Card>Click me</Card>
                     </Skeleton>
                 </div>
             </div>

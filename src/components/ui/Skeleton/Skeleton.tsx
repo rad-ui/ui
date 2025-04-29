@@ -2,6 +2,7 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+import Primitive from '~/core/primitives/Primitive';
 const COMPONENT_NAME = 'Skeleton';
 
 const Skeleton = ({ loading = true, className = '', customRootClass = '', children, ...props }:any) => {
@@ -9,9 +10,9 @@ const Skeleton = ({ loading = true, className = '', customRootClass = '', childr
     if (!loading) return children;
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <span className={clsx(rootClass, className)} {...props} >
+    return <Primitive.span className={clsx(rootClass, className)} {...props} asChild>
         {children}
-    </span>;
+    </Primitive.span>;
 };
 
 Skeleton.displayName = COMPONENT_NAME;
