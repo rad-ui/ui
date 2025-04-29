@@ -16,10 +16,12 @@ const TabNavLink = ({ className = '', href = '#', children, disabled }: TabNavLi
     const { rootClass } = useContext(TabNavContext);
 
     return (
-        <RovingFocusGroup.Item>
+        <RovingFocusGroup.Item >
             <Primitive.a
                 className={clsx(`${rootClass}-link`, className)}
                 aria-disabled={disabled}
+                // @ts-expect-error
+                disabled={disabled}
                 {...disabled ? {} : { href }}
             >
                 {children}
