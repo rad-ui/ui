@@ -4,13 +4,12 @@ interface TabNavContextType {
     rootClass?: string;
     tabNavValue: string;
   handleTabNavChange: (value: string) => void;
-};
-
+}
 
 const TabNavContext = createContext<TabNavContextType>({
     rootClass: '',
     tabNavValue: '',
-    handleTabNavChange: () => {},
+    handleTabNavChange: () => {}
 });
 
 export default TabNavContext;

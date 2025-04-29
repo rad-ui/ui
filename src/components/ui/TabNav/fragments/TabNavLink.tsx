@@ -15,7 +15,6 @@ export type TabNavLinkProps = {
 const TabNavLink = ({ className = '', href = '#', children, disabled }: TabNavLinkProps) => {
     const { rootClass } = useContext(TabNavContext);
 
-
     return (
         <RovingFocusGroup.Item>
             <Primitive.a
