@@ -15,7 +15,7 @@ export type AlertDialogProps = {
 }
 
 const AlertDialog = ({ children, open = false, onOpenChange = () => {}, content } : AlertDialogProps) => {
-    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead.');
+    console.warn('Direct usage of AlertDialog is not supported. Please use AlertDialog.Root, AlertDialog.Content, etc. instead.');
     return null;
 };
 
