@@ -82,30 +82,30 @@ export default {
                     </Button>
                 </div>
                 <div>
-                    <Skeleton loading={loading} height={20} width={600}>
+                    <Skeleton loading={loading} height="20px" width="600px">
                 Hello, how you doing?
                     </Skeleton>
                 </div>
 
                 <div>
-                    <Skeleton loading={loading} height={40} width={600}>
+                    <Skeleton loading={loading} height="40px" width="600px">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
                     </Skeleton>
                 </div>
 
                 <div>
-                    <Skeleton loading={loading} height={40} width={600}>
+                    <Skeleton loading={loading} height="40px" width="600px">
                         <Button>Click me</Button>
                     </Skeleton>
                 </div>
                 <div className='mt-5'>
-                    <Skeleton loading={loading}height={40} width={800}>
+                    <Skeleton loading={loading}height="40px" width="800px">
                         <Card>Click me</Card>
                     </Skeleton>
                 </div>
 
                 <div className='mt-5'>
-                    <Skeleton loading={loading} height={200} width={800}>
+                    <Skeleton loading={loading} height="200px" width="800">
                         <Accordion.Root >
                                     {items.map((item, index) => (
                                         <Accordion.Item value={index} key={index}>
@@ -124,7 +124,7 @@ export default {
                 </div>  
 
                 <div className='mt-5'>
-                    <Skeleton loading={loading} height={130} width={800}>
+                    <Skeleton loading={loading} height="130px" width="800px">
                         <Tabs.Root defaultValue="tab2">
                                             <Tabs.List>
                                                 <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
@@ -149,7 +149,10 @@ export default {
                                             </Tabs.Content>
                                         </Tabs.Root>
                     </Skeleton>
-                </div>      
+                </div>  
+
+                <div className='mt-5'>
+                    <Skeleton loading={loading} height="100px" width="100%"> height 100px and width 100%</Skeleton></div>    
 
             </div>
         </SandboxEditor>;

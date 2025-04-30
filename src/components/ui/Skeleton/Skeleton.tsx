@@ -9,8 +9,8 @@ export type SkeletonProps = {
     className?:string;
     customRootClass?:string;
     children:React.ReactNode;
-    height:Number;
-    width:Number
+    height:string;
+    width:string;
 
 }
 
@@ -19,8 +19,12 @@ const Skeleton = ({ loading = true, className = '', customRootClass = '', childr
     if (!loading) return children;
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <div className={clsx(rootClass, className)} {...props} data-height={height} data-width={width}>
-        
+    return <div className={clsx(rootClass, className)} {...props} style={{
+    
+        ['--skeleton-height' as any]: height,
+        ['--skeleton-width' as any]: width,
+      }}
+        >
     </div>;
 };
 

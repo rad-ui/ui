@@ -11,14 +11,8 @@
     pointer-events: none !important;
     user-select: none !important;
     cursor: default !important;
-
-    &[data-height] {
-        height: attr(data-height px);
-      }
-
-    &[data-width] {
-        width: attr(data-width px);
-    }
+    height: var(--skeleton-height);
+    width: var(--skeleton-width);
 
     @keyframes skeleton-shimmer {
         0% {
