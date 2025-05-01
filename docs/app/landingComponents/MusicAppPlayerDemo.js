@@ -4,6 +4,9 @@ import Button from '@radui/ui/Button';
 import Heading from '@radui/ui/Heading';
 import Text from '@radui/ui/Text';
 
+
+import { motion } from "motion/react"
+
 const LeftArrow = () => {
     return <svg width="24" height="24" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>;
 };
@@ -24,7 +27,8 @@ const MusicBars = ({ index }) => {
         'h-[75px]', 'h-[80px]', 'h-[70px]', 'h-[35px]', 'h-[25px]',
         'h-[30px]', 'h-[35px]', 'h-[25px]', 'h-[40px]', 'h-[30px]'
     ]
-    return <div className='flex-1 flex items-center space-x-1 justify-center'>
+    return <div className='flex-1 flex items-center space-x-1 justify-center'
+    >
         {randomHeightBars.map((bar, index) => {
 
             return <div key={index} className={`h-4 rounded-md ${bar} ${index === 12 ? 'bg-gray-950 w-1.5' : 'bg-gray-700 w-1'}`} ></div>
@@ -33,7 +37,12 @@ const MusicBars = ({ index }) => {
 };
 
 const MusicAppPlayerDemo = () => {
-    return <div>
+    return <motion.div
+        initial={{ top: 0, y: 100,x:-100  }}
+        animate={{ top: 100, y: 0, }}
+        transition={{ duration: 10.5, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}
+
+    >
         <div style={{ maxWidth: '400px' }}>
             <div className='border border-gray-400 p-4 bg-gray-100 bg-gradient-to-b from-green-200 to-red-100 rounded-md shadow'>
                 <div className='flex justify-between items-center'>
@@ -67,7 +76,7 @@ const MusicAppPlayerDemo = () => {
 
             </div>
         </div>
-    </div>;
+    </motion.div>;
 };
 
 export default MusicAppPlayerDemo;

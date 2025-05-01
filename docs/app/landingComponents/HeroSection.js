@@ -11,6 +11,7 @@ import TrafficAnalyticsDemo from "./TrafficAnalyticsDemo"
 import YourTeamDemo from "./YourTeamDemo"
 
 
+
 const ForwardArrowIcon = () => {
   return <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
   <mask id="mask0_245_304" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
@@ -60,7 +61,6 @@ const BookIcon = () => {
 }
 
 const ComputerIcon = () => {
-
 
   return <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <mask id="mask0_173_1245" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48">
