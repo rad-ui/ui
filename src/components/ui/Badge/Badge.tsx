@@ -19,7 +19,7 @@ export type BadgeProps = {
 const Badge = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: BadgeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('button', { variant, size });
+    const dataAttributes = useCreateDataAttribute('badge', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
