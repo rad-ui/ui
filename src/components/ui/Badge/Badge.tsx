@@ -3,6 +3,7 @@ import React from 'react';
 
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Badge';
 export type BadgeProps = {
@@ -17,21 +18,12 @@ export type BadgeProps = {
 
 const Badge = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: BadgeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const data_attributes: Record<string, string> = {};
 
-    if (variant) {
-        data_attributes['data-badge-variant'] = variant;
-    }
+    const dataAttributes = useCreateDataAttribute('button', { variant, size });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
-    if (size) {
-        data_attributes['data-badge-size'] = size;
-    }
-
-    if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
-    }
-
-    return <div className={clsx(rootClass, className)} {...data_attributes} {...props}>
+    return <div className={clsx(rootClass, className)} {...composedAttributes()} {...props}>
         {children}
     </div>;
 };
