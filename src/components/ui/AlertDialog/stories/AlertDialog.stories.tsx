@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // import Button from '@/rad-';
 import AlertDialog from '../AlertDialog';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import Button from '~/components/ui/Button/Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -10,25 +11,29 @@ export default {
     component: AlertDialog,
     render: (args:any) => {
         const [isOpen, setIsOpen] = useState(false);
-
-        const handleOpenChange = (open: boolean) => {
-            console.log('open', open);
-            setIsOpen(open);
-        };
-
         return (
             <SandboxEditor>
-                <AlertDialog
-                    open={isOpen}
-                    onOpenChange={handleOpenChange}
-                    {...args} content={
-                        <div className="flex flex-col gap-4 ">
-                            <h2 className="text-lg font-bold">Are you sure you want to delete this account?</h2>
+                <AlertDialog.Root>
+                    <AlertDialog.Trigger asChild>
+                        <Button>Open Dialog</Button>
+                    </AlertDialog.Trigger>
+                    <AlertDialog.Portal>
+                        <AlertDialog.Overlay />
+                        <AlertDialog.Content>
                             <div>
-                                <p className='text-gray-900'>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
+                                Are you sure you want to delete this account?
                             </div>
-                        </div>
-                    } />
+                            <AlertDialog.Action asChild>
+                                <Button>Confirm</Button>
+                            </AlertDialog.Action>
+                            <AlertDialog.Cancel asChild>
+                                <Button>Cancel</Button>
+                            </AlertDialog.Cancel>
+                        </AlertDialog.Content>
+
+                    </AlertDialog.Portal>
+
+                </AlertDialog.Root>
             </SandboxEditor>
         );
     }

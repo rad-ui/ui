@@ -8,11 +8,12 @@ export type AlertDialogPortalProps = {
 
 const AlertDialogPortal = ({ children }: AlertDialogPortalProps) => {
     const { rootClass } = useContext(AlertDialogContext);
-    const rootElement = document.getElementsByClassName(rootClass)[0] as HTMLElement | null;
+    const rootElement = document.querySelector('#rad-ui-theme-container') || document.body as HTMLElement | null;
 
     return (
         <Floater.Portal
-            root={rootElement || document.body}
+            root={rootElement}
+
         >
             {children}
         </Floater.Portal>
