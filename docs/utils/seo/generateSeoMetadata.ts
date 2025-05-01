@@ -4,7 +4,7 @@ const generateSeoMetadata = ({title, description, keywords}: {title: string, des
     const imageUrl = generateOgTitleUrl(title, description)
 
     return {
-        title,
+        title: title,
         description,
         keywords,
         openGraph: {
