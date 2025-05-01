@@ -61,6 +61,6 @@ describe('Skeleton', () => {
     const div = container.querySelector('div')!;
     expect(div.style.getPropertyValue('--skeleton-height')).toBe('100px');
     expect(div.style.getPropertyValue('--skeleton-width')).toBe('200px');
-    expect(div.style.getPropertyValue('--skeleton-raduis')).toBe('10px');
+    expect(div.style.getPropertyValue('--skeleton-radius')).toBe('10px');
   });
 });
