@@ -11,10 +11,11 @@ export type SkeletonProps = {
     children:React.ReactNode;
     height:string;
     width:string;
+    radius?:string;
 
 }
 
-const Skeleton = ({ loading = true, className = '', customRootClass = '', children,height, width, ...props }:SkeletonProps) => {
+const Skeleton = ({ loading = true, className = '', customRootClass = '', children, height, width, radius, ...props }:SkeletonProps) => {
     // If loading is false, return the children
     if (!loading) return children;
 
@@ -23,6 +24,7 @@ const Skeleton = ({ loading = true, className = '', customRootClass = '', childr
     
         ['--skeleton-height' as any]: height,
         ['--skeleton-width' as any]: width,
+        ['--skeleton-radius' as any]: radius,
       }}
         >
     </div>;

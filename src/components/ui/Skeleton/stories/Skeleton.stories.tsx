@@ -99,13 +99,13 @@ export default {
                     </Skeleton>
                 </div>
                 <div className='mt-5'>
-                    <Skeleton loading={loading}height="40px" width="800px">
+                    <Skeleton loading={loading}height="40px" width="100%">
                         <Card>Click me</Card>
                     </Skeleton>
                 </div>
 
                 <div className='mt-5'>
-                    <Skeleton loading={loading} height="200px" width="800">
+                    <Skeleton loading={loading} height="200px" width="100%">
                         <Accordion.Root >
                                     {items.map((item, index) => (
                                         <Accordion.Item value={index} key={index}>
@@ -124,7 +124,7 @@ export default {
                 </div>  
 
                 <div className='mt-5'>
-                    <Skeleton loading={loading} height="130px" width="800px">
+                    <Skeleton loading={loading} height="130px" width="100%">
                         <Tabs.Root defaultValue="tab2">
                                             <Tabs.List>
                                                 <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
@@ -165,3 +165,55 @@ export const All = {
         className: ''
     }
 };
+
+export const Shapes = () => {
+    const [loading, setLoading] = React.useState(true);
+    const timeOutLoading = () => {
+        const timeout = setTimeout(() => {
+            setLoading(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+    };
+    useEffect(() => {
+        timeOutLoading();
+    }, []);
+  
+    return (
+      
+      <SandboxEditor>
+        <div className='flex flex-col space-y-4'>
+            <div>
+      <Button
+                        onClick={
+                            () => {
+                                setLoading(true);
+                                timeOutLoading();
+                            }
+
+                        }>
+                        Trigger loading
+                    </Button>
+                    </div>
+                    <div>
+
+                    
+        <Skeleton height="100px" width="100px" radius="50%" loading={loading}>
+          round
+        </Skeleton>
+        </div>
+        <div>
+        <Skeleton height="100px" width="100px" radius="10px" loading={loading}>
+          Rounded corners
+        </Skeleton>
+        </div>
+        <div>
+        <Skeleton height="200px" width="150px" radius="50%" loading={loading}>
+          Oval
+        </Skeleton>
+        </div>
+        </div>
+        </SandboxEditor >
+    )
+
+  };

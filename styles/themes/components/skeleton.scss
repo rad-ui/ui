@@ -13,6 +13,7 @@
     cursor: default !important;
     height: var(--skeleton-height);
     width: var(--skeleton-width);
+    border-radius: var(--skeleton-radius);
 
     @keyframes skeleton-shimmer {
         0% {
