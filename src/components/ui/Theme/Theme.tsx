@@ -7,9 +7,10 @@ type ThemeProps = {
     radius?: string;
     scaling?: string;
     children: React.ReactNode;
+    id?: string;
 }
 
-const Theme = ({ appearance = 'light', accentColor = '', radius = '', scaling = '', children, ...props }: ThemeProps) => {
+const Theme = ({ appearance = 'light', id = 'rad-ui-theme-container', accentColor = '', radius = '', scaling = '', children, ...props }: ThemeProps) => {
     const [theme, setTheme] = useState(appearance);
     const [themeAccentColor, setThemeAccentColor] = useState(accentColor);
     const [themeRadius, setThemeRadius] = useState(radius);
@@ -42,6 +43,7 @@ const Theme = ({ appearance = 'light', accentColor = '', radius = '', scaling = 
     }, [scaling]);
 
     return <div
+        id={id}
         data-rad-ui-theme={theme}
         data-rad-ui-accent-color={themeAccentColor}
         data-rad-ui-radius={themeRadius}

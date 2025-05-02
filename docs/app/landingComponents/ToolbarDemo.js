@@ -1,6 +1,8 @@
 'use client';
 
 import Separator from '@radui/ui/Separator';
+import { motion } from "motion/react"
+
 
 const FontItalic = () => {
     return <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.67494 3.50017C5.67494 3.25164 5.87641 3.05017 6.12494 3.05017H10.6249C10.8735 3.05017 11.0749 3.25164 11.0749 3.50017C11.0749 3.7487 10.8735 3.95017 10.6249 3.95017H9.00587L7.2309 11.05H8.87493C9.12345 11.05 9.32493 11.2515 9.32493 11.5C9.32493 11.7486 9.12345 11.95 8.87493 11.95H4.37493C4.1264 11.95 3.92493 11.7486 3.92493 11.5C3.92493 11.2515 4.1264 11.05 4.37493 11.05H5.99397L7.76894 3.95017H6.12494C5.87641 3.95017 5.67494 3.7487 5.67494 3.50017Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>;
@@ -49,51 +51,57 @@ const IconContainer = ({ children }) => {
 };
 
 const ToolbarDemo = () => (
-    <div className='border border-gray-500 shadow rounded px-4 py-2 w-full text-xs flex space-x-4 bg-gradient-to-r from-gray-100 to-gold-100'>
-        <div className='flex items-center space-x-2'>
-            <IconContainer >
-                <FontItalic />
-            </IconContainer>
-            <IconContainer >
-                <BoldIcon />
-            </IconContainer>
-        </div>
-        <Separator orientation="vertical" />
-        <div className='flex items-center space-x-2'>
-            <IconContainer >
-                <LeftAlignIcon />
-            </IconContainer>
-            <IconContainer >
-                <CenterAlignIcon />
-            </IconContainer>
-            <IconContainer >
-                <RightAlignIcon />
-            </IconContainer>
-            <IconContainer >
-                <JustifyAlignIcon />
-            </IconContainer>
-        </div>
-        <Separator orientation="vertical" />
-        <div className='flex items-center space-x-2'>
-            <IconContainer >
-                <LetterSpacingIcon />
-            </IconContainer>
-            <IconContainer >
-                <AlignBaselineIcon />
-            </IconContainer>
-            <IconContainer >
-                <FontSizeIcon />
-            </IconContainer>
-            <IconContainer >
-                <FontFamilyIcon />
-            </IconContainer>
-        </div>
-        <Separator orientation="vertical" />
-        <input value="Search..." onChange={() => { }} className='flex flex-1 items-center bg-gray-100 px-2 rounded-md border border-gray-400 text-gray-700'>
+    <motion.div
+        initial={{ opacity: 0.8, x: 500 }}
+        animate={{ opacity: 1, x: 300 }}
+        transition={{ duration: 40, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}
+    >
+        <div className='border border-gray-500 shadow rounded px-4 py-2 w-full text-xs flex space-x-4 bg-gradient-to-r from-gray-100 to-gold-100'>
+            <div className='flex items-center space-x-2'>
+                <IconContainer >
+                    <FontItalic />
+                </IconContainer>
+                <IconContainer >
+                    <BoldIcon />
+                </IconContainer>
+            </div>
+            <Separator orientation="vertical" />
+            <div className='flex items-center space-x-2'>
+                <IconContainer >
+                    <LeftAlignIcon />
+                </IconContainer>
+                <IconContainer >
+                    <CenterAlignIcon />
+                </IconContainer>
+                <IconContainer >
+                    <RightAlignIcon />
+                </IconContainer>
+                <IconContainer >
+                    <JustifyAlignIcon />
+                </IconContainer>
+            </div>
+            <Separator orientation="vertical" />
+            <div className='flex items-center space-x-2'>
+                <IconContainer >
+                    <LetterSpacingIcon />
+                </IconContainer>
+                <IconContainer >
+                    <AlignBaselineIcon />
+                </IconContainer>
+                <IconContainer >
+                    <FontSizeIcon />
+                </IconContainer>
+                <IconContainer >
+                    <FontFamilyIcon />
+                </IconContainer>
+            </div>
+            <Separator orientation="vertical" />
+            <input value="Search..." onChange={() => { }} className='flex flex-1 items-center bg-gray-100 px-2 rounded-md border border-gray-400 text-gray-700'>
 
-        </input>
+            </input>
 
-    </div>
+        </div>
+    </motion.div>
 );
 
 export default ToolbarDemo;

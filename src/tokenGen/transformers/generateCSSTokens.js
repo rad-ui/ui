@@ -1,4 +1,4 @@
-import colors from '../../src/colors/index.js';
+import colors from '~/design-systems/clarity/tokens/colors';
 const COLOR_PREFIX = '--rad-ui-color-';
 
 // Function to generate CSS variables based on the theme

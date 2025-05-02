@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import colors from '../../colors/index';
+import colors from '~/design-systems/clarity/tokens/colors';
 
 import ColorsTemplate from './ColorsTemplate';
 

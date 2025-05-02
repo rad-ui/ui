@@ -1,8 +1,11 @@
 'use client';
 import React from 'react';
-import BadgeRoot from './fragments/BadgeRoot';
-import BadgeContent from './fragments/BadgeContent';
 
+import { customClassSwitcher } from '~/core';
+import { clsx } from 'clsx';
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+
+const COMPONENT_NAME = 'Badge';
 export type BadgeProps = {
     children?: React.ReactNode,
     customRootClass?: string,
@@ -14,13 +17,15 @@ export type BadgeProps = {
 }
 
 const Badge = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: BadgeProps) => {
-    return <BadgeRoot customRootClass={customRootClass} className={className} color={color} variant={variant} size={size} {...props}>
-        <BadgeContent>
-            {children}
-        </BadgeContent>
-    </BadgeRoot>;
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+    const dataAttributes = useCreateDataAttribute('badge', { variant, size });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+
+    return <div className={clsx(rootClass, className)} {...composedAttributes()} {...props}>
+        {children}
+    </div>;
 };
 
-Badge.Root = BadgeRoot;
-Badge.Content = BadgeContent;
 export default Badge;
