@@ -20,13 +20,14 @@ const Skeleton = ({ loading = true, className = '', customRootClass = '', childr
     if (!loading) return children;
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <div className={clsx(rootClass, className)} {...props} style={{
-    
-        ['--skeleton-height' as any]: height,
-        ['--skeleton-width' as any]: width,
-        ['--skeleton-radius' as any]: radius,
-      }}
-        >
+    return <div
+        className={clsx(rootClass, className)} {...props} style={{
+
+            ['--skeleton-height' as any]: height,
+            ['--skeleton-width' as any]: width,
+            ['--skeleton-radius' as any]: radius
+        }}
+    >
     </div>;
 };
 
