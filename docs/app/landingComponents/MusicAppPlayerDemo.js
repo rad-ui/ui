@@ -7,6 +7,7 @@ import Text from '@radui/ui/Text';
 
 import { motion } from "motion/react"
 import Fade from "@radui/fx/Fade"
+import Slide from "@radui/fx/Slide"
 
 
 const LeftArrow = () => {
@@ -39,41 +40,43 @@ const MusicBars = ({ index }) => {
 };
 
 const MusicAppPlayerDemo = () => {
-    return <Fade duration={1} type="linear">
-        <div style={{ maxWidth: '400px' }}>
-            <div className='border border-gray-400 p-4 bg-gray-100 bg-gradient-to-b from-green-200 to-red-100 rounded-md shadow'>
-                <div className='flex justify-between items-center'>
-                    <div className='text-gray-900'>
-                        <LeftArrow />
-                    </div>
-                    <div>
-                        <div className='text-green-900 flex items-center space-x-2'>
-                            <ShuffleIcon />
-                            <ThreeDots />
+    return <Slide duration={1} delay={5} type="spring" direction="down" distance={50}>
+        <Fade initialOpacity={1} finalOpacity={0.8}  duration={1} type="spring">
+            <div style={{ maxWidth: '400px' }}>
+                <div className='border border-gray-400 p-4 bg-gray-100 bg-gradient-to-b from-green-200 to-red-100 rounded-md shadow'>
+                    <div className='flex justify-between items-center'>
+                        <div className='text-gray-900'>
+                            <LeftArrow />
+                        </div>
+                        <div>
+                            <div className='text-green-900 flex items-center space-x-2'>
+                                <ShuffleIcon />
+                                <ThreeDots />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className='px-4 py-8'>
+                    <div className='px-4 py-8'>
 
-                    <img className='rounded-xl' src="https://assets.audiomack.com/anqel_bb/92e74f4e8a77630b791eb79758196c0753224bc13f8046517c6b5e608e140290.jpeg?width=1000&height=1000&max=true" alt="" />
-                    <div className='flex flex-col items-center my-4 space-x-2'>
-                        <Text className="font-bold text-gray-1000" >Won't Bite</Text>
-                        <Text className="text-gray-800">Doja Cat</Text>
-                    </div>
-                    <div className='flex items-center w-full justify-between text-xs text-gray-950'>
-                        <span>02:22</span>
-                        <div className='flex-1 flex items-center space-x-1 justify-center'>
-                                     <MusicBars/>;
+                        <img className='rounded-xl' src="https://assets.audiomack.com/anqel_bb/92e74f4e8a77630b791eb79758196c0753224bc13f8046517c6b5e608e140290.jpeg?width=1000&height=1000&max=true" alt="" />
+                        <div className='flex flex-col items-center my-4 space-x-2'>
+                            <Text className="font-bold text-gray-1000" >Won't Bite</Text>
+                            <Text className="text-gray-800">Doja Cat</Text>
                         </div>
-                        <span>0:19</span>
+                        <div className='flex items-center w-full justify-between text-xs text-gray-950'>
+                            <span>02:22</span>
+                            <div className='flex-1 flex items-center space-x-1 justify-center'>
+                                <MusicBars />;
+                            </div>
+                            <span>0:19</span>
+                        </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
-    </Fade>;
+        </Fade>
+    </Slide>
 };
 
 export default MusicAppPlayerDemo;
