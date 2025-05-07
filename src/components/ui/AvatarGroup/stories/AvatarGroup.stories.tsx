@@ -10,7 +10,18 @@ export default {
     title: 'Components/AvatarGroup',
     component: AvatarGroup,
     render: (args: JSX.IntrinsicAttributes & AvatarGroupProps) => <SandboxEditor>
-        <AvatarGroup {...args} />
+        <AvatarGroup.Root>
+            <AvatarGroup.Item>
+                <AvatarGroup.Avatar src={args.avatars[0].src} alt={args.avatars[0].fallback} />
+                <AvatarGroup.Fallback>{args.avatars[0].fallback}</AvatarGroup.Fallback>
+            </AvatarGroup.Item>
+        </AvatarGroup.Root>
+        <AvatarGroup.Root>
+            <AvatarGroup.Item>
+                <AvatarGroup.Avatar src={args.avatars[1].src} alt={args.avatars[1].fallback} />
+                <AvatarGroup.Fallback>{args.avatars[1].fallback}</AvatarGroup.Fallback>
+            </AvatarGroup.Item>
+        </AvatarGroup.Root>
     </SandboxEditor>
 };
 

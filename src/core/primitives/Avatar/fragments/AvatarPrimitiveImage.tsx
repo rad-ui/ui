@@ -14,10 +14,6 @@ const AvatarPrimitiveImage = ({
 }: AvatarRootImageProps) => {
     const { handleErrorImage, handleLoadImage, hasError } = useContext(AvatarPrimitiveContext);
 
-    // If there's no src or there's an error, render nothing
-    if (hasError) {
-        return null;
-    }
     useEffect(() => {
         if (!src && !hasError) {
             handleErrorImage();
