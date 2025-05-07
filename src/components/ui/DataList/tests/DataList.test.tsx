@@ -41,7 +41,7 @@ describe('DataList Component', () => {
 
     test('should apply custom class names correctly', () => {
         const { container } = render(
-            <DataList.Root className="custom-root" customRootClass="custom-datalist">
+            <DataList.Root className="custom-root" customRootClass="acme-corp">
                 <DataList.Item className="custom-item">
                     <DataList.Label className="custom-label">Phone</DataList.Label>
                     <DataList.Value className="custom-value">123-456-7890</DataList.Value>
@@ -50,16 +50,16 @@ describe('DataList Component', () => {
         );
 
         const rootElement = container.firstChild;
-        expect(rootElement).toHaveClass('custom-datalist');
+        expect(rootElement).toHaveClass('acme-corp-data-list');
         expect(rootElement).toHaveClass('custom-root');
 
-        const itemElement = container.querySelector('.custom-datalist-item');
+        const itemElement = container.querySelector('.acme-corp-data-list-item');
         expect(itemElement).toHaveClass('custom-item');
 
-        const labelElement = container.querySelector('.custom-datalist-label');
+        const labelElement = container.querySelector('.acme-corp-data-list-label');
         expect(labelElement).toHaveClass('custom-label');
 
-        const valueElement = container.querySelector('.custom-datalist-value');
+        const valueElement = container.querySelector('.acme-corp-data-list-value');
         expect(valueElement).toHaveClass('custom-value');
     });
 

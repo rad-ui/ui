@@ -5,7 +5,7 @@ const componentName = 'myComponent';
 
 describe('customClassSwitcher', () => {
     it('returns customRootClass if passed', () => {
-        expect(customClassSwitcher(customRootClass, componentName)).toBe(customRootClass);
+        expect(customClassSwitcher(customRootClass, componentName)).toBe(`${customRootClass}-my-component`);
     });
 
     it('returns empty string if neither customRootClass nor componentName were passed', () => {

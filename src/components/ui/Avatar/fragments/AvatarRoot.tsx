@@ -4,7 +4,7 @@ import AvatarPrimitiveRoot, { AvatarPrimitiveRootProps } from '~/core/primitives
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AvatarContext } from '../contexts/AvatarContext';
-
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Avatar';
 
 export type AvatarRootProps = AvatarPrimitiveRootProps & {
@@ -13,16 +13,17 @@ export type AvatarRootProps = AvatarPrimitiveRootProps & {
     size?: string;
     variant?: string;
     color?: string;
-    fallback?: string;
-    src?: string;
-    alt?: string;
 }
 
-const AvatarRoot = ({ children, customRootClass = '', className = '', size = '', variant = '', color = '', fallback = '', src = '', alt = '', ...props }: AvatarRootProps) => {
+const AvatarRoot = ({ children, customRootClass = '', className = '', size = '', variant = '', color = '', ...props }: AvatarRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    return <AvatarContext.Provider value={{ size, variant, color, fallback, src, alt, rootClass }}>
-        <AvatarPrimitiveRoot className={clsx(rootClass, className)} {...props} >{children}</AvatarPrimitiveRoot>
+    const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+
+    return <AvatarContext.Provider value={{ size, variant, color, rootClass }}>
+        <AvatarPrimitiveRoot className={clsx(rootClass, className)} {...composedAttributes()} {...props} >{children}</AvatarPrimitiveRoot>
     </AvatarContext.Provider>;
 };
 
