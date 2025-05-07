@@ -11,15 +11,15 @@ export default {
     component: AvatarGroup,
     render: (args: JSX.IntrinsicAttributes & AvatarGroupProps) => <SandboxEditor>
         <AvatarGroup.Root size='large' variant='circle' >
-            <AvatarGroup.Item>
+            <AvatarGroup.Item color='blue'>
                 <AvatarGroup.Avatar src={args.avatars[0].src} alt={args.avatars[0].fallback} />
                 <AvatarGroup.Fallback>{args.avatars[0].fallback}</AvatarGroup.Fallback>
             </AvatarGroup.Item>
-            <AvatarGroup.Item>
+            <AvatarGroup.Item color='red'>
                 <AvatarGroup.Avatar src={args.avatars[1].src} alt={args.avatars[1].fallback} />
                 <AvatarGroup.Fallback>{args.avatars[1].fallback}</AvatarGroup.Fallback>
             </AvatarGroup.Item>
-            <AvatarGroup.Item>
+            <AvatarGroup.Item color='green'>
                 <AvatarGroup.Avatar src={args.avatars[2].src} alt={args.avatars[2].fallback} />
                 <AvatarGroup.Fallback>{args.avatars[2].fallback}</AvatarGroup.Fallback>
             </AvatarGroup.Item>
@@ -38,27 +38,7 @@ export const Default = {
     }
 };
 
-export const withFallback = {
-    args: {
-        avatars: [
-            { src: '', fallback: 'RU' },
-            { src: '', fallback: 'PK' },
-            { src: '', fallback: 'RU' }
-        ]
-    }
-};
-
-export const withColor = {
-    args: {
-        avatars: [
-            { src: '', fallback: 'RU' },
-            { src: '', fallback: 'PK' },
-            { src: '', fallback: 'RU' }
-        ]
-    }
-};
-
-export const withBrokenSrc = {
+export const withBrokenSrcFallback = {
     args: {
         avatars: [
             { src: '', fallback: 'RU' },
