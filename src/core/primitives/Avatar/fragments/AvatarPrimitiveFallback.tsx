@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Primitive from '~/core/primitives/Primitive';
-import { AvatarGroupContext } from '~/components/ui/AvatarGroup/contexts/AvatarGroupContext';
+import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 
 export interface AvatarPrimitiveFallbackProps {
     children: React.ReactNode;
@@ -9,8 +9,8 @@ export interface AvatarPrimitiveFallbackProps {
 }
 
 const AvatarPrimitiveFallback = ({ children, asChild = false, className = '', ...props }: AvatarPrimitiveFallbackProps) => {
-    const { hasError } = useContext(AvatarGroupContext);
-    if (!hasError) return null;
+    const { hasError, isImageLoaded } = useContext(AvatarPrimitiveContext);
+    if (isImageLoaded) return null;
     return <Primitive.span asChild={asChild} className={className} {...props}>{children}</Primitive.span>;
 };
 

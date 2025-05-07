@@ -7,6 +7,15 @@
     border: 1px solid var(--rad-ui-color-gray-600);
     display: flex;
 
+    .rad-ui-avatar-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .rad-ui-avatar-fallback{
         display: flex;
         align-items: center;

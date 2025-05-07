@@ -29,7 +29,9 @@ export const withSrc = {
 
 export const withCustomRootClass = {
     args: {
-        customRootClass: 'acme-corp'
+        customRootClass: 'acme-corp',
+        src: avatarImage1,
+        fallback: 'PK'
     }
 };
 

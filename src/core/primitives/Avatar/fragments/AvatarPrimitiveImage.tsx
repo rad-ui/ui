@@ -13,9 +13,11 @@ const AvatarPrimitiveImage = ({
     ...props
 }: AvatarRootImageProps) => {
     const { handleErrorImage, handleLoadImage, hasError } = useContext(AvatarPrimitiveContext);
-
+    if (hasError) {
+        return null;
+    }
     useEffect(() => {
-        if (!src && !hasError) {
+        if (!src) {
             handleErrorImage();
         }
     }, [src, handleErrorImage, hasError]);
