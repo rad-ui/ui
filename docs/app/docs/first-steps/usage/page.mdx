@@ -1,6 +1,12 @@
+import usageMetadata from "./seo"
+
+export const metadata = usageMetadata
+
 # Usage
 
 ## Importing components
+Integrating Rad UI into your project is straightforward. Whether you're looking for a headless library with full flexibility or a quick way to prototype with a default theme, Rad UI has you covered. Here’s how you can get started.
+
 To use Rad UI components, you need to import them from the "@radui/ui" package.
 
 ```tsx
@@ -8,7 +14,7 @@ import Button from "@radui/ui/Button";
 ```
 
 ## Using components
-Integrating Rad UI into your project is straightforward. Simply import the components you need and start building. We recommend wrapping components with your own abstractions to streamline usage, customize behavior, and remove unnecessary features. This approach allows you to maintain consistency across your project while taking full advantage of Rad UI’s flexibility and powerful APIs.
+Once you've imported the components you need, you can start using them right away. Here's an example of how to integrate Rad UI’s Button component into your app:
 
 ```tsx
 const ComponentDemo = () => {
@@ -18,16 +24,24 @@ const ComponentDemo = () => {
 }
 ```
 
+We recommend wrapping Rad UI components with your own abstractions to streamline usage, customize behavior, and remove unnecessary features. This approach offers the flexibility to ensure consistency and maintainability across your project, while still taking full advantage of Rad UI’s powerful APIs. By abstracting components in this way, you can tailor them to fit your specific needs and provide your team with a consistent, centralized API. If your project already has a design system in place, you don't have to follow Rad UI's default API; you’re free to adapt it to align with your own system's requirements.
+
+
 ## Importing base styles
-Rad UI is headless out of the box, meaning it doesn't come with any styles. But we do ship a default theme that you can use to get quickly started off the ground.
+Rad UI is headless by default, meaning it doesn't come with built-in styles. However, to help you get started quickly, we provide a default theme that you can import and use right away. This theme includes basic styles that will allow you to begin building your application without needing to define all styles from scratch.
 
 ```tsx
 import "@radui/ui/themes/default.css";
 ```
 
+If you prefer to use your own custom styles or integrate with a specific design system, you can easily detach components from the default theme and apply your own styles. Alternatively, you can import only the styles you need by referring to the specific component’s documentation page.
+
+
 
 ## Configuring the theme
-Rad UI ships a theme component that you can use to configure all your global app preferences in a single place.
+Rad UI provides a Theme component that allows you to configure all your global app preferences in one place. With this component, you can easily control the appearance and other design tokens across your entire application.
+
+For example, you can customize global settings such as the app's appearance (light or dark mode) and accent colors to align with your design system or branding.
 
 ```tsx
 import Theme from "@radui/ui/Theme";
@@ -41,13 +55,15 @@ const App = () => {
 }
 ```
 
+This setup ensures consistency across your app and makes it easier to manage global styles and preferences from a single component.
+
 
 
 ## Tailwind presets
-Rad UI also provides first class support for Tailwind CSS. You can import the preset and have access to Rad UI's design system tokens in your Tailwind CSS.
+Rad UI provides first-class support for Tailwind CSS, allowing you to easily integrate Rad UI's design system tokens into your Tailwind setup. By importing the appropriate preset, you gain access to a wide range of design tokens, making it seamless to build and customize your UI.
 
 ### For Tailwind CSS v3
-
+To use Rad UI with Tailwind CSS v3, simply import the preset in your <strong>tailwind.config.js</strong> file:
 ```tsx
  // tailwind.config.js
 
@@ -66,7 +82,9 @@ export default config;
 
 ### For Tailwind CSS v4
 
-We are actively working on a Tailwind CSS v4 preset so you can use the latest and greatest from Tailwind CSS with minimal configuration.
+We are actively working on a Tailwind CSS v4 preset to ensure you can leverage the latest features from Tailwind with minimal configuration. Stay tuned for updates!
+
+
 
 
 
