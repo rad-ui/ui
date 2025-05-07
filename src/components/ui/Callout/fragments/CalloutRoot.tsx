@@ -34,7 +34,7 @@ const CalloutRoot = ({ children, asChild=false, className, color, variant = '', 
 
     return (
         <CalloutContext.Provider value={{ rootClass }}>
-        <Primitive.div asChild className={clsx(rootClass, className)} data-rad-ui-accent-color={color ?? undefined} {...data_attributes} {...props}>
+        <Primitive.div asChild={asChild} className={clsx(rootClass, className)} data-rad-ui-accent-color={color ?? undefined} {...data_attributes} {...props}>
         {children}
     </Primitive.div>
     </CalloutContext.Provider>

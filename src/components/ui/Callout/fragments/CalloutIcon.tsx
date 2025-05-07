@@ -7,7 +7,7 @@ type CalloutIconProps = {
 }
 
 function CalloutIcon({children, className='', ...props}:CalloutIconProps) {
-    const rootClass = useContext(CalloutContext);
+    const {rootClass} = useContext(CalloutContext);
 
     return (
         <div className={clsx(`${rootClass}-icon`, className)} {...props}>

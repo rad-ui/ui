@@ -42,22 +42,25 @@ export const All = {
 
 const DefaultTextTemplate = (args: any) => {
     return <SandboxEditor className="space-y-2">
-        <Callout>
-            <InfoIcon/> <span>This is a Callout</span>
-        </Callout>
+        <Callout.Root>
+            <Callout.Icon>
+                <InfoIcon/>
+            </Callout.Icon>
+            <Callout.Text>This is a Callout</Callout.Text>
+        </Callout.Root>
     </SandboxEditor>;
 };
 
-export const DefaultText = DefaultTextTemplate.bind();
+export const DefaultText = DefaultTextTemplate.bind({});
 
 const RedTextTemplate = (args: any) => {
     return <SandboxEditor className="space-y-2">
-        <Callout color="red">
-        This is a red Callout. A little bit longer text to see how it behaves.
-        </Callout>
+        <Callout.Root color="red">
+            <Callout.Text>This is a red Callout. A little bit longer text to see how it behaves.</Callout.Text>
+        </Callout.Root>
     </SandboxEditor>;
 };
-export const RedText = RedTextTemplate.bind();
+export const RedText = RedTextTemplate.bind({});
 
 export const Size = () => {
     return <SandboxEditor>
@@ -65,19 +68,22 @@ export const Size = () => {
             <p className='text-gray-950'>Callout Size</p>
         </div>
         <div>
-
             {Variants.map((variant, index) => (
                 <div key={index} className='mb-10'>
                     <span key={index} className="inline-flex items-start space-x-2">
                         {Sizes.map((size, index) => {
-                            return <Callout key={index} size={size} variant={variant} >
-                                <InfoIcon/> <span>This is a Callout</span>
-                            </Callout>;
+                            return (
+                                <Callout.Root key={index} size={size} variant={variant}>
+                                    <Callout.Icon>
+                                        <InfoIcon/>
+                                    </Callout.Icon>
+                                    <Callout.Text>This is a Callout</Callout.Text>
+                                </Callout.Root>
+                            );
                         })}
                     </span>
                 </div>
             ))}
-
         </div>
     </SandboxEditor>;
 };
@@ -88,13 +94,16 @@ export const Variant = () => {
             <p className='text-gray-950'>Callout Variant</p>
         </div>
         <div className='flex space-x-2'>
-
             {Variants.map((variant, index) => {
-                return <Callout key={index} variant={variant} >
-                    <InfoIcon/> <span>This is a Callout</span>
-                </Callout>;
+                return (
+                    <Callout.Root key={index} variant={variant}>
+                        <Callout.Icon>
+                            <InfoIcon/>
+                        </Callout.Icon>
+                        <Callout.Text>This is a Callout</Callout.Text>
+                    </Callout.Root>
+                );
             })}
-
         </div>
     </SandboxEditor>;
 };
