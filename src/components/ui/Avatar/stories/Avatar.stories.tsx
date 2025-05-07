@@ -9,7 +9,10 @@ export default {
     title: 'Components/Avatar',
     component: Avatar,
     render: (args: JSX.IntrinsicAttributes & AvatarProps) => <SandboxEditor>
-        <Avatar {...args} />
+        <Avatar.Root>
+            <Avatar.Image src={args.src} alt={args.alt} />
+            <Avatar.Fallback>{args.fallback}</Avatar.Fallback>
+        </Avatar.Root>
     </SandboxEditor>
 };
 

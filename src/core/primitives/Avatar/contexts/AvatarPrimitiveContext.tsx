@@ -1,8 +1,6 @@
 import { createContext } from 'react';
 
 interface AvatarPrimitiveContextType {
-    rootClass: string;
-    fallBackRootClass: string;
     isImageLoaded: boolean;
     hasError: boolean;
     handleLoadImage: () => void;
