@@ -12,7 +12,7 @@ describe('Badge', () => {
     // customRootClass check
     test('renders Badge component with customRootClass', () => {
         render(<Badge customRootClass='acme-corp'>Badge</Badge>);
-        expect(screen.getByText('Badge')).toHaveClass('acme-corp');
+        expect(screen.getByText('Badge')).toHaveClass('acme-corp-badge');
     });
 
     // className check

@@ -10,7 +10,7 @@ describe('Toggle component', () => {
 
     test('applies customRootClass correctly', () => {
         const { container } = render(<Toggle customRootClass="custom-class" onChange={() => {}}>Test Toggle</Toggle>);
-        expect(container.firstChild).toHaveClass('custom-class');
+        expect(container.firstChild).toHaveClass('custom-class-toggle');
     });
 
     test('applies className correctly', () => {

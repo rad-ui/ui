@@ -9,13 +9,27 @@ export default {
     title: 'Components/Avatar',
     component: Avatar,
     render: (args: JSX.IntrinsicAttributes & AvatarProps) => <SandboxEditor>
-        <Avatar {...args} />
+        <Avatar.Root color={args.color} size={args.size} variant={args.variant} customRootClass={args.customRootClass}>
+            <Avatar.Image src={args.src} alt={args.alt} />
+            <Avatar.Fallback>{args.fallback}</Avatar.Fallback>
+        </Avatar.Root>
     </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const withSrc = {
     args: {
+        src: avatarImage1,
+        fallback: 'PK',
+        color: 'blue',
+        size: 'small',
+        variant: 'outline'
+    }
+};
+
+export const withCustomRootClass = {
+    args: {
+        customRootClass: 'acme-corp',
         src: avatarImage1,
         fallback: 'PK'
     }
@@ -47,4 +61,23 @@ export const withColor = {
         fallback: 'RU',
         color: 'blue'
     }
+};
+
+export const withSize = {
+    args: {
+        fallback: 'RU',
+        size: 'small'
+    }
+};
+
+const WithoutImgTemplate = () => {
+    return <SandboxEditor>
+        <Avatar.Root size='small' variant='outline'>
+            <Avatar.Fallback>PK</Avatar.Fallback>
+        </Avatar.Root>
+    </SandboxEditor>;
+};
+
+export const withoutImg = {
+    render: (args: JSX.IntrinsicAttributes & AvatarProps) => <WithoutImgTemplate />
 };

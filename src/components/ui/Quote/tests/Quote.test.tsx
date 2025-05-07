@@ -22,7 +22,7 @@ describe('Quote Component', () => {
     it('renders with custom root class and custom class name', () => {
         const { container } = render(
             <Quote
-                customRootClass="custom-quote-class"
+                customRootClass="acme-corp"
                 className="custom-class-name">
                 You must be the change you wish to see in the world. - Mahatma
                 Gandhi
@@ -30,7 +30,7 @@ describe('Quote Component', () => {
         );
 
         const quoteElement = container.querySelector('q');
-        expect(quoteElement).toHaveClass('custom-quote-class');
+        expect(quoteElement).toHaveClass('acme-corp-quote');
         expect(quoteElement).toHaveClass('custom-class-name');
     });
 });
