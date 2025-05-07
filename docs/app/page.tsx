@@ -1,10 +1,4 @@
 // 'use client'
-
-export const metadata = {
-  title: "Rad UI",
-  description: "Rad UI is a component library for React and Next.js",
-}
-
 import HeroSection from './landingComponents/HeroSection'
 
 
@@ -12,7 +6,10 @@ import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScr
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
 import Link from "@radui/ui/Link"
+import baseSeoMetadata from './baseSeo'
 
+
+export const metadata = baseSeoMetadata
 
 const DiscordLogo = () => {
   return (
