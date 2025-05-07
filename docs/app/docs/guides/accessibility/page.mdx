@@ -1,31 +1,77 @@
+
+import accessibilityMetadata from "./seo"
+
+export const metadata = accessibilityMetadata
+
 # Accessibility
 
-Rad UI is built to bridge the gap between design and development by prioritizing accessibility. Our components are designed to be accessible by default, ensuring an inclusive experience for all users. We've taken care of the accessibility concerns so you don't have to—Rad UI is tested across a wide range of devices and screen readers.
+At Rad UI, we prioritize accessibility to ensure that our components are usable by everyone, including those with disabilities. Our components are built with accessibility in mind, providing an inclusive experience by default. We’ve implemented best practices for keyboard navigation, screen reader support, and other accessibility standards so you don’t have to worry about it—Rad UI takes care of the heavy lifting.
 
-Accessibility improvements are an ongoing effort, and we're committed to making Rad UI even better. If you encounter any accessibility issues, please report them on our [GitHub repository](#).
+We rigorously test our components across various devices, browsers, and screen readers to guarantee a seamless experience for all users. We are committed to ongoing improvements, and as accessibility standards evolve, Rad UI will continue to adapt.
+
+If you encounter any accessibility issues or have suggestions for improvements, please don’t hesitate to report them on our [GitHub repository](https://github.com/rad-ui/ui/issues).
+
 
 ---
 
 ## WAI-ARIA Compliance
 
-Rad UI adheres to the [WAI-ARIA](https://www.w3.org/WAI/standards-guidelines/aria/) guidelines to enhance accessibility for users with disabilities. We continuously refine our implementation to ensure that Rad UI components follow best practices for screen readers and assistive technologies.
+Rad UI adheres to the WAI-ARIA guidelines to enhance accessibility for users with disabilities. We continuously refine our implementation to ensure that Rad UI components follow best practices for screen readers and assistive technologies.
+
 
 ---
 
 ## Keyboard Navigation
 
-Rad UI components are fully keyboard accessible. You can navigate through components using the **Tab** key and interact with them using keyboard-friendly controls like **Arrow Keys, Enter, and Space**.
+Rad UI components are fully keyboard accessible. You can navigate through components using the **Tab** key and interact with them using keyboard-friendly controls like **Arrow Keys**, **Enter**, and **Space**.
 
 Currently, full keyboard support is in beta, with more components being enhanced over time. If you have suggestions or encounter issues, let us know!
 
+
+## Contrast and Color Accessibility
+
+Ensuring that your design is accessible to users with visual impairments, especially those with color blindness or low vision, is a core priority for Rad UI. We take extra care to meet the **minimum contrast ratio requirements** for text and interactive elements as outlined in the WCAG (Web Content Accessibility Guidelines). By default, Rad UI's theme ensures good contrast for most UI elements, making the interface easy to read and interact with.
+
+However, we understand that some design systems may have specific color schemes or requirements. That’s why Rad UI offers the flexibility to adjust colors according to your needs. Whether you're using a **custom theme** or integrating a unique color palette, you can ensure your project meets the necessary contrast standards.
+
+If you're building a custom theme, we recommend using tools like [WebAIM’s Contrast Checker](https://webaim.org/resources/contrastchecker/) to verify that your color choices provide adequate contrast for text and background elements.
+
 ---
 
-## Customization: Bring Your Own Styles
+## Focus Management
 
-Rad UI is designed with flexibility in mind, allowing you to fully customize components to match your design system. You can style components using:
+Managing focus in a user interface is crucial for accessibility, particularly for users who rely on keyboard navigation or assistive technologies like screen readers. Rad UI ensures that all interactive elements (such as buttons, forms, modals, and popovers) are fully keyboard accessible.
 
-- **CSS** (global styles or CSS modules)
-- **Tailwind CSS** (utility-first classes)
-- **Inline styles** (JavaScript-controlled styling)
+When opening or closing elements such as modals, menus, or tooltips, Rad UI automatically manages focus. For instance, when a modal is opened, it will shift the focus to the modal itself, allowing users to interact with it immediately. Once the modal is closed, the focus will return to the element that triggered the modal, ensuring a seamless user experience.
 
-While we provide a **default theme**, it's completely optional—you can modify it or override it entirely to suit your needs.
+We also make sure to handle **focus trapping** in components like dialogs and dropdowns, ensuring that keyboard navigation remains contained within the component when it is open. This helps prevent users from accidentally tabbing outside of the component and losing track of where they are.
+
+---
+
+{/* ## Supporting Screen Reader Announcements
+
+Screen readers are essential for visually impaired users to navigate and understand dynamic content. To ensure Rad UI components are fully accessible, we implement **live regions** for updates such as error messages, notifications, and status changes. Live regions allow screen readers to announce these changes in real-time, so users are immediately informed of important updates.
+
+For example, when a user submits a form and there’s an error, Rad UI will automatically notify the screen reader of the error message without requiring any additional user interaction. This helps ensure that users are not left in the dark about changes happening in the UI.
+
+We also ensure that **aria-live** regions are used in components like alerts, loading indicators, or any content that updates dynamically, providing real-time feedback to users without disrupting their flow.
+
+--- */}
+
+## Customizable Accessibility Features
+
+We recognize that accessibility needs vary across different projects and users. To accommodate this, Rad UI allows you to customize accessibility features to suit your specific requirements. If you need to, you can add or modify **ARIA attributes** on individual components, such as <em>aria-label</em>, <em>aria-describedby</em>, or <em>aria-hidden</em>, to better communicate the functionality and state of an element to assistive technologies.
+
+In addition, Rad UI provides the ability to **disable** certain accessibility features when necessary. For example, if your application includes alternative navigation methods or custom widgets that require a different interaction model, you can selectively disable default behavior to fit the needs of your audience.
+
+Rad UI's flexibility means that it can be integrated into complex applications with diverse accessibility needs, giving you the tools to ensure a positive experience for every user.
+
+---
+
+## Community Involvement in Accessibility
+
+At Rad UI, we believe that accessibility is a **community effort**. We strive to make the library as inclusive as possible, but we also rely on feedback and contributions from developers, designers, and users to continually improve our components.
+
+If you encounter any accessibility issues while using Rad UI, or if you have suggestions for improvement, we strongly encourage you to report them via our [GitHub repository](https://github.com/rad-ui/ui/issues). We actively review all issues and contributions to address accessibility gaps and enhance the user experience.
+
+Moreover, if you have expertise in accessibility or come across a new best practice, feel free to contribute by submitting pull requests or providing suggestions. Accessibility is an ongoing process, and by working together as a community, we can create a more inclusive web for everyone.

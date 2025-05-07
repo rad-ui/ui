@@ -6,6 +6,9 @@ import Text from '@radui/ui/Text';
 
 
 import { motion } from "motion/react"
+import Fade from "@radui/fx/Fade"
+import Slide from "@radui/fx/Slide"
+
 
 const LeftArrow = () => {
     return <svg width="24" height="24" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>;
@@ -37,46 +40,43 @@ const MusicBars = ({ index }) => {
 };
 
 const MusicAppPlayerDemo = () => {
-    return <motion.div
-        initial={{ top: 0, y: 100,x:-100  }}
-        animate={{ top: 100, y: 0, }}
-        transition={{ duration: 10.5, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}
-
-    >
-        <div style={{ maxWidth: '400px' }}>
-            <div className='border border-gray-400 p-4 bg-gray-100 bg-gradient-to-b from-green-200 to-red-100 rounded-md shadow'>
-                <div className='flex justify-between items-center'>
-                    <div className='text-gray-900'>
-                        <LeftArrow />
-                    </div>
-                    <div>
-                        <div className='text-green-900 flex items-center space-x-2'>
-                            <ShuffleIcon />
-                            <ThreeDots />
+    return <Slide duration={1} delay={5} type="spring" direction="down" distance={50}>
+        <Fade initialOpacity={1} finalOpacity={0.8}  duration={1} type="spring">
+            <div style={{ maxWidth: '400px' }}>
+                <div className='border border-gray-400 p-4 bg-gray-100 bg-gradient-to-b from-green-200 to-red-100 rounded-md shadow'>
+                    <div className='flex justify-between items-center'>
+                        <div className='text-gray-900'>
+                            <LeftArrow />
+                        </div>
+                        <div>
+                            <div className='text-green-900 flex items-center space-x-2'>
+                                <ShuffleIcon />
+                                <ThreeDots />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className='px-4 py-8'>
+                    <div className='px-4 py-8'>
 
-                    <img className='rounded-xl' src="https://assets.audiomack.com/anqel_bb/92e74f4e8a77630b791eb79758196c0753224bc13f8046517c6b5e608e140290.jpeg?width=1000&height=1000&max=true" alt="" />
-                    <div className='flex flex-col items-center my-4 space-x-2'>
-                        <Text className="font-bold text-gray-1000" >Won't Bite</Text>
-                        <Text className="text-gray-800">Doja Cat</Text>
-                    </div>
-                    <div className='flex items-center w-full justify-between text-xs text-gray-950'>
-                        <span>02:22</span>
-                        <div className='flex-1 flex items-center space-x-1 justify-center'>
-                                     <MusicBars/>;
+                        <img className='rounded-xl' src="https://assets.audiomack.com/anqel_bb/92e74f4e8a77630b791eb79758196c0753224bc13f8046517c6b5e608e140290.jpeg?width=1000&height=1000&max=true" alt="" />
+                        <div className='flex flex-col items-center my-4 space-x-2'>
+                            <Text className="font-bold text-gray-1000" >Won't Bite</Text>
+                            <Text className="text-gray-800">Doja Cat</Text>
                         </div>
-                        <span>0:19</span>
+                        <div className='flex items-center w-full justify-between text-xs text-gray-950'>
+                            <span>02:22</span>
+                            <div className='flex-1 flex items-center space-x-1 justify-center'>
+                                <MusicBars />;
+                            </div>
+                            <span>0:19</span>
+                        </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
-    </motion.div>;
+        </Fade>
+    </Slide>
 };
 
 export default MusicAppPlayerDemo;

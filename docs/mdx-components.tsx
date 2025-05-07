@@ -41,6 +41,14 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </Documentation.CodeBlock>
     ),
+    ul: ({ children }) => (
+      <ul className="list-disc pl-6 mb-4">
+        {children}
+      </ul>
+    ),
+    li: ({ children }) => (
+      <li className="mb-2 text-gray-1000">{children}</li>
+    ),
     
     // img: (props) => (
     //   <Image

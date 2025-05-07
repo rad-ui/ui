@@ -107,52 +107,52 @@ export default {
                 <div className='mt-5'>
                     <Skeleton loading={loading} height="200px" width="100%">
                         <Accordion.Root >
-                                    {items.map((item, index) => (
-                                        <Accordion.Item value={index} key={index}>
-                                            <Accordion.Header>
-                                                <Accordion.Trigger>
-                                                    {item.title}
-                                                </Accordion.Trigger>
-                                            </Accordion.Header>
-                                            <Accordion.Content index={index}>
-                                                {item.content}
-                                            </Accordion.Content>
-                                        </Accordion.Item>
-                                    ))}
-                                </Accordion.Root>
+                            {items.map((item, index) => (
+                                <Accordion.Item value={index} key={index}>
+                                    <Accordion.Header>
+                                        <Accordion.Trigger>
+                                            {item.title}
+                                        </Accordion.Trigger>
+                                    </Accordion.Header>
+                                    <Accordion.Content index={index}>
+                                        {item.content}
+                                    </Accordion.Content>
+                                </Accordion.Item>
+                            ))}
+                        </Accordion.Root>
                     </Skeleton>
-                </div>  
+                </div>
 
                 <div className='mt-5'>
                     <Skeleton loading={loading} height="130px" width="100%">
                         <Tabs.Root defaultValue="tab2">
-                                            <Tabs.List>
-                                                <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
-                                                <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
-                                                <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
-                                            </Tabs.List>
-                        
-                                            <Tabs.Content value="tab1">
-                                                <div className="p-4 bg-gray-100 mt-2">
+                            <Tabs.List>
+                                <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                                <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                                <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                            </Tabs.List>
+
+                            <Tabs.Content value="tab1">
+                                <div className="p-4 bg-gray-100 mt-2">
                                                     Content for Tab 1 (Uncontrolled)
-                                                </div>
-                                            </Tabs.Content>
-                                            <Tabs.Content value="tab2">
-                                                <div className="p-4 bg-gray-100 mt-2">
+                                </div>
+                            </Tabs.Content>
+                            <Tabs.Content value="tab2">
+                                <div className="p-4 bg-gray-100 mt-2">
                                                     Content for Tab 2 (Uncontrolled) - This tab is selected by default
-                                                </div>
-                                            </Tabs.Content>
-                                            <Tabs.Content value="tab3">
-                                                <div className="p-4 bg-gray-100 mt-2">
+                                </div>
+                            </Tabs.Content>
+                            <Tabs.Content value="tab3">
+                                <div className="p-4 bg-gray-100 mt-2">
                                                     Content for Tab 3 (Uncontrolled)
-                                                </div>
-                                            </Tabs.Content>
-                                        </Tabs.Root>
+                                </div>
+                            </Tabs.Content>
+                        </Tabs.Root>
                     </Skeleton>
-                </div>  
+                </div>
 
                 <div className='mt-5'>
-                    <Skeleton loading={loading} height="100px" width="100%"> height 100px and width 100%</Skeleton></div>    
+                    <Skeleton loading={loading} height="100px" width="100%"> height 100px and width 100%</Skeleton></div>
 
             </div>
         </SandboxEditor>;
@@ -178,13 +178,13 @@ export const Shapes = () => {
     useEffect(() => {
         timeOutLoading();
     }, []);
-  
+
     return (
-      
-      <SandboxEditor>
-        <div className='flex flex-col space-y-4'>
-            <div>
-      <Button
+
+        <SandboxEditor>
+            <div className='flex flex-col space-y-4'>
+                <div>
+                    <Button
                         onClick={
                             () => {
                                 setLoading(true);
@@ -194,26 +194,24 @@ export const Shapes = () => {
                         }>
                         Trigger loading
                     </Button>
-                    </div>
-                    <div>
+                </div>
+                <div>
 
-                    
-        <Skeleton height="100px" width="100px" radius="50%" loading={loading}>
+                    <Skeleton height="100px" width="100px" radius="50%" loading={loading}>
           round
-        </Skeleton>
-        </div>
-        <div>
-        <Skeleton height="100px" width="100px" radius="10px" loading={loading}>
+                    </Skeleton>
+                </div>
+                <div>
+                    <Skeleton height="100px" width="100px" radius="10px" loading={loading}>
           Rounded corners
-        </Skeleton>
-        </div>
-        <div>
-        <Skeleton height="200px" width="150px" radius="50%" loading={loading}>
+                    </Skeleton>
+                </div>
+                <div>
+                    <Skeleton height="200px" width="150px" radius="50%" loading={loading}>
           Oval
-        </Skeleton>
-        </div>
-        </div>
+                    </Skeleton>
+                </div>
+            </div>
         </SandboxEditor >
-    )
-
-  };
+    );
+};
