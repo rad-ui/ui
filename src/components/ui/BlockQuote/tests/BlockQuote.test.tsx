@@ -12,7 +12,7 @@ describe('BlockQuote', () => {
     // customRootClass check
     test('renders BlockQuote component with customRootClass', () => {
         render(<BlockQuote customRootClass='acme-corp'>BlockQuote</BlockQuote>);
-        expect(screen.getByText('BlockQuote')).toHaveClass('acme-corp');
+        expect(screen.getByText('BlockQuote')).toHaveClass('acme-corp-block-quote');
     });
 
     // className check

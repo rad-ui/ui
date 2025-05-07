@@ -1,42 +1,30 @@
 import React, { useContext, useEffect } from 'react';
-import { clsx } from 'clsx';
-
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
+import Primitive from '~/core/primitives/Primitive';
 
 export interface AvatarRootImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     src?: string;
     alt?: string;
-    className?: string | '';
-    status?: 'loading' | 'loaded' | 'error';
 }
 
 const AvatarPrimitiveImage = ({
-    src,
-    alt = 'Avatar',
-    className = '',
+    src = '',
+    alt = '',
     ...props
 }: AvatarRootImageProps) => {
     const { handleErrorImage, handleLoadImage, hasError } = useContext(AvatarPrimitiveContext);
-
-    // If there's no src or there's an error, render nothing
     if (hasError) {
         return null;
     }
     useEffect(() => {
-        if (!src && !hasError) {
+        if (!src) {
             handleErrorImage();
         }
     }, [src, handleErrorImage, hasError]);
 
     return (
-        <img
-            src={src}
-            alt={alt}
-            onError={handleErrorImage}
-            onLoad={handleLoadImage}
-            className={clsx(className)}
-            {...props}
-        />
+        // @ts-ignore
+        <Primitive.img src={src} alt={alt} onError={handleErrorImage} onLoad={handleLoadImage} {...props} />
     );
 };
 

@@ -15,7 +15,6 @@ export default {
                         <span>{args.fallback}</span>
                     </AvatarPrimitive.Fallback>
                 </AvatarPrimitive.Root>
-
             </div>
 
         </div>
