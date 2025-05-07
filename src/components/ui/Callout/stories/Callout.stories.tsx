@@ -15,17 +15,20 @@ export default {
     component: Callout,
     render: () => <>
         <SandboxEditor className="space-y-2">
-            <Callout>
-                <InfoIcon/> <span>This is a Callout</span>
-            </Callout>
+            <Callout.Root>
+                <Callout.Icon>
+                    <InfoIcon/>
+                </Callout.Icon>
+                 <Callout.Text>This is a Callout</Callout.Text>
+            </Callout.Root>
 
-            <Callout color="red">
+            <Callout.Root color="red">
                 This is a red Callout. A little bit longer text to see how it behaves.
-            </Callout>
+            </Callout.Root>
 
-            <Callout color="gold">
+            <Callout.Root color="gold">
                 This is a Callout
-            </Callout>
+            </Callout.Root>
         </SandboxEditor>
     </>
 };

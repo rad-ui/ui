@@ -1,30 +1,18 @@
-import React from 'react';
-import { clsx } from 'clsx';
-/**
- * Shards
-*/
 import CalloutRoot from './fragments/CalloutRoot';
-
-export type CalloutProps = {
-    children?: React.ReactNode;
-    className?: string ;
-    color?: string;
-    variant?: string;
-    size?: string;
-    customRootClass?: string;
-    props?: object[]
-}
-
+import CalloutIcon from './fragments/CalloutIcon';
+import CalloutText from './fragments/CalloutText';
 const COMPONENT_NAME = 'Callout';
-const Callout = ({ children, className = '', color, variant = '', size = '', customRootClass, ...props }: CalloutProps) => {
-    return (
-        <CalloutRoot customRootClass={customRootClass} className={clsx(className)} color={color ?? undefined} variant={variant} size={size} {...props}>
-            {children}
-        </CalloutRoot>);
+
+const Callout = () => {
+    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead.');
+    return null;
 };
 
 Callout.displayName = COMPONENT_NAME;
 
 // Callout Exports
 Callout.Root = CalloutRoot;
+Callout.Icon = CalloutIcon;
+Callout.Text = CalloutText;
+
 export default Callout;
