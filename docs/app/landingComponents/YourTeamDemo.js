@@ -16,9 +16,10 @@ const MenuIcon = () => {
 
 const UserItem = ({ name = "", src = "", ...props }) => {
     const initials = name.split(' ').map(n => n[0]).join('')
+    const imageSrc = src === "" ? null : src
     return <div className='flex items-center justify-between' {...props}>
         <div className="flex items-center space-x-2">
-            <Avatar src={src} fallback={initials} />
+            <Avatar src={imageSrc} fallback={initials} />
             <Text className="font-light !text-sm hover:underline cursor-pointer text-blue-950">{name}</Text>
         </div>
         <span className='cursor-pointer'>
