@@ -8,8 +8,8 @@ type CalloutTextProps = {
     className?: string;
 }
 
-function CalloutText({children, className, ...props}:CalloutTextProps) {
-    const {rootClass} = useContext(CalloutContext);
+function CalloutText({ children, className, ...props }:CalloutTextProps) {
+    const { rootClass } = useContext(CalloutContext);
 
     return (
         <Primitive.p className={clsx(`${rootClass}-text`, className)} {...props}>
@@ -19,5 +19,3 @@ function CalloutText({children, className, ...props}:CalloutTextProps) {
 }
 
 export default CalloutText;
-
-

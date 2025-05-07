@@ -19,7 +19,7 @@ export default {
                 <Callout.Icon>
                     <InfoIcon/>
                 </Callout.Icon>
-                 <Callout.Text>This is a Callout</Callout.Text>
+                <Callout.Text>This is a Callout</Callout.Text>
             </Callout.Root>
 
             <Callout.Root color="red">
