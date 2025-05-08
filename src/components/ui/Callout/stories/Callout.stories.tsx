@@ -70,7 +70,7 @@ export const Size = () => {
         <div>
             {Variants.map((variant, index) => (
                 <div key={index} className='mb-10'>
-                    <span key={index} className="inline-flex items-start space-x-2">
+                    <div key={index} className="inline-flex items-start space-x-2">
                         {Sizes.map((size, index) => {
                             return (
                                 <Callout.Root key={index} size={size} variant={variant}>
@@ -81,7 +81,7 @@ export const Size = () => {
                                 </Callout.Root>
                             );
                         })}
-                    </span>
+                    </div>
                 </div>
             ))}
         </div>
