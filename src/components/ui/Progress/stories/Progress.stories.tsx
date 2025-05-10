@@ -9,7 +9,6 @@ export default {
     component: Progress,
     render: (args: React.JSX.IntrinsicAttributes) => {
         const [value, setValue] = useState(10);
-        console.log(value);
         return (<SandboxEditor>
             <div className='my-10 space-y-4'>
                 <Progress.Root value={value} maxValue={100} minValue={0} {...args}>
