@@ -27,7 +27,7 @@ const data = {
        {
         prop: {
             name : "asChild",
-            info_tooltips: 'Whether to use the child component as the AccordionTrigger.'
+            info_tooltips: 'Whether to use the child component as the CalloutRoot.'
         },
         type: 'boolean',
         default: 'false',

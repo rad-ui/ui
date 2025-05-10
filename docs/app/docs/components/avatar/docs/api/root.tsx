@@ -35,7 +35,7 @@ const data = {
        {
         prop: {
             name : "asChild",
-            info_tooltips: 'Whether to use the child component as the Accordion.'
+            info_tooltips: 'Whether to use the child component as the AvatarRoot.'
         },
         type: 'boolean',
         default: 'false',

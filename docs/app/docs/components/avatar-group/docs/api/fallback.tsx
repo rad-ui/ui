@@ -1,6 +1,6 @@
 const data = {
-    name : "Image",
-    description : "The image component for the Avatar.",
+    name : "Fallback",
+    description : "The fallback component for the AvatarGroup.",
     columns : [
         {
             name : "Prop",

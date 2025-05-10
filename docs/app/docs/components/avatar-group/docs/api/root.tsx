@@ -19,7 +19,7 @@ const data = {
        {
         prop : {
             name : "customRootClass",
-            info_tooltips : "The class name for the AvatarGroup."
+            info_tooltips : "The custom root class name for the AvatarGroup."
         },
         type : "string",
         default : "--",
