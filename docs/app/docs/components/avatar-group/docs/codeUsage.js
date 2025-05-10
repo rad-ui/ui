@@ -1,7 +1,6 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 const COMPONENT_FOLDER = 'avatar-group';
 const example_1_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/${COMPONENT_FOLDER}/docs/example_1.tsx`);
-// console.log(example_1_SourceCode);
 
 
 const scss_SourceCode = await getSourceCodeFromPath(`styles/themes/components/${COMPONENT_FOLDER}.scss`);
