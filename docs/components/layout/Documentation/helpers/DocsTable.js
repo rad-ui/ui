@@ -55,8 +55,8 @@ const InfoRenderer = ({ row }) => {
     );
 }
 
-const EnumRenderer = ({ enumValues }) => {
-    const enumValuesString = enumValues.map(value => `'${value}'`).join(" | ");
+const EnumRenderer = ({ enumValues=[] }) => {
+    const enumValuesString = enumValues.map(value => `'${value}'`).join(" | ")
     return (
         <div className="text-gray-950 !text-sm">
             <div className="flex items-center gap-2 text-gray-950">

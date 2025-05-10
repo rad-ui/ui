@@ -1,8 +1,11 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
 import ToggleGroup from "@radui/ui/ToggleGroup"
-import codeUsage, { ToggleGroupTable } from "./docs/codeUsage"
+import codeUsage from "./docs/codeUsage"
 import ToggleGroupExampleBasic from "./docs/toggle-group-example-basic"
 import toggleGroupMetadata from "./seo"
+
+import { api_documentation } from "./docs/codeUsage"
+import ToggleGroupExample from "./docs/examples/ToggleGroupExample"
 
 export const metadata = toggleGroupMetadata;
 
@@ -13,11 +16,12 @@ export const metadata = toggleGroupMetadata;
     `}
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
-        <ToggleGroupExampleBasic/>
+        <ToggleGroupExample/>
     </Documentation.ComponentHero>
 
-    <Documentation.Table 
-        columns={ToggleGroupTable.columns} 
-        data={ToggleGroupTable.data} 
-    />
+    {/* API Documentation */}
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Item" description={api_documentation.item.description} columns={api_documentation.item.columns} data={api_documentation.item.data} />
+
+
 </Documentation>

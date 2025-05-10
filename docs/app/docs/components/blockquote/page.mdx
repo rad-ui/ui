@@ -7,6 +7,7 @@ import { code as colorCodeUsage } from './docs/colorCodeUsage';
 import BlockQuoteSizes from './examples/BlockQuoteSizes';
 import BlockQuoteColor from './examples/BlockQuoteColor';
 import blockquoteMetadata from './seo';
+import BlockQuoteExample from './examples/BlockQuoteExample';
 
 export const metadata = blockquoteMetadata;
 
@@ -16,9 +17,7 @@ export const metadata = blockquoteMetadata;
 >
   {/* Component Hero */}
   <Documentation.ComponentHero codeUsage={codeUsage}>
-    <BlockQuote color="green">
-      "Behind every great man is a woman rolling her eyes." — Jim Carrey
-    </BlockQuote>
+    <BlockQuoteExample />
   </Documentation.ComponentHero>
 
   {/* Component Features */}

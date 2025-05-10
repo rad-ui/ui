@@ -1,39 +1,28 @@
 // Import API documentation
-import progress_api_SourceCode from './api/progress.tsx';
+import root_api_SourceCode from './api/root.tsx';
+import indicator_api_SourceCode from './api/indicator.tsx';
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/progress/docs/examples/ProgressExample.tsx');
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/progress.scss');
+
 
 const code = {
     javascript: {
-        code: `
-import Progress from "@radui/ui/Progress";
+        code: example_1_SourceCode
 
-const ProgressExample = () => (
-  <div style={{ width: "90%" }}>
-    <Progress value={90}  />
-  </div>
-)
-`
     },
     css: {
-        code: `.rad-ui-progress {
-    background:  var(--rad-ui-color-sand-600);
-    overflow: hidden;
-    height:32px;
-    border-radius: 8px;
-}
-
-.rad-ui-progress-indicator {
-    background: var(--rad-ui-color-accent-900);
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
-}`
+        code: scss_SourceCode
     }
+
 };
 
 // API documentation
 export const api_documentation = {
-    progress: progress_api_SourceCode
+    root: root_api_SourceCode,
+    indicator: indicator_api_SourceCode
 };
 
 // Component features
@@ -41,26 +30,7 @@ export const features = [
     "Displays completion status visually as a horizontal bar",
     "Supports minimum and maximum value configuration",
     "Customizable color themes",
-    "Smooth animations for value changes",
-    "Option to add custom labels with renderLabel prop",
-    "Follows accessibility best practices with proper ARIA attributes"
+    "Smooth animations for value changes"
 ];
-
-// Kept for backwards compatibility
-export const ProgressTable = {
-    columns: [
-        {name: 'Prop', id: 'prop'},
-        {name: 'Type', id: 'type'},
-        {name: 'Default', id: 'default'},
-        {name: 'Description', id: 'description'},
-    ],
-
-    data: [
-        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the progress bar', id: 'color'},
-        { prop: 'value', type: 'number', default: '0', description: 'Current value of the progress bar.', id: 'value' },
-        { prop: 'maxValue', type: 'number', default: '100', description: 'Maximum value of the progress bar.', id: 'maxValue' },
-        { prop: 'minValue', type: 'number', default: '0', description: 'Minimum value of the progress bar.', id: 'minValue' },
-    ]
-};
 
 export default code;

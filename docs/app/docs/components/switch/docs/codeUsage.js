@@ -1,61 +1,26 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/switch/docs/examples/SwitchExample.tsx');
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/switch.scss');
+
+
+import root_api_SourceCode from "./api/root.tsx";
+import thumb_api_SourceCode from "./api/thumb.tsx";
+
+
+export const api_documentation = {
+    root: root_api_SourceCode,
+    thumb: thumb_api_SourceCode
+};
+
+
 const code = {
     javascript: {
-        code: `
-import Switch from "@radui/ui/Switch";
-         
-const SwitchExample = () => (
-    <div>
-      <Switch />   
-    </div>
-)`
+        code: example_1_SourceCode
     },
     scss: {
-        code: `/** Switch */
-.rad-ui-Switch {
-    opacity: 0;  
-    position: absolute;   
-    + button{
-        position: relative;
-        display: flex;
-        align-items: center;
-        font-size: 1.2rem;
-        color: var(--rad-ui-color-accent-500);
-        &::before{
-            content: ""; 
-            width: 2rem;
-            height: 1.05rem;
-            background-color: var(--rad-ui-color-accent-500);
-            border-radius: 1rem;
-            margin-right: .25rem;
-            transition: 200ms ease-in-out;
-          }
-        &::after{
-            position: absolute;
-            left: .1rem;
-            content: ""; 
-            width: .9rem;
-            height: .9rem;
-            background-color: var(--rad-ui-color-accent-50);
-            border-radius: 1rem;
-            transition: 200ms ease-in-out;
-          }
-          
-    } 
-    &:checked{
-        + button::before{
-            background-color: var(--rad-ui-color-accent-900);
-        }   
-        + button::after{
-            transform: translateX(100%);
-            background-color: var(--rad-ui-color-accent-50);
-            
-        }
-        + button {
-            color: var(--rad-ui-color-accent-900);
-        }
-        
-    }
-}`
+        code: scss_SourceCode
     }
 };
 

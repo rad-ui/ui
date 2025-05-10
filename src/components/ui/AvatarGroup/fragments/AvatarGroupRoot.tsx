@@ -13,7 +13,7 @@ type AvatarGroupRootProps = {
 
 const COMPONENT_NAME = 'AvatarGroup';
 
-const AvatarGroupRoot = ({ customRootClass = '', size = '', variant = '', children, className, ...props }: AvatarGroupRootProps) => {
+const AvatarGroupRoot = ({ customRootClass = '', size = '', variant = '', children, className = '', ...props }: AvatarGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
     const composedAttributes = useComposeAttributes(dataAttributes());

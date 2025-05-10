@@ -1,7 +1,9 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Switch from "@radui/ui/Switch"
-import codeUsage, { SwitchTable } from "./docs/codeUsage"
+import codeUsage, { api_documentation } from "./docs/codeUsage"
 import switchMetadata from "./seo"
+
+import SwitchExample from "./docs/examples/SwitchExample"
 
 export const metadata = switchMetadata;
 
@@ -15,8 +17,13 @@ export const metadata = switchMetadata;
             place where a user needs to enable or disable feature.
             `}>
             <Documentation.ComponentHero codeUsage={codeUsage}>
-                <Switch>On</Switch>
+                <SwitchExample />
             </Documentation.ComponentHero>
 
-            <Documentation.Table columns={SwitchTable.columns} data={SwitchTable.data} />
+                 {/* API Documentation */}
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Thumb" description={api_documentation.thumb.description} columns={api_documentation.thumb.columns} data={api_documentation.thumb.data} />
+
+
+
         </Documentation>

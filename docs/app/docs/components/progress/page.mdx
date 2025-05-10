@@ -1,9 +1,9 @@
 import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
-import Progress from "@radui/ui/Progress"
-import Card from "@radui/ui/Card"
 import codeUsage, { ProgressTable, api_documentation, features } from "./docs/codeUsage"
 import progressMetadata from "./seo"
+
+import ProgressExample from "./docs/examples/ProgressExample"
 
 export const metadata = progressMetadata;
 
@@ -13,11 +13,7 @@ export const metadata = progressMetadata;
 >
   {/* Component Hero */}
   <Documentation.ComponentHero codeUsage={codeUsage}>
-    <Card className="flex items-center justify-center bg-gray-50 w-64 sm:w-80 h-24">
-      <div style={{width:"90%"}}>
-        <Progress value={90} />
-      </div>
-    </Card>
+    <ProgressExample />
   </Documentation.ComponentHero>
 
   {/* Component Features */}
@@ -25,12 +21,9 @@ export const metadata = progressMetadata;
     features={features} 
   />
 
-  {/* API Documentation */}
-  <Documentation.Section title="API Documentation" as="h2" />
-  <Documentation.Table 
-    title="Progress" 
-    description={api_documentation.progress.description}
-    columns={api_documentation.progress.columns} 
-    data={api_documentation.progress.data} 
-  />
+      {/* API Documentation */}
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Indicator" description={api_documentation.indicator.description} columns={api_documentation.indicator.columns} data={api_documentation.indicator.data} />
+
+
 </Documentation>

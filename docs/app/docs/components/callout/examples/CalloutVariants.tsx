@@ -1,8 +1,9 @@
+"use client";
 import Callout from '@radui/ui/Callout';
 import Text from "@radui/ui/Text";
 import Separator from '@radui/ui/Separator';
 
-import { BookmarkIcon } from '../docs/codeUsage';
+import { BookmarkIcon } from './CalloutExample';
 import TooltipWrapper from '@/components/ui/Tooltip';
 
 const CalloutVariants = () => {
@@ -15,13 +16,17 @@ const CalloutVariants = () => {
   return (
     <div>
       <div className="flex items-center gap-4">
-        {calloutVariants.map((variant) => (
-          <span key={variant}>
-            <Callout variant={variant} className="space-x-2">
+        {calloutVariants.map((variant,idx) => {
+          console.log(variant);
+          return <span key={idx}>
+            <Callout.Root variant={variant} color="red">
+              <Callout.Icon>
                 <BookmarkIcon />
-                <Text className="font-bold">Error</Text>
-                <Text>Something went wrong. Please try again later.</Text>
-            </Callout>
+              </Callout.Icon>
+              <Callout.Text>
+                Seems like there's been an error. Please try again.
+              </Callout.Text>
+            </Callout.Root>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
             <TooltipWrapper label={calloutStyleDescription[variant]} placement="bottom">
               <Text className="text-gray-800 font-light inline-block cursor-help">
@@ -29,7 +34,7 @@ const CalloutVariants = () => {
               </Text>
             </TooltipWrapper>
           </span>
-        ))}
+        })}
       </div>
     </div>
   );

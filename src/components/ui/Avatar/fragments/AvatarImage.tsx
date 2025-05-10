@@ -10,7 +10,7 @@ type AvatarImageProps = AvatarRootImageProps & {
     alt?: string;
 }
 
-const AvatarImage = ({ src = '', alt = '', children, ...props }: AvatarImageProps) => {
+const AvatarImage = ({ src = '', alt = '', ...props }: AvatarImageProps) => {
     const { rootClass } = useContext(AvatarContext);
     return <AvatarPrimitiveImage className={clsx(`${rootClass}-image`)} src={src} alt={alt} {...props} />;
 };

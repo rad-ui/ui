@@ -1,6 +1,6 @@
 const data = {
-    name: "Progress",
-    description: "A component that displays the completion status of a task or process, such as uploading a file, loading content, or completing form steps.",
+    name: "Root",
+    description: "Root component for the Progress component.",
     columns: [
         {
             name: "Prop",
@@ -42,27 +42,11 @@ const data = {
         },
         {
             prop: {
-                name: "color",
-                info_tooltips: "Color theme of the progress indicator."
-            },
-            type: "string",
-            default: "''",
-        },
-        {
-            prop: {
                 name: "customRootClass",
                 info_tooltips: "Custom root class name to override default styling."
             },
             type: "string",
             default: "''",
-        },
-        {
-            prop: {
-                name: "renderLabel",
-                info_tooltips: "Function that returns a JSX element to render a custom label within the progress bar."
-            },
-            type: "function",
-            default: "--",
         }
     ]
 };

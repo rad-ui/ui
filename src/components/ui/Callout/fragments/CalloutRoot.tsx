@@ -18,7 +18,7 @@ type CalloutRootProps = {
     props?: Record<any, any>[]
 }
 
-const CalloutRoot = ({ children, asChild = false, className, color = '', variant = '', size = '', customRootClass, ...props }: CalloutRootProps) => {
+const CalloutRoot = ({ children, asChild = false, className = '', color = '', variant = '', size = '', customRootClass = '', ...props }: CalloutRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const dataAttributes = useCreateDataAttribute(COMPONENT_NAME, { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);
