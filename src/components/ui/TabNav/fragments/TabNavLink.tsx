@@ -13,27 +13,26 @@ export type TabNavLinkProps = {
     value?: string
 }
 
-const TabNavLink = ({value, className = '', href = '#', children, disabled, asChild }: TabNavLinkProps) => {
+const TabNavLink = ({ value, className = '', href = '#', children, disabled, asChild }: TabNavLinkProps) => {
     const { rootClass, tabValue, handleTabChange } = useContext(TabNavContext);
     if (asChild) disabled = false;
 
-    
-        const ref = useRef<HTMLAnchorElement>(null);
-    
-        const isActive = value === tabValue;
-    
-        const handleFocus = (tabValue: string) => {
-            if (disabled) return; // Don't handle focus events when disabled
-    
-            if (ref.current) {
-                ref.current?.focus();
-            }
-            handleTabChange(tabValue);
-        };
+    const ref = useRef<HTMLAnchorElement>(null);
+
+    const isActive = value === tabValue;
+
+    const handleFocus = (tabValue: string) => {
+        if (disabled) return; // Don't handle focus events when disabled
+
+        if (ref.current) {
+            ref.current?.focus();
+        }
+        handleTabChange(tabValue);
+    };
 
     return (
-        <RovingFocusGroup.Item 
-        onFocus={() => value && !disabled && handleFocus(value)}>
+        <RovingFocusGroup.Item
+            onFocus={() => value && !disabled && handleFocus(value)}>
             <Primitive.a
                 ref={ref}
                 className={clsx(`${rootClass}-link`, className)}

@@ -20,33 +20,33 @@ export type TabNavRootProps = {
 }
 
 const TabNavRoot = ({
-    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '',defaultValue = '',
+    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
     onValueChange = () => {},
     value, ...props
 }: TabNavRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
-            value,
-            defaultValue || '',
-            onValueChange
-        );
-    
-        const handleTabChange = (value: string) => {
-            setTabValue(value);
-        };
-    
-        useEffect(() => {
-            if (defaultValue) {
-                handleTabChange(defaultValue);
-            }
-        }, [defaultValue]);
-    
-        const contextValues = {
-            rootClass,
-            tabValue,
-            handleTabChange
-        };
+        value,
+        defaultValue || '',
+        onValueChange
+    );
+
+    const handleTabChange = (value: string) => {
+        setTabValue(value);
+    };
+
+    useEffect(() => {
+        if (defaultValue) {
+            handleTabChange(defaultValue);
+        }
+    }, [defaultValue]);
+
+    const contextValues = {
+        rootClass,
+        tabValue,
+        handleTabChange
+    };
     return (
         <TabNavContext.Provider value={contextValues}>
             <RovingFocusGroup.Root loop={loop} orientation={orientation} {...props} >

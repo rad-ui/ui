@@ -26,11 +26,11 @@ export const All = {
 export const Controlled = {
     render: () => {
         const [activeTab, setActiveTab] = useState('tab2');
-        
+
         return (
             <SandboxEditor>
                 <div className="space-y-4">
-                    <TabNav.Root 
+                    <TabNav.Root
                         value={activeTab}
                         onValueChange={setActiveTab}
                     >
@@ -38,7 +38,7 @@ export const Controlled = {
                         <TabNav.Link value="tab2" href="#tab2">Tab 2</TabNav.Link>
                         <TabNav.Link value="tab3" href="#tab3">Tab 3</TabNav.Link>
                     </TabNav.Root>
-                    
+
                     <div className="mt-4 p-4 border rounded">
                         <p>Active Tab: {activeTab}</p>
                     </div>
