@@ -1,6 +1,10 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+import CalloutContext from '../contexts/CalloutContext';
+import Primitive from '~/core/primitives/Primitive';
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+
 const COMPONENT_NAME = 'Callout';
 
 type CalloutRootProps = {
@@ -10,28 +14,23 @@ type CalloutRootProps = {
     variant?: string;
     size?: string;
     customRootClass?: string;
+    asChild?: boolean
     props?: Record<any, any>[]
 }
 
-const CalloutRoot = ({ children, className, color, variant = '', size = '', customRootClass, ...props }: CalloutRootProps) => {
+const CalloutRoot = ({ children, asChild = false, className, color = '', variant = '', size = '', customRootClass, ...props }: CalloutRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const data_attributes: Record<string, string> = {};
+    const dataAttributes = useCreateDataAttribute(COMPONENT_NAME, { variant, size });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
-    if (variant) {
-        data_attributes['data-callout-variant'] = variant;
-    }
-
-    if (size) {
-        data_attributes['data-callout-size'] = size;
-    }
-
-    if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
-    }
-
-    return <div className={clsx(rootClass, className)} data-rad-ui-accent-color={color ?? undefined} {...data_attributes} {...props}>
-        {children}
-    </div>;
+    return (
+        <CalloutContext.Provider value={{ rootClass }}>
+            <Primitive.div asChild={asChild} className={clsx(rootClass, className)} {...composedAttributes()} {...props}>
+                {children}
+            </Primitive.div>
+        </CalloutContext.Provider>
+    );
 };
 
 CalloutRoot.displayName = COMPONENT_NAME;
