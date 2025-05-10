@@ -2,7 +2,7 @@ import Documentation from "@/components/layout/Documentation/Documentation"
 import AvatarExample from "./docs/AvatarExample"
 import codeUsage, { avatarBasicUsageExample } from "./docs/codeUsage"
 import avatarMetadata from "./seo"
-
+import { api_documentation } from "./docs/codeUsage"
 export const metadata = avatarMetadata
 
 <Documentation 
@@ -21,9 +21,10 @@ export const metadata = avatarMetadata
     ]} 
   /> 
 
-  <Documentation.Table 
-    columns={avatarBasicUsageExample.columns} 
-    data={avatarBasicUsageExample.data} 
-  />
+  {/* API Documentation */}
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Image" description={api_documentation.image.description} columns={api_documentation.image.columns} data={api_documentation.image.data} />
+    <Documentation.Table title="Fallback" description={api_documentation.fallback.description} columns={api_documentation.fallback.columns} data={api_documentation.fallback.data} />
+
 </Documentation>
 

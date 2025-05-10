@@ -3,13 +3,26 @@ import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/avatar/docs/AvatarExample.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/avatar.scss');
 
-const code = {
+
+//
+import root_api_SourceCode from './api/root.tsx';
+import image_api_SourceCode from './api/image.tsx';
+import fallback_api_SourceCode from './api/fallback.tsx';
+
+export const code = {
     javascript: {
         code: example_1_SourceCode
     },
     scss: {
         code: scss_SourceCode
     }
+}
+
+
+export const api_documentation = {
+    root: root_api_SourceCode,
+    image: image_api_SourceCode,
+    fallback: fallback_api_SourceCode,
 }
 
 export const avatarBasicUsageExample = {

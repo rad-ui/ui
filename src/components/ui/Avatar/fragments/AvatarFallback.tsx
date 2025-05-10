@@ -6,9 +6,13 @@ import AvatarPrimitiveFallback, { AvatarPrimitiveFallbackProps } from '~/core/pr
 import { AvatarContext } from '../contexts/AvatarContext';
 import { clsx } from 'clsx';
 
-const AvatarFallback = ({ children, ...props }: AvatarPrimitiveFallbackProps) => {
+type AvatarFallbackProps = AvatarPrimitiveFallbackProps & {
+    className?: string;
+}
+
+const AvatarFallback = ({ children, className = '', ...props }: AvatarFallbackProps) => {
     const { rootClass } = useContext(AvatarContext);
-    return <AvatarPrimitiveFallback className={clsx(`${rootClass}-fallback`)} {...props}>{children}</AvatarPrimitiveFallback>;
+    return <AvatarPrimitiveFallback className={clsx(`${rootClass}-fallback`, className)} {...props}>{children}</AvatarPrimitiveFallback>;
 };
 
 export default AvatarFallback;
