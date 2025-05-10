@@ -23,6 +23,7 @@
         background-color: var(--rad-ui-color-accent-500);
         transition: 200ms ease-in-out;
         transform: translateX(2px);
+
         &[data-state="checked"]{
             transform: translateX(22px);
         }

@@ -1,9 +1,9 @@
 .rad-ui-tab-nav{
     display: flex;
-        box-shadow: inset 0 -1px 0 0 var(--rad-ui-color-gray-500);
+    box-shadow: inset 0 -1px 0 0 var(--rad-ui-color-gray-500);
 
     .rad-ui-tab-nav-link {
-        color: var(--rad-ui-color-accent-600);
+            color: var(--rad-ui-color-accent-600);
             font-family: inherit;
             padding: 10px;
             display: flex;
@@ -12,15 +12,20 @@
             font-size: 15px;
             line-height: 1;
             cursor: pointer;
-
-            &[aria-selected="true"]{
+            
+            &:focus{
                 color: var(--rad-ui-color-accent-950);
                 border-bottom:2px solid var(--rad-ui-color-accent-900);
             }
 
-            &:hover{
+        
+                &:hover{
                 color: var(--rad-ui-color-accent-900);
             }
+
+            
+            
+            
 
        
 }

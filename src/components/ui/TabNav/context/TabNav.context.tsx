@@ -1,11 +1,15 @@
 import { createContext } from 'react';
 
 interface TabNavContextType {
-    rootClass?: string;
+  rootClass: string;
+  tabValue: string;
+  handleTabChange: (value: string) => void;
 }
 
 const TabNavContext = createContext<TabNavContextType>({
-    rootClass: ''
+    rootClass: '',
+    tabValue: '',
+    handleTabChange: () => {}
 });
 
 export default TabNavContext;

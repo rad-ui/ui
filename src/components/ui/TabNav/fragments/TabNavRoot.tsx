@@ -14,15 +14,38 @@ export type TabNavRootProps = {
     children: React.ReactNode,
     customRootClass?: string,
     color?: string;
+    value?: string,
+    defaultValue?: string,
+    onValueChange?: (value: string) => void
 }
 
 const TabNavRoot = ({
-    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', ...props
+    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
+    onValueChange = () => {},
+    value, ...props
 }: TabNavRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
+    const [tabValue, setTabValue] = useControllableState<string>(
+        value,
+        defaultValue || '',
+        onValueChange
+    );
+
+    const handleTabChange = (value: string) => {
+        setTabValue(value);
+    };
+
+    useEffect(() => {
+        if (defaultValue) {
+            handleTabChange(defaultValue);
+        }
+    }, [defaultValue]);
+
     const contextValues = {
-        rootClass
+        rootClass,
+        tabValue,
+        handleTabChange
     };
     return (
         <TabNavContext.Provider value={contextValues}>
