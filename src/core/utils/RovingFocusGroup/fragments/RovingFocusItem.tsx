@@ -15,6 +15,7 @@ type RovingFocusItemProps = {
     children: React.ReactNode;
     'aria-label'?: string;
     'aria-labelledby'?: string;
+    role?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
@@ -38,6 +39,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     children,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
+    role = 'button',
     ...props
 }, ref) => {
     const id = useId();
@@ -243,7 +245,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         id={id}
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}
-        role="option"
+        role={role}
         aria-selected={isSelected}
         aria-disabled={isDisabled}
         aria-label={ariaLabel}
