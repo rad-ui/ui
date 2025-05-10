@@ -1,9 +1,10 @@
-import Documentation from "@/components/layout/Documentation/Documentation"
-import codeUsage, { anatomy } from "./docs/codeUsage"
-import Example1 from "./docs/example_1"
-import avatarGroupMetadata from "./seo"
+import Documentation from "@/components/layout/Documentation/Documentation";
+import codeUsage, { anatomy } from "./docs/codeUsage";
+import Example1 from "./docs/example_1";
+import avatarGroupMetadata from "./seo";
+import { api_documentation } from "./docs/codeUsage";
 
-export const metadata = avatarGroupMetadata
+export const metadata = avatarGroupMetadata;
 
 <Documentation 
     title='Avatar Group' 
@@ -14,8 +15,12 @@ export const metadata = avatarGroupMetadata
     </Documentation.ComponentHero>
 
       <Documentation.Anatomy code={anatomy.code} />
-    
+
+      {/* API Documentation */}
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Item" description={api_documentation.item.description} columns={api_documentation.item.columns} data={api_documentation.item.data} />
+    <Documentation.Table title="Avatar" description={api_documentation.avatar.description} columns={api_documentation.avatar.columns} data={api_documentation.avatar.data} />
+    <Documentation.Table title="Fallback" description={api_documentation.fallback.description} columns={api_documentation.fallback.columns} data={api_documentation.fallback.data} />
+
 
 </Documentation>
-
-
