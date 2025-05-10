@@ -1,114 +1,30 @@
 .rad-ui-switch{
-    opacity: 0;  
-    position: absolute;   
+    all: unset;
+    position: relative;
+    width: 42px;
+    height: 21px;
+    border-radius: 1rem;
+    background-color: var(--rad-ui-color-accent-900);
 
-    + button{
+    &:focus-visible{
+        offset: 2px;
+        outline: 4px solid var(--rad-ui-color-accent-500);
+    }
+
+    .rad-ui-switch-indicator{
         position: relative;
         display: flex;
         align-items: center;
         font-size: 1.2rem;
         color: var(--rad-ui-color-accent-500);
-
-        &::before{
-            content: ""; 
-            width: 2rem;
-            height: 1.05rem;
-            background-color: var(--rad-ui-color-accent-500);
-            border-radius: 1rem;
-            margin-right: .25rem;
-            transition: 200ms ease-in-out;
-          }
-
-        &::after{
-            position: absolute;
-            left: .1rem;
-            content: ""; 
-            width: .9rem;
-            height: .9rem;
-            background-color: var(--rad-ui-color-accent-50);
-            border-radius: 1rem;
-            transition: 200ms ease-in-out;
-          }
-
-    
-    &[data-switch-variant="surface"]{
-        color: var(--rad-ui-color-accent-500);
-     }
-
-    &[data-switch-variant="soft"]{
-        color: var(--rad-ui-color-accent-500);   
-        opacity: 0.5; 
-     }
-          
-    &[data-switch-size="small"]{
-        font-size: small;
-
-        &::before{
-           width: 32px;
-           height: 16px;
+        width: 18px;
+        height: 18px;
+        border-radius: 1rem;
+        background-color: var(--rad-ui-color-accent-500);
+        transition: 200ms ease-in-out;
+        transform: translateX(2px);
+        &[data-state="checked"]{
+            transform: translateX(22px);
         }
-      }
-  
-      &[data-switch-size="medium"]{
-        font-size: medium;
-
-        &::before{
-            width: 38px;
-            height: 20px;
-         }
-
-        &::after{
-            width: 1.1rem;
-            height: 1.1rem;
-          }
-      }
-  
-      &[data-switch-size="large"]{
-        font-size: large;
-
-        &::before{
-            width: 44px;
-            height: 24px;
-         }
-
-        &::after{
-            width: 1.3rem;
-            height: 1.3rem;
-          }
-      }
-  
-      &[data-switch-size="x-large"]{
-        font-size: x-large;
-
-        &::before{
-            width: 50px;
-            height: 28px;
-         }
-
-        &::after{
-            width: 1.5rem;
-            height: 1.5rem;
-          }
-      } 
-          
-    } 
-
-    &:checked{
-        + button::before{
-            background-color: var(--rad-ui-color-accent-900);
-        }   
-
-        + button::after{
-            transform: translateX(100%);
-            background-color: var(--rad-ui-color-accent-50);
-            
-        }
-
-        + button {
-            color: var(--rad-ui-color-accent-900);
-        }
-        
     }
-
-  
 }

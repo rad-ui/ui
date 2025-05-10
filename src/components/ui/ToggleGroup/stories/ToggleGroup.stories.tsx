@@ -19,13 +19,17 @@ const Template = (args: any) => {
     };
     return (
         <SandboxEditor className="space-y-4 pt-4">
-            <ToggleGroup
-                defaultPressed={DEFAULT_PRESSED_STATE}
-                onChange={handleChange}
-                {...args}
-            >
-
-            </ToggleGroup>
+            <ToggleGroup.Root>
+                {
+                    items.map((item, index) => {
+                        return (
+                            <ToggleGroup.Item key={index} value={item.value}>
+                                {item.label}
+                            </ToggleGroup.Item>
+                        );
+                    })
+                }
+            </ToggleGroup.Root>
         </SandboxEditor>
     );
 };

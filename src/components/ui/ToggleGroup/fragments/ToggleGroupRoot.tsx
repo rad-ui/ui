@@ -6,11 +6,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-/**
- * Props for the ToggleGroupRoot component
- * @typedef ToggleGroupRootProps
- */
-interface ToggleGroupRootProps {
+type ToggleGroupRootProps ={
     /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
     type?: 'single' | 'multiple';
     /** Additional CSS class names to apply */
@@ -21,8 +17,6 @@ interface ToggleGroupRootProps {
     orientation?: 'horizontal' | 'vertical';
     /** Custom root class name to override default styling */
     customRootClass?: string;
-    /** Name of the component for CSS class generation */
-    componentName?: string;
     /** Initial value or values for the toggle group */
     value?: any;
     /** Accent color for the toggle group */
@@ -31,32 +25,19 @@ interface ToggleGroupRootProps {
     children?: React.ReactNode;
 }
 
-/**
- * Root component for ToggleGroup that provides context and layout.
- * Handles the state management for active toggles and provides accessibility
- * features through RovingFocusGroup for keyboard navigation.
- *
- * @example
- * <ToggleGroupRoot type="multiple" orientation="horizontal">
- *   <ToggleItem value="bold">B</ToggleItem>
- *   <ToggleItem value="italic">I</ToggleItem>
- * </ToggleGroupRoot>
- *
- * @param {ToggleGroupRootProps} props - Component props
- * @returns {JSX.Element} The ToggleGroupRoot component
- */
+const COMPONENT_NAME = 'ToggleGroup';
+
 const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
     type = 'multiple',
     className = '',
     loop = true,
     orientation = 'horizontal',
     customRootClass = '',
-    componentName = '',
     value = null,
     color = '',
     children
 }) => {
-    const rootClass = customClassSwitcher(customRootClass, componentName);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     // value can be either a string or an array of strings
     // if its null, then no toggles are active

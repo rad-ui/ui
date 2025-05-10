@@ -12,7 +12,9 @@ export default {
         console.log(value);
         return (<SandboxEditor>
             <div className='my-10 space-y-4'>
-                <Progress value={value} maxValue={100} minValue={0} {...args}/>
+                <Progress.Root value={value} maxValue={100} minValue={0} {...args}>
+                    <Progress.Indicator/>
+                </Progress.Root>
                 <Button
                     {...args}
                     onClick={() => {
