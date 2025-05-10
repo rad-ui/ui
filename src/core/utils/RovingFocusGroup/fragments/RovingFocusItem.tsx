@@ -232,6 +232,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
      */
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
         event.preventDefault();
+        if (isDisabled) event.target.blur();
         if (!isDisabled) {
             setFocusedItemId(id);
         }
@@ -241,6 +242,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
+
         ref={ref}
         id={id}
         onKeyDown={handleKeyDown}
