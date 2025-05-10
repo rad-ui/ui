@@ -8,10 +8,10 @@ const Sizes = ['small', 'medium', 'large', 'x-large'];
 export default {
     title: 'Components/Switch',
     component: Switch,
-    render: (args: JSX.IntrinsicAttributes & SwitchProps) => <CheckBox {...args}/>
+    render: (args: JSX.IntrinsicAttributes & SwitchProps) => <SwitchComponent {...args}/>
 };
 
-const CheckBox = (args: SwitchProps) => {
+const SwitchComponent = (args: SwitchProps) => {
     const variants = ['classic', 'surface', 'solid'];
     const [isChecked, setIsChecked] = useState(true);
 
@@ -20,7 +20,9 @@ const CheckBox = (args: SwitchProps) => {
     };
     return <SandboxEditor className="flex flex-col gap-2">
         {variants.map((variant, index) => (
-            <Switch defaultChecked={args} key={index} variant={variant} onChange={handleChange} {...args}/>
+            <Switch.Root key={index} variant={variant} >
+                <Switch.Thumb />
+            </Switch.Root>
         ))}
 
     </SandboxEditor>;
@@ -35,13 +37,17 @@ export const controlled = () => {
         setChecked((prev) => !prev);
     };
     return <SandboxEditor>
-        <Switch checked={checked} onChange={handleToggle}/>
+        <Switch.Root>
+            <Switch.Thumb />
+        </Switch.Root>
     </SandboxEditor>;
 };
 
 export const Uncontrolled = () => {
     return <SandboxEditor>
-        <Switch defaultChecked ={true} onChange={() => {}}/>
+        <Switch.Root>
+            <Switch.Thumb />
+        </Switch.Root>
 
     </SandboxEditor>;
 };
@@ -59,7 +65,9 @@ export const Size = () => {
         <div>
             <div className='flex flex-col gap-2'>
                 {Sizes.map((size, index) => {
-                    return <Switch key={index} size={size} />;
+                    return <Switch.Root key={index} size={size} >
+                        <Switch.Thumb />
+                    </Switch.Root>;
                 })}
             </div>
 
@@ -75,7 +83,9 @@ export const Variant = () => {
         <div>
             <div className='flex flex-col gap-2'>
                 {Variants.map((variant, index) => {
-                    return <Switch key={index} variant={variant} />;
+                    return <Switch.Root key={index} variant={variant} >
+                        <Switch.Thumb />
+                    </Switch.Root>;
                 })}
             </div>
 

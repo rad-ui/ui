@@ -76,7 +76,7 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
         dataProps['data-active'] = 'false';
     }
 
-    return <RovingFocusGroup.Item>
+    return <RovingFocusGroup.Item role="button">
         <TogglePrimitive
             onClick={handleToggleSelect}
             {...ariaProps}

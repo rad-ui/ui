@@ -1,25 +1,33 @@
 'use client';
-import React, { type PropsWithChildren } from 'react';
+import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { ProgressContext } from '../contexts/ProgressContext';
 
-import { ProgressProps, COMPONENT_NAME } from '../Progress';
+import Primitive from '~/core/primitives/Primitive';
 
-interface ProgressRootProps extends Partial<ProgressProps>, PropsWithChildren {}
+const COMPONENT_NAME = 'Progress';
+
+type ProgressRootProps = {
+    value: number;
+    minValue: number;
+    maxValue: number;
+    children: React.ReactNode;
+    customRootClass?: string;
+}
 
 const ProgressRoot = ({ value = 0, minValue = 0, maxValue = 100, children, customRootClass }: ProgressRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
     const sendValues = {
         value,
         minValue,
-        maxValue
+        maxValue,
+        rootClass
     };
 
     return (
         <ProgressContext.Provider value={sendValues}>
-            <div className={clsx(rootClass)}>{children}</div>
+            <Primitive.div className={clsx(rootClass)}>{children}</Primitive.div>
         </ProgressContext.Provider>
     );
 };

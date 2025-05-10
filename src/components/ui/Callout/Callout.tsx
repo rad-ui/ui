@@ -4,7 +4,7 @@ import CalloutText from './fragments/CalloutText';
 const COMPONENT_NAME = 'Callout';
 
 const Callout = () => {
-    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead.');
+    console.warn('Direct usage of Callout is not supported. Please use Callout.Root, Callout.Icon, etc. instead.');
     return null;
 };
 

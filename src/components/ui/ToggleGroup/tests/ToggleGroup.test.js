@@ -2,29 +2,30 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import ToggleGroup from '../ToggleGroup';
 
-const items = [
-    { value: 'item1', label: 'Item 1' },
-    { value: 'item2', label: 'Item 2' },
-    { value: 'item3', label: 'Item 3' }
-];
-
 describe('ToggleGroup component', () => {
-    test('renders correctly', () => {
-        const { container, getAllByText } = render(<ToggleGroup items={items}/>);
+    test('renders correctly with composable API', () => {
+        const { container, getAllByRole } = render(
+            <ToggleGroup.Root>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+                <ToggleGroup.Item value="item3">Item 3</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
         expect(container.firstChild).toBeInTheDocument();
 
         // Verify all items are rendered
-        const itemElements = getAllByText(/Item/);
-        expect(itemElements.length).toBe(items.length);
+        const buttons = getAllByRole('button');
+        expect(buttons.length).toBe(3);
     });
 
-    test('renders the correct number of ToggleItem components', () => {
-        const { getAllByText } = render(<ToggleGroup items={items} />);
-        expect(getAllByText(/Item/).length).toBe(items.length);
-    });
-
-    test('ToggleGroup handles multiple selection', () => {
-        const { getByText } = render(<ToggleGroup type="multiple" items={items}/>);
+    test('handles multiple selection', () => {
+        const { getByText } = render(
+            <ToggleGroup.Root type="multiple">
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+                <ToggleGroup.Item value="item3">Item 3</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
 
         // Click on first two items
         fireEvent.click(getByText('Item 1'));
@@ -41,8 +42,14 @@ describe('ToggleGroup component', () => {
         expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
-    test('ToggleGroup handles multiple selection with variation in toggles', () => {
-        const { getByText } = render(<ToggleGroup type="multiple" items={items}/>);
+    test('handles multiple selection with variation in toggles', () => {
+        const { getByText } = render(
+            <ToggleGroup.Root type="multiple">
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+                <ToggleGroup.Item value="item3">Item 3</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
 
         // Perform a series of clicks
         fireEvent.click(getByText('Item 1'));
@@ -60,8 +67,14 @@ describe('ToggleGroup component', () => {
         expect(getByText('Item 3').closest('button')).toHaveAttribute('data-active', 'true');
     });
 
-    test('ToggleGroup handles single selection', () => {
-        const { getByText } = render(<ToggleGroup type="single" items={items}/>);
+    test('handles single selection', () => {
+        const { getByText } = render(
+            <ToggleGroup.Root type="single">
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+                <ToggleGroup.Item value="item3">Item 3</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
 
         // Click the first item
         fireEvent.click(getByText('Item 1'));
@@ -75,8 +88,14 @@ describe('ToggleGroup component', () => {
         expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
-    test('ToggleGroup handles single selection with variation in toggles', () => {
-        const { getByText } = render(<ToggleGroup type="single" items={items}/>);
+    test('handles single selection with variation in toggles', () => {
+        const { getByText } = render(
+            <ToggleGroup.Root type="single">
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+                <ToggleGroup.Item value="item3">Item 3</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
 
         // Perform a series of clicks
         fireEvent.click(getByText('Item 1'));
@@ -93,10 +112,26 @@ describe('ToggleGroup component', () => {
         expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
-    test('ToggleGroup color correctly', () => {
-        const { container } = render(<ToggleGroup type="single" items={items} color='blue'/>);
+    test('applies color correctly', () => {
+        const { container } = render(
+            <ToggleGroup.Root color="blue">
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
         const toggleGroupRoot = container.querySelector('.rad-ui-toggle-group');
 
         expect(toggleGroupRoot).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+    });
+
+    test('warns when using ToggleGroup directly', () => {
+        const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(<ToggleGroup />);
+
+        expect(consoleSpy).toHaveBeenCalledWith(
+            'Direct usage of ToggleGroup is not supported. Please use ToggleGroup.Root, ToggleGroup.Item, etc. instead.'
+        );
+
+        consoleSpy.mockRestore();
     });
 });
