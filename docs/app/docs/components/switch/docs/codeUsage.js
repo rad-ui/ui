@@ -5,8 +5,8 @@ const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/componen
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/switch.scss');
 
 
-import root_api_SourceCode from "./api/root.tsx";
-import thumb_api_SourceCode from "./api/thumb.tsx";
+import root_api_SourceCode from "./component_api/root.tsx";
+import thumb_api_SourceCode from "./component_api/thumb.tsx";
 
 
 export const api_documentation = {

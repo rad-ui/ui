@@ -1,9 +1,9 @@
-// Import API documentation
-import root_api_SourceCode from './api/root.tsx';
-import icon_api_SourceCode from './api/icon.tsx';
-import text_api_SourceCode from './api/text.tsx';
-
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+// Import API documentation
+import root_api_SourceCode from './component_api/root.tsx';
+import {icon_api_SourceCode} from './component_api/icon.tsx';
+import text_api_SourceCode from './component_api/text.tsx';
+
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/callout/examples/CalloutExample.tsx');
 

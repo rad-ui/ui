@@ -1,4 +1,4 @@
-const data = {
+export const data = {
     name : "Icon",
     description : "The icon component for the Callout. This component is used to display the icon content of the Callout.",
     columns : [
@@ -34,5 +34,3 @@ const data = {
        }
     ]
 }
-
-export default data;

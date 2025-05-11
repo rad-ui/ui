@@ -1,7 +1,7 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
 // Import API documentation
-import text_api_SourceCode from './api/text.tsx';
+import text_api_SourceCode from './component_api/text.tsx';
 
 const code = {
     javascript: {

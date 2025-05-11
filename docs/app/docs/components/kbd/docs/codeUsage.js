@@ -1,5 +1,5 @@
 // Import API documentation
-import kbd_api_SourceCode from './api/kbd.tsx';
+import kbd_api_SourceCode from './component_api/kbd.tsx';
 
 const code = {
     javascript: {

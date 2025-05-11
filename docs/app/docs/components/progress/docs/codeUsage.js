@@ -1,6 +1,6 @@
 // Import API documentation
-import root_api_SourceCode from './api/root.tsx';
-import indicator_api_SourceCode from './api/indicator.tsx';
+import root_api_SourceCode from './component_api/root.tsx';
+import indicator_api_SourceCode from './component_api/indicator.tsx';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/progress/docs/examples/ProgressExample.tsx');

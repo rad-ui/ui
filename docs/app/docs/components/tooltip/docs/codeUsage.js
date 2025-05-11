@@ -6,9 +6,9 @@ const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/componen
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/anatomy.tsx');
 
 // Import API documentation
-import root_api_SourceCode from './api/root.tsx';
-import trigger_api_SourceCode from './api/trigger.tsx';
-import content_api_SourceCode from './api/content.tsx';
+import root_api_SourceCode from './component_api/root.tsx';
+import trigger_api_SourceCode from './component_api/trigger.tsx';
+import content_api_SourceCode from './component_api/content.tsx';
 
 const code = {
     javascript: {

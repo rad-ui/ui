@@ -5,9 +5,9 @@ const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/av
 
 
 //
-import root_api_SourceCode from './api/root.tsx';
-import image_api_SourceCode from './api/image.tsx';
-import fallback_api_SourceCode from './api/fallback.tsx';
+import root_api_SourceCode from './component_api/root.tsx';
+import image_api_SourceCode from './component_api/image.tsx';
+import fallback_api_SourceCode from './component_api/fallback.tsx';
 
 export const code = {
     javascript: {

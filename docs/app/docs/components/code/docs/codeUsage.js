@@ -1,5 +1,5 @@
 // Import API documentation
-import code_api_SourceCode from './api/code.tsx';
+import code_api_SourceCode from './component_api/code.tsx';
 
 const code = {
     javascript: {

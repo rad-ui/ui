@@ -5,8 +5,8 @@ const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/componen
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/toggle-group.scss');
 
 
-import root_api_SourceCode from "./api/root.tsx";
-import item_api_SourceCode from "./api/item.tsx";
+import root_api_SourceCode from "./component_api/root.tsx";
+import item_api_SourceCode from "./component_api/item.tsx";
 
 
 export const api_documentation = {

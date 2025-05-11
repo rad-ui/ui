@@ -1,5 +1,5 @@
 // Import API documentation
-import heading_api_SourceCode from './api/heading.tsx';
+import heading_api_SourceCode from './component_api/heading.tsx';
 
 const code = {
     javascript: {

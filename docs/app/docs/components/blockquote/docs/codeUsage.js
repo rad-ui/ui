@@ -1,5 +1,5 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
-import blockquote_api_SourceCode from './api/blockquote.tsx';
+import blockquote_api_SourceCode from './component_api/blockquote.tsx';
 const example_1_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/blockquote/examples/BlockQuoteExample.tsx`);
 
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/blockquote.scss');
