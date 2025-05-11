@@ -9,9 +9,9 @@ const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components
 
 //
 
-import root_api_SourceCode from './api/root.tsx';
-import item_api_SourceCode from './api/item.tsx';
-import trigger_api_SourceCode from './api/trigger.tsx';
+import root_api_SourceCode from './component_api/root.tsx';
+import item_api_SourceCode from './component_api/item.tsx';
+import trigger_api_SourceCode from './component_api/trigger.tsx';
 
 export const code = {
     javascript: {

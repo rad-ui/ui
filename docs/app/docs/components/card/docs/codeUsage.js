@@ -1,5 +1,5 @@
 // Import API documentation
-import card_api_SourceCode from './api/card.tsx';
+import card_api_SourceCode from './component_api/card.tsx';
 
 const code = {
     javascript: {

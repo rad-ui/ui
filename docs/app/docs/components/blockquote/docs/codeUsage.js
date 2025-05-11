@@ -1,24 +1,16 @@
-// Import API documentation
-import blockquote_api_SourceCode from './api/blockquote.tsx';
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+import blockquote_api_SourceCode from './component_api/blockquote.tsx';
+const example_1_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/blockquote/examples/BlockQuoteExample.tsx`);
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/blockquote.scss');
+
 
 const code = {
     javascript: {
-        code: `import BlockQuote from "@radui/ui/BlockQuote"
-
-const BlockQuoteExample = () => (
-    <div>
-        <BlockQuote color="green">
-            "Behind every great man is a woman rolling her eyes." — Jim Carrey
-        </BlockQuote>
-    </div>
-)`
+        code: example_1_SourceCode
     },
     scss: {
-        code: `.rad-ui-block-quote{
-    border-color: var(--rad-ui-color-accent-600);
-    border-left-width: 0.5rem;
-    padding-left: 0.75rem; // Assuming 1rem = 16px
-}`
+        code: scss_SourceCode
     },
 }
 

@@ -1,5 +1,5 @@
 // Import API documentation
-import button_api_SourceCode from './api/button.tsx';
+import button_api_SourceCode from './component_api/button.tsx';
 
 const code = {
     javascript: {

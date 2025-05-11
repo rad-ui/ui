@@ -1,49 +1,29 @@
-const code = {
-    javascript: {
-        code: `import Avatar from "@radui/ui/Avatar"
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
-const AvatarExample = () => (
-    <div style={{ display: 'flex', gap: 20 }}>
-        <Avatar src="https://i.pravatar.cc/1000" />
-        <Avatar fallback="RU" />
-        <Avatar fallback="AA" color='pink'/>
-    </div>
-)`
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/avatar/docs/AvatarExample.tsx');
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/avatar.scss');
+
+
+//
+import root_api_SourceCode from './component_api/root.tsx';
+import image_api_SourceCode from './component_api/image.tsx';
+import fallback_api_SourceCode from './component_api/fallback.tsx';
+
+export const code = {
+    javascript: {
+        code: example_1_SourceCode
     },
     scss: {
-        code: `.rad-ui-avatar-root{
-    position: relative;
-    display: inline-flex;
-    width:32px;
-    height:32px;
-    border-radius: 8px;
-    overflow: hidden;
-
-    .rad-ui-avatar{
-        display: flex;
-        flex-grow: 1;
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        height:100%;
+        code: scss_SourceCode
     }
-
-    .rad-ui-avatar-fallback{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--rad-ui-color-accent-900);
-        background-color: var(--rad-ui-color-accent-500);
-        position: absolute;
-        top:0px;
-        left:0px;
-        width: 100%;
-        height:100%;
-    }
-}`
-    },
 }
 
+
+export const api_documentation = {
+    root: root_api_SourceCode,
+    image: image_api_SourceCode,
+    fallback: fallback_api_SourceCode,
+}
 
 export const avatarBasicUsageExample = {
     columns: [

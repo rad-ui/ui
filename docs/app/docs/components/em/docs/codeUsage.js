@@ -4,7 +4,7 @@ import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/em/docs/EmExample.tsx');
 
 // Import API documentation
-import em_api_SourceCode from './api/em.tsx';
+import em_api_SourceCode from './component_api/em.tsx';
 
 const code = {
     javascript: {

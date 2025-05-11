@@ -1,5 +1,5 @@
 // Import API documentation
-import strong_api_SourceCode from './api/strong.tsx';
+import strong_api_SourceCode from './component_api/strong.tsx';
 
 const code = {
     javascript: {

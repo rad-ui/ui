@@ -1,5 +1,5 @@
 // Import API documentation
-import separator_api_SourceCode from './api/separator.tsx';
+import separator_api_SourceCode from './component_api/separator.tsx';
 
 const code = {
     javascript: {
