@@ -8,16 +8,16 @@ export type SelectContentProps = {
     children: React.ReactNode
 }
 
-function SelectContent({children}: SelectContentProps) {
+function SelectContent({children, ...props}: SelectContentProps) {
     const {isOpen, setIsOpen} = useContext(SelectContext);
     if (!isOpen) return null;
     return (
         <RovingFocusGroup.Group>
-        <Primitive.span>
+        <Primitive.div {...props}>
             
                 {children}
             
-        </Primitive.span>
+        </Primitive.div>
         </RovingFocusGroup.Group>
         
     );

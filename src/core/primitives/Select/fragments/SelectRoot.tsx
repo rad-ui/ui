@@ -4,10 +4,11 @@ import { SelectContext } from '../contexts/SelectContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 export type SelectRootProps = {
-    children: React.ReactNode
+    children: React.ReactNode,
+    className?: string
 }
 
-function SelectRoot({children}: SelectRootProps) {
+function SelectRoot({children,className, ...props}: SelectRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState('');
     
@@ -19,10 +20,12 @@ function SelectRoot({children}: SelectRootProps) {
     const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect };
 
     return (
-        <SelectContext.Provider value={values}>
+        <SelectContext.Provider value={values} >
             <RovingFocusGroup.Root>
-    
-            {children}
+        <Primitive.div {...props} className={className}>
+  {children}
+        </Primitive.div>
+          
         
         </RovingFocusGroup.Root>
         </SelectContext.Provider>
