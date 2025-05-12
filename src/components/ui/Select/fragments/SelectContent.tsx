@@ -6,16 +6,18 @@ const COMPONENT_NAME = 'Select';
 
 function SelectContent({ customRootClass, children, position = "popper", ...props }: any) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
     return (
         <SelectPrimitive.Content 
             className={`${rootClass}-content`} 
             position={position}
             data-position={position}
+            
             {...props}
         >
-                {children}
+
+
             
+                {children}
         </SelectPrimitive.Content>
     );
 }

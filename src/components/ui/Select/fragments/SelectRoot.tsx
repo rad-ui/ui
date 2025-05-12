@@ -4,20 +4,20 @@ import {customClassSwitcher} from '~/core/customClassSwitcher';
 
 const COMPONENT_NAME = 'Select';
 
-// Create a context to share the open/close functionality
 
 
-function SelectRoot({ customRootClass, children, defaultOpen = false, ...props }: any) {
+function SelectRoot({ customRootClass, children, defaultValue, value, onValueChange, ...props }: any) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     
-    // Function to close the dropdown
   
     
     return (
   
             <SelectPrimitive.Root 
                 className={`${rootClass}-root`}
-           
+                defaultValue={defaultValue}
+                value={value}
+                onValueChange={onValueChange}
                 {...props}
             >
                 {children}

@@ -166,12 +166,12 @@
             opacity: 0.5;
         }
 
-        &[data-state="checked"] .rad-ui-select-item-indicator,
+    
         &[aria-selected="true"] .rad-ui-select-item-indicator {
             opacity: 1;
         }
 
-        &[data-state="checked"],
+      
         &[aria-selected="true"] {
             background-color: var(--rad-ui-color-accent-400);
             color: var(--rad-ui-color-accent-900);

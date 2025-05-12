@@ -127,3 +127,26 @@ export const MultipleSelects = () => {
 }; 
 
 
+export const ControlledExample  = () => {
+  const [value, setValue] = React.useState('');
+  return (
+    <SandboxEditor>
+      <div className="w-[240px]">
+        <Select.Root defaultValue="option1" value={value} onValueChange={setValue}>
+          <Select.Trigger>
+            helo
+          </Select.Trigger>
+          <Select.Content>
+            <Select.Item value='option1'>Option 1</Select.Item>
+            <Select.Item value='option2'>Option 2</Select.Item>
+            <Select.Item value='option3'>Option 3</Select.Item>
+          </Select.Content>
+        </Select.Root>
+      </div>
+
+      <div className='mt-32'>
+        <p className='text-gray-950'>Value: {value}</p>
+      </div>
+    </SandboxEditor>
+  )
+}
