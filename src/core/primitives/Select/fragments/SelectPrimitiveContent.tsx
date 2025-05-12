@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import Floater from '../../Floater';
-import { SelectContext } from '../contexts/SelectContext';
+import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-export type SelectContentProps = {
+export type SelectPrimitiveContentProps = {
     children: React.ReactNode
 }
 
-function SelectContent({children, ...props}: SelectContentProps) {
-    const {isOpen, setIsOpen} = useContext(SelectContext);
+function SelectPrimitiveContent({children, ...props}: SelectPrimitiveContentProps) {
+    const {isOpen, setIsOpen} = useContext(SelectPrimitiveContext);
     if (!isOpen) return null;
     return (
         <RovingFocusGroup.Group>
@@ -23,4 +23,4 @@ function SelectContent({children, ...props}: SelectContentProps) {
     );
 }
 
-export default SelectContent;
+export default SelectPrimitiveContent;

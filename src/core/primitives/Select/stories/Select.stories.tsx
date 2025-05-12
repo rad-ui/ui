@@ -34,3 +34,33 @@ export const BasicSelect = () => {
     </SandboxEditor>
   );
 };
+
+
+export const ControlledExample = () => {
+  const [value, setValue] = React.useState('option1');
+
+  return (
+    <SandboxEditor>
+    <SelectPrimitive.Root value={value} onValueChange={setValue}>
+   
+          <SelectPrimitive.Trigger>
+            helo
+          </SelectPrimitive.Trigger>
+          
+              <SelectPrimitive.Content>
+                  <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
+                  <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
+                
+                  <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+              </SelectPrimitive.Content>
+            
+          
+        
+      </SelectPrimitive.Root>
+
+      <div className='mt-4'>
+        Selected value {value}
+      </div>
+      </SandboxEditor>
+  )
+} 

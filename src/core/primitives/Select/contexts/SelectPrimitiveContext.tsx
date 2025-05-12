@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export type SelectContextType = {
+export type SelectPrimitiveContextType = {
     isOpen: boolean,
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
     selectedValue: string,
@@ -8,4 +8,4 @@ export type SelectContextType = {
     handleSelect: (value: string) => void
 }
 
-export const SelectContext = createContext<SelectContextType>({} as SelectContextType);
+export const SelectPrimitiveContext = createContext<SelectPrimitiveContextType>({} as SelectPrimitiveContextType);

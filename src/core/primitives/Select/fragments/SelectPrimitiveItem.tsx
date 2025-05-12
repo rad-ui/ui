@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import Primitive from '../../Primitive';
-import { SelectContext } from '../contexts/SelectContext';
+import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ButtonPrimitive from '../../Button';
 
-interface SelectItemProps {
+interface SelectPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
     disabled?: boolean
 }
 
-function SelectItem({children, value, disabled, ...props}: SelectItemProps) {
-    const { handleSelect} = useContext(SelectContext);
+function SelectPrimitiveItem({children, value, disabled, ...props}: SelectPrimitiveItemProps) {
+    const { handleSelect} = useContext(SelectPrimitiveContext);
     return (
         <RovingFocusGroup.Item>
         <ButtonPrimitive  disabled={disabled} data-value={value} onClick={()=> handleSelect(value)} {...props}>
@@ -21,4 +21,4 @@ function SelectItem({children, value, disabled, ...props}: SelectItemProps) {
     );
 }
 
-export default SelectItem;
+export default SelectPrimitiveItem;
