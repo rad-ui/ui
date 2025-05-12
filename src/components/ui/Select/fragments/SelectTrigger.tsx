@@ -13,9 +13,9 @@ function SelectTrigger({ customRootClass, children, disabled, placeholder, ...pr
             data-placeholder={placeholder ? '' : undefined}
             {...props}
         >
-            <span className={`${rootClass}-value`}>
+            
                 {children}
-            </span>
+            
         </SelectPrimitive.Trigger>
     );
 }
