@@ -8,13 +8,15 @@ export type AlertDialogTriggerProps = {
 }
 
 const AlertDialogTrigger = ({ children, asChild, ...props } : AlertDialogTriggerProps) => {
-    const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
+    const { rootClass, handleOpenChange, getReferenceProps, refs } = useContext(AlertDialogContext);
 
     return (
         <ButtonPrimitive
+            ref={refs.setReference}
             asChild={asChild}
-            onClick={() => handleOpenChange(true)} {...props}
+            onClick={() => handleOpenChange(true)}
             className={clsx(`${rootClass}-trigger`)}
+            {...getReferenceProps()}
         >
             {children}
         </ButtonPrimitive>

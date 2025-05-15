@@ -14,20 +14,23 @@ export default {
         return (
             <SandboxEditor>
                 <AlertDialog.Root>
-                    <AlertDialog.Trigger asChild>
-                        <Button>Open Dialog</Button>
+                    <AlertDialog.Trigger >
+                        <>Open Dialog</>
                     </AlertDialog.Trigger>
                     <AlertDialog.Portal>
                         <AlertDialog.Overlay />
                         <AlertDialog.Content>
-                            <div>
+                            <AlertDialog.Title>
                                 Are you sure you want to delete this account?
-                            </div>
-                            <AlertDialog.Action asChild>
-                                <Button>Confirm</Button>
+                            </AlertDialog.Title>
+                            <AlertDialog.Description>
+                                This action cannot be undone.
+                            </AlertDialog.Description>
+                            <AlertDialog.Action>
+                                <>Confirm</>
                             </AlertDialog.Action>
-                            <AlertDialog.Cancel asChild>
-                                <Button>Cancel</Button>
+                            <AlertDialog.Cancel>
+                                <>Cancel</>
                             </AlertDialog.Cancel>
                         </AlertDialog.Content>
 

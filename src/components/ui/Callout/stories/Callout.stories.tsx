@@ -11,7 +11,7 @@ const Sizes = ['small', 'medium', 'large', 'x-large'];
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'WIP/Callout',
+    title: 'Components/Callout',
     component: Callout,
     render: () => <>
         <SandboxEditor className="space-y-2">
