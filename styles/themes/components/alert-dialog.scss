@@ -1,6 +1,8 @@
 @use 'button';
 
 .rad-ui-alert-dialog-overlay {
+  position: fixed;
+  inset: 0;
   z-index: 50;
   background-color: rgba(0, 0, 0, 0.8);
   overflow: hidden;
@@ -22,7 +24,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 50;
+  z-index: 60;
   border: 1px solid var(--rad-ui-color-gray-500);
 
   .rad-ui-alert-dialog-title {
