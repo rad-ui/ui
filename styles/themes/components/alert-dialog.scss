@@ -1,4 +1,4 @@
-@use '~/styles/themes/components/button';
+@use 'button';
 
 .rad-ui-alert-dialog-overlay {
   z-index: 50;
@@ -47,11 +47,11 @@
     margin-right: 10px;
     border-radius: 4px;
     padding: 5px 10px;
-    color: var(--rad-ui-color-red-100);
-    background-color: var(--rad-ui-color-red-900);
+    color: var(--rad-ui-color-ruby-1000);
+    background-color: var(--rad-ui-color-ruby-500);
 
     &:hover {
-      background-color: var(--rad-ui-color-red-950);
+      background-color: var(--rad-ui-color-ruby-600);
     }
   }
 
@@ -63,9 +63,10 @@
     border-radius: 4px;
     padding: 5px 10px;
     color: var(--rad-ui-color-gray-1000);
+    background-color: var(--rad-ui-color-gray-100);
 
     &:hover {
-      background-color: var(--rad-ui-color-gray-200);
+      background-color: var(--rad-ui-color-gray-300);
     }
   }
 }
