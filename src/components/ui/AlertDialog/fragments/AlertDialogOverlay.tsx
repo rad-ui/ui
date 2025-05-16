@@ -10,7 +10,6 @@ const AlertDialogOverlay = () => {
             {isOpen && (
                 <Floater.Overlay
                     className={clsx(`${rootClass}-overlay`)} onClick={handleOverlayClick}>
-
                 </Floater.Overlay>
             )}
         </>

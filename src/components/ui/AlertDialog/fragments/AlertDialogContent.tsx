@@ -1,19 +1,23 @@
 import React, { useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import { clsx } from 'clsx';
+import Floater from '~/core/primitives/Floater';
+
 export type AlertDialogContentProps = {
     children: React.ReactNode;
 }
 
 const AlertDialogContent = ({ children } : AlertDialogContentProps) => {
-    const { isOpen, rootClass } = useContext(AlertDialogContext);
+    const { isOpen, rootClass, getFloatingProps, floaterContext, refs } = useContext(AlertDialogContext);
 
     return (
         <>
             {isOpen && (
-                <div className={clsx(`${rootClass}-content`)}>
-                    {children}
-                </div>
+                <Floater.FocusManager context={floaterContext} returnFocus={true}>
+                    <div ref={refs.setFloating} className={clsx(`${rootClass}-content`)} {...getFloatingProps()}>
+                        {children}
+                    </div>
+                </Floater.FocusManager>
             )}
         </>
     );

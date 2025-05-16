@@ -8,12 +8,13 @@ export type AlertDialogActionProps = {
 }
 
 const AlertDialogAction = ({ children, asChild } : AlertDialogActionProps) => {
-    const { rootClass, handleOpenChange } = useContext(AlertDialogContext);
+    const { rootClass, handleOpenChange, getItemProps } = useContext(AlertDialogContext);
     return (
         <ButtonPrimitive
             asChild={asChild}
             onClick={() => handleOpenChange(false)}
             className={clsx(`${rootClass}-action`)}
+            {...getItemProps()}
         >
             {children}
         </ButtonPrimitive>
