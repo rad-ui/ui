@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext } from 'react';
 import { clsx } from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';

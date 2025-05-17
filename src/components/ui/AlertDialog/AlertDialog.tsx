@@ -1,3 +1,5 @@
+'use client';
+
 import AlertDialogRoot from './fragments/AlertDialogRoot';
 import AlertDialogContent from './fragments/AlertDialogContent';
 import AlertDialogTrigger from './fragments/AlertDialogTrigger';

@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import ButtonPrimitive from '~/core/primitives/Button';

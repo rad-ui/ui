@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
