@@ -44,6 +44,10 @@ export const docsNavigationSections = [
                 path:"/docs/components/avatar-group"
             },
             {
+                title:"AlertDialog",
+                path:"/docs/components/alert-dialog"
+            },
+            {
                 title:"AspectRatio",
                 path:"/docs/components/aspect-ratio"
             },

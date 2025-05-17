@@ -14,13 +14,14 @@ const AlertDialog = () => {
 };
 
 AlertDialog.Root = AlertDialogRoot;
-AlertDialog.Content = AlertDialogContent;
 AlertDialog.Trigger = AlertDialogTrigger;
-AlertDialog.Portal = AlertDialogPortal;
+
 AlertDialog.Overlay = AlertDialogOverlay;
-AlertDialog.Cancel = AlertDialogCancel;
-AlertDialog.Action = AlertDialogAction;
+AlertDialog.Portal = AlertDialogPortal;
+AlertDialog.Content = AlertDialogContent;
 AlertDialog.Title = AlertDialogTitle;
 AlertDialog.Description = AlertDialogDescription;
+AlertDialog.Cancel = AlertDialogCancel;
+AlertDialog.Action = AlertDialogAction;
 
 export default AlertDialog;
