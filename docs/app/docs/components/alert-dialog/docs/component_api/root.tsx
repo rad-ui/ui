@@ -1,6 +1,6 @@
 const data = {
     name : "Root",
-    description : "The root component for the Accordion.",
+    description : "The root component for the AlertDialog.",
     columns : [
         {
             name : "Prop",
@@ -19,51 +19,42 @@ const data = {
        {
         prop : {
             name : "className",
-            info_tooltips : "The class name for the AccordionRoot."
+            info_tooltips : "The class name for the AlertDialogRoot."
         },
         type : "string",
         default : "--",
        },
        {
         prop : {
-            name : "openMultiple",
-            info_tooltips : "Whether to allow multiple items to be open at once."
+            name : "customRootClass",
+            info_tooltips : "The custom class name for the AlertDialogRoot."
+        },
+        type : "string",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "open",
+            info_tooltips : "The boolean to control the open state of the AlertDialogRoot."
         },
         type : "boolean",
         default : "false",
        },
        {
-        prop: {
-            name : "asChild",
-            info_tooltips: 'Whether to use the child component as the Accordion.'
+        prop : {
+            name : "onOpenChange",
+            info_tooltips : "The function to handle the open change of the AlertDialogRoot."
         },
-        type: 'boolean',
-        default: 'false',
+        type : "function",
+        default : "--",
        },
        {
-        prop: {
-            name : "loop",
-            info_tooltips: 'Whether to loop through the Accordion items.'
+        prop : {
+            name : "onClickOutside",
+            info_tooltips : "The function to handle the click outside of the AlertDialogRoot."
         },
-        type: 'boolean',
-        default: 'true',
-       },
-       {
-        prop: {
-            name : "orientation",
-            info_tooltips: 'The orientation of the Accordion.'
-        },
-        type: 'enum',
-        enum_values : ['horizontal', 'vertical'],
-        default: 'horizontal',
-       },
-       {
-        prop: {
-            name : "disableTabIndexing",
-            info_tooltips: 'Disables the roving tabindex behavior for keyboard navigation.'
-        },
-        type: 'boolean',
-        default: 'true',
+        type : "function",
+        default : "--",
        }
     ]
 }

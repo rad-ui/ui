@@ -11,11 +11,12 @@ export type AlertDialogRootProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onClickOutside?: () => void;
+    className?: string;
 }
 
 const COMPONENT_NAME = 'AlertDialog';
 
-const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, onClickOutside = () => {} } : AlertDialogRootProps) => {
+const AlertDialogRoot = ({ children, className = '', customRootClass = '', open, onOpenChange = () => {}, onClickOutside = () => {} } : AlertDialogRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const [isOpen, setIsOpen] = useState(open);
 
@@ -44,7 +45,7 @@ const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, o
     const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
         <AlertDialogContext.Provider value={props}>
-            <div className={clsx(rootClass)} >
+            <div className={clsx(rootClass, className)} >
                 {children}
             </div>
         </AlertDialogContext.Provider>

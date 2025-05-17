@@ -5,9 +5,14 @@ import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import Primitive from '~/core/primitives/Primitive';
 
-const AlertDialogTitle = ({ children }: { children: React.ReactNode }) => {
+type AlertDialogTitleProps = {
+    children: React.ReactNode;
+    className?: string;
+}
+
+const AlertDialogTitle = ({ children, className = '' }: AlertDialogTitleProps) => {
     const { rootClass } = useContext(AlertDialogContext);
-    return <Primitive.h2 className={`${rootClass}-title`}>{children}</Primitive.h2>;
+    return <Primitive.h2 className={`${rootClass}-title ${className}`}>{children}</Primitive.h2>;
 };
 
 export default AlertDialogTitle;
