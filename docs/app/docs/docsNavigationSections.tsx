@@ -44,6 +44,11 @@ export const docsNavigationSections = [
                 path:"/docs/components/avatar-group"
             },
             {
+                title:"AlertDialog",
+                path:"/docs/components/alert-dialog",
+                is_new:true
+            },
+            {
                 title:"AspectRatio",
                 path:"/docs/components/aspect-ratio"
             },
@@ -102,6 +107,16 @@ export const docsNavigationSections = [
             {
                 title:"Switch",
                 path:"/docs/components/switch"
+            },
+            {
+                title:"Table",
+                path:"/docs/components/table",
+                is_new:true
+            },
+            {
+                title:"Tabs",
+                path:"/docs/components/tabs",
+                is_new:true
             },
             {
                 title:"Toggle",
