@@ -1,6 +1,6 @@
 const data = {
-    name : "Trigger",
-    description : "The trigger component for the Accordion. This component is used to toggle the visibility of the AccordionItem.",
+    name : "Row",
+    description : "The row component for the Table.",
     columns : [
         {
             name : "Prop",
@@ -19,19 +19,17 @@ const data = {
        {
         prop : {
             name : "className",
-            info_tooltips : "The class name for the AccordionTrigger."
+            info_tooltips : "The class name for the TableRow."
         },
         type : "string",
         default : "--",
        },
        {
-        prop: {
-            name : "asChild",
-            info_tooltips: 'Whether to use the child component as the AccordionTrigger.'
+        prop : {
+            name : "children",
+            info_tooltips : "The children of the Row."
         },
-        type: 'boolean',
-        default: 'false',
-       }
+       },
     ]
 }
 

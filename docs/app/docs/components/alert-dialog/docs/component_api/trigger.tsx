@@ -1,6 +1,6 @@
 const data = {
     name : "Trigger",
-    description : "The trigger component for the Accordion. This component is used to toggle the visibility of the AccordionItem.",
+    description : "The trigger component for the AlertDialog.",
     columns : [
         {
             name : "Prop",
@@ -19,7 +19,7 @@ const data = {
        {
         prop : {
             name : "className",
-            info_tooltips : "The class name for the AccordionTrigger."
+            info_tooltips : "The class name for the AlertDialogTrigger."
         },
         type : "string",
         default : "--",
@@ -27,7 +27,7 @@ const data = {
        {
         prop: {
             name : "asChild",
-            info_tooltips: 'Whether to use the child component as the AccordionTrigger.'
+            info_tooltips: 'Whether to use the child component as the AlertDialogTrigger.'
         },
         type: 'boolean',
         default: 'false',

@@ -1,6 +1,6 @@
 const data = {
-    name : "Root",
-    description : "The root component for the Table.",
+    name : "ColumnHeader",
+    description : "The column header component for the Table.",
     columns : [
         {
             name : "Prop",
@@ -19,7 +19,7 @@ const data = {
        {
         prop : {
             name : "className",
-            info_tooltips : "The class name for the TableRoot."
+            info_tooltips : "The class name for the ColumnHeader."
         },
         type : "string",
         default : "--",
@@ -27,7 +27,7 @@ const data = {
        {
         prop : {
             name : "children",
-            info_tooltips : "The children of the Root."
+            info_tooltips : "The children of the ColumnHeader."
         },
        },
     ]

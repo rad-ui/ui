@@ -1,40 +1,107 @@
 "use client"
-import Accordion from "@radui/ui/Accordion";
+import Table from "@radui/ui/Table";
 
-const items = [
-  {
-    id: "react",
-    title: "React",
-    content: "React is a JavaScript library for building user interfaces."
+const columns = [
+  { name: 'Name', id: 'name' },
+  { name: 'Role', id: 'role' },
+  { name: 'Ability', id: 'ability' },
+  { name: 'Ship', id: 'ship' },
+  { name: 'Status', id: 'status' }
+];
+
+const data = [
+  { 
+    id: '1', 
+    name: 'Neo (Thomas Anderson)', 
+    role: 'The One', 
+    ability: 'Code manipulation, Flight', 
+    ship: 'Nebuchadnezzar',
+    status: 'Awakened' 
   },
-  {
-    id: "angular",
-    title: "Angular",
-    content: "Angular is a platform and framework for building single-page client applications using HTML and TypeScript."
+  { 
+    id: '2', 
+    name: 'Trinity', 
+    role: 'First Mate', 
+    ability: 'Hacking, Combat',
+    ship: 'Nebuchadnezzar',
+    status: 'Awakened' 
   },
-  {
-    id: "vue",
-    title: "Vue",
-    content: "Vue.js is a progressive framework for building user interfaces."
+  { 
+    id: '3', 
+    name: 'Morpheus', 
+    role: 'Captain', 
+    ability: 'Leadership, Combat',
+    ship: 'Nebuchadnezzar',
+    status: 'Awakened' 
+  },
+  { 
+    id: '4', 
+    name: 'Agent Smith', 
+    role: 'Agent', 
+    ability: 'Replication, Possession',
+    ship: 'None',
+    status: 'Program' 
+  },
+  { 
+    id: '5', 
+    name: 'Cypher', 
+    role: 'Operator', 
+    ability: 'Matrix Monitoring',
+    ship: 'Nebuchadnezzar',
+    status: 'Traitor' 
+  },
+  { 
+    id: '6', 
+    name: 'Oracle', 
+    role: 'Guide', 
+    ability: 'Foresight',
+    ship: 'None',
+    status: 'Program' 
+  },
+  { 
+    id: '7', 
+    name: 'Niobe', 
+    role: 'Captain', 
+    ability: 'Piloting, Combat',
+    ship: 'Logos',
+    status: 'Awakened' 
+  },
+  { 
+    id: '8', 
+    name: 'Tank', 
+    role: 'Operator', 
+    ability: 'Matrix Monitoring',
+    ship: 'Nebuchadnezzar',
+    status: 'Born Free' 
   }
-]
+];
 
-const AccordionExample = () => {
-
-
+const TableExample = () => {
   return (
-  <div className="w-64 md:w-96">
-    <Accordion.Root>
-      {items.map((item) => (
-        <Accordion.Item key={item.id} value={item.id}>
-          <Accordion.Header>
-            <Accordion.Trigger>{item.title}</Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Content>{item.content}</Accordion.Content>
-        </Accordion.Item>
-      ))}
-    </Accordion.Root>
+  <div className="w-full max-w-4xl">
+     <Table.Root>
+            <Table.Head>
+                <Table.Row>
+                    {columns.map((column) => (
+                        <Table.ColumnCellHeader key={column.id}>
+                            {column.name}
+                        </Table.ColumnCellHeader>
+                    ))}
+                </Table.Row>
+            </Table.Head>
+            <Table.Body>
+                {data.map((row) => (
+                    <Table.Row key={row.id}>
+                        {columns.map((column) => (
+                            <Table.Cell key={`${row.id}-${column.id}`}>
+                                {row[column.id]}
+                            </Table.Cell>
+                        ))}
+                    </Table.Row>
+                ))}
+            </Table.Body>
+        </Table.Root>
   </div>)
 }
 
-export default AccordionExample;
+export default TableExample;

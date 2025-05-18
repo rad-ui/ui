@@ -1,14 +1,18 @@
-import Accordion from "@radui/ui/Accordion";
+import Table from "@radui/ui/Table";
 
 export default () => {
     return (
-        <Accordion.Root>
-            <Accordion.Item>
-                <Accordion.Header>
-                    <Accordion.Trigger />
-                </Accordion.Header>
-                <Accordion.Content />
-            </Accordion.Item>
-        </Accordion.Root>
+        <Table.Root>
+            <Table.Head>
+                <Table.Row>
+                    <Table.ColumnHeader/>
+                </Table.Row>
+            </Table.Head>
+            <Table.Body>
+                <Table.Row>
+                    <Table.Cell/>
+                </Table.Row>
+            </Table.Body>
+        </Table.Root>
     )
 }

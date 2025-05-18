@@ -1,25 +1,21 @@
-import accordionMetadata from "./seo"
+import tableMetadata from "./seo"
 
-export const metadata = accordionMetadata
+export const metadata = tableMetadata
 
 import PageDetails from '@/components/seo/PageDetails';
 
 import Documentation from '@/components/layout/Documentation/Documentation';
-import AccordionExample from "./docs/example_1"
-import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
-
-
-
-
+import TableExample from "./docs/example_1"
+import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
 <Documentation
-    title={`Accordion`}
-    description='Accordions are a common UX pattern that can help reduce the amount of information presented to users. They are used to toggle the visibility of content, condensing information and reducing clutter.'
+    title={`Table`}
+    description='Table is a component that displays data in a structured format. It is used to display data in a table format.'
 >
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
-        <AccordionExample />
+        <TableExample />
     </Documentation.ComponentHero>
 
 
@@ -29,9 +25,10 @@ import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUs
 
     {/* API Documentation */}
     <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-    <Documentation.Table title="Item" description={api_documentation.item.description} columns={api_documentation.item.columns} data={api_documentation.item.data} />
-    <Documentation.Table title="Trigger" description={api_documentation.trigger.description} columns={api_documentation.trigger.columns} data={api_documentation.trigger.data} />
+    <Documentation.Table title="Head" description={api_documentation.head.description} columns={api_documentation.head.columns} data={api_documentation.head.data} />
+    <Documentation.Table title="Body" description={api_documentation.body.description} columns={api_documentation.body.columns} data={api_documentation.body.data} />
+    <Documentation.Table title="Row" description={api_documentation.row.description} columns={api_documentation.row.columns} data={api_documentation.row.data} />
+    <Documentation.Table title="Column Header" description={api_documentation.column_header.description} columns={api_documentation.column_header.columns} data={api_documentation.column_header.data} />
+    <Documentation.Table title="Cell" description={api_documentation.cell.description} columns={api_documentation.cell.columns} data={api_documentation.cell.data} />
 
-    {/* Keyboard Shortcuts */}
-    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 </Documentation>

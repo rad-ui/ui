@@ -1,11 +1,11 @@
-import accordionMetadata from "./seo"
+import tabsMetadata from "./seo"
 
-export const metadata = accordionMetadata
+export const metadata = tabsMetadata
 
 import PageDetails from '@/components/seo/PageDetails';
 
 import Documentation from '@/components/layout/Documentation/Documentation';
-import AccordionExample from "./docs/example_1"
+import TabsExample from "./docs/example_1"
 import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
 
@@ -13,13 +13,13 @@ import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
 
 <Documentation
-    title={`Accordion`}
-    description='Accordions are a common UX pattern that can help reduce the amount of information presented to users. They are used to toggle the visibility of content, condensing information and reducing clutter.'
+    title={`Tabs`}
+    description='Tabs are used to switch between different views of a component.'
 >
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
-        <AccordionExample />
+        <TabsExample />
     </Documentation.ComponentHero>
 
 

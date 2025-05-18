@@ -1,16 +1,12 @@
-import accordionMetadata from "./seo"
+import alertDialogMetadata from "./seo"
 
-export const metadata = accordionMetadata
+export const metadata = alertDialogMetadata
 
 import PageDetails from '@/components/seo/PageDetails';
 
 import Documentation from '@/components/layout/Documentation/Documentation';
-import AccordionExample from "./docs/example_1"
+import AlertDialogExample from "./docs/example_1"
 import {code, anatomy, api_documentation} from "./docs/codeUsage"
-
-
-
-
 
 <Documentation
     title={`AlertDialog`}
@@ -19,7 +15,7 @@ import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
-        <AccordionExample />
+        <AlertDialogExample />
     </Documentation.ComponentHero>
 
 
