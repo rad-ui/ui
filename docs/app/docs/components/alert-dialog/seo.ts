@@ -1,9 +1,9 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const accordionMetadata = generateSeoMetadata({
-    title: "Accordion - Rad UI",
-    description: "A headless, customizable Accordion component for React. Manage content visibility, declutter your UI, and enhance user experience, with full WCAG compliance."
+const alertDialogMetadata = generateSeoMetadata({
+    title: "Alert Dialog - Rad UI",
+    description: "A headless, customizable Alert Dialog component for React. Display important information, confirm actions, and engage users with customizable dialogs."
 });
 
 
-export default accordionMetadata
+export default alertDialogMetadata

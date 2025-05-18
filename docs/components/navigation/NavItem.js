@@ -17,7 +17,7 @@ const NavItem = ({ item, path, setIsDocsNavOpen }) => {
             <div>
             {item?.title}
             </div>
-            {item.is_new?<div className='text-xs'><Badge color="purple">New!</Badge></div>:null}
+            {item.is_new?<div style={{fontSize:'10px'}}><Badge color="orange" customRootClass="rad-ui-docs" className="text-xs bg-green-500 px-2 py-1 rounded-lg text-green-900">New</Badge></div>:null}
         </div>
        </Link>
 

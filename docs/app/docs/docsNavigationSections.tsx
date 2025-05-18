@@ -45,7 +45,8 @@ export const docsNavigationSections = [
             },
             {
                 title:"AlertDialog",
-                path:"/docs/components/alert-dialog"
+                path:"/docs/components/alert-dialog",
+                is_new:true
             },
             {
                 title:"AspectRatio",
