@@ -10,10 +10,14 @@ const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components
 //
 
 import root_api_SourceCode from './component_api/root.tsx';
-import item_api_SourceCode from './component_api/item.tsx';
 import trigger_api_SourceCode from './component_api/trigger.tsx';
 import title_api_SourceCode from './component_api/title.tsx';
-
+import description_api_SourceCode from './component_api/description.tsx';
+import portal_api_SourceCode from './component_api/portal.tsx';
+import overlay_api_SourceCode from './component_api/overlay.tsx';
+import content_api_SourceCode from './component_api/content.tsx';
+import cancel_api_SourceCode from './component_api/cancel.tsx';
+import action_api_SourceCode from './component_api/action.tsx';
 export const code = {
     javascript: {
         code: example_1_SourceCode
@@ -29,9 +33,14 @@ export const anatomy = {
 
 export const api_documentation = {
     root: root_api_SourceCode,
-    item: item_api_SourceCode,
     trigger: trigger_api_SourceCode,
-    title: title_api_SourceCode
+    title: title_api_SourceCode,
+    description: description_api_SourceCode,
+    portal: portal_api_SourceCode,
+    overlay: overlay_api_SourceCode,
+    content: content_api_SourceCode,
+    cancel: cancel_api_SourceCode,
+    action: action_api_SourceCode
 }
 
 export default code

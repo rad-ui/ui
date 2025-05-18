@@ -6,9 +6,11 @@ import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 export type AlertDialogTriggerProps = {
     children: React.ReactNode;
+    asChild?: boolean;
+    className?: string;
 }
 
-const AlertDialogTrigger = ({ children, asChild, ...props } : AlertDialogTriggerProps) => {
+const AlertDialogTrigger = ({ children, asChild, className = '', ...props } : AlertDialogTriggerProps) => {
     const { rootClass, handleOpenChange, getReferenceProps, refs } = useContext(AlertDialogContext);
 
     return (
@@ -16,8 +18,9 @@ const AlertDialogTrigger = ({ children, asChild, ...props } : AlertDialogTrigger
             ref={refs.setReference}
             asChild={asChild}
             onClick={() => handleOpenChange(true)}
-            className={clsx(`${rootClass}-trigger`)}
+            className={clsx(`${rootClass}-trigger`, className)}
             {...getReferenceProps()}
+            {...props}
         >
             {children}
         </ButtonPrimitive>
