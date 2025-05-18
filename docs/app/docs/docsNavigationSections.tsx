@@ -109,6 +109,16 @@ export const docsNavigationSections = [
                 path:"/docs/components/switch"
             },
             {
+                title:"Table",
+                path:"/docs/components/table",
+                is_new:true
+            },
+            {
+                title:"Tabs",
+                path:"/docs/components/tabs",
+                is_new:true
+            },
+            {
                 title:"Toggle",
                 path:"/docs/components/toggle"
             },
