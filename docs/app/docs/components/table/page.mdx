@@ -1,0 +1,34 @@
+import tableMetadata from "./seo"
+
+export const metadata = tableMetadata
+
+import PageDetails from '@/components/seo/PageDetails';
+
+import Documentation from '@/components/layout/Documentation/Documentation';
+import TableExample from "./docs/example_1"
+import {code, anatomy, api_documentation} from "./docs/codeUsage"
+
+<Documentation
+    title={`Table`}
+    description='Table is a component that displays data in a structured format. It is used to display data in a table format.'
+>
+
+    {/* Component Hero */}
+    <Documentation.ComponentHero codeUsage={code}>
+        <TableExample />
+    </Documentation.ComponentHero>
+
+
+    {/* Component Anatomy */}
+    <Documentation.Section title="API Documentation" as="h2"  />
+    <Documentation.Anatomy code={anatomy.code} />
+
+    {/* API Documentation */}
+    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
+    <Documentation.Table title="Head" description={api_documentation.head.description} columns={api_documentation.head.columns} data={api_documentation.head.data} />
+    <Documentation.Table title="Body" description={api_documentation.body.description} columns={api_documentation.body.columns} data={api_documentation.body.data} />
+    <Documentation.Table title="Row" description={api_documentation.row.description} columns={api_documentation.row.columns} data={api_documentation.row.data} />
+    <Documentation.Table title="Column Header" description={api_documentation.column_header.description} columns={api_documentation.column_header.columns} data={api_documentation.column_header.data} />
+    <Documentation.Table title="Cell" description={api_documentation.cell.description} columns={api_documentation.cell.columns} data={api_documentation.cell.data} />
+
+</Documentation>

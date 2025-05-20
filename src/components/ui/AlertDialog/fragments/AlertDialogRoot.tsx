@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { customClassSwitcher } from '~/core';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
@@ -10,12 +11,12 @@ export type AlertDialogRootProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onClickOutside?: () => void;
+    className?: string;
 }
 
 const COMPONENT_NAME = 'AlertDialog';
 
-const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, onClickOutside = () => {} } : AlertDialogRootProps) => {
-    const { context: floaterContext } = Floater.useFloating();
+const AlertDialogRoot = ({ children, className = '', customRootClass = '', open, onOpenChange = () => {}, onClickOutside = () => {} } : AlertDialogRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const [isOpen, setIsOpen] = useState(open);
 
@@ -28,10 +29,23 @@ const AlertDialogRoot = ({ children, customRootClass = '', open, onOpenChange, o
         onClickOutside();
     };
 
-    const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick };
+    const { context: floaterContext, refs, floatingStyles } = Floater.useFloating({
+        open: isOpen,
+        onOpenChange: handleOpenChange
+    });
+
+    const dismiss = Floater.useDismiss(floaterContext);
+    const role = Floater.useRole(floaterContext, { role: 'dialog' });
+
+    const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
+        dismiss,
+        role
+    ]);
+
+    const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
         <AlertDialogContext.Provider value={props}>
-            <div className={clsx(rootClass)} >
+            <div className={clsx(rootClass, className)} >
                 {children}
             </div>
         </AlertDialogContext.Provider>
