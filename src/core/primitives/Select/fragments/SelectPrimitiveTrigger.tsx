@@ -9,7 +9,9 @@ function SelectPrimitiveTrigger({children, ...props}: SelectPrimitiveTriggerProp
     const {isOpen, setIsOpen, selectedValue} = useContext(SelectPrimitiveContext);
     if (isOpen) return null;
     return (
-        <Primitive.button onClick={() => setIsOpen(!isOpen)} {...props}>
+        <Primitive.button onClick={() => setIsOpen(!isOpen)} {...props}
+        aria-expanded={isOpen}
+        role='combobox'>
             {selectedValue? selectedValue : children}
         </Primitive.button>
     );

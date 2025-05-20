@@ -30,7 +30,9 @@ function SelectPrimitiveRoot({children,className,value,defaultValue ='',onValueC
     return (
         <SelectPrimitiveContext.Provider value={values} >
             <RovingFocusGroup.Root>
-        <Primitive.div {...props} className={className}>
+        <Primitive.div {...props} className={className}
+        
+        >
   {children}
         </Primitive.div>
           
