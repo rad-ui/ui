@@ -9,7 +9,7 @@ const ScrollAreaTemplate = (args) => {
     return (
         <SandboxEditor>
             <ScrollArea.Root>
-                <ScrollArea.Viewport className='h-[300px]'>
+                <ScrollArea.Viewport className='h-[200px] w-[400px]'>
                     <div className='bg-gray-100 p-4'>
                         <Heading>Scroll Area</Heading>
                         <Text>This is scrollArea content</Text>

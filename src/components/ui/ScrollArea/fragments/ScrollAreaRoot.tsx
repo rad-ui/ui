@@ -55,7 +55,51 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
         }
     };
 
-    return <ScrollAreaContext.Provider value={{ rootClass, scrollXThumbRef, scrollAreaViewportRef, handleScroll }}>
+    const scrollToPosition = (position: number) => {
+        const scrollAreaContainerHeight = scrollAreaViewportRef?.current?.clientHeight || 0;
+
+
+        // FUll height
+        const scrollAreaHeight = scrollAreaViewportRef?.current?.scrollHeight || 0;
+     
+        const factor = scrollAreaHeight / scrollAreaContainerHeight
+
+
+        if (scrollXThumbRef.current) {
+            const thumbPositionStart = scrollXThumbRef.current.getBoundingClientRect().top
+            const thumbPositionEnd = thumbPositionStart + scrollXThumbRef.current.clientHeight
+            const scrollThumbHeight = scrollXThumbRef.current?.clientHeight || 0;
+        
+            if (position > thumbPositionStart && position < thumbPositionEnd) {
+                return;
+            }
+
+
+            if (position < thumbPositionStart) {
+                // scroll to top
+                scrollAreaViewportRef.current?.scrollTo({
+                    top: scrollAreaViewportRef.current.scrollTop - (scrollThumbHeight * factor),
+                })
+            }
+
+            if (position > thumbPositionEnd) {
+                // scroll to bottom
+                scrollAreaViewportRef.current?.scrollTo({
+                    top: scrollAreaViewportRef.current.scrollTop + (scrollThumbHeight * factor),
+                })
+
+            }
+        }
+
+    }
+
+     const handleScrollbarClick = (e: { clientY: any; }) => {
+        const clientClickY = e.clientY
+        scrollToPosition(clientClickY)
+
+    }
+
+    return <ScrollAreaContext.Provider value={{ rootClass, scrollXThumbRef, scrollAreaViewportRef, handleScroll, handleScrollbarClick }}>
         <div className={clsx(rootClass, className)} {...props} >{children}</div>
     </ScrollAreaContext.Provider>;
 };

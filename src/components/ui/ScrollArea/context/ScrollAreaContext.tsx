@@ -5,6 +5,7 @@ interface ScrollAreaContextType {
     scrollXThumbRef?: RefObject<HTMLDivElement>;
     scrollAreaViewportRef?: RefObject<HTMLDivElement>;
     handleScroll?: () => void;
+    handleScrollbarClick?: (e : { clientY: any; }) => void;
 }
 
 export const ScrollAreaContext = createContext<ScrollAreaContextType>({
