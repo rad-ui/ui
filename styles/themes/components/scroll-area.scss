@@ -1,0 +1,44 @@
+.rad-ui-scroll-area {
+    overflow: hidden;
+    height: fit-content;
+    width: fit-content;
+    position: relative;
+
+    .rad-ui-scroll-area-viewport {
+        overflow-y: scroll;
+
+        position: relative;
+
+        /* Add these to hide native scrollbars: */
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE/Edge */
+
+        border-radius: 6px;
+        border: 1px solid var(--rad-ui-color-gray-600);
+
+    }
+
+    .rad-ui-scroll-area-scrollbar {
+        /* Position it on the right side */
+        position: absolute;
+
+        top: 0;
+        right: 0;
+        width: 12px;
+        background: var(--rad-ui-color-gray-200);
+        /* Track color */
+        border-radius: 6px;
+    }
+
+    .rad-ui-scroll-area-thumb {
+        position: relative;
+        /* Make it a thin rectangle */
+        width: 100%;
+        height: 20px;
+        background: var(--rad-ui-color-gray-800);
+        /* Thumb color */
+        border-radius: 6px;
+    }
+}
