@@ -22,29 +22,29 @@ function SelectPrimitiveRoot({children,className,value,defaultValue ='',onValueC
         onValueChange
     );
     
-    const handleOverlayClick = () => {
-        onClickOutside();
-    };
+
     const handleSelect= (value:string) => {
         setSelectedValue(value);
         setIsOpen(false)
     }
-    const { context: floaterContext, refs, floatingStyles } = Floater.useFloating({
-        open: isOpen,
-    });
 
-    const dismiss = Floater.useDismiss(floaterContext, {
-        enabled: true,
-    escapeKey: true,
-    outsidePress: true 
-    });
-    const role = Floater.useRole(floaterContext, { role: 'select' });
+    const {refs, floatingStyles, context :floatingContext} = Floater.useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+  });
 
-    const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
-        dismiss,
-        role
-    ]);
-    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floaterContext, refs, floatingStyles, getReferenceProps, getFloatingProps, getItemProps,handleOverlayClick };
+//   const click = Floater.useClick(context);
+  const dismiss = Floater.useDismiss(floatingContext);
+  const role = Floater.useRole(floatingContext);
+ 
+  // Merge all the interactions into prop getters
+  const {getReferenceProps, getFloatingProps} = Floater.useInteractions([
+    // click,
+    dismiss,
+    role,
+  ]);
+    
+    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect,floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles };
 
     return (
         <SelectPrimitiveContext.Provider value={values} >

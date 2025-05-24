@@ -10,7 +10,7 @@ export type SelectPrimitiveContentProps = {
 }
 
 function SelectPrimitiveContent({children, ...props}: SelectPrimitiveContentProps) {
-    const {isOpen, setIsOpen, selectedValue, getFloatingProps, floaterContext, refs} = useContext(SelectPrimitiveContext);
+    const {isOpen, setIsOpen, selectedValue, floatingContext, refs, getFloatingProps} = useContext(SelectPrimitiveContext);
     // if (!isOpen) return null;
     // const contentRef = React.useRef<HTMLDivElement>(null);
     // useEffect(() => {
@@ -41,16 +41,19 @@ function SelectPrimitiveContent({children, ...props}: SelectPrimitiveContentProp
     return (
         <>
         {isOpen &&(
-            <Floater.FocusManager context={floaterContext} returnFocus={true}>
+            <Floater.FocusManager context={floatingContext}>
             <RovingFocusGroup.Group>
-        <Primitive.div {...props} {...getFloatingProps()} ref={refs.setFloating}>
+        <Primitive.div 
+        ref={refs.setFloating}
+        // style={floatingStyles}
+        {...getFloatingProps()}
+        {...props} >
             
                 {children}
             
         </Primitive.div>
         </RovingFocusGroup.Group>
-        </Floater.FocusManager>
-
+</Floater.FocusManager>
         )}
         </>
         
