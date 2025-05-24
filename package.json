@@ -27,6 +27,7 @@
     "./Progress": "./dist/components/Progress.js",
     "./Quote": "./dist/components/Quote.js",
     "./RadioGroup": "./dist/components/RadioGroup.js",
+    "./ScrollArea": "./dist/components/ScrollArea.js",
     "./Separator": "./dist/components/Separator.js",
     "./Skeleton": "./dist/components/Skeleton.js",
     "./Strong": "./dist/components/Strong.js",

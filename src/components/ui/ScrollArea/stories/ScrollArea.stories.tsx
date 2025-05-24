@@ -9,15 +9,19 @@ const ScrollAreaTemplate = (args) => {
     return (
         <SandboxEditor>
             <ScrollArea.Root>
-                <ScrollArea.Viewport className='h-[200px] w-[400px]'>
-                    <div className='bg-gray-100 p-4'>
+                <ScrollArea.Viewport>
+                    <div className='bg-gray-100 text-gray-950 p-4 max-h-screen'>
                         <Heading>Scroll Area</Heading>
                         <Text>This is scrollArea content</Text>
 
-                        <Heading as='h2'>Scroll Area</Heading>
-                        <Text>
+                        {Array.from({ length: 10 }).map((_, index) => (
+                            <>
+                                <Heading as='h2'>Scroll Area</Heading>
+                                <Text>
                         Versions of the Lorem ipsum text have been used in typesetting at least since the 1960s, when it was popularized by advertisements for Letraset transfer sheets. It is typically a corrupted version of De finibus bonorum et malorum, a 1st-century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.Versions of the Lorem ipsum text have been used in typesetting at least since the 1960s, when it was popularized by advertisements for Letraset transfer sheets. It is typically a corrupted version of De finibus bonorum et malorum, a 1st-century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.Versions of the Lorem ipsum text have been used in typesetting at least since the 1960s, when it was popularized by advertisements for Letraset transfer sheets. It is typically a corrupted version of De finibus bonorum et malorum, a 1st-century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.
-                        </Text>
+                                </Text>
+                            </>
+                        ))}
 
                     </div>
                 </ScrollArea.Viewport>
