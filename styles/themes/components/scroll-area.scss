@@ -14,6 +14,10 @@
         /* Firefox */
         -ms-overflow-style: none;
         /* IE/Edge */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        /* Webkit browsers */
 
         border-radius: 6px;
         border: 1px solid var(--rad-ui-color-gray-600);
