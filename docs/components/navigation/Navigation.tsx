@@ -42,7 +42,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     }, [pathname])
 
 
-    return <ScrollArea.Root style={{ width: "100%" }}>
+    return <ScrollArea.Root>
         <ScrollArea.Viewport style={{ height: "100%" }}>
           <div className="min-w-[240px]">
              <div className='flex-none pb-20 w-full lg:w-[240px] lg:bg-transparent'>
