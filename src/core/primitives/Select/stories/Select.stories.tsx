@@ -8,8 +8,10 @@ export default {
   component: SelectPrimitive,
 } as Meta;
 
-export const BasicSelect = () => {
-
+export const BasicSelect = ({onClickOutside}:any) => {
+  const handleOverlayClick = () => {
+        onClickOutside();
+    };
   
   return (
     <SandboxEditor>
@@ -19,7 +21,7 @@ export const BasicSelect = () => {
           <SelectPrimitive.Trigger>
             helo
           </SelectPrimitive.Trigger>
-          
+     <SelectPrimitive.Overlay />
               <SelectPrimitive.Content>
                   <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
                   <SelectPrimitive.Item value='option2'disabled >Option 2</SelectPrimitive.Item>
@@ -46,7 +48,7 @@ export const ControlledExample = () => {
           <SelectPrimitive.Trigger>
             helo
           </SelectPrimitive.Trigger>
-          
+          <SelectPrimitive.Overlay />
               <SelectPrimitive.Content>
                   <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
                   <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>

@@ -6,11 +6,13 @@ export type SelectPrimitiveTriggerProps = {
     children: React.ReactNode
 };
 function SelectPrimitiveTrigger({children, ...props}: SelectPrimitiveTriggerProps) {
-    const {isOpen, setIsOpen, selectedValue} = useContext(SelectPrimitiveContext);
+    const {isOpen, setIsOpen, selectedValue, getReferenceProps, refs  } = useContext(SelectPrimitiveContext);
     if (isOpen) return null;
     return (
         <Primitive.button onClick={() => setIsOpen(!isOpen)} {...props}
         aria-expanded={isOpen}
+        ref={refs.setReference}
+        {...getReferenceProps()}
         role='combobox'>
             {selectedValue? selectedValue : children}
         </Primitive.button>

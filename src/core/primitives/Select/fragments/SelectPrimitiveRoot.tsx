@@ -3,6 +3,7 @@ import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
+import Floater from '~/core/primitives/Floater';
 
 export type SelectPrimitiveRootProps = {
     children: React.ReactNode,
@@ -10,9 +11,10 @@ export type SelectPrimitiveRootProps = {
     value?: string,
     defaultValue?: string,
     onValueChange?: (value: string) => void
+    onClickOutside?: () => void;
 }
 
-function SelectPrimitiveRoot({children,className,value,defaultValue ='',onValueChange, ...props}: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({children,className,value,defaultValue ='',onValueChange, onClickOutside = () => {} , ...props}: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -20,12 +22,29 @@ function SelectPrimitiveRoot({children,className,value,defaultValue ='',onValueC
         onValueChange
     );
     
-
+    const handleOverlayClick = () => {
+        onClickOutside();
+    };
     const handleSelect= (value:string) => {
         setSelectedValue(value);
         setIsOpen(false)
     }
-    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect };
+    const { context: floaterContext, refs, floatingStyles } = Floater.useFloating({
+        open: isOpen,
+    });
+
+    const dismiss = Floater.useDismiss(floaterContext, {
+        enabled: true,
+    escapeKey: true,
+    outsidePress: true 
+    });
+    const role = Floater.useRole(floaterContext, { role: 'select' });
+
+    const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
+        dismiss,
+        role
+    ]);
+    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floaterContext, refs, floatingStyles, getReferenceProps, getFloatingProps, getItemProps,handleOverlayClick };
 
     return (
         <SelectPrimitiveContext.Provider value={values} >
