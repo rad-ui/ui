@@ -28,7 +28,12 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
         const scrollAreaHeight = scrollAreaViewportRef?.current?.scrollHeight || 0;
 
         const factor = scrollAreaHeight / scrollAreaContainerHeight;
-        const finalHeight = (scrollAreaContainerHeight / factor);
+        let finalHeight = (scrollAreaContainerHeight / factor);
+
+        // cap the minimum height to 10px
+        if (finalHeight < 24) {
+            finalHeight = 24;
+        }
 
         if (scrollXThumbRef.current) {
             scrollXThumbRef.current.style.height = `${finalHeight}px`;
