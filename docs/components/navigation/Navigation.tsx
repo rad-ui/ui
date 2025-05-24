@@ -1,12 +1,16 @@
-"use client"
+'use client'
 
-import NavItem from './NavItem.js'
+
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 
 import docsSections from "@/app/docs/docsNavigationSections"
+
+import ScrollArea from "@radui/ui/ScrollArea"
+
+import Category from './Category'
 
 const defaultSections = [
     {
@@ -38,31 +42,31 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     }, [pathname])
 
 
-    const Category = ({ categoryItem, pathname, setIsDocsNavOpen }) => {
-        return <div className="px-2">
-            <div className='px-2 py-2 font-medium text-xs text-gray-1000'>{categoryItem.title}</div>
-            <ul>
-                {categoryItem.items.map((item, itemKey) => {
-                    return <li key={itemKey} onClick={() => setIsDocsNavOpen(false)}>
-                        <NavItem item={item} path={pathname} setIsDocsNavOpen={setIsDocsNavOpen} />
-                    </li>
+    return <ScrollArea.Root style={{ width: "100%" }}>
+        <ScrollArea.Viewport style={{ height: "100%" }}>
+          <div className="min-w-[240px]">
+             <div className='flex-none pb-20 w-full lg:w-[240px] lg:bg-transparent'>
+                {sections.map((section, i) => {
+                    const isCategory = section.type === "CATEGORY";
+                    if (isCategory) {
+                        return <Category key={i} categoryItem={section} pathname={pathname} setIsDocsNavOpen={setIsDocsNavOpen} />
+                    }
+                    else{
+                        return <div key={i} className='h-10 w-full bg-gray-100'>
+                            Hello
+                        </div>
+                    }
                 })}
-            </ul>
-        </div>
-    }
+            </div> 
+          </div>
+            
+        </ScrollArea.Viewport>
+        <ScrollArea.Scrollbar orientation='vertical' >
+            <ScrollArea.Thumb />
+        </ScrollArea.Scrollbar>
+    </ScrollArea.Root>
 
 
-
-
-
-    return <div className='flex-none h-full pb-20 w-full lg:w-[240px] lg:bg-transparent'>
-        {sections.map((section, i) => {
-            const isCategory = section.type === "CATEGORY";
-            if (isCategory) {
-                return <Category key={i} categoryItem={section} pathname={pathname} setIsDocsNavOpen={setIsDocsNavOpen} />
-            }
-        })}
-    </div>
 }
 
 export default Navigation;
