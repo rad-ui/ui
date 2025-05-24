@@ -1,5 +1,3 @@
-'use client'
-
 import NavItem from './NavItem'
 
 const Category = ({ categoryItem, pathname, setIsDocsNavOpen }) => {

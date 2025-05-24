@@ -1,6 +1,3 @@
-'use client'
-
-
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
@@ -29,7 +26,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const pathname = usePathname();
     const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
 
-    const [sections, setSections] = useState(defaultSections)
+    const [sections, setSections] = useState(docsSections)
     // customSections || sections;
 
     useEffect(() => {
