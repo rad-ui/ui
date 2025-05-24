@@ -24,16 +24,10 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
     const initializeThumbHeight = () => {
         // Container height
         const scrollAreaContainerHeight = scrollAreaViewportRef?.current?.clientHeight || 0;
-
-        // FUll height
+        // Full height
         const scrollAreaHeight = scrollAreaViewportRef?.current?.scrollHeight || 0;
 
-        // const scrollThumbHeight = scrollArea
         const factor = scrollAreaHeight / scrollAreaContainerHeight;
-        // console.log(factor)
-
-        // setScrollAreaFactor(factor)
-
         const finalHeight = (scrollAreaContainerHeight / factor);
 
         if (scrollXThumbRef.current) {
@@ -53,8 +47,6 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
 
         // The height of the scroll thumb [Scroll Thumb Height]
         const scrollThumbHeight = scrollXThumbRef.current?.clientHeight || 0;
-
-        // console.log(scrollAreaContainerHeight, scrollAreaHeight)
 
         const scrollThumbPosition = (scrollTopPosition / (scrollAreaHeight - scrollAreaContainerHeight)) * (scrollAreaContainerHeight - scrollThumbHeight);
 
