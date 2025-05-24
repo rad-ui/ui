@@ -55,49 +55,70 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
         }
     };
 
+    // Fast custom scroll animation
+    const fastScrollTo = (targetScrollTop: number) => {
+        if (!scrollAreaViewportRef.current) return;
+
+        const startScrollTop = scrollAreaViewportRef.current.scrollTop;
+        const scrollDistance = targetScrollTop - startScrollTop;
+        const duration = 150; // Fast 150ms animation
+        const startTime = performance.now();
+
+        const animate = (currentTime: number) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease-out for smoother feel
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const currentScrollTop = startScrollTop + (scrollDistance * easeProgress);
+
+            if (scrollAreaViewportRef.current) {
+                scrollAreaViewportRef.current.scrollTop = currentScrollTop;
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    };
+
     const scrollToPosition = (position: number) => {
         const scrollAreaContainerHeight = scrollAreaViewportRef?.current?.clientHeight || 0;
 
-
         // FUll height
         const scrollAreaHeight = scrollAreaViewportRef?.current?.scrollHeight || 0;
-     
-        const factor = scrollAreaHeight / scrollAreaContainerHeight
 
+        const factor = scrollAreaHeight / scrollAreaContainerHeight;
 
         if (scrollXThumbRef.current) {
-            const thumbPositionStart = scrollXThumbRef.current.getBoundingClientRect().top
-            const thumbPositionEnd = thumbPositionStart + scrollXThumbRef.current.clientHeight
+            const thumbPositionStart = scrollXThumbRef.current.getBoundingClientRect().top;
+            const thumbPositionEnd = thumbPositionStart + scrollXThumbRef.current.clientHeight;
             const scrollThumbHeight = scrollXThumbRef.current?.clientHeight || 0;
-        
+
             if (position > thumbPositionStart && position < thumbPositionEnd) {
                 return;
             }
 
-
             if (position < thumbPositionStart) {
-                // scroll to top
-                scrollAreaViewportRef.current?.scrollTo({
-                    top: scrollAreaViewportRef.current.scrollTop - (scrollThumbHeight * factor),
-                })
+                // scroll to top - fast custom animation
+                const targetScrollTop = scrollAreaViewportRef.current!.scrollTop - (scrollThumbHeight * factor);
+                fastScrollTo(targetScrollTop);
             }
 
             if (position > thumbPositionEnd) {
-                // scroll to bottom
-                scrollAreaViewportRef.current?.scrollTo({
-                    top: scrollAreaViewportRef.current.scrollTop + (scrollThumbHeight * factor),
-                })
-
+                // scroll to bottom - fast custom animation
+                const targetScrollTop = scrollAreaViewportRef.current!.scrollTop + (scrollThumbHeight * factor);
+                fastScrollTo(targetScrollTop);
             }
         }
+    };
 
-    }
-
-     const handleScrollbarClick = (e: { clientY: any; }) => {
-        const clientClickY = e.clientY
-        scrollToPosition(clientClickY)
-
-    }
+    const handleScrollbarClick = (e: { clientY: any; }) => {
+        const clientClickY = e.clientY;
+        scrollToPosition(clientClickY);
+    };
 
     return <ScrollAreaContext.Provider value={{ rootClass, scrollXThumbRef, scrollAreaViewportRef, handleScroll, handleScrollbarClick }}>
         <div className={clsx(rootClass, className)} {...props} >{children}</div>
