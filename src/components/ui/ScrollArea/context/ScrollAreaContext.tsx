@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, RefObject } from 'react';
 
 interface ScrollAreaContextType {

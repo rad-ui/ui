@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext } from 'react';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
