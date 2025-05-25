@@ -1,3 +1,4 @@
+'use client'
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
@@ -9,19 +10,20 @@ import ScrollArea from "@radui/ui/ScrollArea"
 
 import Category from './Category'
 
-const defaultSections = [
-    {
-        type: "CATEGORY",
-        items: [
-            { title: "Documentation", path: "/docs/first-steps/introduction" },
-            { title: "Showcase", path: "/showcase/music-app" }
-        ]
-    }
-]
+
 
 
 
 const Navigation = ({ customSections }: { customSections?: any }) => {
+    const defaultSections = [
+        {
+            type: "CATEGORY",
+            items: [
+                { title: "Documentation", path: "/docs/first-steps/introduction" },
+                { title: "Showcase", path: "/showcase/music-app" }
+            ]
+        }
+    ]
     // get path from ssr
     const pathname = usePathname();
     const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
