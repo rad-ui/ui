@@ -4,17 +4,16 @@ import Primitive from '../../Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Floater from '~/core/primitives/Floater';
 
-
 export type SelectPrimitiveContentProps = {
     children: React.ReactNode
 }
 
-function SelectPrimitiveContent({children, ...props}: SelectPrimitiveContentProps) {
-    const {isOpen, setIsOpen, selectedValue, floatingContext, refs, getFloatingProps} = useContext(SelectPrimitiveContext);
+function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentProps) {
+    const { isOpen, setIsOpen, selectedValue, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
     // if (!isOpen) return null;
     // const contentRef = React.useRef<HTMLDivElement>(null);
     // useEffect(() => {
-        
+
     //     // console.log(contentRef.current?.children);
     //     //check array for value equal to the selected value and set focus
     //     if (!contentRef.current) return;
@@ -40,23 +39,23 @@ function SelectPrimitiveContent({children, ...props}: SelectPrimitiveContentProp
     // },[])
     return (
         <>
-        {isOpen &&(
-            <Floater.FocusManager context={floatingContext}>
-            <RovingFocusGroup.Group>
-        <Primitive.div 
-        ref={refs.setFloating}
-        // style={floatingStyles}
-        {...getFloatingProps()}
-        {...props} >
-            
-                {children}
-            
-        </Primitive.div>
-        </RovingFocusGroup.Group>
-</Floater.FocusManager>
-        )}
+            {isOpen && (
+                <Floater.FocusManager context={floatingContext}>
+                    <RovingFocusGroup.Group>
+                        <div
+                            ref={refs.setFloating}
+                            // style={{...floatingStyles}}
+                            {...getFloatingProps()}
+                            {...props} >
+
+                            {children}
+
+                        </div>
+                    </RovingFocusGroup.Group>
+                </Floater.FocusManager>
+            )}
         </>
-        
+
     );
 }
 

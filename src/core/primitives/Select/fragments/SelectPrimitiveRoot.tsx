@@ -14,51 +14,52 @@ export type SelectPrimitiveRootProps = {
     onClickOutside?: () => void;
 }
 
-function SelectPrimitiveRoot({children,className,value,defaultValue ='',onValueChange, onClickOutside = () => {} , ...props}: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, defaultValue = '', onValueChange, onClickOutside = () => {}, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
         defaultValue,
         onValueChange
     );
-    
 
-    const handleSelect= (value:string) => {
+    const handleSelect = (value:string) => {
         setSelectedValue(value);
-        setIsOpen(false)
-    }
+        setIsOpen(false);
+    };
 
-    const {refs, floatingStyles, context :floatingContext} = Floater.useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-  });
+    const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
+        open: isOpen,
+        onOpenChange: setIsOpen
+    });
 
-//   const click = Floater.useClick(context);
-  const dismiss = Floater.useDismiss(floatingContext);
-  const role = Floater.useRole(floatingContext);
- 
-  // Merge all the interactions into prop getters
-  const {getReferenceProps, getFloatingProps} = Floater.useInteractions([
+    //   const click = Floater.useClick(context);
+    const dismiss = Floater.useDismiss(floatingContext);
+    const role = Floater.useRole(floatingContext, {
+        role: 'listbox'
+    });
+
+    // Merge all the interactions into prop getters
+    const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
     // click,
-    dismiss,
-    role,
-  ]);
-    
-    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect,floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles };
+        dismiss,
+        role
+    ]);
+
+    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps };
 
     return (
         <SelectPrimitiveContext.Provider value={values} >
             <RovingFocusGroup.Root>
-        <Primitive.div {...props} className={className}
-        
-        >
-  {children}
-        </Primitive.div>
-          
-        
-        </RovingFocusGroup.Root>
+                <Primitive.div
+                    {...props} className={className}
+
+                >
+                    {children}
+                </Primitive.div>
+
+            </RovingFocusGroup.Root>
         </SelectPrimitiveContext.Provider>
-        
+
     );
 }
 

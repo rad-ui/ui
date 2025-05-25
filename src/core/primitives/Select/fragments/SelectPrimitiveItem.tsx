@@ -9,16 +9,19 @@ interface SelectPrimitiveItemProps {
     disabled?: boolean
 }
 
-function SelectPrimitiveItem({children, value, disabled, ...props}: SelectPrimitiveItemProps) {
-    const { handleSelect, selectedValue} = useContext(SelectPrimitiveContext);
-    
+function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
+    const { handleSelect, selectedValue, getItemProps } = useContext(SelectPrimitiveContext);
+
     return (
         <RovingFocusGroup.Item >
-        <ButtonPrimitive  disabled={disabled} data-value={value} 
-        aria-selected= {value===selectedValue ? true : false}
-        onClick={()=> handleSelect(value)} {...props}>
-            {children}
-        </ButtonPrimitive>
+            <ButtonPrimitive
+                disabled={disabled} data-value={value}
+                aria-selected= {value === selectedValue}
+                onClick={() => handleSelect(value)} {...props}
+                {...getItemProps()}
+            >
+                {children}
+            </ButtonPrimitive>
         </RovingFocusGroup.Item>
     );
 }

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
-import { useContext } from 'react';
+
 import { clsx } from 'clsx';
 
 type SelectPrimitiveOverlayProps = {
@@ -10,7 +10,7 @@ type SelectPrimitiveOverlayProps = {
 };
 
 function SelectPrimitiveOverlay({ className = '' }: SelectPrimitiveOverlayProps) {
-     const { isOpen, handleOverlayClick } = useContext(SelectPrimitiveContext);
+    const { isOpen, handleOverlayClick } = useContext(SelectPrimitiveContext);
     return (
         <>
             {isOpen && (

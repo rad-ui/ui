@@ -7,15 +7,15 @@ const COMPONENT_NAME = 'Select';
 function SelectTrigger({ customRootClass, children, disabled, placeholder, ...props }: any) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
-        <SelectPrimitive.Trigger 
-            className={`${rootClass}-trigger`} 
+        <SelectPrimitive.Trigger
+            className={`${rootClass}-trigger`}
             aria-disabled={disabled ? 'true' : undefined}
             data-placeholder={placeholder ? '' : undefined}
             {...props}
         >
-            
-                {children}
-            
+
+            {children}
+
         </SelectPrimitive.Trigger>
     );
 }

@@ -7,9 +7,9 @@ const COMPONENT_NAME = 'Select';
 function SelectItem({ customRootClass, children, value, disabled, ...props }: any) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
-        <SelectPrimitive.Item 
-            className={`${rootClass}-item`} 
-            value={value} 
+        <SelectPrimitive.Item
+            className={`${rootClass}-item`}
+            value={value}
             disabled={disabled}
             data-disabled={disabled ? '' : undefined}
             role="option"
