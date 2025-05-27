@@ -4,8 +4,8 @@
     
     button {
         all: unset;
-        background-color: white;
-        color: #65636d;
+        background-color: var(--rad-ui-color-accent-50);
+        color: white;
         height: 35px;
         width: 35px;
         display: flex;
@@ -16,6 +16,11 @@
         margin-left: 1px;
         border-radius: 4px;
         border: 1px solid var(--rad-ui-color-accent-300);
+
+        &[data-state="on"]{
+        background-color: var(--rad-ui-color-accent-900);
+        color: white;
+        }
 
         &:focus-visible {
             outline: 2px solid var(--rad-ui-color-accent-900);
