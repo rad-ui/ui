@@ -1,7 +1,6 @@
 .rad-ui-toggle{
-    box-shadow: 0 2px 10px var(--rad-ui-color-gray-700);
-    color: var(--rad-ui-color-gray-1000);
-    background-color: var(--rad-ui-color-accent-50);
+    color: #65636d;
+    background-color: var(--rad-ui-color-gray-50);
     height: 35px;
     width: 35px;
     border-radius: 4px;
@@ -10,17 +9,15 @@
     line-height: 1;
     align-items: center;
     justify-content: center;
-    border: 0 none;
-    outline: none;
-
-    &[data-state="on"]{
-        background-color: var(--rad-ui-color-accent-900);
-        color: white;
-
-    }
+    border: 1px solid var(--rad-ui-color-accent-300);
 
     &:focus-visible {
         outline: 2px solid var(--rad-ui-color-accent-900);
-        outline-offset: 4px;
+        outline-offset: 2px;
     }
-}   
+
+    &[aria-pressed="true"] {
+        background-color: var(--rad-ui-color-accent-900);
+        color: white;
+    }
+}  

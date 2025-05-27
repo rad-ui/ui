@@ -4,24 +4,18 @@
     
     button {
         all: unset;
-        background-color: var(--rad-ui-color-accent-50);
-        box-shadow: 0 2px 10px var(--rad-ui-color-gray-700);
-        color: white;
-        height: 35px;
-        width: 35px;
-        display: flex;
-        font-size: 15px;
-        line-height: 1;
-        align-items: center;
-        justify-content: center;
+        background-color: var(--rad-ui-color-gray-50);//
+        color: #65636d;//
+        height: 35px;//
+        width: 35px;//
+        display: flex;//
+        font-size: 15px;//
+        line-height: 1;//
+        align-items: center;//
+        justify-content: center;//
         margin-left: 1px;
-        border-radius: 4px;
+        border-radius: 4px;//
         border: 1px solid var(--rad-ui-color-accent-300);
-
-        &[data-state="on"]{
-        background-color: var(--rad-ui-color-accent-900);
-        color: white;
-        }
 
         &:focus-visible {
             outline: 2px solid var(--rad-ui-color-accent-900);
