@@ -23,6 +23,71 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
         initializeThumbHeight();
     }, [scrollXThumbRef, scrollAreaViewportRef]);
 
+    // Listen for content and viewport changes
+    useEffect(() => {
+        const viewport = scrollAreaViewportRef.current;
+        if (!viewport) return;
+
+        // Recalculate thumb height when content or viewport changes
+        const handleResize = () => {
+            initializeThumbHeight();
+        };
+
+        // ResizeObserver for content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                // Check if it's the viewport or its content that changed
+                if (entry.target === viewport || viewport.contains(entry.target as Node)) {
+                    handleResize();
+                }
+            }
+        });
+
+        // Observe the viewport for size changes
+        resizeObserver.observe(viewport);
+
+        // Observe all children for content changes
+        const observeChildren = (element: Element) => {
+            resizeObserver.observe(element);
+            // Recursively observe child elements
+            Array.from(element.children).forEach(child => {
+                observeChildren(child);
+            });
+        };
+
+        // Initial observation of all children
+        Array.from(viewport.children).forEach(child => {
+            observeChildren(child);
+        });
+
+        // MutationObserver to watch for new children being added
+        const mutationObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        observeChildren(node as Element);
+                    }
+                });
+            });
+            handleResize(); // Recalculate when DOM changes
+        });
+
+        mutationObserver.observe(viewport, {
+            childList: true,
+            subtree: true
+        });
+
+        // Window resize listener for viewport changes
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup
+        return () => {
+            resizeObserver.disconnect();
+            mutationObserver.disconnect();
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const initializeThumbHeight = () => {
         // Container height
         const scrollAreaContainerHeight = scrollAreaViewportRef?.current?.clientHeight || 0;
