@@ -44,3 +44,30 @@ export default {
 
 export const All = {};
 All.args = {};
+
+const LayoutTemplate = () => {
+    return <SandboxEditor>
+        <div className='w-full h-screen bg-gray-200 text-gray-950 border-2 border-gray-300 max-h-screen'>
+            <ScrollArea.Root>
+                <ScrollArea.Viewport>
+                    <div className='w-full bg-gray-200 text-gray-950 p-4'>
+                        <Heading>Scroll Area</Heading>
+                        {Array.from({ length: 100 }).map((_, index) => (
+                            <>
+                                <Heading as='h2'>Scroll Area</Heading>
+                                <Text>This is scrollArea content</Text>
+                            </>
+                        ))}
+                    </div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar orientation='vertical'>
+                    <ScrollArea.Thumb />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        </div>
+
+    </SandboxEditor>;
+};
+
+export const Layout = LayoutTemplate.bind({});
+Layout.args = {};
