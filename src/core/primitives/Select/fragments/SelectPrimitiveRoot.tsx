@@ -16,7 +16,7 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, defaultValue = '', onValueChange, onClickOutside = () => {}, placement='bottom-start', ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -32,7 +32,7 @@ function SelectPrimitiveRoot({ children, className, value, defaultValue = '', on
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         onOpenChange: setIsOpen,
-        placement: placement,
+        placement
     });
 
     //   const click = Floater.useClick(context);

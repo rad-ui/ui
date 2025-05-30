@@ -31,7 +31,7 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
                     <RovingFocusGroup.Group>
                         <div
                             ref={refs.setFloating}
-                            style={{...floatingStyles}}
+                            style={{ ...floatingStyles }}
                             {...getFloatingProps()}
                             {...props} >
 

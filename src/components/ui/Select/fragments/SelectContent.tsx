@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
-import { customClassSwitcher } from '~/core/customClassSwitcher';
-
-const COMPONENT_NAME = 'Select';
+import { SelectRootContext } from '../contexts/SelectRootContext';
 
 function SelectContent({ customRootClass, children, position = 'popper', ...props }: any) {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const { rootClass } = useContext(SelectRootContext);
     return (
         <SelectPrimitive.Content
             className={`${rootClass}-content`}

@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
-import { customClassSwitcher } from '~/core/customClassSwitcher';
 
-const COMPONENT_NAME = 'Select';
+import { SelectRootContext } from '../contexts/SelectRootContext';
 
 function SelectTrigger({ customRootClass, children, disabled, placeholder, ...props }: any) {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const { rootClass } = useContext(SelectRootContext);
     return (
         <SelectPrimitive.Trigger
             className={`${rootClass}-trigger`}

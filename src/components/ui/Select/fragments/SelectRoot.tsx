@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
+import { SelectRootContext } from '../contexts/SelectRootContext';
 
 const COMPONENT_NAME = 'Select';
 
@@ -8,16 +9,17 @@ function SelectRoot({ customRootClass, children, defaultValue, value, onValueCha
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
-
-        <SelectPrimitive.Root
-            className={`${rootClass}-root`}
-            defaultValue={defaultValue}
-            value={value}
-            onValueChange={onValueChange}
-            {...props}
-        >
-            {children}
-        </SelectPrimitive.Root>
+        <SelectRootContext.Provider value={{ rootClass }}>
+            <SelectPrimitive.Root
+                className={`${rootClass}-root`}
+                defaultValue={defaultValue}
+                value={value}
+                onValueChange={onValueChange}
+                {...props}
+            >
+                {children}
+            </SelectPrimitive.Root>
+        </SelectRootContext.Provider>
 
     );
 }

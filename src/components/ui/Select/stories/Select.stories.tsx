@@ -18,12 +18,12 @@ export const Basic = () => {
                         <span>Select an option</span>
                     </Select.Trigger>
                     {/* <SelectPrimitive.Portal> */}
-                        <Select.Content>
-                            <Select.Item value="apple">Apple</Select.Item>
-                            <Select.Item value="banana">Banana</Select.Item>
-                            <Select.Item value="orange">Orange</Select.Item>
-                            <Select.Item value="grape">Grape</Select.Item>
-                        </Select.Content>
+                    <Select.Content>
+                        <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
+                        <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
+                        <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
+                        <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
+                    </Select.Content>
                     {/* </SelectPrimitive.Portal> */}
                 </Select.Root>
             </div>
