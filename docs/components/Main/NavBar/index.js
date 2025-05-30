@@ -1,4 +1,4 @@
-"use client"
+
 
 import NavRoot from "./helpers/NavRoot"
 import Navigation from "@/components/navigation/Navigation"

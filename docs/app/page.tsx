@@ -71,7 +71,7 @@ const JoinCommunity = () => {
 }
 
 const DesignedBy = () => {
-  return <div className="my-10 text-gray-1000 text-right px-4">
+  return <div className="my-10 text-gray-700 text-right px-4">
    <div>
     <Text>Website designed by <Link href="https://carmenw.design/" target="_blank" rel="noopener noreferrer">Carmen</Link> and <Link href="https://maryandesign.net/" target="_blank" rel="noopener noreferrer">Maryan</Link>.</Text>
    </div>
