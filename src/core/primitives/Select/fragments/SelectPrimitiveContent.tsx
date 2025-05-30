@@ -23,19 +23,6 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
     //             contentRef.current?.children[i].focus();
     //         }
     //     }
-
-    //     document.addEventListener('keydown', (e) => {
-    //         if (e.key === 'Escape') {
-    //             setIsOpen(false);
-    //         }
-    //     })
-
-    //     document.addEventListener('mousedown', (e) => {
-    //         if (contentRef.current && !contentRef.current.contains(e.target)) {
-    //         setIsOpen(false);
-
-    //       }
-    //     })
     // },[])
     return (
         <>
@@ -44,7 +31,7 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
                     <RovingFocusGroup.Group>
                         <div
                             ref={refs.setFloating}
-                            // style={{...floatingStyles}}
+                            style={{...floatingStyles}}
                             {...getFloatingProps()}
                             {...props} >
 

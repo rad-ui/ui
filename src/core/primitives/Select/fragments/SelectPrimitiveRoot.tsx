@@ -4,6 +4,7 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
+import { Placement } from '@floating-ui/react';
 
 export type SelectPrimitiveRootProps = {
     children: React.ReactNode,
@@ -12,9 +13,10 @@ export type SelectPrimitiveRootProps = {
     defaultValue?: string,
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
+    placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, defaultValue = '', onValueChange, onClickOutside = () => {}, ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, defaultValue = '', onValueChange, onClickOutside = () => {}, placement='bottom-start', ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -29,7 +31,8 @@ function SelectPrimitiveRoot({ children, className, value, defaultValue = '', on
 
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
-        onOpenChange: setIsOpen
+        onOpenChange: setIsOpen,
+        placement: placement,
     });
 
     //   const click = Floater.useClick(context);
