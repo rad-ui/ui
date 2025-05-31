@@ -24,12 +24,14 @@
 @use "components/toggle-group";
 @use "components/radio";
 @use "components/radiocards";
+@use "components/scroll-area";
 @use "components/switch";
 @use "components/skeleton";
 @use "components/visuallyhidden";
 @use "components/collapsible";
 @use "components/tab-nav";
 @use "components/select";
+
 
 // import .css file
 @use "../cssTokens/base.tokens";

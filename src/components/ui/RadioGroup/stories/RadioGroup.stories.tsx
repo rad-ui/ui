@@ -1,4 +1,4 @@
-import RadioGroup from './RadioGroup';
+import RadioGroup from '../RadioGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import { useState } from 'react';
 
