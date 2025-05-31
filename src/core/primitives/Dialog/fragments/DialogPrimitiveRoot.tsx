@@ -1,13 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import { customClassSwitcher } from '~/core';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
-import { clsx } from 'clsx';
 import Floater from '~/core/primitives/Floater';
 
 export type AlertDialogRootProps = {
     children: React.ReactNode;
-    customRootClass?: string;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onClickOutside?: () => void;
@@ -16,15 +13,12 @@ export type AlertDialogRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRoot = ({ children, className = '', customRootClass = '', open, onOpenChange = () => {}, onClickOutside = () => {} } : DialogPrimitiveRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const DialogPrimitiveRoot = ({ children, className = '', open, onOpenChange = () => {}, onClickOutside = () => {}, ...props } : DialogPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useState(open);
-
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
         onOpenChange(open);
     };
-
     const handleOverlayClick = () => {
         onClickOutside();
     };
@@ -42,10 +36,10 @@ const DialogPrimitiveRoot = ({ children, className = '', customRootClass = '', o
         role
     ]);
 
-    const props = { isOpen, handleOpenChange, floaterContext, rootClass, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
+    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
-        <DialogPrimitiveContext.Provider value={props}>
-            <div className={clsx(rootClass, className)} >
+        <DialogPrimitiveContext.Provider value={contextProps}>
+            <div {...props} >
                 {children}
             </div>
         </DialogPrimitiveContext.Provider>

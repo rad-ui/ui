@@ -13,19 +13,21 @@ export default {
         const [isOpen, setIsOpen] = useState(false);
         return (
             <SandboxEditor>
-                <DialogPrimitive.Root customRootClass="test" open={isOpen} onOpenChange={setIsOpen}>
+                <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
                     <DialogPrimitive.Overlay className="w-screen h-screen" style={{ opacity: 0.5, backgroundColor: 'rgba(0, 0, 0, 0.9)' }} />
                     <DialogPrimitive.Trigger>
-                        <Button>Open Dialog</Button>
+                        Open Dialog
                     </DialogPrimitive.Trigger>
-                    <DialogPrimitive.Content className="p-4 z-50 fixed mx-auto bg-gray-200 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md ">
-                        <DialogPrimitive.Action asChild>
-                            <Button>Confirm</Button>
-                        </DialogPrimitive.Action>
-                        <DialogPrimitive.Cancel asChild>
-                            <Button>Cancel</Button>
-                        </DialogPrimitive.Cancel>
-                    </DialogPrimitive.Content>
+                    <DialogPrimitive.Portal>
+                        <DialogPrimitive.Content className="p-4 z-50 fixed mx-auto bg-gray-200 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md ">
+                            <DialogPrimitive.Action>
+                                Confirm
+                            </DialogPrimitive.Action>
+                            <DialogPrimitive.Cancel>
+                                Cancel
+                            </DialogPrimitive.Cancel>
+                        </DialogPrimitive.Content>
+                    </DialogPrimitive.Portal>
 
                 </DialogPrimitive.Root>
                 <div className=" bg-gray-200">

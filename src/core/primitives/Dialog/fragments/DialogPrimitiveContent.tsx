@@ -9,14 +9,14 @@ export type DialogPrimitiveContentProps = {
     className?: string;
 }
 
-const DialogPrimitiveContent = ({ children, className = '' } : DialogPrimitiveContentProps) => {
-    const { isOpen, rootClass, getFloatingProps, floaterContext, refs } = useContext(DialogPrimitiveContext);
+const DialogPrimitiveContent = ({ children, ...props } : DialogPrimitiveContentProps) => {
+    const { isOpen, getFloatingProps, floaterContext, refs } = useContext(DialogPrimitiveContext);
 
     return (
         <>
             {isOpen && (
                 <Floater.FocusManager context={floaterContext} returnFocus={true}>
-                    <div ref={refs.setFloating} className={clsx(`${rootClass}-content`, className)} {...getFloatingProps()}>
+                    <div ref={refs.setFloating} {...getFloatingProps()} {...props}>
                         {children}
                     </div>
                 </Floater.FocusManager>

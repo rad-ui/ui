@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import ButtonPrimitive from '~/core/primitives/Button';
-import { clsx } from 'clsx';
 
 export type DialogPrimitiveCancelProps = {
     children: React.ReactNode;
@@ -10,13 +9,12 @@ export type DialogPrimitiveCancelProps = {
     className?: string;
 }
 
-const DialogPrimitiveCancel = ({ children, asChild, className = '', ...props } : DialogPrimitiveCancelProps) => {
-    const { rootClass, handleOpenChange, getItemProps } = useContext(DialogPrimitiveContext);
+const DialogPrimitiveCancel = ({ children, asChild, ...props } : DialogPrimitiveCancelProps) => {
+    const { handleOpenChange, getItemProps } = useContext(DialogPrimitiveContext);
     return (
         <ButtonPrimitive
             asChild={asChild}
             onClick={() => handleOpenChange(false)}
-            className={clsx(`${rootClass}-cancel`, className)}
             {...getItemProps()}
             {...props}
         >
