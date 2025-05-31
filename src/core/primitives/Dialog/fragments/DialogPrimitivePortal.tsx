@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Floater from '~/core/primitives/Floater';
 
 export type DialogPrimitivePortalProps = {
@@ -7,17 +7,27 @@ export type DialogPrimitivePortalProps = {
 };
 
 const DialogPrimitivePortal = ({ children }: DialogPrimitivePortalProps) => {
-    const fallback = typeof document !== 'undefined' ? document.body : null;
-    const rootElement = typeof document !== 'undefined' ? document.querySelector('#rad-ui-theme-container') || fallback : null;
+    const rootElementRef = useRef<HTMLElement | null>(null);
+    const [isMounted, setIsMounted] = useState(false);
 
-    if (!rootElement) {
+    useEffect(() => {
+        // Only run on client side after component mounts
+        const themeContainer = document.querySelector('#rad-ui-theme-container') as HTMLElement;
+        const fallback = document.body;
+        const selectedRoot = themeContainer || fallback;
+
+        rootElementRef.current = selectedRoot;
+        setIsMounted(true);
+    }, []);
+
+    // Don't render anything until mounted (SSR safety)
+    if (!isMounted) {
         return null;
     }
 
     return (
         <Floater.Portal
-            root={rootElement}
-
+            root={rootElementRef.current}
         >
             {children}
         </Floater.Portal>
