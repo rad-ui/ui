@@ -4,6 +4,8 @@ import Floater from '~/core/primitives/Floater';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import { clsx } from 'clsx';
 
+import { RemoveScroll } from 'react-remove-scroll';
+
 type DialogPrimitiveOverlayProps = {
     className?: string;
 }
@@ -13,12 +15,14 @@ const DialogPrimitiveOverlay = ({ className = '', ...props }: DialogPrimitiveOve
     return (
         <>
             {isOpen && (
-                <Floater.Overlay
-                    className={clsx(`${rootClass}-overlay`, className)}
-                    onClick={handleOverlayClick}
-                    {...props}
-                >
-                </Floater.Overlay>
+                <RemoveScroll>
+                    <Floater.Overlay
+                        className={clsx(`${rootClass}-overlay`, className)}
+                        onClick={handleOverlayClick}
+                        {...props}
+                    >
+                    </Floater.Overlay>
+                </RemoveScroll>
             )}
         </>
     );
