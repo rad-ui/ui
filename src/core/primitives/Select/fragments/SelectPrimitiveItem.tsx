@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';

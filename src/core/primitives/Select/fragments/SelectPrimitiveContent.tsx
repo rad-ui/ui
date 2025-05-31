@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext, useEffect } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
@@ -31,7 +32,7 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
                     <RovingFocusGroup.Group>
                         <div
                             ref={refs.setFloating}
-                            style={{ ...floatingStyles }}
+                            style={floatingStyles}
                             {...getFloatingProps()}
                             {...props} >
 

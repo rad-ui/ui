@@ -17,35 +17,14 @@ export const Basic = () => {
                     <Select.Trigger>
                         <span>Select an option</span>
                     </Select.Trigger>
-                    {/* <SelectPrimitive.Portal> */}
-                    <Select.Content>
-                        <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
-                        <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
-                        <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
-                        <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
-                    </Select.Content>
-                    {/* </SelectPrimitive.Portal> */}
-                </Select.Root>
-            </div>
-        </SandboxEditor>
-    );
-};
-
-export const WithCustomClass = () => {
-    return (
-        <SandboxEditor>
-            <div className="w-[240px]">
-                <Select.Root customRootClass="my-select">
-                    <Select.Trigger>
-                        <span>Select a country</span>
-                    </Select.Trigger>
-                    <Select.Content>
-                        <Select.Item value="us">United States</Select.Item>
-                        <Select.Item value="ca">Canada</Select.Item>
-                        <Select.Item value="mx">Mexico</Select.Item>
-                        <Select.Item value="uk">United Kingdom</Select.Item>
-                        <Select.Item value="fr">France</Select.Item>
-                    </Select.Content>
+                    <Select.Portal>
+                        <Select.Content>
+                            <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
+                            <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
+                            <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
+                            <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
+                        </Select.Content>
+                    </Select.Portal>
                 </Select.Root>
             </div>
         </SandboxEditor>

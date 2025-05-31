@@ -1,3 +1,4 @@
+'use client';
 import React, { createContext } from 'react';
 import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
