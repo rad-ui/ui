@@ -12,7 +12,7 @@ function SelectPrimitivePortal({ children }: { children: React.ReactNode }) {
         if (rootElement) {
             setRootElementFound(true);
         }
-    }, []);
+    }, [rootElement]);
 
     if (!isOpen || !rootElementFound) return null;
 

@@ -1,3 +1,4 @@
+'use client';
 import SelectContent from './fragments/SelectContent';
 import SelectItem from './fragments/SelectItem';
 import SelectTrigger from './fragments/SelectTrigger';

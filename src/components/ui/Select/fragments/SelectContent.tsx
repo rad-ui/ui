@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useRef, useContext } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
 import { SelectRootContext } from '../contexts/SelectRootContext';
