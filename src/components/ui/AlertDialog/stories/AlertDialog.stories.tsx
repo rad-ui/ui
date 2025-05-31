@@ -80,7 +80,7 @@ export const WithoutPortal = {
     render: () => <WithoutPortalTemplate />
 };
 
-export const ControlledOpenTemplate = () => {
+const ControlledOpenTemplate = () => {
     return (
         <SandboxEditor>
             <AlertDialog.Root open={true}>
