@@ -1,8 +1,8 @@
 'use client';
 import React, { useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-import ButtonPrimitive from '~/core/primitives/Button';
-import { clsx } from 'clsx';
+
+import DialogPrimitive from '~/core/primitives/Dialog';
 
 export type AlertDialogCancelProps = {
     children: React.ReactNode;
@@ -11,17 +11,11 @@ export type AlertDialogCancelProps = {
 }
 
 const AlertDialogCancel = ({ children, asChild, className = '', ...props } : AlertDialogCancelProps) => {
-    const { rootClass, handleOpenChange, getItemProps } = useContext(AlertDialogContext);
+    const { rootClass } = useContext(AlertDialogContext);
     return (
-        <ButtonPrimitive
-            asChild={asChild}
-            onClick={() => handleOpenChange(false)}
-            className={clsx(`${rootClass}-cancel`, className)}
-            {...getItemProps()}
-            {...props}
-        >
+        <DialogPrimitive.Cancel className={`${rootClass}-cancel ${className}`} {...props}>
             {children}
-        </ButtonPrimitive>
+        </DialogPrimitive.Cancel>
     );
 };
 

@@ -6,6 +6,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 export type DialogPrimitiveActionProps = {
     children: React.ReactNode;
     className?: string;
+    asChild?: boolean;
 }
 
 const DialogPrimitiveAction = ({ children, asChild, ...props } : DialogPrimitiveActionProps) => {

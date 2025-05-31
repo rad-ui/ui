@@ -14,8 +14,9 @@ const DialogPrimitiveTrigger = ({ children, asChild, className = '', ...props } 
 
     return (
         <ButtonPrimitive
-            ref={refs.setReference}
+            ref={refs?.setReference || null}
             asChild={asChild}
+            className={className}
             onClick={() => handleOpenChange(true)}
             {...getReferenceProps()}
             {...props}

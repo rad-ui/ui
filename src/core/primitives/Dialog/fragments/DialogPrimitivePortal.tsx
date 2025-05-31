@@ -7,8 +7,12 @@ export type DialogPrimitivePortalProps = {
 };
 
 const DialogPrimitivePortal = ({ children }: DialogPrimitivePortalProps) => {
-    const fallback = document && document.body;
-    const rootElement = document.querySelector('#rad-ui-theme-container') || fallback;
+    const fallback = typeof document !== 'undefined' ? document.body : null;
+    const rootElement = typeof document !== 'undefined' ? document.querySelector('#rad-ui-theme-container') || fallback : null;
+
+    if (!rootElement) {
+        return null;
+    }
 
     return (
         <Floater.Portal

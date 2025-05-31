@@ -3,17 +3,16 @@ import React, { useState } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
-export type AlertDialogRootProps = {
+export type DialogPrimitiveRootProps = {
     children: React.ReactNode;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onClickOutside?: () => void;
-    className?: string;
 }
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRoot = ({ children, className = '', open, onOpenChange = () => {}, onClickOutside = () => {}, ...props } : DialogPrimitiveRootProps) => {
+const DialogPrimitiveRoot = ({ children, open, onOpenChange = () => {}, onClickOutside = () => {}, ...props } : DialogPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useState(open);
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
@@ -39,7 +38,7 @@ const DialogPrimitiveRoot = ({ children, className = '', open, onOpenChange = ()
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
         <DialogPrimitiveContext.Provider value={contextProps}>
-            <div {...props} >
+            <div {...props}>
                 {children}
             </div>
         </DialogPrimitiveContext.Provider>

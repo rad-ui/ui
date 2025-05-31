@@ -4,6 +4,8 @@ import { clsx } from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
+import DialogPrimitive from '~/core/primitives/Dialog';
+
 export type AlertDialogTriggerProps = {
     children: React.ReactNode;
     asChild?: boolean;
@@ -11,19 +13,13 @@ export type AlertDialogTriggerProps = {
 }
 
 const AlertDialogTrigger = ({ children, asChild, className = '', ...props } : AlertDialogTriggerProps) => {
-    const { rootClass, handleOpenChange, getReferenceProps, refs } = useContext(AlertDialogContext);
+    const { rootClass } = useContext(AlertDialogContext);
 
     return (
-        <ButtonPrimitive
-            ref={refs.setReference}
-            asChild={asChild}
-            onClick={() => handleOpenChange(true)}
-            className={clsx(`${rootClass}-trigger`, className)}
-            {...getReferenceProps()}
-            {...props}
-        >
+        <DialogPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} asChild={asChild} {...props}>
             {children}
-        </ButtonPrimitive>
+        </DialogPrimitive.Trigger>
+
     );
 };
 
