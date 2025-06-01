@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 // import Button from '@/rad-';
 import DialogPrimitive from '../index';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import Button from '~/components/ui/Button/Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+
 export default {
     title: 'Primitives/DialogPrimitive',
     component: DialogPrimitive,
@@ -20,9 +20,6 @@ export default {
                     </DialogPrimitive.Trigger>
                     <DialogPrimitive.Portal>
                         <DialogPrimitive.Content className="p-4 z-50 fixed mx-auto bg-gray-200 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md ">
-                            <DialogPrimitive.Action>
-                                Confirm
-                            </DialogPrimitive.Action>
                             <DialogPrimitive.Cancel>
                                 Cancel
                             </DialogPrimitive.Cancel>

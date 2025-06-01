@@ -1,0 +1,62 @@
+@use 'button';
+
+.rad-ui-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.rad-ui-dialog-trigger {
+  @extend .rad-ui-button;
+}
+
+.rad-ui-dialog-content {
+  position: relative;
+  padding:24px;
+  border-radius: 8px;
+  background-color: var(--rad-ui-color-gray-50);
+  color: var(--rad-ui-color-gray-1000);
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 60;
+  border: 1px solid var(--rad-ui-color-gray-500);
+
+  .rad-ui-dialog-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .rad-ui-dialog-description {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom:20px;
+    color: var(--rad-ui-color-gray-950);
+  }
+  
+
+  .rad-ui-dialog-close {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    border-radius: 50%;
+    color: var(--rad-ui-color-gray-1000);
+    background-color: var(--rad-ui-color-gray-500);
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: var(--rad-ui-color-gray-600);
+    }
+  }
+}
