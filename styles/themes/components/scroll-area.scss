@@ -1,12 +1,14 @@
 .rad-ui-scroll-area {
     overflow: hidden;
-    height: fit-content;
-    width: fit-content;
+    height: 100%;
+    width: 100%;
     position: relative;
 
     .rad-ui-scroll-area-viewport {
         overflow-y: scroll;
         position: relative;
+        height: 100%;
+        width: 100%;
 
         /* Add these to hide native scrollbars: */
         scrollbar-width: none;
@@ -22,7 +24,6 @@
         /* Webkit browsers */
 
         border-radius: 6px;
-        border: 1px solid var(--rad-ui-color-gray-600);
 
     }
 

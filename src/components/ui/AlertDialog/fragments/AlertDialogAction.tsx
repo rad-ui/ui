@@ -1,8 +1,7 @@
 'use client';
 import React, { useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-import ButtonPrimitive from '~/core/primitives/Button';
-import clsx from 'clsx';
+import DialogPrimitive from '~/core/primitives/Dialog';
 
 export type AlertDialogActionProps = {
     children: React.ReactNode;
@@ -11,17 +10,12 @@ export type AlertDialogActionProps = {
 }
 
 const AlertDialogAction = ({ children, asChild, className = '', ...props } : AlertDialogActionProps) => {
-    const { rootClass, handleOpenChange, getItemProps } = useContext(AlertDialogContext);
+    const { rootClass } = useContext(AlertDialogContext);
     return (
-        <ButtonPrimitive
-            asChild={asChild}
-            onClick={() => handleOpenChange(false)}
-            className={clsx(`${rootClass}-action`, className)}
-            {...getItemProps()}
-            {...props}
-        >
+        <DialogPrimitive.Action className={`${rootClass}-action ${className}`} {...props}>
             {children}
-        </ButtonPrimitive>
+        </DialogPrimitive.Action>
+
     );
 };
 
