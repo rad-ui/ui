@@ -2,10 +2,10 @@
     display: inline-flex;
     gap:6px;
     
-    button {
+    .rad-ui-toggle-group-item {
         all: unset;
-        background-color: white;
-        color: #65636d;
+        background-color: var(--rad-ui-color-gray-50);
+        color: var(--rad-ui-color-slate-900);
         height: 35px;
         width: 35px;
         display: flex;
