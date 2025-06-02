@@ -12,10 +12,43 @@ module.exports = {
     ],
     overrides: [
         {
-            // For story files
+            // For TypeScript files
+            files: ['**/*.ts', '**/*.tsx'],
+            parser: '@typescript-eslint/parser',
+            parserOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+                ecmaFeatures: {
+                    jsx: true
+                },
+                // Use relative path and normalize for Windows
+                project: true
+            },
+            plugins: ['@typescript-eslint'],
+            extends: [
+                'plugin:@typescript-eslint/recommended'
+            ],
+            rules: {
+                // Turn off base rule and use TypeScript version
+                'no-unused-vars': 'off',
+                '@typescript-eslint/no-unused-vars': ['warn', {
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true
+                }],
+                // Allow type imports
+                '@typescript-eslint/consistent-type-imports': ['warn', {
+                    prefer: 'type-imports'
+                }]
+            }
+        },
+        {
+            // For story files (including TypeScript stories)
             files: ['**/*.stories.js', '**/*.stories.jsx', '**/*.stories.ts', '**/*.stories.tsx'],
             rules: {
                 'no-unused-vars': 'off',
+                '@typescript-eslint/no-unused-vars': 'off', // Add this for TS story files
+                '@typescript-eslint/no-explicit-any': 'off', // Allow any in story files
                 'react/no-unescaped-entities': 'off',
                 eqeqeq: 'off',
                 'jsx-a11y/role-supports-aria-props': 'off',
@@ -23,10 +56,11 @@ module.exports = {
             }
         },
         {
-            // For test files
+            // For test files (including TypeScript tests)
             files: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
             rules: {
                 'no-unused-vars': 'off',
+                '@typescript-eslint/no-unused-vars': 'off', // Add this for TS test files
                 'react/no-unescaped-entities': 'off'
             }
         }
@@ -81,13 +115,8 @@ module.exports = {
         'require-jsdoc': 'off',
         'guard-for-in': 'off',
         'no-empty-pattern': 'off',
-
-        // ignore long strings
         'max-len': 'off',
-        semi: [
-            'warn',
-            'always'
-        ],
+        semi: ['warn', 'always'],
         'jsx-a11y/alt-text': 'warn',
         'jsx-a11y/anchor-is-valid': 'warn',
         'jsx-a11y/accessible-emoji': 'warn',
@@ -107,7 +136,7 @@ module.exports = {
         'jsx-a11y/media-has-caption': 'warn',
         'jsx-a11y/mouse-events-have-key-events': 'warn',
         'jsx-a11y/no-access-key': 'warn',
-        'jsx-a11y/no-autofocus': 'off', // Turning this off as it's commonly used in modals
+        'jsx-a11y/no-autofocus': 'off',
         'jsx-a11y/no-distracting-elements': 'warn',
         'jsx-a11y/no-interactive-element-to-noninteractive-role': 'warn',
         'jsx-a11y/no-noninteractive-element-interactions': 'warn',
