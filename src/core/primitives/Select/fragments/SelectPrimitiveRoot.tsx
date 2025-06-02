@@ -12,12 +12,13 @@ export type SelectPrimitiveRootProps = {
     className?: string,
     value?: string,
     defaultValue?: string,
+    name?: string
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -52,18 +53,23 @@ function SelectPrimitiveRoot({ children, className, value, defaultValue = '', on
     const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps };
 
     return (
-        <SelectPrimitiveContext.Provider value={values} >
+        <SelectPrimitiveContext.Provider value={values}>
             <RovingFocusGroup.Root>
-                <Primitive.div
-                    {...props} className={className}
-
-                >
+                <Primitive.div {...props} className={className}>
                     {children}
+                    {/* Add hidden native select for form control */}
+                    <select
+                        name={name}
+                        value={selectedValue}
+                        hidden
+                        aria-hidden="true"
+                        tabIndex={-1}
+                    >
+                        <option value={selectedValue}>{selectedValue}</option>
+                    </select>
                 </Primitive.div>
-
             </RovingFocusGroup.Root>
         </SelectPrimitiveContext.Provider>
-
     );
 }
 
