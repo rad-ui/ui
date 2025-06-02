@@ -10,15 +10,16 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["use", "tailwind", "apply", "variants", "responsive", "screen"]
+        "ignoreAtRules": ["use", "tailwind", "apply", "variants", "responsive", "screen","extend"]
       }
     ],
     "scss/at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "extend"]
       }
     ],
+    "scss/at-extend-no-missing-placeholder": null,
     "block-no-empty": null,
     "keyframes-name-pattern": null,
     "length-zero-no-unit": null,
