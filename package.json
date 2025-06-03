@@ -59,6 +59,7 @@
     "compile-components": "rollup -c --bundleConfigAsCjs --max-old-space-size=8076",
     "process-components": "mkdirp ./dist/components && cp -r ./dist/temp-cleanup/*js ./dist/components && rimraf dist/temp-cleanup",
     "prebuild": "npm run test && npm run clean",
+    "prepublishOnly": "npm run build",
     "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",
     "build:components": "npm run compile-components && npm run process-components",
     "build": "npm run prebuild && npm run build:css && cross-env NODE_OPTIONS=--max-old-space-size=4076 npm run build:components",

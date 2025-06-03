@@ -136,7 +136,7 @@ module.exports = {
         'jsx-a11y/media-has-caption': 'warn',
         'jsx-a11y/mouse-events-have-key-events': 'warn',
         'jsx-a11y/no-access-key': 'warn',
-        'jsx-a11y/no-autofocus': 'off',
+        'jsx-a11y/no-autofocus': 'off', // Turning this off as it's commonly used in modals
         'jsx-a11y/no-distracting-elements': 'warn',
         'jsx-a11y/no-interactive-element-to-noninteractive-role': 'warn',
         'jsx-a11y/no-noninteractive-element-interactions': 'warn',
