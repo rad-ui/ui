@@ -61,7 +61,7 @@
     "prebuild": "npm run test && npm run clean",
     "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",
     "build:components": "npm run compile-components && npm run process-components",
-    "build": "npm run prebuild && npm run build:css && NODE_OPTIONS='--max-old-space-size=4076' npm run build:components",
+    "build": "npm run prebuild && npm run build:css && cross-env NODE_OPTIONS=--max-old-space-size=4076 npm run build:components",
     "release": "npm publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix && stylelint \"**/*.{css,scss,sass}\" --fix",
     "update-rad": "npm update @radui/ui",
@@ -140,7 +140,6 @@
     "@floating-ui/react": "^0.27.4",
     "clsx": "^2.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-remove-scroll": "^2.7.0"
   },
   "peerDependencies": {
