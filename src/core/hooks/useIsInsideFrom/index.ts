@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * Checks whether the given element is inside a <form>
@@ -6,16 +6,27 @@ import { useMemo } from 'react';
  * @returns true if the element is inside a form
  */
 export function useIsInsideForm(element: HTMLElement | null): boolean {
-    return useMemo(() => {
-        if (!element) return false;
+  const [insideForm, setInsideForm] = useState(false);
 
-        let current: HTMLElement | null = element;
-        while (current) {
-            if (current.tagName === 'FORM') return true;
-            current = current.parentElement;
-        }
-        return false;
-    }, [element]);
+  useEffect(() => {
+    if (!element) {
+      setInsideForm(false);
+      return;
+    }
+
+    let current: HTMLElement | null = element;
+    while (current) {
+      if (current.tagName === 'FORM') {
+        setInsideForm(true);
+        return;
+      }
+      current = current.parentElement;
+    }
+
+    setInsideForm(false);
+  }, [element]);
+
+  return insideForm;
 }
 
 export default useIsInsideForm;
