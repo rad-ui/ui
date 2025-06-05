@@ -1,21 +1,21 @@
-import alertDialogMetadata from "./seo"
+import dialogMetadata from "./seo"
 
-export const metadata = alertDialogMetadata
+export const metadata = dialogMetadata
 
 import PageDetails from '@/components/seo/PageDetails';
 
 import Documentation from '@/components/layout/Documentation/Documentation';
-import AlertDialogExample from "./docs/example_1"
+import DialogExample from "./docs/example_1"
 import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
 <Documentation
-    title={`AlertDialog`}
-    description='A dialog that is used to display a message to the user. It is used to confirm or cancel an action.'
+    title={`Dialog`}
+    description='A dialog that is used to display a message to the user. It is used to display information and let the user interact with the content.'
 >
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
-        <AlertDialogExample />
+        <DialogExample />
     </Documentation.ComponentHero>
 
 
@@ -31,8 +31,6 @@ import {code, anatomy, api_documentation} from "./docs/codeUsage"
     <Documentation.Table title="Content" description={api_documentation.content.description} columns={api_documentation.content.columns} data={api_documentation.content.data} />
     <Documentation.Table title="Title" description={api_documentation.title.description} columns={api_documentation.title.columns} data={api_documentation.title.data} />
     <Documentation.Table title="Description" description={api_documentation.description.description} columns={api_documentation.description.columns} data={api_documentation.description.data} />
-    <Documentation.Table title="Action" description={api_documentation.action.description} columns={api_documentation.action.columns} data={api_documentation.action.data} />
-    <Documentation.Table title="Cancel" description={api_documentation.cancel.description} columns={api_documentation.cancel.columns} data={api_documentation.cancel.data} />
-    
+    <Documentation.Table title="Close" description={api_documentation.close.description} columns={api_documentation.close.columns} data={api_documentation.close.data} />
 
 </Documentation>

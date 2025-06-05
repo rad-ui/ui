@@ -77,6 +77,11 @@ export const docsNavigationSections = [
                 path:"/docs/components/code"
             },
             {
+                title:"Dialog",
+                path:"/docs/components/dialog",
+                is_new:true
+            },
+            {
                 title:"Em",
                 path:"/docs/components/em"
             },

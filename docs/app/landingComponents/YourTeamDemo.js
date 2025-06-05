@@ -14,12 +14,14 @@ const MenuIcon = () => {
     </svg>
 }
 
-const UserItem = ({ name = "", src = "", ...props }) => {
+const UserItem = ({ name = "", src = null, ...props }) => {
     const initials = name.split(' ').map(n => n[0]).join('')
-    const imageSrc = src === "" ? null : src
     return <div className='flex items-center justify-between' {...props}>
         <div className="flex items-center space-x-2">
-            <Avatar src={imageSrc} fallback={initials} />
+            <Avatar.Root>
+                <Avatar.Image src={src} />
+                <Avatar.Fallback>{initials}</Avatar.Fallback>
+            </Avatar.Root>
             <Text className="font-light !text-sm hover:underline cursor-pointer text-blue-950">{name}</Text>
         </div>
         <span className='cursor-pointer'>

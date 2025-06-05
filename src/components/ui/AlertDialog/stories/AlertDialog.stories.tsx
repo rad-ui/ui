@@ -7,7 +7,7 @@ import Button from '~/components/ui/Button/Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'WIP/AlertDialog',
+    title: 'Components/AlertDialog',
     component: AlertDialog,
     render: (args:any) => {
         return (
