@@ -17,9 +17,9 @@ const Layout = ({ children }: Doc) => {
                             <Navigation />
             </div>
 
-            <div className='text-gray-1000 flex flex-col flex-1 overflow-hidden' id="docs-content">
-                <ScrollArea.Root style={{ width: "100%", height: "100%" }}>
-                    <ScrollArea.Viewport style={{ height: "100%" }}>
+            <div id="docs-content" className="flex-1 h-full">
+                <ScrollArea.Root>
+                    <ScrollArea.Viewport>
                         <div className=' p-4 md:mx-auto md:max-w-[1440px] w-full'>
                             <div className="w-full max-w-screen-lg mx-auto">
                                 <PageDetails />
