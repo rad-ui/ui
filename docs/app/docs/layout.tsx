@@ -12,7 +12,7 @@ type Doc = {
 
 const Layout = ({ children }: Doc) => {
     return (
-        <div className="md:flex md:flex-row md:items-stretch" style={{ height: "calc(100vh - 57px)" }}>
+        <div className="md:flex md:flex-row md:items-stretch text-gray-1000" style={{ height: "calc(100vh - 57px)" }}>
             <div className="flex-none flex-col items-stretch h-full md:flex hidden">
                             <Navigation />
             </div>
