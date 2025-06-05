@@ -1,16 +1,16 @@
 'use client';
 import React, { useContext } from 'react';
-import { AlertDialogContext } from '../contexts/AlertDialogContext';
+import { DialogContext } from '../context/DialogContext';
 import { clsx } from 'clsx';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogContentProps = {
+export type DialogContentProps = {
     children: React.ReactNode;
     className?: string;
 }
 
-const AlertDialogContent = ({ children, className = '' } : AlertDialogContentProps) => {
-    const { rootClass } = useContext(AlertDialogContext);
+const DialogContent = ({ children, className = '' } : DialogContentProps) => {
+    const { rootClass } = useContext(DialogContext);
     return (
         <>
             <DialogPrimitive.Content className={clsx(`${rootClass}-content`, className)} >
@@ -20,4 +20,4 @@ const AlertDialogContent = ({ children, className = '' } : AlertDialogContentPro
     );
 };
 
-export default AlertDialogContent;
+export default DialogContent;
