@@ -46,8 +46,6 @@ module.exports = {
             // For story files (including TypeScript stories)
             files: ['**/*.stories.js', '**/*.stories.jsx', '**/*.stories.ts', '**/*.stories.tsx'],
             rules: {
-                'no-unused-vars': 'off',
-                '@typescript-eslint/no-unused-vars': 'off', // Add this for TS story files
                 '@typescript-eslint/no-explicit-any': 'off', // Allow any in story files
                 'react/no-unescaped-entities': 'off',
                 eqeqeq: 'off',
