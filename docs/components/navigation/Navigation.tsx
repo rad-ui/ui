@@ -3,11 +3,8 @@ import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
-
 import docsSections from "@/app/docs/docsNavigationSections"
-
 import ScrollArea from "@radui/ui/ScrollArea"
-
 import Category from './Category'
 
 
