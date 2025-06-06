@@ -10,7 +10,6 @@ export default {
     title: 'WIP/AlertDialog',
     component: AlertDialog,
     render: (args:any) => {
-        const [isOpen, setIsOpen] = useState(false);
         return (
             <SandboxEditor>
                 <AlertDialog.Root>
@@ -48,4 +47,66 @@ export const Default = {
         children: 'Delete Account',
         actionButton: <button>Delete</button>
     }
+};
+
+const WithoutPortalTemplate = () => {
+    return (
+        <SandboxEditor>
+            <AlertDialog.Root>
+                <AlertDialog.Trigger>
+                    <>Open Dialog</>
+                </AlertDialog.Trigger>
+                <AlertDialog.Overlay />
+                <AlertDialog.Content>
+                    <AlertDialog.Title>
+                        Are you sure you want to delete this account?
+                    </AlertDialog.Title>
+                    <AlertDialog.Description>
+                        This action cannot be undone.
+                    </AlertDialog.Description>
+                    <AlertDialog.Action>
+                        <>Confirm</>
+                    </AlertDialog.Action>
+                    <AlertDialog.Cancel>
+                        <>Cancel</>
+                    </AlertDialog.Cancel>
+                </AlertDialog.Content>
+            </AlertDialog.Root>
+        </SandboxEditor>
+    );
+};
+
+export const WithoutPortal = {
+    render: () => <WithoutPortalTemplate />
+};
+
+const ControlledOpenTemplate = () => {
+    return (
+        <SandboxEditor>
+            <AlertDialog.Root open={true}>
+                <AlertDialog.Trigger>
+                    <>Open Dialog</>
+                </AlertDialog.Trigger>
+                <AlertDialog.Overlay />
+                <AlertDialog.Content>
+                    <AlertDialog.Title>
+                        Are you sure you want to delete this account?
+                    </AlertDialog.Title>
+                    <AlertDialog.Description>
+                        This action cannot be undone.
+                    </AlertDialog.Description>
+                    <AlertDialog.Action>
+                        <>Confirm</>
+                    </AlertDialog.Action>
+                    <AlertDialog.Cancel>
+                        <>Cancel</>
+                    </AlertDialog.Cancel>
+                </AlertDialog.Content>
+            </AlertDialog.Root>
+        </SandboxEditor>
+    );
+};
+
+export const ControlledOpen = {
+    render: () => <ControlledOpenTemplate />
 };

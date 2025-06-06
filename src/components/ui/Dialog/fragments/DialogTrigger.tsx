@@ -1,19 +1,19 @@
 'use client';
 import React, { useContext } from 'react';
 import { clsx } from 'clsx';
-import ButtonPrimitive from '~/core/primitives/Button';
-import { AlertDialogContext } from '../contexts/AlertDialogContext';
+
+import { DialogContext } from '../context/DialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogTriggerProps = {
+export type DialogTriggerProps = {
     children: React.ReactNode;
     asChild?: boolean;
     className?: string;
 }
 
-const AlertDialogTrigger = ({ children, asChild, className = '', ...props } : AlertDialogTriggerProps) => {
-    const { rootClass } = useContext(AlertDialogContext);
+const DialogTrigger = ({ children, asChild, className = '', ...props } : DialogTriggerProps) => {
+    const { rootClass } = useContext(DialogContext);
 
     return (
         <DialogPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} asChild={asChild} {...props}>
@@ -23,4 +23,4 @@ const AlertDialogTrigger = ({ children, asChild, className = '', ...props } : Al
     );
 };
 
-export default AlertDialogTrigger;
+export default DialogTrigger;

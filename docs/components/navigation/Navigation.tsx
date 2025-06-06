@@ -18,6 +18,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const defaultSections = [
         {
             type: "CATEGORY",
+            title: "Main",
             items: [
                 { title: "Documentation", path: "/docs/first-steps/introduction" },
                 { title: "Showcase", path: "/showcase/music-app" }

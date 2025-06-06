@@ -2,11 +2,11 @@
 import React from 'react';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogPortalProps = {
+export type DialogPortalProps = {
   children: React.ReactNode;
 };
 
-const AlertDialogPortal = ({ children }: AlertDialogPortalProps) => {
+const DialogPortal = ({ children }: DialogPortalProps) => {
     return (
         <DialogPrimitive.Portal>
             {children}
@@ -14,4 +14,4 @@ const AlertDialogPortal = ({ children }: AlertDialogPortalProps) => {
     );
 };
 
-export default AlertDialogPortal;
+export default DialogPortal;
