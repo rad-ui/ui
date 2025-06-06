@@ -13,13 +13,14 @@ export type SelectPrimitiveRootProps = {
     className?: string,
     value?: string,
     defaultValue?: string,
-    name?: string
+    name?: string,
+    offsetValue?: number,
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start',offsetValue, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -36,9 +37,10 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     };
 
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
+        middleware: [Floater.offset(offsetValue)],
         open: isOpen,
         onOpenChange: setIsOpen,
-        placement
+        placement,
     });
 
     //   const click = Floater.useClick(context);
