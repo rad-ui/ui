@@ -12,7 +12,6 @@ module.exports = {
     ],
     overrides: [
         {
-            // For TypeScript files
             files: ['**/*.ts', '**/*.tsx'],
             parser: '@typescript-eslint/parser',
             parserOptions: {
@@ -21,7 +20,6 @@ module.exports = {
                 ecmaFeatures: {
                     jsx: true
                 },
-                // Use relative path and normalize for Windows
                 project: true
             },
             plugins: ['@typescript-eslint'],
@@ -29,24 +27,35 @@ module.exports = {
                 'plugin:@typescript-eslint/recommended'
             ],
             rules: {
-                // Turn off base rule and use TypeScript version
                 'no-unused-vars': 'off',
                 '@typescript-eslint/no-unused-vars': ['warn', {
                     argsIgnorePattern: '^_',
                     varsIgnorePattern: '^_',
-                    ignoreRestSiblings: true
+                    ignoreRestSiblings: true,
+                    args: 'after-used',
+                    vars: 'all'
                 }],
-                // Allow type imports
                 '@typescript-eslint/consistent-type-imports': ['warn', {
-                    prefer: 'type-imports'
-                }]
+                    prefer: 'type-imports',
+                    disallowTypeAnnotations: false,
+                    fixStyle: 'separate-type-imports'
+                }],
+                '@typescript-eslint/no-unused-imports': 'off'
             }
         },
         {
-            // For story files (including TypeScript stories)
             files: ['**/*.stories.js', '**/*.stories.jsx', '**/*.stories.ts', '**/*.stories.tsx'],
             rules: {
-                '@typescript-eslint/no-explicit-any': 'off', // Allow any in story files
+                'no-unused-vars': 'off',
+                '@typescript-eslint/no-unused-vars': ['warn', {
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                    // Handle type annotations in stories
+                    args: 'after-used',
+                    vars: 'all'
+                }],
+                '@typescript-eslint/no-explicit-any': 'off',
                 'react/no-unescaped-entities': 'off',
                 eqeqeq: 'off',
                 'jsx-a11y/role-supports-aria-props': 'off',
@@ -54,11 +63,10 @@ module.exports = {
             }
         },
         {
-            // For test files (including TypeScript tests)
             files: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
             rules: {
                 'no-unused-vars': 'off',
-                '@typescript-eslint/no-unused-vars': 'off', // Add this for TS test files
+                '@typescript-eslint/no-unused-vars': 'off',
                 'react/no-unescaped-entities': 'off'
             }
         }
@@ -134,7 +142,7 @@ module.exports = {
         'jsx-a11y/media-has-caption': 'warn',
         'jsx-a11y/mouse-events-have-key-events': 'warn',
         'jsx-a11y/no-access-key': 'warn',
-        'jsx-a11y/no-autofocus': 'off', // Turning this off as it's commonly used in modals
+        'jsx-a11y/no-autofocus': 'off',
         'jsx-a11y/no-distracting-elements': 'warn',
         'jsx-a11y/no-interactive-element-to-noninteractive-role': 'warn',
         'jsx-a11y/no-noninteractive-element-interactions': 'warn',

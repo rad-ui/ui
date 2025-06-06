@@ -17,7 +17,8 @@
       "paths": {
         "~/*": ["src/*"]
       },
-      "types": ["jest", "@testing-library/jest-dom"]
+      "types": ["jest", "@testing-library/jest-dom"],
+      "verbatimModuleSyntax": false
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "dist", "build", "docs"]
