@@ -10,7 +10,7 @@ type DrawerOverlayProps = {
 }
 
 const DrawerOverlay = ({ className = '', ...props }: DrawerOverlayProps) => {
-    const { rootClass, isOpen, handleOverlayClick, transitionDuration, transitionTimingFunction } = useContext(DrawerContext);
+    const { rootClass, isOpen, handleOverlayClick, transitionDuration, transitionTimingFunction, zIndex } = useContext(DrawerContext);
     const [shouldRender, setShouldRender] = useState(isOpen);
     const [opacity, setOpacity] = useState(isOpen ? 1 : 0);
     const timeoutRef = useRef<NodeJS.Timeout>();
@@ -65,11 +65,16 @@ const DrawerOverlay = ({ className = '', ...props }: DrawerOverlayProps) => {
     return (
         <div
             className={clsx(`${rootClass}-overlay`, className)}
-            onClick={handleOverlayClick}
+            onClick={(event) => {
+                // Only close if clicking directly on the overlay, not on nested content
+                if (event.target === event.currentTarget) {
+                    handleOverlayClick();
+                }
+            }}
             style={{
                 position: 'fixed',
                 inset: 0,
-                zIndex: 50,
+                zIndex: zIndex - 1,
                 opacity,
                 transition: `opacity ${transitionDuration}ms ${transitionTimingFunction}`,
                 willChange: 'opacity',

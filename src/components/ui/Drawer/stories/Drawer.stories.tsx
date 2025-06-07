@@ -332,3 +332,394 @@ export const VaulStyleBackground = {
         </SandboxEditor>
     )
 };
+
+export const NestedDrawers = {
+    render: () => (
+        <SandboxEditor>
+            <div style={{ padding: '20px', backgroundColor: '#e8f4f8', minHeight: '100vh' }}>
+                <h1 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>🪆 Nested Drawers Demo</h1>
+                <p style={{ marginBottom: '16px', color: '#666' }}>Test nesting drawers with proper z-index layering and progressive background scaling!</p>
+
+                {/* First Level Drawer */}
+                <Drawer.Root
+                    side="bottom"
+                    transitionDuration={350}
+                    transitionTimingFunction="cubic-bezier(0.32, 0.72, 0, 1)"
+                    scaleBackground={true}
+                    backgroundScaleAmount={0.96}
+                    backgroundBorderRadius={8}
+                >
+                    <Drawer.Trigger>
+                        <Button>Open Level 1 Drawer</Button>
+                    </Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }} />
+                        <Drawer.Content>
+                            <div style={{ padding: '24px', backgroundColor: 'white', borderTopLeftRadius: '16px', borderTopRightRadius: '16px', minHeight: '300px', boxShadow: '0 -8px 32px rgba(0, 0, 0, 0.12)' }}>
+                                <Drawer.Title>
+                                    <h2 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: 'bold', color: '#1a1a1a' }}>Level 1 Drawer</h2>
+                                </Drawer.Title>
+                                <Drawer.Description>
+                                    <p style={{ margin: '0 0 20px 0', color: '#666', lineHeight: '1.6' }}>This is the first level drawer. You can open another drawer from here!</p>
+                                </Drawer.Description>
+
+                                {/* Second Level Drawer */}
+                                <Drawer.Root
+                                    side="right"
+                                    transitionDuration={300}
+                                    transitionTimingFunction="cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+                                    scaleBackground={true}
+                                    backgroundScaleAmount={0.92}
+                                    backgroundBorderRadius={12}
+                                >
+                                    <Drawer.Trigger>
+                                        <Button variant="secondary" style={{ marginBottom: '16px' }}>Open Level 2 Drawer</Button>
+                                    </Drawer.Trigger>
+                                    <Drawer.Portal>
+                                        <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }} />
+                                        <Drawer.Content>
+                                            <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderTopLeftRadius: '16px', borderBottomLeftRadius: '16px', minWidth: '320px', height: '100vh', boxShadow: '-8px 0 32px rgba(0, 0, 0, 0.15)' }}>
+                                                <Drawer.Title>
+                                                    <h2 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 'bold', color: '#1a1a1a' }}>Level 2 Drawer</h2>
+                                                </Drawer.Title>
+                                                <Drawer.Description>
+                                                    <p style={{ margin: '0 0 20px 0', color: '#666', lineHeight: '1.6' }}>And you can go even deeper! Notice the enhanced background scaling effect.</p>
+                                                </Drawer.Description>
+
+                                                {/* Third Level Drawer */}
+                                                <Drawer.Root
+                                                    side="top"
+                                                    transitionDuration={250}
+                                                    transitionTimingFunction="cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+                                                    scaleBackground={true}
+                                                    backgroundScaleAmount={0.88}
+                                                    backgroundBorderRadius={16}
+                                                >
+                                                    <Drawer.Trigger>
+                                                        <Button size="small" style={{ marginBottom: '16px' }}>Open Level 3 Drawer</Button>
+                                                    </Drawer.Trigger>
+                                                    <Drawer.Portal>
+                                                        <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} />
+                                                        <Drawer.Content>
+                                                            <div style={{ padding: '16px', backgroundColor: '#fff', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px', minHeight: '160px', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)' }}>
+                                                                <Drawer.Title>
+                                                                    <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 'bold', color: '#1a1a1a' }}>🎉 Level 3 Drawer</h3>
+                                                                </Drawer.Title>
+                                                                <Drawer.Description>
+                                                                    <p style={{ margin: '0 0 16px 0', color: '#666', fontSize: '14px', lineHeight: '1.5' }}>Amazing! Three levels deep with perfect z-index stacking and progressive background scaling!</p>
+                                                                </Drawer.Description>
+                                                                <Drawer.Close>
+                                                                    <Button size="small">Close Level 3</Button>
+                                                                </Drawer.Close>
+                                                            </div>
+                                                        </Drawer.Content>
+                                                    </Drawer.Portal>
+                                                </Drawer.Root>
+
+                                                <Drawer.Close>
+                                                    <Button size="small" variant="secondary" style={{ marginRight: '8px' }}>Close Level 2</Button>
+                                                </Drawer.Close>
+                                            </div>
+                                        </Drawer.Content>
+                                    </Drawer.Portal>
+                                </Drawer.Root>
+
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <Drawer.Close>
+                                        <Button variant="secondary">Close Level 1</Button>
+                                    </Drawer.Close>
+                                    <Button>Action</Button>
+                                </div>
+                            </div>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+            </div>
+        </SandboxEditor>
+    )
+};
+
+export const NestedWithDifferentSides = {
+    render: () => (
+        <SandboxEditor>
+            <div style={{ padding: '20px', backgroundColor: '#fef7f0', minHeight: '100vh' }}>
+                <h1 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>📱 Multi-Direction Nested Drawers</h1>
+                <p style={{ marginBottom: '16px', color: '#666' }}>Showcase drawers opening from different sides with smart background scaling!</p>
+
+                <Drawer.Root
+                    side="left"
+                    transitionDuration={350}
+                    scaleBackground={true}
+                    backgroundScaleAmount={0.95}
+                    backgroundBorderRadius={10}
+                >
+                    <Drawer.Trigger>
+                        <Button>← Open Left Menu</Button>
+                    </Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }} />
+                        <Drawer.Content>
+                            <div style={{ padding: '20px', backgroundColor: 'white', borderTopRightRadius: '16px', borderBottomRightRadius: '16px', minWidth: '280px', height: '100vh' }}>
+                                <Drawer.Title>
+                                    <h2 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: 'bold' }}>📋 Navigation Menu</h2>
+                                </Drawer.Title>
+                                <Drawer.Description>
+                                    <p style={{ margin: '0 0 20px 0', color: '#666' }}>Choose an option to open additional panels:</p>
+                                </Drawer.Description>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    {/* Bottom drawer from nav */}
+                                    <Drawer.Root
+                                        side="bottom"
+                                        transitionDuration={300}
+                                        scaleBackground={true}
+                                        backgroundScaleAmount={0.90}
+                                        backgroundBorderRadius={15}
+                                    >
+                                        <Drawer.Trigger>
+                                            <Button variant="secondary" style={{ width: '100%', justifyContent: 'flex-start' }}>⚙️ Settings Panel</Button>
+                                        </Drawer.Trigger>
+                                        <Drawer.Portal>
+                                            <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }} />
+                                            <Drawer.Content>
+                                                <div style={{ padding: '20px', backgroundColor: 'white', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', minHeight: '250px' }}>
+                                                    <Drawer.Title>
+                                                        <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 'bold' }}>⚙️ Settings</h3>
+                                                    </Drawer.Title>
+                                                    <Drawer.Description>
+                                                        <p style={{ margin: '0 0 16px 0', color: '#666' }}>Adjust your preferences here.</p>
+                                                    </Drawer.Description>
+                                                    <Drawer.Close>
+                                                        <Button size="small">Done</Button>
+                                                    </Drawer.Close>
+                                                </div>
+                                            </Drawer.Content>
+                                        </Drawer.Portal>
+                                    </Drawer.Root>
+
+                                    {/* Right drawer from nav */}
+                                    <Drawer.Root
+                                        side="right"
+                                        transitionDuration={250}
+                                        scaleBackground={true}
+                                        backgroundScaleAmount={0.88}
+                                        backgroundBorderRadius={18}
+                                    >
+                                        <Drawer.Trigger>
+                                            <Button variant="secondary" style={{ width: '100%', justifyContent: 'flex-start' }}>📊 Analytics</Button>
+                                        </Drawer.Trigger>
+                                        <Drawer.Portal>
+                                            <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} />
+                                            <Drawer.Content>
+                                                <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px', minWidth: '300px', height: '100vh' }}>
+                                                    <Drawer.Title>
+                                                        <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 'bold' }}>📊 Analytics Dashboard</h3>
+                                                    </Drawer.Title>
+                                                    <Drawer.Description>
+                                                        <p style={{ margin: '0 0 16px 0', color: '#666' }}>View your stats and metrics.</p>
+                                                    </Drawer.Description>
+                                                    <Drawer.Close>
+                                                        <Button size="small">Close Analytics</Button>
+                                                    </Drawer.Close>
+                                                </div>
+                                            </Drawer.Content>
+                                        </Drawer.Portal>
+                                    </Drawer.Root>
+                                </div>
+
+                                <div style={{ marginTop: '20px' }}>
+                                    <Drawer.Close>
+                                        <Button variant="secondary" size="small">Close Menu</Button>
+                                    </Drawer.Close>
+                                </div>
+                            </div>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+            </div>
+        </SandboxEditor>
+    )
+};
+
+export const DraggableWithProgressiveScaling = {
+    render: () => (
+        <SandboxEditor>
+            <div style={{ padding: '20px', backgroundColor: '#f0f9ff', minHeight: '100vh' }}>
+                <h1 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>🎯 Draggable Drawer with Progressive Background Scaling</h1>
+                <p style={{ marginBottom: '16px', color: '#666' }}>Try dragging the drawer content to open/close. Watch how the background scales progressively based on drag progress!</p>
+
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                    <Drawer.Root
+                        side="bottom"
+                        scaleBackground={true}
+                        backgroundScaleAmount={0.92}
+                        transitionDuration={350}
+                        transitionTimingFunction="cubic-bezier(0.32, 0.72, 0, 1)"
+                    >
+                        <Drawer.Trigger>
+                            <Button>🔥 Draggable Bottom Drawer</Button>
+                        </Drawer.Trigger>
+                        <Drawer.Portal>
+                            <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }} />
+                            <Drawer.Content>
+                                <div
+                                    style={{
+                                        padding: '24px',
+                                        backgroundColor: 'white',
+                                        borderTopLeftRadius: '20px',
+                                        borderTopRightRadius: '20px',
+                                        minHeight: '400px',
+                                        maxHeight: '80vh',
+                                        overflow: 'auto',
+                                        cursor: 'grab',
+                                        boxShadow: '0 -8px 32px rgba(0, 0, 0, 0.12)'
+                                    }}>
+                                    <div style={{ width: '48px', height: '6px', backgroundColor: '#e2e8f0', borderRadius: '3px', margin: '0 auto 16px' }} />
+                                    <Drawer.Title>
+                                        <h2 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: 'bold' }}>🎯 Draggable Bottom Drawer</h2>
+                                    </Drawer.Title>
+                                    <Drawer.Description>
+                                        <p style={{ margin: '0 0 24px 0', color: '#666', lineHeight: '1.6' }}>
+                                            You can drag this drawer up and down to open/close it. The background scaling responds to your drag progress in real-time.
+                                        </p>
+                                    </Drawer.Description>
+
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                        <div style={{ padding: '16px', backgroundColor: '#f8fafc', borderRadius: '12px' }}>
+                                            <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>How it works:</h3>
+                                            <ul style={{ margin: 0, paddingLeft: '20px', color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>
+                                                <li>Drag the drawer content to open/close</li>
+                                                <li>Background scales progressively (0% to 92%)</li>
+                                                <li>Background opacity changes with drag progress</li>
+                                                <li>Smooth snapping when you release</li>
+                                            </ul>
+                                        </div>
+
+                                        <div style={{ padding: '16px', backgroundColor: '#dbeafe', borderRadius: '12px' }}>
+                                            <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>Try dragging:</h3>
+                                            <p style={{ margin: 0, color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>
+                                                Grab anywhere on this drawer content and drag up/down. Notice how the background scaling follows your movement.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ marginTop: '24px' }}>
+                                        <Drawer.Close>
+                                            <Button>Close Drawer</Button>
+                                        </Drawer.Close>
+                                    </div>
+                                </div>
+                            </Drawer.Content>
+                        </Drawer.Portal>
+                    </Drawer.Root>
+
+                    <Drawer.Root
+                        side="right"
+                        scaleBackground={true}
+                        backgroundScaleAmount={0.90}
+                        backgroundBorderRadius={15}
+                        transitionDuration={300}
+                    >
+                        <Drawer.Trigger>
+                            <Button variant="secondary">⚡ Draggable Right Drawer</Button>
+                        </Drawer.Trigger>
+                        <Drawer.Portal>
+                            <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }} />
+                            <Drawer.Content>
+                                <div
+                                    style={{
+                                        padding: '24px',
+                                        backgroundColor: 'white',
+                                        width: '380px',
+                                        height: '100vh',
+                                        overflow: 'auto',
+                                        cursor: 'grab',
+                                        borderTopLeftRadius: '16px',
+                                        borderBottomLeftRadius: '16px',
+                                        boxShadow: '-8px 0 32px rgba(0, 0, 0, 0.12)'
+                                    }}>
+                                    <div style={{ width: '6px', height: '48px', backgroundColor: '#e2e8f0', borderRadius: '3px', margin: '0 0 16px 0' }} />
+                                    <Drawer.Title>
+                                        <h2 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 'bold' }}>⚡ Draggable Right Drawer</h2>
+                                    </Drawer.Title>
+                                    <Drawer.Description>
+                                        <p style={{ margin: '0 0 24px 0', color: '#666', lineHeight: '1.6' }}>
+                                            Drag this drawer left and right. Notice the different scaling amount (90%) and border radius (15px).
+                                        </p>
+                                    </Drawer.Description>
+
+                                    <div style={{ padding: '16px', backgroundColor: '#f3e8ff', borderRadius: '12px' }}>
+                                        <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>Different settings:</h3>
+                                        <ul style={{ margin: 0, paddingLeft: '20px', color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>
+                                            <li>Scale amount: 90%</li>
+                                            <li>Border radius: 15px</li>
+                                            <li>Side: right</li>
+                                            <li>Drag direction: horizontal</li>
+                                        </ul>
+                                    </div>
+
+                                    <div style={{ marginTop: '24px' }}>
+                                        <Drawer.Close>
+                                            <Button>Close Drawer</Button>
+                                        </Drawer.Close>
+                                    </div>
+                                </div>
+                            </Drawer.Content>
+                        </Drawer.Portal>
+                    </Drawer.Root>
+
+                    <Drawer.Root
+                        side="left"
+                        scaleBackground={true}
+                        backgroundScaleAmount={0.88}
+                        transitionDuration={250}
+                    >
+                        <Drawer.Trigger>
+                            <Button variant="outline">🌟 Draggable Left Drawer</Button>
+                        </Drawer.Trigger>
+                        <Drawer.Portal>
+                            <Drawer.Overlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} />
+                            <Drawer.Content>
+                                <div
+                                    style={{
+                                        padding: '24px',
+                                        backgroundColor: 'white',
+                                        width: '320px',
+                                        height: '100vh',
+                                        overflow: 'auto',
+                                        cursor: 'grab',
+                                        borderTopRightRadius: '16px',
+                                        borderBottomRightRadius: '16px',
+                                        boxShadow: '8px 0 32px rgba(0, 0, 0, 0.12)'
+                                    }}>
+                                    <div style={{ width: '6px', height: '48px', backgroundColor: '#e2e8f0', borderRadius: '3px', margin: '0 0 16px auto' }} />
+                                    <Drawer.Title>
+                                        <h2 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 'bold' }}>🌟 Draggable Left Drawer</h2>
+                                    </Drawer.Title>
+                                    <Drawer.Description>
+                                        <p style={{ margin: '0 0 24px 0', color: '#666', lineHeight: '1.6' }}>
+                                            This drawer has an even more dramatic scaling effect (88%).
+                                        </p>
+                                    </Drawer.Description>
+
+                                    <div style={{ padding: '16px', backgroundColor: '#dcfce7', borderRadius: '12px' }}>
+                                        <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>More dramatic scaling:</h3>
+                                        <p style={{ margin: 0, color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>
+                                            With 88% scaling, you'll see a more pronounced background effect as you drag.
+                                        </p>
+                                    </div>
+
+                                    <div style={{ marginTop: '24px' }}>
+                                        <Drawer.Close>
+                                            <Button>Close Drawer</Button>
+                                        </Drawer.Close>
+                                    </div>
+                                </div>
+                            </Drawer.Content>
+                        </Drawer.Portal>
+                    </Drawer.Root>
+                </div>
+            </div>
+        </SandboxEditor>
+    )
+};

@@ -6,27 +6,27 @@ import { useEffect, useState } from 'react';
  * @returns true if the element is inside a form
  */
 export function useIsInsideForm(element: HTMLElement | null): boolean {
-  const [insideForm, setInsideForm] = useState(false);
+    const [insideForm, setInsideForm] = useState(false);
 
-  useEffect(() => {
-    if (!element) {
-      setInsideForm(false);
-      return;
-    }
+    useEffect(() => {
+        if (!element) {
+            setInsideForm(false);
+            return;
+        }
 
-    let current: HTMLElement | null = element;
-    while (current) {
-      if (current.tagName === 'FORM') {
-        setInsideForm(true);
-        return;
-      }
-      current = current.parentElement;
-    }
+        let current: HTMLElement | null = element;
+        while (current) {
+            if (current.tagName === 'FORM') {
+                setInsideForm(true);
+                return;
+            }
+            current = current.parentElement;
+        }
 
-    setInsideForm(false);
-  }, [element]);
+        setInsideForm(false);
+    }, [element]);
 
-  return insideForm;
+    return insideForm;
 }
 
 export default useIsInsideForm;
