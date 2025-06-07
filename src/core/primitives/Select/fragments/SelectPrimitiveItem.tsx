@@ -12,8 +12,9 @@ interface SelectPrimitiveItemProps {
 }
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
-    const { handleSelect, selectedValue, getItemProps } = useContext(SelectPrimitiveContext);
+    const { handleSelect, selectedValue, getItemProps, selectedItemRef } = useContext(SelectPrimitiveContext);
 
+    
     return (
         <RovingFocusGroup.Item >
             <ButtonPrimitive
@@ -21,6 +22,7 @@ function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrim
                 aria-selected= {value === selectedValue}
                 onClick={() => handleSelect(value)} {...props}
                 {...getItemProps()}
+                ref={value === selectedValue ? selectedItemRef : undefined}
             >
                 {children}
             </ButtonPrimitive>
