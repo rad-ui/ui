@@ -7,11 +7,9 @@ const COMPONENT_NAME = 'Select';
 
 function SelectRoot({ customRootClass, children, defaultValue, value, onValueChange, ...props }: any) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    // const [selectedId, setSelectedId] = useState(null);
-    // console.log(selectedId)
 
     return (
-        <SelectRootContext.Provider value={{ rootClass,}}>
+        <SelectRootContext.Provider value={{ rootClass }}>
             <SelectPrimitive.Root
                 className={`${rootClass}-root`}
                 defaultValue={defaultValue}

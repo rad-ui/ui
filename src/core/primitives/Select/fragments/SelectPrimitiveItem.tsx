@@ -14,7 +14,6 @@ interface SelectPrimitiveItemProps {
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
     const { handleSelect, selectedValue, getItemProps, selectedItemRef } = useContext(SelectPrimitiveContext);
 
-    
     return (
         <RovingFocusGroup.Item >
             <ButtonPrimitive

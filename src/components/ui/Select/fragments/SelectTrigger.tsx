@@ -7,7 +7,7 @@ import { SelectRootContext } from '../contexts/SelectRootContext';
 function SelectTrigger({ customRootClass, children, disabled, placeholder, ...props }: any) {
     const { rootClass } = useContext(SelectRootContext);
     const triggerRef = React.useRef<HTMLDivElement>(null);
-    console.log(triggerRef);
+
     return (
         <SelectPrimitive.Trigger
             className={`${rootClass}-trigger`}

@@ -20,7 +20,7 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start',offsetValue, ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
@@ -44,7 +44,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         middleware: [Floater.offset(offsetPositionValue)],
         open: isOpen,
         onOpenChange: setIsOpen,
-        placement,
+        placement
     });
 
     //   const click = Floater.useClick(context);
@@ -72,10 +72,10 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
 
     useEffect(() => {
         if (!isOpen) return;
-        
+
         const floatingElement = refs.floating.current;
         if (!floatingElement) return;
-        
+
         const position = (selectedIndex) * (floatingElement.clientHeight / floatingElement.children.length);
         setOffsetPositionValue(-position);
     }, [isOpen, selectedIndex, refs.floating.current]);
