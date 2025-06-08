@@ -17,6 +17,8 @@ export type SelectPrimitiveContextType = {
     getReferenceProps: () => any;
     getFloatingProps: () => any;
     getItemProps: (userProps?: any) => any;
+    selectedItemRef: React.RefObject<any>;
+    setOffsetPositionValue: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 export const SelectPrimitiveContext = createContext<SelectPrimitiveContextType>({} as SelectPrimitiveContextType);

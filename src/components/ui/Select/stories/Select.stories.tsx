@@ -31,6 +31,26 @@ export const Basic = () => {
     );
 };
 
+export const BasicPortal = () => {
+    return (
+        <SandboxEditor>
+            <div className="w-[240px]">
+                <Select.Root>
+                    <Select.Trigger>
+                        <span>Select an option</span>
+                    </Select.Trigger>
+                    <Select.Content>
+                        <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
+                        <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
+                        <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
+                        <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
+                    </Select.Content>
+                </Select.Root>
+            </div>
+        </SandboxEditor>
+    );
+};
+
 export const WithDisabledOptions = () => {
     return (
         <SandboxEditor>

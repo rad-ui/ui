@@ -5,6 +5,7 @@ import { SelectRootContext } from '../contexts/SelectRootContext';
 
 function SelectContent({ customRootClass, children, position = 'popper', ...props }: any) {
     const { rootClass } = useContext(SelectRootContext);
+
     return (
         <SelectPrimitive.Content
             className={`${rootClass}-content`}
@@ -13,7 +14,6 @@ function SelectContent({ customRootClass, children, position = 'popper', ...prop
 
             {...props}
         >
-
             {children}
         </SelectPrimitive.Content>
     );

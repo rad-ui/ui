@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 import { SelectRootContext } from '../contexts/SelectRootContext';

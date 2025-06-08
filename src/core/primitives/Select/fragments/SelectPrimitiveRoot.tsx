@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext } from 'react';
+import React, { createContext, useEffect } from 'react';
 import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -13,14 +13,19 @@ export type SelectPrimitiveRootProps = {
     className?: string,
     value?: string,
     defaultValue?: string,
-    name?: string
+    name?: string,
+    offsetValue?: number,
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
+    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+    const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
+    const selectedItemRef = React.useRef<any>(null);
+
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
         defaultValue,
@@ -36,6 +41,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     };
 
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
+        middleware: [Floater.offset(offsetPositionValue)],
         open: isOpen,
         onOpenChange: setIsOpen,
         placement
@@ -54,8 +60,26 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         role
     ]);
 
-    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps };
+    useEffect(() => {
+        const floatingElement = refs.floating.current;
+        if (!floatingElement || !selectedItemRef?.current) return;
 
+        const children = Array.from(floatingElement.children);
+        const index = children.indexOf(selectedItemRef.current);
+        setSelectedIndex(index);
+    }, [refs.floating.current, selectedItemRef]);
+
+    useEffect(() => {
+        if (!isOpen || selectedIndex === null) return;
+
+        const floatingElement = refs.floating.current;
+        if (!floatingElement) return;
+        console.log(selectedIndex)
+        const position = (selectedIndex + 1) * (floatingElement.clientHeight / floatingElement.children.length);
+        setOffsetPositionValue(-position);
+    }, [isOpen, selectedIndex, refs.floating]);
+
+    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue };
     return (
         <SelectPrimitiveContext.Provider value={values}>
             <RovingFocusGroup.Root>
