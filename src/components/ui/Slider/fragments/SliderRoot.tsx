@@ -47,8 +47,49 @@ const SliderRoot = ({ children, className = '', customRootClass = '', defaultVal
         // orientation,
         // valueLabelDisplay
     };
+
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        setSliderValue(e);
+    };
+
+    const setSliderValue = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Get the bounding rectangle of the track element
+        const rect = e.currentTarget.getBoundingClientRect();
+        // Calculate the relative X position within the element
+        const relativeX = e.clientX - rect.left;
+        // Get percentage of the click (clamped between 0 and 100)
+        const percentage = Math.max(0, Math.min(100, (relativeX / rect.width) * 100));
+
+        setValue(percentage);
+    };
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+
+        // Get the bounding rectangle of the track element
+        // const rect = e.currentTarget.getBoundingClientRect();
+        setSliderValue(e);
+    };
+
+    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLElement;
+        target.setPointerCapture(e.pointerId);
+        e.stopPropagation();
+
+        // Get the bounding rectangle of the track element
+        // const rect = e.currentTarget.getBoundingClientRect();
+
+        target.focus();
+        e.preventDefault();
+
+        setSliderValue(e);
+
+        console.log('moving');
+    };
+
     return <SliderContext.Provider value={contextValues}>
-        <div className={clsx(rootClass, className)}>{children}</div>
+        <div className={clsx(rootClass, className)} onClick={handleClick} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove}>{children}</div>
     </SliderContext.Provider>;
 };
 
