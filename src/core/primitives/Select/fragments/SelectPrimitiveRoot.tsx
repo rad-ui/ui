@@ -22,7 +22,7 @@ export type SelectPrimitiveRootProps = {
 
 function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
     const selectedItemRef = React.useRef<any>(null);
 
@@ -66,19 +66,18 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
 
         const children = Array.from(floatingElement.children);
         const index = children.indexOf(selectedItemRef.current);
-
-        setSelectedIndex(index + 1);
-    }, [refs.floating.current, selectedItemRef?.current]);
+        setSelectedIndex(index);
+    }, [refs.floating.current, selectedItemRef]);
 
     useEffect(() => {
-        if (!isOpen) return;
+        if (!isOpen || selectedIndex === null) return;
 
         const floatingElement = refs.floating.current;
         if (!floatingElement) return;
-
-        const position = (selectedIndex) * (floatingElement.clientHeight / floatingElement.children.length);
+        console.log(selectedIndex)
+        const position = (selectedIndex + 1) * (floatingElement.clientHeight / floatingElement.children.length);
         setOffsetPositionValue(-position);
-    }, [isOpen, selectedIndex, refs.floating.current]);
+    }, [isOpen, selectedIndex, refs.floating]);
 
     const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue };
     return (
