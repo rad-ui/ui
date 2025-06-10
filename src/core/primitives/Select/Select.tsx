@@ -4,6 +4,7 @@ import SelectPrimitiveTrigger from './fragments/SelectPrimitiveTrigger';
 import SelectPrimitiveRoot from './fragments/SelectPrimitiveRoot';
 import SelectPrimitivePortal from './fragments/SelectPrimitivePortal';
 import SelectPrimitiveOverlay from './fragments/SelectPrimitiveOverlay';
+import SelectPrimitiveGroup from './fragments/SelectPrimitiveGroup';
 
 const SelectPrimitive = () => {
     console.warn('Direct usage of Select is not supported. Please use Select.Root, Select.Content, etc. instead.');
@@ -16,5 +17,6 @@ SelectPrimitive.Portal = SelectPrimitivePortal;
 SelectPrimitive.Overlay = SelectPrimitiveOverlay;
 SelectPrimitive.Item = SelectPrimitiveItem;
 SelectPrimitive.Trigger = SelectPrimitiveTrigger;
+SelectPrimitive.Group = SelectPrimitiveGroup;
 
 export default SelectPrimitive;

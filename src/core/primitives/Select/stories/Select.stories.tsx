@@ -20,10 +20,12 @@ export const BasicSelect = () => {
                     </SelectPrimitive.Trigger>
                     <SelectPrimitive.Portal>
                         <SelectPrimitive.Content>
-                            <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
-                            <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
+                            <SelectPrimitive.Group>
+                                <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
 
-                            <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                            </SelectPrimitive.Group>
                         </SelectPrimitive.Content>
                     </SelectPrimitive.Portal>
 
@@ -44,10 +46,12 @@ export const ControlledExample = () => {
             helo
                 </SelectPrimitive.Trigger>
                 <SelectPrimitive.Content>
-                    <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
-                    <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
+                    <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
 
-                    <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
                 </SelectPrimitive.Content>
 
             </SelectPrimitive.Root>
@@ -81,9 +85,11 @@ export const FormExample = () => {
                             Select an option
                         </SelectPrimitive.Trigger>
                         <SelectPrimitive.Content>
-                            <SelectPrimitive.Item value="option1">Option 1</SelectPrimitive.Item>
-                            <SelectPrimitive.Item value="option2">Option 2</SelectPrimitive.Item>
-                            <SelectPrimitive.Item value="option3">Option 3</SelectPrimitive.Item>
+                            <SelectPrimitive.Group>
+                                <SelectPrimitive.Item value="option1">Option 1</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value="option2">Option 2</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value="option3">Option 3</SelectPrimitive.Item>
+                            </SelectPrimitive.Group>
                         </SelectPrimitive.Content>
                     </SelectPrimitive.Root>
                 </div>
@@ -108,6 +114,31 @@ export const FormExample = () => {
                     <pre>{submittedData}</pre>
                 </div>
             )}
+        </SandboxEditor>
+    );
+};
+
+export const GroupExample = () => {
+    return (
+        <SandboxEditor>
+            <SelectPrimitive.Root>
+                <SelectPrimitive.Trigger>
+                    Select an option
+                </SelectPrimitive.Trigger>
+                <SelectPrimitive.Content>
+                    <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value="g1option1">g1Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g1option2">g1Option 2</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g1option3">g1Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
+
+                    <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value="g2option1">g2Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g2option2">g2Option 2</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g2option3">Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
+                </SelectPrimitive.Content>
+            </SelectPrimitive.Root>
         </SandboxEditor>
     );
 };

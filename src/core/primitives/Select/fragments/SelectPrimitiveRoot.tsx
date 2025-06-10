@@ -74,7 +74,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
 
         const floatingElement = refs.floating.current;
         if (!floatingElement) return;
-        console.log(selectedIndex)
+
         const position = (selectedIndex + 1) * (floatingElement.clientHeight / floatingElement.children.length);
         setOffsetPositionValue(-position);
     }, [isOpen, selectedIndex, refs.floating]);
@@ -82,7 +82,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue };
     return (
         <SelectPrimitiveContext.Provider value={values}>
-            <RovingFocusGroup.Root>
+            <RovingFocusGroup.Root orientation='vertical'>
                 <Primitive.div {...props} className={className} ref={rootRef}>
 
                     {children}
