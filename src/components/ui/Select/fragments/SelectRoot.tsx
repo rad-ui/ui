@@ -5,7 +5,7 @@ import { SelectRootContext } from '../contexts/SelectRootContext';
 
 const COMPONENT_NAME = 'Select';
 
-function SelectRoot({ customRootClass, children, defaultValue, value, onValueChange, ...props }: any) {
+function SelectRoot({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }: any) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
@@ -15,6 +15,7 @@ function SelectRoot({ customRootClass, children, defaultValue, value, onValueCha
                 defaultValue={defaultValue}
                 value={value}
                 onValueChange={onValueChange}
+                shift={shift}
                 {...props}
             >
                 {children}

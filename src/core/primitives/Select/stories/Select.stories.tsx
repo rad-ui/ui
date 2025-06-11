@@ -2,7 +2,6 @@ import React from 'react';
 import { Meta } from '@storybook/react';
 import SelectPrimitive from '../Select';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import Floater from '~/core/primitives/Floater';
 
 export default {
     title: 'Primitives/SelectPrimitive',
@@ -13,7 +12,7 @@ export const BasicSelect = () => {
     return (
         <SandboxEditor>
             <div>
-                <SelectPrimitive.Root>
+                <SelectPrimitive.Root shift={false}>
 
                     <SelectPrimitive.Trigger>
             hello
@@ -40,7 +39,7 @@ export const ControlledExample = () => {
 
     return (
         <SandboxEditor>
-            <SelectPrimitive.Root value={value} onValueChange={setValue}>
+            <SelectPrimitive.Root value={value} onValueChange={setValue} shift={false}>
 
                 <SelectPrimitive.Trigger>
             helo
@@ -80,7 +79,7 @@ export const FormExample = () => {
         <SandboxEditor>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <SelectPrimitive.Root name="raduiSelect">
+                    <SelectPrimitive.Root name="raduiSelect" shift={false}>
                         <SelectPrimitive.Trigger>
                             Select an option
                         </SelectPrimitive.Trigger>
@@ -121,7 +120,7 @@ export const FormExample = () => {
 export const GroupExample = () => {
     return (
         <SandboxEditor>
-            <SelectPrimitive.Root>
+            <SelectPrimitive.Root shift={false}>
                 <SelectPrimitive.Trigger>
                     Select an option
                 </SelectPrimitive.Trigger>
