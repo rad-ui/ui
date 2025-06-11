@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -15,14 +15,14 @@ export type SelectPrimitiveRootProps = {
     defaultValue?: string,
     name?: string,
     offsetValue?: number,
+    shift?: boolean,
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, ...props }: SelectPrimitiveRootProps) {
+function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
     const selectedItemRef = React.useRef<any>(null);
 
@@ -59,30 +59,22 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         dismiss,
         role
     ]);
-
+ 
     useEffect(() => {
-        const floatingElement = refs.floating.current;
-        if (!floatingElement || !selectedItemRef?.current) return;
+    if (!shift) return;
+        if (refs.floating.current && selectedItemRef.current) {
+            const rectA = refs.floating.current.getBoundingClientRect();
+            const rectB = selectedItemRef.current.getBoundingClientRect();
 
-        const children = Array.from(floatingElement.children);
-        const index = children.indexOf(selectedItemRef.current);
-        setSelectedIndex(index);
-    }, [refs.floating.current, selectedItemRef]);
-
-    useEffect(() => {
-        if (!isOpen || selectedIndex === null) return;
-
-        const floatingElement = refs.floating.current;
-        if (!floatingElement) return;
-        console.log(selectedIndex)
-        const position = (selectedIndex + 1) * (floatingElement.clientHeight / floatingElement.children.length);
-        setOffsetPositionValue(-position);
-    }, [isOpen, selectedIndex, refs.floating]);
+            const relativeTop = rectA.top - rectB.bottom;
+            setOffsetPositionValue(relativeTop);
+        }
+    }, [refs.floating.current, selectedItemRef.current, shift, isOpen]);
 
     const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue };
     return (
         <SelectPrimitiveContext.Provider value={values}>
-            <RovingFocusGroup.Root>
+            <RovingFocusGroup.Root orientation='vertical'>
                 <Primitive.div {...props} className={className} ref={rootRef}>
 
                     {children}

@@ -2,7 +2,6 @@ import React from 'react';
 import { Meta } from '@storybook/react';
 import SelectPrimitive from '../Select';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import Floater from '~/core/primitives/Floater';
 
 export default {
     title: 'Primitives/SelectPrimitive',
@@ -13,17 +12,19 @@ export const BasicSelect = () => {
     return (
         <SandboxEditor>
             <div>
-                <SelectPrimitive.Root>
+                <SelectPrimitive.Root shift={false}>
 
                     <SelectPrimitive.Trigger>
             hello
                     </SelectPrimitive.Trigger>
                     <SelectPrimitive.Portal>
                         <SelectPrimitive.Content>
-                            <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
-                            <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
+                            <SelectPrimitive.Group>
+                                <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
 
-                            <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                            </SelectPrimitive.Group>
                         </SelectPrimitive.Content>
                     </SelectPrimitive.Portal>
 
@@ -38,16 +39,18 @@ export const ControlledExample = () => {
 
     return (
         <SandboxEditor>
-            <SelectPrimitive.Root value={value} onValueChange={setValue}>
+            <SelectPrimitive.Root value={value} onValueChange={setValue} shift={false}>
 
                 <SelectPrimitive.Trigger>
             helo
                 </SelectPrimitive.Trigger>
                 <SelectPrimitive.Content>
-                    <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
-                    <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
+                    <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
 
-                    <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
                 </SelectPrimitive.Content>
 
             </SelectPrimitive.Root>
@@ -76,14 +79,16 @@ export const FormExample = () => {
         <SandboxEditor>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <SelectPrimitive.Root name="raduiSelect">
+                    <SelectPrimitive.Root name="raduiSelect" shift={false}>
                         <SelectPrimitive.Trigger>
                             Select an option
                         </SelectPrimitive.Trigger>
                         <SelectPrimitive.Content>
-                            <SelectPrimitive.Item value="option1">Option 1</SelectPrimitive.Item>
-                            <SelectPrimitive.Item value="option2">Option 2</SelectPrimitive.Item>
-                            <SelectPrimitive.Item value="option3">Option 3</SelectPrimitive.Item>
+                            <SelectPrimitive.Group>
+                                <SelectPrimitive.Item value="option1">Option 1</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value="option2">Option 2</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value="option3">Option 3</SelectPrimitive.Item>
+                            </SelectPrimitive.Group>
                         </SelectPrimitive.Content>
                     </SelectPrimitive.Root>
                 </div>
@@ -108,6 +113,31 @@ export const FormExample = () => {
                     <pre>{submittedData}</pre>
                 </div>
             )}
+        </SandboxEditor>
+    );
+};
+
+export const GroupExample = () => {
+    return (
+        <SandboxEditor>
+            <SelectPrimitive.Root shift={false}>
+                <SelectPrimitive.Trigger>
+                    Select an option
+                </SelectPrimitive.Trigger>
+                <SelectPrimitive.Content>
+                    <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value="g1option1">g1Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g1option2">g1Option 2</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g1option3">g1Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
+
+                    <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value="g2option1">g2Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g2option2">g2Option 2</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g2option3">Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
+                </SelectPrimitive.Content>
+            </SelectPrimitive.Root>
         </SandboxEditor>
     );
 };
