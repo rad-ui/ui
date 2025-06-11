@@ -1,12 +1,14 @@
 import React from 'react';
 
 export type SelectPrimitiveGroupProps = {
-    children: React.ReactNode
+    children: React.ReactNode,
+    className?: string,
+
 }
 
-function SelectPrimitiveGroup({ children }: SelectPrimitiveGroupProps) {
+function SelectPrimitiveGroup({ children, className }: SelectPrimitiveGroupProps) {
     return (
-        <div>
+        <div className={className}>
             {children}
         </div>
     );

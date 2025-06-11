@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from '../Select';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import SelectPrimitive from '~/core/primitives/Select/Select';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -19,12 +18,12 @@ export const Basic = () => {
                     </Select.Trigger>
                     <Select.Portal>
                         <Select.Content>
-                            <SelectPrimitive.Group>
+                            <Select.Group>
                                 <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
                                 <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
                                 <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
                                 <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
-                            </SelectPrimitive.Group>
+                            </Select.Group>
                         </Select.Content>
                     </Select.Portal>
                 </Select.Root>
@@ -42,12 +41,12 @@ export const BasicPortal = () => {
                         <span>Select an option</span>
                     </Select.Trigger>
                     <Select.Content>
-                        <SelectPrimitive.Group>
+                        <Select.Group>
                             <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
                             <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
                             <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
                             <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
-                        </SelectPrimitive.Group>
+                        </Select.Group>
                     </Select.Content>
                 </Select.Root>
             </div>
@@ -64,13 +63,13 @@ export const WithDisabledOptions = () => {
                         <span>Select a fruit</span>
                     </Select.Trigger>
                     <Select.Content>
-                        <SelectPrimitive.Group>
+                        <Select.Group>
                             <Select.Item value="apple">Apple</Select.Item>
                             <Select.Item value="banana">Banana</Select.Item>
                             <Select.Item value="orange" disabled>Orange (Sold Out)</Select.Item>
                             <Select.Item value="grape">Grape</Select.Item>
                             <Select.Item value="pear" disabled>Pear (Sold Out)</Select.Item>
-                        </SelectPrimitive.Group>
+                        </Select.Group>
                     </Select.Content>
                 </Select.Root>
             </div>
@@ -87,12 +86,12 @@ export const WithInitialValue = () => {
                         <span>Favorite Framework</span>
                     </Select.Trigger>
                     <Select.Content>
-                        <SelectPrimitive.Group>
+                        <Select.Group>
                             <Select.Item value="react">React</Select.Item>
                             <Select.Item value="angular">Angular</Select.Item>
                             <Select.Item value="vue">Vue</Select.Item>
                             <Select.Item value="svelte">Svelte</Select.Item>
-                        </SelectPrimitive.Group>
+                        </Select.Group>
                     </Select.Content>
                 </Select.Root>
             </div>
@@ -110,12 +109,12 @@ export const MultipleSelects = () => {
                             <span>Select a color</span>
                         </Select.Trigger>
                         <Select.Content>
-                            <SelectPrimitive.Group>
+                            <Select.Group>
                                 <Select.Item value="red">Red</Select.Item>
                                 <Select.Item value="green">Green</Select.Item>
                                 <Select.Item value="blue">Blue</Select.Item>
                                 <Select.Item value="yellow">Yellow</Select.Item>
-                            </SelectPrimitive.Group>
+                            </Select.Group>
                         </Select.Content>
                     </Select.Root>
                 </div>
@@ -126,12 +125,12 @@ export const MultipleSelects = () => {
                             <span>Select a size</span>
                         </Select.Trigger>
                         <Select.Content>
-                            <SelectPrimitive.Group>
+                            <Select.Group>
                                 <Select.Item value="sm">Small</Select.Item>
                                 <Select.Item value="md">Medium</Select.Item>
                                 <Select.Item value="lg">Large</Select.Item>
                                 <Select.Item value="xl">Extra Large</Select.Item>
-                            </SelectPrimitive.Group>
+                            </Select.Group>
                         </Select.Content>
                     </Select.Root>
                 </div>
@@ -150,11 +149,11 @@ export const ControlledExample = () => {
             helo
                     </Select.Trigger>
                     <Select.Content>
-                        <SelectPrimitive.Group>
+                        <Select.Group>
                             <Select.Item value='option1'>Option 1</Select.Item>
                             <Select.Item value='option2'>Option 2</Select.Item>
                             <Select.Item value='option3'>Option 3</Select.Item>
-                        </SelectPrimitive.Group>
+                        </Select.Group>
                     </Select.Content>
                 </Select.Root>
             </div>

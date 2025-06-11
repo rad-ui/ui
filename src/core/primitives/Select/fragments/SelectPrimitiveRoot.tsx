@@ -59,9 +59,9 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         dismiss,
         role
     ]);
-    console.log(shift);
-    { shift &&
+ 
     useEffect(() => {
+    if (!shift) return;
         if (refs.floating.current && selectedItemRef.current) {
             const rectA = refs.floating.current.getBoundingClientRect();
             const rectB = selectedItemRef.current.getBoundingClientRect();
@@ -69,8 +69,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
             const relativeTop = rectA.top - rectB.bottom;
             setOffsetPositionValue(relativeTop);
         }
-    }, [refs.floating.current, selectedItemRef.current]);
-    }
+    }, [refs.floating.current, selectedItemRef.current, shift, isOpen]);
 
     const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue };
     return (
