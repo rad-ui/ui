@@ -6,6 +6,7 @@ type ProgressContextType = {
     maxValue: number;
     rootClass: string;
     size?: string;
+    variant?: string;
 };
 
 export const ProgressContext = createContext<ProgressContextType>({
@@ -14,4 +15,5 @@ export const ProgressContext = createContext<ProgressContextType>({
     maxValue: 100,
     rootClass: '',
     size: '',
+    variant: '',
 });

@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react';
 
 import Progress from '../Progress';
 
-const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0,size='' }: { value?: number, maxValue?: number, minValue?: number, size?: string }) => {
+const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0,size='',variant='' }: { value?: number, maxValue?: number, minValue?: number, size?: string , variant?: string}) => {
     return (
-        <Progress.Root value={value} maxValue={maxValue} minValue={minValue} size={size}>
+        <Progress.Root value={value} maxValue={maxValue} minValue={minValue} size={size} variant={variant}>
             <Progress.Indicator />
         </Progress.Root>
     );
@@ -60,6 +60,13 @@ describe('Progress', () => {
       expect(screen.getByTestId("progress-bar-component")).toHaveAttribute(
         "data-progress-size",
         "x-large"
+      );
+    });
+    test("renders progress bar with a variant x", () => {
+      render(<ProgressComp variant='x' />);
+      expect(screen.getByTestId("progress-bar-component")).toHaveAttribute(
+        "data-progress-variant",
+        "x"
       );
     });
 

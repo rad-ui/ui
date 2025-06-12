@@ -12,20 +12,22 @@ const COMPONENT_NAME = 'Progress';
 type ProgressRootProps = {
     value: number;
     size?: string;
+    variant?: string;
     minValue: number;
     maxValue: number;
     children: React.ReactNode;
     customRootClass?: string;
 }
 
-const ProgressRoot = ({ value = 0, minValue = 0, maxValue = 100,size='', children, customRootClass }: ProgressRootProps) => {
+const ProgressRoot = ({ value = 0, minValue = 0, maxValue = 100,size='',variant='', children, customRootClass }: ProgressRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const dataAttributes = useCreateDataAttribute(COMPONENT_NAME.toLowerCase(), { size });
+    const dataAttributes = useCreateDataAttribute(COMPONENT_NAME.toLowerCase(), { size ,variant});
     const sendValues = {
         value,
         minValue,
         maxValue,
         size,
+        variant,
         rootClass
     };
 
