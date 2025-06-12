@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react';
 
 import Progress from '../Progress';
 
-const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0 }: { value?: number, maxValue?: number, minValue?: number }) => {
+const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0,size='' }: { value?: number, maxValue?: number, minValue?: number, size?: string }) => {
     return (
-        <Progress.Root value={value} maxValue={maxValue} minValue={minValue}>
+        <Progress.Root value={value} maxValue={maxValue} minValue={minValue} size={size}>
             <Progress.Indicator />
         </Progress.Root>
     );
@@ -36,6 +36,31 @@ describe('Progress', () => {
 
         rerender(<ProgressComp value={2} maxValue={100} minValue={0} />);
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2');
+    });
+    test('renders progress bar with correct size', () => {
+        render(<ProgressComp size='large' />);
+        expect(screen.getByTestId("progress-bar-component")).toHaveAttribute('data-progress-size', 'large');
+    });
+    test("renders progress bar with correct size", () => {
+      render(<ProgressComp size="small" />);
+      expect(screen.getByTestId("progress-bar-component")).toHaveAttribute(
+        "data-progress-size",
+        "small"
+      );
+    });
+    test("renders progress bar with correct size", () => {
+      render(<ProgressComp size="medium" />);
+      expect(screen.getByTestId("progress-bar-component")).toHaveAttribute(
+        "data-progress-size",
+        "medium"
+      );
+    });
+    test("renders progress bar with correct size", () => {
+      render(<ProgressComp size="x-large" />);
+      expect(screen.getByTestId("progress-bar-component")).toHaveAttribute(
+        "data-progress-size",
+        "x-large"
+      );
     });
 
     // TODO: Add color test after supporting color prop
