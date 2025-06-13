@@ -35,7 +35,6 @@ const ProgressRoot = ({ value = 0, minValue = 0, maxValue = 100,size='',variant=
       <ProgressContext.Provider value={sendValues}>
         <Primitive.div
           className={clsx(rootClass)}
-          data-testid={`${COMPONENT_NAME.toLowerCase()}-bar-component`}
           {...dataAttributes()}
         >
           {children}

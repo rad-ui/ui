@@ -16,32 +16,20 @@
 
 
 /* Sizes */
-    &[data-progress-size="small"] {
-        height: 4px;
-
-        .rad-ui-progress-indicator {
-            height: 100%;
-        }
+$progress-sizes: (
+    small: 4px,
+    medium: 8px,
+    large: 12px,
+    x-large: 16px
+  );
+  
+  @each $size, $height in $progress-sizes {
+    &[data-progress-size="#{$size}"] {
+      height: $height;
+  
+      .rad-ui-progress-indicator {
+        height: 100%;
+      }
     }
-    &[data-progress-size="medium"] {
-        height: 8px;
-
-        .rad-ui-progress-indicator {
-            height: 100%;
-        }
-    }
-    &[data-progress-size="large"] {
-        height: 12px;
-
-        .rad-ui-progress-indicator {
-            height: 100%;
-        }
-    }
-    &[data-progress-size="x-large"] {
-        height: 16px;
-
-        .rad-ui-progress-indicator {
-            height: 100%;
-        }
-    }
+  }
 }
