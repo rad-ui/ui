@@ -13,5 +13,23 @@
         border-radius: 8px;
         transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
     }
-}
 
+
+/* Sizes */
+$progress-sizes: (
+    small: 4px,
+    medium: 8px,
+    large: 12px,
+    x-large: 16px
+  );
+  
+  @each $size, $height in $progress-sizes {
+    &[data-progress-size="#{$size}"] {
+      height: $height;
+  
+      .rad-ui-progress-indicator {
+        height: 100%;
+      }
+    }
+  }
+}

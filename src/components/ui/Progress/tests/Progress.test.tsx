@@ -3,11 +3,19 @@ import { render, screen } from '@testing-library/react';
 
 import Progress from '../Progress';
 
-const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0 }: { value?: number, maxValue?: number, minValue?: number }) => {
+const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0,size='',variant='' }: { value?: number, maxValue?: number, minValue?: number, size?: string , variant?: string}) => {
     return (
-        <Progress.Root value={value} maxValue={maxValue} minValue={minValue}>
-            <Progress.Indicator />
-        </Progress.Root>
+      <Progress.Root
+        key={`progress`}
+        data-testid="progress-bar-component"
+        value={value}
+        maxValue={maxValue}
+        minValue={minValue}
+        size={size}
+        variant={variant}
+      >
+        <Progress.Indicator />
+      </Progress.Root>
     );
 };
 
