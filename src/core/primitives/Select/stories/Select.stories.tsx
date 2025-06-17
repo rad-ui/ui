@@ -141,3 +141,30 @@ export const GroupExample = () => {
         </SandboxEditor>
     );
 };
+
+export const SearchSelect = () => {
+    return (
+        <SandboxEditor>
+            <div>
+                <SelectPrimitive.Root shift={false}>
+
+                    <SelectPrimitive.Trigger>
+            hello
+                    </SelectPrimitive.Trigger>
+                    <SelectPrimitive.Portal>
+                        <SelectPrimitive.Content>
+                            <SelectPrimitive.Search/>
+                            <SelectPrimitive.Group>
+                                <SelectPrimitive.Item value='option1'>Option 1</SelectPrimitive.Item>
+                                <SelectPrimitive.Item value='option2'>Option 2</SelectPrimitive.Item>
+
+                                <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
+                            </SelectPrimitive.Group>
+                        </SelectPrimitive.Content>
+                    </SelectPrimitive.Portal>
+
+                </SelectPrimitive.Root>
+            </div>
+        </SandboxEditor>
+    );
+};
