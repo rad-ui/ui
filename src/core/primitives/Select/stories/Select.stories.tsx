@@ -151,7 +151,7 @@ export const SearchSelect = () => {
                     <SelectPrimitive.Trigger>
             hello
                     </SelectPrimitive.Trigger>
-                    <SelectPrimitive.Portal>
+                    {/* <SelectPrimitive.Portal> */}
                         <SelectPrimitive.Content>
                             <SelectPrimitive.Search/>
                             <SelectPrimitive.Group>
@@ -160,8 +160,13 @@ export const SearchSelect = () => {
 
                                 <SelectPrimitive.Item value='option3'>Option 3</SelectPrimitive.Item>
                             </SelectPrimitive.Group>
+                            <SelectPrimitive.Group>
+                        <SelectPrimitive.Item value="g2option1">g2Option 1</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g2option2">g2Option 2</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="g2option3">Option 3</SelectPrimitive.Item>
+                    </SelectPrimitive.Group>
                         </SelectPrimitive.Content>
-                    </SelectPrimitive.Portal>
+                    {/* </SelectPrimitive.Portal> */}
 
                 </SelectPrimitive.Root>
             </div>

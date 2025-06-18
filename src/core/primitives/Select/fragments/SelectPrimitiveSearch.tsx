@@ -2,21 +2,41 @@
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 
-
 function SelectPrimitiveSearch() {
     const [search, setSearch] = React.useState('');
     const { refs, selectedItemRef } = useContext(SelectPrimitiveContext);
+    
+    const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
 
     React.useEffect(() => {
         if (!refs.floating.current) return;
 
         const floatingElement = refs.floating.current;
-        const items = floatingElement.querySelectorAll('[role="button"]');
+        const items = Array.from(floatingElement.querySelectorAll('[role="button"]')) as HTMLElement[];
         
-        items.forEach((item: HTMLElement) => {
-            const text = item.textContent?.toLowerCase() || '';
+        // Store original structure if not already stored
+        if (originalStructureRef.current.length === 0) {
+            originalStructureRef.current = items.map(item => ({
+                element: item,
+                parent: item.parentElement
+            }));
+        }
+
+        // First, remove all items from their current positions
+        originalStructureRef.current.forEach(({ element }) => {
+            if (element.parentElement) {
+                element.parentElement.removeChild(element);
+            }
+        });
+
+        // Then, re-append only matching items to their original parents
+        originalStructureRef.current.forEach(({ element, parent }) => {
+            const text = element.textContent?.toLowerCase() || '';
             const shouldShow = text.includes(search.toLowerCase());
-            item.style.display = shouldShow ? '' : 'none';
+            
+            if (shouldShow && parent) {
+                parent.appendChild(element);
+            }
         });
     }, [search, refs.floating.current]);
     
@@ -24,6 +44,7 @@ function SelectPrimitiveSearch() {
         <input 
             type="search" 
             placeholder="Search..." 
+            tabIndex={-1}
             value={search} 
             onChange={(e) => setSearch(e.target.value)}
         />
