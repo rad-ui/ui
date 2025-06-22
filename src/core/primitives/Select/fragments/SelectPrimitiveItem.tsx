@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
-import ButtonPrimitive from '../../Button';
+import Primitive from '../../Primitive';
 
 interface SelectPrimitiveItemProps {
     children: React.ReactNode;
@@ -15,16 +15,16 @@ function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrim
     const { handleSelect, selectedValue, getItemProps, selectedItemRef } = useContext(SelectPrimitiveContext);
 
     return (
-        <RovingFocusGroup.Item >
-            <ButtonPrimitive
+        <RovingFocusGroup.Item role='list-item'>
+            <Primitive.div
                 disabled={disabled} data-value={value}
                 aria-selected= {value === selectedValue}
                 onClick={() => handleSelect(value)} {...props}
-                {...getItemProps()}
+                {...getItemProps()} 
                 ref={value === selectedValue ? selectedItemRef : undefined}
             >
                 {children}
-            </ButtonPrimitive>
+            </Primitive.div>
         </RovingFocusGroup.Item>
     );
 }

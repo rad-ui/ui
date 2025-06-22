@@ -1,6 +1,7 @@
 'use client'
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import Primitive from '../../Primitive';
 
 function SelectPrimitiveSearch() {
     const [search, setSearch] = React.useState('');
@@ -12,7 +13,7 @@ function SelectPrimitiveSearch() {
         if (!refs.floating.current) return;
 
         const floatingElement = refs.floating.current;
-        const items = Array.from(floatingElement.querySelectorAll('[role="button"]')) as HTMLElement[];
+        const items = Array.from(floatingElement.querySelectorAll('[role="list-item"]')) as HTMLElement[];
         
         // Store original structure if not already stored
         if (originalStructureRef.current.length === 0) {
@@ -39,13 +40,15 @@ function SelectPrimitiveSearch() {
             }
         });
     }, [search, refs.floating.current]);
-    
+
     return (
-        <input 
+        <Primitive.input
+            // @ts-ignore 
             type="search" 
             placeholder="Search..." 
             tabIndex={-1}
             value={search} 
+            // @ts-ignore
             onChange={(e) => setSearch(e.target.value)}
         />
     );
