@@ -12,15 +12,18 @@ interface SelectPrimitiveItemProps {
 }
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
-    const { handleSelect, selectedValue, getItemProps, selectedItemRef } = useContext(SelectPrimitiveContext);
+    const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue } = useContext(SelectPrimitiveContext);
 
     return (
-        <RovingFocusGroup.Item role='list-item'>
+        <RovingFocusGroup.Item
+            role='option'
+        >
             <Primitive.div
                 disabled={disabled} data-value={value}
                 aria-selected= {value === selectedValue}
+                data-active={activeItemValue === value}
                 onClick={() => handleSelect(value)} {...props}
-                {...getItemProps()} 
+                {...getItemProps()}
                 ref={value === selectedValue ? selectedItemRef : undefined}
             >
                 {children}

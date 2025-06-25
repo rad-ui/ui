@@ -24,6 +24,7 @@ export type SelectPrimitiveRootProps = {
 function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
+    const [activeItemValue, setActiveItemValue] = React.useState('');
     const selectedItemRef = React.useRef<any>(null);
 
     const [selectedValue, setSelectedValue] = useControllableState(
@@ -59,9 +60,9 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         dismiss,
         role
     ]);
- 
+
     useEffect(() => {
-    if (!shift) return;
+        if (!shift) return;
         if (refs.floating.current && selectedItemRef.current) {
             const rectA = refs.floating.current.getBoundingClientRect();
             const rectB = selectedItemRef.current.getBoundingClientRect();
@@ -71,7 +72,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         }
     }, [refs.floating.current, selectedItemRef.current, shift, isOpen]);
 
-    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue };
+    const values = { isOpen, setIsOpen, selectedValue, setSelectedValue, handleSelect, floatingContext, refs, getFloatingProps, getReferenceProps, floatingStyles, getItemProps, selectedItemRef, setOffsetPositionValue, activeItemValue, setActiveItemValue };
     return (
         <SelectPrimitiveContext.Provider value={values}>
             <RovingFocusGroup.Root orientation='vertical'>
