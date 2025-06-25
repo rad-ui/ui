@@ -10,7 +10,7 @@ export type SelectPrimitiveContentProps = {
 }
 
 function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentProps) {
-    const { isOpen, setIsOpen, selectedValue, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
+    const { isOpen, setIsOpen, selectedValue, floatingContext, refs, getFloatingProps, floatingStyles, handleSelect } = useContext(SelectPrimitiveContext);
     // if (!isOpen) return null;
     // const contentRef = React.useRef<HTMLDivElement>(null);
     // useEffect(() => {
@@ -34,7 +34,18 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
                             ref={refs.setFloating}
                             style={floatingStyles}
                             {...getFloatingProps()}
-                            {...props} >
+                            {...props} 
+                            onKeyDownCapture={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    const itemValue = refs.floating.current.querySelector('[data-active="true"]');
+                                  
+                                    if (itemValue) {
+                handleSelect((itemValue.getAttribute('data-value')))
+            }
+                                }
+                            }}
+                            >
 
                             {children}
 

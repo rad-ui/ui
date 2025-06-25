@@ -13,15 +13,22 @@ interface SelectPrimitiveItemProps {
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
     const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue } = useContext(SelectPrimitiveContext);
-
+    const [isFocused , setIsFocused] = React.useState(false);
     return (
         <RovingFocusGroup.Item
             role='option'
+            onFocus={e => {
+      
+                setIsFocused(true);
+            }}
+            onBlur={e => {
+                setIsFocused(false);
+            }}
         >
             <Primitive.div
                 disabled={disabled} data-value={value}
                 aria-selected= {value === selectedValue}
-                data-active={activeItemValue === value}
+                data-active={activeItemValue === value || isFocused}
                 onClick={() => handleSelect(value)} {...props}
                 {...getItemProps()}
                 ref={value === selectedValue ? selectedItemRef : undefined}

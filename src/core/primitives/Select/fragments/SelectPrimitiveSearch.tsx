@@ -5,7 +5,7 @@ import Primitive from '../../Primitive';
 
 function SelectPrimitiveSearch({ className }: {className: string}) {
     const [search, setSearch] = React.useState('');
-    const { refs, selectedItemRef, handleSelect, activeItemValue, setActiveItemValue } = useContext(SelectPrimitiveContext);
+    const { refs, selectedItemRef, handleSelect, activeItemValue, setActiveItemValue, setSelectedValue } = useContext(SelectPrimitiveContext);
 
     const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
 
@@ -48,6 +48,7 @@ function SelectPrimitiveSearch({ className }: {className: string}) {
             }
         }
         if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            setSelectedValue('');
             if (!refs.floating.current) return;
 
             const floatingElement = refs.floating.current;

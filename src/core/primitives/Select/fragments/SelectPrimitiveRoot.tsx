@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -61,7 +61,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         role
     ]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!shift) return;
         if (refs.floating.current && selectedItemRef.current) {
             const rectA = refs.floating.current.getBoundingClientRect();
