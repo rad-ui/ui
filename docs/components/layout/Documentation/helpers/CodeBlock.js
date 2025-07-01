@@ -8,6 +8,8 @@ import Copy from '@/components/Copy';
 
 import TooltipWrapper from '@/components/ui/Tooltip';
 import Button from '@radui/ui/Button'
+import clsx from 'clsx';
+import ScrollArea from '@radui/ui/ScrollArea';
 
 refractor.register(js);
 refractor.register(jsx);
@@ -56,21 +58,30 @@ const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
             maxHeight = 640;
         }
 
-
-
     }
     return (
         <pre className="relative mb-8">
-           <div className="relative ">
-           <code
+           <div className="relative height maxHeight">
+           {/* <code
 className={`language-${language} whitespace-pre-wrap`}
                 style={{
                     height,
                     maxHeight,
-                    overflowY: expanded ? 'scroll' : 'hidden',
+                    overflowY: expanded ? 'scroll' : 'hidden',  
                     wordBreak: 'break-word',
                 }}
-            >{code}</code>
+            >{code}</code> */}
+
+            <ScrollArea.Root className = { clsx("transition-all", expanded ? "max-h-[640px]": "max-h-[180px]")}>
+                <ScrollArea.Viewport style={{height: inline ? 'auto' : height, maxHeight: maxHeight, overflowY: 'auto'}}>
+                    <code className={`language-${language} whitespace-pre-wrap block`}> 
+                    {code}
+                    </code>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar>
+                    <ScrollArea.Thumb />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
             {!inline && <>
                 {!expanded && <div className="code-block-blur"></div>}
                 <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
@@ -87,6 +98,8 @@ className={`language-${language} whitespace-pre-wrap`}
             </TooltipWrapper>
            </span>
         </pre>
+
+
     );
 };
 
