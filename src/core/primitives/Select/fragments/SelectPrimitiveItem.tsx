@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
-import ButtonPrimitive from '../../Button';
+import Primitive from '../../Primitive';
 
 interface SelectPrimitiveItemProps {
     children: React.ReactNode;
@@ -12,19 +12,29 @@ interface SelectPrimitiveItemProps {
 }
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
-    const { handleSelect, selectedValue, getItemProps, selectedItemRef } = useContext(SelectPrimitiveContext);
-
+    const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue } = useContext(SelectPrimitiveContext);
+    const [isFocused , setIsFocused] = React.useState(false);
     return (
-        <RovingFocusGroup.Item >
-            <ButtonPrimitive
+        <RovingFocusGroup.Item
+            role='option'
+            onFocus={e => {
+      
+                setIsFocused(true);
+            }}
+            onBlur={e => {
+                setIsFocused(false);
+            }}
+        >
+            <Primitive.div
                 disabled={disabled} data-value={value}
                 aria-selected= {value === selectedValue}
+                data-active={activeItemValue === value || isFocused}
                 onClick={() => handleSelect(value)} {...props}
                 {...getItemProps()}
                 ref={value === selectedValue ? selectedItemRef : undefined}
             >
                 {children}
-            </ButtonPrimitive>
+            </Primitive.div>
         </RovingFocusGroup.Item>
     );
 }
