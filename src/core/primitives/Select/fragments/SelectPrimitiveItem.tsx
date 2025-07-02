@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '../../Primitive';
+import Floater from '../../Floater';
 
 interface SelectPrimitiveItemProps {
     children: React.ReactNode;
@@ -12,30 +13,28 @@ interface SelectPrimitiveItemProps {
 }
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
-    const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue } = useContext(SelectPrimitiveContext);
-    const [isFocused , setIsFocused] = React.useState(false);
+    const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue, activeIndex, selectedIndex } = useContext(SelectPrimitiveContext);
+
+    const { ref, index } = Floater.useListItem({ label: value });
+
+    const isActive = activeIndex === index;
+    const isSelected = selectedIndex === index;
     return (
-        <RovingFocusGroup.Item
-            role='option'
-            onFocus={e => {
-      
-                setIsFocused(true);
-            }}
-            onBlur={e => {
-                setIsFocused(false);
-            }}
+
+        <Primitive.div
+            disabled={disabled} data-value={value}
+            aria-label={value}
+            role="option"
+            aria-selected={isActive && isSelected}
+            tabIndex={isActive ? 0 : -1}
+            {...getItemProps({
+                onClick: () => handleSelect(index)
+            })}
+            ref={ref}
         >
-            <Primitive.div
-                disabled={disabled} data-value={value}
-                aria-selected= {value === selectedValue}
-                data-active={activeItemValue === value || isFocused}
-                onClick={() => handleSelect(value)} {...props}
-                {...getItemProps()}
-                ref={value === selectedValue ? selectedItemRef : undefined}
-            >
-                {children}
-            </Primitive.div>
-        </RovingFocusGroup.Item>
+            {children}
+        </Primitive.div>
+
     );
 }
 
