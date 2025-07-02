@@ -173,6 +173,7 @@ export const GroupExample = () => {
                     Select an option
                 </Select.Trigger>
                 <Select.Content>
+                    <Select.Search/>
                     <Select.Group>
                         <Select.Item value="g1option1">g1Option 1</Select.Item>
                         <Select.Item value="g1option2">g1Option 2</Select.Item>
