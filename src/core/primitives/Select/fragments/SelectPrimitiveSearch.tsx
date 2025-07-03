@@ -41,7 +41,6 @@ function SelectPrimitiveSearch({ className }: {className: string}) {
     }, [search, refs.floating.current]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-       
         if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
             setSelectedValue('');
             if (!refs.floating.current) return;

@@ -24,16 +24,13 @@ export type SelectPrimitiveRootProps = {
 function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
-    const [selectedItemRef, setSelectedItemRef] = React.useState<any>(null);
-const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
-
-    const [selectedValue, setSelectedValue] = useControllableState(
-        value,
-        defaultValue,
-        onValueChange
-    );
-
+    const [selectedLabel, setSelectedLabel] = React.useState<string>('');
+    const elementsRef = React.useRef([]);
+    const labelsRef = React.useRef([]);
+    const isTypingRef = React.useRef(false);
     const rootRef = React.useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
+    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
 
     const isFormChild = useIsInsideForm(rootRef.current);
 
@@ -49,11 +46,6 @@ const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
     const role = Floater.useRole(floatingContext, {
         role: 'listbox'
     });
-
-    // new roving focus thing with floating
-    const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
-    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
-    
 
     function handleTypeaheadMatch(index: number | null) {
         if (isOpen) {
@@ -71,10 +63,6 @@ const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
         }
     }, []);
 
-    const elementsRef = React.useRef([]);
-    const labelsRef = React.useRef([]);
-    const isTypingRef = React.useRef(false);
-
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
         activeIndex,
@@ -82,19 +70,15 @@ const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
         onNavigate: setActiveIndex
     });
 
-   
-
     const typeahead = Floater.useTypeahead(floatingContext, {
         listRef: labelsRef,
         activeIndex,
         selectedIndex,
         onMatch: handleTypeaheadMatch,
-         onTypingChange(isTyping) {
-      isTypingRef.current = isTyping;
-    },
+        onTypingChange(isTyping) {
+            isTypingRef.current = isTyping;
+        }
     });
-
-    // it ends here all other things are the same
 
     // Merge all the interactions into prop getters
     const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
@@ -105,49 +89,23 @@ const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
         typeahead
     ]);
 
-         
-    useEffect(() => {
-        if (!selectedIndex) return;
-        const selectedItemRef = labelsRef.current[selectedIndex];
-        setSelectedItemRef(selectedItemRef);
-    },[selectedIndex])
-
-    useLayoutEffect(() => {
-        if (!shift) return;
-        if (!selectedIndex) return;
-    
-        if (!selectedItemRef) return;
-        if (refs.floating.current && selectedItemRef.current) {
-            const rectA = refs.floating.current.getBoundingClientRect();
-            const rectB = selectedItemRef.current.getBoundingClientRect();
-
-            const relativeTop = rectA.top - rectB.bottom;
-            setOffsetPositionValue(relativeTop);
-            console.log(relativeTop)
-        }
-        
-    }, [refs.floating.current, selectedIndex, shift, isOpen]);
-
-    const values = { 
-        isOpen, 
-        setIsOpen, 
-        selectedValue, 
-        setSelectedValue, 
-        handleSelect, 
-        floatingContext, 
-        refs, 
-        getFloatingProps, 
-        getReferenceProps, 
-        floatingStyles, 
-        getItemProps, 
-        selectedItemRef, 
-        activeIndex, 
-        selectedIndex, 
-        elementsRef, 
+    const values = {
+        isOpen,
+        setIsOpen,
+        handleSelect,
+        floatingContext,
+        refs,
+        getFloatingProps,
+        getReferenceProps,
+        floatingStyles,
+        getItemProps,
+        activeIndex,
+        selectedIndex,
+        elementsRef,
         labelsRef,
-        setActiveIndex,  
+        setActiveIndex,
         selectedLabel,
-        isTypingRef             
+        isTypingRef
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
