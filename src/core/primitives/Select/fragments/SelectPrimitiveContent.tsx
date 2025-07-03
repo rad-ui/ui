@@ -10,7 +10,7 @@ export type SelectPrimitiveContentProps = {
 }
 
 function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentProps) {
-    const { isOpen, setIsOpen, selectedValue, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles, handleSelect } = useContext(SelectPrimitiveContext);
+    const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
 
     return (
         <>

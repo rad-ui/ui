@@ -24,8 +24,8 @@ export type SelectPrimitiveRootProps = {
 function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
-    const [activeItemValue, setActiveItemValue] = React.useState(null);
-    const selectedItemRef = React.useRef<any>(null);
+    const [selectedItemRef, setSelectedItemRef] = React.useState<any>(null);
+const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
 
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -53,7 +53,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     // new roving focus thing with floating
     const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
-    const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
+    
 
     function handleTypeaheadMatch(index: number | null) {
         if (isOpen) {
@@ -73,6 +73,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
 
     const elementsRef = React.useRef([]);
     const labelsRef = React.useRef([]);
+    const isTypingRef = React.useRef(false);
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
@@ -80,11 +81,17 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         selectedIndex,
         onNavigate: setActiveIndex
     });
+
+   
+
     const typeahead = Floater.useTypeahead(floatingContext, {
         listRef: labelsRef,
         activeIndex,
         selectedIndex,
-        onMatch: handleTypeaheadMatch
+        onMatch: handleTypeaheadMatch,
+         onTypingChange(isTyping) {
+      isTypingRef.current = isTyping;
+    },
     });
 
     // it ends here all other things are the same
@@ -94,19 +101,32 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         click,
         dismiss,
         role,
-        listNav
+        listNav,
+        typeahead
     ]);
+
+         
+    useEffect(() => {
+        if (!selectedIndex) return;
+        const selectedItemRef = labelsRef.current[selectedIndex];
+        setSelectedItemRef(selectedItemRef);
+    },[selectedIndex])
 
     useLayoutEffect(() => {
         if (!shift) return;
+        if (!selectedIndex) return;
+    
+        if (!selectedItemRef) return;
         if (refs.floating.current && selectedItemRef.current) {
             const rectA = refs.floating.current.getBoundingClientRect();
             const rectB = selectedItemRef.current.getBoundingClientRect();
 
             const relativeTop = rectA.top - rectB.bottom;
             setOffsetPositionValue(relativeTop);
+            console.log(relativeTop)
         }
-    }, [refs.floating.current, selectedItemRef.current, shift, isOpen]);
+        
+    }, [refs.floating.current, selectedIndex, shift, isOpen]);
 
     const values = { 
         isOpen, 
@@ -121,14 +141,13 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         floatingStyles, 
         getItemProps, 
         selectedItemRef, 
-        setOffsetPositionValue, 
-        activeItemValue, 
-        setActiveItemValue, 
         activeIndex, 
         selectedIndex, 
         elementsRef, 
         labelsRef,
-        setActiveIndex,               
+        setActiveIndex,  
+        selectedLabel,
+        isTypingRef             
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
@@ -140,12 +159,12 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
                     isFormChild && (
                         <select
                             name={name}
-                            value={selectedValue}
+                            value={selectedLabel}
                             hidden
                             aria-hidden="true"
                             tabIndex={-1}
                         >
-                            <option value={selectedValue}>{selectedValue}</option>
+                            <option value={selectedLabel}>{selectedLabel}</option>
                         </select>
                     )
                 }

@@ -13,7 +13,7 @@ interface SelectPrimitiveItemProps {
 }
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
-    const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue, activeIndex, selectedIndex } = useContext(SelectPrimitiveContext);
+    const { handleSelect, isTypingRef, selectedItemRef, getItemProps, activeIndex, selectedIndex } = useContext(SelectPrimitiveContext);
 
     const { ref, index } = Floater.useListItem({ label: value });
 
@@ -22,15 +22,24 @@ function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrim
     return (
 
         <Primitive.div
-            disabled={disabled} data-value={value}
-            aria-label={value}
-            role="option"
-            aria-selected={isActive && isSelected}
-            tabIndex={isActive ? 0 : -1}
-            {...getItemProps({
-                onClick: () => handleSelect(index)
-            })}
             ref={ref}
+      role="option"
+      aria-selected={isActive && isSelected}
+      tabIndex={isActive ? 0 : -1}
+      {...getItemProps({
+        onClick: () => handleSelect(index),
+        onKeyDown: (event: React.KeyboardEvent) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSelect(index);
+          }
+
+          if (event.key === " " && !isTypingRef.current) {
+                        event.preventDefault();
+                        handleSelect(index);
+                      }
+        }
+      })}
         >
             {children}
         </Primitive.div>
