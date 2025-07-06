@@ -3,88 +3,139 @@ import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
 
-function SelectPrimitiveSearch({ className }: {className: string}) {
+function SelectPrimitiveSearch({ className }: {className?: string}) {
     const [search, setSearch] = React.useState('');
-    // const { refs, selectedItemRef, handleSelect, activeItemValue, setActiveItemValue, setSelectedValue } = useContext(SelectPrimitiveContext);
+    const context = useContext(SelectPrimitiveContext);
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    
+    // Handle missing context gracefully
+    if (!context || !context.refs) {
+        return (
+            <Primitive.input
+                // @ts-ignore
+                type="search"
+                className={className}
+                placeholder="Search..."
+                value={search}
+                // @ts-ignore
+                onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+            />
+        );
+    }
+    
+    const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, updateRefs, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
+    
 
-    // const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
+    const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
 
-    // React.useEffect(() => {
-    //     if (!refs.floating.current) return;
+    // Set hasSearch to true when search component mounts
+    React.useEffect(() => {
+        setHasSearch(true);
+        return () => setHasSearch(false);
+    }, [setHasSearch]);
 
-    //     const floatingElement = refs.floating.current;
-    //     const items = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
-    //     // Store original structure if not already stored
-    //     if (originalStructureRef.current.length === 0) {
-    //         originalStructureRef.current = items.map(item => ({
-    //             element: item,
-    //             parent: item.parentElement
-    //         }));
-    //     }
+    // Initialize refs when component mounts
+    React.useEffect(() => {
+        if (refs.floating.current) {
+            updateRefs();
+        }
+    }, [refs.floating.current, updateRefs]);
 
-    //     // First, remove all items from their current positions
-    //     originalStructureRef.current.forEach(({ element }) => {
-    //         if (element.parentElement) {
-    //             element.parentElement.removeChild(element);
-    //         }
-    //     });
+    // Debug virtual focus
+    React.useEffect(() => {
+        console.log('Virtual focus debug:', {
+            activeIndex,
+            virtualItemRef: virtualItemRef.current?.id,
+            ariaActivedescendant: virtualItemRef.current?.id || (activeIndex !== null ? `select-item-${activeIndex}` : undefined)
+        });
+    }, [activeIndex, virtualItemRef.current]);
 
-    //     // Then, re-append only matching items to their original parents
-    //     originalStructureRef.current.forEach(({ element, parent }) => {
-    //         const text = element.textContent?.toLowerCase() || '';
-    //         const shouldShow = text.includes(search.toLowerCase());
+    // Ensure input maintains focus during virtual navigation
+    React.useEffect(() => {
+        if (activeIndex !== null && inputRef.current && document.activeElement !== inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [activeIndex]);
 
-    //         if (shouldShow && parent) {
-    //             parent.appendChild(element);
-    //         }
-    //     });
-    // }, [search, refs.floating.current]);
+    React.useEffect(() => {
+        if (!refs.floating.current) return;
 
-    // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-    //         setSelectedValue('');
-    //         if (!refs.floating.current) return;
+        const floatingElement = refs.floating.current;
+        const items = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
+        // Store original structure if not already stored
+        if (originalStructureRef.current.length === 0) {
+            originalStructureRef.current = items.map(item => ({
+                element: item,
+                parent: item.parentElement
+            }));
+        }
 
-    //         const floatingElement = refs.floating.current;
-    //         const items = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
-    //         e.preventDefault();
-    //         console.log('arrow input taken');
+        // First, remove all items from their current positions
+        originalStructureRef.current.forEach(({ element }) => {
+            if (element.parentElement) {
+                element.parentElement.removeChild(element);
+            }
+        });
 
-    //         if (items.length === 0) return;
+        // Then, re-append only matching items to their original parents
+        originalStructureRef.current.forEach(({ element, parent }) => {
+            const text = element.textContent?.toLowerCase() || '';
+            const shouldShow = text.includes(search.toLowerCase());
 
-    //         let currentIndex = -1;
-    //         if (activeItemValue) {
-    //             currentIndex = items.findIndex(item =>
-    //                 item.getAttribute('data-value') === activeItemValue
-    //             );
-    //         }
+            if (shouldShow && parent) {
+                parent.appendChild(element);
+            }
+        });
 
-    //         let newIndex: number;
-    //         if (e.key === 'ArrowDown') {
-    //             newIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-    //         } else {
-    //             newIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-    //         }
+        // Update the refs with the current visible elements
+        updateRefs();
+    }, [search, refs.floating.current, updateRefs]);
 
-    //         const newActiveItem = items[newIndex];
-    //         const newActiveValue = newActiveItem.getAttribute('data-value') || '';
-    //         setActiveItemValue(newActiveValue);
-    //     }
-    // };
+    // Handle when search is cleared to restore original refs
+    React.useEffect(() => {
+        if (search === '' && refs.floating.current) {
+            updateRefs();
+        }
+    }, [search, refs.floating.current, updateRefs]);
 
-    // console.log('activeItemValue', activeItemValue);
+
+
+    // Get the reference props from Floating UI
+    const referenceProps = getReferenceProps();
+    
     return (
         <Primitive.input
             // @ts-ignore
             type="search"
             className={className}
             placeholder="Search..."
-            tabIndex={-1}
+            ref={inputRef}
             value={search}
-            // aria-activedescendant={activeItemValue}
+            aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
             // @ts-ignore
             onChange={(e) => setSearch(e.target.value)}
-            // onKeyDown={handleKeyDown}
+            {...referenceProps}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                // Call the original onKeyDown if it exists
+                if (referenceProps.onKeyDown) {
+                    referenceProps.onKeyDown(event);
+                }
+                
+                // Then handle our custom selection logic
+                if (activeIndex !== null) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        console.log('Enter key pressed, selecting item at index:', activeIndex);
+                        handleSelect(activeIndex);
+                    }
+                    
+                    if (event.key === ' ' && !isTypingRef.current) {
+                        event.preventDefault();
+                        console.log('Space key pressed, selecting item at index:', activeIndex);
+                        handleSelect(activeIndex);
+                    }
+                }
+            }}
         />
     );
 }

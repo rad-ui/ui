@@ -28,12 +28,15 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         defaultValue,
         onValueChange
     );
-    const elementsRef = React.useRef([]);
-    const labelsRef = React.useRef([]);
+    const elementsRef = React.useRef<(HTMLElement | null)[]>([]);
+    const labelsRef = React.useRef<(string | null)[]>([]);
+    const valuesRef = React.useRef<(string | null)[]>([]);
     const isTypingRef = React.useRef(false);
     const rootRef = React.useRef<HTMLDivElement>(null);
+    const virtualItemRef = React.useRef<HTMLElement | null>(null);
     const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+    const [hasSearch, setHasSearch] = React.useState(false);
 
     const isFormChild = useIsInsideForm(rootRef.current);
 
@@ -62,7 +65,10 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         setSelectedIndex(index);
         setIsOpen(false);
         if (index !== null) {
-            setSelectedLabel(labelsRef.current[index]);
+            const label = labelsRef.current[index];
+            if (label) {
+                setSelectedLabel(label);
+            }
         }
     }, []);
 
@@ -70,7 +76,9 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         listRef: elementsRef,
         activeIndex,
         selectedIndex,
-        onNavigate: setActiveIndex
+        onNavigate: setActiveIndex,
+        virtual: hasSearch, // Enable virtual navigation only when search is present
+        virtualItemRef
     });
 
     const typeahead = Floater.useTypeahead(floatingContext, {
@@ -89,7 +97,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         dismiss,
         role,
         listNav,
-        typeahead
+        // typeahead
     ]);
 
     const values = {
@@ -106,9 +114,37 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         selectedIndex,
         elementsRef,
         labelsRef,
+        valuesRef,
         setActiveIndex,
         selectedLabel,
-        isTypingRef
+        isTypingRef,
+        virtualItemRef,
+        hasSearch,
+        setHasSearch,
+        updateRefs: React.useCallback(() => {
+            if (!refs.floating.current) return;
+            
+            const floatingElement = refs.floating.current;
+            const visibleItems = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
+            
+            // Update elementsRef with visible elements
+            elementsRef.current = visibleItems;
+            
+            // Update labelsRef with visible element labels
+            labelsRef.current = visibleItems.map(item => 
+                item.textContent?.trim() || null
+            );
+            
+            // Update valuesRef with visible element values (from data-value attribute or id)
+            valuesRef.current = visibleItems.map(item => 
+                item.getAttribute('data-value') || item.id || null
+            );
+            
+            // Update virtualItemRef if there's an active item
+            if (activeIndex !== null && visibleItems[activeIndex]) {
+                virtualItemRef.current = visibleItems[activeIndex];
+            }
+        }, [refs.floating, elementsRef, labelsRef, activeIndex, virtualItemRef])
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>

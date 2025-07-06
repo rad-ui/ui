@@ -8,21 +8,53 @@ import Floater from '../../Floater';
 interface SelectPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
-    disabled?: boolean
+    disabled?: boolean;
+    className?: string;
+    [key: string]: any;
 }
 
-function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
-    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex } = useContext(SelectPrimitiveContext);
+function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
+    const context = useContext(SelectPrimitiveContext);
+    
+    // Handle missing context gracefully
+    if (!context) {
+        return (
+            <Primitive.div role="option" className={className} {...props}>
+                {children}
+            </Primitive.div>
+        );
+    }
+    
+    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef } = context;
 
     const { ref, index } = Floater.useListItem({ label: value });
 
     const isActive = activeIndex === index;
     const isSelected = selectedIndex === index;
+    
+    // Use the value prop for the ID, fallback to index if value is not provided
+    const itemId = value || `select-item-${index}`;
+    
+    // Update virtualItemRef when this item is active
+    React.useEffect(() => {
+        if (isActive) {
+            // Find the current element by ID
+            const element = document.getElementById(itemId);
+            if (element && virtualItemRef.current !== element) {
+                (virtualItemRef as React.MutableRefObject<HTMLElement | null>).current = element;
+            }
+        }
+    }, [isActive, itemId, virtualItemRef]);
+    
     return (
 
         <Primitive.div
             ref={ref}
+            id={itemId}
             role="option"
+            className={className}
+            data-value={value}
+            data-active={virtualItemRef.current?.id == itemId }
             aria-selected={isActive && isSelected}
             tabIndex={isActive ? 0 : -1}
             {...getItemProps({
@@ -39,6 +71,7 @@ function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrim
                     }
                 }
             })}
+            {...props}
         >
             {children}
         </Primitive.div>

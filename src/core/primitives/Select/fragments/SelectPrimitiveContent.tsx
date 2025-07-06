@@ -4,10 +4,13 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
 export type SelectPrimitiveContentProps = {
-    children: React.ReactNode
+    children: React.ReactNode;
+    className?: string;
+    position?: string;
+    [key: string]: any;
 }
 
-function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentProps) {
+function SelectPrimitiveContent({ children, className, ...props }: SelectPrimitiveContentProps) {
     const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
     return (
         <>
@@ -17,6 +20,7 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
                         <div
                             ref={refs.setFloating}
                             style={floatingStyles}
+                            className={className}
                             {...getFloatingProps()}
                             {...props}
                         >

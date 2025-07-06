@@ -20,8 +20,13 @@ export type SelectPrimitiveContextType = {
     selectedIndex: number | null;
     elementsRef: React.MutableRefObject<(HTMLElement | null)[]>;
     labelsRef: React.MutableRefObject<(string | null)[]>;
+    valuesRef: React.MutableRefObject<(string | null)[]>;
     selectedLabel: string;
     isTypingRef: React.RefObject<boolean>;
+    updateRefs: () => void;
+    virtualItemRef: React.RefObject<HTMLElement | null>;
+    hasSearch: boolean;
+    setHasSearch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SelectPrimitiveContext = createContext<SelectPrimitiveContextType>({} as SelectPrimitiveContextType);
