@@ -2,7 +2,6 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
-import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
 import { Placement } from '@floating-ui/react';
@@ -24,7 +23,11 @@ export type SelectPrimitiveRootProps = {
 function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
-    const [selectedLabel, setSelectedLabel] = React.useState<string>('');
+    const [selectedLabel, setSelectedLabel] = useControllableState(
+        value,
+        defaultValue,
+        onValueChange
+    );
     const elementsRef = React.useRef([]);
     const labelsRef = React.useRef([]);
     const isTypingRef = React.useRef(false);

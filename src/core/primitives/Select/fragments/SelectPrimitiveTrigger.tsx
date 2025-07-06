@@ -7,7 +7,6 @@ export type SelectPrimitiveTriggerProps = {
 };
 function SelectPrimitiveTrigger({ children, ...props }: SelectPrimitiveTriggerProps) {
     const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(SelectPrimitiveContext);
-    // if (isOpen) return null;
     return (
         <button
             onClick={() => setIsOpen(!isOpen)} {...props}

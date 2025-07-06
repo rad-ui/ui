@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
-import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 
