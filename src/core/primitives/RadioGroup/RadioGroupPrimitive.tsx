@@ -8,9 +8,15 @@ export type RadioGroupProps = {
 
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & PropsWithChildren
 
-const RadioGroupPrimitive = {} as const;
+// Define the shape of the RadioGroupPrimitive object
+export interface RadioGroupPrimitiveType {
+    Root: typeof RadioGroupPrimitiveRoot;
+    Item: typeof RadioGroupPrimitiveItem;
+}
 
-RadioGroupPrimitive.Root = RadioGroupPrimitiveRoot;
-RadioGroupPrimitive.Item = RadioGroupPrimitiveItem;
+const RadioGroupPrimitive: RadioGroupPrimitiveType = {
+    Root: RadioGroupPrimitiveRoot,
+    Item: RadioGroupPrimitiveItem,
+};
 
 export default RadioGroupPrimitive;

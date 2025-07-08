@@ -7,9 +7,12 @@ export type RadioPrimitiveProps = {
     checked?: boolean;
     name: string;
     value: string;
+    disabled?: boolean
+    asChild?: boolean
+    required?: boolean
 };
 
-const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onChange, ...props }:RadioPrimitiveProps) => {
+const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onChange, disabled=false, asChild=false, required=false, ...props }:RadioPrimitiveProps) => {
     const [isChecked, setIsChecked] = useState(checked);
     const dataAttributes = {
         'data-checked': isChecked.toString()
@@ -28,7 +31,7 @@ const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onCha
     };
 
     return (
-        <Primitive.input id={value} type='radio' value={value} name={name} onChange={handleOnChange} {...props} {...dataAttributes}/>
+        <Primitive.input id={value} type='radio' value={value} name={name} onChange={handleOnChange} disabled={disabled} asChild={asChild} required={required} {...props} {...dataAttributes}/>
     );
 };
 

@@ -1,15 +1,22 @@
 import React, { PropsWithChildren, useState } from 'react';
-
+import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-type RadioGroupRootProps = PropsWithChildren<{
+type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     className?: string;
     customRootClass?: string;
     defaultChecked?: string;
     onChange?: (item: string) => void;
+    asChild?: boolean;
+    disabled?: boolean;
+    required?: boolean;
+    name?: string;
+    orientation?: 'horizontal' | 'vertical';
+    loop?: boolean
 }>;
 
-const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange = null, ...props }: RadioGroupPrimitiveRootProps) => {
+const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asChild=false, disabled:groupDisabled = false, required=false, name='', orientation='vertical', loop=true, ...props }: RadioGroupPrimitiveRootProps) => {
     const [checkedItem, setCheckedItem] = useState(defaultChecked);
 
     const handleOnChange = (item: string) => {
@@ -23,12 +30,26 @@ const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange = nul
     const sendItems = {
         checkedItem,
         setCheckedItem,
-        onChange: handleOnChange
+        onChange: handleOnChange,
+        groupDisabled,
+        name
     };
 
-    return <RadioGroupContext.Provider value={sendItems}>
-        <div {...props}>{children}</div>
-    </RadioGroupContext.Provider>;
+     return (
+    // <RovingFocusGroup.Root orientation={orientation} loop={loop}>
+    <RadioGroupContext.Provider value={sendItems}>
+        {/* <RovingFocusGroup.Group > */}
+        <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} asChild>
+            
+                {children}
+                
+            
+            </Primitive.div>
+            {/* </RovingFocusGroup.Group> */}
+    </RadioGroupContext.Provider>
+    // </RovingFocusGroup.Root> 
+     )
+    ;
 };
 
 export default RadioGroupPrimitiveRoot;

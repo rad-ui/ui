@@ -1,21 +1,33 @@
+import React from 'react';
 import RadioGroupPrimitive from './RadioGroupPrimitive';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 
-const RadioButton = (args) => {
-    const options = [
+interface Option {
+    id: string;
+    value: string;
+    label: string;
+}
+
+interface RadioButtonProps {
+    // Add any props you want to pass to RadioButton here
+}
+
+const RadioButton = (args: RadioButtonProps) => {
+    const options: Option[] = [
         { id: 'html', value: 'html', label: 'HTML' },
         { id: 'css', value: 'css', label: 'CSS' },
-        { id: 'javascript', value: 'javascript', label: 'JavaScript' }];
+        { id: 'javascript', value: 'javascript', label: 'JavaScript' }
+    ];
 
-    const [language, setLanguage] = useState('css');
+    const [language, setLanguage] = useState<string>('css');
 
-    const handleChange = (e) => {
-        setLanguage(e.target.value);
+    const handleChange = (item: string) => {
+        setLanguage(item);
     };
     return (
         <SandboxEditor>
-            <RadioGroupPrimitive.Root defaultChecked={language} items={options} onChange={handleChange} >
+            <RadioGroupPrimitive.Root  >
                 {options.map((option) => (
                     <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                         {option.label}
@@ -29,25 +41,26 @@ const RadioButton = (args) => {
 export default {
     title: 'Primitives/RadioGroupPrimitive',
     component: RadioGroupPrimitive,
-    render: (args) => <RadioButton {...args}/>
+    render: (args: RadioButtonProps) => <RadioButton {...args}/>
 };
 
 export const All = {};
 
 const InFormTemplate = () => {
-    const options = [
+    const options: Option[] = [
         { id: 'html', value: 'html', label: 'HTML' },
         { id: 'css', value: 'css', label: 'CSS' },
-        { id: 'javascript', value: 'javascript', label: 'JavaScript' }];
+        { id: 'javascript', value: 'javascript', label: 'JavaScript' }
+    ];
 
-    const [language, setLanguage] = useState('');
+    const [language, setLanguage] = useState<string>('');
 
-    const handleChange = (data) => {
+    const handleChange = (data: string) => {
         console.log('change', data);
         setLanguage(data);
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('submit', language);
     };
@@ -55,7 +68,7 @@ const InFormTemplate = () => {
     return (
         <SandboxEditor>
             <form onSubmit={handleFormSubmit}>
-                <RadioGroupPrimitive.Root defaultChecked={language} items={options} onChange={handleChange} >
+                <RadioGroupPrimitive.Root defaultChecked={language} onChange={handleChange} >
                     {options.map((option) => (
                         <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                             {option.label}
@@ -69,6 +82,3 @@ const InFormTemplate = () => {
 };
 
 export const InForm = InFormTemplate.bind({});
-InForm.args = {
-    defaultValue: 'css'
-};

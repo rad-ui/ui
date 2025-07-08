@@ -1,9 +1,13 @@
 import React from 'react';
 
-const RadioGroupContext = React.createContext({
-    defaultChecked: null,
-    onChange: null
+export interface RadioGroupContextValue {
+    checkedItem: string;
+    setCheckedItem: (item: string) => void;
+    onChange: (item: string) => void;
+    groupDisabled: boolean;
+    name: string;
+}
 
-});
+const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(null);
 
 export default RadioGroupContext;

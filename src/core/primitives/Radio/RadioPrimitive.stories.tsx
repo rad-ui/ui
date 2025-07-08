@@ -8,13 +8,12 @@ export default {
     render: (args:React.ComponentProps<typeof RadioPrimitive>) => <SandboxEditor>
 
         <div className='flex flex-col gap-2'>
+
             <span>
-                <RadioPrimitive name='radio' value='radio' checked={true} />
+                <form>
+                <RadioPrimitive  {...args}/>
                 <label htmlFor='radio'>Radio 1</label>
-            </span>
-            <span>
-                <RadioPrimitive name='radio' value='radio2'/>
-                <label htmlFor='radio2'>Radio 2</label>
+                </form>
             </span>
         </div>
     </SandboxEditor>
@@ -25,6 +24,22 @@ export const All = {
     args: {
         onClick: (data: any) => {
             console.log('data', data);
-        }
+        },
+        name:'radio',
+        value:'radio1',
+        checked: true,
+        required: true
+    }
+};
+
+export const Disabled = {
+    args: {
+        disabled: true,
+        name:'radio',
+        value:'radio1',
+        onClick: (data: any) => {
+            console.log('data', data);
+        },
+        
     }
 };
