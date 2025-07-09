@@ -1,9 +1,9 @@
 import React from 'react';
 
 export interface RadioGroupContextValue {
-    checkedItem: string;
-    setCheckedItem: (item: string) => void;
-    onChange: (item: string) => void;
+    selectedValue: string;
+    setSelectedValue: (value: string) => void;
+    onChange?: (value: string) => void;
     groupDisabled: boolean;
     name: string;
 }

@@ -26,7 +26,7 @@ const RadioButton = (args: RadioButtonProps) => {
     };
     return (
         <SandboxEditor>
-            <RadioGroupPrimitive.Root orientation='horizontal' dir='rtl'>
+            <RadioGroupPrimitive.Root orientation='horizontal' dir='rtl' name='test'>
                 {options.map((option) => (
                     <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                         {option.label}
@@ -45,39 +45,50 @@ export default {
 
 export const All = {};
 
-const InFormTemplate = () => {
+export const InForm = () => {
     const options: Option[] = [
         { id: 'html', value: 'html', label: 'HTML' },
         { id: 'css', value: 'css', label: 'CSS' },
         { id: 'javascript', value: 'javascript', label: 'JavaScript' }
     ];
+    const [selected, setSelected] = useState<string>('css');
+    const [submitted, setSubmitted] = useState<string | null>(null);
 
-    const [language, setLanguage] = useState<string>('');
-
-    const handleChange = (data: string) => {
-        console.log('change', data);
-        setLanguage(data);
+    const handleChange = (value: string) => {
+        setSelected(value);
     };
 
-    const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('submit', language);
+        setSubmitted(selected);
     };
 
     return (
         <SandboxEditor>
-            <form onSubmit={handleFormSubmit}>
-                <RadioGroupPrimitive.Root defaultChecked={language} onChange={handleChange} >
-                    {options.map((option) => (
-                        <RadioGroupPrimitive.Item key={option.id} value={option.value}>
-                            {option.label}
-                        </RadioGroupPrimitive.Item>
-                    ))}
-                </RadioGroupPrimitive.Root>
-                <button type="submit">Submit</button>
-            </form>
+        <form onSubmit={handleSubmit}>
+            <RadioGroupPrimitive.Root
+                orientation="horizontal"
+                name="language"
+                value={selected}
+                onValueChange={handleChange}
+            >
+                {options.map((option) => (
+                    <RadioGroupPrimitive.Item key={option.id} value={option.value}>
+                        {option.label}
+                    </RadioGroupPrimitive.Item>
+                ))}
+            </RadioGroupPrimitive.Root>
+            <button type="submit" style={{ marginTop: 16 }}>Submit</button>
+            {submitted && (
+                <div style={{ marginTop: 12 }}>
+                    <strong>Submitted value:</strong> {submitted}
+                </div>
+            )}
+        </form>
         </SandboxEditor>
     );
 };
 
-export const InForm = InFormTemplate.bind({});
+
+
+

@@ -7,6 +7,7 @@ import Primitive from '../../Primitive';
 type RadioGroupPrimitiveItemProps = PropsWithChildren<{
     value: string;
     disabled?: boolean
+    children?: React.ReactNode
 }>;
 
 const RadioGroupPrimitiveItem = ({ value, children, disabled, ...props }: RadioGroupPrimitiveItemProps) => {
@@ -14,25 +15,27 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, ...props }: RadioG
     if (!context) {
         throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
     }
-    const { setCheckedItem, checkedItem, onChange, groupDisabled, name } = context;
+    const { groupDisabled, name, selectedValue, setSelectedValue, } = context;
 
-    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.target.checked = true;
-        setCheckedItem(value);
-
-        if (typeof onChange === 'function') {
-            onChange(value);
-        }
-    };
 
     return (
-        <div {...props}>
-            <RovingFocusGroup.Item role='radio'>
-                <RadioPrimitive name='radio' value={value} checked={checkedItem === value} onChange={handleOnChange} onFocus={handleOnChange} disabled={groupDisabled || disabled} aria-checked={checkedItem === value} required />
-
-            </RovingFocusGroup.Item>
-            <label htmlFor={value}>{children}</label>
-        </div>
+        <RovingFocusGroup.Item role='radio'>
+            <div {...props} onFocus={() => setSelectedValue(value)}>
+                <Primitive.input
+                   
+                    type="radio"
+                    id={value}
+                    name={name}
+                    value={value}
+                    checked={selectedValue === value}
+                    disabled={groupDisabled || disabled}
+                    tabIndex={ -1}
+                    onChange={() => setSelectedValue(value)}
+                    onFocus={() => setSelectedValue(value)}
+                />
+                <label htmlFor={value}>{children}</label>
+            </div>
+        </RovingFocusGroup.Item>
     );
 };
 

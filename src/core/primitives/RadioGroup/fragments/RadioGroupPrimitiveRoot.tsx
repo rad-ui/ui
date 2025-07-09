@@ -2,12 +2,15 @@ import React, { PropsWithChildren, useState } from 'react';
 import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import useControllableState from '~/core/hooks/useControllableState';
+
 
 type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     className?: string;
     customRootClass?: string;
-    defaultChecked?: string;
-    onChange?: (item: string) => void;
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
     disabled?: boolean;
     required?: boolean;
     name?: string;
@@ -16,21 +19,18 @@ type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     dir?: 'ltr' | 'rtl';
 }>;
 
-const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', ...props }: RadioGroupPrimitiveRootProps) => {
-    const [checkedItem, setCheckedItem] = useState(defaultChecked);
+const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', ...props }: RadioGroupPrimitiveRootProps) => {
 
-    const handleOnChange = (item: string) => {
-        setCheckedItem(item);
-
-        if (typeof onChange === 'function') {
-            onChange(item);
-        }
-    };
+    const [selectedValue, setSelectedValue] = useControllableState(
+        value,
+        defaultValue,
+        onValueChange
+    );
+    
 
     const sendItems = {
-        checkedItem,
-        setCheckedItem,
-        onChange: handleOnChange,
+        selectedValue,
+        setSelectedValue,
         groupDisabled,
         name
     };
