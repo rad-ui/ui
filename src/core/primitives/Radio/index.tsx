@@ -32,6 +32,7 @@ const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onCha
     };
 
     return (
+        // @ts-ignore
         <Primitive.input id={value} type='radio' value={value} name={name} onFocus={onFocus} onChange={handleOnChange} disabled={disabled} asChild={asChild} required={required} {...props} {...dataAttributes}/>
     );
 };
