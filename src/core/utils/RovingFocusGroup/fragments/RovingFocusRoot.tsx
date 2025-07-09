@@ -53,7 +53,7 @@ const RovingFocusRoot = ({
     return <RovingFocusRootContext.Provider value={sendValues}>
         <Primitive.div
             role="listbox"
-            aria-orientation={orientation}
+            aria-orientation={orientation === 'both' ? undefined : orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
             {...props}
