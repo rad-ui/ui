@@ -11,8 +11,8 @@ export default {
 
             <span>
                 <form>
-                <RadioPrimitive  {...args}/>
-                <label htmlFor='radio'>Radio 1</label>
+                    <RadioPrimitive {...args}/>
+                    <label htmlFor='radio'>Radio 1</label>
                 </form>
             </span>
         </div>
@@ -25,8 +25,8 @@ export const All = {
         onClick: (data: any) => {
             console.log('data', data);
         },
-        name:'radio',
-        value:'radio1',
+        name: 'radio',
+        value: 'radio1',
         checked: true,
         required: true
     }
@@ -35,11 +35,11 @@ export const All = {
 export const Disabled = {
     args: {
         disabled: true,
-        name:'radio',
-        value:'radio1',
+        name: 'radio',
+        value: 'radio1',
         onClick: (data: any) => {
             console.log('data', data);
-        },
-        
+        }
+
     }
 };

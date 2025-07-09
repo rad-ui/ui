@@ -13,12 +13,11 @@ interface SelectPrimitiveItemProps {
 
 function SelectPrimitiveItem({ children, value, disabled, ...props }: SelectPrimitiveItemProps) {
     const { handleSelect, selectedValue, getItemProps, selectedItemRef, activeItemValue } = useContext(SelectPrimitiveContext);
-    const [isFocused , setIsFocused] = React.useState(false);
+    const [isFocused, setIsFocused] = React.useState(false);
     return (
         <RovingFocusGroup.Item
             role='option'
             onFocus={e => {
-      
                 setIsFocused(true);
             }}
             onBlur={e => {

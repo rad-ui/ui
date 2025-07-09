@@ -16,7 +16,7 @@ type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     loop?: boolean
 }>;
 
-const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asChild=false, disabled:groupDisabled = false, required=false, name='', orientation='vertical', loop=true, ...props }: RadioGroupPrimitiveRootProps) => {
+const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asChild = false, disabled: groupDisabled = false, required = false, name = '', orientation = 'vertical', loop = true, ...props }: RadioGroupPrimitiveRootProps) => {
     const [checkedItem, setCheckedItem] = useState(defaultChecked);
 
     const handleOnChange = (item: string) => {
@@ -35,20 +35,20 @@ const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asCh
         name
     };
 
-     return (
-    // <RovingFocusGroup.Root orientation={orientation} loop={loop}>
-    <RadioGroupContext.Provider value={sendItems}>
-        {/* <RovingFocusGroup.Group > */}
-        <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} asChild>
-            
-                {children}
-                
-            
-            </Primitive.div>
-            {/* </RovingFocusGroup.Group> */}
-    </RadioGroupContext.Provider>
-    // </RovingFocusGroup.Root> 
-     )
+    return (
+        <RovingFocusGroup.Root orientation={undefined} loop={loop}>
+            <RadioGroupContext.Provider value={sendItems}>
+
+                <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} asChild>
+                    <RovingFocusGroup.Group >
+                        {children}
+                    </RovingFocusGroup.Group>
+
+                </Primitive.div>
+
+            </RadioGroupContext.Provider>
+        </RovingFocusGroup.Root>
+    )
     ;
 };
 

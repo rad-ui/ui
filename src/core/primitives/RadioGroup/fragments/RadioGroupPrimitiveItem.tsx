@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useContext } from 'react';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import RadioPrimitive from '~/core/primitives/Radio';
+import Primitive from '../../Primitive';
 
 type RadioGroupPrimitiveItemProps = PropsWithChildren<{
     value: string;
@@ -16,6 +17,7 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, ...props }: RadioG
     const { setCheckedItem, checkedItem, onChange, groupDisabled, name } = context;
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.checked = true;
         setCheckedItem(value);
 
         if (typeof onChange === 'function') {
@@ -25,10 +27,11 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, ...props }: RadioG
 
     return (
         <div {...props}>
-        {/*  <RovingFocusGroup.Item {...props} role='radio'> */}
-            <RadioPrimitive name='radio' value={value} checked={checkedItem === value} onChange={handleOnChange} disabled={groupDisabled || disabled} required/>
+            <RovingFocusGroup.Item role='radio'>
+                <RadioPrimitive name='radio' value={value} checked={checkedItem === value} onChange={handleOnChange} onFocus={handleOnChange} disabled={groupDisabled || disabled} aria-checked={checkedItem === value} required />
+
+            </RovingFocusGroup.Item>
             <label htmlFor={value}>{children}</label>
-        {/* </RovingFocusGroup.Item> */}
         </div>
     );
 };

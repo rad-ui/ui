@@ -16,7 +16,7 @@ export interface RadioGroupPrimitiveType {
 
 const RadioGroupPrimitive: RadioGroupPrimitiveType = {
     Root: RadioGroupPrimitiveRoot,
-    Item: RadioGroupPrimitiveItem,
+    Item: RadioGroupPrimitiveItem
 };
 
 export default RadioGroupPrimitive;

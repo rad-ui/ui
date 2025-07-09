@@ -34,18 +34,18 @@ function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentPr
                             ref={refs.setFloating}
                             style={floatingStyles}
                             {...getFloatingProps()}
-                            {...props} 
+                            {...props}
                             onKeyDownCapture={(e) => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault();
                                     const itemValue = refs.floating.current.querySelector('[data-active="true"]');
-                                  
+
                                     if (itemValue) {
-                handleSelect((itemValue.getAttribute('data-value')))
-            }
+                                        handleSelect((itemValue.getAttribute('data-value')));
+                                    }
                                 }
                             }}
-                            >
+                        >
 
                             {children}
 

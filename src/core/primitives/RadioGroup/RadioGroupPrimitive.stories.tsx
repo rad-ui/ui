@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import RadioGroupPrimitive from './RadioGroupPrimitive';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { useState, ChangeEvent, FormEvent } from 'react';
 
 interface Option {
     id: string;
@@ -27,7 +26,7 @@ const RadioButton = (args: RadioButtonProps) => {
     };
     return (
         <SandboxEditor>
-            <RadioGroupPrimitive.Root  >
+            <RadioGroupPrimitive.Root >
                 {options.map((option) => (
                     <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                         {option.label}
