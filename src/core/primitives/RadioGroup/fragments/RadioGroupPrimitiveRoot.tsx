@@ -12,11 +12,11 @@ type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     disabled?: boolean;
     required?: boolean;
     name?: string;
-    orientation?: 'horizontal' | 'vertical';
+    orientation?: 'horizontal' | 'vertical' | 'both';
     loop?: boolean
 }>;
 
-const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asChild = false, disabled: groupDisabled = false, required = false, name = '', orientation = 'vertical', loop = true, ...props }: RadioGroupPrimitiveRootProps) => {
+const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asChild = false, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, ...props }: RadioGroupPrimitiveRootProps) => {
     const [checkedItem, setCheckedItem] = useState(defaultChecked);
 
     const handleOnChange = (item: string) => {
@@ -36,7 +36,7 @@ const RadioGroupPrimitiveRoot = ({ children, defaultChecked = '', onChange, asCh
     };
 
     return (
-        <RovingFocusGroup.Root orientation={undefined} loop={loop}>
+        <RovingFocusGroup.Root orientation={orientation} loop={loop} >
             <RadioGroupContext.Provider value={sendItems}>
 
                 <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} asChild>

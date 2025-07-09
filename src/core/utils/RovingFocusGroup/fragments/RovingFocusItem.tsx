@@ -182,28 +182,28 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         switch (event.key) {
         case 'ArrowUp':
             event.preventDefault();
-            if (orientation === 'vertical') {
+            if (orientation === 'vertical' || orientation === 'both') {
                 focusPreviousItem();
             }
             break;
 
         case 'ArrowLeft':
             event.preventDefault();
-            if (orientation === 'horizontal') {
+            if (orientation === 'horizontal' || orientation === 'both') {
                 focusPreviousItem();
             }
             break;
 
         case 'ArrowDown':
             event.preventDefault();
-            if (orientation === 'vertical') {
+            if (orientation === 'vertical' || orientation === 'both') {
                 focusNextItem();
             }
             break;
 
         case 'ArrowRight':
             event.preventDefault();
-            if (orientation === 'horizontal') {
+            if (orientation === 'horizontal' || orientation === 'both') {
                 focusNextItem();
             }
             break;

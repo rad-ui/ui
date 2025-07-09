@@ -6,7 +6,7 @@ import { createContext } from 'react';
  * @property {boolean} loop - Whether focus should loop from last to first item and vice versa
  */
 export type RovingFocusRootContextTypes = {
-  orientation: 'horizontal' | 'vertical';
+  orientation: 'horizontal' | 'vertical' | 'both';
   loop: boolean;
   disableTabIndexing: boolean;
 }

@@ -14,7 +14,7 @@ import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
  */
 type RovingFocusRootProps = {
     children: React.ReactNode;
-    orientation?: 'horizontal' | 'vertical';
+    orientation?: 'horizontal' | 'vertical' | "both";
     loop?: boolean;
     'aria-label'?: string;
     'aria-labelledby'?: string;
