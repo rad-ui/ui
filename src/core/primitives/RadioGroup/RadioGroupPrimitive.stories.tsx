@@ -26,7 +26,7 @@ const RadioButton = (args: RadioButtonProps) => {
     };
     return (
         <SandboxEditor>
-            <RadioGroupPrimitive.Root orientation='vertical'>
+            <RadioGroupPrimitive.Root orientation='horizontal' dir='rtl'>
                 {options.map((option) => (
                     <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                         {option.label}

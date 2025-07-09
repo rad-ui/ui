@@ -44,7 +44,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { orientation, loop, disableTabIndexing } = useContext(RovingFocusRootContext);
+    const { orientation, loop, disableTabIndexing, dir } = useContext(RovingFocusRootContext);
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
@@ -190,7 +190,11 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         case 'ArrowLeft':
             event.preventDefault();
             if (orientation === 'horizontal' || orientation === 'both') {
-                focusPreviousItem();
+                if (dir === 'rtl') {
+                    focusNextItem();
+                } else {
+                    focusPreviousItem();
+                }
             }
             break;
 
@@ -204,7 +208,11 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         case 'ArrowRight':
             event.preventDefault();
             if (orientation === 'horizontal' || orientation === 'both') {
-                focusNextItem();
+                if (dir === 'rtl') {
+                    focusPreviousItem();
+                } else {
+                    focusNextItem();
+                }
             }
             break;
 
