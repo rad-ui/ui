@@ -5,7 +5,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Text from '~/components/ui/Text/Text';
 import Heading from '~/components/ui/Heading/Heading';
 
-const ScrollAreaTemplate = (args) => {
+const ScrollAreaTemplate = (args: any) => {
     return (
         <SandboxEditor>
             <ScrollArea.Root>
@@ -39,11 +39,11 @@ const ScrollAreaTemplate = (args) => {
 export default {
     title: 'WIP/ScrollArea',
     component: ScrollArea,
-    render: (args) => <ScrollAreaTemplate {...args}/>
+    render: (args: any) => <ScrollAreaTemplate {...args}/>
 };
 
 export const All = {};
-All.args = {};
+// All.args = {}; // Not needed, All is not a function story
 
 const LayoutTemplate = () => {
     return <SandboxEditor>
@@ -70,4 +70,5 @@ const LayoutTemplate = () => {
 };
 
 export const Layout = LayoutTemplate.bind({});
-Layout.args = {};
+// Layout.args = {}; // Not needed, Layout is not a function story
+// TODO: Add proper typing for args if needed in the future
