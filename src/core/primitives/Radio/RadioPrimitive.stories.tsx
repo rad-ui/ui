@@ -26,8 +26,7 @@ export const All = {
             console.log('data', data);
         },
         name: 'radio',
-        value: 'radio1',
-        checked: true,
+        value: 'radio',
         required: true
     }
 };

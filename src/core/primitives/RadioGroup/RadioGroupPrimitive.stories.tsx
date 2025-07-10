@@ -26,7 +26,11 @@ const RadioButton = (args: RadioButtonProps) => {
     };
     return (
         <SandboxEditor>
-            <RadioGroupPrimitive.Root orientation='horizontal' dir='rtl' name='test'>
+            <RadioGroupPrimitive.Root
+                orientation='horizontal' dir='rtl'
+                name='test'
+            //  defaultValue='css'
+            >
                 {options.map((option) => (
                     <RadioGroupPrimitive.Item key={option.id} value={option.value}>
                         {option.label}
@@ -65,30 +69,26 @@ export const InForm = () => {
 
     return (
         <SandboxEditor>
-        <form onSubmit={handleSubmit}>
-            <RadioGroupPrimitive.Root
-                orientation="horizontal"
-                name="language"
-                value={selected}
-                onValueChange={handleChange}
-            >
-                {options.map((option) => (
-                    <RadioGroupPrimitive.Item key={option.id} value={option.value}>
-                        {option.label}
-                    </RadioGroupPrimitive.Item>
-                ))}
-            </RadioGroupPrimitive.Root>
-            <button type="submit" style={{ marginTop: 16 }}>Submit</button>
-            {submitted && (
-                <div style={{ marginTop: 12 }}>
-                    <strong>Submitted value:</strong> {submitted}
-                </div>
-            )}
-        </form>
+            <form onSubmit={handleSubmit}>
+                <RadioGroupPrimitive.Root
+                // orientation="horizontal"
+                    name="language"
+                    value={selected}
+                    onValueChange={handleChange}
+                >
+                    {options.map((option) => (
+                        <RadioGroupPrimitive.Item key={option.id} value={option.value}>
+                            {option.label}
+                        </RadioGroupPrimitive.Item>
+                    ))}
+                </RadioGroupPrimitive.Root>
+                <button type="submit" style={{ marginTop: 16 }}>Submit</button>
+                {submitted && (
+                    <div style={{ marginTop: 12 }}>
+                        <strong>Submitted value:</strong> {submitted}
+                    </div>
+                )}
+            </form>
         </SandboxEditor>
     );
 };
-
-
-
-

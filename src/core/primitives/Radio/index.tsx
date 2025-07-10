@@ -1,41 +1,35 @@
-import React, { useState } from 'react';
-import Primitive from '~/core/primitives/Primitive';
+import React from 'react';
+import Primitive from '../Primitive';
 
-export type RadioPrimitiveProps = {
-    onClick?: (data: any) => void;
-    onChange?: (data: any) => void;
-    onFocus?: (data: any) => void;
-    checked?: boolean;
+type RadioPrimitiveProps = {
     name: string;
     value: string;
-    disabled?: boolean
+    id: string;
+    onChange?: () => void;
+    checked?: boolean;
+    required?: boolean;
+    disabled?: boolean;
     asChild?: boolean
-    required?: boolean
-    id?: string
-};
+}
 
-const RadioPrimitive = ({ name = '', value = '', checked = false, onClick, onChange, onFocus, disabled = false, asChild = false, required = false, id, ...props }:RadioPrimitiveProps) => {
-    const [isChecked, setIsChecked] = useState(checked);
-    const dataAttributes = {
-        'data-checked': isChecked.toString()
-    };
-
-    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const isChecked = event.target.checked;
-        console.log(isChecked);
-        if (typeof onChange === 'function') {
-            setIsChecked(isChecked);
-            onChange({
-                value,
-                checked: isChecked
-            });
-        }
-    };
-
+function RadioPrimitive({ name, value, id, checked, required, onChange, disabled, asChild, ...props }: RadioPrimitiveProps) {
     return (
-        // @ts-ignore
-        <Primitive.input id={id} type='radio' value={value} name={name} onFocus={onFocus} onChange={handleOnChange} disabled={disabled} asChild={asChild} required={required} tabIndex={-1} {...props} {...dataAttributes}/>
+        <Primitive.input
+            type="radio"
+            checked={checked}
+            name={name}
+            tabIndex={-1}
+            value={value}
+            onChange={onChange}
+            id={value}
+            aria-disabled={disabled}
+            disabled={disabled}
+            required={required}
+            aria-required={required}
+            asChild={asChild}
+            {...props}
+        />
     );
-};
+}
 
 export default RadioPrimitive;

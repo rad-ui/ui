@@ -5,10 +5,9 @@ const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input', 'a', 'img', '
 type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 
 // Update type definitions to be more specific
-interface PrimitiveProps extends React.HTMLAttributes<HTMLElement> {
-  asChild?: boolean;
-  children?: React.ReactNode;
-}
+type PrimitiveProps =
+  | (React.InputHTMLAttributes<HTMLInputElement> & { asChild?: boolean })
+  | (React.HTMLAttributes<HTMLElement> & { asChild?: boolean, children?: React.ReactNode });
 
 // Update component creation with proper typing
 const createPrimitiveComponent = (elementType: SupportedElement) => {
