@@ -8,15 +8,13 @@ export type RadioGroupProps = {
 
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & PropsWithChildren
 
-// Define the shape of the RadioGroupPrimitive object
-export interface RadioGroupPrimitiveType {
-    Root: typeof RadioGroupPrimitiveRoot;
-    Item: typeof RadioGroupPrimitiveItem;
-}
-
-const RadioGroupPrimitive: RadioGroupPrimitiveType = {
-    Root: RadioGroupPrimitiveRoot,
-    Item: RadioGroupPrimitiveItem
+const RadioGroupPrimitive = () => {
+    console.warn('Direct usage of RadioGroup is not supported. Please use RadioGroup.Root, RadioGroup.Item, etc. instead.');
+    return null;
 };
+
+RadioGroupPrimitive.Root = RadioGroupPrimitiveRoot;
+RadioGroupPrimitive.Item = RadioGroupPrimitiveItem;
+
 
 export default RadioGroupPrimitive;
