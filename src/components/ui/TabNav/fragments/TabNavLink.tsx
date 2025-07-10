@@ -39,7 +39,6 @@ const TabNavLink = ({ value, className = '', href = '#', children, disabled, asC
                 asChild={asChild}
                 aria-disabled={disabled}
                 aria-selected={isActive}
-                // @ts-expect-error
                 disabled={disabled}
                 {...disabled ? {} : { href }}
             >
