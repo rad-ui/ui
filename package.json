@@ -66,7 +66,8 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix && stylelint \"**/*.{css,scss,sass}\" --fix",
     "update-rad": "npm update @radui/ui",
     "setup:dependencies": "npm install --force",
-    "setup": "npm run setup:dependencies"
+    "setup": "npm run setup:dependencies",
+    "build:parallel": "node ./build.js"
   },
   "repository": {
     "type": "git",
@@ -133,7 +134,9 @@
     "tailwindcss": "3.4.1",
     "ts-jest": "29.1.1",
     "tsx": "^4.17.0",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "rollup-plugin-esbuild": "^6.1.0",
+    "fast-glob": "^3.3.2"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.4",

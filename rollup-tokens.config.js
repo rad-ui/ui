@@ -7,5 +7,7 @@ export default {
     },
     plugins: [
         terser()
-    ]
+    ],
+    // Enable Rollup cache for incremental builds
+    cache: true
 };
