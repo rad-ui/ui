@@ -5,14 +5,15 @@ import Floater from '~/core/primitives/Floater';
 
 export type DialogPrimitiveRootProps = {
     children: React.ReactNode;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
     onClickOutside?: () => void;
+    className?:string
 }
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRoot = ({ children, open, onOpenChange = () => {}, onClickOutside = () => {}, ...props } : DialogPrimitiveRootProps) => {
+const DialogPrimitiveRoot = ({ children, open=false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props } : DialogPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useState(open);
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
@@ -38,7 +39,7 @@ const DialogPrimitiveRoot = ({ children, open, onOpenChange = () => {}, onClickO
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
         <DialogPrimitiveContext.Provider value={contextProps}>
-            <div {...props}>
+            <div {...props} className={className}>
                 {children}
             </div>
         </DialogPrimitiveContext.Provider>

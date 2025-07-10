@@ -14,7 +14,7 @@ const Template: Story = (args) => <SandboxEditor>
             <Accordion.Trigger>
                 Hello
             </Accordion.Trigger>
-            <Accordion.Content>
+            <Accordion.Content index={0}>
                         abc
             </Accordion.Content>
         </Accordion.Item>
@@ -35,7 +35,7 @@ const AsChildTemplate: Story = (args) => {
                         <Accordion.Trigger>
                             Hello
                         </Accordion.Trigger>
-                        <Accordion.Content>
+                        <Accordion.Content index={0}>
                             abc
                         </Accordion.Content>
                     </Accordion.Item>
