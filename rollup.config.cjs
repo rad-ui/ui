@@ -1,6 +1,7 @@
 import path from 'path';
 import { readdirSync } from 'fs';
 import esbuild from 'rollup-plugin-esbuild';
+const esbuildPlugin = esbuild.default || esbuild;
 import postcss from 'rollup-plugin-postcss';
 import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve';
@@ -34,7 +35,7 @@ export default {
       extract: false,
       minimize: true,
     }),
-    esbuild({
+    esbuildPlugin({
       include: /\.[jt]sx?$/, // transpile .ts/.tsx/.js/.jsx
       exclude: /node_modules/,
       sourceMap: true,
