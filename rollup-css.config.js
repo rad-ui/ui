@@ -28,7 +28,11 @@ export default {
                         }
                     ]
                 }
-            }
+            },
+            // Enable Rollup cache for incremental builds
+            cache: true
         })
-    ]
+    ],
+    // Enable Rollup cache for incremental builds
+    cache: true
 };
