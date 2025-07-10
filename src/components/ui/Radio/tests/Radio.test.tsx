@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import RadioPrimitive from '../index';
+import Radio from '../Radio';
 
-describe('RadioPrimitive', () => {
+describe('Radio', () => {
     const baseProps = {
         name: 'test-radio',
         value: 'option1',
@@ -10,7 +10,7 @@ describe('RadioPrimitive', () => {
     };
 
     it('renders with required props', () => {
-        render(<RadioPrimitive {...baseProps} />);
+        render(<Radio {...baseProps} />);
         const radio = screen.getByRole('radio');
         expect(radio).toBeInTheDocument();
         expect(radio).toHaveAttribute('name', 'test-radio');
@@ -20,7 +20,7 @@ describe('RadioPrimitive', () => {
 
     it('applies checked, required, and disabled props', () => {
         render(
-            <RadioPrimitive {...baseProps} checked required disabled />
+            <Radio {...baseProps} checked required disabled />
         );
         const radio = screen.getByRole('radio');
         expect(radio).toBeChecked();
@@ -30,19 +30,40 @@ describe('RadioPrimitive', () => {
         expect(radio).toHaveAttribute('aria-required', 'true');
     });
 
+    it('toggles checked state on click', () => {
+        render(<Radio {...baseProps} />);
+        const radio = screen.getByRole('radio');
+        expect(radio).not.toBeChecked();
+        fireEvent.click(radio);
+        expect(radio).toBeChecked();
+    });
+
     it('calls onChange when clicked', () => {
         const handleChange = jest.fn();
         render(
-            <RadioPrimitive {...baseProps} onChange={handleChange} />
+            <Radio {...baseProps} onChange={handleChange} />
         );
         const radio = screen.getByRole('radio');
         fireEvent.click(radio);
         expect(handleChange).toHaveBeenCalled();
     });
 
-    it('supports asChild prop (renders without error)', () => {
-        render(<RadioPrimitive {...baseProps} asChild />);
+    it('applies custom class names', () => {
+        render(
+            <Radio {...baseProps} className="custom-class" customRootClass="root-class" />
+        );
         const radio = screen.getByRole('radio');
-        expect(radio).toBeInTheDocument();
+        expect(radio.className).toMatch(/custom-class/);
+        expect(radio.className).toMatch(/root-class/);
+    });
+
+    it('applies data attributes for variant, size, and color', () => {
+        render(
+            <Radio {...baseProps} variant="filled" size="lg" color="red" />
+        );
+        const radio = screen.getByRole('radio');
+        expect(radio).toHaveAttribute('data-button-variant', 'filled');
+        expect(radio).toHaveAttribute('data-button-size', 'lg');
+        expect(radio).toHaveAttribute('data-rad-ui-accent-color', 'red');
     });
 });

@@ -27,6 +27,7 @@ export const All = {
         },
         name: 'radio',
         value: 'radio',
+        id: 'radio',
         required: true
     }
 };

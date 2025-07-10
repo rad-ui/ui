@@ -1,7 +1,7 @@
 import React from 'react';
 import Primitive from '../Primitive';
 
-type RadioPrimitiveProps = {
+export type RadioPrimitiveProps = {
     name: string;
     value: string;
     id: string;
@@ -9,10 +9,11 @@ type RadioPrimitiveProps = {
     checked?: boolean;
     required?: boolean;
     disabled?: boolean;
-    asChild?: boolean
+    asChild?: boolean;
+    className?: string;
 }
 
-function RadioPrimitive({ name, value, id, checked, required, onChange, disabled, asChild, ...props }: RadioPrimitiveProps) {
+function RadioPrimitive({ name, value, id, checked, required, onChange, disabled, asChild, className, ...props }: RadioPrimitiveProps) {
     return (
         <Primitive.input
             type="radio"
@@ -21,12 +22,13 @@ function RadioPrimitive({ name, value, id, checked, required, onChange, disabled
             tabIndex={-1}
             value={value}
             onChange={onChange}
-            id={value}
+            id={id}
             aria-disabled={disabled}
             disabled={disabled}
             required={required}
             aria-required={required}
             asChild={asChild}
+            className={className}
             {...props}
         />
     );
