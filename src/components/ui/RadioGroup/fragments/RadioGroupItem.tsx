@@ -3,9 +3,9 @@ import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitiv
 import { RadioGroupContext } from '../context/RadioGroupContext';
 import clsx from 'clsx';
 
-const RadioGroupItem = ({ children, className = '', ...props }: { children: React.ReactNode } & RadioGroupPrimitive.ItemProps) => {
+const RadioGroupItem = ({ children, className = '', value, ...props }: { children: React.ReactNode, className?: string, value: string}) => {
     const { rootClass } = useContext(RadioGroupContext);
-    return <RadioGroupPrimitive.Item className={clsx(`${rootClass}-item`, className)} {...props}>{children}</RadioGroupPrimitive.Item>;
+    return <RadioGroupPrimitive.Item className={clsx(`${rootClass}-item`, className)} value={value} {...props}>{children}</RadioGroupPrimitive.Item>;
 };
 
 export default RadioGroupItem;

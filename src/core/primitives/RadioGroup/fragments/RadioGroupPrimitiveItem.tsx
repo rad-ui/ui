@@ -8,9 +8,10 @@ type RadioGroupPrimitiveItemProps = PropsWithChildren<{
     disabled?: boolean
     children?: React.ReactNode;
     required?: boolean
+    className?: string
 }>;
 
-const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, ...props }: RadioGroupPrimitiveItemProps) => {
+const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, className = '', ...props }: RadioGroupPrimitiveItemProps) => {
     const context = useContext(RadioGroupContext);
     if (!context) {
         throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
@@ -28,6 +29,8 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
                     checked = {selectedValue === value}
                     disabled={groupDisabled || disabled}
                     required={required}
+                    data-checked={selectedValue === value}
+                    className={className}
                     onChange={() => setSelectedValue(value)}
                 />
 

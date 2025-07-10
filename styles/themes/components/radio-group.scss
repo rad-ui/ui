@@ -9,8 +9,6 @@
         display: flex;
         align-items: center;
         gap: 12px;
-
-        input{
             width: 20px;
             height: 20px;
             position:relative;
@@ -46,7 +44,7 @@
                 border-radius: 50%;
                 background-color: var(--rad-ui-color-accent-400);
             }
-        }
+        
       
     }
 }

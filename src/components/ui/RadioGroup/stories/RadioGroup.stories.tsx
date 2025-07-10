@@ -17,7 +17,7 @@ const RadioButton = (args) => {
         <SandboxEditor>
             <RadioGroup.Root defaultChecked={language} items={options} onChange={handleChange} >
                 {options.map((option) => (
-                    <RadioGroup.Item key={option.id} value={option.value}>
+                    <RadioGroup.Item key={option.id} value={option.value} >
                         {option.label}
                     </RadioGroup.Item>
                 ))}

@@ -16,5 +16,4 @@ const RadioGroupPrimitive = () => {
 RadioGroupPrimitive.Root = RadioGroupPrimitiveRoot;
 RadioGroupPrimitive.Item = RadioGroupPrimitiveItem;
 
-
 export default RadioGroupPrimitive;
