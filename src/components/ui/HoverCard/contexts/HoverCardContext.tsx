@@ -11,6 +11,7 @@ type HoverCardContextType = {
     getFloatingProps: () => Record<string, any>;
     floatingStyles: React.CSSProperties;
     rootClass: string;
+    rootTriggerClass: string;
     closeWithDelay: () => void;
     closeWithoutDelay: () => void;
     openWithDelay: () => void;

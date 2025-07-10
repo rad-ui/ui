@@ -46,7 +46,7 @@ export const Composed = () => {
     return <SandboxEditor>
         <Disclosure.Root>
             {disclosureItems.map((item) => (
-                <Disclosure.Item key={item.title}>
+                <Disclosure.Item key={item.title} value={0}>
                     <Disclosure.Trigger>
                         {item.title}
                     </Disclosure.Trigger>
