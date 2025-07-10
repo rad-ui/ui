@@ -10,7 +10,7 @@ export type KbdProps = {
     customRootClass?: string;
     className?: string;
     size?: string;
-    props: Record<string, any>[];
+    props?: Record<string, any>[];
 }
 
 const Kbd = ({ children, customRootClass, className, size = '', ...props }: KbdProps) => {

@@ -4,7 +4,11 @@ import React, { useContext, useRef, useCallback } from 'react';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
-const ScrollAreaScrollbar = ({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+type ScrollAreaScrollbarProps = React.HTMLAttributes<HTMLDivElement> & {
+    orientation?: 'horizontal' | 'vertical';
+};
+
+const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }: ScrollAreaScrollbarProps) => {
     const { rootClass, handleScrollbarClick, scrollXThumbRef } = useContext(ScrollAreaContext);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const isScrollingRef = useRef(false);
@@ -77,6 +81,7 @@ const ScrollAreaScrollbar = ({ children, className = '', ...props }: React.HTMLA
     return (
         <div
             className={clsx(rootClass + '-scrollbar', className)}
+            data-orientation={orientation}
             onMouseDown={startContinuousScroll}
             onMouseUp={stopContinuousScroll}
             onMouseLeave={stopContinuousScroll}
