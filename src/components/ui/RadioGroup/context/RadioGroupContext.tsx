@@ -1,7 +1,9 @@
-import { createContext } from 'react';
+import { createContext, RefObject } from 'react';
 
-export const RadioGroupContext = createContext({
-    defaultChecked: null,
-    customRootClass: null,
-    onChange: null
+interface RadioGroupContextType {
+    rootClass: string;
+}
+
+export const RadioGroupContext = createContext<RadioGroupContextType>({
+    rootClass: ''
 });

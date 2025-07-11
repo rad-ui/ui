@@ -20,11 +20,6 @@
         &[data-checked="true"] {
             border: 1px solid var(--rad-ui-color-accent-800);
             background-color: var(--rad-ui-color-accent-100);
-        }
-
-        &:focus-within {
-            border: 1px solid var(--rad-ui-color-accent-800);
-            background-color: var(--rad-ui-color-accent-100);
-        }
+        }       
     }
 }
