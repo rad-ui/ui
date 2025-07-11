@@ -8,11 +8,6 @@ describe('RadioPrimitive', () => {
         value: 'option1',
         id: 'radio1'
     };
-    const baseProps = {
-        name: 'test-radio',
-        value: 'option1',
-        id: 'radio1'
-    };
 
     it('renders with required props', () => {
         render(<RadioPrimitive {...baseProps} />);
