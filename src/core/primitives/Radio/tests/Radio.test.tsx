@@ -8,6 +8,11 @@ describe('RadioPrimitive', () => {
         value: 'option1',
         id: 'radio1'
     };
+    const baseProps = {
+        name: 'test-radio',
+        value: 'option1',
+        id: 'radio1'
+    };
 
     it('renders with required props', () => {
         render(<RadioPrimitive {...baseProps} />);
@@ -29,6 +34,17 @@ describe('RadioPrimitive', () => {
         expect(radio).toHaveAttribute('aria-disabled', 'true');
         expect(radio).toHaveAttribute('aria-required', 'true');
     });
+    it('applies checked, required, and disabled props', () => {
+        render(
+            <RadioPrimitive {...baseProps} checked required disabled />
+        );
+        const radio = screen.getByRole('radio');
+        expect(radio).toBeChecked();
+        expect(radio).toBeRequired();
+        expect(radio).toBeDisabled();
+        expect(radio).toHaveAttribute('aria-disabled', 'true');
+        expect(radio).toHaveAttribute('aria-required', 'true');
+    });
 
     it('calls onChange when clicked', () => {
         const handleChange = jest.fn();
@@ -39,7 +55,21 @@ describe('RadioPrimitive', () => {
         fireEvent.click(radio);
         expect(handleChange).toHaveBeenCalled();
     });
+    it('calls onChange when clicked', () => {
+        const handleChange = jest.fn();
+        render(
+            <RadioPrimitive {...baseProps} onChange={handleChange} />
+        );
+        const radio = screen.getByRole('radio');
+        fireEvent.click(radio);
+        expect(handleChange).toHaveBeenCalled();
+    });
 
+    it('supports asChild prop (renders without error)', () => {
+        render(<RadioPrimitive {...baseProps} asChild />);
+        const radio = screen.getByRole('radio');
+        expect(radio).toBeInTheDocument();
+    });
     it('supports asChild prop (renders without error)', () => {
         render(<RadioPrimitive {...baseProps} asChild />);
         const radio = screen.getByRole('radio');
