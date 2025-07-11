@@ -20,7 +20,7 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
 
     return (
         <RovingFocusGroup.Item role='radio'>
-            <div {...props} onFocus={() => setSelectedValue(value)} className={className}>
+            <div {...props} onFocus={() => setSelectedValue(value)} className={className} data-checked={selectedValue === value}>
 
                 <RadioPrimitive
                     id={value}
