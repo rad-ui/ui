@@ -14,7 +14,8 @@ import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
  */
 type RovingFocusRootProps = {
     children: React.ReactNode;
-    orientation?: 'horizontal' | 'vertical';
+    orientation?: 'horizontal' | 'vertical' | 'both';
+    dir?: 'ltr' | 'rtl';
     loop?: boolean;
     'aria-label'?: string;
     'aria-labelledby'?: string;
@@ -42,18 +43,20 @@ const RovingFocusRoot = ({
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     disableTabIndexing = false,
+    dir = 'ltr',
     ...props
 }: RovingFocusRootProps) => {
     const sendValues = {
         orientation,
         loop,
-        disableTabIndexing
+        disableTabIndexing,
+        dir
     };
 
     return <RovingFocusRootContext.Provider value={sendValues}>
         <Primitive.div
             role="listbox"
-            aria-orientation={orientation}
+            aria-orientation={orientation === 'both' ? undefined : orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
             {...props}

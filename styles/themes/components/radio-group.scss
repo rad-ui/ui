@@ -1,4 +1,16 @@
-.rad-ui-radio {
+.rad-ui-radio-group{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: var(--rad-ui-color-accent-900);
+    
+    .rad-ui-radio-group-item{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        input{
             width: 20px;
             height: 20px;
             position:relative;
@@ -35,4 +47,6 @@
                 background-color: var(--rad-ui-color-accent-400);
             }
         }
-
+      
+    }
+}

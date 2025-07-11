@@ -8,7 +8,10 @@ export type RadioGroupProps = {
 
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & PropsWithChildren
 
-const RadioGroupPrimitive = {} as const;
+const RadioGroupPrimitive = () => {
+    console.warn('Direct usage of RadioGroup is not supported. Please use RadioGroup.Root, RadioGroup.Item, etc. instead.');
+    return null;
+};
 
 RadioGroupPrimitive.Root = RadioGroupPrimitiveRoot;
 RadioGroupPrimitive.Item = RadioGroupPrimitiveItem;

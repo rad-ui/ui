@@ -44,7 +44,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { orientation, loop, disableTabIndexing } = useContext(RovingFocusRootContext);
+    const { orientation, loop, disableTabIndexing, dir } = useContext(RovingFocusRootContext);
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
@@ -182,29 +182,37 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         switch (event.key) {
         case 'ArrowUp':
             event.preventDefault();
-            if (orientation === 'vertical') {
+            if (orientation === 'vertical' || orientation === 'both') {
                 focusPreviousItem();
             }
             break;
 
         case 'ArrowLeft':
             event.preventDefault();
-            if (orientation === 'horizontal') {
-                focusPreviousItem();
+            if (orientation === 'horizontal' || orientation === 'both') {
+                if (dir === 'rtl') {
+                    focusNextItem();
+                } else {
+                    focusPreviousItem();
+                }
             }
             break;
 
         case 'ArrowDown':
             event.preventDefault();
-            if (orientation === 'vertical') {
+            if (orientation === 'vertical' || orientation === 'both') {
                 focusNextItem();
             }
             break;
 
         case 'ArrowRight':
             event.preventDefault();
-            if (orientation === 'horizontal') {
-                focusNextItem();
+            if (orientation === 'horizontal' || orientation === 'both') {
+                if (dir === 'rtl') {
+                    focusPreviousItem();
+                } else {
+                    focusNextItem();
+                }
             }
             break;
 

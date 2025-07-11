@@ -13,7 +13,7 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRoot = ({ children, open=false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props } : DialogPrimitiveRootProps) => {
+const DialogPrimitiveRoot = ({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props } : DialogPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useState(open);
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
