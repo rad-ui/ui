@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import RadioGroupPrimitive, {RadioGroupPrimitiveTypes} from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import RadioGroupPrimitive, { RadioGroupPrimitiveTypes } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 import { RadioGroupContext } from '../context/RadioGroupContext';
 import clsx from 'clsx';
 
 export type RadioGroupItemProps ={
 
 } & RadioGroupPrimitiveTypes.Item;
-
 
 const RadioGroupItem = ({ children, className = '', value, ...props }:RadioGroupItemProps) => {
     const { rootClass } = useContext(RadioGroupContext);
