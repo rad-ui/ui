@@ -3,7 +3,7 @@ import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import RadioPrimitive from '~/core/primitives/Radio';
 
-type RadioGroupPrimitiveItemProps = PropsWithChildren<{
+export type RadioGroupPrimitiveItemProps = PropsWithChildren<{
     value: string;
     disabled?: boolean
     children?: React.ReactNode;
@@ -20,7 +20,7 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
 
     return (
         <RovingFocusGroup.Item role='radio'>
-            <div {...props} onFocus={() => setSelectedValue(value)}>
+            <div {...props} onFocus={() => setSelectedValue(value)} className={className}>
 
                 <RadioPrimitive
                     id={value}
@@ -30,7 +30,6 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
                     disabled={groupDisabled || disabled}
                     required={required}
                     data-checked={selectedValue === value}
-                    className={className}
                     onChange={() => setSelectedValue(value)}
                 />
 
