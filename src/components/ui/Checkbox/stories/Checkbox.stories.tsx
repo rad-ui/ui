@@ -14,7 +14,7 @@ const TickIcon = () => {
 
 const CheckboxStory = () => {
     return <div>
-        <Checkbox.Root>
+        <Checkbox.Root color="primary">
             <Checkbox.Indicator>
                 <TickIcon />
             </Checkbox.Indicator>
