@@ -13,7 +13,7 @@ export type AccordionProps = React.HTMLAttributes<HTMLDivElement> & {
 
 // Empty implementation - we don't support direct usage
 const Accordion = () => {
-    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead.');
+    console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead. ');
     return null;
 };
 
