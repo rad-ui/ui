@@ -5,7 +5,6 @@ import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 import CheckboxPrimitiveTrigger from './CheckboxPrimitiveTrigger';
 import useControllableState from '~/core/hooks/useControllableState';
 
-
 export type CheckboxPrimitiveRootProps = {
 
     children: React.ReactNode,
@@ -19,9 +18,7 @@ export type CheckboxPrimitiveRootProps = {
     value?: string
 }& React.InputHTMLAttributes<HTMLInputElement>;
 
-
 const CheckboxPrimitiveRoot = ({ children, className = '', checked, defaultChecked = false, onCheckedChange, disabled, required, name, value, id, ...props }: CheckboxPrimitiveRootProps) => {
-
     const [isChecked, setIsChecked] = useControllableState(
         checked,
         defaultChecked,

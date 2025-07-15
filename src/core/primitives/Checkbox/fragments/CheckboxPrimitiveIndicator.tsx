@@ -3,7 +3,6 @@
 import React from 'react';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 
-
 export type CheckboxPrimitiveIndicatorProps = {
     className?: string
     children: React.ReactNode

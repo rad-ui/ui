@@ -2,7 +2,7 @@ import React from 'react';
 import CheckboxPrimitiveRoot, { CheckboxPrimitiveRootProps } from '~/core/primitives/Checkbox/fragments/CheckboxPrimitiveRoot';
 import { customClassSwitcher } from '~/core';
 import CheckboxContext from '../context/CheckboxContext';
-import { clsx } from 'clsx';    
+import { clsx } from 'clsx';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Checkbox';
