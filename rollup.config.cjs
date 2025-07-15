@@ -1,48 +1,50 @@
-// rollup.config.js
-import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
+// rollup.config.cjs
+const resolve = require('@rollup/plugin-node-resolve').default;
+const terser = require('@rollup/plugin-terser').default;
+const alias = require('@rollup/plugin-alias');
+const path = require('path');
+const fs = require('fs');
+const banner2 = require('rollup-plugin-banner2');
+const esbuild = require('rollup-plugin-esbuild');
 
-import terser from '@rollup/plugin-terser';
-
-import typescript from '@rollup/plugin-typescript';
-import alias from '@rollup/plugin-alias';
-import path from 'path';
-import fs from 'fs';
-
-import banner2 from 'rollup-plugin-banner2';
-
-// Function to dynamically get all component directories in the 'src/components' folder
+// Function to dynamically get all component directories in the 'src/components/ui' folder
 function getComponentDirectories() {
-    const componentsPath = 'src/components/ui';
+    const componentsPath = path.join(__dirname, 'src/components/ui');
+    if (!fs.existsSync(componentsPath)) return [];
     return fs.readdirSync(componentsPath)
         .filter((file) => fs.statSync(path.join(componentsPath, file)).isDirectory());
 }
 
 const components = getComponentDirectories();
 
-/**
- * Note: Using an instance of a plugin avoids Javascript Heap Out of Memory error
- * More explanation here by sahithyandev at https://github.com/sahithyandev/rollup-issue-reproduction
- *
- * Using it this way not only avoids the Javascript Heap Out of Memory error but also speeds up the build process
- */
-
-const typescriptPluginInstance = typescript({ tsconfig: './tsconfig.json', sourceMap: false });
 const aliasPluginInstance = alias({
     entries: [
         { find: '~/core', replacement: path.resolve(__dirname, 'src/core') }
     ]
 });
-const babelPluginInstance = babel({
-    exclude: 'node_modules/**',
-    presets: ['@babel/preset-react']
-});
 const terserPluginInstance = terser();
 const resolvePluginInstance = resolve();
-const bannerPluginInstance = banner2(() => '\'use client\';');
+const bannerPluginInstance = banner2(() => `'use client';`);
+const esbuildPluginInstance = esbuild.default ? esbuild.default({
+    include: /\.[jt]sx?$/,
+    exclude: /node_modules/,
+    sourceMap: false,
+    minify: false,
+    target: 'esnext',
+    jsx: 'automatic',
+    tsconfig: 'tsconfig.json',
+}) : esbuild({
+    include: /\.[jt]sx?$/,
+    exclude: /node_modules/,
+    sourceMap: false,
+    minify: false,
+    target: 'esnext',
+    jsx: 'automatic',
+    tsconfig: 'tsconfig.json',
+});
 
-export default components.map((component) => {
-    const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
+module.exports = components.map((component) => {
+    const tsxFilePath = path.join('src/components/ui', component, `${component}.tsx`);
     return {
         input: tsxFilePath,
         output: [
@@ -54,13 +56,10 @@ export default components.map((component) => {
         external: ['react', 'react-dom', 'react/jsx-runtime'],
         plugins: [
             aliasPluginInstance,
-            babelPluginInstance,
-            typescriptPluginInstance,
+            esbuildPluginInstance,
             resolvePluginInstance,
             terserPluginInstance,
             bannerPluginInstance
         ]
     };
-}
-
-);
+});
