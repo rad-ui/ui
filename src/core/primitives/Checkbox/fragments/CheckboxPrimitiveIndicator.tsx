@@ -4,9 +4,9 @@ import React from 'react';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 
 const CheckboxPrimitiveIndicator = ({ children }: { children: React.ReactNode }) => {
-    const { checked } = React.useContext(CheckboxPrimitiveContext);
+    const { isChecked } = React.useContext(CheckboxPrimitiveContext);
 
-    if (!checked) return null;
+    if (!isChecked) return null;
 
     return <span>{children}</span>;
 };
