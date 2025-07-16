@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import CheckboxGroupContext from '../context/CheckboxGroupContext';
+import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
 import clsx from 'clsx';
 
 const TickIcon = ({ className }: {className?: string}) => (
@@ -11,7 +11,7 @@ export type CheckboxGroupIndicatorProps = {
 }
 
 const CheckboxGroupIndicator = ({ className }: CheckboxGroupIndicatorProps) => {
-    const { rootClass } = useContext(CheckboxGroupContext);
+    const { rootClass } = useContext(CheckboxGroupRootContext);
     return (
         <TickIcon className={clsx(`${rootClass}-tick-icon`, className)}/>
     );

@@ -1,22 +1,20 @@
 import React from 'react';
-import clsx from 'clsx';
-import CheckboxGroupPrimitive, { CheckboxGroupPrimitiveProps } from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
-import CheckboxGroupContext from '../context/CheckboxGroupContext';
+import CheckboxGroupItemContext from '../context/CheckboxGroupItemContext';
+import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
 
-export type CheckboxGroupItemProps = {
-    children?: React.ReactNode
+export type CheckboxGroupItemProps ={
+    children: React.ReactNode
     value: string
-    className?: string
-
-}& CheckboxGroupPrimitiveProps.Item;
-const CheckboxGroupItem = ({ children, className = '', value, ...props }: CheckboxGroupItemProps) => {
-    const { rootClass } = React.useContext(CheckboxGroupContext);
-
-    return (
-        <CheckboxGroupPrimitive.Item className={clsx(`${rootClass}-item`, className)} value={value} {...props}>
+}
+const CheckboxGroupItem = ({ children, value, ...props }: CheckboxGroupItemProps) => {
+    const { rootClass } = React.useContext(CheckboxGroupRootContext);
+    const [checked, setChecked] = React.useState(false);
+    return <div className={`${rootClass}-item`}>
+        <CheckboxGroupItemContext.Provider value={{ value, checked, setChecked }}>
             {children}
-        </CheckboxGroupPrimitive.Item>
-    );
+        </CheckboxGroupItemContext.Provider>
+
+    </div>;
 };
 
 export default CheckboxGroupItem;

@@ -1,6 +1,6 @@
 import React from 'react';
 import CheckboxGroupPrimitive, { CheckboxGroupPrimitiveProps } from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
-import CheckboxGroupContext from '../context/CheckboxGroupContext';
+import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
@@ -27,11 +27,11 @@ const CheckboxGroupRoot = ({ children, customRootClass = '', className = '', col
     return (
 
         <CheckboxGroupPrimitive.Root className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
-            <CheckboxGroupContext.Provider value={{ rootClass }}>
+            <CheckboxGroupRootContext.Provider value={{ rootClass }}>
 
                 {children}
 
-            </CheckboxGroupContext.Provider>
+            </CheckboxGroupRootContext.Provider>
         </CheckboxGroupPrimitive.Root>
     );
 };

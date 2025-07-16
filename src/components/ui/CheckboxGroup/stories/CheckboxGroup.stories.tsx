@@ -24,15 +24,15 @@ const CheckboxGroupExample = (args:any) => {
             >
                 {options.map((option) => (
                     <>
-                        <CheckboxGroup.Content>
-                            <CheckboxGroup.Item value={option.value} >
-
+                        
+                            <CheckboxGroup.Item  value={option.value}>
+                            <CheckboxGroup.Trigger  >
                                 <CheckboxGroup.Indicator />
-
-                            </CheckboxGroup.Item>
-
-                            {option.label}
-                        </CheckboxGroup.Content>
+                            </CheckboxGroup.Trigger>
+                           <CheckboxGroup.Label>
+                           {option.label}
+                        </CheckboxGroup.Label>
+                        </CheckboxGroup.Item>
                     </>
                 ))}
             </CheckboxGroup.Root>
