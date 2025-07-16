@@ -52,7 +52,7 @@ export const FormWithCheckboxGroupPrimitive: Story = {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
             const entries: Record<string, FormDataEntryValue | FormDataEntryValue[]> = {};
-            //@ts-ignore
+            // @ts-ignore
             for (const [key, value] of formData.entries()) {
                 if (entries[key]) {
                     if (Array.isArray(entries[key])) {

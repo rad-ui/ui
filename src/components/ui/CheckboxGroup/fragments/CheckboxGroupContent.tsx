@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import CheckboxGroupContext from '../context/CheckboxGroupContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
@@ -8,13 +8,13 @@ export type CheckboxGroupContentProps = {
     className?: string
 }
 
-const CheckboxGroupContent = ({children, className = ''}: CheckboxGroupContentProps) => {
-    const {rootClass} = useContext(CheckboxGroupContext);
-    return(
-        <Primitive.label className={clsx(`${rootClass}-label`, className)}> 
+const CheckboxGroupContent = ({ children, className = '' }: CheckboxGroupContentProps) => {
+    const { rootClass } = useContext(CheckboxGroupContext);
+    return (
+        <Primitive.label className={clsx(`${rootClass}-label`, className)}>
             {children}
         </Primitive.label>
-    )
-}
+    );
+};
 
-export default CheckboxGroupContent
+export default CheckboxGroupContent;

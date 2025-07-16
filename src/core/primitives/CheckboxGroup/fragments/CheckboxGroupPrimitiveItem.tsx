@@ -23,16 +23,16 @@ const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required,
     };
     return (
         <div>
-            <RovingFocusGroup.Item role='checkbox'>
+            <RovingFocusGroup.Item>
 
-                <button onClick={handleClick} className={className} aria-checked={checked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
+                <button role="checkbox" type="button" onClick={handleClick} className={className} aria-checked={checked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
                     {checked && children}
                 </button>
 
             </RovingFocusGroup.Item>
-           
+
             <input type="checkbox" checked={checked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled}/>
-            
+
         </div>
     );
 };

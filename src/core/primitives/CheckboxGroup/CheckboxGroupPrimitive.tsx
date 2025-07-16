@@ -8,7 +8,7 @@ const CheckboxGroupPrimitive = () => {
     return null;
 };
 
-export namespace CheckboxGroupPrimitiveProps  {
+export namespace CheckboxGroupPrimitiveProps {
     export type Root = CheckboxGroupPrimitiveRootProps;
     export type Item = CheckboxGroupPrimitiveItemProps;
 }

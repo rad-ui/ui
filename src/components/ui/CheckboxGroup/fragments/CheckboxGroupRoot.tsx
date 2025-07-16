@@ -17,8 +17,7 @@ export type CheckboxGroupRootProps = {
     name?: string
 }& CheckboxGroupPrimitiveProps.Root
 
-const CheckboxGroupRoot = ({ children, customRootClass = '', className ='', color = '', variant = '', size = '', ...props }: CheckboxGroupRootProps) => {
-
+const CheckboxGroupRoot = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: CheckboxGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = useCreateDataAttribute('checkbox-group', { variant, size });
@@ -27,13 +26,13 @@ const CheckboxGroupRoot = ({ children, customRootClass = '', className ='', colo
 
     return (
 
-            <CheckboxGroupPrimitive.Root className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
-                <CheckboxGroupContext.Provider value={{ rootClass }}>
-                    
-                        {children}
-                    
-                </CheckboxGroupContext.Provider>
-           </CheckboxGroupPrimitive.Root>
+        <CheckboxGroupPrimitive.Root className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
+            <CheckboxGroupContext.Provider value={{ rootClass }}>
+
+                {children}
+
+            </CheckboxGroupContext.Provider>
+        </CheckboxGroupPrimitive.Root>
     );
 };
 

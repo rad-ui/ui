@@ -1,8 +1,6 @@
-import React from "react"
+import React, { useState } from 'react';
 import CheckboxGroup from '../CheckboxGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { useState } from 'react';
-
 
 const CheckboxGroupExample = (args:any) => {
     const options = [
@@ -25,17 +23,17 @@ const CheckboxGroupExample = (args:any) => {
                 onValueChange={handleChange}
             >
                 {options.map((option) => (
-                 <>
-                 
-                        <CheckboxGroup.Item value={option.value} >
-                            
-                       <CheckboxGroup.Indicator />
-                        
-                    </CheckboxGroup.Item>
-                    <CheckboxGroup.Content>
-                   {option.label}
-                  </CheckboxGroup.Content> 
-                  </> 
+                    <>
+                        <CheckboxGroup.Content>
+                            <CheckboxGroup.Item value={option.value} >
+
+                                <CheckboxGroup.Indicator />
+
+                            </CheckboxGroup.Item>
+
+                            {option.label}
+                        </CheckboxGroup.Content>
+                    </>
                 ))}
             </CheckboxGroup.Root>
         </SandboxEditor>
@@ -43,9 +41,9 @@ const CheckboxGroupExample = (args:any) => {
 };
 
 export default {
-    title: 'UI/CheckboxGroup',
+    title: 'WIP/CheckboxGroup',
     component: CheckboxGroup,
-    render: (args:any) => <CheckboxGroupExample {...args} />,
+    render: (args:any) => <CheckboxGroupExample {...args} />
 };
 
 export const Basic = {};
