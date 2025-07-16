@@ -17,7 +17,7 @@ export type CheckboxGroupPrimitiveRootProps = {
     onValueChange?: (value: string[]) => void;
 }
 
-const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, ...props }: CheckboxGroupPrimitiveRootProps) => {
+const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className ='', ...props }: CheckboxGroupPrimitiveRootProps) => {
     const [checkedValues, setCheckedValues] = useControllableState(
         value,
         defaultValue,
@@ -26,9 +26,9 @@ const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [],
     console.log(checkedValues);
 
     return (
-        <div>
+        <div className={className} {...props}>
             <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
-                <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name }}>
+                <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled }}>
                     <RovingFocusGroup.Group>
                         {children}
                     </RovingFocusGroup.Group>

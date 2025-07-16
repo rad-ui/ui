@@ -1,6 +1,7 @@
 import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
+import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
 
 export type CheckboxGroupPrimitiveItemProps = {
     children?: React.ReactNode
@@ -10,7 +11,7 @@ export type CheckboxGroupPrimitiveItemProps = {
     disabled?: boolean
 }
 const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required, disabled }: CheckboxGroupPrimitiveItemProps) => {
-    const { checkedValues, setCheckedValues, name } = React.useContext(CheckboxGroupPrimitiveContext);
+    const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled } = React.useContext(CheckboxGroupPrimitiveContext);
 
     const checked = checkedValues.includes(value);
 
@@ -25,12 +26,14 @@ const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required,
         <div>
             <RovingFocusGroup.Item role='checkbox'>
 
-                <button onClick={handleClick} className={className} aria-checked={checked} disabled={disabled} aria-required={required}>
+                <button onClick={handleClick} className={className} aria-checked={checked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
                     {checked && children}
                 </button>
 
             </RovingFocusGroup.Item>
-            <input type="checkbox" checked={checked} name={name} value={value} style={{ display: 'none' }} required={required} disabled={disabled}/>
+           
+            <input type="checkbox" checked={checked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled}/>
+            
         </div>
     );
 };
