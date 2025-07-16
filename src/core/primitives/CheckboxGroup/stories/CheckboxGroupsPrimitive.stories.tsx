@@ -52,6 +52,7 @@ export const FormWithCheckboxGroupPrimitive: Story = {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
             const entries: Record<string, FormDataEntryValue | FormDataEntryValue[]> = {};
+            //@ts-ignore
             for (const [key, value] of formData.entries()) {
                 if (entries[key]) {
                     if (Array.isArray(entries[key])) {
@@ -63,7 +64,7 @@ export const FormWithCheckboxGroupPrimitive: Story = {
                     entries[key] = value;
                 }
             }
-            alert(JSON.stringify(entries, null, 2));
+            console.log(JSON.stringify(entries, null, 2));
         };
         return (
             <SandboxEditor>
