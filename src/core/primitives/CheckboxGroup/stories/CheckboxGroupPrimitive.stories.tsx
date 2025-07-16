@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import CheckboxGroupPrimitive from '../CheckboxGroupsPrimitive';
+import CheckboxGroupPrimitive from '../CheckboxGroupPrimitive';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // Reuse TickIcon from CheckboxPrimitive stories

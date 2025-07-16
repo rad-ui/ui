@@ -1,7 +1,6 @@
 import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
-import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
 
 export type CheckboxGroupPrimitiveItemProps = {
     children?: React.ReactNode
