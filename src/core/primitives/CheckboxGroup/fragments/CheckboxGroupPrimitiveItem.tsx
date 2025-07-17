@@ -43,7 +43,7 @@ const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required,
 
             </RovingFocusGroup.Item>
 
-            <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled}/>
+            <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled} onChange={() => {}} readOnly/>
 
         </div>
     );
