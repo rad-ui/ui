@@ -24,12 +24,12 @@ const CheckboxCardsExample = (args:any) => {
             >
                 {options.map((option) => (
                     <>
-                        
-                            <CheckboxCards.Item  value={option.value}>
-                               
-                           {option.label}
-                        
-                            <CheckboxCards.Content  >
+
+                        <CheckboxCards.Item value={option.value}>
+
+                            {option.label}
+
+                            <CheckboxCards.Content >
                                 <CheckboxCards.Indicator />
                             </CheckboxCards.Content>
                         </CheckboxCards.Item>

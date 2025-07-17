@@ -9,8 +9,8 @@ const CheckboxCardsContent = ({ children, ...props }: CheckboxCardsItemProps) =>
     const { rootClass } = React.useContext(CheckboxCardsRootContext);
 
     return (
-        <CheckboxGroupPrimitive.Content className={`${rootClass}-content`}  {...props} >{children}</CheckboxGroupPrimitive.Content>
-    )
+        <CheckboxGroupPrimitive.Content className={`${rootClass}-content`} {...props} >{children}</CheckboxGroupPrimitive.Content>
+    );
 };
 
 export default CheckboxCardsContent;
