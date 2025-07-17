@@ -26,12 +26,12 @@ const CheckboxCardsExample = (args:any) => {
                     <>
                         
                             <CheckboxCards.Item  value={option.value}>
-                                <CheckboxCards.Label>
+                               
                            {option.label}
-                        </CheckboxCards.Label>
-                            <CheckboxCards.Trigger  >
+                        
+                            <CheckboxCards.Content  >
                                 <CheckboxCards.Indicator />
-                            </CheckboxCards.Trigger>
+                            </CheckboxCards.Content>
                         </CheckboxCards.Item>
                     </>
                 ))}

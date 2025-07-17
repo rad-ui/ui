@@ -1,9 +1,8 @@
 'use client';
 
 import CheckboxCardsRoot from './fragments/CheckboxCardsRoot';
-import CheckboxCardsTrigger from './fragments/CheckboxCardsTrigger';
 import CheckboxCardsItem from './fragments/CheckboxCardsItem';
-import CheckboxCardsLabel from './fragments/CheckboxCardsLabel';
+import CheckboxCardsContent from './fragments/CheckboxCardsContent';
 import CheckboxCardsIndicator from './fragments/CheckboxCardsIndicator';
 
 const CheckboxCards = () => {
@@ -12,9 +11,8 @@ const CheckboxCards = () => {
 };
 
 CheckboxCards.Root = CheckboxCardsRoot;
+CheckboxCards.Content = CheckboxCardsContent;
 CheckboxCards.Item = CheckboxCardsItem;
-CheckboxCards.Trigger = CheckboxCardsTrigger;
-CheckboxCards.Label = CheckboxCardsLabel;
 CheckboxCards.Indicator = CheckboxCardsIndicator;
 
 export default CheckboxCards;
