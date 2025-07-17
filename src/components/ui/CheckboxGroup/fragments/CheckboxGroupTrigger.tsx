@@ -13,9 +13,11 @@ const CheckboxGroupTrigger = ({ children, className = '', ...props }: CheckboxGr
     const { value, checked, setChecked } = React.useContext(CheckboxGroupItemContext);
 
     return (
-        <CheckboxGroupPrimitive.Item className={clsx(`${rootClass}-trigger`, className)} value={value} checked={checked} onCheckedChange={setChecked} {...props}>
-            {children}
-        </CheckboxGroupPrimitive.Item>
+        <CheckboxGroupPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} value={value} checked={checked} onCheckedChange={setChecked} {...props}>
+            <CheckboxGroupPrimitive.Content >
+                {children}
+            </CheckboxGroupPrimitive.Content>
+        </CheckboxGroupPrimitive.Trigger>
     );
 };
 

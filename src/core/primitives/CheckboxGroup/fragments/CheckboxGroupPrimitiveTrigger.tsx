@@ -1,9 +1,10 @@
 import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
+import CheckboxGroupPrimitiveTriggerContext from '../context/CheckboxGroupPrimitiveTriggerContext';
 import useControllableState from '~/core/hooks/useControllableState';
 
-export type CheckboxGroupPrimitiveItemProps = {
+export type CheckboxGroupPrimitiveTriggerProps = {
     children?: React.ReactNode
     value: string
     className?: string
@@ -12,7 +13,7 @@ export type CheckboxGroupPrimitiveItemProps = {
     checked?: boolean
     onCheckedChange?: (checked: boolean) => void
 }
-const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required, disabled, checked, onCheckedChange }: CheckboxGroupPrimitiveItemProps) => {
+const CheckboxGroupPrimitiveTrigger = ({ children, className = '', value, required, disabled, checked, onCheckedChange }: CheckboxGroupPrimitiveTriggerProps) => {
     const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled } = React.useContext(CheckboxGroupPrimitiveContext);
 
     const [isChecked, setIsChecked] = useControllableState(
@@ -35,13 +36,15 @@ const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required,
 
     return (
         <div>
-            <RovingFocusGroup.Item>
+            <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
+                <RovingFocusGroup.Item>
 
-                <button role="checkbox" type="button" onClick={() => setIsChecked(!isChecked)} className={className} aria-checked={isChecked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
-                    {isChecked && children}
-                </button>
+                    <button role="checkbox" type="button" onClick={() => setIsChecked(!isChecked)} className={className} aria-checked={isChecked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
+                        {children}
+                    </button>
 
-            </RovingFocusGroup.Item>
+                </RovingFocusGroup.Item>
+            </CheckboxGroupPrimitiveTriggerContext.Provider>
 
             <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled} onChange={() => {}} readOnly/>
 
@@ -49,4 +52,4 @@ const CheckboxGroupPrimitiveItem = ({ children, className = '', value, required,
     );
 };
 
-export default CheckboxGroupPrimitiveItem;
+export default CheckboxGroupPrimitiveTrigger;

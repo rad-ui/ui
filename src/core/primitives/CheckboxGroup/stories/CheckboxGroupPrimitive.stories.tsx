@@ -21,23 +21,29 @@ export const Basic: Story = {
         <SandboxEditor>
             <CheckboxGroupPrimitive.Root className="flex gap-4" name="fruits" defaultValue={['apple', 'banana']}>
 
-                <CheckboxGroupPrimitive.Item value="apple" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
-                    <TickIcon />
-                </CheckboxGroupPrimitive.Item>
+                <CheckboxGroupPrimitive.Trigger value="apple" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                    <CheckboxGroupPrimitive.Content >
+                        <TickIcon />
+                    </CheckboxGroupPrimitive.Content>
+                </CheckboxGroupPrimitive.Trigger>
                 <label className="flex items-center gap-2">
                     Apple
                 </label>
 
-                <CheckboxGroupPrimitive.Item value="banana" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
-                    <TickIcon />
-                </CheckboxGroupPrimitive.Item>
+                <CheckboxGroupPrimitive.Trigger value="banana" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                    <CheckboxGroupPrimitive.Content >
+                        <TickIcon />
+                    </CheckboxGroupPrimitive.Content>
+                </CheckboxGroupPrimitive.Trigger >
                 <label className="flex items-center gap-2">
                     Banana
                 </label>
 
-                <CheckboxGroupPrimitive.Item value="cherry" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
-                    <span className="text-blue-900"><TickIcon /></span>
-                </CheckboxGroupPrimitive.Item>
+                <CheckboxGroupPrimitive.Trigger value="cherry" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                    <CheckboxGroupPrimitive.Content >
+                        <TickIcon />
+                    </CheckboxGroupPrimitive.Content>
+                </CheckboxGroupPrimitive.Trigger >
                 <label className="flex items-center gap-2">
                     Cherry
                 </label>
@@ -71,21 +77,27 @@ export const FormWithCheckboxGroupPrimitive: Story = {
                 <form onSubmit={handleSubmit}>
                     <CheckboxGroupPrimitive.Root className="flex gap-4" name="fruits">
                         <label className="flex items-center gap-2">
-                            <CheckboxGroupPrimitive.Item value="apple">
-                                <span className="text-blue-900"><TickIcon /></span>
-                            </CheckboxGroupPrimitive.Item>
+                            <CheckboxGroupPrimitive.Trigger value="apple">
+                                <CheckboxGroupPrimitive.Content >
+                                    <TickIcon />
+                                </CheckboxGroupPrimitive.Content>
+                            </CheckboxGroupPrimitive.Trigger>
                             Apple
                         </label>
                         <label className="flex items-center gap-2">
-                            <CheckboxGroupPrimitive.Item value="banana">
-                                <span className="text-blue-900"><TickIcon /></span>
-                            </CheckboxGroupPrimitive.Item>
+                            <CheckboxGroupPrimitive.Trigger value="banana">
+                                <CheckboxGroupPrimitive.Content >
+                                    <TickIcon />
+                                </CheckboxGroupPrimitive.Content>
+                            </CheckboxGroupPrimitive.Trigger>
                             Banana
                         </label>
                         <label className="flex items-center gap-2">
-                            <CheckboxGroupPrimitive.Item value="cherry">
-                                <span className="text-blue-900"><TickIcon /></span>
-                            </CheckboxGroupPrimitive.Item>
+                            <CheckboxGroupPrimitive.Trigger value="cherry">
+                                <CheckboxGroupPrimitive.Content >
+                                    <TickIcon />
+                                </CheckboxGroupPrimitive.Content>
+                            </CheckboxGroupPrimitive.Trigger>
                             Cherry
                         </label>
                     </CheckboxGroupPrimitive.Root>
