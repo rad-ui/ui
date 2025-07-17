@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
-type AvatarGroupRootProps = {
+export type AvatarGroupRootProps = {
     customRootClass?: string | '';
     size?: string;
     variant?: string;
