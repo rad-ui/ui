@@ -38,6 +38,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
         <AccordionItemContext.Provider value={{ itemValue, setItemValue, disabled }}>
             <CollapsiblePrimitive.Root
                 open={isOpen}
+                onOpenChange={setIsOpen}
                 disabled={disabled}
                 transitionDuration={transitionDuration}
                 transitionTimingFunction={transitionTimingFunction}

@@ -69,7 +69,6 @@ describe('Accordion Component', () => {
     test('displays content when item is focused and enter is pressed', () => {
         render(<TestAccordion />);
         const item1Trigger = screen.getByText('Item 1');
-        item1Trigger.focus();
         fireEvent.click(item1Trigger);
         expect(screen.getByText('Content 1')).toBeInTheDocument();
     });
@@ -78,7 +77,6 @@ describe('Accordion Component', () => {
         render(<TestAccordion />);
         const item1Trigger = screen.getByText('Item 1');
         const item2Trigger = screen.getByText('Item 2');
-        item1Trigger.focus();
         fireEvent.keyDown(item1Trigger, { key: 'ArrowDown', code: 'ArrowDown' });
         expect(item2Trigger).toHaveFocus();
     });
@@ -87,7 +85,6 @@ describe('Accordion Component', () => {
         render(<TestAccordion />);
         const item1Trigger = screen.getByText('Item 1');
         const item2Trigger = screen.getByText('Item 2');
-        item2Trigger.focus();
         fireEvent.keyDown(item2Trigger, { key: 'ArrowUp', code: 'ArrowUp' });
         expect(item1Trigger).toHaveFocus();
     });
