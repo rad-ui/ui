@@ -20,10 +20,9 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
 
     const itemSelected = value === selectedValue;
     return (
-        
 
         <RovingFocusGroup.Item >
-            <button 
+            <button
                 disabled={groupDisabled || disabled}
                 onClick={() => setSelectedValue(value)}
                 onFocus={() => setSelectedValue(value)}
@@ -39,7 +38,6 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
             </button>
         </RovingFocusGroup.Item>
 
-        
     );
 };
 
