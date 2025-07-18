@@ -2,7 +2,6 @@
 
 import CheckboxGroupRoot from './fragments/CheckboxGroupRoot';
 import CheckboxGroupTrigger from './fragments/CheckboxGroupTrigger';
-import CheckboxGroupItem from './fragments/CheckboxGroupItem';
 import CheckboxGroupLabel from './fragments/CheckboxGroupLabel';
 import CheckboxGroupIndicator from './fragments/CheckboxGroupIndicator';
 
@@ -12,7 +11,6 @@ const CheckboxGroup = () => {
 };
 
 CheckboxGroup.Root = CheckboxGroupRoot;
-CheckboxGroup.Item = CheckboxGroupItem;
 CheckboxGroup.Trigger = CheckboxGroupTrigger;
 CheckboxGroup.Label = CheckboxGroupLabel;
 CheckboxGroup.Indicator = CheckboxGroupIndicator;
