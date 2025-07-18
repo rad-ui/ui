@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
@@ -11,16 +11,14 @@ const COMPONENT_NAME = 'RadioCards';
 type RadioCardsRootProps = {
     children: React.ReactNode;
     className?: string;
-    defaultChecked?: string | null;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     customRootClass?: string;
-};
+} & RadioGroupPrimitiveProps.Root;
 
-const RadioCardsRoot = ({ children, className = '', defaultChecked = null, onChange = null, customRootClass = '' }: RadioCardsRootProps) => {
+const RadioCardsRoot = ({ children, className = '', customRootClass = '' }: RadioCardsRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    return <RadioCardsContext.Provider value={{ defaultChecked, rootClass, onChange }}>
-        <RadioGroupPrimitive.Root className={clsx(rootClass, className)} customRootClass={customRootClass}>{children}</RadioGroupPrimitive.Root>
+    return <RadioCardsContext.Provider value={{ rootClass }}>
+        <RadioGroupPrimitive.Root className={clsx(rootClass, className)}>{children}</RadioGroupPrimitive.Root>
     </RadioCardsContext.Provider>;
 };
 
