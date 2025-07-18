@@ -22,7 +22,7 @@ type RadioGroupRootProps = {
 const RadioGroupRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('button', { variant, size });
+    const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
