@@ -6,21 +6,28 @@ import { customClassSwitcher } from '~/core';
 
 import { RadioGroupContext } from '../context/RadioGroupContext';
 
+import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+
 const COMPONENT_NAME = 'RadioGroup';
 
 type RadioGroupRootProps = {
     children: React.ReactNode;
     className?: string;
-    defaultChecked?: string | null;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     customRootClass?: string;
+    variant?: string;
+    size?: string;
+    color?: string;
 };
 
-const RadioGroupRoot = ({ children, className = '', defaultChecked = null, onChange = null, customRootClass = '' }: RadioGroupRootProps) => {
+const RadioGroupRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    return <RadioGroupContext.Provider value={{ defaultChecked, rootClass, onChange }}>
-        <RadioGroupPrimitive.Root className={clsx(rootClass, className)} customRootClass={customRootClass}>{children}</RadioGroupPrimitive.Root>
+    const dataAttributes = useCreateDataAttribute('button', { variant, size });
+    const accentAttributes = useCreateDataAccentColorAttribute(color);
+    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+
+    return <RadioGroupContext.Provider value={{ rootClass }}>
+        <RadioGroupPrimitive.Root className={clsx(`${rootClass}-root`, rootClass, className)} {...composedAttributes} {...props}> {children} </RadioGroupPrimitive.Root>
     </RadioGroupContext.Provider>;
 };
 
