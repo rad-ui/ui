@@ -2,7 +2,7 @@ import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { useCreateDataAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
 export type AvatarGroupRootProps = {
     customRootClass?: string | '';
     size?: string;

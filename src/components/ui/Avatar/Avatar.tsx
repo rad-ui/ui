@@ -1,6 +1,3 @@
-import React from 'react';
-import { clsx } from 'clsx';
-
 import AvatarRoot, { AvatarRootProps } from './fragments/AvatarRoot';
 import AvatarImage, { AvatarImageProps } from './fragments/AvatarImage';
 import AvatarFallback from './fragments/AvatarFallback';
