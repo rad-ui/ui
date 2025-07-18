@@ -1,9 +1,5 @@
 import React, { useContext } from 'react';
 import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
-<<<<<<< HEAD
-import CheckboxGroupItemContext from '../context/CheckboxGroupItemContext';
-=======
->>>>>>> feat/checkbox-group
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 

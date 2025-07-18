@@ -33,11 +33,7 @@ const CheckboxGroupPrimitiveTrigger = ({ children, className = '', value, requir
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
                 <RovingFocusGroup.Item>
 
-<<<<<<< HEAD
-                    <button role="checkbox" type="button" onClick={() => setIsChecked(!isChecked)} className={className} aria-checked={isChecked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
-=======
                     <button role="checkbox" type="button" onClick={handleClick} className={className} aria-checked={isChecked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
->>>>>>> feat/checkbox-group
                         {children}
                     </button>
 

@@ -2,10 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import CheckboxGroupPrimitive, { CheckboxGroupPrimitiveProps } from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
-<<<<<<< HEAD
-import CheckboxGroupItemContext from '../context/CheckboxGroupItemContext';
-=======
->>>>>>> feat/checkbox-group
 
 export type CheckboxGroupTriggerProps = {
     children?: React.ReactNode
