@@ -16,30 +16,28 @@ export type CheckboxGroupPrimitiveTriggerProps = {
 const CheckboxGroupPrimitiveTrigger = ({ children, className = '', value, required, disabled, checked, onCheckedChange }: CheckboxGroupPrimitiveTriggerProps) => {
     const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled } = React.useContext(CheckboxGroupPrimitiveContext);
 
-    const [isChecked, setIsChecked] = useControllableState(
-        checked,
-        false,
-        onCheckedChange
-    );
+    const isChecked = checkedValues.includes(value);
 
-    React.useEffect(() => {
-        setIsChecked(checkedValues.includes(value));
-    }, []);
-
-    React.useEffect(() => {
-        if (isChecked) {
+    const handleClick = (event : React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (checkedValues.includes(value)) {
             setCheckedValues(checkedValues.filter((v) => v !== value));
-        } else {
+        } else if (!checkedValues.includes(value)) {
             setCheckedValues([...checkedValues, value]);
         }
-    }, [isChecked]);
+    };
 
     return (
         <div>
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
                 <RovingFocusGroup.Item>
 
+<<<<<<< HEAD
                     <button role="checkbox" type="button" onClick={() => setIsChecked(!isChecked)} className={className} aria-checked={isChecked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
+=======
+                    <button role="checkbox" type="button" onClick={handleClick} className={className} aria-checked={isChecked} disabled={disabled || groupDisabled} aria-required={required || groupRequired}>
+>>>>>>> feat/checkbox-group
                         {children}
                     </button>
 

@@ -23,17 +23,14 @@ const CheckboxGroupExample = (args:any) => {
                 onValueChange={handleChange}
             >
                 {options.map((option) => (
-                    <>
 
-                        <CheckboxGroup.Item value={option.value}>
-                            <CheckboxGroup.Trigger >
-                                <CheckboxGroup.Indicator />
-                            </CheckboxGroup.Trigger>
-                            <CheckboxGroup.Label>
-                                {option.label}
-                            </CheckboxGroup.Label>
-                        </CheckboxGroup.Item>
-                    </>
+                    <CheckboxGroup.Label key={option.id}>
+                        <CheckboxGroup.Trigger value={option.value}>
+                            <CheckboxGroup.Indicator />
+                        </CheckboxGroup.Trigger>
+                        {option.label}
+                    </CheckboxGroup.Label>
+
                 ))}
             </CheckboxGroup.Root>
         </SandboxEditor>

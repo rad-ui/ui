@@ -4,13 +4,13 @@
   
 }
 
-.rad-ui-checkbox-group-item {
+.rad-ui-checkbox-group-label {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 12px;
+  margin-bottom: 12px;
+  margin-top: 12px;
 }
 
 .rad-ui-checkbox-group-trigger {
@@ -28,7 +28,10 @@
 
 
 .rad-ui-checkbox-group-tick-icon {
+<<<<<<< HEAD
   display: inline-block;
+=======
+>>>>>>> feat/checkbox-group
   border-radius: 4px;
   width: 25px;
   height: 25px;
