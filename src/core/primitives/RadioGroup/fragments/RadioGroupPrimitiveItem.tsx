@@ -18,13 +18,15 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
     if (!context) {
         throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
     }
-    const { groupDisabled, name, selectedValue, setSelectedValue } = context;
+    const { groupDisabled, selectedValue, setSelectedValue } = context;
 
     const itemSelected = value === selectedValue;
     return (
 
         <RovingFocusGroup.Item >
             <Primitive.button
+                role="radio"
+                type="button"
                 disabled={groupDisabled || disabled}
                 onClick={() => setSelectedValue(value)}
                 onFocus={() => setSelectedValue(value)}
@@ -32,7 +34,6 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
                 aria-checked={value === selectedValue}
                 data-checked={value === selectedValue}
                 aria-required={required}
-                name={name}
                 asChild={asChild}
                 className={className}
                 {...props}

@@ -32,8 +32,8 @@ const RadioButton = (args: RadioButtonProps) => {
             //  defaultValue='css'
             >
                 {options.map((option) => (
-                    <label>
-                        <RadioGroupPrimitive.Item key={option.id} value={option.value} className='w-4 h-4 rounded-full  bg-gray-1000'>
+                    <label key={option.id}>
+                        <RadioGroupPrimitive.Item value={option.value} className='w-4 h-4 rounded-full  bg-gray-1000'>
                             <RadioGroupPrimitive.Indicator className='w-4 h-4 rounded-full flex items-center justify-center bg-gray-500' />
 
                         </RadioGroupPrimitive.Item>
@@ -81,10 +81,9 @@ export const InForm = () => {
                     onValueChange={handleChange}
                 >
                     {options.map((option) => (
-                        <label>
-                            <RadioGroupPrimitive.Item key={option.id} value={option.value} className='w-4 h-4 rounded-full  bg-gray-1000'>
+                        <label key={option.id}>
+                            <RadioGroupPrimitive.Item value={option.value} className='w-4 h-4 rounded-full  bg-gray-1000'>
                                 <RadioGroupPrimitive.Indicator className='w-4 h-4 rounded-full flex items-center justify-center bg-gray-500' />
-
                             </RadioGroupPrimitive.Item>
                             {option.label}
                         </label>
