@@ -29,21 +29,21 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
         selectedValue,
         setSelectedValue,
         groupDisabled,
-        name
     };
 
     return (
-        <RovingFocusGroup.Root>
-            <RadioGroupContext.Provider value={sendItems}>
-                <RovingFocusGroup.Group>
-                    <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
+        <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
+            <RovingFocusGroup.Root>
+                <RadioGroupContext.Provider value={sendItems}>
+                    <RovingFocusGroup.Group>
 
                         {children}
 
-                    </Primitive.div>
-                </RovingFocusGroup.Group>
-            </RadioGroupContext.Provider>
-        </RovingFocusGroup.Root>
+                    </RovingFocusGroup.Group>
+                </RadioGroupContext.Provider>
+            </RovingFocusGroup.Root>
+            <input type='radio' hidden name={name} value={selectedValue} disabled={groupDisabled} required={required}/>
+        </Primitive.div>
     )
     ;
 };
