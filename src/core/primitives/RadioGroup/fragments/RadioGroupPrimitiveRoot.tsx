@@ -29,6 +29,7 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
         selectedValue,
         setSelectedValue,
         groupDisabled
+    };
 
     return (
         <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
