@@ -9,7 +9,7 @@ const avatarImage3 = require('/assets/images/avatar-4.jpg');
 export default {
     title: 'Components/AvatarGroup',
     component: AvatarGroup,
-    render: (args: JSX.IntrinsicAttributes & AvatarGroupProps) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & AvatarGroupProps.Root & AvatarGroupProps.Item & AvatarGroupProps.Avatar & AvatarGroupProps.Fallback & { avatars: { src: string, fallback: string }[] }) => <SandboxEditor>
         <AvatarGroup.Root size='large' variant='circle' >
             <AvatarGroup.Item color='blue'>
                 <AvatarGroup.Avatar src={args.avatars[0].src} alt={args.avatars[0].fallback} />
