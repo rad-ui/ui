@@ -1,4 +1,3 @@
-import React from 'react';
 import NumberFieldRoot from './fragments/NumberFieldRoot';
 import NumberFieldInput from './fragments/NumberFieldInput';
 import NumberFieldIncrement from './fragments/NumberFieldIncrement';

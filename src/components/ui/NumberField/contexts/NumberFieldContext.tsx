@@ -1,14 +1,15 @@
 import React from 'react';
 
 export type NumberFieldContextType = {
-  inputValue: number;
-  handleStep: (opts: { increment?: boolean; decrement?: boolean }) => void;
-  handleLargeStep: (opts: { increment?: boolean; decrement?: boolean }) => void;
+  inputValue: number|'';
+  handleOnChange: (input: number|'') => void;
+  handleStep: (opts: { direction: 'increment' | 'decrement'; type: 'small' | 'large' }) => void;
   id?: string;
   name?: string;
   disabled?: boolean;
   readOnly?: boolean;
   required?: boolean;
+  rootClass?: string;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);

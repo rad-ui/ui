@@ -14,7 +14,7 @@ const NumberFieldDecrement = ({ children, className }: NumberFieldDecrementProps
     }
     const { handleStep } = context;
     return (
-        <button onClick={() => handleStep({ decrement: true })}>
+        <button onClick={() => handleStep({ direction: 'decrement', type: 'small' })}>
             {children}
         </button>
     );

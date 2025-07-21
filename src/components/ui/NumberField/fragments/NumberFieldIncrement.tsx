@@ -15,7 +15,7 @@ const NumberFieldIncrement = ({ children, className }: NumberFieldIncrementProps
     const { handleStep } = context;
 
     return (
-        <button onClick={() => handleStep({ increment: true })}>
+        <button onClick={() => handleStep({ direction: 'increment', type: 'small' })}>
             {children}
         </button>
     );

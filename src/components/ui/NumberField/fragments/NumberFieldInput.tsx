@@ -9,8 +9,8 @@ const NumberFieldInput = () => {
     }
     const {
         inputValue,
+        handleOnChange,
         handleStep,
-        handleLargeStep,
         id,
         name,
         disabled,
@@ -20,20 +20,24 @@ const NumberFieldInput = () => {
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'ArrowUp') {
-            handleStep({ increment: true });
+            event.preventDefault();
+            handleStep({ direction: 'increment', type: 'small' });
         }
         if (event.key === 'ArrowDown') {
-            handleStep({ decrement: true });
+            event.preventDefault();
+            handleStep({ direction: 'decrement', type: 'small' });
         }
         if (event.key === 'ArrowUp' && event.shiftKey) {
-            handleLargeStep({ increment: true });
+            event.preventDefault();
+            handleStep({ direction: 'increment', type: 'large' });
         }
         if (event.key === 'ArrowDown' && event.shiftKey) {
-            handleLargeStep({ decrement: true });
+            event.preventDefault();
+            handleStep({ direction: 'decrement', type: 'large' });
         }
     };
     return (
-        <input type="number" onKeyDown={handleKeyDown} value={inputValue} id={id} name={name} disabled={disabled} readOnly={readOnly} required={required}/>
+        <input type="number" onKeyDown={handleKeyDown} value={inputValue === '' ? '' : inputValue} onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }} id={id} name={name} disabled={disabled} readOnly={readOnly} required={required}/>
     );
 };
 
