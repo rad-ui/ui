@@ -3,7 +3,12 @@
 import React from 'react';
 import AvatarPrimitiveImage from '~/core/primitives/Avatar/fragments/AvatarPrimitiveImage';
 
-const AvatarGroupAvatar = ({ src, alt }: { src: string, alt: string }) => {
+export type AvatarGroupAvatarProps = {
+    src: string;
+    alt: string;
+}
+
+const AvatarGroupAvatar = ({ src, alt }: AvatarGroupAvatarProps) => {
     return <AvatarPrimitiveImage src={src} alt={alt} />;
 };
 

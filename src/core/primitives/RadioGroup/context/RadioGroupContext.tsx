@@ -5,7 +5,6 @@ export interface RadioGroupContextValue {
     setSelectedValue: (value: string) => void;
     onChange?: (value: string) => void;
     groupDisabled: boolean;
-    name: string;
 }
 
 const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(null);

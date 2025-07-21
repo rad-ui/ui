@@ -1,25 +1,24 @@
+import React from 'react';
 import RadioGroup from '../RadioGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { useState } from 'react';
 
-const RadioButton = (args) => {
+const RadioButton = () => {
     const options = [
         { id: 'html', value: 'html', label: 'HTML' },
         { id: 'css', value: 'css', label: 'CSS' },
         { id: 'javascript', value: 'javascript', label: 'JavaScript' }];
 
-    const [language, setLanguage] = useState('css');
-
-    const handleChange = (e) => {
-        setLanguage(e.target.value);
-    };
     return (
         <SandboxEditor>
-            <RadioGroup.Root defaultChecked={language} items={options} onChange={handleChange} >
+            <RadioGroup.Root >
                 {options.map((option) => (
-                    <RadioGroup.Item key={option.id} value={option.value}>
+                    <RadioGroup.Label key={option.id}>
+                        <RadioGroup.Item value={option.value}>
+                            <RadioGroup.Indicator />
+
+                        </RadioGroup.Item>
                         {option.label}
-                    </RadioGroup.Item>
+                    </RadioGroup.Label>
                 ))}
             </RadioGroup.Root>
         </SandboxEditor>
@@ -29,8 +28,7 @@ const RadioButton = (args) => {
 export default {
     title: 'WIP/RadioGroup',
     component: RadioGroup,
-    render: (args) => <RadioButton {...args}/>
+    render: () => <RadioButton />
 };
 
 export const All = {};
-All.args = {};

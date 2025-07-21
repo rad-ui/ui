@@ -5,7 +5,7 @@ import AvatarPrimitiveImage, { AvatarRootImageProps } from '~/core/primitives/Av
 import { AvatarContext } from '../contexts/AvatarContext';
 import { clsx } from 'clsx';
 
-type AvatarImageProps = AvatarRootImageProps & {
+export type AvatarImageProps = AvatarRootImageProps & {
     src?: string;
     alt?: string;
 }
