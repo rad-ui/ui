@@ -2,6 +2,7 @@ import React, { DetailedHTMLProps, InputHTMLAttributes, PropsWithChildren } from
 
 import RadioGroupPrimitiveRoot from './fragments/RadioGroupPrimitiveRoot';
 import RadioGroupPrimitiveItem from './fragments/RadioGroupPrimitiveItem';
+import RadioGroupPrimitiveIndicator from './fragments/RadioGroupPrimitiveIndicator';
 
 export type RadioGroupProps = {
     children?: React.ReactNode;
@@ -15,5 +16,6 @@ const RadioGroupPrimitive = () => {
 
 RadioGroupPrimitive.Root = RadioGroupPrimitiveRoot;
 RadioGroupPrimitive.Item = RadioGroupPrimitiveItem;
+RadioGroupPrimitive.Indicator = RadioGroupPrimitiveIndicator;
 
 export default RadioGroupPrimitive;

@@ -8,7 +8,7 @@ const avatarImage2 = require('/assets/images/avatar-11.jpg');
 export default {
     title: 'Components/Avatar',
     component: Avatar,
-    render: (args: JSX.IntrinsicAttributes & AvatarProps) => <SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & AvatarProps.Root & AvatarProps.Image & { fallback: string }) => <SandboxEditor>
         <Avatar.Root color={args.color} size={args.size} variant={args.variant} customRootClass={args.customRootClass}>
             <Avatar.Image src={args.src} alt={args.alt} />
             <Avatar.Fallback>{args.fallback}</Avatar.Fallback>
@@ -79,5 +79,5 @@ const WithoutImgTemplate = () => {
 };
 
 export const withoutImg = {
-    render: (args: JSX.IntrinsicAttributes & AvatarProps) => <WithoutImgTemplate />
+    render: (args: JSX.IntrinsicAttributes & AvatarProps.Root & AvatarProps.Image) => <WithoutImgTemplate />
 };

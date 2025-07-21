@@ -23,7 +23,7 @@ const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [],
         defaultValue,
         onValueChange
     );
-
+  
     return (
         <div className={className} {...props}>
             <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
