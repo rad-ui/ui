@@ -20,7 +20,6 @@ type RadioGroupRootProps = {
 
 } & RadioGroupPrimitiveProps.Root;
 
-
 const RadioGroupRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });

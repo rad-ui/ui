@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren } from 'react';
 import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -29,6 +29,7 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
         selectedValue,
         setSelectedValue,
         groupDisabled
+    };
 
     return (
         <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
