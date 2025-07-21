@@ -106,7 +106,7 @@ const NumberFieldRoot = ({ children, name, defaultValue = '', value, onValueChan
     };
 
     return (
-        <div className={clsx(`${COMPONENT_NAME}-root`, className)} {...props}>
+        <div className={clsx(`${rootClass}-root`, className)} {...props}>
             <NumberFieldContext.Provider value={contextValues}>
                 {children}
             </NumberFieldContext.Provider>

@@ -46,6 +46,7 @@ export const FormExample = () => {
                     <NumberField.Decrement>-</NumberField.Decrement>
                     <NumberField.Input />
                     <NumberField.Increment>+</NumberField.Increment>
+
                 </NumberField.Root>
                 <button type="submit" style={{ marginTop: 8 }}>Submit</button>
             </form>
@@ -55,4 +56,3 @@ export const FormExample = () => {
         </SandboxEditor>
     );
 };
-// ... existing code ...

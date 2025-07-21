@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import NumberFieldContext from '../contexts/NumberFieldContext';
+import clsx from 'clsx';
 
 export type NumberFieldIncrementProps = {
     className?: string
@@ -12,10 +13,10 @@ const NumberFieldIncrement = ({ children, className }: NumberFieldIncrementProps
         console.error('NumberFieldIncrement must be used within a NumberField');
         return null;
     }
-    const { handleStep } = context;
+    const { handleStep, rootClass } = context;
 
     return (
-        <button onClick={() => handleStep({ direction: 'increment', type: 'small' })}>
+        <button onClick={() => handleStep({ direction: 'increment', type: 'small' })} className={clsx(`${rootClass}-increment`, className)}>
             {children}
         </button>
     );

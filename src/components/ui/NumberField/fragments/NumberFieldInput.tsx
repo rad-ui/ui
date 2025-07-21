@@ -1,7 +1,11 @@
 import React, { useContext } from 'react';
 import NumberFieldContext from '../contexts/NumberFieldContext';
+import clsx from 'clsx';
 
-const NumberFieldInput = () => {
+export type NumberFieldInputProps = {
+    className?: string
+}
+const NumberFieldInput = ({ className }: NumberFieldInputProps) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
@@ -15,7 +19,8 @@ const NumberFieldInput = () => {
         name,
         disabled,
         readOnly,
-        required
+        required,
+        rootClass
     } = context;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -37,7 +42,7 @@ const NumberFieldInput = () => {
         }
     };
     return (
-        <input type="number" onKeyDown={handleKeyDown} value={inputValue === '' ? '' : inputValue} onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }} id={id} name={name} disabled={disabled} readOnly={readOnly} required={required}/>
+        <input type="number" onKeyDown={handleKeyDown} value={inputValue === '' ? '' : inputValue} onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }} id={id} name={name} disabled={disabled} readOnly={readOnly} required={required} className={clsx(`${rootClass}-input`, className)}/>
     );
 };
 
