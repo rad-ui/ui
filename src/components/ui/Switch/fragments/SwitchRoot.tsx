@@ -16,7 +16,7 @@ export type SwitchRootProps = {
     size?: string;
 };
 
-const SwitchRoot = ({ children, customRootClass, color='', variant, size }: SwitchRootProps) => {
+const SwitchRoot = ({ children, customRootClass, color = '', variant, size }: SwitchRootProps) => {
     const [checked, setChecked] = useState(false);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 

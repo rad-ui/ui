@@ -8,7 +8,7 @@ const AvatarGroup = () => {
     return null;
 };
 
-export namespace AvatarGroupProps { 
+export namespace AvatarGroupProps {
     export type Root = AvatarGroupRootProps;
     export type Item = AvatarGroupItemProps;
     export type Avatar = AvatarGroupAvatarProps;
