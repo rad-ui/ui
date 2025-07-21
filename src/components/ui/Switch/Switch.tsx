@@ -1,5 +1,5 @@
 'use client';
-import SwitchRoot from './fragments/SwitchRoot';
+import SwitchRoot, { SwitchRootProps } from './fragments/SwitchRoot';
 import SwitchThumb from './fragments/SwitchThumb';
 
 const Switch = () => {
@@ -24,6 +24,10 @@ const Switch = () => {
     //     </>
     // );
 };
+
+export namespace SwitchProps {
+    export type Root = SwitchRootProps;
+}
 
 Switch.Root = SwitchRoot;
 Switch.Thumb = SwitchThumb;
