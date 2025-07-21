@@ -28,7 +28,8 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
     const sendItems = {
         selectedValue,
         setSelectedValue,
-        groupDisabled,
+        groupDisabled
+
     };
 
     return (
