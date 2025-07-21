@@ -5,9 +5,9 @@ import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimit
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
 import { useCreateDataAccentColorAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
 
-export type AvatarGroupItemProps = { 
+export type AvatarGroupItemProps = {
     color?: string
-    children: React.ReactNode 
+    children: React.ReactNode
 };
 
 const AvatarGroupItem = ({ color = '', children }: AvatarGroupItemProps) => {
