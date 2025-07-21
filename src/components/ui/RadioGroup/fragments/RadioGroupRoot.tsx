@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
@@ -17,12 +17,14 @@ type RadioGroupRootProps = {
     variant?: string;
     size?: string;
     color?: string;
-};
+
+} & RadioGroupPrimitiveProps.Root;
+
 
 const RadioGroupRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioGroupRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
 
-    const dataAttributes = useCreateDataAttribute('button', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 

@@ -4,7 +4,7 @@ import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 
-type RadioGroupPrimitiveRootProps = PropsWithChildren<{
+export type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     className?: string;
     customRootClass?: string;
     value?: string;
@@ -29,8 +29,6 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
         selectedValue,
         setSelectedValue,
         groupDisabled
-
-    };
 
     return (
         <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>

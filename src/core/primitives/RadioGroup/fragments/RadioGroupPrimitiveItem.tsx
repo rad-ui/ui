@@ -4,7 +4,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import RadioGroupPrimitiveItemContext from '../context/RadioGroupPrimitiveItemContext';
 import Primitive from '~/core/primitives/Primitive';
 
-type RadioGroupPrimitiveItemProps = PropsWithChildren<{
+export type RadioGroupPrimitiveItemProps = PropsWithChildren<{
     value: string;
     disabled?: boolean
     children?: React.ReactNode;
