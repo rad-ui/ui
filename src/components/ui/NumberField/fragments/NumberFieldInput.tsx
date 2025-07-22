@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export type NumberFieldInputProps = {
     className?: string
 }
-const NumberFieldInput = ({ className }: NumberFieldInputProps) => {
+const NumberFieldInput = ({ className, ...props }: NumberFieldInputProps) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
@@ -24,11 +24,11 @@ const NumberFieldInput = ({ className }: NumberFieldInputProps) => {
     } = context;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'ArrowUp') {
+        if (event.key === 'ArrowUp' && !event.shiftKey) {
             event.preventDefault();
             handleStep({ direction: 'increment', type: 'small' });
         }
-        if (event.key === 'ArrowDown') {
+        if (event.key === 'ArrowDown' && !event.shiftKey) {
             event.preventDefault();
             handleStep({ direction: 'decrement', type: 'small' });
         }
@@ -42,7 +42,18 @@ const NumberFieldInput = ({ className }: NumberFieldInputProps) => {
         }
     };
     return (
-        <input type="number" onKeyDown={handleKeyDown} value={inputValue === '' ? '' : inputValue} onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }} id={id} name={name} disabled={disabled} readOnly={readOnly} required={required} className={clsx(`${rootClass}-input`, className)}/>
+        <input
+            type="number"
+            onKeyDown={handleKeyDown}
+            value={inputValue === '' ? '' : inputValue}
+            onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }}
+            id={id}
+            name={name}
+            disabled={disabled}
+            readOnly={readOnly}
+            required={required}
+            className={clsx(`${rootClass}-input`, className)}
+            {...props}/>
     );
 };
 

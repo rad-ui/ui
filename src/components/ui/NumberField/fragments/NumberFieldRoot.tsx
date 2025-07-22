@@ -53,8 +53,9 @@ const NumberFieldRoot = ({ children, name, defaultValue = '', value, onValueChan
             if (temp === '') {
                 if (min !== undefined) {
                     temp = min;
+                } else {
+                    temp = -1;
                 }
-                temp = -1;
             }
             const nextValue = temp + amount;
 
@@ -93,8 +94,6 @@ const NumberFieldRoot = ({ children, name, defaultValue = '', value, onValueChan
 
     const contextValues = {
         inputValue,
-        setInputValue,
-        applyStep,
         handleOnChange,
         handleStep,
         id,
