@@ -8,10 +8,10 @@ const Sizes = ['small', 'medium', 'large', 'x-large'];
 export default {
     title: 'Components/Switch',
     component: Switch,
-    render: (args: JSX.IntrinsicAttributes & SwitchProps) => <SwitchComponent {...args}/>
+    render: (args: JSX.IntrinsicAttributes & SwitchProps.Root) => <SwitchComponent {...args}/>
 };
 
-const SwitchComponent = (args: SwitchProps) => {
+const SwitchComponent = (args: SwitchProps.Root) => {
     const variants = ['classic', 'surface', 'solid'];
     const [isChecked, setIsChecked] = useState(true);
 

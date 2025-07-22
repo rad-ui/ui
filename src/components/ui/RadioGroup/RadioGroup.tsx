@@ -1,6 +1,8 @@
 import React from 'react';
 import RadioGroupRoot from './fragments/RadioGroupRoot';
 import RadioGroupItem from './fragments/RadioGroupItem';
+import RadioGroupIndicator from './fragments/RadioGroupIndicator';
+import RadioGroupLabel from './fragments/RadioGroupLabel';
 
 // Empty props type - only supporting fragment exports
 export type RadioGroupProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -16,5 +18,7 @@ const RadioGroup = () => {
 // Export fragments via direct assignment pattern
 RadioGroup.Root = RadioGroupRoot;
 RadioGroup.Item = RadioGroupItem;
+RadioGroup.Indicator = RadioGroupIndicator;
+RadioGroup.Label = RadioGroupLabel;
 
 export default RadioGroup;

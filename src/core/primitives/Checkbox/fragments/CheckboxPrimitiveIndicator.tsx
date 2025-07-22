@@ -3,12 +3,17 @@
 import React from 'react';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 
-const CheckboxPrimitiveIndicator = ({ children }: { children: React.ReactNode }) => {
-    const { checked } = React.useContext(CheckboxPrimitiveContext);
+export type CheckboxPrimitiveIndicatorProps = {
+    className?: string
+    children: React.ReactNode
+}
 
-    if (!checked) return null;
+const CheckboxPrimitiveIndicator = ({ children, className = '', ...props }: CheckboxPrimitiveIndicatorProps) => {
+    const { isChecked } = React.useContext(CheckboxPrimitiveContext);
 
-    return <span>{children}</span>;
+    if (!isChecked) return null;
+
+    return <span className={className} {...props}>{children}</span>;
 };
 
 export default CheckboxPrimitiveIndicator;
