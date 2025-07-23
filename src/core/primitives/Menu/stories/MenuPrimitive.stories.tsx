@@ -19,6 +19,30 @@ export const Basic: Story = {
             <MenuPrimitive.Root>
                 <MenuPrimitive.Trigger>Trigger</MenuPrimitive.Trigger>
                 <MenuPrimitive.Content className="flex flex-col">
+                    <MenuPrimitive.Item>
+                        item 1
+                    </MenuPrimitive.Item>
+                    <MenuPrimitive.Item>
+                        item 1
+                    </MenuPrimitive.Item>
+                    <MenuPrimitive.Item>
+                        item 1
+                    </MenuPrimitive.Item>
+                    <MenuPrimitive.Root>
+                        <MenuPrimitive.Trigger>Trigger</MenuPrimitive.Trigger>
+                        <MenuPrimitive.Content className="flex flex-col">
+                            <MenuPrimitive.Item>
+                                item 1
+                            </MenuPrimitive.Item>
+                            <MenuPrimitive.Item>
+                                item 1
+                            </MenuPrimitive.Item>
+                            <MenuPrimitive.Item>
+                                item 1
+                            </MenuPrimitive.Item>
+                              <MenuPrimitive.Root>
+                <MenuPrimitive.Trigger>Trigger</MenuPrimitive.Trigger>
+                <MenuPrimitive.Content className="flex flex-col">
                 <MenuPrimitive.Item>
                     item 1
                 </MenuPrimitive.Item>
@@ -28,6 +52,12 @@ export const Basic: Story = {
                 <MenuPrimitive.Item>
                     item 1
                 </MenuPrimitive.Item>
+                </MenuPrimitive.Content>
+            </MenuPrimitive.Root>
+                        </MenuPrimitive.Content>
+                        
+                        
+                    </MenuPrimitive.Root>
                 </MenuPrimitive.Content>
             </MenuPrimitive.Root>
         </SandboxEditor>
