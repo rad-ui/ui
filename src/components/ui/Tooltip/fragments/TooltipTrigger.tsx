@@ -11,7 +11,7 @@ const TooltipTrigger = forwardRef(({ children, asChild, ...props }: { children: 
         throw new Error('TooltipTrigger must be used within a TooltipRoot component');
     }
 
-    const { setIsOpen, isOpen, interactions, data, context } = tooltipContext;
+    const { isOpen, interactions, context } = tooltipContext;
 
     const { getReferenceProps } = interactions;
 

@@ -1,7 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
-import { clsx } from 'clsx';
 import Floater from '~/core/primitives/Floater';
 
 export type DialogPrimitiveContentProps = {

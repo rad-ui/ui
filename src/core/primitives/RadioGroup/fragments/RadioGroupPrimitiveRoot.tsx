@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren } from 'react';
 import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';

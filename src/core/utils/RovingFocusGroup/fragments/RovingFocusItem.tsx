@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
+import React, { forwardRef, useContext, useEffect, useId } from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 

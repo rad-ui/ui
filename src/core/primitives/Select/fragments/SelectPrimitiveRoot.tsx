@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';

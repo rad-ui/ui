@@ -9,7 +9,7 @@ export interface AvatarPrimitiveFallbackProps {
 }
 
 const AvatarPrimitiveFallback = ({ children, asChild = false, className = '', ...props }: AvatarPrimitiveFallbackProps) => {
-    const { hasError, isImageLoaded } = useContext(AvatarPrimitiveContext);
+    const { isImageLoaded } = useContext(AvatarPrimitiveContext);
     if (isImageLoaded) return null;
     return <Primitive.span asChild={asChild} className={className} {...props}>{children}</Primitive.span>;
 };
