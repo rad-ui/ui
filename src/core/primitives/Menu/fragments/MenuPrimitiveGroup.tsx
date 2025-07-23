@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-const MenuPrimitiveGroup = ({children, className}:any) => {
+const MenuPrimitiveGroup = ({ children, className }:any) => {
     return (
         <div>
-        {children}
+            {children}
         </div>
-    )
-}
-export default MenuPrimitiveGroup
+    );
+};
+export default MenuPrimitiveGroup;

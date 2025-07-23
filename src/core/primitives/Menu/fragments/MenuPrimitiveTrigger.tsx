@@ -1,20 +1,23 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
-import MenuPrimitiveRootContext  from '../contexts/MenuPrimitiveRootContext';
+import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 
-const MenuPrimitiveTrigger = ({children, className}:any) => {
-    const {isOpen, setIsOpen, refs, floatingStyles, getReferenceProps} = useContext(MenuPrimitiveRootContext)
-    const {ref, index} = Floater.useListItem();
-    
+const MenuPrimitiveTrigger = ({ children, className }:any) => {
+    const context = useContext(MenuPrimitiveRootContext);
+    if (!context) return null;
+    const { isOpen, setIsOpen, activeIndex, refs, floatingStyles, getReferenceProps, isNested } = context;
+    const { ref, index } = Floater.useListItem();
+
     return (
-        <button className={className}
-         onClick={() => setIsOpen(!isOpen)} 
-        
-         ref={Floater.useMergeRefs([refs.setReference, ref])}
-         {...getReferenceProps()}
-         >
-        {children}
+        <button
+            className={className}
+            onClick={() => setIsOpen(!isOpen)}
+            tabIndex={isNested ? activeIndex === index ? 0 : -1 : 0}
+            ref={Floater.useMergeRefs([refs.setReference, ref])}
+            {...getReferenceProps()}
+        >
+            {children}
         </button>
-    )
-}
-export default MenuPrimitiveTrigger
+    );
+};
+export default MenuPrimitiveTrigger;
