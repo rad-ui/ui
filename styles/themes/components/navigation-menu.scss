@@ -1,0 +1,93 @@
+.rad-ui-navigation-menu-root {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  background: var(--rad-ui-color-accent-50, #fff);
+  border-radius: 6px;
+  padding: 4px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.rad-ui-navigation-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 4px;
+}
+
+.rad-ui-navigation-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: var(--rad-ui-color-accent-100, #f3f4f6);
+  color: var(--rad-ui-color-accent-900, #111);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover{
+    background: var(--rad-ui-color-accent-200, #e5e7eb);
+    color: var(--rad-ui-color-accent-900, #111);
+    outline: none;
+  }
+
+  &[data-state="open"] {
+    background: var(--rad-ui-color-accent-300, #d1d5db);
+    color: var(--rad-ui-color-accent-900, #111);
+  }
+}
+
+.rad-ui-navigation-menu-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: var(--rad-ui-color-accent-50, #fff);
+  border: 1px solid var(--rad-ui-color-accent-200, #e5e7eb);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 12px 0;
+  z-index: 100;
+  display: none;
+
+  &[data-state="open"] {
+    display: block;
+    animation: rad-ui-navigation-menu-fade-in 0.18s ease;
+  }
+}
+
+@keyframes rad-ui-navigation-menu-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rad-ui-navigation-menu-link {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  color: var(--rad-ui-color-accent-900, #111);
+  text-decoration: none;
+  font-size: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--rad-ui-color-accent-100, #f3f4f6);
+    color: var(--rad-ui-color-accent-900, #111);
+    outline: none;
+  }
+
+  &[aria-current="page"],
+  &[data-active="true"] {
+    background: var(--rad-ui-color-accent-200, #e5e7eb);
+    font-weight: 600;
+  }
+}
