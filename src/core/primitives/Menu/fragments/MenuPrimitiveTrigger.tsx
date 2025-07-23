@@ -2,7 +2,12 @@ import React, { useState, useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 
-const MenuPrimitiveTrigger = ({ children, className }:any) => {
+export type MenuPrimitiveTriggerProps = {
+    children: React.ReactNode
+    className?: string
+}
+
+const MenuPrimitiveTrigger = ({ children, className }: MenuPrimitiveTriggerProps) => {
     const context = useContext(MenuPrimitiveRootContext);
     if (!context) return null;
     const { isOpen, setIsOpen, activeIndex, refs, floatingStyles, getReferenceProps, isNested } = context;

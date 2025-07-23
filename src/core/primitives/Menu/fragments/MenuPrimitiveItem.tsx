@@ -2,7 +2,12 @@ import React from 'react';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 
-const MenuPrimitiveItem = ({ children, className }:any) => {
+export type MenuPrimitiveItemProps = {
+    children: React.ReactNode
+    className?: string
+}
+
+const MenuPrimitiveItem = ({ children, className }: MenuPrimitiveItemProps) => {
     const context = React.useContext(MenuPrimitiveRootContext);
     const activeIndex = context?.activeIndex;
     const { ref, index } = Floater.useListItem();

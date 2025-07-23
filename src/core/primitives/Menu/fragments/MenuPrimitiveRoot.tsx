@@ -1,9 +1,22 @@
 import React, { useState, useRef } from 'react';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
+import { useControllableState } from '~/core/hooks/useControllableState';
 
-const MenuPrimitiveRoot = ({ children, className }: any) => {
-    const [isOpen, setIsOpen] = useState(false);
+export type MenuPrimitiveRootProps = {
+    children: React.ReactNode
+    className?: string
+    open?: boolean
+    onOpenChange?: (open: boolean) => void
+    defaultOpen?: boolean
+}
+const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveRootProps) => {
+    const [isOpen, setIsOpen] = useControllableState(
+        open,
+        defaultOpen,
+        onOpenChange
+    );
+
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     const listRef = useRef([]);
@@ -24,9 +37,7 @@ const MenuPrimitiveRoot = ({ children, className }: any) => {
     const listNavigation = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
         activeIndex,
-        virtualItemRef,
         nested: isNested,
-
         onNavigate: setActiveIndex
     });
     const click = Floater.useClick(floatingContext);

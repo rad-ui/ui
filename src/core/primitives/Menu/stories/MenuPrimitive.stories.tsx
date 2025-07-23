@@ -15,20 +15,20 @@ export const Basic: Story = {
     render: () => (
         <SandboxEditor>
             <MenuPrimitive.Root>
-                <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Trigger</MenuPrimitive.Trigger>
-                <MenuPrimitive.Content className="flex flex-col mt-2 bg-white border border-gray-200 rounded shadow-lg min-w-[180px]">
+                <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Trigger</MenuPrimitive.Trigger>
+                <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-lg min-w-[180px]">
                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
-                    <MenuPrimitive.Root>
+                    <MenuPrimitive.Root className="flex flex-col">
                         <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">Trigger</MenuPrimitive.Trigger>
-                        <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-50 border border-gray-200 rounded shadow min-w-[160px]">
+                        <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow min-w-[160px]">
                             <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                             <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                             <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
-                            <MenuPrimitive.Root>
+                            <MenuPrimitive.Root className="flex flex-col">
                                 <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">Trigger</MenuPrimitive.Trigger>
-                                <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-100 border border-gray-200 rounded shadow min-w-[140px]">
+                                <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow min-w-[140px]">
                                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded">item 1</MenuPrimitive.Item>
@@ -36,6 +36,8 @@ export const Basic: Story = {
                             </MenuPrimitive.Root>
                         </MenuPrimitive.Content>
                     </MenuPrimitive.Root>
+                    <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
+                    <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                 </MenuPrimitive.Content>
             </MenuPrimitive.Root>
         </SandboxEditor>
