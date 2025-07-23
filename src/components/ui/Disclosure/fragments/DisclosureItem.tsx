@@ -32,6 +32,7 @@ const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps)
 
             <CollapsiblePrimitive.Root
                 open={isOpen}
+                onOpenChange={setIsOpen}
                 asChild
             >
                 <div

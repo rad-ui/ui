@@ -18,18 +18,14 @@ describe('CollapsiblePrimitive', () => {
     test('has correct data-state attribute based on open state', () => {
         const { rerender } = render(
             <CollapsiblePrimitive.Root data-testid="collapsible">
-                <div>Content</div>
+                <CollapsiblePrimitive.Trigger data-testid="trigger">
+                    Toggle
+                </CollapsiblePrimitive.Trigger>
             </CollapsiblePrimitive.Root>
         );
 
         expect(screen.getByTestId('collapsible')).toHaveAttribute('data-state', 'closed');
-
-        rerender(
-            <CollapsiblePrimitive.Root data-testid="collapsible" open={true}>
-                <div>Content</div>
-            </CollapsiblePrimitive.Root>
-        );
-
+        fireEvent.click(screen.getByTestId('trigger'));
         expect(screen.getByTestId('collapsible')).toHaveAttribute('data-state', 'open');
     });
 

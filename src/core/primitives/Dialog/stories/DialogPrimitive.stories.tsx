@@ -14,7 +14,7 @@ export default {
         return (
             <SandboxEditor>
                 <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
-                    <DialogPrimitive.Overlay className="w-screen h-screen" style={{ opacity: 0.5, backgroundColor: 'rgba(0, 0, 0, 0.9)' }} />
+                    <DialogPrimitive.Overlay className="w-screen h-screen opacity-50 bg-[rgba(0,0,0,0.9)]" />
                     <DialogPrimitive.Trigger>
                         Open Dialog
                     </DialogPrimitive.Trigger>
