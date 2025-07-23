@@ -33,7 +33,7 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
 
     return (
         <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
-            <RovingFocusGroup.Root>
+            <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
                 <RadioGroupContext.Provider value={sendItems}>
                     <RovingFocusGroup.Group>
 

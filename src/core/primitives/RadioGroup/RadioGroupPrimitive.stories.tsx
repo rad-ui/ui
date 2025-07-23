@@ -27,7 +27,7 @@ const RadioButton = (args: RadioButtonProps) => {
     return (
         <SandboxEditor>
             <RadioGroupPrimitive.Root
-                orientation='horizontal' dir='rtl'
+                orientation='both'
                 name='test'
             //  defaultValue='css'
             >
