@@ -12,19 +12,26 @@ const MenuPrimitiveContent = ({ children, className }: MenuPrimitiveContentProps
     const context = useContext(MenuPrimitiveRootContext);
     if (!context || !context.isOpen) return null;
     const { isOpen, refs, floatingStyles, getFloatingProps, elementsRef, labelsRef, nodeId, isNested, floatingContext } = context;
+
     return (
-        <div
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-            className={className}
-        >
-            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
 
-                {children}
-
-            </Floater.FloatingList>
-        </div>
+        <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+            <Floater.FocusManager
+                context={floatingContext}
+                modal={false}
+                initialFocus={isNested ? -1 : 0}
+                returnFocus={!isNested}
+            >
+                <div
+                    ref={refs.setFloating}
+                    style={floatingStyles}
+                    {...getFloatingProps()}
+                    className={className}
+                >
+                    {children}
+                </div>
+            </Floater.FocusManager>
+        </Floater.FloatingList>
 
     );
 };

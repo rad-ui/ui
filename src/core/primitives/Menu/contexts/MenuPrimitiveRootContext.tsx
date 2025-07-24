@@ -25,6 +25,7 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   virtualItemRef: React.MutableRefObject<any>;
   nodeId: any;
   isNested: boolean;
+  floatingContext: any;
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);

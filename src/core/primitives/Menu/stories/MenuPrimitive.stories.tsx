@@ -34,7 +34,10 @@ export const Basic: Story = {
                                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                                 </MenuPrimitive.Content>
                             </MenuPrimitive.Root>
+                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded">item 1</MenuPrimitive.Item>
+                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                         </MenuPrimitive.Content>
+
                     </MenuPrimitive.Root>
                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
                     <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">item 1</MenuPrimitive.Item>
