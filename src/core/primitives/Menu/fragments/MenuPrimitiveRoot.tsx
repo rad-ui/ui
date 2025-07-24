@@ -28,7 +28,8 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
     const parentId = Floater.useFloatingParentNodeId();
     const isNested = parentId != null;
     const item = Floater.useListItem();
-    
+    const tree = Floater.useFloatingTree();
+
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
@@ -51,11 +52,18 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
     const dismiss = Floater.useDismiss(floatingContext, {
         bubbles: true
     });
+    const typeahead = Floater.useTypeahead(floatingContext, {
+    listRef: labelsRef,
+    onMatch: isOpen ? setActiveIndex : undefined,
+    activeIndex
+  });
 
     const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
         dismiss,
         click,
-        listNavigation
+        listNavigation,
+        hover,
+        typeahead
     ]);
 
     const values = {
@@ -78,16 +86,34 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
         item
     };
 
+    if (parentId === null) {
+    
+    
     return (
+        <Floater.FloatingTree>
         <div className={className}>
-            <Floater.FloatingTree>
+            
                 <MenuPrimitiveRootContext.Provider value={values} >
                     <Floater.FloatingNode id={nodeId}>
                         {children}
                     </Floater.FloatingNode>
                 </MenuPrimitiveRootContext.Provider>
-            </Floater.FloatingTree>
+            
         </div>
+        </Floater.FloatingTree>
     );
+
+    }
+    return (
+        <div className={className}>
+            
+                <MenuPrimitiveRootContext.Provider value={values} >
+                    <Floater.FloatingNode id={nodeId}>
+                        {children}
+                    </Floater.FloatingNode>
+                </MenuPrimitiveRootContext.Provider>
+            
+        </div>
+    )
 };
 export default MenuPrimitiveRoot;

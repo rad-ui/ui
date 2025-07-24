@@ -5,12 +5,15 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 export type MenuPrimitiveItemProps = {
     children: React.ReactNode
     className?: string
+    label?: string
 }
 
-const MenuPrimitiveItem = ({ children, className }: MenuPrimitiveItemProps) => {
+const MenuPrimitiveItem = ({ children, className, label }: MenuPrimitiveItemProps) => {
     const context = React.useContext(MenuPrimitiveRootContext);
     const activeIndex = context?.activeIndex;
-    const { ref, index } = Floater.useListItem();
+    const { ref, index } = Floater.useListItem({
+        label
+    });
 
     const isActive = activeIndex === index;
 
