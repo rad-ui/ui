@@ -10,14 +10,16 @@ export type MenuPrimitiveTriggerProps = {
 const MenuPrimitiveTrigger = ({ children, className }: MenuPrimitiveTriggerProps) => {
     const context = useContext(MenuPrimitiveRootContext);
     if (!context) return null;
-    const { isOpen, setIsOpen, activeIndex, refs, floatingStyles, getReferenceProps, isNested } = context;
+    const { isOpen, setIsOpen, activeIndex, refs, floatingStyles, getReferenceProps, isNested, item } = context;
     const { ref, index } = Floater.useListItem();
 
     return (
         <button
             className={className}
             onClick={() => setIsOpen(!isOpen)}
-            tabIndex={isNested ? activeIndex === index ? 0 : -1 : 0}
+            tabIndex={
+          !isNested ? undefined : activeIndex === item.index ? 0 : -1
+        }
             ref={Floater.useMergeRefs([refs.setReference, ref])}
             {...getReferenceProps()}
         >

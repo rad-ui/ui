@@ -27,6 +27,8 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
     const nodeId = Floater.useFloatingNodeId();
     const parentId = Floater.useFloatingParentNodeId();
     const isNested = parentId != null;
+    const item = Floater.useListItem();
+    
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
@@ -40,7 +42,12 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
         nested: isNested,
         onNavigate: setActiveIndex
     });
-    const click = Floater.useClick(floatingContext);
+    const click = Floater.useClick(floatingContext, {});
+     const hover = Floater.useHover(floatingContext, {
+    enabled: isNested,
+    delay: { open: 75 },
+    handleClose: Floater.safePolygon({ blockPointerEvents: true })
+  });
     const dismiss = Floater.useDismiss(floatingContext, {
         bubbles: true
     });
@@ -67,7 +74,8 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
         virtualItemRef,
         nodeId,
         isNested,
-        floatingContext
+        floatingContext,
+        item
     };
 
     return (
