@@ -10,7 +10,8 @@ export type MenuPrimitiveRootProps = {
     onOpenChange?: (open: boolean) => void
     defaultOpen?: boolean
 }
-const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveRootProps) => {
+
+export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -27,14 +28,13 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
     const nodeId = Floater.useFloatingNodeId();
     const parentId = Floater.useFloatingParentNodeId();
     const isNested = parentId != null;
-    const item = Floater.useListItem();
-    const tree = Floater.useFloatingTree();
 
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
         onOpenChange: setIsOpen,
-        placement: isNested ? 'right-start' : 'bottom-start'
+        placement: isNested ? 'right-start' : 'bottom-start',
+        whileElementsMounted: Floater.autoUpdate
     });
 
     const listNavigation = Floater.useListNavigation(floatingContext, {
@@ -44,19 +44,19 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
         onNavigate: setActiveIndex
     });
     const click = Floater.useClick(floatingContext, {});
-     const hover = Floater.useHover(floatingContext, {
-    enabled: isNested,
-    delay: { open: 75 },
-    handleClose: Floater.safePolygon({ blockPointerEvents: true })
-  });
+    const hover = Floater.useHover(floatingContext, {
+        enabled: isNested,
+        delay: { open: 75 },
+        handleClose: Floater.safePolygon({ blockPointerEvents: true })
+    });
     const dismiss = Floater.useDismiss(floatingContext, {
         bubbles: true
     });
     const typeahead = Floater.useTypeahead(floatingContext, {
-    listRef: labelsRef,
-    onMatch: isOpen ? setActiveIndex : undefined,
-    activeIndex
-  });
+        listRef: labelsRef,
+        onMatch: isOpen ? setActiveIndex : undefined,
+        activeIndex
+    });
 
     const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
         dismiss,
@@ -82,38 +82,45 @@ const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpe
         virtualItemRef,
         nodeId,
         isNested,
-        floatingContext,
-        item
+        floatingContext
     };
+    const tree = Floater.useFloatingTree();
 
-    if (parentId === null) {
-    
-    
+    React.useEffect(() => {
+        if (!tree) return;
+
+        function handleTreeClick() {
+            setIsOpen(false);
+        }
+
+        tree.events.on('click', handleTreeClick);
+
+        return () => {
+            tree.events.off('click', handleTreeClick);
+        };
+    }, [tree, nodeId, parentId]);
+
+    return (
+
+        <div className={className} data-tree="true">
+
+            <MenuPrimitiveRootContext.Provider value={values} >
+                <Floater.FloatingNode id={nodeId}>
+                    {children}
+                </Floater.FloatingNode>
+            </MenuPrimitiveRootContext.Provider>
+
+        </div>
+    );
+};
+
+const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveRootProps) => {
     return (
         <Floater.FloatingTree>
-        <div className={className}>
-            
-                <MenuPrimitiveRootContext.Provider value={values} >
-                    <Floater.FloatingNode id={nodeId}>
-                        {children}
-                    </Floater.FloatingNode>
-                </MenuPrimitiveRootContext.Provider>
-            
-        </div>
+            <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen}>
+                {children}
+            </MenuComponentRoot>
         </Floater.FloatingTree>
     );
-
-    }
-    return (
-        <div className={className}>
-            
-                <MenuPrimitiveRootContext.Provider value={values} >
-                    <Floater.FloatingNode id={nodeId}>
-                        {children}
-                    </Floater.FloatingNode>
-                </MenuPrimitiveRootContext.Provider>
-            
-        </div>
-    )
 };
 export default MenuPrimitiveRoot;

@@ -2,17 +2,19 @@ import MenuPrimitiveRoot from './fragments/MenuPrimitiveRoot';
 import MenuPrimitiveItem from './fragments/MenuPrimitiveItem';
 import MenuPrimitiveTrigger from './fragments/MenuPrimitiveTrigger';
 import MenuPrimitiveContent from './fragments/MenuPrimitiveContent';
-import MenuPrimitiveGroup from './fragments/MenuPrimitiveGroup';
+import MenuPrimitiveSub from './fragments/MenuPrimitiveSub';
+import MenuPrimitivePortal from './fragments/MenuPrimitivePortal';
 
-const MenuPrimitivePrimitive = () => {
-    console.warn('Direct usage of CheckboxGroup is not supported. Please use CheckboxGroup.Root, CheckboxGroup.Item instead.');
+const MenuPrimitive = () => {
+    console.warn('Direct usage of MenuPrimitive is not supported. Please use MenuPrimitive.Root, MenuPrimitive.Item instead.');
     return null;
 };
 
-MenuPrimitivePrimitive.Root = MenuPrimitiveRoot;
-MenuPrimitivePrimitive.Item = MenuPrimitiveItem;
-MenuPrimitivePrimitive.Trigger = MenuPrimitiveTrigger;
-MenuPrimitivePrimitive.Content = MenuPrimitiveContent;
-MenuPrimitivePrimitive.Group = MenuPrimitiveGroup;
+MenuPrimitive.Root = MenuPrimitiveRoot;
+MenuPrimitive.Item = MenuPrimitiveItem;
+MenuPrimitive.Trigger = MenuPrimitiveTrigger;
+MenuPrimitive.Content = MenuPrimitiveContent;
+MenuPrimitive.Sub = MenuPrimitiveSub;
+MenuPrimitive.Portal = MenuPrimitivePortal;
 
-export default MenuPrimitivePrimitive;
+export default MenuPrimitive;
