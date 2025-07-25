@@ -38,15 +38,6 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
         }
     }, [setHasSearch]);
 
-    // Debug virtual focus
-    React.useEffect(() => {
-        console.log('Virtual focus debug:', {
-            activeIndex,
-            virtualItemRef: virtualItemRef.current?.id,
-            ariaActivedescendant: virtualItemRef.current?.id || (activeIndex !== null ? `select-item-${activeIndex}` : undefined)
-        });
-    }, [activeIndex, virtualItemRef.current]);
-
     React.useEffect(() => {
         if (!refs.floating.current) return;
 
@@ -99,22 +90,9 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
             onChange={(e) => setSearch(e.target.value)}
             {...referenceProps}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                // Call the original onKeyDown if it exists
-                if (referenceProps.onKeyDown) {
-                    referenceProps.onKeyDown(event);
-                }
-
-                // Then handle our custom selection logic
                 if (activeIndex !== null) {
                     if (event.key === 'Enter') {
                         event.preventDefault();
-                        console.log('Enter key pressed, selecting item at index:', activeIndex);
-                        handleSelect(activeIndex);
-                    }
-
-                    if (event.key === ' ' && !isTypingRef.current) {
-                        event.preventDefault();
-                        console.log('Space key pressed, selecting item at index:', activeIndex);
                         handleSelect(activeIndex);
                     }
                 }
