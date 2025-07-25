@@ -27,6 +27,7 @@ export type SelectPrimitiveContextType = {
     virtualItemRef: React.RefObject<HTMLElement | null>;
     hasSearch: boolean;
     setHasSearch: React.Dispatch<React.SetStateAction<boolean>>;
+    selectedItemRef: React.MutableRefObject<any>;
 }
 
 export const SelectPrimitiveContext = createContext<SelectPrimitiveContextType>({} as SelectPrimitiveContextType);

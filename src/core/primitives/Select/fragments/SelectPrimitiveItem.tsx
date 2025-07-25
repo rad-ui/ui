@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
@@ -28,7 +28,7 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         );
     }
     
-    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef } = context;
+    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
 
@@ -56,15 +56,14 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         
     }, [isSelected]);
     return (
-
         <Primitive.div
             ref={Floater.useMergeRefs([ref, itemRef])} // Merge refs from Floater and props.ref}
             id={itemId}
             role="option"
             className={className}
             data-value={value}
-            data-active={virtualItemRef.current?.id == itemId }
-            aria-selected={isActive && isSelected}
+            data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
+            aria-selected={isSelected}
             tabIndex={isActive ? 0 : -1}
             {...getItemProps({
                 onClick: () => handleSelect(index),

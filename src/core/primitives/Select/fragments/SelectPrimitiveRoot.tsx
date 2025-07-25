@@ -87,6 +87,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         listRef: labelsRef,
         activeIndex,
         selectedIndex,
+        enabled: !hasSearch,
         onMatch: handleTypeaheadMatch,
         onTypingChange(isTyping) {
             isTypingRef.current = isTyping;
@@ -99,11 +100,12 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         dismiss,
         role,
         listNav,
-        // typeahead
+        typeahead
     ]);
 
     useLayoutEffect(() => {
         if (!shift) return;
+        if (hasSearch) return;
         if (!selectedItemRef) return;
         if (refs.floating.current && selectedItemRef.current) {
             const rectA = refs.floating.current.getBoundingClientRect();
@@ -112,7 +114,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
             const relativeTop = rectA.top - rectB.bottom;
             setOffsetPositionValue(relativeTop);
         }
-    }, [refs.floating.current, selectedItemRef.current, shift, isOpen]);
+    }, [ selectedItemRef.current, shift]);
 
     const values = {
         isOpen,

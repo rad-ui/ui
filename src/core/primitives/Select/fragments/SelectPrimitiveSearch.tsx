@@ -126,6 +126,7 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
                         event.preventDefault();
                         console.log('Enter key pressed, selecting item at index:', activeIndex);
                         handleSelect(activeIndex);
+                        
                     }
                     
                     if (event.key === ' ' && !isTypingRef.current) {
