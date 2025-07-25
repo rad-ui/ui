@@ -28,6 +28,8 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         defaultValue,
         onValueChange
     );
+
+    const selectedItemRef = React.useRef<any>(null);
     const elementsRef = React.useRef<(HTMLElement | null)[]>([]);
     const labelsRef = React.useRef<(string | null)[]>([]);
     const valuesRef = React.useRef<(string | null)[]>([]);
@@ -100,6 +102,18 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         // typeahead
     ]);
 
+    useLayoutEffect(() => {
+        if (!shift) return;
+        if (!selectedItemRef) return;
+        if (refs.floating.current && selectedItemRef.current) {
+            const rectA = refs.floating.current.getBoundingClientRect();
+            const rectB = selectedItemRef.current.getBoundingClientRect();
+
+            const relativeTop = rectA.top - rectB.bottom;
+            setOffsetPositionValue(relativeTop);
+        }
+    }, [refs.floating.current, selectedItemRef.current, shift, isOpen]);
+
     const values = {
         isOpen,
         setIsOpen,
@@ -121,6 +135,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         virtualItemRef,
         hasSearch,
         setHasSearch,
+        selectedItemRef,
         updateRefs: React.useCallback(() => {
             if (!refs.floating.current) return;
             

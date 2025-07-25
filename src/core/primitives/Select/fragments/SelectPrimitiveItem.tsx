@@ -28,8 +28,8 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         );
     }
     
-    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef } = context;
-
+    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef } = context;
+    const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
 
     const isActive = activeIndex === index;
@@ -49,10 +49,16 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         }
     }, [isActive, itemId, virtualItemRef]);
     
+    React.useEffect(() => {
+        if (isSelected) {
+           selectedItemRef.current = itemRef.current;
+        }
+        
+    }, [isSelected]);
     return (
 
         <Primitive.div
-            ref={ref}
+            ref={Floater.useMergeRefs([ref, itemRef])} // Merge refs from Floater and props.ref}
             id={itemId}
             role="option"
             className={className}
