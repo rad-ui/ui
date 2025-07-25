@@ -23,22 +23,20 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
         );
     }
 
-    const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, updateRefs, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
+    const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
 
-    const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
+    const originalStructureRef = React.useRef<
+      { element: HTMLElement; label: string; value: string; parent: HTMLElement | null }[]
+    >([]);
 
     // Set hasSearch to true when search component mounts
     React.useEffect(() => {
         setHasSearch(true);
-        return () => setHasSearch(false);
-    }, [setHasSearch]);
-
-    // Initialize refs when component mounts
-    React.useEffect(() => {
-        if (refs.floating.current) {
-            updateRefs();
+        // Reset navigation state
+        if (context) {
+            context.setActiveIndex(0);
         }
-    }, [refs.floating.current, updateRefs]);
+    }, [setHasSearch]);
 
     // Debug virtual focus
     React.useEffect(() => {
@@ -49,53 +47,41 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
         });
     }, [activeIndex, virtualItemRef.current]);
 
-    // Ensure input maintains focus during virtual navigation
-    React.useEffect(() => {
-        if (activeIndex !== null && inputRef.current && document.activeElement !== inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [activeIndex]);
-
     React.useEffect(() => {
         if (!refs.floating.current) return;
 
         const floatingElement = refs.floating.current;
         const items = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
+
         // Store original structure if not already stored
         if (originalStructureRef.current.length === 0) {
             originalStructureRef.current = items.map(item => ({
                 element: item,
+                label: item.getAttribute('data-label') || item.textContent?.trim() || '',
+                value: item.getAttribute('data-value') || item.id || '',
                 parent: item.parentElement
             }));
         }
 
-        // First, remove all items from their current positions
+        // Remove all items from their current positions
         originalStructureRef.current.forEach(({ element }) => {
             if (element.parentElement) {
                 element.parentElement.removeChild(element);
             }
         });
 
-        // Then, re-append only matching items to their original parents
-        originalStructureRef.current.forEach(({ element, parent }) => {
-            const text = element.textContent?.toLowerCase() || '';
-            const shouldShow = text.includes(search.toLowerCase());
-
-            if (shouldShow && parent) {
+        // Filter and re-append matching items
+        const visible: { element: HTMLElement; label: string; value: string }[] = [];
+        originalStructureRef.current.forEach(({ element, label, value, parent }) => {
+            if (label.toLowerCase().includes(search.toLowerCase()) && parent) {
                 parent.appendChild(element);
+                visible.push({ element, label, value });
             }
         });
-
-        // Update the refs with the current visible elements
-        updateRefs();
-    }, [search, refs.floating.current, updateRefs]);
-
-    // Handle when search is cleared to restore original refs
-    React.useEffect(() => {
-        if (search === '' && refs.floating.current) {
-            updateRefs();
-        }
-    }, [search, refs.floating.current, updateRefs]);
+        context.setActiveIndex(null);
+        elementsRef.current = visible.map(item => item.element);
+        labelsRef.current = visible.map(item => item.label);
+    }, [search, refs.floating.current]);
 
     // Get the reference props from Floating UI
     const referenceProps = getReferenceProps();

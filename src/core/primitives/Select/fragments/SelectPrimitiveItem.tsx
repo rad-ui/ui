@@ -36,22 +36,12 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
     // Use the value prop for the ID, fallback to index if value is not provided
     const itemId = value || `select-item-${index}`;
 
-    // Update virtualItemRef when this item is active
     React.useEffect(() => {
-        if (isActive) {
-            // Find the current element by ID
-            const element = document.getElementById(itemId);
-            if (element && virtualItemRef.current !== element) {
-                (virtualItemRef as React.MutableRefObject<HTMLElement | null>).current = element;
-            }
-        }
-    }, [isActive, itemId, virtualItemRef]);
-
-    React.useEffect(() => {
-        if (isSelected) {
+        if (isSelected && !hasSearch) {
             selectedItemRef.current = itemRef.current;
         }
-    }, [isSelected]);
+    }, [isSelected, hasSearch]);
+
     return (
         <Primitive.div
             ref={Floater.useMergeRefs([ref, itemRef])} // Merge refs from Floater and props.ref}

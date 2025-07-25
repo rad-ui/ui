@@ -105,7 +105,6 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
 
     useLayoutEffect(() => {
         if (!shift) return;
-        if (hasSearch) return;
         if (!selectedItemRef) return;
         if (refs.floating.current && selectedItemRef.current) {
             const rectA = refs.floating.current.getBoundingClientRect();
@@ -137,31 +136,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         virtualItemRef,
         hasSearch,
         setHasSearch,
-        selectedItemRef,
-        updateRefs: React.useCallback(() => {
-            if (!refs.floating.current) return;
-
-            const floatingElement = refs.floating.current;
-            const visibleItems = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
-
-            // Update elementsRef with visible elements
-            elementsRef.current = visibleItems;
-
-            // Update labelsRef with visible element labels
-            labelsRef.current = visibleItems.map(item =>
-                item.textContent?.trim() || null
-            );
-
-            // Update valuesRef with visible element values (from data-value attribute or id)
-            valuesRef.current = visibleItems.map(item =>
-                item.getAttribute('data-value') || item.id || null
-            );
-
-            // Update virtualItemRef if there's an active item
-            if (activeIndex !== null && visibleItems[activeIndex]) {
-                virtualItemRef.current = visibleItems[activeIndex];
-            }
-        }, [refs.floating, elementsRef, labelsRef, activeIndex, virtualItemRef])
+        selectedItemRef
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
