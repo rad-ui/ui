@@ -10,7 +10,7 @@ type SelectPrimitiveOverlayProps = {
 };
 
 function SelectPrimitiveOverlay({ className = '' }: SelectPrimitiveOverlayProps) {
-    const { isOpen, handleOverlayClick } = useContext(SelectPrimitiveContext);
+    const { isOpen } = useContext(SelectPrimitiveContext);
     return (
         <>
             {isOpen && (

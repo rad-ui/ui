@@ -114,7 +114,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
             const relativeTop = rectA.top - rectB.bottom;
             setOffsetPositionValue(relativeTop);
         }
-    }, [ selectedItemRef.current, shift]);
+    }, [selectedItemRef.current, shift]);
 
     const values = {
         isOpen,
@@ -140,23 +140,23 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         selectedItemRef,
         updateRefs: React.useCallback(() => {
             if (!refs.floating.current) return;
-            
+
             const floatingElement = refs.floating.current;
             const visibleItems = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
-            
+
             // Update elementsRef with visible elements
             elementsRef.current = visibleItems;
-            
+
             // Update labelsRef with visible element labels
-            labelsRef.current = visibleItems.map(item => 
+            labelsRef.current = visibleItems.map(item =>
                 item.textContent?.trim() || null
             );
-            
+
             // Update valuesRef with visible element values (from data-value attribute or id)
-            valuesRef.current = visibleItems.map(item => 
+            valuesRef.current = visibleItems.map(item =>
                 item.getAttribute('data-value') || item.id || null
             );
-            
+
             // Update virtualItemRef if there's an active item
             if (activeIndex !== null && visibleItems[activeIndex]) {
                 virtualItemRef.current = visibleItems[activeIndex];

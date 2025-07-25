@@ -7,7 +7,7 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
     const [search, setSearch] = React.useState('');
     const context = useContext(SelectPrimitiveContext);
     const inputRef = React.useRef<HTMLInputElement>(null);
-    
+
     // Handle missing context gracefully
     if (!context || !context.refs) {
         return (
@@ -22,7 +22,7 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
             />
         );
     }
-    
+
     const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, updateRefs, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
 
     const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
@@ -97,11 +97,9 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
         }
     }, [search, refs.floating.current, updateRefs]);
 
-
-
     // Get the reference props from Floating UI
     const referenceProps = getReferenceProps();
-    
+
     return (
         <Primitive.input
             // @ts-ignore
@@ -119,16 +117,15 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
                 if (referenceProps.onKeyDown) {
                     referenceProps.onKeyDown(event);
                 }
-                
+
                 // Then handle our custom selection logic
                 if (activeIndex !== null) {
                     if (event.key === 'Enter') {
                         event.preventDefault();
                         console.log('Enter key pressed, selecting item at index:', activeIndex);
                         handleSelect(activeIndex);
-                        
                     }
-                    
+
                     if (event.key === ' ' && !isTypingRef.current) {
                         event.preventDefault();
                         console.log('Space key pressed, selecting item at index:', activeIndex);

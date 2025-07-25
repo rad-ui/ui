@@ -13,31 +13,29 @@ interface SelectPrimitiveItemProps {
     [key: string]: any;
 }
 
-
 function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
     const context = useContext(SelectPrimitiveContext);
-    
+
     // Handle missing context gracefully
     if (!context) {
         return (
             <Primitive.div role="option" className={className} {...props}>
 
-
                 {children}
             </Primitive.div>
         );
     }
-    
+
     const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
 
     const isActive = activeIndex === index;
     const isSelected = selectedIndex === index;
-    
+
     // Use the value prop for the ID, fallback to index if value is not provided
     const itemId = value || `select-item-${index}`;
-    
+
     // Update virtualItemRef when this item is active
     React.useEffect(() => {
         if (isActive) {
@@ -48,12 +46,11 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
             }
         }
     }, [isActive, itemId, virtualItemRef]);
-    
+
     React.useEffect(() => {
         if (isSelected) {
-           selectedItemRef.current = itemRef.current;
+            selectedItemRef.current = itemRef.current;
         }
-        
     }, [isSelected]);
     return (
         <Primitive.div
