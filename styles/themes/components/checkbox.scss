@@ -1,0 +1,20 @@
+.rad-ui-checkbox{
+    height: 25px;
+    width: 25px;
+    border-radius: 4px;
+    border: 1px solid var(--rad-ui-color-gray-800);
+    background-color: var(--rad-ui-color-gray-50);
+    color: var(--rad-ui-color-gray-1000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.rad-ui-checkbox-indicator{
+    height: 25px;
+    width: 25px;
+    border-radius: 4px;
+    background-color: var(--rad-ui-color-accent-900);
+    color: var(--rad-ui-color-accent-50);
+}

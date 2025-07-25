@@ -5,7 +5,12 @@ import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimit
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
 import { useCreateDataAccentColorAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
 
-const AvatarGroupItem = ({ color = '', children }: { color?: string, children: React.ReactNode }) => {
+export type AvatarGroupItemProps = {
+    color?: string
+    children: React.ReactNode
+};
+
+const AvatarGroupItem = ({ color = '', children }: AvatarGroupItemProps) => {
     const { rootClass } = useContext(AvatarGroupContext);
 
     const accentAttributes = useCreateDataAccentColorAttribute(color);

@@ -13,6 +13,7 @@ interface SelectPrimitiveItemProps {
     [key: string]: any;
 }
 
+
 function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
     const context = useContext(SelectPrimitiveContext);
     
@@ -20,6 +21,8 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
     if (!context) {
         return (
             <Primitive.div role="option" className={className} {...props}>
+
+
                 {children}
             </Primitive.div>
         );

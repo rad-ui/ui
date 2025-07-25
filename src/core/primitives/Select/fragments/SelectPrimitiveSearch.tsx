@@ -24,7 +24,6 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
     }
     
     const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, updateRefs, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
-    
 
     const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
 

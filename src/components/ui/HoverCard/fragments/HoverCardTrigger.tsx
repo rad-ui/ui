@@ -7,6 +7,7 @@ import Primitive from '~/core/primitives/Primitive';
 type HoverCardTriggerProps = {
     children: React.ReactNode,
     props?: React.HTMLAttributes<HTMLElement>
+    className?: string
 }
 
 const HoverCardTrigger = ({ children, className = '', ...props }: HoverCardTriggerProps) => {

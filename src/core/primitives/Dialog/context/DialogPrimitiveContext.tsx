@@ -13,6 +13,7 @@ type DialogPrimitiveContextType = {
     setFloating: React.RefCallback<HTMLElement> | (() => void);
   };
   floatingStyles: React.CSSProperties;
+  floaterContext?: any
 };
 
 export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>({

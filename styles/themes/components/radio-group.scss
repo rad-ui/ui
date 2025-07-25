@@ -1,0 +1,63 @@
+.rad-ui-radio-group-root {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  color: var(--rad-ui-color-accent-900);
+  font-family: inherit;
+
+  .rad-ui-radio-group-item {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--rad-ui-color-accent-100);
+    border: 2px solid var(--rad-ui-color-accent-400);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    position: relative;
+
+    &:hover {
+      border-color: var(--rad-ui-color-accent-600);
+      background-color: var(--rad-ui-color-accent-200);
+    }
+
+    &:focus {
+      outline: 2px solid var(--rad-ui-color-accent-700);
+      outline-offset: 2px;
+    }
+  }
+
+  .rad-ui-radio-group-indicator {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background-color: var(--rad-ui-color-accent-900);
+    border: 2px solid var(--rad-ui-color-accent-100);
+    transition: background 0.2s, border 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .rad-ui-radio-group-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--rad-ui-color-accent-900);
+    margin-left: 8px;
+    cursor: pointer;
+    user-select: none;
+    width:max-content;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+}
