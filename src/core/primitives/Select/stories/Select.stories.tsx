@@ -134,7 +134,7 @@ export const GroupExample = () => {
                     <SelectPrimitive.Group>
                         <SelectPrimitive.Item value="g2option1">g2Option 1</SelectPrimitive.Item>
                         <SelectPrimitive.Item value="g2option2">g2Option 2</SelectPrimitive.Item>
-                        <SelectPrimitive.Item value="g2option3">Option 3</SelectPrimitive.Item>
+                        <SelectPrimitive.Item value="option3">Option 3</SelectPrimitive.Item>
                     </SelectPrimitive.Group>
                 </SelectPrimitive.Content>
             </SelectPrimitive.Root>
