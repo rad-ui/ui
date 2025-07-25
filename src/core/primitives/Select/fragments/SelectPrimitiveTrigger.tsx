@@ -11,6 +11,7 @@ function SelectPrimitiveTrigger({ children, className, ...props }: SelectPrimiti
     const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(SelectPrimitiveContext);
     return (
         <button
+            type='button'
             onClick={() => setIsOpen(!isOpen)}
             className={className}
             aria-expanded={isOpen}
