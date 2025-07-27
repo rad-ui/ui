@@ -34,6 +34,11 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
         nodeId,
         onOpenChange: setIsOpen,
         placement: isNested ? 'right-start' : 'bottom-start',
+        middleware: [
+            Floater.flip({
+                mainAxis: true
+            })
+        ],
         whileElementsMounted: Floater.autoUpdate
     });
 
