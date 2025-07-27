@@ -1,6 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import Floater from '~/core/primitives/Floater';
+import type { StoryObj } from '@storybook/react';
 import MenuPrimitive from '../MenuPrimitive';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
