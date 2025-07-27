@@ -1,4 +1,4 @@
-import React, { useId, useRef, useState } from 'react';
+import React, { useId, useState } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
 import { clsx } from 'clsx';

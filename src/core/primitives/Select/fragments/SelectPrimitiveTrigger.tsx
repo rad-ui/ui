@@ -1,7 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
-import Primitive from '../../Primitive';
 
 export type SelectPrimitiveTriggerProps = {
     children: React.ReactNode

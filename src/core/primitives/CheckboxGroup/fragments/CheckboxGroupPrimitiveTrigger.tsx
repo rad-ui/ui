@@ -2,7 +2,6 @@ import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 import CheckboxGroupPrimitiveTriggerContext from '../context/CheckboxGroupPrimitiveTriggerContext';
-import useControllableState from '~/core/hooks/useControllableState';
 
 export type CheckboxGroupPrimitiveTriggerProps = {
     children?: React.ReactNode

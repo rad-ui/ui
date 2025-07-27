@@ -5,8 +5,6 @@ import Floater from '~/core/primitives/Floater';
 
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 
-import { clsx } from 'clsx';
-
 type SelectPrimitiveOverlayProps = {
     className?: string;
 };
