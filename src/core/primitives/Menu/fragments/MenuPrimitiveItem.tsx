@@ -8,7 +8,7 @@ export type MenuPrimitiveItemProps = {
     label?: string
 }
 
-const MenuPrimitiveItem = ({ children, className, label }: MenuPrimitiveItemProps) => {
+const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimitiveItemProps) => {
     const context = React.useContext(MenuPrimitiveRootContext);
     if (!context) return null;
     const { activeIndex, getItemProps } = context;
@@ -27,6 +27,7 @@ const MenuPrimitiveItem = ({ children, className, label }: MenuPrimitiveItemProp
                     tree?.events.emit('click');
                 }
             })}
+            {...props}
         >
             {children}
         </button>
