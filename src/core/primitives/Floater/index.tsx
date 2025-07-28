@@ -1,4 +1,4 @@
-import { FloatingOverlay, FloatingPortal, autoUpdate, FloatingFocusManager, useFloating, FloatingArrow, arrow, useRole, useInteractions, useDismiss, useHover, useFocus, flip, shift, hide, offset, useMergeRefs, useListNavigation, FloatingList, useClick, useTypeahead, useListItem } from '@floating-ui/react';
+import { FloatingOverlay, FloatingPortal, FloatingNode, safePolygon, FloatingTree, FloatingList, useClick, useTypeahead, useListNavigation, useFloatingParentNodeId, useListItem, autoUpdate, useFloatingTree, FloatingFocusManager, useFloating, useFloatingNodeId, FloatingArrow, arrow, useRole, useInteractions, useDismiss, useHover, useFocus, flip, shift, hide, offset, useMergeRefs } from '@floating-ui/react';
 
 const Floater = {
     Portal: FloatingPortal,
@@ -12,6 +12,18 @@ const Floater = {
     useTypeahead,
     useListItem,
     Arrow: FloatingArrow,
+    useFloatingNodeId,
+    useListItem,
+    useTypeahead,
+    safePolygon,
+    useListNavigation,
+    useFloatingParentNodeId,
+    useFloatingTree,
+    FloatingNode,
+    FloatingTree,
+    FloatingList,
+    autoUpdate,
+    useClick,
     arrow,
     useRole,
     useFocus,
