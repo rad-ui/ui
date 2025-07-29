@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { SliderContext } from '../context/SliderContext';
 
 const SliderThumb = ({ children }: { children: React.ReactNode }) => {

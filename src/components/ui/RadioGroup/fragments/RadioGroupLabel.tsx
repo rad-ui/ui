@@ -11,7 +11,7 @@ export type RadioGroupLabelProps = {
 
 const RadioGroupLabel = ({ className = '', asChild = false, children, ...props }: RadioGroupLabelProps) => {
     const { rootClass } = React.useContext(RadioGroupContext);
-    return <Primitive.label {...props} className={clsx(`${rootClass}-label`, rootClass, className)} asChild={asChild}> {children} </Primitive.label>;
+    return <Primitive.label {...props} className={clsx(`${rootClass}-label`, className)} asChild={asChild}> {children} </Primitive.label>;
 };
 
 export default RadioGroupLabel;

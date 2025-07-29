@@ -1,7 +1,6 @@
 'use client';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
-import Primitive from '../../Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Floater from '~/core/primitives/Floater';
 
@@ -10,7 +9,7 @@ export type SelectPrimitiveContentProps = {
 }
 
 function SelectPrimitiveContent({ children, ...props }: SelectPrimitiveContentProps) {
-    const { isOpen, setIsOpen, selectedValue, floatingContext, refs, getFloatingProps, floatingStyles, handleSelect } = useContext(SelectPrimitiveContext);
+    const { isOpen, floatingContext, refs, getFloatingProps, floatingStyles, handleSelect } = useContext(SelectPrimitiveContext);
     // if (!isOpen) return null;
     // const contentRef = React.useRef<HTMLDivElement>(null);
     // useEffect(() => {

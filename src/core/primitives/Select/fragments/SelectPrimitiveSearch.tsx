@@ -5,7 +5,7 @@ import Primitive from '../../Primitive';
 
 function SelectPrimitiveSearch({ className }: {className: string}) {
     const [search, setSearch] = React.useState('');
-    const { refs, selectedItemRef, handleSelect, activeItemValue, setActiveItemValue, setSelectedValue } = useContext(SelectPrimitiveContext);
+    const { refs, handleSelect, activeItemValue, setActiveItemValue, setSelectedValue } = useContext(SelectPrimitiveContext);
 
     const originalStructureRef = React.useRef<{ element: HTMLElement; parent: HTMLElement | null }[]>([]);
 
