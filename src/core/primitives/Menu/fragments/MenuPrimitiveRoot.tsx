@@ -9,9 +9,11 @@ export type MenuPrimitiveRootProps = {
     open?: boolean
     onOpenChange?: (open: boolean) => void
     defaultOpen?: boolean
+    crossAxisOffset?: number
+    mainAxisOffset?: number
 }
 
-export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveRootProps) => {
+export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0 , mainAxisOffset = 0, ...props }: MenuPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -37,7 +39,11 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
         middleware: [
             Floater.flip({
                 mainAxis: true
-            })
+            }),
+            Floater.offset({
+                mainAxis: mainAxisOffset,
+                crossAxis: crossAxisOffset 
+            }),
         ],
         whileElementsMounted: Floater.autoUpdate
     });
@@ -107,7 +113,7 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
 
     return (
 
-        <div className={className} data-tree="true">
+        <div className={className} data-tree="true" {...props}>
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>
@@ -119,10 +125,10 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
     );
 };
 
-const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveRootProps) => {
+const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, ...props }: MenuPrimitiveRootProps) => {
     return (
         <Floater.FloatingTree>
-            <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen}>
+            <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} {...props}>
                 {children}
             </MenuComponentRoot>
         </Floater.FloatingTree>
