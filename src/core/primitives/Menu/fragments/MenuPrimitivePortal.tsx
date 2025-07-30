@@ -8,7 +8,7 @@ function MenuPrimitivePortal({ children }: { children: React.ReactNode }) {
     if (!context) return null;
     const { isOpen } = context;
     const [rootElementFound, setRootElementFound] = useState(false);
-    const rootElement = document.querySelector('#rad-ui-theme-container') || document.body as HTMLElement | null;
+    const rootElement = (document.querySelector('#rad-ui-theme-container') || document.body) as HTMLElement | null;
 
     useEffect(() => {
         if (rootElement) {
