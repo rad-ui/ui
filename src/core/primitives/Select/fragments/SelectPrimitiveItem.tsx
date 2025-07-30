@@ -16,14 +16,9 @@ interface SelectPrimitiveItemProps {
 function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
     const context = useContext(SelectPrimitiveContext);
 
-    // Handle missing context gracefully
     if (!context) {
-        return (
-            <Primitive.div role="option" className={className} {...props}>
-
-                {children}
-            </Primitive.div>
-        );
+        console.error('SelectPrimitiveItem must be used within a SelectPrimitive');
+        return null;
     }
 
     const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch } = context;
