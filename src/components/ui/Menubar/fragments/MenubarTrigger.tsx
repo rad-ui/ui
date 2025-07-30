@@ -3,6 +3,8 @@ import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPr
 import MenubarContext from '../contexts/MenubarContext';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+
 
 export type MenubarTriggerProps = {
   children: React.ReactNode;
@@ -18,9 +20,15 @@ const MenubarTrigger = ({ children, className }:MenubarTriggerProps) => {
     const { rootClass } = context;
     
     return (
+<Floater.CompositeItem render={
+    () => (
         <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)}>
-            {children}
-        </MenuPrimitive.Trigger>
+             {children}
+         </MenuPrimitive.Trigger> 
+    )
+}/>
+        
+
     );
 };
 

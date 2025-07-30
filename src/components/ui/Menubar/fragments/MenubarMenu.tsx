@@ -20,11 +20,11 @@ const MenubarMenu = ({ children, className }:MenubarMenuProps) => {
     }
     const {rootClass} = context;
     return (
+        
             <MenuPrimitive.Root className={clsx(`${rootClass}-menu`, className)}>
-                <Floater.CompositeItem >
                 {children}
-                </Floater.CompositeItem>
             </MenuPrimitive.Root>
+        
     );
 };
 
