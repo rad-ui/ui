@@ -9,9 +9,9 @@ export type MenuPrimitiveSubProps = {
     defaultOpen?: boolean
 }
 
-const MenuPrimitiveSub = ({ children, className, open, onOpenChange, defaultOpen = false }: MenuPrimitiveSubProps) => {
+const MenuPrimitiveSub = ({ children, className, open, onOpenChange, defaultOpen = false, ...props }: MenuPrimitiveSubProps) => {
     return (
-        <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen}>
+        <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} {...props}>
             {children}
         </MenuComponentRoot>
     );

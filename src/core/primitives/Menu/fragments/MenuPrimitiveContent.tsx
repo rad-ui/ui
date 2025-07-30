@@ -8,7 +8,7 @@ export type MenuPrimitiveContentProps = {
     className?: string;
 };
 
-const MenuPrimitiveContent = ({ children, className }: MenuPrimitiveContentProps) => {
+const MenuPrimitiveContent = ({ children, className, ...props }: MenuPrimitiveContentProps) => {
     const context = useContext(MenuPrimitiveRootContext);
     if (!context || !context.isOpen) return null;
     const { isOpen, refs, floatingStyles, getFloatingProps, elementsRef, labelsRef, nodeId, isNested, floatingContext } = context;
@@ -27,6 +27,7 @@ const MenuPrimitiveContent = ({ children, className }: MenuPrimitiveContentProps
                     style={floatingStyles}
                     {...getFloatingProps()}
                     className={className}
+                    {...props}
                 >
                     {children}
                 </div>
