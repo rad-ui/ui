@@ -5,22 +5,23 @@ import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
 import MenubarContext from '../contexts/MenubarContext';
 
-
 export type MenubarRootProps = {
   children: React.ReactNode;
   customRootClass?: string;
   className?: string;
-} & MenuPrimitiveProps.Root;
+  dir?: 'ltr' | 'rtl';
+  loop?: boolean;
+};
 
 const COMPONENT_NAME = 'Menubar';
 
-const MenubarRoot = ({ children, customRootClass, className }:MenubarRootProps) => {
+const MenubarRoot = ({ children, customRootClass, className, dir, loop, ...props }:MenubarRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
         <MenubarContext.Provider value={{ rootClass }} >
-            <Floater.Composite>
+            <Floater.Composite className={clsx(`${rootClass}-root`, className)} dir={dir} loop={loop} {...props}>
                 {children}
-                </Floater.Composite>
+            </Floater.Composite>
         </MenubarContext.Provider>
     );
 };
