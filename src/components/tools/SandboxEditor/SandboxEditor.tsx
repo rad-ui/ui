@@ -56,50 +56,50 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
         appearance={isDarkMode ? 'dark' : 'light'}
         accentColor={colorName}>
         <div className={'p-4 shadow-sm text-gray-900 min-h-screen border border-gray-300 bg-gray-50'}>
-        <div className='mb-4'>
-            {/* @ts-ignore */}
-            <div className='flex items-center space-x-4'>
-                <div className='text-gray-1000'>
-                    <RadUILogo/>
-                </div>
-                <Separator orientation='vertical' />
-                <Button variant="solid" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
-            </div>
-            <Separator />
-            <div>
-                <div className="flex items-center space-x-4">
-                    <Heading as='h1' className="text-gray-1000">Sandbox Editor</Heading>
+            <div className='mb-4'>
+                {/* @ts-ignore */}
+                <div className='flex items-center space-x-4'>
+                    <div className='text-gray-1000'>
+                        <RadUILogo/>
+                    </div>
                     <Separator orientation='vertical' />
-                    <Text className="font-normal text-gray-950">
-                        Customize the colors of the Rad UI components by clicking on the color swatches below.
-                    </Text>
+                    <Button variant="solid" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
                 </div>
                 <Separator />
-                <RovingFocusGroup.Root >
-                    <RovingFocusGroup.Group className='flex space-x-1 my-1'>
-                        {Object.keys(colors).map((color, idx) => {
-                            const colorName = color as AvailableColors;
-                            return <RovingFocusGroup.Item
-                                key={idx}
-                                className='cursor-pointer rounded-full inline-block w-8 h-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
-                                onFocus={() => setColorName(colorName)}
-                                onClick={() => setColorName(colorName)}
-                            >
-                                <button>
-                                    <ColorSelect colorName={color} color={colors[colorName]} changeAccentColor={setColorName}/>
-                                </button>
-                            </RovingFocusGroup.Item>;
-                        }
-                        )}
-                    </RovingFocusGroup.Group>
+                <div>
+                    <div className="flex items-center space-x-4">
+                        <Heading as='h1' className="text-gray-1000">Sandbox Editor</Heading>
+                        <Separator orientation='vertical' />
+                        <Text className="font-normal text-gray-950">
+                        Customize the colors of the Rad UI components by clicking on the color swatches below.
+                        </Text>
+                    </div>
+                    <Separator />
+                    <RovingFocusGroup.Root >
+                        <RovingFocusGroup.Group className='flex space-x-1 my-1'>
+                            {Object.keys(colors).map((color, idx) => {
+                                const colorName = color as AvailableColors;
+                                return <RovingFocusGroup.Item
+                                    key={idx}
+                                    className='cursor-pointer rounded-full inline-block w-8 h-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                                    onFocus={() => setColorName(colorName)}
+                                    onClick={() => setColorName(colorName)}
+                                >
+                                    <button>
+                                        <ColorSelect colorName={color} color={colors[colorName]} changeAccentColor={setColorName}/>
+                                    </button>
+                                </RovingFocusGroup.Item>;
+                            }
+                            )}
+                        </RovingFocusGroup.Group>
 
-                </RovingFocusGroup.Root>
+                    </RovingFocusGroup.Root>
+                </div>
             </div>
-        </div>
-        <Separator/>
-        <div className={`${className}`} >
-            {children}
-        </div>
+            <Separator/>
+            <div className={`${className}`} >
+                {children}
+            </div>
         </div>
     </Theme>;
 };
