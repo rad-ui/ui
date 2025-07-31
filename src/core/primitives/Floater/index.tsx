@@ -1,4 +1,4 @@
-import { FloatingOverlay, FloatingPortal, FloatingNode, safePolygon, FloatingTree, FloatingList, useClick, useTypeahead, useListNavigation, useFloatingParentNodeId, useListItem, autoUpdate, useFloatingTree, FloatingFocusManager, useFloating, useFloatingNodeId, FloatingArrow, arrow, useRole, useInteractions, useDismiss, useHover, useFocus, flip, shift, hide, offset, useMergeRefs, Composite, CompositeItem } from '@floating-ui/react';
+import { FloatingOverlay, FloatingPortal, FloatingNode, safePolygon, FloatingTree, FloatingList, useClick, useTypeahead, useListNavigation, useFloatingParentNodeId, useListItem, autoUpdate, useFloatingTree, FloatingFocusManager, useFloating, useFloatingNodeId, FloatingArrow, arrow, useRole, useInteractions, useDismiss, useHover, useFocus, flip, shift, hide, offset, useMergeRefs, Composite, CompositeItem, useId } from '@floating-ui/react';
 
 const Floater = {
     Portal: FloatingPortal,
@@ -30,7 +30,8 @@ const Floater = {
     offset,
     useMergeRefs,
     Composite,
-    CompositeItem
+    CompositeItem,
+    useId
 };
 
 export default Floater;

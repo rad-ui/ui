@@ -4,6 +4,7 @@ import MenubarContext from '../contexts/MenubarContext';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import MenubarMenuContext from '../contexts/MenubarMenuContext';
 
 export type MenubarTriggerProps = {
   children: React.ReactNode;
@@ -18,11 +19,18 @@ const MenubarTrigger = ({ children, className }:MenubarTriggerProps) => {
     }
     const { rootClass } = context;
 
+    const menuContext = React.useContext(MenubarMenuContext);
+    if (!menuContext) {
+        console.log('MenubarTrigger should be used in the MenubarMenu');
+        return null;
+    }
+    const { isOpen } = menuContext;
+
     return (
         <Floater.CompositeItem
             render={
                 () => (
-                    <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)}>
+                    <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} data-active={isOpen}>
                         {children}
                     </MenuPrimitive.Trigger>
                 )
