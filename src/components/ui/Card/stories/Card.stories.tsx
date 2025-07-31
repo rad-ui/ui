@@ -9,11 +9,12 @@ const Sizes = ['small', 'medium', 'large', 'x-large'];
 const CardStory = () => {
     return <Card className="bg-gray-200" >
         <div className='flex items-center space-x-4'>
-            <Avatar
-                src='https://i.pravatar.cc/64'
-                alt='avatar'
-                // size='lg' avatar doesn't have size prop
-            />
+            <Avatar.Root>
+                <Avatar.Image
+                    src='https://i.pravatar.cc/64'
+                    alt='avatar'
+                />
+            </Avatar.Root>
             <div>
                 <p className='font-bold text-gray-1000'>John Doe</p>
                 <p className='text-xs text-gray-800'>
@@ -54,10 +55,12 @@ export const Size = () => {
                         {Sizes.map((size, index) => {
                             return <Card key={index} size={size} variant={variant} >
                                 <div className='flex items-center space-x-4'>
-                                    <Avatar
-                                        src='https://i.pravatar.cc/64'
-                                        alt='avatar'
-                                    />
+                                    <Avatar.Root>
+                                        <Avatar.Image
+                                            src='https://i.pravatar.cc/64'
+                                            alt='avatar'
+                                        />
+                                    </Avatar.Root>
                                     <div>
                                         <p className='font-bold text-gray-1000'>John Doe</p>
                                         <p className='text-xs text-gray-800'>
@@ -85,10 +88,12 @@ export const Variant = () => {
             {Variants.map((variant, index) => {
                 return <Card key={index} variant={variant} >
                     <div className='flex items-center space-x-4'>
-                        <Avatar
-                            src='https://i.pravatar.cc/64'
-                            alt='avatar'
-                        />
+                        <Avatar.Root>
+                            <Avatar.Image
+                                src='https://i.pravatar.cc/64'
+                                alt='avatar'
+                            />
+                        </Avatar.Root>
                         <div>
                             <p className='font-bold text-gray-1000'>John Doe</p>
                             <p className='text-xs text-gray-800'>
