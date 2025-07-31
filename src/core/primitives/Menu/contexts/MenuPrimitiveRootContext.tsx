@@ -6,10 +6,10 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   refs: {
-    reference: React.MutableRefObject<Element | null>;
+    reference: React.MutableRefObject<any>;
     floating: React.MutableRefObject<HTMLElement | null>;
     domReference: React.MutableRefObject<Element | null>;
-    setReference(node: Element | null): void;
+    setReference(node: any): void;
     setFloating(node: HTMLElement | null): void;
     setPositionReference(node: Element): void;
   };
