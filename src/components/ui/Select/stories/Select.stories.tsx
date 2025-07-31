@@ -175,15 +175,15 @@ export const GroupExample = () => {
                 <Select.Content>
                     <Select.Search/>
                     <Select.Group>
-                        <Select.Item value="g1option1">g1Option 1</Select.Item>
-                        <Select.Item value="g1option2">g1Option 2</Select.Item>
-                        <Select.Item value="g1option3">g1Option 3</Select.Item>
+                        <Select.Item value="g1option 1">g1Option 1</Select.Item>
+                        <Select.Item value="g1option 2">g1Option 2</Select.Item>
+                        <Select.Item value="g1option 3">g1Option 3</Select.Item>
                     </Select.Group>
 
                     <Select.Group>
-                        <Select.Item value="g2option1">g2Option 1</Select.Item>
-                        <Select.Item value="g2option2">g2Option 2</Select.Item>
-                        <Select.Item value="g2option3">g2Option 3</Select.Item>
+                        <Select.Item value="g2option 1">g2Option 1</Select.Item>
+                        <Select.Item value="g2option 2">g2Option 2</Select.Item>
+                        <Select.Item value="g2option 3">g2Option 3</Select.Item>
                     </Select.Group>
                 </Select.Content>
             </Select.Root>
