@@ -3,19 +3,23 @@ import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 
 export type SelectPrimitiveTriggerProps = {
-    children: React.ReactNode
+    children: React.ReactNode;
+    className?: string;
+    [key: string]: any;
 };
-function SelectPrimitiveTrigger({ children, ...props }: SelectPrimitiveTriggerProps) {
-    const { isOpen, setIsOpen, selectedValue, refs, getReferenceProps } = useContext(SelectPrimitiveContext);
-    // if (isOpen) return null;
+function SelectPrimitiveTrigger({ children, className, ...props }: SelectPrimitiveTriggerProps) {
+    const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(SelectPrimitiveContext);
     return (
         <button
-            onClick={() => setIsOpen(!isOpen)} {...props}
+            type='button'
+            onClick={() => setIsOpen(!isOpen)}
+            className={className}
             aria-expanded={isOpen}
             ref={refs.setReference}
             {...getReferenceProps()}
-            role='combobox'>
-            {selectedValue || children}
+            role='combobox'
+            {...props}>
+            {selectedLabel || children}
         </button>
     );
 }
