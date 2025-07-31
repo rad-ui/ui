@@ -1,15 +1,12 @@
-// rollup.config.js
-import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
-
-import terser from '@rollup/plugin-terser';
-
-import typescript from '@rollup/plugin-typescript';
-import alias from '@rollup/plugin-alias';
-import path from 'path';
-import fs from 'fs';
-
-import banner2 from 'rollup-plugin-banner2';
+// rollup.config.cjs
+const babel = require('@rollup/plugin-babel');
+const resolve = require('@rollup/plugin-node-resolve');
+const terser = require('@rollup/plugin-terser');
+const typescript = require('@rollup/plugin-typescript');
+const alias = require('@rollup/plugin-alias');
+const path = require('path');
+const fs = require('fs');
+const banner2 = require('rollup-plugin-banner2');
 
 // Function to dynamically get all component directories in the 'src/components' folder
 function getComponentDirectories() {
@@ -35,16 +32,24 @@ const aliasPluginInstance = alias({
 });
 const babelPluginInstance = babel({
     exclude: 'node_modules/**',
-    presets: ['@babel/preset-react']
+    presets: ['@babel/preset-react'],
+    babelHelpers: 'bundled'
 });
 const terserPluginInstance = terser();
 const resolvePluginInstance = resolve();
 const bannerPluginInstance = banner2(() => '\'use client\';');
 
-export default components.map((component) => {
+module.exports = components.map((component) => {
     const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
     return {
         input: tsxFilePath,
+        onwarn(warning, warn) {
+            // Suppress expected warnings
+            if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+                return;
+            }
+            warn(warning);
+        },
         output: [
             {
                 file: `dist/temp-cleanup/${component}.js`,

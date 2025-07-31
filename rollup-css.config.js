@@ -10,6 +10,13 @@ export default {
     output: {
         file: 'dist/themes/default.css'
     },
+    onwarn(warning, warn) {
+        // Suppress CSS file overwrite warnings
+        if (warning.code === 'FILE_NAME_CONFLICT') {
+            return;
+        }
+        warn(warning);
+    },
     plugins: [
         postcss({
             extract: true,

@@ -83,7 +83,6 @@ describe('RadioGroup (fragments)', () => {
             </RadioGroup.Root>
         );
         const group = screen.getByTestId('radio-group');
-        console.log('group:', group);
         // Data attributes for variant/size/color
         expect(group.getAttribute('data-radio-group-variant')).toBe('filled');
         expect(group.getAttribute('data-radio-group-size')).toBe('lg');
