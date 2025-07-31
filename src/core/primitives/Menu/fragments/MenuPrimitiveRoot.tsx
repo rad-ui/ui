@@ -13,7 +13,7 @@ export type MenuPrimitiveRootProps = {
     mainAxisOffset?: number
 }
 
-export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0 , mainAxisOffset = 0, ...props }: MenuPrimitiveRootProps) => {
+export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, ...props }: MenuPrimitiveRootProps) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -42,8 +42,8 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
             }),
             Floater.offset({
                 mainAxis: mainAxisOffset,
-                crossAxis: crossAxisOffset 
-            }),
+                crossAxis: crossAxisOffset
+            })
         ],
         whileElementsMounted: Floater.autoUpdate
     });
