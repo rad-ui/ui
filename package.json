@@ -56,7 +56,7 @@
     "build-css": "rollup -c rollup-css.config.js",
     "generate-tokens": "tsx ./src/tokenGen/index.js",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
-    "compile-components": "rollup -c --bundleConfigAsCjs --max-old-space-size=8076",
+    "compile-components": "rollup -c rollup.config.cjs",
     "process-components": "mkdirp ./dist/components && cp -r ./dist/temp-cleanup/*js ./dist/components && rimraf dist/temp-cleanup",
     "prebuild": "npm run test && npm run clean",
     "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",

@@ -6,7 +6,7 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 function SelectPrimitivePortal({ children }: { children: React.ReactNode }) {
     const { isOpen } = useContext(SelectPrimitiveContext);
     const [rootElementFound, setRootElementFound] = useState(false);
-    const rootElement = document.querySelector('#rad-ui-theme-container') || document.body as HTMLElement | null;
+    const rootElement = (document.querySelector('#rad-ui-theme-container') || document.body) as HTMLElement | null;
 
     useEffect(() => {
         if (rootElement) {

@@ -12,7 +12,9 @@ export default {
                 <Slider.Root defaultValue={50} min={0} max={100} >
                     <Slider.Track>
                         <Slider.Range>
-                            <Slider.Thumb />
+                            <Slider.Thumb>
+                                <div />
+                            </Slider.Thumb>
                         </Slider.Range>
                     </Slider.Track>
                 </Slider.Root>
