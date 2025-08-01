@@ -39,7 +39,7 @@ const CheckboxGroupPrimitiveTrigger = ({ children, className = '', value, requir
                 </RovingFocusGroup.Item>
             </CheckboxGroupPrimitiveTriggerContext.Provider>
 
-            <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled} onChange={() => {}} readOnly/>
+            <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled} readOnly/>
 
         </div>
     );

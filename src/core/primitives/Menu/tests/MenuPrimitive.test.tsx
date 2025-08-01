@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MenuPrimitive from '../MenuPrimitive';
 
@@ -53,11 +53,13 @@ describe('MenuPrimitive', () => {
         });
 
         it('should handle defaultOpen prop', () => {
-            render(
-                <MenuPrimitive.Root defaultOpen={true}>
-                    <div>Menu Content</div>
-                </MenuPrimitive.Root>
-            );
+            act(() => {
+                render(
+                    <MenuPrimitive.Root defaultOpen={true}>
+                        <div>Menu Content</div>
+                    </MenuPrimitive.Root>
+                );
+            });
 
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
         });
@@ -173,13 +175,15 @@ describe('MenuPrimitive', () => {
 
     describe('MenuPrimitive.Content', () => {
         it('should render content when menu is open', () => {
-            render(
-                <MenuPrimitive.Root defaultOpen={true}>
-                    <MenuPrimitive.Content>
-                        <div>Menu Content</div>
-                    </MenuPrimitive.Content>
-                </MenuPrimitive.Root>
-            );
+            act(() => {
+                render(
+                    <MenuPrimitive.Root defaultOpen={true}>
+                        <MenuPrimitive.Content>
+                            <div>Menu Content</div>
+                        </MenuPrimitive.Content>
+                    </MenuPrimitive.Root>
+                );
+            });
 
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
         });
@@ -255,11 +259,13 @@ describe('MenuPrimitive', () => {
         });
 
         it('should handle defaultOpen prop', () => {
-            render(
-                <MenuPrimitive.Sub defaultOpen={true}>
-                    <div>Sub Menu</div>
-                </MenuPrimitive.Sub>
-            );
+            act(() => {
+                render(
+                    <MenuPrimitive.Sub defaultOpen={true}>
+                        <div>Sub Menu</div>
+                    </MenuPrimitive.Sub>
+                );
+            });
 
             expect(screen.getByText('Sub Menu')).toBeInTheDocument();
         });
@@ -275,13 +281,15 @@ describe('MenuPrimitive', () => {
         });
 
         it('should render portal when menu is open', () => {
-            render(
-                <MenuPrimitive.Root defaultOpen={true}>
-                    <MenuPrimitive.Portal>
-                        <div>Portal Content</div>
-                    </MenuPrimitive.Portal>
-                </MenuPrimitive.Root>
-            );
+            act(() => {
+                render(
+                    <MenuPrimitive.Root defaultOpen={true}>
+                        <MenuPrimitive.Portal>
+                            <div>Portal Content</div>
+                        </MenuPrimitive.Portal>
+                    </MenuPrimitive.Root>
+                );
+            });
 
             expect(screen.getByText('Portal Content')).toBeInTheDocument();
         });
@@ -311,45 +319,47 @@ describe('MenuPrimitive', () => {
 
     describe('Complete Menu Integration', () => {
         it('should render a complete menu with all components like in stories', () => {
-            render(
-                <MenuPrimitive.Root defaultOpen={true}>
-                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            act(() => {
+                render(
+                    <MenuPrimitive.Root defaultOpen={true}>
+                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
             Trigger
-                    </MenuPrimitive.Trigger>
-                    <MenuPrimitive.Portal>
-                        <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-lg min-w-[180px]">
-                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 1">
+                        </MenuPrimitive.Trigger>
+                        <MenuPrimitive.Portal>
+                            <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-lg min-w-[180px]">
+                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 1">
                 item 1
-                            </MenuPrimitive.Item>
-                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 2">
+                                </MenuPrimitive.Item>
+                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 2">
                 item 2
-                            </MenuPrimitive.Item>
-                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 3">
+                                </MenuPrimitive.Item>
+                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 3">
                 item 3
-                            </MenuPrimitive.Item>
-                            <MenuPrimitive.Sub className="flex flex-col" defaultOpen={true}>
-                                <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
+                                </MenuPrimitive.Item>
+                                <MenuPrimitive.Sub className="flex flex-col" defaultOpen={true}>
+                                    <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
                   Nested Trigger
-                                </MenuPrimitive.Trigger>
-                                <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow min-w-[160px]">
-                                    <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="Nested item 1">
+                                    </MenuPrimitive.Trigger>
+                                    <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow min-w-[160px]">
+                                        <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="Nested item 1">
                     Nested item 1
-                                    </MenuPrimitive.Item>
-                                    <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="Nested item 2">
+                                        </MenuPrimitive.Item>
+                                        <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="Nested item 2">
                     Nested item 2
-                                    </MenuPrimitive.Item>
-                                </MenuPrimitive.Content>
-                            </MenuPrimitive.Sub>
-                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
+                                        </MenuPrimitive.Item>
+                                    </MenuPrimitive.Content>
+                                </MenuPrimitive.Sub>
+                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
                 item 4
-                            </MenuPrimitive.Item>
-                            <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
+                                </MenuPrimitive.Item>
+                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
                 item 5
-                            </MenuPrimitive.Item>
-                        </MenuPrimitive.Content>
-                    </MenuPrimitive.Portal>
-                </MenuPrimitive.Root>
-            );
+                                </MenuPrimitive.Item>
+                            </MenuPrimitive.Content>
+                        </MenuPrimitive.Portal>
+                    </MenuPrimitive.Root>
+                );
+            });
 
             expect(screen.getByText('Nested Trigger')).toBeInTheDocument();
             expect(screen.getByText('item 1')).toBeInTheDocument();
@@ -378,7 +388,10 @@ describe('MenuPrimitive', () => {
             );
 
             const trigger = screen.getByText('Open Menu');
-            fireEvent.click(trigger);
+
+            await act(async() => {
+                fireEvent.click(trigger);
+            });
 
             await waitFor(() => {
                 expect(onOpenChange).toHaveBeenCalled();

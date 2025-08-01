@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Primitive from '~/core/primitives/Primitive';
+import ButtonPrimitive from '~/core/primitives/Button';
 import { customClassSwitcher } from '~/core';
 import { SwitchContext } from '../context/SwitchContext';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
@@ -26,7 +26,7 @@ const SwitchRoot = ({ children, customRootClass, color = '', variant, size }: Sw
 
     return (
         <SwitchContext.Provider value={{ checked, setChecked, rootClass }}>
-            <Primitive.button onClick={() => setChecked(!checked)} className={rootClass} data-state={checked ? 'checked' : 'unchecked'} {...composedAttributes()}>{children}</Primitive.button>
+            <ButtonPrimitive onClick={() => setChecked(!checked)} className={rootClass} data-state={checked ? 'checked' : 'unchecked'} {...composedAttributes()}>{children}</ButtonPrimitive>
         </SwitchContext.Provider>
     );
 };

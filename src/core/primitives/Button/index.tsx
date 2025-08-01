@@ -17,7 +17,7 @@ import Primitive from '~/core/primitives/Primitive';
 
  */
 
-const ButtonPrimitive = forwardRef(({ role = 'button', label = '', description = '', disabled = false, children, ...props }:any, ref) => {
+const ButtonPrimitive = forwardRef(({ role = 'button', type = 'button', label = '', description = '', disabled = false, children, ...props }:any, ref) => {
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
@@ -42,6 +42,7 @@ const ButtonPrimitive = forwardRef(({ role = 'button', label = '', description =
     return <Primitive.button
         ref={ref}
         role={role}
+        type={type}
         disabled={disabled}
         {...props}
         // We allow the user to pass any other props they want

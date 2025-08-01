@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useContext } from 'react';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import RadioGroupPrimitiveItemContext from '../context/RadioGroupPrimitiveItemContext';
-import Primitive from '~/core/primitives/Primitive';
+import ButtonPrimitive from '~/core/primitives/Button';
 
 export type RadioGroupPrimitiveItemProps = PropsWithChildren<{
     value: string;
@@ -24,7 +24,7 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
     return (
 
         <RovingFocusGroup.Item >
-            <Primitive.button
+            <ButtonPrimitive
                 role="radio"
                 type="button"
                 disabled={groupDisabled || disabled}
@@ -41,7 +41,7 @@ const RadioGroupPrimitiveItem = ({ value, children, disabled, required = false, 
                 <RadioGroupPrimitiveItemContext.Provider value={{ itemSelected }}>
                     {children}
                 </RadioGroupPrimitiveItemContext.Provider>
-            </Primitive.button>
+            </ButtonPrimitive>
         </RovingFocusGroup.Item>
 
     );

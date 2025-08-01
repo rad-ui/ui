@@ -44,7 +44,7 @@ const CheckboxPrimitiveRoot = ({ children, className = '', checked, defaultCheck
                 opacity: 0,
                 margin: 0,
                 transform: 'translateX(-100%)'
-            }} name={name} value={value} checked={isChecked} disabled={disabled} required={required} {...props}/>
+            }} name={name} value={value} checked={isChecked} disabled={disabled} required={required} readOnly {...props}/>
     </CheckboxPrimitiveContext.Provider>;
 };
 
