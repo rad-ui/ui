@@ -21,7 +21,7 @@ export function addToast(toast: Omit<Toast, 'id'>) {
     listeners.forEach((l) => l(toasts));
 
     // auto-remove after 3s
-    setTimeout(() => removeToast(newToast.id), 3000);
+    setTimeout(() => removeToast(newToast.id), 5000);
 
     return newToast.id;
 }

@@ -43,7 +43,7 @@ export const ToastExample = () => {
             {/* Using the actual Tabs composable API */}
             <div className="border  shadow rounded-md p-4">
                 <Toast.Provider>
-                    <Button onClick={() => toast.success('Hello')}>Show Toast</Button>
+                    <Button onClick={() => toast.success('Hello This is a Rad UI Toast, it will be stacked and animated')}>Show Toast</Button>
                     {/* <Toast.Root>
                         <Toast.Title>
                             <h1>Hello</h1>
