@@ -1,12 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { subscribe, removeToast, Toast } from '../contexts/toastStore';
-import ToastRoot from "../fragments/ToastRoot";
+import {
+  subscribe,
+  removeToast,
+  pauseAllToasts,
+  resumeAllToasts,
+  Toast,
+} from '../contexts/toastStore';
+import ToastRoot from '../fragments/ToastRoot';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export function Toaster({ visibleToasts = 3, position = 'bottom-right' }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => subscribe(setToasts), []);
 
@@ -19,16 +26,37 @@ export function Toaster({ visibleToasts = 3, position = 'bottom-right' }) {
     'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2',
   };
 
+  // 🆕 Calculate max hover height (how tall container should be when expanded)
+  const expandedHeight = toasts.length * 72; // (72px is approx toast height + margin)
+
   return (
-    <div className={`fixed ${positionClasses[position]} z-50 w-80 pointer-events-none`}>
+    <div
+      className={`fixed ${positionClasses[position]} z-50 w-80`}
+      style={{
+        pointerEvents: 'auto',
+        height: isHovered ? expandedHeight : 80, // 🔑 container grows to fit hover zone
+        position: 'fixed',
+      }}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        pauseAllToasts();
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        resumeAllToasts();
+      }}
+    >
       <AnimatePresence mode="popLayout">
         {toasts.map((toast, index) => {
           const isStacked = index >= visibleToasts;
           const stackIndex = index - visibleToasts;
 
-          // ✅ all toasts “pile” at bottom
-          // newest toast at bottom, older ones stacked above
-          const offset = index * -12; // each toast moves slightly UP behind the previous
+          // Compressed vs expanded spacing
+          const compressedOffset = index * -12;
+          const expandedOffset = index * -72;
+          const offset = isHovered ? expandedOffset : compressedOffset;
+
+          // Scale & opacity for older toasts
           const scale = isStacked ? Math.max(0.85, 0.95 - stackIndex * 0.03) : 1;
           const opacity = isStacked ? Math.max(0.4, 0.8 - stackIndex * 0.1) : 1;
 
@@ -37,19 +65,15 @@ export function Toaster({ visibleToasts = 3, position = 'bottom-right' }) {
               key={toast.id}
               layout
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              animate={{
-                opacity,
-                y: offset,
-                scale,
-              }}
+              animate={{ opacity, y: offset, scale }}
               exit={{ opacity: 0, y: 50, scale: 0.9 }}
               transition={{ type: 'spring', damping: 20, stiffness: 300 }}
               style={{
-                position: 'absolute',  // ✅ crucial for piling
-                bottom: 0,             // ✅ anchor all toasts to bottom
+                position: 'absolute',
+                bottom: 0,
                 right: 0,
                 zIndex: toasts.length - index,
-                pointerEvents: index === 0 ? 'auto' : 'none', // ✅ only top toast is clickable
+                pointerEvents: 'auto', // 🆕 all toasts clickable now
               }}
             >
               <ToastRoot
