@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Toast, {toast} from '../Toast';
+import Toast, { toast } from '../Toast';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -54,5 +54,3 @@ export const ToastExample = () => {
         </div>
     );
 };
-
-
