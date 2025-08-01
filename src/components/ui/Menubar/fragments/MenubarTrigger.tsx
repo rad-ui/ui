@@ -3,7 +3,6 @@ import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPr
 import MenubarContext from '../contexts/MenubarContext';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
-import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import MenubarMenuContext from '../contexts/MenubarMenuContext';
 
 export type MenubarTriggerProps = {

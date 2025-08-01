@@ -1,6 +1,5 @@
 import React from 'react';
 import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
-import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import MenubarContext, { MenubarItem } from '../contexts/MenubarContext';
 import Floater from '~/core/primitives/Floater';
