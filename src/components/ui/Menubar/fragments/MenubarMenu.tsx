@@ -10,15 +10,15 @@ export type MenubarMenuProps = {
   className?: string;
 } & MenuPrimitiveProps.Root;
 
-const MenubarMenu = ({ children, className }:MenubarMenuProps) => {
+const MenubarMenu = ({ children, className, ...props }:MenubarMenuProps) => {
     const context = React.useContext(MenubarContext);
+    const id = Floater.useId();
+
     if (!context) {
         console.log('MenubarMenu should be used in the MenubarRoot');
         return null;
     }
     const { rootClass, registerItem, items, updateItemState } = context;
-
-    const id = Floater.useId();
 
     React.useEffect(() => {
         if (id) {
@@ -29,7 +29,7 @@ const MenubarMenu = ({ children, className }:MenubarMenuProps) => {
     const isOpen = items.find((item: MenubarItem) => item.id === id)?.state === 'open';
     return (
 
-        <MenuPrimitive.Root className={clsx(`${rootClass}-menu`, className)} data-id={id} data-active={isOpen} open={isOpen} onOpenChange={(open) => id && updateItemState(id, open ? 'open' : 'closed')}>
+        <MenuPrimitive.Root className={clsx(`${rootClass}-menu`, className)} data-id={id} data-active={isOpen} open={isOpen} onOpenChange={(open) => id && updateItemState(id, open ? 'open' : 'closed')} {...props}>
             <MenubarMenuContext.Provider value={{ isOpen }}>
                 {children}
             </MenubarMenuContext.Provider>

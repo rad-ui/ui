@@ -10,15 +10,16 @@ export type MenubarTriggerProps = {
   className?: string;
 } & MenuPrimitiveProps.Trigger;
 
-const MenubarTrigger = ({ children, className }:MenubarTriggerProps) => {
+const MenubarTrigger = ({ children, className, ...props }:MenubarTriggerProps) => {
     const context = React.useContext(MenubarContext);
+    const menuContext = React.useContext(MenubarMenuContext);
+
     if (!context) {
         console.log('MenubarTrigger should be used in the MenubarRoot');
         return null;
     }
     const { rootClass } = context;
 
-    const menuContext = React.useContext(MenubarMenuContext);
     if (!menuContext) {
         console.log('MenubarTrigger should be used in the MenubarMenu');
         return null;
@@ -29,7 +30,7 @@ const MenubarTrigger = ({ children, className }:MenubarTriggerProps) => {
         <Floater.CompositeItem
             render={
                 () => (
-                    <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} data-active={isOpen}>
+                    <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} data-active={isOpen} {...props}>
                         {children}
                     </MenuPrimitive.Trigger>
                 )

@@ -9,7 +9,7 @@ export type MenubarItemProps = {
   label?: string;
 } & MenuPrimitiveProps.Item;
 
-const MenubarItem = ({ children, className, label }:MenubarItemProps) => {
+const MenubarItem = ({ children, className, label, ...props }:MenubarItemProps) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
         console.log('MenubarItem should be used in the MenubarRoot');
@@ -17,7 +17,7 @@ const MenubarItem = ({ children, className, label }:MenubarItemProps) => {
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Item className={clsx(`${rootClass}-item`, className)} label={label}>
+        <MenuPrimitive.Item className={clsx(`${rootClass}-item`, className)} label={label} {...props}>
             {children}
         </MenuPrimitive.Item>
     );

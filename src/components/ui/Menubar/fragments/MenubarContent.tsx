@@ -8,7 +8,7 @@ export type MenubarContentProps = {
   className?: string;
 } & MenuPrimitiveProps.Content;
 
-const MenubarContent = ({ children, className }:MenubarContentProps) => {
+const MenubarContent = ({ children, className, ...props }:MenubarContentProps) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
         console.log('MenubarContent should be used in the MenubarRoot');
@@ -16,7 +16,7 @@ const MenubarContent = ({ children, className }:MenubarContentProps) => {
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Content className={clsx(`${rootClass}-content`, className)}>
+        <MenuPrimitive.Content className={clsx(`${rootClass}-content`, className)} {...props}>
             {children}
         </MenuPrimitive.Content>
     );

@@ -8,7 +8,7 @@ export type MenubarSubTriggerProps = {
   className?: string;
 } & MenuPrimitiveProps.Trigger;
 
-const MenubarSubTrigger = ({ children, className }:MenubarSubTriggerProps) => {
+const MenubarSubTrigger = ({ children, className, ...props }:MenubarSubTriggerProps) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
         console.log('MenubarSubTrigger should be used in the MenubarRoot');
@@ -16,7 +16,7 @@ const MenubarSubTrigger = ({ children, className }:MenubarSubTriggerProps) => {
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Trigger className={clsx(`${rootClass}-sub-trigger`, className)}>
+        <MenuPrimitive.Trigger className={clsx(`${rootClass}-sub-trigger`, className)} {...props}>
             {children}
         </MenuPrimitive.Trigger>
     );
