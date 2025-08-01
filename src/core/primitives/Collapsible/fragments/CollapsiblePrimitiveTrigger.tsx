@@ -1,5 +1,5 @@
 import React from 'react';
-import Primitive from '~/core/primitives/Primitive';
+import ButtonPrimitive from '~/core/primitives/Button';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
 export type CollapsiblePrimitiveTriggerProps = {
@@ -33,7 +33,7 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<HTMLButtonElement, Collapsi
         };
 
         return (
-            <Primitive.button
+            <ButtonPrimitive
                 aria-controls={contentId}
                 aria-expanded={open}
                 data-state={open ? 'open' : 'closed'}
@@ -44,7 +44,7 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<HTMLButtonElement, Collapsi
                 {...props}
             >
                 {children}
-            </Primitive.button>
+            </ButtonPrimitive>
         );
     }
 );

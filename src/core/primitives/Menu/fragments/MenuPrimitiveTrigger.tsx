@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
-import Primitive from '../../Primitive';
+import ButtonPrimitive from '../../Button';
 
 export type MenuPrimitiveTriggerProps = {
     children: React.ReactNode
@@ -16,7 +16,7 @@ const MenuPrimitiveTrigger = ({ children, className, asChild, ...props }: MenuPr
     const { ref, index } = Floater.useListItem();
 
     return (
-        <Primitive.button
+        <ButtonPrimitive
             className={className}
             tabIndex={
                 !isNested ? undefined : activeIndex === index ? 0 : -1
@@ -28,7 +28,7 @@ const MenuPrimitiveTrigger = ({ children, className, asChild, ...props }: MenuPr
             {...props}
         >
             {children}
-        </Primitive.button>
+        </ButtonPrimitive>
     );
 };
 export default MenuPrimitiveTrigger;
