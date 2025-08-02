@@ -26,8 +26,7 @@ const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     clipPath: 'inset(50%)',
     overflow: 'hidden',
     pointerEvents: 'none',
-    userSelect: 'none',
-    visibility: 'hidden'
+    userSelect: 'none'
 } as const;
 
 const VisuallyHidden = ({
