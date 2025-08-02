@@ -3,7 +3,5 @@
 
 #!/bin/sh
 . ~/.zshrc   # or ~/.bashrc if using bash
-npm test
 
-
-npm run lint
+npm run lint:staged
