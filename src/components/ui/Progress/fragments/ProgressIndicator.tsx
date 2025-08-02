@@ -10,9 +10,9 @@ interface IndicatorProps {
 }
 
 export default function ProgressIndicator({ asChild }: IndicatorProps) {
-    const { value, minValue, maxValue, rootClass } = useContext(ProgressContext);
-    // Ensure value stays within bounds in production
-    const boundedValue = Math.min(Math.max(value, minValue), maxValue);
+    const { value, minValue, maxValue, rootClass, state } = useContext(ProgressContext);
+    // Ensure value stays within bounds in production, use 0 if value is null
+    const boundedValue = Math.min(Math.max(value ?? 0, minValue), maxValue);
 
     const data_attributes: Record<string, string> = {};
 
@@ -24,6 +24,10 @@ export default function ProgressIndicator({ asChild }: IndicatorProps) {
             aria-valuenow={boundedValue}
             aria-valuemax={maxValue}
             aria-valuemin={minValue}
+            data-state={state}
+            data-value={boundedValue}
+            data-max={maxValue}
+            data-min={minValue}
             asChild={asChild}
             {...data_attributes}
         >

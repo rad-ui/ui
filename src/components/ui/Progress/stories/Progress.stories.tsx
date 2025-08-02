@@ -20,6 +20,19 @@ export default {
                         // randomize value
                         setValue(Math.floor(Math.random() * 100));
                     }}>Animate!</Button>
+
+                <Button
+                    onClick={() => {
+                        setValue(null as any);
+                    }}>
+                    Indeterminate
+                </Button>
+                <Button
+                    onClick={() => {
+                        setValue(100);
+                    }}>
+                    Complete
+                </Button>
             </div>
         </SandboxEditor>);
     }
