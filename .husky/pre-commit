@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+#!/bin/sh
+. ~/.zshrc   # or ~/.bashrc if using bash
+npm test
+
+
 npm run lint
