@@ -99,6 +99,74 @@ describe('Progress', () => {
             });
         });
 
+        describe('getValueLabel functionality', () => {
+            test('uses getValueLabel function when provided', () => {
+                const mockGetValueLabel = jest.fn((value, minValue, maxValue) =>
+                    `Progress: ${value} of ${maxValue} (${Math.round((value / maxValue) * 100)}%)`
+                );
+
+                render(
+                    <Progress.Root value={75} maxValue={100} minValue={0} getValueLabel={mockGetValueLabel}>
+                        <Progress.Indicator />
+                    </Progress.Root>
+                );
+
+                expect(mockGetValueLabel).toHaveBeenCalledWith(75, 0, 100);
+
+                const progressBars = screen.getAllByRole('progressbar');
+                const root = progressBars[0];
+                expect(root).toHaveAttribute('aria-label', 'Progress: 75 of 100 (75%)');
+                expect(root).toHaveAttribute('aria-valuetext', 'Progress: 75 of 100 (75%)');
+            });
+
+            test('handles null value in getValueLabel', () => {
+                const mockGetValueLabel = jest.fn((value, minValue, maxValue) =>
+                    value === null ? 'Indeterminate progress' : `Progress: ${value} of ${maxValue}`
+                );
+
+                render(
+                    <Progress.Root value={null} maxValue={100} minValue={0} getValueLabel={mockGetValueLabel}>
+                        <Progress.Indicator />
+                    </Progress.Root>
+                );
+
+                expect(mockGetValueLabel).toHaveBeenCalledWith(0, 0, 100); // null value becomes 0
+
+                const progressBars = screen.getAllByRole('progressbar');
+                const root = progressBars[0];
+                expect(root).toHaveAttribute('aria-label', 'Progress: 0 of 100');
+                expect(root).toHaveAttribute('aria-valuetext', 'Progress: 0 of 100');
+            });
+
+            test('works without getValueLabel function', () => {
+                render(<ProgressComp value={50} maxValue={100} minValue={0} />);
+
+                const progressBars = screen.getAllByRole('progressbar');
+                const root = progressBars[0];
+                expect(root).toHaveAttribute('aria-label', '');
+                expect(root).toHaveAttribute('aria-valuetext', '');
+            });
+
+            test('getValueLabel with custom min/max values', () => {
+                const mockGetValueLabel = jest.fn((value, minValue, maxValue) =>
+                    `${value - minValue}/${maxValue - minValue} completed`
+                );
+
+                render(
+                    <Progress.Root value={30} maxValue={60} minValue={10} getValueLabel={mockGetValueLabel}>
+                        <Progress.Indicator />
+                    </Progress.Root>
+                );
+
+                expect(mockGetValueLabel).toHaveBeenCalledWith(30, 10, 60);
+
+                const progressBars = screen.getAllByRole('progressbar');
+                const root = progressBars[0];
+                expect(root).toHaveAttribute('aria-label', '20/50 completed');
+                expect(root).toHaveAttribute('aria-valuetext', '20/50 completed');
+            });
+        });
+
         describe('ProgressIndicator data attributes', () => {
             test('indicator renders with correct data-state when loading', () => {
                 render(<ProgressComp value={50} maxValue={100} minValue={0} />);
