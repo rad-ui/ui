@@ -15,7 +15,7 @@ Object.defineProperty(document, 'addEventListener', {
     value: mockAddEventListener,
     configurable: true
 });
-Object.defineProperty(window, 'removeEventListener', {
+Object.defineProperty(document, 'removeEventListener', {
     value: mockRemoveEventListener,
     configurable: true
 });

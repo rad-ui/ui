@@ -6,7 +6,6 @@ import React from 'react';
  *
  * Source: https://github.com/emilkowalski/sonner/blob/main/src/hooks.tsx
  */
-
 export const useIsDocumentHidden = () => {
     const [isDocumentHidden, setIsDocumentHidden] = React.useState(document.hidden);
 
@@ -14,8 +13,9 @@ export const useIsDocumentHidden = () => {
         const callback = () => {
             setIsDocumentHidden(document.hidden);
         };
+
         document.addEventListener('visibilitychange', callback);
-        return () => window.removeEventListener('visibilitychange', callback);
+        return () => document.removeEventListener('visibilitychange', callback);
     }, []);
 
     return isDocumentHidden;
