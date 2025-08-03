@@ -61,7 +61,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
     }
     return (
         <pre className="relative mb-8">
-            <div className="relative height maxHeight">
+            <div className="relative height">
                 {/* <code
 className={`language-${language} whitespace-pre-wrap`}
                 style={{
