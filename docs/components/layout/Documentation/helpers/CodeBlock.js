@@ -76,7 +76,7 @@ className={`language-${language} whitespace-pre-wrap`}
                     className={clsx(
                         "transition-all",
                         expanded ? "max-h-[640px]" : "max-h-[180px]",
-                        inline && "overflow-visible max-h-none" // garante que o ScrollArea.Root não limite altura
+                        inline && "overflow-visible max-h-none"
                     )}
                 >
                     <ScrollArea.Viewport
