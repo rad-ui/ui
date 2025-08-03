@@ -31,8 +31,8 @@ export type ToggleItemProps = {
  * @param {ToggleItemProps} props - Component props
  * @returns {JSX.Element} The ToggleItem component
  */
-const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
-    const { type, activeToggles, setActiveToggles } = useContext(ToggleContext);
+const ToggleItem = ({ children, className = '', value = null, ...props }:ToggleItemProps) => {
+    const { type, activeToggles, setActiveToggles, rootClass } = useContext(ToggleContext);
     const isActive = activeToggles?.includes(value);
 
     const ariaProps:Record<string, string> = {};
@@ -76,9 +76,10 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
         dataProps['data-active'] = 'false';
     }
 
-    return <RovingFocusGroup.Item role="button">
+    return <RovingFocusGroup.Item>
         <TogglePrimitive
             onClick={handleToggleSelect}
+            className={`${rootClass}-item ${className}`}
             {...ariaProps}
             {...dataProps}
             {...props}

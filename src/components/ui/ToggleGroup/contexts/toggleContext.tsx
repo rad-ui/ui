@@ -11,6 +11,8 @@ export type ToggleContextType = {
     activeToggles: any[];
     /** Function to update the active toggles */
     setActiveToggles: (toggles: any[]) => void;
+    /** Root class name */
+    rootClass: string;
 };
 
 /**
@@ -20,5 +22,6 @@ export type ToggleContextType = {
 export const ToggleContext = createContext<ToggleContextType>({
     type: 'single',
     activeToggles: [],
-    setActiveToggles: () => {}
+    setActiveToggles: () => {},
+    rootClass: ''
 });

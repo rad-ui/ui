@@ -46,7 +46,8 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
     const sendValues = {
         activeToggles,
         setActiveToggles,
-        type
+        type,
+        rootClass
     };
 
     const data_attributes: Record<string, string> = {};
