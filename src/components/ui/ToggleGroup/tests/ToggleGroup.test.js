@@ -134,4 +134,121 @@ describe('ToggleGroup component', () => {
 
         consoleSpy.mockRestore();
     });
+
+    test('handles controlled mode correctly', () => {
+        const handleValueChange = jest.fn();
+        const { getByText, rerender } = render(
+            <ToggleGroup.Root value={['item1']} onValueChange={handleValueChange}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        // Initial state
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-state', 'on');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-state', 'off');
+
+        // Click item 2
+        fireEvent.click(getByText('Item 2'));
+        expect(handleValueChange).toHaveBeenCalledWith(['item1', 'item2']);
+
+        // Update props to reflect new state
+        rerender(
+            <ToggleGroup.Root value={['item1', 'item2']} onValueChange={handleValueChange}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-state', 'on');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-state', 'on');
+    });
+
+    test('handles uncontrolled mode with defaultValue', () => {
+        const handleValueChange = jest.fn();
+        const { getByText } = render(
+            <ToggleGroup.Root defaultValue={['item1']} onValueChange={handleValueChange}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        // Initial state should be set by defaultValue
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-state', 'on');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-state', 'off');
+
+        // Click item 2
+        fireEvent.click(getByText('Item 2'));
+        expect(handleValueChange).toHaveBeenCalledWith(['item1', 'item2']);
+    });
+
+    test('handles disabled group state', () => {
+        const { getByText } = render(
+            <ToggleGroup.Root disabled={true}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        // All items should be disabled
+        expect(getByText('Item 1').closest('button')).toBeDisabled();
+        expect(getByText('Item 2').closest('button')).toBeDisabled();
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-disabled', '');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-disabled', '');
+    });
+
+    test('handles disabled individual items', () => {
+        const { getByText } = render(
+            <ToggleGroup.Root>
+                <ToggleGroup.Item value="item1" disabled={true}>Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        // Only item 1 should be disabled
+        expect(getByText('Item 1').closest('button')).toBeDisabled();
+        expect(getByText('Item 2').closest('button')).not.toBeDisabled();
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-disabled', '');
+        expect(getByText('Item 2').closest('button')).not.toHaveAttribute('data-disabled');
+    });
+
+    test('sets data-orientation attribute', () => {
+        const { container } = render(
+            <ToggleGroup.Root orientation="vertical">
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        const toggleGroupRoot = container.querySelector('.rad-ui-toggle-group');
+        expect(toggleGroupRoot).toHaveAttribute('data-orientation', 'vertical');
+    });
+
+    test('renders with asChild prop on items', () => {
+        const { container } = render(
+            <ToggleGroup.Root>
+                <ToggleGroup.Item asChild value="item1">
+                    <div data-testid="custom-item">Custom Item</div>
+                </ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        const customItem = container.querySelector('[data-testid="custom-item"]');
+        expect(customItem).toBeInTheDocument();
+        expect(customItem).toHaveAttribute('data-state', 'off');
+    });
+
+    test('disables roving focus when rovingFocus is false', () => {
+        const { container } = render(
+            <ToggleGroup.Root rovingFocus={false}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        // Should render a simple div instead of RovingFocusGroup
+        const toggleGroupRoot = container.querySelector('.rad-ui-toggle-group');
+        expect(toggleGroupRoot).toBeInTheDocument();
+        expect(toggleGroupRoot.tagName).toBe('DIV');
+    });
 });
