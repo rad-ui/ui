@@ -83,4 +83,41 @@ describe('Toggle component', () => {
         const { getByText } = render(<Toggle onChange={() => {}} color='blue'>Test Toggle</Toggle>);
         expect(getByText('Test Toggle')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
+
+    test('renders with asChild prop correctly', () => {
+        const { container } = render(
+            <Toggle asChild onChange={() => {}}>
+                <div data-testid="custom-element">Custom Element</div>
+            </Toggle>
+        );
+
+        const customElement = container.querySelector('[data-testid="custom-element"]');
+        expect(customElement).toBeInTheDocument();
+        expect(customElement).toHaveAttribute('data-state', 'off');
+        expect(customElement).toHaveAttribute('aria-pressed', 'false');
+    });
+
+    test('asChild preserves custom element props', () => {
+        const { container } = render(
+            <Toggle asChild onChange={() => {}}>
+                <div data-testid="custom-element" className="custom-class" data-custom="value">
+                    Custom Element
+                </div>
+            </Toggle>
+        );
+
+        const customElement = container.querySelector('[data-testid="custom-element"]');
+        expect(customElement).toHaveClass('custom-class');
+        expect(customElement).toHaveAttribute('data-custom', 'value');
+    });
+
+    test('data-disabled attribute is set when disabled', () => {
+        const { container } = render(<Toggle disabled={true} onChange={() => {}}>Test Toggle</Toggle>);
+        expect(container.firstChild).toHaveAttribute('data-disabled', '');
+    });
+
+    test('data-disabled attribute is not set when not disabled', () => {
+        const { container } = render(<Toggle disabled={false} onChange={() => {}}>Test Toggle</Toggle>);
+        expect(container.firstChild).not.toHaveAttribute('data-disabled');
+    });
 });

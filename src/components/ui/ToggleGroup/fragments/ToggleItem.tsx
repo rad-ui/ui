@@ -70,10 +70,15 @@ const ToggleItem = ({ children, className = '', value = null, ...props }:ToggleI
     // Set appropriate ARIA and data attributes based on active state
     if (isActive) {
         ariaProps['aria-pressed'] = 'true';
-        dataProps['data-active'] = 'true';
+        dataProps['data-state'] = 'on';
     } else {
         ariaProps['aria-pressed'] = 'false';
-        dataProps['data-active'] = 'false';
+        dataProps['data-state'] = 'off';
+    }
+
+    // Add data-disabled attribute if disabled
+    if (props.disabled) {
+        dataProps['data-disabled'] = '';
     }
 
     return <RovingFocusGroup.Item>

@@ -28,6 +28,8 @@ export type ToggleProps = {
     color?: string;
     /** Callback fired when toggle state changes */
     onChange : (isPressed:boolean) => void;
+    /** Whether to render as a child element instead of a button */
+    asChild?: boolean;
 };
 
 /**
@@ -53,6 +55,7 @@ const Toggle: React.FC<ToggleProps> = ({
     color = '',
     pressed,
     onChange,
+    asChild = false,
     ...props
 }) => {
     // Use our new hook to handle controlled/uncontrolled state
@@ -80,6 +83,7 @@ const Toggle: React.FC<ToggleProps> = ({
             onPressedChange={setIsPressed}
             data-state={isPressed ? 'on' : 'off'}
             data-disabled={props.disabled ? '' : undefined}
+            asChild={asChild}
             {...props}
             {...data_attributes}
         >

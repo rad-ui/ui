@@ -353,3 +353,76 @@ export const Disabled = () => {
         </SandboxEditor>
     );
 };
+
+// AsChild example - renders as a different element
+export const AsChild = () => {
+    const [isPressed, setIsPressed] = React.useState(false);
+
+    const handleChange = (state: boolean) => {
+        setIsPressed(state);
+    };
+
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Toggle with asChild prop</div>
+            <div className="text-xs text-gray-600 mb-4">
+                The asChild prop allows the Toggle to render as a different element while maintaining all functionality.
+                This is useful for custom styling or when you need the toggle to be a specific HTML element.
+            </div>
+
+            <div className="space-y-6">
+                <div>
+                    <div className="text-xs mb-2 font-medium">Rendered as a div</div>
+                    <Toggle
+                        asChild
+                        pressed={isPressed}
+                        onChange={handleChange}
+                    >
+                        <div className="inline-flex items-center justify-center w-10 h-10 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
+                            <MoveIcon />
+                        </div>
+                    </Toggle>
+                </div>
+
+                <div>
+                    <div className="text-xs mb-2 font-medium">Rendered as a span</div>
+                    <Toggle
+                        asChild
+                        pressed={isPressed}
+                        onChange={handleChange}
+                    >
+                        <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-200 rounded hover:bg-blue-300 cursor-pointer">
+                            <MoveIcon />
+                        </span>
+                    </Toggle>
+                </div>
+
+                <div>
+                    <div className="text-xs mb-2 font-medium">Rendered as a link</div>
+                    <Toggle
+                        asChild
+                        pressed={isPressed}
+                        onChange={handleChange}
+                    >
+                        <a
+                            href="#"
+                            className="inline-flex items-center justify-center w-10 h-10 bg-green-200 rounded hover:bg-green-300 cursor-pointer"
+                            onClick={(e) => e.preventDefault()}
+                        >
+                            <MoveIcon />
+                        </a>
+                    </Toggle>
+                </div>
+            </div>
+
+            <div className="text-sm mt-4 p-2 bg-gray-100 rounded">
+                Toggle state: {isPressed ? 'Pressed' : 'Not Pressed'}
+            </div>
+
+            <div className="text-xs text-gray-600 mt-4">
+                <strong>Note:</strong> All accessibility attributes (aria-pressed, data-state, etc.) are automatically
+                applied to the child element, and the toggle functionality is preserved.
+            </div>
+        </SandboxEditor>
+    );
+};

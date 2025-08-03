@@ -33,10 +33,10 @@ describe('ToggleGroup component', () => {
 
         // Check if they are pressed/active
         expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'true');
-        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-state', 'on');
 
         expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'true');
-        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-state', 'on');
 
         // Third item should not be pressed
         expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
@@ -59,12 +59,12 @@ describe('ToggleGroup component', () => {
 
         // Check the final state
         expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'true');
-        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-state', 'on');
 
         expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'false');
 
         expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'true');
-        expect(getByText('Item 3').closest('button')).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 3').closest('button')).toHaveAttribute('data-state', 'on');
     });
 
     test('handles single selection', () => {
@@ -81,7 +81,7 @@ describe('ToggleGroup component', () => {
 
         // Check if it's pressed/active
         expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'true');
-        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 1').closest('button')).toHaveAttribute('data-state', 'on');
 
         // Others should not be pressed
         expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'false');
@@ -107,7 +107,7 @@ describe('ToggleGroup component', () => {
         expect(getByText('Item 1').closest('button')).toHaveAttribute('aria-pressed', 'false');
 
         expect(getByText('Item 2').closest('button')).toHaveAttribute('aria-pressed', 'true');
-        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-active', 'true');
+        expect(getByText('Item 2').closest('button')).toHaveAttribute('data-state', 'on');
 
         expect(getByText('Item 3').closest('button')).toHaveAttribute('aria-pressed', 'false');
     });
