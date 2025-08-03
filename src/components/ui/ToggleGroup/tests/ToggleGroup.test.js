@@ -138,7 +138,7 @@ describe('ToggleGroup component', () => {
     test('handles controlled mode correctly', () => {
         const handleValueChange = jest.fn();
         const { getByText, rerender } = render(
-            <ToggleGroup.Root value={['item1']} onValueChange={handleValueChange}>
+            <ToggleGroup.Root type="multiple" value={['item1']} onValueChange={handleValueChange}>
                 <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
                 <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
             </ToggleGroup.Root>
@@ -154,7 +154,7 @@ describe('ToggleGroup component', () => {
 
         // Update props to reflect new state
         rerender(
-            <ToggleGroup.Root value={['item1', 'item2']} onValueChange={handleValueChange}>
+            <ToggleGroup.Root type="multiple" value={['item1', 'item2']} onValueChange={handleValueChange}>
                 <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
                 <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
             </ToggleGroup.Root>
@@ -167,7 +167,7 @@ describe('ToggleGroup component', () => {
     test('handles uncontrolled mode with defaultValue', () => {
         const handleValueChange = jest.fn();
         const { getByText } = render(
-            <ToggleGroup.Root defaultValue={['item1']} onValueChange={handleValueChange}>
+            <ToggleGroup.Root type="multiple" defaultValue={['item1']} onValueChange={handleValueChange}>
                 <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
                 <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
             </ToggleGroup.Root>
@@ -250,5 +250,27 @@ describe('ToggleGroup component', () => {
         const toggleGroupRoot = container.querySelector('.rad-ui-toggle-group');
         expect(toggleGroupRoot).toBeInTheDocument();
         expect(toggleGroupRoot.tagName).toBe('DIV');
+    });
+
+    test('handles single mode correctly with default type', () => {
+        const handleValueChange = jest.fn();
+        const { getByText } = render(
+            <ToggleGroup.Root onValueChange={handleValueChange}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+                <ToggleGroup.Item value="item2">Item 2</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+
+        // Click first item
+        fireEvent.click(getByText('Item 1'));
+        expect(handleValueChange).toHaveBeenCalledWith(['item1']);
+
+        // Click second item - should replace the first
+        fireEvent.click(getByText('Item 2'));
+        expect(handleValueChange).toHaveBeenCalledWith(['item2']);
+
+        // Click second item again - should deselect it
+        fireEvent.click(getByText('Item 2'));
+        expect(handleValueChange).toHaveBeenCalledWith([]);
     });
 });

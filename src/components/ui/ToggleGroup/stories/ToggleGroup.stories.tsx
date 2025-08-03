@@ -13,13 +13,9 @@ export default {
 const DEFAULT_PRESSED_STATE = false;
 
 const Template = (args: any) => {
-    const [isPressed, setIsPressed] = React.useState(DEFAULT_PRESSED_STATE);
-    const handleChange = (state: boolean) => {
-        setIsPressed(state);
-    };
     return (
         <SandboxEditor className="space-y-4 pt-4">
-            <ToggleGroup.Root>
+            <ToggleGroup.Root type={args.type} className={args.className} color={args.color}>
                 {
                     items.map((item, index) => {
                         return (
@@ -258,6 +254,45 @@ export const RTL = () => {
                     </ToggleGroup.Item>
                 ))}
             </ToggleGroup.Root>
+        </SandboxEditor>
+    );
+};
+
+// Single selection example with controlled state
+export const SingleSelection = () => {
+    const [selectedValue, setSelectedValue] = React.useState('item1');
+
+    const handleValueChange = (newValue: any) => {
+        setSelectedValue(newValue[0] || null); // In single mode, we only care about the first value
+    };
+
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Single Selection Mode</div>
+            <div className="text-xs text-gray-600 mb-4">
+                Only one item can be selected at a time. Clicking a selected item deselects it.
+            </div>
+
+            <ToggleGroup.Root
+                type="single"
+                value={selectedValue ? [selectedValue] : []}
+                onValueChange={handleValueChange}
+            >
+                {items.map((item, index) => (
+                    <ToggleGroup.Item key={index} value={item.value}>
+                        {item.label}
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup.Root>
+
+            <div className="text-sm mt-4 p-2 bg-gray-100 rounded">
+                Selected value: {selectedValue || 'None'}
+            </div>
+
+            <div className="text-xs text-gray-600 mt-2">
+                <strong>Note:</strong> In single mode, only one item can be active at a time.
+                Clicking an active item will deselect it.
+            </div>
         </SandboxEditor>
     );
 };

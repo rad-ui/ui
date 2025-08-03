@@ -41,7 +41,7 @@ type ToggleGroupRootProps ={
 const COMPONENT_NAME = 'ToggleGroup';
 
 const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
-    type = 'multiple',
+    type = 'single',
     className = '',
     loop = true,
     orientation = 'horizontal',
