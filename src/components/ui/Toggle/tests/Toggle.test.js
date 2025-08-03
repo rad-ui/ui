@@ -4,17 +4,17 @@ import Toggle from '../Toggle';
 
 describe('Toggle component', () => {
     test('renders children correctly', () => {
-        const { getByText } = render(<Toggle onChange={() => {}}>Test Toggle</Toggle>);
+        const { getByText } = render(<Toggle onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(getByText('Test Toggle')).toBeInTheDocument();
     });
 
     test('applies customRootClass correctly', () => {
-        const { container } = render(<Toggle customRootClass="custom-class" onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle customRootClass="custom-class" onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveClass('custom-class-toggle');
     });
 
     test('applies className correctly', () => {
-        const { container } = render(<Toggle className="test-class" onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle className="test-class" onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveClass('test-class');
     });
 
@@ -22,7 +22,7 @@ describe('Toggle component', () => {
     test('handles controlled mode correctly', () => {
         const handleChange = jest.fn();
         const { container, rerender } = render(
-            <Toggle pressed={false} onChange={handleChange}>Test Toggle</Toggle>
+            <Toggle pressed={false} onPressedChange={handleChange}>Test Toggle</Toggle>
         );
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
 
@@ -36,7 +36,7 @@ describe('Toggle component', () => {
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
 
         // Update props to reflect new state
-        rerender(<Toggle pressed={true} onChange={handleChange}>Test Toggle</Toggle>);
+        rerender(<Toggle pressed={true} onPressedChange={handleChange}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'true');
     });
 
@@ -44,7 +44,7 @@ describe('Toggle component', () => {
     test('handles uncontrolled mode correctly', () => {
         const handleChange = jest.fn();
         const { container } = render(
-            <Toggle defaultPressed={false} onChange={handleChange}>Test Toggle</Toggle>
+            <Toggle defaultPressed={false} onPressedChange={handleChange}>Test Toggle</Toggle>
         );
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
 
@@ -68,19 +68,19 @@ describe('Toggle component', () => {
     });
 
     test('handles disabled state correctly', () => {
-        const { container } = render(<Toggle disabled={true} onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle disabled={true} onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toBeDisabled();
     });
 
     test('honors defaultPressed in uncontrolled mode', () => {
         const { container } = render(
-            <Toggle defaultPressed={true} onChange={() => {}}>Test Toggle</Toggle>
+            <Toggle defaultPressed={true} onPressedChange={() => {}}>Test Toggle</Toggle>
         );
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'true');
     });
 
     test('Toggle renders color correctly', () => {
-        const { getByText } = render(<Toggle onChange={() => {}} color='blue'>Test Toggle</Toggle>);
+        const { getByText } = render(<Toggle onPressedChange={() => {}} color='blue'>Test Toggle</Toggle>);
         expect(getByText('Test Toggle')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 
@@ -112,12 +112,12 @@ describe('Toggle component', () => {
     });
 
     test('data-disabled attribute is set when disabled', () => {
-        const { container } = render(<Toggle disabled={true} onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle disabled={true} onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveAttribute('data-disabled', '');
     });
 
     test('data-disabled attribute is not set when not disabled', () => {
-        const { container } = render(<Toggle disabled={false} onChange={() => {}}>Test Toggle</Toggle>);
+        const { container } = render(<Toggle disabled={false} onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).not.toHaveAttribute('data-disabled');
     });
 });

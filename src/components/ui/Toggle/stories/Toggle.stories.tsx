@@ -33,7 +33,7 @@ const MoveIcon = () => {
 export const Controlled = () => {
     const [isPressed, setIsPressed] = React.useState(false);
 
-    const handleChange = (state: boolean) => {
+    const handlePressedChange = (state: boolean) => {
         setIsPressed(state);
     };
 
@@ -46,7 +46,7 @@ export const Controlled = () => {
             </div>
             <Toggle
                 pressed={isPressed}
-                onChange={handleChange}
+                onPressedChange={handlePressedChange}
             >
                 <MoveIcon />
             </Toggle>
@@ -73,7 +73,7 @@ export const Controlled = () => {
 export const Uncontrolled = () => {
     const [lastToggleState, setLastToggleState] = React.useState(false);
 
-    const handleChange = (state: boolean) => {
+    const handlePressedChange = (state: boolean) => {
         setLastToggleState(state);
     };
 
@@ -86,7 +86,7 @@ export const Uncontrolled = () => {
             </div>
             <Toggle
                 defaultPressed={false}
-                onChange={handleChange}
+                onPressedChange={handlePressedChange}
             >
                 <MoveIcon />
             </Toggle>
@@ -123,7 +123,7 @@ export const MultipleControlledToggles = () => {
                     <Toggle
                         key={index}
                         pressed={activeToggles.includes(index)}
-                        onChange={(state) => handleToggle(index, state)}
+                        onPressedChange={(state) => handleToggle(index, state)}
                         color={index === 0 ? 'red' : index === 1 ? 'blue' : 'green'}
                     >
                         {index + 1}
@@ -183,7 +183,7 @@ export const FormIntegration = () => {
                     <label className="text-sm">Enable Notifications</label>
                     <Toggle
                         pressed={formData.notifications}
-                        onChange={(value) => handleToggle('notifications', value)}
+                        onPressedChange={(value) => handleToggle('notifications', value)}
                         color="blue"
                     />
                 </div>
@@ -192,7 +192,7 @@ export const FormIntegration = () => {
                     <label className="text-sm">Dark Mode</label>
                     <Toggle
                         pressed={formData.darkMode}
-                        onChange={(value) => handleToggle('darkMode', value)}
+                        onPressedChange={(value) => handleToggle('darkMode', value)}
                         color="purple"
                     />
                 </div>
@@ -201,7 +201,7 @@ export const FormIntegration = () => {
                     <label className="text-sm">Auto-Save</label>
                     <Toggle
                         pressed={formData.autoSave}
-                        onChange={(value) => handleToggle('autoSave', value)}
+                        onPressedChange={(value) => handleToggle('autoSave', value)}
                         color="green"
                     />
                 </div>
@@ -236,7 +236,7 @@ export const UncontrolledWithDefaults = () => {
                 <div className="flex items-center space-x-4">
                     <Toggle
                         defaultPressed={false}
-                        onChange={() => {}}
+                        onPressedChange={() => {}}
                     >
                         <MoveIcon />
                     </Toggle>
@@ -246,7 +246,7 @@ export const UncontrolledWithDefaults = () => {
                 <div className="flex items-center space-x-4">
                     <Toggle
                         defaultPressed={true}
-                        onChange={() => {}}
+                        onPressedChange={() => {}}
                     >
                         <MoveIcon />
                     </Toggle>
@@ -267,22 +267,22 @@ export const ColorVariant = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-                <Toggle defaultPressed={false} onChange={() => {}} color="blue">
+                <Toggle defaultPressed={false} onPressedChange={() => {}} color="blue">
                     <MoveIcon />
                 </Toggle>
-                <Toggle defaultPressed={false} onChange={() => {}} color="red">
+                <Toggle defaultPressed={false} onPressedChange={() => {}} color="red">
                     <MoveIcon />
                 </Toggle>
-                <Toggle defaultPressed={false} onChange={() => {}} color="green">
+                <Toggle defaultPressed={false} onPressedChange={() => {}} color="green">
                     <MoveIcon />
                 </Toggle>
-                <Toggle defaultPressed={false} onChange={() => {}} color="purple">
+                <Toggle defaultPressed={false} onPressedChange={() => {}} color="purple">
                     <MoveIcon />
                 </Toggle>
-                <Toggle defaultPressed={false} onChange={() => {}} color="orange">
+                <Toggle defaultPressed={false} onPressedChange={() => {}} color="orange">
                     <MoveIcon />
                 </Toggle>
-                <Toggle defaultPressed={false} onChange={() => {}} color="pink">
+                <Toggle defaultPressed={false} onPressedChange={() => {}} color="pink">
                     <MoveIcon />
                 </Toggle>
             </div>
@@ -307,7 +307,7 @@ export const Disabled = () => {
                             <div className="text-xs mb-2 text-center">Enabled</div>
                             <Toggle
                                 defaultPressed={false}
-                                onChange={() => {}}
+                                onPressedChange={() => {}}
                             >
                                 <MoveIcon />
                             </Toggle>
@@ -316,7 +316,7 @@ export const Disabled = () => {
                             <div className="text-xs mb-2 text-center">Disabled</div>
                             <Toggle
                                 defaultPressed={false}
-                                onChange={() => {}}
+                                onPressedChange={() => {}}
                                 disabled={true}
                             >
                                 <MoveIcon />
@@ -332,7 +332,7 @@ export const Disabled = () => {
                             <div className="text-xs mb-2 text-center">Enabled</div>
                             <Toggle
                                 defaultPressed={true}
-                                onChange={() => {}}
+                                onPressedChange={() => {}}
                             >
                                 <MoveIcon />
                             </Toggle>
@@ -341,7 +341,7 @@ export const Disabled = () => {
                             <div className="text-xs mb-2 text-center">Disabled</div>
                             <Toggle
                                 defaultPressed={true}
-                                onChange={() => {}}
+                                onPressedChange={() => {}}
                                 disabled={true}
                             >
                                 <MoveIcon />
@@ -358,7 +358,7 @@ export const Disabled = () => {
 export const AsChild = () => {
     const [isPressed, setIsPressed] = React.useState(false);
 
-    const handleChange = (state: boolean) => {
+    const handlePressedChange = (state: boolean) => {
         setIsPressed(state);
     };
 
@@ -376,7 +376,7 @@ export const AsChild = () => {
                     <Toggle
                         asChild
                         pressed={isPressed}
-                        onChange={handleChange}
+                        onPressedChange={handlePressedChange}
                     >
                         <div className="inline-flex items-center justify-center w-10 h-10 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
                             <MoveIcon />
@@ -389,7 +389,7 @@ export const AsChild = () => {
                     <Toggle
                         asChild
                         pressed={isPressed}
-                        onChange={handleChange}
+                        onPressedChange={handlePressedChange}
                     >
                         <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-200 rounded hover:bg-blue-300 cursor-pointer">
                             <MoveIcon />
@@ -402,7 +402,7 @@ export const AsChild = () => {
                     <Toggle
                         asChild
                         pressed={isPressed}
-                        onChange={handleChange}
+                        onPressedChange={handlePressedChange}
                     >
                         <a
                             href="#"
