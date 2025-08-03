@@ -328,3 +328,118 @@ export const AccessibilityDemo = {
         </SandboxEditor>
     )
 };
+
+// Story demonstrating the disableTabIndexing functionality
+export const DisableTabIndexing = {
+    render: () => (
+        <SandboxEditor className="space-y-8 bg-gray-50">
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h2 className="text-lg font-semibold mb-2">Disable Tab Indexing Demonstration</h2>
+                <p className="mb-1">This example shows how <code>disableTabIndexing</code> affects keyboard navigation behavior.</p>
+                <p className="mb-1"><strong>Normal behavior:</strong> Only one item has tabindex="0", others have tabindex="-1".</p>
+                <p className="mb-1"><strong>With disableTabIndexing:</strong> All items maintain their original tabindex values.</p>
+                <p className="text-sm text-gray-600">Useful when you want to preserve existing tab order while still enabling arrow key navigation.</p>
+            </div>
+
+            <div className="space-y-6">
+                <div>
+                    <h3 className="text-md font-medium mb-2">Normal Tab Indexing (Default Behavior)</h3>
+                    <p className="text-sm text-gray-600 mb-2">Only the focused item has tabindex="0", others have tabindex="-1"</p>
+                    <RovingFocusGroup.Root orientation="horizontal" loop={true}>
+                        <RovingFocusGroup.Group className="border border-blue-500 p-4">
+                            <div className="flex gap-3">
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 1</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 2</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 3</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 4</Button>
+                                </RovingFocusGroup.Item>
+                            </div>
+                        </RovingFocusGroup.Group>
+                    </RovingFocusGroup.Root>
+                    <p className="text-xs text-gray-500 mt-2">Try tabbing - only one item will be focusable at a time</p>
+                </div>
+
+                <div>
+                    <h3 className="text-md font-medium mb-2">Disabled Tab Indexing</h3>
+                    <p className="text-sm text-gray-600 mb-2">All items maintain their original tabindex values</p>
+                    <RovingFocusGroup.Root orientation="horizontal" loop={true} disableTabIndexing={true}>
+                        <RovingFocusGroup.Group className="border border-green-500 p-4">
+                            <div className="flex gap-3">
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 1</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 2</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 3</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button>Item 4</Button>
+                                </RovingFocusGroup.Item>
+                            </div>
+                        </RovingFocusGroup.Group>
+                    </RovingFocusGroup.Root>
+                    <p className="text-xs text-gray-500 mt-2">Try tabbing - all items remain in the normal tab order</p>
+                </div>
+
+                <div>
+                    <h3 className="text-md font-medium mb-2">Mixed Tab Index Values</h3>
+                    <p className="text-sm text-gray-600 mb-2">Items with different tabindex values maintain their original values</p>
+                    <RovingFocusGroup.Root orientation="horizontal" loop={true} disableTabIndexing={true}>
+                        <RovingFocusGroup.Group className="border border-purple-500 p-4">
+                            <div className="flex gap-3">
+                                <RovingFocusGroup.Item>
+                                    <Button tabIndex={0}>Tab 0</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button tabIndex={1}>Tab 1</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button tabIndex={2}>Tab 2</Button>
+                                </RovingFocusGroup.Item>
+                                <RovingFocusGroup.Item>
+                                    <Button tabIndex={-1}>Tab -1</Button>
+                                </RovingFocusGroup.Item>
+                            </div>
+                        </RovingFocusGroup.Group>
+                    </RovingFocusGroup.Root>
+                    <p className="text-xs text-gray-500 mt-2">Arrow keys still work for navigation, but tab order is preserved</p>
+                </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h3 className="text-md font-medium mb-2">Use Cases for disableTabIndexing</h3>
+                <ul className="list-disc pl-5 text-sm text-gray-600 space-y-1">
+                    <li><strong>Form Navigation:</strong> When you want arrow keys to work but preserve the natural tab order for form submission</li>
+                    <li><strong>Existing Tab Order:</strong> When components already have a carefully planned tab sequence</li>
+                    <li><strong>Accessibility Compliance:</strong> When you need to maintain specific tab order for screen readers</li>
+                    <li><strong>Mixed Focus Management:</strong> When some items should be focusable and others shouldn't</li>
+                </ul>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-md border border-gray-300">
+                <h3 className="text-md font-medium mb-2">Testing Instructions</h3>
+                <p className="text-sm text-gray-600 mb-2"><strong>Normal Mode:</strong></p>
+                <ul className="list-disc pl-5 text-sm text-gray-600 mb-3">
+                    <li>Tab to the group - only one item will be focusable</li>
+                    <li>Use arrow keys to navigate between items</li>
+                    <li>Notice that tabindex changes as you navigate</li>
+                </ul>
+                <p className="text-sm text-gray-600 mb-2"><strong>Disabled Tab Indexing Mode:</strong></p>
+                <ul className="list-disc pl-5 text-sm text-gray-600">
+                    <li>Tab through all items in their natural order</li>
+                    <li>Use arrow keys to navigate - works the same as normal mode</li>
+                    <li>Notice that tabindex values remain unchanged</li>
+                </ul>
+            </div>
+        </SandboxEditor>
+    )
+};
