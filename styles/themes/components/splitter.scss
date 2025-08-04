@@ -1,0 +1,233 @@
+// Splitter Component Styles
+
+.rad-ui-splitter {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  // Ensure proper flex behavior
+  display: flex;
+  
+  // Prevent text selection during drag
+  user-select: none;
+  
+  // Handle touch interactions
+  touch-action: none;
+
+  .rad-ui-splitter-panel {
+    position: relative;
+    overflow: hidden;
+    
+    // Ensure panels don't shrink below their flex-basis
+    flex-shrink: 0;
+    flex-grow: 0;
+    
+    // Allow content to scroll within panels
+    overflow: auto;
+    
+    // Smooth transitions for size changes (optional)
+    transition: flex-basis 0.1s ease-out;
+    
+    // Prevent content from affecting layout during resize
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .rad-ui-splitter-handle {
+    position: relative;
+    background: var(--rad-ui-color-gray-300);
+    border: 1px solid var(--rad-ui-color-gray-400);
+    border-radius: 4px;
+    outline: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    background-color: var(--rad-ui-color-gray-300);
+    width: 2px;
+    height: 2px;
+
+    
+    // Ensure handle is always visible and clickable
+    flex-shrink: 0;
+    flex-grow: 0;
+    
+    // Prevent text selection
+    user-select: none;
+    touch-action: none;
+    
+    // Make handle more prominent with subtle shadow
+    z-index: 10;
+    box-shadow: 0 1px 3px var(--rad-ui-color-gray-900);
+    background-color: var(--rad-ui-color-gray-300);
+    
+    // Focus styles for accessibility
+    &:focus-visible {
+      outline: 2px solid var(--rad-ui-color-blue-900);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px var(--rad-ui-color-blue-300);
+    }
+    
+    // Hover state
+    &:hover {
+      background: var(--rad-ui-color-blue-300);
+      border-color: var(--rad-ui-color-blue-500);
+      box-shadow: 0 2px 6px var(--rad-ui-color-gray-800);
+    }
+    
+    // Active/dragging state
+    &.active,
+    &:active {
+      background: var(--rad-ui-color-blue-900);
+      border-color: var(--rad-ui-color-blue-1000);
+      box-shadow: 0 4px 12px var(--rad-ui-color-gray-700);
+      
+      // Add visual feedback during drag
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 0 0;
+        background: var(--rad-ui-color-blue-900);
+        opacity: 0.1;
+        border-radius: 100%;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    
+    // Horizontal orientation
+    &[aria-orientation="horizontal"] {
+      height: 100%;
+      cursor: col-resize;
+
+      
+      // Visual indicator for horizontal handle
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: var(--rad-ui-color-gray-500);
+        border-radius: 1px;
+        transition: background-color 0.15s ease;
+      }
+      
+      &:hover::after {
+        background: var(--rad-ui-color-blue-400);
+      }
+      
+      &.active::after,
+      &:active::after {
+        background: var(--rad-ui-color-blue-600);
+      }
+    }
+    
+    // Vertical orientation
+    &[aria-orientation="vertical"] {
+      width: 100%;
+      cursor: row-resize;
+
+      
+      // Visual indicator for vertical handle
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--rad-ui-color-gray-500);
+        border-radius: 1px;
+        transition: background-color 0.15s ease;
+      }
+      
+      &:hover::after {
+        background: var(--rad-ui-color-blue-400);
+      }
+      
+      &.active::after,
+      &:active::after {
+        background: var(--rad-ui-color-blue-600);
+      }
+    }
+
+    // Dark theme support
+    @media (prefers-color-scheme: dark) {
+      background: var(--rad-ui-color-gray-600);
+      border-color: var(--rad-ui-color-gray-500);
+      box-shadow: 0 1px 3px var(--rad-ui-color-gray-100);
+      
+      &:hover {
+        background: var(--rad-ui-color-blue-400);
+        border-color: var(--rad-ui-color-blue-300);
+        box-shadow: 0 2px 6px var(--rad-ui-color-gray-200);
+      }
+      
+      &.active,
+      &:active {
+        background: var(--rad-ui-color-blue-700);
+        border-color: var(--rad-ui-color-blue-600);
+        box-shadow: 0 4px 12px var(--rad-ui-color-gray-300);
+      }
+      
+      &::after {
+        background: var(--rad-ui-color-gray-400);
+      }
+      
+      &:hover::after {
+        background: var(--rad-ui-color-blue-300);
+      }
+      
+      &.active::after,
+      &:active::after {
+        background: var(--rad-ui-color-blue-500);
+      }
+    }
+
+    // High contrast mode support
+    @media (prefers-contrast: high) {
+      background: var(--rad-ui-color-gray-800);
+      border: 2px solid var(--rad-ui-color-gray-1000);
+      
+      &:focus-visible {
+        outline: 3px solid var(--rad-ui-color-gray-1000);
+        outline-offset: 1px;
+      }
+      
+      &:hover {
+        background: var(--rad-ui-color-blue-800);
+        border-color: var(--rad-ui-color-blue-1000);
+      }
+      
+      &.active,
+      &:active {
+        background: var(--rad-ui-color-blue-1000);
+        border-color: var(--rad-ui-color-blue-1000);
+      }
+      
+      &::after {
+        background: var(--rad-ui-color-gray-1000);
+      }
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .rad-ui-splitter-panel {
+      transition: none;
+    }
+    
+    .rad-ui-splitter-handle {
+      transition: none;
+    }
+  }
+
+  // RTL support
+  [dir="rtl"] & {
+    .rad-ui-splitter-handle[aria-orientation="horizontal"] {
+      cursor: col-resize;
+    }
+  }
+} 
