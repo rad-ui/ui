@@ -32,7 +32,7 @@ const renderElement = (element, index) => {
     }
 };
 
-const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
+const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
     const [expanded, setExpanded] = useState(false);
     let code = refractor.highlight(children, language);
     code = code.children.map((child, index) => renderElement(child, index));
@@ -45,15 +45,15 @@ const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
     let height = 'auto';
     let maxHeight = 'auto';
 
-    if(expanded) {
-        if(!inline) {
+    if (expanded) {
+        if (!inline) {
             height = 'auto';
             maxHeight = 640;
         }
 
     }
-    else{
-        if(!inline) {
+    else {
+        if (!inline) {
             height = 180;
             maxHeight = 640;
         }
@@ -61,8 +61,8 @@ const CodeBlock = ({ children, inline=false, language = 'jsx' }) => {
     }
     return (
         <pre className="relative mb-8">
-           <div className="relative height maxHeight">
-           {/* <code
+            <div className="relative height">
+                {/* <code
 className={`language-${language} whitespace-pre-wrap`}
                 style={{
                     height,
@@ -72,31 +72,46 @@ className={`language-${language} whitespace-pre-wrap`}
                 }}
             >{code}</code> */}
 
-            <ScrollArea.Root className = { clsx("transition-all", expanded ? "max-h-[640px]": "max-h-[180px]")}>
-                <ScrollArea.Viewport style={{height: inline ? 'auto' : height, maxHeight: maxHeight, overflowY: 'auto'}}>
-                    <code className={`language-${language} whitespace-pre-wrap block`}> 
-                    {code}
-                    </code>
-                </ScrollArea.Viewport>
-                <ScrollArea.Scrollbar>
-                    <ScrollArea.Thumb />
-                </ScrollArea.Scrollbar>
-            </ScrollArea.Root>
-            {!inline && <>
-                {!expanded && <div className="code-block-blur"></div>}
-                <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
-                    <Button size="small" onClick={() => setExpanded(!expanded)}>
-                        Show {expanded ? 'less' : 'more'}
-                    </Button>
-                </div>
-            </>}
+                <ScrollArea.Root
+                    className={clsx(
+                        "transition-all",
+                        expanded ? "max-h-[640px]" : "max-h-[180px]",
+                        inline && "overflow-visible max-h-none"
+                    )}
+                >
+                    <ScrollArea.Viewport
+                        style={{
+                            height: inline ? 'auto' : height,
+                            maxHeight: inline ? 'none' : maxHeight,
+                            overflowY: inline ? 'visible' : 'auto',
+                        }}
+                    >
+                        <code className={`language-${language} whitespace-pre-wrap block`}>
+                            {code}
+                        </code>
+                    </ScrollArea.Viewport>
 
-           </div>
-           <span className="absolute top-2 right-2">
-           <TooltipWrapper label="Copy" placement="bottom">
-                <Copy content={copyContent} />
-            </TooltipWrapper>
-           </span>
+                    {!inline && (
+                        <ScrollArea.Scrollbar>
+                            <ScrollArea.Thumb />
+                        </ScrollArea.Scrollbar>
+                    )}
+                </ScrollArea.Root>
+                {!inline && <>
+                    {!expanded && <div className="code-block-blur"></div>}
+                    <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
+                        <Button size="small" onClick={() => setExpanded(!expanded)}>
+                            Show {expanded ? 'less' : 'more'}
+                        </Button>
+                    </div>
+                </>}
+
+            </div>
+            <span className="absolute top-2 right-2">
+                <TooltipWrapper label="Copy" placement="bottom">
+                    <Copy content={copyContent} />
+                </TooltipWrapper>
+            </span>
         </pre>
 
 
