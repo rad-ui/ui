@@ -13,6 +13,8 @@
   
   // Handle touch interactions
   touch-action: none;
+  overflow: hidden;
+  border-radius: 12px;
 
   .rad-ui-splitter-panel {
     position: relative;
@@ -41,9 +43,10 @@
     outline: none;
     transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     background-color: var(--rad-ui-color-gray-300);
-    width: 2px;
-    height: 2px;
-
+    
+    // Minimum dimensions for easier interaction
+    min-width: 8px;
+    min-height: 8px;
     
     // Ensure handle is always visible and clickable
     flex-shrink: 0;
@@ -60,23 +63,29 @@
     
     // Focus styles for accessibility
     &:focus-visible {
-      outline: 2px solid var(--rad-ui-color-blue-900);
+      outline: 2px solid var(--rad-ui-color-gray-800);
       outline-offset: 2px;
-      box-shadow: 0 0 0 4px var(--rad-ui-color-blue-300);
+      box-shadow: 0 0 0 4px var(--rad-ui-color-gray-200);
     }
     
     // Hover state
     &:hover {
-      background: var(--rad-ui-color-blue-300);
-      border-color: var(--rad-ui-color-blue-500);
+      background: var(--rad-ui-color-gray-400);
+      border-color: var(--rad-ui-color-gray-600);
       box-shadow: 0 2px 6px var(--rad-ui-color-gray-800);
+      
+      // Show extended hit area on hover
+      &::before {
+        background: var(--rad-ui-color-gray-200);
+        opacity: 0.3;
+      }
     }
     
     // Active/dragging state
     &.active,
     &:active {
-      background: var(--rad-ui-color-blue-900);
-      border-color: var(--rad-ui-color-blue-1000);
+      background: var(--rad-ui-color-gray-700);
+      border-color: var(--rad-ui-color-gray-800);
       box-shadow: 0 4px 12px var(--rad-ui-color-gray-700);
       
       // Add visual feedback during drag
@@ -84,7 +93,7 @@
         content: '';
         position: absolute;
         inset: 0 0 0 0;
-        background: var(--rad-ui-color-blue-900);
+        background: var(--rad-ui-color-gray-700);
         opacity: 0.1;
         border-radius: 100%;
         display:flex;
@@ -99,7 +108,16 @@
     &[aria-orientation="horizontal"] {
       height: 100%;
       cursor: col-resize;
-
+      width: 8px; // Fixed width for horizontal handles
+      
+      // Extend hit area for easier grabbing
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0 -4px 0 -4px;
+        background: transparent;
+        z-index: -1;
+      }
       
       // Visual indicator for horizontal handle
       &::after {
@@ -108,7 +126,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 100%;
+        width: 2px;
         height: 100%;
         background: var(--rad-ui-color-gray-500);
         border-radius: 1px;
@@ -116,12 +134,12 @@
       }
       
       &:hover::after {
-        background: var(--rad-ui-color-blue-400);
+        background: var(--rad-ui-color-gray-600);
       }
       
       &.active::after,
       &:active::after {
-        background: var(--rad-ui-color-blue-600);
+        background: var(--rad-ui-color-gray-800);
       }
     }
     
@@ -129,7 +147,16 @@
     &[aria-orientation="vertical"] {
       width: 100%;
       cursor: row-resize;
-
+      height: 8px; // Fixed height for vertical handles
+      
+      // Extend hit area for easier grabbing
+      &::before {
+        content: '';
+        position: absolute;
+        inset: -4px 0 -4px 0;
+        background: transparent;
+        z-index: -1;
+      }
       
       // Visual indicator for vertical handle
       &::after {
@@ -138,18 +165,20 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        width: 100%;
+        height: 2px;
         background: var(--rad-ui-color-gray-500);
         border-radius: 1px;
         transition: background-color 0.15s ease;
       }
       
       &:hover::after {
-        background: var(--rad-ui-color-blue-400);
+        background: var(--rad-ui-color-gray-600);
       }
       
       &.active::after,
       &:active::after {
-        background: var(--rad-ui-color-blue-600);
+        background: var(--rad-ui-color-gray-800);
       }
     }
 
@@ -160,15 +189,21 @@
       box-shadow: 0 1px 3px var(--rad-ui-color-gray-100);
       
       &:hover {
-        background: var(--rad-ui-color-blue-400);
-        border-color: var(--rad-ui-color-blue-300);
+        background: var(--rad-ui-color-gray-500);
+        border-color: var(--rad-ui-color-gray-400);
         box-shadow: 0 2px 6px var(--rad-ui-color-gray-200);
+        
+        // Show extended hit area on hover in dark mode
+        &::before {
+          background: var(--rad-ui-color-gray-300);
+          opacity: 0.4;
+        }
       }
       
       &.active,
       &:active {
-        background: var(--rad-ui-color-blue-700);
-        border-color: var(--rad-ui-color-blue-600);
+        background: var(--rad-ui-color-gray-400);
+        border-color: var(--rad-ui-color-gray-300);
         box-shadow: 0 4px 12px var(--rad-ui-color-gray-300);
       }
       
@@ -177,12 +212,12 @@
       }
       
       &:hover::after {
-        background: var(--rad-ui-color-blue-300);
+        background: var(--rad-ui-color-gray-300);
       }
       
       &.active::after,
       &:active::after {
-        background: var(--rad-ui-color-blue-500);
+        background: var(--rad-ui-color-gray-200);
       }
     }
 
@@ -197,14 +232,14 @@
       }
       
       &:hover {
-        background: var(--rad-ui-color-blue-800);
-        border-color: var(--rad-ui-color-blue-1000);
+        background: var(--rad-ui-color-gray-700);
+        border-color: var(--rad-ui-color-gray-1000);
       }
       
       &.active,
       &:active {
-        background: var(--rad-ui-color-blue-1000);
-        border-color: var(--rad-ui-color-blue-1000);
+        background: var(--rad-ui-color-gray-600);
+        border-color: var(--rad-ui-color-gray-1000);
       }
       
       &::after {

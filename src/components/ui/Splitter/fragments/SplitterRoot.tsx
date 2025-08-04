@@ -125,65 +125,49 @@ const SplitterRoot: React.FC<SplitterRootProps> = ({
                 const newSizes = [...currentSizes];
                 const { minSizes, maxSizes } = constraintsRef.current;
 
-                // Multi-panel resizing algorithm
-                // When dragging a handle, we need to redistribute space across all panels
+                // Intuitive resizing algorithm
+                // When dragging a handle, only affect the two adjacent panels
+                const leftPanelIndex = handleIndex;
+                const rightPanelIndex = handleIndex + 1;
                 const totalPanels = newSizes.length;
 
-                // Calculate the target size for the panel being expanded
-                const expandingPanelIndex = handleIndex;
-                const expandingPanelTargetSize = Math.max(
-                    minSizes[expandingPanelIndex] || 0,
-                    Math.min(maxSizes[expandingPanelIndex] || 100, newSizes[expandingPanelIndex] + deltaPercent)
+                // Calculate new sizes for the two adjacent panels
+                const leftPanelCurrentSize = newSizes[leftPanelIndex];
+                const rightPanelCurrentSize = newSizes[rightPanelIndex];
+
+                // Calculate target sizes with constraints
+                const leftPanelTargetSize = Math.max(
+                    minSizes[leftPanelIndex] || 0,
+                    Math.min(maxSizes[leftPanelIndex] || 100, leftPanelCurrentSize + deltaPercent)
                 );
 
-                // Calculate how much space we need to take from other panels
-                const spaceNeeded = expandingPanelTargetSize - newSizes[expandingPanelIndex];
+                const rightPanelTargetSize = Math.max(
+                    minSizes[rightPanelIndex] || 0,
+                    Math.min(maxSizes[rightPanelIndex] || 100, rightPanelCurrentSize - deltaPercent)
+                );
 
-                if (Math.abs(spaceNeeded) > 0.1) { // Only update if there's meaningful change
-                    // Find all panels that can give up space (excluding the expanding panel)
-                    const panelsToShrink = [];
-                    let totalShrinkableSpace = 0;
+                // Check if we can make the change
+                const totalAdjacentSize = leftPanelTargetSize + rightPanelTargetSize;
+                const spaceAvailable = 100 - (leftPanelCurrentSize + rightPanelCurrentSize);
 
-                    for (let i = 0; i < totalPanels; i++) {
-                        if (i !== expandingPanelIndex) {
-                            const currentSize = newSizes[i];
-                            const minSize = minSizes[i] || 0;
-                            const shrinkableSpace = currentSize - minSize;
+                if (Math.abs(deltaPercent) > 0.1) { // Only update if there's meaningful change
+                    // If the adjacent panels can accommodate the change, apply it directly
+                    if (totalAdjacentSize <= 100) {
+                        newSizes[leftPanelIndex] = leftPanelTargetSize;
+                        newSizes[rightPanelIndex] = rightPanelTargetSize;
+                    } else {
+                        // If we can't fit both panels, try to maintain the ratio
+                        const ratio = leftPanelCurrentSize / (leftPanelCurrentSize + rightPanelCurrentSize);
+                        const availableSpace = 100 - spaceAvailable;
 
-                            if (shrinkableSpace > 0) {
-                                panelsToShrink.push(i);
-                                totalShrinkableSpace += shrinkableSpace;
-                            }
-                        }
-                    }
-
-                    if (panelsToShrink.length > 0 && totalShrinkableSpace > 0) {
-                        // Set the expanding panel to its target size
-                        newSizes[expandingPanelIndex] = expandingPanelTargetSize;
-
-                        // Proportionally reduce other panels
-                        const remainingSpace = 100 - expandingPanelTargetSize;
-                        let distributedSpace = 0;
-
-                        for (let i = 0; i < panelsToShrink.length; i++) {
-                            const panelIndex = panelsToShrink[i];
-                            const currentSize = newSizes[panelIndex];
-                            const minSize = minSizes[panelIndex] || 0;
-                            const shrinkableSpace = currentSize - minSize;
-
-                            // Calculate proportional reduction
-                            const reductionRatio = shrinkableSpace / totalShrinkableSpace;
-                            const spaceToReduce = spaceNeeded * reductionRatio;
-                            const newSize = Math.max(minSize, currentSize - spaceToReduce);
-
-                            newSizes[panelIndex] = newSize;
-                            distributedSpace += newSize;
-                        }
-
-                        // Ensure the expanding panel gets the remaining space if needed
-                        if (distributedSpace < remainingSpace) {
-                            newSizes[expandingPanelIndex] = 100 - distributedSpace;
-                        }
+                        newSizes[leftPanelIndex] = Math.max(
+                            minSizes[leftPanelIndex] || 0,
+                            Math.min(maxSizes[leftPanelIndex] || 100, availableSpace * ratio)
+                        );
+                        newSizes[rightPanelIndex] = Math.max(
+                            minSizes[rightPanelIndex] || 0,
+                            Math.min(maxSizes[rightPanelIndex] || 100, availableSpace * (1 - ratio))
+                        );
                     }
                 }
 
@@ -238,56 +222,47 @@ const SplitterRoot: React.FC<SplitterRootProps> = ({
         if (delta !== 0) {
             event.preventDefault();
 
-            // Use the same multi-panel algorithm as drag
-            const totalPanels = newSizes.length;
-            const expandingPanelIndex = handleIndex;
-            const expandingPanelTargetSize = Math.max(
-                minSizes[expandingPanelIndex] || 0,
-                Math.min(maxSizes[expandingPanelIndex] || 100, newSizes[expandingPanelIndex] + delta)
+            // Use the same intuitive algorithm as drag
+            const leftPanelIndex = handleIndex;
+            const rightPanelIndex = handleIndex + 1;
+
+            // Calculate new sizes for the two adjacent panels
+            const leftPanelCurrentSize = newSizes[leftPanelIndex];
+            const rightPanelCurrentSize = newSizes[rightPanelIndex];
+
+            // Calculate target sizes with constraints
+            const leftPanelTargetSize = Math.max(
+                minSizes[leftPanelIndex] || 0,
+                Math.min(maxSizes[leftPanelIndex] || 100, leftPanelCurrentSize + delta)
             );
 
-            const spaceNeeded = expandingPanelTargetSize - newSizes[expandingPanelIndex];
+            const rightPanelTargetSize = Math.max(
+                minSizes[rightPanelIndex] || 0,
+                Math.min(maxSizes[rightPanelIndex] || 100, rightPanelCurrentSize - delta)
+            );
 
-            if (Math.abs(spaceNeeded) > 0.1) {
-                const panelsToShrink = [];
-                let totalShrinkableSpace = 0;
+            // Check if we can make the change
+            const totalAdjacentSize = leftPanelTargetSize + rightPanelTargetSize;
+            const spaceAvailable = 100 - (leftPanelCurrentSize + rightPanelCurrentSize);
 
-                for (let i = 0; i < totalPanels; i++) {
-                    if (i !== expandingPanelIndex) {
-                        const currentSize = newSizes[i];
-                        const minSize = minSizes[i] || 0;
-                        const shrinkableSpace = currentSize - minSize;
+            if (Math.abs(delta) > 0.1) {
+                // If the adjacent panels can accommodate the change, apply it directly
+                if (totalAdjacentSize <= 100) {
+                    newSizes[leftPanelIndex] = leftPanelTargetSize;
+                    newSizes[rightPanelIndex] = rightPanelTargetSize;
+                } else {
+                    // If we can't fit both panels, try to maintain the ratio
+                    const ratio = leftPanelCurrentSize / (leftPanelCurrentSize + rightPanelCurrentSize);
+                    const availableSpace = 100 - spaceAvailable;
 
-                        if (shrinkableSpace > 0) {
-                            panelsToShrink.push(i);
-                            totalShrinkableSpace += shrinkableSpace;
-                        }
-                    }
-                }
-
-                if (panelsToShrink.length > 0 && totalShrinkableSpace > 0) {
-                    newSizes[expandingPanelIndex] = expandingPanelTargetSize;
-
-                    const remainingSpace = 100 - expandingPanelTargetSize;
-                    let distributedSpace = 0;
-
-                    for (let i = 0; i < panelsToShrink.length; i++) {
-                        const panelIndex = panelsToShrink[i];
-                        const currentSize = newSizes[panelIndex];
-                        const minSize = minSizes[panelIndex] || 0;
-                        const shrinkableSpace = currentSize - minSize;
-
-                        const reductionRatio = shrinkableSpace / totalShrinkableSpace;
-                        const spaceToReduce = spaceNeeded * reductionRatio;
-                        const newSize = Math.max(minSize, currentSize - spaceToReduce);
-
-                        newSizes[panelIndex] = newSize;
-                        distributedSpace += newSize;
-                    }
-
-                    if (distributedSpace < remainingSpace) {
-                        newSizes[expandingPanelIndex] = 100 - distributedSpace;
-                    }
+                    newSizes[leftPanelIndex] = Math.max(
+                        minSizes[leftPanelIndex] || 0,
+                        Math.min(maxSizes[leftPanelIndex] || 100, availableSpace * ratio)
+                    );
+                    newSizes[rightPanelIndex] = Math.max(
+                        minSizes[rightPanelIndex] || 0,
+                        Math.min(maxSizes[rightPanelIndex] || 100, availableSpace * (1 - ratio))
+                    );
                 }
             }
 
