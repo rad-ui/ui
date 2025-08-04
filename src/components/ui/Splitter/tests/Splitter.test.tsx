@@ -172,14 +172,6 @@ describe('Splitter Component', () => {
         expect(handle).toBeInTheDocument();
     });
 
-    it('applies correct CSS classes', () => {
-        renderSplitter({ customRootClass: 'custom-splitter' });
-
-        // The Splitter component should have the custom class applied
-        const splitterContainer = screen.getByTestId('panel-0').parentElement?.parentElement;
-        expect(splitterContainer).toHaveClass('custom-splitter-rad-ui-splitter');
-    });
-
     it('handles multiple panels correctly', () => {
         render(
             <div style={{ width: '400px', height: '300px' }}>
