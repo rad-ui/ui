@@ -25,7 +25,11 @@ const components = getComponentDirectories();
  */
 
 // Shared plugin instances
-const typescriptPluginInstance = typescript({ tsconfig: './tsconfig.json', sourceMap: false });
+const typescriptPluginInstance = typescript({
+    tsconfig: './tsconfig.json',
+    sourceMap: false,
+    outDir: 'dist/temp-cleanup' // Match Rollup's output directory
+});
 const aliasPluginInstance = alias({
     entries: [
         { find: '~/core', replacement: path.resolve(__dirname, 'src/core') }
@@ -40,34 +44,38 @@ const terserPluginInstance = terser();
 const resolvePluginInstance = resolve();
 const bannerPluginInstance = banner2(() => '\'use client\';');
 
-// JS builds
-const jsBundles = components.map((component) => {
-    const tsxFilePath = `src/components/ui/${component}/${component}.tsx`;
-    return {
-        input: tsxFilePath,
-        onwarn(warning, warn) {
-            if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
-            warn(warning);
-        },
-        output: [
-            {
-                file: `dist/temp-cleanup/${component}.js`,
-                format: 'es'
-            }
-        ],
-        external: ['react', 'react-dom', 'react/jsx-runtime'],
-        plugins: [
-            aliasPluginInstance,
-            babelPluginInstance,
-            typescriptPluginInstance,
-            resolvePluginInstance,
-            terserPluginInstance,
-            bannerPluginInstance
-        ]
-    };
+// Create input object for parallel processing
+const componentInputs = {};
+components.forEach((component) => {
+    componentInputs[component] = `src/components/ui/${component}/${component}.tsx`;
 });
 
-// Type declarations builds
+// JS builds with preserveModules for parallel processing
+const jsBundles = {
+    input: componentInputs,
+    onwarn(warning, warn) {
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
+        warn(warning);
+    },
+    output: {
+        dir: 'dist/temp-cleanup',
+        format: 'es',
+        entryFileNames: '[name].js',
+        preserveModules: true,
+        preserveModulesRoot: 'src/components/ui'
+    },
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
+    plugins: [
+        aliasPluginInstance,
+        babelPluginInstance,
+        typescriptPluginInstance,
+        resolvePluginInstance,
+        terserPluginInstance,
+        bannerPluginInstance
+    ]
+};
+
+// Type declarations builds (keep separate for dts plugin)
 const dtsBundles = components.map((component) => {
     const entry = `src/components/ui/${component}/${component}.tsx`;
     return {
@@ -81,4 +89,4 @@ const dtsBundles = components.map((component) => {
     };
 });
 
-module.exports = [...jsBundles, ...dtsBundles];
+module.exports = [jsBundles, ...dtsBundles];
