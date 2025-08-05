@@ -7,6 +7,14 @@ on:
       - 'src/**'  # Only run when files in this directory change
       - 'styles/**'
       - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'rollup.config.cjs'
+      - 'rollup-css.config.cjs'
+      - 'rollup-tokens.config.cjs'
+      - 'tsconfig.json'
+      - 'postcss.config.js'
+      - 'tsconfig.json'
 jobs:
   build:
     runs-on: ubuntu-latest
