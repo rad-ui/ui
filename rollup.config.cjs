@@ -50,7 +50,7 @@ components.forEach((component) => {
     componentInputs[component] = `src/components/ui/${component}/${component}.tsx`;
 });
 
-// JS builds with preserveModules for parallel processing
+// JS builds with preserveModules for parallel builds
 const jsBundles = {
     input: componentInputs,
     onwarn(warning, warn) {
