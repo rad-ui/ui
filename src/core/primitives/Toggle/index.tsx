@@ -13,8 +13,7 @@ export interface TogglePrimitiveProps {
     label?: string;
     disabled?: boolean;
     onPressedChange?: (isPressed: boolean) => void;
-    // TODO: remove after introducing TS support for Primitive and its sub-components
-    asChild?: any;
+    asChild?: boolean;
 }
 
 const TogglePrimitive = ({
@@ -24,6 +23,7 @@ const TogglePrimitive = ({
     pressed: controlledPressed,
     onPressedChange = () => {},
     disabled,
+    asChild = false,
     ...props
 }: TogglePrimitiveProps) => {
     const [uncontrolledPressed, setUncontrolledPressed] = useState(defaultPressed);
@@ -58,7 +58,9 @@ const TogglePrimitive = ({
         onClick={composeEventHandlers(props.onClick, handleTogglePressed)}
         onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
         data-state={isPressed ? 'on' : 'off'}
+        data-disabled={disabled ? '' : undefined}
         disabled={disabled}
+        asChild={asChild}
         {...ariaAttributes}
         {...props}
     >{children}

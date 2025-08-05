@@ -11,6 +11,12 @@ export type ToggleContextType = {
     activeToggles: any[];
     /** Function to update the active toggles */
     setActiveToggles: (toggles: any[]) => void;
+    /** Root class name */
+    rootClass: string;
+    /** Whether the toggle group is disabled */
+    disabled?: boolean;
+    /** Orientation of the toggle group */
+    orientation?: 'horizontal' | 'vertical';
 };
 
 /**
@@ -20,5 +26,8 @@ export type ToggleContextType = {
 export const ToggleContext = createContext<ToggleContextType>({
     type: 'single',
     activeToggles: [],
-    setActiveToggles: () => {}
+    setActiveToggles: () => {},
+    rootClass: '',
+    disabled: false,
+    orientation: 'horizontal'
 });

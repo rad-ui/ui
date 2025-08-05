@@ -27,7 +27,9 @@ export type ToggleProps = {
     /** Accent color for the toggle */
     color?: string;
     /** Callback fired when toggle state changes */
-    onChange : (isPressed:boolean) => void;
+    onPressedChange : (isPressed:boolean) => void;
+    /** Whether to render as a child element instead of a button */
+    asChild?: boolean;
 };
 
 /**
@@ -52,14 +54,15 @@ const Toggle: React.FC<ToggleProps> = ({
     className = '',
     color = '',
     pressed,
-    onChange,
+    onPressedChange,
+    asChild = false,
     ...props
 }) => {
     // Use our new hook to handle controlled/uncontrolled state
     const [isPressed, setIsPressed] = useControllableState<boolean>(
         pressed,
         defaultPressed,
-        onChange
+        onPressedChange
     );
 
     // We don't need the validation anymore since the hook handles this
@@ -80,6 +83,7 @@ const Toggle: React.FC<ToggleProps> = ({
             onPressedChange={setIsPressed}
             data-state={isPressed ? 'on' : 'off'}
             data-disabled={props.disabled ? '' : undefined}
+            asChild={asChild}
             {...props}
             {...data_attributes}
         >

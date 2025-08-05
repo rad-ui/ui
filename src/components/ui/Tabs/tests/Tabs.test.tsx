@@ -362,4 +362,142 @@ describe('Tabs Component', () => {
             jest.useRealTimers();
         });
     });
+
+    // New props and attributes tests
+    describe('New Props and Attributes', () => {
+        test('orientation prop works correctly', () => {
+            render(
+                <Tabs.Root defaultValue="tab1" orientation="vertical">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            const root = screen.getByRole('tablist').closest('[data-orientation]');
+            expect(root).toHaveAttribute('data-orientation', 'vertical');
+        });
+
+        test('activationMode manual requires click to activate', () => {
+            render(
+                <Tabs.Root defaultValue="tab1" activationMode="manual">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            // Initial state
+            expect(screen.getByText('Content 1')).toBeInTheDocument();
+
+            // Focus on tab 2 (should not activate in manual mode)
+            const tab2 = screen.getByText('Tab 2');
+            fireEvent.focus(tab2);
+
+            // Content should not change
+            expect(screen.getByText('Content 1')).toBeInTheDocument();
+
+            // Click on tab 2 (should activate)
+            fireEvent.click(tab2);
+            expect(screen.getByText('Content 2')).toBeInTheDocument();
+        });
+
+        test('forceMount keeps content in DOM', () => {
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2" forceMount>Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            // Both contents should be in DOM, but only tab1 should be visible
+            expect(screen.getByText('Content 1')).toBeInTheDocument();
+            expect(screen.getByText('Content 2')).toBeInTheDocument();
+
+            // Tab 2 content should have aria-hidden="true"
+            const tab2Content = screen.getByText('Content 2');
+            expect(tab2Content).toHaveAttribute('aria-hidden', 'true');
+        });
+
+        test('data attributes are set correctly', () => {
+            render(
+                <Tabs.Root defaultValue="tab1" orientation="horizontal">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2" disabled>Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            // Check root data-orientation
+            const root = screen.getByRole('tablist').closest('[data-orientation]');
+            expect(root).toHaveAttribute('data-orientation', 'horizontal');
+
+            // Check trigger data attributes
+            const tab1 = screen.getByText('Tab 1');
+            const tab2 = screen.getByText('Tab 2');
+
+            expect(tab1).toHaveAttribute('data-state', 'active');
+            expect(tab1).toHaveAttribute('data-orientation', 'horizontal');
+            expect(tab1).not.toHaveAttribute('data-disabled');
+
+            expect(tab2).toHaveAttribute('data-state', 'inactive');
+            expect(tab2).toHaveAttribute('data-orientation', 'horizontal');
+            expect(tab2).toHaveAttribute('data-disabled', '');
+
+            // Check content data attributes
+            const content1 = screen.getByText('Content 1');
+            expect(content1).toHaveAttribute('data-state', 'active');
+            expect(content1).toHaveAttribute('data-orientation', 'horizontal');
+        });
+
+        test('dir prop is supported', () => {
+            render(
+                <Tabs.Root defaultValue="tab1" dir="rtl">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            // The component should render without errors when dir prop is provided
+            expect(screen.getByText('Tab 1')).toBeInTheDocument();
+            expect(screen.getByText('Tab 2')).toBeInTheDocument();
+        });
+
+        test('asChild prop is supported on TabList', () => {
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List asChild>
+                        <div data-testid="custom-list">
+                            <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                            <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        </div>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            // The TabList should render with asChild support
+            expect(screen.getByTestId('custom-list')).toBeInTheDocument();
+            expect(screen.getByText('Tab 1')).toBeInTheDocument();
+            expect(screen.getByText('Tab 2')).toBeInTheDocument();
+        });
+    });
 });
