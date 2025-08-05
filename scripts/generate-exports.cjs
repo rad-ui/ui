@@ -43,7 +43,13 @@ const RELEASED_COMPONENTS = require('./RELEASED_COMPONENTS.cjs');
 
 // Component exports
 const distPath = path.resolve(__dirname, '../dist/components');
-const files = fs.readdirSync(distPath);
+let files = [];
+try {
+    files = fs.readdirSync(distPath);
+} catch (error) {
+    console.warn(`Warning: ${distPath} not found. No components will be exported.`);
+    files = [];
+}
 
 const exportsMap = {};
 
@@ -76,9 +82,13 @@ if (notReleasedComponents.length > 0) {
 }
 
 const pkgPath = path.resolve(__dirname, '../package.json');
-const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
-pkg.exports = exportsMap;
-
-fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-console.log('✅ package.json exports updated!');
+try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+    pkg.exports = exportsMap;
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+    console.log('✅ package.json exports updated!');
+} catch (error) {
+    console.error('❌ Failed to update package.json exports:', error.message);
+    process.exit(1);
+}
