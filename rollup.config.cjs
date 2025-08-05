@@ -50,7 +50,7 @@ components.forEach((component) => {
     componentInputs[component] = `src/components/ui/${component}/${component}.tsx`;
 });
 
-// JS builds with preserveModules for parallel builds
+// JS builds with bundled fragments
 const jsBundles = {
     input: componentInputs,
     onwarn(warning, warn) {
@@ -61,8 +61,7 @@ const jsBundles = {
         dir: 'dist/temp-cleanup',
         format: 'es',
         entryFileNames: '[name].js',
-        preserveModules: true,
-        preserveModulesRoot: 'src/components/ui'
+        preserveModules: false
     },
     external: ['react', 'react-dom', 'react/jsx-runtime'],
     plugins: [
