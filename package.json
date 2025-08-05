@@ -18,7 +18,7 @@
     "generate-tokens": "tsx ./src/tokenGen/index.js",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
     "compile-components": "rollup -c rollup.config.cjs",
-    "process-components": "mkdirp ./dist/components && cp -r ./dist/temp-cleanup/*.{js,d.ts} ./dist/components && rimraf dist/temp-cleanup",
+    "process-components": "node scripts/process-components.cjs",
     "prebuild": "npm run test && npm run clean",
     "build:generate-exports": "node scripts/generate-exports.cjs",
     "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",
