@@ -39,6 +39,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const RELEASED_COMPONENTS = require('./RELEASED_COMPONENTS.cjs');
 
 // Component exports
 const distPath = path.resolve(__dirname, '../dist/components');
@@ -50,17 +51,29 @@ const exportsMap = {};
 exportsMap['./themes/default.css'] = './dist/themes/default.css';
 exportsMap['./themes/tailwind-presets/default.js'] = './dist/themes/tailwind-presets/default.js';
 
+const notReleasedComponents = [];
+
 // Add component exports
 files.forEach(file => {
     const match = file.match(/^(.+)\.js$/);
     if (match) {
         const name = match[1];
+
+        if (!RELEASED_COMPONENTS.includes(name)) {
+            notReleasedComponents.push(name);
+            return;
+        }
+
         exportsMap[`./${name}`] = {
             import: `./dist/components/${name}.js`,
             types: `./dist/components/${name}.d.ts`
         };
     }
 });
+
+if (notReleasedComponents.length > 0) {
+    console.log(`Not released components: ${notReleasedComponents.join(', ')}`);
+}
 
 const pkgPath = path.resolve(__dirname, '../package.json');
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
