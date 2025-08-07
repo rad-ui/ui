@@ -14,7 +14,7 @@ const ToggleExampleBasic = () => {
     const handleChange = (newPressed) => {
         setPressed(newPressed);
     };
-    return <Toggle defaultPressed={false} onChange={handleChange} >
+    return <Toggle defaultPressed={false} onPressedChange={handleChange} >
         <Icon/>
     </Toggle>;
 };

@@ -38,11 +38,11 @@ export type ToggleProps = {
  * @example
  * // Controlled mode
  * const [pressed, setPressed] = useState(false);
- * <Toggle pressed={pressed} onChange={setPressed}>Toggle Me</Toggle>
+ * <Toggle pressed={pressed} onPressedChange={setPressed}>Toggle Me</Toggle>
  *
  * @example
  * // Uncontrolled mode
- * <Toggle defaultPressed={false} onChange={(isPressed) => console.log(isPressed)}>Toggle Me</Toggle>
+ * <Toggle defaultPressed={false} onPressedChange={(isPressed) => console.log(isPressed)}>Toggle Me</Toggle>
  *
  * @param {ToggleProps} props - The component props
  * @returns {JSX.Element} The Toggle component
