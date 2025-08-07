@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useId, useRef } from 'react';
+import React, { useEffect, useState, useId, useRef, useContext } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
+import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
 
 /**
  * Props for the RovingFocusGroup component
@@ -34,16 +35,37 @@ const RovingFocusGroup = ({
     'aria-labelledby': ariaLabelledBy,
     ...props
 }: RovingFocusGroupProps) => {
+    const { mode } = useContext(RovingFocusRootContext);
     const groupRef = useRef<HTMLDivElement>(null);
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
     const groupId = useId();
+
+    console.log(mode);
+
+    const SHOULD_RECOMPUTE_FOCUS_ITEMS = mode === 'tree';
 
     /**
      * Adds a new focusable item to the group
      * @param id - Unique identifier for the item
      */
     const addFocusItem = (id: string) => {
+        // get the group ref
+        if (groupRef.current && SHOULD_RECOMPUTE_FOCUS_ITEMS) {
+            const group = groupRef.current;
+            console.log(group);
+            if (group) {
+                // get its children
+                const children = group.children;
+                // get ids of children
+                const childrenIds = Array.from(children).map((child) => child.id).filter(Boolean);
+                console.log(childrenIds);
+                setFocusItems(childrenIds);
+                // setFocusedItemId(childrenIds);
+
+                return;
+            }
+        }
         setFocusItems((prev) => [...prev, id]);
     };
 
@@ -70,6 +92,7 @@ const RovingFocusGroup = ({
             role="group"
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
+            asChild
             {...props}
         >
             {children}

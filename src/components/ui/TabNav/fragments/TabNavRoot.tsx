@@ -25,6 +25,7 @@ const TabNavRoot = ({
     value, ...props
 }: TabNavRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    console.log(rootClass, `customRootClass: ${customRootClass}`);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,
@@ -47,10 +48,11 @@ const TabNavRoot = ({
         tabValue,
         handleTabChange
     };
+
     return (
         <TabNavContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root loop={loop} orientation={orientation} {...props} >
-                <RovingFocusGroup.Group className={clsx(rootClass, className)}>
+            <RovingFocusGroup.Root loop={loop} orientation={orientation} >
+                <RovingFocusGroup.Group className={clsx(rootClass, className)} {...props}>
                     {children}
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>

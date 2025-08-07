@@ -33,6 +33,7 @@ export const Controlled = {
                     <TabNav.Root
                         value={activeTab}
                         onValueChange={setActiveTab}
+                        customRootClass="custom-class"
                     >
                         <TabNav.Link value="tab1" href="#tab1">Tab 1</TabNav.Link>
                         <TabNav.Link value="tab2" href="#tab2">Tab 2</TabNav.Link>

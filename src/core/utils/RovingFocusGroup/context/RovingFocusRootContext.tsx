@@ -10,6 +10,7 @@ export type RovingFocusRootContextTypes = {
   dir?: 'ltr' | 'rtl';
   loop: boolean;
   disableTabIndexing: boolean;
+  mode: 'default' | 'tree';
 }
 
 /**
@@ -20,5 +21,6 @@ export const RovingFocusRootContext = createContext<RovingFocusRootContextTypes>
     orientation: 'horizontal',
     loop: true,
     dir: 'ltr',
-    disableTabIndexing: false
+    disableTabIndexing: false,
+    mode: 'default'
 });

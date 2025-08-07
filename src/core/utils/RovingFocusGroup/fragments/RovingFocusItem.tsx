@@ -250,7 +250,6 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
-
         ref={ref}
         id={id}
         onKeyDown={handleKeyDown}

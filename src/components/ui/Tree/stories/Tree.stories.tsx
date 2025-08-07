@@ -22,7 +22,13 @@ const items = [
                                 items: [
                                     {
                                         label: 'hello child 1.1.1.1',
-                                        expanded: false
+                                        expanded: false,
+                                        items: [
+                                            {
+                                                label: 'hello child 1.1.1.1.1',
+                                                expanded: false
+                                            }
+                                        ]
                                     }
                                 ]
                             }
