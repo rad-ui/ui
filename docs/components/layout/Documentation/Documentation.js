@@ -22,10 +22,10 @@ const RightArrow = () => {
 const Documentation = ({ title = '', description = '', currentPage = undefined, children }) => {
     return <div>
         <div>
-            <div className='flex items-center space-x-4'>
+            <div className='flex items-center space-x-4 relative top-[1px]'>
                 <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
             </div>
-            {description && <Text className="mb-4 text-gray-900 font-light">{description}</Text>}
+            {description && <Text className="mb-4 text-gray-900 font-light relative top-[-4px]">{description}</Text>}
         </div>
         <div className='mt-4'>
             {children}
