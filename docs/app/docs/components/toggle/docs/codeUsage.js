@@ -11,7 +11,7 @@ const ToggleExample = () => {
   }
   
   return (
-    <Toggle pressed={pressed} onChange={handleChange}>
+    <Toggle pressed={pressed} onPressedChange={handleChange}>
       <Icon />
     </Toggle>
   )
