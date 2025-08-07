@@ -24,6 +24,7 @@
     "@vercel/og": "^0.6.8",
     "@vercel/speed-insights": "^1.0.1",
     "autoprefixer": "10.4.15",
+    "clsx": "^2.1.1",
     "eslint": "8.48.0",
     "eslint-config-next": "15.1.2",
     "js-cookie": "^3.0.5",
