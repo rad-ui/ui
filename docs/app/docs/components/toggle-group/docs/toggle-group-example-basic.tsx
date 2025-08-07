@@ -35,7 +35,7 @@ const ToggleGroupExampleBasic = () => {
     return <div>
         <ToggleGroup
             defaultPressed={false}
-            onChange={handleChange}
+            onPressedChange={handleChange}
             type="multiple"
             items = {items}
         >
