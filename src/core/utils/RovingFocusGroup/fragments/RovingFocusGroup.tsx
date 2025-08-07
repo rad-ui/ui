@@ -41,8 +41,6 @@ const RovingFocusGroup = ({
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
     const groupId = useId();
 
-    console.log(mode);
-
     const SHOULD_RECOMPUTE_FOCUS_ITEMS = mode === 'tree';
 
     /**
@@ -53,16 +51,12 @@ const RovingFocusGroup = ({
         // get the group ref
         if (groupRef.current && SHOULD_RECOMPUTE_FOCUS_ITEMS) {
             const group = groupRef.current;
-            console.log(group);
             if (group) {
                 // get its children
                 const children = group.children;
                 // get ids of children
                 const childrenIds = Array.from(children).map((child) => child.id).filter(Boolean);
-                console.log(childrenIds);
                 setFocusItems(childrenIds);
-                // setFocusedItemId(childrenIds);
-
                 return;
             }
         }

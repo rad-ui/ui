@@ -14,18 +14,37 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
     const id = useId();
 
     const [isToggled, setIsToggled] = useState(false);
+    const [isSelected, setIsSelected] = useState(false);
 
     const handleClick = () => {
         console.log('clicked', id);
-        setIsToggled(!isToggled);
+        // selected items list should actually be maintained in the parent component
+        setIsSelected(!isSelected);
+    };
+
+    const handleExpand = () => {
+        console.log('handleExpand', id);
+        // validations
+        if (!item.items || item.items.length === 0) return;
+        if (isToggled) return;
+        setIsToggled(true);
+    };
+
+    const handleCollapse = () => {
+        console.log('handleCollapse', id);
+        // validations
+        if (!item.items || item.items.length === 0) return;
+        if (!isToggled) return;
+        setIsToggled(false);
     };
 
     return <>
-        <RovingFocusGroup.Item >
+        <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse} >
             <ButtonPrimitive
                 className={clsx(className)}
                 onClick={handleClick}
-                style={{ display: 'block', alignItems: 'center', gap: '0.5rem' }}
+                aria-selected={isSelected}
+                style={{ display: 'block', alignItems: 'center', gap: '0.5rem', backgroundColor: isSelected ? 'red' : 'blue' }}
                 {...props}>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', paddingLeft: `${level * 16}px` }}>
