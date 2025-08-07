@@ -7,24 +7,31 @@ import Primitive from '~/core/primitives/Primitive';
 
 type TreeRootProps = {
     children: React.ReactNode;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
     [key: string]: any;
 };
 
-const TreeRoot = ({ children, ...props }: TreeRootProps) => {
+const TreeRoot = ({ children, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }: TreeRootProps) => {
     const treeRef = useRef(null);
 
+    const treeContextValue = {};
+
     return (
-        <TreeContext.Provider value={{}}>
-            <RovingFocusGroup.Root orientation='vertical' mode="tree">
+        <TreeContext.Provider value={treeContextValue}>
+            <RovingFocusGroup.Root orientation='vertical' mode='tree'>
                 <RovingFocusGroup.Group>
                     <Primitive.div
                         {...props}
                         ref={treeRef}
-                    >{children}</Primitive.div>
+                        role="tree"
+                        aria-label={ariaLabel}
+                        aria-labelledby={ariaLabelledBy}
+                    >
+                        {children}
+                    </Primitive.div>
                 </RovingFocusGroup.Group>
-
             </RovingFocusGroup.Root>
-
         </TreeContext.Provider>
     );
 };
