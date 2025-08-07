@@ -64,7 +64,7 @@ const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div className="layout-image">
         </div>
-        <div className="px-[75px] lg:max-w-[1200px] mx-auto pt-[15px] top-layout-line relative z-10">
+        <div className="px-[75px] max-w-[1280px] mx-auto relative z-10">
             <PageDetails />
             <DocsLayoutJoinDiscordCallout />
             {children}
@@ -73,8 +73,8 @@ const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
 }
 
 const DocsLayoutJoinDiscordCallout = () => {
-    return <div className="w-full !mb-[24px] mt-[40px] shadow-lg">
-        <Callout.Root color="purple" size="lg" className="border border-purple-700 h-[110px]">
+    return <div className="w-full !mb-[24px] shadow-lg">
+        <Callout.Root color="purple" size="lg" className="border border-purple-700 min-h-[110px]">
             <Callout.Icon className="pl-1">
                 <BookmarkIcon />
             </Callout.Icon>
@@ -86,8 +86,8 @@ const DocsLayoutJoinDiscordCallout = () => {
                     We're actively working on new components and features. Stay tuned! Head over to our <Link className="!text-gray-1000 !hover:underline" href="https://github.com/rad-ui/ui/issues" target="_blank">GitHub</Link> to see what's coming next.
                 </Callout.Text>
                 <Callout.Text className="text-sm mt-2 !text-purple-900 inline-flex items-center">
-                    <Link className="!text-purple-950 !hover:underline p-0 flex items-center space-x-1" href="https://discord.gg/nMaQfeEPNp" target="_blank"><span>
-                        Let’s build together — meet us on Discord.</span> <span className="inline-flex flex-none items-center ml-1 w-[15px] h-[15px]">
+                    <Link className="!text-purple-950 !hover:underline p-0 space-x-1" href="https://discord.gg/nMaQfeEPNp" target="_blank"><span>
+                        Let’s build together — meet us on Discord.</span> <span className="inline-flex flex-none items-center ml-1 w-[15px] h-[15px] relative top-[3px]">
                             <DiscordIcon />
                         </span> </Link>
                 </Callout.Text>
