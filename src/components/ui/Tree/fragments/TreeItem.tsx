@@ -10,7 +10,7 @@ type TreeItemProps = {
     [key: string]: any;
 };
 
-const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeItemProps) => {
+const TreeItem = ({ children, item, level = 0, className = '', parentId = null, ...props }: TreeItemProps) => {
     const id = useId();
 
     const [isToggled, setIsToggled] = useState(false);
@@ -20,7 +20,7 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
         console.log('clicked', id);
         // selected items list should actually be maintained in the parent component
         setIsSelected(!isSelected);
-        setIsToggled(isToggled);
+        setIsToggled(!isToggled);
     };
 
     const handleExpand = () => {
@@ -43,17 +43,20 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
     const handleCollapse = () => {
         console.log('handleCollapse', id);
         // validations
-        if (!item.items || item.items.length === 0) return;
+        // if (!item.items || item.items.length === 0) return;
         if (isToggled) {
-            // focus previous item
-            const itemElement = document.querySelector(`[data-id="${id}"]`);
-            // get the button that comes before the current item
-            const previousButton = itemElement?.previousElementSibling as HTMLButtonElement;
-            if (previousButton) {
-                previousButton.focus();
-            }
+            setIsToggled(false);
             return;
         }
+        if (!parentId) return;
+        // get the parent item
+
+        const parentItem = document.querySelector(`[data-id="${parentId}"]`) as HTMLButtonElement;
+        // get the button that comes before the current item
+        if (parentItem) {
+            parentItem.focus();
+        }
+
         setIsToggled(false);
     };
 
@@ -66,6 +69,8 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
                 aria-selected={isSelected}
                 data-toggled={isToggled}
                 data-id={id}
+                data-parent-id={parentId}
+                data-level={level}
                 style={{ display: 'block', alignItems: 'center', gap: '0.5rem', backgroundColor: isSelected ? 'red' : 'blue' }}
                 {...props}>
 
@@ -83,7 +88,7 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
         {isToggled && item.items && <>
             {item.items.map((subItem: any) => {
                 const nextLevel = level + 1;
-                return <TreeItem level={nextLevel} key={subItem.label} item={subItem}>
+                return <TreeItem parentId={id} level={nextLevel} key={subItem.label} item={subItem}>
                     {subItem.label}
                 </TreeItem>;
             })}
