@@ -18,7 +18,7 @@ A Toggle component that can be used in either controlled or uncontrolled mode.
 - **Controlled**: The toggle state is managed by the parent component through the \`pressed\` prop
 - **Uncontrolled**: The toggle manages its own state, with an optional \`defaultPressed\` initial value
 
-Both modes require an \`onChange\` handler to respond to state changes.
+Both modes require an \`onPressedChange\` handler to respond to state changes.
                 `
             }
         }
@@ -82,7 +82,7 @@ export const Uncontrolled = () => {
             <div className="mb-2 text-sm font-medium">Uncontrolled Toggle (internal state)</div>
             <div className="text-xs text-gray-600 mb-4">
                 State is managed internally by the Toggle component.
-                The parent is notified via onChange but doesn't control the state.
+                The parent is notified via onPressedChange but doesn't control the state.
             </div>
             <Toggle
                 defaultPressed={false}
