@@ -20,13 +20,23 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
         console.log('clicked', id);
         // selected items list should actually be maintained in the parent component
         setIsSelected(!isSelected);
+        setIsToggled(isToggled);
     };
 
     const handleExpand = () => {
         console.log('handleExpand', id);
         // validations
         if (!item.items || item.items.length === 0) return;
-        if (isToggled) return;
+        if (isToggled) {
+            // focus next item
+            const itemElement = document.querySelector(`[data-id="${id}"]`);
+            // get the button that comes after the current item
+            const nextButton = itemElement?.nextElementSibling as HTMLButtonElement;
+            if (nextButton) {
+                nextButton.focus();
+            }
+            return;
+        }
         setIsToggled(true);
     };
 
@@ -34,7 +44,16 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
         console.log('handleCollapse', id);
         // validations
         if (!item.items || item.items.length === 0) return;
-        if (!isToggled) return;
+        if (isToggled) {
+            // focus previous item
+            const itemElement = document.querySelector(`[data-id="${id}"]`);
+            // get the button that comes before the current item
+            const previousButton = itemElement?.previousElementSibling as HTMLButtonElement;
+            if (previousButton) {
+                previousButton.focus();
+            }
+            return;
+        }
         setIsToggled(false);
     };
 
@@ -43,7 +62,10 @@ const TreeItem = ({ children, item, level = 0, className = '', ...props }: TreeI
             <ButtonPrimitive
                 className={clsx(className)}
                 onClick={handleClick}
+                data-selected={isSelected}
                 aria-selected={isSelected}
+                data-toggled={isToggled}
+                data-id={id}
                 style={{ display: 'block', alignItems: 'center', gap: '0.5rem', backgroundColor: isSelected ? 'red' : 'blue' }}
                 {...props}>
 
