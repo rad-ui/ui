@@ -58,10 +58,7 @@ const DocsLayoutChunks = ({ children }: { children: React.ReactNode }) => {
 
 
 const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
-    return <div className="w-full">
-        <div className="h-[60px] bg-gray-1000 ">
-
-        </div>
+    return <div className="w-full pt-[60px]">
         <div className="layout-image">
         </div>
         <div className="px-[75px] max-w-[1280px] mx-auto relative z-10">
