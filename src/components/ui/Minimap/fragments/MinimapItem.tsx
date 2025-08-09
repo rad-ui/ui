@@ -5,13 +5,15 @@ import MinimapItemContext from '../context/MinimapItemContext';
 import MinimapContext from '../context/MinimapContext';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 
+import Primitive from '~/core/primitives/Primitive';
+
 type MinimapItemProps = React.HTMLAttributes<HTMLDivElement> & {
     value: string;
 };
 
 const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemProps) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
-    const { visibleItems } = React.useContext(MinimapProviderContext) || { visibleItems: [] };
+    const { visibleItems, scrollToItem } = React.useContext(MinimapProviderContext) || { visibleItems: [], scrollToItem: () => { } };
     const isVisible = visibleItems.includes(value);
 
     const contextValue = React.useMemo(() => ({
@@ -19,11 +21,16 @@ const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemP
         isVisible
     }), [value, isVisible]);
 
+    const handleClick = React.useCallback(() => {
+        scrollToItem(value);
+    }, [value, scrollToItem]);
+
     return <MinimapItemContext.Provider value={contextValue}>
-        <div
+        <Primitive.button
+            onClick={handleClick}
             className={clsx(`${rootClass}-item`, className)}
             data-in-view={isVisible ? 'true' : 'false'}
-            {...props}>{children}</div>
+            {...props}>{children}</Primitive.button>
     </MinimapItemContext.Provider>;
 };
 

@@ -11,7 +11,11 @@ type MinimapWaypointProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const MinimapWaypoint = ({ children, className = '', value = '', ...props }: MinimapWaypointProps) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
-    const { handleInView, handleOutView } = React.useContext(MinimapProviderContext) || { handleInView: () => { }, handleOutView: () => { } };
+    const { handleInView, handleOutView, registerRef } = React.useContext(MinimapProviderContext) || {
+        handleInView: () => { },
+        handleOutView: () => { },
+        registerRef: () => { }
+    };
 
     // Memoize callbacks to prevent useEffect re-runs
     const handleEnter = React.useCallback(() => {
@@ -30,10 +34,25 @@ const MinimapWaypoint = ({ children, className = '', value = '', ...props }: Min
         threshold: 0.1 // Trigger when 10% visible
     });
 
+    // Combined ref callback to handle both useInView and registerRef
+    const combinedRef = React.useCallback((node: HTMLDivElement | null) => {
+        // Set the ref for useInView
+        if (typeof ref === 'function') {
+            ref(node);
+        } else if (ref) {
+            ref.current = node;
+        }
+
+        // Register with provider for scrollToItem functionality
+        if (value) {
+            registerRef(value, node);
+        }
+    }, [ref, value, registerRef]);
+
     return (
         <div
-            ref={ref}
-            className={clsx(`${rootClass}-waypoint`, className)}
+            ref={combinedRef}
+            className={clsx(className)}
             {...props}
         >
             {children}

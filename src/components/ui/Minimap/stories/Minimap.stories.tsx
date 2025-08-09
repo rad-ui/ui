@@ -80,43 +80,45 @@ const minimapItems = [
 
 const MinimapProvider = () => {
     return <SandboxEditor>
-        <Minimap.Provider>
-            <div className='flex gap-5 relative w-full overflow-y-auto justify-between h-[800px]'>
-                <div className='max-w-[400px] w-auto'>
-                    <Text className='mb-5'>Main Content</Text>
-                    <Steps.Root>
-                        {minimapItems.map((item) => (
-                            <Minimap.Waypoint key={item.value} value={item.value} >
-                                <Steps.Item value={item.value} >
-                                    <Steps.Track>
-                                        <Steps.Bubble>{item.value}</Steps.Bubble>
-                                        <Steps.Line />
-                                    </Steps.Track>
-                                    <Steps.Content className="!pb-[40px]">
-                                        <Text>{item.description}</Text>
-                                    </Steps.Content>
-                                </Steps.Item>
-                            </Minimap.Waypoint>
-                        ))}
-                    </Steps.Root>
-                </div>
-                <div className='w-[300px] flex-none sticky top-[10px]'>
-                    <Text className='mb-5'>Minimap</Text>
-                    <Minimap.Root>
-                        {minimapItems.map((item) => (
-                            <Minimap.Item value={item.value}>
-                                <Minimap.Track>
-                                    <Minimap.Bubble>{item.value}</Minimap.Bubble>
-                                    <Minimap.Line />
-                                </Minimap.Track>
-                                <Minimap.Content>
-                                    <Text>{item.title}</Text>
-                                </Minimap.Content>
-                            </Minimap.Item>
-                        ))}
-                    </Minimap.Root>
+        <Minimap.Provider
+            scrollable
+            className='overflow-y-auto flex gap-5 relative w-full justify-between'
+            style={{ height: '800px' }}
+        >
+            <div className='max-w-[400px] w-auto'>
+                <Text className='mb-5'>Main Content</Text>
+                <Steps.Root>
+                    {minimapItems.map((item) => (
+                        <Minimap.Waypoint key={item.value} value={item.value} >
+                            <Steps.Item value={item.value} >
+                                <Steps.Track>
+                                    <Steps.Bubble>{item.value}</Steps.Bubble>
+                                    <Steps.Line />
+                                </Steps.Track>
+                                <Steps.Content className="!pb-[40px]">
+                                    <Text>{item.description}</Text>
+                                </Steps.Content>
+                            </Steps.Item>
+                        </Minimap.Waypoint>
+                    ))}
+                </Steps.Root>
+            </div>
+            <div className='w-[300px] flex-none sticky top-[10px]'>
+                <Text className='mb-5'>Minimap</Text>
+                <Minimap.Root>
+                    {minimapItems.map((item) => (
+                        <Minimap.Item key={item.value} value={item.value}>
+                            <Minimap.Track>
+                                <Minimap.Bubble>{item.value}</Minimap.Bubble>
+                                <Minimap.Line />
+                            </Minimap.Track>
+                            <Minimap.Content>
+                                <Text>{item.title}</Text>
+                            </Minimap.Content>
+                        </Minimap.Item>
+                    ))}
+                </Minimap.Root>
 
-                </div>
             </div>
         </Minimap.Provider>
     </SandboxEditor>;
