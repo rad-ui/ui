@@ -55,30 +55,13 @@ export const All = {};
 
 const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-const minimapItems = [
-    {
-        value: '1',
-        title: 'Step 1',
-        description: LOREM_IPSUM
-    },
-    {
-        value: '2',
-        title: 'Step 2',
-        description: LOREM_IPSUM
-    },
-    {
-        value: '3',
-        title: 'Step 3',
-        description: LOREM_IPSUM
-    },
-    {
-        value: '4',
-        title: 'Step 4',
-        description: LOREM_IPSUM
-    }
-];
-
 const MinimapProvider = () => {
+    const items = Array.from({ length: 100 }, (_, index) => ({
+        value: index.toString(),
+        title: `Step ${index}`,
+        description: LOREM_IPSUM
+    }));
+
     return <SandboxEditor>
         <Minimap.Provider
             scrollable
@@ -88,7 +71,7 @@ const MinimapProvider = () => {
             <div className='max-w-[400px] w-auto'>
                 <Text className='mb-5'>Main Content</Text>
                 <Steps.Root>
-                    {minimapItems.map((item) => (
+                    {items.map((item) => (
                         <Minimap.Waypoint key={item.value} value={item.value} >
                             <Steps.Item value={item.value} >
                                 <Steps.Track>
@@ -103,10 +86,10 @@ const MinimapProvider = () => {
                     ))}
                 </Steps.Root>
             </div>
-            <div className='w-[300px] flex-none sticky top-[10px]'>
+            <div className='w-[300px] flex-none sticky top-[10px] h-[800px] overflow-y-auto'>
                 <Text className='mb-5'>Minimap</Text>
                 <Minimap.Root>
-                    {minimapItems.map((item) => (
+                    {items.map((item) => (
                         <Minimap.Item key={item.value} value={item.value}>
                             <Minimap.Track>
                                 <Minimap.Bubble>{item.value}</Minimap.Bubble>

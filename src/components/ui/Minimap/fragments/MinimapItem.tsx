@@ -6,6 +6,7 @@ import MinimapContext from '../context/MinimapContext';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 
 import Primitive from '~/core/primitives/Primitive';
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 type MinimapItemProps = React.HTMLAttributes<HTMLDivElement> & {
     value: string;
@@ -26,11 +27,14 @@ const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemP
     }, [value, scrollToItem]);
 
     return <MinimapItemContext.Provider value={contextValue}>
-        <Primitive.button
-            onClick={handleClick}
-            className={clsx(`${rootClass}-item`, className)}
-            data-in-view={isVisible ? 'true' : 'false'}
-            {...props}>{children}</Primitive.button>
+        <RovingFocusGroup.Item value={value}>
+            <Primitive.button
+                onClick={handleClick}
+                className={clsx(`${rootClass}-item`, className)}
+                data-in-view={isVisible ? 'true' : 'false'}
+                {...props}>{children}</Primitive.button>
+        </RovingFocusGroup.Item>
+
     </MinimapItemContext.Provider>;
 };
 

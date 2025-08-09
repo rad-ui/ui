@@ -3,6 +3,7 @@
         display: flex;
         flex-direction: row;
         gap: 10px;
+        outline: none;
 
         .rad-ui-minimap-track {
             display: flex;
@@ -57,6 +58,17 @@
             font-size: 12px;
             padding-top: 5px;
             padding-bottom: 20px;
+        }
+
+        &:focus-visible {
+            .rad-ui-minimap-content {
+                text-shadow: 
+                    -1px -1px 0 var(--rad-ui-color-accent-200),
+                    1px -1px 0 var(--rad-ui-color-accent-200),
+                    -1px 1px 0 var(--rad-ui-color-accent-200),
+                    1px 1px 0 var(--rad-ui-color-accent-200);
+                color: var(--rad-ui-color-accent-1000);
+            }
         }
     }
 }

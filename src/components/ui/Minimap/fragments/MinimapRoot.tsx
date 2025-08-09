@@ -6,6 +6,8 @@ import Primitive from '~/core/primitives/Primitive';
 import MinimapContext from '../context/MinimapContext';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+
 const COMPONENT_NAME = 'Minimap';
 
 const MinimapRoot = ({ children, className, customRootClass = '', ...props }: MinimapRootProps) => {
@@ -14,7 +16,11 @@ const MinimapRoot = ({ children, className, customRootClass = '', ...props }: Mi
     const { visibleItems } = React.useContext(MinimapProviderContext) || { visibleItems: [] };
 
     return <MinimapContext.Provider value={{ rootClass, rootRef }}>
-        <Primitive.div ref={rootRef} className={clsx(rootClass, className)} {...props}>{children}</Primitive.div>
+        <RovingFocusGroup.Root loop={true} orientation='both'>
+            <RovingFocusGroup.Group>
+                <Primitive.div ref={rootRef} className={clsx(rootClass, className)} {...props}>{children}</Primitive.div>
+            </RovingFocusGroup.Group>
+        </RovingFocusGroup.Root>
     </MinimapContext.Provider>;
 };
 

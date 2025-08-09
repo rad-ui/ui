@@ -25,7 +25,18 @@ const MinimapProvider = ({ children, className = '', ...props }: MinimapProvider
             if (value === null || prev.includes(value)) {
                 return prev;
             }
-            return [...prev, value];
+            // Add the item and sort to maintain order
+            const newItems = [...prev, value];
+            return newItems.sort((a, b) => {
+                // Sort by the order they appear in the DOM
+                const elementA = itemRefs.current.get(a);
+                const elementB = itemRefs.current.get(b);
+                if (!elementA || !elementB) return 0;
+
+                // Compare positions to maintain document order
+                const position = elementA.compareDocumentPosition(elementB);
+                return position & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+            });
         });
     }, []);
 
