@@ -53,26 +53,28 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {};
 
+const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
 const minimapItems = [
     {
         value: '1',
         title: 'Step 1',
-        description: 'Step 1 description with extensive details about the initial setup process. This foundational step is absolutely critical for establishing the base configuration of your account and ensuring all fundamental information is properly documented and verified. During this phase, users will be required to provide essential personal details, create secure authentication credentials, and establish their primary contact information. The system will perform comprehensive validation checks to ensure data integrity and compliance with security standards. This step serves as the cornerstone for all subsequent operations and must be completed with careful attention to detail to prevent any issues in later stages of the setup process.'
+        description: LOREM_IPSUM
     },
     {
         value: '2',
         title: 'Step 2',
-        description: 'Step 2 description with comprehensive information about the advanced configuration and customization process. This sophisticated step focuses on tailoring your preferences, settings, and workflow parameters to perfectly align with your specific business requirements and operational needs. Users will have the opportunity to configure detailed system preferences, establish workflow automation rules, set up notification preferences, and customize the user interface to match their organizational branding and operational procedures. The configuration options include advanced security settings, data retention policies, integration preferences, and performance optimization parameters. This step is designed to provide maximum flexibility and control over the system behavior.'
+        description: LOREM_IPSUM
     },
     {
         value: '3',
         title: 'Step 3',
-        description: 'Step 3 description with detailed information about the integration and connectivity setup process. This complex step involves establishing connections with external systems, configuring API endpoints, setting up data synchronization protocols, and implementing automated workflows that span multiple platforms and services. Users will configure database connections, establish secure communication channels, set up webhook endpoints, and configure real-time data streaming capabilities. The integration process includes comprehensive testing procedures to ensure all connections are stable, secure, and performing optimally. This step is essential for creating a seamless ecosystem where all your tools and services work together harmoniously.'
+        description: LOREM_IPSUM
     },
     {
         value: '4',
         title: 'Step 4',
-        description: 'Step 4 description with thorough information about the final validation and deployment process. This concluding step involves comprehensive system testing, performance optimization, security auditing, and final deployment preparation. Users will review all configurations, validate system performance under various load conditions, conduct security penetration testing, and ensure compliance with all regulatory requirements. The deployment process includes creating backup systems, establishing monitoring and alerting mechanisms, and implementing disaster recovery procedures. This step ensures that your system is production-ready, secure, scalable, and fully optimized for your specific use case and operational requirements.'
+        description: LOREM_IPSUM
     }
 ];
 
