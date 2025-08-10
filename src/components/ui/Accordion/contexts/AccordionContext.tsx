@@ -2,12 +2,17 @@ import { createContext } from 'react';
 
 interface AccordionContextType {
     rootClass?: string | null;
-    activeItems: (number | string)[];
-    setActiveItems: (items: (number | string)[]) => void;
+    activeItems: string[];
+    setActiveItems: (items: string[]) => void;
     accordionRef?: React.RefObject<HTMLDivElement | null>;
     transitionDuration?: number;
     transitionTimingFunction?: string;
-    openMultiple?: boolean;
+    type?: 'single' | 'multiple';
+    collapsible?: boolean;
+    disabled?: boolean;
+    dir?: 'ltr' | 'rtl';
+    forceMount?: boolean;
+    hiddenUntilFound?: boolean;
 }
 
 export const AccordionContext = createContext<AccordionContextType>({
@@ -17,5 +22,10 @@ export const AccordionContext = createContext<AccordionContextType>({
     accordionRef: undefined,
     transitionDuration: 0,
     transitionTimingFunction: 'ease-out',
-    openMultiple: false
+    type: 'single',
+    collapsible: true,
+    disabled: false,
+    dir: 'ltr',
+    forceMount: false,
+    hiddenUntilFound: false
 });

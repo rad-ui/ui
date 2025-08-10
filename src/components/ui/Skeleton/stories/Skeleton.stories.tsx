@@ -108,7 +108,7 @@ export default {
                     <Skeleton loading={loading} height="200px" width="100%">
                         <Accordion.Root >
                             {items.map((item, index) => (
-                                <Accordion.Item value={index} key={index}>
+                                <Accordion.Item value={`item-${index}`} key={index}>
                                     <Accordion.Header>
                                         <Accordion.Trigger>
                                             {item.title}

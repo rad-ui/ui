@@ -10,7 +10,7 @@ export default {
 
 const Template: Story = (args) => <SandboxEditor>
     <Accordion.Root>
-        <Accordion.Item>
+        <Accordion.Item value="item-1">
             <Accordion.Trigger>
                 Hello
             </Accordion.Trigger>
@@ -31,7 +31,7 @@ const AsChildTemplate: Story = (args) => {
         <SandboxEditor>
             <Accordion.Root asChild>
                 <span>
-                    <Accordion.Item>
+                    <Accordion.Item value="item-1">
                         <Accordion.Trigger>
                             Hello
                         </Accordion.Trigger>
@@ -51,7 +51,7 @@ const HorizontalTemplate: Story = (args) => {
     return (
         <SandboxEditor>
             <Accordion.Root orientation="horizontal">
-                <Accordion.Item value={'1'}>
+                <Accordion.Item value="item-1">
                     <Accordion.Trigger>
                         Item 1
                     </Accordion.Trigger>
@@ -59,7 +59,7 @@ const HorizontalTemplate: Story = (args) => {
                         abc
                     </Accordion.Content>
                 </Accordion.Item>
-                <Accordion.Item value={'2'}>
+                <Accordion.Item value="item-2">
                     <Accordion.Trigger>
                         Item 2
                     </Accordion.Trigger>
@@ -78,7 +78,7 @@ const LoopOffTemplate: Story = (args) => {
     return (
         <SandboxEditor>
             <Accordion.Root loop={false}>
-                <Accordion.Item value={'1'}>
+                <Accordion.Item value="item-1">
                     <Accordion.Trigger>
                         Item 1
                     </Accordion.Trigger>
@@ -86,7 +86,7 @@ const LoopOffTemplate: Story = (args) => {
                         abc
                     </Accordion.Content>
                 </Accordion.Item>
-                <Accordion.Item value={'2'}>
+                <Accordion.Item value="item-2">
                     <Accordion.Trigger>
                         Item 2
                     </Accordion.Trigger>
