@@ -30,7 +30,7 @@ export type AccordionRootProps = {
     // Value props (updated for Radix UI compatibility)
     value?: string | string[];
     defaultValue?: string | string[];
-    onValueChange?: (value: string | string[]) => void;
+    onValueChange?: (value: string | string[] | undefined) => void;
 }
 
 const AccordionRoot = ({
@@ -77,7 +77,9 @@ const AccordionRoot = ({
     const [activeItems, setActiveItems] = useControllableState<string[]>(
         processedValue,
         processedDefaultValue,
-        onValueChange
+        (next) => {
+            onValueChange?.(actualType === 'single' ? next[0] : next);
+        }
     );
 
     // Handle collapsible logic (only applies to single type)

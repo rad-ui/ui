@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useContext, useId, useEffect, useRef } from 'react';
+import React, { useContext, useId, useRef } from 'react';
 import { clsx } from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
@@ -33,12 +33,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         dir
     } = useContext(AccordionContext);
 
-    const [isOpen, setIsOpen] = useState(activeItems.includes(value));
     const isDisabled = rootDisabled || disabled;
-
-    useEffect(() => {
-        setIsOpen(activeItems.includes(value));
-    }, [activeItems, value]);
+    const isOpen = activeItems.includes(value);
 
     const id = useId();
 
@@ -46,7 +42,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         <AccordionItemContext.Provider value={{ itemValue: value, setItemValue: () => {}, disabled: isDisabled }}>
             <CollapsiblePrimitive.Root
                 open={isOpen}
-                onOpenChange={setIsOpen}
                 disabled={isDisabled}
                 transitionDuration={transitionDuration}
                 transitionTimingFunction={transitionTimingFunction}

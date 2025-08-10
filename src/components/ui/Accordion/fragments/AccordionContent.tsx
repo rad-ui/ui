@@ -1,6 +1,6 @@
 'use client';
 import { clsx } from 'clsx';
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
@@ -28,10 +28,21 @@ const AccordionContent: React.FC<AccordionContentProps> = ({
         forceMount: rootForceMount
     } = useContext(AccordionContext);
     const { itemValue } = useContext(AccordionItemContext);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     const isOpen = activeItems.includes(itemValue);
     const shouldRender = forceMount || rootForceMount || isOpen;
     const shouldHide = hiddenUntilFound && !isOpen;
+
+    useEffect(() => {
+        if (contentRef.current) {
+            if (shouldHide) {
+                contentRef.current.setAttribute('hidden', 'until-found');
+            } else {
+                contentRef.current.removeAttribute('hidden');
+            }
+        }
+    }, [shouldHide]);
 
     if (!shouldRender) {
         return null;
@@ -39,13 +50,13 @@ const AccordionContent: React.FC<AccordionContentProps> = ({
 
     return (
         <CollapsiblePrimitive.Content
+            ref={contentRef}
             asChild={asChild}
             className={clsx(`${rootClass}-content`, className)}
-            id={`content-${index || itemValue}`}
+            id={`content-${index ?? itemValue}`}
             role="region"
-            aria-labelledby={`section-${index || itemValue}`}
+            aria-labelledby={`section-${index ?? itemValue}`}
             aria-hidden={!isOpen}
-            style={shouldHide ? { display: 'none' } : undefined}
             data-state={isOpen ? 'open' : 'closed'}
         >
             {children}
