@@ -12,7 +12,7 @@ Rad UI is a React UI library designed to simplify and enhance the process of bui
 
 ## Documentation
 
-For full documentation, visit  [Documentation](https://www.rad-ui.com/docs/first-steps/introduction).
+For full documentation, visit [Documentation](https://www.rad-ui.com/docs/first-steps/introduction).
 
 ## Installation
 
