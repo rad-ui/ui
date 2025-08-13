@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, RenderResult } from '@testing-library/react';
+import { render, RenderResult, within } from '@testing-library/react';
 
 import Table from '../Table';
 
@@ -19,7 +19,6 @@ describe('Table Component', () => {
     ];
 
     let result: RenderResult;
-    let container: HTMLElement;
 
     beforeEach(() => {
         result = render(
@@ -46,20 +45,21 @@ describe('Table Component', () => {
                 </Table.Body>
             </Table.Root>
         );
-        container = result.container;
     });
 
     it('renders without crashing', () => {
-        const tableElements = container.querySelectorAll('table');
+        const tableElements = result.getAllByRole('table');
         expect(tableElements.length).toEqual(1);
         expect(tableElements[0]).toBeTruthy();
     });
 
     it('renders correct user defined headers', () => {
-        const headerRows = container.querySelectorAll('table thead tr');
+        const table = result.getByRole('table');
+        const headerRowGroup = within(table).getAllByRole('rowgroup')[0];
+        const headerRows = within(headerRowGroup).getAllByRole('row');
         expect(headerRows.length).toEqual(1);
 
-        const headers = headerRows[0].querySelectorAll('th');
+        const headers = within(headerRows[0]).getAllByRole('columnheader');
         expect(headers.length).toEqual(4);
 
         headers.forEach((header, index) => {
@@ -68,14 +68,15 @@ describe('Table Component', () => {
     });
 
     it('renders correct user defined data', () => {
-        const tbodyElements = container.querySelectorAll('tbody');
-        expect(tbodyElements.length).toEqual(1);
+        const table = result.getByRole('table');
+        const rowGroups = within(table).getAllByRole('rowgroup');
+        expect(rowGroups.length).toEqual(2);
 
-        const dataRows = tbodyElements[0].querySelectorAll('tr');
+        const dataRows = within(rowGroups[1]).getAllByRole('row');
         expect(dataRows.length).toEqual(4);
 
         dataRows.forEach((row, rowIndex) => {
-            const dataCells = row.querySelectorAll('td');
+            const dataCells = within(row).getAllByRole('cell');
             expect(dataCells.length).toEqual(4);
 
             dataCells.forEach((cell, cellIndex) => {

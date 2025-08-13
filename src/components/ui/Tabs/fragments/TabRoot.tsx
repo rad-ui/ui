@@ -50,11 +50,17 @@ const TabRoot = ({
         setTabValue(value);
     };
 
+    // Apply the default tab only when the component is uncontrolled. This
+    // prevents overwriting a controlled state while still allowing the effect
+    // to run if the consumer switches between controlled and uncontrolled
+    // modes.
     useEffect(() => {
-        if (defaultValue) {
+        if (value === undefined && defaultValue) {
             handleTabChange(defaultValue);
         }
-    }, [defaultValue]);
+        // Include `value` so the effect re-evaluates when the control state
+        // changes.
+    }, [defaultValue, value]);
 
     const contextValues = {
         rootClass,

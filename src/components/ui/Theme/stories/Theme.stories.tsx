@@ -22,16 +22,11 @@ export default {
             </div>
             <div className={'flex space-x-4 p-10'}>
                 <div >
-                    <Theme appearance={toggle ? 'dark' : 'light'}>
+                    <Theme appearance={'system'}>
                         <CardComponent appearance={toggle ? 'dark' : 'light'} />
                     </Theme>
                 </div>
-                {/* Inverted */}
-                <div >
-                    <Theme appearance={toggle ? 'light' : 'dark'}>
-                        <CardComponent appearance={toggle ? 'light' : 'dark'} />
-                    </Theme>
-                </div>
+
             </div>
         </SandboxEditor>;
     }
