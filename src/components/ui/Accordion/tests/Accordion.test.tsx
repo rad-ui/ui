@@ -18,7 +18,7 @@ const TestAccordion = (props: Partial<AccordionRootProps>) => {
     return (
         <Accordion.Root {...props}>
             {testItems.map((item, index) => (
-                <Accordion.Item value={index} key={index}>
+                <Accordion.Item value={`item-${index}`} key={index}>
                     <Accordion.Header>
                         <Accordion.Trigger>
                             {item.title}
@@ -110,14 +110,18 @@ describe('Accordion Component', () => {
 
     test('controlled mode responds to external value changes', () => {
         const TestWithControls = () => {
-            const [value, setValue] = React.useState<(number | string)[]>([]);
+            const [value, setValue] = React.useState<string[]>([]);
+
+            const handleValueChange = (newValue: string | string[]) => {
+                setValue(Array.isArray(newValue) ? newValue : [newValue]);
+            };
 
             return (
                 <>
                     <button onClick={() => setValue([])}>Close All</button>
-                    <button onClick={() => setValue([1])}>Open 2</button>
-                    <button onClick={() => setValue([0, 2])}>Open 1 & 3</button>
-                    <TestAccordion value={value} onValueChange={setValue} openMultiple />
+                    <button onClick={() => setValue(['item-1'])}>Open 2</button>
+                    <button onClick={() => setValue(['item-0', 'item-2'])}>Open 1 & 3</button>
+                    <TestAccordion value={value} onValueChange={handleValueChange} openMultiple />
                 </>
             );
         };
@@ -149,7 +153,7 @@ describe('Accordion Component', () => {
     });
 
     test('works with defaultValue to show initial item', () => {
-        render(<TestAccordion defaultValue={[2]} />);
+        render(<TestAccordion defaultValue={['item-2']} />);
 
         // Item 3 content should be visible initially
         expect(screen.getByText('Content 3')).toBeInTheDocument();

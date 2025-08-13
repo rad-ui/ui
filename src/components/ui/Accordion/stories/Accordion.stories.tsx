@@ -70,7 +70,7 @@ const AccordionExample = ({ ...args }) => {
     return (
         <Accordion.Root {...args}>
             {items.map((item, index) => (
-                <Accordion.Item value={index} key={index}>
+                <Accordion.Item value={`item-${index}`} key={index}>
                     <Accordion.Header>
                         <Accordion.Trigger>
                             {item.title}
@@ -98,24 +98,26 @@ export const OpenMultiple: Story = {
     render: () => <AccordionExample openMultiple />
 };
 
-export const WithDeafultValue: Story = {
-    render: () => <AccordionExample defaultValue={[2]} />
+export const TypeMultiple: Story = {
+    render: () => <AccordionExample type="multiple" />
 };
 
-export const ControlledValue: Story = {
-    render: () => {
-        const [value, setValue] = React.useState<number[]>([]);
-        const [multiple, setMultiple] = React.useState(false);
+export const NonCollapsible: Story = {
+    render: () => <AccordionExample type="single" collapsible={false} />
+};
 
-        return (
-            <>
-                <Button onClick={() => setMultiple(!multiple)}>{`Toggle Open Multiple (${multiple ? 'on' : 'off'})`}</Button>
-                <Button onClick={() => setValue([])}>Close All</Button>
-                <Button onClick={() => setValue([1])}>Open 2</Button>
-                <Button onClick={() => setValue([0])}>Open 0</Button>
-                <Button onClick={() => setValue([0, 1])}>Open 0, 1</Button>
-                <AccordionExample value={value} onValueChange={setValue} openMultiple={multiple} />
-            </>
-        );
-    }
+export const Disabled: Story = {
+    render: () => <AccordionExample disabled />
+};
+
+export const RTL: Story = {
+    render: () => <AccordionExample dir="rtl" />
+};
+
+export const ForceMount: Story = {
+    render: () => <AccordionExample forceMount />
+};
+
+export const HiddenUntilFound: Story = {
+    render: () => <AccordionExample hiddenUntilFound />
 };
