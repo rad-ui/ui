@@ -13,13 +13,9 @@ export default {
 const DEFAULT_PRESSED_STATE = false;
 
 const Template = (args: any) => {
-    const [isPressed, setIsPressed] = React.useState(DEFAULT_PRESSED_STATE);
-    const handleChange = (state: boolean) => {
-        setIsPressed(state);
-    };
     return (
         <SandboxEditor className="space-y-4 pt-4">
-            <ToggleGroup.Root>
+            <ToggleGroup.Root type={args.type} className={args.className} color={args.color}>
                 {
                     items.map((item, index) => {
                         return (
@@ -80,4 +76,223 @@ export const Color = {
         color: 'blue',
         items
     }
+};
+
+// Controlled mode example
+export const Controlled = () => {
+    const [value, setValue] = React.useState(['item1']);
+
+    const handleValueChange = (newValue: any) => {
+        setValue(newValue);
+    };
+
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Controlled ToggleGroup</div>
+            <div className="text-xs text-gray-600 mb-4">
+                State is managed by the parent component through value and onValueChange props.
+            </div>
+
+            <ToggleGroup.Root value={value} onValueChange={handleValueChange}>
+                {items.map((item, index) => (
+                    <ToggleGroup.Item key={index} value={item.value}>
+                        {item.label}
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup.Root>
+
+            <div className="text-sm mt-4 p-2 bg-gray-100 rounded">
+                Current value: {JSON.stringify(value)}
+            </div>
+        </SandboxEditor>
+    );
+};
+
+// Uncontrolled mode example
+export const Uncontrolled = () => {
+    const [lastValue, setLastValue] = React.useState(['item1']);
+
+    const handleValueChange = (newValue: any) => {
+        setLastValue(newValue);
+    };
+
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Uncontrolled ToggleGroup</div>
+            <div className="text-xs text-gray-600 mb-4">
+                State is managed internally with defaultValue prop.
+            </div>
+
+            <ToggleGroup.Root defaultValue={['item1']} onValueChange={handleValueChange}>
+                {items.map((item, index) => (
+                    <ToggleGroup.Item key={index} value={item.value}>
+                        {item.label}
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup.Root>
+
+            <div className="text-sm mt-4 p-2 bg-gray-100 rounded">
+                Last reported value: {JSON.stringify(lastValue)}
+            </div>
+        </SandboxEditor>
+    );
+};
+
+// Disabled state example
+export const Disabled = () => {
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Disabled ToggleGroup</div>
+            <div className="text-xs text-gray-600 mb-4">
+                Shows disabled group and individual disabled items.
+            </div>
+
+            <div className="space-y-6">
+                <div>
+                    <div className="text-xs mb-2 font-medium">Disabled Group</div>
+                    <ToggleGroup.Root disabled={true}>
+                        {items.map((item, index) => (
+                            <ToggleGroup.Item key={index} value={item.value}>
+                                {item.label}
+                            </ToggleGroup.Item>
+                        ))}
+                    </ToggleGroup.Root>
+                </div>
+
+                <div>
+                    <div className="text-xs mb-2 font-medium">Individual Disabled Items</div>
+                    <ToggleGroup.Root>
+                        {items.map((item, index) => (
+                            <ToggleGroup.Item
+                                key={index}
+                                value={item.value}
+                                disabled={index === 1} // Disable second item
+                            >
+                                {item.label}
+                            </ToggleGroup.Item>
+                        ))}
+                    </ToggleGroup.Root>
+                </div>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+// AsChild example
+export const AsChild = () => {
+    const [value, setValue] = React.useState(['item1']);
+
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">ToggleGroup with asChild</div>
+            <div className="text-xs text-gray-600 mb-4">
+                Items can render as custom elements while maintaining functionality.
+            </div>
+
+            <ToggleGroup.Root value={value} onValueChange={setValue}>
+                <ToggleGroup.Item asChild value="item1">
+                    <div className="inline-flex items-center justify-center w-10 h-10 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
+                        <FrameIcon />
+                    </div>
+                </ToggleGroup.Item>
+                <ToggleGroup.Item asChild value="item2">
+                    <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-200 rounded hover:bg-blue-300 cursor-pointer">
+                        <CropIcon />
+                    </span>
+                </ToggleGroup.Item>
+                <ToggleGroup.Item asChild value="item3">
+                    <a
+                        href="#"
+                        className="inline-flex items-center justify-center w-10 h-10 bg-green-200 rounded hover:bg-green-300 cursor-pointer"
+                        onClick={(e) => e.preventDefault()}
+                    >
+                        <LayersIcon />
+                    </a>
+                </ToggleGroup.Item>
+            </ToggleGroup.Root>
+
+            <div className="text-sm mt-4 p-2 bg-gray-100 rounded">
+                Current value: {JSON.stringify(value)}
+            </div>
+        </SandboxEditor>
+    );
+};
+
+// Vertical orientation example
+export const Vertical = () => {
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Vertical Orientation</div>
+            <div className="text-xs text-gray-600 mb-4">
+                ToggleGroup with vertical orientation and data-orientation attribute.
+            </div>
+
+            <ToggleGroup.Root orientation="vertical" className="flex flex-col space-y-2">
+                {items.map((item, index) => (
+                    <ToggleGroup.Item key={index} value={item.value}>
+                        {item.label}
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup.Root>
+        </SandboxEditor>
+    );
+};
+
+// RTL direction example
+export const RTL = () => {
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">RTL Direction</div>
+            <div className="text-xs text-gray-600 mb-4">
+                ToggleGroup with right-to-left text direction.
+            </div>
+
+            <ToggleGroup.Root dir="rtl">
+                {items.map((item, index) => (
+                    <ToggleGroup.Item key={index} value={item.value}>
+                        {item.label}
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup.Root>
+        </SandboxEditor>
+    );
+};
+
+// Single selection example with controlled state
+export const SingleSelection = () => {
+    const [selectedValue, setSelectedValue] = React.useState('item1');
+
+    const handleValueChange = (newValue: any) => {
+        setSelectedValue(newValue[0] || null); // In single mode, we only care about the first value
+    };
+
+    return (
+        <SandboxEditor className="space-y-4 pt-4">
+            <div className="mb-2 text-sm font-medium">Single Selection Mode</div>
+            <div className="text-xs text-gray-600 mb-4">
+                Only one item can be selected at a time. Clicking a selected item deselects it.
+            </div>
+
+            <ToggleGroup.Root
+                type="single"
+                value={selectedValue ? [selectedValue] : []}
+                onValueChange={handleValueChange}
+            >
+                {items.map((item, index) => (
+                    <ToggleGroup.Item key={index} value={item.value}>
+                        {item.label}
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup.Root>
+
+            <div className="text-sm mt-4 p-2 bg-gray-100 rounded">
+                Selected value: {selectedValue || 'None'}
+            </div>
+
+            <div className="text-xs text-gray-600 mt-2">
+                <strong>Note:</strong> In single mode, only one item can be active at a time.
+                Clicking an active item will deselect it.
+            </div>
+        </SandboxEditor>
+    );
 };

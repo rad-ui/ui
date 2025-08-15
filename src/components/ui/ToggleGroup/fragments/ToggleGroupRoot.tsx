@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
+import useControllableState from '~/core/hooks/useControllableState';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
@@ -17,10 +18,22 @@ type ToggleGroupRootProps ={
     orientation?: 'horizontal' | 'vertical';
     /** Custom root class name to override default styling */
     customRootClass?: string;
-    /** Initial value or values for the toggle group */
+    /** Current value or values for the toggle group (controlled mode) */
     value?: any;
+    /** Initial value or values for the toggle group (uncontrolled mode) */
+    defaultValue?: any;
+    /** Callback fired when value changes */
+    onValueChange?: (value: any) => void;
     /** Accent color for the toggle group */
     color?: string;
+    /** Whether the toggle group is disabled */
+    disabled?: boolean;
+    /** Text direction */
+    dir?: 'ltr' | 'rtl';
+    /** Whether to enable roving focus */
+    rovingFocus?: boolean;
+    /** Whether to render as a child element instead of a div */
+    asChild?: boolean;
     /** Child elements */
     children?: React.ReactNode;
 }
@@ -28,25 +41,37 @@ type ToggleGroupRootProps ={
 const COMPONENT_NAME = 'ToggleGroup';
 
 const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
-    type = 'multiple',
+    type = 'single',
     className = '',
     loop = true,
     orientation = 'horizontal',
     customRootClass = '',
-    value = null,
+    value,
+    defaultValue = [],
+    onValueChange,
     color = '',
+    disabled = false,
+    dir = 'ltr',
+    rovingFocus = true,
+    asChild = false,
     children
 }) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    // value can be either a string or an array of strings
-    // if its null, then no toggles are active
-    const [activeToggles, setActiveToggles] = useState(value || []);
+    // Use controllable state for value management
+    const [activeToggles, setActiveToggles] = useControllableState(
+        value,
+        defaultValue,
+        onValueChange
+    );
 
     const sendValues = {
         activeToggles,
         setActiveToggles,
-        type
+        type,
+        rootClass,
+        disabled,
+        orientation
     };
 
     const data_attributes: Record<string, string> = {};
@@ -55,10 +80,38 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
         data_attributes['data-rad-ui-accent-color'] = color;
     }
 
+    if (disabled) {
+        data_attributes['data-disabled'] = '';
+    }
+
+    data_attributes['data-orientation'] = orientation;
+
+    // If rovingFocus is disabled, render without RovingFocusGroup
+    if (!rovingFocus) {
+        return (
+            <ToggleContext.Provider value={sendValues}>
+                <div
+                    className={clsx(rootClass, className)}
+                    {...data_attributes}
+                    dir={dir}
+                >
+                    {children}
+                </div>
+            </ToggleContext.Provider>
+        );
+    }
+
     return (
         <ToggleContext.Provider value={sendValues}>
-            <RovingFocusGroup.Root loop={loop} orientation={orientation} >
-                <RovingFocusGroup.Group className={clsx(rootClass, className)} {...data_attributes}>
+            <RovingFocusGroup.Root
+                loop={loop}
+                orientation={orientation}
+                dir={dir}
+            >
+                <RovingFocusGroup.Group
+                    className={clsx(rootClass, className)}
+                    {...data_attributes}
+                >
                     {children}
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>

@@ -10,10 +10,18 @@ type ScrollAreaScrollbarProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }: ScrollAreaScrollbarProps) => {
     const { rootClass, handleScrollbarClick, scrollXThumbRef } = useContext(ScrollAreaContext);
+    // stores the interval id for the repeated scroll action
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    // read/write ref to know if continuous scrolling is currently active
     const isScrollingRef = useRef(false);
+    // ref holding a function to remove global listeners when scrolling stops
+    const removeListenersRef = useRef<(() => void) | null>(null);
+    // state used to trigger re-renders and styling changes when scrolling
+    const [isScrolling, setIsScrolling] = React.useState(false);
+    // tracks the latest mouse Y position for the next scroll step
     const mousePositionRef = useRef<number>(0);
 
+    // Determine whether the auto-scroll should continue based on mouse position
     const shouldContinueScrolling = useCallback((mouseY: number): boolean => {
         if (!scrollXThumbRef?.current) return false;
 
@@ -29,6 +37,7 @@ const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }
         return true;
     }, [scrollXThumbRef]);
 
+    // Begins the continuous scrolling sequence and sets up the interval
     const startContinuousScroll = useCallback((e: React.MouseEvent) => {
         if (!handleScrollbarClick) return;
 
@@ -53,30 +62,47 @@ const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }
         }, 300); // 300ms delay before continuous scrolling starts
 
         isScrollingRef.current = true;
+        setIsScrolling(true);
     }, [handleScrollbarClick, shouldContinueScrolling]);
 
+    // Stops any ongoing scroll activity and clears side effects
     const stopContinuousScroll = useCallback(() => {
         isScrollingRef.current = false;
+        removeListenersRef.current?.();
+        removeListenersRef.current = null;
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
+        setIsScrolling(false);
     }, []);
 
-    // Global mouse up listener
+    // Attach global mouse listeners only while actively scrolling
     React.useEffect(() => {
+        if (!isScrollingRef.current) {
+            return () => {
+                removeListenersRef.current?.();
+                stopContinuousScroll();
+            };
+        }
+
         const handleMouseUp = () => stopContinuousScroll();
         const handleMouseLeave = () => stopContinuousScroll();
 
         document.addEventListener('mouseup', handleMouseUp);
         document.addEventListener('mouseleave', handleMouseLeave);
 
-        return () => {
+        removeListenersRef.current = () => {
             document.removeEventListener('mouseup', handleMouseUp);
             document.removeEventListener('mouseleave', handleMouseLeave);
+        };
+
+        return () => {
+            removeListenersRef.current?.();
+            removeListenersRef.current = null;
             stopContinuousScroll(); // Cleanup on unmount
         };
-    }, [stopContinuousScroll]);
+    }, [isScrolling, stopContinuousScroll]);
 
     return (
         <div

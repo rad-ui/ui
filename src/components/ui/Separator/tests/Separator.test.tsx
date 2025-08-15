@@ -27,4 +27,51 @@ describe('Separator Component', () => {
         render(<Separator color='blue' data-testid="separator"/>);
         expect(screen.getByTestId('separator')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
+
+    // New tests for the GitHub issue #1269 features
+    describe('New Props and Features', () => {
+        test('asChild prop works correctly', () => {
+            render(
+                <Separator asChild>
+                    <hr data-testid="custom-separator" />
+                </Separator>
+            );
+            expect(screen.getByTestId('custom-separator')).toBeInTheDocument();
+        });
+
+        test('decorative prop adds proper ARIA attributes', () => {
+            render(<Separator decorative data-testid="separator" />);
+            const separator = screen.getByTestId('separator');
+            expect(separator).toHaveAttribute('role', 'separator');
+            expect(separator).toHaveAttribute('aria-hidden', 'true');
+        });
+
+        test('data-orientation attribute is set correctly', () => {
+            render(<Separator orientation="vertical" data-testid="separator" />);
+            expect(screen.getByTestId('separator')).toHaveAttribute('data-orientation', 'vertical');
+        });
+
+        test('data-orientation defaults to horizontal', () => {
+            render(<Separator data-testid="separator" />);
+            expect(screen.getByTestId('separator')).toHaveAttribute('data-orientation', 'horizontal');
+        });
+
+        test('decorative and orientation work together', () => {
+            render(<Separator decorative orientation="vertical" data-testid="separator" />);
+            const separator = screen.getByTestId('separator');
+            expect(separator).toHaveAttribute('role', 'separator');
+            expect(separator).toHaveAttribute('aria-hidden', 'true');
+            expect(separator).toHaveAttribute('data-orientation', 'vertical');
+        });
+
+        test('asChild preserves custom element attributes', () => {
+            render(
+                <Separator asChild>
+                    <hr data-testid="custom-separator" className="custom-class" />
+                </Separator>
+            );
+            const customSeparator = screen.getByTestId('custom-separator');
+            expect(customSeparator).toHaveClass('custom-class');
+        });
+    });
 });

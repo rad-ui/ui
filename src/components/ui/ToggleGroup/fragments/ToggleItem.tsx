@@ -13,6 +13,10 @@ export type ToggleItemProps = {
     children?: React.ReactNode;
     /** Value associated with this toggle item, used for selection state */
     value?: any;
+    /** Whether the toggle item is disabled */
+    disabled?: boolean;
+    /** Whether to render as a child element instead of a button */
+    asChild?: boolean;
     /** Additional props to pass to the underlying TogglePrimitive */
     [key: string]: any;
 };
@@ -31,9 +35,19 @@ export type ToggleItemProps = {
  * @param {ToggleItemProps} props - Component props
  * @returns {JSX.Element} The ToggleItem component
  */
-const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
-    const { type, activeToggles, setActiveToggles } = useContext(ToggleContext);
+const ToggleItem = ({
+    children,
+    className = '',
+    value = null,
+    disabled = false,
+    asChild = false,
+    ...props
+}: ToggleItemProps) => {
+    const { type, activeToggles, setActiveToggles, rootClass, disabled: groupDisabled } = useContext(ToggleContext);
     const isActive = activeToggles?.includes(value);
+
+    // Item is disabled if either the item itself is disabled or the group is disabled
+    const isDisabled = disabled || groupDisabled;
 
     const ariaProps:Record<string, string> = {};
     const dataProps:Record<string, string> = {};
@@ -42,6 +56,10 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
      * Handles the toggle selection/deselection based on the group type (single/multiple)
      */
     const handleToggleSelect = () => {
+        if (isDisabled) {
+            return;
+        }
+
         let activeToggleArray = activeToggles || [];
 
         // For Single Case
@@ -70,15 +88,23 @@ const ToggleItem = ({ children, value = null, ...props }:ToggleItemProps) => {
     // Set appropriate ARIA and data attributes based on active state
     if (isActive) {
         ariaProps['aria-pressed'] = 'true';
-        dataProps['data-active'] = 'true';
+        dataProps['data-state'] = 'on';
     } else {
         ariaProps['aria-pressed'] = 'false';
-        dataProps['data-active'] = 'false';
+        dataProps['data-state'] = 'off';
     }
 
-    return <RovingFocusGroup.Item role="button">
+    // Add data-disabled attribute if disabled
+    if (isDisabled) {
+        dataProps['data-disabled'] = '';
+    }
+
+    return <RovingFocusGroup.Item>
         <TogglePrimitive
             onClick={handleToggleSelect}
+            className={`${rootClass}-item ${className}`}
+            disabled={isDisabled}
+            asChild={asChild}
             {...ariaProps}
             {...dataProps}
             {...props}
