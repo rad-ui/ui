@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef, useCallback, ReactNode, useMemo } from 'react';
+import React, { useState, useRef, useCallback, ReactNode, useMemo, useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
@@ -51,6 +51,15 @@ const SplitterRoot: React.FC<SplitterRootProps> = ({
 
     // Performance optimization: Debounced callback for size changes
     const debouncedOnSizesChange = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (debouncedOnSizesChange.current) {
+                clearTimeout(debouncedOnSizesChange.current);
+                debouncedOnSizesChange.current = null;
+            }
+        };
+    }, []);
 
     // Performance optimization: Use refs to avoid stale closures in event handlers
     const sizesRef = useRef(sizes);

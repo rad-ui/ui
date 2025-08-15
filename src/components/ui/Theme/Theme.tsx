@@ -10,18 +10,28 @@ type ThemeProps = {
     id?: string;
 }
 
-const Theme = ({ appearance = 'light', id = 'rad-ui-theme-container', accentColor = '', radius = '', scaling = '', children, ...props }: ThemeProps) => {
+const Theme = ({ appearance = 'system', id = 'rad-ui-theme-container', accentColor = '', radius = '', scaling = '', children, ...props }: ThemeProps) => {
     const [theme, setTheme] = useState(appearance);
     const [themeAccentColor, setThemeAccentColor] = useState(accentColor);
     const [themeRadius, setThemeRadius] = useState(radius);
     const [themeScaling, setThemeScaling] = useState(scaling);
 
     useEffect(() => {
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (event: MediaQueryListEvent) => {
+            if (appearance === 'system') {
+                setTheme(event.matches ? 'dark' : 'light');
+            }
+        };
+
         if (appearance === 'system') {
-            setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            setTheme(media.matches ? 'dark' : 'light');
+            media.addEventListener('change', handler);
         } else {
             setTheme(appearance);
         }
+
+        return () => media.removeEventListener('change', handler);
     }, [appearance]);
 
     useEffect(() => {
