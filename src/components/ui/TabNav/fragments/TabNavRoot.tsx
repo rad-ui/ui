@@ -37,11 +37,15 @@ const TabNavRoot = ({
         setTabValue(value);
     };
 
+    // Set the default tab only for uncontrolled usage to avoid clobbering a
+    // controlled value passed from the parent. Including `value` as a
+    // dependency lets the effect react if the component switches between
+    // controlled and uncontrolled modes.
     useEffect(() => {
-        if (defaultValue) {
+        if (value === undefined && defaultValue) {
             handleTabChange(defaultValue);
         }
-    }, [defaultValue]);
+    }, [defaultValue, value]);
 
     const contextValues = {
         rootClass,

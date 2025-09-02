@@ -13,7 +13,7 @@ export type LinkProps = {
     customRootClass?: string;
     size?: string;
     className?: string;
-    props?: Record<string, any>[];
+    props?: Record<string, any>;
 }
 
 // TODO: in the previous return value

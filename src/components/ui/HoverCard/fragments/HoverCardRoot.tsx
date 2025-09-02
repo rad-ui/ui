@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
 import { customClassSwitcher } from '~/core';
+import { useControllableState } from '~/core/hooks/useControllableState';
 import { clsx } from 'clsx';
 const COMPONENT_NAME = 'HoverCard';
 
@@ -37,20 +38,16 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
         ]
     });
 
-    const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+    const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);
 
     // when hovered out, we set this to true, after delay we check if it's still true and then we set open to false
     // eslint-disable-next-line no-unused-vars
     const [mouseIsExiting, setMouseIsExiting] = useState(false);
-
-    const isControlled = controlledOpen !== undefined;
-    const open = isControlled ? controlledOpen : uncontrolledOpen;
+    const openTimeoutRef = useRef<number | null>(null);
+    const closeTimeoutRef = useRef<number | null>(null);
 
     const handleOpenChange = (newOpen: boolean) => {
-        if (!isControlled) {
-            setUncontrolledOpen(newOpen);
-        }
-        onOpenChange?.(newOpen);
+        setOpen(newOpen);
     };
 
     const role = Floater.useRole(floatingContext);
@@ -76,27 +73,43 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
 
     const openWithDelay = () => {
         markMouseIsEntering();
-        setTimeout(() => {
+        if (openTimeoutRef.current) {
+            clearTimeout(openTimeoutRef.current);
+        }
+        openTimeoutRef.current = setTimeout(() => {
             handleOpenChange(true);
-        }, openDelay);
+        }, openDelay) as unknown as number;
     };
 
     const closeWithDelay = () => {
         markMouseIsExiting();
-
-        setTimeout(() => {
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+        }
+        closeTimeoutRef.current = setTimeout(() => {
             setMouseIsExiting(prevState => {
                 if (prevState) {
                     handleOpenChange(false);
                 }
                 return prevState;
             });
-        }, closeDelay);
+        }, closeDelay) as unknown as number;
     };
 
     const closeWithoutDelay = () => {
         handleOpenChange(false);
     };
+
+    useEffect(() => {
+        return () => {
+            if (openTimeoutRef.current) {
+                clearTimeout(openTimeoutRef.current);
+            }
+            if (closeTimeoutRef.current) {
+                clearTimeout(closeTimeoutRef.current);
+            }
+        };
+    }, []);
 
     const sendValues = {
         isOpen: open,

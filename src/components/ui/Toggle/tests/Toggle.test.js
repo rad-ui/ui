@@ -29,7 +29,7 @@ describe('Toggle component', () => {
         // Click toggle
         fireEvent.click(container.firstChild);
 
-        // onChange should be called with true
+        // onPressedChange should be called with true
         expect(handleChange).toHaveBeenCalledWith(true);
 
         // State should not change until prop changes (still false)
@@ -51,7 +51,7 @@ describe('Toggle component', () => {
         // Click toggle
         fireEvent.click(container.firstChild);
 
-        // onChange should be called with true
+        // onPressedChange should be called with true
         expect(handleChange).toHaveBeenCalledWith(true);
 
         // State should update internally (now true)
@@ -60,7 +60,7 @@ describe('Toggle component', () => {
         // Click again
         fireEvent.click(container.firstChild);
 
-        // onChange should be called with false
+        // onPressedChange should be called with false
         expect(handleChange).toHaveBeenCalledWith(false);
 
         // State should update internally (back to false)
@@ -86,7 +86,7 @@ describe('Toggle component', () => {
 
     test('renders with asChild prop correctly', () => {
         const { container } = render(
-            <Toggle asChild onChange={() => {}}>
+            <Toggle asChild onPressedChange={() => {}}>
                 <div data-testid="custom-element">Custom Element</div>
             </Toggle>
         );
@@ -99,7 +99,7 @@ describe('Toggle component', () => {
 
     test('asChild preserves custom element props', () => {
         const { container } = render(
-            <Toggle asChild onChange={() => {}}>
+            <Toggle asChild onPressedChange={() => {}}>
                 <div data-testid="custom-element" className="custom-class" data-custom="value">
                     Custom Element
                 </div>
