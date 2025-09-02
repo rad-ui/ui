@@ -75,10 +75,14 @@
 }
 
 .rad-ui-tooltip-floating-element{
-    background-color:var(--rad-ui-color-gray-1000); 
+    background-color: var(--rad-ui-color-gray-1000);
     color: var(--rad-ui-color-gray-100);
-    padding: 4px 12px;
-    border-radius: 2px;
+    font-size: 0.875rem;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 4px;
+    box-shadow: 0 10px 38px -10px rgba(0, 0, 0, 0.35),
+                0 10px 20px -15px rgba(0, 0, 0, 0.2);
 }
 
 .rad-ui-arrow{
