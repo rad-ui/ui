@@ -88,3 +88,46 @@ export const All = {
         className: ''
     }
 };
+
+// Demonstrates centralized selection state management using Tree.Item props
+const TreeExampleWithSelection = () => {
+    const [selectedLabels, setSelectedLabels] = React.useState<Set<string>>(new Set());
+
+    const toggleSelect = (id: string, item: any) => {
+        setSelectedLabels((prev) => {
+            const next = new Set(prev);
+            if (next.has(item.label)) {
+                next.delete(item.label);
+            } else {
+                next.add(item.label);
+            }
+            return next;
+        });
+    };
+
+    const getIsSelected = (itm: any) => selectedLabels.has(itm.label);
+
+    return (
+        <SandboxEditor>
+            <div>
+                <Tree.Root>
+                    {items.map((item) => (
+                        <Tree.Item
+                            key={item.label}
+                            item={item}
+                            isSelected={getIsSelected(item)}
+                            onToggleSelect={toggleSelect}
+                            getIsSelected={getIsSelected}
+                        >
+                            {item.label}
+                        </Tree.Item>
+                    ))}
+                </Tree.Root>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+export const WithSelection = {
+    render: () => <TreeExampleWithSelection />
+};

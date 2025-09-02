@@ -25,7 +25,6 @@ const TabNavRoot = ({
     value, ...props
 }: TabNavRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    console.log(rootClass, `customRootClass: ${customRootClass}`);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,

@@ -7,20 +7,31 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 type TreeItemProps = {
     children: React.ReactNode;
+    item: any;
+    level?: number;
+    className?: string;
+    parentId?: string | null;
+    isSelected?: boolean;
+    onToggleSelect?: (id: string, item: any) => void;
+    getIsSelected?: (item: any) => boolean;
     [key: string]: any;
 };
 
-const TreeItem = ({ children, item, level = 0, className = '', parentId = null, ...props }: TreeItemProps) => {
+const TreeItem = ({ children, item, level = 0, className = '', parentId = null, isSelected = false, onToggleSelect, getIsSelected, ...props }: TreeItemProps) => {
     const id = useId();
 
     const [isToggled, setIsToggled] = useState(false);
-    const [isSelected, setIsSelected] = useState(false);
 
     const handleClick = () => {
         console.log('clicked', id);
-        // selected items list should actually be maintained in the parent component
-        setIsSelected(!isSelected);
-        setIsToggled(!isToggled);
+        // Delegate selection toggling to the parent
+        if (onToggleSelect) {
+            onToggleSelect(id, item);
+        }
+        // On click, toggle expand/collapse if this item has children
+        if (item?.items && item.items.length > 0) {
+            setIsToggled(prev => !prev);
+        }
     };
 
     const handleExpand = () => {
@@ -65,6 +76,17 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
             <ButtonPrimitive
                 className={clsx(className)}
                 onClick={handleClick}
+                onKeyDownCapture={(e: React.KeyboardEvent) => {
+                    // Prevent Enter from triggering click/expand; expansion is only via ArrowRight
+                    if (e.key === 'Enter') {
+                        // Select via parent handler
+                        if (onToggleSelect) {
+                            onToggleSelect(id, item);
+                        }
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }}
                 data-selected={isSelected}
                 aria-selected={isSelected}
                 data-toggled={isToggled}
@@ -88,7 +110,16 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
         {isToggled && item.items && <>
             {item.items.map((subItem: any) => {
                 const nextLevel = level + 1;
-                return <TreeItem parentId={id} level={nextLevel} key={subItem.label} item={subItem}>
+                const childIsSelected = getIsSelected ? getIsSelected(subItem) : false;
+                return <TreeItem
+                    parentId={id}
+                    level={nextLevel}
+                    key={subItem.label}
+                    item={subItem}
+                    isSelected={childIsSelected}
+                    onToggleSelect={onToggleSelect}
+                    getIsSelected={getIsSelected}
+                >
                     {subItem.label}
                 </TreeItem>;
             })}
