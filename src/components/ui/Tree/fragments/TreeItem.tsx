@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+import React, { useId, useState, useRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
 import { clsx } from 'clsx';
@@ -19,6 +19,7 @@ type TreeItemProps = {
 
 const TreeItem = ({ children, item, level = 0, className = '', parentId = null, isSelected = false, onToggleSelect, getIsSelected, ...props }: TreeItemProps) => {
     const id = useId();
+    const thisRef = useRef<HTMLButtonElement>(null);
 
     const [isToggled, setIsToggled] = useState(false);
 
@@ -40,7 +41,7 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
         if (!item.items || item.items.length === 0) return;
         if (isToggled) {
             // focus next item
-            const itemElement = document.querySelector(`[data-id="${id}"]`);
+            const itemElement = thisRef.current;
             // get the button that comes after the current item
             const nextButton = itemElement?.nextElementSibling as HTMLButtonElement;
             if (nextButton) {
@@ -74,6 +75,7 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
     return <>
         <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse} >
             <ButtonPrimitive
+                ref={thisRef}
                 className={clsx(className)}
                 onClick={handleClick}
                 onKeyDownCapture={(e: React.KeyboardEvent) => {
