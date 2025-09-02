@@ -67,7 +67,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
 
                 // For instant changes, also update visibility immediately
                 if (!open) {
-                    setTimeout(() => setShouldRender(false), 0);
+                    setShouldRender(false);
                 }
                 return;
             }
