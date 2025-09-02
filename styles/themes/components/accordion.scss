@@ -9,19 +9,24 @@
 
     // Trigger Tokens
     --rad-accordion-trigger-background-color: var(--rad-ui-color-gray-100);
-    --rad-accordion-trigger-text-color: var(--rad-ui-color-gray-800);
+    --rad-accordion-trigger-text-color: var(--rad-ui-color-gray-950);
 
     // Content Tokens
     --rad-accordion-content-background-color: var(--rad-ui-color-gray-100);
     --rad-accordion-content-text-color: var(--rad-ui-color-gray-1000);
 
+    // Focus Tokens
+    --rad-accordion-focus-border-color: var(--rad-ui-color-purple-900);
+    --rad-accordion-focus-outline-offset: 4px;
+
 
     width: 100%;
     border: 1px solid var(--rad-accordion-border-color);
     border-radius: 4px;
-    overflow: hidden;
 
     .rad-ui-accordion-item {
+        border-radius: 4px;
+
         &[data-disabled]{
             opacity: 0.3;
             pointer-events: none;
@@ -35,15 +40,10 @@
             border-bottom: 1px solid var(--rad-accordion-border-color);
         }
 
-        
-        &:focus{
-            outline: none;
-            border: none;
-            color:black;
-        }
-
-        &:focus-within{
-            color: var(--rad-accordion-text-color);
+        // Focus state for the entire item (when trigger or content is focused)
+        &:focus-within {
+            outline: 2px solid var(--rad-accordion-focus-border-color);
+            outline-offset: var(--rad-accordion-focus-outline-offset);
         }
 
         .rad-ui-accordion-trigger{
@@ -53,21 +53,34 @@
             font-size: 1em;
             font-weight: 600;
             color: var(--rad-accordion-trigger-text-color);
-            background-color: var(--rad-accordion-trigger-background-color);
 
-            &:focus{
+            // Remove default focus outline since parent handles focus-within
+            &:focus {
                 outline: none;
-                color: var(--rad-accordion-text-color);
-            
+            }
+
+            // Focus-visible for keyboard navigation
+            &:focus-visible {
+                outline: none;
             }
         }
 
         .rad-ui-accordion-content {
             padding: 16px;
             font-size: 1em;
-            background-color: var(--rad-accordion-content-background-color);
             color: var(--rad-accordion-content-text-color);
             border-top: 1px solid var(--rad-accordion-border-color);
+            background-color: var(--rad-accordion-content-background-color);
+
+            // Remove default focus outline since parent handles focus-within
+            &:focus {
+                outline: none;
+            }
+
+            // Focus-visible for keyboard navigation
+            &:focus-visible {
+                outline: none;
+            }
         }
     }
 }
