@@ -48,17 +48,15 @@ const RovingFocusGroup = ({
      * @param id - Unique identifier for the item
      */
     const addFocusItem = (id: string) => {
-        // get the group ref
-        if (groupRef.current && SHOULD_RECOMPUTE_FOCUS_ITEMS) {
+        // For tree mode, recompute items from actual DOM children (browser-only)
+        if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined' && groupRef.current) {
             const group = groupRef.current;
-            if (group) {
-                // get its children
-                const children = group.children;
-                // get ids of children
-                const childrenIds = Array.from(children).map((child) => child.id).filter(Boolean);
-                setFocusItems(childrenIds);
-                return;
-            }
+            // get its children
+            const children = group.children;
+            // get ids of children
+            const childrenIds = Array.from(children).map((child) => child.id).filter(Boolean);
+            setFocusItems(childrenIds);
+            return;
         }
         setFocusItems((prev) => [...prev, id]);
     };
