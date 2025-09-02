@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Primitive from '~/core/primitives/Primitive';
+import ButtonPrimitive from '~/core/primitives/Button';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 export interface TogglePrimitiveProps {
@@ -13,8 +13,7 @@ export interface TogglePrimitiveProps {
     label?: string;
     disabled?: boolean;
     onPressedChange?: (isPressed: boolean) => void;
-    // TODO: remove after introducing TS support for Primitive and its sub-components
-    asChild?: any;
+    asChild?: boolean;
 }
 
 const TogglePrimitive = ({
@@ -24,6 +23,7 @@ const TogglePrimitive = ({
     pressed: controlledPressed,
     onPressedChange = () => {},
     disabled,
+    asChild = false,
     ...props
 }: TogglePrimitiveProps) => {
     const [uncontrolledPressed, setUncontrolledPressed] = useState(defaultPressed);
@@ -54,15 +54,17 @@ const TogglePrimitive = ({
     ariaAttributes['aria-pressed'] = isPressed ? 'true' : 'false';
     ariaAttributes['aria-disabled'] = disabled ? 'true' : 'false';
 
-    return <Primitive.button
+    return <ButtonPrimitive
         onClick={composeEventHandlers(props.onClick, handleTogglePressed)}
         onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
         data-state={isPressed ? 'on' : 'off'}
+        data-disabled={disabled ? '' : undefined}
         disabled={disabled}
+        asChild={asChild}
         {...ariaAttributes}
         {...props}
     >{children}
-    </Primitive.button>;
+    </ButtonPrimitive>;
 };
 
 export default TogglePrimitive;

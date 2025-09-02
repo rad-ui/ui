@@ -18,6 +18,10 @@ export type TabRootProps = {
     color?: string;
     defaultValue?: string;
     onValueChange?: (value: string) => void;
+    orientation?: 'horizontal' | 'vertical';
+    dir?: 'ltr' | 'rtl';
+    activationMode?: 'automatic' | 'manual';
+    asChild?: boolean;
 };
 
 const TabRoot = ({
@@ -28,6 +32,10 @@ const TabRoot = ({
     value,
     className,
     color,
+    orientation = 'horizontal',
+    dir = 'ltr',
+    activationMode = 'automatic',
+    asChild = false,
     ...props
 }: TabRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
@@ -42,21 +50,40 @@ const TabRoot = ({
         setTabValue(value);
     };
 
+    // Apply the default tab only when the component is uncontrolled. This
+    // prevents overwriting a controlled state while still allowing the effect
+    // to run if the consumer switches between controlled and uncontrolled
+    // modes.
     useEffect(() => {
-        if (defaultValue) {
+        if (value === undefined && defaultValue) {
             handleTabChange(defaultValue);
         }
-    }, [defaultValue]);
+        // Include `value` so the effect re-evaluates when the control state
+        // changes.
+    }, [defaultValue, value]);
 
     const contextValues = {
         rootClass,
         tabValue,
-        handleTabChange
+        handleTabChange,
+        orientation,
+        activationMode
     };
+
+    const dataAttributes: Record<string, string> = {};
+    dataAttributes['data-orientation'] = orientation;
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root orientation="horizontal" loop className={clsx(rootClass, className)} data-rad-ui-accent-color={color} {...props}>
+            <RovingFocusGroup.Root
+                orientation={orientation}
+                loop
+                dir={dir}
+                className={clsx(rootClass, className)}
+                data-rad-ui-accent-color={color}
+                {...dataAttributes}
+                {...props}
+            >
                 {children}
             </RovingFocusGroup.Root>
         </TabsRootContext.Provider>

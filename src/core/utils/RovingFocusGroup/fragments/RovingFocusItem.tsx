@@ -1,6 +1,6 @@
-import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
+import React, { forwardRef, useContext, useEffect, useId } from 'react';
 
-import Primitive from '~/core/primitives/Primitive';
+import ButtonPrimitive from '~/core/primitives/Button';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
@@ -246,7 +246,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         }
     };
 
-    return <Primitive.button
+    return <ButtonPrimitive
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
@@ -263,7 +263,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         {...props}
     >
         {children}
-    </Primitive.button>;
+    </ButtonPrimitive>;
 });
 
 RovingFocusItem.displayName = 'RovingFocusItem';

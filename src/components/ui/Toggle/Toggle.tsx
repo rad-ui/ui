@@ -27,7 +27,9 @@ export type ToggleProps = {
     /** Accent color for the toggle */
     color?: string;
     /** Callback fired when toggle state changes */
-    onChange : (isPressed:boolean) => void;
+    onPressedChange : (isPressed:boolean) => void;
+    /** Whether to render as a child element instead of a button */
+    asChild?: boolean;
 };
 
 /**
@@ -36,11 +38,11 @@ export type ToggleProps = {
  * @example
  * // Controlled mode
  * const [pressed, setPressed] = useState(false);
- * <Toggle pressed={pressed} onChange={setPressed}>Toggle Me</Toggle>
+ * <Toggle pressed={pressed} onPressedChange={setPressed}>Toggle Me</Toggle>
  *
  * @example
  * // Uncontrolled mode
- * <Toggle defaultPressed={false} onChange={(isPressed) => console.log(isPressed)}>Toggle Me</Toggle>
+ * <Toggle defaultPressed={false} onPressedChange={(isPressed) => console.log(isPressed)}>Toggle Me</Toggle>
  *
  * @param {ToggleProps} props - The component props
  * @returns {JSX.Element} The Toggle component
@@ -52,14 +54,15 @@ const Toggle: React.FC<ToggleProps> = ({
     className = '',
     color = '',
     pressed,
-    onChange,
+    onPressedChange,
+    asChild = false,
     ...props
 }) => {
     // Use our new hook to handle controlled/uncontrolled state
     const [isPressed, setIsPressed] = useControllableState<boolean>(
         pressed,
         defaultPressed,
-        onChange
+        onPressedChange
     );
 
     // We don't need the validation anymore since the hook handles this
@@ -80,6 +83,7 @@ const Toggle: React.FC<ToggleProps> = ({
             onPressedChange={setIsPressed}
             data-state={isPressed ? 'on' : 'off'}
             data-disabled={props.disabled ? '' : undefined}
+            asChild={asChild}
             {...props}
             {...data_attributes}
         >

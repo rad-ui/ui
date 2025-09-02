@@ -1,7 +1,7 @@
 import React, { useContext, forwardRef } from 'react';
 
 import TooltipContext from '../context/TooltipContext';
-import Primitive from '~/core/primitives/Primitive';
+import ButtonPrimitive from '~/core/primitives/Button';
 import { useMergeRefs } from '@floating-ui/react';
 
 const TooltipTrigger = forwardRef(({ children, asChild, ...props }: { children: React.ReactNode, asChild?: boolean } & JSX.IntrinsicElements['button'], propRef: React.Ref<HTMLButtonElement>) => {
@@ -11,7 +11,7 @@ const TooltipTrigger = forwardRef(({ children, asChild, ...props }: { children: 
         throw new Error('TooltipTrigger must be used within a TooltipRoot component');
     }
 
-    const { setIsOpen, isOpen, interactions, data, context } = tooltipContext;
+    const { isOpen, interactions, context } = tooltipContext;
 
     const { getReferenceProps } = interactions;
 
@@ -20,9 +20,9 @@ const TooltipTrigger = forwardRef(({ children, asChild, ...props }: { children: 
     const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
     return (
-        <Primitive.button asChild={asChild} ref={ref} data-state={isOpen ? 'open' : 'closed'} {...getReferenceProps(props)} >
+        <ButtonPrimitive asChild={asChild} ref={ref} data-state={isOpen ? 'open' : 'closed'} {...getReferenceProps(props)} >
             {children}
-        </Primitive.button>
+        </ButtonPrimitive>
     );
 });
 

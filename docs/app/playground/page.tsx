@@ -26,7 +26,7 @@ const Playground = () => {
                 <SeparatorPlayground/>
                 <LinkPlayground/>
                 <TextPlayground/>
-                <QuotePlayground />
+                {/* <QuotePlayground />  TODO: This is not working - Once its added back to package we can uncomment this */}
             </div>
         </FullHeightScroll>
 

@@ -3,7 +3,7 @@ import Tabs from '../Tabs';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TabProps } from '../fragments/TabContent';
+// import { TabProps } from '../fragments/TabContent'; // Removed - not exported
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Tabs> = {
@@ -462,4 +462,193 @@ export const NestedTabs: Story = {
 
 export const ProgrammaticTabs: Story = {
     render: () => <ProgrammaticTabsExample />
+};
+
+// New stories for the GitHub issue #1271 features
+export const VerticalOrientation: Story = {
+    render: () => (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <h3 className="text-lg font-semibold mb-4">Vertical Tabs</h3>
+                <Tabs.Root defaultValue="tab1" orientation="vertical">
+                    <Tabs.List className="flex flex-col gap-2">
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 1</h4>
+                            <p>This is the content for the first tab. Notice how the tabs are arranged vertically.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 2</h4>
+                            <p>This is the content for the second tab. Use arrow keys to navigate vertically.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 3</h4>
+                            <p>This is the content for the third tab. The orientation is set to vertical.</p>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    )
+};
+
+export const ManualActivationMode: Story = {
+    render: () => (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <h3 className="text-lg font-semibold mb-4">Manual Activation Mode</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                    In manual mode, tabs only activate when clicked, not when focused with keyboard.
+                </p>
+                <Tabs.Root defaultValue="tab1" activationMode="manual">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 1</h4>
+                            <p>Try using arrow keys to focus different tabs. The content won't change until you click.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 2</h4>
+                            <p>This tab content only shows when you click the tab, not when you focus it.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 3</h4>
+                            <p>Manual activation mode provides more control over when tabs activate.</p>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    )
+};
+
+export const ForceMount: Story = {
+    render: () => (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <h3 className="text-lg font-semibold mb-4">Force Mount</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                    The second tab content is force-mounted, so it stays in the DOM even when inactive.
+                </p>
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2 (Force Mounted)</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 1</h4>
+                            <p>This content is normally mounted/unmounted based on active state.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2" forceMount className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 2</h4>
+                            <p>This content is force-mounted and stays in the DOM. Check the browser inspector to see it's always there.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Content for Tab 3</h4>
+                            <p>This content is normally mounted/unmounted based on active state.</p>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    )
+};
+
+export const RTLDirection: Story = {
+    render: () => (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <h3 className="text-lg font-semibold mb-4">RTL Direction</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                    Tabs with right-to-left text direction support.
+                </p>
+                <Tabs.Root defaultValue="tab1" dir="rtl">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">تب 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">تب 2</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">تب 3</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">محتوى التب الأول</h4>
+                            <p>هذا هو محتوى التب الأول مع دعم الاتجاه من اليمين إلى اليسار.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">محتوى التب الثاني</h4>
+                            <p>هذا هو محتوى التب الثاني مع دعم الاتجاه من اليمين إلى اليسار.</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">محتوى التب الثالث</h4>
+                            <p>هذا هو محتوى التب الثالث مع دعم الاتجاه من اليمين إلى اليسار.</p>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    )
+};
+
+export const DataAttributes: Story = {
+    render: () => (
+        <div className="w-full my-4">
+            <div className="border shadow rounded-md p-4">
+                <h3 className="text-lg font-semibold mb-4">Data Attributes</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                    This example shows the data attributes that are automatically added to tabs.
+                    Open the browser inspector to see data-state, data-orientation, and data-disabled attributes.
+                </p>
+                <Tabs.Root defaultValue="tab1" orientation="horizontal">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Active Tab</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2" disabled>Disabled Tab</Tabs.Trigger>
+                        <Tabs.Trigger value="tab3">Inactive Tab</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Active Tab Content</h4>
+                            <p>This tab has data-state="active" and data-orientation="horizontal".</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab2" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Disabled Tab Content</h4>
+                            <p>This tab has data-state="inactive", data-orientation="horizontal", and data-disabled="".</p>
+                        </div>
+                    </Tabs.Content>
+                    <Tabs.Content value="tab3" className="mt-4">
+                        <div className="p-4 bg-gray-50 rounded">
+                            <h4 className="font-medium mb-2">Inactive Tab Content</h4>
+                            <p>This tab has data-state="inactive" and data-orientation="horizontal".</p>
+                        </div>
+                    </Tabs.Content>
+                </Tabs.Root>
+            </div>
+        </div>
+    )
 };

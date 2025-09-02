@@ -3,7 +3,6 @@ import SelectPrimitiveItem from './fragments/SelectPrimitiveItem';
 import SelectPrimitiveTrigger from './fragments/SelectPrimitiveTrigger';
 import SelectPrimitiveRoot from './fragments/SelectPrimitiveRoot';
 import SelectPrimitivePortal from './fragments/SelectPrimitivePortal';
-import SelectPrimitiveOverlay from './fragments/SelectPrimitiveOverlay';
 import SelectPrimitiveGroup from './fragments/SelectPrimitiveGroup';
 import SelectPrimitiveSearch from './fragments/SelectPrimitiveSearch';
 
@@ -15,7 +14,6 @@ const SelectPrimitive = () => {
 SelectPrimitive.Root = SelectPrimitiveRoot;
 SelectPrimitive.Content = SelectPrimitiveContent;
 SelectPrimitive.Portal = SelectPrimitivePortal;
-SelectPrimitive.Overlay = SelectPrimitiveOverlay;
 SelectPrimitive.Item = SelectPrimitiveItem;
 SelectPrimitive.Trigger = SelectPrimitiveTrigger;
 SelectPrimitive.Group = SelectPrimitiveGroup;

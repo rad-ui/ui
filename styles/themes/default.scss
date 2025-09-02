@@ -31,14 +31,17 @@
 @use "components/scroll-area";
 @use "components/switch";
 @use "components/skeleton";
-@use "components/visuallyhidden";
 @use "components/collapsible";
 @use "components/tab-nav";
 @use "components/select";
 @use "components/checkbox-group";
 @use "components/checkbox-cards";
 @use "components/navigation-menu";
-
+@use "components/dropdown-menu";
+@use "components/number-field";
+@use "components/context-menu";
+@use "components/menubar";
+@use "components/splitter";
 
 // import .css file
 @use "../cssTokens/base.tokens";

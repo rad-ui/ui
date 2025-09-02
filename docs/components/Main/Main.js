@@ -16,6 +16,8 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
     const [darkMode, setDarkMode] = useState(darkModeSsrValue === 'true');
     const [isDocsNavOpen, setIsDocsNavOpen] = useState(false);
 
+    console.log(darkModeSsrValue)
+
     const sendValues = {
         isDocsNavOpen,
         setIsDocsNavOpen,
@@ -28,7 +30,7 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
             accentColor="gray"
         >
             <NavBarContext.Provider value={sendValues}>
-                <div className={`flex flex-col flex-1 h-screen ${darkMode ? 'rad-ui-dark-theme bg-black' : ''}`} data-accent-color="gray">
+                <div className={`flex flex-col flex-1 h-screen ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-gray-50'}`} data-accent-color="gray">
                     {/* Navbar start */}
                     <NavBar cookies={cookies} darkMode={darkMode} setDarkMode={setDarkMode} setCookie={setCookie} />
                     {/* Navbar end */}

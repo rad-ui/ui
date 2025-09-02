@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext } from 'react';
+import React from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
 
 export type SelectPortalProps = {

@@ -13,7 +13,7 @@ import CollapsibleContent from './fragments/CollapsibleContent';
  * */
 
 const Collapsible = () => {
-    console.warn('Direct usage of Tabs is not supported. Please use Tabs.Root, Tabs.List, etc. instead.');
+    console.warn('Direct usage of Collapsible is not supported. Please use Collapsible.Root, Collapsible.Trigger, etc. instead.');
     return null;
 };
 

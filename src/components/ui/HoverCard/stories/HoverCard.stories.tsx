@@ -58,14 +58,14 @@ const ControlledHoverCardExample = () => {
         <div className="flex w-full items-center justify-center">
             <HoverCard.Root
                 open={open}
-                onOpenChange={setOpen}
+                onOpenChange={() => {}}
                 openDelay={100}
                 closeDelay={200}
                 customRootClass=""
             >
                 <HoverCard.Trigger>
-                    <Button variant="secondary" className="my-0" size="small">
-                        {open ? 'Card visible' : 'Hover over me'}
+                    <Button variant="secondary" className="my-0" size="small" onClick={() => setOpen(true)}>
+                        {open ? 'Card visible' : 'Click Me'}
                     </Button>
                 </HoverCard.Trigger>
                 <HoverCard.Content>

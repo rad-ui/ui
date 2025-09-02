@@ -1,7 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
 import { clsx } from 'clsx';
-import ButtonPrimitive from '~/core/primitives/Button';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';

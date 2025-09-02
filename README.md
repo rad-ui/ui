@@ -12,7 +12,7 @@ Rad UI is a React UI library designed to simplify and enhance the process of bui
 
 ## Documentation
 
-For full documentation, visit  [Documentation](https://www.rad-ui.com/docs/first-steps/introduction).
+For full documentation, visit [Documentation](https://www.rad-ui.com/docs/first-steps/introduction).
 
 ## Installation
 
@@ -23,13 +23,7 @@ npm install @radui/ui
 ```
 
 Description: Rad UI is a React UI library that simplifies UI development, offering a collection of components and utilities to enhance the user experience. It addresses common challenges in building interfaces, making it easier for developers to create intuitive and visually appealing applications.
-
-Technology stack: React
-Status: Beta
-Please note that Rad UI is under development and will receive a full official release soon in 2024 once significant production-ready components are readily available.
-What sets this apart: Rad UI stands out with its focus on simplicity, flexibility, and ease of integration into React projects.
 <!-- 
-
 
 ## Dependencies
 
@@ -66,8 +60,8 @@ For more details, you can read on how to contribute to development of Rad UI in 
 
 [Setting Up Dev Environment](https://www.rad-ui.com/docs/contributing/setting-up-dev-environment)
 
-
 ## Where can I get more help, if I need it?
+
 [GitHub Discussions](https://github.com/rad-ui/ui/discussions)
 [Discord](https://discord.com/invite/nMaQfeEPNp)
 
