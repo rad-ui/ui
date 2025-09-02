@@ -29,5 +29,10 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     })
   }, [])
 
+  // If no API key, avoid mounting the provider to prevent extensions from loading
+  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+    return <>{children}</>
+  }
+
   return <PHProvider client={posthog}>{children}</PHProvider>
 }
