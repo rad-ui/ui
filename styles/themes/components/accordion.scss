@@ -1,6 +1,23 @@
 .rad-ui-accordion-root{
+    //  --------------------------------
+    //  --- Component Tokens -----
+    //  --------------------------------
+    
+    --rad-accordion-border-color: var(--rad-ui-color-gray-700);
+    --rad-accordion-background-color: var(--rad-ui-color-gray-50);
+    --rad-accordion-text-color: var(--rad-ui-color-gray-1000);
+
+    // Trigger Tokens
+    --rad-accordion-trigger-background-color: var(--rad-ui-color-gray-100);
+    --rad-accordion-trigger-text-color: var(--rad-ui-color-gray-800);
+
+    // Content Tokens
+    --rad-accordion-content-background-color: var(--rad-ui-color-gray-100);
+    --rad-accordion-content-text-color: var(--rad-ui-color-gray-1000);
+
+
     width: 100%;
-    border: 1px solid var(--rad-ui-color-gray-1000);
+    border: 1px solid var(--rad-accordion-border-color);
     border-radius: 4px;
     overflow: hidden;
 
@@ -11,11 +28,11 @@
             cursor: not-allowed !important;
         }
         
-        background-color: var(--rad-ui-color-gray-50);
+        background-color: var(--rad-accordion-background-color);
 
         // not last child
         &:not(:last-child){
-            border-bottom: 1px solid var(--rad-ui-color-gray-1000);
+            border-bottom: 1px solid var(--rad-accordion-border-color);
         }
 
         
@@ -26,7 +43,7 @@
         }
 
         &:focus-within{
-            color: var(--rad-ui-color-gray-1000);
+            color: var(--rad-accordion-text-color);
         }
 
         .rad-ui-accordion-trigger{
@@ -35,12 +52,12 @@
             padding:16px;
             font-size: 1em;
             font-weight: 600;
-            color: var(--rad-ui-color-gray-800);
-            background-color: var(--rad-ui-color-accent-100);
+            color: var(--rad-accordion-trigger-text-color);
+            background-color: var(--rad-accordion-trigger-background-color);
 
             &:focus{
                 outline: none;
-                color: var(--rad-ui-color-accent-1000);
+                color: var(--rad-accordion-text-color);
             
             }
         }
@@ -48,9 +65,9 @@
         .rad-ui-accordion-content {
             padding: 16px;
             font-size: 1em;
-            background-color: var(--rad-ui-color-gray-100);
-            color: var(--rad-ui-color-gray-1000);
-            border-top: 1px solid var(--rad-ui-color-gray-1000);
+            background-color: var(--rad-accordion-content-background-color);
+            color: var(--rad-accordion-content-text-color);
+            border-top: 1px solid var(--rad-accordion-border-color);
         }
     }
 }

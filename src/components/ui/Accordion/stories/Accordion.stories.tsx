@@ -68,20 +68,22 @@ const items = [
 // Create a sample Accordion using the composable API
 const AccordionExample = ({ ...args }) => {
     return (
-        <Accordion.Root {...args}>
-            {items.map((item, index) => (
-                <Accordion.Item value={index} key={index}>
-                    <Accordion.Header>
-                        <Accordion.Trigger>
-                            {item.title}
-                        </Accordion.Trigger>
-                    </Accordion.Header>
-                    <Accordion.Content index={index}>
-                        {item.content}
-                    </Accordion.Content>
-                </Accordion.Item>
-            ))}
-        </Accordion.Root>
+        <div className="w-[600px] mx-auto mt-10">
+            <Accordion.Root {...args}>
+                {items.map((item, index) => (
+                    <Accordion.Item value={index} key={index}>
+                        <Accordion.Header>
+                            <Accordion.Trigger>
+                                {item.title}
+                            </Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content index={index}>
+                            {item.content}
+                        </Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        </div>
     );
 };
 
