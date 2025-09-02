@@ -1,9 +1,10 @@
-import React, { useId, useState, useRef } from 'react';
+import React, { useId, useState, useRef, useContext } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
 import { clsx } from 'clsx';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import { TreeContext } from '../contexts/TreeContext';
 
 type TreeItemProps = {
     children: React.ReactNode;
@@ -22,6 +23,7 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
     const thisRef = useRef<HTMLButtonElement>(null);
 
     const [isToggled, setIsToggled] = useState(false);
+    const { rootClass } = useContext(TreeContext);
 
     const handleClick = () => {
         console.log('clicked', id);
@@ -76,7 +78,7 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
         <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse} >
             <ButtonPrimitive
                 ref={thisRef}
-                className={clsx(className)}
+                className={clsx(`${rootClass}-item`, className)}
                 onClick={handleClick}
                 onKeyDownCapture={(e: React.KeyboardEvent) => {
                     // Prevent Enter from triggering click/expand; expansion is only via ArrowRight
@@ -95,17 +97,8 @@ const TreeItem = ({ children, item, level = 0, className = '', parentId = null, 
                 data-id={id}
                 data-parent-id={parentId}
                 data-level={level}
-                style={{ display: 'block', alignItems: 'center', gap: '0.5rem', backgroundColor: isSelected ? 'red' : 'blue' }}
                 {...props}>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', paddingLeft: `${level * 16}px` }}>
-                    <div>
-                        {isToggled ? 'v' : '>'}
-                    </div>
-                    <div>
-                        {children}
-                    </div>
-                </div>
+                {children}
             </ButtonPrimitive>
         </RovingFocusGroup.Item>
 

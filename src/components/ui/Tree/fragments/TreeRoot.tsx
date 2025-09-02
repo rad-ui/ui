@@ -22,7 +22,10 @@ const TreeRoot = ({ children, className = '', customRootClass = '', 'aria-label'
     const treeRef = useRef(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const treeContextValue = {};
+    const treeContextValue = {
+        rootClass,
+        treeRef
+    };
 
     return (
         <TreeContext.Provider value={treeContextValue}>
