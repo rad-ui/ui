@@ -22,6 +22,21 @@ const meta: Meta<typeof Accordion> = {
 export default meta;
 type Story = StoryObj<any>;
 
+const ChevronDownIcon = () => {
+    return (
+        <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="transition-transform duration-200 ease-in-out [.rad-ui-accordion-item[data-state=open]_&]:rotate-180"
+        >
+            <path d="M12 15L6 9L7.41 7.59L12 12.17L16.59 7.59L18 9L12 15Z" fill="currentColor"/>
+        </svg>
+    );
+};
+
 const items = [
     {
         title: 'The Matrix (1999)',
@@ -73,8 +88,9 @@ const AccordionExample = ({ ...args }) => {
                 {items.map((item, index) => (
                     <Accordion.Item value={index} key={index}>
                         <Accordion.Header>
-                            <Accordion.Trigger>
+                            <Accordion.Trigger className="flex items-center justify-between gap-2">
                                 {item.title}
+                                <ChevronDownIcon />
                             </Accordion.Trigger>
                         </Accordion.Header>
                         <Accordion.Content index={index}>
