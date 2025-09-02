@@ -16,6 +16,8 @@ type RovingFocusItemProps = {
     'aria-label'?: string;
     'aria-labelledby'?: string;
     role?: string;
+    handleRightKeyDown?: () => void;
+    handleLeftKeyDown?: () => void;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
@@ -40,11 +42,13 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     role = 'button',
+    handleRightKeyDown,
+    handleLeftKeyDown,
     ...props
 }, ref) => {
     const id = useId();
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { orientation, loop, disableTabIndexing, dir } = useContext(RovingFocusRootContext);
+    const { orientation, loop, disableTabIndexing, dir, mode } = useContext(RovingFocusRootContext);
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
@@ -189,6 +193,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 
         case 'ArrowLeft':
             event.preventDefault();
+            if (handleLeftKeyDown) {
+                handleLeftKeyDown();
+            }
             if (orientation === 'horizontal' || orientation === 'both') {
                 if (dir === 'rtl') {
                     focusNextItem();
@@ -207,6 +214,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 
         case 'ArrowRight':
             event.preventDefault();
+            if (handleRightKeyDown) {
+                handleRightKeyDown();
+            }
             if (orientation === 'horizontal' || orientation === 'both') {
                 if (dir === 'rtl') {
                     focusPreviousItem();
@@ -250,7 +260,6 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
-
         ref={ref}
         id={id}
         onKeyDown={handleKeyDown}

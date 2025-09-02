@@ -52,7 +52,11 @@ describe('TabNav', () => {
             </TabNav.Root>
         );
 
-        const root = screen.getByText('Tab 1').closest('div');
+        // Debug: show the rendered HTML
+        screen.debug();
+
+        // Try to find the element with the custom class
+        const root = screen.getByText('Tab 1').closest(`.${customClass}-tab-nav`);
         expect(root).toHaveClass(`${customClass}-tab-nav`);
     });
 

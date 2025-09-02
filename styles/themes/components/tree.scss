@@ -1,0 +1,63 @@
+.rad-ui-tree{
+    .rad-ui-tree-item{
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-left: 16px;
+        padding-right: 16px;
+        background-color: var(--rad-ui-color-gray-100);
+        border-radius: 4px;
+        border: 1px solid var(--rad-ui-color-accent-500);
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--rad-ui-color-gray-1000);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--rad-ui-color-accent-400);
+        }
+
+        &:focus-visible, &:focus {
+            outline: 1px solid var(--rad-ui-color-accent-900);
+            background-color: var(--rad-ui-color-accent-300);
+        }
+
+        &[data-toggled="true"] {
+            background-color: var(--rad-ui-color-accent-300);
+        }
+
+        &[data-selected="true"] {
+            background-color: var(--rad-ui-color-blue-600);
+        }
+
+        &[data-disabled="true"] {
+            color: var(--rad-ui-color-gray-500);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        &[data-level="1"] {
+            padding-left: 32px;
+        }
+
+        &[data-level="2"] {
+            padding-left: 64px;
+        }
+
+        &[data-level="3"] {
+            padding-left: 96px;
+        }
+
+        &[data-level="4"] {
+            padding-left: 128px;
+        }
+
+        &[data-level="5"] {
+            padding-left: 160px;
+        }
+
+        &[data-level="6"] {
+            padding-left: 192px;
+        }
+    }
+}
