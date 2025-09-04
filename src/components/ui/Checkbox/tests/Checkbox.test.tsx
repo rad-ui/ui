@@ -120,6 +120,23 @@ describe('Checkbox', () => {
         expect(button).toHaveClass('my-checkbox');
     });
 
+    it('forwards ref to the trigger', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { container } = render(
+            <Checkbox.Root ref={ref}>
+                <Checkbox.Indicator />
+            </Checkbox.Root>
+        );
+        const button = container.querySelector('button');
+        expect(ref.current).toBe(button);
+        expect(warnSpy).not.toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
+
     it('warns and renders null on direct Checkbox usage', () => {
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const { container } = render(<Checkbox />);

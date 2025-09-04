@@ -1,5 +1,5 @@
-import React from 'react';
-import CheckboxPrimitiveRoot, { CheckboxPrimitiveRootProps } from '~/core/primitives/Checkbox/fragments/CheckboxPrimitiveRoot';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import CheckboxPrimitiveRoot from '~/core/primitives/Checkbox/fragments/CheckboxPrimitiveRoot';
 import { customClassSwitcher } from '~/core';
 import CheckboxContext from '../context/CheckboxContext';
 import { clsx } from 'clsx';
@@ -7,14 +7,15 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'Checkbox';
 
+export type CheckboxRootElement = ElementRef<typeof CheckboxPrimitiveRoot>;
 export type CheckboxRootProps = {
     customRootClass?: string;
     color?: string;
     variant?: string;
     size?: string;
-} & CheckboxPrimitiveRootProps
+} & ComponentPropsWithoutRef<typeof CheckboxPrimitiveRoot>;
 
-const CheckboxRoot = ({ children, className = '', customRootClass, color = '', variant, size, ...props }: CheckboxRootProps) => {
+const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>(({ children, className = '', customRootClass, color = '', variant, size, ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = useCreateDataAttribute('checkbox', { variant, size });
@@ -22,10 +23,12 @@ const CheckboxRoot = ({ children, className = '', customRootClass, color = '', v
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return <CheckboxContext.Provider value={{ rootClass }}>
-        <CheckboxPrimitiveRoot className={clsx(rootClass, className)} {...props} {...composedAttributes()}>
+        <CheckboxPrimitiveRoot ref={ref} className={clsx(rootClass, className)} {...props} {...composedAttributes()}>
             {children}
         </CheckboxPrimitiveRoot>
     </CheckboxContext.Provider>;
-};
+});
+
+CheckboxRoot.displayName = COMPONENT_NAME;
 
 export default CheckboxRoot;
