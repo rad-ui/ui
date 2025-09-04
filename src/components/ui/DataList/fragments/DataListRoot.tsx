@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import DataListContext from '../contexts/DataListContex';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 
 const COMPONENT_NAME = 'DataList';
 
-const DataListRoot = ({ children, className = '', customRootClass = '', ...props }: { children: React.ReactNode, className?: string, customRootClass?: string }) => {
+type DataListRootElement = ElementRef<'div'>;
+interface DataListRootProps extends ComponentPropsWithoutRef<'div'> {
+    customRootClass?: string;
+}
+
+const DataListRoot = forwardRef<DataListRootElement, DataListRootProps>(({ children, className = '', customRootClass = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return <DataListContext.Provider
         value={{
             rootClass
         }}>
-        <div className={clsx(rootClass, className)} {...props}>{children}</div>
+        <div ref={ref} className={clsx(rootClass, className)} {...props}>{children}</div>
     </DataListContext.Provider>;
-};
+});
+
+DataListRoot.displayName = 'DataListRoot';
 
 export default DataListRoot;
