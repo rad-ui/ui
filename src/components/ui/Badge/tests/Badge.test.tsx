@@ -31,4 +31,17 @@ describe('Badge', () => {
         render(<Badge color='blue'>Badge</Badge>);
         expect(screen.getByText('Badge')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
+
+    test('forwards refs to the underlying element', () => {
+        const ref = React.createRef<HTMLDivElement>();
+        render(<Badge ref={ref}>Badge</Badge>);
+        expect(ref.current).not.toBeNull();
+    });
+
+    test('applies variant and size data attributes', () => {
+        render(<Badge variant='solid' size='lg'>Badge</Badge>);
+        const badgeElement = screen.getByText('Badge');
+        expect(badgeElement).toHaveAttribute('data-badge-variant', 'solid');
+        expect(badgeElement).toHaveAttribute('data-badge-size', 'lg');
+    });
 });
