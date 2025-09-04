@@ -25,6 +25,7 @@ const RELEASED_COMPONENTS = [
     'Toggle',
     'ToggleGroup',
     'Tooltip',
+    'VisuallyHidden',
     // Released but not documented officially
     'ScrollArea',
     'Theme',
