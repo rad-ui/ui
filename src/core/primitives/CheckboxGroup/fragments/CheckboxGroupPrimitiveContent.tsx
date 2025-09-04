@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxGroupPrimitiveTriggerContext from '../context/CheckboxGroupPrimitiveTriggerContext';
 
-export type CheckboxGroupPrimitiveContentProps = {
-    children?: React.ReactNode
-    className?: string
-}
-const CheckboxGroupPrimitiveContent = ({ children, className }: CheckboxGroupPrimitiveContentProps) => {
+export type CheckboxGroupPrimitiveContentElement = ElementRef<'span'>;
+export type CheckboxGroupPrimitiveContentProps = ComponentPropsWithoutRef<'span'>;
+
+const CheckboxGroupPrimitiveContent = forwardRef<CheckboxGroupPrimitiveContentElement, CheckboxGroupPrimitiveContentProps>(({ children, className, ...props }, ref) => {
     const { isChecked } = React.useContext(CheckboxGroupPrimitiveTriggerContext);
 
-    return <span className={className}>
+    return <span ref={ref} className={className} {...props}>
         {isChecked ? children : null}
     </span>;
-};
+});
+
+CheckboxGroupPrimitiveContent.displayName = 'CheckboxGroupPrimitiveContent';
 
 export default CheckboxGroupPrimitiveContent;

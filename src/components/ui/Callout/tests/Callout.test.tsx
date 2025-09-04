@@ -52,7 +52,28 @@ describe('Callout', () => {
             const element = screen.getByText('Test Content').parentElement;
             expect(element).toHaveAttribute('data-callout-size', 'large');
         });
-    });
+
+        it('forwards ref to root element', () => {
+            const ref = React.createRef<HTMLDivElement>();
+            render(
+                <Callout.Root ref={ref}>
+                    <div>Test Content</div>
+                </Callout.Root>
+            );
+            expect(ref.current).toBeInstanceOf(HTMLDivElement);
+        });
+
+        it('renders without console warnings', () => {
+            const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+            render(
+                <Callout.Root>
+                    <div>Test Content</div>
+                </Callout.Root>
+            );
+            expect(warnSpy).not.toHaveBeenCalled();
+            warnSpy.mockRestore();
+        });
+        });
 
     describe('Callout.Icon', () => {
         it('renders icon content correctly', () => {
@@ -77,7 +98,19 @@ describe('Callout', () => {
             const iconElement = screen.getByText('Icon').parentElement;
             expect(iconElement).toHaveClass('icon-class');
         });
-    });
+
+        it('forwards ref to icon element', () => {
+            const ref = React.createRef<HTMLSpanElement>();
+            render(
+                <Callout.Root>
+                    <Callout.Icon ref={ref}>
+                        <span>Icon</span>
+                    </Callout.Icon>
+                </Callout.Root>
+            );
+            expect(ref.current).toBeInstanceOf(HTMLSpanElement);
+        });
+        });
 
     describe('Callout.Text', () => {
         it('renders text content correctly', () => {
@@ -98,7 +131,17 @@ describe('Callout', () => {
             const textElement = screen.getByText('Callout Text');
             expect(textElement).toHaveClass('text-class');
         });
-    });
+
+        it('forwards ref to text element', () => {
+            const ref = React.createRef<HTMLParagraphElement>();
+            render(
+                <Callout.Root>
+                    <Callout.Text ref={ref}>Callout Text</Callout.Text>
+                </Callout.Root>
+            );
+            expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
+        });
+        });
 
     describe('Callout Composition', () => {
         it('renders complete callout with all parts', () => {
