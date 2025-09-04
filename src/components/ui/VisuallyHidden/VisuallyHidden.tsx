@@ -6,13 +6,13 @@ import { clsx } from 'clsx';
 
 const COMPONENT_NAME = 'VisuallyHidden';
 
-export type VisuallyHiddenProps = {
-    children: React.ReactNode;
+type VisuallyHiddenElement = React.ElementRef<typeof Primitive.div>;
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>;
+
+export type VisuallyHiddenProps = PrimitiveDivProps & {
     customRootClass?: string;
-    className?: string;
-    asChild?: boolean;
     style?: CSSProperties;
-} & React.HTMLAttributes<HTMLDivElement>;
+};
 
 const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     position: 'absolute',
@@ -29,25 +29,22 @@ const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     userSelect: 'none'
 } as const;
 
-const VisuallyHidden = ({
-    children,
-    customRootClass,
-    className,
-    style = {},
-    ...props
-}: VisuallyHiddenProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const VisuallyHidden = React.forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>(
+    ({ children, customRootClass, className, style = {}, ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    return (
-        <Primitive.div
-            className={clsx(rootClass, className)}
-            style={{ ...VISUALLY_HIDDEN_STYLES, ...style }} // overriding possible
-            {...props}
-        >
-            {children}
-        </Primitive.div>
-    );
-};
+        return (
+            <Primitive.div
+                ref={ref}
+                className={clsx(rootClass, className)}
+                style={{ ...VISUALLY_HIDDEN_STYLES, ...style }} // overriding possible
+                {...props}
+            >
+                {children}
+            </Primitive.div>
+        );
+    }
+);
 
 VisuallyHidden.displayName = COMPONENT_NAME;
 
