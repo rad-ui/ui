@@ -1,6 +1,6 @@
 'use client';
 import { clsx } from 'clsx';
-import React, { useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
@@ -8,15 +8,11 @@ import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-type AccordionTriggerProps = {
-  children: React.ReactNode;
-  className?: string,
+type AccordionTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
   index?: number,
-  handleClick?: (index: number) => void
 };
 
-const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
-    const triggerRef = useRef<HTMLButtonElement>(null);
+const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionTriggerProps>(({ children, index, className = '', ...props }, ref) => {
     const { setActiveItems, rootClass, activeItems, openMultiple } = useContext(AccordionContext);
     const { itemValue, disabled } = useContext(AccordionItemContext);
 
@@ -45,17 +41,20 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, cl
             <CollapsiblePrimitive.Trigger disabled={disabled} asChild>
                 <ButtonPrimitive
                     className={clsx(`${rootClass}-trigger`, className)}
-                    ref={triggerRef}
+                    ref={ref}
                     aria-disabled={disabled}
                     onClick={onClickHandler}
                     aria-expanded={activeItems.includes(itemValue)}
                     aria-controls={`content-${index}`}
+                    {...props}
                 >
                     {children}
                 </ButtonPrimitive>
             </CollapsiblePrimitive.Trigger>
         </RovingFocusGroup.Item>
     );
-};
+});
+
+AccordionTrigger.displayName = 'AccordionTrigger';
 
 export default AccordionTrigger;
