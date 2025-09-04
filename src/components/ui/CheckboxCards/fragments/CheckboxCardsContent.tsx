@@ -1,16 +1,26 @@
 import React from 'react';
-import CheckboxGroupPrimitive, { CheckboxGroupPrimitiveProps } from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
+import CheckboxGroupPrimitive from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxCardsRootContext from '../context/CheckboxCardsRootContext';
 
-export type CheckboxCardsItemProps ={
-    children: React.ReactNode
-}
-const CheckboxCardsContent = ({ children, ...props }: CheckboxCardsItemProps) => {
+export type CheckboxCardsContentProps = React.ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Content>;
+
+const CheckboxCardsContent = React.forwardRef<
+    React.ElementRef<typeof CheckboxGroupPrimitive.Content>,
+    CheckboxCardsContentProps
+>(({ children, ...props }, ref) => {
     const { rootClass } = React.useContext(CheckboxCardsRootContext);
 
     return (
-        <CheckboxGroupPrimitive.Content className={`${rootClass}-content`} {...props} >{children}</CheckboxGroupPrimitive.Content>
+        <CheckboxGroupPrimitive.Content
+            ref={ref}
+            className={`${rootClass}-content`}
+            {...props}
+        >
+            {children}
+        </CheckboxGroupPrimitive.Content>
     );
-};
+});
+
+CheckboxCardsContent.displayName = 'CheckboxCardsContent';
 
 export default CheckboxCardsContent;
