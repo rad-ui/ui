@@ -38,4 +38,20 @@ describe('AspectRatio', () => {
         render(<AspectRatio ratio="-5">Content</AspectRatio>);
         expect(screen.getByText('Content').style.aspectRatio).toBe('1');
     });
+
+    test('forwards ref to underlying div', () => {
+        const ref = React.createRef();
+        render(<AspectRatio ref={ref}>Content</AspectRatio>);
+        expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    test('renders without console errors or warnings', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(<AspectRatio>Content</AspectRatio>);
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(warnSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+        warnSpy.mockRestore();
+    });
 });
