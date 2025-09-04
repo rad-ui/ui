@@ -82,6 +82,27 @@ describe('Accordion Component', () => {
         expect(screen.getByText('Content 1')).toBeInTheDocument();
     });
 
+    test('calls user onClick while preserving toggle behavior', () => {
+        const handleClick = jest.fn();
+        render(
+            <Accordion.Root>
+                <Accordion.Item value={0}>
+                    <Accordion.Header>
+                        <Accordion.Trigger onClick={handleClick}>
+                            Item 1
+                        </Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content index={0}>Content 1</Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        );
+
+        const trigger = screen.getByText('Item 1');
+        fireEvent.click(trigger);
+        expect(handleClick).toHaveBeenCalled();
+        expect(screen.getByText('Content 1')).toBeInTheDocument();
+    });
+
     test('hides content when item is clicked again', () => {
         const { getByText, queryByText } = render(<TestAccordion />);
         const item1Trigger = getByText('Item 1');

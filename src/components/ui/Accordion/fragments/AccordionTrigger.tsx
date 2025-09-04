@@ -9,10 +9,11 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ButtonPrimitive from '~/core/primitives/Button';
 
 type AccordionTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
-  index?: number,
+    index?: number;
 };
 
-const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionTriggerProps>(({ children, index, className = '', ...props }, ref) => {
+const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionTriggerProps>(
+    ({ children, index, className = '', onClick, ...props }, ref) => {
     const { setActiveItems, rootClass, activeItems, openMultiple } = useContext(AccordionContext);
     const { itemValue, disabled } = useContext(AccordionItemContext);
 
@@ -36,6 +37,11 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
         }
     };
 
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        onClickHandler(e);
+        onClick?.(e);
+    };
+
     return (
         <RovingFocusGroup.Item>
             <CollapsiblePrimitive.Trigger disabled={disabled} asChild>
@@ -43,7 +49,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
                     className={clsx(`${rootClass}-trigger`, className)}
                     ref={ref}
                     aria-disabled={disabled}
-                    onClick={onClickHandler}
+                    onClick={handleClick}
                     aria-expanded={activeItems.includes(itemValue)}
                     aria-controls={`content-${index}`}
                     {...props}
