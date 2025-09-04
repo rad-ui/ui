@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import NumberFieldContext from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
 
-export type NumberFieldInputProps = {
-    className?: string
-}
-const NumberFieldInput = ({ className, ...props }: NumberFieldInputProps) => {
+export type NumberFieldInputElement = ElementRef<'input'>;
+export type NumberFieldInputProps = ComponentPropsWithoutRef<'input'>;
+
+const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputProps>(({ className, ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
@@ -43,6 +43,7 @@ const NumberFieldInput = ({ className, ...props }: NumberFieldInputProps) => {
     };
     return (
         <input
+            ref={ref}
             type="number"
             onKeyDown={handleKeyDown}
             value={inputValue === '' ? '' : inputValue}
@@ -55,6 +56,8 @@ const NumberFieldInput = ({ className, ...props }: NumberFieldInputProps) => {
             className={clsx(`${rootClass}-input`, className)}
             {...props}/>
     );
-};
+});
+
+NumberFieldInput.displayName = 'NumberFieldInput';
 
 export default NumberFieldInput;
