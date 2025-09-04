@@ -7,31 +7,41 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'Callout';
 
-type CalloutRootProps = {
-    children?: React.ReactNode;
-    className?: string | '' ;
+type CalloutRootElement = React.ElementRef<typeof Primitive.div>;
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>;
+
+type CalloutRootProps = PrimitiveDivProps & {
     color?: string;
     variant?: string;
     size?: string;
     customRootClass?: string;
-    asChild?: boolean
-    props?: Record<any, any>[]
-}
-
-const CalloutRoot = ({ children, asChild = false, className = '', color = '', variant = '', size = '', customRootClass = '', ...props }: CalloutRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const dataAttributes = useCreateDataAttribute('callout', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
-
-    return (
-        <CalloutContext.Provider value={{ rootClass }}>
-            <Primitive.div asChild={asChild} className={clsx(rootClass, className)} {...composedAttributes()} {...props}>
-                {children}
-            </Primitive.div>
-        </CalloutContext.Provider>
-    );
 };
+
+const CalloutRoot = React.forwardRef<CalloutRootElement, CalloutRootProps>(
+    (
+        { children, asChild = false, className = '', color = '', variant = '', size = '', customRootClass = '', ...props },
+        ref
+    ) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const dataAttributes = useCreateDataAttribute('callout', { variant, size });
+        const accentAttributes = useCreateDataAccentColorAttribute(color);
+        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+
+        return (
+            <CalloutContext.Provider value={{ rootClass }}>
+                <Primitive.div
+                    ref={ref}
+                    asChild={asChild}
+                    className={clsx(rootClass, className)}
+                    {...composedAttributes()}
+                    {...props}
+                >
+                    {children}
+                </Primitive.div>
+            </CalloutContext.Provider>
+        );
+    }
+);
 
 CalloutRoot.displayName = COMPONENT_NAME;
 
