@@ -5,7 +5,7 @@ import { TreeContext } from '../contexts/TreeContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Tree';
 
@@ -19,7 +19,7 @@ type TreeRootProps = {
 };
 
 const TreeRoot = ({ children, className = '', customRootClass = '', 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }: TreeRootProps) => {
-    const treeRef = useRef(null);
+    const treeRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const treeContextValue = {
