@@ -19,4 +19,6 @@ const AlertDialogOverlay = forwardRef<AlertDialogOverlayElement, AlertDialogOver
     );
 });
 
+AlertDialogOverlay.displayName = 'AlertDialogOverlay';
+
 export default AlertDialogOverlay;

@@ -17,4 +17,6 @@ const AlertDialogTitle = forwardRef<AlertDialogTitleElement, AlertDialogTitlePro
     return <Primitive.h2 ref={ref} className={`${rootClass}-title ${className}`} {...props}>{children}</Primitive.h2>;
 });
 
+AlertDialogTitle.displayName = 'AlertDialogTitle';
+
 export default AlertDialogTitle;

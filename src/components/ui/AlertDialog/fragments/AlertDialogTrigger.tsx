@@ -23,4 +23,6 @@ const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTrig
     );
 });
 
+AlertDialogTrigger.displayName = 'AlertDialogTrigger';
+
 export default AlertDialogTrigger;

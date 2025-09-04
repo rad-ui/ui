@@ -15,4 +15,6 @@ const AlertDialogDescription = forwardRef<AlertDialogDescriptionElement, AlertDi
     return <Primitive.p ref={ref} className={`${rootClass}-description ${className}`} {...props}>{children}</Primitive.p>;
 });
 
+AlertDialogDescription.displayName = 'AlertDialogDescription';
+
 export default AlertDialogDescription;

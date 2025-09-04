@@ -24,4 +24,6 @@ const DialogPrimitiveCancel = forwardRef<HTMLButtonElement, DialogPrimitiveCance
     );
 });
 
+DialogPrimitiveCancel.displayName = 'DialogPrimitiveCancel';
+
 export default DialogPrimitiveCancel;

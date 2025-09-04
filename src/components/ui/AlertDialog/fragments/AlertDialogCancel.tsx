@@ -20,4 +20,6 @@ const AlertDialogCancel = forwardRef<AlertDialogCancelElement, AlertDialogCancel
     );
 });
 
+AlertDialogCancel.displayName = 'AlertDialogCancel';
+
 export default AlertDialogCancel;

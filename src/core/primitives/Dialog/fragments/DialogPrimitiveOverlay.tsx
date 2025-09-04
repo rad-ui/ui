@@ -27,4 +27,6 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
     );
 });
 
+DialogPrimitiveOverlay.displayName = 'DialogPrimitiveOverlay';
+
 export default DialogPrimitiveOverlay;

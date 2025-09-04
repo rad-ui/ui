@@ -24,4 +24,6 @@ const DialogPrimitiveAction = forwardRef<HTMLButtonElement, DialogPrimitiveActio
     );
 });
 
+DialogPrimitiveAction.displayName = 'DialogPrimitiveAction';
+
 export default DialogPrimitiveAction;

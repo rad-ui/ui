@@ -20,4 +20,6 @@ const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogCont
     );
 });
 
+AlertDialogContent.displayName = 'AlertDialogContent';
+
 export default AlertDialogContent;

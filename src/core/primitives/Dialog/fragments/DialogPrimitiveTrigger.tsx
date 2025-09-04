@@ -29,4 +29,6 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
     );
 });
 
+DialogPrimitiveTrigger.displayName = 'DialogPrimitiveTrigger';
+
 export default DialogPrimitiveTrigger;

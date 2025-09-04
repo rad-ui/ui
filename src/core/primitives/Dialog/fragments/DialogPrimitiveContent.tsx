@@ -26,4 +26,6 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     );
 });
 
+DialogPrimitiveContent.displayName = 'DialogPrimitiveContent';
+
 export default DialogPrimitiveContent;
