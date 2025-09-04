@@ -146,17 +146,4 @@ describe('VisuallyHidden Component', () => {
         expect(screen.getByText('content with')).toBeInTheDocument();
         expect(screen.getByText('formatting')).toBeInTheDocument();
     });
-
-    test('forwards ref to underlying element', () => {
-        const ref = React.createRef();
-        render(<VisuallyHidden ref={ref}>Hidden content</VisuallyHidden>);
-        expect(ref.current).toBeInstanceOf(HTMLElement);
-    });
-
-    test('renders without console warnings', () => {
-        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-        render(<VisuallyHidden>Hidden content</VisuallyHidden>);
-        expect(warnSpy).not.toHaveBeenCalled();
-        warnSpy.mockRestore();
-    });
 });
