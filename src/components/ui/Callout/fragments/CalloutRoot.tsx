@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import CalloutContext from '../contexts/CalloutContext';
 import Primitive from '~/core/primitives/Primitive';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
