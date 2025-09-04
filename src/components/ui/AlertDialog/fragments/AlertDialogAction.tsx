@@ -1,22 +1,23 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogActionProps = {
-    children: React.ReactNode;
-    asChild?: boolean;
-    className?: string;
-}
+type AlertDialogActionElement = React.ElementRef<typeof DialogPrimitive.Action>;
+type DialogPrimitiveActionProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Action>;
 
-const AlertDialogAction = ({ children, asChild, className = '', ...props } : AlertDialogActionProps) => {
+export type AlertDialogActionProps = DialogPrimitiveActionProps & {
+    className?: string;
+};
+
+const AlertDialogAction = forwardRef<AlertDialogActionElement, AlertDialogActionProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
     return (
-        <DialogPrimitive.Action className={`${rootClass}-action ${className}`} {...props}>
+        <DialogPrimitive.Action ref={ref} className={`${rootClass}-action ${className}`} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Action>
 
     );
-};
+});
 
 export default AlertDialogAction;
