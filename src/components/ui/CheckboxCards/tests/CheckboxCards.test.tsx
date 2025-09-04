@@ -123,6 +123,45 @@ describe('CheckboxCards', () => {
         expect(values).toEqual(expect.arrayContaining(['apple', 'banana']));
     });
 
+    it('forwards refs to subcomponents', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+        const contentRef = React.createRef<HTMLSpanElement>();
+        const indicatorRef = React.createRef<SVGSVGElement>();
+
+        render(
+            <CheckboxCards.Root ref={rootRef} name="fruits" defaultValue={["apple"]}>
+                <CheckboxCards.Item ref={itemRef} value="apple">
+                    Apple
+                    <CheckboxCards.Content ref={contentRef}>
+                        <CheckboxCards.Indicator ref={indicatorRef} />
+                    </CheckboxCards.Content>
+                </CheckboxCards.Item>
+            </CheckboxCards.Root>
+        );
+
+        expect(rootRef.current?.tagName).toBe('DIV');
+        expect(itemRef.current?.tagName).toBe('BUTTON');
+        expect(contentRef.current?.tagName).toBe('SPAN');
+        expect(indicatorRef.current?.tagName.toLowerCase()).toBe('svg');
+    });
+
+    it('renders without warnings', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(
+            <CheckboxCards.Root name="fruits">
+                <CheckboxCards.Item value="apple">
+                    Apple
+                    <CheckboxCards.Content>
+                        <CheckboxCards.Indicator />
+                    </CheckboxCards.Content>
+                </CheckboxCards.Item>
+            </CheckboxCards.Root>
+        );
+        expect(warn).not.toHaveBeenCalled();
+        warn.mockRestore();
+    });
+
     it('CheckboxCards itself renders null and warns', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const { container } = render(<CheckboxCards />);
