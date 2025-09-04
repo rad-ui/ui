@@ -105,6 +105,12 @@ describe('VisuallyHidden Component', () => {
         expect(element).toBeInTheDocument();
     });
 
+    test('forwards refs to the underlying element', () => {
+        const ref = React.createRef();
+        render(<VisuallyHidden ref={ref}>Hidden content</VisuallyHidden>);
+        expect(ref.current).not.toBeNull();
+    });
+
     test('maintains accessibility for screen readers', () => {
         render(
             <VisuallyHidden>

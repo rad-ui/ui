@@ -6,13 +6,9 @@ import { clsx } from 'clsx';
 
 const COMPONENT_NAME = 'VisuallyHidden';
 
-export type VisuallyHiddenProps = {
-    children: React.ReactNode;
+export type VisuallyHiddenProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
-    className?: string;
-    asChild?: boolean;
-    style?: CSSProperties;
-} & React.HTMLAttributes<HTMLDivElement>;
+};
 
 const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     position: 'absolute',
@@ -29,17 +25,12 @@ const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     userSelect: 'none'
 } as const;
 
-const VisuallyHidden = ({
-    children,
-    customRootClass,
-    className,
-    style = {},
-    ...props
-}: VisuallyHiddenProps) => {
+const VisuallyHidden = React.forwardRef<React.ElementRef<typeof Primitive.div>, VisuallyHiddenProps>(({ children, customRootClass, className, style = {}, ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
         <Primitive.div
+            ref={ref}
             className={clsx(rootClass, className)}
             style={{ ...VISUALLY_HIDDEN_STYLES, ...style }} // overriding possible
             {...props}
@@ -47,7 +38,7 @@ const VisuallyHidden = ({
             {children}
         </Primitive.div>
     );
-};
+});
 
 VisuallyHidden.displayName = COMPONENT_NAME;
 
