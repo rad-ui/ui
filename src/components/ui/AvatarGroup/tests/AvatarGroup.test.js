@@ -63,6 +63,25 @@ describe('AvatarGroup', () => {
         });
     });
 
+    test('forwards refs to subcomponents', () => {
+        const rootRef = React.createRef();
+        const itemRef = React.createRef();
+        const avatarRef = React.createRef();
+        const fallbackRef = React.createRef();
+        render(
+            <AvatarGroup.Root ref={rootRef}>
+                <AvatarGroup.Item ref={itemRef}>
+                    <AvatarGroup.Avatar ref={avatarRef} src='https://i.pravatar.cc/300?img=1' alt='Avatar 1' />
+                    <AvatarGroup.Fallback ref={fallbackRef}>A</AvatarGroup.Fallback>
+                </AvatarGroup.Item>
+            </AvatarGroup.Root>
+        );
+        expect(rootRef.current).not.toBeNull();
+        expect(itemRef.current).not.toBeNull();
+        expect(avatarRef.current).not.toBeNull();
+        expect(fallbackRef.current).not.toBeNull();
+    });
+
     // test('renders color for fallback when src is not provided', async() => {
     //     render(<AvatarGroup avatars={avatarsWithFallback} color='blue'/>);
     //     expect(screen.getByText('A')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
