@@ -24,4 +24,3 @@ export const VisuallyHiddenTable = {
 }
 
 export default code;
-
