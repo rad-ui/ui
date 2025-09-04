@@ -1,22 +1,22 @@
 'use client';
-import React from 'react';
+import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
+
 const COMPONENT_NAME = 'Em';
 
-export type EmProps = {
-    children: React.ReactNode;
+export type EmProps = ComponentPropsWithoutRef<'em'> & {
     customRootClass?: string;
-    className?: string;
-    props: Record<string, any>[]
-}
-
-const Em = ({ children, customRootClass, className, ...props }: EmProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <em className={clsx(rootClass, className)} {...props}>
-        {children}
-    </em>;
 };
+
+const Em = React.forwardRef<ElementRef<'em'>, EmProps>(({ children, customRootClass, className, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    return (
+        <em ref={ref} className={clsx(rootClass, className)} {...props}>
+            {children}
+        </em>
+    );
+});
 
 Em.displayName = COMPONENT_NAME;
 

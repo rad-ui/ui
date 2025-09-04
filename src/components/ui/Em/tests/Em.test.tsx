@@ -32,4 +32,20 @@ describe('Em', () => {
         render(<>Welcome to <Em data-testid="em-data">RadUI</Em></>);
         expect(screen.getByText('RadUI')).toHaveAttribute('data-testid', 'em-data');
     });
+
+    test('forwards refs to the underlying element', () => {
+        const ref = React.createRef<HTMLElement>();
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        render(<Em ref={ref}>RadUI</Em>);
+
+        expect(ref.current).toBeInstanceOf(HTMLElement);
+        expect(ref.current?.tagName.toLowerCase()).toBe('em');
+        expect(warnSpy).not.toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
 });
