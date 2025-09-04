@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import NavigationMenu from '../NavigationMenu';
 
 describe('NavigationMenu component', () => {
@@ -50,6 +50,36 @@ describe('NavigationMenu component', () => {
 
         const link = getByText('About');
         expect(link).toHaveAttribute('href', '/about');
+    });
+
+    test('forwards ref to item', () => {
+        const ref = React.createRef<HTMLDivElement>();
+        render(
+            <NavigationMenu.Root>
+                <NavigationMenu.Item value="item1" ref={ref}>
+                    <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    test('forwards ref to link', async () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        render(
+            <NavigationMenu.Root defaultValue="item1">
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Content>
+                        <NavigationMenu.Link ref={ref} href="#">Link</NavigationMenu.Link>
+                    </NavigationMenu.Content>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        await waitFor(() => {
+            expect(ref.current).toBeInstanceOf(HTMLElement);
+        });
     });
 });
 
