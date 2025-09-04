@@ -2,13 +2,17 @@ import React, { forwardRef, useContext, useEffect } from 'react';
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 import Primitive from '~/core/primitives/Primitive';
 
-export type AvatarRootImageProps = React.ComponentPropsWithoutRef<typeof Primitive.img> & {
+const PrimitiveImg = Primitive.img as React.ForwardRefExoticComponent<
+    React.ImgHTMLAttributes<HTMLImageElement> & React.RefAttributes<HTMLImageElement>
+>;
+
+export type AvatarRootImageProps = React.ComponentPropsWithoutRef<typeof PrimitiveImg> & {
     src?: string;
     alt?: string;
 };
 
 const AvatarPrimitiveImage = forwardRef<
-    React.ElementRef<typeof Primitive.img>,
+    React.ElementRef<typeof PrimitiveImg>,
     AvatarRootImageProps
 >(({ src = '', alt = '', ...props }, ref) => {
     const { handleErrorImage, handleLoadImage, hasError } = useContext(AvatarPrimitiveContext);
@@ -22,7 +26,7 @@ const AvatarPrimitiveImage = forwardRef<
     }, [src, handleErrorImage, hasError]);
 
     return (
-        <Primitive.img
+        <PrimitiveImg
             ref={ref}
             src={src}
             alt={alt}

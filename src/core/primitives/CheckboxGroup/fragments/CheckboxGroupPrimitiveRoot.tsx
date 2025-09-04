@@ -1,10 +1,11 @@
-import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 
-export type CheckboxGroupPrimitiveRootElement = ElementRef<'div'>;
 export type CheckboxGroupPrimitiveRootProps = {
+    children: React.ReactNode;
+    className?: string
     name?: string;
     required?: boolean;
     disabled?: boolean;
@@ -14,9 +15,9 @@ export type CheckboxGroupPrimitiveRootProps = {
     defaultValue?: string[];
     value?: string[];
     onValueChange?: (value: string[]) => void;
-} & ComponentPropsWithoutRef<'div'>;
+}
 
-const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }, ref) => {
+const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }: CheckboxGroupPrimitiveRootProps) => {
     const [checkedValues, setCheckedValues] = useControllableState(
         value,
         defaultValue,
@@ -24,7 +25,7 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
     );
 
     return (
-        <div ref={ref} className={className} {...props}>
+        <div className={className} {...props}>
             <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
                 <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled }}>
                     <RovingFocusGroup.Group>
@@ -34,8 +35,6 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
             </RovingFocusGroup.Root>
         </div>
     );
-});
-
-CheckboxGroupPrimitiveRoot.displayName = 'CheckboxGroupPrimitiveRoot';
+};
 
 export default CheckboxGroupPrimitiveRoot;

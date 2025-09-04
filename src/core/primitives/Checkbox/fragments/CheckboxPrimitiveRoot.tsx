@@ -1,22 +1,24 @@
 'use client';
 
-import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React from 'react';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 import CheckboxPrimitiveTrigger from './CheckboxPrimitiveTrigger';
 import useControllableState from '~/core/hooks/useControllableState';
 
-export type CheckboxPrimitiveRootElement = ElementRef<typeof CheckboxPrimitiveTrigger>;
 export type CheckboxPrimitiveRootProps = {
-    children: React.ReactNode;
-    checked?: boolean;
-    defaultChecked?: boolean;
-    onCheckedChange?: () => void;
-    name?: string;
-    value?: string;
-    id?: string;
-} & ComponentPropsWithoutRef<typeof CheckboxPrimitiveTrigger>;
+    children: React.ReactNode,
+    className?: string,
+    checked?: boolean,
+    defaultChecked? : boolean,
+    onCheckedChange? : () => void,
+    disabled?: boolean
+    required?: boolean
+    name?: string
+    value?: string
+    id?: string
+};
 
-const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxPrimitiveRootProps>(({ children, className = '', checked, defaultChecked = false, onCheckedChange, disabled, required, name, value, id, ...props }, ref) => {
+const CheckboxPrimitiveRoot = ({ children, className = '', checked, defaultChecked = false, onCheckedChange, disabled, required, name, value, id, ...props }: CheckboxPrimitiveRootProps) => {
     const [isChecked, setIsChecked] = useControllableState(
         checked,
         defaultChecked,
@@ -32,7 +34,7 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
     };
 
     return <CheckboxPrimitiveContext.Provider value={contextValues}>
-        <CheckboxPrimitiveTrigger ref={ref} className={className} disabled={disabled} required={required} {...props}>
+        <CheckboxPrimitiveTrigger className={className} {...props}>
             {children}
         </CheckboxPrimitiveTrigger>
         <input
@@ -44,8 +46,6 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
                 transform: 'translateX(-100%)'
             }} name={name} value={value} checked={isChecked} disabled={disabled} required={required} readOnly {...props}/>
     </CheckboxPrimitiveContext.Provider>;
-});
-
-CheckboxPrimitiveRoot.displayName = 'CheckboxPrimitiveRoot';
+};
 
 export default CheckboxPrimitiveRoot;

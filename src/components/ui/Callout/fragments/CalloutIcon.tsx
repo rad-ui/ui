@@ -2,30 +2,19 @@ import React, { useContext } from 'react';
 import CalloutContext from '../contexts/CalloutContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
+type CalloutIconProps = {
+    children: React.ReactNode;
+    className?: string;
+}
 
-const COMPONENT_NAME = 'CalloutIcon';
+function CalloutIcon({ children, className = '', ...props }:CalloutIconProps) {
+    const { rootClass } = useContext(CalloutContext);
 
-type CalloutIconElement = React.ElementRef<typeof Primitive.span>;
-type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>;
-
-type CalloutIconProps = PrimitiveSpanProps;
-
-const CalloutIcon = React.forwardRef<CalloutIconElement, CalloutIconProps>(
-    ({ children, className = '', ...props }, ref) => {
-        const { rootClass } = useContext(CalloutContext);
-
-        return (
-            <Primitive.span
-                ref={ref}
-                className={clsx(`${rootClass}-icon`, className)}
-                {...props}
-            >
-                {children}
-            </Primitive.span>
-        );
-    }
-);
-
-CalloutIcon.displayName = COMPONENT_NAME;
+    return (
+        <Primitive.span className={clsx(`${rootClass}-icon`, className)} {...props}>
+            {children}
+        </Primitive.span>
+    );
+}
 
 export default CalloutIcon;
