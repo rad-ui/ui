@@ -1,18 +1,20 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, forwardRef } from 'react';
+import { clsx } from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import Primitive from '~/core/primitives/Primitive';
 
-type AlertDialogTitleProps = {
-    children: React.ReactNode;
+export type AlertDialogTitleProps = React.ComponentPropsWithoutRef<'h2'> & {
     className?: string;
-}
-
-const AlertDialogTitle = ({ children, className = '' }: AlertDialogTitleProps) => {
-    const { rootClass } = useContext(AlertDialogContext);
-    return <Primitive.h2 className={`${rootClass}-title ${className}`}>{children}</Primitive.h2>;
 };
+
+const AlertDialogTitle = forwardRef<HTMLHeadingElement, AlertDialogTitleProps>(({ children, className = '', ...props }, ref) => {
+    const { rootClass } = useContext(AlertDialogContext);
+    return <Primitive.h2 ref={ref} className={clsx(`${rootClass}-title`, className)} {...props}>{children}</Primitive.h2>;
+});
+
+AlertDialogTitle.displayName = 'AlertDialogTitle';
 
 export default AlertDialogTitle;
