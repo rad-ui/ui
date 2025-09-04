@@ -1,7 +1,8 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
+import Floater from '~/core/primitives/Floater';
 
 export type DialogPrimitiveTriggerProps = {
     children: React.ReactNode;
@@ -9,12 +10,14 @@ export type DialogPrimitiveTriggerProps = {
     className?: string;
 }
 
-const DialogPrimitiveTrigger = ({ children, asChild, className = '', ...props } : DialogPrimitiveTriggerProps) => {
+const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTriggerProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { handleOpenChange, getReferenceProps, refs } = useContext(DialogPrimitiveContext);
+
+    const mergedRef = Floater.useMergeRefs([refs.setReference, ref]);
 
     return (
         <ButtonPrimitive
-            ref={refs?.setReference || null}
+            ref={mergedRef}
             asChild={asChild}
             className={className}
             onClick={() => handleOpenChange(true)}
@@ -24,6 +27,6 @@ const DialogPrimitiveTrigger = ({ children, asChild, className = '', ...props } 
             {children}
         </ButtonPrimitive>
     );
-};
+});
 
 export default DialogPrimitiveTrigger;
