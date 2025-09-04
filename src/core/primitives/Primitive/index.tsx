@@ -7,6 +7,7 @@ type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 // Update type definitions to be more specific
 type PrimitiveProps =
   | (React.InputHTMLAttributes<HTMLInputElement> & { asChild?: boolean })
+  | (React.ImgHTMLAttributes<HTMLImageElement> & { asChild?: boolean })
   | (React.HTMLAttributes<HTMLElement> & { asChild?: boolean, children?: React.ReactNode });
 
 // Update component creation with proper typing

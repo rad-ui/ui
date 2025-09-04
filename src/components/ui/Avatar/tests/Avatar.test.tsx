@@ -61,4 +61,30 @@ describe('Avatar', () => {
         const div = screen.getByText('WithAschild');
         expect(div.tagName).toBe('DIV');
     });
+
+    test('forwards ref to root element', () => {
+        const ref = React.createRef<HTMLSpanElement>();
+        render(<Avatar.Root ref={ref}><Avatar.Fallback>RU</Avatar.Fallback></Avatar.Root>);
+        expect(ref.current).toBeInstanceOf(HTMLSpanElement);
+    });
+
+    test('forwards ref to image element', () => {
+        const ref = React.createRef<HTMLImageElement>();
+        render(
+            <Avatar.Root>
+                <Avatar.Image ref={ref} src='https://i.pravatar.cc/300' alt='avatar' />
+            </Avatar.Root>
+        );
+        expect(ref.current).toBeInstanceOf(HTMLImageElement);
+    });
+
+    test('forwards ref to fallback element', () => {
+        const ref = React.createRef<HTMLSpanElement>();
+        render(
+            <Avatar.Root>
+                <Avatar.Fallback ref={ref}>RU</Avatar.Fallback>
+            </Avatar.Root>
+        );
+        expect(ref.current).toBeInstanceOf(HTMLSpanElement);
+    });
 });
