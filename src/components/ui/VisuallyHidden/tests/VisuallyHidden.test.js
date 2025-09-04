@@ -146,4 +146,11 @@ describe('VisuallyHidden Component', () => {
         expect(screen.getByText('content with')).toBeInTheDocument();
         expect(screen.getByText('formatting')).toBeInTheDocument();
     });
+
+    test('forwards ref to the underlying element', () => {
+        const ref = React.createRef();
+        render(<VisuallyHidden ref={ref}>Hidden content</VisuallyHidden>);
+        expect(ref.current).not.toBeNull();
+        expect(ref.current.tagName).toBe('DIV');
+    });
 });
