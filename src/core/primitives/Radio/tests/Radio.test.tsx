@@ -45,4 +45,10 @@ describe('RadioPrimitive', () => {
         const radio = screen.getByRole('radio');
         expect(radio).toBeInTheDocument();
     });
+
+    it('forwards refs', () => {
+        const ref = React.createRef<HTMLInputElement>();
+        render(<RadioPrimitive {...baseProps} ref={ref} />);
+        expect(ref.current).toBeInstanceOf(HTMLInputElement);
+    });
 });

@@ -78,4 +78,20 @@ describe('RadioCards', () => {
         const { container } = renderRadioCards({ className: 'custom-root' });
         expect(container.firstChild).toHaveClass('custom-root');
     });
+
+    it('forwards refs to root and item', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+
+        render(
+            <RadioCards.Root ref={rootRef} name="group" defaultValue={options[0].value}>
+                <RadioCards.Item ref={itemRef} value={options[0].value}>
+                    {options[0].label}
+                </RadioCards.Item>
+            </RadioCards.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(itemRef.current).toBeInstanceOf(HTMLButtonElement);
+    });
 });
