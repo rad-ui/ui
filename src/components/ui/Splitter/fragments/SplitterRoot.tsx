@@ -1,13 +1,11 @@
 'use client';
-import React, { useState, useRef, useCallback, ReactNode, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
 
-export interface SplitterRootProps {
+export interface SplitterRootProps extends React.ComponentPropsWithoutRef<'div'> {
   orientation?: SplitterOrientation;
-  children: ReactNode;
-  className?: string;
   customRootClass?: string;
   defaultSizes?: number[];
   minSizes?: number[];
@@ -26,22 +24,36 @@ export const useSplitter = () => {
 
 const COMPONENT_NAME = 'Splitter';
 
-const SplitterRoot: React.FC<SplitterRootProps> = ({
+const SplitterRoot = React.forwardRef<
+    React.ElementRef<'div'>,
+    SplitterRootProps
+>(({
     orientation = 'horizontal',
     children,
-    className = '',
+    className,
     customRootClass = '',
     defaultSizes = [50, 50],
     minSizes = [0, 0],
     maxSizes = [100, 100],
-    onSizesChange
-}) => {
+    onSizesChange,
+    style,
+    ...props
+}, forwardedRef) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);
     const [activeHandleIndex, setActiveHandleIndex] = useState<number | null>(null);
     const [dragStart, setDragStart] = useState<{ position: number; sizes: number[] } | null>(null);
+
+    const mergedRef = useCallback((node: HTMLDivElement | null) => {
+        containerRef.current = node;
+        if (typeof forwardedRef === 'function') {
+            forwardedRef(node);
+        } else if (forwardedRef) {
+            (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+    }, [forwardedRef]);
 
     // Performance optimization: Memoize constraints to prevent unnecessary recalculations
     const constraints = useMemo(() => ({
@@ -293,19 +305,23 @@ const SplitterRoot: React.FC<SplitterRootProps> = ({
     return (
         <SplitterContext.Provider value={contextValue}>
             <div
-                ref={containerRef}
+                {...props}
+                ref={mergedRef}
                 className={clsx(rootClass, className)}
                 style={{
                     display: 'flex',
                     flexDirection: isHorizontal ? 'row' : 'column',
                     width: '100%',
-                    height: '100%'
+                    height: '100%',
+                    ...style
                 }}
             >
                 {children}
             </div>
         </SplitterContext.Provider>
     );
-};
+});
+
+SplitterRoot.displayName = 'SplitterRoot';
 
 export default SplitterRoot;
