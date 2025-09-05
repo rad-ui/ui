@@ -1,25 +1,19 @@
-import React, { useContext } from 'react';
+import React, {
+    useContext,
+    forwardRef,
+    ElementRef,
+    ComponentPropsWithoutRef
+} from 'react';
 
 import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-/**
- * Props for the ToggleItem component
- * @typedef ToggleItemProps
- */
-export type ToggleItemProps = {
-    /** Content to render inside the toggle item */
-    children?: React.ReactNode;
-    /** Value associated with this toggle item, used for selection state */
+export type ToggleItemElement = ElementRef<typeof TogglePrimitive>;
+export interface ToggleItemProps
+    extends ComponentPropsWithoutRef<typeof TogglePrimitive> {
     value?: any;
-    /** Whether the toggle item is disabled */
-    disabled?: boolean;
-    /** Whether to render as a child element instead of a button */
-    asChild?: boolean;
-    /** Additional props to pass to the underlying TogglePrimitive */
-    [key: string]: any;
-};
+}
 
 /**
  * Individual toggle item to be used within a ToggleGroup.
@@ -35,14 +29,14 @@ export type ToggleItemProps = {
  * @param {ToggleItemProps} props - Component props
  * @returns {JSX.Element} The ToggleItem component
  */
-const ToggleItem = ({
+const ToggleItem = forwardRef<ToggleItemElement, ToggleItemProps>(({ 
     children,
     className = '',
     value = null,
     disabled = false,
     asChild = false,
     ...props
-}: ToggleItemProps) => {
+}, ref) => {
     const { type, activeToggles, setActiveToggles, rootClass, disabled: groupDisabled } = useContext(ToggleContext);
     const isActive = activeToggles?.includes(value);
 
@@ -99,7 +93,7 @@ const ToggleItem = ({
         dataProps['data-disabled'] = '';
     }
 
-    return <RovingFocusGroup.Item>
+    return <RovingFocusGroup.Item ref={ref as React.Ref<HTMLButtonElement>}>
         <TogglePrimitive
             onClick={handleToggleSelect}
             className={`${rootClass}-item ${className}`}
@@ -110,6 +104,8 @@ const ToggleItem = ({
             {...props}
         >{children}</TogglePrimitive>
     </RovingFocusGroup.Item>;
-};
+});
+
+ToggleItem.displayName = 'ToggleItem';
 
 export default ToggleItem;

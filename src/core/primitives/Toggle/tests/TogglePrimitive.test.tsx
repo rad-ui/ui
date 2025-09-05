@@ -8,6 +8,12 @@ describe('TogglePrimitive', () => {
         expect(screen.getByText('Test Content')).toBeInTheDocument();
     });
 
+    it('forwards ref to the button element', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        render(<TogglePrimitive ref={ref}>Ref Content</TogglePrimitive>);
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
     it('renders asChild correctly', () => {
         const { container } = render(<TogglePrimitive asChild><button>Click me</button></TogglePrimitive>);
         expect(container.querySelector('button')).toBeInTheDocument();

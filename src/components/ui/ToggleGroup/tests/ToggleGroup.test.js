@@ -18,6 +18,26 @@ describe('ToggleGroup component', () => {
         expect(buttons.length).toBe(3);
     });
 
+    test('forwards ref to ToggleGroup.Root', () => {
+        const ref = React.createRef();
+        render(
+            <ToggleGroup.Root ref={ref}>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+        expect(ref.current instanceof HTMLDivElement).toBe(true);
+    });
+
+    test('forwards ref to ToggleGroup.Item', () => {
+        const ref = React.createRef();
+        render(
+            <ToggleGroup.Root>
+                <ToggleGroup.Item ref={ref} value="item1">Item 1</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+        expect(ref.current instanceof HTMLButtonElement).toBe(true);
+    });
+
     test('handles multiple selection', () => {
         const { getByText } = render(
             <ToggleGroup.Root type="multiple">

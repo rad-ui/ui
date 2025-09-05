@@ -8,6 +8,12 @@ describe('Toggle component', () => {
         expect(getByText('Test Toggle')).toBeInTheDocument();
     });
 
+    test('forwards ref to the button element', () => {
+        const ref = React.createRef();
+        render(<Toggle ref={ref} onPressedChange={() => {}}>Ref Toggle</Toggle>);
+        expect(ref.current instanceof HTMLButtonElement).toBe(true);
+    });
+
     test('applies customRootClass correctly', () => {
         const { container } = render(<Toggle customRootClass="custom-class" onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveClass('custom-class-toggle');

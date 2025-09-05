@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {
+    forwardRef,
+    ElementRef,
+    ComponentPropsWithoutRef
+} from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import useControllableState from '~/core/hooks/useControllableState';
@@ -7,30 +11,12 @@ import TogglePrimitive from '~/core/primitives/Toggle';
 
 const COMPONENT_NAME = 'Toggle';
 
-/**
- * Props for the Toggle component
- * @typedef ToggleProps
- */
-export type ToggleProps = {
-    /** Initial state when in uncontrolled mode */
-    defaultPressed?: boolean;
-    /** Current pressed state (for controlled mode) */
-    pressed?: boolean;
-    /** Optional custom root class name to override default styling */
-    customRootClass? : string;
-    /** Whether the toggle is disabled */
-    disabled? : boolean;
-    /** Content to render inside the toggle */
-    children? : React.ReactNode;
-    /** Additional class names to apply */
-    className? : string;
-    /** Accent color for the toggle */
+export type ToggleElement = ElementRef<typeof TogglePrimitive>;
+export interface ToggleProps extends ComponentPropsWithoutRef<typeof TogglePrimitive> {
+    customRootClass?: string;
     color?: string;
-    /** Callback fired when toggle state changes */
-    onPressedChange : (isPressed:boolean) => void;
-    /** Whether to render as a child element instead of a button */
-    asChild?: boolean;
-};
+    onPressedChange: (isPressed: boolean) => void;
+}
 
 /**
  * Toggle component that can be used in either controlled or uncontrolled mode.
@@ -47,7 +33,7 @@ export type ToggleProps = {
  * @param {ToggleProps} props - The component props
  * @returns {JSX.Element} The Toggle component
  */
-const Toggle: React.FC<ToggleProps> = ({
+const Toggle = forwardRef<ToggleElement, ToggleProps>(({ 
     defaultPressed = false,
     customRootClass = '',
     children,
@@ -57,7 +43,7 @@ const Toggle: React.FC<ToggleProps> = ({
     onPressedChange,
     asChild = false,
     ...props
-}) => {
+}, ref) => {
     // Use our new hook to handle controlled/uncontrolled state
     const [isPressed, setIsPressed] = useControllableState<boolean>(
         pressed,
@@ -78,6 +64,7 @@ const Toggle: React.FC<ToggleProps> = ({
 
     return (
         <TogglePrimitive
+            ref={ref}
             className={clsx(rootClass, className)}
             pressed={isPressed}
             onPressedChange={setIsPressed}
@@ -90,7 +77,7 @@ const Toggle: React.FC<ToggleProps> = ({
             {children}
         </TogglePrimitive>
     );
-};
+});
 
 Toggle.displayName = COMPONENT_NAME;
 
