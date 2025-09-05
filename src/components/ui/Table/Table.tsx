@@ -9,16 +9,23 @@ import TableRow from './fragments/TableRow';
 import TableColumnCellHeader from './fragments/TableColumnCellHeader';
 import TableCell from './fragments/TableCell';
 
-// Empty props type - only supporting fragment exports
-export type TableProps = React.HTMLAttributes<HTMLTableElement> & {
-    children?: React.ReactNode;
-};
+type TableElement = React.ElementRef<'table'>;
+export type TableProps = React.ComponentPropsWithoutRef<'table'>;
+
+interface TableComponent extends React.ForwardRefExoticComponent<TableProps & React.RefAttributes<TableElement>> {
+    Root: typeof TableRoot;
+    Body: typeof TableBody;
+    Head: typeof TableHead;
+    Row: typeof TableRow;
+    Cell: typeof TableCell;
+    ColumnCellHeader: typeof TableColumnCellHeader;
+}
 
 // Empty implementation - we don't support direct usage
-const Table = () => {
+const Table = React.forwardRef<TableElement, TableProps>((_props, _ref) => {
     console.warn('Direct usage of Table is not supported. Please use Table.Root, Table.Head, etc. instead.');
     return null;
-};
+}) as TableComponent;
 
 // Export fragments via direct assignment pattern
 Table.Root = TableRoot;
