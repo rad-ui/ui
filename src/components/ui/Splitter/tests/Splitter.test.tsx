@@ -209,4 +209,28 @@ describe('Splitter Component', () => {
 
         consoleSpy.mockRestore();
     });
+
+    it('forwards refs to DOM elements', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const panelRef = React.createRef<HTMLDivElement>();
+        const handleRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <div style={{ width: '400px', height: '300px' }}>
+                <Splitter.Root ref={rootRef}>
+                    <Splitter.Panel index={0} ref={panelRef}>
+                        <div data-testid="panel-0">Panel 0</div>
+                    </Splitter.Panel>
+                    <Splitter.Handle index={0} ref={handleRef} />
+                    <Splitter.Panel index={1}>
+                        <div data-testid="panel-1">Panel 1</div>
+                    </Splitter.Panel>
+                </Splitter.Root>
+            </div>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(panelRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(handleRef.current).toBeInstanceOf(HTMLDivElement);
+    });
 });
