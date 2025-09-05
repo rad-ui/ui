@@ -4,16 +4,21 @@ import SelectPrimitive from '~/core/primitives/Select/Select';
 
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
-function SelectTrigger({ customRootClass, children, disabled, placeholder, ...props }: any) {
+type SelectTriggerElement = React.ElementRef<typeof SelectPrimitive.Trigger>;
+type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    customRootClass?: string;
+    placeholder?: boolean;
+};
+
+const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(({ customRootClass, children, disabled, placeholder, ...props }, forwardedRef) => {
     const { rootClass } = useContext(SelectRootContext);
-    const triggerRef = React.useRef<HTMLDivElement>(null);
 
     return (
         <SelectPrimitive.Trigger
             className={`${rootClass}-trigger`}
             aria-disabled={disabled ? 'true' : undefined}
             data-placeholder={placeholder ? '' : undefined}
-            ref={triggerRef}
+            ref={forwardedRef}
             {...props}
         >
 
@@ -21,6 +26,8 @@ function SelectTrigger({ customRootClass, children, disabled, placeholder, ...pr
 
         </SelectPrimitive.Trigger>
     );
-}
+});
+
+SelectTrigger.displayName = 'SelectTrigger';
 
 export default SelectTrigger;

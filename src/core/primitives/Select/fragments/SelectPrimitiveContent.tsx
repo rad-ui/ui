@@ -10,7 +10,10 @@ export type SelectPrimitiveContentProps = {
     [key: string]: any;
 }
 
-function SelectPrimitiveContent({ children, className, ...props }: SelectPrimitiveContentProps) {
+const SelectPrimitiveContent = React.forwardRef<
+    React.ElementRef<'div'>,
+    SelectPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
+>(({ children, className, ...props }, forwardedRef) => {
     const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
 
     return (
@@ -19,7 +22,7 @@ function SelectPrimitiveContent({ children, className, ...props }: SelectPrimiti
                 <Floater.FocusManager context={floatingContext}>
                     <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
                         <div
-                            ref={refs.setFloating}
+                            ref={Floater.useMergeRefs([refs.setFloating, forwardedRef])}
                             style={floatingStyles}
                             className={className}
                             {...getFloatingProps()}
@@ -35,6 +38,8 @@ function SelectPrimitiveContent({ children, className, ...props }: SelectPrimiti
         </>
 
     );
-}
+});
+
+SelectPrimitiveContent.displayName = 'SelectPrimitiveContent';
 
 export default SelectPrimitiveContent;
