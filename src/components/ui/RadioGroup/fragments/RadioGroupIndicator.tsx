@@ -9,15 +9,22 @@ export type RadioGroupIndicatorProps = ComponentPropsWithoutRef<typeof RadioGrou
     className?: string;
 };
 
-const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGroupIndicatorProps>(({ className = '', children, ...props }, forwardedRef) => {
-    const { rootClass } = React.useContext(RadioGroupContext);
-    return (
-        <RadioGroupPrimitive.Indicator ref={forwardedRef} className={clsx(`${rootClass}-indicator`, className)} {...props} >
-            {children}
-        </RadioGroupPrimitive.Indicator>
-    );
-});
+const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGroupIndicatorProps>(
+    ({ className = '', children, ...props }, forwardedRef) => {
+        const { rootClass } = React.useContext(RadioGroupContext);
+        return (
+            <RadioGroupPrimitive.Indicator
+                ref={forwardedRef}
+                className={clsx(`${rootClass}-indicator`, className)}
+                {...props}
+            >
+                {children}
+            </RadioGroupPrimitive.Indicator>
+        );
+    }
+);
 
 RadioGroupIndicator.displayName = 'RadioGroupIndicator';
 
 export default RadioGroupIndicator;
+

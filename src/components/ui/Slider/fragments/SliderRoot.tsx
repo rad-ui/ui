@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 
 import { customClassSwitcher } from '~/core/customClassSwitcher';
@@ -7,7 +7,8 @@ import { SliderContext } from '../context/SliderContext';
 
 const COMPONENT_NAME = 'Slider';
 
-type SliderRootProps = {
+export type SliderRootElement = ElementRef<'div'>;
+export type SliderRootProps = {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;
@@ -19,9 +20,22 @@ type SliderRootProps = {
     readOnly?: boolean;
     orientation?: 'horizontal' | 'vertical';
     valueLabelDisplay?: 'auto' | 'on' | 'off';
-};
+} & ComponentPropsWithoutRef<'div'>;
 
-const SliderRoot = ({ children, className = '', customRootClass = '', defaultValue = 0, min = 0, max = 100, step = 1, disabled = false, readOnly = false, orientation = 'horizontal', valueLabelDisplay = 'auto' }: SliderRootProps) => {
+const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
+    children,
+    className = '',
+    customRootClass = '',
+    defaultValue = 0,
+    min = 0,
+    max = 100,
+    step = 1,
+    disabled = false,
+    readOnly = false,
+    orientation = 'horizontal',
+    valueLabelDisplay = 'auto',
+    ...props
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [value, setValue] = React.useState(defaultValue);
@@ -89,8 +103,10 @@ const SliderRoot = ({ children, className = '', customRootClass = '', defaultVal
     };
 
     return <SliderContext.Provider value={contextValues}>
-        <div className={clsx(rootClass, className)} onClick={handleClick} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove}>{children}</div>
+        <div ref={ref} className={clsx(rootClass, className)} onClick={handleClick} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} {...props}>{children}</div>
     </SliderContext.Provider>;
-};
+});
+
+SliderRoot.displayName = COMPONENT_NAME;
 
 export default SliderRoot;

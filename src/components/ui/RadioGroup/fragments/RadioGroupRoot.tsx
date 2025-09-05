@@ -6,7 +6,11 @@ import { customClassSwitcher } from '~/core';
 
 import { RadioGroupContext } from '../context/RadioGroupContext';
 
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import {
+    useCreateDataAttribute,
+    useComposeAttributes,
+    useCreateDataAccentColorAttribute,
+} from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'RadioGroup';
 
@@ -20,18 +24,30 @@ export type RadioGroupRootProps = ComponentPropsWithoutRef<typeof RadioGroupPrim
     color?: string;
 };
 
-const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootProps>(({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
+const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootProps>(
+    ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, forwardedRef) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
 
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const accentAttributes = useCreateDataAccentColorAttribute(color);
+        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
-    return <RadioGroupContext.Provider value={{ rootClass }}>
-        <RadioGroupPrimitive.Root ref={forwardedRef} className={clsx(`${rootClass}-root`, className)} {...composedAttributes()} {...props}> {children} </RadioGroupPrimitive.Root>
-    </RadioGroupContext.Provider>;
-});
+        return (
+            <RadioGroupContext.Provider value={{ rootClass }}>
+                <RadioGroupPrimitive.Root
+                    ref={forwardedRef}
+                    className={clsx(`${rootClass}-root`, className)}
+                    {...composedAttributes()}
+                    {...props}
+                >
+                    {children}
+                </RadioGroupPrimitive.Root>
+            </RadioGroupContext.Provider>
+        );
+    }
+);
 
 RadioGroupRoot.displayName = 'RadioGroupRoot';
 
 export default RadioGroupRoot;
+

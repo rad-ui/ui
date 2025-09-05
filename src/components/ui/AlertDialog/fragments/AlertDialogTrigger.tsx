@@ -1,25 +1,28 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { clsx } from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogTriggerProps = {
-    children: React.ReactNode;
-    asChild?: boolean;
-    className?: string;
-}
+type AlertDialogTriggerElement = React.ElementRef<typeof DialogPrimitive.Trigger>;
+type DialogPrimitiveTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
 
-const AlertDialogTrigger = ({ children, asChild, className = '', ...props } : AlertDialogTriggerProps) => {
+export type AlertDialogTriggerProps = DialogPrimitiveTriggerProps & {
+    className?: string;
+};
+
+const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTriggerProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
 
     return (
-        <DialogPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} asChild={asChild} {...props}>
+        <DialogPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-trigger`, className)} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Trigger>
 
     );
-};
+});
+
+AlertDialogTrigger.displayName = 'AlertDialogTrigger';
 
 export default AlertDialogTrigger;

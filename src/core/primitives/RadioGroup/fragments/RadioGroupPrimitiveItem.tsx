@@ -8,47 +8,46 @@ export type RadioGroupPrimitiveItemElement = ElementRef<typeof ButtonPrimitive>;
 
 export type RadioGroupPrimitiveItemProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     value: string;
-    disabled?: boolean;
-    children?: React.ReactNode;
     required?: boolean;
-    asChild?: boolean;
 };
 
-const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement, RadioGroupPrimitiveItemProps>(
-    ({ value, children, disabled, required = false, className = '', asChild = false, ...props }, forwardedRef) => {
-        const context = useContext(RadioGroupContext);
-        if (!context) {
-            throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
-        }
-        const { groupDisabled, selectedValue, setSelectedValue } = context;
-
-        const itemSelected = value === selectedValue;
-        return (
-            <RovingFocusGroup.Item>
-                <ButtonPrimitive
-                    ref={forwardedRef}
-                    role="radio"
-                    type="button"
-                    disabled={groupDisabled || disabled}
-                    onClick={() => setSelectedValue(value)}
-                    onFocus={() => setSelectedValue(value)}
-                    aria-disabled={groupDisabled || disabled}
-                    aria-checked={value === selectedValue}
-                    data-checked={value === selectedValue}
-                    aria-required={required}
-                    asChild={asChild}
-                    className={className}
-                    {...props}
-                >
-                    <RadioGroupPrimitiveItemContext.Provider value={{ itemSelected }}>
-                        {children}
-                    </RadioGroupPrimitiveItemContext.Provider>
-                </ButtonPrimitive>
-            </RovingFocusGroup.Item>
-        );
+const RadioGroupPrimitiveItem = React.forwardRef<
+    RadioGroupPrimitiveItemElement,
+    RadioGroupPrimitiveItemProps
+>(({ value, children, disabled, required = false, className = '', asChild = false, ...props }, forwardedRef) => {
+    const context = useContext(RadioGroupContext);
+    if (!context) {
+        throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
     }
-);
+    const { groupDisabled, selectedValue, setSelectedValue } = context;
+
+    const itemSelected = value === selectedValue;
+    return (
+        <RovingFocusGroup.Item>
+            <ButtonPrimitive
+                ref={forwardedRef}
+                role="radio"
+                type="button"
+                disabled={groupDisabled || disabled}
+                onClick={() => setSelectedValue(value)}
+                onFocus={() => setSelectedValue(value)}
+                aria-disabled={groupDisabled || disabled}
+                aria-checked={value === selectedValue}
+                data-checked={value === selectedValue}
+                aria-required={required}
+                asChild={asChild}
+                className={className}
+                {...props}
+            >
+                <RadioGroupPrimitiveItemContext.Provider value={{ itemSelected }}>
+                    {children}
+                </RadioGroupPrimitiveItemContext.Provider>
+            </ButtonPrimitive>
+        </RovingFocusGroup.Item>
+    );
+});
 
 RadioGroupPrimitiveItem.displayName = 'RadioGroupPrimitiveItem';
 
 export default RadioGroupPrimitiveItem;
+

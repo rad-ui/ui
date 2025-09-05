@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
@@ -8,20 +8,24 @@ export type DialogPrimitiveContentProps = {
     className?: string;
 }
 
-const DialogPrimitiveContent = ({ children, ...props } : DialogPrimitiveContentProps) => {
+const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContentProps>(({ children, ...props }, ref) => {
     const { isOpen, getFloatingProps, floaterContext, refs } = useContext(DialogPrimitiveContext);
+
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
 
     return (
         <>
             {isOpen && (
                 <Floater.FocusManager context={floaterContext} returnFocus={true}>
-                    <div ref={refs.setFloating} {...getFloatingProps()} {...props}>
+                    <div ref={mergedRef} {...getFloatingProps()} {...props}>
                         {children}
                     </div>
                 </Floater.FocusManager>
             )}
         </>
     );
-};
+});
+
+DialogPrimitiveContent.displayName = 'DialogPrimitiveContent';
 
 export default DialogPrimitiveContent;

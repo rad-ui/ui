@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slider Component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="rad-ui-slider"
+  >
+    <div
+      class="rad-ui-slider-track"
+    >
+      <div
+        class="rad-ui-slider-range"
+        style="left: calc(25% - 16px); width: calc(25%);"
+      >
+        <div
+          class="rad-ui-slider-thumb"
+          style="left: calc(25% - 16px);"
+        >
+          <span
+            class="rad-ui-slider-thumb-value"
+          />
+          <input
+            style="display: none;"
+            value="25"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

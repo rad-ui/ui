@@ -1,13 +1,20 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import Primitive from '~/core/primitives/Primitive';
 
-const AlertDialogDescription = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
+type AlertDialogDescriptionElement = React.ElementRef<typeof Primitive.p>;
+type PrimitivePProps = React.ComponentPropsWithoutRef<typeof Primitive.p>;
+
+export type AlertDialogDescriptionProps = PrimitivePProps & { className?: string };
+
+const AlertDialogDescription = forwardRef<AlertDialogDescriptionElement, AlertDialogDescriptionProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
-    return <Primitive.p className={`${rootClass}-description ${className}`}>{children}</Primitive.p>;
-};
+    return <Primitive.p ref={ref} className={`${rootClass}-description ${className}`} {...props}>{children}</Primitive.p>;
+});
+
+AlertDialogDescription.displayName = 'AlertDialogDescription';
 
 export default AlertDialogDescription;

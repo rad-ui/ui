@@ -10,11 +10,23 @@ export type RadioGroupItemProps = ComponentPropsWithoutRef<typeof RadioGroupPrim
     value: string;
 };
 
-const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>(({ children, className = '', value, ...props }, forwardedRef) => {
-    const { rootClass } = useContext(RadioGroupContext);
-    return <RadioGroupPrimitive.Item ref={forwardedRef} className={clsx(`${rootClass}-item`, className)} value={value} {...props}>{children}</RadioGroupPrimitive.Item>;
-});
+const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>(
+    ({ children, className = '', value, ...props }, forwardedRef) => {
+        const { rootClass } = useContext(RadioGroupContext);
+        return (
+            <RadioGroupPrimitive.Item
+                ref={forwardedRef}
+                className={clsx(`${rootClass}-item`, className)}
+                value={value}
+                {...props}
+            >
+                {children}
+            </RadioGroupPrimitive.Item>
+        );
+    }
+);
 
 RadioGroupItem.displayName = 'RadioGroupItem';
 
 export default RadioGroupItem;
+

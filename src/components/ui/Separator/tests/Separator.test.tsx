@@ -28,6 +28,29 @@ describe('Separator Component', () => {
         expect(screen.getByTestId('separator')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
 
+    test('forwards ref to underlying DOM element', () => {
+        const ref = React.createRef<HTMLDivElement>();
+        render(<Separator ref={ref} data-testid="separator" />);
+        expect(ref.current).toBe(screen.getByTestId('separator'));
+    });
+
+    test('renders without console warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<Separator data-testid="separator" />);
+        expect(warnSpy).not.toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
+
+    test('non-decorative separator is accessible to screen readers', () => {
+        render(<Separator data-testid="separator" />);
+        const separator = screen.getByTestId('separator');
+        expect(separator).not.toHaveAttribute('aria-hidden');
+        expect(separator).not.toHaveAttribute('role');
+    });
+
     // New tests for the GitHub issue #1269 features
     describe('New Props and Features', () => {
         test('asChild prop works correctly', () => {

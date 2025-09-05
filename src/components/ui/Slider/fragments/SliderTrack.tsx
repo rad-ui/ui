@@ -1,12 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
 
-const SliderTrack = ({ children }: { children: React.ReactNode }) => {
+const COMPONENT_NAME = 'SliderTrack';
+
+export type SliderTrackElement = ElementRef<'div'>;
+export type SliderTrackProps = { children: React.ReactNode } & ComponentPropsWithoutRef<'div'>;
+
+const SliderTrack = forwardRef<SliderTrackElement, SliderTrackProps>(({ children, ...props }, ref) => {
     const { rootClass } = React.useContext(SliderContext);
 
-    return <div className={`${rootClass}-track`}>{children}</div>;
-};
+    return <div ref={ref} className={`${rootClass}-track`} {...props}>{children}</div>;
+});
+
+SliderTrack.displayName = COMPONENT_NAME;
 
 export default SliderTrack;
