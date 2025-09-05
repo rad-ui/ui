@@ -41,11 +41,11 @@ const TabNavLink = React.forwardRef<TabNavLinkElement, TabNavLinkProps>(
                     ref={mergedRef}
                     className={clsx(`${rootClass}-link`, className)}
                     asChild={asChild}
+                    {...props}
                     aria-disabled={disabled}
                     aria-selected={isActive}
                     disabled={disabled}
                     {...(disabled ? {} : { href })}
-                    {...props}
                 >
                     {children}
                 </Primitive.a>

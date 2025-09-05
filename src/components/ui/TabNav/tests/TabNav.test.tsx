@@ -34,7 +34,9 @@ describe('TabNav', () => {
     it('respects disabled state', () => {
         render(
             <TabNav.Root>
-                <TabNav.Link value="tab1" disabled>Tab 1</TabNav.Link>
+                <TabNav.Link value="tab1" href="/foo" disabled>
+                    Tab 1
+                </TabNav.Link>
                 <TabNav.Link value="tab2">Tab 2</TabNav.Link>
             </TabNav.Root>
         );
@@ -42,6 +44,21 @@ describe('TabNav', () => {
         const disabledTab = screen.getByText('Tab 1');
         expect(disabledTab).toHaveAttribute('aria-disabled', 'true');
         expect(disabledTab).not.toHaveAttribute('href');
+    });
+
+    it('forces disabled to false when asChild is set', () => {
+        render(
+            <TabNav.Root>
+                <TabNav.Link value="tab1" asChild disabled data-testid="child">
+                    <a href="/foo">Tab 1</a>
+                </TabNav.Link>
+            </TabNav.Root>
+        );
+
+        const childTab = screen.getByTestId('child');
+        expect(childTab).toHaveAttribute('href', '/foo');
+        expect(childTab).not.toHaveAttribute('disabled');
+        expect(childTab).toHaveAttribute('aria-disabled', 'false');
     });
 
     it('applies custom class names', () => {
