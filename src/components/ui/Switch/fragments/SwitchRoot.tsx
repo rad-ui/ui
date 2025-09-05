@@ -1,15 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { customClassSwitcher } from '~/core';
 import { SwitchContext } from '../context/SwitchContext';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import {
+    useCreateDataAttribute,
+    useComposeAttributes,
+    useCreateDataAccentColorAttribute
+} from '~/core/hooks/createDataAttribute';
 import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Switch';
 
-export type SwitchRootProps = {
+export type SwitchRootElement = ElementRef<typeof ButtonPrimitive>;
+export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     children: React.ReactNode;
     customRootClass?: string;
     color?: string;
@@ -25,7 +30,7 @@ export type SwitchRootProps = {
     asChild?: boolean;
 };
 
-const SwitchRoot = ({
+const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
     children,
     customRootClass,
     color = '',
@@ -40,7 +45,7 @@ const SwitchRoot = ({
     value,
     asChild = false,
     ...props
-}: SwitchRootProps) => {
+}, ref) => {
     const [isChecked, setIsChecked] = useControllableState(
         checked,
         defaultChecked,
@@ -83,6 +88,7 @@ const SwitchRoot = ({
     return (
         <SwitchContext.Provider value={contextValues}>
             <ButtonPrimitive
+                ref={ref}
                 onClick={handleCheckedChange}
                 className={rootClass}
                 asChild={asChild}
@@ -92,6 +98,8 @@ const SwitchRoot = ({
             </ButtonPrimitive>
         </SwitchContext.Provider>
     );
-};
+});
+
+SwitchRoot.displayName = COMPONENT_NAME;
 
 export default SwitchRoot;

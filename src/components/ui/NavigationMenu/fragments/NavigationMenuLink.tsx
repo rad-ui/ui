@@ -1,23 +1,26 @@
-import React from 'react'
-import RovingFocusGroup from '~/core/utils/RovingFocusGroup'
-import  NavigationMenuRootContext  from '../contexts/NavigationMenuRootContext'
-import clsx from 'clsx'
+import React from 'react';
+import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
+import clsx from 'clsx';
 
-export type NavigationMenuLinkProps = {
-    href: string
-    children: React.ReactNode
-    className?: string
+export interface NavigationMenuLinkProps extends React.ComponentPropsWithoutRef<'a'> {
+    href: string;
 }
 
-const NavigationMenuLink = ({children, href, className}:NavigationMenuLinkProps) => {
-    const {rootClass} = React.useContext(NavigationMenuRootContext);
-    return (
-        <RovingFocusGroup.Item>
-        <a href={href} className={clsx(`${rootClass}-link`, className)}>
-            {children}
-        </a>
-        </RovingFocusGroup.Item>
-    )
-}
+const NavigationMenuLink = React.forwardRef<HTMLButtonElement, NavigationMenuLinkProps>(
+    ({ children, href, className, ...props }, ref) => {
+        const { rootClass } = React.useContext(NavigationMenuRootContext);
+        return (
+            <RovingFocusGroup.Item ref={ref}>
+                <a href={href} className={clsx(`${rootClass}-link`, className)} {...props}>
+                    {children}
+                </a>
+            </RovingFocusGroup.Item>
+        );
+    }
+);
 
-export default NavigationMenuLink
+NavigationMenuLink.displayName = 'NavigationMenuLink';
+
+export default NavigationMenuLink;
+

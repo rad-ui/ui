@@ -22,4 +22,20 @@ describe('Link component', () => {
         const { container } = render(<Link data-testid="link">Test Link</Link>);
         expect(container.querySelector('a')).toHaveAttribute('data-testid', 'link');
     });
+
+    test('forwards ref to underlying anchor element', () => {
+        const ref = React.createRef();
+        render(<Link ref={ref}>Test Link</Link>);
+        expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+    });
+
+    test('renders without console warnings', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(<Link>Test Link</Link>);
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(warnSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+        warnSpy.mockRestore();
+    });
 });

@@ -3,19 +3,29 @@ import CalloutContext from '../contexts/CalloutContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 
-type CalloutTextProps = {
-    children: React.ReactNode;
-    className?: string;
-}
+const COMPONENT_NAME = 'CalloutText';
 
-function CalloutText({ children, className, ...props }:CalloutTextProps) {
-    const { rootClass } = useContext(CalloutContext);
+type CalloutTextElement = React.ElementRef<typeof Primitive.p>;
+type PrimitivePProps = React.ComponentPropsWithoutRef<typeof Primitive.p>;
 
-    return (
-        <Primitive.p className={clsx(`${rootClass}-text`, className)} {...props}>
-            {children}
-        </Primitive.p>
-    );
-}
+type CalloutTextProps = PrimitivePProps;
+
+const CalloutText = React.forwardRef<CalloutTextElement, CalloutTextProps>(
+    ({ children, className = '', ...props }, ref) => {
+        const { rootClass } = useContext(CalloutContext);
+
+        return (
+            <Primitive.p
+                ref={ref}
+                className={clsx(`${rootClass}-text`, className)}
+                {...props}
+            >
+                {children}
+            </Primitive.p>
+        );
+    }
+);
+
+CalloutText.displayName = COMPONENT_NAME;
 
 export default CalloutText;

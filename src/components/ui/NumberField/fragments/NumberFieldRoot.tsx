@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import NumberFieldContext from '../contexts/NumberFieldContext';
 import { customClassSwitcher } from '~/core';
@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 const COMPONENT_NAME = 'NumberField';
 
+export type NumberFieldRootElement = ElementRef<'div'>;
 export type NumberFieldRootProps = {
     name?: string
     defaultValue?: number | ''
@@ -18,12 +19,9 @@ export type NumberFieldRootProps = {
     disabled?: boolean
     readOnly?: boolean
     required?: boolean
-    id?: string
-    className?: string
-    children?: React.ReactNode
-};
+} & ComponentPropsWithoutRef<'div'>;
 
-const NumberFieldRoot = ({ children, name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, id, className, ...props }: NumberFieldRootProps) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
     const rootClass = customClassSwitcher(className, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -105,12 +103,14 @@ const NumberFieldRoot = ({ children, name, defaultValue = '', value, onValueChan
     };
 
     return (
-        <div className={clsx(`${rootClass}-root`, className)} {...props}>
+        <div ref={ref} className={clsx(`${rootClass}-root`, className)} {...props}>
             <NumberFieldContext.Provider value={contextValues}>
                 {children}
             </NumberFieldContext.Provider>
         </div>
     );
-};
+});
+
+NumberFieldRoot.displayName = COMPONENT_NAME;
 
 export default NumberFieldRoot;

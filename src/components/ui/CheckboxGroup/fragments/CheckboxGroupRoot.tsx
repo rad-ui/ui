@@ -1,5 +1,5 @@
-import React from 'react';
-import CheckboxGroupPrimitive, { CheckboxGroupPrimitiveProps } from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import CheckboxGroupPrimitive from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
@@ -7,17 +7,15 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'CheckboxGroup';
 
+export type CheckboxGroupRootElement = ElementRef<typeof CheckboxGroupPrimitive.Root>;
 export type CheckboxGroupRootProps = {
-    children: React.ReactNode;
-    className?: string
-    customRootClass?: string
-    color?: string
-    variant?: string
-    size?: string
-    name?: string
-}& CheckboxGroupPrimitiveProps.Root
+    customRootClass?: string;
+    color?: string;
+    variant?: string;
+    size?: string;
+} & ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Root>;
 
-const CheckboxGroupRoot = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: CheckboxGroupRootProps) => {
+const CheckboxGroupRoot = forwardRef<CheckboxGroupRootElement, CheckboxGroupRootProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = useCreateDataAttribute('checkbox-group', { variant, size });
@@ -26,7 +24,7 @@ const CheckboxGroupRoot = ({ children, customRootClass = '', className = '', col
 
     return (
 
-        <CheckboxGroupPrimitive.Root className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
+        <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
             <CheckboxGroupRootContext.Provider value={{ rootClass }}>
 
                 {children}
@@ -34,6 +32,8 @@ const CheckboxGroupRoot = ({ children, customRootClass = '', className = '', col
             </CheckboxGroupRootContext.Provider>
         </CheckboxGroupPrimitive.Root>
     );
-};
+});
+
+CheckboxGroupRoot.displayName = COMPONENT_NAME;
 
 export default CheckboxGroupRoot;

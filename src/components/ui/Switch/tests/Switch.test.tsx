@@ -4,6 +4,7 @@ import Switch from '../Switch';
 
 describe('Switch Component', () => {
     test('renders correctly with composable API', () => {
+        const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const { container } = render(
             <Switch.Root>
                 <Switch.Thumb />
@@ -12,6 +13,8 @@ describe('Switch Component', () => {
         expect(container.firstChild).toBeInTheDocument();
         const switchElement = container.querySelector('[role="switch"]');
         expect(switchElement).toBeInTheDocument();
+        expect(consoleSpy).not.toHaveBeenCalled();
+        consoleSpy.mockRestore();
     });
 
     test('warns when using Switch directly', () => {
@@ -23,6 +26,26 @@ describe('Switch Component', () => {
         );
 
         consoleSpy.mockRestore();
+    });
+
+    test('forwards ref to Switch.Root', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        render(
+            <Switch.Root ref={ref}>
+                <Switch.Thumb />
+            </Switch.Root>
+        );
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
+    test('forwards ref to Switch.Thumb', () => {
+        const ref = React.createRef<HTMLSpanElement>();
+        render(
+            <Switch.Root>
+                <Switch.Thumb ref={ref} />
+            </Switch.Root>
+        );
+        expect(ref.current).toBeInstanceOf(HTMLSpanElement);
     });
 
     test('toggles state correctly', () => {
@@ -39,6 +62,18 @@ describe('Switch Component', () => {
 
         fireEvent.click(switchButton!);
         expect(switchButton).toHaveAttribute('data-state', 'unchecked');
+    });
+
+    test('aria-checked updates with state', () => {
+        const { container } = render(
+            <Switch.Root>
+                <Switch.Thumb />
+            </Switch.Root>
+        );
+        const switchButton = container.querySelector('button')!;
+        expect(switchButton).toHaveAttribute('aria-checked', 'false');
+        fireEvent.click(switchButton);
+        expect(switchButton).toHaveAttribute('aria-checked', 'true');
     });
 
     test('thumb indicator reflects switch state', () => {

@@ -1,6 +1,11 @@
-import { createContext } from 'react';
+import { createContext, MutableRefObject } from 'react';
 
-export const TreeContext = createContext({
+export interface TreeContextProps {
+    rootClass: string;
+    treeRef: MutableRefObject<HTMLElement | null>;
+}
+
+export const TreeContext = createContext<TreeContextProps>({
     rootClass: '',
-    treeRef: null
+    treeRef: { current: null }
 });

@@ -10,6 +10,8 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'RadioGroup';
 
+export type RadioGroupRootElement = React.ElementRef<typeof RadioGroupPrimitive.Root>;
+
 type RadioGroupRootProps = {
     children: React.ReactNode;
     className?: string;
@@ -20,16 +22,20 @@ type RadioGroupRootProps = {
 
 } & RadioGroupPrimitiveProps.Root;
 
-const RadioGroupRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioGroupRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
+const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootProps>(
+    ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
 
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const accentAttributes = useCreateDataAccentColorAttribute(color);
+        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
-    return <RadioGroupContext.Provider value={{ rootClass }}>
-        <RadioGroupPrimitive.Root className={clsx(`${rootClass}-root`, className)} {...composedAttributes()} {...props}> {children} </RadioGroupPrimitive.Root>
-    </RadioGroupContext.Provider>;
-};
+        return <RadioGroupContext.Provider value={{ rootClass }}>
+            <RadioGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} {...composedAttributes()} {...props}> {children} </RadioGroupPrimitive.Root>
+        </RadioGroupContext.Provider>;
+    }
+);
+
+RadioGroupRoot.displayName = 'RadioGroupRoot';
 
 export default RadioGroupRoot;

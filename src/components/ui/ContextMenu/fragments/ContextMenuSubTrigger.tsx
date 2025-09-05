@@ -1,14 +1,15 @@
-import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import ContextMenuContext from '../contexts/ContextMenuContext';
 import clsx from 'clsx';
 
+export type ContextMenuSubTriggerElement = ElementRef<typeof MenuPrimitive.Trigger>;
 export type ContextMenuSubTriggerProps = {
   children: React.ReactNode;
   className?: string;
-} & MenuPrimitiveProps.Trigger;
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 
-const ContextMenuSubTrigger = ({ children, className, ...props }:ContextMenuSubTriggerProps) => {
+const ContextMenuSubTrigger = forwardRef<ContextMenuSubTriggerElement, ContextMenuSubTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(ContextMenuContext);
     if (!context) {
         console.log('ContextMenuSubTrigger should be used in the ContextMenuRoot');
@@ -16,10 +17,12 @@ const ContextMenuSubTrigger = ({ children, className, ...props }:ContextMenuSubT
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Trigger className={clsx(`${rootClass}-sub-trigger`, className)} {...props}>
+        <MenuPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-sub-trigger`, className)} {...props}>
             {children}
         </MenuPrimitive.Trigger>
     );
-};
+});
+
+ContextMenuSubTrigger.displayName = 'ContextMenuSubTrigger';
 
 export default ContextMenuSubTrigger;

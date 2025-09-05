@@ -1,17 +1,20 @@
 'use client';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogPortalProps = {
-  children: React.ReactNode;
-};
+type AlertDialogPortalElement = React.ElementRef<'div'>;
+type DialogPrimitivePortalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Portal>;
 
-const AlertDialogPortal = ({ children }: AlertDialogPortalProps) => {
+export type AlertDialogPortalProps = DialogPrimitivePortalProps;
+
+const AlertDialogPortal = forwardRef<AlertDialogPortalElement, AlertDialogPortalProps>(({ children, ...props }, _ref) => {
     return (
-        <DialogPrimitive.Portal>
+        <DialogPrimitive.Portal {...props}>
             {children}
         </DialogPrimitive.Portal>
     );
-};
+});
+
+AlertDialogPortal.displayName = 'AlertDialogPortal';
 
 export default AlertDialogPortal;

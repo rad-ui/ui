@@ -8,6 +8,8 @@ import { RadioCardsContext } from '../context/RadioCardsContext';
 
 const COMPONENT_NAME = 'RadioCards';
 
+export type RadioCardsRootElement = React.ElementRef<typeof RadioGroupPrimitive.Root>;
+
 type RadioCardsRootProps = {
     children: React.ReactNode;
     className?: string;
@@ -17,16 +19,20 @@ type RadioCardsRootProps = {
     color?: string;
 } & RadioGroupPrimitiveProps.Root;
 
-const RadioCardsRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioCardsRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const RadioCardsRoot = React.forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
+    ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('radio-cards', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const dataAttributes = useCreateDataAttribute('radio-cards', { variant, size });
+        const accentAttributes = useCreateDataAccentColorAttribute(color);
+        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
-    return <RadioCardsContext.Provider value={{ rootClass }}>
-        <RadioGroupPrimitive.Root className={clsx(rootClass, className)} {...composedAttributes} {...props}>{children}</RadioGroupPrimitive.Root>
-    </RadioCardsContext.Provider>;
-};
+        return <RadioCardsContext.Provider value={{ rootClass }}>
+            <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...composedAttributes()} {...props}>{children}</RadioGroupPrimitive.Root>
+        </RadioCardsContext.Provider>;
+    }
+);
+
+RadioCardsRoot.displayName = 'RadioCardsRoot';
 
 export default RadioCardsRoot;

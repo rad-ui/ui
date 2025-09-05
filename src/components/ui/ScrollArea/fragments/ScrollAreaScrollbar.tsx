@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useContext, useRef, useCallback } from 'react';
+import React, { useContext, useRef, useCallback, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
-type ScrollAreaScrollbarProps = React.HTMLAttributes<HTMLDivElement> & {
+type ScrollAreaScrollbarElement = ElementRef<'div'>;
+type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
     orientation?: 'horizontal' | 'vertical';
 };
 
-const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }: ScrollAreaScrollbarProps) => {
+const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScrollbarProps>(({ children, className = '', orientation, ...props }, ref) => {
     const { rootClass, handleScrollbarClick, scrollXThumbRef } = useContext(ScrollAreaContext);
     // stores the interval id for the repeated scroll action
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -106,6 +107,7 @@ const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }
 
     return (
         <div
+            ref={ref}
             className={clsx(rootClass + '-scrollbar', className)}
             data-orientation={orientation}
             onMouseDown={startContinuousScroll}
@@ -116,6 +118,8 @@ const ScrollAreaScrollbar = ({ children, className = '', orientation, ...props }
             {children}
         </div>
     );
-};
+});
+
+ScrollAreaScrollbar.displayName = 'ScrollAreaScrollbar';
 
 export default ScrollAreaScrollbar;

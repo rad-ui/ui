@@ -3,8 +3,24 @@ import Splitter from '../Splitter';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // Sample content components
-const SamplePanel = ({ title, children }: { title: string; children?: React.ReactNode }) => (
-    <div style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--rad-ui-color-gray-300)' }}>
+const SamplePanel = ({
+    title,
+    children,
+    color = 'var(--rad-ui-color-gray-300)'
+}: {
+    title: string;
+    children?: React.ReactNode;
+    color?: string;
+}) => (
+    <div
+        style={{
+            padding: '20px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: color
+        }}
+    >
         <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>{title}</h3>
         <div style={{ flex: 1, overflow: 'auto' }}>
             {children || (

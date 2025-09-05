@@ -1,21 +1,24 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import { clsx } from 'clsx';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-type AlertDialogOverlayProps = {
-    className?: string;
-}
+type AlertDialogOverlayElement = React.ElementRef<typeof DialogPrimitive.Overlay>;
+type DialogPrimitiveOverlayProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
 
-const AlertDialogOverlay = ({ className = '' }: AlertDialogOverlayProps) => {
+type AlertDialogOverlayProps = DialogPrimitiveOverlayProps & {
+    className?: string;
+};
+
+const AlertDialogOverlay = forwardRef<AlertDialogOverlayElement, AlertDialogOverlayProps>(({ className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
     return (
-        <>
-            <DialogPrimitive.Overlay className={clsx(`${rootClass}-overlay`, className)}></DialogPrimitive.Overlay>
-        </>
+        <DialogPrimitive.Overlay ref={ref} className={clsx(`${rootClass}-overlay`, className)} {...props}></DialogPrimitive.Overlay>
     );
-};
+});
+
+AlertDialogOverlay.displayName = 'AlertDialogOverlay';
 
 export default AlertDialogOverlay;

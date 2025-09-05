@@ -1,25 +1,25 @@
-import React, { useRef } from 'react';
+import React, { useRef, forwardRef, useImperativeHandle } from 'react';
+import type { ElementRef, ComponentPropsWithoutRef } from 'react';
 
 import { TreeContext } from '../contexts/TreeContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Tree';
 
-type TreeRootProps = {
-    children: React.ReactNode;
-    className?: string;
+export type TreeRootElement = ElementRef<typeof Primitive.div>;
+export type TreeRootProps = {
     customRootClass?: string;
     'aria-label'?: string;
     'aria-labelledby'?: string;
-    [key: string]: any;
-};
+} & ComponentPropsWithoutRef<typeof Primitive.div>;
 
-const TreeRoot = ({ children, className = '', customRootClass = '', 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }: TreeRootProps) => {
-    const treeRef = useRef(null);
+const TreeRoot = forwardRef<TreeRootElement, TreeRootProps>(({ children, className = '', customRootClass = '', 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }, ref) => {
+    const treeRef = useRef<TreeRootElement>(null);
+    useImperativeHandle(ref, () => treeRef.current as TreeRootElement);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const treeContextValue = {
@@ -33,11 +33,11 @@ const TreeRoot = ({ children, className = '', customRootClass = '', 'aria-label'
                 <RovingFocusGroup.Group>
                     <Primitive.div
                         className={clsx(rootClass, className)}
-                        {...props}
                         ref={treeRef}
                         role="tree"
                         aria-label={ariaLabel}
                         aria-labelledby={ariaLabelledBy}
+                        {...props}
                     >
                         {children}
                     </Primitive.div>
@@ -45,6 +45,9 @@ const TreeRoot = ({ children, className = '', customRootClass = '', 'aria-label'
             </RovingFocusGroup.Root>
         </TreeContext.Provider>
     );
-};
+});
+
+TreeRoot.displayName = COMPONENT_NAME;
 
 export default TreeRoot;
+
