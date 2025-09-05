@@ -1,16 +1,23 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { forwardRef, useState, useEffect, ElementRef, ComponentPropsWithoutRef } from 'react';
 
-type ThemeProps = {
+type ThemeElement = ElementRef<'div'>;
+export type ThemeProps = ComponentPropsWithoutRef<'div'> & {
     appearance?: 'light' | 'dark' | 'system';
     accentColor?: string;
     radius?: string;
     scaling?: string;
-    children: React.ReactNode;
-    id?: string;
-}
+};
 
-const Theme = ({ appearance = 'system', id = 'rad-ui-theme-container', accentColor = '', radius = '', scaling = '', children, ...props }: ThemeProps) => {
+const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
+    appearance = 'system',
+    id = 'rad-ui-theme-container',
+    accentColor = '',
+    radius = '',
+    scaling = '',
+    children,
+    ...props
+}, ref) {
     const [theme, setTheme] = useState(appearance);
     const [themeAccentColor, setThemeAccentColor] = useState(accentColor);
     const [themeRadius, setThemeRadius] = useState(radius);
@@ -52,16 +59,21 @@ const Theme = ({ appearance = 'system', id = 'rad-ui-theme-container', accentCol
         }
     }, [scaling]);
 
-    return <div
-        id={id}
-        data-rad-ui-theme={theme}
-        data-rad-ui-accent-color={themeAccentColor}
-        data-rad-ui-radius={themeRadius}
-        data-rad-ui-scaling={themeScaling}
-        {...props}
-    >
-        {children}
-    </div>;
-};
+    return (
+        <div
+            ref={ref}
+            id={id}
+            data-rad-ui-theme={theme}
+            data-rad-ui-accent-color={themeAccentColor}
+            data-rad-ui-radius={themeRadius}
+            data-rad-ui-scaling={themeScaling}
+            {...props}
+        >
+            {children}
+        </div>
+    );
+});
+
+Theme.displayName = 'Theme';
 
 export default Theme;
