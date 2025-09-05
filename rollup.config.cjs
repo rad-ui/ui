@@ -1,4 +1,3 @@
-const babel = require('@rollup/plugin-babel');
 const resolve = require('@rollup/plugin-node-resolve');
 const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
@@ -35,11 +34,6 @@ const aliasPluginInstance = alias({
         { find: '~/core', replacement: path.resolve(__dirname, 'src/core') }
     ]
 });
-const babelPluginInstance = babel({
-    exclude: 'node_modules/**',
-    presets: ['@babel/preset-react'],
-    babelHelpers: 'bundled'
-});
 const terserPluginInstance = terser();
 const resolvePluginInstance = resolve();
 const bannerPluginInstance = banner2(() => '\'use client\';');
@@ -66,7 +60,6 @@ const jsBundles = {
     external: ['react', 'react-dom', 'react/jsx-runtime'],
     plugins: [
         aliasPluginInstance,
-        babelPluginInstance,
         typescriptPluginInstance,
         resolvePluginInstance,
         terserPluginInstance,
