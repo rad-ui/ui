@@ -139,3 +139,33 @@ describe('Collapsible.Content Component', () => {
         expect(content).toHaveAttribute('aria-hidden', 'false');
     });
 });
+
+describe('Collapsible refs and warnings', () => {
+    it('forwards refs to all subcomponents', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const triggerRef = React.createRef<HTMLButtonElement>();
+        const contentRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <Collapsible.Root ref={rootRef} defaultOpen>
+                <Collapsible.Trigger ref={triggerRef}>Trigger</Collapsible.Trigger>
+                <Collapsible.Content ref={contentRef}>Content</Collapsible.Content>
+            </Collapsible.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    it('renders without warnings', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(
+            <Collapsible.Root>
+                <Collapsible.Trigger>Trigger</Collapsible.Trigger>
+            </Collapsible.Root>
+        );
+        expect(warn).not.toHaveBeenCalled();
+        warn.mockRestore();
+    });
+});

@@ -1,9 +1,10 @@
-import React, { useId } from 'react';
+import React, { ComponentPropsWithoutRef, ElementRef, useId } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { CollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 
-export type CollapsiblePrimitiveRootProps = {
+export type CollapsiblePrimitiveRootElement = ElementRef<typeof Primitive.div>;
+export type CollapsiblePrimitiveRootProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
   /**
    * Whether the collapsible is open by default (uncontrolled)
    */
@@ -17,19 +18,9 @@ export type CollapsiblePrimitiveRootProps = {
    */
   onOpenChange?: (open: boolean) => void;
   /**
-   * Content to be rendered inside the collapsible
-   * Should include CollapsiblePrimitive.Trigger and CollapsiblePrimitive.Content components,
-   * which will automatically connect to this root component via context
-   */
-  children?: React.ReactNode;
-  /**
    * Disables the collapsible
    */
   disabled?: boolean;
-  /**
-   * CSS class name for custom styling
-   */
-  className?: string;
   /**
    * Duration of the height transition animation in milliseconds
    */
@@ -38,56 +29,57 @@ export type CollapsiblePrimitiveRootProps = {
    * CSS timing function for the transition
    */
   transitionTimingFunction?: string;
-  /**
-   * Additional props to be spread on the root element
-   */
-  [key: string]: any;
 };
 
-const CollapsiblePrimitiveRoot = ({
-    children,
-    defaultOpen = false,
-    open,
-    onOpenChange,
-    disabled = false,
-    transitionDuration = 300,
-    transitionTimingFunction = 'linear',
-    ...props
-}: CollapsiblePrimitiveRootProps) => {
-    const contentId = useId();
-
-    // Using the useControllableState hook to manage state
-    const [isOpen, setIsOpen] = useControllableState<boolean>(
+const CollapsiblePrimitiveRoot = React.forwardRef<CollapsiblePrimitiveRootElement, CollapsiblePrimitiveRootProps>(
+    ({
+        children,
+        defaultOpen = false,
         open,
-        defaultOpen,
-        onOpenChange
-    );
+        onOpenChange,
+        disabled = false,
+        transitionDuration = 300,
+        transitionTimingFunction = 'linear',
+        ...props
+    }, ref) => {
+        const contentId = useId();
 
-    const handleOpenChange = (newOpen: boolean) => {
-        if (disabled) return;
-        setIsOpen(newOpen);
-    };
+        // Using the useControllableState hook to manage state
+        const [isOpen, setIsOpen] = useControllableState<boolean>(
+            open,
+            defaultOpen,
+            onOpenChange
+        );
 
-    return (
-        <CollapsiblePrimitiveContext.Provider
-            value={{
-                open: isOpen,
-                onOpenChange: handleOpenChange,
-                disabled,
-                contentId,
-                transitionDuration,
-                transitionTimingFunction
-            }}
-        >
-            <Primitive.div
-                {...props}
-                data-state={isOpen ? 'open' : 'closed'}
-                data-disabled={disabled ? '' : undefined}
+        const handleOpenChange = (newOpen: boolean) => {
+            if (disabled) return;
+            setIsOpen(newOpen);
+        };
+
+        return (
+            <CollapsiblePrimitiveContext.Provider
+                value={{
+                    open: isOpen,
+                    onOpenChange: handleOpenChange,
+                    disabled,
+                    contentId,
+                    transitionDuration,
+                    transitionTimingFunction
+                }}
             >
-                {children}
-            </Primitive.div>
-        </CollapsiblePrimitiveContext.Provider>
-    );
-};
+                <Primitive.div
+                    {...props}
+                    ref={ref}
+                    data-state={isOpen ? 'open' : 'closed'}
+                    data-disabled={disabled ? '' : undefined}
+                >
+                    {children}
+                </Primitive.div>
+            </CollapsiblePrimitiveContext.Provider>
+        );
+    }
+);
+
+CollapsiblePrimitiveRoot.displayName = 'CollapsiblePrimitiveRoot';
 
 export default CollapsiblePrimitiveRoot;

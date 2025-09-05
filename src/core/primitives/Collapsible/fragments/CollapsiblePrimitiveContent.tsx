@@ -1,27 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { ComponentPropsWithoutRef, ElementRef, useState, useRef, useEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
-export type CollapsiblePrimitiveContentProps = {
-  /**
-   * Content to be rendered inside the collapsible content
-   */
-  children?: React.ReactNode;
-  /**
-   * CSS class name for custom styling
-   */
-  className?: string;
-  /**
-   * For Polymorphic component support
-   */
-  asChild?: boolean;
-  /**
-   * Additional props to be spread on the content element
-   */
-  [key: string]: any;
-};
+export type CollapsiblePrimitiveContentElement = ElementRef<typeof Primitive.div>;
+export type CollapsiblePrimitiveContentProps = ComponentPropsWithoutRef<typeof Primitive.div>;
 
-const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, CollapsiblePrimitiveContentProps>(
+const CollapsiblePrimitiveContent = React.forwardRef<CollapsiblePrimitiveContentElement, CollapsiblePrimitiveContentProps>(
     ({
         children,
         className,
@@ -35,8 +19,8 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
             transitionTimingFunction
         } = useCollapsiblePrimitiveContext();
 
-        const ref = useRef<HTMLDivElement>(null);
-        const combinedRef = (forwardedRef || ref) as React.RefObject<HTMLDivElement>;
+        const ref = useRef<CollapsiblePrimitiveContentElement>(null);
+        const combinedRef = (forwardedRef || ref) as React.RefObject<CollapsiblePrimitiveContentElement>;
         const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
         const [shouldRender, setShouldRender] = useState(open);
         const animationTimeoutRef = useRef<NodeJS.Timeout>();
@@ -140,6 +124,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
                 aria-hidden={!open}
                 data-state={open ? 'open' : 'closed'}
                 className={className}
+                asChild={asChild}
                 style={{
                     height: height !== undefined ? `${height}px` : undefined,
                     overflow: 'hidden',

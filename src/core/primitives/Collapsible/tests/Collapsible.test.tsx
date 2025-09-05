@@ -69,4 +69,32 @@ describe('CollapsiblePrimitive', () => {
         expect(screen.getByTestId('trigger')).toHaveAttribute('aria-expanded', 'false');
         expect(screen.getByTestId('trigger')).toHaveAttribute('aria-controls');
     });
+
+    test('forwards refs to subcomponents', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const triggerRef = React.createRef<HTMLButtonElement>();
+        const contentRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <CollapsiblePrimitive.Root ref={rootRef} defaultOpen>
+                <CollapsiblePrimitive.Trigger ref={triggerRef}>Toggle</CollapsiblePrimitive.Trigger>
+                <CollapsiblePrimitive.Content ref={contentRef}>Content</CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    test('renders without warnings', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => { });
+        render(
+            <CollapsiblePrimitive.Root>
+                <CollapsiblePrimitive.Trigger>Trigger</CollapsiblePrimitive.Trigger>
+            </CollapsiblePrimitive.Root>
+        );
+        expect(warn).not.toHaveBeenCalled();
+        warn.mockRestore();
+    });
 });

@@ -1,20 +1,21 @@
 import clsx from 'clsx';
-import React, { useContext } from 'react';
+import React, { ComponentPropsWithoutRef, ElementRef, useContext } from 'react';
 import { CollapsibleContext } from '../contexts/CollapsibleContext';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
-type CollapsibleContentProps = {
-    children: React.ReactNode;
-    className?: string;
+export type CollapsibleContentElement = ElementRef<typeof CollapsiblePrimitive.Content>;
+export type CollapsibleContentProps = ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Content>;
 
-}
-
-const CollapsibleContent = ({ children, className = '' }:CollapsibleContentProps) => {
+const CollapsibleContent = React.forwardRef<CollapsibleContentElement, CollapsibleContentProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(CollapsibleContext);
     const contentClass = rootClass ? `${rootClass}-content` : '';
     return (
-        <CollapsiblePrimitive.Content className={clsx(contentClass, className)}>{children}</CollapsiblePrimitive.Content>
+        <CollapsiblePrimitive.Content ref={ref} className={clsx(contentClass, className)} {...props}>
+            {children}
+        </CollapsiblePrimitive.Content>
     );
-};
+});
+
+CollapsibleContent.displayName = 'CollapsibleContent';
 
 export default CollapsibleContent;
