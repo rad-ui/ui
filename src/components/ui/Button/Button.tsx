@@ -1,5 +1,5 @@
 'use client';
-import React, { ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 'react';
+import React from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
@@ -8,14 +8,15 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
 
-export type ButtonProps = {
+type ButtonElement = React.ElementRef<typeof ButtonPrimitive>;
+type ButtonProps = React.ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     customRootClass?: string;
     variant?: string;
-    size?:string;
-    color?:string;
-} & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & PropsWithChildren
+    size?: string;
+    color?: string;
+};
 
-const Button = ({ children, type = 'button', customRootClass = '', className = '', variant = '', size = '', color = '', ...props }: ButtonProps) => {
+const Button = React.forwardRef<ButtonElement, ButtonProps>(({ children, type = 'button', customRootClass = '', className = '', variant = '', size = '', color = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     // apply data attribute for accent color
     // apply attribute only if color is present
@@ -25,6 +26,7 @@ const Button = ({ children, type = 'button', customRootClass = '', className = '
 
     return (
         <ButtonPrimitive
+            ref={ref}
             type={type}
             className={clsx(rootClass, className)}
             {...composedAttributes()}
@@ -33,7 +35,7 @@ const Button = ({ children, type = 'button', customRootClass = '', className = '
             {children}
         </ButtonPrimitive>
     );
-};
+});
 
 Button.displayName = COMPONENT_NAME;
 

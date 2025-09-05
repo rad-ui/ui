@@ -42,4 +42,11 @@ describe('Button', () => {
         await userEvent.click(button);
         expect(onClick).toHaveBeenCalledTimes(1);
     });
+
+    test('forwards ref to the underlying button element', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        render(<Button ref={ref}>ref button</Button>);
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+        expect(ref.current?.tagName).toBe('BUTTON');
+    });
 });
