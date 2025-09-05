@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 
 import ButtonPrimitive from '~/core/primitives/Button';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
-export interface TogglePrimitiveProps {
+export type TogglePrimitiveElement = React.ElementRef<typeof ButtonPrimitive>;
+export interface TogglePrimitiveProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive> {
     defaultPressed?: boolean;
     pressed?: boolean;
-    children?: React.ReactNode;
-    className?: string;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
     label?: string;
     disabled?: boolean;
     onPressedChange?: (isPressed: boolean) => void;
     asChild?: boolean;
 }
 
-const TogglePrimitive = ({
+const TogglePrimitive = forwardRef<TogglePrimitiveElement, TogglePrimitiveProps>(({ 
     children,
     label = '',
     defaultPressed = false,
@@ -25,7 +22,7 @@ const TogglePrimitive = ({
     disabled,
     asChild = false,
     ...props
-}: TogglePrimitiveProps) => {
+}, ref) => {
     const [uncontrolledPressed, setUncontrolledPressed] = useState(defaultPressed);
 
     const isControlled = controlledPressed !== undefined;
@@ -55,6 +52,7 @@ const TogglePrimitive = ({
     ariaAttributes['aria-disabled'] = disabled ? 'true' : 'false';
 
     return <ButtonPrimitive
+        ref={ref}
         onClick={composeEventHandlers(props.onClick, handleTogglePressed)}
         onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
         data-state={isPressed ? 'on' : 'off'}
@@ -65,6 +63,8 @@ const TogglePrimitive = ({
         {...props}
     >{children}
     </ButtonPrimitive>;
-};
+});
+
+TogglePrimitive.displayName = 'TogglePrimitive';
 
 export default TogglePrimitive;
