@@ -1,16 +1,17 @@
-import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import MenubarContext from '../contexts/MenubarContext';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
 import MenubarMenuContext from '../contexts/MenubarMenuContext';
 
+export type MenubarTriggerElement = ElementRef<typeof MenuPrimitive.Trigger>;
 export type MenubarTriggerProps = {
   children: React.ReactNode;
   className?: string;
-} & MenuPrimitiveProps.Trigger;
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 
-const MenubarTrigger = ({ children, className, ...props }:MenubarTriggerProps) => {
+const MenubarTrigger = forwardRef<MenubarTriggerElement, MenubarTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     const menuContext = React.useContext(MenubarMenuContext);
 
@@ -28,15 +29,21 @@ const MenubarTrigger = ({ children, className, ...props }:MenubarTriggerProps) =
 
     return (
         <Floater.CompositeItem
-            render={
-                () => (
-                    <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} data-active={isOpen} {...props}>
-                        {children}
-                    </MenuPrimitive.Trigger>
-                )
-            }/>
+            render={() => (
+                <MenuPrimitive.Trigger
+                    ref={ref}
+                    className={clsx(`${rootClass}-trigger`, className)}
+                    data-active={isOpen}
+                    {...props}
+                >
+                    {children}
+                </MenuPrimitive.Trigger>
+            )}
+        />
 
     );
-};
+});
+
+MenubarTrigger.displayName = 'MenubarTrigger';
 
 export default MenubarTrigger;
