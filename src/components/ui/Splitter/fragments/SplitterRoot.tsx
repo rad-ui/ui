@@ -1,13 +1,12 @@
 'use client';
-import React, { useState, useRef, useCallback, ReactNode, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
 
-export interface SplitterRootProps {
+type SplitterRootElement = React.ElementRef<'div'>;
+export interface SplitterRootProps extends React.ComponentPropsWithoutRef<'div'> {
   orientation?: SplitterOrientation;
-  children: ReactNode;
-  className?: string;
   customRootClass?: string;
   defaultSizes?: number[];
   minSizes?: number[];
@@ -26,7 +25,7 @@ export const useSplitter = () => {
 
 const COMPONENT_NAME = 'Splitter';
 
-const SplitterRoot: React.FC<SplitterRootProps> = ({
+const SplitterRoot = React.forwardRef<SplitterRootElement, SplitterRootProps>(({
     orientation = 'horizontal',
     children,
     className = '',
@@ -34,10 +33,12 @@ const SplitterRoot: React.FC<SplitterRootProps> = ({
     defaultSizes = [50, 50],
     minSizes = [0, 0],
     maxSizes = [100, 100],
-    onSizesChange
-}) => {
+    onSizesChange,
+    ...props
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const containerRef = useRef<HTMLDivElement>(null);
+    React.useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);
     const [activeHandleIndex, setActiveHandleIndex] = useState<number | null>(null);
@@ -301,11 +302,14 @@ const SplitterRoot: React.FC<SplitterRootProps> = ({
                     width: '100%',
                     height: '100%'
                 }}
+                {...props}
             >
                 {children}
             </div>
         </SplitterContext.Provider>
     );
-};
+});
+
+SplitterRoot.displayName = 'SplitterRoot';
 
 export default SplitterRoot;

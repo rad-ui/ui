@@ -25,19 +25,17 @@ import SplitterHandle from './fragments/SplitterHandle';
  * ```
  */
 
-// Empty props type - only supporting fragment exports
-export type SplitterProps = React.HTMLAttributes<HTMLDivElement> & {
-    children?: React.ReactNode;
-};
+export type SplitterProps = React.ComponentPropsWithoutRef<'div'>;
 
-// Empty implementation - we don't support direct usage
-const Splitter = () => {
+const SplitterBase = React.forwardRef<HTMLDivElement, SplitterProps>((_props, _ref) => {
     console.warn('Direct usage of Splitter is not supported. Please use Splitter.Root, Splitter.Panel, etc. instead.');
     return null;
-};
+});
 
-Splitter.Root = SplitterRoot;
-Splitter.Panel = SplitterPanel;
-Splitter.Handle = SplitterHandle;
+const Splitter = Object.assign(SplitterBase, {
+    Root: SplitterRoot,
+    Panel: SplitterPanel,
+    Handle: SplitterHandle
+});
 
 export default Splitter;

@@ -1,29 +1,30 @@
 'use client';
 import React from 'react';
-import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import { useSplitter } from './SplitterRoot';
 
-export interface SplitterHandleProps {
+type SplitterHandleElement = React.ElementRef<'div'>;
+export interface SplitterHandleProps extends React.ComponentPropsWithoutRef<'div'> {
   index: number;
-  className?: string;
   customRootClass?: string;
   'aria-label'?: string;
 }
 
-const SplitterHandle: React.FC<SplitterHandleProps> = ({
+const SplitterHandle = React.forwardRef<SplitterHandleElement, SplitterHandleProps>(({ 
     index,
     className = '',
     customRootClass = '',
-    'aria-label': ariaLabel
-}) => {
+    'aria-label': ariaLabel,
+    ...props
+}, ref) => {
     const { startDrag, orientation, isDragging, activeHandleIndex, handleKeyDown, rootClass } = useSplitter();
     const isHorizontal = orientation === 'horizontal';
     const isActive = isDragging && activeHandleIndex === index;
 
     return (
         <div
-            className={`${rootClass}-handle`}
+            ref={ref}
+            className={clsx(`${rootClass}-handle`, className)}
             role="separator"
             aria-orientation={orientation}
             aria-label={ariaLabel || `${orientation} resize handle`}
@@ -31,9 +32,11 @@ const SplitterHandle: React.FC<SplitterHandleProps> = ({
             onMouseDown={(e) => startDrag(index, e)}
             onTouchStart={(e) => startDrag(index, e)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-
+            {...props}
         />
     );
-};
+});
+
+SplitterHandle.displayName = 'SplitterHandle';
 
 export default SplitterHandle;

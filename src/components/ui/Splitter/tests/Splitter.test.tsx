@@ -199,6 +199,43 @@ describe('Splitter Component', () => {
         expect(handles).toHaveLength(2);
     });
 
+    it('forwards refs to DOM elements', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const panelRef = React.createRef<HTMLDivElement>();
+        const handleRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <div style={{ width: '400px', height: '300px' }}>
+                <Splitter.Root ref={rootRef}>
+                    <Splitter.Panel index={0} ref={panelRef}>
+                        <div>Panel 0</div>
+                    </Splitter.Panel>
+                    <Splitter.Handle index={0} ref={handleRef} />
+                    <Splitter.Panel index={1}>
+                        <div>Panel 1</div>
+                    </Splitter.Panel>
+                </Splitter.Root>
+            </div>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(panelRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(handleRef.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    it('provides default aria-label for handle', () => {
+        renderSplitter();
+        const handle = screen.getByRole('separator');
+        expect(handle).toHaveAttribute('aria-label', 'horizontal resize handle');
+    });
+
+    it('renders without console errors', () => {
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        renderSplitter();
+        expect(consoleSpy).not.toHaveBeenCalled();
+        consoleSpy.mockRestore();
+    });
+
     it('throws error when used outside Splitter context', () => {
     // Suppress console.error for this test
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});

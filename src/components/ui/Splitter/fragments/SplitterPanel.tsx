@@ -1,24 +1,23 @@
 'use client';
-import React, { ReactNode } from 'react';
-import { customClassSwitcher } from '~/core';
+import React from 'react';
 import { clsx } from 'clsx';
 import { useSplitter } from './SplitterRoot';
 
-export interface SplitterPanelProps {
+type SplitterPanelElement = React.ElementRef<'div'>;
+export interface SplitterPanelProps extends React.ComponentPropsWithoutRef<'div'> {
   index: number;
-  children: ReactNode;
-  className?: string;
   customRootClass?: string;
   minSize?: number;
   maxSize?: number;
 }
 
-const SplitterPanel: React.FC<SplitterPanelProps> = ({
+const SplitterPanel = React.forwardRef<SplitterPanelElement, SplitterPanelProps>(({ 
     index,
     children,
     className = '',
-    customRootClass = ''
-}) => {
+    customRootClass = '',
+    ...props
+}, ref) => {
     const { sizes, orientation, rootClass } = useSplitter();
 
     const style = {
@@ -31,10 +30,17 @@ const SplitterPanel: React.FC<SplitterPanelProps> = ({
     };
 
     return (
-        <div className={`${rootClass}-panel`} style={style}>
+        <div
+            ref={ref}
+            className={clsx(`${rootClass}-panel`, className)}
+            style={style}
+            {...props}
+        >
             {children}
         </div>
     );
-};
+});
+
+SplitterPanel.displayName = 'SplitterPanel';
 
 export default SplitterPanel;
