@@ -89,6 +89,8 @@ const CollapsiblePrimitiveContent = React.forwardRef<CollapsiblePrimitiveContent
                 animationTimeoutRef.current = setTimeout(() => {
                     setHeight(undefined);
                 }, transitionDuration);
+                // Prevent tests from hanging due to pending timers
+                animationTimeoutRef.current.unref?.();
             } else {
                 // Closing animation
                 // First set to current height to ensure smooth start
@@ -110,6 +112,8 @@ const CollapsiblePrimitiveContent = React.forwardRef<CollapsiblePrimitiveContent
                 animationTimeoutRef.current = setTimeout(() => {
                     setShouldRender(false);
                 }, transitionDuration);
+                // Prevent tests from hanging due to pending timers
+                animationTimeoutRef.current.unref?.();
             }
 
             return () => {
