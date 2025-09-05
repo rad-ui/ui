@@ -31,4 +31,17 @@ describe('BlockQuote', () => {
         render(<BlockQuote className='mr-2' color='blue'>BlockQuote</BlockQuote>);
         expect(screen.getByText('BlockQuote')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
     });
+
+    test('forwards refs to the underlying element', () => {
+        const ref = React.createRef<HTMLQuoteElement>();
+        render(<BlockQuote ref={ref}>BlockQuote</BlockQuote>);
+        expect(ref.current).not.toBeNull();
+    });
+
+    test('applies variant and size data attributes', () => {
+        render(<BlockQuote variant='quote' size='lg'>BlockQuote</BlockQuote>);
+        const quoteElement = screen.getByText('BlockQuote');
+        expect(quoteElement).toHaveAttribute('data-block-quote-variant', 'quote');
+        expect(quoteElement).toHaveAttribute('data-block-quote-size', 'lg');
+    });
 });

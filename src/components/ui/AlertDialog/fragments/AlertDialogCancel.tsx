@@ -1,22 +1,25 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogCancelProps = {
-    children: React.ReactNode;
-    asChild?: boolean;
-    className?: string;
-}
+type AlertDialogCancelElement = React.ElementRef<typeof DialogPrimitive.Cancel>;
+type DialogPrimitiveCancelProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Cancel>;
 
-const AlertDialogCancel = ({ children, asChild, className = '', ...props } : AlertDialogCancelProps) => {
+export type AlertDialogCancelProps = DialogPrimitiveCancelProps & {
+    className?: string;
+};
+
+const AlertDialogCancel = forwardRef<AlertDialogCancelElement, AlertDialogCancelProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
     return (
-        <DialogPrimitive.Cancel className={`${rootClass}-cancel ${className}`} {...props}>
+        <DialogPrimitive.Cancel ref={ref} className={`${rootClass}-cancel ${className}`} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Cancel>
     );
-};
+});
+
+AlertDialogCancel.displayName = 'AlertDialogCancel';
 
 export default AlertDialogCancel;

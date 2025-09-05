@@ -7,16 +7,14 @@ import { AccordionItemContext } from '../contexts/AccordionItemContext';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import Primitive from '~/core/primitives/Primitive';
 
-export type AccordionItemProps = {
-    children: React.ReactNode;
-    className?: string;
+export type AccordionItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value?: number | string;
     disabled?: boolean;
     asChild?: boolean;
-}
+};
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, className = '', disabled = false, asChild = false, ...props }) => {
-    const accordionItemRef = useRef<HTMLDivElement>(null);
+const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemProps>(({ children, value, className = '', disabled = false, asChild = false, ...props }, forwardedRef) => {
+    const accordionItemRef = useRef<HTMLDivElement | null>(null);
     const [itemValue, setItemValue] = useState<number | string>(value ?? 0);
     const { rootClass, activeItems, transitionDuration, transitionTimingFunction } = useContext(AccordionContext);
 
@@ -45,7 +43,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
                 asChild
             >
                 <Primitive.div
-                    ref={accordionItemRef}
+                    ref={(node) => {
+                        const element = node as HTMLDivElement | null;
+                        accordionItemRef.current = element;
+                        if (typeof forwardedRef === 'function') forwardedRef(element);
+                        else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
+                    }}
                     className={clsx(`${rootClass}-item`, className)} {...props}
                     id={`accordion-data-item-${id}`}
                     role="region"
@@ -57,6 +60,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ children, value, classNam
 
         </AccordionItemContext.Provider>
     );
-};
+});
+
+AccordionItem.displayName = 'AccordionItem';
 
 export default AccordionItem;
