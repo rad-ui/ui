@@ -25,7 +25,7 @@ jest.mock('~/core/hooks/useControllableState', () => {
 describe('Collapsible Component', () => {
     it('renders without crashing', () => {
         const { getByText } = render(
-            <Collapsible.Root defaultOpen>
+            <Collapsible.Root defaultOpen transitionDuration={0}>
                 <Collapsible.Trigger>Test Title</Collapsible.Trigger>
                 <Collapsible.Content>
                     <div>Test Content</div>
@@ -40,7 +40,7 @@ describe('Collapsible Component', () => {
         const onOpenChange = jest.fn();
 
         render(
-            <Collapsible.Root disabled defaultOpen onOpenChange={onOpenChange}>
+            <Collapsible.Root disabled defaultOpen transitionDuration={0} onOpenChange={onOpenChange}>
                 <Collapsible.Trigger>Toggle</Collapsible.Trigger>
                 <Collapsible.Content>
                     <div>Test Content</div>
@@ -62,7 +62,7 @@ describe('Collapsible Component', () => {
         const onOpenChange = jest.fn();
 
         const { rerender } = render(
-            <Collapsible.Root open={false} onOpenChange={onOpenChange}>
+            <Collapsible.Root open={false} transitionDuration={0} onOpenChange={onOpenChange}>
                 <Collapsible.Trigger>Toggle</Collapsible.Trigger>
                 <Collapsible.Content>
                     <div>Test Content</div>
@@ -80,7 +80,7 @@ describe('Collapsible Component', () => {
 
         // Simulate parent controlling component and opening the collapsible
         rerender(
-            <Collapsible.Root open={true} onOpenChange={onOpenChange}>
+            <Collapsible.Root open={true} transitionDuration={0} onOpenChange={onOpenChange}>
                 <Collapsible.Trigger>Toggle</Collapsible.Trigger>
                 <Collapsible.Content>
                     <div>Test Content</div>
@@ -96,7 +96,7 @@ describe('Collapsible Component', () => {
 describe('Collapsible.Trigger Component', () => {
     it('renders the trigger content', () => {
         render(
-            <Collapsible.Root>
+            <Collapsible.Root transitionDuration={0}>
                 <Collapsible.Trigger>Trigger Content</Collapsible.Trigger>
             </Collapsible.Root>
         );
@@ -105,7 +105,7 @@ describe('Collapsible.Trigger Component', () => {
 
     it('has correct ARIA attributes', () => {
         render(
-            <Collapsible.Root defaultOpen>
+            <Collapsible.Root defaultOpen transitionDuration={0}>
                 <Collapsible.Trigger>Trigger</Collapsible.Trigger>
                 <Collapsible.Content>Content</Collapsible.Content>
             </Collapsible.Root>
@@ -120,7 +120,7 @@ describe('Collapsible.Trigger Component', () => {
 describe('Collapsible.Content Component', () => {
     it('renders the content when open', () => {
         render(
-            <Collapsible.Root defaultOpen>
+            <Collapsible.Root defaultOpen transitionDuration={0}>
                 <Collapsible.Content>Content Text</Collapsible.Content>
             </Collapsible.Root>
         );
@@ -129,7 +129,7 @@ describe('Collapsible.Content Component', () => {
 
     it('has correct ARIA attributes', () => {
         render(
-            <Collapsible.Root defaultOpen>
+            <Collapsible.Root defaultOpen transitionDuration={0}>
                 <Collapsible.Trigger>Trigger</Collapsible.Trigger>
                 <Collapsible.Content>Content</Collapsible.Content>
             </Collapsible.Root>
@@ -147,7 +147,7 @@ describe('Collapsible refs and warnings', () => {
         const contentRef = React.createRef<HTMLDivElement>();
 
         render(
-            <Collapsible.Root ref={rootRef} defaultOpen>
+            <Collapsible.Root ref={rootRef} defaultOpen transitionDuration={0}>
                 <Collapsible.Trigger ref={triggerRef}>Trigger</Collapsible.Trigger>
                 <Collapsible.Content ref={contentRef}>Content</Collapsible.Content>
             </Collapsible.Root>
@@ -161,7 +161,7 @@ describe('Collapsible refs and warnings', () => {
     it('renders without warnings', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         render(
-            <Collapsible.Root>
+            <Collapsible.Root transitionDuration={0}>
                 <Collapsible.Trigger>Trigger</Collapsible.Trigger>
             </Collapsible.Root>
         );

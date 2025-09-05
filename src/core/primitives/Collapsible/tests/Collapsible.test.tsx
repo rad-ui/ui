@@ -6,7 +6,7 @@ import CollapsiblePrimitive from '../';
 describe('CollapsiblePrimitive', () => {
     test('renders children correctly', () => {
         render(
-            <CollapsiblePrimitive.Root>
+            <CollapsiblePrimitive.Root transitionDuration={0}>
                 <div data-testid="collapsible-child">Collapsible Content</div>
             </CollapsiblePrimitive.Root>
         );
@@ -17,7 +17,7 @@ describe('CollapsiblePrimitive', () => {
 
     test('has correct data-state attribute based on open state', () => {
         const { rerender } = render(
-            <CollapsiblePrimitive.Root data-testid="collapsible">
+            <CollapsiblePrimitive.Root data-testid="collapsible" transitionDuration={0}>
                 <CollapsiblePrimitive.Trigger data-testid="trigger">
                     Toggle
                 </CollapsiblePrimitive.Trigger>
@@ -31,7 +31,7 @@ describe('CollapsiblePrimitive', () => {
 
     test('disabled state renders properly', () => {
         render(
-            <CollapsiblePrimitive.Root data-testid="collapsible" disabled>
+            <CollapsiblePrimitive.Root data-testid="collapsible" disabled transitionDuration={0}>
                 <div>Content</div>
             </CollapsiblePrimitive.Root>
         );
@@ -41,7 +41,7 @@ describe('CollapsiblePrimitive', () => {
 
     test('works in uncontrolled mode with defaultOpen prop', () => {
         render(
-            <CollapsiblePrimitive.Root defaultOpen={true} data-testid="collapsible">
+            <CollapsiblePrimitive.Root defaultOpen transitionDuration={0} data-testid="collapsible">
                 <CollapsiblePrimitive.Content data-testid="content">
                     <div>Content</div>
                 </CollapsiblePrimitive.Content>
@@ -54,7 +54,7 @@ describe('CollapsiblePrimitive', () => {
 
     test('Trigger element renders with correct accessibility attributes', () => {
         render(
-            <CollapsiblePrimitive.Root>
+            <CollapsiblePrimitive.Root transitionDuration={0}>
                 <CollapsiblePrimitive.Trigger data-testid="trigger">
                     Toggle
                 </CollapsiblePrimitive.Trigger>
@@ -76,7 +76,7 @@ describe('CollapsiblePrimitive', () => {
         const contentRef = React.createRef<HTMLDivElement>();
 
         render(
-            <CollapsiblePrimitive.Root ref={rootRef} defaultOpen>
+            <CollapsiblePrimitive.Root ref={rootRef} defaultOpen transitionDuration={0}>
                 <CollapsiblePrimitive.Trigger ref={triggerRef}>Toggle</CollapsiblePrimitive.Trigger>
                 <CollapsiblePrimitive.Content ref={contentRef}>Content</CollapsiblePrimitive.Content>
             </CollapsiblePrimitive.Root>
@@ -90,7 +90,7 @@ describe('CollapsiblePrimitive', () => {
     test('renders without warnings', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => { });
         render(
-            <CollapsiblePrimitive.Root>
+            <CollapsiblePrimitive.Root transitionDuration={0}>
                 <CollapsiblePrimitive.Trigger>Trigger</CollapsiblePrimitive.Trigger>
             </CollapsiblePrimitive.Root>
         );
