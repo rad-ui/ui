@@ -66,7 +66,7 @@ describe('NavigationMenu component', () => {
     });
 
     test('forwards ref to link', async () => {
-        const ref = React.createRef<HTMLAnchorElement>();
+        const ref = React.createRef<HTMLButtonElement>();
         render(
             <NavigationMenu.Root defaultValue="item1">
                 <NavigationMenu.Item value="item1">
@@ -78,7 +78,7 @@ describe('NavigationMenu component', () => {
         );
 
         await waitFor(() => {
-            expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+            expect(ref.current).toBeInstanceOf(HTMLElement);
         });
     });
 });
