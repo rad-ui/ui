@@ -3,20 +3,29 @@ import React, { useContext } from 'react';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import { CollapsibleContext } from '../contexts/CollapsibleContext';
 
-type CollapsibleTriggerProps = {
-    children?: React.ReactNode
-    asChild?: boolean
-    className?: string
-    id?: string
-    key?: string
-    style?: React.CSSProperties
-    index?: number
-}
+type CollapsibleTriggerElement = React.ElementRef<typeof CollapsiblePrimitive.Trigger>;
+export type CollapsibleTriggerProps = React.ComponentPropsWithoutRef<
+    typeof CollapsiblePrimitive.Trigger
+>;
 
-const CollapsibleTrigger = ({ children, className, ...props }: CollapsibleTriggerProps) => {
+const CollapsibleTrigger = React.forwardRef<
+    CollapsibleTriggerElement,
+    CollapsibleTriggerProps
+>(({ children, className, ...props }, forwardedRef) => {
     const { rootClass } = useContext(CollapsibleContext);
     const triggerClass = rootClass ? `${rootClass}-trigger` : '';
-    return <CollapsiblePrimitive.Trigger className={clsx(triggerClass, className)} {...props}>{children}</CollapsiblePrimitive.Trigger>;
-};
+    return (
+        <CollapsiblePrimitive.Trigger
+            ref={forwardedRef}
+            className={clsx(triggerClass, className)}
+            {...props}
+        >
+            {children}
+        </CollapsiblePrimitive.Trigger>
+    );
+});
+
+CollapsibleTrigger.displayName = 'CollapsibleTrigger';
 
 export default CollapsibleTrigger;
+

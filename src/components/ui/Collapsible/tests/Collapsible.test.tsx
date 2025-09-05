@@ -91,6 +91,23 @@ describe('Collapsible Component', () => {
         // Content should now be visible
         expect(screen.getByText('Test Content')).toBeInTheDocument();
     });
+
+    it('forwards refs to subcomponents', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const triggerRef = React.createRef<HTMLButtonElement>();
+        const contentRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <Collapsible.Root ref={rootRef} defaultOpen>
+                <Collapsible.Trigger ref={triggerRef}>Trigger</Collapsible.Trigger>
+                <Collapsible.Content ref={contentRef}>Content</Collapsible.Content>
+            </Collapsible.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+    });
 });
 
 describe('Collapsible.Trigger Component', () => {

@@ -2,26 +2,15 @@ import React from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
-export type CollapsiblePrimitiveTriggerProps = {
-  /**
-   * Content to be rendered inside the trigger
-   */
-  children?: React.ReactNode;
-  /**
-   * For Polymorphic component support
-   */
-  asChild?: boolean;
-  /**
-   * Additional props to be spread on the trigger element
-   *
-   * Note: open state, disabled state, and toggle functionality are
-   * now automatically handled through context from CollapsiblePrimitive.Root
-   */
-  [key: string]: any;
-};
+type CollapsiblePrimitiveTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
+export type CollapsiblePrimitiveTriggerProps = React.ComponentPropsWithoutRef<
+    typeof ButtonPrimitive
+>;
 
-const CollapsiblePrimitiveTrigger = React.forwardRef<HTMLButtonElement, CollapsiblePrimitiveTriggerProps>(
-    ({ children, asChild = false, ...props }, forwardedRef) => {
+const CollapsiblePrimitiveTrigger = React.forwardRef<
+    CollapsiblePrimitiveTriggerElement,
+    CollapsiblePrimitiveTriggerProps
+>(({ children, asChild = false, ...props }, forwardedRef) => {
         const { open, onOpenChange, disabled, contentId } = useCollapsiblePrimitiveContext();
 
         const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
