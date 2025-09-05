@@ -11,8 +11,7 @@ export type HoverCardTriggerProps = ComponentPropsWithoutRef<typeof Primitive.sp
 const HoverCardTrigger = forwardRef<HoverCardTriggerElement, HoverCardTriggerProps>(({ children, className = '', ...props }, ref) => {
     const { floatingRefs, closeWithDelay, openWithDelay, rootTriggerClass } = useContext(HoverCardContext);
 
-    const childrenRef = (children as any)?.ref;
-    const mergedRef = Floater.useMergeRefs([floatingRefs.setReference, ref, childrenRef]);
+    const mergedRef = Floater.useMergeRefs([floatingRefs.setReference, ref]);
 
     return <Primitive.span
         className={clsx(rootTriggerClass, className)}

@@ -26,6 +26,23 @@ describe('HoverCard', () => {
         expect(arrowRef.current).toBeInstanceOf(SVGSVGElement);
     });
 
+    test('does not hijack child refs', () => {
+        const triggerRef = createRef<HTMLSpanElement>();
+        const buttonRef = createRef<HTMLButtonElement>();
+
+        render(
+            <HoverCard.Root open onOpenChange={() => {}}>
+                <HoverCard.Trigger ref={triggerRef}>
+                    <button ref={buttonRef}>Trigger</button>
+                </HoverCard.Trigger>
+            </HoverCard.Root>
+        );
+
+        expect(triggerRef.current).toBeInstanceOf(HTMLSpanElement);
+        expect(buttonRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(buttonRef.current).not.toBe(triggerRef.current);
+    });
+
     test('renders without warnings and toggles on hover', async() => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const error = jest.spyOn(console, 'error').mockImplementation(() => {});
