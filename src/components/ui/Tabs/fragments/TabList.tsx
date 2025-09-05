@@ -19,14 +19,16 @@ const TabList = React.forwardRef<TabListElement, TabListProps>(({ className = ''
 
     const { rootClass, orientation } = context;
 
+    const { ['aria-label']: ariaLabel, ...restProps } = props;
+
     const childProps = {
         ref,
         className: clsx(`${rootClass}-list`, className),
+        ...restProps,
         role: 'tablist',
         'aria-orientation': orientation,
-        'aria-label': 'todo',
-        ...props
-    };
+        ...(ariaLabel ? { 'aria-label': ariaLabel } : {})
+    } as const;
 
     const child =
         asChild && React.isValidElement(children)

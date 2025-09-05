@@ -35,10 +35,11 @@ const TabContent = React.forwardRef<TabContentElement, TabContentProps>(({ class
         <div
             ref={ref}
             className={clsx(rootClass, className)}
+            {...props}
             role="tabpanel"
             aria-hidden={!isActive}
+            hidden={forceMount && !isActive}
             {...dataAttributes}
-            {...props}
         >
             {children}
         </div>

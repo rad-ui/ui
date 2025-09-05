@@ -424,9 +424,10 @@ describe('Tabs Component', () => {
             expect(screen.getByText('Content 1')).toBeInTheDocument();
             expect(screen.getByText('Content 2')).toBeInTheDocument();
 
-            // Tab 2 content should have aria-hidden="true"
+            // Tab 2 content should have aria-hidden="true" and be hidden
             const tab2Content = screen.getByText('Content 2');
             expect(tab2Content).toHaveAttribute('aria-hidden', 'true');
+            expect(tab2Content).toHaveAttribute('hidden');
         });
 
         test('data attributes are set correctly', () => {
@@ -478,6 +479,22 @@ describe('Tabs Component', () => {
             // The component should render without errors when dir prop is provided
             expect(screen.getByText('Tab 1')).toBeInTheDocument();
             expect(screen.getByText('Tab 2')).toBeInTheDocument();
+        });
+
+        test('allows custom aria-label on TabList', () => {
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List aria-label="Custom Tabs">
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            const tablist = screen.getByRole('tablist');
+            expect(tablist).toHaveAttribute('aria-label', 'Custom Tabs');
         });
 
         test('asChild prop is supported on TabList', () => {
@@ -542,12 +559,16 @@ describe('Tabs Component', () => {
             const content1 = screen.getByText('Content 1');
             const content2 = screen.getByText('Content 2');
             expect(content1).toHaveAttribute('aria-hidden', 'false');
+            expect(content1).not.toHaveAttribute('hidden');
             expect(content2).toHaveAttribute('aria-hidden', 'true');
+            expect(content2).toHaveAttribute('hidden');
 
             fireEvent.click(screen.getByText('Tab 2'));
 
             expect(content1).toHaveAttribute('aria-hidden', 'true');
+            expect(content1).toHaveAttribute('hidden');
             expect(content2).toHaveAttribute('aria-hidden', 'false');
+            expect(content2).not.toHaveAttribute('hidden');
         });
     });
 
