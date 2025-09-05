@@ -1,14 +1,15 @@
-import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import ContextMenuContext from '../contexts/ContextMenuContext';
 import clsx from 'clsx';
 
+export type ContextMenuContentElement = ElementRef<typeof MenuPrimitive.Content>;
 export type ContextMenuContentProps = {
   children: React.ReactNode;
   className?: string;
-} & MenuPrimitiveProps.Content;
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Content>;
 
-const ContextMenuContent = ({ children, className, ...props }:ContextMenuContentProps) => {
+const ContextMenuContent = forwardRef<ContextMenuContentElement, ContextMenuContentProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(ContextMenuContext);
     if (!context) {
         console.log('ContextMenuContent should be used in the ContextMenuRoot');
@@ -16,10 +17,12 @@ const ContextMenuContent = ({ children, className, ...props }:ContextMenuContent
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Content className={clsx(`${rootClass}-content`, className)} {...props}>
+        <MenuPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
             {children}
         </MenuPrimitive.Content>
     );
-};
+});
+
+ContextMenuContent.displayName = 'ContextMenuContent';
 
 export default ContextMenuContent;

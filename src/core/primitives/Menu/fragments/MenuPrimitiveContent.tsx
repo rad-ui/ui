@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, forwardRef } from 'react';
 
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
@@ -8,32 +8,45 @@ export type MenuPrimitiveContentProps = {
     className?: string;
 };
 
-const MenuPrimitiveContent = ({ children, className, ...props }: MenuPrimitiveContentProps) => {
-    const context = useContext(MenuPrimitiveRootContext);
-    if (!context || !context.isOpen) return null;
-    const { isOpen, refs, floatingStyles, getFloatingProps, elementsRef, labelsRef, nodeId, isNested, floatingContext } = context;
+const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(
+    ({ children, className, ...props }, propRef) => {
+        const context = useContext(MenuPrimitiveRootContext);
+        const mergedRef = Floater.useMergeRefs([
+            context?.refs.setFloating,
+            propRef,
+        ]);
+        if (!context || !context.isOpen) return null;
+        const {
+            floatingStyles,
+            getFloatingProps,
+            elementsRef,
+            labelsRef,
+            isNested,
+            floatingContext,
+        } = context;
 
-    return (
-
-        <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-            <Floater.FocusManager
-                context={floatingContext}
-                modal={false}
-                initialFocus={isNested ? -1 : 0}
-                returnFocus={!isNested}
-            >
-                <div
-                    ref={refs.setFloating}
-                    style={floatingStyles}
-                    {...getFloatingProps()}
-                    className={className}
-                    {...props}
+        return (
+            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+                <Floater.FocusManager
+                    context={floatingContext}
+                    modal={false}
+                    initialFocus={isNested ? -1 : 0}
+                    returnFocus={!isNested}
                 >
-                    {children}
-                </div>
-            </Floater.FocusManager>
-        </Floater.FloatingList>
+                    <div
+                        ref={mergedRef}
+                        style={floatingStyles}
+                        {...getFloatingProps()}
+                        className={className}
+                        {...props}
+                    >
+                        {children}
+                    </div>
+                </Floater.FocusManager>
+            </Floater.FloatingList>
+        );
+    }
+);
 
-    );
-};
+MenuPrimitiveContent.displayName = 'MenuPrimitiveContent';
 export default MenuPrimitiveContent;
