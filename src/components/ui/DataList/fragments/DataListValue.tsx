@@ -3,7 +3,7 @@ import DataListContext from '../contexts/DataListContex';
 import { clsx } from 'clsx';
 
 type DataListValueElement = ElementRef<'dd'>;
-type DataListValueProps = ComponentPropsWithoutRef<'dd'>;
+export type DataListValueProps = ComponentPropsWithoutRef<'dd'>;
 
 const DataListValue = forwardRef<DataListValueElement, DataListValueProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DataListContext);

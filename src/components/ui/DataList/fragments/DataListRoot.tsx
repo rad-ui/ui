@@ -6,7 +6,7 @@ import { clsx } from 'clsx';
 const COMPONENT_NAME = 'DataList';
 
 type DataListRootElement = ElementRef<'div'>;
-interface DataListRootProps extends ComponentPropsWithoutRef<'div'> {
+export interface DataListRootProps extends ComponentPropsWithoutRef<'div'> {
     customRootClass?: string;
 }
 
