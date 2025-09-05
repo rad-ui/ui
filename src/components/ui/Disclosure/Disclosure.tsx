@@ -8,7 +8,7 @@ export type DisclosureProps = DisclosureRootProps & {
      items:{title:string, content: React.ReactNode}[]
 };
 
-interface DisclosureComponent extends React.ForwardRefExoticComponent<DisclosureProps & React.RefAttributes<React.ElementRef<'div'>>> {
+export interface DisclosureComponent extends React.ForwardRefExoticComponent<DisclosureProps & React.RefAttributes<React.ElementRef<'div'>>> {
     Root: typeof DisclosureRoot;
     Item: typeof DisclosureItem;
     Trigger: typeof DisclosureTrigger;
