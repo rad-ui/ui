@@ -52,6 +52,36 @@ describe('NavigationMenu component', () => {
         expect(link).toHaveAttribute('href', '/about');
     });
 
+    test('sets data-state to open on content when triggered', () => {
+        const { getByText } = render(
+            <NavigationMenu.Root>
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                    <NavigationMenu.Content>
+                        <NavigationMenu.Link href="#">Item 1 Content</NavigationMenu.Link>
+                    </NavigationMenu.Content>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        fireEvent.click(getByText('Open'));
+        const content = getByText('Item 1 Content').closest('[data-state]');
+        expect(content).toHaveAttribute('data-state', 'open');
+    });
+
+    test('forwards ref to root', () => {
+        const ref = React.createRef<HTMLDivElement>();
+        render(
+            <NavigationMenu.Root ref={ref}>
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+
     test('forwards ref to item', () => {
         const ref = React.createRef<HTMLDivElement>();
         render(
@@ -65,8 +95,36 @@ describe('NavigationMenu component', () => {
         expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
 
-    test('forwards ref to link', async () => {
+    test('forwards ref to trigger', () => {
         const ref = React.createRef<HTMLButtonElement>();
+        render(
+            <NavigationMenu.Root>
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Trigger ref={ref}>Open</NavigationMenu.Trigger>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
+    test('forwards ref to content', () => {
+        const ref = React.createRef<HTMLDivElement>();
+        render(
+            <NavigationMenu.Root defaultValue="item1">
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Content ref={ref}>
+                        <NavigationMenu.Link href="#">Link</NavigationMenu.Link>
+                    </NavigationMenu.Content>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    test('forwards ref to link', async () => {
+        const ref = React.createRef<HTMLAnchorElement>();
         render(
             <NavigationMenu.Root defaultValue="item1">
                 <NavigationMenu.Item value="item1">
@@ -78,8 +136,27 @@ describe('NavigationMenu component', () => {
         );
 
         await waitFor(() => {
-            expect(ref.current).toBeInstanceOf(HTMLElement);
+            expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
         });
+    });
+
+    test('renders without console errors', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+        render(
+            <NavigationMenu.Root>
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(warnSpy).not.toHaveBeenCalled();
+
+        errorSpy.mockRestore();
+        warnSpy.mockRestore();
     });
 });
 
