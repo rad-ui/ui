@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import DropdownMenuContext from '../contexts/DropdownMenuContext';
 
+export type DropdownMenuPortalElement = ElementRef<typeof MenuPrimitive.Portal>;
 export type DropdownMenuPortalProps = {
   children: React.ReactNode;
-}
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Portal>;
 
-const DropdownMenuPortal = ({ children }:DropdownMenuPortalProps) => {
+const DropdownMenuPortal = forwardRef<DropdownMenuPortalElement, DropdownMenuPortalProps>(({ children, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
     if (!context) {
         console.log('DropdownMenuPortal should be used in the DropdownMenuRoot');
@@ -14,10 +15,12 @@ const DropdownMenuPortal = ({ children }:DropdownMenuPortalProps) => {
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Portal>
+        <MenuPrimitive.Portal ref={ref} {...props}>
             {children}
         </MenuPrimitive.Portal>
     );
-};
+});
+
+DropdownMenuPortal.displayName = 'DropdownMenuPortal';
 
 export default DropdownMenuPortal;
