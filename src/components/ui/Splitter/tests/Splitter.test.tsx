@@ -199,6 +199,53 @@ describe('Splitter Component', () => {
         expect(handles).toHaveLength(2);
     });
 
+    it('composes external event handlers with internal behavior', async() => {
+        const onMouseDown = jest.fn();
+        const onTouchStart = jest.fn();
+        const onKeyDown = jest.fn();
+        const onSizesChange = jest.fn();
+
+        render(
+            <div style={{ width: '400px', height: '300px' }}>
+                <Splitter.Root onSizesChange={onSizesChange}>
+                    <Splitter.Panel index={0}>
+                        <div data-testid="panel-0">Panel 0</div>
+                    </Splitter.Panel>
+                    <Splitter.Handle
+                        index={0}
+                        onMouseDown={onMouseDown}
+                        onTouchStart={onTouchStart}
+                        onKeyDown={onKeyDown}
+                    />
+                    <Splitter.Panel index={1}>
+                        <div data-testid="panel-1">Panel 1</div>
+                    </Splitter.Panel>
+                </Splitter.Root>
+            </div>
+        );
+
+        const handle = screen.getByRole('separator');
+
+        fireEvent.mouseDown(handle, { clientX: 200 });
+        fireEvent.mouseMove(document, { clientX: 250 });
+        fireEvent.mouseUp(document);
+
+        fireEvent.touchStart(handle, { touches: [{ clientX: 200, clientY: 150 }] });
+        fireEvent.touchMove(document, { touches: [{ clientX: 250, clientY: 150 }] });
+        fireEvent.touchEnd(document);
+
+        handle.focus();
+        fireEvent.keyDown(handle, { key: 'ArrowRight' });
+
+        expect(onMouseDown).toHaveBeenCalled();
+        expect(onTouchStart).toHaveBeenCalled();
+        expect(onKeyDown).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(onSizesChange).toHaveBeenCalled();
+        });
+    });
+
     it('forwards refs to DOM elements', () => {
         const rootRef = React.createRef<HTMLDivElement>();
         const panelRef = React.createRef<HTMLDivElement>();
