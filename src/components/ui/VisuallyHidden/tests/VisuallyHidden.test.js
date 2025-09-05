@@ -8,6 +8,13 @@ describe('VisuallyHidden Component', () => {
         expect(screen.getByText('Hidden content')).toBeInTheDocument();
     });
 
+    test('forwards ref to underlying element', () => {
+        const ref = React.createRef();
+        render(<VisuallyHidden ref={ref}>Hidden content</VisuallyHidden>);
+        expect(ref.current).toBeInstanceOf(HTMLElement);
+        expect(ref.current.tagName).toBe('DIV');
+    });
+
     test('applies visually hidden styles', () => {
         render(<VisuallyHidden>Hidden content</VisuallyHidden>);
         const element = screen.getByText('Hidden content');
