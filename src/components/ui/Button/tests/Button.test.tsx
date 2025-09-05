@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -41,5 +41,37 @@ describe('Button', () => {
         // click the button
         await userEvent.click(button);
         expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('forwards ref to the underlying button element', () => {
+        const ref = createRef<HTMLButtonElement>();
+        render(<Button ref={ref}>button</Button>);
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
+    test('applies accessibility attributes', () => {
+        render(
+            <Button label='Label' description='Desc'>button</Button>
+        );
+        const button = screen.getByText('button');
+        expect(button).toHaveAttribute('aria-label', 'Label');
+        expect(button).toHaveAttribute('aria-description', 'Desc');
+    });
+
+    test('adds default aria-description when disabled without description', () => {
+        render(<Button disabled>button</Button>);
+        const button = screen.getByText('button');
+        expect(button).toHaveAttribute('aria-disabled', 'true');
+        expect(button).toHaveAttribute('aria-description', 'Disabled Button');
+    });
+
+    test('renders without console warnings', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(<Button>button</Button>);
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(warnSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+        warnSpy.mockRestore();
     });
 });
