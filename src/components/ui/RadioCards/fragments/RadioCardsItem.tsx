@@ -1,21 +1,30 @@
-import React, { useContext } from 'react';
-import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import React, { useContext, forwardRef, ElementRef } from 'react';
+import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import RadioGroupPrimitiveItem, { RadioGroupPrimitiveItemProps } from '~/core/primitives/RadioGroup/fragments/RadioGroupPrimitiveItem';
 import { RadioCardsContext } from '../context/RadioCardsContext';
 
 import clsx from 'clsx';
 
-export type RadioCardsItemElement = React.ElementRef<typeof RadioGroupPrimitive.Item>;
+export type RadioCardsItemElement = ElementRef<typeof RadioGroupPrimitiveItem>;
 
-export type RadioCardsItemProps = {
+type RadioCardsItemProps = RadioGroupPrimitiveItemProps & {
     children?: React.ReactNode;
     className?: string;
-    value: string;
-} & RadioGroupPrimitiveProps.Item;
+};
 
-const RadioCardsItem = React.forwardRef<RadioCardsItemElement, RadioCardsItemProps>(
+const RadioCardsItem = forwardRef<RadioCardsItemElement, RadioCardsItemProps>(
     ({ children, className = '', value, ...props }, ref) => {
         const { rootClass } = useContext(RadioCardsContext);
-        return <RadioGroupPrimitive.Item ref={ref} className={clsx(`${rootClass}-item`, className)} {...props} value={value}>{children}</RadioGroupPrimitive.Item>;
+        return (
+            <RadioGroupPrimitive.Item
+                ref={ref}
+                className={clsx(`${rootClass}-item`, className)}
+                {...props}
+                value={value}
+            >
+                {children}
+            </RadioGroupPrimitive.Item>
+        );
     }
 );
 
