@@ -64,6 +64,22 @@ describe('Skeleton', () => {
         expect(div.style.getPropertyValue('--skeleton-radius')).toBe('10px');
     });
 
+    it('merges custom style with skeleton variables', () => {
+        const { container } = render(
+            <Skeleton
+                {...defaultProps}
+                loading={true}
+                style={{ marginTop: '4px' }}
+            >
+                <div>Child</div>
+            </Skeleton>
+        );
+
+        const div = container.querySelector('div')!;
+        expect(div.style.getPropertyValue('--skeleton-height')).toBe('100px');
+        expect(div.style.marginTop).toBe('4px');
+    });
+
     it('forwards refs to the underlying element', () => {
         const ref = React.createRef<HTMLDivElement>();
         render(

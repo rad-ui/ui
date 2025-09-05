@@ -23,6 +23,7 @@ const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
             height,
             width,
             radius,
+            style,
             ...props
         },
         ref
@@ -36,6 +37,7 @@ const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
                 ref={ref}
                 className={clsx(rootClass, className)}
                 style={{
+                    ...style,
                     ['--skeleton-height' as any]: height,
                     ['--skeleton-width' as any]: width,
                     ['--skeleton-radius' as any]: radius
