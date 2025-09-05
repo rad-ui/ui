@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 
 import { customClassSwitcher } from '~/core';
@@ -8,13 +8,12 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 
 const COMPONENT_NAME = 'ScrollArea';
 
-type ScrollAreaRootProps = {
-    children: React.ReactNode;
-    className?: string;
+type ScrollAreaRootElement = ElementRef<'div'>;
+type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
 };
 
-const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...props }: ScrollAreaRootProps) => {
+const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({ children, className = '', customRootClass = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const scrollXThumbRef = useRef<HTMLDivElement>(null);
     const scrollAreaViewportRef = useRef<HTMLDivElement>(null);
@@ -193,8 +192,10 @@ const ScrollAreaRoot = ({ children, className = '', customRootClass = '', ...pro
     };
 
     return <ScrollAreaContext.Provider value={{ rootClass, scrollXThumbRef, scrollAreaViewportRef, handleScroll, handleScrollbarClick }}>
-        <div className={clsx(rootClass, className)} {...props} >{children}</div>
+        <div ref={ref} className={clsx(rootClass, className)} {...props} >{children}</div>
     </ScrollAreaContext.Provider>;
-};
+});
+
+ScrollAreaRoot.displayName = COMPONENT_NAME;
 
 export default ScrollAreaRoot;
