@@ -1,5 +1,4 @@
 import React, {
-    useEffect,
     forwardRef,
     ElementRef,
     ComponentPropsWithoutRef
@@ -46,7 +45,7 @@ type ToggleGroupRootProps = {
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroupRoot = forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({ 
+const ToggleGroupRoot = forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
     type = 'single',
     className = '',
     loop = true,
@@ -133,5 +132,7 @@ const ToggleGroupRoot = forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>
         </ToggleContext.Provider>
     );
 });
+
+ToggleGroupRoot.displayName = COMPONENT_NAME;
 
 export default ToggleGroupRoot;
