@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 import Primitive from '~/core/primitives/Primitive';
 
-export type AvatarPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Primitive.span>;
+export interface AvatarPrimitiveRootProps {
+    children: React.ReactNode;
+    asChild?: boolean;
+}
 
-const AvatarPrimitiveRoot = React.forwardRef<React.ElementRef<typeof Primitive.span>, AvatarPrimitiveRootProps>(({ children, asChild = false, ...props }, ref) => {
+const AvatarPrimitiveRoot = React.forwardRef<HTMLSpanElement, AvatarPrimitiveRootProps>(({ children, asChild = false, ...props }, ref) => {
     const [isImageLoaded, setIsImageLoaded] = useState(false);
     const [hasError, setHasError] = useState(false);
 

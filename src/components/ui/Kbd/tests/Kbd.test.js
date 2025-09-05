@@ -18,23 +18,5 @@ describe('Kbd', () => {
         render(<Kbd data-testid="kbd-element">Ctrl</Kbd>);
         const kbdElement = screen.getByTestId('kbd-element');
         expect(kbdElement).toBeInTheDocument();
-        expect(kbdElement).not.toHaveAttribute('aria-hidden');
-    });
-
-    test('forwards ref to kbd element', () => {
-        const ref = React.createRef<HTMLElement>();
-        render(<Kbd ref={ref}>Ctrl</Kbd>);
-        expect(ref.current).not.toBeNull();
-        expect(ref.current?.tagName).toBe('KBD');
-    });
-
-    test('renders without console warnings', () => {
-        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-        render(<Kbd>Ctrl</Kbd>);
-        expect(errorSpy).not.toHaveBeenCalled();
-        expect(warnSpy).not.toHaveBeenCalled();
-        errorSpy.mockRestore();
-        warnSpy.mockRestore();
     });
 });

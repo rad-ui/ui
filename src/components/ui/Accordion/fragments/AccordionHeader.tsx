@@ -3,18 +3,18 @@ import React, { useContext } from 'react';
 import { clsx } from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 
-export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'div'>;
+export type AccordionHeaderProps = {
+    children: React.ReactNode;
+    className?: string;
+}
 
-const AccordionHeader = React.forwardRef<React.ElementRef<'div'>, AccordionHeaderProps>(({ children, className = '', ...props }, ref) => {
+const AccordionHeader: React.FC<AccordionHeaderProps> = ({ children, className = '' }) => {
     const { rootClass } = useContext(AccordionContext);
     return (
-        <div ref={ref} className={clsx(`${rootClass}-header`, className)} {...props}>
+        <div className={clsx(`${rootClass}-header`, className)}>
             {children}
         </div>
     );
-});
-
-AccordionHeader.displayName = 'AccordionHeader';
+};
 
 export default AccordionHeader;
-

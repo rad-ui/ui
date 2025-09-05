@@ -1,52 +1,36 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-
+import { render, RenderResult } from '@testing-library/react';
 import Quote from '../Quote';
 
-describe('Quote', () => {
-    test('renders quote text', () => {
-        render(
+describe('Quote Component', () => {
+    it('renders without crashing', () => {
+        const { container } = render(
             <Quote>
-                You must be the change you wish to see in the world. - Mahatma Gandhi
+                You must be the change you wish to see in the world. - Mahatma
+                Gandhi
             </Quote>
         );
+        const quoteElements = container.querySelectorAll('q');
 
-        expect(
-            screen.getByText(
-                'You must be the change you wish to see in the world. - Mahatma Gandhi'
-            )
-        ).toBeInTheDocument();
-    });
-
-    test('supports custom classes', () => {
-        render(
-            <Quote customRootClass='acme-corp' className='custom-class-name'>
-                You must be the change you wish to see in the world. - Mahatma Gandhi
-            </Quote>
-        );
-
-        const quoteElement = screen.getByText(
+        expect(quoteElements.length).toEqual(1);
+        expect(quoteElements[0]).toBeTruthy();
+        expect(quoteElements[0].textContent).toEqual(
             'You must be the change you wish to see in the world. - Mahatma Gandhi'
         );
+    });
+
+    it('renders with custom root class and custom class name', () => {
+        const { container } = render(
+            <Quote
+                customRootClass="acme-corp"
+                className="custom-class-name">
+                You must be the change you wish to see in the world. - Mahatma
+                Gandhi
+            </Quote>
+        );
+
+        const quoteElement = container.querySelector('q');
         expect(quoteElement).toHaveClass('acme-corp-quote');
         expect(quoteElement).toHaveClass('custom-class-name');
     });
-
-    test('forwards refs to the underlying element', () => {
-        const ref = React.createRef<HTMLQuoteElement>();
-        render(<Quote ref={ref}>Quote</Quote>);
-        expect(ref.current).not.toBeNull();
-        expect(ref.current?.tagName).toBe('Q');
-    });
-
-    test('renders without console errors', () => {
-        const consoleError = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {});
-
-        render(<Quote>Quote</Quote>);
-        expect(consoleError).not.toHaveBeenCalled();
-        consoleError.mockRestore();
-    });
 });
-

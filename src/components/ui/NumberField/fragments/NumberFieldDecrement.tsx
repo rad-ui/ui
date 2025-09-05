@@ -1,11 +1,13 @@
-import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React, { useContext } from 'react';
 import NumberFieldContext from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
 
-export type NumberFieldDecrementElement = ElementRef<'button'>;
-export type NumberFieldDecrementProps = ComponentPropsWithoutRef<'button'>;
+export type NumberFieldDecrementProps = {
+    className?: string;
+    children?: React.ReactNode
+}
 
-const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberFieldDecrementProps>(({ children, className, ...props }, ref) => {
+const NumberFieldDecrement = ({ children, className, ...props }: NumberFieldDecrementProps) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldDecrement must be used within a NumberField');
@@ -14,7 +16,6 @@ const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberField
     const { handleStep, rootClass, disabled, readOnly } = context;
     return (
         <button
-            ref={ref}
             onClick={() => handleStep({ direction: 'decrement', type: 'small' })}
             className={clsx(`${rootClass}-decrement`, className)}
             disabled={disabled || readOnly}
@@ -23,8 +24,6 @@ const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberField
             {children}
         </button>
     );
-});
-
-NumberFieldDecrement.displayName = 'NumberFieldDecrement';
+};
 
 export default NumberFieldDecrement;

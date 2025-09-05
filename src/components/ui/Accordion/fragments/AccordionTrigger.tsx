@@ -1,6 +1,6 @@
 'use client';
 import { clsx } from 'clsx';
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
@@ -8,12 +8,15 @@ import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-type AccordionTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
-    index?: number;
+type AccordionTriggerProps = {
+  children: React.ReactNode;
+  className?: string,
+  index?: number,
+  handleClick?: (index: number) => void
 };
 
-const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionTriggerProps>(
-    ({ children, index, className = '', onClick, ...props }, ref) => {
+const AccordionTrigger: React.FC<AccordionTriggerProps> = ({ children, index, className = '' }) => {
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const { setActiveItems, rootClass, activeItems, openMultiple } = useContext(AccordionContext);
     const { itemValue, disabled } = useContext(AccordionItemContext);
 
@@ -37,30 +40,22 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
         }
     };
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        onClickHandler(e);
-        onClick?.(e);
-    };
-
     return (
         <RovingFocusGroup.Item>
             <CollapsiblePrimitive.Trigger disabled={disabled} asChild>
                 <ButtonPrimitive
                     className={clsx(`${rootClass}-trigger`, className)}
-                    ref={ref}
+                    ref={triggerRef}
                     aria-disabled={disabled}
-                    onClick={handleClick}
+                    onClick={onClickHandler}
                     aria-expanded={activeItems.includes(itemValue)}
                     aria-controls={`content-${index}`}
-                    {...props}
                 >
                     {children}
                 </ButtonPrimitive>
             </CollapsiblePrimitive.Trigger>
         </RovingFocusGroup.Item>
     );
-});
-
-AccordionTrigger.displayName = 'AccordionTrigger';
+};
 
 export default AccordionTrigger;

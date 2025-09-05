@@ -14,27 +14,34 @@ export type HeadingProps = {
     as?: HeadingTag;
     /** Custom root class for specialized styling */
     customRootClass?: string;
-} & React.ComponentPropsWithoutRef<'h1'>;
+    /** Additional class names to apply */
+    className?: string;
+    /** Content of the heading */
+    children?: React.ReactNode;
+} & React.HTMLAttributes<HTMLHeadingElement>;
 
 /**
  * Renders a heading element with customizable tag and styling
  */
-const Heading = React.forwardRef<React.ElementRef<'h1'>, HeadingProps>(({
+const Heading = ({
     children,
     as = 'h1',
     customRootClass = '',
     className = '',
     ...props
-}, ref) => {
+}: HeadingProps) => {
     const rootClass = customClassSwitcher(customRootClass, as);
-    const Tag: HeadingTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as) ? as : 'h1';
 
-    return React.createElement(Tag, {
+    // Check if the heading tag is valid
+    if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as)) {
+        as = 'h1';
+    }
+
+    return React.createElement(as, {
         className: clsx(rootClass, className),
-        ref,
         ...props
     }, children);
-});
+};
 
 Heading.displayName = 'Heading';
 

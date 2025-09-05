@@ -1,25 +1,23 @@
 'use client';
-import React, { forwardRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import { clsx } from 'clsx';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-type AlertDialogContentElement = React.ElementRef<typeof DialogPrimitive.Content>;
-type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>;
-
-export type AlertDialogContentProps = DialogPrimitiveContentProps & {
+export type AlertDialogContentProps = {
+    children: React.ReactNode;
     className?: string;
-};
+}
 
-const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogContentProps>(({ children, className = '', ...props }, ref) => {
+const AlertDialogContent = ({ children, className = '' } : AlertDialogContentProps) => {
     const { rootClass } = useContext(AlertDialogContext);
     return (
-        <DialogPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
-            {children}
-        </DialogPrimitive.Content>
+        <>
+            <DialogPrimitive.Content className={clsx(`${rootClass}-content`, className)} >
+                {children}
+            </DialogPrimitive.Content>
+        </>
     );
-});
-
-AlertDialogContent.displayName = 'AlertDialogContent';
+};
 
 export default AlertDialogContent;

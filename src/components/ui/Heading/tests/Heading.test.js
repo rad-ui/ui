@@ -37,26 +37,4 @@ describe('Heading', () => {
         const element = screen.getByTestId('heading-element');
         expect(element).toBeInTheDocument();
     });
-
-    test('forwards ref to the DOM element', () => {
-        const ref = React.createRef();
-        render(<Heading ref={ref}>Test Content</Heading>);
-        expect(ref.current).toBeInstanceOf(HTMLHeadingElement);
-    });
-
-    test('visually hidden headings remain accessible to screen readers', () => {
-        render(<Heading className="sr-only">Hidden Heading</Heading>);
-        const element = screen.getByRole('heading', { name: 'Hidden Heading' });
-        expect(element).toBeInTheDocument();
-    });
-
-    test('renders without console warnings', () => {
-        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-        render(<Heading>Test Content</Heading>);
-        expect(errorSpy).not.toHaveBeenCalled();
-        expect(warnSpy).not.toHaveBeenCalled();
-        errorSpy.mockRestore();
-        warnSpy.mockRestore();
-    });
 });

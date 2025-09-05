@@ -1,13 +1,13 @@
 'use client';
-import React, { forwardRef } from 'react';
-import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
+import React from 'react';
+import AvatarPrimitiveRoot, { AvatarPrimitiveRootProps } from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { AvatarContext } from '../contexts/AvatarContext';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Avatar';
 
-export type AvatarRootProps = React.ComponentPropsWithoutRef<typeof AvatarPrimitiveRoot> & {
+export type AvatarRootProps = AvatarPrimitiveRootProps & {
     customRootClass?: string;
     className?: string;
     size?: string;
@@ -15,10 +15,9 @@ export type AvatarRootProps = React.ComponentPropsWithoutRef<typeof AvatarPrimit
     color?: string;
 };
 
-const AvatarRoot = forwardRef<
-    React.ElementRef<typeof AvatarPrimitiveRoot>,
-    AvatarRootProps
->(({ children, customRootClass = '', className = '', size = '', variant = '', color = '', ...props }, ref) => {
+type AvatarRootElement = React.ElementRef<typeof AvatarPrimitiveRoot>;
+
+const AvatarRoot = React.forwardRef<AvatarRootElement, AvatarRootProps>(({ children, customRootClass = '', className = '', size = '', variant = '', color = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });

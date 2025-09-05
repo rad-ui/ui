@@ -18,26 +18,6 @@ describe('Progress', () => {
         expect(progressBars[0]).toBeInTheDocument();
     });
 
-    test('forwards ref to root element', () => {
-        const ref = React.createRef<HTMLDivElement>();
-        render(
-            <Progress.Root ref={ref} value={50} maxValue={100} minValue={0}>
-                <Progress.Indicator />
-            </Progress.Root>,
-        );
-        expect(ref.current).not.toBeNull();
-    });
-
-    test('forwards ref to indicator element', () => {
-        const ref = React.createRef<HTMLDivElement>();
-        render(
-            <Progress.Root value={50} maxValue={100} minValue={0}>
-                <Progress.Indicator ref={ref} />
-            </Progress.Root>,
-        );
-        expect(ref.current).not.toBeNull();
-    });
-
     test('renders progress bar with clamped value', () => {
         const { rerender } = render(<ProgressComp value={110} maxValue={100} minValue={0} />);
         const progressBars = screen.getAllByRole('progressbar');

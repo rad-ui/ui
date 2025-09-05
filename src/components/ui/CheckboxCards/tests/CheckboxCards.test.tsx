@@ -132,26 +132,4 @@ describe('CheckboxCards', () => {
         );
         warn.mockRestore();
     });
-
-    it('forwards ref to item trigger', () => {
-        const ref = React.createRef<HTMLButtonElement>();
-        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        render(
-            <CheckboxCards.Root name="fruits">
-                <CheckboxCards.Item value="apple" ref={ref}>
-          Apple
-                    <CheckboxCards.Content>
-                        <CheckboxCards.Indicator />
-                    </CheckboxCards.Content>
-                </CheckboxCards.Item>
-            </CheckboxCards.Root>
-        );
-        const checkbox = screen.getByRole('checkbox');
-        expect(ref.current).toBe(checkbox);
-        expect(warnSpy).not.toHaveBeenCalled();
-        expect(errorSpy).not.toHaveBeenCalled();
-        warnSpy.mockRestore();
-        errorSpy.mockRestore();
-    });
 });

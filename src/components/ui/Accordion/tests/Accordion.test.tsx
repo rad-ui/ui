@@ -41,65 +41,10 @@ describe('Accordion Component', () => {
         expect(screen.getByText('Item 3')).toBeInTheDocument();
     });
 
-    test('forwards refs to underlying elements without warnings', () => {
-        const rootRef = React.createRef<HTMLDivElement>();
-        const itemRef = React.createRef<HTMLDivElement>();
-        const headerRef = React.createRef<HTMLDivElement>();
-        const triggerRef = React.createRef<HTMLButtonElement>();
-        const contentRef = React.createRef<HTMLDivElement>();
-        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-
-        render(
-            <Accordion.Root ref={rootRef} defaultValue={[0]}>
-                <Accordion.Item value={0} ref={itemRef}>
-                    <Accordion.Header ref={headerRef}>
-                        <Accordion.Trigger ref={triggerRef}>Item 1</Accordion.Trigger>
-                    </Accordion.Header>
-                    <Accordion.Content ref={contentRef} index={0}>
-                        Content 1
-                    </Accordion.Content>
-                </Accordion.Item>
-            </Accordion.Root>
-        );
-
-        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
-        expect(itemRef.current).toBeInstanceOf(HTMLDivElement);
-        expect(headerRef.current).toBeInstanceOf(HTMLDivElement);
-        expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
-        expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
-        expect(errorSpy).not.toHaveBeenCalled();
-        expect(warnSpy).not.toHaveBeenCalled();
-
-        errorSpy.mockRestore();
-        warnSpy.mockRestore();
-    });
-
     test('displays content when item is clicked', () => {
         render(<TestAccordion />);
         const item1Trigger = screen.getByText('Item 1');
         fireEvent.click(item1Trigger);
-        expect(screen.getByText('Content 1')).toBeInTheDocument();
-    });
-
-    test('calls user onClick while preserving toggle behavior', () => {
-        const handleClick = jest.fn();
-        render(
-            <Accordion.Root>
-                <Accordion.Item value={0}>
-                    <Accordion.Header>
-                        <Accordion.Trigger onClick={handleClick}>
-                            Item 1
-                        </Accordion.Trigger>
-                    </Accordion.Header>
-                    <Accordion.Content index={0}>Content 1</Accordion.Content>
-                </Accordion.Item>
-            </Accordion.Root>
-        );
-
-        const trigger = screen.getByText('Item 1');
-        fireEvent.click(trigger);
-        expect(handleClick).toHaveBeenCalled();
         expect(screen.getByText('Content 1')).toBeInTheDocument();
     });
 

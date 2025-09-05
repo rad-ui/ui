@@ -5,22 +5,15 @@ import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Code';
 
-export type CodeProps = React.ComponentPropsWithoutRef<'code'> & {
+export type CodeProps= {
+    children: React.ReactNode;
     customRootClass?: string;
     variant?: string;
     size?: string;
     color?: string;
-};
+}
 
-const Code = React.forwardRef<React.ElementRef<'code'>, CodeProps>(({
-    children,
-    customRootClass = '',
-    color = '',
-    variant = '',
-    size = '',
-    className,
-    ...props
-}, ref) => {
+const Code = ({ children, customRootClass = '', color = '', variant = '', size = '' }: CodeProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const data_attributes: Record<string, string> = {};
@@ -37,11 +30,9 @@ const Code = React.forwardRef<React.ElementRef<'code'>, CodeProps>(({
         data_attributes['data-rad-ui-accent-color'] = color;
     }
 
-    return <code ref={ref} className={clsx(rootClass, className)} {...data_attributes} {...props}>
+    return <code className={clsx(rootClass)} {...data_attributes}>
         {children}
     </code>;
-});
-
-Code.displayName = COMPONENT_NAME;
+};
 
 export default Code;

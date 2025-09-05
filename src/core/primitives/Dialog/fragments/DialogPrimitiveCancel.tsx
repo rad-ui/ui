@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import ButtonPrimitive from '~/core/primitives/Button';
 
@@ -9,11 +9,10 @@ export type DialogPrimitiveCancelProps = {
     className?: string;
 }
 
-const DialogPrimitiveCancel = forwardRef<HTMLButtonElement, DialogPrimitiveCancelProps>(({ children, asChild, ...props }, ref) => {
+const DialogPrimitiveCancel = ({ children, asChild, ...props } : DialogPrimitiveCancelProps) => {
     const { handleOpenChange, getItemProps } = useContext(DialogPrimitiveContext);
     return (
         <ButtonPrimitive
-            ref={ref}
             asChild={asChild}
             onClick={() => handleOpenChange(false)}
             {...getItemProps()}
@@ -22,8 +21,6 @@ const DialogPrimitiveCancel = forwardRef<HTMLButtonElement, DialogPrimitiveCance
             {children}
         </ButtonPrimitive>
     );
-});
-
-DialogPrimitiveCancel.displayName = 'DialogPrimitiveCancel';
+};
 
 export default DialogPrimitiveCancel;

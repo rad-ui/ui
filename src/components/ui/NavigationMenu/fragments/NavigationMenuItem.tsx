@@ -2,44 +2,39 @@ import React from 'react';
 import NavigationMenuItemContext from '../contexts/NavigationMenyItemContext';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import clsx from 'clsx';
-import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
-export interface NavigationMenuItemProps extends React.ComponentPropsWithoutRef<'div'> {
+export interface NavigationMenuItemProps {
     value: string;
+    children: React.ReactNode;
+    className?: string;
 }
 
-const NavigationMenuItem = React.forwardRef<HTMLDivElement, NavigationMenuItemProps>(
-    ({ value, children, className, onMouseEnter, onMouseLeave, onKeyDown, ...props }, ref) => {
-        const { isOpen, setIsOpen, rootClass } = React.useContext(NavigationMenuRootContext);
+const NavigationMenuItem = ({ value, children, className }: NavigationMenuItemProps) => {
+    const { isOpen, setIsOpen, rootClass } = React.useContext(NavigationMenuRootContext);
 
-        const itemOpen = isOpen === value;
+    const itemOpen = isOpen === value;
 
-        const handleTrigger = () => {
-            setIsOpen(itemOpen ? '' : value);
-        };
+    const handleTrigger = () => {
+        setIsOpen(itemOpen ? '' : value);
+    };
 
-        const handleEscape = (e: React.KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === 'Escape') setIsOpen('');
-        };
+    const handleEscape = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Escape') setIsOpen('');
+    };
 
-        return (
-            <NavigationMenuItemContext.Provider value={{ itemOpen, handleTrigger }}>
-                <div
-                    ref={ref}
-                    onMouseEnter={composeEventHandlers(onMouseEnter, handleTrigger)}
-                    onMouseLeave={composeEventHandlers(onMouseLeave, handleTrigger)}
-                    className={clsx(`${rootClass}-item`, className)}
-                    onKeyDown={composeEventHandlers(onKeyDown, handleEscape)}
-                    {...props}
-                >
-                    {children}
-                </div>
-            </NavigationMenuItemContext.Provider>
-        );
-    }
-);
-
-NavigationMenuItem.displayName = 'NavigationMenuItem';
+    return (
+        <NavigationMenuItemContext.Provider value={{ itemOpen, handleTrigger }}>
+            <div
+                onMouseEnter={handleTrigger}
+                onMouseLeave={handleTrigger}
+                className={clsx(`${rootClass}-item`, className)}
+                onKeyDown={handleEscape}
+            >
+                {children}
+            </div>
+        </NavigationMenuItemContext.Provider>
+    );
+};
 
 export default NavigationMenuItem;
 

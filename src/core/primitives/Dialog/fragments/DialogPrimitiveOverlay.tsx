@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 
@@ -9,14 +9,13 @@ type DialogPrimitiveOverlayProps = {
     className?: string;
 }
 
-const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlayProps>(({ ...props }, ref) => {
+const DialogPrimitiveOverlay = ({ ...props }: DialogPrimitiveOverlayProps) => {
     const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
     return (
         <>
             {isOpen && (
                 <RemoveScroll>
                     <Floater.Overlay
-                        ref={ref}
                         onClick={handleOverlayClick}
                         {...props}
                     >
@@ -25,8 +24,6 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
             )}
         </>
     );
-});
-
-DialogPrimitiveOverlay.displayName = 'DialogPrimitiveOverlay';
+};
 
 export default DialogPrimitiveOverlay;

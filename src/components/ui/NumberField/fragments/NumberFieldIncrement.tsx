@@ -1,11 +1,13 @@
-import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React, { useContext } from 'react';
 import NumberFieldContext from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
 
-export type NumberFieldIncrementElement = ElementRef<'button'>;
-export type NumberFieldIncrementProps = ComponentPropsWithoutRef<'button'>;
+export type NumberFieldIncrementProps = {
+    className?: string
+    children?: React.ReactNode
+}
 
-const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberFieldIncrementProps>(({ children, className, ...props }, ref) => {
+const NumberFieldIncrement = ({ children, className, ...props }: NumberFieldIncrementProps) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldIncrement must be used within a NumberField');
@@ -15,7 +17,6 @@ const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberField
 
     return (
         <button
-            ref={ref}
             onClick={() => handleStep({ direction: 'increment', type: 'small' })}
             className={clsx(`${rootClass}-increment`, className)}
             disabled={disabled || readOnly}
@@ -24,8 +25,6 @@ const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberField
             {children}
         </button>
     );
-});
-
-NumberFieldIncrement.displayName = 'NumberFieldIncrement';
+};
 
 export default NumberFieldIncrement;
