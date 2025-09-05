@@ -91,4 +91,54 @@ describe('Tooltip', () => {
             expect(screen.getByRole('tooltip')).toBeInTheDocument();
         });
     });
+
+    test('forwards refs to subcomponents', async() => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const triggerRef = React.createRef<HTMLButtonElement>();
+        const contentRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <Tooltip.Root ref={rootRef}>
+                <Tooltip.Trigger ref={triggerRef}>Hover me</Tooltip.Trigger>
+                <Tooltip.Content ref={contentRef}>label</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(contentRef.current).toBeNull();
+        await userEvent.hover(screen.getByText('Hover me'));
+        expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    test('maintains accessibility role on content', async() => {
+        render(
+            <Tooltip.Root>
+                <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+                <Tooltip.Content>label</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        const trigger = screen.getByText('Hover me');
+        await userEvent.hover(trigger);
+        const content = screen.getByRole('tooltip');
+        expect(content).toHaveTextContent('label');
+    });
+
+    test('renders without warnings', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        render(
+            <Tooltip.Root>
+                <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+                <Tooltip.Content>label</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        expect(warn).not.toHaveBeenCalled();
+        expect(error).not.toHaveBeenCalled();
+        warn.mockRestore();
+        error.mockRestore();
+    });
 });
