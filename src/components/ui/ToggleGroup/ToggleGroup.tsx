@@ -19,6 +19,8 @@ const ToggleGroup = React.forwardRef<ToggleGroupElement, ToggleGroupProps>((_pro
     return null;
 }) as ToggleGroupComponent;
 
+ToggleGroup.displayName = 'ToggleGroup';
+
 ToggleGroup.Root = ToggleGroupRoot;
 ToggleGroup.Item = ToggleItem;
 
