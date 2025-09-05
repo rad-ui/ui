@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import useControllableState from '~/core/hooks/useControllableState';
@@ -41,7 +41,7 @@ type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroupRoot = forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
+const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({ 
     type = 'single',
     className = '',
     loop = true,
