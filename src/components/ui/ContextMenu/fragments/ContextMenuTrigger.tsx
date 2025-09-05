@@ -1,14 +1,16 @@
-import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import ContextMenuContext from '../contexts/ContextMenuContext';
 import clsx from 'clsx';
+import { useMergeRefs } from '@floating-ui/react';
 
+export type ContextMenuTriggerElement = HTMLSpanElement;
 export type ContextMenuTriggerProps = {
   children: React.ReactNode;
   className?: string;
-} & MenuPrimitiveProps.Trigger;
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 
-const ContextMenuTrigger = ({ children, className, ...props }:ContextMenuTriggerProps) => {
+const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(ContextMenuContext);
     if (!context) {
         console.log('ContextMenuTrigger should be used in the ContextMenuRoot');
@@ -16,6 +18,7 @@ const ContextMenuTrigger = ({ children, className, ...props }:ContextMenuTrigger
     }
     const { rootClass, setCoords, setIsOpen } = context;
     const contextTriggerRef = React.useRef<HTMLSpanElement>(null);
+    const mergedRef = useMergeRefs([contextTriggerRef, ref]);
 
     const handleContextMenu = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -30,11 +33,13 @@ const ContextMenuTrigger = ({ children, className, ...props }:ContextMenuTrigger
 
     return (
         <MenuPrimitive.Trigger className={clsx(`${rootClass}-trigger`, className)} asChild={true} {...props}>
-            <span ref={contextTriggerRef} onContextMenu={handleContextMenu} onClick={(e) => { e.preventDefault(); }}>
+            <span ref={mergedRef} onContextMenu={handleContextMenu} onClick={(e) => { e.preventDefault(); }}>
                 {children}
             </span>
         </MenuPrimitive.Trigger>
     );
-};
+});
+
+ContextMenuTrigger.displayName = 'ContextMenuTrigger';
 
 export default ContextMenuTrigger;

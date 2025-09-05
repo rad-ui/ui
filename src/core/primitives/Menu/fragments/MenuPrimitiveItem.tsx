@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 
@@ -8,7 +8,7 @@ export type MenuPrimitiveItemProps = {
     label?: string
 }
 
-const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimitiveItemProps) => {
+const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(({ children, className, label, ...props }, propRef) => {
     const context = React.useContext(MenuPrimitiveRootContext);
     if (!context) return null;
     const { activeIndex, getItemProps } = context;
@@ -20,7 +20,7 @@ const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimiti
 
     return (
         <button
-            ref={ref} tabIndex={isActive ? 0 : -1}
+            ref={Floater.useMergeRefs([ref, propRef])} tabIndex={isActive ? 0 : -1}
             className={className}
             {...getItemProps({
                 onClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -32,5 +32,7 @@ const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimiti
             {children}
         </button>
     );
-};
+});
+
+MenuPrimitiveItem.displayName = 'MenuPrimitiveItem';
 export default MenuPrimitiveItem;
