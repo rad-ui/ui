@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
 /**
@@ -17,7 +17,16 @@ import Primitive from '~/core/primitives/Primitive';
 
  */
 
-const ButtonPrimitive = forwardRef(({ role = 'button', type = 'button', label = '', description = '', disabled = false, children, ...props }:any, ref) => {
+type ButtonPrimitiveElement = React.ElementRef<typeof Primitive.button>;
+type ButtonPrimitiveProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.button>, 'type'> & {
+    role?: React.AriaRole;
+    label?: string;
+    description?: string;
+    disabled?: boolean;
+    type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+};
+
+const ButtonPrimitive = React.forwardRef<ButtonPrimitiveElement, ButtonPrimitiveProps>(({ role = 'button', type = 'button', label = '', description = '', disabled = false, children, ...props }, ref) => {
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
