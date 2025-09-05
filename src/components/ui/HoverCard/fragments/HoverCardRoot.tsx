@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
@@ -7,20 +7,19 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import { clsx } from 'clsx';
 const COMPONENT_NAME = 'HoverCard';
 
-type HoverCardRootProps = {
-    children: React.ReactNode,
-    open: boolean | undefined,
-    onOpenChange: (open: boolean) => void,
-    customRootClass: string,
-    openDelay: number,
-    closeDelay: number,
-    props?: React.HTMLAttributes<HTMLElement>
-}
+export type HoverCardRootElement = ElementRef<'div'>;
+export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    customRootClass?: string;
+    openDelay?: number;
+    closeDelay?: number;
+};
 
-const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }: HoverCardRootProps) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = customClassSwitcher(customRootClass, `${COMPONENT_NAME}-trigger`);
-    const arrowRef = useRef(null);
+    const arrowRef = useRef<SVGSVGElement | null>(null);
     const ARROW_HEIGHT = 8;
     const SPACING_GAP = 2;
 
@@ -128,8 +127,10 @@ const HoverCardRoot = ({ children, open: controlledOpen = undefined, onOpenChang
     };
 
     return <HoverCardContext.Provider value={sendValues}>
-        <div className={clsx(rootClass)} {...props}>{children}</div>
+        <div ref={ref} className={clsx(rootClass)} {...props}>{children}</div>
     </HoverCardContext.Provider>;
-};
+});
+
+HoverCardRoot.displayName = COMPONENT_NAME;
 
 export default HoverCardRoot;
