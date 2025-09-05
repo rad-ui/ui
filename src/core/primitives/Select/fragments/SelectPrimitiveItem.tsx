@@ -5,15 +5,15 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 
-interface SelectPrimitiveItemProps {
+type SelectPrimitiveItemProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     children: React.ReactNode;
     value: string;
     disabled?: boolean;
     className?: string;
-    [key: string]: any;
-}
+};
 
-function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
+const SelectPrimitiveItem = React.forwardRef<React.ElementRef<typeof Primitive.div>, SelectPrimitiveItemProps>(
+    ({ children, value, disabled, className, ...props }, ref) => {
     const context = useContext(SelectPrimitiveContext);
 
     if (!context) {
@@ -23,7 +23,7 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
 
     const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
-    const { ref, index } = Floater.useListItem({ label: value });
+    const { ref: listItemRef, index } = Floater.useListItem({ label: value });
 
     const isActive = activeIndex === index;
     const isSelected = selectedIndex === index;
@@ -39,7 +39,7 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
 
     return (
         <Primitive.div
-            ref={Floater.useMergeRefs([ref, itemRef])} // Merge refs from Floater and props.ref}
+            ref={Floater.useMergeRefs([ref, listItemRef, itemRef])}
             id={itemId}
             role="option"
             className={className}
@@ -67,6 +67,8 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         </Primitive.div>
 
     );
-}
+});
+
+SelectPrimitiveItem.displayName = 'SelectPrimitiveItem';
 
 export default SelectPrimitiveItem;

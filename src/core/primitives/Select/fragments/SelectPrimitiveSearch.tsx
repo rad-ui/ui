@@ -2,28 +2,34 @@
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
+import Floater from '../../Floater';
 
-function SelectPrimitiveSearch({ className }: {className?: string}) {
-    const [search, setSearch] = React.useState('');
-    const context = useContext(SelectPrimitiveContext);
-    const inputRef = React.useRef<HTMLInputElement>(null);
+type SelectPrimitiveSearchProps = React.ComponentPropsWithoutRef<typeof Primitive.input>;
+
+const SelectPrimitiveSearch = React.forwardRef<React.ElementRef<typeof Primitive.input>, SelectPrimitiveSearchProps>(
+    ({ className, ...props }, ref) => {
+        const [search, setSearch] = React.useState('');
+        const context = useContext(SelectPrimitiveContext);
+        const inputRef = React.useRef<HTMLInputElement>(null);
 
     // Handle missing context gracefully
-    if (!context || !context.refs) {
-        return (
-            <Primitive.input
-                // @ts-ignore
-                type="search"
-                className={className}
-                placeholder="Search..."
-                value={search}
-                // @ts-ignore
-                onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
-            />
-        );
-    }
+        if (!context || !context.refs) {
+            return (
+                <Primitive.input
+                    // @ts-ignore
+                    type="search"
+                    className={className}
+                    placeholder="Search..."
+                    value={search}
+                    // @ts-ignore
+                    onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+                    ref={Floater.useMergeRefs([inputRef, ref])}
+                    {...props}
+                />
+            );
+        }
 
-    const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
+        const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
 
     const originalStructureRef = React.useRef<
       { element: HTMLElement; label: string; value: string; parent: HTMLElement | null }[]
@@ -77,28 +83,32 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
     // Get the reference props from Floating UI
     const referenceProps = getReferenceProps();
 
-    return (
-        <Primitive.input
-            // @ts-ignore
-            type="search"
-            className={className}
-            placeholder="Search..."
-            ref={inputRef}
-            value={search}
-            aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
-            // @ts-ignore
-            onChange={(e) => setSearch(e.target.value)}
-            {...referenceProps}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                if (activeIndex !== null) {
-                    if (event.key === 'Enter') {
-                        event.preventDefault();
-                        handleSelect(activeIndex);
+        return (
+            <Primitive.input
+                // @ts-ignore
+                type="search"
+                className={className}
+                placeholder="Search..."
+                ref={Floater.useMergeRefs([inputRef, ref])}
+                value={search}
+                aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
+                // @ts-ignore
+                onChange={(e) => setSearch(e.target.value)}
+                {...referenceProps}
+                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (activeIndex !== null) {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();
+                            handleSelect(activeIndex);
+                        }
                     }
-                }
-            }}
-        />
-    );
-}
+                }}
+                {...props}
+            />
+        );
+    }
+);
+
+SelectPrimitiveSearch.displayName = 'SelectPrimitiveSearch';
 
 export default SelectPrimitiveSearch;

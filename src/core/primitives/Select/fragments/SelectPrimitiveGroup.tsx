@@ -1,17 +1,18 @@
 import React from 'react';
 
-export type SelectPrimitiveGroupProps = {
+export type SelectPrimitiveGroupProps = React.ComponentPropsWithoutRef<'div'> & {
     children: React.ReactNode,
     className?: string,
-
 }
 
-function SelectPrimitiveGroup({ children, className }: SelectPrimitiveGroupProps) {
-    return (
-        <div className={className}>
+const SelectPrimitiveGroup = React.forwardRef<React.ElementRef<'div'>, SelectPrimitiveGroupProps>(
+    ({ children, className, ...props }, ref) => (
+        <div className={className} ref={ref} {...props}>
             {children}
         </div>
-    );
-}
+    )
+);
+
+SelectPrimitiveGroup.displayName = 'SelectPrimitiveGroup';
 
 export default SelectPrimitiveGroup;

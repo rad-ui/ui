@@ -5,24 +5,33 @@ import { SelectRootContext } from '../contexts/SelectRootContext';
 
 const COMPONENT_NAME = 'Select';
 
-function SelectRoot({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }: any) {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+type SelectRootProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & {
+    customRootClass?: string;
+};
 
-    return (
-        <SelectRootContext.Provider value={{ rootClass }}>
-            <SelectPrimitive.Root
-                className={`${rootClass}-root`}
-                defaultValue={defaultValue}
-                value={value}
-                onValueChange={onValueChange}
-                shift={shift}
-                {...props}
-            >
-                {children}
-            </SelectPrimitive.Root>
-        </SelectRootContext.Provider>
+const SelectRoot = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Root>, SelectRootProps>(
+    ({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    );
-}
+        return (
+            <SelectRootContext.Provider value={{ rootClass }}>
+                <SelectPrimitive.Root
+                    className={`${rootClass}-root`}
+                    defaultValue={defaultValue}
+                    value={value}
+                    onValueChange={onValueChange}
+                    shift={shift}
+                    ref={ref}
+                    {...props}
+                >
+                    {children}
+                </SelectPrimitive.Root>
+            </SelectRootContext.Provider>
+
+        );
+    }
+);
+
+SelectRoot.displayName = 'SelectRoot';
 
 export default SelectRoot;

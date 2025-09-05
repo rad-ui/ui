@@ -3,20 +3,29 @@ import React, { useContext } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
-function SelectContent({ customRootClass, children, position = 'popper', ...props }: any) {
-    const { rootClass } = useContext(SelectRootContext);
+type SelectContentProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
+    customRootClass?: string;
+    position?: string;
+};
 
-    return (
-        <SelectPrimitive.Content
-            className={`${rootClass}-content`}
-            position={position}
-            data-position={position}
+const SelectContent = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Content>, SelectContentProps>(
+    ({ customRootClass, children, position = 'popper', ...props }, ref) => {
+        const { rootClass } = useContext(SelectRootContext);
 
-            {...props}
-        >
-            {children}
-        </SelectPrimitive.Content>
-    );
-}
+        return (
+            <SelectPrimitive.Content
+                className={`${rootClass}-content`}
+                position={position}
+                data-position={position}
+                ref={ref}
+                {...props}
+            >
+                {children}
+            </SelectPrimitive.Content>
+        );
+    }
+);
+
+SelectContent.displayName = 'SelectContent';
 
 export default SelectContent;

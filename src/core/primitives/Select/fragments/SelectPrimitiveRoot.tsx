@@ -7,9 +7,7 @@ import Floater from '~/core/primitives/Floater';
 import { Placement } from '@floating-ui/react';
 import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
 
-export type SelectPrimitiveRootProps = {
-    children: React.ReactNode,
-    className?: string,
+export type SelectPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     value?: string,
     defaultValue?: string,
     name?: string,
@@ -20,7 +18,8 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
+const SelectPrimitiveRoot = React.forwardRef<React.ElementRef<typeof Primitive.div>, SelectPrimitiveRootProps>(
+    ({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
     const [selectedLabel, setSelectedLabel] = useControllableState(
@@ -140,7 +139,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
-            <Primitive.div {...props} className={className} ref={rootRef}>
+            <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, ref])}>
 
                 {children}
                 {/* Add hidden native select for form control */}
@@ -160,6 +159,8 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
             </Primitive.div>
         </SelectPrimitiveContext.Provider>
     );
-}
+});
+
+SelectPrimitiveRoot.displayName = 'SelectPrimitiveRoot';
 
 export default SelectPrimitiveRoot;

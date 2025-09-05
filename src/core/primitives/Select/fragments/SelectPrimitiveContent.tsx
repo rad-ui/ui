@@ -3,38 +3,41 @@ import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
-export type SelectPrimitiveContentProps = {
+export type SelectPrimitiveContentProps = React.ComponentPropsWithoutRef<'div'> & {
     children: React.ReactNode;
     className?: string;
     position?: string;
-    [key: string]: any;
-}
+};
 
-function SelectPrimitiveContent({ children, className, ...props }: SelectPrimitiveContentProps) {
-    const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
+const SelectPrimitiveContent = React.forwardRef<React.ElementRef<'div'>, SelectPrimitiveContentProps>(
+    ({ children, className, ...props }, ref) => {
+        const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
 
-    return (
-        <>
-            {isOpen && (
-                <Floater.FocusManager context={floatingContext}>
-                    <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
-                        <div
-                            ref={refs.setFloating}
-                            style={floatingStyles}
-                            className={className}
-                            {...getFloatingProps()}
-                            {...props}
-                        >
+        return (
+            <>
+                {isOpen && (
+                    <Floater.FocusManager context={floatingContext}>
+                        <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
+                            <div
+                                ref={Floater.useMergeRefs([refs.setFloating, ref])}
+                                style={floatingStyles}
+                                className={className}
+                                {...getFloatingProps()}
+                                {...props}
+                            >
 
-                            {children}
+                                {children}
 
-                        </div>
-                    </Floater.FloatingList>
-                </Floater.FocusManager>
-            )}
-        </>
+                            </div>
+                        </Floater.FloatingList>
+                    </Floater.FocusManager>
+                )}
+            </>
 
-    );
-}
+        );
+    }
+);
+
+SelectPrimitiveContent.displayName = 'SelectPrimitiveContent';
 
 export default SelectPrimitiveContent;
