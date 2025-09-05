@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
@@ -28,7 +28,7 @@ export interface ToggleItemProps extends React.ComponentPropsWithoutRef<typeof T
  * @param {ToggleItemProps} props - Component props
  * @returns {JSX.Element} The ToggleItem component
  */
-const ToggleItem = forwardRef<ToggleItemElement, ToggleItemProps>(({
+const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({ 
     children,
     className = '',
     value = null,

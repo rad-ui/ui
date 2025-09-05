@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import ToggleGroup from '../ToggleGroup';
 
 describe('ToggleGroup ref forwarding', () => {
@@ -35,5 +35,17 @@ describe('ToggleGroup ref forwarding', () => {
         expect(warnSpy).not.toHaveBeenCalled();
         errorSpy.mockRestore();
         warnSpy.mockRestore();
+    });
+
+    test('maintains aria-pressed attribute for accessibility', () => {
+        render(
+            <ToggleGroup.Root>
+                <ToggleGroup.Item value="item1">Item 1</ToggleGroup.Item>
+            </ToggleGroup.Root>
+        );
+        const button = screen.getByRole('button');
+        expect(button).toHaveAttribute('aria-pressed', 'false');
+        fireEvent.click(button);
+        expect(button).toHaveAttribute('aria-pressed', 'true');
     });
 });
