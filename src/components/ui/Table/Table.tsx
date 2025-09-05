@@ -27,10 +27,17 @@ interface TableComponent
 }
 
 // Empty implementation - we don't support direct usage
-const Table = React.forwardRef<HTMLTableElement, TableProps>((_props, _ref) => {
-    console.warn('Direct usage of Table is not supported. Please use Table.Root, Table.Head, etc. instead.');
+const Table = React.forwardRef<HTMLTableElement, TableProps>(function Table(
+    _props,
+    _ref
+) {
+    console.warn(
+        'Direct usage of Table is not supported. Please use Table.Root, Table.Head, etc. instead.'
+    );
     return null;
 }) as TableComponent;
+
+Table.displayName = 'Table';
 
 // Export fragments via direct assignment pattern
 Table.Root = TableRoot;
