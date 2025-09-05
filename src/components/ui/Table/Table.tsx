@@ -14,11 +14,23 @@ export type TableProps = React.HTMLAttributes<HTMLTableElement> & {
     children?: React.ReactNode;
 };
 
+interface TableComponent
+    extends React.ForwardRefExoticComponent<
+        TableProps & React.RefAttributes<HTMLTableElement>
+    > {
+    Root: typeof TableRoot;
+    Body: typeof TableBody;
+    Head: typeof TableHead;
+    Row: typeof TableRow;
+    Cell: typeof TableCell;
+    ColumnCellHeader: typeof TableColumnCellHeader;
+}
+
 // Empty implementation - we don't support direct usage
-const Table = () => {
+const Table = React.forwardRef<HTMLTableElement, TableProps>((_props, _ref) => {
     console.warn('Direct usage of Table is not supported. Please use Table.Root, Table.Head, etc. instead.');
     return null;
-};
+}) as TableComponent;
 
 // Export fragments via direct assignment pattern
 Table.Root = TableRoot;
