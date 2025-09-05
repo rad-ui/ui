@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 import Primitive from '~/core/primitives/Primitive';
 
@@ -11,7 +11,7 @@ export type AvatarRootImageProps = React.ComponentPropsWithoutRef<typeof Primiti
     alt?: string;
 };
 
-const AvatarPrimitiveImage = forwardRef<
+const AvatarPrimitiveImage = React.forwardRef<
     React.ElementRef<typeof PrimitiveImg>,
     AvatarRootImageProps
 >(({ src = '', alt = '', ...props }, ref) => {

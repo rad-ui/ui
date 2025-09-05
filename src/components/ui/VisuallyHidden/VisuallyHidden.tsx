@@ -1,16 +1,16 @@
-'use client';
-import React, { CSSProperties, forwardRef } from 'react';
+ 'use client';
+import React, { CSSProperties, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 
 const COMPONENT_NAME = 'VisuallyHidden';
 
+export type VisuallyHiddenElement = ElementRef<typeof Primitive.div>;
 export type VisuallyHiddenProps = {
     customRootClass?: string;
-    className?: string;
     style?: CSSProperties;
-} & React.ComponentPropsWithoutRef<typeof Primitive.div>;
+} & ComponentPropsWithoutRef<typeof Primitive.div>;
 
 const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     position: 'absolute',
@@ -27,10 +27,8 @@ const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     userSelect: 'none'
 } as const;
 
-const VisuallyHidden = forwardRef<
-    React.ElementRef<typeof Primitive.div>,
-    VisuallyHiddenProps
->(({ children, customRootClass, className, style = {}, ...props }, ref) => {
+const VisuallyHidden = forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>(
+    ({ children, customRootClass, className, style = {}, ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     return (
