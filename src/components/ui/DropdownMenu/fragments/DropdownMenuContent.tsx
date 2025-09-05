@@ -1,14 +1,15 @@
-import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import DropdownMenuContext from '../contexts/DropdownMenuContext';
 import clsx from 'clsx';
 
+export type DropdownMenuContentElement = ElementRef<typeof MenuPrimitive.Content>;
 export type DropdownMenuContentProps = {
   children: React.ReactNode;
   className?: string;
-} & MenuPrimitiveProps.Content;
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Content>;
 
-const DropdownMenuContent = ({ children, className }:DropdownMenuContentProps) => {
+const DropdownMenuContent = forwardRef<DropdownMenuContentElement, DropdownMenuContentProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
     if (!context) {
         console.log('DropdownMenuContent should be used in the DropdownMenuRoot');
@@ -16,10 +17,12 @@ const DropdownMenuContent = ({ children, className }:DropdownMenuContentProps) =
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Content className={clsx(`${rootClass}-content`, className)}>
+        <MenuPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
             {children}
         </MenuPrimitive.Content>
     );
-};
+});
+
+DropdownMenuContent.displayName = 'DropdownMenuContent';
 
 export default DropdownMenuContent;
