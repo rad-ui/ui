@@ -2,32 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
-export type CollapsiblePrimitiveContentProps = {
-  /**
-   * Content to be rendered inside the collapsible content
-   */
-  children?: React.ReactNode;
-  /**
-   * CSS class name for custom styling
-   */
-  className?: string;
-  /**
-   * For Polymorphic component support
-   */
-  asChild?: boolean;
-  /**
-   * Additional props to be spread on the content element
-   */
-  [key: string]: any;
-};
+type CollapsiblePrimitiveContentElement = React.ElementRef<typeof Primitive.div>;
+export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
+    typeof Primitive.div
+>;
 
-const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, CollapsiblePrimitiveContentProps>(
-    ({
-        children,
-        className,
-        asChild = false,
-        ...props
-    }, forwardedRef) => {
+const CollapsiblePrimitiveContent = React.forwardRef<
+    CollapsiblePrimitiveContentElement,
+    CollapsiblePrimitiveContentProps
+>(({ children, className, asChild = false, ...props }, forwardedRef) => {
         const {
             open,
             contentId,
@@ -35,8 +18,15 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
             transitionTimingFunction
         } = useCollapsiblePrimitiveContext();
 
-        const ref = useRef<HTMLDivElement>(null);
-        const combinedRef = (forwardedRef || ref) as React.RefObject<HTMLDivElement>;
+        const ref = useRef<CollapsiblePrimitiveContentElement | null>(null);
+        const setRefs = (node: CollapsiblePrimitiveContentElement) => {
+            ref.current = node;
+            if (typeof forwardedRef === 'function') {
+                forwardedRef(node);
+            } else if (forwardedRef) {
+                (forwardedRef as React.MutableRefObject<CollapsiblePrimitiveContentElement | null>).current = node;
+            }
+        };
         const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
         const [shouldRender, setShouldRender] = useState(open);
         const animationTimeoutRef = useRef<NodeJS.Timeout>();
@@ -133,10 +123,12 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
             return null;
         }
 
+        const shouldUseAsChild = asChild && React.isValidElement(children);
+
         return (
             <Primitive.div
                 id={contentId}
-                ref={combinedRef}
+                ref={setRefs}
                 aria-hidden={!open}
                 data-state={open ? 'open' : 'closed'}
                 className={className}
@@ -147,6 +139,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<HTMLDivElement, Collapsible
                         ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
                         : {})
                 }}
+                asChild={shouldUseAsChild}
                 {...props}
             >
                 {children}
