@@ -61,4 +61,40 @@ describe('Avatar', () => {
         const div = screen.getByText('WithAschild');
         expect(div.tagName).toBe('DIV');
     });
+
+    test('forwards refs to subcomponents', () => {
+        const rootRef = React.createRef<HTMLSpanElement>();
+        const imageRef = React.createRef<HTMLImageElement>();
+        const fallbackRef = React.createRef<HTMLSpanElement>();
+
+        render(
+            <Avatar.Root ref={rootRef}>
+                <Avatar.Image ref={imageRef} src='https://i.pravatar.cc/300' alt='avatar' />
+                <Avatar.Fallback ref={fallbackRef}>RU</Avatar.Fallback>
+            </Avatar.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLElement);
+        expect(imageRef.current).toBeInstanceOf(HTMLImageElement);
+        expect(fallbackRef.current).toBeInstanceOf(HTMLElement);
+    });
+
+    test('renders without console warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        render(<Component />);
+
+        expect(warnSpy).not.toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
+
+    test('fallback is accessible to screen readers', () => {
+        render(<FallbackComponent />);
+        const fallback = screen.getByText('RU');
+        expect(fallback).not.toHaveAttribute('aria-hidden');
+    });
 });
