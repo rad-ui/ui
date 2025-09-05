@@ -66,4 +66,10 @@ describe('Radio', () => {
         expect(radio).toHaveAttribute('data-button-size', 'lg');
         expect(radio).toHaveAttribute('data-rad-ui-accent-color', 'red');
     });
+
+    it('forwards refs', () => {
+        const ref = React.createRef<HTMLInputElement>();
+        render(<Radio {...baseProps} ref={ref} />);
+        expect(ref.current).toBeInstanceOf(HTMLInputElement);
+    });
 });

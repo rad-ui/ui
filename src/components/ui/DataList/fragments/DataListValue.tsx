@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useContext } from 'react';
 import DataListContext from '../contexts/DataListContex';
 import { clsx } from 'clsx';
 
-const DataListValue = ({ children, className = '', ...props }: { children: React.ReactNode, className?: string }) => {
+type DataListValueElement = ElementRef<'dd'>;
+export type DataListValueProps = ComponentPropsWithoutRef<'dd'>;
+
+const DataListValue = forwardRef<DataListValueElement, DataListValueProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DataListContext);
-    return <dd className={clsx(`${rootClass}-value`, className)} {...props}>{children}</dd>;
-};
+    return <dd ref={ref} className={clsx(`${rootClass}-value`, className)} {...props}>{children}</dd>;
+});
+
+DataListValue.displayName = 'DataListValue';
 
 export default DataListValue;

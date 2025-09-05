@@ -9,8 +9,7 @@ import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Accordion';
 
-export type AccordionRootProps = {
-    children: React.ReactNode;
+export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue'> & {
     customRootClass?: string;
     transitionDuration?: number;
     transitionTimingFunction?: string;
@@ -22,9 +21,23 @@ export type AccordionRootProps = {
     value?: (number | string)[];
     defaultValue?: (number | string)[];
     onValueChange?: (value: (number | string)[]) => void;
-}
+};
 
-const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing = true, asChild, transitionDuration = 0, transitionTimingFunction = 'linear', customRootClass, loop = true, openMultiple = false, value, defaultValue = [], onValueChange }: AccordionRootProps) => {
+const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>(({
+    children,
+    orientation = 'vertical',
+    disableTabIndexing = true,
+    asChild,
+    transitionDuration = 0,
+    transitionTimingFunction = 'linear',
+    customRootClass,
+    loop = true,
+    openMultiple = false,
+    value,
+    defaultValue = [],
+    onValueChange,
+    ...props
+}, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const processedValue = value !== undefined
@@ -54,13 +67,25 @@ const AccordionRoot = ({ children, orientation = 'vertical', disableTabIndexing 
             }}>
             <RovingFocusGroup.Root orientation={orientation} loop={loop} disableTabIndexing={disableTabIndexing} >
                 <RovingFocusGroup.Group >
-                    <Primitive.div className={clsx(`${rootClass}-root`)} ref={accordionRef} asChild={asChild}>
+                    <Primitive.div
+                        className={clsx(`${rootClass}-root`)}
+                        ref={(node) => {
+                            const element = node as HTMLDivElement | null;
+                            accordionRef.current = element;
+                            if (typeof forwardedRef === 'function') forwardedRef(element);
+                            else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
+                        }}
+                        asChild={asChild}
+                        {...props}
+                    >
                         {children}
                     </Primitive.div>
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
         </AccordionContext.Provider>
     );
-};
+});
+
+AccordionRoot.displayName = COMPONENT_NAME;
 
 export default AccordionRoot;
