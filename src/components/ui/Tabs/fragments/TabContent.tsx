@@ -6,16 +6,15 @@ import { clsx } from 'clsx';
 
 const COMPONENT_NAME = 'TabContent';
 
-export type TabContentProps = {
-    className?: string;
+type TabContentElement = React.ElementRef<'div'>;
+export type TabContentProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
     value?: string;
-    children?: React.ReactNode;
     asChild?: boolean;
     forceMount?: boolean;
-}
+};
 
-const TabContent = ({ className = '', value, children, customRootClass, asChild = false, forceMount = false }: TabContentProps) => {
+const TabContent = React.forwardRef<TabContentElement, TabContentProps>(({ className = '', value, children, customRootClass, asChild = false, forceMount = false, ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const context = useContext(TabsRootContext);
     if (!context) throw new Error('TabContent must be used within a TabRoot');
@@ -32,15 +31,19 @@ const TabContent = ({ className = '', value, children, customRootClass, asChild 
     dataAttributes['data-state'] = isActive ? 'active' : 'inactive';
     dataAttributes['data-orientation'] = orientation || 'horizontal';
 
-    return <div
-        className={clsx(rootClass, className)}
-        role="tabpanel"
-        aria-hidden={!isActive}
-        {...dataAttributes}
-    >
-        {children}
-    </div>;
-};
+    return (
+        <div
+            ref={ref}
+            className={clsx(rootClass, className)}
+            role="tabpanel"
+            aria-hidden={!isActive}
+            {...dataAttributes}
+            {...props}
+        >
+            {children}
+        </div>
+    );
+});
 
 TabContent.displayName = COMPONENT_NAME;
 

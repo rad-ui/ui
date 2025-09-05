@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import Primitive from '~/core/primitives/Primitive';
 
@@ -37,7 +37,7 @@ type RovingFocusRootProps = {
  *   </RovingFocusGroup>
  * </RovingFocusRoot>
  */
-const RovingFocusRoot = ({
+const RovingFocusRoot = forwardRef<HTMLDivElement, RovingFocusRootProps>(({
     children,
     orientation = 'horizontal',
     loop = true,
@@ -47,7 +47,7 @@ const RovingFocusRoot = ({
     mode = 'default',
     dir = 'ltr',
     ...props
-}: RovingFocusRootProps) => {
+}, ref) => {
     const sendValues = {
         orientation,
         loop,
@@ -58,6 +58,7 @@ const RovingFocusRoot = ({
 
     return <RovingFocusRootContext.Provider value={sendValues}>
         <Primitive.div
+            ref={ref}
             aria-orientation={orientation === 'both' ? undefined : orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
@@ -66,6 +67,8 @@ const RovingFocusRoot = ({
             {children}
         </Primitive.div>
     </RovingFocusRootContext.Provider>;
-};
+});
+
+RovingFocusRoot.displayName = 'RovingFocusRoot';
 
 export default RovingFocusRoot;

@@ -7,27 +7,37 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'TabList';
 
-export type TabListProps = {
-    className?: string;
+type TabListElement = React.ElementRef<'div'>;
+export type TabListProps = React.ComponentPropsWithoutRef<'div'> & {
     children?: React.ReactNode;
     asChild?: boolean;
-}
+};
 
-const TabList = ({ className = '', children, asChild = false }: TabListProps) => {
+const TabList = React.forwardRef<TabListElement, TabListProps>(({ className = '', children, asChild = false, ...props }, ref) => {
     const context = useContext(TabsRootContext);
     if (!context) throw new Error('TabList must be used within a TabRoot');
 
     const { rootClass, orientation } = context;
 
-    return <RovingFocusGroup.Group
-        role="tablist"
-        aria-orientation={orientation}
-        aria-label="todo"
-        className={clsx(`${rootClass}-list`, className)}
-    >
-        {children}
-    </RovingFocusGroup.Group>;
-};
+    const childProps = {
+        ref,
+        className: clsx(`${rootClass}-list`, className),
+        role: 'tablist',
+        'aria-orientation': orientation,
+        'aria-label': 'todo',
+        ...props
+    };
+
+    const child =
+        asChild && React.isValidElement(children)
+            ? React.cloneElement(children as React.ReactElement<any>, {
+                ...childProps,
+                className: clsx((children as React.ReactElement<any>).props.className, childProps.className)
+            })
+            : <div {...childProps}>{children}</div>;
+
+    return <RovingFocusGroup.Group>{child}</RovingFocusGroup.Group>;
+});
 
 TabList.displayName = COMPONENT_NAME;
 

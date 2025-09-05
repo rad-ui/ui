@@ -10,21 +10,20 @@ import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Tabs';
 
-export type TabRootProps = {
-    children: React.ReactNode;
+type TabRootElement = React.ElementRef<typeof RovingFocusGroup.Root>;
+type RovingRootProps = Omit<React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>, 'orientation'>;
+export type TabRootProps = RovingRootProps & {
+    orientation?: 'horizontal' | 'vertical';
     customRootClass?: string;
-    className?: string;
     value?: string;
     color?: string;
     defaultValue?: string;
     onValueChange?: (value: string) => void;
-    orientation?: 'horizontal' | 'vertical';
-    dir?: 'ltr' | 'rtl';
     activationMode?: 'automatic' | 'manual';
     asChild?: boolean;
 };
 
-const TabRoot = ({
+const TabRoot = React.forwardRef<TabRootElement, TabRootProps>(({ 
     children,
     defaultValue = '',
     onValueChange = () => {},
@@ -37,7 +36,7 @@ const TabRoot = ({
     activationMode = 'automatic',
     asChild = false,
     ...props
-}: TabRootProps) => {
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
@@ -76,6 +75,7 @@ const TabRoot = ({
     return (
         <TabsRootContext.Provider value={contextValues}>
             <RovingFocusGroup.Root
+                ref={ref}
                 orientation={orientation}
                 loop
                 dir={dir}
@@ -88,7 +88,7 @@ const TabRoot = ({
             </RovingFocusGroup.Root>
         </TabsRootContext.Provider>
     );
-};
+});
 
 TabRoot.displayName = COMPONENT_NAME;
 

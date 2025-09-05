@@ -500,4 +500,77 @@ describe('Tabs Component', () => {
             expect(screen.getByText('Tab 2')).toBeInTheDocument();
         });
     });
+
+    describe('Ref forwarding', () => {
+        test('forwards refs to DOM elements', () => {
+            const rootRef = React.createRef<HTMLDivElement>();
+            const listRef = React.createRef<HTMLDivElement>();
+            const triggerRef = React.createRef<HTMLButtonElement>();
+            const contentRef = React.createRef<HTMLDivElement>();
+
+            render(
+                <Tabs.Root defaultValue="tab1" ref={rootRef}>
+                    <Tabs.List ref={listRef}>
+                        <Tabs.Trigger ref={triggerRef} value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content ref={contentRef} value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+            expect(listRef.current).toBeInstanceOf(HTMLDivElement);
+            expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+            expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+        });
+    });
+
+    describe('Accessibility', () => {
+        test('aria-hidden toggles with active tab', () => {
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content forceMount value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content forceMount value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            const content1 = screen.getByText('Content 1');
+            const content2 = screen.getByText('Content 2');
+            expect(content1).toHaveAttribute('aria-hidden', 'false');
+            expect(content2).toHaveAttribute('aria-hidden', 'true');
+
+            fireEvent.click(screen.getByText('Tab 2'));
+
+            expect(content1).toHaveAttribute('aria-hidden', 'true');
+            expect(content2).toHaveAttribute('aria-hidden', 'false');
+        });
+    });
+
+    describe('Warnings', () => {
+        test('renders without console warnings', () => {
+            const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+            const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            expect(warnSpy).not.toHaveBeenCalled();
+            expect(errorSpy).not.toHaveBeenCalled();
+            warnSpy.mockRestore();
+            errorSpy.mockRestore();
+        });
+    });
 });

@@ -1,26 +1,32 @@
 'use client';
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useImperativeHandle } from 'react';
 import { clsx } from 'clsx';
 
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-export type TabTriggerProps = {
-    className?: string;
+type TabTriggerElement = React.ElementRef<'button'>;
+export type TabTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
     value?: string;
-    children?: React.ReactNode;
-    disabled?: boolean;
     asChild?: boolean;
-}
+};
 
-const TabTrigger = ({ value, children, className = '', disabled, asChild = false, ...props }: TabTriggerProps) => {
+const TabTrigger = React.forwardRef<TabTriggerElement, TabTriggerProps>(({
+    value,
+    children,
+    className = '',
+    disabled,
+    asChild = false,
+    ...props
+}, forwardedRef) => {
     // use context
     const context = useContext(TabsRootContext);
     if (!context) throw new Error('TabTrigger must be used within a TabRoot');
     const { tabValue: activeValue, handleTabChange, rootClass, orientation, activationMode } = context;
 
     const ref = useRef<HTMLButtonElement>(null);
+    useImperativeHandle(forwardedRef, () => ref.current as HTMLButtonElement);
 
     const isActive = value === activeValue;
 
@@ -28,7 +34,7 @@ const TabTrigger = ({ value, children, className = '', disabled, asChild = false
         if (disabled) return; // Don't handle focus events when disabled
 
         if (ref.current) {
-            ref.current?.focus();
+            ref.current.focus();
         }
 
         // Only change tab on focus if activation mode is automatic
@@ -77,7 +83,7 @@ const TabTrigger = ({ value, children, className = '', disabled, asChild = false
             </button>
         </RovingFocusGroup.Item>
     );
-};
+});
 
 TabTrigger.displayName = 'TabTrigger';
 
