@@ -143,4 +143,8 @@ describe('Table Component', () => {
         warnSpy.mockRestore();
         errorSpy.mockRestore();
     });
+
+    it('provides ColumnHeader alias', () => {
+        expect(Table.ColumnHeader).toBe(Table.ColumnCellHeader);
+    });
 });

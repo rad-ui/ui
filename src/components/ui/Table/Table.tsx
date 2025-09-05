@@ -19,6 +19,7 @@ interface TableComponent extends React.ForwardRefExoticComponent<TableProps & Re
     Row: typeof TableRow;
     Cell: typeof TableCell;
     ColumnCellHeader: typeof TableColumnCellHeader;
+    ColumnHeader: typeof TableColumnCellHeader;
 }
 
 // Empty implementation - we don't support direct usage
@@ -36,5 +37,6 @@ Table.Head = TableHead;
 Table.Row = TableRow;
 Table.Cell = TableCell;
 Table.ColumnCellHeader = TableColumnCellHeader;
+Table.ColumnHeader = Table.ColumnCellHeader;
 
 export default Table;
