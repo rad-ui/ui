@@ -1,26 +1,27 @@
 import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import DropdownMenuContext from '../contexts/DropdownMenuContext';
 
-export type DropdownMenuRootProps = {
-  children: React.ReactNode;
+type DropdownMenuRootElement = React.ElementRef<typeof MenuPrimitive.Root>;
+export type DropdownMenuRootProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Root> & {
   customRootClass?: string;
-  className?: string;
-} & MenuPrimitiveProps.Root;
+};
 
 const COMPONENT_NAME = 'DropdownMenu';
 
-const DropdownMenuRoot = ({ children, customRootClass, className }:DropdownMenuRootProps) => {
+const DropdownMenuRoot = React.forwardRef<DropdownMenuRootElement, DropdownMenuRootProps>(({ children, customRootClass, className, ...props }, forwardedRef) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
         <DropdownMenuContext.Provider value={{ rootClass }} >
-            <MenuPrimitive.Root className={clsx(`${rootClass}-root`, className)}>
+            <MenuPrimitive.Root ref={forwardedRef} className={clsx(`${rootClass}-root`, className)} {...props}>
                 {children}
             </MenuPrimitive.Root>
         </DropdownMenuContext.Provider>
     );
-};
+});
+
+DropdownMenuRoot.displayName = 'DropdownMenuRoot';
 
 export default DropdownMenuRoot;

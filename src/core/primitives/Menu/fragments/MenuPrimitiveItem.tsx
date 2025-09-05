@@ -8,7 +8,7 @@ export type MenuPrimitiveItemProps = {
     label?: string
 }
 
-const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimitiveItemProps) => {
+const MenuPrimitiveItem = React.forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(({ children, className, label, ...props }, forwardedRef) => {
     const context = React.useContext(MenuPrimitiveRootContext);
     if (!context) return null;
     const { activeIndex, getItemProps } = context;
@@ -20,7 +20,7 @@ const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimiti
 
     return (
         <button
-            ref={ref} tabIndex={isActive ? 0 : -1}
+            ref={Floater.useMergeRefs([ref, forwardedRef])} tabIndex={isActive ? 0 : -1}
             className={className}
             {...getItemProps({
                 onClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -32,5 +32,7 @@ const MenuPrimitiveItem = ({ children, className, label, ...props }: MenuPrimiti
             {children}
         </button>
     );
-};
+});
+
+MenuPrimitiveItem.displayName = 'MenuPrimitiveItem';
 export default MenuPrimitiveItem;

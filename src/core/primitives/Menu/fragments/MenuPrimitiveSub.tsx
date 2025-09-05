@@ -9,12 +9,14 @@ export type MenuPrimitiveSubProps = {
     defaultOpen?: boolean
 }
 
-const MenuPrimitiveSub = ({ children, className, open, onOpenChange, defaultOpen = false, ...props }: MenuPrimitiveSubProps) => {
+const MenuPrimitiveSub = React.forwardRef<HTMLDivElement, MenuPrimitiveSubProps>(({ children, className, open, onOpenChange, defaultOpen = false, ...props }, forwardedRef) => {
     return (
-        <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} {...props}>
+        <MenuComponentRoot ref={forwardedRef} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} {...props}>
             {children}
         </MenuComponentRoot>
     );
-};
+});
+
+MenuPrimitiveSub.displayName = 'MenuPrimitiveSub';
 
 export default MenuPrimitiveSub;
