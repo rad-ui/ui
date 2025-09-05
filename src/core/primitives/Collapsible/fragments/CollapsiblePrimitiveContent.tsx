@@ -19,8 +19,18 @@ const CollapsiblePrimitiveContent = React.forwardRef<CollapsiblePrimitiveContent
             transitionTimingFunction
         } = useCollapsiblePrimitiveContext();
 
-        const ref = useRef<CollapsiblePrimitiveContentElement>(null);
-        const combinedRef = (forwardedRef || ref) as React.RefObject<CollapsiblePrimitiveContentElement>;
+        const ref = useRef<CollapsiblePrimitiveContentElement | null>(null);
+        const composedRefs = React.useCallback(
+            (node: CollapsiblePrimitiveContentElement | null) => {
+                ref.current = node;
+                if (typeof forwardedRef === 'function') {
+                    forwardedRef(node);
+                } else if (forwardedRef) {
+                    (forwardedRef as React.MutableRefObject<CollapsiblePrimitiveContentElement | null>).current = node;
+                }
+            },
+            [forwardedRef]
+        );
         const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
         const [shouldRender, setShouldRender] = useState(open);
         const animationTimeoutRef = useRef<NodeJS.Timeout>();
@@ -120,7 +130,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<CollapsiblePrimitiveContent
         return (
             <Primitive.div
                 id={contentId}
-                ref={combinedRef}
+                ref={composedRefs}
                 aria-hidden={!open}
                 data-state={open ? 'open' : 'closed'}
                 className={className}
