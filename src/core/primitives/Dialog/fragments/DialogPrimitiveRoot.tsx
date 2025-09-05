@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
@@ -13,7 +13,7 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRoot = ({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props } : DialogPrimitiveRootProps) => {
+const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props }, ref) => {
     const [isOpen, setIsOpen] = useState(open);
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
@@ -39,12 +39,12 @@ const DialogPrimitiveRoot = ({ children, open = false, onOpenChange = () => {}, 
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
         <DialogPrimitiveContext.Provider value={contextProps}>
-            <div {...props} className={className}>
+            <div ref={ref} {...props} className={className}>
                 {children}
             </div>
         </DialogPrimitiveContext.Provider>
     );
-};
+});
 
 DialogPrimitiveRoot.displayName = COMPONENT_NAME;
 export default DialogPrimitiveRoot;

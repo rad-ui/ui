@@ -13,7 +13,7 @@ export type MenuPrimitiveRootProps = {
     mainAxisOffset?: number
 }
 
-export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, ...props }: MenuPrimitiveRootProps) => {
+export const MenuComponentRoot = React.forwardRef<HTMLDivElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, ...props }, forwardedRef) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -113,7 +113,7 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
 
     return (
 
-        <div className={className} data-tree="true" {...props}>
+        <div ref={forwardedRef} className={className} data-tree="true" {...props}>
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>
@@ -123,15 +123,19 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
 
         </div>
     );
-};
+});
 
-const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, ...props }: MenuPrimitiveRootProps) => {
+MenuComponentRoot.displayName = 'MenuComponentRoot';
+
+const MenuPrimitiveRoot = React.forwardRef<HTMLDivElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, ...props }, forwardedRef) => {
     return (
         <Floater.FloatingTree>
-            <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} {...props}>
+            <MenuComponentRoot ref={forwardedRef} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} {...props}>
                 {children}
             </MenuComponentRoot>
         </Floater.FloatingTree>
     );
-};
+});
+
+MenuPrimitiveRoot.displayName = 'MenuPrimitiveRoot';
 export default MenuPrimitiveRoot;

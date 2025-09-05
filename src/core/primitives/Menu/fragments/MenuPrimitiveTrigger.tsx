@@ -9,10 +9,10 @@ export type MenuPrimitiveTriggerProps = {
     asChild?: boolean
 }
 
-const MenuPrimitiveTrigger = ({ children, className, asChild, ...props }: MenuPrimitiveTriggerProps) => {
+const MenuPrimitiveTrigger = React.forwardRef<HTMLButtonElement, MenuPrimitiveTriggerProps>(({ children, className, asChild, ...props }, forwardedRef) => {
     const context = useContext(MenuPrimitiveRootContext);
     if (!context) return null;
-    const { isOpen, setIsOpen, activeIndex, refs, floatingStyles, getReferenceProps, isNested } = context;
+    const { activeIndex, refs, getReferenceProps, isNested } = context;
     const { ref, index } = Floater.useListItem();
 
     return (
@@ -22,7 +22,7 @@ const MenuPrimitiveTrigger = ({ children, className, asChild, ...props }: MenuPr
                 !isNested ? undefined : activeIndex === index ? 0 : -1
             }
 
-            ref={Floater.useMergeRefs([refs.setReference, ref])}
+            ref={Floater.useMergeRefs([refs.setReference, ref, forwardedRef])}
             {...getReferenceProps()}
             asChild={asChild}
             {...props}
@@ -30,5 +30,7 @@ const MenuPrimitiveTrigger = ({ children, className, asChild, ...props }: MenuPr
             {children}
         </ButtonPrimitive>
     );
-};
+});
+
+MenuPrimitiveTrigger.displayName = 'MenuPrimitiveTrigger';
 export default MenuPrimitiveTrigger;

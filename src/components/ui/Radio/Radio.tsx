@@ -9,7 +9,9 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'Radio';
 
-export type RadioProps = RadioPrimitiveProps & {
+export type RadioElement = React.ElementRef<typeof RadioPrimitive>;
+
+export type RadioProps = Omit<RadioPrimitiveProps, 'size'> & {
     customRootClass?: string;
     className?: string;
     size?: string;
@@ -17,7 +19,10 @@ export type RadioProps = RadioPrimitiveProps & {
     variant?: string;
 };
 
-function Radio({ name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props }: RadioProps) {
+const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
+    { name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props },
+    ref
+) {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const [isChecked, setIsChecked] = React.useState(checked);
 
@@ -33,6 +38,7 @@ function Radio({ name, value, id, checked = false, required, onChange, disabled,
     };
     return (
         <RadioPrimitive
+            ref={ref}
             name={name}
             id={id}
             value={value}
@@ -48,6 +54,8 @@ function Radio({ name, value, id, checked = false, required, onChange, disabled,
         />
 
     );
-}
+});
+
+Radio.displayName = COMPONENT_NAME;
 
 export default Radio;

@@ -8,10 +8,10 @@ export type MenuPrimitiveContentProps = {
     className?: string;
 };
 
-const MenuPrimitiveContent = ({ children, className, ...props }: MenuPrimitiveContentProps) => {
+const MenuPrimitiveContent = React.forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(({ children, className, ...props }, forwardedRef) => {
     const context = useContext(MenuPrimitiveRootContext);
     if (!context || !context.isOpen) return null;
-    const { isOpen, refs, floatingStyles, getFloatingProps, elementsRef, labelsRef, nodeId, isNested, floatingContext } = context;
+    const { refs, floatingStyles, getFloatingProps, elementsRef, labelsRef, isNested, floatingContext } = context;
 
     return (
 
@@ -23,7 +23,7 @@ const MenuPrimitiveContent = ({ children, className, ...props }: MenuPrimitiveCo
                 returnFocus={!isNested}
             >
                 <div
-                    ref={refs.setFloating}
+                    ref={Floater.useMergeRefs([refs.setFloating, forwardedRef])}
                     style={floatingStyles}
                     {...getFloatingProps()}
                     className={className}
@@ -35,5 +35,7 @@ const MenuPrimitiveContent = ({ children, className, ...props }: MenuPrimitiveCo
         </Floater.FloatingList>
 
     );
-};
+});
+
+MenuPrimitiveContent.displayName = 'MenuPrimitiveContent';
 export default MenuPrimitiveContent;
