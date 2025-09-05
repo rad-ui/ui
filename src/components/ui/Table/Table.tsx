@@ -27,6 +27,8 @@ const Table = React.forwardRef<TableElement, TableProps>((_props, _ref) => {
     return null;
 }) as TableComponent;
 
+Table.displayName = 'Table';
+
 // Export fragments via direct assignment pattern
 Table.Root = TableRoot;
 Table.Body = TableBody;
