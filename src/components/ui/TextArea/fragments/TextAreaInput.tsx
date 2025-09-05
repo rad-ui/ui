@@ -1,14 +1,18 @@
 import React from 'react';
 
-type TextAreaInputProps = {
-    children: React.ReactNode;
-    placeholder?: string;
-}
+export type TextAreaInputProps = React.ComponentPropsWithoutRef<'textarea'>;
 
-const TextAreaInput = ({ children, placeholder = '' }:TextAreaInputProps) => {
-    return <textarea placeholder={placeholder}>
-        {children}
-    </textarea>;
-};
+const TextAreaInput = React.forwardRef<React.ElementRef<'textarea'>, TextAreaInputProps>(
+    ({ children, placeholder = '', ...props }, ref) => (
+        <textarea
+            ref={ref}
+            placeholder={placeholder}
+            defaultValue={typeof children === 'string' ? children : undefined}
+            {...props}
+        />
+    )
+);
+
+TextAreaInput.displayName = 'TextAreaInput';
 
 export default TextAreaInput;
