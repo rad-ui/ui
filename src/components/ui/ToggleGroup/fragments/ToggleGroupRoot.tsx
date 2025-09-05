@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
 import useControllableState from '~/core/hooks/useControllableState';
@@ -7,7 +7,8 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 import { ToggleContext } from '../contexts/toggleContext';
 
-type ToggleGroupRootProps ={
+type ToggleGroupRootElement = React.ElementRef<'div'>;
+type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
     type?: 'single' | 'multiple';
     /** Additional CSS class names to apply */
@@ -40,7 +41,7 @@ type ToggleGroupRootProps ={
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
+const ToggleGroupRoot = forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
     type = 'single',
     className = '',
     loop = true,
@@ -54,8 +55,9 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
     dir = 'ltr',
     rovingFocus = true,
     asChild = false,
-    children
-}) => {
+    children,
+    ...props
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     // Use controllable state for value management
@@ -84,16 +86,18 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
         data_attributes['data-disabled'] = '';
     }
 
-    data_attributes['data-orientation'] = orientation;
+    data_attributes['data-orientation'] = orientation as any;
 
     // If rovingFocus is disabled, render without RovingFocusGroup
     if (!rovingFocus) {
         return (
             <ToggleContext.Provider value={sendValues}>
                 <div
+                    ref={ref}
                     className={clsx(rootClass, className)}
                     {...data_attributes}
                     dir={dir}
+                    {...props}
                 >
                     {children}
                 </div>
@@ -109,14 +113,18 @@ const ToggleGroupRoot: React.FC<ToggleGroupRootProps> = ({
                 dir={dir}
             >
                 <RovingFocusGroup.Group
-                    className={clsx(rootClass, className)}
                     {...data_attributes}
+                    {...props}
                 >
-                    {children}
+                    <div ref={ref} className={clsx(rootClass, className)}>
+                        {children}
+                    </div>
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
         </ToggleContext.Provider>
     );
-};
+});
+
+ToggleGroupRoot.displayName = COMPONENT_NAME;
 
 export default ToggleGroupRoot;
