@@ -20,7 +20,10 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
+const SelectPrimitiveRoot = React.forwardRef<
+    React.ElementRef<typeof Primitive.div>,
+    SelectPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+>(({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }, forwardedRef) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
     const [selectedLabel, setSelectedLabel] = useControllableState(
@@ -140,7 +143,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
-            <Primitive.div {...props} className={className} ref={rootRef}>
+            <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])}>
 
                 {children}
                 {/* Add hidden native select for form control */}
@@ -152,6 +155,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
                             hidden
                             aria-hidden="true"
                             tabIndex={-1}
+                            onChange={() => {}}
                         >
                             <option value={selectedLabel}>{selectedLabel}</option>
                         </select>
@@ -160,6 +164,8 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
             </Primitive.div>
         </SelectPrimitiveContext.Provider>
     );
-}
+});
+
+SelectPrimitiveRoot.displayName = 'SelectPrimitiveRoot';
 
 export default SelectPrimitiveRoot;

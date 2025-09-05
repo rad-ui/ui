@@ -13,7 +13,10 @@ interface SelectPrimitiveItemProps {
     [key: string]: any;
 }
 
-function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
+const SelectPrimitiveItem = React.forwardRef<
+    React.ElementRef<typeof Primitive.div>,
+    SelectPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+>(({ children, value, disabled, className, ...props }, forwardedRef) => {
     const context = useContext(SelectPrimitiveContext);
 
     if (!context) {
@@ -39,7 +42,7 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
 
     return (
         <Primitive.div
-            ref={Floater.useMergeRefs([ref, itemRef])} // Merge refs from Floater and props.ref}
+            ref={Floater.useMergeRefs([ref, itemRef, forwardedRef])}
             id={itemId}
             role="option"
             className={className}
@@ -67,6 +70,8 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         </Primitive.div>
 
     );
-}
+});
+
+SelectPrimitiveItem.displayName = 'SelectPrimitiveItem';
 
 export default SelectPrimitiveItem;
