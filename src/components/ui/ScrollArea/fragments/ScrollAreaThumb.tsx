@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useContext, useRef, useCallback } from 'react';
+import React, { useContext, useRef, useCallback, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
-const ScrollAreaThumb = ({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+type ScrollAreaThumbElement = ElementRef<'div'>;
+type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'>;
+
+const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass, scrollXThumbRef, scrollAreaViewportRef } = useContext(ScrollAreaContext);
     const isDraggingRef = useRef(false);
     const dragStartRef = useRef({ y: 0, scrollTop: 0 });
@@ -82,9 +85,20 @@ const ScrollAreaThumb = ({ children, className = '', ...props }: React.HTMLAttri
         };
     }, [handleDrag, stopDrag]);
 
+    const setRef = (node: ScrollAreaThumbElement | null) => {
+        if (scrollXThumbRef) {
+            (scrollXThumbRef as React.MutableRefObject<ScrollAreaThumbElement | null>).current = node;
+        }
+        if (typeof ref === 'function') {
+            ref(node);
+        } else if (ref) {
+            (ref as React.MutableRefObject<ScrollAreaThumbElement | null>).current = node;
+        }
+    };
+
     return (
         <div
-            ref={scrollXThumbRef}
+            ref={setRef}
             className={clsx(rootClass + '-thumb', className)}
             onMouseDown={startDrag}
             {...props}
@@ -92,6 +106,8 @@ const ScrollAreaThumb = ({ children, className = '', ...props }: React.HTMLAttri
             {children}
         </div>
     );
-};
+});
+
+ScrollAreaThumb.displayName = 'ScrollAreaThumb';
 
 export default ScrollAreaThumb;

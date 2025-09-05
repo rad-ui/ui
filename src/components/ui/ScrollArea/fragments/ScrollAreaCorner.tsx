@@ -1,9 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 
-const ScrollAreaCorner = ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-    return <div {...props}>{children}</div>;
-};
+type ScrollAreaCornerElement = ElementRef<'div'>;
+type ScrollAreaCornerProps = ComponentPropsWithoutRef<'div'>;
+
+const ScrollAreaCorner = forwardRef<ScrollAreaCornerElement, ScrollAreaCornerProps>(({ children, ...props }, ref) => {
+    return <div ref={ref} {...props}>{children}</div>;
+});
+
+ScrollAreaCorner.displayName = 'ScrollAreaCorner';
 
 export default ScrollAreaCorner;
