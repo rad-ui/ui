@@ -77,6 +77,20 @@ describe('RadioGroupPrimitive', () => {
         expect(hiddenInput).toHaveAttribute('name', 'my-radio-group');
     });
 
+    it('forwards refs to root and item', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+        render(
+            <RadioGroupPrimitive.Root ref={rootRef}>
+                <RadioGroupPrimitive.Item ref={itemRef} value="a">
+                    Option A
+                </RadioGroupPrimitive.Item>
+            </RadioGroupPrimitive.Root>
+        );
+        expect(rootRef.current?.tagName).toBe('DIV');
+        expect(itemRef.current?.tagName).toBe('BUTTON');
+    });
+
     it('throws error if RadioGroupPrimitive.Item is used outside RadioGroupPrimitive.Root', () => {
         // Suppress error output for this test
         const spy = jest.spyOn(console, 'error').mockImplementation(() => {});

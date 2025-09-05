@@ -1,17 +1,20 @@
-import React, { useContext } from 'react';
-import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import React, { ComponentPropsWithoutRef, ElementRef, useContext } from 'react';
+import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 import { RadioGroupContext } from '../context/RadioGroupContext';
 import clsx from 'clsx';
 
-export type RadioGroupItemProps = {
-    children: React.ReactNode
-    className?: string
-    value: string
-} & RadioGroupPrimitiveProps.Item
+export type RadioGroupItemElement = ElementRef<typeof RadioGroupPrimitive.Item>;
 
-const RadioGroupItem = ({ children, className = '', value, ...props }: RadioGroupItemProps) => {
-    const { rootClass } = useContext(RadioGroupContext);
-    return <RadioGroupPrimitive.Item className={clsx(`${rootClass}-item`, className)} value={value} {...props}>{children}</RadioGroupPrimitive.Item>;
+export type RadioGroupItemProps = ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+    className?: string;
+    value: string;
 };
+
+const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>(({ children, className = '', value, ...props }, forwardedRef) => {
+    const { rootClass } = useContext(RadioGroupContext);
+    return <RadioGroupPrimitive.Item ref={forwardedRef} className={clsx(`${rootClass}-item`, className)} value={value} {...props}>{children}</RadioGroupPrimitive.Item>;
+});
+
+RadioGroupItem.displayName = 'RadioGroupItem';
 
 export default RadioGroupItem;

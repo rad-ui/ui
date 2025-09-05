@@ -1,5 +1,5 @@
-import React from 'react';
-import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
+import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
@@ -10,17 +10,17 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'RadioGroup';
 
-type RadioGroupRootProps = {
-    children: React.ReactNode;
+export type RadioGroupRootElement = ElementRef<typeof RadioGroupPrimitive.Root>;
+
+export type RadioGroupRootProps = ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> & {
     className?: string;
     customRootClass?: string;
     variant?: string;
     size?: string;
     color?: string;
+};
 
-} & RadioGroupPrimitiveProps.Root;
-
-const RadioGroupRoot = ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }: RadioGroupRootProps) => {
+const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootProps>(({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, forwardedRef) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const dataAttributes = useCreateDataAttribute('radio-group', { variant, size });
 
@@ -28,8 +28,10 @@ const RadioGroupRoot = ({ children, className = '', customRootClass = '', varian
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return <RadioGroupContext.Provider value={{ rootClass }}>
-        <RadioGroupPrimitive.Root className={clsx(`${rootClass}-root`, className)} {...composedAttributes()} {...props}> {children} </RadioGroupPrimitive.Root>
+        <RadioGroupPrimitive.Root ref={forwardedRef} className={clsx(`${rootClass}-root`, className)} {...composedAttributes()} {...props}> {children} </RadioGroupPrimitive.Root>
     </RadioGroupContext.Provider>;
-};
+});
+
+RadioGroupRoot.displayName = 'RadioGroupRoot';
 
 export default RadioGroupRoot;

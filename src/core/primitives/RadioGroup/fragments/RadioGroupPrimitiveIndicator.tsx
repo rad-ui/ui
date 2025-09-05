@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
 import RadioGroupPrimitiveItemContext from '../context/RadioGroupPrimitiveItemContext';
 import Primitive from '~/core/primitives/Primitive';
 
-export type RadioGroupPrimitiveIndicatorProps = {
-    children?: React.ReactNode
-    className?: string
-    asChild?: boolean
-}
-const RadioGroupPrimitiveIndicator = ({ children, className, asChild = false, ...props }: RadioGroupPrimitiveIndicatorProps) => {
-    const { itemSelected } = React.useContext(RadioGroupPrimitiveItemContext);
+export type RadioGroupPrimitiveIndicatorElement = ElementRef<typeof Primitive.span>;
 
-    if (!itemSelected) return null;
-    return <Primitive.span className={className} asChild={asChild} {...props}>{children}</Primitive.span>;
+export type RadioGroupPrimitiveIndicatorProps = ComponentPropsWithoutRef<typeof Primitive.span> & {
+    asChild?: boolean;
 };
+
+const RadioGroupPrimitiveIndicator = React.forwardRef<RadioGroupPrimitiveIndicatorElement, RadioGroupPrimitiveIndicatorProps>(
+    ({ children, className, asChild = false, ...props }, forwardedRef) => {
+        const { itemSelected } = React.useContext(RadioGroupPrimitiveItemContext);
+
+        if (!itemSelected) return null;
+        return (
+            <Primitive.span ref={forwardedRef} className={className} asChild={asChild} {...props}>
+                {children}
+            </Primitive.span>
+        );
+    }
+);
+
+RadioGroupPrimitiveIndicator.displayName = 'RadioGroupPrimitiveIndicator';
 
 export default RadioGroupPrimitiveIndicator;

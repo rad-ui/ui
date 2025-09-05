@@ -1,20 +1,23 @@
-import React from 'react';
-import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
+import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 import clsx from 'clsx';
 import { RadioGroupContext } from '../context/RadioGroupContext';
 
-export type RadioGroupIndicatorProps = {
-    children?: React.ReactNode
-    className?: string
-} & RadioGroupPrimitiveProps.Indicator;
+export type RadioGroupIndicatorElement = ElementRef<typeof RadioGroupPrimitive.Indicator>;
 
-const RadioGroupIndicator = ({ className = '', children, ...props }: RadioGroupIndicatorProps) => {
+export type RadioGroupIndicatorProps = ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Indicator> & {
+    className?: string;
+};
+
+const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGroupIndicatorProps>(({ className = '', children, ...props }, forwardedRef) => {
     const { rootClass } = React.useContext(RadioGroupContext);
     return (
-        <RadioGroupPrimitive.Indicator className={clsx(`${rootClass}-indicator`, className)} {...props} >
+        <RadioGroupPrimitive.Indicator ref={forwardedRef} className={clsx(`${rootClass}-indicator`, className)} {...props} >
             {children}
         </RadioGroupPrimitive.Indicator>
     );
-};
+});
+
+RadioGroupIndicator.displayName = 'RadioGroupIndicator';
 
 export default RadioGroupIndicator;
