@@ -89,6 +89,20 @@ describe('RadioGroup (fragments)', () => {
         expect(group.getAttribute('data-rad-ui-accent-color')).toBe('primary');
     });
 
+    it('forwards refs to underlying elements', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+        render(
+            <RadioGroup.Root ref={rootRef}>
+                <RadioGroup.Item ref={itemRef} value="a">
+                    <RadioGroup.Indicator />
+                </RadioGroup.Item>
+            </RadioGroup.Root>
+        );
+        expect(rootRef.current?.tagName).toBe('DIV');
+        expect(itemRef.current?.tagName).toBe('BUTTON');
+    });
+
     it('warns on direct usage of RadioGroup', () => {
         const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         render(<RadioGroup />);

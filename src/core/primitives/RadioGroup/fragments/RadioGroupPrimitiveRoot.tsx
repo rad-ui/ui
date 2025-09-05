@@ -1,11 +1,12 @@
-import React, { PropsWithChildren } from 'react';
+import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
 import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 
-export type RadioGroupPrimitiveRootProps = PropsWithChildren<{
-    className?: string;
+export type RadioGroupPrimitiveRootElement = ElementRef<typeof Primitive.div>;
+
+export type RadioGroupPrimitiveRootProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
     value?: string;
     defaultValue?: string;
@@ -16,9 +17,21 @@ export type RadioGroupPrimitiveRootProps = PropsWithChildren<{
     orientation?: 'horizontal' | 'vertical' | 'both';
     loop?: boolean,
     dir?: 'ltr' | 'rtl';
-}>;
+};
 
-const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = false, dir = 'ltr', ...props }: RadioGroupPrimitiveRootProps) => {
+const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(({
+    value,
+    defaultValue = '',
+    onValueChange,
+    children,
+    disabled: groupDisabled = false,
+    required = false,
+    name = '',
+    orientation = 'horizontal',
+    loop = false,
+    dir = 'ltr',
+    ...props
+}, forwardedRef) => {
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
         defaultValue,
@@ -32,7 +45,7 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
     };
 
     return (
-        <Primitive.div {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
+        <Primitive.div ref={forwardedRef} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
             <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
                 <RadioGroupContext.Provider value={sendItems}>
                     <RovingFocusGroup.Group>
@@ -44,8 +57,9 @@ const RadioGroupPrimitiveRoot = ({ value, defaultValue = '', onValueChange, chil
             </RovingFocusGroup.Root>
             <input type='radio' hidden name={name} value={selectedValue} disabled={groupDisabled} required={required}/>
         </Primitive.div>
-    )
-    ;
-};
+    );
+});
+
+RadioGroupPrimitiveRoot.displayName = 'RadioGroupPrimitiveRoot';
 
 export default RadioGroupPrimitiveRoot;
