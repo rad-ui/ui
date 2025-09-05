@@ -87,4 +87,15 @@ describe('TabNav', () => {
 
         expect(screen.getByText('Tab 2')).toHaveAttribute('aria-selected', 'true');
     });
+
+    it('forwards ref to link', () => {
+        const ref = React.createRef<HTMLAnchorElement>();
+        render(
+            <TabNav.Root>
+                <TabNav.Link ref={ref} value="tab1">Tab 1</TabNav.Link>
+            </TabNav.Root>
+        );
+
+        expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+    });
 });
