@@ -4,18 +4,26 @@ import RadioGroupItem from './fragments/RadioGroupItem';
 import RadioGroupIndicator from './fragments/RadioGroupIndicator';
 import RadioGroupLabel from './fragments/RadioGroupLabel';
 
-// Empty props type - only supporting fragment exports
-export type RadioGroupProps = React.HTMLAttributes<HTMLDivElement> & {
+export type RadioGroupElement = React.ElementRef<'div'>;
+
+export type RadioGroupProps = React.ComponentPropsWithoutRef<'div'> & {
     children?: React.ReactNode;
 };
 
-// Empty implementation - we don't support direct usage
-const RadioGroup = () => {
-    console.warn('Direct usage of RadioGroup is not supported. Please use RadioGroup.Root and RadioGroup.Item instead.');
-    return null;
+type RadioGroupComponent = React.ForwardRefExoticComponent<RadioGroupProps & React.RefAttributes<RadioGroupElement>> & {
+    Root: typeof RadioGroupRoot;
+    Item: typeof RadioGroupItem;
+    Indicator: typeof RadioGroupIndicator;
+    Label: typeof RadioGroupLabel;
 };
 
-// Export fragments via direct assignment pattern
+const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>((_props, _ref) => {
+    console.warn('Direct usage of RadioGroup is not supported. Please use RadioGroup.Root and RadioGroup.Item instead.');
+    return null;
+}) as RadioGroupComponent;
+
+RadioGroup.displayName = 'RadioGroup';
+
 RadioGroup.Root = RadioGroupRoot;
 RadioGroup.Item = RadioGroupItem;
 RadioGroup.Indicator = RadioGroupIndicator;
