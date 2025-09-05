@@ -1,18 +1,21 @@
 import React, { JSX } from 'react';
+import type { Meta } from '@storybook/react';
 import Disclosure, { DisclosureProps } from '../Disclosure';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-export default {
+const meta: Meta<typeof Disclosure> = {
     title: 'WIP/Disclosure',
     component: Disclosure,
-    render: (args: JSX.IntrinsicAttributes & DisclosureProps) => <SandboxEditor>
-
-        <div>
-            <Disclosure {...args} />
-        </div>
-
-    </SandboxEditor>
+    render: (args: JSX.IntrinsicAttributes & DisclosureProps) => (
+        <SandboxEditor>
+            <div>
+                <Disclosure {...args} />
+            </div>
+        </SandboxEditor>
+    )
 };
+
+export default meta;
 
 export const All = {
     args: {

@@ -123,7 +123,7 @@ export const MultipleControlledToggles = () => {
                     <Toggle
                         key={index}
                         pressed={activeToggles.includes(index)}
-                        onPressedChange={(state) => handleToggle(index, state)}
+                        onPressedChange={(state: boolean) => handleToggle(index, state)}
                         color={index === 0 ? 'red' : index === 1 ? 'blue' : 'green'}
                     >
                         {index + 1}
@@ -183,7 +183,7 @@ export const FormIntegration = () => {
                     <label className="text-sm">Enable Notifications</label>
                     <Toggle
                         pressed={formData.notifications}
-                        onPressedChange={(value) => handleToggle('notifications', value)}
+                        onPressedChange={(value: boolean) => handleToggle('notifications', value)}
                         color="blue"
                     />
                 </div>
@@ -192,7 +192,7 @@ export const FormIntegration = () => {
                     <label className="text-sm">Dark Mode</label>
                     <Toggle
                         pressed={formData.darkMode}
-                        onPressedChange={(value) => handleToggle('darkMode', value)}
+                        onPressedChange={(value: boolean) => handleToggle('darkMode', value)}
                         color="purple"
                     />
                 </div>
@@ -201,7 +201,7 @@ export const FormIntegration = () => {
                     <label className="text-sm">Auto-Save</label>
                     <Toggle
                         pressed={formData.autoSave}
-                        onPressedChange={(value) => handleToggle('autoSave', value)}
+                        onPressedChange={(value: boolean) => handleToggle('autoSave', value)}
                         color="green"
                     />
                 </div>
