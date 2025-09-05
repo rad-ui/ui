@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { customClassSwitcher } from '~/core';
 import { clsx } from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
@@ -7,19 +7,25 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Disclosure';
 
-export type DisclosureRootProps = {
-     children: React.ReactNode;
+export type DisclosureRootProps = React.ComponentPropsWithoutRef<'div'> & {
      customRootClass?: string;
      defaultOpen?: number | null;
-     'aria-label'?: string;
+};
 
-}
-
-const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:DisclosureRootProps) => {
-    const disclosureRef = useRef(null);
+const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, ...props }, forwardedRef) => {
+    const disclosureRef = useRef<React.ElementRef<'div'> | null>(null);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
+
+    const setRefs = useCallback((node: React.ElementRef<'div'> | null) => {
+        disclosureRef.current = node;
+        if (typeof forwardedRef === 'function') {
+            forwardedRef(node);
+        } else if (forwardedRef) {
+            (forwardedRef as React.MutableRefObject<React.ElementRef<'div'> | null>).current = node;
+        }
+    }, [forwardedRef]);
 
     return (
 
@@ -34,8 +40,9 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
             <RovingFocusGroup.Root>
                 <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)}>
                     <div
+                        {...props}
                         className={clsx(`${rootClass}-root`)}
-                        ref={disclosureRef}
+                        ref={setRefs}
                         role="region"
                         aria-label={ariaLabel}
                         data-testid='disclosure-root'
@@ -48,6 +55,8 @@ const DisclosureRoot = ({ children, customRootClass, 'aria-label': ariaLabel }:D
 
         </DisclosureContext.Provider>
     );
-};
+});
+
+DisclosureRoot.displayName = 'DisclosureRoot';
 
 export default DisclosureRoot;

@@ -5,12 +5,9 @@ import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-export type DisclosureTriggerProps = {
-    children: React.ReactNode;
-    className?: string;
-}
+export type DisclosureTriggerProps = React.ComponentPropsWithoutRef<'button'>;
 
-const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
+const DisclosureTrigger = React.forwardRef<React.ElementRef<'button'>, DisclosureTriggerProps>(({ children, className, onClick, ...props }, forwardedRef) => {
     const { activeItem, setActiveItem, rootClass } = useContext(DisclosureContext);
     const { itemValue } = useContext(DisclosureItemContext);
 
@@ -20,12 +17,15 @@ const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
         } else if (activeItem !== itemValue) {
             setActiveItem(itemValue);
         }
+        if (onClick) onClick(e);
     };
 
     return (
         <RovingFocusGroup.Item>
             <CollapsiblePrimitive.Trigger asChild>
                 <button
+                    {...props}
+                    ref={forwardedRef}
                     type='button'
                     className={clsx(`${rootClass}-trigger`, className)}
                     onClick={onClickHandler}
@@ -38,6 +38,8 @@ const DisclosureTrigger = ({ children, className }:DisclosureTriggerProps) => {
             </CollapsiblePrimitive.Trigger>
         </RovingFocusGroup.Item>
     );
-};
+});
+
+DisclosureTrigger.displayName = 'DisclosureTrigger';
 
 export default DisclosureTrigger;
