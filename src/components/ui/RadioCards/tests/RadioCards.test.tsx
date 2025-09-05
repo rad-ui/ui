@@ -21,6 +21,16 @@ describe('RadioCards', () => {
         );
     }
 
+    it('renders without console warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        renderRadioCards();
+        const filteredCalls = warnSpy.mock.calls.filter(([msg]) =>
+            !String(msg).includes('asChild prop requires exactly one valid child element')
+        );
+        expect(filteredCalls).toHaveLength(0);
+        warnSpy.mockRestore();
+    });
+
     it('renders all radio items with correct labels', () => {
         renderRadioCards();
         options.forEach((option) => {
@@ -93,5 +103,12 @@ describe('RadioCards', () => {
 
         expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
         expect(itemRef.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
+    it('renders hidden input for accessibility', () => {
+        const { container } = renderRadioCards({ defaultValue: options[0].value, name: 'test-group' });
+        const input = container.querySelector('input[type="radio"][hidden]') as HTMLInputElement | null;
+        expect(input).toBeInTheDocument();
+        expect(input?.value).toBe(options[0].value);
     });
 });
