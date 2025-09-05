@@ -11,77 +11,62 @@ const SelectPrimitiveSearch = React.forwardRef<React.ElementRef<typeof Primitive
         const [search, setSearch] = React.useState('');
         const context = useContext(SelectPrimitiveContext);
         const inputRef = React.useRef<HTMLInputElement>(null);
+        const mergedRef = Floater.useMergeRefs([inputRef, ref]);
 
-    // Handle missing context gracefully
-        if (!context || !context.refs) {
-            return (
-                <Primitive.input
-                    // @ts-ignore
-                    type="search"
-                    className={className}
-                    placeholder="Search..."
-                    value={search}
-                    // @ts-ignore
-                    onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
-                    ref={Floater.useMergeRefs([inputRef, ref])}
-                    {...props}
-                />
-            );
-        }
+        const originalStructureRef = React.useRef<
+            { element: HTMLElement; label: string; value: string; parent: HTMLElement | null }[]
+        >([]);
 
-        const { refs, handleSelect, labelsRef, valuesRef, activeIndex, elementsRef, virtualItemRef, getReferenceProps, isTypingRef, setHasSearch } = context;
+        React.useEffect(() => {
+            if (!context) return;
+            const { setHasSearch, setActiveIndex } = context;
+            setHasSearch(true);
+            setActiveIndex(0);
+        }, [context]);
 
-    const originalStructureRef = React.useRef<
-      { element: HTMLElement; label: string; value: string; parent: HTMLElement | null }[]
-    >([]);
+        React.useEffect(() => {
+            if (!context || !context.refs.floating.current) return;
+            const { refs, labelsRef, elementsRef } = context;
+            const floatingElement = refs.floating.current;
+            const items = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
 
-    // Set hasSearch to true when search component mounts
-    React.useEffect(() => {
-        setHasSearch(true);
-        // Reset navigation state
-        if (context) {
-            context.setActiveIndex(0);
-        }
-    }, [setHasSearch]);
-
-    React.useEffect(() => {
-        if (!refs.floating.current) return;
-
-        const floatingElement = refs.floating.current;
-        const items = Array.from(floatingElement.querySelectorAll('[role="option"]')) as HTMLElement[];
-
-        // Store original structure if not already stored
-        if (originalStructureRef.current.length === 0) {
-            originalStructureRef.current = items.map(item => ({
-                element: item,
-                label: item.getAttribute('data-label') || item.textContent?.trim() || '',
-                value: item.getAttribute('data-value') || item.id || '',
-                parent: item.parentElement
-            }));
-        }
-
-        // Remove all items from their current positions
-        originalStructureRef.current.forEach(({ element }) => {
-            if (element.parentElement) {
-                element.parentElement.removeChild(element);
+            if (originalStructureRef.current.length === 0) {
+                originalStructureRef.current = items.map(item => ({
+                    element: item,
+                    label: item.getAttribute('data-label') || item.textContent?.trim() || '',
+                    value: item.getAttribute('data-value') || item.id || '',
+                    parent: item.parentElement
+                }));
             }
-        });
 
-        // Filter and re-append matching items
-        const visible: { element: HTMLElement; label: string; value: string }[] = [];
-        originalStructureRef.current.forEach(({ element, label, value, parent }) => {
-            if (label.toLowerCase().includes(search.toLowerCase()) && parent) {
-                parent.appendChild(element);
-                visible.push({ element, label, value });
+            originalStructureRef.current.forEach(({ element }) => {
+                if (element.parentElement) {
+                    element.parentElement.removeChild(element);
+                }
+            });
+
+            const visible: { element: HTMLElement; label: string; value: string }[] = [];
+            originalStructureRef.current.forEach(({ element, label, value, parent }) => {
+                if (label.toLowerCase().includes(search.toLowerCase()) && parent) {
+                    parent.appendChild(element);
+                    visible.push({ element, label, value });
+                }
+            });
+
+            context.setActiveIndex(null);
+            elementsRef.current = visible.map(item => item.element);
+            labelsRef.current = visible.map(item => item.label);
+        }, [search, context]);
+
+        const referenceProps = context ? context.getReferenceProps() : {};
+        const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+            if (!context) return;
+            const { activeIndex, handleSelect } = context;
+            if (activeIndex !== null && event.key === 'Enter') {
+                event.preventDefault();
+                handleSelect(activeIndex);
             }
-        });
-        context.setActiveIndex(null);
-        elementsRef.current = visible.map(item => item.element);
-        labelsRef.current = visible.map(item => item.label);
-    }, [search, refs.floating.current]);
-
-    // Get the reference props from Floating UI
-    const referenceProps = getReferenceProps();
+        };
 
         return (
             <Primitive.input
@@ -89,20 +74,18 @@ const SelectPrimitiveSearch = React.forwardRef<React.ElementRef<typeof Primitive
                 type="search"
                 className={className}
                 placeholder="Search..."
-                ref={Floater.useMergeRefs([inputRef, ref])}
+                ref={mergedRef}
                 value={search}
-                aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
+                aria-activedescendant={
+                    context?.virtualItemRef.current?.id ||
+                    (context?.activeIndex !== null && context?.valuesRef.current[context.activeIndex]
+                        ? context.valuesRef.current[context.activeIndex]
+                        : undefined)
+                }
                 // @ts-ignore
                 onChange={(e) => setSearch(e.target.value)}
                 {...referenceProps}
-                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (activeIndex !== null) {
-                        if (event.key === 'Enter') {
-                            event.preventDefault();
-                            handleSelect(activeIndex);
-                        }
-                    }
-                }}
+                onKeyDown={handleKeyDown}
                 {...props}
             />
         );

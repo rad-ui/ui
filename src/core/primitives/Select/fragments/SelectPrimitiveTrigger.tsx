@@ -11,14 +11,19 @@ export type SelectPrimitiveTriggerProps = React.ComponentPropsWithoutRef<'button
 const SelectPrimitiveTrigger = React.forwardRef<React.ElementRef<'button'>, SelectPrimitiveTriggerProps>(
     ({ children, className, ...props }, ref) => {
         const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(SelectPrimitiveContext);
+        const referenceProps = getReferenceProps();
+        const mergedClassName = [referenceProps.className, className].filter(Boolean).join(' ');
         return (
             <button
                 type='button'
-                onClick={() => setIsOpen(!isOpen)}
-                className={className}
+                {...referenceProps}
+                onClick={(event) => {
+                    referenceProps.onClick?.(event);
+                    setIsOpen(!isOpen);
+                }}
+                className={mergedClassName}
                 aria-expanded={isOpen}
                 ref={Floater.useMergeRefs([refs.setReference, ref])}
-                {...getReferenceProps()}
                 role='combobox'
                 {...props}>
                 {selectedLabel || children}

@@ -1,6 +1,7 @@
 'use client';
 import React, { useContext } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
+import clsx from 'clsx';
 
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
@@ -10,21 +11,21 @@ type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.
 };
 
 const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
-    ({ customRootClass, children, disabled, placeholder, ...props }, ref) => {
+    ({ customRootClass, children, disabled, placeholder, className, ...rest }, ref) => {
         const { rootClass } = useContext(SelectRootContext);
+        const baseRoot = customRootClass ?? rootClass;
+        const mergedClassName = clsx(baseRoot && `${baseRoot}-trigger`, className);
 
         return (
             <SelectPrimitive.Trigger
-                className={`${rootClass}-trigger`}
+                className={mergedClassName}
                 aria-disabled={disabled ? 'true' : undefined}
                 data-placeholder={placeholder ? '' : undefined}
                 disabled={disabled}
                 ref={ref}
-                {...props}
+                {...rest}
             >
-
                 {children}
-
             </SelectPrimitive.Trigger>
         );
     }

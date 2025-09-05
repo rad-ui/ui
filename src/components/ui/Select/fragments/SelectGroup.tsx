@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import SelectPrimitive from '~/core/primitives/Select/Select';
+import clsx from 'clsx';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
 export type SelectGroupProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Group> & {
@@ -7,13 +8,14 @@ export type SelectGroupProps = React.ComponentPropsWithoutRef<typeof SelectPrimi
 };
 
 const SelectGroup = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Group>, SelectGroupProps>(
-    ({ children, ...props }, ref) => {
+    ({ children, className, ...rest }, ref) => {
         const { rootClass } = useContext(SelectRootContext);
+        const mergedClassName = clsx(rootClass && `${rootClass}-group`, className);
         return (
             <SelectPrimitive.Group
-                className={`${rootClass}-group`}
+                className={mergedClassName}
                 ref={ref}
-                {...props}
+                {...rest}
             >
                 {children}
             </SelectPrimitive.Group>

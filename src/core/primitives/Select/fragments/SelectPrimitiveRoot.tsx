@@ -5,7 +5,7 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
 import { Placement } from '@floating-ui/react';
-import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
+import { useIsInsideForm } from '~/core/hooks/useIsInsideForm';
 
 export type SelectPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     value?: string,
