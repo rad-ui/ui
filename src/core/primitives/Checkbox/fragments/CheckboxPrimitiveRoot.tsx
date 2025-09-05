@@ -42,7 +42,7 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
                 opacity: 0,
                 margin: 0,
                 transform: 'translateX(-100%)'
-            }} name={name} value={value} checked={isChecked} disabled={disabled} required={required} readOnly {...props}/>
+            }} name={name} value={value} checked={isChecked} disabled={disabled} required={required} readOnly />
     </CheckboxPrimitiveContext.Provider>;
 });
 

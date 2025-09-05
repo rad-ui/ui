@@ -42,4 +42,27 @@ describe('Button', () => {
         await userEvent.click(button);
         expect(onClick).toHaveBeenCalledTimes(1);
     });
+
+    test('forwards ref to the underlying button element', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        render(<Button ref={ref}>button</Button>);
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
+    test('passes accessibility attributes to the button', () => {
+        render(<Button label='Label' description='Description'>button</Button>);
+        const button = screen.getByRole('button');
+        expect(button).toHaveAttribute('aria-label', 'Label');
+        expect(button).toHaveAttribute('aria-description', 'Description');
+    });
+
+    test('renders without warnings', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(<Button>button</Button>);
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(warnSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+        warnSpy.mockRestore();
+    });
 });
