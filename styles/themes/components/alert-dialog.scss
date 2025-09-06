@@ -6,10 +6,28 @@
   z-index: 50;
   background-color: rgba(0, 0, 0, 0.8);
   overflow: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  
+  &[data-state="open"] {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  &[data-state="closed"] {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .rad-ui-alert-dialog-trigger {
   @extend .rad-ui-button;
+  
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
 }
 
 .rad-ui-alert-dialog-content {
@@ -25,7 +43,21 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 60;
-  border: 1px solid var(--rad-ui-color-gray-500);
+  border: 1px solid var(--rad-ui-color-gray-600);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
+  
+  &[data-state="open"] {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  &[data-state="closed"] {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
 
   .rad-ui-alert-dialog-title {
     font-size: 16px;
@@ -46,21 +78,21 @@
   .rad-ui-alert-dialog-cancel {
     font-weight: 600;
     display: inline-block;
-    margin-right: 10px;
+    margin:0 4px;
     border-radius: 4px;
     padding: 5px 10px;
-    color: var(--rad-ui-color-ruby-1000);
-    background-color: var(--rad-ui-color-ruby-500);
+    color: var(--rad-ui-color-red-1000);
+    background-color: var(--rad-ui-color-red-500);
 
     &:hover {
-      background-color: var(--rad-ui-color-ruby-600);
+      background-color: var(--rad-ui-color-red-600);
     }
   }
 
   .rad-ui-alert-dialog-action {
     font-weight: 600;
     display: inline-block;
-    margin-right: 10px;
+    margin:0 4px;
     border: 1px solid var(--rad-ui-color-gray-500);
     border-radius: 4px;
     padding: 5px 10px;

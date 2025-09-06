@@ -10,6 +10,20 @@ import AlertDialogAction from './fragments/AlertDialogAction';
 import AlertDialogTitle from './fragments/AlertDialogTitle';
 import AlertDialogDescription from './fragments/AlertDialogDescription';
 
+// Export types
+export type {
+    AlertDialogRootProps,
+    AlertDialogTriggerProps,
+    AlertDialogPortalProps,
+    AlertDialogOverlayProps,
+    AlertDialogContentProps,
+    AlertDialogTitleProps,
+    AlertDialogDescriptionProps,
+    AlertDialogContextType,
+    AlertDialogComponentTree,
+    OpenState
+} from './types';
+
 const AlertDialog = () => {
     console.warn('Direct usage of AlertDialog is not supported. Please use AlertDialog.Root, AlertDialog.Content, etc. instead.');
     return null;
