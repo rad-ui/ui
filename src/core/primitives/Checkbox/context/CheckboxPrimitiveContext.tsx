@@ -3,8 +3,8 @@
 import React from 'react';
 
 export interface CheckboxPrimitiveContextProps {
-    isChecked: boolean,
-    setIsChecked: (value:boolean) => void,
+    isChecked: boolean | 'indeterminate' | null,
+    setIsChecked: (value: boolean | 'indeterminate' | null) => void,
     id?: string,
     required?: boolean,
     disabled?: boolean
