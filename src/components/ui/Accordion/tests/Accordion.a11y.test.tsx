@@ -132,15 +132,19 @@ describe('Accordion accessibility', () => {
         const markup = renderToString(<TestAccordion defaultValue={[0]} />);
         const container = document.createElement('div');
         container.innerHTML = markup;
+        document.body.appendChild(container);
 
         const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-        act(() => {
-            const root = hydrateRoot(container, <TestAccordion defaultValue={[0]} />);
-            root.unmount();
+        let root: ReturnType<typeof hydrateRoot>;
+        await act(async () => {
+            root = hydrateRoot(container, <TestAccordion defaultValue={[0]} />);
         });
+        act(() => root.unmount());
 
+        expect(errorSpy).not.toHaveBeenCalled();
         errorSpy.mockRestore();
+        document.body.removeChild(container);
     });
 
     test('supports multiple open panels and disabled triggers', async () => {
