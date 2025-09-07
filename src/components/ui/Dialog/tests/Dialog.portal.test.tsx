@@ -120,8 +120,9 @@ describe('Dialog portal and accessibility', () => {
     container.innerHTML = html;
     document.body.appendChild(container);
 
+    let root: ReturnType<typeof hydrateRoot>;
     await act(async () => {
-      hydrateRoot(container, (
+      root = hydrateRoot(container, (
         <Dialog.Root open>
           <Dialog.Trigger>Open</Dialog.Trigger>
           <Dialog.Overlay />
@@ -140,6 +141,9 @@ describe('Dialog portal and accessibility', () => {
     });
     expect(filteredWarns).toHaveLength(0);
     expect(filteredErrors).toHaveLength(0);
+
+    await act(() => root.unmount());
+    container.remove();
 
     warn.mockRestore();
     error.mockRestore();
