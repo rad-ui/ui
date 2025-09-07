@@ -26,6 +26,13 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
 
             const child = childrenArray[0] as React.ReactElement;
 
+            if (child.type === React.Fragment) {
+                console.warn(
+                    `Primitive.${elementType}: asChild prop does not support React.Fragment. Please provide a single element.`
+                );
+                return React.createElement(elementType, { ...elementProps, ref }, children);
+            }
+
             // Merge refs if child already has one
             // TODO: This can be made into a utility function
             const mergedRef = (childRef: any) => {
