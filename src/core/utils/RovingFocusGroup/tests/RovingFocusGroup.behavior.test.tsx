@@ -134,10 +134,13 @@ describe('RovingFocusGroup behavior', () => {
         const removeBtn = screen.getByTestId('remove');
 
         await user.tab();
+        await user.tab();
+        await user.tab();
         expect(itemA).toHaveFocus();
 
         await user.click(addBtn);
         const item3 = screen.getByText('Item3');
+        itemA.focus();
         await user.keyboard('{ArrowRight}');
         await user.keyboard('{ArrowRight}');
         expect(item3).toHaveFocus();
