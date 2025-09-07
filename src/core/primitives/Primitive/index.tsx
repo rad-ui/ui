@@ -15,6 +15,13 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
         const { asChild = false, children, ...elementProps } = props;
 
         if (asChild) {
+            if (React.isValidElement(children) && children.type === React.Fragment) {
+                console.warn(
+                    `Primitive.${elementType}: asChild prop does not support React.Fragment. Please provide a single element.`
+                );
+                return React.createElement(elementType, { ...elementProps, ref }, children);
+            }
+
             // Check if there's exactly one child and it's a valid element
             const childrenArray = React.Children.toArray(children);
             if (childrenArray.length !== 1 || !React.isValidElement(childrenArray[0])) {
@@ -25,13 +32,6 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
             }
 
             const child = childrenArray[0] as React.ReactElement;
-
-            if (child.type === React.Fragment) {
-                console.warn(
-                    `Primitive.${elementType}: asChild prop does not support React.Fragment. Please provide a single element.`
-                );
-                return React.createElement(elementType, { ...elementProps, ref }, children);
-            }
 
             // Merge refs if child already has one
             // TODO: This can be made into a utility function

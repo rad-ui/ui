@@ -81,6 +81,20 @@ describe('Primitive asChild', () => {
         warnSpy.mockRestore();
     });
 
+    test('warns and renders host element when child is a top-level React.Fragment', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const { container } = render(
+            <Primitive.div asChild>
+                <React.Fragment>
+                    <span />
+                </React.Fragment>
+            </Primitive.div>
+        );
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(container.firstElementChild?.tagName).toBe('DIV');
+        warnSpy.mockRestore();
+    });
+
     test('forwards controlled and uncontrolled value attributes', async () => {
         const user = userEvent.setup();
 
