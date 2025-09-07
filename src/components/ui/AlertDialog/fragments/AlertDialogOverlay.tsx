@@ -8,7 +8,7 @@ import DialogPrimitive from '~/core/primitives/Dialog';
 type AlertDialogOverlayElement = React.ElementRef<typeof DialogPrimitive.Overlay>;
 type DialogPrimitiveOverlayProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
 
-type AlertDialogOverlayProps = DialogPrimitiveOverlayProps & {
+export type AlertDialogOverlayProps = DialogPrimitiveOverlayProps & {
     className?: string;
     asChild?: boolean;
     forceMount?: boolean;

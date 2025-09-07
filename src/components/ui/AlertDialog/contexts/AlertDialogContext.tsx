@@ -1,7 +1,7 @@
 'use client';
 import { createContext } from 'react';
 
-type AlertDialogContextType = {
+export type AlertDialogContextType = {
   rootClass: string;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
