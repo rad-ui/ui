@@ -18,8 +18,8 @@ export const useCreateDataAttribute = (
         // Transform the attributes object into `data-*` attributes
         return Object.fromEntries(
             Object.entries(attributes)
-                .filter(([_, value]) => value !== undefined && value !== '') // Remove undefined or empty values
-                .map(([key, value]) => [`data-${prefix}-${key}`, value]) // Convert keys to `data-prefix-key`
+                .filter(([_, value]) => value !== undefined && value !== '' && value !== false) // Remove undefined, empty, or boolean false values
+                .map(([key, value]) => [`data-${prefix}-${key}`, value === true ? '' : value]) // Convert keys to `data-prefix-key` and ensure boolean true results in empty string
         );
     }, [prefix, attributes]); // Dependencies: recompute only if prefix or attributes change
 };
