@@ -265,7 +265,6 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}
         role={role}
-        aria-selected={isSelected}
         aria-disabled={isDisabled}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}

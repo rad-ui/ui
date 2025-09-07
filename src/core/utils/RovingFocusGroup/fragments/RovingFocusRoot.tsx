@@ -60,7 +60,6 @@ const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRoo
 
     return <RovingFocusRootContext.Provider value={sendValues}>
         <Primitive.div
-            aria-orientation={orientation === 'both' ? undefined : orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
             ref={forwardedRef}

@@ -21,27 +21,28 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
         const itemSelected = value === selectedValue;
         return (
 
-            <RovingFocusGroup.Item >
-                <ButtonPrimitive
-                    ref={ref}
-                    role="radio"
-                    type="button"
-                    disabled={groupDisabled || disabled}
-                    onClick={() => setSelectedValue(value)}
-                    onFocus={() => setSelectedValue(value)}
-                    aria-disabled={groupDisabled || disabled}
-                    aria-checked={value === selectedValue}
-                    data-checked={value === selectedValue}
-                    aria-required={required}
-                    asChild={asChild}
-                    className={className}
-                    {...props}
-                >
-                    <RadioGroupPrimitiveItemContext.Provider value={{ itemSelected }}>
+            <RadioGroupPrimitiveItemContext.Provider value={{ itemSelected }}>
+                <RovingFocusGroup.Item role="radio">
+                    <ButtonPrimitive
+                        ref={ref}
+                        role="radio"
+                        type="button"
+                        disabled={groupDisabled || disabled}
+                        onClick={() => setSelectedValue(value)}
+                        onFocus={() => setSelectedValue(value)}
+                        aria-disabled={groupDisabled || disabled}
+                        aria-checked={itemSelected}
+                        data-state={itemSelected ? 'checked' : 'unchecked'}
+                        data-disabled={groupDisabled || disabled ? '' : undefined}
+                        aria-required={required}
+                        asChild={asChild}
+                        className={className}
+                        {...props}
+                    >
                         {children}
-                    </RadioGroupPrimitiveItemContext.Provider>
-                </ButtonPrimitive>
-            </RovingFocusGroup.Item>
+                    </ButtonPrimitive>
+                </RovingFocusGroup.Item>
+            </RadioGroupPrimitiveItemContext.Provider>
 
         );
     }

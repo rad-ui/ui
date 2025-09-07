@@ -33,7 +33,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
     };
 
         return (
-            <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
+            <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} data-disabled={groupDisabled ? '' : undefined}>
                 <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
                     <RadioGroupContext.Provider value={sendItems}>
                         <RovingFocusGroup.Group>
@@ -43,7 +43,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                         </RovingFocusGroup.Group>
                     </RadioGroupContext.Provider>
                 </RovingFocusGroup.Root>
-                <input type='radio' hidden name={name} value={selectedValue} disabled={groupDisabled} required={required}/>
+                <input type='hidden' name={name} value={selectedValue} disabled={groupDisabled} required={required}/>
             </Primitive.div>
         )
         ;
