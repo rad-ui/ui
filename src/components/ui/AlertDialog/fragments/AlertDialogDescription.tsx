@@ -22,8 +22,15 @@ const AlertDialogDescription = forwardRef<AlertDialogDescriptionElement, AlertDi
     ...props
 }, ref) => {
     const { rootClass, setDescriptionId, descriptionId: currentDescriptionId } = useContext(AlertDialogContext);
-    const descriptionId = id ?? Floater.useId();
+    const generatedId = Floater.useId();
+    const descriptionId = id ?? generatedId;
     const descriptionIdRef = useRef(descriptionId);
+    const latestCurrentDescriptionIdRef = useRef(currentDescriptionId);
+
+    // Update the latest current description ID ref whenever it changes
+    useEffect(() => {
+        latestCurrentDescriptionIdRef.current = currentDescriptionId;
+    }, [currentDescriptionId]);
 
     useEffect(() => {
         descriptionIdRef.current = descriptionId;
@@ -34,11 +41,11 @@ const AlertDialogDescription = forwardRef<AlertDialogDescriptionElement, AlertDi
         // Cleanup: clear the descriptionId when this component unmounts
         // Only clear if the stored id still matches to avoid clobbering other instances
         return () => {
-            if (currentDescriptionId === descriptionIdRef.current) {
+            if (latestCurrentDescriptionIdRef.current === descriptionIdRef.current) {
                 setDescriptionId(undefined);
             }
         };
-    }, [descriptionId, setDescriptionId, currentDescriptionId]);
+    }, [descriptionId, setDescriptionId]);
 
     return (
         <Primitive.p

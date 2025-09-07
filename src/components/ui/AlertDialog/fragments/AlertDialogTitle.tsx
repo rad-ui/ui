@@ -22,8 +22,15 @@ const AlertDialogTitle = forwardRef<AlertDialogTitleElement, AlertDialogTitlePro
     ...props
 }, ref) => {
     const { rootClass, setTitleId, titleId: currentTitleId } = useContext(AlertDialogContext);
-    const titleId = id ?? Floater.useId();
+    const generatedId = Floater.useId();
+    const titleId = id ?? generatedId;
     const titleIdRef = useRef(titleId);
+    const latestCurrentTitleIdRef = useRef(currentTitleId);
+
+    // Update the latest current title ID ref whenever it changes
+    useEffect(() => {
+        latestCurrentTitleIdRef.current = currentTitleId;
+    }, [currentTitleId]);
 
     useEffect(() => {
         titleIdRef.current = titleId;
@@ -34,11 +41,11 @@ const AlertDialogTitle = forwardRef<AlertDialogTitleElement, AlertDialogTitlePro
         // Cleanup: clear the titleId when this component unmounts
         // Only clear if the stored id still matches to avoid clobbering other instances
         return () => {
-            if (currentTitleId === titleIdRef.current) {
+            if (latestCurrentTitleIdRef.current === titleIdRef.current) {
                 setTitleId(undefined);
             }
         };
-    }, [titleId, setTitleId, currentTitleId]);
+    }, [titleId, setTitleId]);
 
     return (
         <Primitive.h2
