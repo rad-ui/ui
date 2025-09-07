@@ -1,8 +1,7 @@
 'use client';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-type AlertDialogPortalElement = React.ElementRef<'div'>;
 type DialogPrimitivePortalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Portal>;
 
 export type AlertDialogPortalProps = DialogPrimitivePortalProps & {
@@ -11,24 +10,18 @@ export type AlertDialogPortalProps = DialogPrimitivePortalProps & {
     keepMounted?: boolean;
 };
 
-const AlertDialogPortal = forwardRef<AlertDialogPortalElement, AlertDialogPortalProps>(({
+const AlertDialogPortal = ({
     children,
-    container,
-    forceMount,
-    keepMounted,
     ...props
-}, _ref) => {
+}: AlertDialogPortalProps) => {
     return (
         <DialogPrimitive.Portal
-            container={container}
-            forceMount={forceMount}
-            keepMounted={keepMounted}
             {...props}
         >
             {children}
         </DialogPrimitive.Portal>
     );
-});
+};
 
 AlertDialogPortal.displayName = 'AlertDialogPortal';
 

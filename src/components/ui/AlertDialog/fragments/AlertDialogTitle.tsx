@@ -18,10 +18,11 @@ const AlertDialogTitle = forwardRef<AlertDialogTitleElement, AlertDialogTitlePro
     children,
     className = '',
     asChild = false,
+    id,
     ...props
 }, ref) => {
     const { rootClass, setTitleId, titleId: currentTitleId } = useContext(AlertDialogContext);
-    const titleId = Floater.useId();
+    const titleId = id ?? Floater.useId();
     const titleIdRef = useRef(titleId);
 
     useEffect(() => {
