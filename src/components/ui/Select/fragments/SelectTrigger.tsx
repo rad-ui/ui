@@ -18,6 +18,7 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
             className={`${rootClass}-trigger`}
             aria-disabled={disabled ? 'true' : undefined}
             data-placeholder={placeholder ? '' : undefined}
+            disabled={disabled}
             ref={forwardedRef}
             {...props}
         >
