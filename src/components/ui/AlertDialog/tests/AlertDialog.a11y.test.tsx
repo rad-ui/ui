@@ -35,6 +35,13 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
 });
 
 describe('AlertDialog a11y and behaviors', () => {
+    afterEach(() => {
+        // Clean up any portal root elements that might have been added to document.body
+        const portalRoot = document.querySelector('#portal-root');
+        if (portalRoot) {
+            document.body.removeChild(portalRoot);
+        }
+    });
     test('Trigger opens dialog; first focusable receives focus; data-state="open" on overlay/content', async() => {
         const user = userEvent.setup();
         render(

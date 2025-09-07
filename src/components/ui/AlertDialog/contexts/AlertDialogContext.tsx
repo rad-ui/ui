@@ -7,8 +7,8 @@ export type AlertDialogContextType = {
   setIsOpen: (open: boolean) => void;
   titleId?: string;
   descriptionId?: string;
-  setTitleId: (id: string) => void;
-  setDescriptionId: (id: string) => void;
+  setTitleId: (id: string | undefined) => void;
+  setDescriptionId: (id: string | undefined) => void;
 };
 
 export const AlertDialogContext = createContext<AlertDialogContextType>({

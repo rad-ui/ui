@@ -13,11 +13,11 @@ const DialogPrimitivePortal = ({
     children,
     container,
     forceMount = false,
-    keepMounted = false
+    keepMounted = false,
+    ...props
 }: DialogPrimitivePortalProps) => {
     const rootElementRef = useRef<HTMLElement | null>(null);
     const [isMounted, setIsMounted] = useState(false);
-    const [shouldRender, setShouldRender] = useState(forceMount);
 
     useEffect(() => {
         // Only run on client side after component mounts
@@ -42,6 +42,7 @@ const DialogPrimitivePortal = ({
         return (
             <Floater.Portal
                 root={rootElementRef.current}
+                {...props}
             >
                 {children}
             </Floater.Portal>
@@ -53,6 +54,7 @@ const DialogPrimitivePortal = ({
         return (
             <Floater.Portal
                 root={rootElementRef.current}
+                {...props}
             >
                 {children}
             </Floater.Portal>
@@ -62,6 +64,7 @@ const DialogPrimitivePortal = ({
     return (
         <Floater.Portal
             root={rootElementRef.current}
+            {...props}
         >
             {children}
         </Floater.Portal>

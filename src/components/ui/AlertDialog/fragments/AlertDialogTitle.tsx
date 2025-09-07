@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useContext, useEffect } from 'react';
+import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import Floater from '~/core/primitives/Floater';
 
@@ -20,14 +20,24 @@ const AlertDialogTitle = forwardRef<AlertDialogTitleElement, AlertDialogTitlePro
     asChild = false,
     ...props
 }, ref) => {
-    const { rootClass, setTitleId } = useContext(AlertDialogContext);
+    const { rootClass, setTitleId, titleId: currentTitleId } = useContext(AlertDialogContext);
     const titleId = Floater.useId();
+    const titleIdRef = useRef(titleId);
 
     useEffect(() => {
+        titleIdRef.current = titleId;
         if (titleId) {
             setTitleId(titleId);
         }
-    }, [titleId, setTitleId]);
+
+        // Cleanup: clear the titleId when this component unmounts
+        // Only clear if the stored id still matches to avoid clobbering other instances
+        return () => {
+            if (currentTitleId === titleIdRef.current) {
+                setTitleId(undefined);
+            }
+        };
+    }, [titleId, setTitleId, currentTitleId]);
 
     return (
         <Primitive.h2

@@ -24,7 +24,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     'aria-describedby': ariaDescribedBy,
     ...props
 }, ref) => {
-    const { isOpen, getFloatingProps, floaterContext, refs, handleOpenChange } = useContext(DialogPrimitiveContext);
+    const { isOpen, getFloatingProps, refs, handleOpenChange } = useContext(DialogPrimitiveContext);
 
     const contentRef = useRef<HTMLDivElement | null>(null);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref, contentRef]);
@@ -87,53 +87,58 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                     tabIndex={-1}
                     style={{ outline: 'none' }}
                     role={role}
-                    aria-modal={ariaModal}
-                    aria-labelledby={ariaLabelledBy}
-                    aria-describedby={ariaDescribedBy}
+                    aria-modal={isOpen ? ariaModal : undefined}
+                    aria-labelledby={isOpen ? ariaLabelledBy : undefined}
+                    aria-describedby={isOpen ? ariaDescribedBy : undefined}
+                    aria-hidden={!isOpen ? 'true' : undefined}
                     data-state={dataState}
-                    onKeyDown={(e) => {
-                        // Handle escape key
-                        if (e.key === 'Escape') {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleOpenChange(false);
-                        }
-
-                        // Handle tab trapping
-                        if (e.key === 'Tab') {
-                            const focusableSelector = [
-                                'button:not([disabled])',
-                                '[href]',
-                                'input:not([disabled])',
-                                'select:not([disabled])',
-                                'textarea:not([disabled])',
-                                '[tabindex]:not([tabindex="-1"])'
-                            ].join(',');
-
-                            const focusableElements = Array.from(
-                                contentRef.current?.querySelectorAll(focusableSelector) || []
-                            ) as HTMLElement[];
-
-                            if (focusableElements.length === 0) return;
-
-                            const firstElement = focusableElements[0];
-                            const lastElement = focusableElements[focusableElements.length - 1];
-
-                            if (e.shiftKey) {
-                                // Shift + Tab
-                                if (document.activeElement === firstElement) {
+                    onKeyDown={
+                        isOpen
+                            ? (e) => {
+                                // Handle escape key
+                                if (e.key === 'Escape') {
                                     e.preventDefault();
-                                    lastElement.focus();
+                                    e.stopPropagation();
+                                    handleOpenChange(false);
                                 }
-                            } else {
-                                // Tab
-                                if (document.activeElement === lastElement) {
-                                    e.preventDefault();
-                                    firstElement.focus();
+
+                                // Handle tab trapping
+                                if (e.key === 'Tab') {
+                                    const focusableSelector = [
+                                        'button:not([disabled])',
+                                        '[href]',
+                                        'input:not([disabled])',
+                                        'select:not([disabled])',
+                                        'textarea:not([disabled])',
+                                        '[tabindex]:not([tabindex="-1"])'
+                                    ].join(',');
+
+                                    const focusableElements = Array.from(
+                                        contentRef.current?.querySelectorAll(focusableSelector) || []
+                                    ) as HTMLElement[];
+
+                                    if (focusableElements.length === 0) return;
+
+                                    const firstElement = focusableElements[0];
+                                    const lastElement = focusableElements[focusableElements.length - 1];
+
+                                    if (e.shiftKey) {
+                                        // Shift + Tab
+                                        if (document.activeElement === firstElement) {
+                                            e.preventDefault();
+                                            lastElement.focus();
+                                        }
+                                    } else {
+                                        // Tab
+                                        if (document.activeElement === lastElement) {
+                                            e.preventDefault();
+                                            firstElement.focus();
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }}
+                            : undefined
+                    }
                     {...props}
                 >
                     {children}

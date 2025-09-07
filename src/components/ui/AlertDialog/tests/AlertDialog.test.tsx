@@ -7,7 +7,9 @@ import AlertDialog from '../AlertDialog';
 
 describe('AlertDialog', () => {
     describe('Root', () => {
-        it('should render with default props', () => {
+        it('should render with default props and handle open/close state transitions', async() => {
+            const user = userEvent.setup();
+
             render(
                 <AlertDialog.Root>
                     <AlertDialog.Trigger>Open Dialog</AlertDialog.Trigger>
@@ -20,7 +22,19 @@ describe('AlertDialog', () => {
                 </AlertDialog.Root>
             );
 
+            // Initially, dialog should be closed
             expect(screen.getByText('Open Dialog')).toBeInTheDocument();
+            expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+            expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
+            expect(screen.queryByText('Test Description')).not.toBeInTheDocument();
+
+            // Click trigger to open dialog
+            await user.click(screen.getByText('Open Dialog'));
+
+            // Dialog should now be open
+            expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+            expect(screen.getByText('Test Title')).toBeInTheDocument();
+            expect(screen.getByText('Test Description')).toBeInTheDocument();
         });
 
         it('should support defaultOpen prop', () => {
@@ -36,7 +50,16 @@ describe('AlertDialog', () => {
                 </AlertDialog.Root>
             );
 
+            // Dialog should be open on mount
             expect(screen.getByText('Open Dialog')).toBeInTheDocument();
+            expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+            expect(screen.getByText('Test Title')).toBeInTheDocument();
+            expect(screen.getByText('Test Description')).toBeInTheDocument();
+
+            // Verify accessibility state
+            const dialog = screen.getByRole('alertdialog');
+            expect(dialog).toHaveAttribute('aria-modal', 'true');
+            expect(dialog).toHaveAttribute('data-state', 'open');
         });
 
         it('should support controlled open state', () => {
@@ -52,7 +75,11 @@ describe('AlertDialog', () => {
                 </AlertDialog.Root>
             );
 
+            // Initially closed - trigger should be present but dialog content should not
             expect(screen.getByText('Open Dialog')).toBeInTheDocument();
+            expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+            expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
+            expect(screen.queryByText('Test Description')).not.toBeInTheDocument();
 
             rerender(
                 <AlertDialog.Root open={true}>
@@ -66,10 +93,15 @@ describe('AlertDialog', () => {
                 </AlertDialog.Root>
             );
 
+            // Now open - dialog content should be present
             expect(screen.getByText('Open Dialog')).toBeInTheDocument();
+            expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+            expect(screen.getByText('Test Title')).toBeInTheDocument();
+            expect(screen.getByText('Test Description')).toBeInTheDocument();
         });
 
         it('should call onOpenChange when state changes', async() => {
+            const user = userEvent.setup();
             const onOpenChange = jest.fn();
             render(
                 <AlertDialog.Root open={false} onOpenChange={onOpenChange}>
@@ -78,12 +110,25 @@ describe('AlertDialog', () => {
                         <AlertDialog.Content>
                             <AlertDialog.Title>Test Title</AlertDialog.Title>
                             <AlertDialog.Description>Test Description</AlertDialog.Description>
+                            <AlertDialog.Action>Confirm</AlertDialog.Action>
+                            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
                         </AlertDialog.Content>
                     </AlertDialog.Portal>
                 </AlertDialog.Root>
             );
 
-            expect(onOpenChange).toBeDefined();
+            // Initially no calls
+            expect(onOpenChange).not.toHaveBeenCalled();
+
+            // Click trigger to open dialog
+            await user.click(screen.getByText('Open Dialog'));
+            expect(onOpenChange).toHaveBeenCalledWith(true);
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
+
+            // Click cancel to close dialog
+            await user.click(screen.getByText('Cancel'));
+            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledTimes(2);
         });
     });
 
@@ -165,28 +210,50 @@ describe('AlertDialog', () => {
             expect(screen.getByText('Content')).toBeInTheDocument();
         });
 
-        it('should support forceMount prop', () => {
+        it('should support forceMount prop', async() => {
+            const user = userEvent.setup();
             render(
                 <AlertDialog.Root>
+                    <AlertDialog.Trigger>Open Dialog</AlertDialog.Trigger>
                     <AlertDialog.Portal forceMount>
-                        <AlertDialog.Content forceMount>Content</AlertDialog.Content>
+                        <AlertDialog.Content forceMount data-testid="dialog-content">Content</AlertDialog.Content>
                     </AlertDialog.Portal>
                 </AlertDialog.Root>
             );
 
+            // Content should be mounted but with closed state
             expect(screen.getByText('Content')).toBeInTheDocument();
+            const content = screen.getByTestId('dialog-content');
+            expect(content).toHaveAttribute('data-state', 'closed');
+
+            // Click trigger to open dialog
+            await user.click(screen.getByText('Open Dialog'));
+
+            // Content should now have open state
+            expect(content).toHaveAttribute('data-state', 'open');
         });
 
-        it('should support keepMounted prop', () => {
+        it('should support keepMounted prop', async() => {
+            const user = userEvent.setup();
             render(
                 <AlertDialog.Root>
+                    <AlertDialog.Trigger>Open Dialog</AlertDialog.Trigger>
                     <AlertDialog.Portal keepMounted>
-                        <AlertDialog.Content forceMount>Content</AlertDialog.Content>
+                        <AlertDialog.Content forceMount data-testid="dialog-content">Content</AlertDialog.Content>
                     </AlertDialog.Portal>
                 </AlertDialog.Root>
             );
 
+            // Content should be mounted but with closed state
             expect(screen.getByText('Content')).toBeInTheDocument();
+            const content = screen.getByTestId('dialog-content');
+            expect(content).toHaveAttribute('data-state', 'closed');
+
+            // Click trigger to open dialog
+            await user.click(screen.getByText('Open Dialog'));
+
+            // Content should now have open state
+            expect(content).toHaveAttribute('data-state', 'open');
         });
     });
 
@@ -355,9 +422,11 @@ describe('AlertDialog', () => {
     });
 
     describe('Action and Cancel Components', () => {
-        it('should render Action component', () => {
+        it('should render Action component and close dialog when clicked', async() => {
+            const user = userEvent.setup();
+            const onOpenChange = jest.fn();
             render(
-                <AlertDialog.Root open={true}>
+                <AlertDialog.Root open={true} onOpenChange={onOpenChange}>
                     <AlertDialog.Portal>
                         <AlertDialog.Content>
                             <AlertDialog.Action>Confirm</AlertDialog.Action>
@@ -366,13 +435,22 @@ describe('AlertDialog', () => {
                 </AlertDialog.Root>
             );
 
-            expect(screen.getByText('Confirm')).toBeInTheDocument();
-            expect(screen.getByText('Confirm').tagName).toBe('BUTTON');
+            const actionButton = screen.getByText('Confirm');
+            expect(actionButton).toBeInTheDocument();
+            expect(actionButton.tagName).toBe('BUTTON');
+
+            // Click the action button
+            await user.click(actionButton);
+
+            // Dialog should be closed
+            expect(onOpenChange).toHaveBeenCalledWith(false);
         });
 
-        it('should render Cancel component', () => {
+        it('should render Cancel component and close dialog when clicked', async() => {
+            const user = userEvent.setup();
+            const onOpenChange = jest.fn();
             render(
-                <AlertDialog.Root open={true}>
+                <AlertDialog.Root open={true} onOpenChange={onOpenChange}>
                     <AlertDialog.Portal>
                         <AlertDialog.Content>
                             <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
@@ -381,8 +459,15 @@ describe('AlertDialog', () => {
                 </AlertDialog.Root>
             );
 
-            expect(screen.getByText('Cancel')).toBeInTheDocument();
-            expect(screen.getByText('Cancel').tagName).toBe('BUTTON');
+            const cancelButton = screen.getByText('Cancel');
+            expect(cancelButton).toBeInTheDocument();
+            expect(cancelButton.tagName).toBe('BUTTON');
+
+            // Click the cancel button
+            await user.click(cancelButton);
+
+            // Dialog should be closed
+            expect(onOpenChange).toHaveBeenCalledWith(false);
         });
     });
 
