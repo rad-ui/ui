@@ -26,7 +26,7 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
     return (
         <>
             {shouldRender && (
-                <RemoveScroll>
+                <RemoveScroll enabled={isOpen}>
                     <Floater.Overlay
                         ref={ref}
                         onClick={handleOverlayClick}
