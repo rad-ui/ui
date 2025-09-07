@@ -2,6 +2,7 @@
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
+import Primitive from '~/core/primitives/Primitive';
 
 export type DialogPrimitiveContentProps = {
     children: React.ReactNode;
@@ -81,8 +82,9 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     return (
         <>
             {shouldRender && (
-                <div
+                <Primitive.div
                     ref={mergedRef}
+                    asChild={asChild}
                     {...getFloatingProps()}
                     tabIndex={-1}
                     style={{ outline: 'none' }}
@@ -94,7 +96,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                     data-state={dataState}
                     onKeyDown={
                         isOpen
-                            ? (e) => {
+                            ? (e: React.KeyboardEvent<HTMLDivElement>) => {
                                 // Handle escape key
                                 if (e.key === 'Escape') {
                                     e.preventDefault();
@@ -142,7 +144,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                     {...props}
                 >
                     {children}
-                </div>
+                </Primitive.div>
             )}
         </>
     );
