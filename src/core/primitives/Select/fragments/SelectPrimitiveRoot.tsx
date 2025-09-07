@@ -68,18 +68,21 @@ const SelectPrimitiveRoot = React.forwardRef<
         }
     }
 
-    const handleSelect = React.useCallback((index: number | null) => {
-        if (index === null || disabledIndices.includes(index)) return;
-        setSelectedIndex(index);
-        setIsOpen(false);
-        (refs.reference.current as HTMLElement | null)?.focus();
-        if (index !== null) {
-            const label = labelsRef.current[index];
-            if (label) {
-                setSelectedLabel(label);
+    const handleSelect = React.useCallback(
+        (index: number | null) => {
+            if (index === null || disabledIndices.includes(index)) return;
+            setSelectedIndex(index);
+            setIsOpen(false);
+            (refs.reference.current as HTMLElement | null)?.focus();
+            if (index !== null) {
+                const label = labelsRef.current[index];
+                if (label) {
+                    setSelectedLabel(label);
+                }
             }
-        }
-    }, [refs]);
+        },
+        [disabledIndices, labelsRef, setSelectedIndex, setIsOpen, setSelectedLabel, refs]
+    );
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
