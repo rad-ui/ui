@@ -308,4 +308,74 @@ describe('AlertDialog a11y and behaviors', () => {
         }).not.toThrow();
         expect(screen.getByText('SSR')).toBeInTheDocument();
     });
+
+    test('disabled trigger prevents dialog from opening', async() => {
+        const user = userEvent.setup();
+        render(
+            <AlertDialog.Root>
+                <AlertDialog.Trigger disabled>Open</AlertDialog.Trigger>
+                <AlertDialog.Portal>
+                    <AlertDialog.Content>
+                        <AlertDialog.Title>Title</AlertDialog.Title>
+                    </AlertDialog.Content>
+                </AlertDialog.Portal>
+            </AlertDialog.Root>
+        );
+
+        await user.click(screen.getByText('Open'));
+        expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+    });
+
+    test('nested dialogs return focus to their respective triggers', async() => {
+        const user = userEvent.setup();
+        render(
+            <AlertDialog.Root>
+                <AlertDialog.Trigger>Outer</AlertDialog.Trigger>
+                <AlertDialog.Portal>
+                    <AlertDialog.Content>
+                        <AlertDialog.Title>Outer</AlertDialog.Title>
+                        <AlertDialog.Root>
+                            <AlertDialog.Trigger>Inner</AlertDialog.Trigger>
+                            <AlertDialog.Portal>
+                                <AlertDialog.Content>
+                                    <AlertDialog.Title>Inner</AlertDialog.Title>
+                                    <AlertDialog.Cancel>Close Inner</AlertDialog.Cancel>
+                                </AlertDialog.Content>
+                            </AlertDialog.Portal>
+                        </AlertDialog.Root>
+                        <AlertDialog.Cancel>Close Outer</AlertDialog.Cancel>
+                    </AlertDialog.Content>
+                </AlertDialog.Portal>
+            </AlertDialog.Root>
+        );
+
+        await user.click(screen.getByText('Outer'));
+        await user.click(screen.getByText('Inner'));
+        await user.click(screen.getByText('Close Inner'));
+        await waitFor(() => expect(screen.getByText('Inner')).toHaveFocus());
+        await user.click(screen.getByText('Close Outer'));
+        await waitFor(() => expect(screen.getByText('Outer')).toHaveFocus());
+    });
+
+    test('dialog functions in RTL direction', async() => {
+        const user = userEvent.setup();
+        render(
+            <div dir="rtl">
+                <AlertDialog.Root>
+                    <AlertDialog.Trigger>فتح</AlertDialog.Trigger>
+                    <AlertDialog.Portal>
+                        <AlertDialog.Content>
+                            <AlertDialog.Cancel>إغلاق</AlertDialog.Cancel>
+                        </AlertDialog.Content>
+                    </AlertDialog.Portal>
+                </AlertDialog.Root>
+            </div>
+        );
+
+        const trigger = screen.getByText('فتح');
+        await user.click(trigger);
+        expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+        await user.click(screen.getByText('إغلاق'));
+        expect(trigger).toHaveFocus();
+    });
 });
