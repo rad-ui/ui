@@ -4,16 +4,12 @@ import { customClassSwitcher } from '~/core';
 import { TextEncoder, TextDecoder } from 'util';
 
 // Polyfill TextEncoder/TextDecoder for react-dom/server
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 global.TextEncoder = TextEncoder;
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 global.TextDecoder = TextDecoder;
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const ReactDOMServer = require('react-dom/server');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { hydrateRoot } = require('react-dom/client');
 
 const customRootClass = 'myCustomRootClass';
@@ -135,4 +131,3 @@ describe('customClassSwitcher', () => {
         spy.mockRestore();
     });
 });
-
