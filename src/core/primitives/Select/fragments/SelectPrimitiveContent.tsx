@@ -25,6 +25,7 @@ const SelectPrimitiveContent = React.forwardRef<
                             ref={Floater.useMergeRefs([refs.setFloating, forwardedRef])}
                             style={floatingStyles}
                             className={className}
+                            data-state={isOpen ? 'open' : 'closed'}
                             {...getFloatingProps()}
                             {...props}
                         >

@@ -24,7 +24,7 @@ const SelectPrimitiveItem = React.forwardRef<
         return null;
     }
 
-    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch } = context;
+    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch, disabledIndices, setDisabledIndices, valuesRef } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
 
@@ -35,10 +35,20 @@ const SelectPrimitiveItem = React.forwardRef<
     const itemId = value || `select-item-${index}`;
 
     React.useEffect(() => {
+        valuesRef.current[index] = itemId;
+        setDisabledIndices(prev => {
+            const next = new Set(prev);
+            if (disabled) {
+                next.add(index);
+            } else {
+                next.delete(index);
+            }
+            return Array.from(next).sort((a,b)=>a-b);
+        });
         if (isSelected && !hasSearch) {
             selectedItemRef.current = itemRef.current;
         }
-    }, [isSelected, hasSearch]);
+    }, [index, disabled, isSelected, hasSearch, setDisabledIndices]);
 
     return (
         <Primitive.div
@@ -47,12 +57,16 @@ const SelectPrimitiveItem = React.forwardRef<
             role="option"
             className={className}
             data-value={value}
+            data-label={value}
             data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
             aria-selected={isSelected}
+            aria-disabled={disabled ? true : undefined}
+            data-disabled={disabled ? '' : undefined}
             tabIndex={isActive ? 0 : -1}
             {...getItemProps({
-                onClick: () => handleSelect(index),
+                onClick: () => !disabled && handleSelect(index),
                 onKeyDown: (event: React.KeyboardEvent) => {
+                    if (disabled) return;
                     if (event.key === 'Enter') {
                         event.preventDefault();
                         handleSelect(index);

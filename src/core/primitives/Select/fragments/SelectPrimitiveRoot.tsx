@@ -36,6 +36,7 @@ const SelectPrimitiveRoot = React.forwardRef<
     const elementsRef = React.useRef<(HTMLElement | null)[]>([]);
     const labelsRef = React.useRef<(string | null)[]>([]);
     const valuesRef = React.useRef<(string | null)[]>([]);
+    const [disabledIndices, setDisabledIndices] = React.useState<number[]>([]);
     const isTypingRef = React.useRef(false);
     const rootRef = React.useRef<HTMLDivElement>(null);
     const virtualItemRef = React.useRef<HTMLElement | null>(null);
@@ -59,6 +60,7 @@ const SelectPrimitiveRoot = React.forwardRef<
     });
 
     function handleTypeaheadMatch(index: number | null) {
+        if (index === null || disabledIndices.includes(index)) return;
         if (isOpen) {
             setActiveIndex(index);
         } else {
@@ -67,15 +69,17 @@ const SelectPrimitiveRoot = React.forwardRef<
     }
 
     const handleSelect = React.useCallback((index: number | null) => {
+        if (index === null || disabledIndices.includes(index)) return;
         setSelectedIndex(index);
         setIsOpen(false);
+        (refs.reference.current as HTMLElement | null)?.focus();
         if (index !== null) {
             const label = labelsRef.current[index];
             if (label) {
                 setSelectedLabel(label);
             }
         }
-    }, []);
+    }, [refs]);
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
@@ -83,7 +87,8 @@ const SelectPrimitiveRoot = React.forwardRef<
         selectedIndex,
         onNavigate: setActiveIndex,
         virtual: hasSearch, // Enable virtual navigation only when search is present
-        virtualItemRef
+        virtualItemRef,
+        disabledIndices
     });
 
     const typeahead = Floater.useTypeahead(floatingContext, {
@@ -133,6 +138,8 @@ const SelectPrimitiveRoot = React.forwardRef<
         elementsRef,
         labelsRef,
         valuesRef,
+        disabledIndices,
+        setDisabledIndices,
         setActiveIndex,
         selectedLabel,
         isTypingRef,
@@ -143,7 +150,7 @@ const SelectPrimitiveRoot = React.forwardRef<
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
-            <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])}>
+            <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])} data-state={isOpen ? 'open' : 'closed'}>
 
                 {children}
                 {/* Add hidden native select for form control */}
