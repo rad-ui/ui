@@ -1,54 +1,45 @@
 import { renderHook } from '@testing-library/react';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '.';
 
-/**
- * Test case: Verify that attributes are correctly created and applied.
- */
-test('attributes are created and applied', () => {
-    // Render the hook for creating data attributes with the prefix "button"
-    const { result: dataAttributes } = renderHook(() =>
-        useCreateDataAttribute('button', { variant: 'primary', size: 'large' })
-    );
+describe('create data attribute hooks', () => {
+    test('creates and merges data attributes with accent color and boolean handling', () => {
+        const { result: dataAttributes } = renderHook(() =>
+            useCreateDataAttribute('button', {
+                variant: 'primary',
+                active: true,
+                disabled: false,
+                id: '123',
+                camelCaseKey: 'value',
+                missing: undefined,
+            })
+        );
 
-    // Render the hook for creating data attributes with the prefix "accent"
-    const { result: accentAttributes } = renderHook(() =>
-        useCreateDataAccentColorAttribute('red')
-    );
+        const { result: accentAttributes } = renderHook(() =>
+            useCreateDataAccentColorAttribute('red')
+        );
 
-    // Render the hook that merges the two attribute objects into a single object
-    const { result: composedAttributes } = renderHook(() =>
-        useComposeAttributes(dataAttributes.current(), accentAttributes.current())
-    );
+        const { result: composedAttributes } = renderHook(() =>
+            useComposeAttributes(dataAttributes.current(), accentAttributes.current())
+        );
 
-    // Assert that the composed attributes object contains the expected `data-*` attributes
-    expect(composedAttributes.current()).toEqual({
-        'data-button-variant': 'primary',
-        'data-button-size': 'large',
-        'data-rad-ui-accent-color': 'red'
+        expect(composedAttributes.current()).toEqual({
+            'data-button-variant': 'primary',
+            'data-button-active': '',
+            'data-button-id': '123',
+            'data-button-camelCaseKey': 'value',
+            'data-rad-ui-accent-color': 'red',
+        });
     });
-});
 
-/**
- * Test case: Verify that attributes are correctly created, ignoring undefined or empty values.
- */
-test('attributes are created and applied with undefined and empty values', () => {
-    // Render the hook with an undefined variant and a defined size
-    const { result: dataAttributes } = renderHook(() =>
-        useCreateDataAttribute('button', { variant: undefined, size: 'large' })
-    );
+    test('omits accent color attribute when undefined and handles null attributes', () => {
+        const { result: emptyAccent } = renderHook(() =>
+            useCreateDataAccentColorAttribute(undefined as any)
+        );
+        expect(emptyAccent.current()).toEqual({});
 
-    // Render the hook with an empty string for color (should be ignored)
-    const { result: accentAttributes } = renderHook(() =>
-        useCreateDataAccentColorAttribute('')
-    );
-
-    // Merge the attributes
-    const { result: composedAttributes } = renderHook(() =>
-        useComposeAttributes(dataAttributes.current(), accentAttributes.current())
-    );
-
-    // Assert that only the valid `data-*` attributes are present
-    expect(composedAttributes.current()).toEqual({
-        'data-button-size': 'large' // "variant" is ignored since it's undefined, and "color" is ignored since it's an empty string
+        const { result: noAttributes } = renderHook(() =>
+            useCreateDataAttribute('button', null)
+        );
+        expect(noAttributes.current()).toEqual({});
     });
 });
