@@ -7,19 +7,33 @@ import { RemoveScroll } from 'react-remove-scroll';
 
 type DialogPrimitiveOverlayProps = {
     className?: string;
+    asChild?: boolean;
+    forceMount?: boolean;
+    children?: React.ReactNode;
 }
 
-const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlayProps>(({ ...props }, ref) => {
+const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlayProps>(({
+    asChild = false,
+    forceMount = false,
+    children,
+    ...props
+}, ref) => {
     const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
+
+    const shouldRender = isOpen || forceMount;
+    const dataState = isOpen ? 'open' : 'closed';
+
     return (
         <>
-            {isOpen && (
-                <RemoveScroll>
+            {shouldRender && (
+                <RemoveScroll enabled={isOpen}>
                     <Floater.Overlay
                         ref={ref}
                         onClick={handleOverlayClick}
+                        data-state={dataState}
                         {...props}
                     >
+                        {children}
                     </Floater.Overlay>
                 </RemoveScroll>
             )}

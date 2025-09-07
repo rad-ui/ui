@@ -9,12 +9,30 @@ type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof DialogP
 
 export type AlertDialogContentProps = DialogPrimitiveContentProps & {
     className?: string;
+    asChild?: boolean;
+    forceMount?: boolean;
 };
 
-const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogContentProps>(({ children, className = '', ...props }, ref) => {
-    const { rootClass } = useContext(AlertDialogContext);
+const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogContentProps>(({
+    children,
+    className = '',
+    asChild = false,
+    forceMount = false,
+    ...props
+}, ref) => {
+    const { rootClass, titleId, descriptionId } = useContext(AlertDialogContext);
     return (
-        <DialogPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
+        <DialogPrimitive.Content
+            ref={ref}
+            className={clsx(`${rootClass}-content`, className)}
+            asChild={asChild}
+            forceMount={forceMount}
+            role="alertdialog"
+            aria-modal={true}
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            {...props}
+        >
             {children}
         </DialogPrimitive.Content>
     );

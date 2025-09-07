@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
@@ -15,6 +15,12 @@ const COMPONENT_NAME = 'DialogPrimitive';
 
 const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props }, ref) => {
     const [isOpen, setIsOpen] = useState(open);
+
+    // Sync internal state with the open prop
+    useEffect(() => {
+        setIsOpen(open);
+    }, [open]);
+
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
         onOpenChange(open);
