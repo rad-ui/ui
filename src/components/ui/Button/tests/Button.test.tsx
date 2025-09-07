@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as axe from 'axe-core';
+import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 import Button from '../Button';
 
@@ -64,5 +66,58 @@ describe('Button', () => {
         expect(warnSpy).not.toHaveBeenCalled();
         errorSpy.mockRestore();
         warnSpy.mockRestore();
+    });
+
+    test('disabled suppresses clicks and sets data-disabled', async () => {
+        const onClick = jest.fn();
+        render(<Button disabled onClick={onClick}>disabled</Button>);
+        const btn = screen.getByRole('button');
+        await userEvent.click(btn);
+        expect(onClick).not.toHaveBeenCalled();
+        expect(btn).toHaveAttribute('data-disabled', '');
+    });
+
+    test('form submit and reset work when type is set', async () => {
+        const user = userEvent.setup();
+        const handleSubmit = jest.fn((e) => e.preventDefault());
+        render(
+            <>
+                <form onSubmit={handleSubmit} data-testid="form">
+                    <input name="field" defaultValue="initial" />
+                    <Button type="submit">Submit</Button>
+                    <Button type="reset">Reset</Button>
+                </form>
+            </>
+        );
+        const input = screen.getByDisplayValue('initial');
+        await user.type(input, '123');
+        expect(input).toHaveValue('initial123');
+        await user.click(screen.getByText('Submit'));
+        expect(handleSubmit).toHaveBeenCalled();
+        await user.click(screen.getByText('Reset'));
+        expect(input).toHaveValue('initial');
+    });
+
+    test('axe: no violations', async () => {
+        const { container } = render(<Button>axe</Button>);
+        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        expect(results.violations).toHaveLength(0);
+    });
+
+    test('works in RTL layouts', async () => {
+        const user = userEvent.setup();
+        const onClick = jest.fn();
+        render(
+            <div dir="rtl">
+                <Button onClick={onClick}>rtl</Button>
+            </div>
+        );
+        await user.click(screen.getByRole('button'));
+        expect(onClick).toHaveBeenCalled();
+    });
+
+    test('defaults type to button when undefined', () => {
+        render(<Button type={undefined as unknown as any}>default</Button>);
+        expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
     });
 });
