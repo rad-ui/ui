@@ -12,9 +12,10 @@ export type MenuPrimitiveRootProps = {
     defaultOpen?: boolean
     crossAxisOffset?: number
     mainAxisOffset?: number
+    loop?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, loop=true, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -53,6 +54,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         listRef: elementsRef,
         activeIndex,
         nested: isNested,
+        loop: loop,
         onNavigate: setActiveIndex
     });
     const click = Floater.useClick(floatingContext, {});
