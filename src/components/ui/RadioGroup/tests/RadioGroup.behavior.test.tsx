@@ -144,6 +144,7 @@ describe('RadioGroup behavior', () => {
         const Custom = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
             (props, ref) => <div ref={ref} {...props} data-testid="custom" />
         );
+        Custom.displayName = 'Custom';
         const ref = React.createRef<HTMLDivElement>();
         render(
             <RadioGroup.Root defaultValue="custom">

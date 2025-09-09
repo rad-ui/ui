@@ -22,7 +22,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
         return (
 
             <RadioGroupPrimitiveItemContext.Provider value={{ itemSelected }}>
-                <RovingFocusGroup.Item role="radio">
+                <RovingFocusGroup.Item>
                     <ButtonPrimitive
                         ref={ref}
                         role="radio"
