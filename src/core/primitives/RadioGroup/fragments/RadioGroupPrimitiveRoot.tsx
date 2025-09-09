@@ -43,7 +43,17 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                         </RovingFocusGroup.Group>
                     </RadioGroupContext.Provider>
                 </RovingFocusGroup.Root>
-                <input type='hidden' name={name} value={selectedValue} disabled={groupDisabled} required={required}/>
+                <input
+                    type='radio'
+                    name={name}
+                    value={selectedValue}
+                    checked={selectedValue !== ''}
+                    onChange={() => {}}
+                    disabled={groupDisabled}
+                    required={required}
+                    aria-hidden='true'
+                    style={{ display: 'none' }}
+                />
             </Primitive.div>
         )
         ;

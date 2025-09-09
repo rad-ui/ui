@@ -105,10 +105,11 @@ describe('RadioCards', () => {
         expect(itemRef.current).toBeInstanceOf(HTMLButtonElement);
     });
 
-    it('renders hidden input for accessibility', () => {
+    it('renders hidden radio input for form submission', () => {
         const { container } = renderRadioCards({ defaultValue: options[0].value, name: 'test-group' });
-        const input = container.querySelector('input[type="hidden"]') as HTMLInputElement | null;
+        const input = container.querySelector('input[type="radio"]') as HTMLInputElement | null;
         expect(input).toBeInTheDocument();
         expect(input?.value).toBe(options[0].value);
+        expect(input?.checked).toBe(true);
     });
 });

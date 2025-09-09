@@ -86,6 +86,32 @@ describe('RadioGroup behavior', () => {
         expect(submitted?.get('rg')).toBe('three');
     });
 
+    test('required groups enforce selection before form submit', async () => {
+        let submitted = false;
+        const handleSubmit = (e: React.FormEvent) => {
+            e.preventDefault();
+            submitted = true;
+        };
+        render(
+            <form data-testid="form" onSubmit={handleSubmit}>
+                <RadioGroup.Root name="req" required>
+                    <RadioGroup.Item value="one" data-testid="req-one">one</RadioGroup.Item>
+                    <RadioGroup.Item value="two" data-testid="req-two">two</RadioGroup.Item>
+                </RadioGroup.Root>
+                <button type="submit">submit</button>
+            </form>
+        );
+        const user = userEvent.setup();
+        const form = screen.getByTestId('form') as HTMLFormElement;
+        expect(form.checkValidity()).toBe(false);
+        await user.click(screen.getByText('submit'));
+        expect(submitted).toBe(false);
+        await user.click(screen.getByTestId('req-one'));
+        expect(form.checkValidity()).toBe(true);
+        await user.click(screen.getByText('submit'));
+        expect(submitted).toBe(true);
+    });
+
     test('data-state and data-disabled attributes reflect state', () => {
         render(
             <RadioGroup.Root defaultValue="one" disabled data-testid="group">
