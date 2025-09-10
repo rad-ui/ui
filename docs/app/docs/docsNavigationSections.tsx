@@ -132,6 +132,10 @@ export const docsNavigationSections = [
                 path:"/docs/components/toggle-group"
             },
             {
+                title:"Popover",
+                path:"/docs/components/popover"
+            },
+            {
                 title:"Tooltip",
                 path:"/docs/components/tooltip"
             },
