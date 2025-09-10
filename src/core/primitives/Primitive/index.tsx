@@ -1,5 +1,5 @@
 import React from 'react';
-import useMergeProps from '../../hooks/useMergeProps';
+import useMergeProps from '~/core/hooks/useMergeProps';
 
 // Define supported HTML elements
 const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input', 'a', 'img', 'p', 'h2', 'label'] as const;
