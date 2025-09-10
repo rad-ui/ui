@@ -43,31 +43,36 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                         </RovingFocusGroup.Group>
                     </RadioGroupContext.Provider>
                 </RovingFocusGroup.Root>
-                <input
-                    type='hidden'
-                    name={name}
-                    value={selectedValue}
-                    disabled={groupDisabled}
-                />
-                {required && (
-                    <input
-                        type='radio'
-                        name={name}
-                        checked={selectedValue !== ''}
-                        onChange={() => {}}
-                        disabled={groupDisabled}
-                        required
-                        aria-hidden='true'
-                        tabIndex={-1}
-                        style={{
-                            position: 'absolute',
-                            width: 0,
-                            height: 0,
-                            opacity: 0,
-                            pointerEvents: 'none',
-                            margin: 0
-                        }}
-                    />
+                {name && (
+                    <>
+                        <input
+                            type='hidden'
+                            name={name}
+                            value={selectedValue}
+                            disabled={groupDisabled}
+                        />
+                        {required && selectedValue !== '' && (
+                            <input
+                                type='radio'
+                                name={name}
+                                value={selectedValue}
+                                checked
+                                onChange={() => {}}
+                                disabled={groupDisabled}
+                                required
+                                aria-hidden='true'
+                                tabIndex={-1}
+                                style={{
+                                    position: 'absolute',
+                                    width: 0,
+                                    height: 0,
+                                    opacity: 0,
+                                    pointerEvents: 'none',
+                                    margin: 0
+                                }}
+                            />
+                        )}
+                    </>
                 )}
             </Primitive.div>
         )
