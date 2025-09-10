@@ -15,6 +15,15 @@ const config: Config = {
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
         '^.+\\.jsx?$': 'babel-jest'
+    },
+    coverageReporters: ['text', 'lcov', 'json-summary'],
+    coverageThreshold: {
+        global: {
+            statements: 80,
+            lines: 80,
+            branches: 60, // TODO: raise to 80%
+            functions: 60 // TODO: raise to 80%
+        }
     }
 };
 
