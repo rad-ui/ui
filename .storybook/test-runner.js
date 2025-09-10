@@ -18,13 +18,17 @@
  * This smoke test is a lightweight safety net and does not replace dedicated
  * unit, integration, or visual testing.
  */
-import { within, userEvent } from '@storybook/testing-library';
-
 // If a button exists, click the first one to ensure the interaction doesn't trigger
 // runtime errors.
 export const run = async ({ canvasElement }) => {
+  // Import testing utilities inside the runner so that Storybook's jsdom
+  // environment is available. Importing at the module level throws because the
+  // package expects `location` to exist on the global object.
+  const { within, userEvent } = await import('@storybook/testing-library');
+
   const canvas = within(canvasElement);
-  // Use queryAllByRole so the test runner doesn't throw when multiple buttons are present.
+  // Use queryAllByRole so the test runner doesn't throw when multiple buttons
+  // are present.
   const [button] = canvas.queryAllByRole('button');
   if (button) {
     await userEvent.click(button);
