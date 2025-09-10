@@ -1,0 +1,73 @@
+name: Coverage
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run coverage on PR
+        run: npm run coverage
+
+      - name: Save PR coverage
+        run: cp coverage/coverage-summary.json pr-coverage.json
+
+      - name: Run coverage on base
+        run: |
+          git checkout origin/${{ github.event.pull_request.base.ref }}
+          npm run coverage
+          cp coverage/coverage-summary.json base-coverage.json
+          git checkout ${{ github.event.pull_request.head.ref }}
+
+      - name: Comment coverage
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const pr = JSON.parse(fs.readFileSync('pr-coverage.json', 'utf8')).total;
+            const base = JSON.parse(fs.readFileSync('base-coverage.json', 'utf8')).total;
+            function row(name, key) {
+              const diff = (pr[key].pct - base[key].pct).toFixed(2);
+              const sign = diff >= 0 ? '+' : '';
+              return `| ${name} | ${pr[key].pct}% | ${sign}${diff}% |`;
+            }
+            const body = [
+              '### Coverage',
+              '',
+              '| Metric | PR | Δ |',
+              '| ------ | --: | ---: |',
+              row('Statements', 'statements'),
+              row('Branches', 'branches'),
+              row('Functions', 'functions'),
+              row('Lines', 'lines')
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
