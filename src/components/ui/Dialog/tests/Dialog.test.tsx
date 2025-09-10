@@ -1,5 +1,7 @@
 import React, { createRef } from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { renderWithPortal, assertFocusTrap, assertFocusReturn, assertScrollLock, assertScrollUnlock } from '~/test-utils/portal';
 import Dialog from '../Dialog';
 
 describe('Dialog', () => {
@@ -84,6 +86,29 @@ describe('Dialog', () => {
         expect(error).not.toHaveBeenCalled();
         warn.mockRestore();
         error.mockRestore();
+    });
+
+    test('mounts in portal, traps focus, returns focus and locks scroll', async () => {
+        const user = userEvent.setup();
+        const { getByText, portalRoot, cleanup } = renderWithPortal(
+            <Dialog.Root>
+                <Dialog.Trigger>Trigger</Dialog.Trigger>
+                <Dialog.Portal>
+                    <Dialog.Overlay />
+                    <Dialog.Content>
+                        <Dialog.Close>Close</Dialog.Close>
+                    </Dialog.Content>
+                </Dialog.Portal>
+            </Dialog.Root>
+        );
+
+        await user.click(getByText('Trigger'));
+        await waitFor(() => assertScrollLock());
+        await assertFocusTrap(portalRoot);
+        await user.click(getByText('Close'));
+        assertFocusReturn(getByText('Trigger'));
+        await waitFor(() => assertScrollUnlock());
+        cleanup();
     });
 });
 
