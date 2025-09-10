@@ -26,6 +26,13 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
         const mergedProps = useMergeProps(elementProps, child, ref);
 
         if (asChild) {
+            if (React.isValidElement(children) && children.type === React.Fragment) {
+                console.warn(
+                    `Primitive.${elementType}: asChild prop does not support React.Fragment. Please provide a single element.`
+                );
+                return React.createElement(elementType, { ...elementProps, ref }, children);
+            }
+
             if (!child) {
                 console.warn(
                     `Primitive.${elementType}: asChild prop requires exactly one valid child element.`

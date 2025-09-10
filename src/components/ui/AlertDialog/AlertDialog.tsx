@@ -9,6 +9,10 @@ import AlertDialogCancel from './fragments/AlertDialogCancel';
 import AlertDialogAction from './fragments/AlertDialogAction';
 import AlertDialogTitle from './fragments/AlertDialogTitle';
 import AlertDialogDescription from './fragments/AlertDialogDescription';
+// Explicit extension to satisfy ESM linting/resolution
+export type {
+    AlertDialogRootProps as __fix_types_1
+} from './types.ts';
 
 const AlertDialog = () => {
     console.warn('Direct usage of AlertDialog is not supported. Please use AlertDialog.Root, AlertDialog.Content, etc. instead.');

@@ -33,8 +33,8 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
     };
 
         return (
-            <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>
-                <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
+            <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} data-disabled={groupDisabled ? '' : undefined}>
+                <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>
                         <RovingFocusGroup.Group>
 
@@ -43,7 +43,37 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                         </RovingFocusGroup.Group>
                     </RadioGroupContext.Provider>
                 </RovingFocusGroup.Root>
-                <input type='radio' hidden name={name} value={selectedValue} disabled={groupDisabled} required={required}/>
+                {name && (
+                    <>
+                        <input
+                            type='hidden'
+                            name={name}
+                            value={selectedValue}
+                            disabled={groupDisabled}
+                        />
+                        {required && selectedValue !== '' && (
+                            <input
+                                type='radio'
+                                name={name}
+                                value={selectedValue}
+                                checked
+                                onChange={() => {}}
+                                disabled={groupDisabled}
+                                required
+                                aria-hidden='true'
+                                tabIndex={-1}
+                                style={{
+                                    position: 'absolute',
+                                    width: 0,
+                                    height: 0,
+                                    opacity: 0,
+                                    pointerEvents: 'none',
+                                    margin: 0
+                                }}
+                            />
+                        )}
+                    </>
+                )}
             </Primitive.div>
         )
         ;

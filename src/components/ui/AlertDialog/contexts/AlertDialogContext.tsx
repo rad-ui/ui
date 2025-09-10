@@ -1,10 +1,22 @@
 'use client';
 import { createContext } from 'react';
 
-type AlertDialogContextType = {
+export type AlertDialogContextType = {
   rootClass: string;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  titleId?: string;
+  descriptionId?: string;
+  setTitleId: (id: string | undefined) => void;
+  setDescriptionId: (id: string | undefined) => void;
 };
 
 export const AlertDialogContext = createContext<AlertDialogContextType>({
-    rootClass: ''
+    rootClass: '',
+    isOpen: false,
+    setIsOpen: () => {},
+    titleId: undefined,
+    descriptionId: undefined,
+    setTitleId: () => {},
+    setDescriptionId: () => {}
 });

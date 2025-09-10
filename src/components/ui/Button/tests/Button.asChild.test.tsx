@@ -1,4 +1,3 @@
-// Tests covering Button behavior when rendering other elements via `asChild`.
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,6 +5,11 @@ import * as axe from 'axe-core';
 
 import Button from '../Button';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
+
+const Custom = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>((props, ref) => (
+    <span ref={ref} {...props} />
+));
+Custom.displayName = 'Custom';
 
 describe('Button asChild', () => {
     test('asChild anchor forwards role, className, and ref', async () => {
@@ -36,16 +40,16 @@ describe('Button asChild', () => {
     });
 
     test('supports custom elements with asChild', () => {
-        const Custom = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
-            (props, ref) => <span ref={ref} {...props} />
-        );
+        const ref = React.createRef<HTMLSpanElement>();
         render(
-            <Button asChild>
-                <Custom data-testid="custom">Custom</Custom>
+            <Button asChild ref={ref as any}>
+                <Custom data-testid="custom" data-test="yes" />
             </Button>
         );
         const custom = screen.getByTestId('custom');
         expect(custom).toHaveAttribute('role', 'button');
+        expect(custom).toHaveAttribute('data-test', 'yes');
+        expect(ref.current).toBe(custom);
     });
 
     test('asChild with button avoids nested buttons', () => {
@@ -121,3 +125,4 @@ describe('Button asChild', () => {
         expect(button).not.toHaveAttribute('dir');
     });
 });
+

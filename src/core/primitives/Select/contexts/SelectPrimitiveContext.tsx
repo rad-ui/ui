@@ -21,6 +21,8 @@ export type SelectPrimitiveContextType = {
     elementsRef: React.MutableRefObject<(HTMLElement | null)[]>;
     labelsRef: React.MutableRefObject<(string | null)[]>;
     valuesRef: React.MutableRefObject<(string | null)[]>;
+    disabledIndices: number[];
+    setDisabledIndices: React.Dispatch<React.SetStateAction<number[]>>;
     selectedLabel: string;
     isTypingRef: React.RefObject<boolean>;
     selectedItemRef: React.MutableRefObject<HTMLElement | null>;
