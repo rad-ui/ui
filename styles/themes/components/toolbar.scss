@@ -1,0 +1,44 @@
+.rad-ui-toolbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    &[data-orientation='vertical'] {
+        flex-direction: column;
+    }
+
+    .rad-ui-toolbar-button,
+    .rad-ui-toolbar-link {
+        all: unset;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: var(--rad-ui-color-gray-50);
+        color: var(--rad-ui-color-slate-900);
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: 2px solid var(--rad-ui-color-accent-900);
+            outline-offset: 2px;
+        }
+    }
+
+    .rad-ui-toolbar-link {
+        text-decoration: none;
+    }
+
+    .rad-ui-toolbar-separator {
+        background-color: var(--rad-ui-color-gray-600);
+        width: 1px;
+        height: 24px;
+        margin: 0 4px;
+    }
+
+    &[data-orientation='vertical'] .rad-ui-toolbar-separator {
+        width: 100%;
+        height: 1px;
+        margin: 4px 0;
+    }
+}
