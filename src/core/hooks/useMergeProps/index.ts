@@ -28,11 +28,11 @@ import React from 'react';
  */
 function useMergeProps<T extends Record<string, any>>(
     elementProps: T,
-    child: React.ReactElement,
+    child?: React.ReactElement,
     ref?: React.Ref<any>
 ) {
-    const childProps = child.props as T;
-    const childRef = (child as any).ref;
+    const childProps = child?.props as T | undefined;
+    const childRef = (child as any)?.ref;
 
     const mergedRef = React.useCallback(
         (node: any) => {
@@ -46,6 +46,8 @@ function useMergeProps<T extends Record<string, any>>(
     );
 
     return React.useMemo(() => {
+        if (!childProps) return elementProps;
+
         const finalProps: any = {
             ...elementProps,
             ...childProps,
