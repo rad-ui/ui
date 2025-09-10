@@ -24,4 +24,4 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
       - name: Storybook smoke tests
-        run: npx storybook test --index-json ./storybook-static/index.json
+        run: npm run test-storybook

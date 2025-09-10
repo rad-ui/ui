@@ -14,7 +14,7 @@
     "sb": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-storybook": "storybook test --index-json ./storybook-static/index.json",
+    "test-storybook": "npx @storybook/test-runner --index-json ./storybook-static/index.json",
     "build-css": "rollup -c rollup-css.config.js",
     "generate-tokens": "tsx ./src/tokenGen/index.js",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
