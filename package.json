@@ -7,6 +7,7 @@
   "exports": {},
   "scripts": {
     "test": "jest",
+    "test:e2e": "playwright test",
     "coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "clean": "rimraf dist",
@@ -60,6 +61,8 @@
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "^7.24.7",
     "@radui/ui": "^0.0.37",
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.45.0",
     "@rollup/plugin-alias": "5.1.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",
