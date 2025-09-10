@@ -4,7 +4,7 @@ import { within, userEvent } from '@storybook/testing-library';
 // don't trigger runtime errors.
 export const run = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const button = canvas.queryByRole('button');
+  const [button] = canvas.queryAllByRole('button');
   if (button) {
     await userEvent.click(button);
   }
