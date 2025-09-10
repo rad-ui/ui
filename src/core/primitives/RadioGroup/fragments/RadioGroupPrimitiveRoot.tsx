@@ -34,7 +34,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
 
         return (
             <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} data-disabled={groupDisabled ? '' : undefined}>
-                <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
+                <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>
                         <RovingFocusGroup.Group>
 

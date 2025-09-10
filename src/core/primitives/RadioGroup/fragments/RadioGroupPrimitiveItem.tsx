@@ -32,6 +32,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
                         onFocus={() => setSelectedValue(value)}
                         aria-disabled={groupDisabled || disabled}
                         aria-checked={itemSelected}
+                        aria-selected={undefined}
                         data-state={itemSelected ? 'checked' : 'unchecked'}
                         data-disabled={groupDisabled || disabled ? '' : undefined}
                         aria-required={required}
