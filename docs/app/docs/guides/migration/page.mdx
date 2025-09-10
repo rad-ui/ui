@@ -1,0 +1,26 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import migrationMetadata from './seo';
+
+export const metadata = migrationMetadata;
+
+<Documentation
+  title="Migration Guide"
+  description="Compare Rad UI with other libraries and learn best practices for adopting it."
+>
+  <Documentation.Section title="Migrating from Other Libraries" as="h2">
+    <h3>Radix UI</h3>
+    <p>Rad UI ships with pre-styled components while Radix UI offers unstyled primitives. When migrating, replace Radix primitives with their Rad UI counterparts and remove custom styling where possible.</p>
+    <h3>Base UI</h3>
+    <p>Base UI centers around Material Design. Rad UI is design‑system agnostic, so migrate by mapping Base UI components to Rad UI and adjusting theme tokens.</p>
+    <h3>Ark UI</h3>
+    <p>Ark UI emphasizes composability. Rad UI provides similar accessibility guarantees with a more opinionated API, making migrations largely drop‑in.</p>
+  </Documentation.Section>
+
+  <Documentation.Section title="Best Practices" as="h2">
+    <ul>
+      <li>Leverage Rad UI's accessible defaults before customizing.</li>
+      <li>Prefer composable components for flexibility.</li>
+      <li>Keep markup semantic and keyboard friendly.</li>
+    </ul>
+  </Documentation.Section>
+</Documentation>

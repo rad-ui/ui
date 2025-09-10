@@ -24,6 +24,11 @@ export const docsNavigationSections = [
             {
                 title:"Accessibility",
                 path:"/docs/guides/accessibility"
+            },
+            {
+                title:"Migration Guide",
+                path:"/docs/guides/migration",
+                is_new:true
             }
         ]
     },
@@ -88,6 +93,11 @@ export const docsNavigationSections = [
             {
                 title:"Heading",
                 path:"/docs/components/heading"
+            },
+            {
+                title:"Link",
+                path:"/docs/components/link",
+                is_new:true
             },
             {
                 title:"Text",
