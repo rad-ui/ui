@@ -32,7 +32,7 @@ export type ButtonPrimitiveProps = {
 const ButtonPrimitive = forwardRef<
     ElementRef<'button'>,
     ButtonPrimitiveProps
->(({ role = 'button', type = 'button', label = '', description = '', disabled = false, children, ...props }, ref) => {
+>(({ role = 'button', type = 'button', label = '', description = '', disabled = false, onClick, children, ...props }, ref) => {
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
@@ -54,11 +54,22 @@ const ButtonPrimitive = forwardRef<
         }
     }
 
+    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+        if (disabled) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+        onClick?.(event);
+    };
+
     return <Primitive.button
         ref={ref}
         role={role}
         type={type}
         disabled={disabled}
+        data-disabled={disabled ? '' : undefined}
+        onClick={handleClick}
         {...props}
         // We allow the user to pass any other props they want
         // Is it a good idea to pass all props? Maybe not, but it's a good starting point

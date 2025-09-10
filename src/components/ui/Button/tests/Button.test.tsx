@@ -43,6 +43,19 @@ describe('Button', () => {
         expect(onClick).toHaveBeenCalledTimes(1);
     });
 
+    test('disabled button suppresses clicks and sets data-disabled', async () => {
+        const onClick = jest.fn();
+        render(
+            <Button disabled onClick={onClick}>
+                button
+            </Button>
+        );
+        const button = screen.getByRole('button');
+        await userEvent.click(button);
+        expect(onClick).not.toHaveBeenCalled();
+        expect(button).toHaveAttribute('data-disabled', '');
+    });
+
     test('forwards ref to the underlying button element', () => {
         const ref = React.createRef<HTMLButtonElement>();
         render(<Button ref={ref}>button</Button>);
