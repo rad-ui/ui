@@ -54,27 +54,49 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const marker = '<!-- coverage-comment -->';
             const pr = JSON.parse(fs.readFileSync('pr-coverage.json', 'utf8')).total;
             const base = JSON.parse(fs.readFileSync('base-coverage.json', 'utf8')).total;
+
             function row(name, key) {
               const diff = (pr[key].pct - base[key].pct).toFixed(2);
               const sign = diff >= 0 ? '+' : '';
               return `| ${name} | ${pr[key].pct}% | ${sign}${diff}% |`;
             }
+
+            const decreased = ['statements', 'branches', 'functions', 'lines']
+              .some(key => pr[key].pct < base[key].pct);
+
+            const summary = decreased
+              ? 'Coverage decreased for at least one metric. Please add or update tests to improve coverage.'
+              : 'Coverage improved or stayed the same. Great job!';
+
             const body = [
+              marker,
               '### Coverage',
+              '',
+              'This report compares the PR with the base branch. “Δ” shows how the PR affects each metric.',
               '',
               '| Metric | PR | Δ |',
               '| ------ | --: | ---: |',
               row('Statements', 'statements'),
               row('Branches', 'branches'),
               row('Functions', 'functions'),
-              row('Lines', 'lines')
+              row('Lines', 'lines'),
+              '',
+              summary,
+              '',
+              'Run `npm run coverage` locally for detailed reports and target untested areas to raise these numbers.'
             ].join('\n');
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body
-            });
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const comments = await github.rest.issues.listComments({ owner, repo, issue_number });
+            const previous = comments.data.find(c => c.body.includes(marker));
+            if (previous) {
+              await github.rest.issues.deleteComment({ owner, repo, comment_id: previous.id });
+            }
+
+            await github.rest.issues.createComment({ owner, repo, issue_number, body });
 
