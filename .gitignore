@@ -14,5 +14,7 @@ dist/
 chromatic.log
 build-storybook.log
 
+test-results/
+
 
 LLM.md
