@@ -2,13 +2,17 @@
 
 # RAD UI
 
-Head over to [Storybook](https://main--657eda33d6033847be90aaf8.chromatic.com/) to check out latest components.
-
 ![RAD UI](./assets/images/rad-ui-poster.png)
+
+## Sponsored by
+
+![BrowserStack](./assets/sponsors/browserstack_light.png) | ![CodeRabbit](./assets/sponsors/code_rabbit_light.png)
 
 ## Introduction to Rad UI
 
 Rad UI is a React UI library designed to simplify and enhance the process of building user interfaces. With a focus on ease of use and flexibility, Rad UI empowers developers to create engaging and efficient user experiences. Whether you're starting a new project or improving an existing one, Rad UI provides a collection of components and utilities to streamline development.
+
+Head over to [Storybook](https://main--657eda33d6033847be90aaf8.chromatic.com/) to check out latest components.
 
 ## Documentation
 
