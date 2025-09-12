@@ -4,11 +4,15 @@
   "description": "",
   "main": "dist",
   "type": "module",
-  "exports": {},
+  "exports": {
+    "./themes/default.css": "./dist/themes/default.css",
+    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js"
+  },
   "scripts": {
     "test": "jest",
     "test:e2e": "playwright test",
     "coverage": "jest --coverage",
+    "test:shard": "jest --shard=$JEST_SHARD",
     "test:watch": "jest --watch",
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
