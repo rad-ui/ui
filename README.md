@@ -4,9 +4,16 @@
 
 ![RAD UI](./assets/images/rad-ui-poster.png)
 
+
 ## Sponsored by
 
-![BrowserStack](./assets/sponsors/browserstack_light.png) | ![CodeRabbit](./assets/sponsors/code_rabbit_light.png)
+<p align="center">
+  <img src="./assets/sponsors/browserstack_light.png" alt="BrowserStack"  width="200" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="./assets/sponsors/code_rabbit_light.png" alt="CodeRabbit"  width="200" />
+</p>
+
+
 
 ## Introduction to Rad UI
 
