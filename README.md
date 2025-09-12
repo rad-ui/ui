@@ -6,7 +6,7 @@
 
 ## Sponsored by
 
-![BrowserStack](./assets/sponsors/browserstack_light.png) | ![CodeRabbit](./assets/sponsors/code_rabbit_light.png)
+![BrowserStack](./docs/public/sponsorship/browserstack_light.png) | ![CodeRabbit](./docs/public/sponsorship/code_rabbit_light.png)
 
 ## Introduction to Rad UI
 
