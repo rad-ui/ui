@@ -11,7 +11,7 @@ const MenuItem = ({children, label="", active=false}) => {
     return <div className={`flex items-center space-x-2 cursor-pointer`}>
                 <div className='flex items-center space-x-2'>
                     <div className='flex-none' style={{width:DIMENSIONS, height:DIMENSIONS}}>{children}</div>
-                    <Text className={`${active?'!font-medium text-gray-1000':'font-light text-gray-900 hover:text-gray-1000 !hover:font-medium'}`}>{label}</Text>
+                    <Text className={`${active?'!font-medium text-gray-1000':'font-light text-gray-1000 hover:text-gray-1000 !hover:font-medium'}`}>{label}</Text>
                 </div>
         </div>
 }
@@ -28,7 +28,7 @@ const MusicSidebar = () => {
                 </div>
 
                 <div>
-                    <Text className='mb-2 mt-6 uppercase text-gray-800 font-light !text-sm'>Your Playlists</Text>
+                    <Text className='mb-2 mt-6 uppercase text-gray-950 font-light !text-sm'>Your Playlists</Text>
                     <div className='space-y-2'>
                          <MenuItem label="My Repeats"> <RowsIcon/></MenuItem>
                          <MenuItem label="Top 50 Classic"> <RowsIcon/></MenuItem>

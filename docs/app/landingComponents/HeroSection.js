@@ -122,7 +122,7 @@ const IntegrationCard = ({ title, description, icon, cta="", ctaLink }) => {
       {icon}
       <Heading as="h3" className="text-gray-1000">{title}</Heading>
       <Text className="text-gray-950">{description}</Text>
-      <button onClick={onClickHandler} className="flex items-center space-x-2 text-gray-900 hover:space-x-4 hover:text-gray-1000">
+      <button onClick={onClickHandler} className="flex items-center space-x-2 text-gray-1000 hover:space-x-4 hover:text-gray-1000">
         <span>{cta}</span> <ForwardArrowIcon/>
       </button>
     </div>
@@ -139,7 +139,7 @@ const HeroSection = () => {
       <Heading className="text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-1000 to-gray-600">
         Accelerate Your <span className="text-green-900">UI Development</span> with <span className="text-green-900">Prebuilt Components</span>
       </Heading>
-      <Text className="text-center text-gray-900 mb-10">
+      <Text className="text-center text-gray-1000 mb-10">
         Empowering developers with the tools to design and build modern UI effortlessly.
         Dive in and bring your ideas to life.
       </Text>
@@ -189,13 +189,13 @@ color="blue" variant="ghost" onClick={() => {
     {/* Features Section */}
     <div className="py-10 mb-10 mt-20 relative lg:flex text-gray-950 px-4">
       <div className="relative z-10 lg:block w-full px-4 space-y-4 lg:w-[380px] mb-4 lg:mb-0" >
-        <Text className="text-gray-900">
+        <Text className="text-gray-1000">
           About Rad UI
         </Text>
         <Heading as="h2" className="text-gray-1000">
           Core Features
         </Heading>
-        <Text className="text-gray-900">
+        <Text className="text-gray-1000">
           Our features allow you to create modern, efficient UIs with ease. Focus on your projects while we provide the tools to streamline your development process.
         </Text>
       </div>

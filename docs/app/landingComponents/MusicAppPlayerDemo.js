@@ -45,7 +45,7 @@ const MusicAppPlayerDemo = () => {
             <div style={{ maxWidth: '400px' }}>
                 <div className='border border-gray-400 p-4 bg-gray-100 bg-gradient-to-b from-green-200 to-red-100 rounded-md shadow'>
                     <div className='flex justify-between items-center'>
-                        <div className='text-gray-900'>
+                        <div className='text-gray-1000'>
                             <LeftArrow />
                         </div>
                         <div>
@@ -61,7 +61,7 @@ const MusicAppPlayerDemo = () => {
                         <img className='rounded-xl' src="https://assets.audiomack.com/anqel_bb/92e74f4e8a77630b791eb79758196c0753224bc13f8046517c6b5e608e140290.jpeg?width=1000&height=1000&max=true" alt="" />
                         <div className='flex flex-col items-center my-4 space-x-2'>
                             <Text className="font-bold text-gray-1000" >Won't Bite</Text>
-                            <Text className="text-gray-800">Doja Cat</Text>
+                            <Text className="text-gray-950">Doja Cat</Text>
                         </div>
                         <div className='flex items-center w-full justify-between text-xs text-gray-950'>
                             <span>02:22</span>

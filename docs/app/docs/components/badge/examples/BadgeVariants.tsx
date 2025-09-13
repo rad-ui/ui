@@ -39,7 +39,7 @@ const BadgeVariants = () => {
             </Badge>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
             <TooltipWrapper label={badgestyleDescription[variant]} placement="bottom">
-              <Text className="text-gray-800 font-light inline-block cursor-help">
+              <Text className="text-gray-950 font-light inline-block cursor-help">
                 {variant}
               </Text>
             </TooltipWrapper>

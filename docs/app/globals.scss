@@ -5,6 +5,37 @@
 
 body {
   font-family: Inter, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-variation-settings: normal;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--rad-ui-color-gray-100);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rad-ui-color-gray-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rad-ui-color-gray-400);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--rad-ui-color-green-500);
+  outline-offset: 2px;
 }
 
 
@@ -70,20 +101,6 @@ code .selector {
 }
 
 
-.background-animate {
-  background-size: 400%;
-  animation: AnimationName 10s ease infinite;
-}
-
-@keyframes AnimationName {
-  0%,100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
 
 

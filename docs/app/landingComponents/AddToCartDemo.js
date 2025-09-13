@@ -27,9 +27,9 @@ const AddToCartDemo = () => {
 
         <div className='flex-1'>
             <div className='flex space-x-2 items-center mb-2'>
-                <Text className="text-gray-900">Join the Ultimate Fan Experience</Text>
+                <Text className="text-gray-1000">Join the Ultimate Fan Experience</Text>
             </div>
-            <Heading as="h6" className="mb-4 text-gray-900">Limited Edition Band Tee - A Must-Have for Music Lovers!</Heading>
+            <Heading as="h6" className="mb-4 text-gray-1000">Limited Edition Band Tee - A Must-Have for Music Lovers!</Heading>
             <div className='flex items-center space-x-2'>
                 <Button color="gold" variant="soft">Add to Cart</Button>
                 <IconContainer>

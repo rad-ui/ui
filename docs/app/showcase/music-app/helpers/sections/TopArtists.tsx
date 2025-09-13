@@ -63,7 +63,7 @@ const Artist: any = ({ artist }: any) => {
             <img style={{ width: DIMENSIONS, height: DIMENSIONS }} className='rounded-md shadow-sm border-2 border-gray-200' src={artist.image} alt='Album Cover' />
             <div>
                 <Text className="!text-sm font-bold">{artist.name}</Text>
-                <Text className="text-gray-900 !text-xs">{artist.album}</Text>
+                <Text className="text-gray-1000 !text-xs">{artist.album}</Text>
             </div>
         </div>
     )

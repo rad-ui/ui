@@ -1,11 +1,13 @@
-// 'use client'
 import HeroSection from './landingComponents/HeroSection'
-
-
 import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
 import Link from "@radui/ui/Link"
+import Card from "@radui/ui/Card"
+import Button from "@radui/ui/Button"
+import Badge from "@radui/ui/Badge"
+import Image from 'next/image'
+import SponsorsSection from './landingComponents/SponsorsSection.js'
 import baseSeoMetadata from './baseSeo'
 
 
@@ -55,17 +57,62 @@ const IconWrapper = ({children, href}) => {
   </a>
 }
 
+const StatsSection = () => {
+  const stats = [
+    { number: "25+", label: "Components" },
+    { number: "100%", label: "Accessible" },
+    { number: "TypeScript", label: "First" },
+    { number: "0kb", label: "Bundle Size" }
+  ]
+
+  return (
+    <div className="bg-gradient-to-r from-gray-50 via-green-50 to-gray-50 rounded-2xl p-8 border border-gray-200 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {stats.map((stat, index) => (
+          <div key={index} className="text-center">
+            <div className="text-3xl font-bold text-gray-1000 mb-2">{stat.number}</div>
+            <div className="text-sm text-gray-950 font-medium">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+
 const JoinCommunity = () => {
-  return <div className="bg-gradient-to-b from-gray-50 to-green-200 rounded-lg p-6 border border-gray-700 space-y-6 mb-10">
-    <Heading as="h2" className="text-gray-1000">Join the Community</Heading>
-    <Text className="text-gray-950">Join the community to get the latest news and updates.</Text>
-    <div className="flex gap-8">
-      <IconWrapper href="https://discord.gg/nMaQfeEPNp">
-        <DiscordLogo />
-      </IconWrapper>
-      <IconWrapper href="https://github.com/rad-ui/ui">
-        <GithubLogo />
-      </IconWrapper>
+  return <div className="bg-gradient-to-br from-gray-50 to-green-100 rounded-2xl p-8 border border-gray-200 space-y-6 mb-12">
+    <div className="text-center space-y-4">
+      <Badge color="green" className="mb-4">Community</Badge>
+      <Heading as="h2" className="text-gray-1000">Join the Community</Heading>
+      <Text className="text-gray-950 max-w-2xl mx-auto">
+        Join our growing community of developers building accessible, modern web applications with Rad UI. 
+        Get help, share ideas, and contribute to the future of web development.
+      </Text>
+    </div>
+    <div className="flex justify-center gap-8">
+      <Card className="p-6 hover:shadow-lg cursor-pointer">
+        <div className="text-center space-y-4">
+          <IconWrapper href="https://discord.gg/nMaQfeEPNp">
+            <DiscordLogo />
+          </IconWrapper>
+          <div>
+            <Text className="font-semibold text-gray-1000">Discord</Text>
+            <Text className="text-sm text-gray-950">Chat & Support</Text>
+          </div>
+        </div>
+      </Card>
+      <Card className="p-6 hover:shadow-lg cursor-pointer">
+        <div className="text-center space-y-4">
+          <IconWrapper href="https://github.com/rad-ui/ui">
+            <GithubLogo />
+          </IconWrapper>
+          <div>
+            <Text className="font-semibold text-gray-1000">GitHub</Text>
+            <Text className="text-sm text-gray-950">Code & Issues</Text>
+          </div>
+        </div>
+      </Card>
     </div>
   </div>
 }
@@ -73,7 +120,7 @@ const JoinCommunity = () => {
 const DesignedBy = () => {
   return <div className="my-10 text-gray-700 text-right px-4">
    <div>
-    <Text>Website designed by <Link href="https://carmenw.design/" target="_blank" rel="noopener noreferrer">Carmen</Link> and <Link href="https://maryandesign.net/" target="_blank" rel="noopener noreferrer">Maryan</Link>.</Text>
+    <Text>Website designed by <Link href="https://carmenw.design/">Carmen</Link> and <Link href="https://maryandesign.net/">Maryan</Link>.</Text>
    </div>
   </div>
 }
@@ -84,7 +131,11 @@ export default function Home() {
       <div className='lg:p-10 relative'>
         <HeroSection />
       </div>
-      <JoinCommunity />
+      <div className='lg:px-10 px-4'>
+        <StatsSection />
+        <SponsorsSection />
+        <JoinCommunity />
+      </div>
       <DesignedBy />
     </FullHeightScroll>
   )
