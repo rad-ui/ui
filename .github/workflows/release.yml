@@ -1,40 +1,86 @@
 name: Release to npm
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+  # Fire only after the "Tests" workflow completes
+  workflow_run:
+    workflows: ["Tests"]   # must match your Tests workflow name exactly
+    types: [completed]
+
+permissions:
+  contents: read           # default for all jobs; least-privileged
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
-  release:
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
+  publish:
+    # Only proceed if:
+    # - Tests concluded successfully
+    # - Event was a push (not PR) to main
+    # - The head repository is THIS repository (not a fork)
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
 
+    # Elevate only this job to get OIDC for npm provenance
+    permissions:
+      contents: read
+      id-token: write
+
+    environment:
+      # Optional: protect with required reviewers (Settings → Environments → npm)
+      name: npm
+
     steps:
-      - name: Checkout Repository
+      # 1) Sparse, read-only checkout of ONLY the files needed for publish.
+      #    No GitHub token persisted; avoids running arbitrary repo scripts.
+      - name: Checkout (sparse, no creds)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: |
+            package.json
+            README.md
+            LICENSE
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      # 2) Download the dist/ artifact produced by the Tests workflow build.
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org/'
+          name: radui-ui-dist
+          path: dist
 
-      - name: Install Dependencies
-        run: npm ci
+      # 3) Hard-disable all npm lifecycle scripts to prevent code execution.
+      - name: Disable npm scripts
+        run: |
+          npm config set ignore-scripts true
+          echo "npm_config_ignore_scripts=true" >> $GITHUB_ENV
 
-      - name: Build Package
-        run: npm run build:rollup
+      # 4) Read the version that Changesets bumped.
+      - name: Read version
+        id: pkg
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
-      - name: Get current version
-        id: package_version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      # 5) Skip if this exact version is already on npm (idempotent reruns).
+      - name: Check if version exists on npm
+        id: exists
+        run: |
+          if npm view @radui/ui@${{ steps.pkg.outputs.version }} version >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
+      # 6) Publish the already-tested artifact with provenance.
+      #    No install, no build, no scripts, minimal trust surface.
       - name: Publish to npm
-        run: npm publish --access public
+        if: steps.exists.outputs.exists == 'false'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
+        run: npm publish --access public --provenance
