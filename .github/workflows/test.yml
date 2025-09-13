@@ -40,7 +40,7 @@ concurrency:
 
 jobs:
   test:
-    name: Jest ${{ matrix.shard }}/${{ matrix.total }}
+    name: Jest (${{ matrix.shard }})/(${{ matrix.total }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -61,7 +61,7 @@ jobs:
 
       - name: Run tests
         env:
-          JEST_SHARD: ${{ matrix.shard }}/${{ matrix.total }}
+          JEST_SHARD: (${{ matrix.shard }})/(${{ matrix.total }})
         run: npm run test:shard
   build:
     name: Build
@@ -81,3 +81,13 @@ jobs:
 
       - name: Build package
         run: npm run build:rollup
+      
+       # Upload dist only on pushes to main (skip for PRs)
+      - name: Upload dist artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: radui-ui-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 2

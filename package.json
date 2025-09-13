@@ -4,14 +4,29 @@
   "description": "",
   "main": "dist",
   "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
     "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "scripts": {
     "test": "jest",
     "test:e2e": "playwright test",
     "coverage": "jest --coverage",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "prerelease:enter": "changeset pre enter next",
+    "prerelease:exit": "changeset pre exit",
+    "prepublishOnly": "npm run build:rollup",
     "test:shard": "jest --shard=$JEST_SHARD",
     "test:watch": "jest --watch",
     "clean": "rimraf dist",
@@ -60,13 +75,14 @@
   "author": "Pranay Kothapalli",
   "license": "ISC",
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@babel/eslint-parser": "7.26.10",
     "@babel/preset-env": "7.24.0",
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "^7.24.7",
-    "@radui/ui": "^0.0.37",
-    "@axe-core/playwright": "^4.10.2",
+    "@changesets/cli": "^2.29.7",
     "@playwright/test": "^1.45.0",
+    "@radui/ui": "^0.0.37",
     "@rollup/plugin-alias": "5.1.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",

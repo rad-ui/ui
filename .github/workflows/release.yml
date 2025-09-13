@@ -1,40 +1,74 @@
 name: Release to npm
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+  # Fire only when the "Tests" workflow completes (successfully)
+  workflow_run:
+    workflows: ["Tests"]       # must match your Tests workflow 'name:'
+    types: [completed]
+
+permissions:
+  contents: write
+  id-token: write
+  packages: read
+  pull-requests: read
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
+    # Run only if Tests succeeded AND it was a push to main
+    if: >
+      ${{ github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.event == 'push' &&
+          github.event.workflow_run.head_branch == 'main' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      # 1) Check out the exact commit that the Tests workflow built
+      - name: Checkout repo at tested SHA
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
-      - name: Set up Node.js
+      # 2) Setup Node (we won't rebuild; just for npm publish & version checks)
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org/'
+          cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Install (for npm CLI & any postpublish scripts)
         run: npm ci
 
-      - name: Build Package
-        run: npm run build:rollup
+      # 3) Download the dist artifact produced by the Tests workflow
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: radui-ui-dist
+          path: dist
 
-      - name: Get current version
-        id: package_version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      # 4) Read package version that Changesets bumped in the bot PR
+      - name: Read version
+        id: pkg
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
+      # 5) Skip if this version already exists (idempotent)
+      - name: Check if version exists on npm
+        id: exists
+        run: |
+          if npm view @radui/ui@${{ steps.pkg.outputs.version }} version >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      # 6) Publish using the already-tested build (with provenance)
       - name: Publish to npm
-        run: npm publish --access public
+        if: steps.exists.outputs.exists == 'false'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
+        run: npm publish --access public --provenance
