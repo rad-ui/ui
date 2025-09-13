@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import MinimapContext from '../context/MinimapContext';
 import MinimapItemContext from '../context/MinimapItemContext';
 import MinimapProviderContext from '../context/MinimapProviderContext';
@@ -9,8 +9,8 @@ type MinimapLineProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimapLine = ({ children, className = '', ...props }: MinimapLineProps) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
-    const { value, isVisible } = React.useContext(MinimapItemContext) || { value: '', isVisible: false };
-    const { visibleItems } = React.useContext(MinimapProviderContext) || { visibleItems: [] };
+    const { value } = React.useContext(MinimapItemContext) || { value: '' };
+    const { visibleItems } = React.useContext(MinimapProviderContext);
 
     // Line should be visible if current item is visible AND there's a next item that's also visible
     const currentIndex = visibleItems.indexOf(value);

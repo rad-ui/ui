@@ -2,7 +2,7 @@ import React, { useId, useState, useRef, useContext, forwardRef, useImperativeHa
 import type { ElementRef, ComponentPropsWithoutRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { TreeContext } from '../contexts/TreeContext';

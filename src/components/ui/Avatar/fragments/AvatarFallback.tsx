@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 
 import AvatarPrimitiveFallback, { AvatarPrimitiveFallbackProps } from '~/core/primitives/Avatar/fragments/AvatarPrimitiveFallback';
 import { AvatarContext } from '../contexts/AvatarContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 type AvatarFallbackProps = AvatarPrimitiveFallbackProps & {
     className?: string;

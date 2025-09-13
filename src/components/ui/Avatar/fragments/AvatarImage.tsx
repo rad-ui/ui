@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import AvatarPrimitiveImage, { AvatarRootImageProps } from '~/core/primitives/Avatar/fragments/AvatarPrimitiveImage';
 import { AvatarContext } from '../contexts/AvatarContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 export type AvatarImageProps = AvatarRootImageProps & {
     src?: string;

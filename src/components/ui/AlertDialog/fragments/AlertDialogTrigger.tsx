@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';

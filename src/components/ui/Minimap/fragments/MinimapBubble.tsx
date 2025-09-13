@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import MinimapContext from '../context/MinimapContext';
 import MinimapItemContext from '../context/MinimapItemContext';
 

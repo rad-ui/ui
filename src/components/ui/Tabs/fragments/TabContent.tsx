@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { customClassSwitcher } from '~/core';
 import TabsRootContext from '../context/TabsRootContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TabContent';
 

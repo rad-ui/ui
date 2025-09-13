@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TableRow';
 const TableRow = ({ children, className = 'row', ...props }:any) => {

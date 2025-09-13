@@ -5,7 +5,7 @@ type UseInViewOptions = {
   onLeave?: () => void;
   threshold?: number | number[];
   rootMargin?: string;
-  root?: Element | null; // Optional scroll container
+  root?: Document | Element | null; // Optional scroll container
 };
 
 /**
@@ -50,16 +50,6 @@ export function useInView<T extends HTMLElement>({
         );
 
         observer.observe(ref.current);
-
-        // Initial in-view check (useful if already visible)
-        const rect = ref.current.getBoundingClientRect();
-        const inView =
-      rect.top < window.innerHeight &&
-      rect.bottom > 0 &&
-      rect.left < window.innerWidth &&
-      rect.right > 0;
-
-        if (inView) onEnter?.();
 
         return () => {
             if (ref.current) observer.unobserve(ref.current);

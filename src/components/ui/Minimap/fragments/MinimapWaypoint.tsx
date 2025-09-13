@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
-import MinimapContext from '../context/MinimapContext';
+import clsx from 'clsx';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 import { useInView } from '~/core/hooks/useInView/useInView';
 
@@ -10,12 +9,7 @@ type MinimapWaypointProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const MinimapWaypoint = ({ children, className = '', value = '', ...props }: MinimapWaypointProps) => {
-    const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
-    const { handleInView, handleOutView, registerRef } = React.useContext(MinimapProviderContext) || {
-        handleInView: () => { },
-        handleOutView: () => { },
-        registerRef: () => { }
-    };
+    const { handleInView, handleOutView, registerRef } = React.useContext(MinimapProviderContext);
 
     // Memoize callbacks to prevent useEffect re-runs
     const handleEnter = React.useCallback(() => {

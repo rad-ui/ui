@@ -1,10 +1,9 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
 import Primitive from '~/core/primitives/Primitive';
 import MinimapContext from '../context/MinimapContext';
-import MinimapProviderContext from '../context/MinimapProviderContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
@@ -13,7 +12,6 @@ const COMPONENT_NAME = 'Minimap';
 const MinimapRoot = ({ children, className, customRootClass = '', ...props }: MinimapRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const rootRef = React.useRef<HTMLDivElement>(null);
-    const { visibleItems } = React.useContext(MinimapProviderContext) || { visibleItems: [] };
 
     return <MinimapContext.Provider value={{ rootClass, rootRef }}>
         <RovingFocusGroup.Root loop={true} orientation='both'>

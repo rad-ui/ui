@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';

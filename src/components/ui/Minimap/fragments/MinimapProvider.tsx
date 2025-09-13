@@ -7,7 +7,7 @@ type MinimapProviderProps = React.HTMLAttributes<HTMLDivElement> & {
     scrollable?: boolean;
 };
 
-const MinimapProvider = ({ children, className = '', ...props }: MinimapProviderProps) => {
+const MinimapProvider = ({ children, className = '', scrollable, ...props }: MinimapProviderProps) => {
     const [visibleItems, setVisibleItems] = React.useState<string[]>([]);
     const itemRefs = React.useRef<Map<string, HTMLElement>>(new Map());
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -53,14 +53,14 @@ const MinimapProvider = ({ children, className = '', ...props }: MinimapProvider
         const element = itemRefs.current.get(value);
         if (!element) return;
 
-        // Use the provider's container if scrollable, otherwise find the nearest scrollable container
+        // Use the provider's container only if scrollable is true and containerRef exists
         let container: HTMLElement | null = null;
 
-        if (containerRef.current) {
+        if (scrollable && containerRef.current) {
             container = containerRef.current;
         } else {
             // Find the nearest scrollable container automatically
-            const findScrollContainer = (node: HTMLElement): HTMLElement | null => {
+            const findScrollContainer = (node: HTMLElement | null): HTMLElement | null => {
                 if (!node || node === document.body) return null;
 
                 const style = window.getComputedStyle(node);
@@ -73,10 +73,10 @@ const MinimapProvider = ({ children, className = '', ...props }: MinimapProvider
                     return node;
                 }
 
-                return findScrollContainer(node.parentElement!);
+                return findScrollContainer(node.parentElement);
             };
 
-            container = findScrollContainer(element.parentElement!);
+            container = findScrollContainer(element.parentElement);
         }
 
         if (container) {

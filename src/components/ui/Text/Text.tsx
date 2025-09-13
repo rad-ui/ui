@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support

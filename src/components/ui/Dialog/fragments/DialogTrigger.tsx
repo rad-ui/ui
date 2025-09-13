@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import { DialogContext } from '../context/DialogContext';
 

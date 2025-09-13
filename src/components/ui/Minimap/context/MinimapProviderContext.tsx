@@ -7,7 +7,7 @@ export interface MinimapProviderContextValue {
     scrollToItem: (value: string) => void;
     registerRef: (value: string, element: HTMLElement | null) => void;
 }
-const MinimapProviderContext = createContext<MinimapProviderContextValue | null>({
+const MinimapProviderContext = createContext<MinimapProviderContextValue>({
     visibleItems: [],
     handleInView: () => { },
     handleOutView: () => { },

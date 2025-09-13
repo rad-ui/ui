@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import MinimapItemContext from '../context/MinimapItemContext';
 import MinimapContext from '../context/MinimapContext';
 import MinimapProviderContext from '../context/MinimapProviderContext';
@@ -8,13 +8,13 @@ import MinimapProviderContext from '../context/MinimapProviderContext';
 import Primitive from '~/core/primitives/Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-type MinimapItemProps = React.HTMLAttributes<HTMLDivElement> & {
+type MinimapItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     value: string;
 };
 
 const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemProps) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
-    const { visibleItems, scrollToItem } = React.useContext(MinimapProviderContext) || { visibleItems: [], scrollToItem: () => { } };
+    const { visibleItems, scrollToItem } = React.useContext(MinimapProviderContext);
     const isVisible = visibleItems.includes(value);
 
     const contextValue = React.useMemo(() => ({

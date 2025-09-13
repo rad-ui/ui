@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
 import Primitive from '~/core/primitives/Primitive';
 import StepsContext from '../context/StepsContext';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import StepsContext from '../context/StepsContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const StepItem = ({ children, value = null, className = '', ...props }: StepItemProps) => {
     const { rootClass, currentStep, setCurrentStep } = React.useContext(StepsContext);

@@ -1,7 +1,7 @@
 'use client';
 import React, { ReactNode } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { useSplitter } from './SplitterRoot';
 
 export interface SplitterPanelProps {
