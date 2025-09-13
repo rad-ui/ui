@@ -5,7 +5,7 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 
-interface SelectPrimitiveItemProps {
+export interface SelectPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
     disabled?: boolean;
