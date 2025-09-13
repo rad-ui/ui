@@ -5,9 +5,12 @@ type SliderContextType = {
     value: number;
     setValue: (value: number) => void;
     minValue: number;
-    setMinValue: (value: number) => void;
     maxValue: number;
-    setMaxValue: (value: number) => void;
+    step: number;
+    name?: string;
+    isDragging: boolean;
+    setDragging: (dragging: boolean) => void;
+    disabled: boolean;
 };
 
 export const SliderContext = createContext<SliderContextType>({
@@ -15,7 +18,10 @@ export const SliderContext = createContext<SliderContextType>({
     value: 0,
     setValue: () => {},
     minValue: 0,
-    setMinValue: () => {},
     maxValue: 100,
-    setMaxValue: () => {}
+    step: 1,
+    name: undefined,
+    isDragging: false,
+    setDragging: () => {},
+    disabled: false
 });

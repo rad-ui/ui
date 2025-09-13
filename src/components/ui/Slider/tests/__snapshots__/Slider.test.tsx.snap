@@ -10,20 +10,22 @@ exports[`Slider Component matches snapshot 1`] = `
     >
       <div
         class="rad-ui-slider-range"
-        style="left: calc(25% - 16px); width: calc(25%);"
+        style="width: 25%;"
       >
         <div
+          aria-valuemax="100"
+          aria-valuemin="0"
+          aria-valuenow="25"
           class="rad-ui-slider-thumb"
+          data-state="inactive"
+          role="slider"
           style="left: calc(25% - 16px);"
-        >
-          <span
-            class="rad-ui-slider-thumb-value"
-          />
-          <input
-            style="display: none;"
-            value="25"
-          />
-        </div>
+          tabindex="0"
+        />
+        <input
+          type="hidden"
+          value="25"
+        />
       </div>
     </div>
   </div>
