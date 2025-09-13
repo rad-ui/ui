@@ -1,14 +1,15 @@
-import React from 'react';
-import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import MenubarContext from '../contexts/MenubarContext';
 import clsx from 'clsx';
 
+export type MenubarContentElement = ElementRef<typeof MenuPrimitive.Content>;
 export type MenubarContentProps = {
   children: React.ReactNode;
   className?: string;
-} & MenuPrimitiveProps.Content;
+} & ComponentPropsWithoutRef<typeof MenuPrimitive.Content>;
 
-const MenubarContent = ({ children, className, ...props }:MenubarContentProps) => {
+const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
         console.log('MenubarContent should be used in the MenubarRoot');
@@ -16,10 +17,12 @@ const MenubarContent = ({ children, className, ...props }:MenubarContentProps) =
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Content className={clsx(`${rootClass}-content`, className)} {...props}>
+        <MenuPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
             {children}
         </MenuPrimitive.Content>
     );
-};
+});
+
+MenubarContent.displayName = 'MenubarContent';
 
 export default MenubarContent;

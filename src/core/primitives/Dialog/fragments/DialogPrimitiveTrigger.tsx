@@ -8,9 +8,16 @@ export type DialogPrimitiveTriggerProps = {
     children: React.ReactNode;
     asChild?: boolean;
     className?: string;
+    disabled?: boolean;
 }
 
-const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTriggerProps>(({ children, asChild, className = '', ...props }, ref) => {
+const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTriggerProps>(({
+    children,
+    asChild,
+    className = '',
+    disabled = false,
+    ...props
+}, ref) => {
     const { handleOpenChange, getReferenceProps, refs } = useContext(DialogPrimitiveContext);
 
     const mergedRef = Floater.useMergeRefs([refs.setReference, ref]);
@@ -20,7 +27,8 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
             ref={mergedRef}
             asChild={asChild}
             className={className}
-            onClick={() => handleOpenChange(true)}
+            disabled={disabled}
+            onClick={disabled ? undefined : () => handleOpenChange(true)}
             {...getReferenceProps()}
             {...props}
         >

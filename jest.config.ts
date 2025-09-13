@@ -6,15 +6,25 @@ const config: Config = {
     setupFilesAfterEnv: ['./src/setupTests.ts'], // enable to use custom setup files
     moduleNameMapper: {
         '\\.(css|less|scss)$': 'identity-obj-proxy', // enable to mock CSS imports
-        '^~/(.*)$': '<rootDir>/src/$1'
+        '^~/(.*)$': '<rootDir>/src/$1',
+        '^test-utils$': '<rootDir>/test-utils/index.ts'
     },
     testMatch: ['**/*.test.(js|jsx|ts|tsx)'],
     clearMocks: true,
     maxWorkers: '50%',
-    moduleDirectories: ['node_modules', 'src'],
+    moduleDirectories: ['node_modules', 'src', 'test-utils'],
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
         '^.+\\.jsx?$': 'babel-jest'
+    },
+    coverageReporters: ['text', 'lcov', 'json-summary'],
+    coverageThreshold: {
+        global: {
+            statements: 80,
+            lines: 80,
+            branches: 60, // TODO: raise to 80%
+            functions: 60 // TODO: raise to 80%
+        }
     }
 };
 

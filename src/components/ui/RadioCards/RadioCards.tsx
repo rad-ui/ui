@@ -1,19 +1,29 @@
-import React from 'react';
+import React, {
+    forwardRef,
+    ElementRef,
+    ComponentPropsWithoutRef,
+    ForwardRefExoticComponent,
+    RefAttributes
+} from 'react';
 import RadioCardsRoot from './fragments/RadioCardsRoot';
 import RadioCardsItem from './fragments/RadioCardsItem';
 
-// Empty props type - only supporting fragment exports for now
-export type RadioCardsProps = React.HTMLAttributes<HTMLDivElement> & {
-    children?: React.ReactNode;
-};
+export type RadioCardsElement = ElementRef<'div'>;
+export type RadioCardsProps = ComponentPropsWithoutRef<'div'>;
 
-// Empty implementation - we don't support direct usage
-const RadioCards = () => {
+interface RadioCardsComponent
+    extends ForwardRefExoticComponent<RadioCardsProps & RefAttributes<RadioCardsElement>> {
+    Root: typeof RadioCardsRoot;
+    Item: typeof RadioCardsItem;
+}
+
+const RadioCards = forwardRef<RadioCardsElement, RadioCardsProps>((_props, _ref) => {
     console.warn('Direct usage of RadioCards is not supported. Please use RadioCards.Root and RadioCards.Item instead.');
     return null;
-};
+}) as RadioCardsComponent;
 
-// Export fragments via direct assignment pattern
+RadioCards.displayName = 'RadioCards';
+
 RadioCards.Root = RadioCardsRoot;
 RadioCards.Item = RadioCardsItem;
 

@@ -4,11 +4,13 @@ import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import clsx from 'clsx';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
+export type NavigationMenuItemElement = React.ElementRef<'div'>;
+
 export interface NavigationMenuItemProps extends React.ComponentPropsWithoutRef<'div'> {
     value: string;
 }
 
-const NavigationMenuItem = React.forwardRef<HTMLDivElement, NavigationMenuItemProps>(
+const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, NavigationMenuItemProps>(
     ({ value, children, className, onMouseEnter, onMouseLeave, onKeyDown, ...props }, ref) => {
         const { isOpen, setIsOpen, rootClass } = React.useContext(NavigationMenuRootContext);
 
@@ -42,4 +44,3 @@ const NavigationMenuItem = React.forwardRef<HTMLDivElement, NavigationMenuItemPr
 NavigationMenuItem.displayName = 'NavigationMenuItem';
 
 export default NavigationMenuItem;
-

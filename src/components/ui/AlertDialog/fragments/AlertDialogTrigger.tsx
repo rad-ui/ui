@@ -10,16 +10,33 @@ type DialogPrimitiveTriggerProps = React.ComponentPropsWithoutRef<typeof DialogP
 
 export type AlertDialogTriggerProps = DialogPrimitiveTriggerProps & {
     className?: string;
+    disabled?: boolean;
 };
 
-const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTriggerProps>(({ children, asChild, className = '', ...props }, ref) => {
-    const { rootClass } = useContext(AlertDialogContext);
+const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTriggerProps>(({
+    children,
+    asChild,
+    className = '',
+    disabled = false,
+    ...props
+}, ref) => {
+    const { rootClass, isOpen } = useContext(AlertDialogContext);
+
+    const dataState = isOpen ? 'open' : 'closed';
+    const dataDisabled = disabled ? '' : undefined;
 
     return (
-        <DialogPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-trigger`, className)} asChild={asChild} {...props}>
+        <DialogPrimitive.Trigger
+            ref={ref}
+            className={clsx(`${rootClass}-trigger`, className)}
+            asChild={asChild}
+            disabled={disabled}
+            data-state={dataState}
+            data-disabled={dataDisabled}
+            {...props}
+        >
             {children}
         </DialogPrimitive.Trigger>
-
     );
 });
 

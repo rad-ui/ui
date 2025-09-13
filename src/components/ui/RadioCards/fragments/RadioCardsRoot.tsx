@@ -1,5 +1,6 @@
-import React from 'react';
-import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import React, { forwardRef, ElementRef } from 'react';
+import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+import RadioGroupPrimitiveRoot, { RadioGroupPrimitiveRootProps } from '~/core/primitives/RadioGroup/fragments/RadioGroupPrimitiveRoot';
 
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
@@ -8,18 +9,19 @@ import { RadioCardsContext } from '../context/RadioCardsContext';
 
 const COMPONENT_NAME = 'RadioCards';
 
-export type RadioCardsRootElement = React.ElementRef<typeof RadioGroupPrimitive.Root>;
+export type RadioCardsRootElement = ElementRef<typeof RadioGroupPrimitiveRoot>;
 
-type RadioCardsRootProps = {
+type RadioCardsRootProps = RadioGroupPrimitiveRootProps & {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;
     variant?: string;
     size?: string;
     color?: string;
-} & RadioGroupPrimitiveProps.Root;
-
-const RadioCardsRoot = React.forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
+    name?: string;
+    defaultValue?: string;
+};
+const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
     ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 

@@ -16,10 +16,11 @@
       "forceConsistentCasingInFileNames": true,
       "baseUrl": "./",
       "paths": {
-        "~/*": ["src/*"]
+        "~/*": ["src/*"],
+        "test-utils": ["test-utils/index"]
       },
       "types": ["jest", "@testing-library/jest-dom"]
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "test-utils/**/*"],
     "exclude": ["node_modules", "dist", "build", "docs"]
   }

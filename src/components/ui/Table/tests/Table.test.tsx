@@ -86,4 +86,37 @@ describe('Table Component', () => {
             });
         });
     });
+
+    it('forwards refs to underlying DOM elements', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const headRef = React.createRef<HTMLTableSectionElement>();
+        const bodyRef = React.createRef<HTMLTableSectionElement>();
+        const rowRef = React.createRef<HTMLTableRowElement>();
+        const columnHeaderRef = React.createRef<HTMLTableCellElement>();
+        const cellRef = React.createRef<HTMLTableCellElement>();
+
+        render(
+            <Table.Root ref={rootRef}>
+                <Table.Head ref={headRef}>
+                    <Table.Row ref={rowRef}>
+                        <Table.ColumnCellHeader ref={columnHeaderRef}>
+                            Header
+                        </Table.ColumnCellHeader>
+                    </Table.Row>
+                </Table.Head>
+                <Table.Body ref={bodyRef}>
+                    <Table.Row>
+                        <Table.Cell ref={cellRef}>Cell</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+            </Table.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(headRef.current).toBeInstanceOf(HTMLTableSectionElement);
+        expect(bodyRef.current).toBeInstanceOf(HTMLTableSectionElement);
+        expect(rowRef.current).toBeInstanceOf(HTMLTableRowElement);
+        expect(columnHeaderRef.current).toBeInstanceOf(HTMLTableCellElement);
+        expect(cellRef.current).toBeInstanceOf(HTMLTableCellElement);
+    });
 });

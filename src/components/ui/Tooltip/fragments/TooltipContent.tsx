@@ -34,6 +34,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
                 <Primitive.div
                     className="rad-ui-tooltip-floating-element"
                     ref={mergedRef}
+                    data-state={isOpen ? 'open' : 'closed'}
                     style={{ ...data.floatingStyles }}
                     {...getFloatingProps(props)}
                 >

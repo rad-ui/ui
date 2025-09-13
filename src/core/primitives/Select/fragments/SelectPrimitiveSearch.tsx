@@ -2,8 +2,12 @@
 import React, { useContext } from 'react';
 import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
+import Floater from '../../Floater';
 
-function SelectPrimitiveSearch({ className }: {className?: string}) {
+const SelectPrimitiveSearch = React.forwardRef<
+    React.ElementRef<typeof Primitive.input>,
+    { className?: string } & React.ComponentPropsWithoutRef<typeof Primitive.input>
+>(({ className, ...props }, forwardedRef) => {
     const [search, setSearch] = React.useState('');
     const context = useContext(SelectPrimitiveContext);
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -19,6 +23,8 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
                 value={search}
                 // @ts-ignore
                 onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+                ref={forwardedRef}
+                {...props}
             />
         );
     }
@@ -83,7 +89,7 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
             type="search"
             className={className}
             placeholder="Search..."
-            ref={inputRef}
+            ref={Floater.useMergeRefs([inputRef, forwardedRef])}
             value={search}
             aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
             // @ts-ignore
@@ -97,8 +103,11 @@ function SelectPrimitiveSearch({ className }: {className?: string}) {
                     }
                 }
             }}
+            {...props}
         />
     );
-}
+});
+
+SelectPrimitiveSearch.displayName = 'SelectPrimitiveSearch';
 
 export default SelectPrimitiveSearch;

@@ -72,8 +72,8 @@ describe('RadioGroupPrimitive', () => {
         // required is set on the group, not the button, but we can check the group
         const group = screen.getByRole('radiogroup');
         expect(group).toHaveAttribute('aria-required', 'true');
-        // name is set on the hidden input, so we check for it
-        const hiddenInput = screen.getByDisplayValue('a');
+        // name is set on the hidden input, which is the first element with the selected value
+        const hiddenInput = screen.getAllByDisplayValue('a')[0];
         expect(hiddenInput).toHaveAttribute('name', 'my-radio-group');
     });
 

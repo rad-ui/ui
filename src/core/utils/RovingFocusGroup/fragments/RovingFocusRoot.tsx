@@ -12,7 +12,7 @@ import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
  * @property {string} [aria-label] - Accessible label for the roving focus group
  * @property {string} [aria-labelledby] - ID of an element that labels the roving focus group
  */
-type RovingFocusRootProps = {
+type RovingFocusRootProps = React.ComponentPropsWithoutRef<'div'> & {
     children: React.ReactNode;
     orientation?: 'horizontal' | 'vertical' | 'both';
     dir?: 'ltr' | 'rtl';
@@ -21,7 +21,8 @@ type RovingFocusRootProps = {
     'aria-label'?: string;
     'aria-labelledby'?: string;
     disableTabIndexing?: boolean;
-} & React.HTMLAttributes<HTMLDivElement>;
+    asChild?: boolean;
+};
 
 /**
  * Root component for the roving focus pattern
@@ -37,7 +38,7 @@ type RovingFocusRootProps = {
  *   </RovingFocusGroup>
  * </RovingFocusRoot>
  */
-const RovingFocusRoot = ({
+const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRootProps>(({
     children,
     orientation = 'horizontal',
     loop = true,
@@ -46,8 +47,9 @@ const RovingFocusRoot = ({
     disableTabIndexing = false,
     mode = 'default',
     dir = 'ltr',
+    asChild = false,
     ...props
-}: RovingFocusRootProps) => {
+}, forwardedRef) => {
     const sendValues = {
         orientation,
         loop,
@@ -61,11 +63,15 @@ const RovingFocusRoot = ({
             aria-orientation={orientation === 'both' ? undefined : orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
+            ref={forwardedRef}
+            asChild={asChild}
             {...props}
         >
             {children}
         </Primitive.div>
     </RovingFocusRootContext.Provider>;
-};
+});
+
+RovingFocusRoot.displayName = 'RovingFocusRoot';
 
 export default RovingFocusRoot;

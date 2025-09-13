@@ -11,7 +11,7 @@ export type CheckboxPrimitiveIndicatorProps = ComponentPropsWithoutRef<'span'> &
 const CheckboxPrimitiveIndicator = forwardRef<CheckboxPrimitiveIndicatorElement, CheckboxPrimitiveIndicatorProps>(({ children, className = '', ...props }, ref) => {
     const { isChecked } = React.useContext(CheckboxPrimitiveContext);
 
-    if (!isChecked) return null;
+    if (isChecked !== true) return null;
 
     return <span ref={ref} className={className} {...props}>{children}</span>;
 });

@@ -1,59 +1,74 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import composeEventHandlers from './index';
 
-const OnlyOriginalHandlerWithPreventDefault = ({
-    checkForDefaultPrevented = true
-}: {
-    checkForDefaultPrevented?: boolean;
-}) => {
-    const originalClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        // we prevent default, so we should not see our handler
-        console.log('RETURNING_ORIGINAL_HANDLER');
-    };
-    const ourClickHandler = () => {
-        // This won't be triggered because we prevent default in the original handler
-        console.log('RETURNING_OUR_HANDLER');
-
-        console.log('RETURN_OUR_HANDLER_WITH_CHECK_FOR_DEFAULT_PREVENTED');
-    };
-    const composedHandleClick = composeEventHandlers(
-        originalClickHandler,
-        ourClickHandler,
-        { checkForDefaultPrevented }
-    );
-
-    return <button onClick={composedHandleClick}>Click Me</button>;
-};
-
 describe('composeEventHandlers', () => {
-    let consoleLogSpy: jest.SpyInstance;
+    test('calls handlers in order and stops when default is prevented', () => {
+        const callOrder: string[] = [];
+        const first = jest.fn((event: React.SyntheticEvent) => {
+            callOrder.push('first');
+            event.preventDefault();
+        });
+        const second = jest.fn(() => callOrder.push('second'));
+        const third = jest.fn(() => callOrder.push('third'));
 
-    beforeEach(() => {
-        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+        const composed = composeEventHandlers(
+            first,
+            composeEventHandlers(second, third)
+        );
+
+        const { getByText } = render(<button onClick={composed}>Click</button>);
+        fireEvent.click(getByText('Click'));
+
+        expect(callOrder).toEqual(['first']);
+        expect(first).toHaveBeenCalledTimes(1);
+        expect(second).not.toHaveBeenCalled();
+        expect(third).not.toHaveBeenCalled();
     });
 
-    afterEach(() => {
-        consoleLogSpy.mockRestore();
+    test('passes the same event object to each handler', () => {
+        const first = jest.fn();
+        const second = jest.fn();
+        const composed = composeEventHandlers(first, second);
+
+        const { getByText } = render(<button onClick={composed}>Click</button>);
+        fireEvent.click(getByText('Click'));
+
+        expect(first).toHaveBeenCalledTimes(1);
+        expect(second).toHaveBeenCalledTimes(1);
+
+        const firstEvent = first.mock.calls[0][0];
+        const secondEvent = second.mock.calls[0][0];
+        expect(firstEvent).toBe(secondEvent);
+        expect(secondEvent.defaultPrevented).toBe(false);
     });
 
-    test('should compose event handlers', () => {
-        render(<OnlyOriginalHandlerWithPreventDefault />);
-        const button = screen.getByText('Click Me');
-        fireEvent.click(button);
-        expect(consoleLogSpy).toHaveBeenCalledWith('RETURNING_ORIGINAL_HANDLER');
-        expect(consoleLogSpy).not.toHaveBeenCalledWith('RETURNING_OUR_HANDLER');
+    test('respects checkForDefaultPrevented option', () => {
+        const first = jest.fn((event: React.SyntheticEvent) => event.preventDefault());
+        const second = jest.fn();
+        const composed = composeEventHandlers(first, second, {
+            checkForDefaultPrevented: false
+        });
+
+        const { getByText } = render(<button onClick={composed}>Click</button>);
+        fireEvent.click(getByText('Click'));
+
+        expect(first).toHaveBeenCalledTimes(1);
+        expect(second).toHaveBeenCalledTimes(1);
     });
 
-    test('should compose event handlers with checkForDefaultPrevented false', () => {
-        // if checkForDefaultPrevented is false, we should see our handler
-        render(<OnlyOriginalHandlerWithPreventDefault checkForDefaultPrevented={false} />);
-        const button = screen.getByText('Click Me');
-        fireEvent.click(button);
-        expect(consoleLogSpy).toHaveBeenCalledWith('RETURNING_ORIGINAL_HANDLER');
+    test('handles undefined and null handlers with native events', () => {
+        const first = jest.fn();
+        const second = jest.fn();
 
-        // even if the event is prevented, we should see our handler - the function completely ignores the event prevent default
-        expect(consoleLogSpy).toHaveBeenCalledWith('RETURN_OUR_HANDLER_WITH_CHECK_FOR_DEFAULT_PREVENTED');
+        const composed1 = composeEventHandlers(undefined, first);
+        const composed2 = composeEventHandlers(second, null as unknown as any);
+
+        const event = new Event('click');
+        composed1(event as unknown as React.SyntheticEvent);
+        composed2(event as unknown as React.SyntheticEvent);
+
+        expect(first).toHaveBeenCalledTimes(1);
+        expect(second).toHaveBeenCalledTimes(1);
     });
 });

@@ -120,4 +120,20 @@ describe('Toggle component', () => {
         const { container } = render(<Toggle disabled={false} onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).not.toHaveAttribute('data-disabled');
     });
+
+    test('forwards ref to underlying element', () => {
+        const ref = React.createRef();
+        const { getByText } = render(<Toggle ref={ref} onPressedChange={() => {}}>Ref Toggle</Toggle>);
+        expect(ref.current).toBe(getByText('Ref Toggle'));
+    });
+
+    test('renders without warnings', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(<Toggle onPressedChange={() => {}}>Test Toggle</Toggle>);
+        expect(errorSpy).not.toHaveBeenCalled();
+        expect(warnSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+        warnSpy.mockRestore();
+    });
 });

@@ -20,7 +20,10 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-function SelectPrimitiveRoot({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }: SelectPrimitiveRootProps) {
+const SelectPrimitiveRoot = React.forwardRef<
+    React.ElementRef<typeof Primitive.div>,
+    SelectPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+>(({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }, forwardedRef) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
     const [selectedLabel, setSelectedLabel] = useControllableState(
@@ -33,6 +36,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     const elementsRef = React.useRef<(HTMLElement | null)[]>([]);
     const labelsRef = React.useRef<(string | null)[]>([]);
     const valuesRef = React.useRef<(string | null)[]>([]);
+    const [disabledIndices, setDisabledIndices] = React.useState<number[]>([]);
     const isTypingRef = React.useRef(false);
     const rootRef = React.useRef<HTMLDivElement>(null);
     const virtualItemRef = React.useRef<HTMLElement | null>(null);
@@ -56,6 +60,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     });
 
     function handleTypeaheadMatch(index: number | null) {
+        if (index === null || disabledIndices.includes(index)) return;
         if (isOpen) {
             setActiveIndex(index);
         } else {
@@ -63,16 +68,21 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         }
     }
 
-    const handleSelect = React.useCallback((index: number | null) => {
-        setSelectedIndex(index);
-        setIsOpen(false);
-        if (index !== null) {
-            const label = labelsRef.current[index];
-            if (label) {
-                setSelectedLabel(label);
+    const handleSelect = React.useCallback(
+        (index: number | null) => {
+            if (index === null || disabledIndices.includes(index)) return;
+            setSelectedIndex(index);
+            setIsOpen(false);
+            (refs.reference.current as HTMLElement | null)?.focus();
+            if (index !== null) {
+                const label = labelsRef.current[index];
+                if (label) {
+                    setSelectedLabel(label);
+                }
             }
-        }
-    }, []);
+        },
+        [disabledIndices, labelsRef, setSelectedIndex, setIsOpen, setSelectedLabel, refs]
+    );
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
@@ -80,7 +90,8 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         selectedIndex,
         onNavigate: setActiveIndex,
         virtual: hasSearch, // Enable virtual navigation only when search is present
-        virtualItemRef
+        virtualItemRef,
+        disabledIndices
     });
 
     const typeahead = Floater.useTypeahead(floatingContext, {
@@ -130,6 +141,8 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
         elementsRef,
         labelsRef,
         valuesRef,
+        disabledIndices,
+        setDisabledIndices,
         setActiveIndex,
         selectedLabel,
         isTypingRef,
@@ -140,7 +153,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
     };
     return (
         <SelectPrimitiveContext.Provider value={values}>
-            <Primitive.div {...props} className={className} ref={rootRef}>
+            <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])} data-state={isOpen ? 'open' : 'closed'}>
 
                 {children}
                 {/* Add hidden native select for form control */}
@@ -152,6 +165,7 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
                             hidden
                             aria-hidden="true"
                             tabIndex={-1}
+                            onChange={() => {}}
                         >
                             <option value={selectedLabel}>{selectedLabel}</option>
                         </select>
@@ -160,6 +174,8 @@ function SelectPrimitiveRoot({ children, className, value, name, defaultValue = 
             </Primitive.div>
         </SelectPrimitiveContext.Provider>
     );
-}
+});
+
+SelectPrimitiveRoot.displayName = 'SelectPrimitiveRoot';
 
 export default SelectPrimitiveRoot;

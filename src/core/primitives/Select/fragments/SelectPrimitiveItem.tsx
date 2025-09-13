@@ -5,7 +5,7 @@ import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 
-interface SelectPrimitiveItemProps {
+export interface SelectPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
     disabled?: boolean;
@@ -13,7 +13,10 @@ interface SelectPrimitiveItemProps {
     [key: string]: any;
 }
 
-function SelectPrimitiveItem({ children, value, disabled, className, ...props }: SelectPrimitiveItemProps) {
+const SelectPrimitiveItem = React.forwardRef<
+    React.ElementRef<typeof Primitive.div>,
+    SelectPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+>(({ children, value, disabled, className, ...props }, forwardedRef) => {
     const context = useContext(SelectPrimitiveContext);
 
     if (!context) {
@@ -21,9 +24,10 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
         return null;
     }
 
-    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch } = context;
+    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch, disabledIndices, setDisabledIndices, valuesRef } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
+    const prevIndexRef = React.useRef(index);
 
     const isActive = activeIndex === index;
     const isSelected = selectedIndex === index;
@@ -32,24 +36,56 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
     const itemId = value || `select-item-${index}`;
 
     React.useEffect(() => {
+        const prevIndex = prevIndexRef.current;
+
+        valuesRef.current[index] = itemId;
+        if (prevIndex !== index) {
+            delete valuesRef.current[prevIndex];
+        }
+
+        setDisabledIndices(prev => {
+            const next = new Set(prev);
+            next.delete(prevIndex);
+            if (disabled) {
+                next.add(index);
+            } else {
+                next.delete(index);
+            }
+            return Array.from(next).sort((a, b) => a - b);
+        });
+
         if (isSelected && !hasSearch) {
             selectedItemRef.current = itemRef.current;
         }
-    }, [isSelected, hasSearch]);
+
+        prevIndexRef.current = index;
+
+        return () => {
+            setDisabledIndices(prev => {
+                const next = new Set(prev);
+                next.delete(prevIndexRef.current);
+                return Array.from(next).sort((a, b) => a - b);
+            });
+        };
+    }, [index, disabled, isSelected, hasSearch, setDisabledIndices, selectedItemRef, valuesRef]);
 
     return (
         <Primitive.div
-            ref={Floater.useMergeRefs([ref, itemRef])} // Merge refs from Floater and props.ref}
+            ref={Floater.useMergeRefs([ref, itemRef, forwardedRef])}
             id={itemId}
             role="option"
             className={className}
             data-value={value}
+            data-label={value}
             data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
             aria-selected={isSelected}
-            tabIndex={isActive ? 0 : -1}
+            aria-disabled={disabled ? true : undefined}
+            data-disabled={disabled ? '' : undefined}
             {...getItemProps({
-                onClick: () => handleSelect(index),
+                tabIndex: disabled ? -1 : isActive ? 0 : -1,
+                onClick: () => !disabled && handleSelect(index),
                 onKeyDown: (event: React.KeyboardEvent) => {
+                    if (disabled) return;
                     if (event.key === 'Enter') {
                         event.preventDefault();
                         handleSelect(index);
@@ -62,11 +98,14 @@ function SelectPrimitiveItem({ children, value, disabled, className, ...props }:
                 }
             })}
             {...props}
+            tabIndex={disabled ? -1 : isActive ? 0 : -1}
         >
             {children}
         </Primitive.div>
 
     );
-}
+});
+
+SelectPrimitiveItem.displayName = 'SelectPrimitiveItem';
 
 export default SelectPrimitiveItem;

@@ -4,11 +4,17 @@ import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TableHead';
 
-const TableHead = ({ children, className = 'header', ...props }:any) => {
-    return <thead className={clsx(className)} {...props} >
-        {children}
-    </thead>;
-};
+type TableHeadProps = React.ComponentPropsWithoutRef<'thead'>;
+
+const TableHead = React.forwardRef<React.ElementRef<'thead'>, TableHeadProps>(
+    ({ children, className = 'header', ...props }, ref) => {
+        return (
+            <thead ref={ref} className={clsx(className)} {...props}>
+                {children}
+            </thead>
+        );
+    }
+);
 
 TableHead.displayName = COMPONENT_NAME;
 

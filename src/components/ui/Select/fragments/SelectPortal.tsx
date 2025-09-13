@@ -4,17 +4,21 @@ import SelectPrimitive from '~/core/primitives/Select/Select';
 
 export type SelectPortalProps = {
   children: React.ReactNode;
+  container?: HTMLElement | null;
 };
 
-const SelectPortal = ({ children }: SelectPortalProps) => {
-    const rootElement = document.querySelector('#rad-ui-theme-container') || document.body as HTMLElement | null;
+type SelectPortalElement = React.ElementRef<typeof SelectPrimitive.Portal>;
+type SelectPortalPrimitiveProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Portal> & SelectPortalProps;
 
+const SelectPortal = React.forwardRef<SelectPortalElement, SelectPortalPrimitiveProps>(({ children, container, ...props }, forwardedRef) => {
     return (
-        <SelectPrimitive.Portal>
+        <SelectPrimitive.Portal ref={forwardedRef} container={container} {...props}>
             {children}
         </SelectPrimitive.Portal>
 
     );
-};
+});
+
+SelectPortal.displayName = 'SelectPortal';
 
 export default SelectPortal;

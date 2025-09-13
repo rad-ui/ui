@@ -69,4 +69,24 @@ describe('CollapsiblePrimitive', () => {
         expect(screen.getByTestId('trigger')).toHaveAttribute('aria-expanded', 'false');
         expect(screen.getByTestId('trigger')).toHaveAttribute('aria-controls');
     });
+
+    test('forwards refs correctly', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const triggerRef = React.createRef<HTMLButtonElement>();
+        const contentRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <CollapsiblePrimitive.Root ref={rootRef} data-testid="root" defaultOpen>
+                <CollapsiblePrimitive.Trigger ref={triggerRef}>Toggle</CollapsiblePrimitive.Trigger>
+                <CollapsiblePrimitive.Content ref={contentRef}>
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+        // Content may be null initially if closed; ensure ref is a div when open
+        expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+    });
 });
