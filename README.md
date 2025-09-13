@@ -75,7 +75,7 @@ For more details, you can read on how to contribute to development of Rad UI in 
 
 ## Open source licensing info
 
-For Licensing info you can check out [LICENSE](LICENSE).
+For Licensing information you can check out [LICENSE](LICENSE).
 
 ## Dev Environment
 
