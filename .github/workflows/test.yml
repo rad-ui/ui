@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'src/**'  # Only run when files in this directory change
+      - 'src/**'
       - 'styles/**'
       - 'package.json'
       - 'package-lock.json'
@@ -14,11 +14,12 @@ on:
       - 'rollup-tokens.config.cjs'
       - 'tsconfig.json'
       - 'postcss.config.js'
-      - 'tsconfig.json'
+      - '.changeset/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ main, security-fixes ]
     paths:
-      - 'src/**'  # Only run when files in this directory change
+      - 'src/**'
       - 'styles/**'
       - 'package.json'
       - 'package-lock.json'
@@ -28,7 +29,8 @@ on:
       - 'rollup-tokens.config.cjs'
       - 'tsconfig.json'
       - 'postcss.config.js'
-      - 'tsconfig.json'
+      - '.changeset/**'
+      - '.github/workflows/**'
 
 permissions:
   contents: read
@@ -63,6 +65,7 @@ jobs:
         env:
           JEST_SHARD: ${{ matrix.shard }}/${{ matrix.total }}
         run: npm run test:shard
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -81,8 +84,8 @@ jobs:
 
       - name: Build package
         run: npm run build:rollup
-      
-       # Upload dist only on pushes to main (skip for PRs)
+
+      # Upload dist only on pushes to main (skip for PRs)
       - name: Upload dist artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
