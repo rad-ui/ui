@@ -22,7 +22,7 @@ const data = {
                 info_tooltips: "The content to be displayed inside the button."
             },
             type: "ReactNode",
-            default: "--",
+            default: "''",
         },
         {
             prop: {

@@ -33,9 +33,9 @@ export const avatarBasicUsageExample = {
      {name: 'Description', id: 'description'},
     ],
     data: [
-     {prop: 'src', type: 'string', default: 'null', description: 'URL of the image to be displayed as the avatar.', id: 'src'},
-     {prop: 'fallback', type: 'string', default: 'null', description: 'Text initials or placeholder displayed when the image fails to load or if no src is provided.', id: 'fallback'},
-     {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the text initials or placeholder displayed when the image fails to load or if no src is provided.', id: 'color'},
+     {prop: 'src', type: 'string', default: "''", description: 'URL of the image to be displayed as the avatar.', id: 'src'},
+     {prop: 'fallback', type: 'string', default: "''", description: 'Text initials or placeholder displayed when the image fails to load or if no src is provided.', id: 'fallback'},
+     {prop: 'color', type: 'string', default: "''", description: 'Accent Color of the text initials or placeholder displayed when the image fails to load or if no src is provided.', id: 'color'},
     ]
  }
 

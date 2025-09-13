@@ -22,7 +22,7 @@ const data = {
             info_tooltips : "The children of the AvatarFallback."
         },
         type : "React.ReactNode",
-        default : "--",
+        default : "''",
        },
        {
         prop : {
@@ -30,7 +30,7 @@ const data = {
             info_tooltips : "The class name for the AvatarFallback."
         },
         type : "string",
-        default : "--",
+        default : "''",
        }
     ]
 }
