@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.1.2
+
+### Patch Changes
+
+- e394a8d: testing changeset workflow automation - part 2
+
 ## 0.1.1
 
 ### Patch Changes
