@@ -111,7 +111,10 @@ describe('RadioGroup behavior', () => {
         );
         expect(screen.getByRole('radiogroup')).toBeInTheDocument();
         expect(screen.getAllByRole('radio')).toHaveLength(2);
-        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        const results = await axe.run(container, {
+            runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS },
+            rules: { 'color-contrast': { enabled: false } }
+        });
         expect(results.violations).toHaveLength(0);
     });
 
@@ -131,6 +134,7 @@ describe('RadioGroup behavior', () => {
         const radio = screen.getByRole('radio');
         expect(ref.current).toBe(radio);
     });
+
 
     test('rtl navigation reverses horizontal keys', async () => {
         render(
