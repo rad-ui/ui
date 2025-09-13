@@ -1,0 +1,47 @@
+name: Release (Changesets)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write        # push version commits, create tags/releases
+  pull-requests: write   # open/update "Version Packages" PR
+  id-token: write        # OIDC for npm provenance
+
+concurrency:
+  group: changesets-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      # This action does two things:
+      # - If there are pending changesets on main: opens/updates the "Version Packages" PR.
+      # - If a version commit is on main (i.e., you just merged that PR): runs the publish script.
+      - name: Changesets
+        uses: changesets/action@v1
+        with:
+          version: npx changeset version
+          publish: npm run release:ci
+          commit: "chore: version packages"
+          title: "Version Packages"
+          createGitHubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}

@@ -4,10 +4,6 @@
   "description": "",
   "main": "dist",
   "type": "module",
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
     "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js"
@@ -51,6 +47,7 @@
     "build-components:esbuild": "npm run compile-components:esbuild && npm run process-components",
     "build:esbuild": "npm run prebuild && npm run build:css && npm run build-components:esbuild",
     "release": "npm publish --access public",
+    "release:ci": "npm publish --access public --provenance",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --fix && stylelint \"**/*.{css,scss,sass}\" --fix",
     "lint:staged": "lint-staged",
     "update-rad": "npm update @radui/ui",
@@ -82,7 +79,6 @@
     "@babel/preset-typescript": "^7.24.7",
     "@changesets/cli": "^2.29.7",
     "@playwright/test": "^1.45.0",
-    "@radui/ui": "^0.0.37",
     "@rollup/plugin-alias": "5.1.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",
