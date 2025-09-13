@@ -32,4 +32,14 @@ console.error = (...args: unknown[]) => {
     originalError(...(args as Parameters<typeof originalError>));
 };
 
+// Silence specific console warnings that are noisy in tests
+const originalWarn = console.warn;
+console.warn = (...args: unknown[]) => {
+    const firstArg = String(args[0]);
+    if (firstArg.includes('asChild prop requires exactly one valid child element')) {
+        return;
+    }
+    originalWarn(...(args as Parameters<typeof originalWarn>));
+};
+
 export const ACCESSIBILITY_TEST_TAGS = ['wcag21a', 'wcag21aa'];
