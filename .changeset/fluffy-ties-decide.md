@@ -6,12 +6,12 @@ This release adds tests around the codebase, improves API support across multipl
 
 
 ### ✨ Features
-- Added **roving focus support for CheckboxGroups**.
+- Added **roving focus support for CheckboxGroup**.
 - Improved **RadioGroup behavior and accessibility**.
 - Enhanced **Select component behavior**.
 - Introduced **Steps + Minimap basic implementation**.
 - Refactored multiple components to support **`forwardRef`**:
-  - RadioGroup, ToggleGroup, Splitter, Table, Tabs, ContextMenu, Collapsible, DataList, Code, BlockQuote, Badge, Card, Avatar, VisuallyHidden.
+  - Avatar, Badge, BlockQuote, Card, Code, Collapsible, ContextMenu, DataList, RadioGroup, Splitter, Table, Tabs, ToggleGroup, VisuallyHidden.
 
 ### 🧪 Tests & Accessibility
 - Expanded **a11y test coverage**: axe-core, Accordion, Slider, RadioGroup, AlertDialog, Dialog, Primitive `asChild`, and SSR hydration scenarios.
@@ -32,5 +32,33 @@ This release adds tests around the codebase, improves API support across multipl
 - Improved **WCAG tree navigation support**.
 - Minor styling fixes and dark mode improvements.
 - Updated Toggle API: `onChange` → `onPressedChange`.
+
+## BREAKING CHANGES
+
+### Toggle Component API Rename
+
+The Toggle component's `onChange` prop has been renamed to `onPressedChange` to better reflect its semantic meaning and align with accessibility standards.
+
+**Migration Required:**
+
+```tsx
+// Before
+<Toggle onChange={(pressed) => { /* handle toggle */ }} />
+
+// After  
+<Toggle onPressedChange={(pressed) => { /* handle toggle */ }} />
+```
+
+**TypeScript Updates:**
+
+- Update any TypeScript interfaces or type definitions that reference `onChange` to use `onPressedChange`
+- The prop signature remains the same: `(pressed: boolean) => void`
+- Update any custom Toggle wrapper components or higher-order components that pass through the `onChange` prop
+
+**Impact:**
+
+- This change affects all consumers using the Toggle component
+- Update your codebase to use the new `onPressedChange` prop name
+- No functional changes to the component behavior - only the prop name has changed
 
 
