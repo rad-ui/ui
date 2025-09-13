@@ -7,6 +7,10 @@ import ScrollArea from "@radui/ui/ScrollArea"
 import Category from './Category'
 import Badge from "@radui/ui/Badge"
 import Text from "@radui/ui/Text"
+import SearchBar from '../SearchBar'
+import QuickActions from '../QuickActions'
+import AccessibilityFeatures from '../AccessibilityFeatures'
+import KeyboardShortcuts from '../KeyboardShortcuts'
 
 const ModernNavigation = ({ customSections }: { customSections?: any }) => {
     const defaultSections = [
@@ -41,6 +45,26 @@ const ModernNavigation = ({ customSections }: { customSections?: any }) => {
             <ScrollArea.Viewport style={{ height: "100%" }}>
                 <div className="min-w-[240px]">
                     <div className='flex-none pb-20 w-full lg:w-[240px] lg:bg-transparent'>
+                        {/* Search Bar */}
+                        <div className="mb-6">
+                            <SearchBar />
+                        </div>
+                        
+                        {/* Quick Actions */}
+                        <div className="mb-6">
+                            <QuickActions />
+                        </div>
+                        
+                        {/* Accessibility Features */}
+                        <div className="mb-6">
+                            <AccessibilityFeatures />
+                        </div>
+                        
+                        {/* Keyboard Shortcuts */}
+                        <div className="mb-6">
+                            <KeyboardShortcuts />
+                        </div>
+                        
                         {/* Quick Links */}
                         <div className="mb-8 p-4 bg-gradient-to-r from-gray-50 to-green-50 rounded-lg border border-gray-200">
                             <Text className="font-semibold text-gray-1000 mb-3">Quick Links</Text>

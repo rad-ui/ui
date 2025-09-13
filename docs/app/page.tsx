@@ -52,7 +52,7 @@ const GithubLogo = () => {
 };
 
 const IconWrapper = ({children, href}) => {
-  return <a href={href} className="text-gray-1000" target="_blank" rel="noopener noreferrer">
+  return <a href={href} className="text-gray-1000 text-center mx-auto" target="_blank" rel="noopener noreferrer">
     {children}
   </a>
 }

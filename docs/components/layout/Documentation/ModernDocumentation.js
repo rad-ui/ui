@@ -8,6 +8,8 @@ import DocsTable from './helpers/DocsTable';
 import CodeBlock from '@/components/layout/Documentation/helpers/CodeBlock';
 import ComponentHero from '@/components/layout/Documentation/helpers/ComponentHero/ComponentHero';
 import ComponentFeatures from '@/components/layout/Documentation/helpers/ComponentFeatures/ComponentFeatures';
+import Breadcrumbs from '@/components/navigation/Breadcrumbs';
+import TableOfContents from '@/components/TableOfContents';
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
 
 const LeftArrow = () => {
@@ -20,29 +22,42 @@ const RightArrow = () => {
 
 const ModernDocumentation = ({ title = '', description = '', currentPage = undefined, children }) => {
     return (
-        <div className="max-w-4xl mx-auto">
-            {/* Header */}
-            <div className="mb-8">
-                <div className='flex items-center space-x-4 mb-4'>
-                    <BookMarkLink id={title}> 
-                        <Heading className="text-4xl font-bold bg-gradient-to-r from-gray-1000 to-gray-600 bg-clip-text text-transparent">
-                            {title}
-                        </Heading> 
-                    </BookMarkLink>
-                </div>
-                {description && (
-                    <Text className="text-gray-950 text-lg leading-relaxed max-w-3xl">
-                        {description}
-                    </Text>
-                )}
-            </div>
+        <div className="max-w-7xl mx-auto">
+            <div className="flex gap-8">
+                {/* Main Content */}
+                <div className="flex-1 max-w-4xl">
+                    {/* Breadcrumbs */}
+                    <Breadcrumbs />
+                    
+                    {/* Header */}
+                    <div className="mb-8">
+                        <div className='flex items-center space-x-4 mb-4'>
+                            <BookMarkLink id={title}> 
+                                <Heading className="text-4xl font-bold bg-gradient-to-r from-gray-1000 to-gray-600 bg-clip-text text-transparent">
+                                    {title}
+                                </Heading> 
+                            </BookMarkLink>
+                        </div>
+                        {description && (
+                            <Text className="text-gray-950 text-lg leading-relaxed max-w-3xl">
+                                {description}
+                            </Text>
+                        )}
+                    </div>
 
-            {/* Content */}
-            <div className='space-y-8'>
-                {children}
+                    {/* Content */}
+                    <div className='space-y-8'>
+                        {children}
+                    </div>
+                    
+                    <Separator className="my-12" />
+                </div>
+                
+                {/* Sidebar */}
+                <div className="hidden xl:block w-80 flex-shrink-0">
+                    <TableOfContents />
+                </div>
             </div>
-            
-            <Separator className="my-12" />
         </div>
     );
 };
