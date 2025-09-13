@@ -6,7 +6,11 @@ import Avatar from '../Avatar';
 
 describe('Avatar accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<Avatar>Test</Avatar>);
+        const { container } = render(
+            <Avatar.Root>
+                <Avatar.Fallback>AB</Avatar.Fallback>
+            </Avatar.Root>
+        );
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

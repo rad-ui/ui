@@ -6,7 +6,7 @@ import Radio from '../Radio';
 
 describe('Radio accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<Radio>Test</Radio>);
+        const { container } = render(<Radio id="r1" name="r" value="1" />);
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

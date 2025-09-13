@@ -6,7 +6,9 @@ import Disclosure from '../Disclosure';
 
 describe('Disclosure accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<Disclosure>Test</Disclosure>);
+        const { container } = render(
+            <Disclosure items={[{ title: 'Title', content: 'Content' }]} />
+        );
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

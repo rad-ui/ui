@@ -6,7 +6,16 @@ import CheckboxCards from '../CheckboxCards';
 
 describe('CheckboxCards accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<CheckboxCards>Test</CheckboxCards>);
+        const { container } = render(
+            <CheckboxCards.Root name="fruits">
+                <CheckboxCards.Item value="apple">
+                    <CheckboxCards.Content>
+                        <CheckboxCards.Indicator />
+                    </CheckboxCards.Content>
+          Apple
+                </CheckboxCards.Item>
+            </CheckboxCards.Root>
+        );
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

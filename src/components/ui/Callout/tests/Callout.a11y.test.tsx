@@ -6,7 +6,12 @@ import Callout from '../Callout';
 
 describe('Callout accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<Callout>Test</Callout>);
+        const { container } = render(
+            <Callout.Root>
+                <Callout.Icon>i</Callout.Icon>
+                <Callout.Text>Test</Callout.Text>
+            </Callout.Root>
+        );
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

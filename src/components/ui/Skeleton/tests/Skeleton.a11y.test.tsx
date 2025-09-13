@@ -6,7 +6,9 @@ import Skeleton from '../Skeleton';
 
 describe('Skeleton accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<Skeleton>Test</Skeleton>);
+        const { container } = render(
+            <Skeleton loading={false} height="10px" width="10px" />
+        );
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });
