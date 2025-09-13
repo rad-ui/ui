@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.1.1
+
+### Patch Changes
+
+- 759dcc6: Test patch to check workflows
+
 ## 0.1.0
 
 ### Minor Changes
