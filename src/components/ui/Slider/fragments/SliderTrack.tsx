@@ -11,7 +11,16 @@ export type SliderTrackProps = { children: React.ReactNode } & ComponentPropsWit
 const SliderTrack = forwardRef<SliderTrackElement, SliderTrackProps>(({ children, ...props }, ref) => {
     const { rootClass } = React.useContext(SliderContext);
 
-    return <div ref={ref} className={`${rootClass}-track`} {...props}>{children}</div>;
+    return (
+        <div
+            ref={ref}
+            className={`${rootClass}-track`}
+            style={{ position: 'relative' }}
+            {...props}
+        >
+            {children}
+        </div>
+    );
 });
 
 SliderTrack.displayName = COMPONENT_NAME;

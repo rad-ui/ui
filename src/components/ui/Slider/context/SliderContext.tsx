@@ -11,6 +11,10 @@ type SliderContextType = {
     isDragging: boolean;
     setDragging: (dragging: boolean) => void;
     disabled: boolean;
+    orientation: 'horizontal' | 'vertical';
+    pageStepMultiplier: number;
+    showStepMarks: boolean;
+    formatValue?: (value: number) => string;
 };
 
 export const SliderContext = createContext<SliderContextType>({
@@ -23,5 +27,9 @@ export const SliderContext = createContext<SliderContextType>({
     name: undefined,
     isDragging: false,
     setDragging: () => {},
-    disabled: false
+    disabled: false,
+    orientation: 'horizontal',
+    pageStepMultiplier: 10,
+    showStepMarks: false,
+    formatValue: undefined
 });

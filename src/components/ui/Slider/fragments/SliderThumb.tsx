@@ -7,11 +7,16 @@ import Primitive from '~/core/primitives/Primitive';
 const COMPONENT_NAME = 'SliderThumb';
 
 export type SliderThumbElement = ElementRef<typeof Primitive.div>;
-export type SliderThumbProps = { children?: React.ReactNode; asChild?: boolean } & ComponentPropsWithoutRef<'div'>;
+export type SliderThumbProps = {
+    children?: React.ReactNode;
+    asChild?: boolean;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+} & ComponentPropsWithoutRef<'div'>;
 
-const SliderThumb = forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled } = React.useContext(SliderContext);
-    const percent = ((value - minValue) / (maxValue - minValue)) * 100;
+const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
+    const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue } = React.useContext(SliderContext);
+    const percent = maxValue === minValue ? 0 : ((value - minValue) / (maxValue - minValue)) * 100;
     const [focused, setFocused] = React.useState(false);
 
     const clamp = (val: number) => Math.min(maxValue, Math.max(minValue, val));
@@ -39,6 +44,12 @@ const SliderThumb = forwardRef<SliderThumbElement, SliderThumbProps>(({ children
         case 'End':
             newValue = maxValue;
             break;
+        case 'PageUp':
+            newValue = value + step * pageStepMultiplier;
+            break;
+        case 'PageDown':
+            newValue = value - step * pageStepMultiplier;
+            break;
         default:
             return;
         }
@@ -46,8 +57,9 @@ const SliderThumb = forwardRef<SliderThumbElement, SliderThumbProps>(({ children
         setValue(clamp(newValue));
     };
 
-    const handlePointerDown = () => {
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
         if (disabled) return;
+        e.stopPropagation(); // Prevent bubbling to root
         setDragging(true);
     };
 
@@ -67,13 +79,21 @@ const SliderThumb = forwardRef<SliderThumbElement, SliderThumbProps>(({ children
             aria-valuemin={minValue}
             aria-valuemax={maxValue}
             aria-valuenow={value}
+            aria-valuetext={formatValue ? formatValue(value) : undefined}
+            aria-orientation={orientation}
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledby}
             data-state={state}
+            data-disabled={disabled}
             onKeyDown={handleKeyDown}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            style={{ left: `calc(${percent}% - 16px)` }}
+            style={orientation === 'vertical'
+                ? { bottom: `calc(${percent}% - 12px)` }
+                : { left: `calc(${percent}% - 12px)` }
+            }
             {...props}
         >
             {children}
@@ -86,7 +106,7 @@ const SliderThumb = forwardRef<SliderThumbElement, SliderThumbProps>(({ children
             <input type="hidden" value={value} name={name} />
         </>
     );
-});
+}));
 
 SliderThumb.displayName = COMPONENT_NAME;
 
