@@ -88,7 +88,7 @@ describe('Dialog', () => {
         error.mockRestore();
     });
 
-    test('mounts in portal, traps focus, returns focus and locks scroll', async () => {
+    test('mounts in portal, traps focus, returns focus and locks scroll', async() => {
         const user = userEvent.setup();
         const { getByText, portalRoot, cleanup } = renderWithPortal(
             <Dialog.Root>
@@ -111,4 +111,3 @@ describe('Dialog', () => {
         cleanup();
     });
 });
-

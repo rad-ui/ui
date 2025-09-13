@@ -36,4 +36,3 @@ const CollapsibleRoot = React.forwardRef<
 CollapsibleRoot.displayName = 'CollapsibleRoot';
 
 export default CollapsibleRoot;
-

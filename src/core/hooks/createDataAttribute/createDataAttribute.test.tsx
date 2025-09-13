@@ -10,7 +10,7 @@ describe('create data attribute hooks', () => {
                 disabled: false,
                 id: '123',
                 camelCaseKey: 'value',
-                missing: undefined,
+                missing: undefined
             })
         );
 
@@ -27,7 +27,7 @@ describe('create data attribute hooks', () => {
             'data-button-active': '',
             'data-button-id': '123',
             'data-button-camelCaseKey': 'value',
-            'data-rad-ui-accent-color': 'red',
+            'data-rad-ui-accent-color': 'red'
         });
     });
 

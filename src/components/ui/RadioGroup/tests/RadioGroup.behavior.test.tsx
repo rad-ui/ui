@@ -8,7 +8,7 @@ import RadioGroup from '../RadioGroup';
 const ACCESSIBILITY_TEST_TAGS = ['wcag2a', 'wcag2aa'];
 
 describe('RadioGroup behavior', () => {
-    test('arrow keys move focus/selection and Home/End jump to first/last', async () => {
+    test('arrow keys move focus/selection and Home/End jump to first/last', async() => {
         render(
             <RadioGroup.Root>
                 <RadioGroup.Item value="one" data-testid="one">one</RadioGroup.Item>
@@ -33,7 +33,7 @@ describe('RadioGroup behavior', () => {
         expect(one).toHaveAttribute('aria-checked', 'true');
     });
 
-    test('controlled value syncs with onValueChange and defaultValue works', async () => {
+    test('controlled value syncs with onValueChange and defaultValue works', async() => {
         const Controlled = () => {
             const [value, setValue] = React.useState('one');
             return (
@@ -61,7 +61,7 @@ describe('RadioGroup behavior', () => {
         expect(screen.getByTestId('u-two')).toHaveAttribute('aria-checked', 'true');
     });
 
-    test('form submission includes selected value and disabled radios skip focus', async () => {
+    test('form submission includes selected value and disabled radios skip focus', async() => {
         let submitted: FormData | undefined;
         const handleSubmit = (e: React.FormEvent) => {
             e.preventDefault();
@@ -86,7 +86,6 @@ describe('RadioGroup behavior', () => {
         expect(submitted?.get('rg')).toBe('three');
     });
 
-
     test('data-state and data-disabled attributes reflect state', () => {
         render(
             <RadioGroup.Root defaultValue="one" disabled data-testid="group">
@@ -102,7 +101,7 @@ describe('RadioGroup behavior', () => {
         expect(second).toHaveAttribute('data-disabled');
     });
 
-    test('axe: no violations and correct roles', async () => {
+    test('axe: no violations and correct roles', async() => {
         const { container } = render(
             <RadioGroup.Root defaultValue="one">
                 <RadioGroup.Item value="one">one</RadioGroup.Item>
@@ -135,8 +134,7 @@ describe('RadioGroup behavior', () => {
         expect(ref.current).toBe(radio);
     });
 
-
-    test('rtl navigation reverses horizontal keys', async () => {
+    test('rtl navigation reverses horizontal keys', async() => {
         render(
             <RadioGroup.Root dir="rtl">
                 <RadioGroup.Item value="one" data-testid="r-one">one</RadioGroup.Item>

@@ -10,7 +10,7 @@ import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 if (typeof window !== 'undefined' && !window.PointerEvent) window.PointerEvent = MouseEvent;
 
 describe('Slider interactions', () => {
-    test('keyboard controls and data-state reflect activity', async () => {
+    test('keyboard controls and data-state reflect activity', async() => {
         const user = userEvent.setup();
         render(
             <Slider.Root defaultValue={50} step={10} min={0} max={100}>
@@ -47,7 +47,7 @@ describe('Slider interactions', () => {
         );
         const thumb = screen.getByRole('slider');
         const root = screen.getByTestId('root');
-        root.getBoundingClientRect = () => ({ left: 0, width: 100, top: 0, height: 10, right: 100, bottom: 10, x:0, y:0, toJSON: () => {} });
+        root.getBoundingClientRect = () => ({ left: 0, width: 100, top: 0, height: 10, right: 100, bottom: 10, x: 0, y: 0, toJSON: () => {} });
         fireEvent.pointerDown(root, { clientX: 30 });
         expect(thumb).toHaveAttribute('aria-valuenow', '30');
         expect(thumb).toHaveAttribute('data-state', 'dragging');
@@ -57,7 +57,7 @@ describe('Slider interactions', () => {
         expect(thumb).toHaveAttribute('data-state', 'inactive');
     });
 
-    test('controlled and uncontrolled values stay in sync', async () => {
+    test('controlled and uncontrolled values stay in sync', async() => {
         const user = userEvent.setup();
         const Controlled = () => {
             const [value, setValue] = React.useState(40);
@@ -96,7 +96,7 @@ describe('Slider interactions', () => {
         expect(thumb2).toHaveAttribute('aria-valuenow', '21');
     });
 
-    test('form submission includes slider value', async () => {
+    test('form submission includes slider value', async() => {
         const user = userEvent.setup();
         const handleSubmit = jest.fn((e) => {
             e.preventDefault();
@@ -119,7 +119,7 @@ describe('Slider interactions', () => {
         expect(handleSubmit).toHaveBeenCalled();
     });
 
-    test('axe: no violations and proper aria attributes', async () => {
+    test('axe: no violations and proper aria attributes', async() => {
         const { container } = render(
             <Slider.Root defaultValue={30} min={0} max={100}>
                 <Slider.Track>
@@ -137,7 +137,7 @@ describe('Slider interactions', () => {
         expect(thumb).toHaveAttribute('aria-valuenow', '30');
     });
 
-    test('rtl direction reverses arrow controls', async () => {
+    test('rtl direction reverses arrow controls', async() => {
         const user = userEvent.setup();
         render(
             <div dir="rtl">

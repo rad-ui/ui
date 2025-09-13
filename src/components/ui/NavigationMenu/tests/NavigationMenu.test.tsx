@@ -123,7 +123,7 @@ describe('NavigationMenu component', () => {
         expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
 
-    test('forwards ref to link', async () => {
+    test('forwards ref to link', async() => {
         const ref = React.createRef<HTMLAnchorElement>();
         render(
             <NavigationMenu.Root defaultValue="item1">
@@ -159,4 +159,3 @@ describe('NavigationMenu component', () => {
         warnSpy.mockRestore();
     });
 });
-

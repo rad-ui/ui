@@ -1,6 +1,6 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useContext } from 'react';
 import DataListContext from '../contexts/DataListContex';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 type DataListValueElement = ElementRef<'dd'>;
 export type DataListValueProps = ComponentPropsWithoutRef<'dd'>;

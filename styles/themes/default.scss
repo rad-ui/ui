@@ -43,6 +43,8 @@
 @use "components/context-menu";
 @use "components/menubar";
 @use "components/splitter";
+@use "components/steps";
+@use "components/minimap";
 
 // import .css file
 @use "../cssTokens/base.tokens";

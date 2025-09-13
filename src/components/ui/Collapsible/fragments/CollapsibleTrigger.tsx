@@ -28,4 +28,3 @@ const CollapsibleTrigger = React.forwardRef<
 CollapsibleTrigger.displayName = 'CollapsibleTrigger';
 
 export default CollapsibleTrigger;
-

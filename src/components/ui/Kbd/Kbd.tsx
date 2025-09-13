@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Kbd';

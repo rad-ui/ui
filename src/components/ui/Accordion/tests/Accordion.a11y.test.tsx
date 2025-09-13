@@ -4,14 +4,14 @@ import userEvent from '@testing-library/user-event';
 import * as axe from 'axe-core';
 import { TextEncoder } from 'util';
 
+import Accordion from '../Accordion';
+import { AccordionRootProps } from '../fragments/AccordionRoot';
+import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
+
 // Polyfill TextEncoder before requiring react-dom server utilities
 (global as any).TextEncoder = TextEncoder;
 const { renderToString } = require('react-dom/server');
 const { hydrateRoot } = require('react-dom/client');
-
-import Accordion from '../Accordion';
-import { AccordionRootProps } from '../fragments/AccordionRoot';
-import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 // Basic items used in most tests
 const items = [
@@ -35,7 +35,7 @@ const TestAccordion = (props: Partial<AccordionRootProps>) => (
 );
 
 describe('Accordion accessibility', () => {
-    test('Enter/Space toggles trigger and updates data-state', async () => {
+    test('Enter/Space toggles trigger and updates data-state', async() => {
         const user = userEvent.setup();
         render(<TestAccordion />);
         const trigger = screen.getByRole('button', { name: 'Item 1' });
@@ -50,7 +50,7 @@ describe('Accordion accessibility', () => {
         expect(trigger).toHaveAttribute('data-state', 'closed');
     });
 
-    test('Arrow keys move focus between triggers', async () => {
+    test('Arrow keys move focus between triggers', async() => {
         const user = userEvent.setup();
         render(<TestAccordion />);
         const triggers = screen.getAllByRole('button');
@@ -63,7 +63,7 @@ describe('Accordion accessibility', () => {
         expect(triggers[0]).toHaveFocus();
     });
 
-    test('controlled value prop syncs with external changes', async () => {
+    test('controlled value prop syncs with external changes', async() => {
         const user = userEvent.setup();
         const Controlled = () => {
             const [value, setValue] = React.useState<(number | string)[]>([]);
@@ -86,7 +86,7 @@ describe('Accordion accessibility', () => {
         expect(screen.getByText('Content 3')).toBeInTheDocument();
     });
 
-    test('axe has no violations when closed or open', async () => {
+    test('axe has no violations when closed or open', async() => {
         const user = userEvent.setup();
         const { container } = render(<TestAccordion />);
 
@@ -105,7 +105,7 @@ describe('Accordion accessibility', () => {
         expect(results.violations.length).toBe(0);
     });
 
-    test('asChild trigger retains child semantics and forwards ref', async () => {
+    test('asChild trigger retains child semantics and forwards ref', async() => {
         const user = userEvent.setup();
         const ref = React.createRef<HTMLAnchorElement>();
 
@@ -128,7 +128,7 @@ describe('Accordion accessibility', () => {
         expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
-    test('renders and hydrates without mismatches', async () => {
+    test('renders and hydrates without mismatches', async() => {
         const markup = renderToString(<TestAccordion defaultValue={[0]} />);
         const container = document.createElement('div');
         container.innerHTML = markup;
@@ -137,7 +137,7 @@ describe('Accordion accessibility', () => {
         const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
         let root: ReturnType<typeof hydrateRoot>;
-        await act(async () => {
+        await act(async() => {
             root = hydrateRoot(container, <TestAccordion defaultValue={[0]} />);
         });
         act(() => root.unmount());
@@ -147,7 +147,7 @@ describe('Accordion accessibility', () => {
         document.body.removeChild(container);
     });
 
-    test('supports multiple open panels and disabled triggers', async () => {
+    test('supports multiple open panels and disabled triggers', async() => {
         const user = userEvent.setup();
         const disabledItems = [
             { title: 'Item 1', content: <div>Content 1</div> },
@@ -192,4 +192,3 @@ describe('Accordion accessibility', () => {
         expect(screen.getByTestId('accordion')).toHaveAttribute('dir', 'rtl');
     });
 });
-
