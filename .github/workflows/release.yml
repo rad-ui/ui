@@ -15,71 +15,66 @@ concurrency:
 
 jobs:
   publish:
-    # Only proceed if:
-    # - Tests concluded successfully
-    # - Event was a push (not PR) to main
-    # - The head repository is THIS repository (not a fork)
     if: >
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.head_branch == 'main' &&
       github.event.workflow_run.head_repository.full_name == github.repository
+
     runs-on: ubuntu-latest
 
-    # Elevate only this job to get OIDC for npm provenance
     permissions:
       contents: read
       id-token: write
 
     environment:
-      # Optional: protect with required reviewers (Settings → Environments → npm)
       name: npm
 
     steps:
-      # 1) Sparse, read-only checkout of ONLY the files needed for publish.
-      #    No GitHub token persisted; avoids running arbitrary repo scripts.
-      - name: Checkout (sparse, no creds)
+      - name: Checkout (pinned SHA, full history)
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: false
-          sparse-checkout: |
-            package.json
-            README.md
-            LICENSE
 
-      # 2) Download the dist/ artifact produced by the Tests workflow build.
-      - name: Download dist artifact
-        uses: actions/download-artifact@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          name: radui-ui-dist
-          path: dist
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
 
-      # 3) Hard-disable all npm lifecycle scripts to prevent code execution.
-      - name: Disable npm scripts
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test -- --ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Disable npm lifecycle scripts (safety)
         run: |
           npm config set ignore-scripts true
           echo "npm_config_ignore_scripts=true" >> $GITHUB_ENV
 
-      # 4) Read the version that Changesets bumped.
-      - name: Read version
+      - name: Read pkg name & version
         id: pkg
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        run: |
+          echo "name=$(node -p "require('./package.json').name")" >> $GITHUB_OUTPUT
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      # 5) Skip if this exact version is already on npm (idempotent reruns).
-      - name: Check if version exists on npm
+      - name: Skip if version already on npm
         id: exists
         run: |
-          if npm view @radui/ui@${{ steps.pkg.outputs.version }} version >/dev/null 2>&1; then
+          if npm view "${{ steps.pkg.outputs.name }}@${{ steps.pkg.outputs.version }}" version >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
-      # 6) Publish the already-tested artifact with provenance.
-      #    No install, no build, no scripts, minimal trust surface.
-      - name: Publish to npm
+      - name: Publish to npm (with provenance)
         if: steps.exists.outputs.exists == 'false'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
