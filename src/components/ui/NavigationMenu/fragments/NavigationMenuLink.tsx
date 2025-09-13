@@ -30,4 +30,3 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
 NavigationMenuLink.displayName = 'NavigationMenuLink';
 
 export default NavigationMenuLink;
-

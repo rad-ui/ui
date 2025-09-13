@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 
 export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'div'>;
@@ -17,4 +17,3 @@ const AccordionHeader = React.forwardRef<React.ElementRef<'div'>, AccordionHeade
 AccordionHeader.displayName = 'AccordionHeader';
 
 export default AccordionHeader;
-

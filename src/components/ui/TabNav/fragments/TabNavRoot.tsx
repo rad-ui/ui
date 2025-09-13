@@ -1,6 +1,6 @@
 import React, { useEffect, forwardRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import TabNavContext from '../context/TabNav.context';
 import useControllableState from '~/core/hooks/useControllableState';
@@ -17,7 +17,7 @@ export type TabNavRootProps = React.ComponentPropsWithoutRef<'div'> & {
     onValueChange?: (value: string) => void
 }
 
-const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({ 
+const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({
     className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
     onValueChange = () => {},
     value, ...props

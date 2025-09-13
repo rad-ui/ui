@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
 import { DialogContext } from '../context/DialogContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
 type DialogContentElement = React.ElementRef<typeof DialogPrimitive.Content>;

@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import AvatarPrimitiveFallback from '~/core/primitives/Avatar/fragments/AvatarPrimitiveFallback';
 import { AvatarContext } from '../contexts/AvatarContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 export type AvatarFallbackProps = React.ComponentPropsWithoutRef<typeof AvatarPrimitiveFallback>;
 
@@ -19,4 +19,3 @@ const AvatarFallback = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveF
 AvatarFallback.displayName = 'AvatarFallback';
 
 export default AvatarFallback;
-

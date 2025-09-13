@@ -4,6 +4,7 @@ import clsx from 'clsx';
 
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 import { SliderContext } from '../context/SliderContext';
+import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Slider';
 
@@ -13,13 +14,17 @@ export type SliderRootProps = {
     className?: string;
     customRootClass?: string;
     defaultValue?: number;
+    value?: number;
+    onValueChange?: (value: number) => void;
     min?: number;
     max?: number;
     step?: number;
     disabled?: boolean;
-    readOnly?: boolean;
+    name?: string;
     orientation?: 'horizontal' | 'vertical';
-    valueLabelDisplay?: 'auto' | 'on' | 'off';
+    pageStepMultiplier?: number;
+    showStepMarks?: boolean;
+    formatValue?: (value: number) => string;
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
@@ -27,84 +32,131 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     className = '',
     customRootClass = '',
     defaultValue = 0,
+    value: valueProp,
+    onValueChange,
     min = 0,
     max = 100,
     step = 1,
     disabled = false,
-    readOnly = false,
+    name,
     orientation = 'horizontal',
-    valueLabelDisplay = 'auto',
+    pageStepMultiplier = 10,
+    showStepMarks = false,
+    formatValue,
     ...props
 }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [value, setValue] = React.useState(defaultValue);
-    const [minValue, setMinValue] = React.useState(min);
-    const [maxValue, setMaxValue] = React.useState(max);
-    // const [step, setStep] = React.useState(1);
-    // const [disabled, setDisabled] = React.useState(false);
-    // const [readOnly, setReadOnly] = React.useState(false);
-    // const [orientation, setOrientation] = React.useState('horizontal');
-    // const [valueLabelDisplay, setValueLabelDisplay] = React.useState('auto');
+    const [value, setValue] = useControllableState<number>(valueProp, defaultValue, onValueChange);
+    const [isDragging, setDragging] = React.useState(false);
+    const lastUpdateTime = React.useRef(0);
+
+    const clamp = (val: number) => Math.min(max, Math.max(min, val));
+
+    const setFromPosition = (e: React.PointerEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        let relative: number;
+
+        if (orientation === 'vertical') {
+            relative = (rect.bottom - e.clientY) / rect.height;
+        } else {
+            relative = (e.clientX - rect.left) / rect.width;
+        }
+
+        const rawValue = min + relative * (max - min);
+        // Snap to step
+        const steppedValue = Math.round(rawValue / step) * step;
+        const newValue = clamp(steppedValue);
+        setValue(newValue);
+    };
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+        if (disabled) return;
+        e.stopPropagation();
+        setDragging(true);
+        setFromPosition(e);
+
+        // Add global listeners immediately for smooth dragging
+        const handleGlobalPointerMove = (e: PointerEvent) => {
+            e.preventDefault();
+            const rootElement = document.querySelector(`[data-slider-root="${rootClass}"]`) as HTMLDivElement;
+            if (!rootElement) return;
+
+            const rect = rootElement.getBoundingClientRect();
+            let relative: number;
+
+            if (orientation === 'vertical') {
+                relative = (rect.bottom - e.clientY) / rect.height;
+            } else {
+                relative = (e.clientX - rect.left) / rect.width;
+            }
+
+            const rawValue = min + relative * (max - min);
+            const steppedValue = Math.round(rawValue / step) * step;
+            const newValue = clamp(steppedValue);
+
+            // Throttle updates to 60fps for smooth dragging
+            const now = performance.now();
+            if (now - lastUpdateTime.current > 16) { // ~60fps
+                setValue(newValue);
+                lastUpdateTime.current = now;
+            }
+        };
+
+        const handleGlobalPointerUp = () => {
+            setDragging(false);
+            document.removeEventListener('pointermove', handleGlobalPointerMove);
+            document.removeEventListener('pointerup', handleGlobalPointerUp);
+        };
+
+        document.addEventListener('pointermove', handleGlobalPointerMove);
+        document.addEventListener('pointerup', handleGlobalPointerUp);
+    };
+
+    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        setFromPosition(e);
+    };
+
+    const handlePointerUp = () => {
+        setDragging(false);
+    };
 
     const contextValues = {
         rootClass,
         value,
         setValue,
-        minValue,
-        setMinValue,
-        maxValue,
-        setMaxValue
-        // step,
-        // disabled,
-        // readOnly,
-        // orientation,
-        // valueLabelDisplay
+        minValue: min,
+        maxValue: max,
+        step,
+        name,
+        isDragging,
+        setDragging,
+        disabled,
+        orientation,
+        pageStepMultiplier,
+        showStepMarks,
+        formatValue
     };
 
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.stopPropagation();
-        setSliderValue(e);
-    };
-
-    const setSliderValue = (e: React.MouseEvent<HTMLDivElement>) => {
-        // Get the bounding rectangle of the track element
-        const rect = e.currentTarget.getBoundingClientRect();
-        // Calculate the relative X position within the element
-        const relativeX = e.clientX - rect.left;
-        // Get percentage of the click (clamped between 0 and 100)
-        const percentage = Math.max(0, Math.min(100, (relativeX / rect.width) * 100));
-
-        setValue(percentage);
-    };
-
-    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-        e.stopPropagation();
-
-        // Get the bounding rectangle of the track element
-        // const rect = e.currentTarget.getBoundingClientRect();
-        setSliderValue(e);
-    };
-
-    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-        const target = e.target as HTMLElement;
-        target.setPointerCapture(e.pointerId);
-        e.stopPropagation();
-
-        // Get the bounding rectangle of the track element
-        // const rect = e.currentTarget.getBoundingClientRect();
-
-        target.focus();
-        e.preventDefault();
-
-        setSliderValue(e);
-
-        console.log('moving');
-    };
-
-    return <SliderContext.Provider value={contextValues}>
-        <div ref={ref} className={clsx(rootClass, className)} onClick={handleClick} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} {...props}>{children}</div>
-    </SliderContext.Provider>;
+    return (
+        <SliderContext.Provider value={contextValues}>
+            <div
+                ref={ref}
+                className={clsx(rootClass, className)}
+                data-slider-root={rootClass}
+                data-disabled={disabled}
+                data-orientation={orientation}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                {...props}
+            >
+                {children}
+            </div>
+        </SliderContext.Provider>
+    );
 });
 
 SliderRoot.displayName = COMPONENT_NAME;

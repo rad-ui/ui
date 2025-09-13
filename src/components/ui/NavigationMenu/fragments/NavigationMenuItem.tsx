@@ -44,4 +44,3 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
 NavigationMenuItem.displayName = 'NavigationMenuItem';
 
 export default NavigationMenuItem;
-

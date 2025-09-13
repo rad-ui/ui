@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Card';
 export type CardRootProps = React.ComponentPropsWithoutRef<'div'> & {

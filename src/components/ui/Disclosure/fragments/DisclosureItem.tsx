@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useId } from 'react';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
 export type DisclosureItemProps = React.ComponentPropsWithoutRef<'div'> & {

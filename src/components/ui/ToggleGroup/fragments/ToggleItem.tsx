@@ -28,7 +28,7 @@ export interface ToggleItemProps extends React.ComponentPropsWithoutRef<typeof T
  * @param {ToggleItemProps} props - Component props
  * @returns {JSX.Element} The ToggleItem component
  */
-const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({ 
+const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
     children,
     className = '',
     value = null,

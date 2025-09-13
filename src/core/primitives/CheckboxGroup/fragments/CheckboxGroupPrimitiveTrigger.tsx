@@ -33,17 +33,18 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
     return (
         <div>
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
-                <RovingFocusGroup.Item>
+                <RovingFocusGroup.Item
+                    ref={ref}
+                    role="checkbox"
+                    onClick={handleClick}
+                    className={className}
+                    aria-checked={isChecked}
+                    aria-required={required || groupRequired}
+                    {...props}
+                >
                     <button
-                        ref={ref}
-                        role="checkbox"
                         type="button"
-                        onClick={handleClick}
-                        className={className}
-                        aria-checked={isChecked}
                         disabled={disabled || groupDisabled}
-                        aria-required={required || groupRequired}
-                        {...props}
                     >
                         {children}
                     </button>
