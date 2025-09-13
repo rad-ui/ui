@@ -134,7 +134,7 @@ const IntegrationCard = ({ title, description, icon, cta="", ctaLink }) => {
 
 const HeroSection = () => {
 
-  return <div className="pt-20 mb-10 relative">
+  return <div className="pt-20 relative">
     <div className="relative z-10 lg:block md:w-[768px] mx-auto w-full px-4">
       <Heading className="text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-1000 to-gray-600">
         Accelerate Your <span className="text-green-900">UI Development</span> with <span className="text-green-900">Prebuilt Components</span>
@@ -212,9 +212,9 @@ color="blue" variant="ghost" onClick={() => {
     </div>
 
 
-    <div className="py-20">
+    <div className="mt-20">
       <div className="block lg:flex ">
-       <div className="flex justify-center mb-20 lg:block">
+       <div className="flex justify-center lg:block">
        <MusicAppPlayerDemo />
        </div>
         <div className="px-20 space-y-10">
