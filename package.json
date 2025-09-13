@@ -4,11 +4,15 @@
   "description": "",
   "main": "dist",
   "type": "module",
-  "exports": {},
+  "exports": {
+    "./themes/default.css": "./dist/themes/default.css",
+    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js"
+  },
   "scripts": {
     "test": "jest",
     "test:e2e": "playwright test",
     "coverage": "jest --coverage",
+    "test:shard": "jest --shard=$JEST_SHARD",
     "test:watch": "jest --watch",
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
@@ -26,7 +30,7 @@
     "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",
     "build:components": "npm run compile-components && npm run process-components",
     "build:rollup": "NODE_OPTIONS='--max-old-space-size=8192' npm run build:rollup:process",
-    "build:rollup:process": "npm run prebuild && (npm run build:css & npm run build:components & wait) && npm run build:generate-exports",
+    "build:rollup:process": "npm run clean && (npm run build:css & npm run build:components & wait) && npm run build:generate-exports",
     "compile-components:esbuild": "node build-components.cjs",
     "check:types": "tsc --noEmit",
     "build-components:esbuild": "npm run compile-components:esbuild && npm run process-components",
