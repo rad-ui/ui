@@ -1,8 +1,8 @@
-import { createContext } from 'react';
+import { createContext, RefObject } from 'react';
 
 export interface MinimapContextValue {
   rootClass: string;
-  rootRef: React.RefObject<HTMLDivElement> | null;
+  rootRef: RefObject<HTMLDivElement> | null;
 }
 
 const MinimapContext = createContext<MinimapContextValue>({

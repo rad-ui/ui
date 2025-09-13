@@ -5,7 +5,7 @@ export interface MinimapItemContextValue {
     isVisible: boolean;
 }
 
-const MinimapItemContext = createContext<MinimapItemContextValue | null>({
+const MinimapItemContext = createContext<MinimapItemContextValue>({
     value: '',
     isVisible: false
 });

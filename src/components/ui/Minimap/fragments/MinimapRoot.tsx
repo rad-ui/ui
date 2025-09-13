@@ -9,6 +9,10 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Minimap';
 
+type MinimapRootProps = React.HTMLAttributes<HTMLDivElement> & {
+    customRootClass?: string;
+};
+
 const MinimapRoot = ({ children, className, customRootClass = '', ...props }: MinimapRootProps) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const rootRef = React.useRef<HTMLDivElement>(null);

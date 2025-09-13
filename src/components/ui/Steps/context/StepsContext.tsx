@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 export type StepsOrientation = 'horizontal' | 'vertical';
 
@@ -9,6 +9,14 @@ export interface StepsContextValue {
   setCurrentStep: (step: number) => void;
 }
 
-const SplitterContext = createContext<SplitterContextValue | null>(null);
+const StepsContext = createContext<StepsContextValue | null>(null);
 
-export default SplitterContext;
+export const useStepsContext = () => {
+    const context = useContext(StepsContext);
+    if (!context) {
+        throw new Error('useStepsContext must be used within a StepsContext.Provider');
+    }
+    return context;
+};
+
+export default StepsContext;
