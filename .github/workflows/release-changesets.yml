@@ -1,47 +1,44 @@
-name: Release (Changesets)
+# .github/workflows/changesets-pr.yml
+name: Changesets PR
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: {}
 
 permissions:
-  contents: write        # push version commits, create tags/releases
-  pull-requests: write   # open/update "Version Packages" PR
-  id-token: write        # OIDC for npm provenance
+  contents: write
+  pull-requests: write
+  id-token: write
 
 concurrency:
-  group: changesets-release-${{ github.ref }}
+  group: changesets-pr-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  release:
+  open_version_pr:
+    # Skip when the commit is the version bump itself
+    if: "!contains(github.event.head_commit.message, 'chore: version packages')"
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
 
-      - name: Install
-        run: npm ci
+      - run: npm ci
+      - run: npm run build --if-present
 
-      # This action does two things:
-      # - If there are pending changesets on main: opens/updates the "Version Packages" PR.
-      # - If a version commit is on main (i.e., you just merged that PR): runs the publish script.
-      - name: Changesets
+      - name: Changesets (PR only)
         uses: changesets/action@v1
         with:
           version: npx changeset version
-          publish: npm run release:ci
-          commit: "chore: version packages"
-          title: "Version Packages"
-          createGitHubReleases: true
+          publish: ""                            # <-- disable publish path
+          commit: "release: bump package version"
+          title: "Release PR"
+          createGithubReleases: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
