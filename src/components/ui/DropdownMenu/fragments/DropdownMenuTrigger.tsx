@@ -12,7 +12,7 @@ export type DropdownMenuTriggerProps = {
 const DropdownMenuTrigger = forwardRef<DropdownMenuTriggerElement, DropdownMenuTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
     if (!context) {
-        console.log('DropdownMenuTrigger should be used in the DropdownMenuRoot');
+        console.warn('DropdownMenuTrigger should be used in the DropdownMenuRoot');
         return null;
     }
     const { rootClass } = context;

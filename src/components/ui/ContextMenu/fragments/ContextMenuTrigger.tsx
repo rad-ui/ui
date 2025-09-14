@@ -17,7 +17,7 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
         const mergedRef = useMergeRefs([contextTriggerRef, ref]);
 
         if (!context) {
-            console.log('ContextMenuTrigger should be used in the ContextMenuRoot');
+            console.warn('ContextMenuTrigger should be used in the ContextMenuRoot');
             return null;
         }
         const { rootClass, setCoords, setIsOpen } = context;
