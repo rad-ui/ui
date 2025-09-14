@@ -110,5 +110,4 @@ describe('Dialog', () => {
         await waitFor(() => assertScrollUnlock());
         cleanup();
     });
-
 });

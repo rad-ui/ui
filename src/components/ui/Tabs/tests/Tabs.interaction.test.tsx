@@ -13,7 +13,6 @@ const { renderToString } = require('react-dom/server');
 // @ts-ignore - hydrateRoot typings may be unavailable in this environment
 const { hydrateRoot } = require('react-dom/client');
 
-
 // Helper to wait for axe asynchronously
 const runAxe = (container: HTMLElement) =>
     axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
