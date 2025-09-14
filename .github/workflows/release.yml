@@ -79,3 +79,94 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
         run: npm publish --access public --provenance
+      
+            - name: Announce on Discord (with changelog + README summary)
+        if: steps.exists.outputs.exists == 'false'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PKG_NAME: ${{ steps.pkg.outputs.name }}
+          PKG_VERSION: ${{ steps.pkg.outputs.version }}
+          REPO: ${{ github.repository }}
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const https = require('https');
+
+          const webhook = process.env.DISCORD_WEBHOOK_URL;
+          const name = process.env.PKG_NAME;
+          const version = process.env.PKG_VERSION;
+          const repo = process.env.REPO;
+
+          const npmUrl = `https://www.npmjs.com/package/${encodeURIComponent(name)}/v/${version}`;
+          const ghUrl = `https://github.com/${repo}`;
+
+          const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch { return ''; } };
+          const squash = (s='') => s
+            .replace(/<!--[\s\S]*?-->/g, '')
+            .replace(/\r/g, '')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
+          const trunc = (s, n) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
+
+          // README summary (first paragraph after title/badges)
+          let readmeSummary = '';
+          const readme = read('README.md');
+          if (readme) {
+            const lines = readme.split('\n');
+            let i = 0;
+            while (i < lines.length && (/^\s*#\s/.test(lines[i]) || /!\[.*\]\(.*\)|<img/i.test(lines[i]) || /^\s*$/.test(lines[i]))) i++;
+            const para = [];
+            for (; i < lines.length && !/^\s*$/.test(lines[i]); i++) para.push(lines[i]);
+            readmeSummary = trunc(squash(para.join('\n')), 900); // field limit safe
+          }
+
+          // Changelog section for this version
+          let changelog = '';
+          const raw = read('CHANGELOG.md');
+          if (raw) {
+            const esc = (v) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const pats = [
+              new RegExp(`^##\\s*\\[?v?${esc(version)}\\]?\\s*$`, 'mi'),
+              new RegExp(`^##\\s*.*\\s+v?${esc(version)}\\s*$`, 'mi'),
+            ];
+            let start = -1;
+            for (const p of pats) { const m = raw.match(p); if (m) { start = m.index; break; } }
+            if (start >= 0) {
+              const tail = raw.slice(start);
+              const next = tail.search(/^##\s+/m);
+              const section = (next > 0 ? tail.slice(0, next) : tail).replace(/^##.*$/m, '');
+              changelog = trunc(squash(section), 3600); // embed desc limit
+            } else {
+              // fallback: top-most section
+              const parts = raw.split(/^##\s+/m);
+              if (parts[1]) changelog = trunc(squash(parts[1]), 3600);
+            }
+          }
+
+          const body = {
+            username: "Rad UI Release Bot",
+            // avatar_url: "https://your.cdn/rad-ui-logo.png", // optional
+            embeds: [{
+              title: `Released ${name} ${version} 🎉`,
+              url: npmUrl,
+              description: changelog || "Changelog is available in the repo.",
+              fields: [
+                ...(readmeSummary ? [{ name: "Summary", value: readmeSummary, inline: false }] : []),
+                { name: "npm", value: `[${name}@${version}](${npmUrl})`, inline: true },
+                { name: "GitHub", value: ghUrl, inline: true }
+              ],
+              timestamp: new Date().toISOString()
+            }]
+          };
+
+          const data = JSON.stringify(body);
+          const u = new URL(webhook);
+          const req = https.request(
+            { hostname: u.hostname, path: u.pathname + u.search, method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) } },
+            res => { res.resume(); res.on('end', () => process.exit(res.statusCode < 300 ? 0 : 1)); }
+          );
+          req.on('error', err => { console.error(err); process.exit(1); });
+          req.write(data); req.end();
+          NODE
+
