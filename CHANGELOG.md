@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.1.5
+
+### Patch Changes
+
+- f77dc1b: Sub-components, now throw subtle warnings instead of console logs
+
 ## 0.1.4
 
 ### Patch Changes
