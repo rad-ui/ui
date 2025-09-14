@@ -16,7 +16,7 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
     const id = Floater.useId();
 
     if (!context) {
-        console.log('MenubarMenu should be used in the MenubarRoot');
+        console.warn('MenubarMenu should be used in the MenubarRoot');
         return null;
     }
     const { rootClass, registerItem, items, updateItemState } = context;
