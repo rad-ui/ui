@@ -80,7 +80,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
         run: npm publish --access public --provenance
       
-      - name: Announce on Discord (single release section)
+      - name: Announce on Discord
         if: steps.exists.outputs.exists == 'false'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
