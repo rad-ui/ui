@@ -13,9 +13,21 @@ export type MenuPrimitiveRootProps = {
     crossAxisOffset?: number
     mainAxisOffset?: number
     loop?: boolean
+    placement?: | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end';
 } & ComponentPropsWithoutRef<'div'>;
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, loop=true, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, loop=true, placement = 'bottom-start', ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -37,7 +49,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         open: isOpen,
         nodeId,
         onOpenChange: setIsOpen,
-        placement: isNested ? 'right-start' : 'bottom-start',
+        placement: isNested ? 'right-start' : placement,
         middleware: [
             Floater.flip({
                 mainAxis: true

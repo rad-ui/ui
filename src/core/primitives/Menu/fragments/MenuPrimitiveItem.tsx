@@ -9,10 +9,11 @@ export type MenuPrimitiveItemProps = {
     label?: string
     disabled?: boolean
     asChild?: boolean
+    onSelect?: (event :React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
-    ({ children, className, label, disabled, asChild = false, ...props }, propRef) => {
+    ({ children, className, label, disabled, asChild = false, onSelect, ...props }, propRef) => {
         const context = React.useContext(MenuPrimitiveRootContext);
         const checkLabel = disabled ? null : label;
         const { ref, index } = Floater.useListItem({ 
@@ -48,7 +49,13 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
                 className={className}
                 {...getItemProps({
                     onClick(event: React.MouseEvent<HTMLButtonElement>) {
-                        tree?.events.emit('click');
+                        if (onSelect){
+                            onSelect(event);
+                        }
+                        else{
+                            tree?.events.emit('click');
+                        }
+                        
                     },
                 })}
                 asChild={asChild}
