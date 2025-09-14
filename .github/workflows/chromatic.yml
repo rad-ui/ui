@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0  # Required for Chromatic to retrieve git history
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'  # Adjust this to your project's Node.js version
 
