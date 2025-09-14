@@ -1,21 +1,6 @@
 name: Tests
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - 'styles/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'scripts/**'
-      - 'rollup.config.cjs'
-      - 'rollup-css.config.cjs'
-      - 'rollup-tokens.config.cjs'
-      - 'tsconfig.json'
-      - 'postcss.config.js'
-      - '.changeset/**'
-      - '.github/workflows/**'
   pull_request:
     branches: [ main, security-fixes ]
     paths:
