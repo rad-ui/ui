@@ -10,7 +10,7 @@ export type TabNavLinkProps = React.ComponentPropsWithoutRef<'a'> & {
     value?: string
 }
 
-const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({ 
+const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({
     value, className = '', href = '#', children, disabled, asChild, ...props
 }, forwardedRef) => {
     const { rootClass, tabValue, handleTabChange } = useContext(TabNavContext);

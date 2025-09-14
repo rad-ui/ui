@@ -16,9 +16,9 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
     ({ children, className, label, disabled, asChild = false, onSelect, ...props }, propRef) => {
         const context = React.useContext(MenuPrimitiveRootContext);
         const checkLabel = disabled ? null : label;
-        const { ref, index } = Floater.useListItem({ 
+        const { ref, index } = Floater.useListItem({
             label: checkLabel
-         });
+        });
         const tree = Floater.useFloatingTree();
         const mergedRef = React.useCallback(
             (node: HTMLButtonElement | null) => {
@@ -49,14 +49,12 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
                 className={className}
                 {...getItemProps({
                     onClick(event: React.MouseEvent<HTMLButtonElement>) {
-                        if (onSelect){
+                        if (onSelect) {
                             onSelect(event);
-                        }
-                        else{
+                        } else {
                             tree?.events.emit('click');
                         }
-                        
-                    },
+                    }
                 })}
                 asChild={asChild}
                 {...props}

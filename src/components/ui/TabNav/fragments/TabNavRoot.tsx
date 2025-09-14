@@ -17,7 +17,7 @@ export type TabNavRootProps = React.ComponentPropsWithoutRef<'div'> & {
     onValueChange?: (value: string) => void
 }
 
-const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({ 
+const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({
     className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
     onValueChange = () => {},
     value, ...props

@@ -19,4 +19,3 @@ const AvatarFallback = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveF
 AvatarFallback.displayName = 'AvatarFallback';
 
 export default AvatarFallback;
-

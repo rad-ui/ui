@@ -26,11 +26,11 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
             onValueChange
         );
 
-    const sendItems = {
-        selectedValue,
-        setSelectedValue,
-        groupDisabled
-    };
+        const sendItems = {
+            selectedValue,
+            setSelectedValue,
+            groupDisabled
+        };
 
         return (
             <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled}>

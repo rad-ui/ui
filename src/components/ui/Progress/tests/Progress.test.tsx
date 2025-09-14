@@ -23,7 +23,7 @@ describe('Progress', () => {
         render(
             <Progress.Root ref={ref} value={50} maxValue={100} minValue={0}>
                 <Progress.Indicator />
-            </Progress.Root>,
+            </Progress.Root>
         );
         expect(ref.current).not.toBeNull();
     });
@@ -33,7 +33,7 @@ describe('Progress', () => {
         render(
             <Progress.Root value={50} maxValue={100} minValue={0}>
                 <Progress.Indicator ref={ref} />
-            </Progress.Root>,
+            </Progress.Root>
         );
         expect(ref.current).not.toBeNull();
     });

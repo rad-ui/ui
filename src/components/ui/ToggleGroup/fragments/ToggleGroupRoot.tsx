@@ -41,7 +41,7 @@ type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({ 
+const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
     type = 'single',
     className = '',
     loop = true,

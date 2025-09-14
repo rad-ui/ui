@@ -43,4 +43,3 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
 NavigationMenuContent.displayName = 'NavigationMenuContent';
 
 export default NavigationMenuContent;
-

@@ -73,7 +73,7 @@ describe('Callout', () => {
             expect(warnSpy).not.toHaveBeenCalled();
             warnSpy.mockRestore();
         });
-        });
+    });
 
     describe('Callout.Icon', () => {
         it('renders icon content correctly', () => {
@@ -110,7 +110,7 @@ describe('Callout', () => {
             );
             expect(ref.current).toBeInstanceOf(HTMLSpanElement);
         });
-        });
+    });
 
     describe('Callout.Text', () => {
         it('renders text content correctly', () => {
@@ -141,7 +141,7 @@ describe('Callout', () => {
             );
             expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
         });
-        });
+    });
 
     describe('Callout Composition', () => {
         it('renders complete callout with all parts', () => {

@@ -20,4 +20,3 @@ const DialogOverlay = forwardRef<DialogOverlayElement, DialogOverlayProps>(({ cl
 DialogOverlay.displayName = 'DialogOverlay';
 
 export default DialogOverlay;
-

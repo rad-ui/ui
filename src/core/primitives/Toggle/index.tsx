@@ -13,7 +13,7 @@ export interface TogglePrimitiveProps extends React.ComponentPropsWithoutRef<typ
     asChild?: boolean;
 }
 
-const TogglePrimitive = forwardRef<TogglePrimitiveElement, TogglePrimitiveProps>(({ 
+const TogglePrimitive = forwardRef<TogglePrimitiveElement, TogglePrimitiveProps>(({
     children,
     label = '',
     defaultPressed = false,

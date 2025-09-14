@@ -32,4 +32,3 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
 NavigationMenuTrigger.displayName = 'NavigationMenuTrigger';
 
 export default NavigationMenuTrigger;
-
