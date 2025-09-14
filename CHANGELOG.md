@@ -1,5 +1,12 @@
 # @radui/ui
 
+## 0.1.3
+
+### Patch Changes
+
+- cb1205d: Patch workflow indentation issue
+- 2d19c42: Testing Discord Release Workflow
+
 ## 0.1.2
 
 ### Patch Changes
