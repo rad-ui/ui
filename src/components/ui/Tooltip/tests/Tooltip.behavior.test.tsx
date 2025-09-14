@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderWithPortal, assertFocusReturn } from '~/test-utils/portal';
 import Tooltip from '../Tooltip';
 import axe from 'axe-core';
 
@@ -94,5 +95,22 @@ describe('Tooltip interactions', () => {
         const trigger = screen.getByText('RTL');
         await userEvent.hover(trigger);
         expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+    });
+
+    test('portal renders tooltip content and focus is restored on escape', async() => {
+        const user = userEvent.setup();
+        const { getByText, cleanup } = renderWithPortal(
+            <Tooltip.Root>
+                <Tooltip.Trigger>Tip</Tooltip.Trigger>
+                <Tooltip.Content>content</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        const trigger = getByText('Tip');
+        trigger.focus();
+        await screen.findByRole('tooltip');
+        await user.keyboard('{Escape}');
+        assertFocusReturn(trigger);
+        cleanup();
     });
 });

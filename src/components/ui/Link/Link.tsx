@@ -1,6 +1,6 @@
 'use client';
 import React, { ElementRef, ComponentPropsWithoutRef } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
 import { useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
 import Primitive from '~/core/primitives/Primitive';

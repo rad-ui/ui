@@ -60,8 +60,8 @@ describe('Slider Component', () => {
     });
 
     test('hidden input is present for accessibility', () => {
-        render(
-            <Slider.Root defaultValue={50}>
+        const { container } = render(
+            <Slider.Root defaultValue={50} name="test">
                 <Slider.Track>
                     <Slider.Range>
                         <Slider.Thumb />
@@ -69,8 +69,9 @@ describe('Slider Component', () => {
                 </Slider.Track>
             </Slider.Root>
         );
-        const hiddenInput = screen.getByRole('textbox', { hidden: true });
+        const hiddenInput = container.querySelector('input[type="hidden"]') as HTMLInputElement;
         expect(hiddenInput).toHaveValue('50');
+        expect(hiddenInput).toHaveAttribute('name', 'test');
     });
 
     test('renders without warnings', () => {

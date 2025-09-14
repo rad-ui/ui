@@ -1,6 +1,6 @@
 import React, { useEffect, forwardRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import TabNavContext from '../context/TabNav.context';
 import useControllableState from '~/core/hooks/useControllableState';

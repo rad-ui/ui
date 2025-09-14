@@ -2,7 +2,7 @@
 import React, { forwardRef, useState } from 'react';
 import { customClassSwitcher } from '~/core';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { useControllableState } from '~/core/hooks/useControllableState';
 
 import DialogPrimitive from '~/core/primitives/Dialog';

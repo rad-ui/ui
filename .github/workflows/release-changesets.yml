@@ -1,0 +1,44 @@
+# .github/workflows/changesets-pr.yml
+name: Changesets PR
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: changesets-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  open_version_pr:
+    # Skip when the commit is the version bump itself
+    if: "!contains(github.event.head_commit.message, 'chore: version packages')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build --if-present
+
+      - name: Changesets (PR only)
+        uses: changesets/action@v1
+        with:
+          version: npx changeset version
+          publish: ""                            # <-- disable publish path
+          commit: "release: bump package version"
+          title: "Release PR"
+          createGithubReleases: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

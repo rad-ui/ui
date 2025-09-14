@@ -12,7 +12,7 @@ export type ContextMenuSubTriggerProps = {
 const ContextMenuSubTrigger = forwardRef<ContextMenuSubTriggerElement, ContextMenuSubTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(ContextMenuContext);
     if (!context) {
-        console.log('ContextMenuSubTrigger should be used in the ContextMenuRoot');
+        console.warn('ContextMenuSubTrigger should be used in the ContextMenuRoot');
         return null;
     }
     const { rootClass } = context;

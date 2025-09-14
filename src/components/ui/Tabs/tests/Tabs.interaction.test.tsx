@@ -6,16 +6,13 @@ import * as axe from 'axe-core';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 import { TextEncoder, TextDecoder } from 'util';
 
-// @ts-ignore - react-dom/client types not available
-import { hydrateRoot } from 'react-dom/client';
-// @ts-ignore - react-dom/server types not available
-import { renderToString } from 'react-dom/server';
+(global as any).TextEncoder = TextEncoder;
+(global as any).TextDecoder = TextDecoder;
+// @ts-ignore - React 18/19 server rendering types may not be present
+const { renderToString } = require('react-dom/server');
+// @ts-ignore - hydrateRoot typings may be unavailable in this environment
+const { hydrateRoot } = require('react-dom/client');
 
-// Polyfill TextEncoder/TextDecoder for server rendering in Jest
-// @ts-ignore
-if (!global.TextEncoder) global.TextEncoder = TextEncoder;
-// @ts-ignore
-if (!global.TextDecoder) global.TextDecoder = TextDecoder;
 
 // Helper to wait for axe asynchronously
 const runAxe = (container: HTMLElement) =>

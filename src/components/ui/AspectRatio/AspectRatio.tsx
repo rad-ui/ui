@@ -1,7 +1,7 @@
 'use client';
 import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'AspectRatio';
 

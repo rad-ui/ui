@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 
 export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'div'>;

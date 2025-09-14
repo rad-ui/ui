@@ -1,5 +1,5 @@
 import React, { useContext, useRef, forwardRef, useCallback } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 import TabNavContext from '../context/TabNav.context';

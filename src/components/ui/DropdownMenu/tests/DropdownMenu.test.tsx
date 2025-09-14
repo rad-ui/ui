@@ -1,5 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { renderWithPortal, assertFocusReturn } from '~/test-utils/portal';
 import '@testing-library/jest-dom';
 import DropdownMenu from '../DropdownMenu';
 
@@ -66,5 +68,25 @@ describe('DropdownMenu', () => {
     it('should return null when Trigger used outside Root', () => {
         const { container } = render(<DropdownMenu.Trigger>Open</DropdownMenu.Trigger>);
         expect(container.firstChild).toBeNull();
+    });
+
+    it('renders in portal and returns focus when closed', async() => {
+        const user = userEvent.setup();
+        const { getByText, portalRoot, cleanup } = renderWithPortal(
+            <DropdownMenu.Root>
+                <DropdownMenu.Trigger>Menu</DropdownMenu.Trigger>
+                <DropdownMenu.Portal>
+                    <DropdownMenu.Content>
+                        <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+            </DropdownMenu.Root>
+        );
+
+        await user.click(getByText('Menu'));
+        expect(portalRoot).toContainElement(getByText('Profile'));
+        await user.keyboard('{Escape}');
+        assertFocusReturn(getByText('Menu'));
+        cleanup();
     });
 });

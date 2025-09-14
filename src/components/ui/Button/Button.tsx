@@ -5,7 +5,7 @@ import React, {
     ElementRef
 } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 

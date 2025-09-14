@@ -1,6 +1,6 @@
 import React from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 
