@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MenuPrimitive from '../MenuPrimitive';
+import Floater from '~/core/primitives/Floater';
 
 // Mock console.warn to capture warnings
 const originalWarn = console.warn;
@@ -72,6 +73,56 @@ describe('MenuPrimitive', () => {
             );
 
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
+        });
+
+        it('should pass avoidCollision to Floater.flip middleware', () => {
+            const flipSpy = jest.spyOn(Floater, 'flip');
+
+            render(
+                <MenuPrimitive.Root avoidCollision={false}>
+                    <div>Menu Content</div>
+                </MenuPrimitive.Root>
+            );
+
+            expect(flipSpy).toHaveBeenCalledWith({
+                mainAxis: false
+            });
+
+            flipSpy.mockRestore();
+        });
+
+        it('should pass placement to Floater.useFloating', () => {
+            const useFloatingSpy = jest.spyOn(Floater, 'useFloating');
+
+            render(
+                <MenuPrimitive.Root placement="top-end">
+                    <div>Menu Content</div>
+                </MenuPrimitive.Root>
+            );
+
+            const callArg = useFloatingSpy.mock.calls[0]?.[0] as any;
+            expect(callArg?.placement).toBe('top-end');
+
+            useFloatingSpy.mockRestore();
+        });
+
+        it('should pass rtl and loop to Floater.useListNavigation', () => {
+            const listNavSpy = jest.spyOn(Floater, 'useListNavigation');
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true} rtl={true} loop={false}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            // First arg is floatingContext, second is options
+            const options = listNavSpy.mock.calls[0][1];
+            expect(options.rtl).toBe(true);
+            expect(options.loop).toBe(false);
+
+            listNavSpy.mockRestore();
         });
     });
 
@@ -170,6 +221,94 @@ describe('MenuPrimitive', () => {
             );
 
             expect(container.firstChild).toBeNull();
+        });
+
+        it('should support asChild prop and render span element', () => {
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <MenuPrimitive.Item asChild>
+                            <span>Custom Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const el = screen.getByText('Custom Item');
+            expect(el).toBeInTheDocument();
+            expect(el.tagName).toBe('SPAN');
+            expect(el.closest('button')).toBeNull();
+        });
+
+        it('should not trigger onSelect or close when disabled', async() => {
+            const onSelect = jest.fn();
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <MenuPrimitive.Item disabled onSelect={onSelect}>
+                            <span>Disabled Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const item = screen.getByText('Disabled Item');
+
+            await act(async() => {
+                fireEvent.click(item);
+            });
+
+            expect(onSelect).not.toHaveBeenCalled();
+            expect(screen.getByText('Disabled Item')).toBeInTheDocument();
+        });
+
+        it('should call onSelect and keep menu open when onSelect is provided', async() => {
+            const onSelect = jest.fn();
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                        <MenuPrimitive.Item onSelect={onSelect}>
+                            <span>Selectable Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const item = screen.getByText('Selectable Item');
+
+            await act(async() => {
+                fireEvent.click(item);
+            });
+
+            expect(onSelect).toHaveBeenCalled();
+            // Since onSelect is handled by user, default close should not occur
+            expect(screen.getByText('Menu Content')).toBeInTheDocument();
+        });
+
+        it('should close the menu when item has no onSelect', async() => {
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                        <MenuPrimitive.Item>
+                            <span>Auto-close Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const item = screen.getByText('Auto-close Item');
+
+            await act(async() => {
+                fireEvent.click(item);
+            });
+
+            await waitFor(() => {
+                expect(screen.queryByText('Menu Content')).not.toBeInTheDocument();
+            });
         });
     });
 

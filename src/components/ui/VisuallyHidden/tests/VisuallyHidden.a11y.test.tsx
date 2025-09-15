@@ -1,6 +1,7 @@
 import React, { createRef, act } from 'react';
 import { render, screen } from '@testing-library/react';
 import { TextEncoder, TextDecoder } from 'util';
+
 import axe from 'axe-core';
 import VisuallyHidden from '../VisuallyHidden';
 

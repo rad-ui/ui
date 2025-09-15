@@ -5,6 +5,7 @@ import Tabs from '../Tabs';
 import * as axe from 'axe-core';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 import { TextEncoder, TextDecoder } from 'util';
+
 (global as any).TextEncoder = TextEncoder;
 (global as any).TextDecoder = TextDecoder;
 // @ts-ignore - React 18/19 server rendering types may not be present
