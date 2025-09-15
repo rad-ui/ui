@@ -49,13 +49,16 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
                 className={className}
                 {...getItemProps({
                     onClick(event: React.MouseEvent<HTMLButtonElement>) {
+                        if (disabled) return;
                         if (onSelect) {
                             onSelect(event);
                         } else {
                             tree?.events.emit('click');
                         }
                     }
+
                 })}
+                disabled={disabled}
                 asChild={asChild}
                 {...props}
             >
