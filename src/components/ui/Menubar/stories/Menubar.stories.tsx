@@ -34,6 +34,7 @@ const SampleMenu = () => (
                 <Menubar.Item label="Profile">Profile</Menubar.Item>
                 <Menubar.Item label="Settings">Settings</Menubar.Item>
                 <Menubar.Item label="Notifications">Notifications</Menubar.Item>
+                <Menubar.Separator/>
                 <Menubar.Sub >
                     <Menubar.SubTrigger >More Options <ChevronRight /></Menubar.SubTrigger>
                     <Menubar.Content >
