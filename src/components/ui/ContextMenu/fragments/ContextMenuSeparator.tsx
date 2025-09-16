@@ -15,7 +15,7 @@ const ContextMenuSeparator = forwardRef<ContextMenuSeparatorElement, ContextMenu
     }
     const { rootClass } = context;
     return (
-        <Separator ref={ref} customRootClass={clsx(`${rootClass}-separator`, className)} {...props}/>
+        <Separator ref={ref} customRootClass={clsx(`${rootClass}`, className)} {...props}/>
     );
 });
 
