@@ -6,16 +6,15 @@ import clsx from 'clsx';
 export type MenubarSeparatorElement = ElementRef<typeof Separator>;
 export type MenubarSeparatorProps = {
     className?: string
-    customRootClass?: string
 } & ComponentPropsWithoutRef<typeof Separator>;
 
-const MenubarSeparator = forwardRef<MenubarSeparatorElement, MenubarSeparatorProps>(({ className, customRootClass, ...props }: MenubarSeparatorProps, ref) => {
+const MenubarSeparator = forwardRef<MenubarSeparatorElement, MenubarSeparatorProps>(({ className, ...props }: MenubarSeparatorProps, ref) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
         console.warn('MenubarSeparator should be used within MenubarRoot');
         return null;
     }
-    const rootClass = customRootClass || context.rootClass;
+    const { rootClass } = context;
 
     return (
         <Separator ref={ref} customRootClass={rootClass} className={className} {...props}/>
