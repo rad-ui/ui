@@ -96,7 +96,7 @@ const ToolbarDemo = () => (
                 </IconContainer>
             </div>
             <Separator orientation="vertical" />
-            <input value="Search..." onChange={() => { }} className='flex flex-1 items-center bg-gray-100 px-2 rounded-md border border-gray-400 text-gray-700'>
+            <input value="Search..." onChange={() => { }} className='flex flex-1 items-center bg-gray-100 px-2 rounded-md border border-gray-400 text-gray-950'>
 
             </input>
 

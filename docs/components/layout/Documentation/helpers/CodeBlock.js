@@ -74,7 +74,6 @@ className={`language-${language} whitespace-pre-wrap`}
 
                 <ScrollArea.Root
                     className={clsx(
-                        "transition-all",
                         expanded ? "max-h-[640px]" : "max-h-[180px]",
                         inline && "overflow-visible max-h-none"
                     )}

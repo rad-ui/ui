@@ -42,7 +42,7 @@ const ButtonVariants = () => {
             </Button>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
             <TooltipWrapper label={buttonStyleDescription[variant]} placement="bottom">
-              <Text className="text-gray-800 font-light inline-block cursor-help">
+              <Text className="text-gray-950 font-light inline-block cursor-help">
                 {variant}
               </Text>
             </TooltipWrapper>

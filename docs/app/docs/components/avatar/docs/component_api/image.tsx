@@ -22,7 +22,7 @@ const data = {
             info_tooltips : "The source of the image."
         },
         type : "string",
-        default : "--",
+        default : "''",
        },
        {
         prop : {
@@ -30,7 +30,7 @@ const data = {
             info_tooltips : "The alternative text for the image."
         },
         type : "string",
-        default : "--",
+        default : "''",
        }
     ]
 }
