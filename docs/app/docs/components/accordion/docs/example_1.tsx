@@ -20,21 +20,20 @@ const items = [
 ]
 
 const AccordionExample = () => {
-  
-
   return (
-  <div className="w-64 md:w-96">
-    <Accordion.Root>
-      {items.map((item) => (
-        <Accordion.Item key={item.id} value={item.id}>
-          <Accordion.Header>
-            <Accordion.Trigger>{item.title}</Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Content>{item.content}</Accordion.Content>
-        </Accordion.Item>
-      ))}
-    </Accordion.Root>
-  </div>)
+    <div className="w-64 md:w-96">
+      <Accordion.Root>
+        {items.map((item, index) => (
+          <Accordion.Item key={item.id} value={item.id}>
+            <Accordion.Header>
+              <Accordion.Trigger>{item.title}</Accordion.Trigger>
+            </Accordion.Header>
+            <Accordion.Content index={index}>{item.content}</Accordion.Content>
+          </Accordion.Item>
+        ))}
+      </Accordion.Root>
+    </div>
+  )
 }
 
 export default AccordionExample;

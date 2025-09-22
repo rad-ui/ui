@@ -12,6 +12,8 @@ const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components
 import root_api_SourceCode from './component_api/root.tsx';
 import item_api_SourceCode from './component_api/item.tsx';
 import trigger_api_SourceCode from './component_api/trigger.tsx';
+import header_api_SourceCode from './component_api/header.tsx';
+import content_api_SourceCode from './component_api/content.tsx';
 
 export const code = {
     javascript: {
@@ -29,7 +31,9 @@ export const anatomy = {
 export const api_documentation = {
     root: root_api_SourceCode,
     item: item_api_SourceCode,
-    trigger: trigger_api_SourceCode
+    trigger: trigger_api_SourceCode,
+    header: header_api_SourceCode,
+    content: content_api_SourceCode
 }
 
 export const keyboardShortcuts = {

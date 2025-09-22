@@ -59,8 +59,6 @@ const DocsLayoutChunks = ({ children }: { children: React.ReactNode }) => {
 
 const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
     return <div className="w-full pt-[60px]">
-        <div className="layout-image">
-        </div>
         <div className="px-[75px] max-w-[1280px] mx-auto relative z-10">
             <PageDetails />
             <DocsLayoutJoinDiscordCallout />
