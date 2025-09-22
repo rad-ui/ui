@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.1.7
+
+### Patch Changes
+
+- 75152f8: Fix GitHub workflows to use correct build script instead of silent failure
+
 ## 0.1.6
 
 ### Patch Changes
