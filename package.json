@@ -6,7 +6,123 @@
   "type": "module",
   "exports": {
     "./themes/default.css": "./dist/themes/default.css",
-    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js"
+    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js",
+    "./Accordion": {
+      "import": "./dist/components/Accordion.js",
+      "types": "./dist/components/Accordion.d.ts"
+    },
+    "./AlertDialog": {
+      "import": "./dist/components/AlertDialog.js",
+      "types": "./dist/components/AlertDialog.d.ts"
+    },
+    "./AspectRatio": {
+      "import": "./dist/components/AspectRatio.js",
+      "types": "./dist/components/AspectRatio.d.ts"
+    },
+    "./Avatar": {
+      "import": "./dist/components/Avatar.js",
+      "types": "./dist/components/Avatar.d.ts"
+    },
+    "./AvatarGroup": {
+      "import": "./dist/components/AvatarGroup.js",
+      "types": "./dist/components/AvatarGroup.d.ts"
+    },
+    "./Badge": {
+      "import": "./dist/components/Badge.js",
+      "types": "./dist/components/Badge.d.ts"
+    },
+    "./BlockQuote": {
+      "import": "./dist/components/BlockQuote.js",
+      "types": "./dist/components/BlockQuote.d.ts"
+    },
+    "./Button": {
+      "import": "./dist/components/Button.js",
+      "types": "./dist/components/Button.d.ts"
+    },
+    "./Callout": {
+      "import": "./dist/components/Callout.js",
+      "types": "./dist/components/Callout.d.ts"
+    },
+    "./Card": {
+      "import": "./dist/components/Card.js",
+      "types": "./dist/components/Card.d.ts"
+    },
+    "./Code": {
+      "import": "./dist/components/Code.js",
+      "types": "./dist/components/Code.d.ts"
+    },
+    "./Dialog": {
+      "import": "./dist/components/Dialog.js",
+      "types": "./dist/components/Dialog.d.ts"
+    },
+    "./Em": {
+      "import": "./dist/components/Em.js",
+      "types": "./dist/components/Em.d.ts"
+    },
+    "./Heading": {
+      "import": "./dist/components/Heading.js",
+      "types": "./dist/components/Heading.d.ts"
+    },
+    "./Kbd": {
+      "import": "./dist/components/Kbd.js",
+      "types": "./dist/components/Kbd.d.ts"
+    },
+    "./Link": {
+      "import": "./dist/components/Link.js",
+      "types": "./dist/components/Link.d.ts"
+    },
+    "./Progress": {
+      "import": "./dist/components/Progress.js",
+      "types": "./dist/components/Progress.d.ts"
+    },
+    "./ScrollArea": {
+      "import": "./dist/components/ScrollArea.js",
+      "types": "./dist/components/ScrollArea.d.ts"
+    },
+    "./Separator": {
+      "import": "./dist/components/Separator.js",
+      "types": "./dist/components/Separator.d.ts"
+    },
+    "./Strong": {
+      "import": "./dist/components/Strong.js",
+      "types": "./dist/components/Strong.d.ts"
+    },
+    "./Switch": {
+      "import": "./dist/components/Switch.js",
+      "types": "./dist/components/Switch.d.ts"
+    },
+    "./Table": {
+      "import": "./dist/components/Table.js",
+      "types": "./dist/components/Table.d.ts"
+    },
+    "./Tabs": {
+      "import": "./dist/components/Tabs.js",
+      "types": "./dist/components/Tabs.d.ts"
+    },
+    "./Text": {
+      "import": "./dist/components/Text.js",
+      "types": "./dist/components/Text.d.ts"
+    },
+    "./Theme": {
+      "import": "./dist/components/Theme.js",
+      "types": "./dist/components/Theme.d.ts"
+    },
+    "./Toggle": {
+      "import": "./dist/components/Toggle.js",
+      "types": "./dist/components/Toggle.d.ts"
+    },
+    "./ToggleGroup": {
+      "import": "./dist/components/ToggleGroup.js",
+      "types": "./dist/components/ToggleGroup.d.ts"
+    },
+    "./Tooltip": {
+      "import": "./dist/components/Tooltip.js",
+      "types": "./dist/components/Tooltip.d.ts"
+    },
+    "./VisuallyHidden": {
+      "import": "./dist/components/VisuallyHidden.js",
+      "types": "./dist/components/VisuallyHidden.d.ts"
+    }
   },
   "files": [
     "dist",
