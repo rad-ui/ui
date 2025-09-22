@@ -1,5 +1,5 @@
 ---
-"@radui/ui": minor
+"@radui/ui": patch
 ---
 
 ## Fix: Missing Components in NPM Bundle
