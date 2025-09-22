@@ -1,5 +1,21 @@
 # @radui/ui
 
+## 0.1.6
+
+### Patch Changes
+
+- 4363ff3: Added Separator for dropdown , context and menubar menus
+- 336fe3f: MenuPrimitive root now supports rtl, loop, avoidCollision,placement and the item supports disabled, asChild , onSelect. Tests for the same have been added too.
+- bcad222: ## Fix: Missing Components in NPM Bundle
+
+  **Versions 0.1.0 - 0.1.5** had incomplete component bundles due to build failures.
+
+  **Root Cause**: Due to updates we've made to build processes to build components for npm, we might have broken the process due to list on package.json not being in sync, we totally missed testing a couple of versions.
+
+  **Fix**: Increased Node.js heap size to 8GB and added export validation to prevent silent build failures.
+
+  **New Features**: Added `--check` flag for export validation, ESM/CommonJS support, and root export support.
+
 ## 0.1.5
 
 ### Patch Changes
