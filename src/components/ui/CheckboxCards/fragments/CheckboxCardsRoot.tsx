@@ -23,14 +23,13 @@ const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRoot
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return (
-
-        <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
-            <CheckboxCardsRootContext.Provider value={{ rootClass }}>
+        <CheckboxCardsRootContext.Provider value={{ rootClass }}>
+            <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
 
                 {children}
 
-            </CheckboxCardsRootContext.Provider>
-        </CheckboxGroupPrimitive.Root>
+            </CheckboxGroupPrimitive.Root>
+        </CheckboxCardsRootContext.Provider>
     );
 });
 
