@@ -16,6 +16,7 @@ export type NumberFieldRootProps = {
     largeStep?: number
     smallStep?: number
     snapOnStep?: boolean
+    locale?: string
     min?: number
     max?: number
     disabled?: boolean
@@ -23,7 +24,7 @@ export type NumberFieldRootProps = {
     required?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, smallStep = 0.1, snapOnStep = false, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, smallStep = 0.1, snapOnStep = false, locale, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
     const rootClass = customClassSwitcher(className, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -50,6 +51,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
     const applyStep = (amount: number) => {
         setInputValue((prev) => {
             let temp: number;
+            let nextValue: number;
 
             // Handle empty input
             if (prev === '' || prev === null) {
@@ -58,16 +60,20 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
                 temp = Number(prev);
             }
 
-            console.log(temp % largeStep);
             if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) { temp = Math.round(temp / largeStep) * largeStep; }
 
             // Find decimal places in amount only
             const amountDecimals = (amount.toString().split('.')[1] || '').length;
+            if (amountDecimals === 0) {
+                nextValue = temp + amount;
+            }
+            else{
             const factor = Math.pow(10, amountDecimals);
 
             // Scale value to integer, apply step, then scale back
-            const scaledValue = temp * factor + amount;
-            const nextValue = scaledValue / factor;
+            let scaledValue =  Math.round(temp * factor) + Math.round(amount * factor);
+             nextValue = scaledValue / factor;
+            }
 
             // Clamp to min/max
             if (max !== undefined && nextValue > max) return max;
@@ -112,6 +118,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         disabled,
         readOnly,
         required,
+        locale,
         rootClass
     };
 

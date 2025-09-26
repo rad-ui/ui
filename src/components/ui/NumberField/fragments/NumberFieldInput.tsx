@@ -20,6 +20,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         disabled,
         readOnly,
         required,
+        locale,
         rootClass
     } = context;
 
