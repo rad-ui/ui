@@ -26,11 +26,11 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'ArrowUp' && !event.shiftKey) {
             event.preventDefault();
-            handleStep({ direction: 'increment', type: 'small' });
+            handleStep({ direction: 'increment', type: 'normal' });
         }
         if (event.key === 'ArrowDown' && !event.shiftKey) {
             event.preventDefault();
-            handleStep({ direction: 'decrement', type: 'small' });
+            handleStep({ direction: 'decrement', type: 'normal' });
         }
         if (event.key === 'ArrowUp' && event.shiftKey) {
             event.preventDefault();

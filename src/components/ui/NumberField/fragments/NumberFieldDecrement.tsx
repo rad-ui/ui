@@ -15,7 +15,7 @@ const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberField
     return (
         <button
             ref={ref}
-            onClick={() => handleStep({ direction: 'decrement', type: 'small' })}
+            onClick={() => handleStep({ direction: 'decrement', type: 'normal' })}
             className={clsx(`${rootClass}-decrement`, className)}
             disabled={disabled || readOnly}
             type="button"

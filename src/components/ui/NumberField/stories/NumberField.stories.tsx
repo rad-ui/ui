@@ -21,7 +21,7 @@ export const Controlled = () => {
     const [value, setValue] = React.useState<number | ''>(3);
     return (
         <SandboxEditor>
-            <NumberField.Root value={value} onValueChange={setValue} defaultValue={3} step={1} min={0} max={10} largeStep={5}>
+            <NumberField.Root value={value} onValueChange={setValue} defaultValue={3} step={1} min={-10} max={10} snapOnStep={true} largeStep={5}>
                 <NumberField.Decrement>-</NumberField.Decrement>
                 <NumberField.Input />
                 <NumberField.Increment>+</NumberField.Increment>

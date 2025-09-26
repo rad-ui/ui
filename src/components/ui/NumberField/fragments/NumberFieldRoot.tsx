@@ -14,6 +14,8 @@ export type NumberFieldRootProps = {
     onValueChange?: (value: number | '') => void
     step?: number
     largeStep?: number
+    smallStep?: number
+    snapOnStep?: boolean
     min?: number
     max?: number
     disabled?: boolean
@@ -21,7 +23,7 @@ export type NumberFieldRootProps = {
     required?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, smallStep = 0.1, snapOnStep = false, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
     const rootClass = customClassSwitcher(className, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -55,7 +57,14 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
                     temp = -1;
                 }
             }
-            const nextValue = temp + amount;
+
+            const tempDec = (temp.toString().split('.')[1] || '').length;
+            const amountDec = (amount.toString().split('.')[1] || '').length;
+            const decimals = Math.max(tempDec, amountDec);
+            const factor = Math.pow(10, decimals);
+            const scaled = Math.round(temp * factor) + amount * factor;
+            let nextValue = scaled / factor;
+            nextValue = snapOnStep ? Math.round(nextValue / step) * step : nextValue;
 
             if (max !== undefined && nextValue > max) {
                 return max;
@@ -69,11 +78,11 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         });
     };
 
-    const handleStep = ({ type, direction } : {type: 'small'| 'large', direction: 'increment' | 'decrement' }) => {
+    const handleStep = ({ type, direction } : {type: 'small'| 'normal' | 'large', direction: 'increment' | 'decrement' }) => {
         let amount = 0;
 
         switch (type) {
-        case 'small':
+        case 'normal':
             if (!step) return;
             amount = step;
             break;
@@ -81,10 +90,15 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
             if (!largeStep) return;
             amount = largeStep;
             break;
+        case 'small':
+            if (!smallStep) return;
+            amount = smallStep;
+            break;
         }
 
         if (direction === 'decrement') {
-            amount *= -1;
+            amount = -amount;
+            console.log(amount);
         }
 
         applyStep(amount);
