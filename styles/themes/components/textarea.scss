@@ -1,20 +1,4 @@
 .rad-ui-text-area {
-  &[data-textarea-resize="horizontal"] textarea {
-    resize: horizontal;
-  }
-
-  &[data-textarea-resize="vertical"] textarea {
-    resize: vertical;
-  }
-
-  &[data-textarea-resize="none"] textarea {
-    resize: none;
-  }
-
-  &[data-textarea-resize="both"] textarea {
-    resize: both;
-  }
-
   textarea {
     border: 2px solid var(--rad-ui-color-accent-600);
     font-size: 16px;
@@ -32,5 +16,21 @@
     &:focus {
       outline: 2px solid var(--rad-ui-color-accent-500);
     }
+  }
+  
+  &[data-textarea-resize="horizontal"] textarea {
+    resize: horizontal;
+  }
+
+  &[data-textarea-resize="vertical"] textarea {
+    resize: vertical;
+  }
+
+  &[data-textarea-resize="none"] textarea {
+    resize: none;
+  }
+
+  &[data-textarea-resize="both"] textarea {
+    resize: both;
   }
 }
