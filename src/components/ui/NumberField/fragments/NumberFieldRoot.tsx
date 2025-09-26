@@ -49,30 +49,29 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
     };
     const applyStep = (amount: number) => {
         setInputValue((prev) => {
-            let temp = prev;
-            if (temp === '') {
-                if (min !== undefined) {
-                    temp = min;
-                } else {
-                    temp = -1;
-                }
+            let temp: number;
+
+            // Handle empty input
+            if (prev === '' || prev === null) {
+                temp = min !== undefined ? min : 0;
+            } else {
+                temp = Number(prev);
             }
 
-            const tempDec = (temp.toString().split('.')[1] || '').length;
-            const amountDec = (amount.toString().split('.')[1] || '').length;
-            const decimals = Math.max(tempDec, amountDec);
-            const factor = Math.pow(10, decimals);
-            const scaled = Math.round(temp * factor) + amount * factor;
-            let nextValue = scaled / factor;
-            nextValue = snapOnStep ? Math.round(nextValue / step) * step : nextValue;
+            console.log(temp % largeStep);
+            if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) { temp = Math.round(temp / largeStep) * largeStep; }
 
-            if (max !== undefined && nextValue > max) {
-                return max;
-            }
+            // Find decimal places in amount only
+            const amountDecimals = (amount.toString().split('.')[1] || '').length;
+            const factor = Math.pow(10, amountDecimals);
 
-            if (min !== undefined && nextValue < min) {
-                return min;
-            }
+            // Scale value to integer, apply step, then scale back
+            const scaledValue = temp * factor + amount;
+            const nextValue = scaledValue / factor;
+
+            // Clamp to min/max
+            if (max !== undefined && nextValue > max) return max;
+            if (min !== undefined && nextValue < min) return min;
 
             return nextValue;
         });

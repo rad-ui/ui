@@ -40,13 +40,21 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             event.preventDefault();
             handleStep({ direction: 'decrement', type: 'large' });
         }
+        if (event.key === 'ArrowUp' && event.altKey) {
+            event.preventDefault();
+            handleStep({ direction: 'increment', type: 'small' });
+        }
+        if (event.key === 'ArrowDown' && event.altKey) {
+            event.preventDefault();
+            handleStep({ direction: 'decrement', type: 'small' });
+        }
     };
     return (
         <input
             ref={ref}
             type="number"
             onKeyDown={handleKeyDown}
-            value={inputValue === '' ? '' : inputValue}
+            value={inputValue}
             onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }}
             id={id}
             name={name}
