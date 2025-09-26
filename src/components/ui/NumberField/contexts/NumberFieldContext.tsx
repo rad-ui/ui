@@ -10,6 +10,7 @@ export type NumberFieldContextType = {
   readOnly?: boolean;
   required?: boolean;
   rootClass?: string;
+  locale?: string;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);

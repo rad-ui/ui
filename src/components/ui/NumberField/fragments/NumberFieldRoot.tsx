@@ -14,6 +14,9 @@ export type NumberFieldRootProps = {
     onValueChange?: (value: number | '') => void
     step?: number
     largeStep?: number
+    smallStep?: number
+    snapOnStep?: boolean
+    locale?: string
     min?: number
     max?: number
     disabled?: boolean
@@ -21,7 +24,7 @@ export type NumberFieldRootProps = {
     required?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, smallStep = 0.1, snapOnStep = false, locale, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
     const rootClass = customClassSwitcher(className, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -47,33 +50,44 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
     };
     const applyStep = (amount: number) => {
         setInputValue((prev) => {
-            let temp = prev;
-            if (temp === '') {
-                if (min !== undefined) {
-                    temp = min;
-                } else {
-                    temp = -1;
-                }
-            }
-            const nextValue = temp + amount;
+            let temp: number;
+            let nextValue: number;
 
-            if (max !== undefined && nextValue > max) {
-                return max;
+            // Handle empty input
+            if (prev === '' || prev === null) {
+                temp = min !== undefined ? min : 0;
+            } else {
+                temp = Number(prev);
             }
 
-            if (min !== undefined && nextValue < min) {
-                return min;
+            if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) { temp = Math.round(temp / largeStep) * largeStep; }
+
+            // Find decimal places in amount only
+            const amountDecimals = (amount.toString().split('.')[1] || '').length;
+            if (amountDecimals === 0) {
+                nextValue = temp + amount;
             }
+            else{
+            const factor = Math.pow(10, amountDecimals);
+
+            // Scale value to integer, apply step, then scale back
+            let scaledValue =  Math.round(temp * factor) + Math.round(amount * factor);
+             nextValue = scaledValue / factor;
+            }
+
+            // Clamp to min/max
+            if (max !== undefined && nextValue > max) return max;
+            if (min !== undefined && nextValue < min) return min;
 
             return nextValue;
         });
     };
 
-    const handleStep = ({ type, direction } : {type: 'small'| 'large', direction: 'increment' | 'decrement' }) => {
+    const handleStep = ({ type, direction } : {type: 'small'| 'normal' | 'large', direction: 'increment' | 'decrement' }) => {
         let amount = 0;
 
         switch (type) {
-        case 'small':
+        case 'normal':
             if (!step) return;
             amount = step;
             break;
@@ -81,10 +95,15 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
             if (!largeStep) return;
             amount = largeStep;
             break;
+        case 'small':
+            if (!smallStep) return;
+            amount = smallStep;
+            break;
         }
 
         if (direction === 'decrement') {
-            amount *= -1;
+            amount = -amount;
+            console.log(amount);
         }
 
         applyStep(amount);
@@ -99,6 +118,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         disabled,
         readOnly,
         required,
+        locale,
         rootClass
     };
 
