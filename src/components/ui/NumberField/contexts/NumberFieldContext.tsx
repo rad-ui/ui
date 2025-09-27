@@ -2,7 +2,9 @@ import React from 'react';
 
 export type NumberFieldContextType = {
   inputValue: number|'';
-  handleOnChange: (input: number|'') => void;
+  formattedValue: string;
+  locale?: string;
+  handleOnChange: (input: string) => void;
   handleStep: (opts: { direction: 'increment' | 'decrement'; type: 'small' | 'large' }) => void;
   id?: string;
   name?: string;
