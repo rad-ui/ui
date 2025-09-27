@@ -13,6 +13,8 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     }
     const {
         inputValue,
+        formattedValue,
+        locale,
         handleOnChange,
         handleStep,
         id,
@@ -44,10 +46,10 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     return (
         <input
             ref={ref}
-            type="number"
+            type="text"
             onKeyDown={handleKeyDown}
-            value={inputValue === '' ? '' : inputValue}
-            onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }}
+            value={locale ? formattedValue : (inputValue === '' ? '' : inputValue)}
+            onChange={(e) => handleOnChange(e.target.value)}
             id={id}
             name={name}
             disabled={disabled}
