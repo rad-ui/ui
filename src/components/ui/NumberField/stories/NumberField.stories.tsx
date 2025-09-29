@@ -10,17 +10,40 @@ export default {
 export const Basic = () => (
   <SandboxEditor>
     <NumberField.Root
-      defaultValue={5}
-      step={1}
-      min={-10}
-      max={110}
-      largeStep={5}
+      defaultValue={-5.5}
+      step={0.1}
+      min={-20}
+      max={20}
+      largeStep={1}
     >
       <NumberField.Decrement>-</NumberField.Decrement>
-      <NumberField.Input />
+      <NumberField.Input style={{ width: '250px' }} />
       <NumberField.Increment>+</NumberField.Increment>
     </NumberField.Root>
   </SandboxEditor>
+);
+
+export const DecimalValues = () => (
+    <SandboxEditor>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div>
+                <p>Step 0.1</p>
+                <NumberField.Root defaultValue={5.5} step={0.1} min={0} max={10} largeStep={1}>
+                    <NumberField.Decrement>-</NumberField.Decrement>
+                    <NumberField.Input style={{ width: '250px' }} />
+                    <NumberField.Increment>+</NumberField.Increment>
+                </NumberField.Root>
+            </div>
+            <div>
+                <p>Step 0.01</p>
+                <NumberField.Root defaultValue={5.55} step={0.01} min={0} max={10} largeStep={0.1}>
+                    <NumberField.Decrement>-</NumberField.Decrement>
+                    <NumberField.Input style={{ width: '250px' }} />
+                    <NumberField.Increment>+</NumberField.Increment>
+                </NumberField.Root>
+            </div>
+        </div>
+    </SandboxEditor>
 );
 
 export const Controlled = () => {
@@ -37,7 +60,7 @@ export const Controlled = () => {
         largeStep={5}
       >
         <NumberField.Decrement>-</NumberField.Decrement>
-        <NumberField.Input />
+        <NumberField.Input style={{ width: '250px' }} />
         <NumberField.Increment>+</NumberField.Increment>
       </NumberField.Root>
       <div style={{ marginTop: 8 }}>Current value: {value}</div>
@@ -67,7 +90,7 @@ export const FormExample = () => {
           largeStep={5}
         >
           <NumberField.Decrement>-</NumberField.Decrement>
-          <NumberField.Input />
+          <NumberField.Input style={{ width: '250px' }} />
           <NumberField.Increment>+</NumberField.Increment>
         </NumberField.Root>
         <button type="submit" style={{ marginTop: 8 }}>
@@ -85,30 +108,13 @@ export const WithLocale = () => (
     <SandboxEditor>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-                <p>German (de-DE)</p>
-                <NumberField.Root defaultValue={1234567.89} locale="de-DE" step={1}>
+                <p>British (en-GB)</p>
+                <NumberField.Root defaultValue={1234567.89} locale="en-GB" step={1} largeStep={100}>
                     <NumberField.Decrement>-</NumberField.Decrement>
-                    <NumberField.Input style={{ width: '200px' }} />
-                    <NumberField.Increment>+</NumberField.Increment>
-                </NumberField.Root>
-            </div>
-            <div>
-                <p>French (fr-FR)</p>
-                <NumberField.Root defaultValue={1234567.89} locale="fr-FR" step={1}>
-                    <NumberField.Decrement>-</NumberField.Decrement>
-                    <NumberField.Input style={{ width: '200px' }} />
-                    <NumberField.Increment>+</NumberField.Increment>
-                </NumberField.Root>
-            </div>
-            <div>
-                <p>Indian (en-IN)</p>
-                <NumberField.Root defaultValue={1234567.89} locale="en-IN" step={1}>
-                    <NumberField.Decrement>-</NumberField.Decrement>
-                    <NumberField.Input style={{ width: '200px' }} />
+                    <NumberField.Input style={{ width: '250px' }} />
                     <NumberField.Increment>+</NumberField.Increment>
                 </NumberField.Root>
             </div>
         </div>
     </SandboxEditor>
 );
-
