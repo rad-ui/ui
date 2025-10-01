@@ -51,7 +51,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
     const applyStep = (amount: number) => {
         setInputValue((prev) => {
             let temp: number;
-            let nextValue: number;
+            let nextValue: number ;
 
             // Handle empty input
             if (prev === '' || prev === null) {
@@ -60,20 +60,21 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
                 temp = Number(prev);
             }
 
-            if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) { temp = Math.round(temp / largeStep) * largeStep; }
+            // Round to nearest step
+            if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) { 
+                temp = Math.round(temp / largeStep) * largeStep;
+             }
 
-            // Find decimal places in amount only
             const amountDecimals = (amount.toString().split('.')[1] || '').length;
-            if (amountDecimals === 0) {
-                nextValue = temp + amount;
-            }
-            else{
-            const factor = Math.pow(10, amountDecimals);
+            const tempDecimals = (temp.toString().split('.')[1] || '').length;
+            const decimal = amountDecimals > tempDecimals ? amountDecimals : tempDecimals;
 
-            // Scale value to integer, apply step, then scale back
-            let scaledValue =  Math.round(temp * factor) + Math.round(amount * factor);
-             nextValue = scaledValue / factor;
-            }
+            // multiply temp and amount with same decimal count to remove decimal places
+            nextValue = (temp*Math.pow(10,decimal)) + (amount*Math.pow(10,decimal));
+
+            // divide nextValue by same decimal count
+            nextValue = nextValue / Math.pow(10,decimal);
+           
 
             // Clamp to min/max
             if (max !== undefined && nextValue > max) return max;
