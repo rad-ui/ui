@@ -26,16 +26,12 @@ export type NumberFieldRootProps = {
 
 const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, smallStep = 0.1, snapOnStep = false, locale, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
     const rootClass = customClassSwitcher(className, COMPONENT_NAME);
-    const [inputValue, setInputValue] = useControllableState<number | ''>(
+    const [inputValue, setInputValue] = useControllableState<number>(
         value,
         defaultValue,
         onValueChange);
 
-    const handleOnChange = (input: number| '') => {
-        if (input === '') {
-            setInputValue('');
-            return;
-        }
+    const handleOnChange = (input: number) => {
         if (max !== undefined && input > max) {
             setInputValue(max);
             return;
@@ -51,30 +47,31 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
     const applyStep = (amount: number) => {
         setInputValue((prev) => {
             let temp: number;
-            let nextValue: number ;
+            let nextValue: number;
 
             // Handle empty input
-            if (prev === '' || prev === null) {
-                temp = min !== undefined ? min : 0;
-            } else {
-                temp = Number(prev);
-            }
+            // if (prev === '' || prev === null) {
+            //     temp = min !== undefined ? min : 0;
+            // } else {
+            temp = Number(prev);
+            // }
 
             // Round to nearest step
-            if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) { 
+            if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) {
                 temp = Math.round(temp / largeStep) * largeStep;
-             }
+            }
 
             const amountDecimals = (amount.toString().split('.')[1] || '').length;
             const tempDecimals = (temp.toString().split('.')[1] || '').length;
             const decimal = amountDecimals > tempDecimals ? amountDecimals : tempDecimals;
 
             // multiply temp and amount with same decimal count to remove decimal places
-            nextValue = (temp*Math.pow(10,decimal)) + (amount*Math.pow(10,decimal));
+            nextValue = (temp * Math.pow(10, decimal)) + (amount * Math.pow(10, decimal));
 
             // divide nextValue by same decimal count
-            nextValue = nextValue / Math.pow(10,decimal);
-           
+            nextValue = nextValue / Math.pow(10, decimal);
+            const factor = Math.pow(10, decimal);
+            nextValue = (Math.round(temp * factor) + Math.round(amount * factor)) / factor;
 
             // Clamp to min/max
             if (max !== undefined && nextValue > max) return max;

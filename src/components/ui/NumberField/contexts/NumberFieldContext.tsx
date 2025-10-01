@@ -2,8 +2,8 @@ import React from 'react';
 
 export type NumberFieldContextType = {
   inputValue: number|'';
-  handleOnChange: (input: number|'') => void;
-  handleStep: (opts: { direction: 'increment' | 'decrement'; type: 'small' | 'large' }) => void;
+  handleOnChange: (input: number) => void;
+  handleStep: (opts: { direction: 'increment' | 'decrement'; type: 'small' | 'normal' | 'large' }) => void;
   id?: string;
   name?: string;
   disabled?: boolean;
