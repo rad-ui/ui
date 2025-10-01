@@ -110,6 +110,21 @@ export default {
         900: 'var(--rad-ui-color-red-900)',
         950: 'var(--rad-ui-color-red-950)',
         1000: 'var(--rad-ui-color-red-1000)'
+
+    },
+    'red-alpha': {
+        50: 'var(--rad-ui-color-red-alpha-50)',
+        100: 'var(--rad-ui-color-red-alpha-100)',
+        200: 'var(--rad-ui-color-red-alpha-200)',
+        300: 'var(--rad-ui-color-red-alpha-300)',
+        400: 'var(--rad-ui-color-red-alpha-400)',
+        500: 'var(--rad-ui-color-red-alpha-500)',
+        600: 'var(--rad-ui-color-red-alpha-600)',
+        700: 'var(--rad-ui-color-red-alpha-700)',
+        800: 'var(--rad-ui-color-red-alpha-800)',
+        900: 'var(--rad-ui-color-red-alpha-900)',
+        950: 'var(--rad-ui-color-red-alpha-950)',
+        1000: 'var(--rad-ui-color-red-alpha-1000)'
     },
     ruby: {
         50: 'var(--rad-ui-color-ruby-50)',
@@ -292,6 +307,20 @@ export default {
         900: 'var(--rad-ui-color-green-900)',
         950: 'var(--rad-ui-color-green-950)',
         1000: 'var(--rad-ui-color-green-1000)'
+    },
+    'green-alpha': {
+        50: 'var(--rad-ui-color-green-alpha-50)',
+        100: 'var(--rad-ui-color-green-alpha-100)',
+        200: 'var(--rad-ui-color-green-alpha-200)',
+        300: 'var(--rad-ui-color-green-alpha-300)',
+        400: 'var(--rad-ui-color-green-alpha-400)',
+        500: 'var(--rad-ui-color-green-alpha-500)',
+        600: 'var(--rad-ui-color-green-alpha-600)',
+        700: 'var(--rad-ui-color-green-alpha-700)',
+        800: 'var(--rad-ui-color-green-alpha-800)',
+        900: 'var(--rad-ui-color-green-alpha-900)',
+        950: 'var(--rad-ui-color-green-alpha-950)',
+        1000: 'var(--rad-ui-color-green-alpha-1000)'
     },
     grass: {
         50: 'var(--rad-ui-color-grass-50)',
