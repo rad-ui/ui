@@ -26,12 +26,16 @@ export type NumberFieldRootProps = {
 
 const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, smallStep = 0.1, snapOnStep = false, locale, min, max, disabled, readOnly, required, id, className, ...props }, ref) => {
     const rootClass = customClassSwitcher(className, COMPONENT_NAME);
-    const [inputValue, setInputValue] = useControllableState<number>(
+    const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
         defaultValue,
         onValueChange);
 
-    const handleOnChange = (input: number) => {
+    const handleOnChange = (input: number | '') => {
+        if (input === '') {
+            setInputValue('');
+            return;
+        }
         if (max !== undefined && input > max) {
             setInputValue(max);
             return;
@@ -50,11 +54,11 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
             let nextValue: number;
 
             // Handle empty input
-            // if (prev === '' || prev === null) {
-            //     temp = min !== undefined ? min : 0;
-            // } else {
-            temp = Number(prev);
-            // }
+            if (prev === '' || prev === null) {
+                temp = min !== undefined ? min : 0;
+            } else {
+                temp = Number(prev);
+            }
 
             // Round to nearest step
             if (temp % largeStep != 0 && snapOnStep && largeStep === Math.abs(amount)) {

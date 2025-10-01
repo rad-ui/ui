@@ -49,30 +49,14 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             event.preventDefault();
             handleStep({ direction: 'decrement', type: 'small' });
         }
-        const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
-
-        // Allow digits
-        if (event.key >= '0' && event.key <= '9') return;
-
-        // Allow one dot if not present
-        if (event.key === '.' && !event.currentTarget.value.includes('.')) return;
-
-        // Allow minus only at start
-        if (event.key === '-' && event.currentTarget.selectionStart === 0 && !event.currentTarget.value.includes('-')) return;
-
-        // Allow navigation keys
-        if (allowedKeys.includes(event.key)) return;
-
-        // Prevent other keys
-        event.preventDefault();
     };
     return (
         <input
             ref={ref}
-            type="text"
+            type="number"
             onKeyDown={handleKeyDown}
             value={inputValue}
-            onChange={(e) => { const val = e.target.value; handleOnChange(val); }}
+            onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }}
             id={id}
             name={name}
             disabled={disabled}
