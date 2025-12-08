@@ -30,28 +30,46 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
         }
     };
 
+    const role = 'checkbox';
+    const ariaRequired = required || groupRequired;
+    const isDisabled = disabled || groupDisabled;
+
     return (
         <div>
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
                 <RovingFocusGroup.Item
                     ref={ref}
-                    role="checkbox"
+                    role={role}
                     onClick={handleClick}
                     className={className}
                     aria-checked={isChecked}
-                    aria-required={required || groupRequired}
+                    aria-required={ariaRequired}
+                    aria-disabled={isDisabled || undefined}
                     {...props}
                 >
                     <button
                         type="button"
-                        disabled={disabled || groupDisabled}
+                        role={role}
+                        aria-checked={isChecked}
+                        aria-required={ariaRequired}
+                        aria-disabled={isDisabled || undefined}
+                        disabled={isDisabled}
                     >
                         {children}
                     </button>
                 </RovingFocusGroup.Item>
             </CheckboxGroupPrimitiveTriggerContext.Provider>
 
-            <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled} readOnly />
+            <input
+                type="checkbox"
+                checked={isChecked}
+                name={name}
+                value={value}
+                style={{ display: 'none' }}
+                required={ariaRequired}
+                disabled={isDisabled}
+                readOnly
+            />
 
         </div>
     );
