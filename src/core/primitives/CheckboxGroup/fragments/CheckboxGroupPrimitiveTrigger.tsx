@@ -39,7 +39,6 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
                 <RovingFocusGroup.Item
                     ref={ref}
-                    role={role}
                     onClick={handleClick}
                     className={className}
                     aria-checked={isChecked}
@@ -68,6 +67,7 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                 style={{ display: 'none' }}
                 required={ariaRequired}
                 disabled={isDisabled}
+                aria-hidden="true"
                 readOnly
             />
 
