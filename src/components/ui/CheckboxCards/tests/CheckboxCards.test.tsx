@@ -78,11 +78,13 @@ describe('CheckboxCards', () => {
                 </CheckboxCards.Item>
             </CheckboxCards.Root>
         );
-        const checkbox = screen.getByRole('checkbox');
+        // Query by the button element that contains the text and has aria-checked
+        const checkbox = screen.getByText('Apple').closest('button[aria-checked]') as HTMLElement;
+        expect(checkbox).toBeInTheDocument();
         expect(checkbox).toBeDisabled();
         expect(checkbox).toHaveAttribute('aria-required', 'true');
         // The hidden input should also be disabled and required
-        const input = checkbox.parentElement?.parentElement?.querySelector('input[type="checkbox"]');
+        const input = checkbox.parentElement?.querySelector('input[type="checkbox"]');
         expect(input).toBeDisabled();
         expect(input).toBeRequired();
     });
@@ -147,7 +149,9 @@ describe('CheckboxCards', () => {
                 </CheckboxCards.Item>
             </CheckboxCards.Root>
         );
-        const checkbox = screen.getByRole('checkbox');
+        // Query by the button element that contains the text and has aria-checked
+        const checkbox = screen.getByText('Apple').closest('button[aria-checked]') as HTMLElement;
+        expect(checkbox).toBeInTheDocument();
         expect(ref.current).toBe(checkbox);
         expect(warnSpy).not.toHaveBeenCalled();
         expect(errorSpy).not.toHaveBeenCalled();
