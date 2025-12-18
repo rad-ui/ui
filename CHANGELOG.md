@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.1.8
+
+### Patch Changes
+
+- d22ef40: resize, size and varaint api support added for textarea
+
 ## 0.1.7
 
 ### Patch Changes
