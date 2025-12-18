@@ -22,7 +22,7 @@ const data = {
             info_tooltips : "The class name for the AvatarRoot."
         },
         type : "string",
-        default : "--",
+        default : "''",
        },
        {
         prop : {
@@ -30,7 +30,7 @@ const data = {
             info_tooltips : "The class name for the AvatarRoot."
         },
         type : "string",
-        default : "--",
+        default : "''",
        },
        {
         prop: {
@@ -46,7 +46,7 @@ const data = {
             info_tooltips: 'The children of the AvatarRoot.'
         },
         type: 'React.ReactNode',
-        default: 'null',
+        default: "''",
        },
        {
         prop: {
@@ -54,7 +54,7 @@ const data = {
             info_tooltips: 'The size of the AvatarRoot.'
         },
         type: 'string',
-        default: '``',
+        default: "''",
        },
        {
         prop: {
@@ -62,7 +62,7 @@ const data = {
             info_tooltips: 'The variant of the AvatarRoot.'
         },
         type: 'string',
-        default: '``',
+        default: "''",
        },
        {
         prop: {
@@ -70,7 +70,7 @@ const data = {
             info_tooltips: 'The color of the AvatarRoot.'
         },
         type: 'string',
-        default: '``',
+        default: "''",
        }
     ]
 }

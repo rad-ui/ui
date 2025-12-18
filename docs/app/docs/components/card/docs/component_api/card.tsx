@@ -22,7 +22,7 @@ const data = {
                 info_tooltips: "The content to be displayed inside the card."
             },
             type: "ReactNode",
-            default: "--",
+            default: "''",
         },
         {
             prop: {
@@ -38,7 +38,7 @@ const data = {
                 info_tooltips: "Custom root class name to override default styling."
             },
             type: "string",
-            default: "--",
+            default: "''",
         },
         {
             prop: {
@@ -46,7 +46,7 @@ const data = {
                 info_tooltips: "Accent color to apply to the card. Used as a data attribute."
             },
             type: "string",
-            default: "--",
+            default: "''",
         }
     ]
 };

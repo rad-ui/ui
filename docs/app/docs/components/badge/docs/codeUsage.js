@@ -23,19 +23,17 @@ const BadgeExample = () => (
     },
 }
 
-export const BadgeTable ={
-     columns: [
+export const BadgeTable = {
+    columns: [
         {name: 'Prop', id: 'prop'},
         {name: 'Type', id: 'type'},
         {name: 'Default', id: 'default'},
         {name: 'Description', id: 'description'},
     ],
-
-     data : [
-        {prop: 'color', type: 'string', default: 'null', description: 'Accent color of the component', id: 'color'},
-        {prop: 'size', type: 'string', default: 'null', description: 'Size of the component', id: 'size'},
-        {prop: 'variant', type: 'string', default: 'null', description: 'Variant of the component', id: 'variant'},
-
+    data: [
+        {prop: 'color', type: 'string', default: "''", description: 'Accent color of the component', id: 'color'},
+        {prop: 'size', type: 'string', default: "''", description: 'Size of the component', id: 'size'},
+        {prop: 'variant', type: 'string', default: "''", description: 'Variant of the component', id: 'variant'},
     ]
 }
 export default code;

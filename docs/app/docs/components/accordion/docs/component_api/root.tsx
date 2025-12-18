@@ -22,7 +22,7 @@ const data = {
             info_tooltips : "The class name for the AccordionRoot."
         },
         type : "string",
-        default : "--",
+        default : "''",
        },
        {
         prop : {
