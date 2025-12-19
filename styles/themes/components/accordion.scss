@@ -1,102 +1,108 @@
-.rad-ui-accordion-root{
-    //  --------------------------------
-    //  --- Component Tokens -----
-    //  --------------------------------
-
-    --rad-accordion-border-color: var(--rad-ui-color-gray-300);
-    --rad-accordion-background-color: var(--rad-ui-color-surface);
-    --rad-accordion-text-color: var(--rad-ui-color-gray-1000);
-
-    // Trigger Tokens
-    --rad-accordion-trigger-background-color: transparent;
-    --rad-accordion-trigger-text-color: var(--rad-ui-color-gray-1000);
-
-    // Content Tokens
-    --rad-accordion-content-background-color: transparent;
-    --rad-accordion-content-text-color: var(--rad-ui-color-gray-900);
-
-    // Focus Tokens
-    --rad-accordion-focus-border-color: var(--rad-ui-color-gray-800);
-    --rad-accordion-focus-outline-offset: 4px;
-
-
-    width: 100%;
-    border-radius: 8px;
-    background-color: var(--rad-accordion-background-color);
-
-    .rad-ui-accordion-item {
-        border-bottom: 1px solid var(--rad-accordion-border-color);
-        border-radius: 0;
-
-        &[data-disabled]{
-            opacity: 0.3;
-            pointer-events: none;
-            cursor: not-allowed !important;
-        }
-        
-        background-color: var(--rad-accordion-background-color);
-
-        // not last child
-        &:last-child{
-            border-bottom: none;
-        }
-
-        // Focus state for the entire item (when trigger or content is focused)
-        &:focus-within {
-            outline: 2px solid var(--rad-accordion-focus-border-color);
-            outline-offset: var(--rad-accordion-focus-outline-offset);
-        }
-
-        .rad-ui-accordion-trigger{
-            border-radius: 0;
-            width: 100%;
-            text-align: left;
-            padding: 16px 0;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--rad-accordion-trigger-text-color);
-            background-color: var(--rad-accordion-trigger-background-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: color 200ms ease, text-decoration-color 200ms ease;
-
-            &:hover{
-                text-decoration: underline;
-            }
-
-            // Remove default focus outline since parent handles focus-within
-            &:focus {
-                outline: none;
-            }
-
-            // Focus-visible for keyboard navigation
-            &:focus-visible {
-                outline: none;
-            }
-        }
-
-        .rad-ui-accordion-content {
-            padding: 0 0 16px 0;
-            font-size: 0.95rem;
-            color: var(--rad-accordion-content-text-color);
-            border-top: 0;
-            background-color: var(--rad-accordion-content-background-color);
-            line-height: 1.6;
-
-            &[data-state="open"]{
-                height: auto;
-            }
-
-            // Remove default focus outline since parent handles focus-within
-            &:focus {
-                outline: none;
-            }
-
-            // Focus-visible for keyboard navigation
-            &:focus-visible {
-                outline: none;
-            }
-        }
+.rad-ui-accordion-root {
+  width: 100%;
+  
+  .rad-ui-accordion-item {
+    border-bottom: 1px solid var(--rad-ui-color-gray-200);
+    
+    &:first-child {
+      border-top: 1px solid var(--rad-ui-color-gray-200);
+      border-top-left-radius: 0.375rem; // rounded-md
+      border-top-right-radius: 0.375rem;
     }
+    
+    &:last-child {
+      border-bottom: 1px solid var(--rad-ui-color-gray-200);
+      border-bottom-left-radius: 0.375rem;
+      border-bottom-right-radius: 0.375rem;
+    }
+    
+    &:only-child {
+      border-radius: 0.375rem;
+    }
+    
+    &[data-disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    
+    .rad-ui-accordion-header {
+      display: flex;
+    }
+    
+    .rad-ui-accordion-trigger {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem; // py-4 px-4
+      font-size: 0.875rem; // text-sm
+      font-weight: 500; // font-medium
+      transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: transparent;
+      color: var(--rad-ui-color-gray-950);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      
+      &:hover {
+        text-decoration: none;
+        background-color: var(--rad-ui-color-gray-50);
+      }
+      
+      &:focus-visible {
+        outline: 2px solid var(--rad-ui-color-gray-900);
+        outline-offset: -2px;
+      }
+      
+      &[aria-disabled="true"] {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+      
+      // Chevron icon styling - supports both class-based and direct SVG
+      svg,
+      .rad-ui-accordion-chevron {
+        height: 1rem; // h-4
+        width: 1rem; // w-4
+        flex-shrink: 0;
+        transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        color: var(--rad-ui-color-gray-500);
+      }
+    }
+    
+    // Rotate chevron when item is open
+    &[data-state="open"] {
+      .rad-ui-accordion-trigger {
+        svg,
+        .rad-ui-accordion-chevron {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    
+    .rad-ui-accordion-content {
+      // Animation uses CSS variables (Radix UI approach) for smooth transitions
+      font-size: 0.875rem; // text-sm
+      color: var(--rad-ui-color-gray-700);
+      padding: 0 1rem 1rem; // px-4 pb-4, matches trigger horizontal padding for alignment
+      overflow: hidden;
+      
+      // Radix UI style: Use CSS variable for height animation
+      // The JavaScript sets --rad-collapsible-content-height dynamically
+      &[data-state="open"] {
+        height: var(--rad-collapsible-content-height, auto);
+      }
+      
+      &[data-state="closed"] {
+        height: 0px;
+      }
+      
+      // If content has a wrapper div, ensure it doesn't add extra padding
+      > div {
+        padding: 0;
+      }
+    }
+  }
 }

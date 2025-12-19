@@ -18,7 +18,7 @@
 }
 
 .rad-ui-alert-dialog-trigger {
-  // shadcn button default style
+  // Button default style
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -117,7 +117,7 @@
     
     // Nested button components within footer
     .rad-ui-alert-dialog-action {
-      // shadcn button default/primary style
+      // Button default/primary style
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -154,7 +154,7 @@
     }
     
     .rad-ui-alert-dialog-cancel {
-      // shadcn button outline variant style
+      // Button outline variant style
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -195,7 +195,7 @@
 
 // Standalone button styles (for when used outside of content context)
 .rad-ui-alert-dialog-action {
-  // shadcn button default/primary style
+  // Button default/primary style
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -232,7 +232,7 @@
 }
 
 .rad-ui-alert-dialog-cancel {
-  // shadcn button outline variant style
+  // Button outline variant style
   display: inline-flex;
   align-items: center;
   justify-content: center;

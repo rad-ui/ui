@@ -1,54 +1,128 @@
 .rad-ui-callout {
-    padding:0.3em 0.8em 0.3em 0.8em;
-    border-radius:8px;
-     background-color: var(--rad-ui-color-accent-200);
-     color: var(--rad-ui-color-accent-950);
-     display: flex;
-     align-items: center;
-     font-weight: 300;
-     font-size: 16px;
-     gap:8px;
-
-     &[data-callout-variant="outline"]{
-        background-color: transparent;
-        color: var(--rad-ui-color-accent-900);
-        border: 1px solid var(--rad-ui-color-accent-900);
-
-       
+  position: relative;
+  width: 100%;
+  border-radius: 0.375rem; // rounded-md
+  border: 1px solid var(--rad-ui-color-gray-300);
+  padding: 1rem; // p-4
+  background-color: var(--rad-ui-color-gray-50);
+  color: var(--rad-ui-color-gray-950);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem; // gap-3
+  
+  // Icon styling - base selector (least specific)
+  .rad-ui-callout-icon {
+    height: 1rem; // h-4
+    width: 1rem; // w-4
+    flex-shrink: 0;
+    margin-top: 0.125rem; // mt-0.5
+    color: var(--rad-ui-color-gray-600);
+  }
+  
+  // Text styling
+  .rad-ui-callout-text {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.5; // leading-normal
+    color: inherit;
+    margin: 0;
+    
+    // Title-like styling (when used as title)
+    &:first-child:not(:has(+ *)) {
+      font-weight: 500; // font-medium
     }
-
-    &[data-callout-variant="soft"]{
-        border-top: 1px solid var(--rad-ui-color-accent-600);
-        border-left: 1px solid var(--rad-ui-color-accent-600);
-        border-right: 1px solid var(--rad-ui-color-accent-600);
-        border-bottom: 1px solid var(--rad-ui-color-accent-600);
-        color: var(--rad-ui-color-accent-950);
-        background-color:  var(--rad-ui-color-accent-400);
-
+  }
+  
+  // Default styles (no color prop) - neutral/muted appearance
+  &[data-rad-ui-accent-color] {
+    border-color: var(--rad-ui-color-accent-300);
+    background-color: var(--rad-ui-color-accent-50);
+    color: var(--rad-ui-color-accent-950);
+    
+    .rad-ui-callout-icon {
+      color: var(--rad-ui-color-accent-600);
+    }
+  }
+  
+  // Destructive variant
+  &[data-callout-variant="destructive"] {
+    border-color: var(--rad-ui-color-red-300);
+    background-color: var(--rad-ui-color-red-50);
+    color: var(--rad-ui-color-red-950);
+    
+    .rad-ui-callout-icon {
+      color: var(--rad-ui-color-red-600);
+    }
+  }
+  
+  // Size variants
+  &[data-callout-size="small"] {
+    padding: 0.75rem; // p-3
+    font-size: 0.75rem; // text-xs
+    gap: 0.5rem; // gap-2
+    
+    .rad-ui-callout-icon {
+      height: 0.875rem; // h-3.5
+      width: 0.875rem; // w-3.5
+    }
+  }
+  
+  &[data-callout-size="medium"] {
+    padding: 1rem; // p-4
+    font-size: 0.875rem; // text-sm
+    gap: 0.75rem; // gap-3
+  }
+  
+  &[data-callout-size="large"] {
+    padding: 1.25rem; // p-5
+    font-size: 1rem; // text-base
+    gap: 1rem; // gap-4
+    
+    .rad-ui-callout-icon {
+      height: 1.25rem; // h-5
+      width: 1.25rem; // w-5
+    }
+  }
+  
+  &[data-callout-size="x-large"] {
+    padding: 1.5rem; // p-6
+    font-size: 1.125rem; // text-lg
+    gap: 1rem; // gap-4
+    
+    .rad-ui-callout-icon {
+      height: 1.5rem; // h-6
+      width: 1.5rem; // w-6
+    }
+  }
+  
+  // Variant styles (outline, soft)
+  &[data-callout-variant="outline"] {
+    background-color: transparent;
+    border-color: var(--rad-ui-color-gray-300);
+    color: var(--rad-ui-color-gray-950);
+    
+    &[data-rad-ui-accent-color] {
+      border-color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-900);
       
+      .rad-ui-callout-icon {
+        color: var(--rad-ui-color-accent-600);
+      }
     }
-
-
-    /** Callout Sizes */
-    &[data-callout-size="small"]{
-        font-size: small;
-        
-    }
-
-    &[data-callout-size="medium"]{
-        font-size: medium;
-        
-    }
-
-    &[data-callout-size="large"]{
-        font-size: large;
-       
-    }
-
-    &[data-callout-size="x-large"]{
-        font-size: x-large;
+  }
+  
+  &[data-callout-variant="soft"] {
+    border-color: var(--rad-ui-color-gray-300);
+    background-color: var(--rad-ui-color-gray-200);
+    color: var(--rad-ui-color-gray-950);
+    
+    &[data-rad-ui-accent-color] {
+      border-color: var(--rad-ui-color-accent-600);
+      background-color: var(--rad-ui-color-accent-400);
+      color: var(--rad-ui-color-accent-950);
       
+      .rad-ui-callout-icon {
+        color: var(--rad-ui-color-accent-600);
+      }
     }
+  }
 }
-
- 
