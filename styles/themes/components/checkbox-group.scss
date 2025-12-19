@@ -1,37 +1,79 @@
 .rad-ui-checkbox-group-root {
   display: flex;
   flex-direction: column;
-  
+  gap: 0.75rem; // space-y-3
 }
 
 .rad-ui-checkbox-group-label {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  margin-top: 12px;
+  gap: 0.5rem; // gap-2
+  font-size: 0.875rem; // text-sm
+  font-weight: 500; // font-medium
+  color: var(--rad-ui-color-gray-950);
+  cursor: pointer;
+  
+  &:hover {
+    color: var(--rad-ui-color-gray-900);
+  }
+  
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .rad-ui-checkbox-group-trigger {
-    height: 25px;
-    width: 25px;
-    border-radius: 4px;
-    border: 1px solid var(--rad-ui-color-gray-800);
-    background-color: var(--rad-ui-color-gray-50);
-    color: var(--rad-ui-color-gray-1000);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  height: 1rem; // h-4
+  width: 1rem; // w-4
+  flex-shrink: 0;
+  border-radius: 0.125rem; // rounded-sm
+  border: 1px solid var(--rad-ui-color-gray-300);
+  background-color: var(--rad-ui-color-gray-50);
+  color: var(--rad-ui-color-gray-950);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--rad-ui-color-gray-50), 0 0 0 4px var(--rad-ui-color-gray-900);
+  }
+  
+  &[data-state="checked"] {
+    background-color: var(--rad-ui-color-gray-900);
+    border-color: var(--rad-ui-color-gray-900);
+    color: var(--rad-ui-color-gray-50);
+  }
+  
+  &[data-disabled],
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  // Accent color support
+  [data-rad-ui-accent-color] & {
+    &[data-state="checked"] {
+      background-color: var(--rad-ui-color-accent-900);
+      border-color: var(--rad-ui-color-accent-900);
+      color: var(--rad-ui-color-accent-50);
+    }
+  }
 }
 
-
 .rad-ui-checkbox-group-tick-icon {
-  border-radius: 4px;
-  width: 25px;
-  height: 25px;
-  color: var(--rad-ui-color-accent-1000);
-  background-color: var(--rad-ui-color-accent-900);
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: currentcolor;
+  
+  svg {
+    height: 0.75rem; // h-3
+    width: 0.75rem; // w-3
+  }
 }

@@ -1,43 +1,176 @@
-.rad-ui-checkbox-cards-root {
-  display: flex;
-  flex-direction: row;
-  
-}
-
 .rad-ui-checkbox-cards-item {
   display: flex;
-  border: 1px solid var(--rad-ui-color-gray-500);
-  width:180px;
-  height: 70px;
-  padding: 1rem;
   flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 1rem; // gap-4
+  padding: 1rem; // p-4
+  border-radius: 0.5rem; // rounded-lg
+  border: 1px solid var(--rad-ui-color-gray-300);
+  background-color: var(--rad-ui-color-gray-50);
+  color: var(--rad-ui-color-gray-950);
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 80px;
+  width: 100%; // Take full width of container
+  margin: 0; // Remove any default margins to ensure gap works
+  
+  // Hover state - subtle background change with border highlight
+  &:hover {
+    background-color: var(--rad-ui-color-gray-100);
+    border-color: var(--rad-ui-color-gray-400);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--rad-ui-color-gray-900);
+    outline-offset: 2px;
+  }
+  
+  // Selected/checked state - more prominent border
+  &[data-state="checked"] {
+    background-color: var(--rad-ui-color-gray-50);
+    border-color: var(--rad-ui-color-gray-600);
+    border-width: 1.5px;
+    
+    &:hover {
+      background-color: var(--rad-ui-color-gray-100);
+      border-color: var(--rad-ui-color-gray-700);
+    }
+  }
+  
+  // Unselected state styling
+  &[data-state="unchecked"] {
+    border-color: var(--rad-ui-color-gray-300);
+    border-width: 1px;
+  }
+  
+  &[data-disabled],
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  // Accent color support - only when color prop is present (data-rad-ui-accent-color)
+  // Default states should always use gray colors, accent colors only when explicitly set
+  [data-rad-ui-accent-color] & {
+    &[data-state="checked"] {
+      background-color: var(--rad-ui-color-accent-50);
+      border-color: var(--rad-ui-color-accent-600);
+      border-width: 1.5px;
+      
+      &:hover {
+        background-color: var(--rad-ui-color-accent-100);
+        border-color: var(--rad-ui-color-accent-700);
+      }
+    }
+    
+    &[data-state="unchecked"] {
+      border-color: var(--rad-ui-color-gray-300);
+      
+      &:hover {
+        background-color: var(--rad-ui-color-gray-100);
+        border-color: var(--rad-ui-color-gray-400); // Use gray, not accent color
+      }
+    }
+  }
+  
+  // Content area (left side) - for title and description
+  > *:not(.rad-ui-checkbox-cards-content) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; // gap-1
+    text-align: left;
+    align-items: flex-start;
+    
+    // Ensure all text content is left-aligned
+    h1, h2, h3, h4, h5, h6, p, span, div {
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+
+.rad-ui-checkbox-cards-root {
+  // The actual items are wrapped in RovingFocusGroup.Group
+  // Use role="group" attribute selector instead of div tags (asChild can change element type)
+  // Apply gap to the group that contains the items
+  [role="group"] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; // gap-4 - decent spacing between items
+  }
+  
+  // Ensure gap works by removing any conflicting margins on items
+  .rad-ui-checkbox-cards-item {
+    margin: 0;
+  }
 }
 
 .rad-ui-checkbox-cards-content {
-    height: 25px;
-    width: 25px;
-    border-radius: 4px;
-    border: 1px solid var(--rad-ui-color-gray-800);
-    background-color: var(--rad-ui-color-gray-50);
-    color: var(--rad-ui-color-gray-1000);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  height: 1.25rem; // h-5
+  width: 1.25rem; // w-5
+  flex-shrink: 0;
+  border-radius: 0.25rem; // rounded-md - subtle border radius, not circular
+  border: 2px solid var(--rad-ui-color-gray-400);
+  background-color: transparent;
+  color: var(--rad-ui-color-gray-950);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0.125rem; // slight top alignment
+  
+  .rad-ui-checkbox-cards-item[data-state="checked"] & {
+    background-color: var(--rad-ui-color-gray-900);
+    border-color: var(--rad-ui-color-gray-900);
+    color: var(--rad-ui-color-gray-50);
+  }
+  
+  .rad-ui-checkbox-cards-item[data-state="unchecked"] & {
+    background-color: transparent;
+    border-color: var(--rad-ui-color-gray-400);
+  }
+  
+  .rad-ui-checkbox-cards-item:hover & {
+    border-color: var(--rad-ui-color-gray-600);
+  }
+  
+  .rad-ui-checkbox-cards-item[data-state="checked"]:hover & {
+    border-color: var(--rad-ui-color-gray-950);
+    background-color: var(--rad-ui-color-gray-950);
+  }
+  
+  // Accent color support - only when color prop is present (data-rad-ui-accent-color)
+  // Order: unchecked base, checked base, unchecked hover, checked hover (ascending specificity)
+  [data-rad-ui-accent-color] .rad-ui-checkbox-cards-item[data-state="unchecked"] & {
+    border-color: var(--rad-ui-color-gray-400);
+  }
+  
+  [data-rad-ui-accent-color] .rad-ui-checkbox-cards-item[data-state="checked"] & {
+    background-color: var(--rad-ui-color-accent-900);
+    border-color: var(--rad-ui-color-accent-900);
+    color: var(--rad-ui-color-accent-50);
+  }
+  
+  // Unchecked hover - use gray, not accent
+  [data-rad-ui-accent-color] .rad-ui-checkbox-cards-item[data-state="unchecked"]:hover & {
+    border-color: var(--rad-ui-color-gray-600);
+  }
+  
+  // Checked hover with accent color
+  [data-rad-ui-accent-color] .rad-ui-checkbox-cards-item[data-state="checked"]:hover & {
+    border-color: var(--rad-ui-color-accent-950);
+    background-color: var(--rad-ui-color-accent-950);
+  }
 }
 
-
 .rad-ui-checkbox-cards-tick-icon {
-  display: inline-block;
-  border-radius: 4px;
-  width: 25px;
-  height: 25px;
-  color: var(--rad-ui-color-accent-1000);
-  background-color: var(--rad-ui-color-accent-900);
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: currentcolor;
+  width: 0.875rem; // w-3.5
+  height: 0.875rem; // h-3.5
 }
