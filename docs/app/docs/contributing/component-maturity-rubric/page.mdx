@@ -4,22 +4,71 @@ export const metadata = componentMaturityRubricMetadata
 
 # Component Maturity Rubric
 
-This rubric defines the standards for component readiness, documentation depth, and test coverage expectations in Rad UI. Use this guide to assess component maturity and identify areas for improvement.
+This rubric defines what “ready” means in Rad UI.
+
+It sets expectations for:
+- Component stability and API readiness
+- Documentation depth and examples
+- Test coverage and quality
+- Accessibility guarantees and verification
+
+Use it to assess component maturity, identify gaps, and decide when a component can be promoted.
+
+---
 
 ## Overview
 
-Components in Rad UI progress through maturity levels from **Experimental** to **Production**. Each level has specific requirements for component readiness, documentation, and testing. This ensures consistent quality and maintainability across the library.
+Every component in Rad UI belongs to one of three maturity levels:
+
+- 🧪 **Experimental**: early work, learning phase, sharp edges expected
+- 🔄 **Beta**: feature complete, usable, still gaining real world confidence
+- ✅ **Production**: stable API, strong docs, strong tests, safe to adopt
+
+Promotion is earned. Not vibes.
+
+---
 
 ## Maturity Levels
 
 ### 🧪 Experimental
-Components in early development or exploration phase. Suitable for internal testing and feedback gathering.
+
+For components in active development or exploration.
+
+**You can use it if:**
+- you are comfortable with churn
+- you can tolerate gaps
+- you are willing to give feedback
+
+**You should not use it if:**
+- you need API stability
+- you need strict backwards compatibility
+
+---
 
 ### 🔄 Beta
-Components that are feature-complete but may have known limitations or require additional real-world usage validation.
+
+For components that are feature complete and broadly usable, but still under validation.
+
+Beta means:
+- the core API is stable
+- the main interactions work
+- remaining work is usually edge cases, polish, and deeper coverage
+
+Small refinements can still happen.
+
+---
 
 ### ✅ Production
-Components that are stable, well-documented, thoroughly tested, and ready for production use.
+
+For stable components with high confidence.
+
+Production means:
+- API stability (breaking changes require a major bump)
+- strong documentation that matches the real API
+- high test coverage with meaningful scenarios
+- verified accessibility behavior for expected patterns
+
+Production does not mean “perfect”. It means “safe to depend on”.
 
 ---
 
@@ -27,284 +76,240 @@ Components that are stable, well-documented, thoroughly tested, and ready for pr
 
 ### Experimental
 
-**Requirements:**
-- ✅ Basic functionality implemented
-- ✅ TypeScript types defined (may be incomplete)
-- ✅ Component exports correctly
-- ⚠️ API may change without notice
-- ⚠️ Known bugs or limitations documented
+**Required**
+- Basic functionality implemented
+- Component exports correctly
+- TypeScript types exist (can be incomplete)
+- Known limitations documented
+- API can change without notice
 
-**Acceptable:**
-- Breaking changes between versions
-- Missing edge case handling
-- Incomplete prop validation
-- Performance optimizations pending
+**Allowed**
+- breaking changes
+- missing edge case handling
+- incomplete prop validation
+- performance work pending
+
+---
 
 ### Beta
 
-**Requirements:**
-- ✅ All core functionality implemented
-- ✅ TypeScript types complete and accurate
-- ✅ Props API stable (changes require deprecation notice)
-- ✅ Error handling for common edge cases
-- ✅ SSR compatibility verified
-- ✅ No critical bugs or accessibility violations
-- ⚠️ Minor API refinements may occur
+**Required**
+- All core functionality implemented
+- TypeScript types complete and accurate
+- Props API stable (changes require deprecation notice)
+- Edge cases handled for common usage
+- SSR and hydration compatibility verified where applicable
+- No known critical bugs
+- No known critical accessibility issues
 
-**Acceptable:**
-- Some advanced features may be missing
-- Performance optimizations in progress
-- Limited customization options
+**Allowed**
+- advanced features missing
+- minor ergonomic improvements
+- optimizations in progress
+
+---
 
 ### Production
 
-**Requirements:**
-- ✅ All planned features implemented
-- ✅ Complete TypeScript types with JSDoc comments
-- ✅ Stable API (breaking changes require major version bump)
-- ✅ Comprehensive error handling
-- ✅ SSR and hydration compatibility verified
-- ✅ Performance optimized (no unnecessary re-renders, efficient DOM updates)
-- ✅ No known bugs or accessibility violations
-- ✅ Proper prop validation and helpful error messages
-- ✅ Support for controlled and uncontrolled usage patterns where applicable
+**Required**
+- All planned features implemented
+- Stable API (breaking changes require major bump and migration notes)
+- TypeScript types complete, with JSDoc where it adds clarity
+- Strong error handling with useful messages
+- SSR and hydration verified where applicable
+- Performance reviewed (avoid unnecessary re-renders and heavy DOM work)
+- No known critical bugs
+- No known critical accessibility issues
+- Supports controlled and uncontrolled patterns where applicable
 
-**Not Acceptable:**
-- Breaking changes without deprecation path
-- Critical bugs or accessibility issues
-- Missing TypeScript types
-- Performance regressions
+**Not allowed**
+- breaking changes without a deprecation path
+- missing TS types
+- known critical a11y bugs
+- performance regressions
 
 ---
 
 ## Documentation Depth
 
+Documentation is part of the product.
+
 ### Experimental
 
-**Minimum Requirements:**
-- ✅ Component page exists in documentation
-- ✅ Basic description of component purpose
-- ✅ Simple usage example (Component Hero)
-- ✅ Basic API table with core props
+**Required**
+- Docs page exists
+- Clear purpose statement
+- One simple usage example
+- Basic API table for core props
 
-**Optional:**
-- Variant examples
-- Advanced usage patterns
-- Migration guides
+---
 
 ### Beta
 
-**Minimum Requirements:**
-- ✅ All Experimental requirements
-- ✅ Complete API documentation table for all sub-components and props
-- ✅ Component anatomy/structure diagram
-- ✅ At least 2-3 usage examples demonstrating different patterns
-- ✅ Feature list highlighting key capabilities
-- ✅ TypeScript examples in code snippets
-- ✅ Common use cases documented
+**Required**
+- Everything in Experimental
+- Full API tables for all sub-components and props
+- Component anatomy (structure) explanation
+- 2 to 3 examples showing different patterns
+- Common use cases documented
+- TypeScript shown in examples
 
-**Optional:**
-- Advanced composition patterns
-- Performance considerations
-- Design system integration examples
+**Recommended**
+- composition patterns
+- design system integration notes
+- basic performance notes
+
+---
 
 ### Production
 
-**Minimum Requirements:**
-- ✅ All Beta requirements
-- ✅ Comprehensive API documentation with:
-  - Complete prop descriptions
-  - Type information
-  - Default values
-  - Required vs optional indicators
-  - Usage examples for each prop
-- ✅ Multiple usage examples covering:
-  - Basic usage
-  - Variants (if applicable)
-  - Sizes (if applicable)
-  - Controlled vs uncontrolled patterns
-  - Advanced composition
-  - Real-world use cases
-- ✅ Accessibility documentation:
-  - Keyboard navigation patterns
-  - ARIA attributes used
-  - Screen reader considerations
-  - Focus management behavior
-- ✅ Migration guide (if replacing existing component)
-- ✅ Troubleshooting/common issues section
-- ✅ Performance notes (if applicable)
-- ✅ Design system integration examples
+**Required**
+- Everything in Beta
+- Complete API reference including:
+  - prop descriptions
+  - type information
+  - defaults
+  - required vs optional indicators
+- Examples covering:
+  - basic usage
+  - variants and sizes (if applicable)
+  - controlled vs uncontrolled
+  - advanced composition
+  - real world patterns
+- Accessibility notes covering:
+  - keyboard behavior
+  - focus management
+  - ARIA semantics used
+  - screen reader considerations (what to expect)
+- Troubleshooting section
+- Migration guide if replacing an older component
 
-**Documentation Quality Standards:**
-- Code examples are copy-paste ready
-- Examples demonstrate best practices
-- Clear, concise descriptions
-- Visual examples where helpful
-- Links to related components
+**Quality bar**
+- examples are copy paste ready
+- examples represent best practices
+- docs match current behavior
+- links to related components exist
 
 ---
 
 ## Test Coverage Expectations
 
+Coverage numbers are minimums.  
+Quality matters more than percentages.
+
 ### Experimental
 
-**Minimum Requirements:**
-- ✅ Basic rendering tests
-- ✅ Core functionality tests
-- ✅ Test file exists (`ComponentName.test.tsx`)
+**Required**
+- Test file exists (`ComponentName.test.tsx`)
+- Basic render test
+- Core behavior tests
 
-**Coverage Thresholds:**
-- Statements: ≥ 50%
-- Lines: ≥ 50%
-- Branches: ≥ 40%
-- Functions: ≥ 40%
+**Minimum coverage**
+- Statements ≥ 50%
+- Lines ≥ 50%
+- Branches ≥ 40%
+- Functions ≥ 40%
 
-**Test Types:**
-- Basic rendering verification
-- Primary user interactions (click, type, etc.)
-- Core state changes
+---
 
 ### Beta
 
-**Minimum Requirements:**
-- ✅ All Experimental requirements
-- ✅ Comprehensive functional tests:
-  - Controlled and uncontrolled behavior
-  - All props and their effects
-  - Edge cases and error states
-  - State management
-- ✅ Accessibility tests:
-  - Basic axe-core violations check
-  - Keyboard navigation (where applicable)
-  - ARIA attributes verification
-- ✅ Integration tests for sub-components
+**Required**
+- Everything in Experimental
+- Tests for controlled and uncontrolled behavior where applicable
+- Tests for prop effects and main variations
+- Edge case tests for common failure modes
+- Basic accessibility test (axe) where applicable
+- Keyboard interaction tests for primary patterns
+- Integration tests for sub-components where relevant
 
-**Coverage Thresholds:**
-- Statements: ≥ 70%
-- Lines: ≥ 70%
-- Branches: ≥ 60%
-- Functions: ≥ 60%
+**Minimum coverage**
+- Statements ≥ 70%
+- Lines ≥ 70%
+- Branches ≥ 60%
+- Functions ≥ 60%
 
-**Test Types:**
-- Functional behavior (all user interactions)
-- Controlled vs uncontrolled patterns
-- Prop variations
-- Error handling
-- Accessibility (basic a11y tests)
-- Keyboard interactions (primary patterns)
+---
 
 ### Production
 
-**Minimum Requirements:**
-- ✅ All Beta requirements
-- ✅ Comprehensive test suite covering:
-  - All user interaction patterns
-  - All prop combinations
-  - Edge cases and boundary conditions
-  - Error states and error handling
-  - Performance-critical paths
-- ✅ Complete accessibility test suite:
-  - Full axe-core audit (WCAG 2.1 A/AA)
-  - All keyboard navigation patterns
-  - Focus management verification
-  - Screen reader compatibility (where testable)
-  - ARIA attributes and roles validation
-- ✅ SSR/hydration tests (if applicable)
-- ✅ E2E tests for complex interactions (Playwright)
+**Required**
+- Everything in Beta
+- Comprehensive interaction tests (all primary user flows)
+- Boundary and edge case coverage
+- Error state coverage
+- SSR and hydration tests where applicable
+- E2E tests for complex components (Playwright recommended)
 
-**Coverage Thresholds:**
-- Statements: ≥ 80%
-- Lines: ≥ 80%
-- Branches: ≥ 80%
-- Functions: ≥ 80%
+**Accessibility test expectations**
+- axe checks
+- keyboard navigation coverage
+- focus trap and restoration where relevant
+- role and aria attribute validation where applicable
 
-**Test Types:**
-- **Functional Tests:**
-  - All user interactions
-  - All props and combinations
-  - Controlled/uncontrolled patterns
-  - State transitions
-  - Edge cases
-  - Error handling
-  - Performance scenarios
+**Minimum coverage**
+- Statements ≥ 80%
+- Lines ≥ 80%
+- Branches ≥ 80%
+- Functions ≥ 80%
 
-- **Accessibility Tests:**
-  - Complete axe-core audit
-  - Keyboard navigation (all patterns)
-  - Focus management (trapping, restoration)
-  - ARIA compliance
-  - Screen reader announcements (where applicable)
-
-- **Integration Tests:**
-  - Component composition
-  - Sub-component interactions
-  - Context providers (if used)
-
-- **E2E Tests (for complex components):**
-  - Multi-step user flows
-  - Cross-browser compatibility
-  - Real-world usage scenarios
-
-**Test Quality Standards:**
-- Tests are maintainable and readable
-- Tests use semantic queries (prefer `getByRole`, `getByLabelText`)
-- Tests follow AAA pattern (Arrange, Act, Assert)
-- Tests are isolated and don't depend on each other
-- Accessibility tests use `test-utils` helpers (`axe`, `keyboard`)
+**Quality standards**
+- semantic queries preferred (`getByRole`, `getByLabelText`)
+- tests are isolated and readable
+- consistent structure (Arrange, Act, Assert)
+- helpers used for repeated patterns (axe, keyboard utilities)
 
 ---
 
 ## Accessibility Requirements
 
-### All Maturity Levels
+Accessibility is enforced at every level.
 
-**Minimum Standards:**
-- ✅ Proper semantic HTML
-- ✅ ARIA attributes where needed
-- ✅ Keyboard accessible
-- ✅ Focus visible
-- ✅ No axe-core critical violations
+### All maturity levels
 
-### Beta & Production
+**Minimum**
+- semantic HTML first
+- ARIA only when needed
+- keyboard operable for primary interactions
+- visible focus
+- no axe critical violations (where applicable)
 
-**Additional Requirements:**
-- ✅ WCAG 2.1 A/AA compliance
-- ✅ Complete keyboard navigation support
-- ✅ Proper focus management
-- ✅ Screen reader compatibility
-- ✅ Color contrast compliance (WCAG AA minimum)
-- ✅ Focus trapping for modals/dialogs
-- ✅ Focus restoration on close
+### Beta and Production
 
-### Production Only
+**Expected**
+- complete keyboard navigation patterns for the component
+- correct focus management
+- consistent behavior with ARIA authoring practices for that pattern
+- contrast is the responsibility of the consuming theme, but component structure must support it
 
-**Additional Requirements:**
-- ✅ Tested with actual screen readers (documented)
-- ✅ Tested across multiple assistive technologies
-- ✅ Accessibility documentation complete
-- ✅ No known a11y issues
+### Production only
+
+**Required**
+- documented a11y behavior on the docs page
+- tested focus behavior (trap, restore) for overlays
+- documented verification steps for complex components (what was tested, and how)
+
+Note: “WCAG compliance” depends on the consuming product and styling. Rad UI provides accessible primitives and patterns, not a compliance certificate.
 
 ---
 
 ## Component-Specific Considerations
 
-### Simple Components (e.g., Button, Badge, Text)
-- Focus on rendering, props, and basic interactions
-- Accessibility tests are straightforward
-- Documentation can be concise but complete
+### Simple components (Button, Badge, Text)
+- Rendering, props, and basic interactions
+- Straightforward accessibility
+- Docs can be concise but complete
 
-### Complex Components (e.g., Dialog, Select, Tabs)
-- Require comprehensive state management tests
-- Complex keyboard navigation patterns
-- Focus management is critical
-- Multiple sub-components need documentation
+### Complex components (Dialog, Select, Tabs)
+- Keyboard patterns and focus management are the feature
+- More edge cases
+- Sub-components need clear docs
 - E2E tests recommended
 
-### Composable Components (e.g., Tabs, Accordion)
-- Test composition patterns
-- Document all sub-components
-- Test flexibility of composition
-- Examples of advanced compositions
+### Composable components (Tabs, Accordion)
+- Composition patterns must be tested
+- Sub-components must be documented
+- Examples should include advanced composition
 
 ---
 
@@ -312,98 +317,95 @@ Components that are stable, well-documented, thoroughly tested, and ready for pr
 
 ### Experimental → Beta
 
-**Requirements:**
-- ✅ Core functionality complete and stable
-- ✅ API is reasonably stable
-- ✅ Documentation meets Beta standards
-- ✅ Test coverage meets Beta thresholds
-- ✅ No critical bugs
-- ✅ Basic accessibility verified
+**Must have**
+- Core functionality complete
+- API reasonably stable
+- Beta-level docs
+- Beta-level tests and coverage
+- No critical bugs
+- Basic accessibility verified
 
-**Process:**
-- Component maintainer review
-- Community feedback period (if applicable)
-- Update component status in navigation/docs
+**Process**
+- Maintainer review
+- Update component status in docs navigation
+
+---
 
 ### Beta → Production
 
-**Requirements:**
-- ✅ All features implemented
-- ✅ API is stable (no planned breaking changes)
-- ✅ Documentation meets Production standards
-- ✅ Test coverage meets Production thresholds
-- ✅ No known bugs or accessibility issues
-- ✅ Performance verified
-- ✅ Real-world usage validation (if applicable)
+**Must have**
+- No planned breaking changes
+- Production-level docs
+- Production-level tests and coverage
+- Performance review completed
+- Accessibility behavior verified and documented
+- Real world usage feedback where possible
 
-**Process:**
-- Comprehensive review by maintainers
-- Final accessibility audit
-- Performance review
+**Process**
+- Maintainer review
+- Final a11y review for the component’s pattern
 - Documentation review
-- Update component status and remove beta warnings
+- Update status and remove beta warnings
 
 ---
 
 ## Maintenance Expectations
 
-### Production Components
+Production is a promise.
 
-**Ongoing Requirements:**
-- ✅ Keep documentation up-to-date with API changes
-- ✅ Maintain test coverage above thresholds
-- ✅ Address accessibility issues promptly
-- ✅ Performance monitoring
-- ✅ Deprecation notices for breaking changes (minimum 1 major version)
-- ✅ Migration guides for breaking changes
+**Ongoing**
+- keep docs in sync with API changes
+- keep coverage above thresholds
+- fix a11y issues quickly
+- avoid performance regressions
+- provide deprecation notes for breaking changes
+- provide migration guides for major bumps
 
 ---
 
 ## Checklist Template
 
-Use this checklist when assessing or promoting a component:
+Use this when assessing or promoting a component.
 
-### Component Readiness
+### Readiness
 - [ ] Core functionality complete
-- [ ] TypeScript types complete
-- [ ] Props API stable
-- [ ] Error handling implemented
-- [ ] SSR compatible
-- [ ] Performance optimized
+- [ ] Types complete
+- [ ] API stable
+- [ ] Error handling exists
+- [ ] SSR and hydration verified (if applicable)
+- [ ] Performance reviewed
 - [ ] No critical bugs
 
 ### Documentation
-- [ ] Component page exists
-- [ ] Description and examples
-- [ ] Complete API documentation
-- [ ] Component anatomy
+- [ ] Docs page exists
+- [ ] Copy paste examples
+- [ ] Full API table
+- [ ] Anatomy explained
 - [ ] Multiple usage examples
-- [ ] Accessibility documentation
-- [ ] TypeScript examples
+- [ ] Accessibility notes included
+- [ ] TypeScript examples included
 
 ### Testing
 - [ ] Test file exists
 - [ ] Coverage meets threshold
-- [ ] Functional tests complete
-- [ ] Accessibility tests complete
-- [ ] Keyboard navigation tested
+- [ ] Functional tests cover primary flows
 - [ ] Edge cases covered
+- [ ] Keyboard interactions covered
+- [ ] Accessibility checks included
 - [ ] E2E tests (if applicable)
 
 ### Accessibility
-- [ ] WCAG 2.1 A/AA compliant
-- [ ] Keyboard navigation complete
-- [ ] Focus management correct
-- [ ] ARIA attributes proper
-- [ ] Screen reader tested
-- [ ] No axe violations
+- [ ] Keyboard operable
+- [ ] Focus visible
+- [ ] ARIA semantics correct (where applicable)
+- [ ] Focus management correct (where applicable)
+- [ ] No critical axe violations
 
 ---
 
 ## Notes
 
-- This rubric is a living document and may evolve based on library needs
-- Some components may have unique requirements not covered here
-- When in doubt, err on the side of higher standards
-- Production components should be examples of best practices for the library
-
+- This is a living document
+- Some components may have unique requirements
+- When in doubt, raise the bar, not lower it
+- Production components should set the standard for the library
