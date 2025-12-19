@@ -1,5 +1,12 @@
 # @radui/ui
 
+## 0.1.9
+
+### Patch Changes
+
+- 4be6c27: Fix React RSC (React Server Components) vulnerability by ensuring proper client component directives and preventing server-side rendering issues
+- 9fb0047: Improve component styling and accessibility, add animations, and update component examples
+
 ## 0.1.8
 
 ### Patch Changes
