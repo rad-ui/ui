@@ -1,56 +1,89 @@
-/** Badge */
-.rad-ui-badge{
-    background-color: var(--rad-ui-color-accent-300);
-    color: var(--rad-ui-color-accent-950);
-    padding:4px 8px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    border-radius: 4px;
+.rad-ui-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; // rounded-full
+  padding: 0.125rem 0.625rem; // px-2.5 py-0.5
+  font-size: 0.75rem; // text-xs
+  font-weight: 600; // font-semibold
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-     /** Now we declare other variants to support the Badge component */
-     &[data-badge-variant="outline"]{
-        background-color: transparent;
-        color: var(--rad-ui-color-accent-900);
-        border: 1px solid var(--rad-ui-color-accent-900);
-
-       
+  // Default style: primary/default - very light/white background, dark text
+  color: var(--rad-ui-color-gray-950);
+  background-color: var(--rad-ui-color-gray-50);
+  border: 1px solid transparent;
+  
+  // Accent color support (when color prop is provided)
+  &[data-rad-ui-accent-color] {
+    color: var(--rad-ui-color-accent-50);
+    background-color: var(--rad-ui-color-accent-900);
+  }
+  
+  // Variants
+  &[data-badge-variant="secondary"] {
+    background-color: var(--rad-ui-color-gray-900);
+    color: var(--rad-ui-color-gray-50);
+    
+    &[data-rad-ui-accent-color] {
+      background-color: var(--rad-ui-color-accent-900);
+      color: var(--rad-ui-color-accent-50);
     }
-
-    &[data-badge-variant="soft"]{
-        border-top: 1px solid var(--rad-ui-color-accent-600);
-        border-left: 1px solid var(--rad-ui-color-accent-600);
-        border-right: 1px solid var(--rad-ui-color-accent-600);
-        border-bottom: 1px solid var(--rad-ui-color-accent-600);
-        color: var(--rad-ui-color-accent-950);
-        background-color:  var(--rad-ui-color-accent-400);
+  }
+  
+  &[data-badge-variant="destructive"] {
+    background-color: var(--rad-ui-color-red-500);
+    color: var(--rad-ui-color-red-50);
+    
+    &:hover {
+      background-color: var(--rad-ui-color-red-600);
     }
-
-
-    /** Badge Sizes */
-    &[data-badge-size="small"]{
-        font-size: small;
-        padding: 4px 8px;
-        height: 24px;
+  }
+  
+  &[data-badge-variant="outline"] {
+    background-color: transparent;
+    border: 1px solid var(--rad-ui-color-gray-300);
+    color: var(--rad-ui-color-gray-950);
+    
+    &[data-rad-ui-accent-color] {
+      border-color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-900);
     }
-
-    &[data-badge-size="medium"]{
-        font-size: medium;
-        padding: 4px 12px;
-        height: 32px;
+  }
+  
+  &[data-badge-variant="soft"] {
+    border: 1px solid var(--rad-ui-color-gray-300);
+    color: var(--rad-ui-color-gray-950);
+    background-color: var(--rad-ui-color-gray-200);
+    
+    &[data-rad-ui-accent-color] {
+      border-color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-950);
+      background-color: var(--rad-ui-color-accent-400);
     }
-
-    &[data-badge-size="large"]{
-        font-size: large;
-        padding: 4px 16px;
-        height: 40px;
-    }
-
-    &[data-badge-size="x-large"]{
-        font-size: x-large;
-        padding: 4px 24px;
-        height: 48px;
-    }
+  }
+  
+  // Size variants
+  &[data-badge-size="small"] {
+    font-size: 0.625rem; // text-[10px]
+    padding: 0.125rem 0.5rem; // px-2 py-0.5
+    height: 1.25rem; // h-5
+  }
+  
+  &[data-badge-size="medium"] {
+    font-size: 0.75rem; // text-xs
+    padding: 0.125rem 0.625rem; // px-2.5 py-0.5
+    height: 1.5rem; // h-6
+  }
+  
+  &[data-badge-size="large"] {
+    font-size: 0.875rem; // text-sm
+    padding: 0.25rem 0.75rem; // px-3 py-1
+    height: 1.75rem; // h-7
+  }
+  
+  &[data-badge-size="x-large"] {
+    font-size: 1rem; // text-base
+    padding: 0.375rem 1rem; // px-4 py-1.5
+    height: 2rem; // h-8
+  }
 }

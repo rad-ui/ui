@@ -30,45 +30,51 @@ const RightArrowIcon = ({ ...props }: React.SVGProps<SVGSVGElement>) => {
 
 export const Default = () => {
     return (
-        <section>
-            <SandboxEditor className="">
-                <Collapsible.Root transitionDuration={100} className="group">
-                    <Collapsible.Trigger className="flex items-center gap-2">
-                        <div>
-                            Trigger
-                        </div>
+        <SandboxEditor>
+            <div className="w-full max-w-md">
+                <Collapsible.Root transitionDuration={200} className="group">
+                    <Collapsible.Trigger className="flex items-center justify-between w-full">
+                        <span className="font-medium">@peduarte starred 3 repositories</span>
                         <RightArrowIcon className='transition-transform duration-200 group-data-[state=open]:rotate-90'/>
                     </Collapsible.Trigger>
 
-                    <Collapsible.Content className="space-y-2">
-                        <div>
-                            I have a dream of a scene between the green hills
-                            Clouds pull away and the sunlight's revealed
-                            People don't talk about keeping it real
-                            It's understood that they actually will
-                            And intoxicated and stimulated MCs
-                            Staring in the trees, paranoid, are gone in the breeze
-
+                    <Collapsible.Content className="space-y-2 pt-2">
+                        <div className="text-sm text-gray-700">
+                            <p className="font-medium">@radix-ui/primitives</p>
+                            <p className="text-xs text-gray-600">An open-source UI component library.</p>
                         </div>
-                        <div>
-                            Watch them flee, hip-hop heads
-                            Take a walk with me and what you'll see
-                            Is a land where the sand is made up of crushed up wax
+                        <div className="text-sm text-gray-700">
+                            <p className="font-medium">@radix-ui/colors</p>
+                            <p className="text-xs text-gray-600">A color palette for your design system.</p>
                         </div>
-                        <div>
-                            And the sky beyond you is krylon blue
-                            And everybody speaks in a dialect of rhyme
-                            And MCs have left materialism behind them
-                        </div>
-                        <div>
-                            Meanwhile, I just grip my mic
-                            And hope me and my team make it through alright
-                            Because say what you will and say what you might
-                            But don't ignore who it's for at the end of the night
+                        <div className="text-sm text-gray-700">
+                            <p className="font-medium">@stitches/react</p>
+                            <p className="text-xs text-gray-600">CSS-in-JS with best-in-class developer experience.</p>
                         </div>
                     </Collapsible.Content>
                 </Collapsible.Root>
-            </SandboxEditor>
-        </section>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+export const WithCustomContent = () => {
+    return (
+        <SandboxEditor>
+            <div className="w-full max-w-md space-y-4">
+                <Collapsible.Root transitionDuration={200} className="group">
+                    <Collapsible.Trigger className="flex items-center justify-between w-full">
+                        <span className="font-medium">Learn more about our product</span>
+                        <RightArrowIcon className='transition-transform duration-200 group-data-[state=open]:rotate-90'/>
+                    </Collapsible.Trigger>
+                    <Collapsible.Content className="pt-2">
+                        <p className="text-sm text-gray-700">
+                            Our product is designed to help you build better user interfaces faster.
+                            It provides a comprehensive set of components that follow modern design principles.
+                        </p>
+                    </Collapsible.Content>
+                </Collapsible.Root>
+            </div>
+        </SandboxEditor>
     );
 };
