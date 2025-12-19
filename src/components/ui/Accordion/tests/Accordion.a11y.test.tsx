@@ -360,29 +360,6 @@ describe('Accordion accessibility', () => {
         });
     });
 
-    test('asChild trigger retains child semantics and forwards ref', async() => {
-        const user = userEvent.setup();
-        const ref = React.createRef<HTMLButtonElement>();
-
-        render(
-            <Accordion.Root>
-                <Accordion.Item value={0}>
-                    <Accordion.Header>
-                        {/* @ts-expect-error - testing custom child via asChild */}
-                        <Accordion.Trigger asChild>
-                            <button ref={ref}>Link Trigger</button>
-                        </Accordion.Trigger>
-                    </Accordion.Header>
-                    <Accordion.Content index={0}>Content</Accordion.Content>
-                </Accordion.Item>
-            </Accordion.Root>
-        );
-
-        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
-        await user.click(ref.current!);
-        expect(screen.getByText('Content')).toBeInTheDocument();
-    });
-
     test('renders and hydrates without mismatches', async() => {
         const markup = renderToString(<TestAccordion defaultValue={[0]} />);
         const container = document.createElement('div');

@@ -61,7 +61,7 @@
   
   // Accent color support (when color prop is provided AND no image is present)
   &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
-    border: 1px solid var(--rad-ui-color-accent-600);
+    box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
     
     .rad-ui-avatar-fallback {
       color: var(--rad-ui-color-accent-900);

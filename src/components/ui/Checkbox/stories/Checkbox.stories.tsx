@@ -28,10 +28,10 @@ export const Default = () => {
 export const Checked = () => (
     <SandboxEditor>
         <div className="flex items-center space-x-2">
-            <Checkbox.Root checked={true}>
+            <Checkbox.Root id="checked-default" checked={true}>
                 <Checkbox.Indicator />
             </Checkbox.Root>
-            <label className="text-sm font-medium">Checked by default</label>
+            <label htmlFor="checked-default" className="text-sm font-medium cursor-pointer">Checked by default</label>
         </div>
     </SandboxEditor>
 );
@@ -40,16 +40,16 @@ export const Disabled = () => (
     <SandboxEditor>
         <div className="space-y-4">
             <div className="flex items-center space-x-2">
-                <Checkbox.Root disabled>
+                <Checkbox.Root id="disabled-unchecked" disabled>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label className="text-sm font-medium text-gray-500">Disabled unchecked</label>
+                <label htmlFor="disabled-unchecked" className="text-sm font-medium text-gray-500">Disabled unchecked</label>
             </div>
             <div className="flex items-center space-x-2">
-                <Checkbox.Root checked disabled>
+                <Checkbox.Root id="disabled-checked" checked disabled>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label className="text-sm font-medium text-gray-500">Disabled checked</label>
+                <label htmlFor="disabled-checked" className="text-sm font-medium text-gray-500">Disabled checked</label>
             </div>
         </div>
     </SandboxEditor>
