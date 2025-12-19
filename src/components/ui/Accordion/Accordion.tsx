@@ -11,6 +11,13 @@ export type AccordionProps = React.HTMLAttributes<HTMLDivElement> & {
     children?: React.ReactNode;
 };
 
+// Export all fragment types for type-safe API
+export type { AccordionRootProps } from './fragments/AccordionRoot';
+export type { AccordionItemProps } from './fragments/AccordionItem';
+export type { AccordionHeaderProps } from './fragments/AccordionHeader';
+export type { AccordionTriggerProps } from './fragments/AccordionTrigger';
+export type { AccordionContentProps } from './fragments/AccordionContent';
+
 // Empty implementation - we don't support direct usage
 const Accordion = () => {
     console.warn('Direct usage of Accordion is not supported. Please use Accordion.Root, Accordion.Item, etc. instead. ');

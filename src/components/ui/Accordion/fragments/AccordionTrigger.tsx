@@ -8,7 +8,7 @@ import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-type AccordionTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
+export type AccordionTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
     index?: number;
 };
 
@@ -51,7 +51,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
                         aria-disabled={disabled}
                         onClick={handleClick}
                         aria-expanded={activeItems.includes(itemValue)}
-                        aria-controls={`content-${index}`}
+                        aria-controls={index !== undefined ? `content-${index}` : undefined}
                         {...props}
                     >
                         {children}
