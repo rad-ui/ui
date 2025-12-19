@@ -38,7 +38,7 @@
       padding: 1rem; // py-4 px-4
       font-size: 0.875rem; // text-sm
       font-weight: 500; // font-medium
-      transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
       background-color: transparent;
       color: var(--rad-ui-color-gray-950);
       border: none;
@@ -47,13 +47,12 @@
       width: 100%;
       
       &:hover {
-        text-decoration: none;
-        background-color: var(--rad-ui-color-gray-50);
+        text-decoration: underline;
       }
       
       &:focus-visible {
         outline: 2px solid var(--rad-ui-color-gray-900);
-        outline-offset: -2px;
+        outline-offset: 2px;
       }
       
       &[aria-disabled="true"] {
@@ -70,9 +69,17 @@
         transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
         color: var(--rad-ui-color-gray-500);
       }
+      
+      // Rotate chevron when trigger's parent item is open (shadcn pattern)
+      &[data-state="open"] {
+        svg,
+        .rad-ui-accordion-chevron {
+          transform: rotate(180deg);
+        }
+      }
     }
     
-    // Rotate chevron when item is open
+    // Rotate chevron when item is open (alternative pattern for nested structure)
     &[data-state="open"] {
       .rad-ui-accordion-trigger {
         svg,
@@ -83,26 +90,13 @@
     }
     
     .rad-ui-accordion-content {
-      // Animation uses CSS variables (Radix UI approach) for smooth transitions
+      overflow: hidden;
       font-size: 0.875rem; // text-sm
       color: var(--rad-ui-color-gray-700);
-      padding: 0 1rem 1rem; // px-4 pb-4, matches trigger horizontal padding for alignment
-      overflow: hidden;
+      padding: 0 1rem 1rem; // pt-0 px-4 pb-4, matches trigger horizontal padding for alignment
       
-      // Radix UI style: Use CSS variable for height animation
-      // The JavaScript sets --rad-collapsible-content-height dynamically
-      &[data-state="open"] {
-        height: var(--rad-collapsible-content-height, auto);
-      }
-      
-      &[data-state="closed"] {
-        height: 0px;
-      }
-      
-      // If content has a wrapper div, ensure it doesn't add extra padding
-      > div {
-        padding: 0;
-      }
+      // Height animation is handled by CollapsiblePrimitiveContent via inline styles
+      // No CSS transitions/animations needed here to avoid conflicts
     }
   }
 }
