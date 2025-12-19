@@ -6,33 +6,32 @@ export const metadata = componentCoverageMetadata
 
 ## Executive Summary
 
-This document presents a side-by-side comparison of component coverage across modern headless and semi-headless UI libraries:
+This document is a straight, side-by-side look at component coverage across modern headless and semi-headless UI libraries:
 
 **Rad UI**, **Radix UI**, **Base UI**, **Ark UI**, and **Headless UI**.
 
-The purpose of this document is not to rank or judge libraries, but to:
+This is not a “best library” ranking. Coverage is not quality.  
+The goal is simple:
 
-* Compare component availability across the ecosystem
-* Identify commonly expected UI building blocks
-* Highlight areas where Rad UI can expand coverage to better support real-world product needs
+- Compare which building blocks exist across the ecosystem
+- Identify components commonly expected in production UIs
+- Make Rad UI’s roadmap and priorities transparent
 
-Different libraries optimize for different tradeoffs. This comparison focuses purely on **component availability**, not API design, accessibility depth, performance characteristics, or composability philosophy.
+This comparison focuses purely on **component availability**, not API design, accessibility depth, performance, styling strategy, or composability philosophy.
 
 ### High-level observations
 
-* **Total components**: Rad UI currently includes **54 components** (33 released, 21 in development)
-* **Common gaps**: 6 components appear consistently across other libraries but are not yet present in Rad UI
-* **Differentiation**: Rad UI includes a broader typography and layout layer than most peers
-* **Overall coverage**: Rad UI offers broader surface area than Radix UI and Headless UI, and comparable breadth to Ark UI
+- **Rad UI surface area**: **54 components** total (33 released, 21 in development)
+- **Most common missing building blocks**: 6 components repeatedly show up across other libraries but are not yet in Rad UI
+- **Differentiation**: Rad UI includes an explicit typography and layout layer that most peers avoid
+- **Coverage positioning**: broader surface area than Radix UI and Headless UI, comparable breadth to Ark UI
 
 ---
 
 ## Current Rad UI Component Inventory
 
-### Total Components: 54
-
-### Officially Released: 33
-
+### Total Components: 54  
+### Officially Released: 33  
 ### In Codebase / In Progress: 21
 
 1. Accordion
@@ -97,88 +96,90 @@ Different libraries optimize for different tradeoffs. This comparison focuses pu
 | Component                    | Rad UI | Radix UI | Base UI | Ark UI | Headless UI | Priority  |
 | ---------------------------- | ------ | -------- | ------- | ------ | ----------- | --------- |
 | **Layout & Structure**       |        |          |         |        |             |           |
-| Accordion                    | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| AspectRatio                  | ✅      | ✅        | ❌       | ❌      | ❌           | –         |
-| Separator                    | ✅      | ✅        | ✅       | ❌      | ❌           | –         |
-| Splitter                     | ✅      | ❌        | ❌       | ✅      | ❌           | –         |
-| Steps                        | ✅      | ❌        | ❌       | ✅      | ❌           | –         |
+| Accordion                    | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| AspectRatio                  | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
+| Separator                    | ✅     | ✅       | ✅      | ❌     | ❌          | –         |
+| Splitter                     | ✅     | ❌       | ❌      | ✅     | ❌          | –         |
+| Steps                        | ✅     | ❌       | ❌      | ✅     | ❌          | –         |
 | **Navigation**               |        |          |         |        |             |           |
-| Breadcrumb                   | ❌      | ❌        | ✅       | ✅      | ❌           | 🔴 High   |
-| NavigationMenu               | ✅      | ✅        | ❌       | ❌      | ❌           | –         |
-| Menubar                      | ✅      | ✅        | ❌       | ❌      | ❌           | –         |
-| TabNav                       | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Tabs                         | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
+| Breadcrumb                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🔴 High   |
+| NavigationMenu               | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
+| Menubar                      | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
+| TabNav                       | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Tabs                         | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
 | **Overlays & Dialogs**       |        |          |         |        |             |           |
-| AlertDialog                  | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| Dialog                       | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| Popover                      | ❌      | ✅        | ✅       | ✅      | ✅           | 🔴 High   |
-| Tooltip                      | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| HoverCard                    | ✅      | ✅        | ❌       | ✅      | ❌           | –         |
-| BottomSheet                  | ❌      | ❌        | ❌       | ✅      | ❌           | 🟡 Medium |
-| FloatingPanel                | ❌      | ❌        | ❌       | ✅      | ❌           | 🟡 Medium |
+| AlertDialog                  | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| Dialog                       | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| Popover                      | ❌     | ✅       | ✅      | ✅     | ✅          | 🔴 High   |
+| Tooltip                      | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| HoverCard                    | ✅     | ✅       | ❌      | ✅     | ❌          | –         |
+| BottomSheet                  | ❌     | ❌       | ❌      | ✅     | ❌          | 🟡 Medium |
+| FloatingPanel                | ❌     | ❌       | ❌      | ✅     | ❌          | 🟡 Medium |
 | **Forms & Inputs**           |        |          |         |        |             |           |
-| Button                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| Checkbox                     | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| CheckboxGroup                | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| CheckboxCards                | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Radio                        | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| RadioGroup                   | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| RadioCards                   | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Switch                       | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| Toggle                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| ToggleGroup                  | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| TextArea                     | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| NumberField                  | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| Select                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| Combobox                     | ❌      | ❌        | ✅       | ✅      | ✅           | 🔴 High   |
-| DatePicker                   | ❌      | ❌        | ✅       | ✅      | ❌           | 🔴 High   |
-| TimePicker                   | ❌      | ❌        | ✅       | ✅      | ❌           | 🟡 Medium |
+| Button                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| Checkbox                     | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| CheckboxGroup                | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| CheckboxCards                | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Radio                        | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| RadioGroup                   | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| RadioCards                   | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Switch                       | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| Toggle                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| ToggleGroup                  | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| TextArea                     | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| NumberField                  | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| Select                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| Combobox                     | ❌     | ❌       | ✅      | ✅     | ✅          | 🔴 High   |
+| DatePicker                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🔴 High   |
+| TimePicker                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🟡 Medium |
 | **Data Display**             |        |          |         |        |             |           |
-| Avatar                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| AvatarGroup                  | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Badge                        | ✅      | ❌        | ✅       | ❌      | ❌           | –         |
-| Card                         | ✅      | ❌        | ✅       | ❌      | ❌           | –         |
-| Table                        | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| Skeleton                     | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
+| Avatar                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| AvatarGroup                  | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Badge                        | ✅     | ❌       | ✅      | ❌     | ❌          | –         |
+| Card                         | ✅     | ❌       | ✅      | ❌     | ❌          | –         |
+| Table                        | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| Skeleton                     | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
 | **Feedback & Notifications** |        |          |         |        |             |           |
-| Toast                        | ❌      | ✅        | ✅       | ✅      | ❌           | 🔴 High   |
-| Callout                      | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
+| Toast                        | ❌     | ✅       | ✅      | ✅     | ❌          | 🔴 High   |
+| Callout                      | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
 | **Typography**               |        |          |         |        |             |           |
-| Heading                      | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Text                         | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Code                         | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Kbd                          | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Em                           | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Strong                       | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| BlockQuote                   | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Quote                        | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Link                         | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
+| Heading                      | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Text                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Code                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Kbd                          | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Em                           | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Strong                       | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| BlockQuote                   | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Quote                        | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Link                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
 
 ---
 
 ## Commonly Expected Components Not Yet in Rad UI
 
-The following components appear across multiple libraries and represent patterns commonly expected in production applications.
+These components appear across multiple libraries and are frequently expected in production apps.
 
 ### 🔴 High Priority
 
-1. **Popover**
+1. **Popover**  
    Present in Radix UI, Base UI, Ark UI, Headless UI
 
-2. **Combobox**
+2. **Combobox**  
    Present in Base UI, Ark UI, Headless UI
 
-3. **DatePicker**
+3. **DatePicker**  
    Present in Base UI, Ark UI
 
-4. **Toast**
+4. **Toast**  
    Present in Radix UI, Base UI, Ark UI
 
-5. **Pagination**
+5. **Pagination**  
    Present in Base UI, Ark UI
 
-6. **Breadcrumb**
+6. **Breadcrumb**  
    Present in Base UI, Ark UI
+
+This list is not “missing features shame”. It is the practical roadmap required to meet the baseline expectations of modern product UIs.
 
 ---
 
@@ -199,65 +200,60 @@ The following components appear across multiple libraries and represent patterns
 
 ---
 
-## Areas of Differentiation
+## Where Rad UI Differentiates
 
-* **Typography layer**: Rad UI provides a structured typography system that most peer libraries do not include
-* **Extended form patterns**: Components like CheckboxCards and RadioCards are uncommon elsewhere
-* **Layout primitives**: Splitter, Steps, and Minimap are not widely available in other libraries
-* **Theme abstraction**: Rad UI includes a dedicated Theme component rather than treating theming as external setup
+Rad UI intentionally includes layers that most headless libraries avoid.
+
+- **Typography layer**  
+  A structured, reusable typography system rather than leaving every team to reinvent it.
+
+- **Extended form patterns**  
+  Components like CheckboxCards and RadioCards reduce app-level glue code for real product patterns.
+
+- **Layout primitives**  
+  Splitter, Steps, and Minimap support product UIs and internal tools without requiring third-party add-ons.
+
+- **Theme abstraction**  
+  Rad UI includes a dedicated Theme component rather than treating theming as a purely external setup.
+
+This is not “more components for the sake of it”.  
+It is coverage aimed at real world UI work.
 
 ---
 
 ## Opportunities for Expansion
 
-* Add commonly expected overlay patterns (Popover, Toast)
-* Expand date and time input coverage
-* Improve data navigation patterns (Pagination, Breadcrumb)
-* Introduce optional animation and transition primitives
+The most meaningful additions are well-known UI baselines:
 
----
-
-## Conclusion
-
-Rad UI already offers broad component coverage with a strong foundation in typography, layout, and form controls. While its surface area is comparable to larger libraries, there are a small number of widely expected components that would meaningfully improve completeness.
-
-This document serves as a transparent snapshot of where Rad UI fits within the broader UI ecosystem today and helps guide future expansion in a deliberate, user-driven way.
-
----
+- Add commonly expected overlays: **Popover**, **Toast**
+- Expand date and time inputs: **DatePicker**, **TimePicker**
+- Improve navigation primitives: **Pagination**, **Breadcrumb**
+- Introduce optional animation and transition primitives (opt-in, not opinionated)
 
 ## Contributing
 
-We welcome contributions to Rad UI! If you're interested in helping expand our component coverage, here are some ways to get involved:
+Want to help expand component coverage? Amazing. Pick a high-impact component and ship it.
 
 ### High Priority Components
 
-The following components are marked as high priority and would be great contributions:
+- **Popover**  
+  Overlay content positioned relative to a trigger
 
-- **Popover** - A versatile overlay component for displaying content relative to a trigger
-- **Combobox** - An autocomplete input with dropdown suggestions
-- **DatePicker** - Date selection component with calendar interface
-- **Toast** - Notification system for user feedback
-- **Breadcrumb** - Navigation component showing hierarchical path
-- **Pagination** - Component for navigating through paginated content
+- **Combobox**  
+  Autocomplete input with suggestions
 
-### How to Contribute
+- **DatePicker**  
+  Date selection with calendar UI
 
-1. **Check existing issues**: Look for open issues related to the component you want to work on
-2. **Comment on the issue**: Let others know you're working on it to avoid duplicate work
-3. **Follow our guidelines**: See our [Contributing Guide](/docs/contributing/contributing-to-rad-ui) for detailed instructions
-4. **Component standards**: Review our [Component Maturity Rubric](/docs/contributing/component-maturity-rubric) to understand what's expected
+- **Toast**  
+  Notification system for feedback and status
 
-### Getting Started
+- **Breadcrumb**  
+  Hierarchical navigation path
 
-- Join our [Discord community](https://discord.gg/rad-ui) to discuss ideas and get help
-- Set up your [development environment](/docs/contributing/setting-up-dev-environment)
-- Explore [Good First Issues](https://github.com/rad-ui/rad-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) if you're new to the project
+- **Pagination**  
+  Navigation for paginated content
 
-We value all contributions and are grateful for your help in making Rad UI better!
 
----
-
-*Last updated: December 2025*
+*Last updated: December 2025*  
 *Document version: 1.0*
-
----
