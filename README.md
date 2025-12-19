@@ -2,7 +2,7 @@
 
 # RAD UI
 
-![RAD UI](./assets/images/rad-ui-poster.png)
+![RAD UI](./assets/images/rad-ui-logo.svg)
 
 ## Sponsored by
 

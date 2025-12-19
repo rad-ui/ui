@@ -24,10 +24,6 @@ export const docsNavigationSections = [
             {
                 title:"Accessibility",
                 path:"/docs/guides/accessibility"
-            },
-            {
-                title:"Component Coverage Comparison",
-                path:"/docs/guides/component-coverage"
             }
         ]
     },
@@ -165,6 +161,10 @@ export const docsNavigationSections = [
             {
                 title:"Component Maturity Rubric",
                 path:"/docs/contributing/component-maturity-rubric"
+            },
+            {
+                title:"Component Coverage",
+                path:"/docs/contributing/component-coverage"
             }
         ]
     }

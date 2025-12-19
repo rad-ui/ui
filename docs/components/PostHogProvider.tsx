@@ -16,11 +16,27 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       return
     }
 
+    // Suppress PostHog script loading errors
+    const originalError = typeof window !== 'undefined' ? window.console.error : console.error
+    const errorHandler = (...args: any[]) => {
+      const errorMessage = args[0]?.toString() || ''
+      if (errorMessage.includes('[PostHog.js]') && errorMessage.includes('failed to load script')) {
+        // Silently ignore PostHog script loading errors
+        return
+      }
+      originalError.apply(console, args)
+    }
+    
+    if (typeof window !== 'undefined') {
+      window.console.error = errorHandler
+    }
+
     try {
       posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
         api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.posthog.com",
         ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.posthog.com",
         defaults: '2025-05-24',
+        autocapture: false,
         capture_exceptions: true,
         debug: process.env.NODE_ENV === "development",
         loaded: (posthog) => {
@@ -37,6 +53,13 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       })
     } catch (error) {
       console.error('PostHog initialization failed:', error)
+    }
+    
+    return () => {
+      // Restore original console.error on cleanup
+      if (typeof window !== 'undefined') {
+        window.console.error = originalError
+      }
     }
   }, [hasPostHogKey])
 
