@@ -2,15 +2,9 @@
 
 # RAD UI
 
+![RAD UI Banner](./assets/images/rad-ui-banner.png)
+
 ![RAD UI](./assets/images/rad-ui-logo.svg)
-
-## Sponsored by
-
-<p align="center">
-  <img src="./docs/public/sponsorship/browserstack_light.png" alt="BrowserStack"  width="200" />
-  &nbsp;&nbsp;&nbsp;
-  <img src="./docs/public/sponsorship/code_rabbit_light.png" alt="CodeRabbit"  width="200" />
-</p>
 
 ## Introduction to Rad UI
 
