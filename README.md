@@ -4,8 +4,6 @@
 
 ![RAD UI Banner](./assets/images/rad-ui-banner.png)
 
-![RAD UI](./assets/images/rad-ui-logo.svg)
-
 ## Introduction to Rad UI
 
 Rad UI is a React UI library designed to simplify and enhance the process of building user interfaces. With a focus on ease of use and flexibility, Rad UI empowers developers to create engaging and efficient user experiences. Whether you're starting a new project or improving an existing one, Rad UI provides a collection of components and utilities to streamline development.
