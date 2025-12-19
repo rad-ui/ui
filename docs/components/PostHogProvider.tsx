@@ -29,7 +29,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
             posthog.capture('my event', { property: 'value' })
           }
         },
-        on_xhr_error: (failedRequest) => {
+        on_request_error: (failedRequest) => {
           if (process.env.NODE_ENV === "development") {
             console.warn('PostHog request failed:', failedRequest)
           }

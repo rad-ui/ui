@@ -24,6 +24,10 @@ export const docsNavigationSections = [
             {
                 title:"Accessibility",
                 path:"/docs/guides/accessibility"
+            },
+            {
+                title:"Component Coverage Comparison",
+                path:"/docs/guides/component-coverage"
             }
         ]
     },
@@ -157,6 +161,10 @@ export const docsNavigationSections = [
             {
                 title:"Contributing to Rad UI",
                 path:"/docs/contributing/contributing-to-rad-ui"
+            },
+            {
+                title:"Component Maturity Rubric",
+                path:"/docs/contributing/component-maturity-rubric"
             }
         ]
     }
