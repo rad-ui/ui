@@ -14,10 +14,10 @@ export const Default = () => {
     return (
         <SandboxEditor>
             <div className="flex items-center space-x-2">
-                <Checkbox.Root checked={checked} onCheckedChange={setChecked}>
+                <Checkbox.Root id="accept-terms" checked={checked} onCheckedChange={setChecked}>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label className="text-sm font-medium cursor-pointer" onClick={() => setChecked(!checked)}>
+                <label htmlFor="accept-terms" className="text-sm font-medium cursor-pointer">
                     Accept terms and conditions
                 </label>
             </div>
@@ -70,6 +70,7 @@ export const WithLabel = () => {
                     {Object.entries(items).map(([key, value]) => (
                         <div key={key} className="flex items-center space-x-2">
                             <Checkbox.Root
+                                id={key}
                                 checked={value}
                                 onCheckedChange={(checked) =>
                                     setItems({ ...items, [key]: checked })
@@ -78,8 +79,8 @@ export const WithLabel = () => {
                                 <Checkbox.Indicator />
                             </Checkbox.Root>
                             <label
+                                htmlFor={key}
                                 className="text-sm font-medium cursor-pointer capitalize"
-                                onClick={() => setItems({ ...items, [key]: !value })}
                             >
                                 {key.replace('_', ' ')}
                             </label>

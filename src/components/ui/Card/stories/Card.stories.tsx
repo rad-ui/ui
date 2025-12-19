@@ -3,17 +3,24 @@ import Avatar from '~/components/ui/Avatar/Avatar';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
 
+const PLACEHOLDER_AVATAR = require('/assets/images/avatar-1.jpg');
+
 const Variants = ['soft', 'outline'];
 const Sizes = ['small', 'medium', 'large', 'x-large'];
 
-const CardStory = ({ variant, size }: { variant?: string; size?: string }) => {
+type CardStoryProps = {
+    variant?: string;
+    size?: string;
+};
+
+const CardStory = ({ variant, size }: CardStoryProps) => {
     return (
         <Card variant={variant} size={size}>
             <div className='flex items-center space-x-4'>
                 <Avatar.Root>
                     <Avatar.Image
-                        src='https://i.pravatar.cc/64'
-                        alt='avatar'
+                        src={PLACEHOLDER_AVATAR}
+                        alt='User avatar for John Doe'
                     />
                 </Avatar.Root>
                 <div>
@@ -30,7 +37,27 @@ const CardStory = ({ variant, size }: { variant?: string; size?: string }) => {
 export default {
     title: 'Components/Card',
     component: Card,
-    render: () => <SandboxEditor><CardStory/></SandboxEditor>
+    argTypes: {
+        variant: {
+            control: 'select',
+            options: Variants,
+            description: 'Card variant style'
+        },
+        size: {
+            control: 'select',
+            options: Sizes,
+            description: 'Card size'
+        }
+    },
+    args: {
+        variant: 'soft',
+        size: 'medium'
+    },
+    render: (args: CardStoryProps) => (
+        <SandboxEditor>
+            <CardStory variant={args.variant} size={args.size} />
+        </SandboxEditor>
+    )
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
@@ -64,8 +91,8 @@ export const WithContent = () => (
                     <div className="flex items-center space-x-4 pt-4 border-t border-gray-200">
                         <Avatar.Root>
                             <Avatar.Image
-                                src='https://i.pravatar.cc/64'
-                                alt='avatar'
+                                src={PLACEHOLDER_AVATAR}
+                                alt='User avatar for John Doe, Software Engineer'
                             />
                         </Avatar.Root>
                         <div>
@@ -110,8 +137,8 @@ export const Size = () => {
                                     <div className='flex items-center space-x-3'>
                                         <Avatar.Root>
                                             <Avatar.Image
-                                                src='https://i.pravatar.cc/64'
-                                                alt='avatar'
+                                                src={PLACEHOLDER_AVATAR}
+                                                alt='User avatar demonstrating card size'
                                             />
                                         </Avatar.Root>
                                         <div>
@@ -147,8 +174,8 @@ export const Variant = () => {
                                 <div className='flex items-center space-x-3 pt-2'>
                                     <Avatar.Root>
                                         <Avatar.Image
-                                            src='https://i.pravatar.cc/64'
-                                            alt='avatar'
+                                            src={PLACEHOLDER_AVATAR}
+                                            alt='User avatar demonstrating card variant'
                                         />
                                     </Avatar.Root>
                                     <div>

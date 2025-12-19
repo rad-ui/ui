@@ -17,11 +17,12 @@ const CheckboxGroupExample = (args:any) => {
     return (
         <SandboxEditor>
             <div className="w-full max-w-md space-y-2">
-                <h3 className="text-lg font-semibold mb-4">Notification Preferences</h3>
+                <h3 id="preferences-heading" className="text-lg font-semibold mb-4">Notification Preferences</h3>
                 <CheckboxGroup.Root
                     name="preferences"
                     value={checked}
                     onValueChange={handleChange}
+                    aria-labelledby="preferences-heading"
                     {...args}
                 >
                     {options.map((option) => (
