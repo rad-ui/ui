@@ -362,7 +362,7 @@ describe('Accordion accessibility', () => {
 
     test('asChild trigger retains child semantics and forwards ref', async() => {
         const user = userEvent.setup();
-        const ref = React.createRef<HTMLAnchorElement>();
+        const ref = React.createRef<HTMLButtonElement>();
 
         render(
             <Accordion.Root>
@@ -370,7 +370,7 @@ describe('Accordion accessibility', () => {
                     <Accordion.Header>
                         {/* @ts-expect-error - testing custom child via asChild */}
                         <Accordion.Trigger asChild>
-                            <a href="#" ref={ref}>Link Trigger</a>
+                            <button ref={ref}>Link Trigger</button>
                         </Accordion.Trigger>
                     </Accordion.Header>
                     <Accordion.Content index={0}>Content</Accordion.Content>
@@ -378,7 +378,7 @@ describe('Accordion accessibility', () => {
             </Accordion.Root>
         );
 
-        expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+        expect(ref.current).toBeInstanceOf(HTMLButtonElement);
         await user.click(ref.current!);
         expect(screen.getByText('Content')).toBeInTheDocument();
     });
@@ -524,7 +524,7 @@ describe('Accordion accessibility', () => {
     describe('Edge cases and compatibility', () => {
         test('asChild trigger retains child semantics and forwards ref', async() => {
             const user = userEvent.setup();
-            const ref = React.createRef<HTMLAnchorElement>();
+            const ref = React.createRef<HTMLButtonElement>();
 
             render(
                 <Accordion.Root>
@@ -532,7 +532,7 @@ describe('Accordion accessibility', () => {
                         <Accordion.Header>
                             {/* @ts-expect-error - testing custom child via asChild */}
                             <Accordion.Trigger asChild>
-                                <a href="#" ref={ref}>Link Trigger</a>
+                                <button ref={ref}>Link Trigger</button>
                             </Accordion.Trigger>
                         </Accordion.Header>
                         <Accordion.Content index={0}>Content</Accordion.Content>
@@ -540,7 +540,7 @@ describe('Accordion accessibility', () => {
                 </Accordion.Root>
             );
 
-            expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+            expect(ref.current).toBeInstanceOf(HTMLButtonElement);
             await user.click(ref.current!);
             expect(screen.getByText('Content')).toBeInTheDocument();
         });
