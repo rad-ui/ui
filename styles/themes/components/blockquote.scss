@@ -1,8 +1,8 @@
 .rad-ui-block-quote {
   position: relative;
   margin: 0;
-  padding-left: 1rem; // pl-4
-  border-left: 4px solid var(--rad-ui-color-gray-300);
+  padding-inline-start: 1rem; // pl-4
+  border-inline-start: 4px solid var(--rad-ui-color-gray-300);
   font-style: italic;
   color: var(--rad-ui-color-gray-700);
   font-size: 0.875rem; // text-sm
@@ -10,62 +10,82 @@
   
   // Default styles (no color prop) - neutral/muted appearance
   &[data-rad-ui-accent-color] {
-    border-left-color: var(--rad-ui-color-accent-600);
+    border-inline-start-color: var(--rad-ui-color-accent-600);
     color: var(--rad-ui-color-accent-900);
   }
   
   // Size variants
+  // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
+  // Variants should NOT override these sizing properties unless explicitly combined
   &[data-block-quote-size="small"] {
     font-size: 0.75rem; // text-xs
-    padding-left: 0.75rem; // pl-3
-    border-left-width: 3px;
+    padding-inline-start: 0.75rem; // pl-3
+    border-inline-start-width: 3px;
     line-height: 1.5;
   }
   
   &[data-block-quote-size="medium"] {
     font-size: 0.875rem; // text-sm
-    padding-left: 1rem; // pl-4
-    border-left-width: 4px;
+    padding-inline-start: 1rem; // pl-4
+    border-inline-start-width: 4px;
     line-height: 1.625;
   }
   
   &[data-block-quote-size="large"] {
     font-size: 1rem; // text-base
-    padding-left: 1.25rem; // pl-5
-    border-left-width: 5px;
+    padding-inline-start: 1.25rem; // pl-5
+    border-inline-start-width: 5px;
     line-height: 1.75;
   }
   
   &[data-block-quote-size="x-large"] {
     font-size: 1.125rem; // text-lg
-    padding-left: 1.5rem; // pl-6
-    border-left-width: 6px;
+    padding-inline-start: 1.5rem; // pl-6
+    border-inline-start-width: 6px;
     line-height: 1.75;
   }
   
   // Variant styles
+  // Variants only change color, background, and border style (not sizing)
+  // If a variant must change sizing, create explicit combined selectors like:
+  // &[data-block-quote-size="large"][data-block-quote-variant="soft"]
   &[data-block-quote-variant="outline"] {
-    border-left-width: 2px;
-    border-left-style: dashed;
+    border-inline-start-style: dashed;
     background-color: transparent;
     
     &[data-rad-ui-accent-color] {
-      border-left-color: var(--rad-ui-color-accent-600);
+      border-inline-start-color: var(--rad-ui-color-accent-600);
       color: var(--rad-ui-color-accent-900);
     }
   }
   
   &[data-block-quote-variant="soft"] {
-    border-left-width: 4px;
     background-color: var(--rad-ui-color-gray-50);
-    padding: 0.75rem 1rem; // py-3 px-4
     border-radius: 0.375rem; // rounded-md
-    border-left-color: var(--rad-ui-color-gray-400);
+    border-inline-start-color: var(--rad-ui-color-gray-400);
     
     &[data-rad-ui-accent-color] {
-      border-left-color: var(--rad-ui-color-accent-600);
+      border-inline-start-color: var(--rad-ui-color-accent-600);
       background-color: var(--rad-ui-color-accent-50);
       color: var(--rad-ui-color-accent-950);
+    }
+    
+    // Combined: soft variant with specific sizes that need padding adjustments
+    // Only add combined selectors if the variant truly needs different sizing
+    &[data-block-quote-size="small"] {
+      padding: 0.5rem 0.75rem; // py-2 px-3
+    }
+    
+    &[data-block-quote-size="medium"] {
+      padding: 0.75rem 1rem; // py-3 px-4
+    }
+    
+    &[data-block-quote-size="large"] {
+      padding: 1rem 1.25rem; // py-4 px-5
+    }
+    
+    &[data-block-quote-size="x-large"] {
+      padding: 1.25rem 1.5rem; // py-5 px-6
     }
   }
 }

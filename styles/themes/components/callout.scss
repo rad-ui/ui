@@ -43,8 +43,9 @@
     }
   }
   
-  // Destructive variant
-  &[data-callout-variant="destructive"] {
+  // Intent styles (semantic meaning: destructive, warning, info, etc.)
+  // Intent controls color, border color, and icon color
+  &[data-callout-intent="destructive"] {
     border-color: var(--rad-ui-color-red-300);
     background-color: var(--rad-ui-color-red-50);
     color: var(--rad-ui-color-red-950);
@@ -94,7 +95,8 @@
     }
   }
   
-  // Variant styles (outline, soft)
+  // Variant styles (visual treatment: outline, soft, default)
+  // Variants control layout/visual treatment and can be combined with intent
   &[data-callout-variant="outline"] {
     background-color: transparent;
     border-color: var(--rad-ui-color-gray-300);
@@ -106,6 +108,17 @@
       
       .rad-ui-callout-icon {
         color: var(--rad-ui-color-accent-600);
+      }
+    }
+    
+    // Combined: outline variant with destructive intent
+    &[data-callout-intent="destructive"] {
+      border-color: var(--rad-ui-color-red-600);
+      color: var(--rad-ui-color-red-900);
+      background-color: transparent;
+      
+      .rad-ui-callout-icon {
+        color: var(--rad-ui-color-red-600);
       }
     }
   }
@@ -122,6 +135,17 @@
       
       .rad-ui-callout-icon {
         color: var(--rad-ui-color-accent-600);
+      }
+    }
+    
+    // Combined: soft variant with destructive intent
+    &[data-callout-intent="destructive"] {
+      border-color: var(--rad-ui-color-red-600);
+      background-color: var(--rad-ui-color-red-200);
+      color: var(--rad-ui-color-red-950);
+      
+      .rad-ui-callout-icon {
+        color: var(--rad-ui-color-red-600);
       }
     }
   }
