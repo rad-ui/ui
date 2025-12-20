@@ -1,0 +1,259 @@
+import componentCoverageMetadata from "./seo"
+
+export const metadata = componentCoverageMetadata
+
+# Component Coverage Comparison: Rad UI, Radix UI, Base UI, Ark UI, Headless UI
+
+## Executive Summary
+
+This document is a straight, side-by-side look at component coverage across modern headless and semi-headless UI libraries:
+
+**Rad UI**, **Radix UI**, **Base UI**, **Ark UI**, and **Headless UI**.
+
+This is not a “best library” ranking. Coverage is not quality.  
+The goal is simple:
+
+- Compare which building blocks exist across the ecosystem
+- Identify components commonly expected in production UIs
+- Make Rad UI’s roadmap and priorities transparent
+
+This comparison focuses purely on **component availability**, not API design, accessibility depth, performance, styling strategy, or composability philosophy.
+
+### High-level observations
+
+- **Rad UI surface area**: **54 components** total (33 released, 21 in development)
+- **Most common missing building blocks**: 6 components repeatedly show up across other libraries but are not yet in Rad UI
+- **Differentiation**: Rad UI includes an explicit typography and layout layer that most peers avoid
+- **Coverage positioning**: broader surface area than Radix UI and Headless UI, comparable breadth to Ark UI
+
+---
+
+## Current Rad UI Component Inventory
+
+### Total Components: 54  
+### Officially Released: 33  
+### In Codebase / In Progress: 21
+
+1. Accordion
+2. AlertDialog
+3. AspectRatio
+4. Avatar
+5. AvatarGroup
+6. Badge
+7. BlockQuote
+8. Button
+9. Callout
+10. Card
+11. Checkbox
+12. CheckboxCards
+13. CheckboxGroup
+14. Code
+15. Collapsible
+16. ContextMenu
+17. DataList
+18. Dialog
+19. Disclosure
+20. DropdownMenu
+21. Em
+22. Heading
+23. HoverCard
+24. Kbd
+25. Link
+26. Menubar
+27. Minimap
+28. NavigationMenu
+29. NumberField
+30. Progress
+31. Quote
+32. Radio
+33. RadioCards
+34. RadioGroup
+35. ScrollArea
+36. Select
+37. Separator
+38. Skeleton
+39. Slider
+40. Splitter
+41. Steps
+42. Strong
+43. Switch
+44. Table
+45. TabNav
+46. Tabs
+47. Text
+48. TextArea
+49. Theme
+50. Toggle
+51. ToggleGroup
+52. Tooltip
+53. Tree
+54. VisuallyHidden
+
+---
+
+## Component Coverage Matrix
+
+| Component                    | Rad UI | Radix UI | Base UI | Ark UI | Headless UI | Priority  |
+| ---------------------------- | ------ | -------- | ------- | ------ | ----------- | --------- |
+| **Layout & Structure**       |        |          |         |        |             |           |
+| Accordion                    | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| AspectRatio                  | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
+| Separator                    | ✅     | ✅       | ✅      | ❌     | ❌          | –         |
+| Splitter                     | ✅     | ❌       | ❌      | ✅     | ❌          | –         |
+| Steps                        | ✅     | ❌       | ❌      | ✅     | ❌          | –         |
+| **Navigation**               |        |          |         |        |             |           |
+| Breadcrumb                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🔴 High   |
+| NavigationMenu               | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
+| Menubar                      | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
+| TabNav                       | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Tabs                         | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| **Overlays & Dialogs**       |        |          |         |        |             |           |
+| AlertDialog                  | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| Dialog                       | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| Popover                      | ❌     | ✅       | ✅      | ✅     | ✅          | 🔴 High   |
+| Tooltip                      | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| HoverCard                    | ✅     | ✅       | ❌      | ✅     | ❌          | –         |
+| BottomSheet                  | ❌     | ❌       | ❌      | ✅     | ❌          | 🟡 Medium |
+| FloatingPanel                | ❌     | ❌       | ❌      | ✅     | ❌          | 🟡 Medium |
+| **Forms & Inputs**           |        |          |         |        |             |           |
+| Button                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| Checkbox                     | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| CheckboxGroup                | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| CheckboxCards                | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Radio                        | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| RadioGroup                   | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| RadioCards                   | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Switch                       | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| Toggle                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| ToggleGroup                  | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| TextArea                     | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| NumberField                  | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| Select                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| Combobox                     | ❌     | ❌       | ✅      | ✅     | ✅          | 🔴 High   |
+| DatePicker                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🔴 High   |
+| TimePicker                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🟡 Medium |
+| **Data Display**             |        |          |         |        |             |           |
+| Avatar                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
+| AvatarGroup                  | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Badge                        | ✅     | ❌       | ✅      | ❌     | ❌          | –         |
+| Card                         | ✅     | ❌       | ✅      | ❌     | ❌          | –         |
+| Table                        | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
+| Skeleton                     | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| **Feedback & Notifications** |        |          |         |        |             |           |
+| Toast                        | ❌     | ✅       | ✅      | ✅     | ❌          | 🔴 High   |
+| Callout                      | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| **Typography**               |        |          |         |        |             |           |
+| Heading                      | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Text                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Code                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Kbd                          | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Em                           | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Strong                       | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| BlockQuote                   | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Quote                        | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Link                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+
+---
+
+## Commonly Expected Components Not Yet in Rad UI
+
+These components appear across multiple libraries and are frequently expected in production apps.
+
+### 🔴 High Priority
+
+1. **Popover**  
+   Present in Radix UI, Base UI, Ark UI, Headless UI
+
+2. **Combobox**  
+   Present in Base UI, Ark UI, Headless UI
+
+3. **DatePicker**  
+   Present in Base UI, Ark UI
+
+4. **Toast**  
+   Present in Radix UI, Base UI, Ark UI
+
+5. **Pagination**  
+   Present in Base UI, Ark UI
+
+6. **Breadcrumb**  
+   Present in Base UI, Ark UI
+
+This list is not “missing features shame”. It is the practical roadmap required to meet the baseline expectations of modern product UIs.
+
+---
+
+## Coverage Summary by Category
+
+| Category           | Rad UI | Radix UI | Base UI | Ark UI | Headless UI |
+| ------------------ | ------ | -------- | ------- | ------ | ----------- |
+| Layout & Structure | 5      | 2        | 1       | 2      | 0           |
+| Navigation         | 4      | 2        | 1       | 2      | 1           |
+| Overlays & Dialogs | 5      | 4        | 3       | 6      | 2           |
+| Forms & Inputs     | 18     | 7        | 15      | 20     | 3           |
+| Data Display       | 8      | 1        | 3       | 6      | 0           |
+| Menus              | 3      | 2        | 2       | 3      | 2           |
+| Feedback           | 1      | 1        | 1       | 1      | 0           |
+| Typography         | 9      | 0        | 0       | 0      | 0           |
+| Utilities          | 7      | 3        | 0       | 10     | 1           |
+| **Total**          | **54** | **22**   | **25**  | **50** | **9**       |
+
+---
+
+## Where Rad UI Differentiates
+
+Rad UI intentionally includes layers that most headless libraries avoid.
+
+- **Typography layer**  
+  A structured, reusable typography system rather than leaving every team to reinvent it.
+
+- **Extended form patterns**  
+  Components like CheckboxCards and RadioCards reduce app-level glue code for real product patterns.
+
+- **Layout primitives**  
+  Splitter, Steps, and Minimap support product UIs and internal tools without requiring third-party add-ons.
+
+- **Theme abstraction**  
+  Rad UI includes a dedicated Theme component rather than treating theming as a purely external setup.
+
+This is not “more components for the sake of it”.  
+It is coverage aimed at real world UI work.
+
+---
+
+## Opportunities for Expansion
+
+The most meaningful additions are well-known UI baselines:
+
+- Add commonly expected overlays: **Popover**, **Toast**
+- Expand date and time inputs: **DatePicker**, **TimePicker**
+- Improve navigation primitives: **Pagination**, **Breadcrumb**
+- Introduce optional animation and transition primitives (opt-in, not opinionated)
+
+## Contributing
+
+Want to help expand component coverage? Amazing. Pick a high-impact component and ship it.
+
+### High Priority Components
+
+- **Popover**  
+  Overlay content positioned relative to a trigger
+
+- **Combobox**  
+  Autocomplete input with suggestions
+
+- **DatePicker**  
+  Date selection with calendar UI
+
+- **Toast**  
+  Notification system for feedback and status
+
+- **Breadcrumb**  
+  Hierarchical navigation path
+
+- **Pagination**  
+  Navigation for paginated content
+
+
+*Last updated: December 2025*  
+*Document version: 1.0*
