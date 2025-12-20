@@ -45,7 +45,9 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
             </CheckboxPrimitiveTrigger>
             <input
                 ref={inputRef}
-                type="checkbox" style={{
+                type="checkbox"
+                id={id}
+                style={{
                     position: 'absolute',
                     pointerEvents: 'none',
                     opacity: 0,

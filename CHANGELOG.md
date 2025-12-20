@@ -1,5 +1,24 @@
 # @radui/ui
 
+## 0.1.10
+
+### Patch Changes
+
+- f162d4c: Improve readability of borders and text colors
+
+## 0.1.9
+
+### Patch Changes
+
+- 4be6c27: Fix React RSC (React Server Components) vulnerability by ensuring proper client component directives and preventing server-side rendering issues
+- 9fb0047: Improve component styling and accessibility, add animations, and update component examples
+
+## 0.1.8
+
+### Patch Changes
+
+- d22ef40: resize, size and varaint api support added for textarea
+
 ## 0.1.7
 
 ### Patch Changes

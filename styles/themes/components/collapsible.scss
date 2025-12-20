@@ -1,46 +1,43 @@
 .rad-ui-collapsible {
   .rad-ui-collapsible-trigger {
     display: flex;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: var(--rad-ui-color-gray-1000);
-    background-color: var(--rad-ui-color-gray-200);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem; // py-2 px-3
+    border-radius: 0.375rem; // rounded-md
+    font-size: 0.875rem; // text-sm
+    font-weight: 500; // font-medium
+    color: var(--rad-ui-color-gray-950);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     width: 100%;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      background-color: var(--rad-ui-color-gray-50);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid var(--rad-ui-color-gray-900);
+      outline-offset: 2px;
+    }
+    
+    &[data-disabled],
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   }
 
   .rad-ui-collapsible-content {
-    padding: 10px;
-    border-radius: 12px;
-    background-color: var(--rad-ui-color-gray-200);
-    color: var(--rad-ui-color-gray-1000);
-    margin-bottom: 10px;
-    margin-top: 10px;
-    position: relative;
+    overflow: hidden;
+    font-size: 0.875rem; // text-sm
+    color: var(--rad-ui-color-gray-700);
+    padding: 0.5rem 0.75rem; // py-2 px-3
     
-    &[data-state="closed"] {
-      // add collapsed styles here
-      height: 200px;
-      overflow: hidden;
-
-      &::before {
-        content: "";
-        pointer-events: none;
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          180deg,
-          #0000,
-          var(--rad-ui-color-gray-200) 70%
-        );
-        opacity: 0.9;
-        height: 200px;
-        bottom: 0;
-      }
-    }
-
-    &[data-state="open"] {
-      // add expanded styles here
-      height: auto !important;
-    }
+    // Height animation is handled by CollapsiblePrimitiveContent via inline styles
+    // No CSS transitions/animations needed here to avoid conflicts
   }
 }
