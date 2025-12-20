@@ -17,6 +17,19 @@ const config: Config = {
         '^.+\\.tsx?$': 'ts-jest',
         '^.+\\.jsx?$': 'babel-jest'
     },
+    collectCoverageFrom: [
+        'src/**/*.{ts,tsx}',
+        '!src/**/*.test.{ts,tsx}',
+        '!src/**/*.stories.{ts,tsx}',
+        '!src/**/tests/**',
+        '!src/**/__tests__/**',
+        '!src/**/*.d.ts',
+        '!src/examples/**',
+        '!src/tokenGen/**',
+        '!src/design-systems/**',
+        '!src/test-utils/**',
+        '!src/setupTests.ts'
+    ],
     coverageReporters: ['text', 'lcov', 'json-summary'],
     coverageThreshold: {
         global: {

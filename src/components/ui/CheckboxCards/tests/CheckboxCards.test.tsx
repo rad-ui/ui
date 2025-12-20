@@ -22,8 +22,8 @@ describe('CheckboxCards', () => {
         );
 
         // Apple is checked, Banana is not
-        const appleCheckbox = screen.getByText('Apple').parentElement?.querySelector('[role="checkbox"]');
-        const bananaCheckbox = screen.getByText('Banana').parentElement?.querySelector('[role="checkbox"]');
+        const appleCheckbox = screen.getByText('Apple').closest('button[aria-checked]') as HTMLElement;
+        const bananaCheckbox = screen.getByText('Banana').closest('button[aria-checked]') as HTMLElement;
         expect(appleCheckbox).toHaveAttribute('aria-checked', 'true');
         expect(bananaCheckbox).toHaveAttribute('aria-checked', 'false');
 
@@ -55,15 +55,16 @@ describe('CheckboxCards', () => {
                 </CheckboxCards.Item>
             </CheckboxCards.Root>
         );
-        // Only banana is checked
-        const checkboxes = screen.getAllByRole('checkbox');
-        expect(checkboxes[0]).toHaveAttribute('aria-checked', 'false');
-        expect(checkboxes[1]).toHaveAttribute('aria-checked', 'true');
+        // Only banana is checked - query by button elements with aria-checked
+        const appleButton = screen.getByText('Apple').closest('button[aria-checked]') as HTMLElement;
+        const bananaButton = screen.getByText('Banana').closest('button[aria-checked]') as HTMLElement;
+        expect(appleButton).toHaveAttribute('aria-checked', 'false');
+        expect(bananaButton).toHaveAttribute('aria-checked', 'true');
         // Click apple
-        fireEvent.click(checkboxes[0]);
+        fireEvent.click(appleButton);
         expect(handleChange).toHaveBeenCalledWith(['banana', 'apple']);
         // Click banana
-        fireEvent.click(checkboxes[1]);
+        fireEvent.click(bananaButton);
         expect(handleChange).toHaveBeenCalledWith([]);
     });
 
@@ -78,11 +79,13 @@ describe('CheckboxCards', () => {
                 </CheckboxCards.Item>
             </CheckboxCards.Root>
         );
-        const checkbox = screen.getByRole('checkbox');
+        // Query by the button element that contains the text and has aria-checked
+        const checkbox = screen.getByText('Apple').closest('button[aria-checked]') as HTMLElement;
+        expect(checkbox).toBeInTheDocument();
         expect(checkbox).toBeDisabled();
         expect(checkbox).toHaveAttribute('aria-required', 'true');
         // The hidden input should also be disabled and required
-        const input = checkbox.parentElement?.parentElement?.querySelector('input[type="checkbox"]');
+        const input = checkbox.parentElement?.querySelector('input[type="checkbox"]');
         expect(input).toBeDisabled();
         expect(input).toBeRequired();
     });
@@ -114,7 +117,7 @@ describe('CheckboxCards', () => {
                 <button type="submit">Submit</button>
             </form>
         );
-        const bananaCheckbox = screen.getByText('Banana').parentElement?.querySelector('[role="checkbox"]');
+        const bananaCheckbox = screen.getByText('Banana').closest('button[aria-checked]') as HTMLElement;
         if (bananaCheckbox) fireEvent.click(bananaCheckbox);
         fireEvent.click(screen.getByText('Submit'));
         // The form should submit both apple and banana
@@ -147,7 +150,9 @@ describe('CheckboxCards', () => {
                 </CheckboxCards.Item>
             </CheckboxCards.Root>
         );
-        const checkbox = screen.getByRole('checkbox');
+        // Query by the button element that contains the text and has aria-checked
+        const checkbox = screen.getByText('Apple').closest('button[aria-checked]') as HTMLElement;
+        expect(checkbox).toBeInTheDocument();
         expect(ref.current).toBe(checkbox);
         expect(warnSpy).not.toHaveBeenCalled();
         expect(errorSpy).not.toHaveBeenCalled();
