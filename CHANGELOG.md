@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.1.10
+
+### Patch Changes
+
+- f162d4c: Improve readability of borders and text colors
+
 ## 0.1.9
 
 ### Patch Changes
