@@ -41,7 +41,7 @@
   
   &[data-badge-variant="outline"] {
     background-color: transparent;
-    border: 1px solid var(--rad-ui-color-gray-300);
+    border: 1px solid var(--rad-ui-color-gray-400);
     color: var(--rad-ui-color-gray-950);
     
     &[data-rad-ui-accent-color] {
@@ -51,7 +51,7 @@
   }
   
   &[data-badge-variant="soft"] {
-    border: 1px solid var(--rad-ui-color-gray-300);
+    border: 1px solid var(--rad-ui-color-gray-400);
     color: var(--rad-ui-color-gray-950);
     background-color: var(--rad-ui-color-gray-200);
     

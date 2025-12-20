@@ -11,13 +11,13 @@
   &[data-code-variant="outline"] {
     background-color: transparent;
     color: var(--rad-ui-color-gray-950);
-    border: 1px solid var(--rad-ui-color-gray-200);
+    border: 1px solid var(--rad-ui-color-gray-400);
   }
   
   &[data-code-variant="soft"] {
     background-color: var(--rad-ui-color-gray-100);
     color: var(--rad-ui-color-gray-950);
-    border: 1px solid var(--rad-ui-color-gray-200);
+    border: 1px solid var(--rad-ui-color-gray-400);
   }
   
   // Accent color support
@@ -34,7 +34,7 @@
     &[data-code-variant="soft"] {
       background-color: var(--rad-ui-color-accent-100);
       color: var(--rad-ui-color-accent-950);
-      border-color: var(--rad-ui-color-accent-200);
+      border-color: var(--rad-ui-color-accent-300);
     }
   }
   
