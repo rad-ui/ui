@@ -1,37 +1,36 @@
-.rad-ui-card{
-    border: 1px solid var(--rad-ui-color-gray-400);
-    padding: 12px;
-    border-radius: 4px;
-    box-shadow: 1px 1px 4px 1px var(--rad-ui-color-gray-200);
-
-    &[data-card-variant="outline"]{
-        color: var(--rad-ui-color-gray-900);
-        border: 1px solid var(--rad-ui-color-gray-900);
-    }
-
-    &[data-card-variant="soft"]{
-        color: var(--rad-ui-color-gray-950);
-        background-color:  var(--rad-ui-color-gray-400);  
-    }
-
-    /** Card Sizes */
-    &[data-card-size="small"]{
-        font-size: small;
-        height: 3.5rem;
-    }
-
-    &[data-card-size="medium"]{
-        font-size: medium;
-        height: 4rem;
-    }
-
-    &[data-card-size="large"]{
-        font-size: large;
-        height: 4.5rem;
-    }
-
-    &[data-card-size="x-large"]{
-        font-size: x-large;
-        height: 5rem;
-    }
+.rad-ui-card {
+  border-radius: 0.5rem; // rounded-lg
+  border: 1px solid var(--rad-ui-color-gray-300);
+  background-color: var(--rad-ui-color-gray-50);
+  color: var(--rad-ui-color-gray-950);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // shadow-sm
+  
+  &[data-card-variant="outline"] {
+    border: 1px solid var(--rad-ui-color-gray-300);
+  }
+  
+  &[data-card-variant="soft"] {
+    background-color: var(--rad-ui-color-gray-100);
+    border: 1px solid var(--rad-ui-color-gray-300);
+  }
+  
+  // Card Sizes
+  &[data-card-size="small"] {
+    padding: 0.75rem; // p-3
+  }
+  
+  &[data-card-size="medium"] {
+    padding: 1rem; // p-4
+  }
+  
+  &[data-card-size="large"] {
+    padding: 1.5rem; // p-6
+  }
+  
+  &[data-card-size="x-large"] {
+    padding: 2rem; // p-8
+  }
+  
+  // Default padding if no size specified
+  padding: 1.5rem; // p-6
 }
