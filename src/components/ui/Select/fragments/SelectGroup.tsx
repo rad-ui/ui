@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import SelectPrimitive from '~/core/primitives/Select/ComboboxPrimitive';
+import SelectPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
 export type SelectGroupProps = {

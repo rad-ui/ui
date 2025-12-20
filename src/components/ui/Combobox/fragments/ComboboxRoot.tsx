@@ -1,22 +1,22 @@
 import React from 'react';
-import SelectPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
+import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
-import { SelectRootContext } from '../contexts/SelectRootContext';
+import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
-const COMPONENT_NAME = 'Select';
+const COMPONENT_NAME = 'Combobox';
 
-type SelectRootElement = React.ElementRef<typeof SelectPrimitive.Root>;
-type SelectRootProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & {
+type ComboboxRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
+type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
     customRootClass?: string;
 };
 
-const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
+const ComboboxRoot = React.forwardRef<ComboboxRootElement, ComboboxRootProps>(
     ({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
         return (
-            <SelectRootContext.Provider value={{ rootClass }}>
-                <SelectPrimitive.Root
+            <ComboboxRootContext.Provider value={{ rootClass }}>
+                <ComboboxPrimitive.Root
                     className={`${rootClass}-root`}
                     defaultValue={defaultValue}
                     value={value}
@@ -26,13 +26,13 @@ const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
                     {...props}
                 >
                     {children}
-                </SelectPrimitive.Root>
-            </SelectRootContext.Provider>
+                </ComboboxPrimitive.Root>
+            </ComboboxRootContext.Provider>
 
         );
     }
 );
 
-SelectRoot.displayName = 'SelectRoot';
+ComboboxRoot.displayName = 'ComboboxRoot';
 
-export default SelectRoot;
+export default ComboboxRoot;
