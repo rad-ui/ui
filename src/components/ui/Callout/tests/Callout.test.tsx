@@ -43,6 +43,38 @@ describe('Callout', () => {
             expect(element).toHaveAttribute('data-callout-variant', 'soft');
         });
 
+        it('applies intent prop correctly', () => {
+            render(
+                <Callout.Root intent="destructive">
+                    <div>Test Content</div>
+                </Callout.Root>
+            );
+            const element = screen.getByText('Test Content').parentElement;
+            expect(element).toHaveAttribute('data-callout-intent', 'destructive');
+        });
+
+        it('supports both intent and variant props together', () => {
+            render(
+                <Callout.Root intent="destructive" variant="outline">
+                    <div>Test Content</div>
+                </Callout.Root>
+            );
+            const element = screen.getByText('Test Content').parentElement;
+            expect(element).toHaveAttribute('data-callout-intent', 'destructive');
+            expect(element).toHaveAttribute('data-callout-variant', 'outline');
+        });
+
+        it('maintains backward compatibility: variant="destructive" maps to intent', () => {
+            render(
+                <Callout.Root variant="destructive">
+                    <div>Test Content</div>
+                </Callout.Root>
+            );
+            const element = screen.getByText('Test Content').parentElement;
+            expect(element).toHaveAttribute('data-callout-intent', 'destructive');
+            expect(element).not.toHaveAttribute('data-callout-variant', 'destructive');
+        });
+
         it('applies size prop correctly', () => {
             render(
                 <Callout.Root size="large">

@@ -4,11 +4,11 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const CheckboxGroupExample = (args:any) => {
     const options = [
-        { id: 'apple', value: 'apple', label: 'Apple' },
-        { id: 'banana', value: 'banana', label: 'Banana' },
-        { id: 'cherry', value: 'cherry', label: 'Cherry' }
+        { id: 'notifications', value: 'notifications', label: 'Email notifications' },
+        { id: 'marketing', value: 'marketing', label: 'Marketing emails' },
+        { id: 'security', value: 'security', label: 'Security alerts' }
     ];
-    const [checked, setChecked] = useState(['apple']);
+    const [checked, setChecked] = useState(['notifications', 'security']);
 
     const handleChange = (value: string[]) => {
         setChecked(value);
@@ -16,23 +16,25 @@ const CheckboxGroupExample = (args:any) => {
 
     return (
         <SandboxEditor>
-            <CheckboxGroup.Root
-                className="flex gap-4"
-                name="fruits"
-                value={checked}
-                onValueChange={handleChange}
-            >
-                {options.map((option) => (
-
-                    <CheckboxGroup.Label key={option.id}>
-                        <CheckboxGroup.Trigger value={option.value}>
-                            <CheckboxGroup.Indicator />
-                        </CheckboxGroup.Trigger>
-                        {option.label}
-                    </CheckboxGroup.Label>
-
-                ))}
-            </CheckboxGroup.Root>
+            <div className="w-full max-w-md space-y-2">
+                <h3 id="preferences-heading" className="text-lg font-semibold mb-4">Notification Preferences</h3>
+                <CheckboxGroup.Root
+                    name="preferences"
+                    value={checked}
+                    onValueChange={handleChange}
+                    aria-labelledby="preferences-heading"
+                    {...args}
+                >
+                    {options.map((option) => (
+                        <CheckboxGroup.Label key={option.id}>
+                            <CheckboxGroup.Trigger value={option.value}>
+                                <CheckboxGroup.Indicator />
+                            </CheckboxGroup.Trigger>
+                            {option.label}
+                        </CheckboxGroup.Label>
+                    ))}
+                </CheckboxGroup.Root>
+            </div>
         </SandboxEditor>
     );
 };
