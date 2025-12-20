@@ -7,7 +7,7 @@ const BlockQuoteSizes = () => {
 
                 {sizes.map((size, index) => {
                     return <BlockQuote key={index} size={size} >
-                        <span className='text-gray-950'>"Behind every great man is a woman rolling her eyes." — Jim Carrey</span>
+                        <span className='text-gray-950'>"Behind every great man is a woman rolling her eyes." - Jim Carrey</span>
                         </BlockQuote>
                 })}
             </div>

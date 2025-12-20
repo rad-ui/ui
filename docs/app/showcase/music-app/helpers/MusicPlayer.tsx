@@ -3,9 +3,7 @@
 import React, { useState } from "react";
 
 import Text from "@radui/ui/Text";
-import TrackPreviousIcon from "@/icons/TrackPrevious"
-import TrackNextIcon from "@/icons/TrackNext"
-import PlayIcon from "@/icons/Play"
+import { StepBack as TrackPreviousIcon, StepForward as TrackNextIcon, Play as PlayIcon } from 'lucide-react';
 
 const ArtistBox: React.FC = () => {
     return <span className='flex items-center space-x-2'>
@@ -20,8 +18,8 @@ const ArtistBox: React.FC = () => {
 
 const IconContainerSmall: any = ({ children }: any) => {
     return (
-        <div className='text-gray-1000 hover:text-purple-900 cursor-pointer' style={{ height: 18, width: 18 }}>
-            {children}
+        <div className='text-gray-1000 hover:text-purple-900 cursor-pointer flex items-center justify-center' style={{ height: 18, width: 18 }}>
+            <div className="w-full h-full">{children}</div>
         </div>
     );
 }
@@ -31,7 +29,7 @@ const PlayButton: React.FC = () => {
 
     return (
         <div className='text-gray-1000 mx-2 border-2 border-gray-1000 rounded-full p-2 flex items-center justify-center hover:bg-purple-1000 hover:text-purple-50 hover:border-purple-1000 cursor-pointer' style={{ height: "48px", width: "48px" }}>
-            <PlayIcon />
+            <PlayIcon className="w-full h-full" />
         </div>
     );
 }
