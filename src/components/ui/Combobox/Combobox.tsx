@@ -24,6 +24,7 @@ interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAtt
     Portal: typeof ComboboxPortal;
     Group: typeof ComboboxGroup;
     Indicator: typeof ComboboxIndicator;
+    Search: typeof ComboboxSearch
 }
 
 const Combobox = ComboboxBase as ComboboxComponent;
