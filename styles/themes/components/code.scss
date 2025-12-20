@@ -1,54 +1,61 @@
-.rad-ui-code{
+.rad-ui-code {
+  color: var(--rad-ui-color-gray-950);
+  background-color: var(--rad-ui-color-gray-100);
+  padding: 0.125rem 0.375rem; // px-1.5 py-0.5
+  border-radius: 0.25rem; // rounded
+  font-size: 0.875rem; // text-sm
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 600;
+  display: inline-block;
+  
+  &[data-code-variant="outline"] {
+    background-color: transparent;
+    color: var(--rad-ui-color-gray-950);
+    border: 1px solid var(--rad-ui-color-gray-400);
+  }
+  
+  &[data-code-variant="soft"] {
+    background-color: var(--rad-ui-color-gray-100);
+    color: var(--rad-ui-color-gray-950);
+    border: 1px solid var(--rad-ui-color-gray-400);
+  }
+  
+  // Accent color support
+  [data-rad-ui-accent-color] & {
     color: var(--rad-ui-color-accent-950);
-    background-color: var(--rad-ui-color-accent-400);
-    padding: 1px 10px; // Add space for readability
-    display: inline-block;
-    border-radius: 4px;
-    font-size:12px;
-
+    background-color: var(--rad-ui-color-accent-100);
     
-    &[data-code-variant="outline"]{
-        background-color: transparent;
-        color: var(--rad-ui-color-accent-900);
-        border: 1px solid var(--rad-ui-color-accent-900);
-
-       
+    &[data-code-variant="outline"] {
+      background-color: transparent;
+      color: var(--rad-ui-color-accent-900);
+      border-color: var(--rad-ui-color-accent-900);
     }
-
-    &[data-code-variant="soft"]{
-        border-top: 1px solid var(--rad-ui-color-accent-600);
-        border-left: 1px solid var(--rad-ui-color-accent-600);
-        border-right: 1px solid var(--rad-ui-color-accent-600);
-        border-bottom: 1px solid var(--rad-ui-color-accent-600);
-        color: var(--rad-ui-color-accent-950);
-        background-color:  var(--rad-ui-color-accent-400);
-
-      
+    
+    &[data-code-variant="soft"] {
+      background-color: var(--rad-ui-color-accent-100);
+      color: var(--rad-ui-color-accent-950);
+      border-color: var(--rad-ui-color-accent-300);
     }
-
-
-    /** Code Sizes */
-    &[data-code-size="small"]{
-        font-size: small;
-        padding: 2px 8px;
-        height: 24px;
-    }
-
-    &[data-code-size="medium"]{
-        font-size: medium;
-        padding: 4px 12px;
-        height: 32px;
-    }
-
-    &[data-code-size="large"]{
-        font-size: large;
-        padding: 4px 16px;
-        height: 40px;
-    }
-
-    &[data-code-size="x-large"]{
-        font-size: x-large;
-        padding: 4px 24px;
-        height: 48px;
-    }
+  }
+  
+  // Code Sizes
+  &[data-code-size="small"] {
+    font-size: 0.75rem; // text-xs
+    padding: 0.125rem 0.25rem; // px-1 py-0.5
+  }
+  
+  &[data-code-size="medium"] {
+    font-size: 0.875rem; // text-sm
+    padding: 0.125rem 0.375rem; // px-1.5 py-0.5
+  }
+  
+  &[data-code-size="large"] {
+    font-size: 1rem; // text-base
+    padding: 0.25rem 0.5rem; // px-2 py-1
+  }
+  
+  &[data-code-size="x-large"] {
+    font-size: 1.125rem; // text-lg
+    padding: 0.375rem 0.75rem; // px-3 py-1.5
+  }
 }

@@ -103,8 +103,6 @@ jobs:
 
       - name: Publish to npm (with provenance)
         if: steps.exists.outputs.exists == 'false'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN_FROM_KOTAPI }}
         run: npm publish --access public --provenance
       
       - name: Announce on Discord
