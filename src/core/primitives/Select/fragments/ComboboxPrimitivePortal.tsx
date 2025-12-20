@@ -1,13 +1,13 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import Floater from '~/core/primitives/Floater';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 
-const SelectPrimitivePortal = React.forwardRef<
+const ComboboxPrimitivePortal = React.forwardRef<
     React.ElementRef<typeof Floater.Portal>,
     { children: React.ReactNode; container?: HTMLElement | null } & React.ComponentPropsWithoutRef<typeof Floater.Portal>
 >(({ children, container, ...props }, _forwardedRef) => {
-    const { isOpen } = useContext(SelectPrimitiveContext);
+    const { isOpen } = useContext(ComboboxPrimitiveContext);
     const [rootElementFound, setRootElementFound] = useState(false);
     const rootElement = (container || document.querySelector('#rad-ui-theme-container') || document.body) as HTMLElement | null;
 
@@ -26,6 +26,6 @@ const SelectPrimitivePortal = React.forwardRef<
     );
 });
 
-SelectPrimitivePortal.displayName = 'SelectPrimitivePortal';
+ComboboxPrimitivePortal.displayName = 'ComboboxPrimitivePortal';
 
-export default SelectPrimitivePortal;
+export default ComboboxPrimitivePortal;

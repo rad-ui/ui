@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import SelectPrimitive from '~/core/primitives/Select/Select';
+import SelectPrimitive from '~/core/primitives/Select/ComboboxPrimitive';
 
 export type SelectPortalProps = {
   children: React.ReactNode;

@@ -1,22 +1,22 @@
 'use client';
 import React, { useContext } from 'react';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '../../Floater';
 import Primitive from '../../Primitive';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
-export type SelectPrimitiveTriggerProps = {
+export type ComboboxPrimitiveTriggerProps = {
     children: React.ReactNode;
     className?: string;
     disabled?: boolean;
     [key: string]: any;
 };
 
-const SelectPrimitiveTrigger = React.forwardRef<
+const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
-    SelectPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
+    ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(({ children, className, disabled, asChild, onClick, ...props }, forwardedRef) => {
-    const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(SelectPrimitiveContext);
+    const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
 
     const { onClick: _refOnClick, ...refProps } = getReferenceProps();
 
@@ -46,6 +46,6 @@ const SelectPrimitiveTrigger = React.forwardRef<
     );
 });
 
-SelectPrimitiveTrigger.displayName = 'SelectPrimitiveTrigger';
+ComboboxPrimitiveTrigger.displayName = 'ComboboxPrimitiveTrigger';
 
-export default SelectPrimitiveTrigger;
+export default ComboboxPrimitiveTrigger;

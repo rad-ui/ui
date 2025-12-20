@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import SelectPrimitive from '~/core/primitives/Select/Select';
+import SelectPrimitive from '~/core/primitives/Select/ComboboxPrimitive';
 
 import { SelectRootContext } from '../contexts/SelectRootContext';
 

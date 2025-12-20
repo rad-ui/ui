@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectPrimitive from '~/core/primitives/Select/Select';
+import SelectPrimitive from '~/core/primitives/Select/ComboboxPrimitive';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 

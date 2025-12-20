@@ -1,13 +1,13 @@
 'use client';
 import React, { useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
 import { Placement } from '@floating-ui/react';
 import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
 
-export type SelectPrimitiveRootProps = {
+export type ComboboxPrimitiveRootProps = {
     children: React.ReactNode,
     className?: string,
     value?: string,
@@ -20,9 +20,9 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-const SelectPrimitiveRoot = React.forwardRef<
+const ComboboxPrimitiveRoot = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
-    SelectPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+    ComboboxPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
 >(({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }, forwardedRef) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
@@ -152,7 +152,7 @@ const SelectPrimitiveRoot = React.forwardRef<
         selectedItemRef
     };
     return (
-        <SelectPrimitiveContext.Provider value={values}>
+        <ComboboxPrimitiveContext.Provider value={values}>
             <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])} data-state={isOpen ? 'open' : 'closed'}>
 
                 {children}
@@ -172,10 +172,10 @@ const SelectPrimitiveRoot = React.forwardRef<
                     )
                 }
             </Primitive.div>
-        </SelectPrimitiveContext.Provider>
+        </ComboboxPrimitiveContext.Provider>
     );
 });
 
-SelectPrimitiveRoot.displayName = 'SelectPrimitiveRoot';
+ComboboxPrimitiveRoot.displayName = 'ComboboxPrimitiveRoot';
 
-export default SelectPrimitiveRoot;
+export default ComboboxPrimitiveRoot;

@@ -1,15 +1,15 @@
 'use client';
 import React, { useContext } from 'react';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 
-const SelectPrimitiveSearch = React.forwardRef<
+const ComboboxPrimitiveSearch = React.forwardRef<
     React.ElementRef<typeof Primitive.input>,
     { className?: string } & React.ComponentPropsWithoutRef<typeof Primitive.input>
 >(({ className, ...props }, forwardedRef) => {
     const [search, setSearch] = React.useState('');
-    const context = useContext(SelectPrimitiveContext);
+    const context = useContext(ComboboxPrimitiveContext);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     // Handle missing context gracefully
@@ -108,6 +108,6 @@ const SelectPrimitiveSearch = React.forwardRef<
     );
 });
 
-SelectPrimitiveSearch.displayName = 'SelectPrimitiveSearch';
+ComboboxPrimitiveSearch.displayName = 'ComboboxPrimitiveSearch';
 
-export default SelectPrimitiveSearch;
+export default ComboboxPrimitiveSearch;

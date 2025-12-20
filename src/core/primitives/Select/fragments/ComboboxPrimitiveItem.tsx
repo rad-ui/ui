@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useContext } from 'react';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 
-export interface SelectPrimitiveItemProps {
+export interface ComboboxPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
     disabled?: boolean;
@@ -13,14 +13,14 @@ export interface SelectPrimitiveItemProps {
     [key: string]: any;
 }
 
-const SelectPrimitiveItem = React.forwardRef<
+const ComboboxPrimitiveItem = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
-    SelectPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+    ComboboxPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
 >(({ children, value, disabled, className, ...props }, forwardedRef) => {
-    const context = useContext(SelectPrimitiveContext);
+    const context = useContext(ComboboxPrimitiveContext);
 
     if (!context) {
-        console.error('SelectPrimitiveItem must be used within a SelectPrimitive');
+        console.error('ComboboxPrimitiveItem must be used within a ComboboxPrimitive');
         return null;
     }
 
@@ -106,6 +106,6 @@ const SelectPrimitiveItem = React.forwardRef<
     );
 });
 
-SelectPrimitiveItem.displayName = 'SelectPrimitiveItem';
+ComboboxPrimitiveItem.displayName = 'ComboboxPrimitiveItem';
 
-export default SelectPrimitiveItem;
+export default ComboboxPrimitiveItem;
