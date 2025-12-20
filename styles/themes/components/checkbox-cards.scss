@@ -6,7 +6,7 @@
   gap: 1rem; // gap-4
   padding: 1rem; // p-4
   border-radius: 0.5rem; // rounded-lg
-  border: 1px solid var(--rad-ui-color-gray-300);
+  border: 1px solid var(--rad-ui-color-gray-400);
   background-color: var(--rad-ui-color-gray-50);
   color: var(--rad-ui-color-gray-950);
   cursor: pointer;
@@ -18,7 +18,7 @@
   // Hover state - subtle background change with border highlight
   &:hover {
     background-color: var(--rad-ui-color-gray-100);
-    border-color: var(--rad-ui-color-gray-400);
+    border-color: var(--rad-ui-color-gray-500);
   }
   
   &:focus-visible {
@@ -40,7 +40,7 @@
   
   // Unselected state styling
   &[data-state="unchecked"] {
-    border-color: var(--rad-ui-color-gray-300);
+    border-color: var(--rad-ui-color-gray-400);
     border-width: 1px;
   }
   
@@ -66,11 +66,11 @@
     }
     
     &[data-state="unchecked"] {
-      border-color: var(--rad-ui-color-gray-300);
+      border-color: var(--rad-ui-color-gray-400);
       
       &:hover {
         background-color: var(--rad-ui-color-gray-100);
-        border-color: var(--rad-ui-color-gray-400); // Use gray, not accent color
+        border-color: var(--rad-ui-color-gray-500); // Use gray, not accent color
       }
     }
   }

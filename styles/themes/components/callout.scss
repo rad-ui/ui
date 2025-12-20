@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   border-radius: 0.375rem; // rounded-md
-  border: 1px solid var(--rad-ui-color-gray-300);
+  border: 1px solid var(--rad-ui-color-gray-400);
   padding: 1rem; // p-4
   background-color: var(--rad-ui-color-gray-50);
   color: var(--rad-ui-color-gray-950);
@@ -34,7 +34,7 @@
   
   // Default styles (no color prop) - neutral/muted appearance
   &[data-rad-ui-accent-color] {
-    border-color: var(--rad-ui-color-accent-300);
+    border-color: var(--rad-ui-color-accent-400);
     background-color: var(--rad-ui-color-accent-50);
     color: var(--rad-ui-color-accent-950);
     
@@ -99,7 +99,7 @@
   // Variants control layout/visual treatment and can be combined with intent
   &[data-callout-variant="outline"] {
     background-color: transparent;
-    border-color: var(--rad-ui-color-gray-300);
+    border-color: var(--rad-ui-color-gray-400);
     color: var(--rad-ui-color-gray-950);
     
     &[data-rad-ui-accent-color] {
@@ -124,7 +124,7 @@
   }
   
   &[data-callout-variant="soft"] {
-    border-color: var(--rad-ui-color-gray-300);
+    border-color: var(--rad-ui-color-gray-400);
     background-color: var(--rad-ui-color-gray-200);
     color: var(--rad-ui-color-gray-950);
     
