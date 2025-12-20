@@ -7,6 +7,7 @@ import ComboboxRoot from './fragments/ComboboxRoot';
 import ComboboxIndicator from './fragments/ComboboxIndicator';
 import ComboboxPortal from './fragments/ComboboxPortal';
 import ComboboxGroup from './fragments/ComboboxGroup';
+import ComboboxSearch from './fragments/ComboboxSearch';
 
 const ComboboxBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
     console.warn('Direct usage of Combobox is not supported. Please use Combobox.Root, Combobox.Content, etc. instead.');
@@ -34,5 +35,6 @@ Combobox.Trigger = ComboboxTrigger;
 Combobox.Portal = ComboboxPortal;
 Combobox.Group = ComboboxGroup;
 Combobox.Indicator = ComboboxIndicator;
+Combobox.Search = ComboboxSearch
 
 export default Combobox;

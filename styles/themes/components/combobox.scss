@@ -1,10 +1,10 @@
-.rad-ui-select-root {
+.rad-ui-combobox-root {
         position: relative;
         display: inline-block;
-        width: var(--rad-select-width, 200px);
+        width: var(--rad-combobox-width, 200px);
     }
 
-.rad-ui-select-trigger {
+.rad-ui-combobox-trigger {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -63,16 +63,16 @@
         }
     }
 
-.rad-ui-select-content {
+.rad-ui-combobox-content {
         z-index: 50;
         overflow: hidden;
         background-color: var(--rad-ui-color-accent-50);
         border-radius: 4px;
         border: 1px solid var(--rad-ui-color-accent-400);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        max-height: var(--rad-select-content-height, 300px);
+        max-height: var(--rad-combobox-content-height, 300px);
         overflow-y: auto;
-        width: var(--rad-select-width, 200px);
+        width: var(--rad-combobox-width, 200px);
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -82,8 +82,32 @@
         }
 }
 
+.rad-ui-combobox-search {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: medium;
+    border: 1px solid var(--rad-ui-color-accent-300);
+    border-radius: 4px;
+    background-color: var(--rad-ui-color-accent-100);
+    color: var(--rad-ui-color-accent-900);
+    margin-bottom: 8px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
 
-.rad-ui-select-item {
+    &:focus {
+        border-color: var(--rad-ui-color-accent-600);
+        box-shadow: 0 0 0 2px var(--rad-ui-color-accent-200);
+        background-color: var(--rad-ui-color-accent-50);
+    }
+
+    &::placeholder {
+        color: var(--rad-ui-color-accent-400);
+        opacity: 1;
+    }
+}
+
+.rad-ui-combobox-item {
         font-size: medium;
         line-height: 1.4;
         color: var(--rad-ui-color-accent-900);
@@ -141,7 +165,7 @@
             background-color: var(--rad-ui-color-accent-300);
         }
 
-        &[aria-selected="true"] .rad-ui-select-item-indicator {
+        &[aria-selected="true"] .rad-ui-combobox-item-indicator {
             opacity: 1;
         }
 
@@ -164,7 +188,7 @@
         }
     }
 
-    .rad-ui-select-label {
+    .rad-ui-combobox-label {
         padding: 4px 12px;
         font-size: 12px;
         font-weight: 600;
@@ -172,7 +196,7 @@
         text-transform: uppercase;
     }
 
-    .rad-ui-select-icon {
+    .rad-ui-combobox-icon {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -181,7 +205,7 @@
         margin-right: 8px;
     }
 
-    .rad-ui-select-text {
+    .rad-ui-combobox-text {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
