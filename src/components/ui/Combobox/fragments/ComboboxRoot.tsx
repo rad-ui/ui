@@ -1,21 +1,21 @@
 import React from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
-import { SelectRootContext } from '../contexts/SelectRootContext';
+import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
-const COMPONENT_NAME = 'Select';
+const COMPONENT_NAME = 'Combobox';
 
-type SelectRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
-type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
+type ComboboxRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
+type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
     customRootClass?: string;
 };
 
-const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
+const ComboboxRoot = React.forwardRef<ComboboxRootElement, ComboboxRootProps>(
     ({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
         return (
-            <SelectRootContext.Provider value={{ rootClass }}>
+            <ComboboxRootContext.Provider value={{ rootClass }}>
                 <ComboboxPrimitive.Root
                     className={`${rootClass}-root`}
                     defaultValue={defaultValue}
@@ -27,12 +27,12 @@ const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
                 >
                     {children}
                 </ComboboxPrimitive.Root>
-            </SelectRootContext.Provider>
+            </ComboboxRootContext.Provider>
 
         );
     }
 );
 
-SelectRoot.displayName = 'SelectRoot';
+ComboboxRoot.displayName = 'ComboboxRoot';
 
-export default SelectRoot;
+export default ComboboxRoot;

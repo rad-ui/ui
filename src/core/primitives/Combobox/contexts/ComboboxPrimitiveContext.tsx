@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export type SelectPrimitiveContextType = {
+export type ComboboxPrimitiveContextType = {
     isOpen: boolean,
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
     handleSelect: (index: number | null) => void,
@@ -31,4 +31,4 @@ export type SelectPrimitiveContextType = {
     setHasSearch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SelectPrimitiveContext = createContext<SelectPrimitiveContextType>({} as SelectPrimitiveContextType);
+export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

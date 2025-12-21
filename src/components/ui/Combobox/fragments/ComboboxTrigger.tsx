@@ -2,16 +2,16 @@
 import React, { useContext } from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 
-import { SelectRootContext } from '../contexts/SelectRootContext';
+import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
-type SelectTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>;
-type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
+type ComboboxTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>;
+type ComboboxTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
     customRootClass?: string;
     placeholder?: boolean;
 };
 
-const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(({ customRootClass, children, disabled, placeholder, ...props }, forwardedRef) => {
-    const { rootClass } = useContext(SelectRootContext);
+const ComboboxTrigger = React.forwardRef<ComboboxTriggerElement, ComboboxTriggerProps>(({ customRootClass, children, disabled, placeholder, ...props }, forwardedRef) => {
+    const { rootClass } = useContext(ComboboxRootContext);
 
     return (
         <ComboboxPrimitive.Trigger
@@ -29,6 +29,6 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
     );
 });
 
-SelectTrigger.displayName = 'SelectTrigger';
+ComboboxTrigger.displayName = 'ComboboxTrigger';
 
-export default SelectTrigger;
+export default ComboboxTrigger;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import SelectPrimitive from '../Select';
+import ComboboxPrimitive from '../ComboboxPrimitive';
 
-describe('SelectPrimitive', () => {
+describe('ComboboxPrimitive', () => {
     test('forwards ref through Trigger', () => {
         const ref = React.createRef<HTMLButtonElement>();
         render(
-            <SelectPrimitive.Root>
-                <SelectPrimitive.Trigger ref={ref}>Trigger</SelectPrimitive.Trigger>
-            </SelectPrimitive.Root>
+            <ComboboxPrimitive.Root>
+                <ComboboxPrimitive.Trigger ref={ref}>Trigger</ComboboxPrimitive.Trigger>
+            </ComboboxPrimitive.Root>
         );
         expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
@@ -16,9 +16,9 @@ describe('SelectPrimitive', () => {
     test('renders hidden select for forms', () => {
         const { container } = render(
             <form>
-                <SelectPrimitive.Root name="test" defaultValue="Apple">
-                    <SelectPrimitive.Trigger>Apple</SelectPrimitive.Trigger>
-                </SelectPrimitive.Root>
+                <ComboboxPrimitive.Root name="test" defaultValue="Apple">
+                    <ComboboxPrimitive.Trigger>Apple</ComboboxPrimitive.Trigger>
+                </ComboboxPrimitive.Root>
             </form>
         );
         const hiddenSelect = container.querySelector('select');
@@ -30,9 +30,9 @@ describe('SelectPrimitive', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const error = jest.spyOn(console, 'error').mockImplementation(() => {});
         render(
-            <SelectPrimitive.Root>
-                <SelectPrimitive.Trigger>Trigger</SelectPrimitive.Trigger>
-            </SelectPrimitive.Root>
+            <ComboboxPrimitive.Root>
+                <ComboboxPrimitive.Trigger>Trigger</ComboboxPrimitive.Trigger>
+            </ComboboxPrimitive.Root>
         );
         expect(warn).not.toHaveBeenCalled();
         expect(error).not.toHaveBeenCalled();

@@ -1,13 +1,13 @@
 import React from 'react';
 
-export type SelectPrimitiveGroupProps = {
+export type ComboboxPrimitiveGroupProps = {
     children: React.ReactNode,
     className?: string,
 }
 
-const SelectPrimitiveGroup = React.forwardRef<
+const ComboboxPrimitiveGroup = React.forwardRef<
     React.ElementRef<'div'>,
-    SelectPrimitiveGroupProps & React.ComponentPropsWithoutRef<'div'>
+    ComboboxPrimitiveGroupProps & React.ComponentPropsWithoutRef<'div'>
 >(({ children, className, ...props }, forwardedRef) => {
     return (
         <div className={className} ref={forwardedRef} {...props}>
@@ -16,6 +16,6 @@ const SelectPrimitiveGroup = React.forwardRef<
     );
 });
 
-SelectPrimitiveGroup.displayName = 'SelectPrimitiveGroup';
+ComboboxPrimitiveGroup.displayName = 'ComboboxPrimitiveGroup';
 
-export default SelectPrimitiveGroup;
+export default ComboboxPrimitiveGroup;
