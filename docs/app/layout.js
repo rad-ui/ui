@@ -139,7 +139,7 @@ export default async function RootLayout({ children, ...props }) {
           }}
         />
       </head>
-      <body className="h-screen overflow-hidden">
+      <body className="h-screen overflow-hidden" suppressHydrationWarning>
         <PostHogProvider>
           <Main darkModeSsrValue={darkModeSsrValue}>
             {children}

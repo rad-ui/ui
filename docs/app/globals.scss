@@ -133,3 +133,12 @@ code .selector {
 .bottom-layout-line{
   background-color: color-mix(in oklab, var(--rad-ui-color-gray-1000) 5%, transparent);
 }
+
+
+body[data-scroll-locked] {
+  // Todo, move this to the scroll area component in the library
+  .rad-ui-scroll-area-scrollbar {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

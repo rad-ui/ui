@@ -73,6 +73,7 @@ className={`language-${language} whitespace-pre-wrap`}
             >{code}</code> */}
 
                 <ScrollArea.Root
+                    
                     className={clsx(
                         "transition-all",
                         expanded ? "max-h-[640px]" : "max-h-[180px]",
@@ -83,7 +84,7 @@ className={`language-${language} whitespace-pre-wrap`}
                         style={{
                             height: inline ? 'auto' : height,
                             maxHeight: inline ? 'none' : maxHeight,
-                            overflowY: inline ? 'visible' : 'auto',
+                            overflowY: inline ? 'visible' : (expanded ? 'auto' : 'hidden'),
                         }}
                     >
                         <code className={`language-${language} whitespace-pre-wrap block`}>
@@ -91,7 +92,7 @@ className={`language-${language} whitespace-pre-wrap`}
                         </code>
                     </ScrollArea.Viewport>
 
-                    {!inline && (
+                    {!inline && expanded && (
                         <ScrollArea.Scrollbar>
                             <ScrollArea.Thumb />
                         </ScrollArea.Scrollbar>

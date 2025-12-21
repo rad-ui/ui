@@ -8,7 +8,7 @@ const TooltipExample1 = () => {
             <Tooltip.Trigger>
                 Hello Tooltip. Hover Me!
             </Tooltip.Trigger>
-            <Tooltip.Content>
+            <Tooltip.Content className="z-[9999] bg-black rounded shadow-lg">
                 Hello from the tooltip!
             </Tooltip.Content>
         </Tooltip.Root>

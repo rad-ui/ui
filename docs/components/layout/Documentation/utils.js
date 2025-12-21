@@ -30,7 +30,7 @@ export const BookMarkLink = ({ children, id }) => {
                 aria-label={`Direct link to ${id}`}
             >
                 <span>{children}</span>
-                <LinkIcon size={24} />
+                <LinkIcon size={16} />
             </a>
         </div>
     );

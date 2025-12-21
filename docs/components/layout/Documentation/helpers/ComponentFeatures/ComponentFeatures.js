@@ -20,7 +20,7 @@ const ComponentFeatures = ({ features }) => {
         <ul className="list-disc list-inside space-y-2">
           {features.map((feature, index) => (
             <li className="flex items-center space-x-2" key={index}>
-              <span className="text-green-950 w-[24px] h-[24px] bg-green-500 rounded-full flex items-center justify-center p-1">
+              <span className="text-green-950 w-[16px] h-[16px] bg-green-500 rounded-full flex items-center justify-center p-1">
                 <TickIcon />
               </span>
               <span>
