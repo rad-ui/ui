@@ -1,11 +1,11 @@
 'use client';
 import React, { useContext } from 'react';
-import SelectPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
+import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
-type SelectTriggerElement = React.ElementRef<typeof SelectPrimitive.Trigger>;
-type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+type SelectTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>;
+type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
     customRootClass?: string;
     placeholder?: boolean;
 };
@@ -14,7 +14,7 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
     const { rootClass } = useContext(SelectRootContext);
 
     return (
-        <SelectPrimitive.Trigger
+        <ComboboxPrimitive.Trigger
             className={`${rootClass}-trigger`}
             aria-disabled={disabled ? 'true' : undefined}
             data-placeholder={placeholder ? '' : undefined}
@@ -25,7 +25,7 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
 
             {children}
 
-        </SelectPrimitive.Trigger>
+        </ComboboxPrimitive.Trigger>
     );
 });
 

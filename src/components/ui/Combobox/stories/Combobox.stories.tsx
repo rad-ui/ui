@@ -15,7 +15,7 @@ export const Basic = () => {
         <SandboxEditor>
             <Combobox.Root>
                 <Combobox.Trigger>
-                    Combobox an option
+                    Select an option
                 </Combobox.Trigger>
                 <Combobox.Content>
                     <Combobox.Search />

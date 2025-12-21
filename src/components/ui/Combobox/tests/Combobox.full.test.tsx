@@ -5,7 +5,7 @@ import axe from 'axe-core';
 import Combobox from '../Combobox';
 
 describe('Combobox full behavior', () => {
-    test('keyboard navigation and Comboboxion with data-state', async() => {
+    test('keyboard navigation and selection with data-state', async() => {
         render(
             <Combobox.Root>
                 <Combobox.Trigger>choose</Combobox.Trigger>

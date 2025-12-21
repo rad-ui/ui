@@ -1,10 +1,10 @@
 'use client';
 import React, { useContext } from 'react';
-import SelectPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
+import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
-type SelectContentElement = React.ElementRef<typeof SelectPrimitive.Content>;
-type SelectContentProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
+type SelectContentElement = React.ElementRef<typeof ComboboxPrimitive.Content>;
+type SelectContentProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Content> & {
     customRootClass?: string;
 };
 
@@ -12,7 +12,7 @@ const SelectContent = React.forwardRef<SelectContentElement, SelectContentProps>
     const { rootClass } = useContext(SelectRootContext);
 
     return (
-        <SelectPrimitive.Content
+        <ComboboxPrimitive.Content
             className={`${rootClass}-content`}
             position={position}
             data-position={position}
@@ -20,7 +20,7 @@ const SelectContent = React.forwardRef<SelectContentElement, SelectContentProps>
             {...props}
         >
             {children}
-        </SelectPrimitive.Content>
+        </ComboboxPrimitive.Content>
     );
 });
 
