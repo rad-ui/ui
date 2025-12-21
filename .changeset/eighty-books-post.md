@@ -2,4 +2,4 @@
 "@radui/ui": minor
 ---
 
-renamed the select to combobox primtive and separate themed comps for select and combobox
+Renamed the select to combobox primitive and separated themed components for select and combobox
