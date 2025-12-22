@@ -279,7 +279,7 @@
     "stylelint": "^16.12.0",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^14.0.0",
-    "stylelint-config-tailwindcss": "^0.0.7",
+    "stylelint-config-tailwindcss": "^1.0.0",
     "tailwindcss": "3.4.1",
     "ts-jest": "29.4.0",
     "tsx": "^4.17.0",
