@@ -1,6 +1,6 @@
 "use client";
 import Callout from '@radui/ui/Callout';
-import { BookmarkIcon } from './CalloutExample';
+import { AlertCircle as BookmarkIcon } from 'lucide-react';
 
 const CalloutSizes = () => {
     const sizes = ['small', 'medium', 'large', 'x-large'];
@@ -12,7 +12,7 @@ const CalloutSizes = () => {
                     return (
                        <Callout.Root size={size} color="red" key={index}>
                             <Callout.Icon>
-                                <BookmarkIcon />
+                                <BookmarkIcon className="w-full h-full" />
                             </Callout.Icon>
                             <Callout.Text>
                                 Seems like there's been an error. Please try again.

@@ -6,7 +6,7 @@ import Heading from "@radui/ui/Heading";
 import Text from "@radui/ui/Text";
 import Badge from "@radui/ui/Badge";
 
-import RightArrow from "@/icons/RightArrow";
+import { ArrowRight as RightArrow } from 'lucide-react';
 
 
 const InteractiveAlbums: any = () => {

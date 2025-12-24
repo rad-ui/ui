@@ -1,4 +1,5 @@
 import componentCoverageMetadata from "./seo"
+import { CheckIcon, XIcon, HighPriorityIcon, MediumPriorityIcon, DashIcon } from "./CoverageIcons"
 
 export const metadata = componentCoverageMetadata
 
@@ -91,67 +92,69 @@ This comparison focuses purely on **component availability**, not API design, ac
 
 ---
 
-## Component Coverage Matrix
+## Component Coverage Matrix [Sample]
+PS: This table is mostly a placeholder, we'd like to publish our component list in comparison to other libraries as a way to measure our own progress.
+
 
 | Component                    | Rad UI | Radix UI | Base UI | Ark UI | Headless UI | Priority  |
 | ---------------------------- | ------ | -------- | ------- | ------ | ----------- | --------- |
 | **Layout & Structure**       |        |          |         |        |             |           |
-| Accordion                    | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| AspectRatio                  | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
-| Separator                    | ✅     | ✅       | ✅      | ❌     | ❌          | –         |
-| Splitter                     | ✅     | ❌       | ❌      | ✅     | ❌          | –         |
-| Steps                        | ✅     | ❌       | ❌      | ✅     | ❌          | –         |
+| Accordion                    | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| AspectRatio                  | <CheckIcon />     | <CheckIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Separator                    | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Splitter                     | <CheckIcon />     | <XIcon />       | <XIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| Steps                        | <CheckIcon />     | <XIcon />       | <XIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
 | **Navigation**               |        |          |         |        |             |           |
-| Breadcrumb                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🔴 High   |
-| NavigationMenu               | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
-| Menubar                      | ✅     | ✅       | ❌      | ❌     | ❌          | –         |
-| TabNav                       | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Tabs                         | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
+| Breadcrumb                   | <XIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <HighPriorityIcon /> High   |
+| NavigationMenu               | <CheckIcon />     | <CheckIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Menubar                      | <CheckIcon />     | <CheckIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| TabNav                       | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Tabs                         | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <CheckIcon />          | <DashIcon />         |
 | **Overlays & Dialogs**       |        |          |         |        |             |           |
-| AlertDialog                  | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| Dialog                       | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
-| Popover                      | ❌     | ✅       | ✅      | ✅     | ✅          | 🔴 High   |
-| Tooltip                      | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| HoverCard                    | ✅     | ✅       | ❌      | ✅     | ❌          | –         |
-| BottomSheet                  | ❌     | ❌       | ❌      | ✅     | ❌          | 🟡 Medium |
-| FloatingPanel                | ❌     | ❌       | ❌      | ✅     | ❌          | 🟡 Medium |
+| AlertDialog                  | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| Dialog                       | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <CheckIcon />          | <DashIcon />         |
+| Popover                      | <XIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <CheckIcon />          | <HighPriorityIcon /> High   |
+| Tooltip                      | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| HoverCard                    | <CheckIcon />     | <CheckIcon />       | <XIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| BottomSheet                  | <XIcon />     | <XIcon />       | <XIcon />      | <CheckIcon />     | <XIcon />          | <MediumPriorityIcon /> Medium |
+| FloatingPanel                | <XIcon />     | <XIcon />       | <XIcon />      | <CheckIcon />     | <XIcon />          | <MediumPriorityIcon /> Medium |
 | **Forms & Inputs**           |        |          |         |        |             |           |
-| Button                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| Checkbox                     | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| CheckboxGroup                | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
-| CheckboxCards                | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Radio                        | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| RadioGroup                   | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
-| RadioCards                   | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Switch                       | ✅     | ✅       | ✅      | ✅     | ✅          | –         |
-| Toggle                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| ToggleGroup                  | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| TextArea                     | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
-| NumberField                  | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
-| Select                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| Combobox                     | ❌     | ❌       | ✅      | ✅     | ✅          | 🔴 High   |
-| DatePicker                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🔴 High   |
-| TimePicker                   | ❌     | ❌       | ✅      | ✅     | ❌          | 🟡 Medium |
+| Button                       | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| Checkbox                     | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| CheckboxGroup                | <CheckIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| CheckboxCards                | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Radio                        | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| RadioGroup                   | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <CheckIcon />          | <DashIcon />         |
+| RadioCards                   | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Switch                       | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <CheckIcon />          | <DashIcon />         |
+| Toggle                       | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| ToggleGroup                  | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| TextArea                     | <CheckIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| NumberField                  | <CheckIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| Select                       | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| Combobox                     | <XIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <CheckIcon />          | <HighPriorityIcon /> High   |
+| DatePicker                   | <XIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <HighPriorityIcon /> High   |
+| TimePicker                   | <XIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <MediumPriorityIcon /> Medium |
 | **Data Display**             |        |          |         |        |             |           |
-| Avatar                       | ✅     | ✅       | ✅      | ✅     | ❌          | –         |
-| AvatarGroup                  | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Badge                        | ✅     | ❌       | ✅      | ❌     | ❌          | –         |
-| Card                         | ✅     | ❌       | ✅      | ❌     | ❌          | –         |
-| Table                        | ✅     | ❌       | ✅      | ✅     | ❌          | –         |
-| Skeleton                     | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Avatar                       | <CheckIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| AvatarGroup                  | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Badge                        | <CheckIcon />     | <XIcon />       | <CheckIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Card                         | <CheckIcon />     | <XIcon />       | <CheckIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Table                        | <CheckIcon />     | <XIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <DashIcon />         |
+| Skeleton                     | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
 | **Feedback & Notifications** |        |          |         |        |             |           |
-| Toast                        | ❌     | ✅       | ✅      | ✅     | ❌          | 🔴 High   |
-| Callout                      | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Toast                        | <XIcon />     | <CheckIcon />       | <CheckIcon />      | <CheckIcon />     | <XIcon />          | <HighPriorityIcon /> High   |
+| Callout                      | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
 | **Typography**               |        |          |         |        |             |           |
-| Heading                      | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Text                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Code                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Kbd                          | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Em                           | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Strong                       | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| BlockQuote                   | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Quote                        | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
-| Link                         | ✅     | ❌       | ❌      | ❌     | ❌          | –         |
+| Heading                      | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Text                         | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Code                         | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Kbd                          | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Em                           | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Strong                       | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| BlockQuote                   | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Quote                        | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
+| Link                         | <CheckIcon />     | <XIcon />       | <XIcon />      | <XIcon />     | <XIcon />          | <DashIcon />         |
 
 ---
 
@@ -159,7 +162,7 @@ This comparison focuses purely on **component availability**, not API design, ac
 
 These components appear across multiple libraries and are frequently expected in production apps.
 
-### 🔴 High Priority
+### High Priority
 
 1. **Popover**  
    Present in Radix UI, Base UI, Ark UI, Headless UI
@@ -183,22 +186,6 @@ This list is not “missing features shame”. It is the practical roadmap requi
 
 ---
 
-## Coverage Summary by Category
-
-| Category           | Rad UI | Radix UI | Base UI | Ark UI | Headless UI |
-| ------------------ | ------ | -------- | ------- | ------ | ----------- |
-| Layout & Structure | 5      | 2        | 1       | 2      | 0           |
-| Navigation         | 4      | 2        | 1       | 2      | 1           |
-| Overlays & Dialogs | 5      | 4        | 3       | 6      | 2           |
-| Forms & Inputs     | 18     | 7        | 15      | 20     | 3           |
-| Data Display       | 8      | 1        | 3       | 6      | 0           |
-| Menus              | 3      | 2        | 2       | 3      | 2           |
-| Feedback           | 1      | 1        | 1       | 1      | 0           |
-| Typography         | 9      | 0        | 0       | 0      | 0           |
-| Utilities          | 7      | 3        | 0       | 10     | 1           |
-| **Total**          | **54** | **22**   | **25**  | **50** | **9**       |
-
----
 
 ## Where Rad UI Differentiates
 

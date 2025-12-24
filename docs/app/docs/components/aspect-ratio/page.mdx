@@ -2,6 +2,7 @@ import Documentation from "@/components/layout/Documentation/Documentation"
 import AspectRatio from "@radui/ui/AspectRatio"
 import codeUsage, { AspectRatioTable } from "./docs/codeUsage"
 import Card from "@radui/ui/Card"
+import Ruler from "@/components/utility/Ruler"
 import aspectRatioMetadata from "./seo"
 
 export const metadata = aspectRatioMetadata
@@ -11,16 +12,40 @@ export const metadata = aspectRatioMetadata
   description="Aspect Ratio is used to set the desired ratio."
 >
   <Documentation.ComponentHero codeUsage={codeUsage}>
-    <Card style={{ width: '300px', height: 'auto' }}>
-      <AspectRatio ratio="4/3">
-        <img
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          className="Image"
-          src="https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?cs=srgb&dl=pexels-bri-schneiter-28802-346529.jpg&fm=jpg"
-          alt="Landscape photograph"
-        />
-      </AspectRatio>
-    </Card>
+    <div className="relative inline-flex flex-col items-center">
+      {/* Top ruler */}
+      <div className="mb-2 w-[300px]">
+        <Ruler orientation="horizontal" />
+      </div>
+      
+      <div className="flex items-start gap-2">
+        {/* Left ruler */}
+        <div className="flex flex-col justify-center h-[225px]">
+          <Ruler orientation="vertical" />
+        </div>
+        
+        <Card style={{ width: '300px', height: 'auto' }}>
+          <AspectRatio ratio="4/3">
+            <img
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              className="Image"
+              src="https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?cs=srgb&dl=pexels-bri-schneiter-28802-346529.jpg&fm=jpg"
+              alt="Landscape photograph"
+            />
+          </AspectRatio>
+        </Card>
+        
+        {/* Right ruler */}
+        <div className="flex flex-col justify-center h-[225px]">
+          <Ruler orientation="vertical" />
+        </div>
+      </div>
+      
+      {/* Bottom ruler */}
+      <div className="mt-2 w-[300px]">
+        <Ruler orientation="horizontal" />
+      </div>
+    </div>
   </Documentation.ComponentHero>
   
   <Documentation.Table 

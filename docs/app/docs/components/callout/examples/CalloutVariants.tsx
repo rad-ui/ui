@@ -2,8 +2,7 @@
 import Callout from '@radui/ui/Callout';
 import Text from "@radui/ui/Text";
 import Separator from '@radui/ui/Separator';
-
-import { BookmarkIcon } from './CalloutExample';
+import { AlertCircle as BookmarkIcon } from 'lucide-react';
 import TooltipWrapper from '@/components/ui/Tooltip';
 
 const CalloutVariants = () => {
@@ -21,7 +20,7 @@ const CalloutVariants = () => {
           return <span key={idx}>
             <Callout.Root variant={variant} color="red">
               <Callout.Icon>
-                <BookmarkIcon />
+                <BookmarkIcon className="w-full h-full" />
               </Callout.Icon>
               <Callout.Text>
                 Seems like there's been an error. Please try again.
