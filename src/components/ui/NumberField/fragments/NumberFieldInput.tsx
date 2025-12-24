@@ -12,7 +12,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         return null;
     }
     const {
-        inputValue,
+        formattedValue,
         handleOnChange,
         handleStep,
         id,
@@ -20,7 +20,9 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         disabled,
         readOnly,
         required,
-        rootClass
+        rootClass,
+        onFocus,
+        onBlur,
     } = context;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -40,14 +42,19 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             event.preventDefault();
             handleStep({ direction: 'decrement', type: 'large' });
         }
+        if (event.key === 'Enter') {
+            (event.target as HTMLInputElement).blur();
+        }
     };
     return (
         <input
             ref={ref}
-            type="number"
+            type="text"
             onKeyDown={handleKeyDown}
-            value={inputValue === '' ? '' : inputValue}
-            onChange={(e) => { const val = e.target.value; handleOnChange(val === '' ? '' : Number(val)); }}
+            value={formattedValue}
+            onChange={(e) => handleOnChange(e.target.value)}
+            onFocus={onFocus}
+            onBlur={onBlur}
             id={id}
             name={name}
             disabled={disabled}
