@@ -8,8 +8,6 @@ export default {
     component: Combobox
 };
 
-
-
 export const Basic = () => {
     return (
         <SandboxEditor>

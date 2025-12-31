@@ -36,6 +36,6 @@ Combobox.Trigger = ComboboxTrigger;
 Combobox.Portal = ComboboxPortal;
 Combobox.Group = ComboboxGroup;
 Combobox.Indicator = ComboboxIndicator;
-Combobox.Search = ComboboxSearch
+Combobox.Search = ComboboxSearch;
 
 export default Combobox;

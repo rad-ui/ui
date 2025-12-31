@@ -1,143 +1,134 @@
-.rad-ui-text-area textarea {
-  display: block;
-  width: 100%;
-  min-height: 100px;
+.rad-ui-text-area {
+  textarea {
+    display: block;
+    width: 100%;
+    min-height: 100px;
+    box-sizing: border-box;
+    resize: none;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--rad-ui-color-accent-1000);
+    background-color: var(--rad-ui-color-accent-100);
+    border: 2px solid var(--rad-ui-color-accent-400);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      background-color 0.15s ease;
 
-  box-sizing: border-box;
-  resize: none;
+    &::placeholder {
+      color: var(--rad-ui-color-accent-500);
+    }
 
-  font-family: inherit;
-  font-size: 16px;
-  line-height: 1.5;
+    &:disabled,
+    &:read-only {
+      background-color: var(--rad-ui-color-accent-200);
+      color: var(--rad-ui-color-accent-600);
+      cursor: not-allowed;
 
-  padding: 10px 12px;
-  border-radius: 8px;
+      &::placeholder {
+        color: var(--rad-ui-color-accent-500);
+      }
+    }
 
-  color: var(--rad-ui-color-accent-1000);
-  background-color: var(--rad-ui-color-accent-100);
+    &:focus {
+      outline: none;
+      border-color: var(--rad-ui-color-accent-500);
+      box-shadow: 0 0 0 2px var(--rad-ui-color-accent-200);
+    }
 
-  border: 2px solid var(--rad-ui-color-accent-400);
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
 
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.15s ease;
-}
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
 
-.rad-ui-text-area textarea::placeholder {
-  color: var(--rad-ui-color-accent-500);
-}
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--rad-ui-color-accent-400);
+      border-radius: 6px;
+      border: 3px solid transparent;
+      background-clip: content-box;
 
-.rad-ui-text-area textarea:focus {
-  outline: none;
-  border-color: var(--rad-ui-color-accent-500);
-  box-shadow: 0 0 0 2px var(--rad-ui-color-accent-200);
-}
+      &:hover {
+        background-color: var(--rad-ui-color-accent-500);
+      }
+    }
+  }
 
+  &[data-textarea-size="small"] textarea {
+    font-size: 12px;
+  }
 
-.rad-ui-text-area textarea::-webkit-scrollbar {
-  width: 10px;
-}
+  &[data-textarea-size="medium"] textarea {
+    font-size: 14px;
+  }
 
-.rad-ui-text-area textarea::-webkit-scrollbar-track {
-  background: transparent;
-}
+  &[data-textarea-size="large"] textarea {
+    font-size: 16px;
+  }
 
-.rad-ui-text-area textarea::-webkit-scrollbar-thumb {
-  background-color: var(--rad-ui-color-accent-400);
-  border-radius: 6px;
-  border: 3px solid transparent;
-  background-clip: content-box;
-}
+  &[data-textarea-resize="horizontal"] textarea {
+    resize: horizontal;
+  }
 
-.rad-ui-text-area textarea::-webkit-scrollbar-thumb:hover {
-  background-color: var(--rad-ui-color-accent-500);
-}
+  &[data-textarea-resize="vertical"] textarea {
+    resize: vertical;
+  }
 
+  &[data-textarea-resize="none"] textarea {
+    resize: none;
+  }
 
-.rad-ui-text-area[data-textarea-resize="horizontal"] textarea {
-  resize: horizontal;
-}
+  &[data-textarea-resize="both"] textarea {
+    resize: both;
+  }
 
-.rad-ui-text-area[data-textarea-resize="vertical"] textarea {
-  resize: vertical;
-}
+  &[data-textarea-radius="none"] textarea {
+    border-radius: 0;
+  }
 
-.rad-ui-text-area[data-textarea-resize="none"] textarea {
-  resize: none;
-}
+  &[data-textarea-radius="small"] textarea {
+    border-radius: 4px;
+  }
 
-.rad-ui-text-area[data-textarea-resize="both"] textarea {
-  resize: both;
-}
+  &[data-textarea-radius="medium"] textarea {
+    border-radius: 8px;
+  }
 
-.rad-ui-text-area[data-textarea-radius="none"] textarea {
-  border-radius: 0;
-}
+  &[data-textarea-radius="large"] textarea {
+    border-radius: 12px;
+  }
 
-.rad-ui-text-area[data-textarea-radius="small"] textarea {
-  border-radius: 4px;
-}
+  &[data-textarea-radius="full"] textarea {
+    border-radius: 16px;
+  }
 
-.rad-ui-text-area[data-textarea-radius="medium"] textarea {
-  border-radius: 8px;
-}
+  &[data-textarea-variant="soft"] textarea {
+    border: none;
+    background-color: var(--rad-ui-color-accent-200);
+    color: var(--rad-ui-color-accent-1000);
+  }
 
-.rad-ui-text-area[data-textarea-radius="large"] textarea {
-  border-radius: 12px;
-}
+  &[data-textarea-variant="outline"] textarea {
+    background-color: transparent;
+    border: 2px solid var(--rad-ui-color-accent-400);
+  }
 
-.rad-ui-text-area[data-textarea-radius="full"] textarea {
-  border-radius: 16px;
-}
+  &[data-textarea-variant="solid"] textarea {
+    background-color: var(--rad-ui-color-accent-100);
+    border: 2px solid var(--rad-ui-color-accent-400);
+  }
 
-.rad-ui-text-area[data-textarea-size="small"] textarea {
-  font-size: 12px;
-}
+  &[data-textarea-variant="ghost"] textarea {
+    background-color: transparent;
+    border: 2px solid transparent;
 
-.rad-ui-text-area[data-textarea-size="medium"] textarea {
-  font-size: 14px;
-}
-
-.rad-ui-text-area[data-textarea-size="large"] textarea {
-  font-size: 16px;
-}
-
-.rad-ui-text-area[data-textarea-variant="soft"] textarea {
-  border: none;
-  background-color: var(--rad-ui-color-accent-200);
-  color: var(--rad-ui-color-accent-1000);
-}
-
-.rad-ui-text-area[data-textarea-variant="outline"] textarea {
-  background-color: transparent;
-  border: 2px solid var(--rad-ui-color-accent-400);
-}
-
-.rad-ui-text-area[data-textarea-variant="solid"] textarea {
-  background-color: var(--rad-ui-color-accent-100);
-  border: 2px solid var(--rad-ui-color-accent-400);
-}
-
-
-.rad-ui-text-area[data-textarea-variant="ghost"] textarea {
-  background-color: transparent;
-  border: 2px solid transparent;
-}
-
-.rad-ui-text-area[data-textarea-variant="ghost"] textarea:focus {
-  border-color: var(--rad-ui-color-accent-500);
-}
-
-
-.rad-ui-text-area textarea:disabled,
-.rad-ui-text-area textarea:read-only {
-  background-color: var(--rad-ui-color-accent-200);
-  color: var(--rad-ui-color-accent-600);
-  cursor: not-allowed;
-}
-
-.rad-ui-text-area textarea:disabled::placeholder,
-.rad-ui-text-area textarea:read-only::placeholder {
-  color: var(--rad-ui-color-accent-500);
+    &:focus {
+      border-color: var(--rad-ui-color-accent-500);
+    }
+  }
 }
