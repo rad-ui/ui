@@ -2,22 +2,16 @@
   display: block;
   width: 100%;
   min-height: 100px;
-
   box-sizing: border-box;
   resize: none;
-
   font-family: inherit;
   font-size: 16px;
   line-height: 1.5;
-
   padding: 10px 12px;
   border-radius: 8px;
-
   color: var(--rad-ui-color-accent-1000);
   background-color: var(--rad-ui-color-accent-100);
-
   border: 2px solid var(--rad-ui-color-accent-400);
-
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
@@ -27,6 +21,20 @@
 .rad-ui-text-area textarea::placeholder {
   color: var(--rad-ui-color-accent-500);
 }
+
+.rad-ui-text-area textarea:disabled,
+.rad-ui-text-area textarea:read-only {
+  background-color: var(--rad-ui-color-accent-200);
+  color: var(--rad-ui-color-accent-600);
+  cursor: not-allowed;
+}
+
+.rad-ui-text-area textarea:disabled::placeholder,
+.rad-ui-text-area textarea:read-only::placeholder {
+  color: var(--rad-ui-color-accent-500);
+}
+
+
 
 .rad-ui-text-area textarea:focus {
   outline: none;
@@ -130,14 +138,4 @@
 }
 
 
-.rad-ui-text-area textarea:disabled,
-.rad-ui-text-area textarea:read-only {
-  background-color: var(--rad-ui-color-accent-200);
-  color: var(--rad-ui-color-accent-600);
-  cursor: not-allowed;
-}
 
-.rad-ui-text-area textarea:disabled::placeholder,
-.rad-ui-text-area textarea:read-only::placeholder {
-  color: var(--rad-ui-color-accent-500);
-}
