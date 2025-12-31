@@ -17,9 +17,9 @@ export type TextAreaRootProps = React.ComponentPropsWithoutRef<'div'> & {
 const TextAreaRoot = React.forwardRef<React.ElementRef<'div'>, TextAreaRootProps>(
     ({ children, customRootClass = '', className = '', variant = '', size = '', resize = 'both', color = '', radius = '', ...props }, ref) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-        const dataAttributes = useCreateDataAttribute('textarea', { variant, size, resize, radius});
-         const accentAttributes = useCreateDataAccentColorAttribute(color);
-         const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const dataAttributes = useCreateDataAttribute('textarea', { variant, size, resize, radius });
+        const accentAttributes = useCreateDataAccentColorAttribute(color);
+        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
         return (
             <div ref={ref} className={clsx(rootClass, className)} {...props} {...composedAttributes()}>
