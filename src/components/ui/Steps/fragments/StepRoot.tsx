@@ -7,13 +7,18 @@ import StepsContext from '../context/StepsContext';
 
 const COMPONENT_NAME = 'Steps';
 
-const StepsRoot = ({ children, className, customRootClass, ...props }: StepsRootProps) => {
+type StepsRootProps = React.HTMLAttributes<HTMLDivElement> & {
+    customRootClass?: string;
+    orientation?: 'horizontal' | 'vertical';
+};
+
+const StepsRoot = ({ children, className, customRootClass, orientation = 'horizontal', ...props }: StepsRootProps) => {
     const [currentStep, setCurrentStep] = useState(0);
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    return <StepsContext.Provider value={{ currentStep, setCurrentStep, rootClass }}>
-        <Primitive.div className={clsx(rootClass, className)} {...props}>{children}</Primitive.div>
+    return <StepsContext.Provider value={{ currentStep, setCurrentStep, rootClass, orientation }}>
+        <Primitive.div className={clsx(rootClass, className, `${rootClass}-${orientation}`)} {...props}>{children}</Primitive.div>
     </StepsContext.Provider>;
 };
 

@@ -14,7 +14,7 @@ export const Default = () => {
     return (
         <SandboxEditor>
             <div className="flex items-center space-x-2">
-                <Checkbox.Root id="accept-terms" checked={checked} onCheckedChange={setChecked}>
+                <Checkbox.Root id="accept-terms" checked={checked} onCheckedChange={(val) => setChecked(val as boolean)}>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
                 <label htmlFor="accept-terms" className="text-sm font-medium cursor-pointer">
