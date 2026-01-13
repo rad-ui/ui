@@ -31,10 +31,8 @@ const MinimapWaypoint = ({ children, className = '', value = '', ...props }: Min
     // Combined ref callback to handle both useInView and registerRef
     const combinedRef = React.useCallback((node: HTMLDivElement | null) => {
         // Set the ref for useInView
-        if (typeof ref === 'function') {
-            ref(node);
-        } else if (ref) {
-            ref.current = node;
+        if (ref && 'current' in ref) {
+            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }
 
         // Register with provider for scrollToItem functionality

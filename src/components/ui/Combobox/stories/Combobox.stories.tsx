@@ -6,9 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'WIP/Combobox',
     component: Combobox
-};
-
-
+} as any;
 
 export const Basic = () => {
     return (

@@ -1,15 +1,15 @@
 'use client';
 
 import React from 'react';
-import StepsContext from '../context/StepsContext';
+import { useStepsContext } from '../context/StepsContext';
 import clsx from 'clsx';
 
 type StepItemProps = React.HTMLAttributes<HTMLDivElement> & {
-    value?: string | null;
+    value?: string | number | null;
 };
 
 const StepItem = ({ children, value = null, className = '', ...props }: StepItemProps) => {
-    const { rootClass, currentStep, setCurrentStep } = React.useContext(StepsContext);
+    const { rootClass, currentStep, setCurrentStep } = useStepsContext();
     return <div className={clsx(`${rootClass}-item`, className)} {...props}>{children}</div>;
 };
 
