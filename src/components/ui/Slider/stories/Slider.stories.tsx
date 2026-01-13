@@ -93,7 +93,7 @@ export const RangeSlider = {
             <div className="w-full p-10 bg-gray-200">
                 <Slider.Root defaultValue={50} min={0} max={100} step={5}>
                     <Slider.Track>
-                        <Slider.RangeSlider aria-label="Price range" defaultValue={[25, 75]} />
+                        <Slider.RangeSlider aria-label="Price range" defaultValue={[25, 75] as any} />
                     </Slider.Track>
                 </Slider.Root>
             </div>
@@ -157,7 +157,7 @@ export const PriceRangeSlider = {
             <div className="w-full p-10 bg-gray-200">
                 <Slider.Root defaultValue={500} min={0} max={1000} step={50}>
                     <Slider.Track>
-                        <Slider.RangeSlider aria-label="Price range" defaultValue={[100, 500]} />
+                        <Slider.RangeSlider aria-label="Range slider" defaultValue={[25, 75] as any} />
                         <Slider.Marks
                             customMarks={[
                                 { value: 0, label: '$0' },
@@ -235,7 +235,7 @@ export const AllVariants = {
                     <h3 className="text-lg font-bold mb-4">Range Slider</h3>
                     <Slider.Root defaultValue={50}>
                         <Slider.Track>
-                            <Slider.RangeSlider aria-label="Range slider" defaultValue={[25, 75]} />
+                            <Slider.RangeSlider aria-label="Range slider" defaultValue={[25, 75] as any} />
                         </Slider.Track>
                     </Slider.Root>
                 </div>
