@@ -1,60 +1,95 @@
+/* stylelint-disable no-descending-specificity */
 .rad-ui-steps {
     .rad-ui-steps-item {
         display: flex;
         flex-direction: row;
-        gap: 10px;
+        gap: 16px;
+        position: relative;
 
         .rad-ui-steps-track {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 4px;
             
             .rad-ui-steps-bubble {
-                border: 1px solid var(--rad-ui-color-accent-400);
-                background-color: var(--rad-ui-color-accent-300);
-                width: 24px;
-                height: 24px;
+                width: 32px;
+                height: 32px;
+                border: 2px solid var(--rad-ui-color-gray-200);
+                background-color: var(--rad-ui-color-gray-50);
                 border-radius: 50%;
-                display: inline-flex;
-                flex:none;
+                display: flex;
                 align-items: center;
                 justify-content: center;
-                position: relative;
-                top:4px;
-                font-size: 12px;
-                color: var(--rad-ui-color-accent-950);
-                box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--rad-ui-color-gray-500);
+                z-index: 2;
+                transition: all var(--rad-ui-transition-normal);
             }
 
             .rad-ui-steps-line {
-                background-color: var(--rad-ui-color-accent-400);
-                width: 1px;
-                height: 100%;
+                width: 2px;
+                flex: 1;
+                min-height: 20px;
+                background-color: var(--rad-ui-color-gray-200);
+                margin: 4px 0;
+                border-radius: 1px;
+                transition: background-color var(--rad-ui-transition-slow);
             }
+        }
 
+        &[data-status="active"] {
+            .rad-ui-steps-bubble {
+                border-color: var(--rad-ui-color-accent-600);
+                background-color: var(--rad-ui-color-accent-50);
+                color: var(--rad-ui-color-accent-700);
+                box-shadow: 0 0 0 4px var(--rad-ui-color-accent-100);
+            }
+        }
+
+        &[data-status="complete"] {
+            .rad-ui-steps-bubble {
+                border-color: var(--rad-ui-color-accent-600);
+                background-color: var(--rad-ui-color-accent-600);
+                color: white;
+            }
+            
+            // stylelint-disable-next-line no-descending-specificity
+            .rad-ui-steps-track .rad-ui-steps-line {
+                background-color: var(--rad-ui-color-accent-600);
+            }
         }
 
         .rad-ui-steps-content {
-            padding-left: 10px;
+            padding-bottom: 24px;
+            padding-top: 4px;
             display: flex;
             flex-direction: column;
             gap: 4px;
-            padding-bottom: 0px;
             
             .rad-ui-steps-title {
-                font-size: 1.25rem;
-                font-weight: 500;
-                color: var(--rad-ui-color-accent-950);
+                font-size: 15px;
+                font-weight: 600;
+                color: var(--rad-ui-color-gray-900);
+                line-height: 1.2;
             }
 
             .rad-ui-steps-description {
-                font-size: 12px;
-                color: var(--rad-ui-color-accent-900);
+                font-size: 13px;
+                color: var(--rad-ui-color-gray-500);
+                line-height: 1.4;
             }
         }
-
-
+        
+        &:last-child {
+            .rad-ui-steps-line {
+                display: none;
+            }
+            
+            .rad-ui-steps-content {
+                padding-bottom: 0;
+            }
+        }
     }
 }

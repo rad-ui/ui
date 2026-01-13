@@ -44,6 +44,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                         aria-labelledby={isOpen ? ariaLabelledBy : undefined}
                         aria-describedby={isOpen ? ariaDescribedBy : undefined}
                         data-state={dataState}
+                        aria-modal={ariaModal}
                         {...props}
                     >
                         {children}

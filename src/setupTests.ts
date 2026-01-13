@@ -43,3 +43,20 @@ console.warn = (...args: unknown[]) => {
 };
 
 export const ACCESSIBILITY_TEST_TAGS = ['wcag21a', 'wcag21aa'];
+
+// Global Polyfills for jsdom environment
+if (typeof window !== 'undefined') {
+    // ResizeObserver
+    global.ResizeObserver = class ResizeObserver {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+    };
+
+    // PointerEvent
+    // @ts-ignore
+    if (!window.PointerEvent) {
+        // @ts-ignore
+        window.PointerEvent = MouseEvent;
+    }
+}

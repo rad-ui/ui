@@ -1,0 +1,241 @@
+
+> @radui/ui@0.1.10 test
+> jest src/components/ui/Dialog/tests/Dialog.portal.test.tsx
+
+FAIL src/components/ui/Dialog/tests/Dialog.portal.test.tsx
+  ● Console
+
+    console.log
+      [
+        {
+          "id": "aria-command-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT"
+          ],
+          "description": "Ensure every ARIA button, link and menuitem has an accessible name",
+          "help": "ARIA commands must have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/aria-command-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-type=\"inside\" tabindex=\"0\" data-floating-ui-focus-guard=\"\" style=\"border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;\" role=\"button\"></span>",
+              "target": [
+                "span:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            },
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-type=\"inside\" tabindex=\"0\" data-floating-ui-focus-guard=\"\" style=\"border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;\" role=\"button\"></span>",
+              "target": [
+                "span:nth-child(5)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+
+      at src/components/ui/Dialog/tests/Dialog.portal.test.tsx:103:21
+
+  ● Dialog portal and accessibility › manages focus and data-state, closes on escape and overlay click
+
+    expect(element).toHaveFocus()
+
+    Expected element with focus:
+      <button aria-expanded="false" aria-haspopup="dialog" aria-hidden="true" class="rad-ui-dialog-trigger" data-floating-ui-inert="" data-testid="trigger" role="button" type="button">Open</button>
+    Received element with focus:
+      <button>First</button>
+
+    Ignored nodes: comments, script, style
+    [36m<html>[39m
+      [36m<head />[39m
+      [36m<body>[39m
+        [36m<div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"rad-ui-dialog"[39m
+            [33mdata-state[39m=[32m"closed"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-expanded[39m=[32m"false"[39m
+              [33maria-haspopup[39m=[32m"dialog"[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"rad-ui-dialog-trigger"[39m
+              [33mdata-floating-ui-inert[39m=[32m""[39m
+              [33mdata-testid[39m=[32m"trigger"[39m
+              [33mrole[39m=[32m"button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mOpen[0m
+            [36m</button>[39m
+            [36m<div[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-floating-ui-inert[39m=[32m""[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"rad-ui-dialog-overlay"[39m
+                [33mdata-state[39m=[32m"closed"[39m
+                [33mdata-testid[39m=[32m"overlay"[39m
+                [33mstyle[39m=[32m"position: fixed; overflow: auto; top: 0px; right: 0px; bottom: 0px; left: 0px;"[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mdata-floating-ui-focus-guard[39m=[32m""[39m
+              [33mdata-type[39m=[32m"inside"[39m
+              [33mrole[39m=[32m"button"[39m
+              [33mstyle[39m=[32m"border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"[39m
+              [33mtabindex[39m=[32m"0"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"rad-ui-dialog-content"[39m
+              [33mdata-floating-ui-focusable[39m=[32m""[39m
+              [33mdata-state[39m=[32m"closed"[39m
+              [33mdata-testid[39m=[32m"content"[39m
+              [33mid[39m=[32m":r0:"[39m
+              [33mrole[39m=[32m"dialog"[39m
+              [33mstyle[39m=[32m"outline: none;"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+            [36m>[39m
+              [36m<button>[39m
+                [0mFirst[0m
+              [36m</button>[39m
+              [36m<button>[39m
+                [0mSecond[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mdata-floating-ui-focus-guard[39m=[32m""[39m
+              [33mdata-type[39m=[32m"inside"[39m
+              [33mrole[39m=[32m"button"[39m
+              [33mstyle[39m=[32m"border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"[39m
+              [33mtabindex[39m=[32m"0"[39m
+            [36m/>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</body>[39m
+    [36m</html>[39m
+
+      45 |
+      46 |         await user.keyboard('{Escape}');
+    > 47 |         await waitFor(() => expect(trigger).toHaveFocus());
+         |                                             ^
+      48 |         expect(root).toHaveAttribute('data-state', 'closed');
+      49 |         expect(overlay).toHaveAttribute('data-state', 'closed');
+      50 |         expect(content).toHaveAttribute('data-state', 'closed');
+
+      at src/components/ui/Dialog/tests/Dialog.portal.test.tsx:47:45
+      at runWithExpensiveErrorDiagnosticsDisabled (node_modules/@testing-library/dom/dist/config.js:47:12)
+      at checkCallback (node_modules/@testing-library/dom/dist/wait-for.js:124:77)
+      at checkRealTimersCallback (node_modules/@testing-library/dom/dist/wait-for.js:118:16)
+      at Timeout.task [as _onTimeout] (node_modules/jsdom/lib/jsdom/browser/Window.js:520:19)
+
+  ● Dialog portal and accessibility › is accessible with axe when open
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"description": "Ensure every ARIA button, link and menuitem has an accessible name", "help": "ARIA commands must have an accessible name", "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/aria-command-name?application=axeAPI", "id": "aria-command-name", "impact": "serious", "nodes": [{"all": [], "any": [{"data": null, "id": "has-visible-text", "impact": "serious", "message": "Element does not have text that is visible to screen readers", "relatedNodes": []}, {"data": null, "id": "aria-label", "impact": "serious", "message": "aria-label attribute does not exist or is empty", "relatedNodes": []}, {"data": null, "id": "aria-labelledby", "impact": "serious", "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty", "relatedNodes": []}, {"data": {"messageKey": "noAttr"}, "id": "non-empty-title", "impact": "serious", "message": "Element has no title attribute", "relatedNodes": []}], "failureSummary": "Fix any of the following:
+      Element does not have text that is visible to screen readers
+      aria-label attribute does not exist or is empty
+      aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+      Element has no title attribute", "html": "<span data-type=\"inside\" tabindex=\"0\" data-floating-ui-focus-guard=\"\" style=\"border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;\" role=\"button\"></span>", "impact": "serious", "none": [], "target": ["span:nth-child(3)"]}, {"all": [], "any": [{"data": null, "id": "has-visible-text", "impact": "serious", "message": "Element does not have text that is visible to screen readers", "relatedNodes": []}, {"data": null, "id": "aria-label", "impact": "serious", "message": "aria-label attribute does not exist or is empty", "relatedNodes": []}, {"data": null, "id": "aria-labelledby", "impact": "serious", "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty", "relatedNodes": []}, {"data": {"messageKey": "noAttr"}, "id": "non-empty-title", "impact": "serious", "message": "Element has no title attribute", "relatedNodes": []}], "failureSummary": "Fix any of the following:
+      Element does not have text that is visible to screen readers
+      aria-label attribute does not exist or is empty
+      aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+      Element has no title attribute", "html": "<span data-type=\"inside\" tabindex=\"0\" data-floating-ui-focus-guard=\"\" style=\"border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;\" role=\"button\"></span>", "impact": "serious", "none": [], "target": ["span:nth-child(5)"]}], "tags": ["cat.aria", "wcag2a", "wcag412", "TTv5", "TT6.a", "EN-301-549", "EN-9.4.1.2", "ACT"]}]
+
+      103 |             console.log(JSON.stringify(results.violations, null, 2));
+      104 |         }
+    > 105 |         expect(results.violations).toHaveLength(0);
+          |                                    ^
+      106 |     });
+      107 |
+      108 |     test('hydrates SSR markup without warnings', async() => {
+
+      at src/components/ui/Dialog/tests/Dialog.portal.test.tsx:105:36
+      at step (src/components/ui/Dialog/tests/Dialog.portal.test.tsx:66:23)
+      at Object.next (src/components/ui/Dialog/tests/Dialog.portal.test.tsx:47:53)
+      at fulfilled (src/components/ui/Dialog/tests/Dialog.portal.test.tsx:38:58)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 3 passed, 5 total
+Snapshots:   0 total
+Time:        1.935 s, estimated 3 s
+Ran all test suites matching /src\/components\/ui\/Dialog\/tests\/Dialog.portal.test.tsx/i.
