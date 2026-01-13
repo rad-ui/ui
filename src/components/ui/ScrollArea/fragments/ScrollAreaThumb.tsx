@@ -5,89 +5,82 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
 type ScrollAreaThumbElement = ElementRef<'div'>;
-type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'>;
+type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
+    orientation?: 'horizontal' | 'vertical';
+};
 
-const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>(({ children, className = '', ...props }, ref) => {
-    const { rootClass, scrollXThumbRef, scrollAreaViewportRef } = useContext(ScrollAreaContext);
+const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>(({ children, className = '', orientation = 'vertical', ...props }, ref) => {
+    const { rootClass, scrollXThumbRef, scrollYThumbRef, scrollAreaViewportRef } = useContext(ScrollAreaContext);
     const isDraggingRef = useRef(false);
-    const dragStartRef = useRef({ y: 0, scrollTop: 0 });
+    const dragStartRef = useRef({ x: 0, y: 0, scrollTop: 0, scrollLeft: 0 });
 
     const startDrag = useCallback((e: React.MouseEvent) => {
-        if (!scrollAreaViewportRef?.current || !scrollXThumbRef?.current) return;
+        if (!scrollAreaViewportRef?.current) return;
 
         e.preventDefault();
-        e.stopPropagation(); // Prevent scrollbar click handler
+        e.stopPropagation();
 
         isDraggingRef.current = true;
         dragStartRef.current = {
+            x: e.clientX,
             y: e.clientY,
-            scrollTop: scrollAreaViewportRef.current.scrollTop
+            scrollTop: scrollAreaViewportRef.current.scrollTop,
+            scrollLeft: scrollAreaViewportRef.current.scrollLeft
         };
 
-        // Add cursor style
-
         document.body.style.userSelect = 'none';
-    }, [scrollAreaViewportRef, scrollXThumbRef]);
+        document.body.style.cursor = 'grabbing';
+    }, [scrollAreaViewportRef]);
 
     const handleDrag = useCallback((e: MouseEvent) => {
-        if (!isDraggingRef.current || !scrollAreaViewportRef?.current || !scrollXThumbRef?.current) return;
+        if (!isDraggingRef.current || !scrollAreaViewportRef?.current) return;
 
-        e.preventDefault();
+        const viewport = scrollAreaViewportRef.current;
+        const thumb = orientation === 'vertical' ? scrollYThumbRef?.current : scrollXThumbRef?.current;
+        const scrollbarRect = thumb?.parentElement?.getBoundingClientRect();
 
-        const deltaY = e.clientY - dragStartRef.current.y;
-        const scrollbarRect = scrollXThumbRef.current.parentElement?.getBoundingClientRect();
+        if (!thumb || !scrollbarRect) return;
 
-        if (!scrollbarRect) return;
-
-        // Calculate scroll ratio
-        const scrollAreaContainerHeight = scrollAreaViewportRef.current.clientHeight;
-        const scrollAreaHeight = scrollAreaViewportRef.current.scrollHeight;
-        const scrollThumbHeight = scrollXThumbRef.current.clientHeight;
-        const scrollableTrackHeight = scrollbarRect.height - scrollThumbHeight;
-
-        // Convert thumb movement to content scroll
-        const scrollRatio = deltaY / scrollableTrackHeight;
-        const maxScroll = scrollAreaHeight - scrollAreaContainerHeight;
-        const newScrollTop = dragStartRef.current.scrollTop + (scrollRatio * maxScroll);
-
-        // Clamp scroll position
-        const clampedScrollTop = Math.max(0, Math.min(newScrollTop, maxScroll));
-
-        scrollAreaViewportRef.current.scrollTop = clampedScrollTop;
-    }, [scrollAreaViewportRef, scrollXThumbRef]);
+        if (orientation === 'vertical') {
+            const deltaY = e.clientY - dragStartRef.current.y;
+            const scrollableTrackHeight = scrollbarRect.height - thumb.clientHeight;
+            const scrollRatio = deltaY / scrollableTrackHeight;
+            const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+            const newScrollTop = dragStartRef.current.scrollTop + (scrollRatio * maxScroll);
+            viewport.scrollTop = Math.max(0, Math.min(newScrollTop, maxScroll));
+        } else {
+            const deltaX = e.clientX - dragStartRef.current.x;
+            const scrollableTrackWidth = scrollbarRect.width - thumb.clientWidth;
+            const scrollRatio = deltaX / scrollableTrackWidth;
+            const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+            const newScrollLeft = dragStartRef.current.scrollLeft + (scrollRatio * maxScroll);
+            viewport.scrollLeft = Math.max(0, Math.min(newScrollLeft, maxScroll));
+        }
+    }, [orientation, scrollAreaViewportRef, scrollXThumbRef, scrollYThumbRef]);
 
     const stopDrag = useCallback(() => {
         isDraggingRef.current = false;
-
-        // Reset cursor and selection
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
     }, []);
 
-    // Global mouse event listeners
     React.useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => handleDrag(e);
         const handleMouseUp = () => stopDrag();
 
-        if (isDraggingRef.current) {
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-        }
-
-        // Add listeners when dragging starts
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
 
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            stopDrag(); // Cleanup on unmount
         };
     }, [handleDrag, stopDrag]);
 
     const setRef = (node: ScrollAreaThumbElement | null) => {
-        if (scrollXThumbRef) {
-            (scrollXThumbRef as React.MutableRefObject<ScrollAreaThumbElement | null>).current = node;
+        const thumbRef = orientation === 'vertical' ? scrollYThumbRef : scrollXThumbRef;
+        if (thumbRef) {
+            (thumbRef as React.MutableRefObject<ScrollAreaThumbElement | null>).current = node;
         }
         if (typeof ref === 'function') {
             ref(node);

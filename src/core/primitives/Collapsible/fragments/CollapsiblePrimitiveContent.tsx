@@ -39,6 +39,26 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         }
     }, [open]);
 
+    // Use ResizeObserver to handle dynamic content changes
+    useEffect(() => {
+        if (!open || !ref.current || transitionDuration === 0) return;
+
+        const resizeObserver = new ResizeObserver(() => {
+            if (ref.current && height !== undefined) {
+                const newHeight = ref.current.scrollHeight;
+                if (newHeight !== height) {
+                    setHeight(newHeight);
+                }
+            }
+        });
+
+        // Observe the first child if possible for more accurate content measurement,
+        // or the ref itself if it's not currently animating height: 0
+        resizeObserver.observe(ref.current);
+
+        return () => resizeObserver.disconnect();
+    }, [open, height, transitionDuration]);
+
     useEffect(() => {
         // Clear any existing timeout and animation frames to avoid conflicts
         if (animationTimeoutRef.current) {
@@ -65,7 +85,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         if (open) {
             // Opening animation
             // First set height to 0 to ensure proper animation start state
-            setHeight(0);
+            // Only if we are not already open/opening
+            if (height === 0 || height === undefined) {
+                setHeight(0);
+            }
 
             // Use RAF to ensure the DOM has updated with the new height
             rafRef.current = requestAnimationFrame(() => {

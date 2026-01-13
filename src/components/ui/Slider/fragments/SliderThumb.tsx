@@ -10,33 +10,38 @@ export type SliderThumbElement = ElementRef<typeof Primitive.div>;
 export type SliderThumbProps = {
     children?: React.ReactNode;
     asChild?: boolean;
+    index?: number;
     'aria-label'?: string;
     'aria-labelledby'?: string;
 } & ComponentPropsWithoutRef<'div'>;
 
-const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
+const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue } = React.useContext(SliderContext);
-    const percent = maxValue === minValue ? 0 : ((value - minValue) / (maxValue - minValue)) * 100;
+    
+    // Extract individual value if it's an array
+    const currentValue = Array.isArray(value) ? value[index] : value;
+    
+    const percent = maxValue === minValue ? 0 : ((currentValue - minValue) / (maxValue - minValue)) * 100;
     const [focused, setFocused] = React.useState(false);
 
     const clamp = (val: number) => Math.min(maxValue, Math.max(minValue, val));
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled) return;
-        let newValue = value;
+        let newValue = currentValue;
         const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
         switch (e.key) {
         case 'ArrowRight':
-            newValue = isRtl ? value - step : value + step;
+            newValue = isRtl ? currentValue - step : currentValue + step;
             break;
         case 'ArrowLeft':
-            newValue = isRtl ? value + step : value - step;
+            newValue = isRtl ? currentValue + step : currentValue - step;
             break;
         case 'ArrowUp':
-            newValue = value + step;
+            newValue = currentValue + step;
             break;
         case 'ArrowDown':
-            newValue = value - step;
+            newValue = currentValue - step;
             break;
         case 'Home':
             newValue = minValue;
@@ -45,16 +50,26 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             newValue = maxValue;
             break;
         case 'PageUp':
-            newValue = value + step * pageStepMultiplier;
+            newValue = currentValue + step * pageStepMultiplier;
             break;
         case 'PageDown':
-            newValue = value - step * pageStepMultiplier;
+            newValue = currentValue - step * pageStepMultiplier;
             break;
         default:
             return;
         }
         e.preventDefault();
-        setValue(clamp(newValue));
+        const clampedValue = clamp(newValue);
+
+        if (Array.isArray(value)) {
+            const nextValue = [...value];
+            nextValue[index] = clampedValue;
+            // Note: We don't sort here on keyboard to avoid thumb hopping, 
+            // but we might want to prevent crossing depending on design.
+            setValue(nextValue);
+        } else {
+            setValue(clampedValue);
+        }
     };
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -78,13 +93,14 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             tabIndex={disabled ? -1 : 0}
             aria-valuemin={minValue}
             aria-valuemax={maxValue}
-            aria-valuenow={value}
-            aria-valuetext={formatValue ? formatValue(value) : undefined}
+            aria-valuenow={currentValue}
+            aria-valuetext={formatValue ? formatValue(currentValue) : undefined}
             aria-orientation={orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}
             data-state={state}
             data-disabled={disabled}
+            data-index={index}
             onKeyDown={handleKeyDown}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
@@ -103,7 +119,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
     return (
         <>
             {thumbNode}
-            <input type="hidden" value={value} name={name} />
+            <input type="hidden" value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} />
         </>
     );
 }));
