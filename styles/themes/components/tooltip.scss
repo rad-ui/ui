@@ -1,4 +1,10 @@
 .rad-ui-tooltip-floating-element {
+  z-index: 50;
+  // Outer element handles positioning via Floating UI inline styles
+  // Do not add transform transitions here!
+}
+
+.rad-ui-tooltip-content-inner {
   background-color: var(--rad-ui-color-gray-950);
   color: var(--rad-ui-color-gray-50);
   font-size: 12px;
@@ -6,9 +12,9 @@
   padding: 8px 12px;
   border-radius: 6px;
   box-shadow: var(--rad-ui-shadow-md);
-  z-index: 50;
   animation: rad-ui-tooltip-slide-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
+  position: relative; // Ensure z-index works if needed, and arrow positioning context? No arrow is sibling.
 
   .rad-ui-arrow {
     fill: var(--rad-ui-color-gray-950);
