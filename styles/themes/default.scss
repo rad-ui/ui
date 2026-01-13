@@ -46,6 +46,8 @@
 @use "components/steps";
 @use "components/minimap";
 @use "components/combobox";
+@use "components/tooltip";
+
 
 // import .css file
 @use "../cssTokens/base.tokens";
@@ -60,5 +62,3 @@
     background-color: var(--rad-ui-color-accent-300);
     color: var(--rad-ui-color-accent-950);
 }
-
-@use "components/tooltip";
