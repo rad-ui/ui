@@ -64,7 +64,7 @@ describe('Slider interactions', () => {
             return (
                 <>
                     <div data-testid="value">{value}</div>
-                    <Slider.Root value={value} onValueChange={setValue} step={1}>
+                    <Slider.Root value={value} onValueChange={(v: number | number[]) => setValue(v as number)} step={1}>
                         <Slider.Track>
                             <Slider.Range>
                                 <Slider.Thumb />

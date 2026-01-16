@@ -44,7 +44,7 @@ describe('Accordion Component', () => {
     test('forwards refs to underlying elements without warnings', () => {
         const rootRef = React.createRef<HTMLDivElement>();
         const itemRef = React.createRef<HTMLDivElement>();
-        const headerRef = React.createRef<HTMLDivElement>();
+        const headerRef = React.createRef<HTMLHeadingElement>();
         const triggerRef = React.createRef<HTMLButtonElement>();
         const contentRef = React.createRef<HTMLDivElement>();
         const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -65,7 +65,7 @@ describe('Accordion Component', () => {
 
         expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
         expect(itemRef.current).toBeInstanceOf(HTMLDivElement);
-        expect(headerRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(headerRef.current).toBeInstanceOf(HTMLHeadingElement);
         expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
         expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
         expect(errorSpy).not.toHaveBeenCalled();

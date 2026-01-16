@@ -11,64 +11,50 @@ const COMPONENT_NAME = 'ScrollArea';
 type ScrollAreaRootElement = ElementRef<'div'>;
 type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    type?: 'auto' | 'always' | 'scroll' | 'hover';
 };
 
-const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({ children, className = '', customRootClass = '', ...props }, ref) => {
+const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({ 
+    children, 
+    className = '', 
+    customRootClass = '', 
+    type = 'hover',
+    ...props 
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const internalRootRef = useRef<HTMLDivElement>(null);
+    const scrollYThumbRef = useRef<HTMLDivElement>(null);
     const scrollXThumbRef = useRef<HTMLDivElement>(null);
     const scrollAreaViewportRef = useRef<HTMLDivElement>(null);
 
+    const [overflow, setOverflow] = React.useState({ x: false, y: false });
+
+    const mergedRootRef = (node: HTMLDivElement | null) => {
+        (internalRootRef as any).current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) (ref as any).current = node;
+    };
+
     useEffect(() => {
-        initializeThumbHeight();
-    }, [scrollXThumbRef, scrollAreaViewportRef]);
+        initializeThumbSizes();
+    }, [scrollYThumbRef, scrollXThumbRef, scrollAreaViewportRef]);
 
     // Listen for content and viewport changes
     useEffect(() => {
         const viewport = scrollAreaViewportRef.current;
         if (!viewport) return;
 
-        // Recalculate thumb height when content or viewport changes
+        // Recalculate thumb sizes when content or viewport changes
         const handleResize = () => {
-            initializeThumbHeight();
+            initializeThumbSizes();
         };
 
-        // ResizeObserver for content changes
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                // Check if it's the viewport or its content that changed
-                if (entry.target === viewport || viewport.contains(entry.target as Node)) {
-                    handleResize();
-                }
-            }
-        });
-
-        // Observe the viewport for size changes
+        const resizeObserver = new ResizeObserver(() => handleResize());
         resizeObserver.observe(viewport);
+        Array.from(viewport.children).forEach(child => resizeObserver.observe(child));
 
-        // Observe all children for content changes
-        const observeChildren = (element: Element) => {
-            resizeObserver.observe(element);
-            // Recursively observe child elements
-            Array.from(element.children).forEach(child => {
-                observeChildren(child);
-            });
-        };
-
-        // Initial observation of all children
-        Array.from(viewport.children).forEach(child => {
-            observeChildren(child);
-        });
-
-        // MutationObserver to watch for new children being added
-        const mutationObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        observeChildren(node as Element);
-                    }
-                });
-            });
-            handleResize(); // Recalculate when DOM changes
+        const mutationObserver = new MutationObserver(() => {
+            handleResize();
         });
 
         mutationObserver.observe(viewport, {
@@ -76,10 +62,8 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             subtree: true
         });
 
-        // Window resize listener for viewport changes
         window.addEventListener('resize', handleResize);
 
-        // Cleanup
         return () => {
             resizeObserver.disconnect();
             mutationObserver.disconnect();
@@ -87,64 +71,84 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         };
     }, []);
 
-    const initializeThumbHeight = () => {
-        // Container height
-        const scrollAreaContainerHeight = scrollAreaViewportRef?.current?.clientHeight || 0;
-        // Full height
-        const scrollAreaHeight = scrollAreaViewportRef?.current?.scrollHeight || 0;
+    const initializeThumbSizes = () => {
+        if (!scrollAreaViewportRef.current) return;
+        const viewport = scrollAreaViewportRef.current;
 
-        const factor = scrollAreaHeight / scrollAreaContainerHeight;
-        let finalHeight = (scrollAreaContainerHeight / factor);
-
-        // cap the minimum height to 10px
-        if (finalHeight < 24) {
-            finalHeight = 24;
+        // Vertical
+        const viewportHeight = viewport.clientHeight;
+        const contentHeight = viewport.scrollHeight;
+        const hasV = contentHeight > viewportHeight;
+        if (scrollYThumbRef.current) {
+            const factorY = contentHeight / viewportHeight;
+            let thumbHeight = viewportHeight / factorY;
+            thumbHeight = Math.max(thumbHeight, 24);
+            scrollYThumbRef.current.style.height = `${thumbHeight}px`;
         }
 
+        // Horizontal
+        const viewportWidth = viewport.clientWidth;
+        const contentWidth = viewport.scrollWidth;
+        const hasH = contentWidth > viewportWidth;
         if (scrollXThumbRef.current) {
-            scrollXThumbRef.current.style.height = `${finalHeight}px`;
+            const factorX = contentWidth / viewportWidth;
+            let thumbWidth = viewportWidth / factorX;
+            thumbWidth = Math.max(thumbWidth, 24);
+            scrollXThumbRef.current.style.width = `${thumbWidth}px`;
         }
+
+        setOverflow({ x: hasH, y: hasV });
     };
 
     const handleScroll = () => {
-        // The full height of all the content inside the scrollable element [Visible Area Height]
-        const scrollAreaContainerHeight = scrollAreaViewportRef.current?.clientHeight || 0;
+        if (!scrollAreaViewportRef.current) return;
+        const viewport = scrollAreaViewportRef.current;
 
-        // The full height of all the content inside the scrollable element [Total Content Height]
-        const scrollAreaHeight = scrollAreaViewportRef.current?.scrollHeight || 0;
+        // Vertical
+        if (scrollYThumbRef.current) {
+            const viewportHeight = viewport.clientHeight;
+            const contentHeight = viewport.scrollHeight;
+            const scrollTop = viewport.scrollTop;
+            const thumbHeight = scrollYThumbRef.current.clientHeight;
 
-        // The current scroll position of the scrollable element [Scroll Position]
-        const scrollTopPosition = scrollAreaViewportRef.current?.scrollTop || 0;
+            const thumbPosition = (scrollTop / (contentHeight - viewportHeight)) * (viewportHeight - thumbHeight);
+            scrollYThumbRef.current.style.top = `${thumbPosition}px`;
+        }
 
-        // The height of the scroll thumb [Scroll Thumb Height]
-        const scrollThumbHeight = scrollXThumbRef.current?.clientHeight || 0;
-
-        const scrollThumbPosition = (scrollTopPosition / (scrollAreaHeight - scrollAreaContainerHeight)) * (scrollAreaContainerHeight - scrollThumbHeight);
-
+        // Horizontal
         if (scrollXThumbRef.current) {
-            scrollXThumbRef.current.style.top = `${scrollThumbPosition}px`;
+            const viewportWidth = viewport.clientWidth;
+            const contentWidth = viewport.scrollWidth;
+            const scrollLeft = viewport.scrollLeft;
+            const thumbWidth = scrollXThumbRef.current.clientWidth;
+
+            const thumbPosition = (scrollLeft / (contentWidth - viewportWidth)) * (viewportWidth - thumbWidth);
+            scrollXThumbRef.current.style.left = `${thumbPosition}px`;
         }
     };
 
-    // Fast custom scroll animation
-    const fastScrollTo = (targetScrollTop: number) => {
+    const fastScrollTo = (target: { top?: number; left?: number }) => {
         if (!scrollAreaViewportRef.current) return;
+        const viewport = scrollAreaViewportRef.current;
 
-        const startScrollTop = scrollAreaViewportRef.current.scrollTop;
-        const scrollDistance = targetScrollTop - startScrollTop;
-        const duration = 150; // Fast 150ms animation
+        const startTop = viewport.scrollTop;
+        const startLeft = viewport.scrollLeft;
+        const diffTop = target.top !== undefined ? target.top - startTop : 0;
+        const diffLeft = target.left !== undefined ? target.left - startLeft : 0;
+        
+        const duration = 150;
         const startTime = performance.now();
 
         const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 3);
 
-            // Ease-out for smoother feel
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            const currentScrollTop = startScrollTop + (scrollDistance * easeProgress);
-
-            if (scrollAreaViewportRef.current) {
-                scrollAreaViewportRef.current.scrollTop = currentScrollTop;
+            if (target.top !== undefined) {
+                viewport.scrollTop = startTop + diffTop * ease;
+            }
+            if (target.left !== undefined) {
+                viewport.scrollLeft = startLeft + diffLeft * ease;
             }
 
             if (progress < 1) {
@@ -155,45 +159,57 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         requestAnimationFrame(animate);
     };
 
-    const scrollToPosition = (position: number) => {
-        const scrollAreaContainerHeight = scrollAreaViewportRef?.current?.clientHeight || 0;
+    const handleScrollbarClick = (e: { clientX?: number; clientY?: number; orientation: 'vertical' | 'horizontal' }) => {
+        if (!scrollAreaViewportRef.current) return;
+        const viewport = scrollAreaViewportRef.current;
 
-        // FUll height
-        const scrollAreaHeight = scrollAreaViewportRef?.current?.scrollHeight || 0;
-
-        const factor = scrollAreaHeight / scrollAreaContainerHeight;
-
-        if (scrollXThumbRef.current) {
-            const thumbPositionStart = scrollXThumbRef.current.getBoundingClientRect().top;
-            const thumbPositionEnd = thumbPositionStart + scrollXThumbRef.current.clientHeight;
-            const scrollThumbHeight = scrollXThumbRef.current?.clientHeight || 0;
-
-            if (position > thumbPositionStart && position < thumbPositionEnd) {
-                return;
+        if (e.orientation === 'vertical' && e.clientY !== undefined) {
+            const thumb = scrollYThumbRef.current;
+            if (!thumb) return;
+            const rect = thumb.getBoundingClientRect();
+            const factor = viewport.scrollHeight / viewport.clientHeight;
+            
+            if (e.clientY < rect.top) {
+                fastScrollTo({ top: viewport.scrollTop - thumb.clientHeight * factor });
+            } else if (e.clientY > rect.bottom) {
+                fastScrollTo({ top: viewport.scrollTop + thumb.clientHeight * factor });
             }
-
-            if (position < thumbPositionStart) {
-                // scroll to top - fast custom animation
-                const targetScrollTop = scrollAreaViewportRef.current!.scrollTop - (scrollThumbHeight * factor);
-                fastScrollTo(targetScrollTop);
-            }
-
-            if (position > thumbPositionEnd) {
-                // scroll to bottom - fast custom animation
-                const targetScrollTop = scrollAreaViewportRef.current!.scrollTop + (scrollThumbHeight * factor);
-                fastScrollTo(targetScrollTop);
+        } else if (e.orientation === 'horizontal' && e.clientX !== undefined) {
+            const thumb = scrollXThumbRef.current;
+            if (!thumb) return;
+            const rect = thumb.getBoundingClientRect();
+            const factor = viewport.scrollWidth / viewport.clientWidth;
+            
+            if (e.clientX < rect.left) {
+                fastScrollTo({ left: viewport.scrollLeft - thumb.clientWidth * factor });
+            } else if (e.clientX > rect.right) {
+                fastScrollTo({ left: viewport.scrollLeft + thumb.clientWidth * factor });
             }
         }
     };
 
-    const handleScrollbarClick = (e: { clientY: any; }) => {
-        const clientClickY = e.clientY;
-        scrollToPosition(clientClickY);
-    };
-
-    return <ScrollAreaContext.Provider value={{ rootClass, scrollXThumbRef, scrollAreaViewportRef, handleScroll, handleScrollbarClick }}>
-        <div ref={ref} className={clsx(rootClass, className)} {...props} >{children}</div>
-    </ScrollAreaContext.Provider>;
+    return (
+        <ScrollAreaContext.Provider value={{ 
+            rootClass, 
+            scrollYThumbRef, 
+            scrollXThumbRef, 
+            scrollAreaViewportRef, 
+            handleScroll, 
+            handleScrollbarClick, 
+            type, 
+            rootRef: internalRootRef 
+        }}>
+            <div 
+                ref={mergedRootRef} 
+                className={clsx(rootClass, className)} 
+                data-scrollbar-x={String(overflow.x || type === 'always')}
+                data-scrollbar-y={String(overflow.y || type === 'always')}
+                {...props}
+            >
+                {children}
+            </div>
+        </ScrollAreaContext.Provider>
+    );
 });
 
 ScrollAreaRoot.displayName = COMPONENT_NAME;

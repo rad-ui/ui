@@ -2,8 +2,8 @@ import { createContext } from 'react';
 
 type SliderContextType = {
     rootClass: string;
-    value: number;
-    setValue: (value: number) => void;
+    value: number | number[];
+    setValue: (value: number | number[]) => void;
     minValue: number;
     maxValue: number;
     step: number;

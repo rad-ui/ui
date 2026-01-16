@@ -10,9 +10,9 @@ import SliderRangeSlider from './fragments/SliderRangeSlider';
 
 export type SliderElement = ElementRef<'div'>;
 export type SliderProps = {
-    defaultValue?: number;
-    value?: number;
-    onValueChange?: (value: number) => void;
+    defaultValue?: number | number[];
+    value?: number | number[];
+    onValueChange?: (value: number | number[]) => void;
     min?: number;
     max?: number;
     step?: number;
@@ -24,7 +24,7 @@ export type SliderProps = {
     formatValue?: (value: number) => string;
     'aria-label'?: string;
     'aria-labelledby'?: string;
-} & ComponentPropsWithoutRef<'div'>;
+} & Omit<ComponentPropsWithoutRef<'div'>, 'value' | 'defaultValue' | 'onValueChange'>;
 
 type SliderComponent = ForwardRefExoticComponent<SliderProps & RefAttributes<SliderElement>> & {
     Root: typeof SliderRoot;
@@ -38,7 +38,7 @@ type SliderComponent = ForwardRefExoticComponent<SliderProps & RefAttributes<Sli
 const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
     // Provide a sensible default implementation
     const {
-        defaultValue = 50,
+        defaultValue,
         min = 0,
         max = 100,
         step = 1,
