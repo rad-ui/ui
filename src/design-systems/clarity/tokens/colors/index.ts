@@ -29,6 +29,8 @@ import lime from './lime';
 import yellow from './yellow';
 import amber from './amber';
 import orange from './orange';
+import redAlpha from './red-alpha';
+import greenAlpha from './green-alpha';
 
 const colors = {
     gray,
@@ -61,7 +63,9 @@ const colors = {
     lime,
     yellow,
     amber,
-    orange
+    orange,
+    'red-alpha': redAlpha,
+    'green-alpha': greenAlpha
 
 } as const;
 

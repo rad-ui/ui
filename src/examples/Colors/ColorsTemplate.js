@@ -107,6 +107,20 @@ const colors = {
         'bg-red-950',
         'bg-red-1000'
     ],
+    'red-alpha': [
+        'bg-red-alpha-50',
+        'bg-red-alpha-100',
+        'bg-red-alpha-200',
+        'bg-red-alpha-300',
+        'bg-red-alpha-400',
+        'bg-red-alpha-500',
+        'bg-red-alpha-600',
+        'bg-red-alpha-700',
+        'bg-red-alpha-800',
+        'bg-red-alpha-900',
+        'bg-red-alpha-950',
+        'bg-red-alpha-1000'
+    ],
     ruby: [
         'bg-ruby-50',
         'bg-ruby-100',
@@ -260,6 +274,20 @@ const colors = {
         'bg-green-900',
         'bg-green-950',
         'bg-green-1000'
+    ],
+    'green-alpha': [
+        'bg-green-alpha-50',
+        'bg-green-alpha-100',
+        'bg-green-alpha-200',
+        'bg-green-alpha-300',
+        'bg-green-alpha-400',
+        'bg-green-alpha-500',
+        'bg-green-alpha-600',
+        'bg-green-alpha-700',
+        'bg-green-alpha-800',
+        'bg-green-alpha-900',
+        'bg-green-alpha-950',
+        'bg-green-alpha-1000'
     ],
     grass: [
         'bg-grass-50',
