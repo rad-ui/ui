@@ -4,11 +4,7 @@ import Button from "@radui/ui/Button"
 import Heading from "@radui/ui/Heading"
 import Code from "@radui/ui/Code"
 import Text from "@radui/ui/Text"
-import ToolbarDemo from "./ToolbarDemo"
-import MusicAppPlayerDemo from "./MusicAppPlayerDemo"
-import AddToCartDemo from "./AddToCartDemo"
-import TrafficAnalyticsDemo from "./TrafficAnalyticsDemo"
-import YourTeamDemo from "./YourTeamDemo"
+import RadUIDemo from "./RadUIDemo"
 
 
 
@@ -161,29 +157,12 @@ color="blue" variant="ghost" onClick={() => {
         </div>
       </div>
     </div>
-    {/*  */}
-    <div className="hidden lg:block">
-      <div className="absolute top-[-100px] right-[-180px] z-2 scale-75">
-        <MusicAppPlayerDemo />
+    {/* Rad UI Demo Showcase */}
+    {/* <div className="mt-20 mb-10">
+      <div className="relative z-10">
+        <RadUIDemo />
       </div>
-      <div className="absolute top-[-10px] left-[-300px] z-2 ">
-        <ToolbarDemo />
-      </div>
-
-      <div className="absolute top-[100px] left-[-50px] z-2 w-[220px]">
-        <AddToCartDemo />
-      </div>
-
-      <div className="relative top-[-30px] left-[-150px] z-2 w-[420px] pb-[80px]">
-        <TrafficAnalyticsDemo />
-
-        <div className="absolute top-[120px] left-[640px] z-2 w-[420px]">
-          <YourTeamDemo />
-        </div>
-      </div>
-
-
-    </div>
+    </div> */}
 
 
     {/* Features Section */}
@@ -214,9 +193,6 @@ color="blue" variant="ghost" onClick={() => {
 
     <div className="py-20">
       <div className="block lg:flex ">
-       <div className="flex justify-center mb-20 lg:block">
-       <MusicAppPlayerDemo />
-       </div>
         <div className="px-20 space-y-10">
           <Heading as="h2" className="text-gray-1000">
             Integrate RadUI effortlessly into your <span className="text-green-900">React</span> and <span className="text-green-900">Next.js</span> projects today

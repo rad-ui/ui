@@ -7,7 +7,7 @@ import { BookMarkLink } from '@/components/layout/Documentation/utils';
 
 import CodeTabs from './CodeTabs';
 
-const ComponentHero = ({ children, title='', codeUsage = {} }) => {
+const ComponentHero = ({ children, title='', codeUsage = {}, as = "h2" }) => {
 
     const initializeTabs = (codeUsage) => {
         const tabs = []
@@ -31,8 +31,8 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
     // Use useMemo to avoid recalculating tabs unnecessarily
     const data = useMemo(() => initializeTabs(codeUsage), [codeUsage]);
 
-    return <div>
-        {title && <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
+    return <div className={title ? 'mt-10' : ''}>
+        {title && <BookMarkLink id={title}> <Heading as={as} className="mb-2">{title}</Heading> </BookMarkLink>}
         <div className='bg-gradient-to-r from-green-50 to-gray-200  border border-gray-500 shadow-md p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center justify-evenly overflow-x-auto '>
             {children}
         </div>

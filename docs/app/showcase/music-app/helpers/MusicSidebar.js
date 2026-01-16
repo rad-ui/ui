@@ -1,7 +1,4 @@
-import HomeIcon from "@/icons/Home"
-import RocketIcon from "@/icons/Rocket"
-import DiscIcon from "@/icons/Disc"
-import RowsIcon from "@/icons/Rows"
+import { Home as HomeIcon, Rocket as RocketIcon, Disc as DiscIcon, Music as RowsIcon } from 'lucide-react';
 
 import SoundWaveSampleLogo from "@/icons/logos/SoundWaveSampleLogo"
 
@@ -10,7 +7,9 @@ const MenuItem = ({children, label="", active=false}) => {
     const DIMENSIONS = 18;
     return <div className={`flex items-center space-x-2 cursor-pointer`}>
                 <div className='flex items-center space-x-2'>
-                    <div className='flex-none' style={{width:DIMENSIONS, height:DIMENSIONS}}>{children}</div>
+                    <div className='flex-none' style={{width:DIMENSIONS, height:DIMENSIONS}}>
+                        <div className="w-full h-full">{children}</div>
+                    </div>
                     <Text className={`${active?'!font-medium text-gray-1000':'font-light text-gray-900 hover:text-gray-1000 !hover:font-medium'}`}>{label}</Text>
                 </div>
         </div>
