@@ -11,7 +11,7 @@ type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
 
 const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScrollbarProps>(({ children, className = '', orientation = 'vertical', ...props }, ref) => {
     const { rootClass, handleScrollbarClick, scrollXThumbRef, scrollYThumbRef, type, scrollAreaViewportRef, rootRef } = useContext(ScrollAreaContext);
-    
+
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const isScrollingRef = useRef(false);
     const removeListenersRef = useRef<(() => void) | null>(null);
@@ -52,7 +52,10 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         const root = rootRef?.current;
         if (!root) return;
 
-        const handleMouseEnter = () => setVisible(true);
+        const handleMouseEnter = () => {
+            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+            setVisible(true);
+        };
         const handleMouseLeave = () => {
             if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
             hideTimeoutRef.current = setTimeout(() => {
@@ -74,7 +77,7 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         if (!viewport) return;
 
         const checkOverflow = () => {
-            const overflowing = orientation === 'vertical' 
+            const overflowing = orientation === 'vertical'
                 ? viewport.scrollHeight > viewport.clientHeight
                 : viewport.scrollWidth > viewport.clientWidth;
             setIsOverflowing(overflowing);
@@ -108,10 +111,10 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         mousePositionRef.current = orientation === 'vertical' ? e.clientY : e.clientX;
 
         // Initial scroll
-        handleScrollbarClick({ 
-            clientY: e.clientY, 
-            clientX: e.clientX, 
-            orientation 
+        handleScrollbarClick({
+            clientY: e.clientY,
+            clientX: e.clientX,
+            orientation
         });
 
         // Start continuous scrolling after a brief delay
@@ -119,10 +122,10 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
             if (isScrollingRef.current) {
                 intervalRef.current = setInterval(() => {
                     if (isScrollingRef.current && shouldContinueScrolling(mousePositionRef.current)) {
-                        handleScrollbarClick({ 
-                            clientY: orientation === 'vertical' ? mousePositionRef.current : undefined, 
+                        handleScrollbarClick({
+                            clientY: orientation === 'vertical' ? mousePositionRef.current : undefined,
                             clientX: orientation === 'horizontal' ? mousePositionRef.current : undefined,
-                            orientation 
+                            orientation
                         });
                     } else {
                         // Stop scrolling if thumb reached mouse position
@@ -185,9 +188,9 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
             className={clsx(rootClass + '-scrollbar', className)}
             data-orientation={orientation}
             data-state={isVisible ? 'visible' : 'hidden'}
-            style={{ 
-                display: shouldKeepInDOM ? undefined : 'none', 
-                ...props.style 
+            style={{
+                display: shouldKeepInDOM ? undefined : 'none',
+                ...props.style
             }}
             onMouseDown={startContinuousScroll}
             onMouseUp={stopContinuousScroll}

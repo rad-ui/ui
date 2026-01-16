@@ -1,5 +1,6 @@
 .rad-ui-tooltip-floating-element {
   z-index: 50;
+
   // Outer element handles positioning via Floating UI inline styles
   // Do not add transform transitions here!
 }
@@ -11,7 +12,7 @@
   line-height: 1.3;
   padding: 8px 12px;
   border-radius: 6px;
-  box-shadow: var(--rad-ui-shadow-md);
+  box-shadow: none;
   animation: rad-ui-tooltip-slide-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
   position: relative; // Ensure z-index works if needed, and arrow positioning context? No arrow is sibling.
@@ -26,6 +27,7 @@
     opacity: 0;
     transform: translateY(2px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);

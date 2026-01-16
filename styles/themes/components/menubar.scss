@@ -22,7 +22,7 @@
     background: transparent;
     cursor: default;
     border: none;
-    transition: all var(--rad-ui-transition-fast);
+    transition: all 0s;
 
     &:hover, &[data-state="open"] {
         background-color: var(--rad-ui-color-gray-200);
@@ -41,12 +41,12 @@
 .rad-ui-menubar-content {
     z-index: 50;
     min-width: 200px;
-    background-color: var(--rad-ui-glass-bg);
-    backdrop-filter: blur(var(--rad-ui-glass-blur));
+    background-color: transparent;
+    backdrop-filter: blur(0px);
     border-radius: 8px;
     border: 1px solid var(--rad-ui-color-gray-200);
     padding: 4px;
-    box-shadow: var(--rad-ui-shadow-lg);
+    box-shadow: none;
     animation: rad-ui-slide-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
     &[data-state="closed"] {
@@ -67,7 +67,7 @@
     user-select: none;
     outline: none;
     cursor: default;
-    transition: all var(--rad-ui-transition-fast);
+    transition: all 0s;
 
     &[data-highlighted], &:focus, &:hover {
         background-color: var(--rad-ui-color-accent-600);
@@ -92,6 +92,7 @@
         opacity: 0;
         transform: translateY(2px) scale(0.96);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
