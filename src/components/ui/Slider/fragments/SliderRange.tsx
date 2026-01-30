@@ -10,7 +10,6 @@ export type SliderRangeProps = { children?: React.ReactNode } & ComponentPropsWi
 
 const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, orientation } = React.useContext(SliderContext);
-
     let startPercent = 0;
     let endPercent = 0;
 

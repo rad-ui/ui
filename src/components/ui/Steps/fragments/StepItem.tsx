@@ -12,7 +12,6 @@ const StepItem = ({ children, value = 0, className = '', ...props }: StepItemPro
     const { rootClass, currentStep } = useStepsContext();
     const isCompleted = typeof value === 'number' && currentStep > value;
     const isActive = typeof value === 'number' && currentStep === value;
-
     const state = isCompleted ? 'completed' : isActive ? 'active' : 'inactive';
 
     return (

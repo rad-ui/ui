@@ -40,6 +40,26 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         }
     }, [open]);
 
+    // Use ResizeObserver to handle dynamic content changes
+    useEffect(() => {
+        if (!open || !ref.current || transitionDuration === 0) return;
+
+        const resizeObserver = new ResizeObserver(() => {
+            if (ref.current && height !== undefined) {
+                const newHeight = ref.current.scrollHeight;
+                if (newHeight !== height) {
+                    setHeight(newHeight);
+                }
+            }
+        });
+
+        // Observe the first child if possible for more accurate content measurement,
+        // or the ref itself if it's not currently animating height: 0
+        resizeObserver.observe(ref.current);
+
+        return () => resizeObserver.disconnect();
+    }, [open, height, transitionDuration]);
+
     useEffect(() => {
         heightRef.current = height;
     }, [height]);

@@ -17,7 +17,6 @@ export type SliderThumbProps = {
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue } = React.useContext(SliderContext);
-
     // Extract individual value if it's an array
     const rawValue = Array.isArray(value) && index >= 0 && index < value.length
         ? value[index]
@@ -26,7 +25,6 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             : minValue;
     const safeValue = Number.isFinite(rawValue) ? rawValue : minValue;
     const currentValue = Math.min(maxValue, Math.max(minValue, safeValue));
-
     const percent = maxValue === minValue ? 0 : ((currentValue - minValue) / (maxValue - minValue)) * 100;
     const [focused, setFocused] = React.useState(false);
 

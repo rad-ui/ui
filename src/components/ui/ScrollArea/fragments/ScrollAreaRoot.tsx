@@ -155,7 +155,6 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         const startLeft = viewport.scrollLeft;
         const diffTop = target.top !== undefined ? target.top - startTop : 0;
         const diffLeft = target.left !== undefined ? target.left - startLeft : 0;
-
         const duration = 150;
         const startTime = performance.now();
 
@@ -189,7 +188,6 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             if (viewport.clientHeight <= 0 || viewport.scrollHeight <= viewport.clientHeight) return;
             const rect = thumb.getBoundingClientRect();
             const factor = viewport.scrollHeight / viewport.clientHeight;
-
             if (e.clientY < rect.top) {
                 fastScrollTo({ top: viewport.scrollTop - thumb.clientHeight * factor });
             } else if (e.clientY > rect.bottom) {
@@ -201,7 +199,6 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             if (viewport.clientWidth <= 0 || viewport.scrollWidth <= viewport.clientWidth) return;
             const rect = thumb.getBoundingClientRect();
             const factor = viewport.scrollWidth / viewport.clientWidth;
-
             if (e.clientX < rect.left) {
                 fastScrollTo({ left: viewport.scrollLeft - thumb.clientWidth * factor });
             } else if (e.clientX > rect.right) {
