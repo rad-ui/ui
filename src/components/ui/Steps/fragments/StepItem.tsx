@@ -1,16 +1,31 @@
 'use client';
 
 import React from 'react';
-import StepsContext from '../context/StepsContext';
+import { useStepsContext } from '../context/StepsContext';
 import clsx from 'clsx';
 
 type StepItemProps = React.HTMLAttributes<HTMLDivElement> & {
-    value?: string | null;
+    value?: string | number | null;
 };
 
-const StepItem = ({ children, value = null, className = '', ...props }: StepItemProps) => {
-    const { rootClass, currentStep, setCurrentStep } = React.useContext(StepsContext);
-    return <div className={clsx(`${rootClass}-item`, className)} {...props}>{children}</div>;
+const StepItem = ({ children, value = 0, className = '', ...props }: StepItemProps) => {
+    const { rootClass, currentStep } = useStepsContext();
+    const isCompleted = typeof value === 'number' && currentStep > value;
+    const isActive = typeof value === 'number' && currentStep === value;
+    const isInactive = typeof value === 'number' && currentStep < value;
+
+    const state = isCompleted ? 'completed' : isActive ? 'active' : 'inactive';
+
+    return (
+        <div
+            className={clsx(`${rootClass}-item`, className)}
+            data-state={state}
+            data-value={value}
+            {...props}
+        >
+            {children}
+        </div>
+    );
 };
 
 export default StepItem;

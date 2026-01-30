@@ -1,20 +1,20 @@
 'use client';
 import React, { useContext } from 'react';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 
-export type SelectPrimitiveContentProps = {
+export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     position?: string;
     [key: string]: any;
 }
 
-const SelectPrimitiveContent = React.forwardRef<
+const ComboboxPrimitiveContent = React.forwardRef<
     React.ElementRef<'div'>,
-    SelectPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
+    ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
 >(({ children, className, ...props }, forwardedRef) => {
-    const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(SelectPrimitiveContext);
+    const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(ComboboxPrimitiveContext);
 
     return (
         <>
@@ -41,6 +41,6 @@ const SelectPrimitiveContent = React.forwardRef<
     );
 });
 
-SelectPrimitiveContent.displayName = 'SelectPrimitiveContent';
+ComboboxPrimitiveContent.displayName = 'ComboboxPrimitiveContent';
 
-export default SelectPrimitiveContent;
+export default ComboboxPrimitiveContent;

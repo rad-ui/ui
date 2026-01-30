@@ -1,13 +1,13 @@
 'use client';
 import React, { useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
 import { Placement } from '@floating-ui/react';
 import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
 
-export type SelectPrimitiveRootProps = {
+export type ComboboxPrimitiveRootProps = {
     children: React.ReactNode,
     className?: string,
     value?: string,
@@ -20,9 +20,9 @@ export type SelectPrimitiveRootProps = {
     placement?: Placement
 }
 
-const SelectPrimitiveRoot = React.forwardRef<
+const ComboboxPrimitiveRoot = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
-    SelectPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+    ComboboxPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
 >(({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }, forwardedRef) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [offsetPositionValue, setOffsetPositionValue] = React.useState(offsetValue);
@@ -43,6 +43,24 @@ const SelectPrimitiveRoot = React.forwardRef<
     const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const [hasSearch, setHasSearch] = React.useState(false);
+    const [search, setSearch] = React.useState('');
+
+    const hiddenIndices = React.useMemo(() => {
+        if (!search) return [];
+        const filtered = [];
+        for (let i = 0; i < labelsRef.current.length; i++) {
+            const label = labelsRef.current[i];
+            if (label && !label.toLowerCase().includes(search.toLowerCase())) {
+                filtered.push(i);
+            }
+        }
+        return filtered;
+    }, [search]);
+
+    const totalDisabledIndices = React.useMemo(() => {
+        const set = new Set([...disabledIndices, ...hiddenIndices]);
+        return Array.from(set).sort((a, b) => a - b);
+    }, [disabledIndices, hiddenIndices]);
 
     const isFormChild = useIsInsideForm(rootRef.current);
 
@@ -60,7 +78,7 @@ const SelectPrimitiveRoot = React.forwardRef<
     });
 
     function handleTypeaheadMatch(index: number | null) {
-        if (index === null || disabledIndices.includes(index)) return;
+        if (index === null || totalDisabledIndices.includes(index)) return;
         if (isOpen) {
             setActiveIndex(index);
         } else {
@@ -70,7 +88,7 @@ const SelectPrimitiveRoot = React.forwardRef<
 
     const handleSelect = React.useCallback(
         (index: number | null) => {
-            if (index === null || disabledIndices.includes(index)) return;
+            if (index === null || totalDisabledIndices.includes(index)) return;
             setSelectedIndex(index);
             setIsOpen(false);
             (refs.reference.current as HTMLElement | null)?.focus();
@@ -81,7 +99,7 @@ const SelectPrimitiveRoot = React.forwardRef<
                 }
             }
         },
-        [disabledIndices, labelsRef, setSelectedIndex, setIsOpen, setSelectedLabel, refs]
+        [totalDisabledIndices, labelsRef, setSelectedIndex, setIsOpen, setSelectedLabel, refs]
     );
 
     const listNav = Floater.useListNavigation(floatingContext, {
@@ -91,7 +109,7 @@ const SelectPrimitiveRoot = React.forwardRef<
         onNavigate: setActiveIndex,
         virtual: hasSearch, // Enable virtual navigation only when search is present
         virtualItemRef,
-        disabledIndices
+        disabledIndices: totalDisabledIndices
     });
 
     const typeahead = Floater.useTypeahead(floatingContext, {
@@ -126,7 +144,7 @@ const SelectPrimitiveRoot = React.forwardRef<
         }
     }, [selectedItemRef.current, shift]);
 
-    const values = {
+    const values = React.useMemo(() => ({
         isOpen,
         setIsOpen,
         handleSelect,
@@ -149,10 +167,30 @@ const SelectPrimitiveRoot = React.forwardRef<
         virtualItemRef,
         hasSearch,
         setHasSearch,
+        search,
+        setSearch,
+        hiddenIndices,
         selectedItemRef
-    };
+    }), [
+        isOpen, 
+        handleSelect, 
+        floatingContext, 
+        refs, 
+        getFloatingProps, 
+        getReferenceProps, 
+        floatingStyles, 
+        getItemProps, 
+        activeIndex, 
+        selectedIndex, 
+        disabledIndices, 
+        selectedLabel, 
+        hasSearch, 
+        search, 
+        hiddenIndices
+    ]);
+
     return (
-        <SelectPrimitiveContext.Provider value={values}>
+        <ComboboxPrimitiveContext.Provider value={values}>
             <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])} data-state={isOpen ? 'open' : 'closed'}>
 
                 {children}
@@ -172,10 +210,10 @@ const SelectPrimitiveRoot = React.forwardRef<
                     )
                 }
             </Primitive.div>
-        </SelectPrimitiveContext.Provider>
+        </ComboboxPrimitiveContext.Provider>
     );
 });
 
-SelectPrimitiveRoot.displayName = 'SelectPrimitiveRoot';
+ComboboxPrimitiveRoot.displayName = 'ComboboxPrimitiveRoot';
 
-export default SelectPrimitiveRoot;
+export default ComboboxPrimitiveRoot;

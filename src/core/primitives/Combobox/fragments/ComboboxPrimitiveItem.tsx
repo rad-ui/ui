@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useContext } from 'react';
-import { SelectPrimitiveContext } from '../contexts/SelectPrimitiveContext';
+import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
+import { useComboboxGroupContext } from '../contexts/ComboboxGroupContext';
 
-export interface SelectPrimitiveItemProps {
+export interface ComboboxPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
     disabled?: boolean;
@@ -13,61 +14,92 @@ export interface SelectPrimitiveItemProps {
     [key: string]: any;
 }
 
-const SelectPrimitiveItem = React.forwardRef<
+const ComboboxPrimitiveItem = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
-    SelectPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
+    ComboboxPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
 >(({ children, value, disabled, className, ...props }, forwardedRef) => {
-    const context = useContext(SelectPrimitiveContext);
+    const context = useContext(ComboboxPrimitiveContext);
 
     if (!context) {
-        console.error('SelectPrimitiveItem must be used within a SelectPrimitive');
+        console.error('ComboboxPrimitiveItem must be used within a ComboboxPrimitive');
         return null;
     }
 
-    const { handleSelect, isTypingRef, getItemProps, activeIndex, selectedIndex, virtualItemRef, selectedItemRef, hasSearch, disabledIndices, setDisabledIndices, valuesRef } = context;
+    const { 
+        handleSelect, 
+        isTypingRef, 
+        getItemProps, 
+        activeIndex, 
+        selectedIndex, 
+        virtualItemRef, 
+        selectedItemRef, 
+        hasSearch, 
+        search, 
+        hiddenIndices, 
+        disabledIndices, 
+        setDisabledIndices, 
+        valuesRef 
+    } = context;
+    
     const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
-    const prevIndexRef = React.useRef(index);
 
+    const isHidden = hiddenIndices.includes(index);
     const isActive = activeIndex === index;
     const isSelected = selectedIndex === index;
 
     // Use the value prop for the ID, fallback to index if value is not provided
     const itemId = value || `select-item-${index}`;
 
+    const groupContext = useComboboxGroupContext();
+
+    // Group registration
     React.useEffect(() => {
-        const prevIndex = prevIndexRef.current;
-
-        valuesRef.current[index] = itemId;
-        if (prevIndex !== index) {
-            delete valuesRef.current[prevIndex];
+        if (groupContext?.registerItem) {
+            return groupContext.registerItem(itemId, !isHidden);
         }
+    }, [groupContext, itemId, isHidden]);
 
+    // Value registration
+    React.useEffect(() => {
+        valuesRef.current[index] = itemId;
+        return () => {
+            delete valuesRef.current[index];
+        };
+    }, [index, itemId, valuesRef]);
+
+    // Disabled indices management
+    React.useEffect(() => {
+        const currentIndex = index;
         setDisabledIndices(prev => {
+            if (disabled && prev.includes(currentIndex)) return prev;
+            if (!disabled && !prev.includes(currentIndex)) return prev;
+
             const next = new Set(prev);
-            next.delete(prevIndex);
             if (disabled) {
-                next.add(index);
+                next.add(currentIndex);
             } else {
-                next.delete(index);
+                next.delete(currentIndex);
             }
             return Array.from(next).sort((a, b) => a - b);
         });
 
-        if (isSelected && !hasSearch) {
-            selectedItemRef.current = itemRef.current;
-        }
-
-        prevIndexRef.current = index;
-
         return () => {
             setDisabledIndices(prev => {
+                if (!prev.includes(currentIndex)) return prev;
                 const next = new Set(prev);
-                next.delete(prevIndexRef.current);
+                next.delete(currentIndex);
                 return Array.from(next).sort((a, b) => a - b);
             });
         };
-    }, [index, disabled, isSelected, hasSearch, setDisabledIndices, selectedItemRef, valuesRef]);
+    }, [index, disabled, setDisabledIndices]);
+
+    // Selected item ref management
+    React.useEffect(() => {
+        if (isSelected && !hasSearch) {
+            selectedItemRef.current = itemRef.current;
+        }
+    }, [isSelected, hasSearch, selectedItemRef]);
 
     return (
         <Primitive.div
@@ -75,6 +107,7 @@ const SelectPrimitiveItem = React.forwardRef<
             id={itemId}
             role="option"
             className={className}
+            style={{ display: isHidden ? 'none' : undefined, ...props.style }}
             data-value={value}
             data-label={value}
             data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
@@ -102,10 +135,9 @@ const SelectPrimitiveItem = React.forwardRef<
         >
             {children}
         </Primitive.div>
-
     );
 });
 
-SelectPrimitiveItem.displayName = 'SelectPrimitiveItem';
+ComboboxPrimitiveItem.displayName = 'ComboboxPrimitiveItem';
 
-export default SelectPrimitiveItem;
+export default ComboboxPrimitiveItem;
