@@ -151,8 +151,6 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         setIsScrollingState(false);
     }, []);
 
-    const shouldRender = type === 'always' || (type === 'auto' && isOverflowing) || (isOverflowing && visible);
-
     React.useEffect(() => {
         if (!isScrollingRef.current) {
             return () => {

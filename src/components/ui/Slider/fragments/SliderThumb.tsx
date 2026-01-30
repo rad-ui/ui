@@ -17,10 +17,14 @@ export type SliderThumbProps = {
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue } = React.useContext(SliderContext);
-    
     // Extract individual value if it's an array
-    const currentValue = Array.isArray(value) ? value[index] : value;
-    
+    const rawValue = Array.isArray(value) && index >= 0 && index < value.length
+        ? value[index]
+        : typeof value === 'number'
+            ? value
+            : minValue;
+    const safeValue = Number.isFinite(rawValue) ? rawValue : minValue;
+    const currentValue = Math.min(maxValue, Math.max(minValue, safeValue));
     const percent = maxValue === minValue ? 0 : ((currentValue - minValue) / (maxValue - minValue)) * 100;
     const [focused, setFocused] = React.useState(false);
 
@@ -64,7 +68,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         if (Array.isArray(value)) {
             const nextValue = [...value];
             nextValue[index] = clampedValue;
-            // Note: We don't sort here on keyboard to avoid thumb hopping, 
+            // Note: We don't sort here on keyboard to avoid thumb hopping,
             // but we might want to prevent crossing depending on design.
             setValue(nextValue);
         } else {
@@ -74,7 +78,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
         if (disabled) return;
-        e.stopPropagation(); // Prevent bubbling to root
+        e.currentTarget.focus();
         setDragging(true);
     };
 

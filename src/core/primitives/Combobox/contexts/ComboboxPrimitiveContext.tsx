@@ -32,6 +32,8 @@ export type ComboboxPrimitiveContextType = {
     search: string;
     setSearch: (value: string) => void;
     hiddenIndices: number[];
+    labelsVersion: number;
+    bumpLabelsVersion: () => void;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

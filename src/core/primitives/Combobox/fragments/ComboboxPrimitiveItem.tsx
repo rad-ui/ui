@@ -25,22 +25,22 @@ const ComboboxPrimitiveItem = React.forwardRef<
         return null;
     }
 
-    const { 
-        handleSelect, 
-        isTypingRef, 
-        getItemProps, 
-        activeIndex, 
-        selectedIndex, 
-        virtualItemRef, 
-        selectedItemRef, 
-        hasSearch, 
-        search, 
-        hiddenIndices, 
-        disabledIndices, 
-        setDisabledIndices, 
-        valuesRef 
+    const {
+        handleSelect,
+        isTypingRef,
+        getItemProps,
+        activeIndex,
+        selectedIndex,
+        virtualItemRef,
+        selectedItemRef,
+        hasSearch,
+        search,
+        hiddenIndices,
+        disabledIndices,
+        setDisabledIndices,
+        valuesRef,
+        bumpLabelsVersion
     } = context;
-    
     const itemRef = React.useRef<HTMLButtonElement>(null);
     const { ref, index } = Floater.useListItem({ label: value });
 
@@ -67,7 +67,12 @@ const ComboboxPrimitiveItem = React.forwardRef<
             delete valuesRef.current[index];
         };
     }, [index, itemId, valuesRef]);
-
+    React.useEffect(() => {
+        bumpLabelsVersion();
+        return () => {
+            bumpLabelsVersion();
+        };
+    }, [index, value, bumpLabelsVersion]);
     // Disabled indices management
     React.useEffect(() => {
         const currentIndex = index;
