@@ -72,7 +72,21 @@ describe('Slider Range Support', () => {
         );
 
         const range = screen.getByTestId('range');
-        expect(range.style.left).toBe('25%');
+        expect(range.style.marginLeft).toBe('25%');
         expect(range.style.width).toBe('50%');
+    });
+
+    it('renders empty range when value is an empty array', () => {
+        render(
+            <Slider.Root value={[]}>
+                <Slider.Track>
+                    <Slider.Range data-testid="range" />
+                </Slider.Track>
+            </Slider.Root>
+        );
+
+        const range = screen.getByTestId('range');
+        expect(range.style.marginLeft).toBe('0%');
+        expect(range.style.width).toBe('0%');
     });
 });

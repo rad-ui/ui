@@ -47,7 +47,11 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
 }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [value, setValue] = useControllableState<number | number[]>(valueProp, defaultValue ?? 0, onValueChange);
+    const [value, setValue] = useControllableState<number | number[]>(
+        valueProp,
+        defaultValue ?? (Array.isArray(valueProp) ? valueProp : 0),
+        onValueChange
+    );
     const [isDragging, setDragging] = React.useState(false);
     const activeThumbIndexRef = React.useRef<number | null>(null);
     const internalRef = React.useRef<HTMLDivElement>(null);
@@ -79,10 +83,9 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         const steppedValue = Math.round(rawValue / step) * step;
         const newValue = clamp(steppedValue);
 
-
         if (Array.isArray(value)) {
             let indexToUpdate = activeThumbIndexRef.current;
-            
+
             // If no active thumb (e.g. click on track), find the nearest one
             if (indexToUpdate === null) {
                 const distances = value.map(v => Math.abs(v - newValue));
@@ -90,15 +93,18 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
                 activeThumbIndexRef.current = indexToUpdate;
             }
 
-            const nextValue = [...value];
-            nextValue[indexToUpdate] = newValue;
+            const nextValue = value.map((currentValue, origIndex) => ({
+                value: currentValue,
+                origIndex
+            }));
+            nextValue[indexToUpdate].value = newValue;
             // Keep values sorted for range logic
-            nextValue.sort((a, b) => a - b);
-            
+            nextValue.sort((a, b) => a.value - b.value);
+
             // Update the active thumb ref to the new sorted index
-            activeThumbIndexRef.current = nextValue.indexOf(newValue);
-            
-            setValue(nextValue);
+            activeThumbIndexRef.current = nextValue.findIndex(item => item.origIndex === indexToUpdate);
+
+            setValue(nextValue.map(item => item.value));
         } else {
             setValue(newValue);
         }
@@ -107,23 +113,27 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
         if (disabled) return;
         e.stopPropagation();
-        
+
         // Check if we clicked a thumb
         const target = e.target as HTMLElement;
-        const thumbElement = target.closest(`.${rootClass}-thumb`);
-        
+        const thumbElement = target.closest(`.${rootClass}-thumb`) as HTMLElement | null;
+
         if (thumbElement && Array.isArray(value)) {
             const index = parseInt(thumbElement.getAttribute('data-index') || '0', 10);
             activeThumbIndexRef.current = index;
+            thumbElement.focus();
         } else {
             activeThumbIndexRef.current = null;
+            if (!Array.isArray(value)) {
+                const singleThumb = internalRef.current?.querySelector<HTMLElement>(`.${rootClass}-thumb`);
+                singleThumb?.focus();
+            } else {
+                internalRef.current?.focus();
+            }
         }
 
         setDragging(true);
         setFromPosition(e);
-
-        // Focus the root on click
-        internalRef.current?.focus();
 
         const handleGlobalPointerMove = (e: PointerEvent) => {
             e.preventDefault();

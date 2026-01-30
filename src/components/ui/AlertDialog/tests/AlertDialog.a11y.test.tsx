@@ -232,7 +232,7 @@ describe('AlertDialog a11y and behaviors', () => {
     test('controlled vs uncontrolled: open prop syncs and defaultOpen works', async() => {
         const user = userEvent.setup();
         const { rerender } = render(
-            <AlertDialog.Root open={false}>
+            <AlertDialog.Root open={false} onOpenChange={() => {}}>
                 <AlertDialog.Trigger>Open</AlertDialog.Trigger>
                 <AlertDialog.Portal>
                     <AlertDialog.Content>
@@ -247,7 +247,7 @@ describe('AlertDialog a11y and behaviors', () => {
 
         // Control open externally
         rerender(
-            <AlertDialog.Root open>
+            <AlertDialog.Root open onOpenChange={() => {}}>
                 <AlertDialog.Trigger>Open</AlertDialog.Trigger>
                 <AlertDialog.Portal>
                     <AlertDialog.Content>

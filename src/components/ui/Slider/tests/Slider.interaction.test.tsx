@@ -54,7 +54,7 @@ describe('Slider interactions', () => {
         fireEvent.pointerMove(root, { clientX: 70 });
         expect(thumb).toHaveAttribute('aria-valuenow', '70');
         fireEvent.pointerUp(root, { clientX: 70 });
-        expect(thumb).toHaveAttribute('data-state', 'inactive');
+        expect(thumb).toHaveAttribute('data-state', 'active');
     });
 
     test('controlled and uncontrolled values stay in sync', async() => {

@@ -14,12 +14,12 @@ type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
     type?: 'auto' | 'always' | 'scroll' | 'hover';
 };
 
-const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({ 
-    children, 
-    className = '', 
-    customRootClass = '', 
+const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
+    children,
+    className = '',
+    customRootClass = '',
     type = 'hover',
-    ...props 
+    ...props
 }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const internalRootRef = useRef<HTMLDivElement>(null);
@@ -80,10 +80,16 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         const contentHeight = viewport.scrollHeight;
         const hasV = contentHeight > viewportHeight;
         if (scrollYThumbRef.current) {
-            const factorY = contentHeight / viewportHeight;
-            let thumbHeight = viewportHeight / factorY;
-            thumbHeight = Math.max(thumbHeight, 24);
-            scrollYThumbRef.current.style.height = `${thumbHeight}px`;
+            if (viewportHeight <= 0) {
+                scrollYThumbRef.current.style.height = '0px';
+            } else if (!hasV) {
+                scrollYThumbRef.current.style.height = `${viewportHeight}px`;
+            } else {
+                const factorY = contentHeight / viewportHeight;
+                let thumbHeight = viewportHeight / factorY;
+                thumbHeight = Math.max(thumbHeight, 24);
+                scrollYThumbRef.current.style.height = `${thumbHeight}px`;
+            }
         }
 
         // Horizontal
@@ -91,10 +97,16 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         const contentWidth = viewport.scrollWidth;
         const hasH = contentWidth > viewportWidth;
         if (scrollXThumbRef.current) {
-            const factorX = contentWidth / viewportWidth;
-            let thumbWidth = viewportWidth / factorX;
-            thumbWidth = Math.max(thumbWidth, 24);
-            scrollXThumbRef.current.style.width = `${thumbWidth}px`;
+            if (viewportWidth <= 0) {
+                scrollXThumbRef.current.style.width = '0px';
+            } else if (!hasH) {
+                scrollXThumbRef.current.style.width = `${viewportWidth}px`;
+            } else {
+                const factorX = contentWidth / viewportWidth;
+                let thumbWidth = viewportWidth / factorX;
+                thumbWidth = Math.max(thumbWidth, 24);
+                scrollXThumbRef.current.style.width = `${thumbWidth}px`;
+            }
         }
 
         setOverflow({ x: hasH, y: hasV });
@@ -111,8 +123,12 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             const scrollTop = viewport.scrollTop;
             const thumbHeight = scrollYThumbRef.current.clientHeight;
 
-            const thumbPosition = (scrollTop / (contentHeight - viewportHeight)) * (viewportHeight - thumbHeight);
-            scrollYThumbRef.current.style.top = `${thumbPosition}px`;
+            if (viewportHeight <= 0 || contentHeight <= viewportHeight) {
+                scrollYThumbRef.current.style.top = '0px';
+            } else {
+                const thumbPosition = (scrollTop / (contentHeight - viewportHeight)) * (viewportHeight - thumbHeight);
+                scrollYThumbRef.current.style.top = `${thumbPosition}px`;
+            }
         }
 
         // Horizontal
@@ -122,8 +138,12 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             const scrollLeft = viewport.scrollLeft;
             const thumbWidth = scrollXThumbRef.current.clientWidth;
 
-            const thumbPosition = (scrollLeft / (contentWidth - viewportWidth)) * (viewportWidth - thumbWidth);
-            scrollXThumbRef.current.style.left = `${thumbPosition}px`;
+            if (viewportWidth <= 0 || contentWidth <= viewportWidth) {
+                scrollXThumbRef.current.style.left = '0px';
+            } else {
+                const thumbPosition = (scrollLeft / (contentWidth - viewportWidth)) * (viewportWidth - thumbWidth);
+                scrollXThumbRef.current.style.left = `${thumbPosition}px`;
+            }
         }
     };
 
@@ -135,7 +155,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         const startLeft = viewport.scrollLeft;
         const diffTop = target.top !== undefined ? target.top - startTop : 0;
         const diffLeft = target.left !== undefined ? target.left - startLeft : 0;
-        
+
         const duration = 150;
         const startTime = performance.now();
 
@@ -166,9 +186,10 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         if (e.orientation === 'vertical' && e.clientY !== undefined) {
             const thumb = scrollYThumbRef.current;
             if (!thumb) return;
+            if (viewport.clientHeight <= 0 || viewport.scrollHeight <= viewport.clientHeight) return;
             const rect = thumb.getBoundingClientRect();
             const factor = viewport.scrollHeight / viewport.clientHeight;
-            
+
             if (e.clientY < rect.top) {
                 fastScrollTo({ top: viewport.scrollTop - thumb.clientHeight * factor });
             } else if (e.clientY > rect.bottom) {
@@ -177,9 +198,10 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         } else if (e.orientation === 'horizontal' && e.clientX !== undefined) {
             const thumb = scrollXThumbRef.current;
             if (!thumb) return;
+            if (viewport.clientWidth <= 0 || viewport.scrollWidth <= viewport.clientWidth) return;
             const rect = thumb.getBoundingClientRect();
             const factor = viewport.scrollWidth / viewport.clientWidth;
-            
+
             if (e.clientX < rect.left) {
                 fastScrollTo({ left: viewport.scrollLeft - thumb.clientWidth * factor });
             } else if (e.clientX > rect.right) {
@@ -189,19 +211,20 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     };
 
     return (
-        <ScrollAreaContext.Provider value={{ 
-            rootClass, 
-            scrollYThumbRef, 
-            scrollXThumbRef, 
-            scrollAreaViewportRef, 
-            handleScroll, 
-            handleScrollbarClick, 
-            type, 
-            rootRef: internalRootRef 
-        }}>
-            <div 
-                ref={mergedRootRef} 
-                className={clsx(rootClass, className)} 
+        <ScrollAreaContext.Provider
+            value={{
+                rootClass,
+                scrollYThumbRef,
+                scrollXThumbRef,
+                scrollAreaViewportRef,
+                handleScroll,
+                handleScrollbarClick,
+                type,
+                rootRef: internalRootRef
+            }}>
+            <div
+                ref={mergedRootRef}
+                className={clsx(rootClass, className)}
                 data-scrollbar-x={String(overflow.x || type === 'always')}
                 data-scrollbar-y={String(overflow.y || type === 'always')}
                 {...props}

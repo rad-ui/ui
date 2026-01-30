@@ -10,21 +10,26 @@ export type SliderRangeProps = { children?: React.ReactNode } & ComponentPropsWi
 
 const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, orientation } = React.useContext(SliderContext);
-    
+
     let startPercent = 0;
     let endPercent = 0;
 
     if (Array.isArray(value)) {
-        const sortedValues = [...value].sort((a, b) => a - b);
-        const minVal = sortedValues[0];
-        const maxVal = sortedValues[sortedValues.length - 1];
-        
-        startPercent = maxValue === minValue ? 0 : ((minVal - minValue) / (maxValue - minValue)) * 100;
-        endPercent = maxValue === minValue ? 0 : ((maxVal - minValue) / (maxValue - minValue)) * 100;
-        
-        // If there's only one value in the array, range is from 0 to that value
-        if (value.length === 1) {
+        if (value.length === 0) {
             startPercent = 0;
+            endPercent = 0;
+        } else {
+            const sortedValues = [...value].sort((a, b) => a - b);
+            const minVal = sortedValues[0];
+            const maxVal = sortedValues[sortedValues.length - 1];
+
+            startPercent = maxValue === minValue ? 0 : ((minVal - minValue) / (maxValue - minValue)) * 100;
+            endPercent = maxValue === minValue ? 0 : ((maxVal - minValue) / (maxValue - minValue)) * 100;
+
+            // If there's only one value in the array, range is from 0 to that value
+            if (value.length === 1) {
+                startPercent = 0;
+            }
         }
     } else {
         startPercent = 0;
@@ -40,12 +45,11 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
             style={orientation === 'vertical'
                 ? {
                     height: `${length}%`,
-                    bottom: `${startPercent}%`,
-                    top: 'auto'
+                    marginTop: `${100 - endPercent}%`
                 }
-                : { 
-                    left: `${startPercent}%`,
-                    width: `${length}%` 
+                : {
+                    marginLeft: `${startPercent}%`,
+                    width: `${length}%`
                 }
             }
             {...props}

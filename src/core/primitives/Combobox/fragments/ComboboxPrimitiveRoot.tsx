@@ -44,6 +44,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const [hasSearch, setHasSearch] = React.useState(false);
     const [search, setSearch] = React.useState('');
+    const [labelsVersion, bumpLabelsVersion] = React.useReducer((current) => current + 1, 0);
 
     const hiddenIndices = React.useMemo(() => {
         if (!search) return [];
@@ -55,7 +56,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
             }
         }
         return filtered;
-    }, [search]);
+    }, [search, labelsVersion]);
 
     const totalDisabledIndices = React.useMemo(() => {
         const set = new Set([...disabledIndices, ...hiddenIndices]);
@@ -170,23 +171,26 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         search,
         setSearch,
         hiddenIndices,
-        selectedItemRef
+        selectedItemRef,
+        labelsVersion,
+        bumpLabelsVersion
     }), [
-        isOpen, 
-        handleSelect, 
-        floatingContext, 
-        refs, 
-        getFloatingProps, 
-        getReferenceProps, 
-        floatingStyles, 
-        getItemProps, 
-        activeIndex, 
-        selectedIndex, 
-        disabledIndices, 
-        selectedLabel, 
-        hasSearch, 
-        search, 
-        hiddenIndices
+        isOpen,
+        handleSelect,
+        floatingContext,
+        refs,
+        getFloatingProps,
+        getReferenceProps,
+        floatingStyles,
+        getItemProps,
+        activeIndex,
+        selectedIndex,
+        disabledIndices,
+        selectedLabel,
+        hasSearch,
+        search,
+        hiddenIndices,
+        labelsVersion
     ]);
 
     return (

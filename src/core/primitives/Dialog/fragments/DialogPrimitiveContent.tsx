@@ -18,6 +18,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     'aria-modal': ariaModal = true,
     'aria-labelledby': ariaLabelledBy,
     'aria-describedby': ariaDescribedBy,
+    style: styleProp,
     ...props
 }, ref) => {
     const { isOpen, getFloatingProps, refs, handleOpenChange, floaterContext } = useContext(DialogPrimitiveContext);
@@ -39,8 +40,9 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                         ref={mergedRef}
                         asChild={asChild}
                         {...getFloatingProps()}
-                        style={{ outline: 'none', ...props.style }}
+                        style={{ outline: 'none', ...styleProp }}
                         role={role}
+                        aria-hidden={!isOpen ? 'true' : undefined}
                         aria-labelledby={isOpen ? ariaLabelledBy : undefined}
                         aria-describedby={isOpen ? ariaDescribedBy : undefined}
                         data-state={dataState}

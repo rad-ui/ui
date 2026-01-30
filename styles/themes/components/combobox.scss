@@ -1,5 +1,3 @@
-@use 'button';
-
 .rad-ui-combobox-root {
     position: relative;
     display: inline-block;
@@ -57,11 +55,9 @@
     width: 240px;
     max-height: var(--rad-combobox-content-height, 300px);
     padding: 4px;
-    background-color: transparent;
-    backdrop-filter: blur(0px);
+    background-color: var(--rad-ui-color-gray-50);
     border: 1px solid var(--rad-ui-color-gray-200);
     border-radius: 8px;
-    box-shadow: none;
     display: flex;
     flex-direction: column;
     overflow-y: auto;

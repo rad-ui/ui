@@ -38,7 +38,7 @@
             }
         }
 
-        &[data-status="active"] {
+        &[data-state="active"] {
             .rad-ui-steps-bubble {
                 border-color: var(--rad-ui-color-accent-600);
                 background-color: var(--rad-ui-color-accent-50);
@@ -47,7 +47,7 @@
             }
         }
 
-        &[data-status="complete"] {
+        &[data-state="completed"] {
             .rad-ui-steps-bubble {
                 border-color: var(--rad-ui-color-accent-600);
                 background-color: var(--rad-ui-color-accent-600);

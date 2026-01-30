@@ -39,7 +39,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
                     {...getFloatingProps(props)}
                 >
                     <div className="rad-ui-tooltip-content-inner">
-                        {showArrow && <FloatingArrow className={clsx('rad-ui-arrow rad-ui-arrow')} ref={arrowRef} context={context} />}
+                        {showArrow && <FloatingArrow className={clsx('rad-ui-arrow')} ref={arrowRef} context={context} />}
                         {children}
                     </div>
                 </Primitive.div>

@@ -15,6 +15,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
     ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
 >(({ children, className, ...props }, forwardedRef) => {
     const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(ComboboxPrimitiveContext);
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
 
     return (
         <>
@@ -22,7 +23,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 <Floater.FocusManager context={floatingContext}>
                     <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
                         <div
-                            ref={Floater.useMergeRefs([refs.setFloating, forwardedRef])}
+                            ref={mergedRef}
                             style={floatingStyles}
                             className={className}
                             data-state={isOpen ? 'open' : 'closed'}

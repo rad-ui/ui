@@ -39,6 +39,12 @@ console.warn = (...args: unknown[]) => {
     if (firstArg.includes('asChild prop requires exactly one valid child element')) {
         return;
     }
+    if (firstArg.includes('Direct usage of') && firstArg.includes('is not supported')) {
+        return;
+    }
+    if (firstArg.includes('Focus trap assertions skipped in jsdom')) {
+        return;
+    }
     originalWarn(...(args as Parameters<typeof originalWarn>));
 };
 
