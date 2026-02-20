@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 
+export type CheckboxGroupPrimitiveRootElement = ElementRef<'div'>;
 export type CheckboxGroupPrimitiveRootProps = {
-    children: React.ReactNode;
-    className?: string
     name?: string;
     required?: boolean;
     disabled?: boolean;
@@ -15,9 +14,9 @@ export type CheckboxGroupPrimitiveRootProps = {
     defaultValue?: string[];
     value?: string[];
     onValueChange?: (value: string[]) => void;
-}
+} & ComponentPropsWithoutRef<'div'>;
 
-const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }: CheckboxGroupPrimitiveRootProps) => {
+const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }, ref) => {
     const [checkedValues, setCheckedValues] = useControllableState(
         value,
         defaultValue,
@@ -25,8 +24,8 @@ const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [],
     );
 
     return (
-        <div className={className} {...props}>
-            <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop}>
+        <div ref={ref} className={className} {...props}>
+            <RovingFocusGroup.Root dir={dir} orientation={orientation ?? 'horizontal'} loop={loop ?? true}>
                 <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled }}>
                     <RovingFocusGroup.Group>
                         {children}
@@ -35,6 +34,8 @@ const CheckboxGroupPrimitiveRoot = ({ dir, orientation, loop, defaultValue = [],
             </RovingFocusGroup.Root>
         </div>
     );
-};
+});
+
+CheckboxGroupPrimitiveRoot.displayName = 'CheckboxGroupPrimitiveRoot';
 
 export default CheckboxGroupPrimitiveRoot;

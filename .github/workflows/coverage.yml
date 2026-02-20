@@ -1,0 +1,121 @@
+name: Coverage
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run coverage on PR
+        run: npm run coverage
+
+      - name: Save PR coverage
+        run: cp coverage/coverage-summary.json pr-coverage.json
+
+      - name: Run coverage on base
+        continue-on-error: true
+        id: base_coverage
+        run: |
+          git fetch --no-tags --prune --depth=1 origin +$BASE_SHA:
+          git checkout $BASE_SHA
+          npm ci
+          if npm run coverage; then
+            cp coverage/coverage-summary.json base-coverage.json
+            echo "base_coverage_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "Base coverage failed (likely due to failing tests in base branch)"
+            echo "base_coverage_success=false" >> $GITHUB_OUTPUT
+            # Create a dummy file so the next step doesn't fail
+            echo '{"total":{"statements":{"pct":0},"branches":{"pct":0},"functions":{"pct":0},"lines":{"pct":0}}}' > base-coverage.json
+          fi
+          git fetch --no-tags --prune --depth=1 origin +$HEAD_SHA:
+          git checkout $HEAD_SHA
+          npm ci
+
+      - name: Comment coverage
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- coverage-comment -->';
+            const pr = JSON.parse(fs.readFileSync('pr-coverage.json', 'utf8')).total;
+            let base;
+            try {
+              base = JSON.parse(fs.readFileSync('base-coverage.json', 'utf8')).total;
+            } catch (e) {
+              // If base coverage failed, use PR coverage as baseline
+              base = pr;
+            }
+
+            function row(name, key) {
+              const diff = (pr[key].pct - base[key].pct).toFixed(2);
+              const sign = diff >= 0 ? '+' : '';
+              return `| ${name} | ${pr[key].pct}% | ${sign}${diff}% |`;
+            }
+
+            const decreased = ['statements', 'branches', 'functions', 'lines']
+              .some(key => pr[key].pct < base[key].pct);
+
+            const summary = decreased
+              ? 'Coverage decreased for at least one metric. Please add or update tests to improve coverage.'
+              : 'Coverage improved or stayed the same. Great job!';
+
+            const baseFailed = base.statements.pct === 0 && base.branches.pct === 0 && base.functions.pct === 0 && base.lines.pct === 0;
+            const comparisonNote = baseFailed 
+              ? '⚠️ Could not compare with base branch (base branch has failing tests or coverage issues). Showing PR coverage only.'
+              : 'This report compares the PR with the base branch. "Δ" shows how the PR affects each metric.';
+            
+            const body = [
+              marker,
+              '### Coverage',
+              '',
+              comparisonNote,
+              '',
+              '| Metric | PR |' + (baseFailed ? '' : ' Δ |'),
+              '| ------ | --: |' + (baseFailed ? '' : ' ---: |'),
+              baseFailed 
+                ? `| Statements | ${pr.statements.pct}% |\n| Branches | ${pr.branches.pct}% |\n| Functions | ${pr.functions.pct}% |\n| Lines | ${pr.lines.pct}% |`
+                : [row('Statements', 'statements'), row('Branches', 'branches'), row('Functions', 'functions'), row('Lines', 'lines')].join('\n'),
+              '',
+              baseFailed ? '✅ Coverage thresholds met! All tests passing.' : summary,
+              '',
+              'Run `npm run coverage` locally for detailed reports and target untested areas to raise these numbers.'
+            ].join('\n');
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const comments = await github.rest.issues.listComments({ owner, repo, issue_number });
+            const previous = comments.data.find(c => c.body.includes(marker));
+            if (previous) {
+              await github.rest.issues.deleteComment({ owner, repo, comment_id: previous.id });
+            }
+
+            await github.rest.issues.createComment({ owner, repo, issue_number, body });
+

@@ -500,4 +500,61 @@ describe('Tabs Component', () => {
             expect(screen.getByText('Tab 2')).toBeInTheDocument();
         });
     });
+
+    describe('Ref forwarding and accessibility', () => {
+        test('forwards refs to components', () => {
+            const rootRef = React.createRef<HTMLDivElement>();
+            const listRef = React.createRef<HTMLDivElement>();
+            const triggerRef = React.createRef<HTMLButtonElement>();
+            const contentRef = React.createRef<HTMLDivElement>();
+
+            render(
+                <Tabs.Root ref={rootRef} defaultValue="tab1">
+                    <Tabs.List ref={listRef}>
+                        <Tabs.Trigger ref={triggerRef} value="tab1">Tab 1</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content ref={contentRef} value="tab1">Content 1</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+            expect(listRef.current).toBeInstanceOf(HTMLDivElement);
+            expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
+            expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+        });
+
+        test('inactive content can be force mounted for screen readers', () => {
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2" forceMount>Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            const hidden = screen.getByText('Content 2');
+            expect(hidden).toHaveAttribute('aria-hidden', 'true');
+        });
+
+        test('components render without warnings', () => {
+            const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+            render(
+                <Tabs.Root defaultValue="tab1">
+                    <Tabs.List>
+                        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+                        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content value="tab1">Content 1</Tabs.Content>
+                    <Tabs.Content value="tab2">Content 2</Tabs.Content>
+                </Tabs.Root>
+            );
+
+            expect(warnSpy).not.toHaveBeenCalled();
+            warnSpy.mockRestore();
+        });
+    });
 });

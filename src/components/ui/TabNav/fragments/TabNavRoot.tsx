@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, forwardRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import TabNavContext from '../context/TabNav.context';
 import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'TabNav';
 
-export type TabNavRootProps = {
-    className?: string,
+export type TabNavRootProps = React.ComponentPropsWithoutRef<'div'> & {
     loop?: boolean,
     orientation?: 'horizontal' | 'vertical',
-    children: React.ReactNode,
     customRootClass?: string,
     color?: string;
     value?: string,
@@ -19,11 +17,11 @@ export type TabNavRootProps = {
     onValueChange?: (value: string) => void
 }
 
-const TabNavRoot = ({
+const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({
     className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
     onValueChange = () => {},
     value, ...props
-}: TabNavRootProps) => {
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
@@ -36,27 +34,36 @@ const TabNavRoot = ({
         setTabValue(value);
     };
 
+    // Set the default tab only for uncontrolled usage to avoid clobbering a
+    // controlled value passed from the parent. Including `value` as a
+    // dependency lets the effect react if the component switches between
+    // controlled and uncontrolled modes.
     useEffect(() => {
-        if (defaultValue) {
+        if (value === undefined && defaultValue) {
             handleTabChange(defaultValue);
         }
-    }, [defaultValue]);
+    }, [defaultValue, value]);
 
     const contextValues = {
         rootClass,
         tabValue,
         handleTabChange
     };
+
     return (
         <TabNavContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root loop={loop} orientation={orientation} {...props} >
-                <RovingFocusGroup.Group className={clsx(rootClass, className)}>
-                    {children}
+            <RovingFocusGroup.Root loop={loop} orientation={orientation} >
+                <RovingFocusGroup.Group {...({ asChild: true } as any)}>
+                    <div ref={ref} className={clsx(rootClass, className)} {...props}>
+                        {children}
+                    </div>
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
         </TabNavContext.Provider>
 
     );
-};
+});
+
+TabNavRoot.displayName = 'TabNavRoot';
 
 export default TabNavRoot;

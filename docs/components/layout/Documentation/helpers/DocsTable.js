@@ -43,7 +43,9 @@ const InfoRenderer = ({ row }) => {
                                 </span>
                             </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>
+                        <Tooltip.Content
+                            className="z-[9999] bg-black rounded shadow-lg"
+                        >
                             <span className="flex flex-col gap-2">
                                 {infoText}
                             </span>

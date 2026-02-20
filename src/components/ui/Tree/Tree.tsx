@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import TreeRoot from './fragments/TreeRoot';
 import TreeItem from './fragments/TreeItem';
 
 const COMPONENT_NAME = 'Tree';
 
-// Empty props type - only supporting fragment exports
-export type TreeProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TreeElement = HTMLDivElement;
+export type TreeProps = React.ComponentPropsWithoutRef<'div'> & {
     children?: React.ReactNode;
 };
 
-// Empty implementation - we don't support direct usage
-const Tree = () => {
-    console.warn('Direct usage of Tree is not supported. Please use Tree.Root and Tree.Item instead.');
-    return null;
+type TreeComponent = React.ForwardRefExoticComponent<TreeProps & React.RefAttributes<TreeElement>> & {
+    Root: typeof TreeRoot;
+    Item: typeof TreeItem;
 };
+
+const Tree = forwardRef<TreeElement, TreeProps>(({ children, ...props }, ref) => {
+    console.warn('Direct usage of Tree is not supported. Please use Tree.Root and Tree.Item instead.');
+    return (
+        <div ref={ref} {...props}>
+            {children}
+        </div>
+    );
+}) as TreeComponent;
 
 Tree.displayName = COMPONENT_NAME;
 
-// Export fragments via direct assignment pattern
 Tree.Root = TreeRoot;
 Tree.Item = TreeItem;
 

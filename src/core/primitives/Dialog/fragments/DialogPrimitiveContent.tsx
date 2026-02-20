@@ -1,27 +1,62 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
+import Primitive from '~/core/primitives/Primitive';
 
-export type DialogPrimitiveContentProps = {
+export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     children: React.ReactNode;
-    className?: string;
+    asChild?: boolean;
+    forceMount?: boolean;
 }
 
-const DialogPrimitiveContent = ({ children, ...props } : DialogPrimitiveContentProps) => {
-    const { isOpen, getFloatingProps, floaterContext, refs } = useContext(DialogPrimitiveContext);
+const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContentProps>(({
+    children,
+    asChild = false,
+    forceMount = false,
+    role = 'dialog',
+    'aria-modal': ariaModal = true,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-describedby': ariaDescribedBy,
+    style: styleProp,
+    ...props
+}, ref) => {
+    const { isOpen, getFloatingProps, refs, handleOpenChange, floaterContext } = useContext(DialogPrimitiveContext);
+
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
+    const shouldRender = isOpen || forceMount;
+    const dataState = isOpen ? 'open' : 'closed';
 
     return (
         <>
-            {isOpen && (
-                <Floater.FocusManager context={floaterContext} returnFocus={true}>
-                    <div ref={refs.setFloating} {...getFloatingProps()} {...props}>
+            {shouldRender && (
+                <Floater.FocusManager
+                    context={floaterContext}
+                    modal={Boolean(ariaModal)}
+                    initialFocus={0}
+                    returnFocus={true}
+                >
+                    <Primitive.div
+                        ref={mergedRef}
+                        asChild={asChild}
+                        {...getFloatingProps()}
+                        style={{ outline: 'none', ...styleProp }}
+                        role={role}
+                        aria-hidden={!isOpen ? 'true' : undefined}
+                        aria-labelledby={isOpen ? ariaLabelledBy : undefined}
+                        aria-describedby={isOpen ? ariaDescribedBy : undefined}
+                        data-state={dataState}
+                        aria-modal={ariaModal}
+                        {...props}
+                    >
                         {children}
-                    </div>
+                    </Primitive.div>
                 </Floater.FocusManager>
             )}
         </>
     );
-};
+});
+
+DialogPrimitiveContent.displayName = 'DialogPrimitiveContent';
 
 export default DialogPrimitiveContent;

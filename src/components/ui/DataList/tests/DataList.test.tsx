@@ -89,6 +89,55 @@ describe('DataList Component', () => {
         expect(screen.getByText('123-456-7890')).toBeInTheDocument();
     });
 
+    test('should forward refs to underlying elements', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLDivElement>();
+        const labelRef = React.createRef<HTMLElement>();
+        const valueRef = React.createRef<HTMLElement>();
+
+        render(
+            <DataList.Root ref={rootRef}>
+                <DataList.Item ref={itemRef}>
+                    <DataList.Label ref={labelRef}>Name</DataList.Label>
+                    <DataList.Value ref={valueRef}>John Doe</DataList.Value>
+                </DataList.Item>
+            </DataList.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(itemRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(labelRef.current?.tagName).toBe('DT');
+        expect(valueRef.current?.tagName).toBe('DD');
+    });
+
+    test('should render hidden labels for screen readers', () => {
+        render(
+            <DataList.Root>
+                <DataList.Item>
+                    <DataList.Label style={{ position: 'absolute', left: '-10000px' }}>Hidden Label</DataList.Label>
+                    <DataList.Value>Visible Value</DataList.Value>
+                </DataList.Item>
+            </DataList.Root>
+        );
+
+        expect(screen.getByText('Hidden Label')).toBeInTheDocument();
+    });
+
+    test('should render components without warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        render(
+            <DataList.Root>
+                <DataList.Item>
+                    <DataList.Label>Name</DataList.Label>
+                    <DataList.Value>John Doe</DataList.Value>
+                </DataList.Item>
+            </DataList.Root>
+        );
+
+        expect(warnSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+    });
+
     test('should warn when using DataList directly', () => {
         const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         render(<DataList />);

@@ -1,20 +1,24 @@
 'use client';
 import React from 'react';
-import SelectPrimitive from '~/core/primitives/Select/Select';
+import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 
 export type SelectPortalProps = {
   children: React.ReactNode;
+  container?: HTMLElement | null;
 };
 
-const SelectPortal = ({ children }: SelectPortalProps) => {
-    const rootElement = document.querySelector('#rad-ui-theme-container') || document.body as HTMLElement | null;
+type SelectPortalElement = React.ElementRef<typeof ComboboxPrimitive.Portal>;
+type SelectPortalPrimitiveProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Portal> & SelectPortalProps;
 
+const SelectPortal = React.forwardRef<SelectPortalElement, SelectPortalPrimitiveProps>(({ children, container, ...props }, forwardedRef) => {
     return (
-        <SelectPrimitive.Portal>
+        <ComboboxPrimitive.Portal ref={forwardedRef} container={container} {...props}>
             {children}
-        </SelectPrimitive.Portal>
+        </ComboboxPrimitive.Portal>
 
     );
-};
+});
+
+SelectPortal.displayName = 'SelectPortal';
 
 export default SelectPortal;

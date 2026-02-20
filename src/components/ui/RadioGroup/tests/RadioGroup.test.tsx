@@ -97,4 +97,27 @@ describe('RadioGroup (fragments)', () => {
         );
         spy.mockRestore();
     });
+
+    it('forwards refs to root, label, item, and indicator', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const labelRef = React.createRef<HTMLLabelElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+        const indicatorRef = React.createRef<HTMLSpanElement>();
+
+        render(
+            <RadioGroup.Root ref={rootRef} defaultValue="html">
+                <RadioGroup.Label ref={labelRef}>
+                    <RadioGroup.Item ref={itemRef} value="html">
+                        <RadioGroup.Indicator ref={indicatorRef} />
+                    </RadioGroup.Item>
+                    Option
+                </RadioGroup.Label>
+            </RadioGroup.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(labelRef.current).toBeInstanceOf(HTMLLabelElement);
+        expect(itemRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(indicatorRef.current).toBeInstanceOf(HTMLSpanElement);
+    });
 });

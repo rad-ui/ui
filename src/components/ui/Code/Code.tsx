@@ -1,19 +1,26 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Code';
 
-export type CodeProps= {
-    children: React.ReactNode;
+export type CodeProps = React.ComponentPropsWithoutRef<'code'> & {
     customRootClass?: string;
     variant?: string;
     size?: string;
     color?: string;
-}
+};
 
-const Code = ({ children, customRootClass = '', color = '', variant = '', size = '' }: CodeProps) => {
+const Code = React.forwardRef<React.ElementRef<'code'>, CodeProps>(({
+    children,
+    customRootClass = '',
+    color = '',
+    variant = '',
+    size = '',
+    className,
+    ...props
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const data_attributes: Record<string, string> = {};
@@ -30,9 +37,11 @@ const Code = ({ children, customRootClass = '', color = '', variant = '', size =
         data_attributes['data-rad-ui-accent-color'] = color;
     }
 
-    return <code className={clsx(rootClass)} {...data_attributes}>
+    return <code ref={ref} className={clsx(rootClass, className)} {...data_attributes} {...props}>
         {children}
     </code>;
-};
+});
+
+Code.displayName = COMPONENT_NAME;
 
 export default Code;

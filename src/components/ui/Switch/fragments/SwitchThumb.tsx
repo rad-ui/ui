@@ -1,16 +1,17 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { SwitchContext } from '../context/SwitchContext';
 
-export type SwitchThumbProps = {
+export type SwitchThumbElement = ElementRef<typeof Primitive.span>;
+export type SwitchThumbProps = ComponentPropsWithoutRef<typeof Primitive.span> & {
     asChild?: boolean;
     className?: string;
     children?: React.ReactNode;
 };
 
-const SwitchThumb = ({ asChild = false, className, children, ...props }: SwitchThumbProps) => {
+const SwitchThumb = forwardRef<SwitchThumbElement, SwitchThumbProps>(({ asChild = false, className, children, ...props }, ref) => {
     const { checked, rootClass, disabled } = useContext(SwitchContext);
 
     const dataAttributes: Record<string, string> = {};
@@ -21,6 +22,7 @@ const SwitchThumb = ({ asChild = false, className, children, ...props }: SwitchT
 
     return (
         <Primitive.span
+            ref={ref}
             role='switch'
             className={`${rootClass}-indicator ${className || ''}`}
             asChild={asChild}
@@ -30,6 +32,8 @@ const SwitchThumb = ({ asChild = false, className, children, ...props }: SwitchT
             {children}
         </Primitive.span>
     );
-};
+});
+
+SwitchThumb.displayName = 'SwitchThumb';
 
 export default SwitchThumb;

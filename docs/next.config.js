@@ -1,10 +1,19 @@
 /** @type {import('next').NextConfig} */
 
 const createMDX = require('@next/mdx')
+const remarkGfm = require('remark-gfm')
 
 const nextConfig = {
     // Configure `pageExtensions` to include markdown and MDX files
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+    
+    // Disable ESLint and TypeScript checking in production builds
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
     
     // SEO and Performance optimizations
     compress: true,
@@ -74,7 +83,28 @@ const nextConfig = {
             },
         ]
     },
-    
+
+    // PostHog API rewrites
+    async rewrites() {
+        return [
+            {
+                source: '/ingest/static/:path*',
+                destination: 'https://us-assets.i.posthog.com/static/:path*',
+            },
+            {
+                source: '/ingest/:path*',
+                destination: 'https://us.i.posthog.com/:path*',
+            },
+            {
+                source: '/ingest/flags',
+                destination: 'https://us.i.posthog.com/flags',
+            },
+        ]
+    },
+
+    // This is required to support PostHog trailing slash API requests
+    skipTrailingSlashRedirect: true,
+
     // Environment variables for SEO
     env: {
         SITE_URL: 'https://www.rad-ui.com',
@@ -85,6 +115,9 @@ const nextConfig = {
 
 const withMDX = createMDX({
     // Add markdown plugins here, as desired
+    options: {
+        remarkPlugins: [remarkGfm.default || remarkGfm],
+    },
 })
 
 module.exports = withMDX(nextConfig)

@@ -23,6 +23,7 @@ export const Basic: Story = {
                         <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
                         <DropdownMenu.Item label="Settings">Settings</DropdownMenu.Item>
                         <DropdownMenu.Item label="Notifications">Notifications</DropdownMenu.Item>
+                        <DropdownMenu.Separator/>
                         <DropdownMenu.Sub >
                             <DropdownMenu.SubTrigger >More Options <ChevronRight /></DropdownMenu.SubTrigger>
                             <DropdownMenu.Content >

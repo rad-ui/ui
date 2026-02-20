@@ -41,8 +41,19 @@ describe('RadioPrimitive', () => {
     });
 
     it('supports asChild prop (renders without error)', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         render(<RadioPrimitive {...baseProps} asChild />);
         const radio = screen.getByRole('radio');
         expect(radio).toBeInTheDocument();
+        expect(warnSpy).toHaveBeenCalledWith(
+            'Primitive.input: asChild prop requires exactly one valid child element.'
+        );
+        warnSpy.mockRestore();
+    });
+
+    it('forwards refs', () => {
+        const ref = React.createRef<HTMLInputElement>();
+        render(<RadioPrimitive {...baseProps} ref={ref} />);
+        expect(ref.current).toBeInstanceOf(HTMLInputElement);
     });
 });

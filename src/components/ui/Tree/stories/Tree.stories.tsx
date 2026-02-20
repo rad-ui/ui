@@ -22,7 +22,29 @@ const items = [
                                 items: [
                                     {
                                         label: 'hello child 1.1.1.1',
-                                        expanded: false
+                                        expanded: false,
+                                        items: [
+                                            {
+                                                label: 'hello child 1.1.1.1.1',
+                                                expanded: false
+                                            },
+                                            {
+                                                label: 'hello child 1.1.1.1.2',
+                                                expanded: false
+                                            },
+                                            {
+                                                label: 'hello child 1.1.1.1.3',
+                                                expanded: false
+                                            },
+                                            {
+                                                label: 'hello child 1.1.1.1.4',
+                                                expanded: false
+                                            },
+                                            {
+                                                label: 'hello child 1.1.1.1.5',
+                                                expanded: false
+                                            }
+                                        ]
                                     }
                                 ]
                             }
@@ -65,4 +87,47 @@ export const All = {
     args: {
         className: ''
     }
+};
+
+// Demonstrates centralized selection state management using Tree.Item props
+const TreeExampleWithSelection = () => {
+    const [selectedLabels, setSelectedLabels] = React.useState<Set<string>>(new Set());
+
+    const toggleSelect = (id: string, item: any) => {
+        setSelectedLabels((prev) => {
+            const next = new Set(prev);
+            if (next.has(item.label)) {
+                next.delete(item.label);
+            } else {
+                next.add(item.label);
+            }
+            return next;
+        });
+    };
+
+    const getIsSelected = (itm: any) => selectedLabels.has(itm.label);
+
+    return (
+        <SandboxEditor>
+            <div>
+                <Tree.Root>
+                    {items.map((item) => (
+                        <Tree.Item
+                            key={item.label}
+                            item={item}
+                            isSelected={getIsSelected(item)}
+                            onToggleSelect={toggleSelect}
+                            getIsSelected={getIsSelected}
+                        >
+                            {item.label}
+                        </Tree.Item>
+                    ))}
+                </Tree.Root>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+export const WithSelection = {
+    render: () => <TreeExampleWithSelection />
 };

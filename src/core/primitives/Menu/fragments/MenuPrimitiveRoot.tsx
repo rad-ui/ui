@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 
+export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
     children: React.ReactNode
     className?: string
@@ -11,9 +12,24 @@ export type MenuPrimitiveRootProps = {
     defaultOpen?: boolean
     crossAxisOffset?: number
     mainAxisOffset?: number
-}
+    loop?: boolean
+    placement?: | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end';
+  avoidCollision?: boolean
+  rtl?: boolean
+} & ComponentPropsWithoutRef<'div'>;
 
-export const MenuComponentRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, ...props }: MenuPrimitiveRootProps) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -35,10 +51,10 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
         open: isOpen,
         nodeId,
         onOpenChange: setIsOpen,
-        placement: isNested ? 'right-start' : 'bottom-start',
+        placement: isNested ? 'right-start' : placement,
         middleware: [
             Floater.flip({
-                mainAxis: true
+                mainAxis: avoidCollision
             }),
             Floater.offset({
                 mainAxis: mainAxisOffset,
@@ -52,6 +68,8 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
         listRef: elementsRef,
         activeIndex,
         nested: isNested,
+        rtl,
+        loop,
         onNavigate: setActiveIndex
     });
     const click = Floater.useClick(floatingContext, {});
@@ -93,7 +111,8 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
         virtualItemRef,
         nodeId,
         isNested,
-        floatingContext
+        floatingContext,
+        rtl
     };
     const tree = Floater.useFloatingTree();
 
@@ -113,7 +132,7 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
 
     return (
 
-        <div className={className} data-tree="true" {...props}>
+        <div ref={ref} className={className} data-tree="true" {...props}>
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>
@@ -123,15 +142,19 @@ export const MenuComponentRoot = ({ children, className, open, onOpenChange, def
 
         </div>
     );
-};
+});
 
-const MenuPrimitiveRoot = ({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, ...props }: MenuPrimitiveRootProps) => {
+MenuComponentRoot.displayName = 'MenuComponentRoot';
+
+const MenuPrimitiveRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, ...props }, ref) => {
     return (
         <Floater.FloatingTree>
-            <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} {...props}>
+            <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} {...props}>
                 {children}
             </MenuComponentRoot>
         </Floater.FloatingTree>
     );
-};
+});
+
+MenuPrimitiveRoot.displayName = 'MenuPrimitiveRoot';
 export default MenuPrimitiveRoot;

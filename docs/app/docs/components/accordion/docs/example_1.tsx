@@ -20,7 +20,7 @@ const items = [
 ]
 
 const AccordionExample = () => {
-
+  
 
   return (
   <div className="w-64 md:w-96">
