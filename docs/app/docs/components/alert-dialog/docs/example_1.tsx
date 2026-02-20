@@ -17,12 +17,14 @@ const AlertDialogExample = () => {
             <AlertDialog.Description>
               This action cannot be undone.
             </AlertDialog.Description>
+            <div className="flex justify-end gap-2">
             <AlertDialog.Action>
               Delete
             </AlertDialog.Action>
             <AlertDialog.Cancel>
               Cancel
             </AlertDialog.Cancel>
+            </div>
           </AlertDialog.Content>
         </AlertDialog.Portal>
       </AlertDialog.Root>
