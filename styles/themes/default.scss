@@ -43,11 +43,11 @@
 @use "components/context-menu";
 @use "components/menubar";
 @use "components/splitter";
+@use "components/toolbar";
 @use "components/steps";
 @use "components/minimap";
 @use "components/combobox";
 @use "components/tooltip";
-
 
 // import .css file
 @use "../cssTokens/base.tokens";

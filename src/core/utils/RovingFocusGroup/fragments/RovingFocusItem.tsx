@@ -41,7 +41,8 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     children,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    role = 'button',
+    role,
+    type,
     handleRightKeyDown,
     handleLeftKeyDown,
     ...props
@@ -53,6 +54,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
     const isDisabled = child?.props?.disabled === true;
+    const childElementType = typeof child?.type === 'string' ? child.type.toLowerCase() : '';
+    const isLinkLikeChild = childElementType === 'a' || child?.props?.href != null;
+    const resolvedRole = role ?? (isLinkLikeChild ? undefined : 'button');
+    const resolvedType = type ?? (isLinkLikeChild ? undefined : 'button');
 
     // Is this item currently selected
     const isSelected = focusedItemId === id;
@@ -264,7 +269,8 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         id={id}
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}
-        role={role}
+        role={resolvedRole}
+        type={resolvedType}
         aria-selected={isSelected}
         aria-disabled={isDisabled}
         aria-label={ariaLabel}
