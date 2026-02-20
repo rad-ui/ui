@@ -18,15 +18,12 @@
         background-color: var(--rad-ui-color-gray-50);
         color: var(--rad-ui-color-slate-900);
         cursor: pointer;
+        text-decoration: none;
 
         &:focus-visible {
             outline: 2px solid var(--rad-ui-color-accent-900);
             outline-offset: 2px;
         }
-    }
-
-    .rad-ui-toolbar-link {
-        text-decoration: none;
     }
 
     .rad-ui-toolbar-toggle-group {

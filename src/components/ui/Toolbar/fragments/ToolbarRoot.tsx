@@ -44,6 +44,8 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
               asChild={asChild}
               ref={ref}
               role="toolbar"
+              aria-orientation={orientation === 'vertical' ? 'vertical' : undefined}
+              dir={dir}
               className={clsx(rootClass, className)}
               {...dataAttributes}
               {...props}
