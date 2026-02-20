@@ -225,7 +225,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@babel/eslint-parser": "7.26.10",
-    "@babel/preset-env": "7.24.0",
+    "@babel/preset-env": "7.29.0",
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "^7.24.7",
     "@changesets/cli": "^2.29.7",
