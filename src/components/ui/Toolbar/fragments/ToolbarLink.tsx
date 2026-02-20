@@ -18,7 +18,7 @@ const ToolbarLink = React.forwardRef<React.ElementRef<typeof Link>, ToolbarLinkP
     const { rootClass } = context;
 
     return (
-      <RovingFocusGroup.Item>
+      <RovingFocusGroup.Item role="link">
         <Link
           ref={ref}
           asChild={asChild}

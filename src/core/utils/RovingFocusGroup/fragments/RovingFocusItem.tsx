@@ -55,9 +55,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const child = childrenArray[0] as React.ReactElement;
     const isDisabled = child?.props?.disabled === true;
     const childElementType = typeof child?.type === 'string' ? child.type.toLowerCase() : '';
-    const isNativeButtonChild = childElementType === 'button';
-    const resolvedRole = role ?? (isNativeButtonChild ? undefined : (null as any));
-    const resolvedType = type ?? (isNativeButtonChild ? undefined : (null as any));
+    const isLinkLikeChild = childElementType === 'a' || child?.props?.href != null;
+    const resolvedRole = role ?? (isLinkLikeChild ? undefined : 'button');
+    const resolvedType = type ?? (isLinkLikeChild ? undefined : 'button');
 
     // Is this item currently selected
     const isSelected = focusedItemId === id;
