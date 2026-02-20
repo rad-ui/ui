@@ -24,6 +24,7 @@ const RELEASED_COMPONENTS = [
     'Tabs',
     'Toggle',
     'ToggleGroup',
+    'Toolbar',
     'Tooltip',
     'VisuallyHidden',
     // Released but not documented officially

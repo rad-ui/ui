@@ -32,7 +32,7 @@ export default {
             <Minimap.Provider>
                 <Minimap.Root>
                     {steps.map((step, index) => (
-                        <Minimap.Item key={index} value={index}>
+                        <Minimap.Item key={index} value={index.toString()}>
                             <Minimap.Track>
                                 <Minimap.Bubble>{index + 1}</Minimap.Bubble>
                                 <Minimap.Line />
