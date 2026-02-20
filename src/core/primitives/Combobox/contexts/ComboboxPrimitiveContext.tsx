@@ -29,6 +29,11 @@ export type ComboboxPrimitiveContextType = {
     virtualItemRef: React.RefObject<HTMLElement | null>;
     hasSearch: boolean;
     setHasSearch: React.Dispatch<React.SetStateAction<boolean>>;
+    search: string;
+    setSearch: (value: string) => void;
+    hiddenIndices: number[];
+    labelsVersion: number;
+    bumpLabelsVersion: () => void;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

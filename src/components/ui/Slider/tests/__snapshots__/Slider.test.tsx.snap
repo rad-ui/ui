@@ -14,7 +14,7 @@ exports[`Slider Component matches snapshot 1`] = `
     >
       <div
         class="rad-ui-slider-range"
-        style="width: 25%;"
+        style="margin-left: 0%; width: 25%;"
       >
         <div
           aria-orientation="horizontal"
@@ -23,6 +23,7 @@ exports[`Slider Component matches snapshot 1`] = `
           aria-valuenow="25"
           class="rad-ui-slider-thumb"
           data-disabled="false"
+          data-index="0"
           data-state="inactive"
           role="slider"
           style="left: calc(25% - 12px);"
