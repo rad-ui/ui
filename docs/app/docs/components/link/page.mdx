@@ -1,0 +1,44 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import Link from '@radui/ui/Link';
+import codeUsage, { api_documentation, features } from './docs/codeUsage';
+import LinkExample from './examples/LinkExample';
+import linkMetadata from './seo';
+
+export const metadata = linkMetadata;
+
+<Documentation
+  title="Link"
+  description="Link navigates users to different pages or external resources."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <LinkExample />
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures
+    features={features}
+  />
+
+  {/* Embedded Storybook */}
+  <Documentation.Section title="Storybook" as="h2">
+    <iframe
+      src="/storybook/iframe.html?id=components-link--all"
+      className="w-full h-96 border rounded"
+    />
+  </Documentation.Section>
+
+  {/* Accessibility */}
+  <Documentation.Section title="Accessibility" as="h2">
+    <p>Links are focusable and support keyboard navigation. Ensure link text clearly describes the destination.</p>
+  </Documentation.Section>
+
+  {/* API Documentation */}
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Table
+    title="Link"
+    description={api_documentation.link.description}
+    columns={api_documentation.link.columns}
+    data={api_documentation.link.data}
+  />
+</Documentation>
