@@ -3,6 +3,8 @@ import ToolbarRoot from './fragments/ToolbarRoot';
 import ToolbarButton from './fragments/ToolbarButton';
 import ToolbarSeparator from './fragments/ToolbarSeparator';
 import ToolbarLink from './fragments/ToolbarLink';
+import ToolbarToggleGroup from './fragments/ToolbarToggleGroup';
+import ToolbarToggleItem from './fragments/ToolbarToggleItem';
 
 type ToolbarElement = React.ElementRef<'div'>;
 type ToolbarProps = React.ComponentPropsWithoutRef<'div'>;
@@ -12,6 +14,8 @@ type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps & React.Ref
   Button: typeof ToolbarButton;
   Separator: typeof ToolbarSeparator;
   Link: typeof ToolbarLink;
+  ToggleGroup: typeof ToolbarToggleGroup;
+  ToggleItem: typeof ToolbarToggleItem;
 };
 
 const Toolbar = React.forwardRef<ToolbarElement, ToolbarProps>((_props, _ref) => {
@@ -25,5 +29,7 @@ Toolbar.Root = ToolbarRoot;
 Toolbar.Button = ToolbarButton;
 Toolbar.Separator = ToolbarSeparator;
 Toolbar.Link = ToolbarLink;
+Toolbar.ToggleGroup = ToolbarToggleGroup;
+Toolbar.ToggleItem = ToolbarToggleItem;
 
 export default Toolbar;

@@ -2,6 +2,7 @@
 import React from 'react';
 import { clsx } from 'clsx';
 import { customClassSwitcher } from '~/core';
+import Primitive from '~/core/primitives/Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ToolbarRootContext from '../context/ToolbarRootContext';
 
@@ -12,6 +13,7 @@ export type ToolbarRootProps = React.ComponentPropsWithoutRef<'div'> & {
   loop?: boolean;
   dir?: 'ltr' | 'rtl';
   customRootClass?: string;
+  asChild?: boolean;
 };
 
 const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
@@ -22,13 +24,14 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
       dir = 'ltr',
       className = '',
       customRootClass = '',
+      asChild = false,
       children,
       ...props
     },
     ref
   ) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const context = React.useMemo(() => ({ rootClass, orientation }), [rootClass, orientation]);
+    const context = React.useMemo(() => ({ rootClass, orientation, dir }), [rootClass, orientation, dir]);
     const dataAttributes: Record<string, string> = {
       'data-orientation': orientation as string
     };
@@ -37,7 +40,8 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
       <ToolbarRootContext.Provider value={context}>
         <RovingFocusGroup.Root orientation={orientation} loop={loop} dir={dir}>
           <RovingFocusGroup.Group>
-            <div
+            <Primitive.div
+              asChild={asChild}
               ref={ref}
               role="toolbar"
               className={clsx(rootClass, className)}
@@ -45,7 +49,7 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
               {...props}
             >
               {children}
-            </div>
+            </Primitive.div>
           </RovingFocusGroup.Group>
         </RovingFocusGroup.Root>
       </ToolbarRootContext.Provider>

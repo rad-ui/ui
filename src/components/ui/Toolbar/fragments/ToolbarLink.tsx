@@ -7,16 +7,26 @@ import ToolbarRootContext from '../context/ToolbarRootContext';
 
 const COMPONENT_NAME = 'ToolbarLink';
 
-const ToolbarLink = React.forwardRef<React.ElementRef<typeof Link>, LinkProps>(
-  ({ className = '', ...props }, ref) => {
+export type ToolbarLinkProps = LinkProps & {
+  asChild?: boolean;
+};
+
+const ToolbarLink = React.forwardRef<React.ElementRef<typeof Link>, ToolbarLinkProps>(
+  ({ className = '', asChild = false, href = '#', ...props }, ref) => {
     const context = React.useContext(ToolbarRootContext);
     if (!context) throw new Error('Toolbar.Link must be used within Toolbar.Root');
     const { rootClass } = context;
 
     return (
       <RovingFocusGroup.Item role="link">
-        <Link ref={ref} className={clsx(`${rootClass}-link`, className)} {...props} />
-      </RovingFocusGroup.Item>
+        <Link
+          ref={ref}
+          href={href}
+          className={clsx(`${rootClass}-link`, className)}
+          {...(asChild ? ({ asChild: true } as any) : {})}
+          {...props}
+        />
+      </RovingFocusGroup.Item> 
     );
   }
 );
