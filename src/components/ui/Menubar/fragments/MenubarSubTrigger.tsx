@@ -12,7 +12,7 @@ export type MenubarSubTriggerProps = {
 const MenubarSubTrigger = forwardRef<MenubarSubTriggerElement, MenubarSubTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
-        console.log('MenubarSubTrigger should be used in the MenubarRoot');
+        console.warn('MenubarSubTrigger should be used in the MenubarRoot');
         return null;
     }
     const { rootClass } = context;

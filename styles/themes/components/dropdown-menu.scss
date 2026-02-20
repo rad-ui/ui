@@ -156,5 +156,24 @@ width:max-content;
     }
 }
 
+.rad-ui-dropdown-menu-separator {
+    background-color: var(--rad-ui-color-gray-600);
+    align-self: stretch;
+}
+
+.rad-ui-dropdown-menu-separator[data-rad-ui-accent-color] {
+    background-color: var(--rad-ui-color-accent-900);
+}
+
+.rad-ui-dropdown-menu-separator-vertical{
+    margin: 0 8px;
+    width: 1px;
+}
+
+.rad-ui-dropdown-menu-separator-horizontal{
+    margin: 8px 0;
+    height: 1px;
+}
+
 
 

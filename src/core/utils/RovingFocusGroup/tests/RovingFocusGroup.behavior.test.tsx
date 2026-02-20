@@ -7,7 +7,7 @@ import RovingFocusGroup from '../index';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 describe('RovingFocusGroup behavior', () => {
-    test('arrow keys move focus and Tab leaves group', async () => {
+    test('arrow keys move focus and Tab leaves group', async() => {
         const user = userEvent.setup();
         render(
             <>
@@ -35,7 +35,7 @@ describe('RovingFocusGroup behavior', () => {
         expect(outside).toHaveFocus();
     });
 
-    test('wraps focus when reaching ends', async () => {
+    test('wraps focus when reaching ends', async() => {
         const user = userEvent.setup();
         render(
             <RovingFocusGroup.Root orientation="horizontal" loop>
@@ -59,7 +59,7 @@ describe('RovingFocusGroup behavior', () => {
         expect(item1).toHaveFocus();
     });
 
-    test('skips disabled items during navigation', async () => {
+    test('skips disabled items during navigation', async() => {
         const user = userEvent.setup();
         render(
             <RovingFocusGroup.Root orientation="horizontal" loop>
@@ -83,7 +83,7 @@ describe('RovingFocusGroup behavior', () => {
         expect(item1).toHaveFocus();
     });
 
-    test('respects RTL direction for horizontal navigation', async () => {
+    test('respects RTL direction for horizontal navigation', async() => {
         const user = userEvent.setup();
         render(
             <RovingFocusGroup.Root orientation="horizontal" dir="rtl">
@@ -107,7 +107,7 @@ describe('RovingFocusGroup behavior', () => {
         expect(item1).toHaveFocus();
     });
 
-    test('supports dynamic item add and remove', async () => {
+    test('supports dynamic item add and remove', async() => {
         const user = userEvent.setup();
         const DynamicGroup = () => {
             const [items, setItems] = React.useState(['A', 'B']);
@@ -152,7 +152,7 @@ describe('RovingFocusGroup behavior', () => {
         expect(itemA).toHaveFocus();
     });
 
-    test('handles multiple groups independently', async () => {
+    test('handles multiple groups independently', async() => {
         const user = userEvent.setup();
         render(
             <RovingFocusGroup.Root orientation="horizontal">

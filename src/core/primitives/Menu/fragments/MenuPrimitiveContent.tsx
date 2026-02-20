@@ -13,7 +13,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
         const context = useContext(MenuPrimitiveRootContext);
         const mergedRef = Floater.useMergeRefs([
             context?.refs.setFloating,
-            propRef,
+            propRef
         ]);
         if (!context || !context.isOpen) return null;
         const {
@@ -22,7 +22,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             elementsRef,
             labelsRef,
             isNested,
-            floatingContext,
+            floatingContext
         } = context;
 
         return (

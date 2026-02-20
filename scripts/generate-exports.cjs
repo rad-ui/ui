@@ -40,6 +40,7 @@
 const fs = require('fs');
 const path = require('path');
 const RELEASED_COMPONENTS = require('./RELEASED_COMPONENTS.cjs');
+const isCheck = process.argv.includes('--check');
 
 // Component exports
 const distPath = path.resolve(__dirname, '../dist/components');
@@ -52,6 +53,13 @@ try {
 }
 
 const exportsMap = {};
+
+// Root export
+exportsMap['.'] = {
+    import: './dist/index.js',
+    require: './dist/index.cjs',
+    types: './dist/index.d.ts'
+};
 
 // Add theme exports
 exportsMap['./themes/default.css'] = './dist/themes/default.css';
@@ -72,6 +80,7 @@ files.forEach(file => {
 
         exportsMap[`./${name}`] = {
             import: `./dist/components/${name}.js`,
+            require: `./dist/components/${name}.cjs`,
             types: `./dist/components/${name}.d.ts`
         };
     }
@@ -85,9 +94,20 @@ const pkgPath = path.resolve(__dirname, '../package.json');
 
 try {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-    pkg.exports = exportsMap;
-    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-    console.log('✅ package.json exports updated!');
+
+    if (isCheck) {
+        const current = JSON.stringify(pkg.exports, null, 2);
+        const expected = JSON.stringify(exportsMap, null, 2);
+        if (current !== expected) {
+            console.error('❌ package.json exports are out of date. Run npm run build:generate-exports to update.');
+            process.exit(1);
+        }
+        console.log('✅ package.json exports are up to date.');
+    } else {
+        pkg.exports = exportsMap;
+        fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+        console.log('✅ package.json exports updated!');
+    }
 } catch (error) {
     console.error('❌ Failed to update package.json exports:', error.message);
     process.exit(1);

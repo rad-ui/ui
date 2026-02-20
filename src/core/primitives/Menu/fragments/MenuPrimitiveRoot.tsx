@@ -12,9 +12,24 @@ export type MenuPrimitiveRootProps = {
     defaultOpen?: boolean
     crossAxisOffset?: number
     mainAxisOffset?: number
+    loop?: boolean
+    placement?: | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end';
+  avoidCollision?: boolean
+  rtl?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -36,10 +51,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         open: isOpen,
         nodeId,
         onOpenChange: setIsOpen,
-        placement: isNested ? 'right-start' : 'bottom-start',
+        placement: isNested ? 'right-start' : placement,
         middleware: [
             Floater.flip({
-                mainAxis: true
+                mainAxis: avoidCollision
             }),
             Floater.offset({
                 mainAxis: mainAxisOffset,
@@ -53,6 +68,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         listRef: elementsRef,
         activeIndex,
         nested: isNested,
+        rtl,
+        loop,
         onNavigate: setActiveIndex
     });
     const click = Floater.useClick(floatingContext, {});
@@ -94,7 +111,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         virtualItemRef,
         nodeId,
         isNested,
-        floatingContext
+        floatingContext,
+        rtl
     };
     const tree = Floater.useFloatingTree();
 

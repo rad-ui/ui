@@ -1,6 +1,6 @@
 import React from 'react';
 import CardRoot from './fragments/CardRoot';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 export type CardProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;

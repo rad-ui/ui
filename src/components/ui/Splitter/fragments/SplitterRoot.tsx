@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
 
 export interface SplitterRootProps extends React.ComponentPropsWithoutRef<'div'> {

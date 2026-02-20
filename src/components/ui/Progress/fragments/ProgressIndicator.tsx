@@ -1,14 +1,14 @@
-"use client";
+'use client';
 import React, {
     useContext,
     forwardRef,
     ElementRef,
-    ComponentPropsWithoutRef,
-} from "react";
+    ComponentPropsWithoutRef
+} from 'react';
 
-import { clsx } from "clsx";
-import { ProgressContext } from "../contexts/ProgressContext";
-import Primitive from "~/core/primitives/Primitive";
+import { clsx } from 'clsx';
+import { ProgressContext } from '../contexts/ProgressContext';
+import Primitive from '~/core/primitives/Primitive';
 
 export type ProgressIndicatorElement = ElementRef<typeof Primitive.div>;
 export type ProgressIndicatorProps = ComponentPropsWithoutRef<
@@ -47,6 +47,6 @@ const ProgressIndicator = forwardRef<
     );
 });
 
-ProgressIndicator.displayName = "ProgressIndicator";
+ProgressIndicator.displayName = 'ProgressIndicator';
 
 export default ProgressIndicator;

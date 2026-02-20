@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import { customClassSwitcher } from '~/core';
+import clsx from 'clsx';
 import { useSplitter } from './SplitterRoot';
 
 export interface SplitterHandleProps extends React.ComponentPropsWithoutRef<'div'> {

@@ -2,7 +2,7 @@ import React, { useId, useState, useRef, useContext, forwardRef, useImperativeHa
 import type { ElementRef, ComponentPropsWithoutRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { TreeContext } from '../contexts/TreeContext';
@@ -26,7 +26,6 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
     const { rootClass } = useContext(TreeContext);
 
     const handleClick = () => {
-        console.log('clicked', id);
         // Delegate selection toggling to the parent
         if (onToggleSelect) {
             onToggleSelect(id, item);
@@ -38,7 +37,6 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
     };
 
     const handleExpand = () => {
-        console.log('handleExpand', id);
         // validations
         if (!item.items || item.items.length === 0) return;
         if (isToggled) {
@@ -55,7 +53,6 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
     };
 
     const handleCollapse = () => {
-        console.log('handleCollapse', id);
         // validations
         // if (!item.items || item.items.length === 0) return;
         if (isToggled) {

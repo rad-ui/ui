@@ -12,7 +12,7 @@ const CustomLink = React.forwardRef<HTMLAnchorElement, React.ComponentProps<'a'>
 CustomLink.displayName = 'CustomLink';
 
 describe('Primitive asChild', () => {
-    test('forwards props, className, data attributes, and ref to child', async () => {
+    test('forwards props, className, data attributes, and ref to child', async() => {
         const user = userEvent.setup();
         const handleClick = jest.fn();
         const ref = React.createRef<HTMLButtonElement>();
@@ -36,6 +36,26 @@ describe('Primitive asChild', () => {
         expect(button).toHaveAttribute('data-test', 'passed');
         expect(handleClick).toHaveBeenCalledTimes(1);
         expect(ref.current).toBe(button);
+    });
+
+    test('merges className and composes event handlers for asChild', async() => {
+        const user = userEvent.setup();
+        const parentClick = jest.fn();
+        const childClick = jest.fn();
+
+        render(
+            <Primitive.button asChild className="parent-class" onClick={parentClick}>
+                <button className="child-class" onClick={childClick}>Trigger</button>
+            </Primitive.button>
+        );
+
+        const button = screen.getByRole('button');
+        await user.click(button);
+
+        expect(button).toHaveClass('parent-class');
+        expect(button).toHaveClass('child-class');
+        expect(childClick).toHaveBeenCalledTimes(1);
+        expect(parentClick).toHaveBeenCalledTimes(1);
     });
 
     test('supports custom child elements without warnings', () => {
@@ -95,7 +115,7 @@ describe('Primitive asChild', () => {
         warnSpy.mockRestore();
     });
 
-    test('forwards controlled and uncontrolled value attributes', async () => {
+    test('forwards controlled and uncontrolled value attributes', async() => {
         const user = userEvent.setup();
 
         const Controlled = () => {
@@ -134,7 +154,7 @@ describe('Primitive asChild', () => {
         expect(uncontrolled.value).toBe('foobar');
     });
 
-    test('axe: no violations for standard elements', async () => {
+    test('axe: no violations for standard elements', async() => {
         const { container } = render(<Primitive.button>Accessible</Primitive.button>);
         const results = await axe.run(container, {
             runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS }

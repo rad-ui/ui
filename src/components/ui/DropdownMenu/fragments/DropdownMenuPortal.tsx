@@ -10,7 +10,7 @@ export type DropdownMenuPortalProps = {
 const DropdownMenuPortal = forwardRef<DropdownMenuPortalElement, DropdownMenuPortalProps>(({ children, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
     if (!context) {
-        console.log('DropdownMenuPortal should be used in the DropdownMenuRoot');
+        console.warn('DropdownMenuPortal should be used in the DropdownMenuRoot');
         return null;
     }
     const { rootClass } = context;

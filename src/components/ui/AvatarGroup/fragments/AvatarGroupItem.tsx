@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
 import { useCreateDataAccentColorAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 export type AvatarGroupItemProps = React.ComponentPropsWithoutRef<typeof AvatarPrimitiveRoot> & {
     color?: string;

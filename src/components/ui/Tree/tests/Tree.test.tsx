@@ -36,7 +36,7 @@ describe('Tree', () => {
         expect(screen.getByRole('tree')).toHaveAttribute('aria-label', 'File explorer');
     });
 
-    test('renders children when expanded', async () => {
+    test('renders children when expanded', async() => {
         const user = userEvent.setup();
         const item = { label: 'Parent', items: [{ label: 'Child', items: [] }] };
         render(
@@ -63,4 +63,3 @@ describe('Tree', () => {
         consoleWarn.mockRestore();
     });
 });
-

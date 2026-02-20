@@ -6,6 +6,7 @@ import ContextMenuPortal from './fragments/ContextMenuPortal';
 import ContextMenuItem from './fragments/ContextMenuItem';
 import ContextMenuSub from './fragments/ContextMenuSub';
 import ContextMenuSubTrigger from './fragments/ContextMenuSubTrigger';
+import ContextMenuSeparator from './fragments/ContextMenuSeparator';
 
 export type ContextMenuElement = ElementRef<'div'>;
 export type ContextMenuProps = ComponentPropsWithoutRef<'div'>;
@@ -18,6 +19,7 @@ type ContextMenuComponent = React.ForwardRefExoticComponent<ContextMenuProps & R
     Item: typeof ContextMenuItem;
     Sub: typeof ContextMenuSub;
     SubTrigger: typeof ContextMenuSubTrigger;
+    Separator: typeof ContextMenuSeparator;
 };
 
 const ContextMenu = forwardRef<ContextMenuElement, ContextMenuProps>((_props, _ref) => {
@@ -34,5 +36,6 @@ ContextMenu.Portal = ContextMenuPortal;
 ContextMenu.Item = ContextMenuItem;
 ContextMenu.Sub = ContextMenuSub;
 ContextMenu.SubTrigger = ContextMenuSubTrigger;
+ContextMenu.Separator = ContextMenuSeparator;
 
 export default ContextMenu;

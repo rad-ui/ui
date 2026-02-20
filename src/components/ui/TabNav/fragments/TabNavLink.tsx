@@ -1,5 +1,5 @@
 import React, { useContext, useRef, forwardRef, useCallback } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 import TabNavContext from '../context/TabNav.context';
@@ -10,7 +10,7 @@ export type TabNavLinkProps = React.ComponentPropsWithoutRef<'a'> & {
     value?: string
 }
 
-const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({ 
+const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({
     value, className = '', href = '#', children, disabled, asChild, ...props
 }, forwardedRef) => {
     const { rootClass, tabValue, handleTabChange } = useContext(TabNavContext);

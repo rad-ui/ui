@@ -28,6 +28,6 @@ export default {
     title: 'WIP/RadioCards',
     component: RadioCards,
     render: () => <RadioCardsTemplate />
-};
+} as any;
 
 export const All = {};

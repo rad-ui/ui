@@ -50,4 +50,3 @@ const TreeRoot = forwardRef<TreeRootElement, TreeRootProps>(({ children, classNa
 TreeRoot.displayName = COMPONENT_NAME;
 
 export default TreeRoot;
-

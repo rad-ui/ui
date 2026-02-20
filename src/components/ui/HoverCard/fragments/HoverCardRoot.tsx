@@ -4,7 +4,7 @@ import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
 import { customClassSwitcher } from '~/core';
 import { useControllableState } from '~/core/hooks/useControllableState';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 const COMPONENT_NAME = 'HoverCard';
 
 export type HoverCardRootElement = ElementRef<'div'>;

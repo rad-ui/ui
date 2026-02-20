@@ -1,18 +1,18 @@
-"use client";
+'use client';
 import React, {
     useEffect,
     useState,
     forwardRef,
     ElementRef,
-    ComponentPropsWithoutRef,
-} from "react";
-import { clsx } from "clsx";
-import { customClassSwitcher } from "~/core";
-import { ProgressContext } from "../contexts/ProgressContext";
+    ComponentPropsWithoutRef
+} from 'react';
+import { clsx } from 'clsx';
+import { customClassSwitcher } from '~/core';
+import { ProgressContext } from '../contexts/ProgressContext';
 
-import Primitive from "~/core/primitives/Primitive";
+import Primitive from '~/core/primitives/Primitive';
 
-const COMPONENT_NAME = "Progress";
+const COMPONENT_NAME = 'Progress';
 
 export type ProgressRootElement = ElementRef<typeof Primitive.div>;
 export type ProgressRootProps = {
@@ -25,9 +25,9 @@ export type ProgressRootProps = {
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
 
 const STATE_ENUMS = {
-    LOADING: "loading", // a progress is loading when the value is not null and not equal to the maxValue
-    COMPLETE: "complete", // a progress is complete when the value is equal to the maxValue
-    INDETERMINATE: "indeterminate", // a progress is indeterminate when the value is null, by default it's 0
+    LOADING: 'loading', // a progress is loading when the value is not null and not equal to the maxValue
+    COMPLETE: 'complete', // a progress is complete when the value is equal to the maxValue
+    INDETERMINATE: 'indeterminate' // a progress is indeterminate when the value is null, by default it's 0
 } as const;
 
 const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
@@ -42,14 +42,14 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             className,
             ...props
         },
-        ref,
+        ref
     ) => {
         const [state, setState] = useState<
             (typeof STATE_ENUMS)[keyof typeof STATE_ENUMS]
-        >(STATE_ENUMS.LOADING);
+                >(STATE_ENUMS.LOADING);
 
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-        const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? "";
+        const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? '';
 
         useEffect(() => {
             setState(
@@ -57,7 +57,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
                     ? STATE_ENUMS.INDETERMINATE
                     : value === maxValue
                         ? STATE_ENUMS.COMPLETE
-                        : STATE_ENUMS.LOADING,
+                        : STATE_ENUMS.LOADING
             );
         }, [value, maxValue]);
 
@@ -68,7 +68,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             rootClass,
             getValueLabel,
             ariaLabel,
-            state,
+            state
         };
 
         const { asChild, ...rest } = props;
@@ -95,7 +95,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
                 </Primitive.div>
             </ProgressContext.Provider>
         );
-    },
+    }
 );
 
 ProgressRoot.displayName = COMPONENT_NAME;

@@ -26,6 +26,7 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   nodeId: any;
   isNested: boolean;
   floatingContext: any;
+  rtl: boolean;
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);

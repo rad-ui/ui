@@ -1,29 +1,91 @@
 .rad-ui-block-quote {
-  border-color: var(--rad-ui-color-accent-600);
-  border-left-width: 0.5rem;
-  padding-left: 0.75rem; // Assuming 1rem = 16px
-  line-height: 1.6rem;
-
-  // BlockQuote Variants - TODO
-
-  /** BlockQuote Sizes */
+  position: relative;
+  margin: 0;
+  padding-inline-start: 1rem; // pl-4
+  border-inline-start: 4px solid var(--rad-ui-color-gray-400);
+  font-style: italic;
+  color: var(--rad-ui-color-gray-950);
+  font-size: 0.875rem; // text-sm
+  line-height: 1.625; // leading-relaxed
+  
+  // Default styles (no color prop) - neutral/muted appearance
+  &[data-rad-ui-accent-color] {
+    border-inline-start-color: var(--rad-ui-color-accent-600);
+    color: var(--rad-ui-color-accent-1000);
+  }
+  
+  // Size variants
+  // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
+  // Variants should NOT override these sizing properties unless explicitly combined
   &[data-block-quote-size="small"] {
-    font-size: small;
-    padding: 4px 10px;
+    font-size: 0.75rem; // text-xs
+    padding-inline-start: 0.75rem; // pl-3
+    border-inline-start-width: 3px;
+    line-height: 1.5;
   }
-
+  
   &[data-block-quote-size="medium"] {
-    font-size: medium;
-    padding: 4px 10px;
+    font-size: 0.875rem; // text-sm
+    padding-inline-start: 1rem; // pl-4
+    border-inline-start-width: 4px;
+    line-height: 1.625;
   }
-
+  
   &[data-block-quote-size="large"] {
-    font-size: large;
-    padding: 4px 10px;
+    font-size: 1rem; // text-base
+    padding-inline-start: 1.25rem; // pl-5
+    border-inline-start-width: 5px;
+    line-height: 1.75;
   }
-
+  
   &[data-block-quote-size="x-large"] {
-    font-size: x-large;
-    padding: 4px 10px;
+    font-size: 1.125rem; // text-lg
+    padding-inline-start: 1.5rem; // pl-6
+    border-inline-start-width: 6px;
+    line-height: 1.75;
+  }
+  
+  // Variant styles
+  // Variants only change color, background, and border style (not sizing)
+  // If a variant must change sizing, create explicit combined selectors like:
+  // &[data-block-quote-size="large"][data-block-quote-variant="soft"]
+  &[data-block-quote-variant="outline"] {
+    border-inline-start-style: dashed;
+    background-color: transparent;
+    
+    &[data-rad-ui-accent-color] {
+      border-inline-start-color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-1000);
+    }
+  }
+  
+  &[data-block-quote-variant="soft"] {
+    background-color: var(--rad-ui-color-gray-50);
+    border-radius: 0.375rem; // rounded-md
+    border-inline-start-color: var(--rad-ui-color-gray-400);
+    
+    &[data-rad-ui-accent-color] {
+      border-inline-start-color: var(--rad-ui-color-accent-600);
+      background-color: var(--rad-ui-color-accent-50);
+      color: var(--rad-ui-color-accent-950);
+    }
+    
+    // Combined: soft variant with specific sizes that need padding adjustments
+    // Only add combined selectors if the variant truly needs different sizing
+    &[data-block-quote-size="small"] {
+      padding: 0.5rem 0.75rem; // py-2 px-3
+    }
+    
+    &[data-block-quote-size="medium"] {
+      padding: 0.75rem 1rem; // py-3 px-4
+    }
+    
+    &[data-block-quote-size="large"] {
+      padding: 1rem 1.25rem; // py-4 px-5
+    }
+    
+    &[data-block-quote-size="x-large"] {
+      padding: 1.25rem 1.5rem; // py-5 px-6
+    }
   }
 }

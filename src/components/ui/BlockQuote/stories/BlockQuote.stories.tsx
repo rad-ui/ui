@@ -10,70 +10,155 @@ const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, 
  the 1D ether used by IEEE802.3. The carriers have an intrinsic collision
  avoidance system, which increases availability.`;
 
+const SHORT_TEXT = 'The best way to predict the future is to invent it.';
+
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const Variants = []; // TODO
+const Variants = ['outline', 'soft'];
 const Sizes = ['small', 'medium', 'large', 'x-large'];
 
 export default {
     title: 'Components/BlockQuote',
     component: BlockQuote,
-    render: (args: JSX.IntrinsicAttributes & BlockQuoteProps) => <SandboxEditor>
-        <div >
-            <div className='flex space-x-2'>
-                <BlockQuote className='space-x-1' {...args}>
-                    <div className='text-gray-950'>{BLOCKQUOTE_TEXT} </div>
-                </BlockQuote>
+    render: () => <SandboxEditor className="space-y-4">
+        <div>
+            <p className='text-gray-950 mb-2'>Default BlockQuote (no color prop)</p>
+            <BlockQuote>
+                {BLOCKQUOTE_TEXT}
+            </BlockQuote>
+        </div>
 
-            </div>
+        <div>
+            <p className='text-gray-950 mb-2'>With Color Prop</p>
+            <BlockQuote color="blue">
+                {SHORT_TEXT}
+            </BlockQuote>
+        </div>
 
+        <div>
+            <p className='text-gray-950 mb-2'>Soft Variant</p>
+            <BlockQuote variant="soft">
+                {SHORT_TEXT}
+            </BlockQuote>
         </div>
     </SandboxEditor>
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
-    args: {
-        className: ''
-    }
+const DefaultTemplate = (args: any) => {
+    return <SandboxEditor className="space-y-4">
+        <div>
+            <p className='text-gray-950 mb-2'>Default (no props)</p>
+            <BlockQuote>
+                {BLOCKQUOTE_TEXT}
+            </BlockQuote>
+        </div>
+    </SandboxEditor>;
 };
 
-export const Color = {
-    args: {
-        color: 'blue'
-    }
+export const Default = DefaultTemplate.bind({});
+
+const WithColorTemplate = (args: any) => {
+    return <SandboxEditor className="space-y-4">
+        <div>
+            <p className='text-gray-950 mb-2'>With Color Prop - Blue</p>
+            <BlockQuote color="blue">
+                {SHORT_TEXT}
+            </BlockQuote>
+        </div>
+
+        <div>
+            <p className='text-gray-950 mb-2'>With Color Prop - Red</p>
+            <BlockQuote color="red">
+                {SHORT_TEXT}
+            </BlockQuote>
+        </div>
+
+        <div>
+            <p className='text-gray-950 mb-2'>With Color Prop - Gold</p>
+            <BlockQuote color="gold">
+                {SHORT_TEXT}
+            </BlockQuote>
+        </div>
+    </SandboxEditor>;
 };
+
+export const WithColor = WithColorTemplate.bind({});
 
 export const Size = () => {
     return <SandboxEditor>
-        <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>BlockQuote Size</p>
-        </div>
-        <div>
+        <div className='mt-4 mb-4'>
+            <p className='text-gray-950 mb-4'>BlockQuote Sizes</p>
+            <div className='space-y-6'>
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>Default (no color)</p>
+                    <div className="flex flex-col gap-3">
+                        {Sizes.map((size, index) => {
+                            return (
+                                <BlockQuote key={index} size={size}>
+                                    {SHORT_TEXT}
+                                </BlockQuote>
+                            );
+                        })}
+                    </div>
+                </div>
 
-            <div className='mb-10'>
-                <span className="flex flex-col gap-3">
-                    {Sizes.map((size, index) => {
-                        return <BlockQuote key={index} size={size} >
-                            <div>{BLOCKQUOTE_TEXT} </div>
-                        </BlockQuote>;
-                    })}
-                </span>
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>With Color Prop</p>
+                    <div className="flex flex-col gap-3">
+                        {Sizes.map((size, index) => {
+                            return (
+                                <BlockQuote key={index} size={size} color="blue">
+                                    {SHORT_TEXT}
+                                </BlockQuote>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
-
         </div>
     </SandboxEditor>;
 };
 
 export const Variant = () => {
     return <SandboxEditor>
-        <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>BlockQuote Variant</p>
-        </div>
-        <div className='flex flex-col gap-3'>
-            {/* TODO */}
-            <BlockQuote>
-                <div>{BLOCKQUOTE_TEXT}</div>
-            </BlockQuote>
+        <div className='mt-4 mb-4'>
+            <p className='text-gray-950 mb-4'>BlockQuote Variants</p>
+            <div className='space-y-4'>
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>Default</p>
+                    <BlockQuote>
+                        {SHORT_TEXT}
+                    </BlockQuote>
+                </div>
+
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>Outline</p>
+                    <BlockQuote variant="outline">
+                        {SHORT_TEXT}
+                    </BlockQuote>
+                </div>
+
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>Soft</p>
+                    <BlockQuote variant="soft">
+                        {SHORT_TEXT}
+                    </BlockQuote>
+                </div>
+
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>Outline with Color</p>
+                    <BlockQuote variant="outline" color="blue">
+                        {SHORT_TEXT}
+                    </BlockQuote>
+                </div>
+
+                <div>
+                    <p className='text-sm text-gray-600 mb-2'>Soft with Color</p>
+                    <BlockQuote variant="soft" color="blue">
+                        {SHORT_TEXT}
+                    </BlockQuote>
+                </div>
+            </div>
         </div>
     </SandboxEditor>;
 };
