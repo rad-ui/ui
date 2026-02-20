@@ -98,6 +98,10 @@ export const docsNavigationSections = [
                 path:"/docs/components/kbd"
             },
             {
+                title:"Label",
+                path:"/docs/components/label"
+            },
+            {
                 title:"Progress",
                 path:"/docs/components/progress"
             },
