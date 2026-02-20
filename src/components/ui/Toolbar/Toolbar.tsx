@@ -19,7 +19,9 @@ type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps & React.Ref
 };
 
 const Toolbar = React.forwardRef<ToolbarElement, ToolbarProps>((_props, _ref) => {
-  console.warn('Direct usage of Toolbar is not supported. Please use Toolbar.Root, Toolbar.Button, etc. instead.');
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('Direct usage of Toolbar is not supported. Please use Toolbar.Root, Toolbar.Button, etc. instead.');
+  }
   return null;
 }) as ToolbarComponent;
 

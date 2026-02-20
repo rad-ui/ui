@@ -53,6 +53,7 @@ const Template = (_args: any) => {
           <Toolbar.Separator />
           <Toolbar.Link href="#" aria-label="Insert link">
             <Link2 size={16} />
+            Add link
           </Toolbar.Link>
           <Toolbar.Separator />
           <span className="rad-ui-toolbar-meta">Edited 2 hours ago</span>

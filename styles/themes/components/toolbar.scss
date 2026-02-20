@@ -54,6 +54,30 @@
         }
     }
 
+    .rad-ui-toolbar-link {
+        width: auto;
+        height: auto;
+        padding: 0 4px;
+        border-radius: 0;
+        color: var(--rad-ui-color-accent-900);
+        font-size: 0.92rem;
+        font-weight: 500;
+        gap: 6px;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+
+        &:hover {
+            background-color: transparent;
+            color: var(--rad-ui-color-accent-1000);
+            text-decoration-thickness: 2px;
+        }
+
+        &:active {
+            transform: none;
+        }
+    }
+
     .rad-ui-toolbar-toggle-group {
         display: inline-flex;
         align-items: center;

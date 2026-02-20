@@ -10,18 +10,20 @@ const COMPONENT_NAME = 'Link';
 export interface LinkProps extends ComponentPropsWithoutRef<'a'> {
     customRootClass?: string;
     size?: string;
+    asChild?: boolean;
 }
 
 type LinkElement = ElementRef<'a'>;
 
 const Link = React.forwardRef<LinkElement, LinkProps>(
-    ({ children, href = '#', customRootClass, className, size = '', ...props }, ref) => {
+    ({ children, href = '#', customRootClass, className, size = '', asChild = false, ...props }, ref) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
         const dataAttributes = useCreateDataAttribute('link', { size });
         const Anchor = Primitive.a as any;
         return (
             <Anchor
                 ref={ref}
+                asChild={asChild}
                 href={href}
                 className={clsx(rootClass, className)}
                 {...dataAttributes()}
