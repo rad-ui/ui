@@ -1,19 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 
-export type CheckboxPrimitiveIndicatorProps = {
-    className?: string
-    children: React.ReactNode
-}
+export type CheckboxPrimitiveIndicatorElement = ElementRef<'span'>;
+export type CheckboxPrimitiveIndicatorProps = ComponentPropsWithoutRef<'span'> & {
+    children: React.ReactNode;
+};
 
-const CheckboxPrimitiveIndicator = ({ children, className = '', ...props }: CheckboxPrimitiveIndicatorProps) => {
+const CheckboxPrimitiveIndicator = forwardRef<CheckboxPrimitiveIndicatorElement, CheckboxPrimitiveIndicatorProps>(({ children, className = '', ...props }, ref) => {
     const { isChecked } = React.useContext(CheckboxPrimitiveContext);
 
-    if (!isChecked) return null;
+    if (isChecked !== true) return null;
 
-    return <span className={className} {...props}>{children}</span>;
-};
+    return <span ref={ref} className={className} {...props}>{children}</span>;
+});
+
+CheckboxPrimitiveIndicator.displayName = 'CheckboxPrimitiveIndicator';
 
 export default CheckboxPrimitiveIndicator;

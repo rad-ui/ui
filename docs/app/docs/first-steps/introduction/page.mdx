@@ -5,55 +5,104 @@ export const metadata = introductionMetadata
 
 # Introduction
 
-Rad UI is a headless, accessible, and high-performance UI component library for React. Whether you're building a design system, scaling a large product, or hacking on a side project, Rad UI gives you complete control over how your components look and behave.
+Rad UI is a **headless, accessible, and performance focused React component system** built for products that expect to live for years.
 
-Designed for speed and flexibility, it offers unstyled, composable primitives that adapt to your needs — not the other way around. Built on the foundations of proven design systems, Rad UI helps you ship consistent, accessible UIs without compromising on developer experience.
+It is designed for teams building real design systems, scaling production applications, or shipping serious side projects that cannot afford fragile UI foundations.
 
-Join developers worldwide using Rad UI to build beautiful, fast, and reliable interfaces.
+Rad UI gives you control over structure, styling, and behavior while handling the hard parts for you: accessibility, composition, and predictable interactions.
+
+This is not a starter kit.  
+It is UI infrastructure.
+
+---
 
 ## Why Rad UI?
 
-### Design System–Ready  
-Rad UI is built with design systems in mind. Every component is unstyled by default, giving you complete control over presentation and allowing seamless integration with your tokens, spacing scales, typography, and themes. Whether you're building a design system from scratch or plugging into an existing one, Rad UI provides the flexibility and composability needed to enforce visual and interaction consistency across your product.
+### Design System First
 
-### Gradual, Flexible Adoption  
-You don’t have to commit to a full rewrite. Rad UI is designed to coexist with your existing components and styles, so you can introduce it incrementally — one feature, view, or component at a time. Replace legacy code or modernize critical parts of your UI without breaking the rest of your system. This flexibility makes it easy to evaluate and scale Rad UI as your needs grow.
+Rad UI is built for design systems, not demos.
 
-### Accessibility by Default  
-Accessibility isn't a layer you bolt on later — it's baked in from the start. Rad UI components are built to meet WCAG standards wherever possible, including proper ARIA roles, keyboard navigation, and focus management. That means you can ship interfaces that work for everyone — including users relying on assistive technologies — without having to build all the logic yourself.
+Every component is unstyled by default, making it trivial to integrate with your tokens, spacing scales, typography, and theming strategy. Whether you are building a design system from scratch or standardizing an existing one, Rad UI adapts to your rules instead of imposing its own.
 
-### Fully Composable  
-Rather than locking you into opinionated patterns or one-size-fits-all components, Rad UI gives you foundational primitives that can be composed together however you need. Inspired by the Radix philosophy, each component exposes a clean, low-level API that prioritizes flexibility over prescription.
+You keep ownership of your visual language. Rad UI stays out of the way.
 
-You can build complex UIs from simple, predictable building blocks that are easy to understand, test, and reuse — no hidden behavior, no styling assumptions. Rad UI extends this pattern further with improvements in ergonomics, customization hooks, and support for modern styling tools out of the box.
+---
 
-You stay in control of structure, styling, and behavior at every layer, making it easy to adapt components to your product’s unique needs without friction.
+### Gradual, Intentional Adoption
 
+Rad UI does not require a rewrite.
 
-### Built for Speed  
-Rad UI is engineered for performance. Components avoid unnecessary DOM updates, reduce re-renders through thoughtful state management, and stay lightweight by design. This ensures your UI stays fast and responsive, even as your application scales in complexity.
+You can introduce it incrementally alongside existing components and styles. Adopt it one component at a time, modernize critical flows first, or replace legacy UI at your own pace.
 
-### Developer Experience First  
-Rad UI is made by developers, for developers. You'll find intuitive APIs, predictable patterns, and first-class TypeScript support across the board. The documentation is structured for clarity and depth, making it easy to get up and running — whether you're building your first prototype or architecting a full design system.
+This makes Rad UI practical for real world codebases, not just greenfield projects.
 
-### Styling Freedom  
-Rad UI doesn't enforce any styling system or CSS methodology. Use Tailwind, SCSS, CSS Modules, vanilla CSS, or anything else — the choice is yours. Components ship with no styles or resets, so they drop cleanly into any stack without side effects. This lets you maintain full control over your visual language without fighting against baked-in styles.
+---
 
-### Styling Freedom & Detach Feature  
-Rad UI provides default CSS and a theme out of the box, so you can get started without worrying about initial setup. However, if you want to progressively adopt your own design system or style guidelines, Rad UI makes it easy to **detach components from the default styling**.
+### Accessibility Without Ceremony
+
+Accessibility is not optional and it is not an afterthought.
+
+Rad UI components ship with keyboard navigation, focus management, and correct ARIA behavior baked in. They are designed to meet WCAG requirements wherever possible without forcing you to memorize specs or reinvent interaction logic.
+
+You get accessible behavior by default, not accessibility debt later.
+
+---
+
+### Fully Composable Primitives
+
+Rad UI is built from low level primitives, not rigid components.
+
+Each piece exposes a clean, predictable API that can be composed into complex interfaces without hidden behavior or styling assumptions. You decide structure, layout, and presentation at every layer.
+
+Inspired by the Radix philosophy and extended with better ergonomics, customization hooks, and modern styling support, Rad UI prioritizes flexibility without chaos.
+
+---
+
+### Performance by Design
+
+Rad UI is engineered to stay fast as your application grows.
+
+Components minimize unnecessary DOM updates, reduce re-renders through careful state management, and avoid heavyweight abstractions. The goal is simple: predictable performance that does not degrade as complexity increases.
+
+---
+
+### Developer Experience That Respects You
+
+Rad UI is built by developers who have shipped and maintained large UIs.
+
+Expect:
+- Clear and predictable APIs
+- First class TypeScript support
+- Consistent patterns across components
+- Documentation written for understanding, not marketing
+
+You should spend your time building features, not decoding library behavior.
+
+---
+
+### Styling Freedom, With an Escape Hatch
+
+Rad UI does not force a styling system.
+
+Use Tailwind, CSS Modules, SCSS, vanilla CSS, or anything else. Components ship without styles or resets, so they integrate cleanly into any stack without side effects.
+
+For teams that want to move fast, Rad UI also provides default CSS and theming out of the box. When you are ready, you can **detach components from the default styles** and progressively adopt your own design system without friction.
+
+This is intentional. Escape hatches are a feature.
+
+---
 
 ## Who is Rad UI for?
 
-Rad UI is ideal for developers who want **full control over their UI components** without compromising on accessibility or performance. Whether you're building a design system, working on a large-scale web application, or experimenting with a side project, Rad UI provides you with the foundational building blocks to create a scalable and consistent user interface.
+Rad UI is for developers who want **control without chaos**.
 
-- **Design System Builders:** Seamlessly integrate Rad UI into your own design system. Its unstyled components allow you to apply your design tokens, themes, and custom styles effortlessly, so you can maintain your brand's identity while leveraging a solid, accessible foundation.
-  
-- **Product Teams & Developers:** Rad UI fits perfectly into large-scale applications, enabling you to craft a UI that's both functional and visually aligned with your product’s needs. It works well with other libraries and can be customized to fit alongside your existing toolchain and styling approach.
+- **Design System Builders**  
+  Build and enforce your own design language on top of solid, accessible primitives without fighting library opinions.
 
-- **Solo Developers & Side Projects:** Whether you’re creating a personal app or building a quick prototype, Rad UI gives you the power to craft a polished UI without getting bogged down by styling decisions or accessibility concerns. You get high-quality components, out-of-the-box accessibility, and performance without the overhead.
+- **Product Teams**  
+  Scale complex applications with predictable UI behavior, consistent interactions, and long term maintainability.
 
-Rad UI is built on **proven design systems** and follows best practices for UI/UX design. It ensures that your product doesn’t just look great — it works reliably for all users. Whether you’re shipping a consumer app, internal tools, or experimenting with new ideas, Rad UI supports you in delivering a **great user experience** and a **developer-friendly** workflow.
+- **Solo Developers and Side Projects**  
+  Ship polished interfaces quickly without compromising on accessibility, performance, or future flexibility.
 
-Join developers around the world who are using Rad UI to **build faster**, **ship better** products, and stay in full control of their UI components.
-
-
+Rad UI is built on proven design system principles

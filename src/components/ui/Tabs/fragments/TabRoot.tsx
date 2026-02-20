@@ -1,19 +1,18 @@
 'use client';
 import React, { useEffect } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import Primitive from '~/core/primitives/Primitive';
 
 import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Tabs';
 
-export type TabRootProps = {
-    children: React.ReactNode;
+export type TabRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
-    className?: string;
     value?: string;
     color?: string;
     defaultValue?: string;
@@ -24,7 +23,7 @@ export type TabRootProps = {
     asChild?: boolean;
 };
 
-const TabRoot = ({
+const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     children,
     defaultValue = '',
     onValueChange = () => {},
@@ -37,7 +36,7 @@ const TabRoot = ({
     activationMode = 'automatic',
     asChild = false,
     ...props
-}: TabRootProps) => {
+}, forwardedRef) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
@@ -50,11 +49,16 @@ const TabRoot = ({
         setTabValue(value);
     };
 
+    // Apply the default tab only when the component is uncontrolled. This
+    // prevents overwriting a controlled state while still allowing the effect
+    // to run if the consumer switches between controlled and uncontrolled
+    // modes.
     useEffect(() => {
-        if (defaultValue) {
+        if (value === undefined && defaultValue) {
             handleTabChange(defaultValue);
         }
-    }, [defaultValue]);
+        // Include `value` so the effect re-evaluates when the control state changes.
+    }, [defaultValue, value]);
 
     const contextValues = {
         rootClass,
@@ -69,20 +73,21 @@ const TabRoot = ({
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root
-                orientation={orientation}
-                loop
-                dir={dir}
-                className={clsx(rootClass, className)}
-                data-rad-ui-accent-color={color}
-                {...dataAttributes}
-                {...props}
-            >
-                {children}
+            <RovingFocusGroup.Root orientation={orientation} loop dir={dir} asChild>
+                <Primitive.div
+                    ref={forwardedRef}
+                    className={clsx(rootClass, className)}
+                    data-rad-ui-accent-color={color}
+                    asChild={asChild}
+                    {...dataAttributes}
+                    {...props}
+                >
+                    {children}
+                </Primitive.div>
             </RovingFocusGroup.Root>
         </TabsRootContext.Provider>
     );
-};
+});
 
 TabRoot.displayName = COMPONENT_NAME;
 

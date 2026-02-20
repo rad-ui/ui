@@ -1,7 +1,7 @@
 'use client';
-import React from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support
@@ -16,21 +16,28 @@ export type TextProps = {
     customRootClass?: string;
     className?: string;
     as?: string;
-} & React.ComponentProps<'p'>;
+} & ComponentPropsWithoutRef<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', as = 'p', ...props }: TextProps) => {
-    const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
+type TextElement = ElementRef<'p'>;
 
-    if (!TAGS.includes(as)) {
-        as = 'p';
+const Text = forwardRef<TextElement, TextProps>(
+    (
+        { children, customRootClass = '', className = '', as = 'p', ...props },
+        ref
+    ) => {
+        const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
+
+        if (!TAGS.includes(as)) {
+            as = 'p';
+        }
+
+        return React.createElement(
+            as,
+            { ref, className: clsx(rootClassName, className), ...props },
+            children
+        );
     }
-
-    return React.createElement(
-        as,
-        { className: clsx(rootClassName, className), ...props },
-        children
-    );
-};
+);
 
 Text.displayName = COMPONENT_NAME;
 

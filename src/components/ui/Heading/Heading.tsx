@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
 
 export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -14,34 +14,27 @@ export type HeadingProps = {
     as?: HeadingTag;
     /** Custom root class for specialized styling */
     customRootClass?: string;
-    /** Additional class names to apply */
-    className?: string;
-    /** Content of the heading */
-    children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLHeadingElement>;
+} & React.ComponentPropsWithoutRef<'h1'>;
 
 /**
  * Renders a heading element with customizable tag and styling
  */
-const Heading = ({
+const Heading = React.forwardRef<React.ElementRef<'h1'>, HeadingProps>(({
     children,
     as = 'h1',
     customRootClass = '',
     className = '',
     ...props
-}: HeadingProps) => {
+}, ref) => {
     const rootClass = customClassSwitcher(customRootClass, as);
+    const Tag: HeadingTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as) ? as : 'h1';
 
-    // Check if the heading tag is valid
-    if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as)) {
-        as = 'h1';
-    }
-
-    return React.createElement(as, {
+    return React.createElement(Tag, {
         className: clsx(rootClass, className),
+        ref,
         ...props
     }, children);
-};
+});
 
 Heading.displayName = 'Heading';
 

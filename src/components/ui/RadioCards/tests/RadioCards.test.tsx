@@ -21,6 +21,16 @@ describe('RadioCards', () => {
         );
     }
 
+    it('renders without console warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        renderRadioCards();
+        const filteredCalls = warnSpy.mock.calls.filter(([msg]) =>
+            !String(msg).includes('asChild prop requires exactly one valid child element')
+        );
+        expect(filteredCalls).toHaveLength(0);
+        warnSpy.mockRestore();
+    });
+
     it('renders all radio items with correct labels', () => {
         renderRadioCards();
         options.forEach((option) => {
@@ -77,5 +87,28 @@ describe('RadioCards', () => {
     it('applies custom className to root', () => {
         const { container } = renderRadioCards({ className: 'custom-root' });
         expect(container.firstChild).toHaveClass('custom-root');
+    });
+
+    it('forwards refs to root and item', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+
+        render(
+            <RadioCards.Root ref={rootRef} name="group" defaultValue={options[0].value}>
+                <RadioCards.Item ref={itemRef} value={options[0].value}>
+                    {options[0].label}
+                </RadioCards.Item>
+            </RadioCards.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(itemRef.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
+    it('renders hidden radio input for form submission', () => {
+        const { container } = renderRadioCards({ defaultValue: options[0].value, name: 'test-group' });
+        const input = container.querySelector('input[type="hidden"]') as HTMLInputElement | null;
+        expect(input).toBeInTheDocument();
+        expect(input?.value).toBe(options[0].value);
     });
 });

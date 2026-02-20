@@ -16,6 +16,14 @@
             line-height: 1;
             cursor: pointer;
 
+
+            &:focus-visible{
+                background-color: var(--rad-ui-color-accent-100);
+                outline:2px solid var(--rad-ui-color-blue-950);
+                outline-offset: 2px;
+                border-radius: 1px;
+            }
+
             &.active{
                 color: var(--rad-ui-color-accent-950);
                 border-bottom:2px solid var(--rad-ui-color-accent-900);

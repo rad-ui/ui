@@ -1,5 +1,5 @@
-import React from 'react';
-import CheckboxGroupPrimitive, { CheckboxGroupPrimitiveProps } from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import CheckboxGroupPrimitive from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxCardsRootContext from '../context/CheckboxCardsRootContext';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
@@ -7,17 +7,15 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 
 const COMPONENT_NAME = 'CheckboxCards';
 
+export type CheckboxCardsRootElement = ElementRef<typeof CheckboxGroupPrimitive.Root>;
 export type CheckboxCardsRootProps = {
-    children: React.ReactNode;
-    className?: string
-    customRootClass?: string
-    color?: string
-    variant?: string
-    size?: string
-    name?: string
-}& CheckboxGroupPrimitiveProps.Root
+    customRootClass?: string;
+    color?: string;
+    variant?: string;
+    size?: string;
+} & ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Root>;
 
-const CheckboxCardsRoot = ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }: CheckboxCardsRootProps) => {
+const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = useCreateDataAttribute('checkbox-cards', { variant, size });
@@ -25,15 +23,16 @@ const CheckboxCardsRoot = ({ children, customRootClass = '', className = '', col
     const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
 
     return (
-
-        <CheckboxGroupPrimitive.Root className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
-            <CheckboxCardsRootContext.Provider value={{ rootClass }}>
+        <CheckboxCardsRootContext.Provider value={{ rootClass }}>
+            <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
 
                 {children}
 
-            </CheckboxCardsRootContext.Provider>
-        </CheckboxGroupPrimitive.Root>
+            </CheckboxGroupPrimitive.Root>
+        </CheckboxCardsRootContext.Provider>
     );
-};
+});
+
+CheckboxCardsRoot.displayName = COMPONENT_NAME;
 
 export default CheckboxCardsRoot;

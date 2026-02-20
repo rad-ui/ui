@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useContext } from 'react';
 import DataListContext from '../contexts/DataListContex';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
-const DataListLabel = ({ children, className = '', ...props }: { children: React.ReactNode, className?: string }) => {
+type DataListLabelElement = ElementRef<'dt'>;
+export type DataListLabelProps = ComponentPropsWithoutRef<'dt'>;
+
+const DataListLabel = forwardRef<DataListLabelElement, DataListLabelProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DataListContext);
-    return <dt className={clsx(`${rootClass}-label`, className)} {...props}>{children}</dt>;
-};
+    return <dt ref={ref} className={clsx(`${rootClass}-label`, className)} {...props}>{children}</dt>;
+});
+
+DataListLabel.displayName = 'DataListLabel';
 
 export default DataListLabel;

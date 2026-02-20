@@ -1,5 +1,6 @@
-import React from 'react';
-import { MenuComponentRoot } from './MenuPrimitiveRoot';
+import React, { forwardRef, useContext } from 'react';
+import { MenuComponentRoot, MenuPrimitiveRootElement, MenuPrimitiveRootProps } from './MenuPrimitiveRoot';
+import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 
 export type MenuPrimitiveSubProps = {
     children: React.ReactNode
@@ -7,14 +8,17 @@ export type MenuPrimitiveSubProps = {
     open?: boolean
     onOpenChange?: (open: boolean) => void
     defaultOpen?: boolean
-}
+} & MenuPrimitiveRootProps;
 
-const MenuPrimitiveSub = ({ children, className, open, onOpenChange, defaultOpen = false, ...props }: MenuPrimitiveSubProps) => {
+const MenuPrimitiveSub = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveSubProps>(({ children, className, open, onOpenChange, defaultOpen = false, ...props }, ref) => {
+    const context = useContext(MenuPrimitiveRootContext);
     return (
-        <MenuComponentRoot className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} {...props}>
+        <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} rtl={(context && context.rtl) || false} {...props}>
             {children}
         </MenuComponentRoot>
     );
-};
+});
+
+MenuPrimitiveSub.displayName = 'MenuPrimitiveSub';
 
 export default MenuPrimitiveSub;

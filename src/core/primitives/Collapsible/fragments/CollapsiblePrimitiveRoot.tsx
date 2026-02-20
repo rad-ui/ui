@@ -3,48 +3,39 @@ import Primitive from '~/core/primitives/Primitive';
 import { CollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 
-export type CollapsiblePrimitiveRootProps = {
-  /**
-   * Whether the collapsible is open by default (uncontrolled)
-   */
-  defaultOpen?: boolean;
-  /**
-   * Controls the open state (controlled)
-   */
-  open?: boolean;
-  /**
-   * Callback fired when the open state changes
-   */
-  onOpenChange?: (open: boolean) => void;
-  /**
-   * Content to be rendered inside the collapsible
-   * Should include CollapsiblePrimitive.Trigger and CollapsiblePrimitive.Content components,
-   * which will automatically connect to this root component via context
-   */
-  children?: React.ReactNode;
-  /**
-   * Disables the collapsible
-   */
-  disabled?: boolean;
-  /**
-   * CSS class name for custom styling
-   */
-  className?: string;
-  /**
-   * Duration of the height transition animation in milliseconds
-   */
-  transitionDuration?: number;
-  /**
-   * CSS timing function for the transition
-   */
-  transitionTimingFunction?: string;
-  /**
-   * Additional props to be spread on the root element
-   */
-  [key: string]: any;
-};
+type CollapsiblePrimitiveRootElement = React.ElementRef<typeof Primitive.div>;
+export type CollapsiblePrimitiveRootProps =
+    React.ComponentPropsWithoutRef<typeof Primitive.div> & {
+        /**
+         * Whether the collapsible is open by default (uncontrolled)
+         */
+        defaultOpen?: boolean;
+        /**
+         * Controls the open state (controlled)
+         */
+        open?: boolean;
+        /**
+         * Callback fired when the open state changes
+         */
+        onOpenChange?: (open: boolean) => void;
+        /**
+         * Disables the collapsible
+         */
+        disabled?: boolean;
+        /**
+         * Duration of the height transition animation in milliseconds
+         */
+        transitionDuration?: number;
+        /**
+         * CSS timing function for the transition
+         */
+        transitionTimingFunction?: string;
+    };
 
-const CollapsiblePrimitiveRoot = ({
+const CollapsiblePrimitiveRoot = React.forwardRef<
+    CollapsiblePrimitiveRootElement,
+    CollapsiblePrimitiveRootProps
+>(({
     children,
     defaultOpen = false,
     open,
@@ -53,7 +44,7 @@ const CollapsiblePrimitiveRoot = ({
     transitionDuration = 300,
     transitionTimingFunction = 'linear',
     ...props
-}: CollapsiblePrimitiveRootProps) => {
+}, forwardedRef) => {
     const contentId = useId();
 
     // Using the useControllableState hook to manage state
@@ -81,6 +72,7 @@ const CollapsiblePrimitiveRoot = ({
         >
             <Primitive.div
                 {...props}
+                ref={forwardedRef}
                 data-state={isOpen ? 'open' : 'closed'}
                 data-disabled={disabled ? '' : undefined}
             >
@@ -88,6 +80,8 @@ const CollapsiblePrimitiveRoot = ({
             </Primitive.div>
         </CollapsiblePrimitiveContext.Provider>
     );
-};
+});
+
+CollapsiblePrimitiveRoot.displayName = 'CollapsiblePrimitiveRoot';
 
 export default CollapsiblePrimitiveRoot;

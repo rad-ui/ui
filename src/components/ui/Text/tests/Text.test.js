@@ -87,4 +87,26 @@ describe('Text Component', () => {
         render(<Text as={true} >I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
+
+    test('forwards ref to the underlying element', () => {
+        const ref = React.createRef();
+        render(<Text ref={ref}>I am Text!</Text>);
+        expect(ref.current).not.toBeNull();
+        expect(ref.current.tagName).toBe('P');
+    });
+
+    test('passes through accessibility attributes', () => {
+        render(<Text aria-label='hidden text'>Hidden content</Text>);
+        expect(screen.getByLabelText('hidden text')).toBeInTheDocument();
+    });
+
+    test('renders without console warnings', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<Text>I am Text!</Text>);
+        expect(warn).not.toHaveBeenCalled();
+        expect(error).not.toHaveBeenCalled();
+        warn.mockRestore();
+        error.mockRestore();
+    });
 });

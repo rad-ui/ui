@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 export default {
     title: 'WIP/Select',
     component: Select
-};
+} as any;
 
 export const Basic = () => {
     return (
@@ -173,7 +173,6 @@ export const GroupExample = () => {
                     Select an option
                 </Select.Trigger>
                 <Select.Content>
-                    <Select.Search/>
                     <Select.Group>
                         <Select.Item value="g1option 1">g1Option 1</Select.Item>
                         <Select.Item value="g1option 2">g1Option 2</Select.Item>

@@ -135,4 +135,26 @@ describe('CheckboxGroup', () => {
         );
         warn.mockRestore();
     });
+
+    it('forwards ref to trigger', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(
+            <CheckboxGroup.Root name="fruits">
+                <CheckboxGroup.Label>
+                    <CheckboxGroup.Trigger value="apple" ref={ref}>
+                        <CheckboxGroup.Indicator />
+                    </CheckboxGroup.Trigger>
+          Apple
+                </CheckboxGroup.Label>
+            </CheckboxGroup.Root>
+        );
+        const checkbox = screen.getByRole('checkbox', { name: 'Apple' });
+        expect(ref.current).toBe(checkbox);
+        expect(warnSpy).not.toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
 });

@@ -9,12 +9,10 @@ const composeEventHandlers = <E extends React.SyntheticEvent>(
 ) => {
     // Returns a function that handles the event
     return function handleEvent(event: E) {
-        // If the original event handler is defined, call it
-        if (typeof originalEventHandler === 'function') {
-            originalEventHandler(event);
-        }
+        // Call the original handler if it exists
+        originalEventHandler?.(event);
 
-        // If the default prevented flag is false or the event is not prevented, call our event handler
+        // Only call our handler if default hasn't been prevented
         if (checkForDefaultPrevented === false || !event.defaultPrevented) {
             return ourEventHandler?.(event);
         }

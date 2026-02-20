@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextArea matches snapshot 1`] = `
+<div
+  class="rad-ui-text-area"
+  data-textarea-resize="both"
+>
+  <textarea
+    placeholder=""
+  >
+    content
+  </textarea>
+  content
+</div>
+`;

@@ -1,3 +1,4 @@
 import { customClassSwitcher } from './customClassSwitcher';
+import { composeRefs, mergeProps } from './utils/mergeProps';
 
-export { customClassSwitcher };
+export { customClassSwitcher, composeRefs, mergeProps };

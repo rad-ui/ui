@@ -1,15 +1,14 @@
 'use client';
 
 import React from 'react';
-import AvatarPrimitiveImage from '~/core/primitives/Avatar/fragments/AvatarPrimitiveImage';
+import AvatarPrimitiveImage, { AvatarRootImageProps } from '~/core/primitives/Avatar/fragments/AvatarPrimitiveImage';
 
-export type AvatarGroupAvatarProps = {
-    src: string;
-    alt: string;
-}
+export type AvatarGroupAvatarProps = AvatarRootImageProps;
 
-const AvatarGroupAvatar = ({ src, alt }: AvatarGroupAvatarProps) => {
-    return <AvatarPrimitiveImage src={src} alt={alt} />;
-};
+const AvatarGroupAvatar = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveImage>, AvatarGroupAvatarProps>(({ src, alt, ...props }, ref) => {
+    return <AvatarPrimitiveImage ref={ref} src={src} alt={alt} {...props} />;
+});
+
+AvatarGroupAvatar.displayName = 'AvatarGroupAvatar';
 
 export default AvatarGroupAvatar;

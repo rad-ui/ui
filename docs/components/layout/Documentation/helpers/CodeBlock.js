@@ -107,7 +107,7 @@ className={`language-${language} whitespace-pre-wrap`}
                 </>}
 
             </div>
-            <span className="absolute top-2 right-2">
+            <span className="absolute top-2 right-[20px]">
                 <TooltipWrapper label="Copy" placement="bottom">
                     <Copy content={copyContent} />
                 </TooltipWrapper>

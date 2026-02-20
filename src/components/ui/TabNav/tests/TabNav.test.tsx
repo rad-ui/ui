@@ -52,7 +52,8 @@ describe('TabNav', () => {
             </TabNav.Root>
         );
 
-        const root = screen.getByText('Tab 1').closest('div');
+        // Try to find the element with the custom class
+        const root = screen.getByText('Tab 1').closest(`.${customClass}-tab-nav`);
         expect(root).toHaveClass(`${customClass}-tab-nav`);
     });
 
@@ -82,5 +83,48 @@ describe('TabNav', () => {
         );
 
         expect(screen.getByText('Tab 2')).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('forwards refs to DOM elements', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const linkRef = React.createRef<HTMLAnchorElement>();
+
+        render(
+            <TabNav.Root ref={rootRef}>
+                <TabNav.Link ref={linkRef} value="tab1">Tab 1</TabNav.Link>
+            </TabNav.Root>
+        );
+
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(linkRef.current).toBeInstanceOf(HTMLAnchorElement);
+    });
+
+    it('renders without console warnings or errors', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        render(
+            <TabNav.Root>
+                <TabNav.Link value="tab1">Tab 1</TabNav.Link>
+            </TabNav.Root>
+        );
+
+        expect(warnSpy).not.toHaveBeenCalled();
+        expect(errorSpy).not.toHaveBeenCalled();
+
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
+
+    it('maintains accessibility attributes', () => {
+        render(
+            <TabNav.Root>
+                <TabNav.Link value="tab1">Tab 1</TabNav.Link>
+            </TabNav.Root>
+        );
+
+        const link = screen.getByText('Tab 1');
+        expect(link).toHaveAccessibleName('Tab 1');
+        expect(link).not.toHaveAttribute('aria-hidden');
     });
 });

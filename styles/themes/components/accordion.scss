@@ -1,56 +1,101 @@
-.rad-ui-accordion-root{
-    width: 100%;
-    border: 1px solid var(--rad-ui-color-gray-1000);
-    border-radius: 4px;
-    overflow: hidden;
-
-    .rad-ui-accordion-item {
-        &[data-disabled]{
-            opacity: 0.3;
-            pointer-events: none;
-            cursor: not-allowed !important;
-        }
-        
-        background-color: var(--rad-ui-color-gray-50);
-
-        // not last child
-        &:not(:last-child){
-            border-bottom: 1px solid var(--rad-ui-color-gray-1000);
-        }
-
-        
-        &:focus{
-            outline: none;
-            border: none;
-            color:black;
-        }
-
-        &:focus-within{
-            color: var(--rad-ui-color-gray-1000);
-        }
-
-        .rad-ui-accordion-trigger{
-            width: 100%;
-            text-align: left;
-            padding:16px;
-            font-size: 1em;
-            font-weight: 600;
-            color: var(--rad-ui-color-gray-800);
-            background-color: var(--rad-ui-color-accent-100);
-
-            &:focus{
-                outline: none;
-                color: var(--rad-ui-color-accent-1000);
-            
-            }
-        }
-
-        .rad-ui-accordion-content {
-            padding: 16px;
-            font-size: 1em;
-            background-color: var(--rad-ui-color-gray-100);
-            color: var(--rad-ui-color-gray-1000);
-            border-top: 1px solid var(--rad-ui-color-gray-1000);
-        }
+.rad-ui-accordion-root {
+  width: 100%;
+  
+  .rad-ui-accordion-item {
+    border-bottom: 1px solid var(--rad-ui-color-gray-200);
+    
+    &:first-child {
+      border-top: 1px solid var(--rad-ui-color-gray-200);
+      border-top-left-radius: 0.375rem; // rounded-md
+      border-top-right-radius: 0.375rem;
     }
+    
+    &:last-child {
+      border-bottom: 1px solid var(--rad-ui-color-gray-200);
+      border-bottom-left-radius: 0.375rem;
+      border-bottom-right-radius: 0.375rem;
+    }
+    
+    &:only-child {
+      border-radius: 0.375rem;
+    }
+    
+    &[data-disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    
+    .rad-ui-accordion-header {
+      display: flex;
+    }
+    
+    .rad-ui-accordion-trigger {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem; // py-4 px-4
+      font-size: 0.875rem; // text-sm
+      font-weight: 500; // font-medium
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: transparent;
+      color: var(--rad-ui-color-gray-950);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+      
+      &:focus-visible {
+        outline: 2px solid var(--rad-ui-color-gray-900);
+        outline-offset: 2px;
+      }
+      
+      &[aria-disabled="true"] {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+      
+      // Chevron icon styling - supports both class-based and direct SVG
+      svg,
+      .rad-ui-accordion-chevron {
+        height: 1rem; // h-4
+        width: 1rem; // w-4
+        flex-shrink: 0;
+        transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        color: var(--rad-ui-color-gray-500);
+      }
+      
+      // Rotate chevron when trigger's parent item is open (shadcn pattern)
+      &[data-state="open"] {
+        svg,
+        .rad-ui-accordion-chevron {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    
+    // Rotate chevron when item is open (alternative pattern for nested structure)
+    &[data-state="open"] {
+      .rad-ui-accordion-trigger {
+        svg,
+        .rad-ui-accordion-chevron {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    
+    .rad-ui-accordion-content {
+      overflow: hidden;
+      font-size: 0.875rem; // text-sm
+      color: var(--rad-ui-color-gray-700);
+      padding: 0 1rem 1rem; // pt-0 px-4 pb-4, matches trigger horizontal padding for alignment
+      
+      // Height animation is handled by CollapsiblePrimitiveContent via inline styles
+      // No CSS transitions/animations needed here to avoid conflicts
+    }
+  }
 }

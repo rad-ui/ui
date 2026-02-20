@@ -6,6 +6,7 @@ import MenubarItem from './fragments/MenubarItem';
 import MenubarSub from './fragments/MenubarSub';
 import MenubarSubTrigger from './fragments/MenubarSubTrigger';
 import MenubarMenu from './fragments/MenubarMenu';
+import MenubarSeparator from './fragments/MenubarSeparator';
 
 const Menubar = () => {
     console.warn('Direct usage of Menubar is not supported. Please use Menubar.Root, Menubar.Item instead.');
@@ -20,5 +21,6 @@ Menubar.Portal = MenubarPortal;
 Menubar.Item = MenubarItem;
 Menubar.Sub = MenubarSub;
 Menubar.SubTrigger = MenubarSubTrigger;
+Menubar.Separator = MenubarSeparator;
 
 export default Menubar;

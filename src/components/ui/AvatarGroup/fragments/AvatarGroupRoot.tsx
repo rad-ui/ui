@@ -1,30 +1,31 @@
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core/customClassSwitcher';
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
 import { useCreateDataAttribute, useComposeAttributes } from '~/core/hooks/createDataAttribute';
-export type AvatarGroupRootProps = {
+
+export type AvatarGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string | '';
     size?: string;
     variant?: string;
-    children: React.ReactNode;
-    className?: string;
-}
+};
 
 const COMPONENT_NAME = 'AvatarGroup';
 
-const AvatarGroupRoot = ({ customRootClass = '', size = '', variant = '', children, className = '', ...props }: AvatarGroupRootProps) => {
+const AvatarGroupRoot = React.forwardRef<HTMLDivElement, AvatarGroupRootProps>(({ customRootClass = '', size = '', variant = '', children, className = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
     const composedAttributes = useComposeAttributes(dataAttributes());
 
     return (
         <AvatarGroupContext.Provider value={{ size, variant, rootClass }}>
-            <div className={clsx(rootClass, className)} {...composedAttributes()} {...props}>
+            <div ref={ref} className={clsx(rootClass, className)} {...composedAttributes()} {...props}>
                 {children}
             </div>
         </AvatarGroupContext.Provider>
     );
-};
+});
+
+AvatarGroupRoot.displayName = COMPONENT_NAME;
 
 export default AvatarGroupRoot;

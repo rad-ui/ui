@@ -2,16 +2,27 @@
 import React from 'react';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-export type AlertDialogPortalProps = {
-  children: React.ReactNode;
+type DialogPrimitivePortalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Portal>;
+
+export type AlertDialogPortalProps = DialogPrimitivePortalProps & {
+    container?: Element | null;
+    forceMount?: boolean;
+    keepMounted?: boolean;
 };
 
-const AlertDialogPortal = ({ children }: AlertDialogPortalProps) => {
+const AlertDialogPortal = ({
+    children,
+    ...props
+}: AlertDialogPortalProps) => {
     return (
-        <DialogPrimitive.Portal>
+        <DialogPrimitive.Portal
+            {...props}
+        >
             {children}
         </DialogPrimitive.Portal>
     );
 };
+
+AlertDialogPortal.displayName = 'AlertDialogPortal';
 
 export default AlertDialogPortal;

@@ -1,14 +1,20 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TableCell';
 
-const TableCell = ({ children, className = 'cell', ...props }:any) => {
-    return <td className={clsx(className)} {...props} >
-        {children}
-    </td>;
-};
+type TableCellProps = React.ComponentPropsWithoutRef<'td'>;
+
+const TableCell = React.forwardRef<React.ElementRef<'td'>, TableCellProps>(
+    ({ children, className = 'cell', ...props }, ref) => {
+        return (
+            <td ref={ref} className={clsx(className)} {...props}>
+                {children}
+            </td>
+        );
+    }
+);
 
 TableCell.displayName = COMPONENT_NAME;
 

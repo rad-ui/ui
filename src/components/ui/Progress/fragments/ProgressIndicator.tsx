@@ -1,15 +1,24 @@
 'use client';
-import React, { useContext } from 'react';
+import React, {
+    useContext,
+    forwardRef,
+    ElementRef,
+    ComponentPropsWithoutRef
+} from 'react';
 
 import { clsx } from 'clsx';
 import { ProgressContext } from '../contexts/ProgressContext';
 import Primitive from '~/core/primitives/Primitive';
 
-interface IndicatorProps {
-    asChild?: boolean;
-}
+export type ProgressIndicatorElement = ElementRef<typeof Primitive.div>;
+export type ProgressIndicatorProps = ComponentPropsWithoutRef<
+    typeof Primitive.div
+>;
 
-export default function ProgressIndicator({ asChild }: IndicatorProps) {
+const ProgressIndicator = forwardRef<
+    ProgressIndicatorElement,
+    ProgressIndicatorProps
+>(({ className, style, ...props }, ref) => {
     const { value, minValue, maxValue, rootClass, state } = useContext(ProgressContext);
     // Ensure value stays within bounds in production, use 0 if value is null
     const boundedValue = Math.min(Math.max(value ?? 0, minValue), maxValue);
@@ -17,13 +26,13 @@ export default function ProgressIndicator({ asChild }: IndicatorProps) {
     // Calculate the percentage of completion
     const percentage = ((boundedValue - minValue) / (maxValue - minValue)) * 100;
 
-    const data_attributes: Record<string, string> = {};
+    const { asChild, ...rest } = props;
 
     return (
         <Primitive.div
             role="progressbar"
-            className={clsx(`${rootClass}-indicator`)}
-            style={{ transform: `translateX(-${100 - percentage}%)` }}
+            className={clsx(`${rootClass}-indicator`, className)}
+            style={{ transform: `translateX(-${100 - percentage}%)`, ...style }}
             aria-valuenow={boundedValue}
             aria-valuemax={maxValue}
             aria-valuemin={minValue}
@@ -32,9 +41,12 @@ export default function ProgressIndicator({ asChild }: IndicatorProps) {
             data-max={maxValue}
             data-min={minValue}
             asChild={asChild}
-            {...data_attributes}
-        >
-
-        </Primitive.div>
+            ref={ref}
+            {...rest}
+        />
     );
-}
+});
+
+ProgressIndicator.displayName = 'ProgressIndicator';
+
+export default ProgressIndicator;

@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useRef, useState, useId } from 'react';
+import React, { useContext, useEffect, useState, useId } from 'react';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
-export type DisclosureItemProps = {
-    children: React.ReactNode;
-    className?: string;
+export type DisclosureItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value: number;
-}
+};
 
-const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps) => {
-    const disclosureItemRef = useRef<HTMLDivElement>(null);
+const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemProps>(({ children, className = '', value, ...props }, forwardedRef) => {
     const { activeItem, rootClass } = useContext(DisclosureContext);
 
     const [itemValue, setItemValue] = useState<number>(value);
@@ -36,8 +33,9 @@ const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps)
                 asChild
             >
                 <div
+                    {...props}
                     className={clsx(`${rootClass}-item`, className)}
-                    ref={disclosureItemRef}
+                    ref={forwardedRef}
                     data-state={isOpen ? 'open' : 'closed'}
                     id={`disclosure-data-item-${id}`}
                     role="region"
@@ -50,6 +48,8 @@ const DisclosureItem = ({ children, className = '', value }:DisclosureItemProps)
 
         </DisclosureItemContext.Provider>
     );
-};
+});
+
+DisclosureItem.displayName = 'DisclosureItem';
 
 export default DisclosureItem;
