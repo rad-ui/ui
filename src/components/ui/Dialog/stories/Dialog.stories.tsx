@@ -13,7 +13,7 @@ const CloseIcon = () => {
 export default {
     title: 'WIP/Dialog',
     component: Dialog,
-    render: (args:any) => {
+    render: (args: any) => {
         return (
             <SandboxEditor>
                 <Dialog.Root>
@@ -44,7 +44,7 @@ export default {
             </SandboxEditor>
         );
     }
-};
+} as any;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = {

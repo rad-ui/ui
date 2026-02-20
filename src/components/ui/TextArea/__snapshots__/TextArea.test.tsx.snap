@@ -6,7 +6,7 @@ exports[`TextArea matches snapshot 1`] = `
   data-textarea-resize="both"
 >
   <textarea
-    placeholder="enter text"
+    placeholder=""
   >
     content
   </textarea>

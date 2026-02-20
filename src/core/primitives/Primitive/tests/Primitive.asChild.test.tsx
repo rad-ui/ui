@@ -38,6 +38,26 @@ describe('Primitive asChild', () => {
         expect(ref.current).toBe(button);
     });
 
+    test('merges className and composes event handlers for asChild', async() => {
+        const user = userEvent.setup();
+        const parentClick = jest.fn();
+        const childClick = jest.fn();
+
+        render(
+            <Primitive.button asChild className="parent-class" onClick={parentClick}>
+                <button className="child-class" onClick={childClick}>Trigger</button>
+            </Primitive.button>
+        );
+
+        const button = screen.getByRole('button');
+        await user.click(button);
+
+        expect(button).toHaveClass('parent-class');
+        expect(button).toHaveClass('child-class');
+        expect(childClick).toHaveBeenCalledTimes(1);
+        expect(parentClick).toHaveBeenCalledTimes(1);
+    });
+
     test('supports custom child elements without warnings', () => {
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const ref = React.createRef<HTMLAnchorElement>();
