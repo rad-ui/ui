@@ -13,9 +13,9 @@ export type SliderRootProps = {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;
-    defaultValue?: number;
-    value?: number;
-    onValueChange?: (value: number) => void;
+    defaultValue?: number | number[];
+    value?: number | number[];
+    onValueChange?: (value: number | number[]) => void;
     min?: number;
     max?: number;
     step?: number;
@@ -25,13 +25,13 @@ export type SliderRootProps = {
     pageStepMultiplier?: number;
     showStepMarks?: boolean;
     formatValue?: (value: number) => string;
-} & ComponentPropsWithoutRef<'div'>;
+} & Omit<ComponentPropsWithoutRef<'div'>, 'value' | 'defaultValue' | 'onValueChange'>;
 
 const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     children,
     className = '',
     customRootClass = '',
-    defaultValue = 0,
+    defaultValue,
     value: valueProp,
     onValueChange,
     min = 0,
@@ -47,14 +47,29 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
 }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const [value, setValue] = useControllableState<number>(valueProp, defaultValue, onValueChange);
+    const [value, setValue] = useControllableState<number | number[]>(
+        valueProp,
+        defaultValue ?? (Array.isArray(valueProp) ? valueProp : 0),
+        onValueChange
+    );
     const [isDragging, setDragging] = React.useState(false);
-    const lastUpdateTime = React.useRef(0);
+    const activeThumbIndexRef = React.useRef<number | null>(null);
+    const internalRef = React.useRef<HTMLDivElement>(null);
+    const mergedRef = React.useMemo(() => {
+        return (node: HTMLDivElement | null) => {
+            (internalRef as any).current = node;
+            if (typeof ref === 'function') ref(node);
+            else if (ref) (ref as any).current = node;
+        };
+    }, [ref]);
 
     const clamp = (val: number) => Math.min(max, Math.max(min, val));
 
-    const setFromPosition = (e: React.PointerEvent<HTMLDivElement>) => {
-        const rect = e.currentTarget.getBoundingClientRect();
+    const setFromPosition = (e: React.PointerEvent<HTMLDivElement> | PointerEvent) => {
+        const rootElement = internalRef.current;
+        if (!rootElement) return;
+
+        const rect = rootElement.getBoundingClientRect();
         let relative: number;
 
         if (orientation === 'vertical') {
@@ -67,44 +82,67 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         // Snap to step
         const steppedValue = Math.round(rawValue / step) * step;
         const newValue = clamp(steppedValue);
-        setValue(newValue);
+
+        if (Array.isArray(value)) {
+            let indexToUpdate = activeThumbIndexRef.current;
+
+            // If no active thumb (e.g. click on track), find the nearest one
+            if (indexToUpdate === null) {
+                const distances = value.map(v => Math.abs(v - newValue));
+                indexToUpdate = distances.indexOf(Math.min(...distances));
+                activeThumbIndexRef.current = indexToUpdate;
+            }
+
+            const nextValue = value.map((currentValue, origIndex) => ({
+                value: currentValue,
+                origIndex
+            }));
+            nextValue[indexToUpdate].value = newValue;
+            // Keep values sorted for range logic
+            nextValue.sort((a, b) => a.value - b.value);
+
+            // Update the active thumb ref to the new sorted index
+            activeThumbIndexRef.current = nextValue.findIndex(item => item.origIndex === indexToUpdate);
+
+            setValue(nextValue.map(item => item.value));
+        } else {
+            setValue(newValue);
+        }
     };
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
         if (disabled) return;
         e.stopPropagation();
+
+        // Check if we clicked a thumb
+        const target = e.target as HTMLElement;
+        const thumbElement = target.closest(`.${rootClass}-thumb`) as HTMLElement | null;
+
+        if (thumbElement && Array.isArray(value)) {
+            const index = parseInt(thumbElement.getAttribute('data-index') || '0', 10);
+            activeThumbIndexRef.current = index;
+            thumbElement.focus();
+        } else {
+            activeThumbIndexRef.current = null;
+            if (!Array.isArray(value)) {
+                const singleThumb = internalRef.current?.querySelector<HTMLElement>(`.${rootClass}-thumb`);
+                singleThumb?.focus();
+            } else {
+                internalRef.current?.focus();
+            }
+        }
+
         setDragging(true);
         setFromPosition(e);
 
-        // Add global listeners immediately for smooth dragging
         const handleGlobalPointerMove = (e: PointerEvent) => {
             e.preventDefault();
-            const rootElement = document.querySelector(`[data-slider-root="${rootClass}"]`) as HTMLDivElement;
-            if (!rootElement) return;
-
-            const rect = rootElement.getBoundingClientRect();
-            let relative: number;
-
-            if (orientation === 'vertical') {
-                relative = (rect.bottom - e.clientY) / rect.height;
-            } else {
-                relative = (e.clientX - rect.left) / rect.width;
-            }
-
-            const rawValue = min + relative * (max - min);
-            const steppedValue = Math.round(rawValue / step) * step;
-            const newValue = clamp(steppedValue);
-
-            // Throttle updates to 60fps for smooth dragging
-            const now = performance.now();
-            if (now - lastUpdateTime.current > 16) { // ~60fps
-                setValue(newValue);
-                lastUpdateTime.current = now;
-            }
+            setFromPosition(e);
         };
 
         const handleGlobalPointerUp = () => {
             setDragging(false);
+            activeThumbIndexRef.current = null;
             document.removeEventListener('pointermove', handleGlobalPointerMove);
             document.removeEventListener('pointerup', handleGlobalPointerUp);
         };
@@ -121,6 +159,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
 
     const handlePointerUp = () => {
         setDragging(false);
+        activeThumbIndexRef.current = null;
     };
 
     const contextValues = {
@@ -143,7 +182,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     return (
         <SliderContext.Provider value={contextValues}>
             <div
-                ref={ref}
+                ref={mergedRef}
                 className={clsx(rootClass, className)}
                 data-slider-root={rootClass}
                 data-disabled={disabled}

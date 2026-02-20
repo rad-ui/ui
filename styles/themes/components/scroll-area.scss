@@ -1,69 +1,74 @@
 .rad-ui-scroll-area {
-    overflow: hidden;
-    height: 100%;
     width: 100%;
+    height: 100%;
+    overflow: hidden;
     position: relative;
 
     .rad-ui-scroll-area-viewport {
-        overflow-y: scroll;
-        position: relative;
-        height: 100%;
         width: 100%;
-
-        /* Add these to hide native scrollbars: */
+        height: 100%;
+        border-radius: inherit;
+        overflow: auto;
+        
+        // Hide scrollbars
         scrollbar-width: none;
-
-        /* Firefox */
         -ms-overflow-style: none;
 
-        /* IE/Edge */
         &::-webkit-scrollbar {
             display: none;
         }
-
-        /* Webkit browsers */
-
-        border-radius: 6px;
-
     }
 
     .rad-ui-scroll-area-scrollbar {
-        /* Position it on the right side */
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 12px;
-        height: 100%;
-        background: var(--rad-ui-color-gray-200);
+        display: flex;
+        user-select: none;
+        touch-action: none;
+        padding: 2px;
+        background: transparent;
+        transition: background 160ms ease-out;
+        z-index: 10;
 
-        /* Track color */
-        border-radius: 6px;
+        &[data-orientation="vertical"] {
+            width: 10px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        &[data-orientation="horizontal"] {
+            flex-direction: column;
+            height: 10px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        &:hover {
+            background: var(--rad-ui-color-gray-100);
+        }
 
         .rad-ui-scroll-area-thumb {
+            flex: 1;
+            background: var(--rad-ui-color-gray-400);
+            border-radius: 9999px; // fully rounded caps
             position: relative;
-    
-            /* Make it a thin rectangle */
-            width: 100%;
-            height: 20px;
-            background: var(--rad-ui-color-gray-600);
-    
-            /* Thumb color */
-            border-radius: 6px;
-        }
-
-
-        &:hover{
-            background: var(--rad-ui-color-gray-300);
-
-            .rad-ui-scroll-area-thumb {
-                background: var(--rad-ui-color-gray-800);
+            
+            &::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 100%;
+                min-width: 44px;
+                min-height: 44px;
             }
         }
-
-
-
-
+        
+        &:hover .rad-ui-scroll-area-thumb {
+            background: var(--rad-ui-color-gray-500);
+        }
     }
-
-
 }

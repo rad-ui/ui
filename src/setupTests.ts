@@ -39,7 +39,30 @@ console.warn = (...args: unknown[]) => {
     if (firstArg.includes('asChild prop requires exactly one valid child element')) {
         return;
     }
+    if (firstArg.includes('Direct usage of') && firstArg.includes('is not supported')) {
+        return;
+    }
+    if (firstArg.includes('Focus trap assertions skipped in jsdom')) {
+        return;
+    }
     originalWarn(...(args as Parameters<typeof originalWarn>));
 };
 
 export const ACCESSIBILITY_TEST_TAGS = ['wcag21a', 'wcag21aa'];
+
+// Global Polyfills for jsdom environment
+if (typeof window !== 'undefined') {
+    // ResizeObserver
+    global.ResizeObserver = class ResizeObserver {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+    };
+
+    // PointerEvent
+    // @ts-ignore
+    if (!window.PointerEvent) {
+        // @ts-ignore
+        window.PointerEvent = MouseEvent;
+    }
+}
