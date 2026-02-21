@@ -15,20 +15,34 @@ export type PopoverRootProps = React.ComponentPropsWithoutRef<'div'> & {
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
     placement?: Placement;
+    sideOffset?: number;
 }
 
 export type PopoverRootElement = React.ElementRef<'div'>;
 
-const PopoverRoot = React.forwardRef<PopoverRootElement, PopoverRootProps>(({ children, open, defaultOpen = false, onOpenChange, placement = 'bottom', ...props }, ref) => {
+const PopoverRoot = React.forwardRef<PopoverRootElement, PopoverRootProps>(({ children, open, defaultOpen = false, onOpenChange, placement = 'bottom', sideOffset = 4, ...props }, ref) => {
     const arrowRef = useRef<SVGSVGElement>(null);
 
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
+    const shouldRestoreFocusOnClose = useRef(false);
+    const previouslyFocused = useRef<HTMLElement | null>(null);
 
     const data = useFloating({
         placement,
         open: isOpen,
-        onOpenChange: setIsOpen,
-        middleware: [offset(4), flip(), shift(), arrow({ element: arrowRef })],
+        onOpenChange: (nextOpen, _event, reason) => {
+            shouldRestoreFocusOnClose.current = !nextOpen && reason === 'escape-key';
+            setIsOpen(nextOpen);
+        },
+        middleware: [
+            offset(() => {
+                const arrowHeight = arrowRef.current?.getBoundingClientRect().height ?? 0;
+                return sideOffset + arrowHeight;
+            }),
+            flip(),
+            shift(),
+            arrow({ element: arrowRef })
+        ],
         whileElementsMounted: autoUpdate
     });
 
@@ -40,8 +54,6 @@ const PopoverRoot = React.forwardRef<PopoverRootElement, PopoverRootProps>(({ ch
 
     const interactions = useInteractions([click, dismiss, role]);
 
-    const previouslyFocused = useRef<HTMLElement | null>(null);
-
     useLayoutEffect(() => {
         if (isOpen) {
             previouslyFocused.current = document.activeElement as HTMLElement;
@@ -49,8 +61,12 @@ const PopoverRoot = React.forwardRef<PopoverRootElement, PopoverRootProps>(({ ch
     }, [isOpen]);
 
     useLayoutEffect(() => {
-        if (!isOpen && previouslyFocused.current) {
+        if (!isOpen && shouldRestoreFocusOnClose.current && previouslyFocused.current) {
             previouslyFocused.current.focus({ preventScroll: true });
+        }
+
+        if (!isOpen) {
+            shouldRestoreFocusOnClose.current = false;
         }
     }, [isOpen]);
 

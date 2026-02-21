@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { useMergeRefs } from '@floating-ui/react';
-import PopoverContext from '../context/PopoverContext';
+import { usePopoverContext } from '../context/PopoverContext';
 
 export type PopoverTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
 
@@ -11,14 +11,10 @@ export interface PopoverTriggerProps extends React.ComponentPropsWithoutRef<type
 }
 
 const PopoverTrigger = React.forwardRef<PopoverTriggerElement, PopoverTriggerProps>(({ asChild, children, ...props }, ref) => {
-    const popover = useContext(PopoverContext);
-    if (!popover) {
-        throw new Error('PopoverTrigger must be used within a PopoverRoot component');
-    }
+    const popover = usePopoverContext();
     const { open, interactions, context } = popover;
     const { getReferenceProps } = interactions;
-    const childrenRef = (children as any).ref;
-    const mergedRef = useMergeRefs([context.refs.setReference, ref, childrenRef]);
+    const mergedRef = useMergeRefs([context.refs.setReference, ref]);
     return (
         <ButtonPrimitive
             asChild={asChild}

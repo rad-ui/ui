@@ -1,18 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { FloatingArrow, useMergeRefs } from '@floating-ui/react';
-import PopoverContext from '../context/PopoverContext';
+import { usePopoverContext } from '../context/PopoverContext';
 import clsx from 'clsx';
 
 export type PopoverArrowElement = React.ElementRef<typeof FloatingArrow>;
 export interface PopoverArrowProps extends Omit<React.ComponentPropsWithoutRef<typeof FloatingArrow>, 'context'> {}
 
 const PopoverArrow = React.forwardRef<PopoverArrowElement, PopoverArrowProps>((props, ref) => {
-    const popover = useContext(PopoverContext);
-    if (!popover) {
-        throw new Error('PopoverArrow must be used within a PopoverRoot component');
-    }
+    const popover = usePopoverContext();
     const mergedRef = useMergeRefs([popover.arrowRef, ref]);
-    return <FloatingArrow ref={mergedRef} context={popover.context} className={clsx('rad-ui-popover-arrow', props.className)} {...props} />;
+    const { className, ...rest } = props;
+    return <FloatingArrow ref={mergedRef} context={popover.context} {...rest} className={clsx('rad-ui-popover-arrow', className)} />;
 });
 
 PopoverArrow.displayName = 'PopoverArrow';

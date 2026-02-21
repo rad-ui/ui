@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import Popover from '../Popover';
 
 describe('Popover', () => {
-    test('renders trigger and toggles content on click', async () => {
+    test('renders trigger and toggles content on click', async() => {
         render(
             <Popover.Root>
                 <Popover.Trigger>Trigger</Popover.Trigger>
@@ -22,7 +22,7 @@ describe('Popover', () => {
         expect(screen.queryByText('Content')).toBeNull();
     });
 
-    test('forwards refs to subcomponents', async () => {
+    test('forwards refs to subcomponents', async() => {
         const rootRef = React.createRef<HTMLDivElement>();
         const triggerRef = React.createRef<HTMLButtonElement>();
         const contentRef = React.createRef<HTMLDivElement>();
@@ -41,5 +41,20 @@ describe('Popover', () => {
         expect(contentRef.current).toBeNull();
         await userEvent.click(screen.getByText('Trigger'));
         expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
+    });
+
+    test('forceMount keeps content mounted when closed', () => {
+        render(
+            <Popover.Root>
+                <Popover.Trigger>Trigger</Popover.Trigger>
+                <Popover.Content forceMount>
+                    <div>Persistent Content</div>
+                </Popover.Content>
+            </Popover.Root>
+        );
+
+        const content = screen.getByText('Persistent Content').closest('[data-state]') as HTMLElement;
+        expect(content).toHaveAttribute('data-state', 'closed');
+        expect(content).toHaveAttribute('aria-hidden', 'true');
     });
 });
