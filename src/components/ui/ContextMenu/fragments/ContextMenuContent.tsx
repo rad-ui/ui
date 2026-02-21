@@ -12,7 +12,7 @@ export type ContextMenuContentProps = {
 const ContextMenuContent = forwardRef<ContextMenuContentElement, ContextMenuContentProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(ContextMenuContext);
     if (!context) {
-        console.log('ContextMenuContent should be used in the ContextMenuRoot');
+        console.warn('ContextMenuContent should be used in the ContextMenuRoot');
         return null;
     }
     const { rootClass } = context;

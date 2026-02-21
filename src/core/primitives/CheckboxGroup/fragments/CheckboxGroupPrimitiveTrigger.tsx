@@ -30,27 +30,42 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
         }
     };
 
+    const role = 'checkbox';
+    const ariaRequired = required || groupRequired;
+    const isDisabled = disabled || groupDisabled;
+    const { role: _roleProp, ...triggerProps } = props;
+
     return (
         <div>
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
-                <RovingFocusGroup.Item>
-                    <button
-                        ref={ref}
-                        role="checkbox"
-                        type="button"
-                        onClick={handleClick}
-                        className={className}
-                        aria-checked={isChecked}
-                        disabled={disabled || groupDisabled}
-                        aria-required={required || groupRequired}
-                        {...props}
-                    >
+                <RovingFocusGroup.Item
+                    ref={ref}
+                    onClick={handleClick}
+                    className={className}
+                    role={role}
+                    aria-checked={isChecked}
+                    aria-required={ariaRequired}
+                    aria-disabled={isDisabled || undefined}
+                    disabled={isDisabled}
+                    {...triggerProps}
+                >
+                    <button type="button" disabled={isDisabled}>
                         {children}
                     </button>
                 </RovingFocusGroup.Item>
             </CheckboxGroupPrimitiveTriggerContext.Provider>
 
-            <input type="checkbox" checked={isChecked} name={name} value={value} style={{ display: 'none' }} required={required || groupRequired} disabled={disabled || groupDisabled} readOnly />
+            <input
+                type="checkbox"
+                checked={isChecked}
+                name={name}
+                value={value}
+                style={{ display: 'none' }}
+                required={ariaRequired}
+                disabled={isDisabled}
+                aria-hidden="true"
+                readOnly
+            />
 
         </div>
     );

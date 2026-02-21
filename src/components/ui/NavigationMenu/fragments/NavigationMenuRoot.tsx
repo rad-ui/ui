@@ -50,4 +50,3 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
 NavigationMenuRoot.displayName = COMPONENT_NAME;
 
 export default NavigationMenuRoot;
-

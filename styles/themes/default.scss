@@ -44,54 +44,22 @@
 @use "components/context-menu";
 @use "components/menubar";
 @use "components/splitter";
+@use "components/toolbar";
+@use "components/steps";
+@use "components/minimap";
+@use "components/combobox";
+@use "components/tooltip";
 
 // import .css file
 @use "../cssTokens/base.tokens";
 
-
-
-
 // button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
 //     outline: 1px solid var(--rad-ui-color-accent-300);
 //     outline-style:groove;
-
 //     /* outline:0 none; */
 // }
 
 ::selection{
     background-color: var(--rad-ui-color-accent-300);
     color: var(--rad-ui-color-accent-950);
-
-}
-
-
-
-
-.rad-ui-tooltip{
-    
-}
-
-.rad-ui-tooltip-reference-element{
-
-}
-
-.rad-ui-tooltip-floating-element{
-    background-color: var(--rad-ui-color-gray-1000);
-    color: var(--rad-ui-color-gray-100);
-    font-size: 0.875rem;
-    line-height: 1;
-    padding: 6px 10px;
-    border-radius: 4px;
-    box-shadow: 0 10px 38px -10px rgba(0, 0, 0, 0.35),
-                0 10px 20px -15px rgba(0, 0, 0, 0.2);
-}
-
-.rad-ui-arrow{
-    fill: var(--rad-ui-color-gray-1000);
-}
-
-
-
-.rad-ui-popper{
-    // max-width: calc(100vw - 10px);
 }

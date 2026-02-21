@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
 

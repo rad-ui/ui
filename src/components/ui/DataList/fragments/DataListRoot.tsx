@@ -1,7 +1,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import DataListContext from '../contexts/DataListContex';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'DataList';
 

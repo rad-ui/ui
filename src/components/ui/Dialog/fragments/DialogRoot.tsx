@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 
 import { DialogContext } from '../context/DialogContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Dialog';

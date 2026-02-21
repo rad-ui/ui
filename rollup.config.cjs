@@ -27,7 +27,10 @@ const components = getComponentDirectories();
 const typescriptPluginInstance = typescript({
     tsconfig: './tsconfig.json',
     sourceMap: false,
-    outDir: 'dist/temp-cleanup' // Match Rollup's output directory
+    outDir: 'dist/temp-cleanup', // Match Rollup's output directory
+    // Storybook stories are only for interactive docs and testing; excluding them
+    // keeps the published package lean and avoids unnecessary build work.
+    exclude: ['**/*.stories.*']
 });
 const aliasPluginInstance = alias({
     entries: [

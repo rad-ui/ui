@@ -5,7 +5,7 @@ import axe from 'axe-core';
 import Select from '../Select';
 
 describe('Select full behavior', () => {
-    test('keyboard navigation and selection with data-state', async () => {
+    test('keyboard navigation and selection with data-state', async() => {
         render(
             <Select.Root>
                 <Select.Trigger>choose</Select.Trigger>
@@ -38,8 +38,7 @@ describe('Select full behavior', () => {
         expect(trigger).toHaveTextContent('banana');
     });
 
-
-    test('form submit includes value and disabled options not selectable', async () => {
+    test('form submit includes value and disabled options not selectable', async() => {
         let submittedValue: FormDataEntryValue | null = null;
         const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -74,7 +73,7 @@ describe('Select full behavior', () => {
         expect(submittedValue).toBe('apple');
     });
 
-    test('controlled and uncontrolled values work', async () => {
+    test('controlled and uncontrolled values work', async() => {
         function Controlled() {
             const [value, setValue] = React.useState('apple');
             return (
@@ -119,7 +118,7 @@ describe('Select full behavior', () => {
         expect(trigger2).toHaveTextContent('grape');
     });
 
-    test('portal container renders and focus returns to trigger', async () => {
+    test('portal container renders and focus returns to trigger', async() => {
         const container = document.createElement('div');
         document.body.appendChild(container);
         render(
@@ -142,7 +141,7 @@ describe('Select full behavior', () => {
         expect(document.activeElement).toBe(trigger);
     });
 
-    test('axe: no violations and aria attributes set', async () => {
+    test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>
                 <label id="label">Label</label>
@@ -167,7 +166,7 @@ describe('Select full behavior', () => {
         expect(trigger).toHaveAttribute('aria-labelledby', 'label');
     });
 
-    test('asChild trigger preserves semantics', async () => {
+    test('asChild trigger preserves semantics', async() => {
         const childRef = React.createRef<HTMLSpanElement>();
         render(
             <Select.Root>
@@ -191,7 +190,7 @@ describe('Select full behavior', () => {
         expect(childRef.current).toBe(trigger);
     });
 
-    test('disabled trigger does not open', async () => {
+    test('disabled trigger does not open', async() => {
         render(
             <Select.Root>
                 <Select.Trigger disabled>disabled</Select.Trigger>

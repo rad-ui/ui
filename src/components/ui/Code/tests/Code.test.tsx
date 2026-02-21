@@ -6,7 +6,7 @@ describe('Code Component', () => {
     it('renders content accessible to screen readers', () => {
         render(<Code>console.log('Hello world!');</Code>);
 
-        const codeElement = screen.getByText("console.log('Hello world!');");
+        const codeElement = screen.getByText('console.log(\'Hello world!\');');
         expect(codeElement).toBeInTheDocument();
         expect(codeElement.tagName).toBe('CODE');
         expect(codeElement).not.toHaveAttribute('aria-hidden');

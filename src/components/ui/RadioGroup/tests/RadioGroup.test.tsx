@@ -36,7 +36,6 @@ describe('RadioGroup (fragments)', () => {
         });
     });
 
-
     it('selects the correct radio on click (uncontrolled)', () => {
         render(<StoryRadioGroup defaultValue="css" name="test-group" />);
         const itemHtml = screen.getByTestId('item-html');

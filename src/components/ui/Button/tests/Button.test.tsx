@@ -68,7 +68,7 @@ describe('Button', () => {
         warnSpy.mockRestore();
     });
 
-    test('disabled suppresses clicks and sets data-disabled', async () => {
+    test('disabled suppresses clicks and sets data-disabled', async() => {
         const onClick = jest.fn();
         render(<Button disabled onClick={onClick}>disabled</Button>);
         const btn = screen.getByRole('button');
@@ -77,7 +77,7 @@ describe('Button', () => {
         expect(btn).toHaveAttribute('data-disabled', '');
     });
 
-    test('form submit and reset work when type is set', async () => {
+    test('form submit and reset work when type is set', async() => {
         const user = userEvent.setup();
         const handleSubmit = jest.fn((e) => e.preventDefault());
         render(
@@ -98,13 +98,13 @@ describe('Button', () => {
         expect(input).toHaveValue('initial');
     });
 
-    test('axe: no violations', async () => {
+    test('axe: no violations', async() => {
         const { container } = render(<Button>axe</Button>);
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });
 
-    test('works in RTL layouts', async () => {
+    test('works in RTL layouts', async() => {
         const user = userEvent.setup();
         const onClick = jest.fn();
         render(

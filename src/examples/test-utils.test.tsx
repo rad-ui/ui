@@ -12,7 +12,7 @@ function Example() {
     );
 }
 
-test('increment via keyboard and has no axe violations', async () => {
+test('increment via keyboard and has no axe violations', async() => {
     const { getByRole, getByText } = render(<Example />);
     const user = keyboard();
     await user.tab();

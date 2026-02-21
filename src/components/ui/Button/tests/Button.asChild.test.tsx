@@ -34,7 +34,7 @@ describe('Button asChild', () => {
         expect(button).toHaveClass('rad-ui-button', 'span-class');
     });
 
-    test('disabled asChild suppresses clicks and sets data-disabled', async () => {
+    test('disabled asChild suppresses clicks and sets data-disabled', async() => {
         const user = userEvent.setup();
         const onClick = jest.fn();
         render(
@@ -69,4 +69,3 @@ describe('Button asChild', () => {
         expect(screen.getAllByRole('button')).toHaveLength(1);
     });
 });
-

@@ -47,7 +47,7 @@ describe('composeEventHandlers', () => {
         const first = jest.fn((event: React.SyntheticEvent) => event.preventDefault());
         const second = jest.fn();
         const composed = composeEventHandlers(first, second, {
-            checkForDefaultPrevented: false,
+            checkForDefaultPrevented: false
         });
 
         const { getByText } = render(<button onClick={composed}>Click</button>);
@@ -72,4 +72,3 @@ describe('composeEventHandlers', () => {
         expect(second).toHaveBeenCalledTimes(1);
     });
 });
-

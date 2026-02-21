@@ -12,7 +12,7 @@ export default {
         </div>
 
     </SandboxEditor>
-};
+} as any;
 
 export const All = {
     args: {

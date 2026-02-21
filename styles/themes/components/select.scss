@@ -82,30 +82,6 @@
         }
 }
 
-.rad-ui-select-search {
-    width: 100%;
-    padding: 8px 12px;
-    font-size: medium;
-    border: 1px solid var(--rad-ui-color-accent-300);
-    border-radius: 4px;
-    background-color: var(--rad-ui-color-accent-100);
-    color: var(--rad-ui-color-accent-900);
-    margin-bottom: 8px;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
-
-    &:focus {
-        border-color: var(--rad-ui-color-accent-600);
-        box-shadow: 0 0 0 2px var(--rad-ui-color-accent-200);
-        background-color: var(--rad-ui-color-accent-50);
-    }
-
-    &::placeholder {
-        color: var(--rad-ui-color-accent-400);
-        opacity: 1;
-    }
-}
 
 .rad-ui-select-item {
         font-size: medium;

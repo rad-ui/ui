@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import AvatarPrimitiveFallback from '~/core/primitives/Avatar/fragments/AvatarPrimitiveFallback';
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 export type AvatarGroupFallbackProps = React.ComponentPropsWithoutRef<typeof AvatarPrimitiveFallback>;
 

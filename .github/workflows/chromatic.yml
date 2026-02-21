@@ -3,18 +3,17 @@ name: 'Chromatic Deployment'
 on:
   push:
     branches:
-      - main  # Adjust this if your main branch has a different name
+      - main
     paths:
-      - 'src/**'  # Only run when files in this directory change
+      - 'src/**'
       - 'styles/**'
-  # pull_request: # No need for PRs for now
-  #   branches:
-  #     - main  # Adjust this if your main branch has a different name
+  pull_request:
+    types: [labeled]
 
 jobs:
   chromatic-deployment:
-    # To run only on the main repository and not forks
-    if: github.repository == 'rad-ui/ui'
+    # Run on main repo pushes or when PR has "deploy-storybook" label
+    if: github.repository == 'rad-ui/ui' && (github.event_name == 'push' || github.event.label.name == 'deploy-storybook')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,9 +21,9 @@ jobs:
           fetch-depth: 0  # Required for Chromatic to retrieve git history
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Adjust this to your project's Node.js version
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci  # Use 'yarn install --frozen-lockfile' if you use Yarn
@@ -35,3 +34,4 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           # Optional: Add any additional Chromatic CLI flags here
           # For example: --exit-zero-on-changes
+

@@ -1,7 +1,7 @@
-import React, { createRef } from 'react';
+import React, { createRef, act } from 'react';
 import { render, screen } from '@testing-library/react';
 import { TextEncoder, TextDecoder } from 'util';
-import { act } from 'react';
+
 import axe from 'axe-core';
 import VisuallyHidden from '../VisuallyHidden';
 
@@ -46,7 +46,7 @@ describe('VisuallyHidden accessibility', () => {
         expect(element.className).not.toContain('rad-ui-visually-hidden');
     });
 
-    test('has no accessibility violations', async () => {
+    test('has no accessibility violations', async() => {
         const { container } = render(
             <VisuallyHidden>axe check</VisuallyHidden>
         );

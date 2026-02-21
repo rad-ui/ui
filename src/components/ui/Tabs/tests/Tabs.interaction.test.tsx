@@ -6,23 +6,19 @@ import * as axe from 'axe-core';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 import { TextEncoder, TextDecoder } from 'util';
 
-// Polyfill TextEncoder/TextDecoder for server rendering in Jest
-// @ts-ignore
-if (!global.TextEncoder) global.TextEncoder = TextEncoder;
-// @ts-ignore
-if (!global.TextDecoder) global.TextDecoder = TextDecoder;
-
-// @ts-ignore - react-dom/client types not available
-import { hydrateRoot } from 'react-dom/client';
-// @ts-ignore - react-dom/server types not available
-import { renderToString } from 'react-dom/server';
+(global as any).TextEncoder = TextEncoder;
+(global as any).TextDecoder = TextDecoder;
+// @ts-ignore - React 18/19 server rendering types may not be present
+const { renderToString } = require('react-dom/server');
+// @ts-ignore - hydrateRoot typings may be unavailable in this environment
+const { hydrateRoot } = require('react-dom/client');
 
 // Helper to wait for axe asynchronously
 const runAxe = (container: HTMLElement) =>
     axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
 
 describe('Tabs interactions', () => {
-    test('roving tabindex and keyboard activation', async () => {
+    test('roving tabindex and keyboard activation', async() => {
         const user = userEvent.setup();
         render(
             <Tabs.Root defaultValue="t1" activationMode="manual">
@@ -63,7 +59,7 @@ describe('Tabs interactions', () => {
         expect(tab1).toHaveAttribute('data-state', 'inactive');
     });
 
-    test('data-state attributes sync between trigger and content', async () => {
+    test('data-state attributes sync between trigger and content', async() => {
         const user = userEvent.setup();
         render(
             <Tabs.Root defaultValue="a">
@@ -90,7 +86,7 @@ describe('Tabs interactions', () => {
         expect(alphaTrigger).toHaveAttribute('data-state', 'inactive');
     });
 
-    test('controlled and uncontrolled values update correctly', async () => {
+    test('controlled and uncontrolled values update correctly', async() => {
         const user = userEvent.setup();
         const Controlled = () => {
             const [value, setValue] = React.useState('one');
@@ -207,7 +203,7 @@ describe('Tabs interactions', () => {
         errorSpy.mockRestore();
     });
 
-    test('RTL arrow navigation reverses direction', async () => {
+    test('RTL arrow navigation reverses direction', async() => {
         const user = userEvent.setup();
         render(
             <Tabs.Root defaultValue="l1" dir="rtl" activationMode="manual">
@@ -229,4 +225,3 @@ describe('Tabs interactions', () => {
         expect(t2).toHaveFocus();
     });
 });
-

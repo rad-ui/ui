@@ -2,7 +2,7 @@
 import React, { CSSProperties, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'VisuallyHidden';
 

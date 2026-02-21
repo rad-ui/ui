@@ -1,10 +1,10 @@
 'use client';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import React, { useContext } from 'react';
 import { AccordionContext } from '../contexts/AccordionContext';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 
-type AccordionContentProps = React.ComponentPropsWithoutRef<'div'> & {
+export type AccordionContentProps = React.ComponentPropsWithoutRef<'div'> & {
   index: number,
 };
 
@@ -18,7 +18,6 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
             className={clsx(`${rootClass}-content`, className)}
             id={`content-${index}`}
             role="region"
-            aria-labelledby={`section-${index}`}
             {...props}
         >
             {children}

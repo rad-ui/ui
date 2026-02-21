@@ -28,18 +28,39 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
-    args: {
-        className: 'space-x-1'
-    }
-};
+export const Default = () => (
+    <SandboxEditor>
+        <div className="space-y-4">
+            <div>
+                <p className="text-sm text-gray-700 mb-2">
+                    Inline code: <Code>console.log('Hello World')</Code>
+                </p>
+            </div>
+            <div>
+                <p className="text-sm text-gray-700 mb-2">
+                    You can use <Code>requestAnimationFrame()</Code> for smooth animations.
+                </p>
+            </div>
+        </div>
+    </SandboxEditor>
+);
 
-export const Color = {
-    args: {
-        className: 'space-x-1',
-        color: 'green'
-    }
-};
+export const WithAccentColor = () => (
+    <SandboxEditor>
+        <div className="space-y-4" data-rad-ui-accent-color="blue">
+            <div>
+                <p className="text-sm text-gray-700 mb-2">
+                    Code with accent color: <Code>const x = 42</Code>
+                </p>
+            </div>
+            <div>
+                <p className="text-sm text-gray-700 mb-2">
+                    Another example: <Code>function hello() {}</Code>
+                </p>
+            </div>
+        </div>
+    </SandboxEditor>
+);
 
 export const Size = () => {
     return <SandboxEditor>

@@ -35,7 +35,8 @@ export type CollapsiblePrimitiveRootProps =
 const CollapsiblePrimitiveRoot = React.forwardRef<
     CollapsiblePrimitiveRootElement,
     CollapsiblePrimitiveRootProps
->(({ children,
+>(({
+    children,
     defaultOpen = false,
     open,
     onOpenChange,

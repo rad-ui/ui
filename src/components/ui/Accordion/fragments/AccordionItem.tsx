@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useContext, useId, useEffect, useRef } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
 

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';

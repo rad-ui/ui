@@ -1,0 +1,86 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [ main, security-fixes ]
+    paths:
+      - 'src/**'
+      - 'styles/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'rollup.config.cjs'
+      - 'rollup-css.config.cjs'
+      - 'rollup-tokens.config.cjs'
+      - 'tsconfig.json'
+      - 'postcss.config.js'
+      - '.changeset/**'
+      - '.github/workflows/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'styles/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'rollup.config.cjs'
+      - 'rollup-css.config.cjs'
+      - 'rollup-tokens.config.cjs'
+      - 'tsconfig.json'
+      - 'postcss.config.js'
+      - '.changeset/**'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Jest (${{ matrix.shard }}/${{ matrix.total }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+        total: [2]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        env:
+          JEST_SHARD: ${{ matrix.shard }}/${{ matrix.total }}
+        run: npm run test:shard
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build:rollup

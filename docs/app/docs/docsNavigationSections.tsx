@@ -161,6 +161,14 @@ export const docsNavigationSections = [
             {
                 title:"Contributing to Rad UI",
                 path:"/docs/contributing/contributing-to-rad-ui"
+            },
+            {
+                title:"Component Maturity Rubric",
+                path:"/docs/contributing/component-maturity-rubric"
+            },
+            {
+                title:"Component Coverage",
+                path:"/docs/contributing/component-coverage"
             }
         ]
     }
