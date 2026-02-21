@@ -1,0 +1,61 @@
+import PageDetails from '@/components/seo/PageDetails';
+import Documentation from "@/components/layout/Documentation/Documentation";
+import Popover from "@radui/ui/Popover";
+import codeUsage, { anatomy, api_documentation, keyboardShortcuts } from "./docs/codeUsage";
+import PopoverExample1 from "./docs/examples/popover_example1";
+import popoverMetadata from "./seo";
+
+export const metadata = popoverMetadata;
+
+<Documentation
+  title="Popover"
+  description="Popovers display rich content in a floating panel.">
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <PopoverExample1 />
+  </Documentation.ComponentHero>
+
+  <Documentation.ComponentFeatures
+    features={[
+      "Accessible and keyboard-friendly",
+      "Dismissable with Escape key",
+      "Supports portal rendering"
+    ]}
+  />
+
+  <Documentation.Section title="API Documentation" as="h2" />
+  <Documentation.Anatomy code={anatomy.code} />
+
+  <Documentation.Table
+    title="Root"
+    description={api_documentation.root.description}
+    columns={api_documentation.root.columns}
+    data={api_documentation.root.data}
+  />
+
+  <Documentation.Table
+    title="Trigger"
+    description={api_documentation.trigger.description}
+    columns={api_documentation.trigger.columns}
+    data={api_documentation.trigger.data}
+  />
+
+  <Documentation.Table
+    title="Content"
+    description={api_documentation.content.description}
+    columns={api_documentation.content.columns}
+    data={api_documentation.content.data}
+  />
+
+  <Documentation.Table
+    title="Arrow"
+    description={api_documentation.arrow.description}
+    columns={api_documentation.arrow.columns}
+    data={api_documentation.arrow.data}
+  />
+
+  <Documentation.Table
+    title="Keyboard Interactions"
+    columns={keyboardShortcuts.columns}
+    data={keyboardShortcuts.data}
+  />
+</Documentation>
