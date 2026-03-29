@@ -28,4 +28,6 @@ const Spinner = React.forwardRef<SpinnerElement, SpinnerProps>(({ className, cus
     );
 });
 
+Spinner.displayName = COMPONENT_NAME;
+
 export default Spinner;
