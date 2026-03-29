@@ -48,6 +48,7 @@
 @use "components/minimap";
 @use "components/combobox";
 @use "components/tooltip";
+@use "components/spinner.scss";
 
 // import .css file
 @use "../cssTokens/base.tokens";

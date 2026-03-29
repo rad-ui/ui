@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import Combobox from '../Combobox';
 
 describe('Combobox Filtering and Grouping', () => {
-    it('filters items correctly and hides empty groups', async () => {
+    it('filters items correctly and hides empty groups', async() => {
         render(
             <Combobox.Root>
                 <Combobox.Trigger data-testid="trigger" />
@@ -25,7 +25,7 @@ describe('Combobox Filtering and Grouping', () => {
         fireEvent.click(trigger);
 
         const search = screen.getByTestId('search');
-        
+
         // Initial state
         expect(screen.getByText('Apple')).toBeInTheDocument();
         expect(screen.getByText('Banana')).toBeInTheDocument();
@@ -33,11 +33,11 @@ describe('Combobox Filtering and Grouping', () => {
 
         // Search for "App"
         fireEvent.change(search, { target: { value: 'App' } });
-        
+
         expect(screen.getByText('Apple')).toBeVisible();
         expect(screen.queryByText('Banana')).not.toBeVisible();
         expect(screen.queryByText('Carrot')).not.toBeVisible();
-        
+
         // Vegetables group should be hidden
         expect(screen.getByTestId('group-vegetables')).not.toBeVisible();
         expect(screen.getByTestId('group-fruits')).toBeVisible();

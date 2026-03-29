@@ -1,0 +1,53 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.3;
+    }
+    25% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: .8;
+    }
+    75% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 0.3;
+    }
+}
+
+.rad-ui-spinner-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rad-ui-spinner{
+    animation: spin 1.3s linear infinite;
+    border-width: 3px;
+    border-color: rgb(182, 182, 182, 0.2);
+    width: 30px;
+    height: 30px;
+    border-top-color: var(--rad-ui-color-accent-900);
+    border-radius: 100%;
+   
+    &[data-spinner-size="small"]{
+        border-width: 2px;
+         width: 20px;
+    height: 20px;
+    }
+
+    &[data-spinner-size="medium"]{
+        border-width: 3px;
+         width: 30px;
+    height: 30px;
+    }
+
+    &[data-spinner-size="large"]{
+        border-width: 4px;
+         width: 40px;
+    height: 40px;
+    }
+}
