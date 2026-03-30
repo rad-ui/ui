@@ -233,7 +233,7 @@
     "@rollup/plugin-alias": "5.1.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",
-    "@rollup/plugin-terser": "0.4.4",
+    "@rollup/plugin-terser": "1.0.0",
     "@rollup/plugin-typescript": "11.1.6",
     "@storybook/addon-a11y": "^7.6.17",
     "@storybook/addon-essentials": "7.6.17",
