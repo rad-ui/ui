@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
-      "target": "es5",
-      "lib": ["dom", "es2015", "es2017.object"],
+      "target": "es2020",
+      "lib": ["dom", "dom.iterable", "es2020"],
       "module": "ESNext",
-      "moduleResolution": "node",
-      "jsx": "react",
+      "moduleResolution": "bundler",
+      "jsx": "react-jsx",
       "declaration": true,
       "emitDeclarationOnly": true,
       "declarationMap": true,
@@ -19,7 +19,7 @@
         "~/*": ["src/*"],
         "test-utils": ["test-utils/index"]
       },
-      "types": ["jest", "@testing-library/jest-dom"]
+      "types": ["jest", "@testing-library/jest-dom", "node"]
     },
     "include": ["src/**/*", "test-utils/**/*"],
     "exclude": ["node_modules", "dist", "build", "docs"]

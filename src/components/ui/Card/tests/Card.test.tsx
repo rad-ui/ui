@@ -15,7 +15,7 @@ describe('Card', () => {
 
     test('renders Card component with custom style', () => {
         render(<Card data-testid="card" style={{ color: 'red' }} />);
-        expect(screen.getByTestId('card')).toHaveStyle('color: red');
+        expect(screen.getByTestId('card')).toHaveStyle('color: rgb(255, 0, 0)');
     });
 
     test('renders Card component with custom id', () => {

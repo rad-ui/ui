@@ -18,7 +18,7 @@ const ComboboxPrimitiveGroup = React.forwardRef<
         setVisibleItems(prev => {
             if (isVisible && prev.has(id)) return prev;
             if (!isVisible && !prev.has(id)) return prev;
-            
+
             const next = new Set(prev);
             if (isVisible) {
                 next.add(id);
@@ -44,9 +44,9 @@ const ComboboxPrimitiveGroup = React.forwardRef<
 
     return (
         <ComboboxGroupContext.Provider value={contextValue}>
-            <div 
-                className={className} 
-                ref={forwardedRef} 
+            <div
+                className={className}
+                ref={forwardedRef}
                 {...props}
                 style={{ display: shouldHide ? 'none' : undefined, ...props.style }}
             >

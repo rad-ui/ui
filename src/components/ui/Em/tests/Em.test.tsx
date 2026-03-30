@@ -20,7 +20,7 @@ describe('Em', () => {
 
     test('renders custom styles correctly', () => {
         render(<>Welcome to <Em style={{ color: 'red' }}>RadUI</Em></>);
-        expect(screen.getByText('RadUI')).toHaveStyle('color: red');
+        expect(screen.getByText('RadUI')).toHaveStyle('color: rgb(255, 0, 0)');
     });
 
     test('renders custom id correctly', () => {

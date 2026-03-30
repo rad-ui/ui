@@ -20,7 +20,7 @@ describe('Text Component', () => {
 
     test('renders Text component with custom style', () => {
         render(<Text style={{ color: 'red' }}>I am Text!</Text>);
-        expect(screen.getByText('I am Text!')).toHaveStyle('color: red');
+        expect(screen.getByText('I am Text!')).toHaveStyle('color: rgb(255, 0, 0)');
     });
 
     test('renders Text component with custom id', () => {

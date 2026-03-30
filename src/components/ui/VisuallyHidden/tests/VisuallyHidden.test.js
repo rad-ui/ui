@@ -50,7 +50,7 @@ describe('VisuallyHidden Component', () => {
         expect(element).toHaveStyle({
             position: 'absolute',
             width: '1px',
-            color: 'red',
+            color: 'rgb(255, 0, 0)',
             fontSize: '16px'
         });
     });
