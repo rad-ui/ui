@@ -1,6 +1,6 @@
 'use client'
 import { usePathname } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 import docsSections from "@/app/docs/docsNavigationSections"
@@ -26,17 +26,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const pathname = usePathname();
     const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
 
-    const [sections, setSections] = useState(docsSections)
-    // customSections || sections;
-
-    useEffect(() => {
-        if (pathname.includes("/docs/")) {
-            setSections(docsSections)
-        }
-        else {
-            setSections(defaultSections)
-        }
-    }, [pathname])
+    const sections = pathname.includes("/docs/") ? docsSections : defaultSections;
 
 
     return <ScrollArea.Root>

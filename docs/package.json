@@ -6,7 +6,7 @@
     "dev": "rimraf .next && next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "update-rad": "pnpm i @radui/ui@latest",
     "preinstall": "npx only-allow pnpm"
   },
