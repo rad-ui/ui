@@ -1,6 +1,6 @@
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { Story } from '@storybook/react';
+import type { StoryFn } from '@storybook/react-webpack5';
 import React from 'react';
 
 export default {
@@ -8,7 +8,7 @@ export default {
     component: 'AccordionItem'
 };
 
-const DisabledTemplate: Story = (args) => <SandboxEditor>
+const DisabledTemplate: StoryFn = () => <SandboxEditor>
     <Accordion.Root>
         <Accordion.Item value={'1'}>
             <Accordion.Trigger>
@@ -39,7 +39,7 @@ const DisabledTemplate: Story = (args) => <SandboxEditor>
 
 export const Disabled = DisabledTemplate.bind({});
 
-const AsChildTemplate: Story = (args) => <SandboxEditor>
+const AsChildTemplate: StoryFn = () => <SandboxEditor>
     <Accordion.Root>
         <Accordion.Item value={'1'} asChild>
             <span style={{ display: 'block' }}>

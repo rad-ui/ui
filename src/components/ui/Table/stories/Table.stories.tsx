@@ -2,7 +2,7 @@ import Table from '../Table';
 import Heading from '~/components/ui/Heading/Heading';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 const meta: Meta<typeof Table> = {
     title: 'WIP/Table',

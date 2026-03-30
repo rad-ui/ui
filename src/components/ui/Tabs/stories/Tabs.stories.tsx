@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Tabs from '../Tabs';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 // import { TabProps } from '../fragments/TabContent'; // Removed - not exported
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

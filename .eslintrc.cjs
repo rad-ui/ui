@@ -5,12 +5,7 @@ module.exports = {
         es2021: true,
         node: true
     },
-    extends: [
-        'plugin:react/recommended',
-        'eslint:recommended',
-        'standard',
-        'plugin:jsx-a11y/recommended'
-    ],
+    extends: ['plugin:react/recommended', 'eslint:recommended', 'standard', 'plugin:jsx-a11y/recommended', 'plugin:storybook/recommended'],
     overrides: [
         {
             // For story files
