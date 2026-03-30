@@ -185,7 +185,7 @@ export const ControlledSlider = {
                 </div>
                 <Slider
                     value={value}
-                    onValueChange={setValue}
+                    onValueChange={(nextValue) => setValue(Array.isArray(nextValue) ? nextValue[0] ?? 0 : nextValue)}
                     min={0}
                     max={100}
                     step={5}
