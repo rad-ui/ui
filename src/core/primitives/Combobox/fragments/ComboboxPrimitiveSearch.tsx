@@ -9,21 +9,21 @@ const ComboboxPrimitiveSearch = React.forwardRef<
     { className?: string } & React.ComponentPropsWithoutRef<typeof Primitive.input>
 >(({ className, ...props }, forwardedRef) => {
     const context = useContext(ComboboxPrimitiveContext);
-    const { 
-        refs, 
-        handleSelect, 
-        labelsRef, 
-        valuesRef, 
-        activeIndex, 
-        elementsRef, 
-        virtualItemRef, 
-        getReferenceProps, 
+    const {
+        refs,
+        handleSelect,
+        labelsRef,
+        valuesRef,
+        activeIndex,
+        elementsRef,
+        virtualItemRef,
+        getReferenceProps,
         setHasSearch,
         search,
         setSearch,
         setActiveIndex
     } = context;
-    
+
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     // Set hasSearch to true when search component mounts
@@ -31,7 +31,7 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         setHasSearch(true);
         // Reset navigation state
         setActiveIndex(0);
-        
+
         return () => {
             setHasSearch(false);
             setSearch('');
