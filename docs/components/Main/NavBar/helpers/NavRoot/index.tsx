@@ -133,7 +133,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
     setDarkMode(toggledState);
 
     setThemeCookie('darkMode', String(toggledState), {
-      maxAge: 30 * 24 * 60 * 60,
+      expires: 30,
       path: '/',
     });
   };

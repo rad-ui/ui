@@ -211,7 +211,7 @@
     "setup": "npm run setup:dependencies"
   },
   "lint-staged": {
-    "/*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ],
     "{src,e2e,scripts,test-utils,.storybook}/**/*.{js,jsx,ts,tsx}": [

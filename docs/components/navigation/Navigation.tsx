@@ -26,7 +26,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const pathname = usePathname();
     const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
 
-    const sections = pathname.includes("/docs/") ? docsSections : defaultSections;
+    const sections = /^\/docs(\/|$)/.test(pathname) ? docsSections : defaultSections;
 
 
     return <ScrollArea.Root>
