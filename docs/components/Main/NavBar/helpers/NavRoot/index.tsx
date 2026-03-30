@@ -118,7 +118,7 @@ width="15"
   );
 };
 
-const NavBar = ({ darkMode, setDarkMode, cookies, setCookie }) => {
+const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
   const { isDocsNavOpen, setIsDocsNavOpen } = useContext(NavBarContext);
 
   const openLink = useCallback(
@@ -132,9 +132,9 @@ const NavBar = ({ darkMode, setDarkMode, cookies, setCookie }) => {
     const toggledState = !darkMode;
     setDarkMode(toggledState);
 
-    setCookie(cookies, "darkMode", toggledState, {
+    setThemeCookie('darkMode', String(toggledState), {
       maxAge: 30 * 24 * 60 * 60,
-      path: "/",
+      path: '/',
     });
   };
 

@@ -7,10 +7,6 @@ const nextConfig = {
     // Configure `pageExtensions` to include markdown and MDX files
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
     
-    // Disable ESLint and TypeScript checking in production builds
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
     typescript: {
         ignoreBuildErrors: true,
     },
@@ -104,6 +100,10 @@ const nextConfig = {
 
     // This is required to support PostHog trailing slash API requests
     skipTrailingSlashRedirect: true,
+
+    turbopack: {
+        root: __dirname,
+    },
 
     // Environment variables for SEO
     env: {
