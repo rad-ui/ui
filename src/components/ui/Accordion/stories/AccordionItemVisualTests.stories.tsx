@@ -1,6 +1,6 @@
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import type { StoryFn } from '@storybook/react';
+import type { StoryFn } from '@storybook/react-webpack5';
 import React from 'react';
 
 export default {

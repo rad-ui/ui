@@ -1,6 +1,6 @@
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import Button from '../../Button/Button';
 import React from 'react';
 

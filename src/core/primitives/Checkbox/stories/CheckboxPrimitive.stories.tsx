@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import CheckboxPrimitive from '../index';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';

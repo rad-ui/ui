@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react-webpack5';
 import DropdownMenu from '../DropdownMenu';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
