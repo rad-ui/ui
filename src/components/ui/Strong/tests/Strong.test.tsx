@@ -31,7 +31,7 @@ describe('Strong Component', () => {
 
     it('renders Strong component with custom style', () => {
         render(<Strong style={{ color: 'red' }}>I am Strong!</Strong>);
-        expect(screen.getByText('I am Strong!')).toHaveStyle('color: red');
+        expect(screen.getByText('I am Strong!')).toHaveStyle('color: rgb(255, 0, 0)');
     });
 
     it('renders Strong component with custom id', () => {

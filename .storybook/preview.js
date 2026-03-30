@@ -1,6 +1,3 @@
-import { withThemeByClassName } from '@storybook/addon-styling';
-
-/* TODO: update import to your tailwind styles file. If you're using Angular, inject this through your angular.json config instead */
 import '../main.tailwind.css';
 import "../styles/themes/default.scss";
 

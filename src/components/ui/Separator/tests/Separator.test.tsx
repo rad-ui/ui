@@ -10,7 +10,7 @@ describe('Separator Component', () => {
 
     test('renders Separator component with custom style', () => {
         render(<Separator data-testid="separator" style={{ color: 'red' }} />);
-        expect(screen.getByTestId('separator')).toHaveStyle('color: red');
+        expect(screen.getByTestId('separator')).toHaveStyle('color: rgb(255, 0, 0)');
     });
 
     test('renders Separator component with custom id', () => {

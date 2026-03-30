@@ -4,15 +4,27 @@ import path from "path"
 
 const config = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [{
-    name: '@storybook/addon-styling',
-    options: {
-      postCss: {
-        implementation: require.resolve('postcss'),
-      },
-    },
-  }, '@storybook/addon-a11y'],
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-links',
+    '@storybook/addon-interactions',
+    '@storybook/addon-a11y'
+  ],
   webpackFinal: async (config) => {
+    config.module.rules.push({
+      test: /\.(mjs|js|jsx|ts|tsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', { targets: { browsers: 'defaults' } }],
+            ['@babel/preset-react', { runtime: 'automatic' }],
+            '@babel/preset-typescript'
+          ]
+        }
+      }
+    });
 
     config.module.rules.push({
       test: /\.scss$/,
