@@ -6,6 +6,7 @@ import { AccordionItemContext } from '../contexts/AccordionItemContext';
 
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import Primitive from '~/core/primitives/Primitive';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 export type AccordionItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value?: number | string;
@@ -43,12 +44,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                 asChild
             >
                 <Primitive.div
-                    ref={(node) => {
-                        const element = node as HTMLDivElement | null;
-                        accordionItemRef.current = element;
-                        if (typeof forwardedRef === 'function') forwardedRef(element);
-                        else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
-                    }}
+                    ref={mergeRefs(accordionItemRef, forwardedRef)}
                     className={clsx(`${rootClass}-item`, className)} {...props}
                     id={`accordion-data-item-${id}`}
                     role="region"
