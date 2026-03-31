@@ -4,7 +4,7 @@ import RadioGroupPrimitiveRoot, { RadioGroupPrimitiveRootProps } from '~/core/pr
 
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 import { RadioCardsContext } from '../context/RadioCardsContext';
 
 const COMPONENT_NAME = 'RadioCards';
@@ -25,12 +25,12 @@ const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
     ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-        const dataAttributes = useCreateDataAttribute('radio-cards', { variant, size });
-        const accentAttributes = useCreateDataAccentColorAttribute(color);
-        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const dataAttributes = createDataAttributes('radio-cards', { variant, size });
+        const accentAttributes = createDataAccentColorAttribute(color);
+        const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
         return <RadioCardsContext.Provider value={{ rootClass }}>
-            <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...composedAttributes()} {...props}>{children}</RadioGroupPrimitive.Root>
+            <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...composedAttributes} {...props}>{children}</RadioGroupPrimitive.Root>
         </RadioCardsContext.Provider>;
     }
 );

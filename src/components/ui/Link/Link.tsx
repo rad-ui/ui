@@ -2,7 +2,7 @@
 import React, { ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
-import { useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Link';
@@ -18,7 +18,7 @@ type LinkElement = ElementRef<'a'>;
 const Link = React.forwardRef<LinkElement, LinkProps>(
     ({ children, href = '#', customRootClass, className, size = '', asChild = false, ...props }, ref) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-        const dataAttributes = useCreateDataAttribute('link', { size });
+        const dataAttributes = createDataAttributes('link', { size });
         const Anchor = Primitive.a as any;
         return (
             <Anchor
@@ -26,7 +26,7 @@ const Link = React.forwardRef<LinkElement, LinkProps>(
                 asChild={asChild}
                 href={href}
                 className={clsx(rootClass, className)}
-                {...dataAttributes()}
+                {...dataAttributes}
                 {...props}
             >
                 {children}

@@ -1,28 +1,18 @@
-import { renderHook } from '@testing-library/react';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '.';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '.';
 
-describe('create data attribute hooks', () => {
+describe('create data attribute utilities', () => {
     test('creates and merges data attributes with accent color and boolean handling', () => {
-        const { result: dataAttributes } = renderHook(() =>
-            useCreateDataAttribute('button', {
-                variant: 'primary',
-                active: true,
-                disabled: false,
-                id: '123',
-                camelCaseKey: 'value',
-                missing: undefined
-            })
-        );
+        const dataAttributes = createDataAttributes('button', {
+            variant: 'primary',
+            active: true,
+            disabled: false,
+            id: '123',
+            camelCaseKey: 'value',
+            missing: undefined
+        });
+        const accentAttributes = createDataAccentColorAttribute('red');
 
-        const { result: accentAttributes } = renderHook(() =>
-            useCreateDataAccentColorAttribute('red')
-        );
-
-        const { result: composedAttributes } = renderHook(() =>
-            useComposeAttributes(dataAttributes.current(), accentAttributes.current())
-        );
-
-        expect(composedAttributes.current()).toEqual({
+        expect(composeAttributes(dataAttributes, accentAttributes)).toEqual({
             'data-button-variant': 'primary',
             'data-button-active': '',
             'data-button-id': '123',
@@ -32,14 +22,8 @@ describe('create data attribute hooks', () => {
     });
 
     test('omits accent color attribute when undefined and handles null attributes', () => {
-        const { result: emptyAccent } = renderHook(() =>
-            useCreateDataAccentColorAttribute(undefined as any)
-        );
-        expect(emptyAccent.current()).toEqual({});
+        expect(createDataAccentColorAttribute(undefined as any)).toEqual({});
 
-        const { result: noAttributes } = renderHook(() =>
-            useCreateDataAttribute('button', null)
-        );
-        expect(noAttributes.current()).toEqual({});
+        expect(createDataAttributes('button', null)).toEqual({});
     });
 });

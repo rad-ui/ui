@@ -2,7 +2,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
-import { useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Kbd';
 
@@ -15,9 +15,9 @@ export interface KbdProps extends ComponentPropsWithoutRef<'kbd'> {
 const Kbd = forwardRef<KbdElement, KbdProps>(({ children, customRootClass, className, size = '', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('kbd', { size });
+    const dataAttributes = createDataAttributes('kbd', { size });
 
-    return <kbd ref={ref} className={clsx(rootClass, className)} {...dataAttributes()} {...props}>{children}</kbd>;
+    return <kbd ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props}>{children}</kbd>;
 });
 
 Kbd.displayName = COMPONENT_NAME;

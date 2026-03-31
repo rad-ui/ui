@@ -2,6 +2,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Code';
 
@@ -23,21 +24,12 @@ const Code = React.forwardRef<React.ElementRef<'code'>, CodeProps>(({
 }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const data_attributes: Record<string, string> = {};
+    const dataAttributes = composeAttributes(
+        createDataAttributes('code', { variant, size }),
+        createDataAccentColorAttribute(color)
+    );
 
-    if (variant) {
-        data_attributes['data-code-variant'] = variant;
-    }
-
-    if (size) {
-        data_attributes['data-code-size'] = size;
-    }
-
-    if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
-    }
-
-    return <code ref={ref} className={clsx(rootClass, className)} {...data_attributes} {...props}>
+    return <code ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props}>
         {children}
     </code>;
 });

@@ -3,7 +3,7 @@ import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import CalloutContext from '../contexts/CalloutContext';
 import Primitive from '~/core/primitives/Primitive';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Callout';
 
@@ -30,9 +30,9 @@ const CalloutRoot = React.forwardRef<CalloutRootElement, CalloutRootProps>(
         const normalizedIntent = intent || (variant === 'destructive' ? 'destructive' : '');
         const normalizedVariant = variant === 'destructive' ? '' : variant;
 
-        const dataAttributes = useCreateDataAttribute('callout', { variant: normalizedVariant, intent: normalizedIntent, size });
-        const accentAttributes = useCreateDataAccentColorAttribute(color);
-        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const dataAttributes = createDataAttributes('callout', { variant: normalizedVariant, intent: normalizedIntent, size });
+        const accentAttributes = createDataAccentColorAttribute(color);
+        const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
         return (
             <CalloutContext.Provider value={{ rootClass }}>
@@ -40,7 +40,7 @@ const CalloutRoot = React.forwardRef<CalloutRootElement, CalloutRootProps>(
                     ref={ref}
                     asChild={asChild}
                     className={clsx(rootClass, className)}
-                    {...composedAttributes()}
+                    {...composedAttributes}
                     {...props}
                 >
                     {children}
