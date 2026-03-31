@@ -32,4 +32,9 @@ HoverCard.Portal = HoverCardPortal;
 HoverCard.Content = HoverCardContent;
 HoverCard.Arrow = HoverCardArrow;
 
+export type { HoverCardRootProps } from './fragments/HoverCardRoot';
+export type { HoverCardTriggerProps } from './fragments/HoverCardTrigger';
+export type { HoverCardPortalProps } from './fragments/HoverCardPortal';
+export type { HoverCardContentProps } from './fragments/HoverCardContent';
+export type { HoverCardArrowProps } from './fragments/HoverCardArrow';
 export default HoverCard;

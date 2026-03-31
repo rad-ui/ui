@@ -9,7 +9,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
 const COMPONENT_NAME = 'Minimap';
 
-type MinimapRootProps = React.HTMLAttributes<HTMLDivElement> & {
+export type MinimapRootProps = React.HTMLAttributes<HTMLDivElement> & {
     customRootClass?: string;
 };
 

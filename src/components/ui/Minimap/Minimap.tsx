@@ -36,4 +36,12 @@ const Minimap = Object.assign(MinimapComponent, {
     Waypoint: MinimapWaypoint
 }) as MinimapComponentType;
 
+export type { MinimapRootProps } from './fragments/MinimapRoot';
+export type { MinimapItemProps } from './fragments/MinimapItem';
+export type { MinimapTrackProps } from './fragments/MinimapTrack';
+export type { MinimapLineProps } from './fragments/MinimapLine';
+export type { MinimapContentProps } from './fragments/MinimapContent';
+export type { MinimapBubbleProps } from './fragments/MinimapBubble';
+export type { MinimapProviderProps } from './fragments/MinimapProvider';
+export type { MinimapWaypointProps } from './fragments/MinimapWaypoint';
 export default Minimap;

@@ -35,4 +35,11 @@ Select.Portal = SelectPortal;
 Select.Group = SelectGroup;
 Select.Indicator = SelectIndicator;
 
+export type { SelectRootProps } from './fragments/SelectRoot';
+export type { SelectContentProps } from './fragments/SelectContent';
+export type { SelectItemProps } from './fragments/SelectItem';
+export type { SelectTriggerProps } from './fragments/SelectTrigger';
+export type { SelectPortalProps } from './fragments/SelectPortal';
+export type { SelectGroupProps } from './fragments/SelectGroup';
+export type { SelectIndicatorProps } from './fragments/SelectIndicator';
 export default Select;

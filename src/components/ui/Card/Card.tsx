@@ -20,4 +20,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({ children, className 
 
 Card.displayName = 'Card';
 Card.Root = CardRoot;
+
+export type { CardRootProps } from './fragments/CardRoot';
 export default Card;

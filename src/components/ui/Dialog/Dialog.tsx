@@ -42,4 +42,12 @@ Dialog.Title = DialogTitle;
 Dialog.Description = DialogDescription;
 Dialog.Close = DialogClose;
 
+export type { DialogRootProps } from './fragments/DialogRoot';
+export type { DialogTriggerProps } from './fragments/DialogTrigger';
+export type { DialogPortalProps } from './fragments/DialogPortal';
+export type { DialogOverlayProps } from './fragments/DialogOverlay';
+export type { DialogContentProps } from './fragments/DialogContent';
+export type { DialogTitleProps } from './fragments/DialogTitle';
+export type { DialogDescriptionProps } from './fragments/DialogDescription';
+export type { DialogCloseProps } from './fragments/DialogClose';
 export default Dialog;

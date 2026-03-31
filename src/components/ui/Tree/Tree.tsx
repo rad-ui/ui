@@ -29,4 +29,6 @@ Tree.displayName = COMPONENT_NAME;
 Tree.Root = TreeRoot;
 Tree.Item = TreeItem;
 
+export type { TreeRootProps } from './fragments/TreeRoot';
+export type { TreeItemProps } from './fragments/TreeItem';
 export default Tree;

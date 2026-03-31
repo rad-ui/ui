@@ -3,7 +3,7 @@ import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
 type ComboboxSearchElement = React.ElementRef<typeof ComboboxPrimitive.Search>;
-type ComboboxSearchProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Search>;
+export type ComboboxSearchProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Search>;
 
 const ComboboxSearch = React.forwardRef<ComboboxSearchElement, ComboboxSearchProps>((props, forwardedRef) => {
     const { rootClass } = useContext(ComboboxRootContext);

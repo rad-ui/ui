@@ -6,7 +6,7 @@ import { SelectRootContext } from '../contexts/SelectRootContext';
 const COMPONENT_NAME = 'Select';
 
 type SelectRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
-type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
+export type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
     customRootClass?: string;
 };
 

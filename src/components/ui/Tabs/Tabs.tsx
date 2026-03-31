@@ -32,4 +32,8 @@ Tabs.Content = TabContent;
 Tabs.Root = TabRoot;
 Tabs.Trigger = TabTrigger;
 
+export type { TabRootProps } from './fragments/TabRoot';
+export type { TabListProps } from './fragments/TabList';
+export type { TabContentProps } from './fragments/TabContent';
+export type { TabTriggerProps } from './fragments/TabTrigger';
 export default Tabs;

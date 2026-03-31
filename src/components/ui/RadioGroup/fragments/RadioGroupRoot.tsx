@@ -12,7 +12,7 @@ const COMPONENT_NAME = 'RadioGroup';
 
 export type RadioGroupRootElement = React.ElementRef<typeof RadioGroupPrimitive.Root>;
 
-type RadioGroupRootProps = {
+export type RadioGroupRootProps = {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;

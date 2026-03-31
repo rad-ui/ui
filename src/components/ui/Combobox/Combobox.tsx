@@ -38,4 +38,9 @@ Combobox.Group = ComboboxGroup;
 Combobox.Indicator = ComboboxIndicator;
 Combobox.Search = ComboboxSearch;
 
+export type { ComboboxRootProps } from './fragments/ComboboxRoot';
+export type { ComboboxContentProps } from './fragments/ComboboxContent';
+export type { ComboboxItemProps } from './fragments/ComboboxItem';
+export type { ComboboxTriggerProps } from './fragments/ComboboxTrigger';
+export type { ComboboxSearchProps } from './fragments/ComboboxSearch';
 export default Combobox;

@@ -21,4 +21,7 @@ Collapsible.Root = CollapsibleRoot;
 Collapsible.Trigger = CollapsibleTrigger;
 Collapsible.Content = CollapsibleContent;
 
+export type { CollapsibleRootProps } from './fragments/CollapsibleRoot';
+export type { CollapsibleTriggerProps } from './fragments/CollapsibleTrigger';
+export type { CollapsibleContentProps } from './fragments/CollapsibleContent';
 export default Collapsible;

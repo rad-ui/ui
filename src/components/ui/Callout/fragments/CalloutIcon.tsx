@@ -8,7 +8,7 @@ const COMPONENT_NAME = 'CalloutIcon';
 type CalloutIconElement = React.ElementRef<typeof Primitive.span>;
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>;
 
-type CalloutIconProps = PrimitiveSpanProps;
+export type CalloutIconProps = PrimitiveSpanProps;
 
 const CalloutIcon = React.forwardRef<CalloutIconElement, CalloutIconProps>(
     ({ children, className = '', ...props }, ref) => {

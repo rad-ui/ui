@@ -5,7 +5,7 @@ import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Table';
 
-type TableRootProps = React.ComponentPropsWithoutRef<'div'> & {
+export type TableRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
 };
 

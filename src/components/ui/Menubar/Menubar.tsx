@@ -23,4 +23,13 @@ Menubar.Sub = MenubarSub;
 Menubar.SubTrigger = MenubarSubTrigger;
 Menubar.Separator = MenubarSeparator;
 
+export type { MenubarRootProps } from './fragments/MenubarRoot';
+export type { MenubarMenuProps } from './fragments/MenubarMenu';
+export type { MenubarTriggerProps } from './fragments/MenubarTrigger';
+export type { MenubarContentProps } from './fragments/MenubarContent';
+export type { MenubarPortalProps } from './fragments/MenubarPortal';
+export type { MenubarItemProps } from './fragments/MenubarItem';
+export type { MenubarSubProps } from './fragments/MenubarSub';
+export type { MenubarSubTriggerProps } from './fragments/MenubarSubTrigger';
+export type { MenubarSeparatorProps } from './fragments/MenubarSeparator';
 export default Menubar;

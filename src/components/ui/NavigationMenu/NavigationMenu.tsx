@@ -12,4 +12,9 @@ const NavigationMenu = {
     Link: NavigationMenuLink
 };
 
+export type { NavigationMenuRootProps } from './fragments/NavigationMenuRoot';
+export type { NavigationMenuItemProps } from './fragments/NavigationMenuItem';
+export type { NavigationMenuTriggerProps } from './fragments/NavigationMenuTrigger';
+export type { NavigationMenuContentProps } from './fragments/NavigationMenuContent';
+export type { NavigationMenuLinkProps } from './fragments/NavigationMenuLink';
 export default NavigationMenu;

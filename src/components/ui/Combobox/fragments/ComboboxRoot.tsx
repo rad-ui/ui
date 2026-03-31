@@ -6,7 +6,7 @@ import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 const COMPONENT_NAME = 'Combobox';
 
 type ComboboxRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
-type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
+export type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
     customRootClass?: string;
 };
 

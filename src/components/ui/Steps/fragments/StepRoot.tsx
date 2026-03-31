@@ -9,7 +9,7 @@ import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Steps';
 
-type StepsRootProps = React.HTMLAttributes<HTMLDivElement> & {
+export type StepsRootProps = React.HTMLAttributes<HTMLDivElement> & {
     customRootClass?: string;
     orientation?: 'horizontal' | 'vertical';
     value?: number;

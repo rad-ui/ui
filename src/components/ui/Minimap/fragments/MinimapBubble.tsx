@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import MinimapContext from '../context/MinimapContext';
 import MinimapItemContext from '../context/MinimapItemContext';
 
-type MinimapBubbleProps = React.HTMLAttributes<HTMLDivElement>;
+export type MinimapBubbleProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimapBubble = ({ children, className = '', ...props }: MinimapBubbleProps) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };

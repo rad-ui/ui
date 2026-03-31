@@ -2,7 +2,7 @@
 import React from 'react';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 
-type MinimapProviderProps = React.HTMLAttributes<HTMLDivElement> & {
+export type MinimapProviderProps = React.HTMLAttributes<HTMLDivElement> & {
     children: React.ReactNode;
     scrollable?: boolean;
 };

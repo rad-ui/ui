@@ -6,7 +6,9 @@ const TabNav = () => {
     return null;
 };
 
-export default TabNav;
-
 TabNav.Root = TabNavRoot;
 TabNav.Link = TabNavLink;
+
+export type { TabNavRootProps } from './fragments/TabNavRoot';
+export type { TabNavLinkProps } from './fragments/TabNavLink';
+export default TabNav;

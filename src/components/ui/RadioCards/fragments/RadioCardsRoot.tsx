@@ -11,7 +11,7 @@ const COMPONENT_NAME = 'RadioCards';
 
 export type RadioCardsRootElement = ElementRef<typeof RadioGroupPrimitiveRoot>;
 
-type RadioCardsRootProps = RadioGroupPrimitiveRootProps & {
+export type RadioCardsRootProps = RadioGroupPrimitiveRootProps & {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
 type SelectIndicatorElement = React.ElementRef<'div'>;
-type SelectIndicatorProps = React.ComponentPropsWithoutRef<'div'>;
+export type SelectIndicatorProps = React.ComponentPropsWithoutRef<'div'>;
 
 const SelectIndicator = React.forwardRef<SelectIndicatorElement, SelectIndicatorProps>((props, forwardedRef) => {
     const { rootClass } = useContext(SelectRootContext);

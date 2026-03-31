@@ -3,7 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useStepsContext } from '../context/StepsContext';
 
-type StepBubbleProps = React.HTMLAttributes<HTMLDivElement>;
+export type StepBubbleProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepBubble = ({ children, className = '', ...props }: StepBubbleProps) => {
     const { rootClass } = useStepsContext();
