@@ -8,13 +8,14 @@ export type MenubarRootElement = ElementRef<typeof Floater.Composite>;
 export type MenubarRootProps = {
   children: React.ReactNode;
   customRootClass?: string;
+  detach?: boolean;
   className?: string;
 } & ComponentPropsWithoutRef<typeof Floater.Composite>;
 
 const COMPONENT_NAME = 'Menubar';
 
-const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children, customRootClass, className, dir, loop, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children, customRootClass, detach = false, className, dir, loop, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const [items, setItems] = React.useState<MenubarItem[]>([]);
     const [activeIndex, setActiveIndex] = React.useState(0);
 

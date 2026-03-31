@@ -9,14 +9,15 @@ const COMPONENT_NAME = 'TabContent';
 
 export type TabContentProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
     value?: string;
     asChild?: boolean;
     forceMount?: boolean;
 };
 
 const TabContent = React.forwardRef<React.ElementRef<'div'>, TabContentProps>(
-    ({ className = '', value, children, customRootClass, asChild = false, forceMount = false, ...props }, forwardedRef) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ className = '', value, children, customRootClass, detach = false, asChild = false, forceMount = false, ...props }, forwardedRef) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const context = useContext(TabsRootContext);
         if (!context) throw new Error('TabContent must be used within a TabRoot');
         const { tabValue: activeValue, orientation } = context;

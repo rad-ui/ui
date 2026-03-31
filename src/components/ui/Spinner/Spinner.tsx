@@ -8,13 +8,14 @@ const COMPONENT_NAME = 'Spinner';
 
 export type SpinnerProps = {
     customRootClass?: string;
+    detach?: boolean;
     size?: string;
 } & ComponentPropsWithoutRef<'span'>;
 
 type SpinnerElement = ElementRef<'span'>;
 
-const Spinner = React.forwardRef<SpinnerElement, SpinnerProps>(({ className, customRootClass = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const Spinner = React.forwardRef<SpinnerElement, SpinnerProps>(({ className, customRootClass = '', detach = false, size = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const dataAttributes = useCreateDataAttribute('spinner', { size });
 
     return (

@@ -12,6 +12,7 @@ type DialogPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof DialogPrim
 
 export type AlertDialogRootProps = Omit<DialogPrimitiveRootProps, 'open' | 'onOpenChange'> & {
     customRootClass?: string;
+    detach?: boolean;
     className?: string;
     defaultOpen?: boolean;
     open?: boolean;
@@ -24,12 +25,13 @@ const AlertDialogRoot = forwardRef<AlertDialogRootElement, AlertDialogRootProps>
     children,
     className = '',
     customRootClass = '',
+    detach = false,
     defaultOpen = false,
     open,
     onOpenChange,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const [titleId, setTitleId] = useState<string | undefined>(undefined);

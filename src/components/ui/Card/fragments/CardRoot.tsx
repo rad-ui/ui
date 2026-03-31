@@ -5,12 +5,13 @@ import { useCreateDataAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Card';
 export type CardRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
     variant?: string;
     size?: string;
 };
 
-const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(({ children, customRootClass, className = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(({ children, customRootClass, detach = false, className = '', variant = '', size = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const dataAttributes = useCreateDataAttribute('card', { variant, size });
 
     return (

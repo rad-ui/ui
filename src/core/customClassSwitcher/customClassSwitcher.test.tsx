@@ -28,6 +28,11 @@ describe('customClassSwitcher', () => {
         expect(customClassSwitcher('', componentName)).toBe('rad-ui-my-component');
     });
 
+    it('returns empty string when detach is true', () => {
+        expect(customClassSwitcher('', componentName, true)).toBe('');
+        expect(customClassSwitcher(customRootClass, componentName, true)).toBe('');
+    });
+
     it('uses default parameters when called without arguments', () => {
         // @ts-ignore testing missing args
         expect(customClassSwitcher()).toBe('');

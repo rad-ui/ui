@@ -14,6 +14,7 @@ const TAGS = ['div', 'span', 'p', 'label'];
 export type TextProps = {
     children: React.ReactNode;
     customRootClass?: string;
+    detach?: boolean;
     className?: string;
     as?: string;
 } & ComponentPropsWithoutRef<'p'>;
@@ -22,10 +23,10 @@ type TextElement = ElementRef<'p'>;
 
 const Text = forwardRef<TextElement, TextProps>(
     (
-        { children, customRootClass = '', className = '', as = 'p', ...props },
+        { children, customRootClass = '', detach = false, className = '', as = 'p', ...props },
         ref
     ) => {
-        const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         if (!TAGS.includes(as)) {
             as = 'p';

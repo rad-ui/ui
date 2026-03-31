@@ -17,6 +17,7 @@ export type SwitchRootElement = ElementRef<typeof ButtonPrimitive>;
 export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     children: React.ReactNode;
     customRootClass?: string;
+    detach?: boolean;
     color?: string;
     variant?: string;
     size?: string;
@@ -33,6 +34,7 @@ export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> &
 const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
     children,
     customRootClass,
+    detach = false,
     color = '',
     variant,
     size,
@@ -52,7 +54,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
         onCheckedChange
     );
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const dataAttributes = useCreateDataAttribute('switch', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);

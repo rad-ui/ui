@@ -14,6 +14,7 @@ const COMPONENT_NAME = 'Button';
 
 export type ButtonProps = {
     customRootClass?: string;
+    detach?: boolean;
     variant?: string;
     size?: string;
     color?: string;
@@ -24,6 +25,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         children,
         type = 'button',
         customRootClass = '',
+        detach = false,
         className = '',
         variant = '',
         size = '',
@@ -32,7 +34,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         onClick,
         ...props
     }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         // apply data attribute for accent color
         // apply attribute only if color is present
         const dataAttributes = useCreateDataAttribute('button', { variant, size });

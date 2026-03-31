@@ -8,6 +8,7 @@ const COMPONENT_NAME = 'Skeleton';
 export type SkeletonProps = React.ComponentPropsWithoutRef<'div'> & {
     loading: boolean;
     customRootClass?: string;
+    detach?: boolean;
     height: string;
     width: string;
     radius?: string;
@@ -19,6 +20,7 @@ const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
             loading = true,
             className = '',
             customRootClass = '',
+            detach = false,
             children,
             height,
             width,
@@ -30,7 +32,7 @@ const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
     ) => {
         if (!loading) return <>{children}</>;
 
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         return (
             <div

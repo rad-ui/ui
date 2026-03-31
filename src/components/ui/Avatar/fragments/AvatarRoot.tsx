@@ -9,14 +9,15 @@ const COMPONENT_NAME = 'Avatar';
 
 export type AvatarRootProps = React.ComponentPropsWithoutRef<typeof AvatarPrimitiveRoot> & {
     customRootClass?: string;
+    detach?: boolean;
     className?: string;
     size?: string;
     variant?: string;
     color?: string;
 }
 
-const AvatarRoot = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveRoot>, AvatarRootProps>(({ children, customRootClass = '', className = '', size = '', variant = '', color = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const AvatarRoot = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveRoot>, AvatarRootProps>(({ children, customRootClass = '', detach = false, className = '', size = '', variant = '', color = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);

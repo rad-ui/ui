@@ -11,6 +11,7 @@ const COMPONENT_NAME = 'ScrollArea';
 type ScrollAreaRootElement = ElementRef<'div'>;
 type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
     type?: 'auto' | 'always' | 'scroll' | 'hover';
 };
 
@@ -18,10 +19,11 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     children,
     className = '',
     customRootClass = '',
+    detach = false,
     type = 'hover',
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const internalRootRef = useRef<HTMLDivElement>(null);
     const scrollYThumbRef = useRef<HTMLDivElement>(null);
     const scrollXThumbRef = useRef<HTMLDivElement>(null);

@@ -7,14 +7,15 @@ const COMPONENT_NAME = 'BlockQuote';
 
 export type BlockQuoteProps = React.ComponentPropsWithoutRef<'blockquote'> & {
     customRootClass?: string;
+    detach?: boolean;
     color?: string;
     variant?: string;
     size?: string;
 };
 
 const BlockQuote = React.forwardRef<React.ElementRef<'blockquote'>, BlockQuoteProps>(
-    ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ children, customRootClass = '', detach = false, className = '', color = '', variant = '', size = '', ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         const data_attributes: Record<string, string> = {};
 

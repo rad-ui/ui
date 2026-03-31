@@ -7,6 +7,7 @@ import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../c
 export interface SplitterRootProps extends React.ComponentPropsWithoutRef<'div'> {
   orientation?: SplitterOrientation;
   customRootClass?: string;
+  detach?: boolean;
   defaultSizes?: number[];
   minSizes?: number[];
   maxSizes?: number[];
@@ -32,6 +33,7 @@ const SplitterRoot = React.forwardRef<
     children,
     className,
     customRootClass = '',
+    detach = false,
     defaultSizes = [50, 50],
     minSizes = [0, 0],
     maxSizes = [100, 100],
@@ -39,7 +41,7 @@ const SplitterRoot = React.forwardRef<
     style,
     ...props
 }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);

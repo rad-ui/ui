@@ -11,6 +11,7 @@ export type TabNavRootProps = React.ComponentPropsWithoutRef<'div'> & {
     loop?: boolean,
     orientation?: 'horizontal' | 'vertical',
     customRootClass?: string,
+    detach?: boolean,
     color?: string;
     value?: string,
     defaultValue?: string,
@@ -18,11 +19,11 @@ export type TabNavRootProps = React.ComponentPropsWithoutRef<'div'> & {
 }
 
 const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({
-    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
+    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', detach = false, defaultValue = '',
     onValueChange = () => {},
     value, ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,

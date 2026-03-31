@@ -13,6 +13,7 @@ export type RadioElement = React.ElementRef<typeof RadioPrimitive>;
 
 export type RadioProps = Omit<RadioPrimitiveProps, 'size'> & {
     customRootClass?: string;
+    detach?: boolean;
     className?: string;
     size?: string;
     color?: string;
@@ -20,10 +21,10 @@ export type RadioProps = Omit<RadioPrimitiveProps, 'size'> & {
 };
 
 const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
-    { name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props },
+    { name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, detach = false, variant = '', size = '', color = '', ...props },
     ref
 ) {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const dataAttributes = useCreateDataAttribute('button', { variant, size });

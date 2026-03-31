@@ -8,11 +8,12 @@ const COMPONENT_NAME = 'Combobox';
 type ComboboxRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
 type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
 const ComboboxRoot = React.forwardRef<ComboboxRootElement, ComboboxRootProps>(
-    ({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ customRootClass, detach = false, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         return (
             <ComboboxRootContext.Provider value={{ rootClass }}>

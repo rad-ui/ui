@@ -10,13 +10,14 @@ const COMPONENT_NAME = 'Checkbox';
 export type CheckboxRootElement = ElementRef<typeof CheckboxPrimitiveRoot>;
 export type CheckboxRootProps = {
     customRootClass?: string;
+    detach?: boolean;
     color?: string;
     variant?: string;
     size?: string;
 } & ComponentPropsWithoutRef<typeof CheckboxPrimitiveRoot>;
 
-const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>(({ children, className = '', customRootClass, color = '', variant, size, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>(({ children, className = '', customRootClass, detach = false, color = '', variant, size, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const dataAttributes = useCreateDataAttribute('checkbox', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);

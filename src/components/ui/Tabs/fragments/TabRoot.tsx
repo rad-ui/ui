@@ -13,6 +13,7 @@ const COMPONENT_NAME = 'Tabs';
 
 export type TabRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
     value?: string;
     color?: string;
     defaultValue?: string;
@@ -28,6 +29,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     defaultValue = '',
     onValueChange = () => {},
     customRootClass = '',
+    detach = false,
     value,
     className,
     color,
@@ -37,7 +39,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     asChild = false,
     ...props
 }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,

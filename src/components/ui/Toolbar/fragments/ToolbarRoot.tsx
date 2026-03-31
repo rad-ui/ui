@@ -13,6 +13,7 @@ export type ToolbarRootProps = React.ComponentPropsWithoutRef<'div'> & {
   loop?: boolean;
   dir?: 'ltr' | 'rtl';
   customRootClass?: string;
+  detach?: boolean;
   asChild?: boolean;
 };
 
@@ -24,13 +25,14 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
             dir = 'ltr',
             className = '',
             customRootClass = '',
+            detach = false,
             asChild = false,
             children,
             ...props
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const context = React.useMemo(() => ({ rootClass, orientation, dir }), [rootClass, orientation, dir]);
         const dataAttributes: Record<string, string> = {
             'data-orientation': orientation as string

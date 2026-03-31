@@ -14,6 +14,8 @@ export type HeadingProps = {
     as?: HeadingTag;
     /** Custom root class for specialized styling */
     customRootClass?: string;
+    /** Remove all Rad UI generated classes when true */
+    detach?: boolean;
 } & React.ComponentPropsWithoutRef<'h1'>;
 
 /**
@@ -23,10 +25,11 @@ const Heading = React.forwardRef<React.ElementRef<'h1'>, HeadingProps>(({
     children,
     as = 'h1',
     customRootClass = '',
+    detach = false,
     className = '',
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, as);
+    const rootClass = customClassSwitcher(customRootClass, as, detach);
     const Tag: HeadingTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as) ? as : 'h1';
 
     return React.createElement(Tag, {

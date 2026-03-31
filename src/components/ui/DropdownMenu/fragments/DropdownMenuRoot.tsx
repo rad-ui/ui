@@ -8,13 +8,14 @@ export type DropdownMenuRootElement = ElementRef<typeof MenuPrimitive.Root>;
 export type DropdownMenuRootProps = {
   children: React.ReactNode;
   customRootClass?: string;
+  detach?: boolean;
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Root>;
 
 const COMPONENT_NAME = 'DropdownMenu';
 
-const DropdownMenuRoot = forwardRef<DropdownMenuRootElement, DropdownMenuRootProps>(({ children, customRootClass, className, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const DropdownMenuRoot = forwardRef<DropdownMenuRootElement, DropdownMenuRootProps>(({ children, customRootClass, detach = false, className, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     return (
         <DropdownMenuContext.Provider value={{ rootClass }} >
             <MenuPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} {...props}>

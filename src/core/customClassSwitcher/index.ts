@@ -4,7 +4,11 @@ const RAD_UI_CLASS_PREFIX = 'rad-ui';
  * Applies a custom root class the user provides, else applies the default rad-ui classes to the component
  * Rad UI's classes are based on this logic
  * */
-export const customClassSwitcher = (customRootClass: string = '', componentName: string = ''): string => {
+export const customClassSwitcher = (customRootClass: string = '', componentName: string = '', detach: boolean = false): string => {
+    if (detach) {
+        return '';
+    }
+
     if (!componentName) {
         return '';
     }

@@ -8,13 +8,14 @@ import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorA
 const COMPONENT_NAME = 'Badge';
 export type BadgeProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
     variant?: string;
     size?: string;
     color?: string;
 };
 
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', detach = false, className = '', color = '', variant = '', size = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const dataAttributes = useCreateDataAttribute('badge', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);

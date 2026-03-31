@@ -9,6 +9,7 @@ const COMPONENT_NAME = 'Link';
 
 export interface LinkProps extends ComponentPropsWithoutRef<'a'> {
     customRootClass?: string;
+    detach?: boolean;
     size?: string;
     asChild?: boolean;
 }
@@ -16,8 +17,8 @@ export interface LinkProps extends ComponentPropsWithoutRef<'a'> {
 type LinkElement = ElementRef<'a'>;
 
 const Link = React.forwardRef<LinkElement, LinkProps>(
-    ({ children, href = '#', customRootClass, className, size = '', asChild = false, ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ children, href = '#', customRootClass, detach = false, className, size = '', asChild = false, ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const dataAttributes = useCreateDataAttribute('link', { size });
         const Anchor = Primitive.a as any;
         return (

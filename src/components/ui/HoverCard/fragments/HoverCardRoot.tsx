@@ -12,13 +12,14 @@ export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     customRootClass?: string;
+    detach?: boolean;
     openDelay?: number;
     closeDelay?: number;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const rootTriggerClass = customClassSwitcher(customRootClass, `${COMPONENT_NAME}-trigger`);
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', detach = false, openDelay = 100, closeDelay = 200, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
+    const rootTriggerClass = customClassSwitcher(customRootClass, `${COMPONENT_NAME}-trigger`, detach);
     const arrowRef = useRef<SVGSVGElement | null>(null);
     const ARROW_HEIGHT = 8;
     const SPACING_GAP = 2;

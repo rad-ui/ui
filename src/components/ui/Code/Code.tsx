@@ -7,6 +7,7 @@ const COMPONENT_NAME = 'Code';
 
 export type CodeProps = React.ComponentPropsWithoutRef<'code'> & {
     customRootClass?: string;
+    detach?: boolean;
     variant?: string;
     size?: string;
     color?: string;
@@ -15,13 +16,14 @@ export type CodeProps = React.ComponentPropsWithoutRef<'code'> & {
 const Code = React.forwardRef<React.ElementRef<'code'>, CodeProps>(({
     children,
     customRootClass = '',
+    detach = false,
     color = '',
     variant = '',
     size = '',
     className,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const data_attributes: Record<string, string> = {};
 

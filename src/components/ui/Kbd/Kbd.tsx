@@ -9,11 +9,12 @@ const COMPONENT_NAME = 'Kbd';
 export type KbdElement = ElementRef<'kbd'>;
 export interface KbdProps extends ComponentPropsWithoutRef<'kbd'> {
     customRootClass?: string;
+    detach?: boolean;
     size?: string;
 }
 
-const Kbd = forwardRef<KbdElement, KbdProps>(({ children, customRootClass, className, size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const Kbd = forwardRef<KbdElement, KbdProps>(({ children, customRootClass, detach = false, className, size = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const dataAttributes = useCreateDataAttribute('kbd', { size });
 

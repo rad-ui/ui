@@ -15,6 +15,7 @@ type RadioCardsRootProps = RadioGroupPrimitiveRootProps & {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;
+    detach?: boolean;
     variant?: string;
     size?: string;
     color?: string;
@@ -22,8 +23,8 @@ type RadioCardsRootProps = RadioGroupPrimitiveRootProps & {
     defaultValue?: string;
 };
 const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
-    ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ children, className = '', customRootClass = '', detach = false, variant = '', size = '', color = '', ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         const dataAttributes = useCreateDataAttribute('radio-cards', { variant, size });
         const accentAttributes = useCreateDataAccentColorAttribute(color);

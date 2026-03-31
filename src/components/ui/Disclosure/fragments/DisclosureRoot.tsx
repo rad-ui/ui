@@ -9,12 +9,13 @@ const COMPONENT_NAME = 'Disclosure';
 
 export type DisclosureRootProps = React.ComponentPropsWithoutRef<'div'> & {
      customRootClass?: string;
+     detach?: boolean;
      defaultOpen?: number | null;
 };
 
-const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, ...props }, forwardedRef) => {
+const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, detach = false, 'aria-label': ariaLabel, ...props }, forwardedRef) => {
     const disclosureRef = useRef<React.ElementRef<'div'> | null>(null);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
 

@@ -11,13 +11,14 @@ export type CollapsibleRootProps = React.ComponentPropsWithoutRef<
     typeof CollapsiblePrimitive.Root
 > & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
 const CollapsibleRoot = React.forwardRef<
     CollapsibleRootElement,
     CollapsibleRootProps
->(({ children, className = '', transitionDuration = 0, disabled, customRootClass, ...props }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+>(({ children, className = '', transitionDuration = 0, disabled, customRootClass, detach = false, ...props }, forwardedRef) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     return (
         <CollapsibleContext.Provider value={{ rootClass }}>
             <CollapsiblePrimitive.Root

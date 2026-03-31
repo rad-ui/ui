@@ -13,11 +13,12 @@ type DialogPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof DialogPrim
 
 export type DialogRootProps = DialogPrimitiveRootProps & {
     customRootClass?: string;
+    detach?: boolean;
     className?: string;
 };
 
-const DialogRoot = forwardRef<DialogRootElement, DialogRootProps>(({ children, customRootClass = '', className = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const DialogRoot = forwardRef<DialogRootElement, DialogRootProps>(({ children, customRootClass = '', detach = false, className = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const contextProps = { rootClass };
 

@@ -19,6 +19,8 @@ type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     orientation?: 'horizontal' | 'vertical';
     /** Custom root class name to override default styling */
     customRootClass?: string;
+    /** Remove all Rad UI generated classes when true */
+    detach?: boolean;
     /** Current value or values for the toggle group (controlled mode) */
     value?: any;
     /** Initial value or values for the toggle group (uncontrolled mode) */
@@ -47,6 +49,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     loop = true,
     orientation = 'horizontal',
     customRootClass = '',
+    detach = false,
     value,
     defaultValue = [],
     onValueChange,
@@ -58,7 +61,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     children,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     // Use controllable state for value management
     const [activeToggles, setActiveToggles] = useControllableState(

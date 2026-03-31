@@ -11,6 +11,7 @@ const COMPONENT_NAME = 'Accordion';
 
 export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue'> & {
     customRootClass?: string;
+    detach?: boolean;
     transitionDuration?: number;
     transitionTimingFunction?: string;
     orientation?: 'horizontal' | 'vertical';
@@ -31,6 +32,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     transitionDuration = 0,
     transitionTimingFunction = 'linear',
     customRootClass,
+    detach = false,
     loop = true,
     openMultiple = false,
     value,
@@ -39,7 +41,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     ...props
 }, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const [fixedHeight, setFixedHeight] = useState<number | null>(null);
     const heightLockTimeoutRef = useRef<NodeJS.Timeout>();
     const previousActiveItemsRef = useRef<(number | string)[]>([]);

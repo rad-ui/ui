@@ -13,6 +13,7 @@ export type SliderRootProps = {
     children: React.ReactNode;
     className?: string;
     customRootClass?: string;
+    detach?: boolean;
     defaultValue?: number | number[];
     value?: number | number[];
     onValueChange?: (value: number | number[]) => void;
@@ -31,6 +32,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     children,
     className = '',
     customRootClass = '',
+    detach = false,
     defaultValue,
     value: valueProp,
     onValueChange,
@@ -45,7 +47,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     formatValue,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const [value, setValue] = useControllableState<number | number[]>(
         valueProp,

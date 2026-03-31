@@ -13,14 +13,15 @@ const COMPONENT_NAME = 'Tree';
 export type TreeRootElement = ElementRef<typeof Primitive.div>;
 export type TreeRootProps = {
     customRootClass?: string;
+    detach?: boolean;
     'aria-label'?: string;
     'aria-labelledby'?: string;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
 
-const TreeRoot = forwardRef<TreeRootElement, TreeRootProps>(({ children, className = '', customRootClass = '', 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }, ref) => {
+const TreeRoot = forwardRef<TreeRootElement, TreeRootProps>(({ children, className = '', customRootClass = '', detach = false, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }, ref) => {
     const treeRef = useRef<TreeRootElement>(null);
     useImperativeHandle(ref, () => treeRef.current as TreeRootElement);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const treeContextValue = {
         rootClass,

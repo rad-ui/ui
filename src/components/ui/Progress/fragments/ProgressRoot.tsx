@@ -21,6 +21,7 @@ export type ProgressRootProps = {
     maxValue: number;
     getValueLabel?: (value: number, minValue: number, maxValue: number) => string;
     customRootClass?: string;
+    detach?: boolean;
     children: React.ReactNode;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
 
@@ -38,6 +39,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             maxValue = 100,
             children,
             customRootClass,
+            detach = false,
             getValueLabel,
             className,
             ...props
@@ -48,7 +50,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             (typeof STATE_ENUMS)[keyof typeof STATE_ENUMS]
                 >(STATE_ENUMS.LOADING);
 
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? '';
 
         useEffect(() => {

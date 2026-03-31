@@ -9,6 +9,7 @@ const COMPONENT_NAME = 'VisuallyHidden';
 export type VisuallyHiddenElement = ElementRef<typeof Primitive.div>;
 export type VisuallyHiddenProps = {
     customRootClass?: string;
+    detach?: boolean;
     style?: CSSProperties;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
 
@@ -27,8 +28,8 @@ const VISUALLY_HIDDEN_STYLES: CSSProperties = {
     userSelect: 'none'
 } as const;
 
-const VisuallyHidden = forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>(({ children, customRootClass, className, style = {}, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const VisuallyHidden = forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>(({ children, customRootClass, detach = false, className, style = {}, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     return (
         <Primitive.div

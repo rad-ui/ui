@@ -16,14 +16,15 @@ type CalloutRootProps = PrimitiveDivProps & {
     intent?: string; // Semantic intent: 'destructive' | 'warning' | 'info' | etc.
     size?: string;
     customRootClass?: string;
+    detach?: boolean;
 };
 
 const CalloutRoot = React.forwardRef<CalloutRootElement, CalloutRootProps>(
     (
-        { children, asChild = false, className = '', color = '', variant = '', intent = '', size = '', customRootClass = '', ...props },
+        { children, asChild = false, className = '', color = '', variant = '', intent = '', size = '', customRootClass = '', detach = false, ...props },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         // Backward compatibility: if variant is "destructive", treat it as intent
         // This allows existing code to continue working while migrating to intent/variant separation

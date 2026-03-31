@@ -7,11 +7,12 @@ const COMPONENT_NAME = 'Quote';
 
 export type QuoteProps = React.ComponentPropsWithoutRef<'q'> & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
 const Quote = React.forwardRef<React.ElementRef<'q'>, QuoteProps>(
-    ({ children, customRootClass, className, ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ children, customRootClass, detach = false, className, ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         return (
             <q ref={ref} className={clsx(rootClass, className)} {...props}>
                 {children}

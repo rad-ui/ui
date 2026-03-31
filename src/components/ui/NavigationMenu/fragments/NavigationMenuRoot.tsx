@@ -15,6 +15,7 @@ export interface NavigationMenuRootProps extends React.ComponentPropsWithoutRef<
     defaultValue?: string;
     onValueChange?: (value: string) => void;
     customRootClass?: string;
+    detach?: boolean;
 }
 
 const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, NavigationMenuRootProps>(
@@ -25,12 +26,13 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
             defaultValue = '',
             onValueChange,
             customRootClass,
+            detach = false,
             className,
             ...props
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
 
         return (

@@ -7,10 +7,11 @@ const COMPONENT_NAME = 'Em';
 
 export type EmProps = ComponentPropsWithoutRef<'em'> & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
-const Em = React.forwardRef<ElementRef<'em'>, EmProps>(({ children, customRootClass, className, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const Em = React.forwardRef<ElementRef<'em'>, EmProps>(({ children, customRootClass, detach = false, className, ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     return (
         <em ref={ref} className={clsx(rootClass, className)} {...props}>
             {children}

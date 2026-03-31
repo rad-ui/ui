@@ -8,11 +8,12 @@ const COMPONENT_NAME = 'Select';
 type SelectRootElement = React.ElementRef<typeof ComboboxPrimitive.Root>;
 type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Root> & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
 const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
-    ({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ customRootClass, detach = false, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
         return (
             <SelectRootContext.Provider value={{ rootClass }}>

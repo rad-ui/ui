@@ -14,6 +14,8 @@ export type ToggleElement = React.ElementRef<typeof TogglePrimitive>;
 export interface ToggleProps extends Omit<React.ComponentPropsWithoutRef<typeof TogglePrimitive>, 'onPressedChange'> {
     /** Optional custom root class name to override default styling */
     customRootClass?: string;
+    /** Remove all Rad UI generated classes when true */
+    detach?: boolean;
     /** Accent color for the toggle */
     color?: string;
     /** Callback fired when toggle state changes */
@@ -38,6 +40,7 @@ export interface ToggleProps extends Omit<React.ComponentPropsWithoutRef<typeof 
 const Toggle = forwardRef<ToggleElement, ToggleProps>(({
     defaultPressed = false,
     customRootClass = '',
+    detach = false,
     children,
     className = '',
     color = '',
@@ -56,7 +59,7 @@ const Toggle = forwardRef<ToggleElement, ToggleProps>(({
     // We don't need the validation anymore since the hook handles this
     // This is now handled by the hook's type safety and error messages
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const data_attributes: Record<string, string> = {};
 

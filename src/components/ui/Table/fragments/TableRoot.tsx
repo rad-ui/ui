@@ -7,15 +7,17 @@ const COMPONENT_NAME = 'Table';
 
 type TableRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
 const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
     children,
     className = '',
     customRootClass = '',
+    detach = false,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     // Its important to wrap the table in a div with the class 'rad-ui-table' so that the table can be styled properly
     // so we created a new class for <table> element as a one off case in pattern when it comes to naming classes/conventions

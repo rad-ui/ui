@@ -11,10 +11,11 @@ const COMPONENT_NAME = 'Minimap';
 
 type MinimapRootProps = React.HTMLAttributes<HTMLDivElement> & {
     customRootClass?: string;
+    detach?: boolean;
 };
 
-const MinimapRoot = ({ children, className, customRootClass = '', ...props }: MinimapRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const MinimapRoot = ({ children, className, customRootClass = '', detach = false, ...props }: MinimapRootProps) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const rootRef = React.useRef<HTMLDivElement>(null);
 
     return <MinimapContext.Provider value={{ rootClass, rootRef }}>

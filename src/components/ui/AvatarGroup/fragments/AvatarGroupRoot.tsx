@@ -6,14 +6,15 @@ import { useCreateDataAttribute, useComposeAttributes } from '~/core/hooks/creat
 
 export type AvatarGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string | '';
+    detach?: boolean;
     size?: string;
     variant?: string;
 };
 
 const COMPONENT_NAME = 'AvatarGroup';
 
-const AvatarGroupRoot = React.forwardRef<HTMLDivElement, AvatarGroupRootProps>(({ customRootClass = '', size = '', variant = '', children, className = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const AvatarGroupRoot = React.forwardRef<HTMLDivElement, AvatarGroupRootProps>(({ customRootClass = '', detach = false, size = '', variant = '', children, className = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
     const dataAttributes = useCreateDataAttribute('avatar', { variant, size });
     const composedAttributes = useComposeAttributes(dataAttributes());
 

@@ -13,6 +13,13 @@ describe('Toggle component', () => {
         expect(container.firstChild).toHaveClass('custom-class-toggle');
     });
 
+    test('removes all classes when detach is true', () => {
+        const { container } = render(<Toggle detach={true} onPressedChange={() => {}}>Test Toggle</Toggle>);
+        const toggle = container.firstChild;
+        expect(toggle).not.toHaveClass('rad-ui-toggle');
+        expect(toggle?.className.split(' ').filter(c => c.startsWith('rad-ui-') || c.includes('-toggle')).length).toBe(0);
+    });
+
     test('applies className correctly', () => {
         const { container } = render(<Toggle className="test-class" onPressedChange={() => {}}>Test Toggle</Toggle>);
         expect(container.firstChild).toHaveClass('test-class');

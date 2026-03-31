@@ -15,7 +15,7 @@ const DEFAULT_PRESSED_STATE = false;
 const Template = (args: any) => {
     return (
         <SandboxEditor className="space-y-4 pt-4">
-            <ToggleGroup.Root type={args.type} className={args.className} color={args.color}>
+            <ToggleGroup.Root type={args.type} className={args.className} color={args.color} customRootClass='s'>
                 {
                     items.map((item, index) => {
                         return (

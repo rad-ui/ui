@@ -7,6 +7,7 @@ const COMPONENT_NAME = 'TextArea';
 
 export type TextAreaRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    detach?: boolean;
     variant?: string;
     size?: string;
     resize?: 'none' | 'vertical' | 'horizontal' | 'both';
@@ -15,8 +16,8 @@ export type TextAreaRootProps = React.ComponentPropsWithoutRef<'div'> & {
 };
 
 const TextAreaRoot = React.forwardRef<React.ElementRef<'div'>, TextAreaRootProps>(
-    ({ children, customRootClass = '', className = '', variant = '', size = '', resize = 'both', color = '', radius = '', ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    ({ children, customRootClass = '', detach = false, className = '', variant = '', size = '', resize = 'both', color = '', radius = '', ...props }, ref) => {
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const dataAttributes = useCreateDataAttribute('textarea', { variant, size, resize, radius });
         const accentAttributes = useCreateDataAccentColorAttribute(color);
         const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());

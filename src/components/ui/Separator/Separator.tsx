@@ -12,6 +12,7 @@ type PrimitiveDivProps = ComponentPropsWithoutRef<typeof Primitive.div>;
 export type SeparatorProps = {
     orientation?: 'horizontal' | 'vertical';
     customRootClass?: string;
+    detach?: boolean;
     color?: string;
     decorative?: boolean;
 } & PrimitiveDivProps;
@@ -22,13 +23,14 @@ const Separator = React.forwardRef<SeparatorElement, SeparatorProps>(
             orientation = 'horizontal',
             className,
             customRootClass,
+            detach = false,
             color = '',
             decorative = false,
             ...props
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
         const orientationClass = orientation === 'vertical' ? `${rootClass}-vertical` : `${rootClass}-horizontal`;
         const data_attributes: Record<string, string> = {};
 

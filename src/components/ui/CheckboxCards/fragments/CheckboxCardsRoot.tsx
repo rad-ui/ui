@@ -10,13 +10,14 @@ const COMPONENT_NAME = 'CheckboxCards';
 export type CheckboxCardsRootElement = ElementRef<typeof CheckboxGroupPrimitive.Root>;
 export type CheckboxCardsRootProps = {
     customRootClass?: string;
+    detach?: boolean;
     color?: string;
     variant?: string;
     size?: string;
 } & ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Root>;
 
-const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(({ children, customRootClass = '', detach = false, className = '', color = '', variant = '', size = '', ...props }, ref) => {
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     const dataAttributes = useCreateDataAttribute('checkbox-cards', { variant, size });
     const accentAttributes = useCreateDataAccentColorAttribute(color);

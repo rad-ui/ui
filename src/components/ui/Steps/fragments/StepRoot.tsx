@@ -11,6 +11,7 @@ const COMPONENT_NAME = 'Steps';
 
 type StepsRootProps = React.HTMLAttributes<HTMLDivElement> & {
     customRootClass?: string;
+    detach?: boolean;
     orientation?: 'horizontal' | 'vertical';
     value?: number;
     defaultValue?: number;
@@ -21,6 +22,7 @@ const StepsRoot = ({
     children,
     className,
     customRootClass,
+    detach = false,
     orientation = 'horizontal',
     value,
     defaultValue,
@@ -29,7 +31,7 @@ const StepsRoot = ({
 }: StepsRootProps) => {
     const [currentStep, setCurrentStep] = useControllableState<number>(value, defaultValue ?? 0, onValueChange);
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME, detach);
 
     return <StepsContext.Provider value={{ currentStep, setCurrentStep, rootClass, orientation }}>
         <Primitive.div className={clsx(rootClass, className, `${rootClass}-${orientation}`)} data-orientation={orientation} {...props}>{children}</Primitive.div>
