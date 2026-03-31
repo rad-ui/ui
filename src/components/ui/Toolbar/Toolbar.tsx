@@ -36,6 +36,7 @@ Toolbar.ToggleItem = ToolbarToggleItem;
 
 export type { ToolbarRootProps } from './fragments/ToolbarRoot';
 export type { ToolbarButtonProps } from './fragments/ToolbarButton';
+export type { ToolbarSeparatorProps } from './fragments/ToolbarSeparator';
 export type { ToolbarLinkProps } from './fragments/ToolbarLink';
 export type { ToolbarToggleGroupProps } from './fragments/ToolbarToggleGroup';
 export type { ToolbarToggleItemProps } from './fragments/ToolbarToggleItem';
