@@ -5,7 +5,7 @@ import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { SelectRootContext } from '../contexts/SelectRootContext';
 
 type SelectTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>;
-type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
+export type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
     customRootClass?: string;
     placeholder?: boolean;
 };

@@ -8,7 +8,7 @@ import MinimapProviderContext from '../context/MinimapProviderContext';
 import Primitive from '~/core/primitives/Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
-type MinimapItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type MinimapItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     value: string;
 };
 

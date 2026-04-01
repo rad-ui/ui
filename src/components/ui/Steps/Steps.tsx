@@ -36,4 +36,12 @@ const Steps = Object.assign(StepsComponent, {
     Description: StepDescription
 }) as StepsComponentType;
 
+export type { StepsRootProps } from './fragments/StepRoot';
+export type { StepItemProps } from './fragments/StepItem';
+export type { StepTrackProps } from './fragments/StepTrack';
+export type { StepBubbleProps } from './fragments/StepBubble';
+export type { StepLineProps } from './fragments/StepLine';
+export type { StepContentProps } from './fragments/StepContent';
+export type { StepTitleProps } from './fragments/StepTitle';
+export type { StepDescriptionProps } from './fragments/StepDescription';
 export default Steps;

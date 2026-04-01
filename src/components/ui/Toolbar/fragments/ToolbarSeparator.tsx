@@ -6,6 +6,8 @@ import ToolbarRootContext from '../context/ToolbarRootContext';
 
 const COMPONENT_NAME = 'ToolbarSeparator';
 
+export type ToolbarSeparatorProps = SeparatorProps;
+
 const ToolbarSeparator = React.forwardRef<React.ElementRef<typeof Separator>, SeparatorProps>(
     ({ className = '', orientation, ...props }, ref) => {
         const context = React.useContext(ToolbarRootContext);

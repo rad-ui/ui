@@ -4,7 +4,7 @@ import React from 'react';
 import { useStepsContext } from '../context/StepsContext';
 import clsx from 'clsx';
 
-type StepItemProps = React.HTMLAttributes<HTMLDivElement> & {
+export type StepItemProps = React.HTMLAttributes<HTMLDivElement> & {
     value?: string | number | null;
 };
 

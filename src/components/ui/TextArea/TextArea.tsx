@@ -30,4 +30,6 @@ TextArea.displayName = 'TextArea';
 TextArea.Input = TextAreaInput;
 TextArea.Root = TextAreaRoot;
 
+export type { TextAreaRootProps } from './fragments/TextAreaRoot';
+export type { TextAreaInputProps } from './fragments/TextAreaInput';
 export default TextArea;

@@ -25,4 +25,7 @@ Tooltip.Root = TooltipRoot;
 Tooltip.Trigger = TooltipTrigger;
 Tooltip.Content = TooltipContent;
 
+export type { TooltipRootProps } from './fragments/TooltipRoot';
+export type { TooltipTriggerProps } from './fragments/TooltipTrigger';
+export type { TooltipContentProps } from './fragments/TooltipContent';
 export default Tooltip;

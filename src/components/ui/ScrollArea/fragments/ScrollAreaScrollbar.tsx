@@ -5,7 +5,7 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
 type ScrollAreaScrollbarElement = ElementRef<'div'>;
-type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
+export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
     orientation?: 'horizontal' | 'vertical';
 };
 

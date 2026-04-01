@@ -15,4 +15,8 @@ CheckboxGroup.Trigger = CheckboxGroupTrigger;
 CheckboxGroup.Label = CheckboxGroupLabel;
 CheckboxGroup.Indicator = CheckboxGroupIndicator;
 
+export type { CheckboxGroupRootProps } from './fragments/CheckboxGroupRoot';
+export type { CheckboxGroupTriggerProps } from './fragments/CheckboxGroupTrigger';
+export type { CheckboxGroupLabelProps } from './fragments/CheckboxGroupLabel';
+export type { CheckboxGroupIndicatorProps } from './fragments/CheckboxGroupIndicator';
 export default CheckboxGroup;

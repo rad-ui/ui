@@ -26,4 +26,6 @@ Progress.displayName = COMPONENT_NAME;
 Progress.Root = ProgressRoot;
 Progress.Indicator = ProgressIndicator;
 
+export type { ProgressRootProps } from './fragments/ProgressRoot';
+export type { ProgressIndicatorProps } from './fragments/ProgressIndicator';
 export default Progress;

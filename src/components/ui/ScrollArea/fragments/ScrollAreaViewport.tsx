@@ -4,7 +4,7 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
 type ScrollAreaViewportElement = ElementRef<'div'>;
-type ScrollAreaViewportProps = ComponentPropsWithoutRef<'div'>;
+export type ScrollAreaViewportProps = ComponentPropsWithoutRef<'div'>;
 
 const ScrollAreaViewport = forwardRef<ScrollAreaViewportElement, ScrollAreaViewportProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass, scrollAreaViewportRef, handleScroll } = useContext(ScrollAreaContext);

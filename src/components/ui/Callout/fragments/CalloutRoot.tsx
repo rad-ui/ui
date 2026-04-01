@@ -10,7 +10,7 @@ const COMPONENT_NAME = 'Callout';
 type CalloutRootElement = React.ElementRef<typeof Primitive.div>;
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>;
 
-type CalloutRootProps = PrimitiveDivProps & {
+export type CalloutRootProps = PrimitiveDivProps & {
     color?: string;
     variant?: string; // Visual variant: 'outline' | 'soft' | 'default'
     intent?: string; // Semantic intent: 'destructive' | 'warning' | 'info' | etc.

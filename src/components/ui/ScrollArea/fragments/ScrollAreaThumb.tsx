@@ -5,7 +5,7 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
 type ScrollAreaThumbElement = ElementRef<'div'>;
-type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
+export type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
     orientation?: 'horizontal' | 'vertical';
 };
 

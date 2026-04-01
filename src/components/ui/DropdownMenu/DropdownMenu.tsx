@@ -38,4 +38,12 @@ DropdownMenu.Sub = DropdownMenuSub;
 DropdownMenu.SubTrigger = DropdownMenuSubTrigger;
 DropdownMenu.Separator = DropdownMenuSeparator;
 
+export type { DropdownMenuRootProps } from './fragments/DropdownMenuRoot';
+export type { DropdownMenuTriggerProps } from './fragments/DropdownMenuTrigger';
+export type { DropdownMenuContentProps } from './fragments/DropdownMenuContent';
+export type { DropdownMenuPortalProps } from './fragments/DropdownMenuPortal';
+export type { DropdownMenuItemProps } from './fragments/DropdownMenuItem';
+export type { DropdownMenuSubProps } from './fragments/DropdownMenuSub';
+export type { DropdownMenuSubTriggerProps } from './fragments/DropdownMenuSubTrigger';
+export type { DropdownMenuSeparatorProps } from './fragments/DropdownMenuSeparator';
 export default DropdownMenu;

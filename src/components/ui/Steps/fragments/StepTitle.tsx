@@ -3,7 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useStepsContext } from '../context/StepsContext';
 
-type StepTitleProps = React.HTMLAttributes<HTMLDivElement>;
+export type StepTitleProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepTitle = ({ children, className = '', ...props }: StepTitleProps) => {
     const { rootClass } = useStepsContext();

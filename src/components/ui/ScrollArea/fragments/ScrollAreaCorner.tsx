@@ -5,7 +5,7 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
 type ScrollAreaCornerElement = ElementRef<'div'>;
-type ScrollAreaCornerProps = ComponentPropsWithoutRef<'div'>;
+export type ScrollAreaCornerProps = ComponentPropsWithoutRef<'div'>;
 
 const ScrollAreaCorner = forwardRef<ScrollAreaCornerElement, ScrollAreaCornerProps>(({ children, className, ...props }, ref) => {
     const { rootClass } = useContext(ScrollAreaContext);

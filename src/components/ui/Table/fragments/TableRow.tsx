@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TableRow';
 
-type TableRowProps = React.ComponentPropsWithoutRef<'tr'>;
+export type TableRowProps = React.ComponentPropsWithoutRef<'tr'>;
 
 const TableRow = React.forwardRef<React.ElementRef<'tr'>, TableRowProps>(
     ({ children, className = 'row', ...props }, ref) => {

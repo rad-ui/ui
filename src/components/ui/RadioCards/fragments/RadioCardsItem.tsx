@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 export type RadioCardsItemElement = ElementRef<typeof RadioGroupPrimitiveItem>;
 
-type RadioCardsItemProps = RadioGroupPrimitiveItemProps & {
+export type RadioCardsItemProps = RadioGroupPrimitiveItemProps & {
     children?: React.ReactNode;
     className?: string;
 };

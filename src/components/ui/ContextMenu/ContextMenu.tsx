@@ -38,4 +38,12 @@ ContextMenu.Sub = ContextMenuSub;
 ContextMenu.SubTrigger = ContextMenuSubTrigger;
 ContextMenu.Separator = ContextMenuSeparator;
 
+export type { ContextMenuRootProps } from './fragments/ContextMenuRoot';
+export type { ContextMenuTriggerProps } from './fragments/ContextMenuTrigger';
+export type { ContextMenuContentProps } from './fragments/ContextMenuContent';
+export type { ContextMenuPortalProps } from './fragments/ContextMenuPortal';
+export type { ContextMenuItemProps } from './fragments/ContextMenuItem';
+export type { ContextMenuSubProps } from './fragments/ContextMenuSub';
+export type { ContextMenuSubTriggerProps } from './fragments/ContextMenuSubTrigger';
+export type { ContextMenuSeparatorProps } from './fragments/ContextMenuSeparator';
 export default ContextMenu;

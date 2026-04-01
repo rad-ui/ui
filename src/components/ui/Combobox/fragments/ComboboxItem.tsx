@@ -4,7 +4,7 @@ import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
 type ComboboxItemElement = React.ElementRef<typeof ComboboxPrimitive.Item>;
-type ComboboxItemProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Item> & {
+export type ComboboxItemProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Item> & {
     customRootClass?: string;
 };
 

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 import { useInView } from '~/core/hooks/useInView/useInView';
 
-type MinimapWaypointProps = React.HTMLAttributes<HTMLDivElement> & {
+export type MinimapWaypointProps = React.HTMLAttributes<HTMLDivElement> & {
     value?: string | null;
 };
 

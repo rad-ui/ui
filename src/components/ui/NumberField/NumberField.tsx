@@ -13,4 +13,8 @@ NumberField.Input = NumberFieldInput;
 NumberField.Increment = NumberFieldIncrement;
 NumberField.Decrement = NumberFieldDecrement;
 
+export type { NumberFieldRootProps } from './fragments/NumberFieldRoot';
+export type { NumberFieldInputProps } from './fragments/NumberFieldInput';
+export type { NumberFieldIncrementProps } from './fragments/NumberFieldIncrement';
+export type { NumberFieldDecrementProps } from './fragments/NumberFieldDecrement';
 export default NumberField;

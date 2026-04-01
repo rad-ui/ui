@@ -5,7 +5,7 @@ import MinimapContext from '../context/MinimapContext';
 import MinimapItemContext from '../context/MinimapItemContext';
 import MinimapProviderContext from '../context/MinimapProviderContext';
 
-type MinimapLineProps = React.HTMLAttributes<HTMLDivElement>;
+export type MinimapLineProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimapLine = ({ children, className = '', ...props }: MinimapLineProps) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };

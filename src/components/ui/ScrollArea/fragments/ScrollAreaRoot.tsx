@@ -9,7 +9,7 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 const COMPONENT_NAME = 'ScrollArea';
 
 type ScrollAreaRootElement = ElementRef<'div'>;
-type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
+export type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
     type?: 'auto' | 'always' | 'scroll' | 'hover';
 };

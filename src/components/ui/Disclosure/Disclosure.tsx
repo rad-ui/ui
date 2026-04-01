@@ -42,4 +42,8 @@ Disclosure.Content = DisclosureContent;
 
 Disclosure.displayName = 'Disclosure';
 
+export type { DisclosureRootProps } from './fragments/DisclosureRoot';
+export type { DisclosureItemProps } from './fragments/DisclosureItem';
+export type { DisclosureTriggerProps } from './fragments/DisclosureTrigger';
+export type { DisclosureContentProps } from './fragments/DisclosureContent';
 export default Disclosure;

@@ -31,4 +31,7 @@ export namespace SwitchProps {
 
 Switch.Root = SwitchRoot;
 Switch.Thumb = SwitchThumb;
+
+export type { SwitchRootProps } from './fragments/SwitchRoot';
+export type { SwitchThumbProps } from './fragments/SwitchThumb';
 export default Switch;

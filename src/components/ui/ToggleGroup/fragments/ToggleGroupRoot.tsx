@@ -8,7 +8,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { ToggleContext } from '../contexts/toggleContext';
 
 type ToggleGroupRootElement = React.ElementRef<'div'>;
-type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
+export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
     type?: 'single' | 'multiple';
     /** Additional CSS class names to apply */

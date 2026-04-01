@@ -81,4 +81,10 @@ Slider.Thumb = SliderThumb;
 Slider.Marks = SliderMarks;
 Slider.RangeSlider = SliderRangeSlider;
 
+export type { SliderRootProps } from './fragments/SliderRoot';
+export type { SliderTrackProps } from './fragments/SliderTrack';
+export type { SliderRangeProps } from './fragments/SliderRange';
+export type { SliderThumbProps } from './fragments/SliderThumb';
+export type { SliderMarksProps } from './fragments/SliderMarks';
+export type { SliderRangeSliderProps } from './fragments/SliderRangeSlider';
 export default Slider;
