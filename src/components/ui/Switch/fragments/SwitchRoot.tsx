@@ -5,9 +5,9 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import { customClassSwitcher } from '~/core';
 import { SwitchContext } from '../context/SwitchContext';
 import {
-    useCreateDataAttribute,
-    useComposeAttributes,
-    useCreateDataAccentColorAttribute
+    createDataAttributes,
+    composeAttributes,
+    createDataAccentColorAttribute
 } from '~/core/hooks/createDataAttribute';
 import useControllableState from '~/core/hooks/useControllableState';
 
@@ -54,9 +54,9 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
 
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('switch', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+    const dataAttributes = createDataAttributes('switch', { variant, size });
+    const accentAttributes = createDataAccentColorAttribute(color);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     const handleCheckedChange = () => {
         if (disabled) return;
@@ -71,7 +71,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
     };
 
     const switchAttributes: Record<string, any> = {
-        ...composedAttributes(),
+        ...composedAttributes,
         'data-state': isChecked ? 'checked' : 'unchecked',
         'data-disabled': disabled ? '' : undefined,
         role: 'switch',

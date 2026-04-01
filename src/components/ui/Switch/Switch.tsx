@@ -6,9 +6,9 @@ const Switch = () => {
     console.warn('Direct usage of Switch is not supported. Please use Switch.Root, Switch.Thumb, etc. instead.');
     return null;
 
-    // const dataAttributes = useCreateDataAttribute('switch', { variant, size });
-    // const accentAttributes = useCreateDataAccentColorAttribute(color);
-    // const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+    // const dataAttributes = createDataAttributes('switch', { variant, size });
+    // const accentAttributes = createDataAccentColorAttribute(color);
+    // const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     // return (
     //     <>
@@ -18,7 +18,7 @@ const Switch = () => {
     //             onClick={handleChecked}
     //             role="switch"
     //             aria-checked={isChecked}
-    //             {...composedAttributes()}
+    //             {...composedAttributes}
     //         ></button> */}
 
     //     </>

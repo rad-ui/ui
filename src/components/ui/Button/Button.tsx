@@ -7,7 +7,7 @@ import React, {
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
@@ -35,9 +35,9 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
         // apply data attribute for accent color
         // apply attribute only if color is present
-        const dataAttributes = useCreateDataAttribute('button', { variant, size });
-        const accentAttributes = useCreateDataAccentColorAttribute(color);
-        const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+        const dataAttributes = createDataAttributes('button', { variant, size });
+        const accentAttributes = createDataAccentColorAttribute(color);
+        const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
         const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
             if (disabled) {
@@ -55,7 +55,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 disabled={disabled}
                 data-disabled={disabled ? '' : undefined}
                 className={clsx(rootClass, className)}
-                {...composedAttributes()}
+                {...composedAttributes}
                 onClick={handleClick}
                 {...props}
             >
