@@ -5,12 +5,14 @@ import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitive
 type CollapsiblePrimitiveContentElement = React.ElementRef<typeof Primitive.div>;
 export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
     typeof Primitive.div
->;
+> & {
+    forceMount?: boolean;
+};
 
 const CollapsiblePrimitiveContent = React.forwardRef<
     CollapsiblePrimitiveContentElement,
     CollapsiblePrimitiveContentProps
->(({ children, className, asChild = false, ...props }, forwardedRef) => {
+>(({ children, className, asChild = false, forceMount = false, ...props }, forwardedRef) => {
     const {
         open,
         contentId,
@@ -29,16 +31,16 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     };
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const heightRef = useRef(height);
-    const [shouldRender, setShouldRender] = useState(open);
+    const [shouldRender, setShouldRender] = useState(open || forceMount);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
 
     // When opening, we need to immediately render
     useEffect(() => {
-        if (open) {
+        if (open || forceMount) {
             setShouldRender(true);
         }
-    }, [open]);
+    }, [open, forceMount]);
 
     // Use ResizeObserver to handle dynamic content changes
     useEffect(() => {
@@ -101,7 +103,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             setHeight(open ? undefined : 0);
 
             // For instant changes, also update visibility immediately
-            if (!open) {
+            if (!open && !forceMount) {
                 setShouldRender(false);
             }
             return;
@@ -152,7 +154,9 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
             // After animation completes, we can hide the element completely
             animationTimeoutRef.current = setTimeout(() => {
-                setShouldRender(false);
+                if (!forceMount) {
+                    setShouldRender(false);
+                }
             }, transitionDuration);
         }
 
@@ -164,10 +168,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, transitionDuration]);
+    }, [open, transitionDuration, forceMount]);
 
     // Don't render anything if closed and animation is complete
-    if (!shouldRender && !open) {
+    if (!shouldRender && !open && !forceMount) {
         return null;
     }
 

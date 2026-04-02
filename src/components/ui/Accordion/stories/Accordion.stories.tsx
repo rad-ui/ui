@@ -84,7 +84,7 @@ const items = [
 const AccordionExample = ({ ...args }) => {
     return (
         <div className="w-[600px] mx-auto mt-10">
-            <Accordion.Root {...args}>
+            <Accordion.Root collapsible {...args}>
                 {items.map((item, index) => (
                     <Accordion.Item value={index} key={index}>
                         <Accordion.Header>
@@ -93,7 +93,7 @@ const AccordionExample = ({ ...args }) => {
                                 <ChevronDownIcon />
                             </Accordion.Trigger>
                         </Accordion.Header>
-                        <Accordion.Content index={index}>
+                        <Accordion.Content>
                             {item.content}
                         </Accordion.Content>
                     </Accordion.Item>
@@ -113,7 +113,7 @@ export const WithAnimation: Story = {
 };
 
 export const OpenMultiple: Story = {
-    render: () => <AccordionExample openMultiple />
+    render: () => <AccordionExample type="multiple" />
 };
 
 export const WithDeafultValue: Story = {

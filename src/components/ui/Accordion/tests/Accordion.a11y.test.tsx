@@ -22,7 +22,7 @@ const items = [
 
 // Helper to render a simple accordion
 const TestAccordion = (props: Partial<AccordionRootProps>) => (
-    <Accordion.Root {...props}>
+    <Accordion.Root collapsible {...props}>
         {items.map((item, index) => (
             <Accordion.Item value={index} key={index} disabled={(item as any).disabled}>
                 <Accordion.Header>
@@ -40,16 +40,10 @@ describe('Accordion accessibility', () => {
             render(<TestAccordion />);
             const triggers = screen.getAllByRole('button');
 
-            triggers.forEach((trigger, index) => {
-                // Each trigger should have aria-expanded
+            triggers.forEach((trigger) => {
                 expect(trigger).toHaveAttribute('aria-expanded');
-                // Initially all should be closed
                 expect(trigger).toHaveAttribute('aria-expanded', 'false');
-                // Should have aria-controls pointing to content when index is provided
-                // Note: aria-controls is only set when index prop is provided to Trigger
-                // In TestAccordion, index is passed to Content but not explicitly to Trigger
-                // The component still works correctly via itemValue
-                // Should have proper role
+                expect(trigger).toHaveAttribute('aria-controls');
                 expect(trigger).toHaveAttribute('role', 'button');
             });
         });
@@ -69,14 +63,13 @@ describe('Accordion accessibility', () => {
         });
 
         test('content has correct ARIA attributes', () => {
-            render(<TestAccordion />);
+            render(<TestAccordion defaultValue={[0]} />);
             const contents = screen.getAllByRole('region', { hidden: true });
 
             contents.forEach((content) => {
-                // Content should have role="region"
                 expect(content).toHaveAttribute('role', 'region');
-                // Content should have an id (may be auto-generated or from index prop)
                 expect(content).toHaveAttribute('id');
+                expect(content).toHaveAttribute('aria-labelledby');
             });
         });
 
@@ -389,7 +382,7 @@ describe('Accordion accessibility', () => {
             ];
 
             const DisabledAccordion = (props: Partial<AccordionRootProps>) => (
-                <Accordion.Root {...props}>
+                <Accordion.Root collapsible {...props}>
                     {disabledItems.map((item, index) => (
                         <Accordion.Item value={index} key={index} disabled={(item as any).disabled}>
                             <Accordion.Header>
@@ -455,44 +448,21 @@ describe('Accordion accessibility', () => {
             expect(screen.getByTestId('accordion')).toHaveAttribute('dir', 'rtl');
         });
 
-        test('content is properly associated with trigger via aria-controls when index provided', () => {
-            // Test with explicit index prop on trigger
-            render(
-                <Accordion.Root>
-                    {items.map((item, index) => (
-                        <Accordion.Item value={index} key={index}>
-                            <Accordion.Header>
-                                <Accordion.Trigger index={index}>{item.title}</Accordion.Trigger>
-                            </Accordion.Header>
-                            <Accordion.Content index={index}>{item.content}</Accordion.Content>
-                        </Accordion.Item>
-                    ))}
-                </Accordion.Root>
-            );
-            const triggers = screen.getAllByRole('button');
-            const contents = screen.getAllByRole('region', { hidden: true });
-
-            triggers.forEach((trigger) => {
-                const controlsId = trigger.getAttribute('aria-controls');
-                if (controlsId) {
-                    // Verify that a content element exists with the ID referenced by aria-controls
-                    // Note: Collapsible primitive may override the ID, so we check that content exists
-                    const matchingContent = contents.find(content =>
-                        content.getAttribute('id') === controlsId ||
-                        content.id === controlsId
-                    );
-                    // If aria-controls is set, verify the relationship exists
-                    // The actual ID may be managed by Collapsible primitive
-                    expect(contents.length).toBeGreaterThan(0);
-                }
-            });
+        test('content is properly associated with trigger via aria-controls', () => {
+            render(<TestAccordion defaultValue={[0]} />);
+            const trigger = screen.getByRole('button', { name: 'Item 1' });
+            const controlsId = trigger.getAttribute('aria-controls');
+            expect(controlsId).toBeTruthy();
+            const panel = document.getElementById(controlsId!);
+            expect(panel).not.toBeNull();
+            expect(panel).toHaveAttribute('role', 'region');
         });
 
         test('items have proper role="region"', () => {
-            render(<TestAccordion />);
-            const items = screen.getAllByRole('region', { hidden: true });
-            expect(items.length).toBe(3);
-            items.forEach(item => {
+            render(<TestAccordion defaultValue={[0, 1, 2]} openMultiple />);
+            const regions = screen.getAllByRole('region', { hidden: true });
+            expect(regions.length).toBe(3);
+            regions.forEach((item) => {
                 expect(item).toHaveAttribute('role', 'region');
             });
         });
@@ -504,15 +474,14 @@ describe('Accordion accessibility', () => {
             const ref = React.createRef<HTMLButtonElement>();
 
             render(
-                <Accordion.Root>
+                <Accordion.Root collapsible>
                     <Accordion.Item value={0}>
                         <Accordion.Header>
-                            {/* @ts-expect-error - testing custom child via asChild */}
                             <Accordion.Trigger asChild>
-                                <button ref={ref}>Link Trigger</button>
+                                <button type="button" ref={ref}>Link Trigger</button>
                             </Accordion.Trigger>
                         </Accordion.Header>
-                        <Accordion.Content index={0}>Content</Accordion.Content>
+                        <Accordion.Content>Content</Accordion.Content>
                     </Accordion.Item>
                 </Accordion.Root>
             );

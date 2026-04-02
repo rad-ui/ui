@@ -15,12 +15,12 @@ describe('Accordion Dynamic Content', () => {
             }, []);
 
             return (
-                <Accordion.Root defaultValue={['item-1']} transitionDuration={300}>
+                <Accordion.Root collapsible defaultValue={['item-1']} transitionDuration={300}>
                     <Accordion.Item value="item-1">
                         <Accordion.Header>
-                            <Accordion.Trigger index={0}>Trigger 1</Accordion.Trigger>
+                            <Accordion.Trigger>Trigger 1</Accordion.Trigger>
                         </Accordion.Header>
-                        <Accordion.Content index={0} data-testid="content">
+                        <Accordion.Content data-testid="content">
                             {items.map(item => <div key={item}>{item}</div>)}
                         </Accordion.Content>
                     </Accordion.Item>

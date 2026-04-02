@@ -24,7 +24,7 @@ const AccordionExample = () => {
 
   return (
   <div className="w-64 md:w-96">
-    <Accordion.Root>
+    <Accordion.Root collapsible>
       {items.map((item) => (
         <Accordion.Item key={item.id} value={item.id}>
           <Accordion.Header>

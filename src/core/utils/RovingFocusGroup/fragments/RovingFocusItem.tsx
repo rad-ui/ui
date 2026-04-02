@@ -18,6 +18,8 @@ type RovingFocusItemProps = {
     role?: string;
     handleRightKeyDown?: () => void;
     handleLeftKeyDown?: () => void;
+    /** Stable id for the focusable node; required when the child overrides `id` (e.g. accordion triggers). */
+    domId?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
@@ -45,9 +47,11 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     type,
     handleRightKeyDown,
     handleLeftKeyDown,
+    domId,
     ...props
 }, ref) => {
-    const id = useId();
+    const autoId = useId();
+    const registrationId = domId ?? autoId;
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
     const { orientation, loop, disableTabIndexing, dir, mode } = useContext(RovingFocusRootContext);
     // Check if the child element is disabled
@@ -60,16 +64,16 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const resolvedType = type ?? (isLinkLikeChild ? undefined : 'button');
 
     // Is this item currently selected
-    const isSelected = focusedItemId === id;
+    const isSelected = focusedItemId === registrationId;
     const tabIndex = disableTabIndexing ? 0 : !isDisabled && isSelected ? 0 : -1;
 
     // Register this item with the parent group
     useEffect(() => {
         // we check if the item is in the focusItems array, if not we add it
-        if (!focusItems.includes(id)) {
-            addFocusItem(id);
+        if (!focusItems.includes(registrationId)) {
+            addFocusItem(registrationId);
         }
-    }, [focusItems, focusedItemId, id, addFocusItem]);
+    }, [focusItems, focusedItemId, registrationId, addFocusItem]);
 
     /**
      * Focuses an item by its ID, skipping disabled items
@@ -132,7 +136,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
      * If at the first item and loop=true, will focus the last enabled item
      */
     const focusPreviousItem = () => {
-        const currentIndex = focusItems.indexOf(id);
+        const currentIndex = focusItems.indexOf(registrationId);
         const previousEnabledIndex = findEnabledItemIndex(currentIndex, -1);
 
         if (previousEnabledIndex !== -1) {
@@ -145,7 +149,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
      * If at the last item and loop=true, will focus the first enabled item
      */
     const focusNextItem = () => {
-        const currentIndex = focusItems.indexOf(id);
+        const currentIndex = focusItems.indexOf(registrationId);
         const nextEnabledIndex = findEnabledItemIndex(currentIndex, 1);
 
         if (nextEnabledIndex !== -1) {
@@ -254,10 +258,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
      * Updates focus state when this item receives focus
      */
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
-        event.preventDefault();
         if (isDisabled) event.target.blur();
         if (!isDisabled) {
-            setFocusedItemId(id);
+            setFocusedItemId(registrationId);
         }
     };
 
@@ -266,7 +269,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         onFocus={handleFocus}
         tabIndex={tabIndex}
         ref={ref}
-        id={id}
+        id={registrationId}
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}
         role={resolvedRole}

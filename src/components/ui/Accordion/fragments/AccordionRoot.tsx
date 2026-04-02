@@ -17,7 +17,15 @@ export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'de
     asChild?: boolean;
     loop?: boolean;
     disableTabIndexing?: boolean;
+    /** @deprecated Prefer `type="multiple"`. */
     openMultiple?: boolean;
+    /** Radix-aligned mode: single allows one open section; multiple allows several. */
+    type?: 'single' | 'multiple';
+    /**
+     * When `type` is single (default), whether the open item can be closed by activating its trigger again.
+     * Matches Radix: defaults to false (trigger does not collapse the only open item).
+     */
+    collapsible?: boolean;
     value?: (number | string)[];
     defaultValue?: (number | string)[];
     onValueChange?: (value: (number | string)[]) => void;
@@ -26,16 +34,19 @@ export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'de
 const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>(({
     children,
     orientation = 'vertical',
-    disableTabIndexing = true,
+    disableTabIndexing = false,
     asChild,
     transitionDuration = 0,
     transitionTimingFunction = 'linear',
     customRootClass,
     loop = true,
     openMultiple = false,
+    type,
+    collapsible = false,
     value,
     defaultValue = [],
     onValueChange,
+    dir,
     ...props
 }, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
@@ -44,11 +55,14 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     const heightLockTimeoutRef = useRef<NodeJS.Timeout>();
     const previousActiveItemsRef = useRef<(number | string)[]>([]);
 
+    const isMultiple = type === 'multiple' || (type !== 'single' && openMultiple);
+    const collapsibleEffective = isMultiple ? true : collapsible;
+
     const processedValue = value !== undefined
-        ? (openMultiple ? value : (value.length > 0 ? [value[0]] : []))
+        ? (isMultiple ? value : (value.length > 0 ? [value[0]] : []))
         : undefined;
 
-    const processedDefaultValue = openMultiple
+    const processedDefaultValue = isMultiple
         ? defaultValue
         : (defaultValue.length > 0 ? [defaultValue[0]] : []);
 
@@ -62,7 +76,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     // This ensures when one item opens and another closes, the total height remains constant
     // Similar to how Radix-based libraries handle synchronized accordion animations
     useEffect(() => {
-        if (transitionDuration === 0 || !accordionRef.current || openMultiple) {
+        if (transitionDuration === 0 || !accordionRef.current || isMultiple) {
             previousActiveItemsRef.current = [...activeItems];
             return;
         }
@@ -128,7 +142,9 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
                 clearTimeout(heightLockTimeoutRef.current);
             }
         };
-    }, [activeItems, transitionDuration, openMultiple]);
+    }, [activeItems, transitionDuration, isMultiple]);
+
+    const rovingDir: 'ltr' | 'rtl' = dir === 'rtl' ? 'rtl' : 'ltr';
 
     return (
         <AccordionContext.Provider
@@ -139,12 +155,19 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
                 accordionRef,
                 transitionDuration,
                 transitionTimingFunction,
-                openMultiple
+                openMultiple: isMultiple,
+                collapsible: collapsibleEffective
             }}>
-            <RovingFocusGroup.Root orientation={orientation} loop={loop} disableTabIndexing={disableTabIndexing} >
+            <RovingFocusGroup.Root
+                orientation={orientation}
+                loop={loop}
+                disableTabIndexing={disableTabIndexing}
+                dir={rovingDir}
+            >
                 <RovingFocusGroup.Group >
                     <Primitive.div
                         className={clsx(`${rootClass}-root`)}
+                        dir={dir}
                         ref={(node) => {
                             const element = node as HTMLDivElement | null;
                             accordionRef.current = element;

@@ -25,8 +25,10 @@ test('Dialog hydrates without warnings', async({ page }) => {
 
     // Test that the Dialog component rendered correctly
     await expect(page.getByTestId('dialog-container')).toBeVisible();
-    await expect(page.getByTestId('dialog-trigger')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Open Dialog' })).toBeVisible();
+    const trigger = page.getByTestId('dialog-trigger');
+    await expect(trigger).toBeVisible();
+    // With `open`, the trigger is often removed from the accessibility tree; assert label via test id + text.
+    await expect(trigger).toHaveText('Open Dialog');
 
     // Test that there are no critical errors
     expect(messages.filter(msg => msg.includes('Objects are not valid as a React child'))).toEqual([]);

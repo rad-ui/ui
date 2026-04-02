@@ -16,7 +16,7 @@ const testItems = [
 // Create a test accordion component using the composable pattern
 const TestAccordion = (props: Partial<AccordionRootProps>) => {
     return (
-        <Accordion.Root {...props}>
+        <Accordion.Root collapsible {...props}>
             {testItems.map((item, index) => (
                 <Accordion.Item value={index} key={index}>
                     <Accordion.Header>
@@ -85,14 +85,14 @@ describe('Accordion Component', () => {
     test('calls user onClick while preserving toggle behavior', () => {
         const handleClick = jest.fn();
         render(
-            <Accordion.Root>
+            <Accordion.Root collapsible>
                 <Accordion.Item value={0}>
                     <Accordion.Header>
                         <Accordion.Trigger onClick={handleClick}>
                             Item 1
                         </Accordion.Trigger>
                     </Accordion.Header>
-                    <Accordion.Content index={0}>Content 1</Accordion.Content>
+                    <Accordion.Content>Content 1</Accordion.Content>
                 </Accordion.Item>
             </Accordion.Root>
         );
@@ -210,5 +210,43 @@ describe('Accordion Component', () => {
         expect(screen.getByText('Content 3')).toBeInTheDocument();
         expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+    });
+
+    test('Radix-style non-collapsible single mode keeps panel open on second click', () => {
+        render(
+            <Accordion.Root>
+                {testItems.map((item, index) => (
+                    <Accordion.Item value={index} key={index}>
+                        <Accordion.Header>
+                            <Accordion.Trigger>{item.title}</Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content>{item.content}</Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        );
+        const trigger = screen.getByText('Item 1');
+        fireEvent.click(trigger);
+        expect(screen.getByText('Content 1')).toBeInTheDocument();
+        fireEvent.click(trigger);
+        expect(screen.getByText('Content 1')).toBeInTheDocument();
+    });
+
+    test('Escape on trigger closes panel and syncs aria-expanded (collapsible)', () => {
+        render(
+            <Accordion.Root collapsible defaultValue={[0]}>
+                <Accordion.Item value={0}>
+                    <Accordion.Header>
+                        <Accordion.Trigger>Item 1</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content>Content 1</Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        );
+        const trigger = screen.getByRole('button', { name: 'Item 1' });
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        fireEvent.keyDown(trigger, { key: 'Escape' });
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
     });
 });
