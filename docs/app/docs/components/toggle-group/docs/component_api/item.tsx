@@ -31,6 +31,14 @@ const data = {
             },
             type: "string",
             default: "null",
+        },
+        {
+            prop: {
+                name: "iconOnly",
+                info_tooltips: "Square dimensions for icon-only items; omit when the item has visible text."
+            },
+            type: "boolean",
+            default: "false",
         }
     ]
 };

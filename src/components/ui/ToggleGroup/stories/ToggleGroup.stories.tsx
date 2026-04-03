@@ -15,13 +15,13 @@ export const Basic = {
             <SandboxEditor>
                 <div className="flex justify-center py-16">
                     <ToggleGroup.Root type="multiple" defaultValue={['bold']}>
-                        <ToggleGroup.Item value="bold" aria-label="Bold">
+                        <ToggleGroup.Item value="bold" aria-label="Bold" iconOnly>
                             <Bold aria-hidden strokeWidth={2} />
                         </ToggleGroup.Item>
-                        <ToggleGroup.Item value="italic" aria-label="Italic">
+                        <ToggleGroup.Item value="italic" aria-label="Italic" iconOnly>
                             <Italic aria-hidden strokeWidth={2} />
                         </ToggleGroup.Item>
-                        <ToggleGroup.Item value="underline" aria-label="Underline">
+                        <ToggleGroup.Item value="underline" aria-label="Underline" iconOnly>
                             <Underline aria-hidden strokeWidth={2} />
                         </ToggleGroup.Item>
                     </ToggleGroup.Root>

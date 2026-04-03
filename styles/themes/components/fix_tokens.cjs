@@ -1,18 +1,32 @@
 const fs = require('fs');
 const path = require('path');
 
-const dir = '/Users/pranaykothapalli/Desktop/dev/hobby/ui/styles/themes/components';
+function getComponentsDir() {
+    if (process.env.COMPONENTS_DIR) {
+        return path.resolve(process.env.COMPONENTS_DIR);
+    }
+    return path.resolve(__dirname);
+}
 
 function processFile(filePath) {
     let content = fs.readFileSync(filePath, 'utf8');
     let originalContent = content;
 
-    // Remove any 950 uses, rounding up to 1000
-    content = content.replace(/-950/g, '-1000');
+    // Remove any 950 shade tokens, rounding up to 1000 (only inside --rad-ui-color-* names / var() refs)
+    content = content.replace(
+        /(?<=--rad-ui-color-(?:gray|accent|[\w]+)-)950(?=\)|:|,)/g,
+        '1000',
+    );
 
-    // Rule: color: (replace 600 -> 700, 800 -> 900)
-    content = content.replace(/(?<=color:\s*var\(--rad-ui-color-(?:gray|accent|[\w]+)-)600(?=\))/g, '700');
-    content = content.replace(/(?<=color:\s*var\(--rad-ui-color-(?:gray|accent|[\w]+)-)800(?=\))/g, '900');
+    // Rule: color: only (not *-color:); replace 600 -> 700, 800 -> 900
+    content = content.replace(
+        /(?<![\w-])(color:\s*var\(--rad-ui-color-(?:gray|accent|[\w]+)-)600(?=\))/g,
+        (_, prefix) => `${prefix}700`,
+    );
+    content = content.replace(
+        /(?<![\w-])(color:\s*var\(--rad-ui-color-(?:gray|accent|[\w]+)-)800(?=\))/g,
+        (_, prefix) => `${prefix}900`,
+    );
 
     // Rule: background-color: (if 500 or 600 or 900 => 800)
     content = content.replace(/(?<=background(?:-color)?:\s*var\(--rad-ui-color-(?:gray|accent|[\w]+)-)(500|600|900)(?=\))/g, '800');
@@ -24,7 +38,10 @@ function processFile(filePath) {
 
     // Avatar base has `background-color: var(--rad-ui-color-gray-200);` which is hover. Muted surface without interaction is 100.
     if (filePath.includes('_avatar-base.scss')) {
-        content = content.replace(/gray-200/g, 'gray-100');
+        content = content.replace(
+            /(?<=background-color:\s*var\(--rad-ui-color-gray-)200(?=\))/g,
+            '100',
+        );
     }
 
     if (content !== originalContent) {
@@ -33,12 +50,20 @@ function processFile(filePath) {
     }
 }
 
-function walk(dir) {
-    for (const f of fs.readdirSync(dir)) {
-        const full = path.join(dir, f);
+function walk(currentDir) {
+    for (const f of fs.readdirSync(currentDir)) {
+        const full = path.join(currentDir, f);
         if (fs.statSync(full).isDirectory()) walk(full);
         else if (full.endsWith('.scss')) processFile(full);
     }
 }
 
-walk(dir);
+function run() {
+    walk(getComponentsDir());
+}
+
+module.exports = { getComponentsDir, run, walk, processFile };
+
+if (require.main === module) {
+    run();
+}

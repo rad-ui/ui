@@ -34,7 +34,7 @@ const ToggleGroupExampleBasic = () => {
     return <div>
         <ToggleGroup.Root>
             {items.map((item) => (
-                <ToggleGroup.Item key={item.value} value={item.value}>
+                <ToggleGroup.Item key={item.value} value={item.value} iconOnly>
                     {item.label}
                 </ToggleGroup.Item>
             ))}

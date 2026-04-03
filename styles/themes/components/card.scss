@@ -89,26 +89,26 @@
     background-color: color-mix(in oklab, var(--rad-ui-surface) 94%, var(--rad-ui-surface-subtle));
   }
 
-  &[data-card-size="small"] .rad-ui-card-content {
+  &[data-card-size="small"] > .rad-ui-card-content {
     padding-top: 1rem;
   }
 
-  &[data-card-size="small"] .rad-ui-card-footer {
+  &[data-card-size="small"] > .rad-ui-card-footer {
     margin: 1rem -1rem -1rem;
     padding: 1rem;
   }
 
-  &[data-card-size="large"] .rad-ui-card-content,
-  &[data-card-size="x-large"] .rad-ui-card-content {
+  &[data-card-size="large"] > .rad-ui-card-content,
+  &[data-card-size="x-large"] > .rad-ui-card-content {
     padding-top: 1.75rem;
   }
 
-  &[data-card-size="large"] .rad-ui-card-footer {
+  &[data-card-size="large"] > .rad-ui-card-footer {
     margin: 1.75rem -1.75rem -1.75rem;
     padding: 1.25rem 1.75rem 1.75rem;
   }
 
-  &[data-card-size="x-large"] .rad-ui-card-footer {
+  &[data-card-size="x-large"] > .rad-ui-card-footer {
     margin: 2rem -2rem -2rem;
     padding: 1.5rem 2rem 2rem;
   }

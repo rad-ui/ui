@@ -71,8 +71,21 @@
         inset 0 0 0 1px rgba(255, 255, 255, 0.8);
     }
 
-    &[data-state="dragging"] { transform: translateY(-50%); }
-    &[data-state="active"] { transform: translateY(-50%); }
+    &[data-state="active"] {
+      border-color: var(--rad-ui-color-accent-600);
+      transform: translateY(-50%) scale(1.04);
+      box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+    }
+
+    &[data-state="dragging"] {
+      border-color: var(--rad-ui-color-accent-600);
+      transform: translateY(-50%) scale(1.08);
+      box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.22),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+    }
 
     &[data-disabled="true"] {
       opacity: 0.45;
@@ -104,7 +117,8 @@
     }
 
     .rad-ui-slider-mark-label {
-      font-size: 10px;
+      position: absolute;
+      font-size: 0.75rem;
       font-weight: 400;
       color: var(--rad-ui-text-muted);
       background-color: transparent;
@@ -112,7 +126,6 @@
       border-radius: 2px;
       border: none;
       box-shadow: none;
-      margin-top: 2px;
     }
 
     &:not(.rad-ui-slider-mark-custom) .rad-ui-slider-mark-line {
@@ -159,8 +172,21 @@
       top: auto;
       transform: translateX(-50%);
 
-      &[data-state="dragging"] { transform: translateX(-50%); }
-      &[data-state="active"] { transform: translateX(-50%); }
+      &[data-state="active"] {
+        border-color: var(--rad-ui-color-accent-600);
+        transform: translateX(-50%) scale(1.04);
+        box-shadow:
+          0 2px 6px rgba(0, 0, 0, 0.2),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+      }
+
+      &[data-state="dragging"] {
+        border-color: var(--rad-ui-color-accent-600);
+        transform: translateX(-50%) scale(1.08);
+        box-shadow:
+          0 3px 10px rgba(0, 0, 0, 0.22),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+      }
 
       &:focus-visible {
         outline: none;
@@ -177,12 +203,14 @@
       align-items: center;
 
       .rad-ui-slider-mark-label {
-        margin-left: 0.5rem;
-        margin-top: 0;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        margin: 0;
+        white-space: nowrap;
       }
 
       .rad-ui-slider-mark-line { width: 2px; height: 8px; }
-      &.rad-ui-slider-mark-custom .rad-ui-slider-mark-line { width: 2px; height: 8px; }
     }
   }
 }

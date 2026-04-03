@@ -40,7 +40,7 @@
     position: relative;
     flex-shrink: 0;
 
-    &:hover {
+    &:not([data-disabled]):hover {
       border-color: var(--rad-ui-border-strong);
     }
 
@@ -54,6 +54,14 @@
       box-shadow:
         inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-100) 70%, var(--rad-ui-color-gray-50)),
         0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    &[data-state="checked"]:focus-visible {
+      outline: none;
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-100) 70%, var(--rad-ui-color-gray-50)),
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        var(--rad-ui-ring-shadow-sm);
     }
 
     &[data-disabled] {

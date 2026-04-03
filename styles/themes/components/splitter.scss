@@ -12,12 +12,12 @@
   border: 1px solid var(--rad-ui-border-soft);
   background-color: var(--rad-ui-surface-panel);
 
+  // Panel overflow: set inline in SplitterPanel.tsx (`overflow: auto` for scrolling).
   .rad-ui-splitter-panel {
     position: relative;
     background-color: var(--rad-ui-surface-panel);
     flex-shrink: 0;
     flex-grow: 0;
-    overflow: hidden;
     min-width: 0;
     min-height: 0;
 

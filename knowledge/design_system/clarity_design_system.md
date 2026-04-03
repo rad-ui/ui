@@ -46,15 +46,15 @@ Why?
 Pure colors feel harsh and break layering.
 
 Instead:
-- 50 → slightly tinted white
-- 1000 → slightly lifted black
+- 50 → neutral white — no hue tint (off-white, not `#ffffff`)
+- 1000 → neutral near-black — no hue tint (not `#000000`)
 
 ---
 
 ### 4. Neutral Only
 
-- No blue/green/purple tint
-- True grayscale only
+- No hue tint (including blue/green/purple); chroma stays at zero
+- True grayscale only: neutral white through neutral near-black
 
 If you want semantic colors, define them separately.
 
