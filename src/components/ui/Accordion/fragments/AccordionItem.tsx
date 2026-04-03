@@ -26,14 +26,18 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
         transitionDuration,
         transitionTimingFunction,
         openMultiple: isMultiple,
-        collapsible
+        collapsible,
+        disabled: rootDisabled,
+        orientation
     } = useContext(AccordionContext);
+
+    const effectiveDisabled = disabled || rootDisabled;
 
     const isOpen = activeItems.includes(itemValue);
 
     const handleOpenChange = useCallback(
         (nextOpen: boolean) => {
-            if (disabled) {
+            if (effectiveDisabled) {
                 return;
             }
             if (isMultiple) {
@@ -58,15 +62,15 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                 return [];
             });
         },
-        [disabled, isMultiple, itemValue, setActiveItems, collapsible]
+        [effectiveDisabled, isMultiple, itemValue, setActiveItems, collapsible]
     );
 
     return (
-        <AccordionItemContext.Provider value={{ itemValue, disabled, headerId }}>
+        <AccordionItemContext.Provider value={{ itemValue, disabled: effectiveDisabled, headerId }}>
             <CollapsiblePrimitive.Root
                 open={isOpen}
                 onOpenChange={handleOpenChange}
-                disabled={disabled}
+                disabled={effectiveDisabled}
                 transitionDuration={transitionDuration}
                 transitionTimingFunction={transitionTimingFunction}
                 asChild
@@ -75,7 +79,8 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                     ref={mergeRefs(accordionItemRef, forwardedRef)}
                     className={clsx(`${rootClass}-item`, className)}
                     data-state={isOpen ? 'open' : 'closed'}
-                    data-disabled={disabled ? '' : undefined}
+                    data-disabled={effectiveDisabled ? '' : undefined}
+                    data-orientation={orientation}
                     asChild={asChild}
                     {...props}
                 >

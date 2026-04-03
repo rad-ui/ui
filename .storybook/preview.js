@@ -1,23 +1,23 @@
 import '../main.tailwind.css';
-import "../styles/themes/default.scss";
+import '../styles/themes/default.scss';
 
 /** @type { import('@storybook/react-webpack5').Preview } */
 const preview = {
-  parameters: {
-    layout:"fullscreen",
-    actions: { argTypesRegex: '^on[A-Z].*' },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
-      },
+    parameters: {
+        layout: 'fullscreen',
+        actions: { argTypesRegex: '^on[A-Z].*' },
+        controls: {
+            matchers: {
+                color: /(background|color)$/i,
+                date: /Date$/
+            }
+        }
     },
-  },
 
-  decorators: [
+    decorators: [
     // Adds theme switching support.
     // NOTE: requires setting "darkMode" to "class" in your tailwind config
-  ],
+    ]
 };
 
 export default preview;

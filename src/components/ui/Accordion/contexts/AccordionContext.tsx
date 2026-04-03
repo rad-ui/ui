@@ -9,6 +9,9 @@ interface AccordionContextType {
     transitionTimingFunction?: string;
     openMultiple?: boolean;
     collapsible: boolean;
+    /** Matches Radix: disables the entire accordion (all items non-interactive). */
+    disabled: boolean;
+    orientation: 'horizontal' | 'vertical';
 }
 
 export const AccordionContext = createContext<AccordionContextType>({
@@ -19,5 +22,7 @@ export const AccordionContext = createContext<AccordionContextType>({
     transitionDuration: 0,
     transitionTimingFunction: 'ease-out',
     openMultiple: false,
-    collapsible: false
+    collapsible: false,
+    disabled: false,
+    orientation: 'vertical'
 });

@@ -14,6 +14,8 @@ export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'de
     transitionDuration?: number;
     transitionTimingFunction?: string;
     orientation?: 'horizontal' | 'vertical';
+    /** When true, every item is non-interactive (Radix Accordion.Root `disabled`). */
+    disabled?: boolean;
     asChild?: boolean;
     loop?: boolean;
     disableTabIndexing?: boolean;
@@ -39,6 +41,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     transitionDuration = 0,
     transitionTimingFunction = 'linear',
     customRootClass,
+    disabled: rootDisabled = false,
     loop = true,
     openMultiple = false,
     type,
@@ -156,7 +159,9 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
                 transitionDuration,
                 transitionTimingFunction,
                 openMultiple: isMultiple,
-                collapsible: collapsibleEffective
+                collapsible: collapsibleEffective,
+                disabled: rootDisabled,
+                orientation
             }}>
             <RovingFocusGroup.Root
                 orientation={orientation}
@@ -168,6 +173,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
                     <Primitive.div
                         className={clsx(`${rootClass}-root`)}
                         dir={dir}
+                        data-orientation={orientation}
                         ref={(node) => {
                             const element = node as HTMLDivElement | null;
                             accordionRef.current = element;

@@ -14,7 +14,7 @@ export type AccordionTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
 
 const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionTriggerProps>(
     ({ children, className = '', asChild = false, id, ...props }, ref) => {
-        const { rootClass, activeItems } = useContext(AccordionContext);
+        const { rootClass, activeItems, orientation } = useContext(AccordionContext);
         const { itemValue, disabled, headerId } = useContext(AccordionItemContext);
 
         return (
@@ -25,6 +25,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
                         ref={ref}
                         aria-disabled={disabled}
                         aria-expanded={activeItems.includes(itemValue)}
+                        data-orientation={orientation}
                         asChild={asChild}
                         {...props}
                     >

@@ -10,12 +10,15 @@ export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'h3'> & {
 
 const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
     ({ children, className = '', asChild = false, ...props }, ref) => {
-        const { rootClass } = useContext(AccordionContext);
+        const { rootClass, orientation } = useContext(AccordionContext);
         const mergedClass = clsx(`${rootClass}-header`, className);
 
         if (asChild && isValidElement(children)) {
             const child = children as React.ReactElement;
-            const merged = mergeProps({ className: mergedClass }, child.props as Record<string, unknown>);
+            const merged = mergeProps(
+                { className: mergedClass, 'data-orientation': orientation },
+                child.props as Record<string, unknown>
+            );
             return cloneElement(child, {
                 ...merged,
                 ref: composeRefs(ref, (child as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref)
@@ -23,7 +26,7 @@ const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProp
         }
 
         return (
-            <h3 ref={ref} className={mergedClass} {...props}>
+            <h3 ref={ref} className={mergedClass} data-orientation={orientation} {...props}>
                 {children}
             </h3>
         );
