@@ -13,7 +13,7 @@ export type AccordionContentProps = React.ComponentPropsWithoutRef<'div'> & {
 
 const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionContentProps>(
     ({ children, index: _index, className = '', forceMount, ...props }, ref) => {
-        const { rootClass } = useContext(AccordionContext);
+        const { rootClass, orientation } = useContext(AccordionContext);
         const { headerId } = useContext(AccordionItemContext);
 
         return (
@@ -24,6 +24,7 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 className={clsx(`${rootClass}-content`, className)}
                 role="region"
                 aria-labelledby={headerId}
+                data-orientation={orientation}
                 {...props}
             >
                 {children}

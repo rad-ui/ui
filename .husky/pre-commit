@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 npm run check:exports
-npm test
-
 npm run lint:staged

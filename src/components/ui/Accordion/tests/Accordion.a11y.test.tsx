@@ -73,6 +73,50 @@ describe('Accordion accessibility', () => {
             });
         });
 
+        test('Radix parity: parts expose data-orientation from root', () => {
+            render(
+                <TestAccordion
+                    orientation="horizontal"
+                    data-testid="accordion-root"
+                    defaultValue={[0]}
+                />
+            );
+            const root = screen.getByTestId('accordion-root');
+            const trigger = screen.getByRole('button', { name: 'Item 1' });
+            const header = trigger.closest('h3');
+            const item = header?.parentElement;
+            expect(header).toHaveAttribute('data-orientation', 'horizontal');
+            expect(trigger).toHaveAttribute('data-orientation', 'horizontal');
+            expect(item).toHaveAttribute('data-orientation', 'horizontal');
+            expect(root).toHaveAttribute('data-orientation', 'horizontal');
+            const content = document.getElementById(trigger.getAttribute('aria-controls')!);
+            expect(content).toHaveAttribute('data-orientation', 'horizontal');
+        });
+
+        test('root disabled sets aria-disabled on all triggers and blocks toggling', async() => {
+            const user = userEvent.setup();
+            render(
+                <Accordion.Root collapsible disabled>
+                    {items.map((item, index) => (
+                        <Accordion.Item value={index} key={index}>
+                            <Accordion.Header>
+                                <Accordion.Trigger>{item.title}</Accordion.Trigger>
+                            </Accordion.Header>
+                            <Accordion.Content>{item.content}</Accordion.Content>
+                        </Accordion.Item>
+                    ))}
+                </Accordion.Root>
+            );
+
+            const triggers = screen.getAllByRole('button');
+            triggers.forEach((t) => {
+                expect(t).toHaveAttribute('aria-disabled', 'true');
+            });
+
+            await user.click(triggers[0]);
+            expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        });
+
         test('disabled triggers have aria-disabled', () => {
             const disabledItems = [
                 { title: 'Item 1', content: <div>Content 1</div> },
