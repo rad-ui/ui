@@ -104,8 +104,8 @@ const FeatureCard = ({ title, description, icon }) => {
   return (
     <div className="bg-gradient-to-b from-gray-50 to-green-200 rounded-lg p-6 min-w-[380px] min-h-[220px] border border-gray-700 space-y-6">
       {icon}
-      <Heading as="h3" className="text-gray-1000">{title}</Heading>
-      <Text className="text-gray-950">{description}</Text>
+      <Heading as="h3" className="text-gray-900">{title}</Heading>
+      <Text className="text-gray-800">{description}</Text>
     </div>
   )
 }
@@ -120,9 +120,9 @@ const IntegrationCard = ({ title, description, icon, cta="", ctaLink }) => {
   return (
     <div className="min-w-[380px] min-h-[220px] space-y-6">
       {icon}
-      <Heading as="h3" className="text-gray-1000">{title}</Heading>
-      <Text className="text-gray-950">{description}</Text>
-      <button onClick={onClickHandler} className="flex items-center space-x-2 text-gray-900 hover:space-x-4 hover:text-gray-1000">
+      <Heading as="h3" className="text-gray-900">{title}</Heading>
+      <Text className="text-gray-800">{description}</Text>
+      <button onClick={onClickHandler} className="flex items-center space-x-2 text-gray-800 hover:space-x-4 hover:text-gray-900">
         <span>{cta}</span> <ForwardArrowIcon/>
       </button>
     </div>
@@ -187,12 +187,12 @@ color="blue" variant="ghost" onClick={() => {
 
 
     {/* Features Section */}
-    <div className="py-10 mb-10 mt-20 relative lg:flex text-gray-950 px-4">
+    <div className="py-10 mb-10 mt-20 relative lg:flex text-gray-800 px-4">
       <div className="relative z-10 lg:block w-full px-4 space-y-4 lg:w-[380px] mb-4 lg:mb-0" >
         <Text className="text-gray-900">
           About Rad UI
         </Text>
-        <Heading as="h2" className="text-gray-1000">
+        <Heading as="h2" className="text-gray-900">
           Core Features
         </Heading>
         <Text className="text-gray-900">
@@ -218,7 +218,7 @@ color="blue" variant="ghost" onClick={() => {
        <MusicAppPlayerDemo />
        </div>
         <div className="px-20 space-y-10">
-          <Heading as="h2" className="text-gray-1000">
+          <Heading as="h2" className="text-gray-900">
             Integrate RadUI effortlessly into your <span className="text-green-900">React</span> and <span className="text-green-900">Next.js</span> projects today
           </Heading>
           <div className="grid lg:grid-cols-2 gap-8">

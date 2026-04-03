@@ -25,7 +25,7 @@ const BookmarkIcon = () => {
 
 const Layout = ({ children }: Doc) => {
     return (
-        <div className="md:flex md:flex-row md:items-stretch text-gray-1000" style={{ height: "calc(100vh - 57px)" }}>
+        <div className="md:flex md:flex-row md:items-stretch text-gray-800" style={{ height: "calc(100vh - 57px)" }}>
             <div className="flex-none flex-col items-stretch h-full md:flex hidden relative z-10 bg-gray-100">
                 <Navigation />
             </div>
@@ -80,7 +80,7 @@ const DocsLayoutJoinDiscordCallout = () => {
                     Under Construction
                 </Heading>
                 <Callout.Text className="text-sm">
-                    We're actively working on new components and features. Stay tuned! Head over to our <Link className="!text-gray-1000 !hover:underline" href="https://github.com/rad-ui/ui/issues" target="_blank">GitHub</Link> to see what's coming next.
+                    We're actively working on new components and features. Stay tuned! Head over to our <Link className="!text-gray-900 !hover:underline" href="https://github.com/rad-ui/ui/issues" target="_blank">GitHub</Link> to see what's coming next.
                 </Callout.Text>
                 <Callout.Text className="text-sm mt-2 !text-purple-900 inline-flex items-center">
                     <Link className="!text-purple-950 !hover:underline p-0 space-x-1" href="https://discord.gg/nMaQfeEPNp" target="_blank"><span>

@@ -104,8 +104,8 @@
       border: 1px solid var(--rad-ui-text-primary);
       
       &:hover {
-        background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, black);
-        border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, black);
+        background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
+        border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
       }
     }
     
@@ -154,8 +154,8 @@
   border: 1px solid var(--rad-ui-text-primary);
   
   &:hover {
-    background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, black);
-    border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, black);
+    background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
+    border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
   }
 }
 

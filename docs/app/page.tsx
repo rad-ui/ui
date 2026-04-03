@@ -50,15 +50,15 @@ const GithubLogo = () => {
 };
 
 const IconWrapper = ({children, href}) => {
-  return <a href={href} className="text-gray-1000" target="_blank" rel="noopener noreferrer">
+  return <a href={href} className="text-gray-900" target="_blank" rel="noopener noreferrer">
     {children}
   </a>
 }
 
 const JoinCommunity = () => {
   return <div className="bg-gradient-to-b from-gray-50 to-green-200 rounded-lg p-6 border border-gray-700 space-y-6 mb-10">
-    <Heading as="h2" className="text-gray-1000">Join the Community</Heading>
-    <Text className="text-gray-950">Join the community to get the latest news and updates.</Text>
+    <Heading as="h2" className="text-gray-900">Join the Community</Heading>
+    <Text className="text-gray-800">Join the community to get the latest news and updates.</Text>
     <div className="flex gap-8">
       <IconWrapper href="https://discord.gg/nMaQfeEPNp">
         <DiscordLogo />

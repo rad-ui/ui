@@ -31,7 +31,7 @@ const UserItem = ({ name = "", src = null, ...props }) => {
 }
 
 const YourTeamDemo = () => {
-    return <motion.div className='p-4 border border-gray-400 text-gray-1000 rounded-md bg-gray-100'
+    return <motion.div className='p-4 border border-gray-400 text-gray-800 rounded-md bg-gray-100'
         initial={{ opacity: 0.8, x: 100, y: 0 }}
         animate={{ opacity: 1, x: 0, y: -60 }}
         transition={{ duration: 36, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}

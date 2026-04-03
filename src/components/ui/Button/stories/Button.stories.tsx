@@ -30,7 +30,7 @@ export default {
                     </Button>;
                 })}
                 <Button {...args}>
-                    <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-white" />
+                    <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-gray-50" />
                 </Button>
             </div>
         </div>

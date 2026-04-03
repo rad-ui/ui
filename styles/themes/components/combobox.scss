@@ -18,7 +18,7 @@
     border: 1px solid var(--rad-ui-border-soft);
     color: var(--rad-ui-text-primary);
     font-size: 0.875rem;
-    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     cursor: pointer;
     box-sizing: border-box;
@@ -29,7 +29,7 @@
     }
 
     &:focus-visible, &[data-state="open"] {
-        border-color: var(--rad-ui-color-accent-400);
+        border-color: var(--rad-ui-color-accent-500);
         box-shadow: var(--rad-ui-ring-shadow);
     }
 
@@ -86,10 +86,10 @@
     font-size: 0.875rem;
     outline: none;
     color: var(--rad-ui-text-primary);
-    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &:focus {
-        border-color: var(--rad-ui-color-accent-400);
+        border-color: var(--rad-ui-color-accent-500);
         box-shadow: var(--rad-ui-ring-shadow);
     }
 }
@@ -106,10 +106,10 @@
     cursor: default;
     user-select: none;
     outline: none;
-    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &[data-highlighted], &:hover {
-        background-color: var(--rad-ui-surface-subtle);
+        background-color: var(--rad-ui-surface-hover);
         color: var(--rad-ui-text-primary);
     }
     

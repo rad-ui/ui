@@ -3,17 +3,24 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 2.5rem;
-  height: 1.5rem;
+  width: 2.75rem;
+  height: 1.625rem;
   border-radius: 9999px;
-  background-color: var(--rad-ui-surface-subtle);
-  border: 1px solid var(--rad-ui-border);
+  background-color: var(--rad-ui-surface-muted);
+  border: 1px solid var(--rad-ui-border-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-surface-panel) 28%, transparent);
   cursor: pointer;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+      box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    border-color: var(--rad-ui-border-default);
+  }
 
   &[data-state="checked"] {
-    background-color: var(--rad-ui-text-primary);
-    border-color: var(--rad-ui-text-primary);
+    background-color: var(--rad-ui-color-accent-800);
+    border-color: var(--rad-ui-color-accent-600);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-1000) 35%, transparent);
   }
 
   &[data-disabled],
@@ -28,19 +35,27 @@
   }
 
   .rad-ui-switch-indicator {
-    position: relative;
+    position: absolute;
+    top: 1px;
+    left: 1px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1.25rem;
+    height: 1.25rem;
     border-radius: 9999px;
-    background-color: var(--rad-ui-surface);
-    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateX(0.125rem);
+    background-color: var(--rad-ui-surface-panel);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.16),
+      inset 0 0 0 1px var(--rad-ui-border-soft);
+    transition:
+        transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
 
     &[data-state="checked"] {
       transform: translateX(1.125rem);
+      background-color: var(--rad-ui-color-accent-50);
     }
   }
 }

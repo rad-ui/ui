@@ -67,7 +67,7 @@ const PlaylistHero: any = () => {
                 <div>
                     <Badge color="purple" className="mb-2" style={{ width: "130px", fontSize: "12px" }}>Party Collection</Badge>
                     <Heading as="h1" className="text-purple-950">{playlist.title}</Heading>
-                    <Text as="h5" className="text-gray-1000 mb-4">{playlist.description}</Text>
+                    <Text as="h5" className="text-gray-900 mb-4">{playlist.description}</Text>
                     <Button variant="solid" className="space-x-2"> <span>Play Now</span> <RightArrow /> </Button>
                 </div>
             </div>

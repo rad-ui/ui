@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
@@ -42,31 +42,6 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         }
     }, [open, forceMount]);
 
-    // Use ResizeObserver to handle dynamic content changes
-    useEffect(() => {
-        if (!open || !ref.current || transitionDuration === 0) return;
-
-        const resizeObserver = new ResizeObserver(() => {
-            if (ref.current && height !== undefined) {
-                const newHeight = ref.current.scrollHeight;
-                if (newHeight !== height) {
-                    setHeight(newHeight);
-                }
-            }
-        });
-
-        // Observe the first child if possible for more accurate content measurement,
-        // or the ref itself if it's not currently animating height: 0
-        resizeObserver.observe(ref.current);
-
-        return () => resizeObserver.disconnect();
-    }, [open, height, transitionDuration]);
-
-    useEffect(() => {
-        heightRef.current = height;
-    }, [height]);
-
-    // Use ResizeObserver to handle dynamic content changes
     useEffect(() => {
         if (!open || !ref.current || transitionDuration === 0) return;
 
@@ -87,6 +62,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     }, [open, transitionDuration]);
 
     useEffect(() => {
+        heightRef.current = height;
+    }, [height]);
+
+    useLayoutEffect(() => {
         // Clear any existing timeout and animation frames to avoid conflicts
         if (animationTimeoutRef.current) {
             clearTimeout(animationTimeoutRef.current);
@@ -98,11 +77,9 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
         if (!ref.current) return;
 
-        // Handle the case when transitionDuration is 0 - no animation
         if (transitionDuration === 0) {
             setHeight(open ? undefined : 0);
 
-            // For instant changes, also update visibility immediately
             if (!open && !forceMount) {
                 setShouldRender(false);
             }
@@ -110,19 +87,11 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         }
 
         if (open) {
-            // Opening animation
-            // First set height to 0 to ensure proper animation start state
-            // Only if we are not already open/opening
-            if (height === 0 || height === undefined) {
-                setHeight(0);
-            }
+            setHeight(0);
 
-            // Use RAF to ensure the DOM has updated with the new height
             rafRef.current = requestAnimationFrame(() => {
-                // Force a reflow
                 const _ = ref.current?.offsetHeight;
 
-                // Now measure and start animation in the next frame
                 rafRef.current = requestAnimationFrame(() => {
                     if (ref.current) {
                         const contentHeight = ref.current.scrollHeight;
@@ -136,23 +105,17 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 setHeight(undefined);
             }, transitionDuration);
         } else {
-            // Closing animation
-            // First set to current height to ensure smooth start
             const contentHeight = ref.current.scrollHeight;
             setHeight(contentHeight);
 
-            // Use RAF to ensure browser processes the height setting
             rafRef.current = requestAnimationFrame(() => {
-                // Force a reflow
                 const _ = ref.current?.offsetHeight;
 
-                // Then animate to 0 in the next frame
                 rafRef.current = requestAnimationFrame(() => {
                     setHeight(0);
                 });
             });
 
-            // After animation completes, we can hide the element completely
             animationTimeoutRef.current = setTimeout(() => {
                 if (!forceMount) {
                     setShouldRender(false);
@@ -168,7 +131,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, transitionDuration, forceMount]);
+    }, [open, transitionDuration, forceMount, shouldRender]);
 
     // Don't render anything if closed and animation is complete
     if (!shouldRender && !open && !forceMount) {

@@ -34,13 +34,13 @@
                 background-color: var(--rad-ui-border-soft);
                 margin: 4px 0;
                 border-radius: 1px;
-                transition: background-color 0s;
+
             }
         }
 
         &[data-state="active"] {
             .rad-ui-steps-bubble {
-                border-color: var(--rad-ui-color-accent-300);
+                border-color: var(--rad-ui-color-accent-500);
                 background-color: var(--rad-ui-color-accent-50);
                 color: var(--rad-ui-color-accent-900);
                 box-shadow: 0 0 0 4px var(--rad-ui-color-accent-100);
@@ -49,14 +49,14 @@
 
         &[data-state="completed"] {
             .rad-ui-steps-bubble {
-                border-color: var(--rad-ui-color-accent-900);
-                background-color: var(--rad-ui-color-accent-900);
-                color: white;
+                border-color: var(--rad-ui-color-accent-600);
+                background-color: var(--rad-ui-color-accent-800);
+                color: var(--rad-ui-text-inverse);
             }
             
             // stylelint-disable-next-line no-descending-specificity
             .rad-ui-steps-track .rad-ui-steps-line {
-                background-color: var(--rad-ui-color-accent-900);
+                background-color: var(--rad-ui-color-accent-800);
             }
         }
 

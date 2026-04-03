@@ -142,14 +142,14 @@ describe('MenuPrimitive', () => {
         it('should render with custom className', () => {
             render(
                 <MenuPrimitive.Root>
-                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded">
+                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded">
                         <span>Open Menu</span>
                     </MenuPrimitive.Trigger>
                 </MenuPrimitive.Root>
             );
 
             const triggerButton = screen.getByText('Open Menu').closest('button');
-            expect(triggerButton).toHaveClass('px-4', 'py-2', 'bg-blue-900', 'text-white', 'rounded');
+            expect(triggerButton).toHaveClass('px-4', 'py-2', 'bg-blue-900', 'text-gray-50', 'rounded');
         });
 
         it('should handle asChild prop', () => {
@@ -461,7 +461,7 @@ describe('MenuPrimitive', () => {
             act(() => {
                 render(
                     <MenuPrimitive.Root defaultOpen={true}>
-                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
             Trigger
                         </MenuPrimitive.Trigger>
                         <MenuPrimitive.Portal>
@@ -515,7 +515,7 @@ describe('MenuPrimitive', () => {
 
             render(
                 <MenuPrimitive.Root onOpenChange={onOpenChange}>
-                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded">
+                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded">
             Open Menu
                     </MenuPrimitive.Trigger>
                     <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-lg min-w-[180px]">

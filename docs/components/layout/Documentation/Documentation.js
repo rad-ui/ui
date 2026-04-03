@@ -25,7 +25,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
             <div className='flex items-center space-x-4 relative top-[1px]'>
                 <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
             </div>
-            {description && <Text className="mb-4 text-gray-900 font-light relative top-[-4px]">{description}</Text>}
+            {description && <Text className="mb-4 text-gray-700 font-light relative top-[-4px]">{description}</Text>}
         </div>
         <div className='mt-4'>
             {children}
@@ -37,7 +37,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
 const Anatomy = ({ code, as = "h3", language = 'jsx' }) => {
     return <div className='mt-10'>
         <BookMarkLink id="anatomy"> <Heading as={as} className="mb-2">Anatomy</Heading> </BookMarkLink>
-        <Text className="mb-4 text-gray-950 font-light">Import all parts of the component and piece them together</Text>
+        <Text className="mb-4 text-gray-700 font-light">Import all parts of the component and piece them together</Text>
         <CodeBlock className='mb-10' language={language}>
             {code}
         </CodeBlock>
@@ -55,11 +55,11 @@ const Section = ({ title = '', as = "h2", children }) => {
 };
 
 const UnderConstruction = ({ children }) => {
-    return <div className='bg-gray-200 text-gray-1000  rounded-md'>
-        <Text className="mb-2 text-gray-1000 font-bold">
+    return <div className='bg-gray-200 text-gray-800 rounded-md'>
+        <Text className="mb-2 text-gray-900 font-bold">
             Docs Under Construction
         </Text>
-        <Text className="mb-2 text-gray-1000 font-light !text-sm">
+        <Text className="mb-2 text-gray-700 font-light !text-sm">
             Check Back soon!
         </Text>
     </div>;

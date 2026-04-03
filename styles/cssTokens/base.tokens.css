@@ -1,17 +1,17 @@
 
     :root {
-      --rad-ui-color-gray-50: oklch(0.98 0.002 0);
---rad-ui-color-gray-100: oklch(0.97 0.002 0);
---rad-ui-color-gray-200: oklch(0.94 0.002 0);
---rad-ui-color-gray-300: oklch(0.92 0.002 0);
---rad-ui-color-gray-400: oklch(0.89 0.002 0);
---rad-ui-color-gray-500: oklch(0.87 0.002 0);
---rad-ui-color-gray-600: oklch(0.83 0.002 0);
---rad-ui-color-gray-700: oklch(0.74 0.002 0);
---rad-ui-color-gray-800: oklch(0.58 0.002 0);
---rad-ui-color-gray-900: oklch(0.53 0.002 0);
---rad-ui-color-gray-950: oklch(0.43 0.002 0);
---rad-ui-color-gray-1000: oklch(0.16 0.002 0);
+      --rad-ui-color-gray-50: #fafafa;
+--rad-ui-color-gray-100: #f4f4f5;
+--rad-ui-color-gray-200: #e4e4e7;
+--rad-ui-color-gray-300: #d4d4d8;
+--rad-ui-color-gray-400: #a1a1aa;
+--rad-ui-color-gray-500: #71717a;
+--rad-ui-color-gray-600: #52525b;
+--rad-ui-color-gray-700: #3f3f46;
+--rad-ui-color-gray-800: #27272a;
+--rad-ui-color-gray-900: #18181b;
+--rad-ui-color-gray-950: #141416;
+--rad-ui-color-gray-1000: #0f0f11;
 --rad-ui-color-mauve-50: hsl(300, 26.0%, 99.0%);
 --rad-ui-color-mauve-100: hsl(270, 20.0%, 98.0%);
 --rad-ui-color-mauve-200: hsl(267, 13.8%, 95.3%);

@@ -35,7 +35,7 @@ const UserInteractionsExample = () => {
                 dummy button
             </button>
             <button
-                className="border p-2 border-black focus:border-red-800"
+                className="border p-2 border-gray-1000 focus:border-red-800"
                 ref={refs.setReference} {...getReferenceProps(
                     {
                         onClick: () => console.log('clicked'),

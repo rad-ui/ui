@@ -24,7 +24,7 @@
     background-color: var(--rad-ui-surface-panel);
     border: 1px solid var(--rad-ui-border-soft);
     box-shadow: inset 0 -1px 0 var(--rad-ui-border-default), var(--rad-ui-shadow-sm);
-    transition: box-shadow .12s, background-color .12s;
+    transition: box-shadow .12s;
 
 
     /** Kbd Sizes */

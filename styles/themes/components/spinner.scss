@@ -31,7 +31,7 @@
 .rad-ui-spinner{
     animation: spin 1.3s linear infinite;
     border-width: 3px;
-    border-color: rgb(182, 182, 182, 0.2);
+    border-color: var(--rad-ui-color-accent-400);
     width: 30px;
     height: 30px;
     border-top-color: var(--rad-ui-color-accent-900);

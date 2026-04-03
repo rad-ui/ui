@@ -148,7 +148,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
     >
       <div className="mr-3 flex items-center space-x-8">
         <a
-          className="text-gray-1000 flex items-center space-x-2 text-md pl-1"
+          className="text-gray-900 flex items-center space-x-2 text-md pl-1"
           href="/"
         >
           <RadUILogo />
@@ -157,7 +157,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           <ul className="text-sm flex items-center space-x-4">
             <li>
               <Link
-                className="text-gray-950 hover:text-gray-1000"
+                className="text-gray-700 hover:text-gray-900"
                 href="/docs/first-steps/introduction"
               >
                 Docs
@@ -165,7 +165,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             </li>
             <li>
               <Link
-                className="text-gray-950 hover:text-gray-1000"
+                className="text-gray-700 hover:text-gray-900"
                 href="/showcase/music-app"
               >
                 Showcase
@@ -181,7 +181,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             variant="soft"
             onClick={openLink("https://discord.gg/nMaQfeEPNp")}
           >
-            <span className="text-gray-1000">
+            <span className="text-gray-900">
               <DiscordLogo />
             </span>
           </Button>
@@ -190,13 +190,13 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             variant="soft"
             onClick={openLink("https://github.com/rad-ui/ui")}
           >
-            <span className="text-gray-1000">
+            <span className="text-gray-900">
               <GithubLogo />
             </span>
           </Button>
 
           <Button color="gray" variant="soft" onClick={toggleDarkMode}>
-            <span className="text-gray-1000">
+            <span className="text-gray-900">
               {darkMode ? <MoonIcon /> : <SunIcon />}
             </span>
           </Button>

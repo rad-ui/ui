@@ -12,7 +12,7 @@ const ComponentFeatures = ({ features }) => {
   return (
     <div className="mb-10">
       <BookMarkLink id="features">
-        <Heading as="h2" className="mb-4 text-gray-1000 font-bold">
+        <Heading as="h2" className="mb-4 text-gray-900 font-bold">
           Features
         </Heading>
       </BookMarkLink>

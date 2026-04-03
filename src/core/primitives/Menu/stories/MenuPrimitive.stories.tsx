@@ -14,7 +14,7 @@ export const Basic: Story = {
     render: () => (
         <SandboxEditor>
             <MenuPrimitive.Root>
-                <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Trigger</MenuPrimitive.Trigger>
+                <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Trigger</MenuPrimitive.Trigger>
                 <MenuPrimitive.Portal>
                     <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-lg min-w-[180px]">
                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="item 1">item 1</MenuPrimitive.Item>

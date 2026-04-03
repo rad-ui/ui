@@ -64,17 +64,19 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
     return <Theme
         appearance={isDarkMode ? 'dark' : 'light'}
         accentColor={colorName}>
-        <div className='p-4 shadow-sm text-gray-900 min-h-screen border border-gray-300 bg-gray-50'>
-            <div className='mb-3'>
-                <div className='flex items-start justify-between gap-3'>
+        <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
+            <div className='mb-2'>
+                <div className='flex items-start justify-between gap-2'>
                     <div className='flex min-w-0 items-center space-x-3'>
                         <div className='text-gray-1000 shrink-0'>
                             <RadUILogo/>
                         </div>
                         <Separator orientation='vertical' />
                         <div className='min-w-0'>
-                            <Heading as='h1' className='text-gray-1000 leading-none'>Sandbox Editor</Heading>
-                            <Text className='mt-1 font-normal text-gray-950 text-sm leading-tight'>
+                            <Heading as='h1' className='text-3xl font-semibold leading-none tracking-tight text-gray-1000 sm:text-4xl'>
+                                Sandbox Editor
+                            </Heading>
+                            <Text className='mt-0.5 text-sm font-normal leading-tight text-gray-950'>
                                 Preview Rad UI components with theme and accent controls.
                             </Text>
                         </div>
@@ -88,7 +90,7 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
                     </Button>
                 </div>
                 <Separator />
-                <div className='flex flex-col gap-2 py-2 sm:flex-row sm:items-center sm:justify-between'>
+                <div className='flex flex-col gap-1.5 py-1.5 sm:flex-row sm:items-center sm:justify-between'>
                     <Text as='span' className='text-sm text-gray-950 leading-none'>
                             Accent: <span className='capitalize'>{colorName}</span>
                     </Text>
@@ -127,7 +129,7 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
                 </div>
             </div>
             <Separator/>
-            <div className={`pt-3 ${className}`} >
+            <div className={`pt-2.5 ${className}`} >
                 {children}
             </div>
         </div>

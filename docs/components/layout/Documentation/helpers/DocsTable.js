@@ -31,9 +31,9 @@ const InfoRenderer = ({ row }) => {
     const prop = row.prop.name || row.prop;
     const infoText = row.prop.info_tooltips;
     return (
-        <span className="text-gray-950 !text-sm">
-            <div className="flex items-center gap-2 text-gray-950">
-                <Text className="text-gray-950 !text-sm">{prop}</Text>
+        <span className="text-gray-800 !text-sm">
+            <div className="flex items-center gap-2 text-gray-800">
+                <Text className="text-gray-800 !text-sm">{prop}</Text>
                 {infoText && (
                     <Tooltip.Root>
                         <Tooltip.Trigger asChild>
@@ -44,7 +44,7 @@ const InfoRenderer = ({ row }) => {
                             </Button>
                         </Tooltip.Trigger>
                         <Tooltip.Content
-                            className="z-[9999] bg-black rounded shadow-lg"
+                            className="z-[9999] bg-gray-1000 rounded shadow-lg"
                         >
                             <span className="flex flex-col gap-2">
                                 {infoText}
@@ -60,9 +60,9 @@ const InfoRenderer = ({ row }) => {
 const EnumRenderer = ({ enumValues=[] }) => {
     const enumValuesString = enumValues.map(value => `'${value}'`).join(" | ")
     return (
-        <div className="text-gray-950 !text-sm">
-            <div className="flex items-center gap-2 text-gray-950">
-                <Text className="text-gray-950 !text-sm">enum</Text>
+        <div className="text-gray-800 !text-sm">
+            <div className="flex items-center gap-2 text-gray-800">
+                <Text className="text-gray-800 !text-sm">enum</Text>
                 {enumValuesString && (
                     <Tooltip.Root>
                         <Tooltip.Trigger asChild>
@@ -89,7 +89,7 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
         <div className="mt-10 mb-20">
             <div className="mb-4 space-y-2">
                 <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}> <Heading as={as}>{title}</Heading> </BookMarkLink>
-                <Text className="text-gray-950">{description}</Text>
+                <Text className="text-gray-800">{description}</Text>
             </div>
             <Table.Root>
                 <Table.Head>

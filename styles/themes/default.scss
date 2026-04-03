@@ -62,18 +62,22 @@
 }
 
 [data-rad-ui-theme] {
-    --rad-ui-surface-canvas: var(--rad-ui-color-gray-100);
-    --rad-ui-surface-panel: var(--rad-ui-color-gray-50);
+    --rad-ui-surface-canvas: var(--rad-ui-color-gray-50);
+    --rad-ui-surface-panel: var(--rad-ui-color-gray-100);
     --rad-ui-surface-subtle: var(--rad-ui-color-gray-100);
     --rad-ui-surface-muted: var(--rad-ui-color-gray-200);
+    --rad-ui-surface-hover: var(--rad-ui-color-gray-200);
     --rad-ui-surface-inverse: var(--rad-ui-color-gray-1000);
-    --rad-ui-border-soft: var(--rad-ui-color-gray-300);
-    --rad-ui-border-default: var(--rad-ui-color-gray-400);
+    --rad-ui-border-soft: var(--rad-ui-color-gray-500);
+    --rad-ui-border-default: var(--rad-ui-color-gray-600);
     --rad-ui-border-strong: var(--rad-ui-color-gray-600);
     --rad-ui-text-primary: var(--rad-ui-color-gray-1000);
-    --rad-ui-text-secondary: var(--rad-ui-color-gray-950);
-    --rad-ui-text-muted: var(--rad-ui-color-gray-800);
+    --rad-ui-text-secondary: var(--rad-ui-color-gray-900);
+    --rad-ui-text-muted: var(--rad-ui-color-gray-700);
+    --rad-ui-text-strong: var(--rad-ui-color-gray-1000);
     --rad-ui-text-inverse: var(--rad-ui-color-gray-50);
+    --rad-ui-surface: var(--rad-ui-surface-panel);
+    --rad-ui-border: var(--rad-ui-border-default);
     --rad-ui-ring: var(--rad-ui-color-accent-400);
     --rad-ui-ring-strong: var(--rad-ui-color-accent-600);
     --rad-ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);

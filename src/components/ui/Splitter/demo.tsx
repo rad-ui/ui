@@ -21,7 +21,7 @@ const SplitterDemo = () => {
                                 background: '#3b82f6',
                                 padding: '20px',
                                 height: '100%',
-                                color: 'white',
+                                color: 'var(--rad-ui-color-gray-50)',
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}>
@@ -42,7 +42,7 @@ const SplitterDemo = () => {
                                 background: '#10b981',
                                 padding: '20px',
                                 height: '100%',
-                                color: 'white',
+                                color: 'var(--rad-ui-color-gray-50)',
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}>
@@ -67,7 +67,7 @@ const SplitterDemo = () => {
                                     background: '#8b5cf6',
                                     padding: '20px',
                                     height: '100%',
-                                    color: 'white'
+                                    color: 'var(--rad-ui-color-gray-50)'
                                 }}>
                                 <h3>Top Panel</h3>
                                 <p>This is a vertical splitter example.</p>
@@ -82,7 +82,7 @@ const SplitterDemo = () => {
                                     background: '#f59e0b',
                                     padding: '20px',
                                     height: '100%',
-                                    color: 'white'
+                                    color: 'var(--rad-ui-color-gray-50)'
                                 }}>
                                 <h3>Bottom Panel</h3>
                                 <p>Drag the handle to resize vertically.</p>

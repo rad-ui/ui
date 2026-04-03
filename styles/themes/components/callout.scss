@@ -32,19 +32,19 @@
     }
   }
   
-  border-color: var(--rad-ui-color-accent-300);
+  border-color: var(--rad-ui-color-accent-500);
   background-color: var(--rad-ui-color-accent-50);
   color: var(--rad-ui-color-accent-1000);
   
   // Intent styles (semantic meaning: destructive, warning, info, etc.)
   // Intent controls color, border color, and icon color
   &[data-callout-intent="destructive"] {
-    border-color: var(--rad-ui-color-red-300);
+    border-color: var(--rad-ui-color-red-500);
     background-color: var(--rad-ui-color-red-50);
     color: var(--rad-ui-color-red-1000);
     
     .rad-ui-callout-icon {
-      color: var(--rad-ui-color-red-600);
+      color: var(--rad-ui-color-red-700);
     }
   }
   
@@ -92,42 +92,42 @@
   // Variants control layout/visual treatment and can be combined with intent
   &[data-callout-variant="outline"] {
     background-color: transparent;
-    border-color: var(--rad-ui-color-accent-300);
+    border-color: var(--rad-ui-color-accent-500);
     color: var(--rad-ui-color-accent-900);
     
     .rad-ui-callout-icon {
-      color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-700);
     }
     
     // Combined: outline variant with destructive intent
     &[data-callout-intent="destructive"] {
-      border-color: var(--rad-ui-color-red-400);
+      border-color: var(--rad-ui-color-red-500);
       color: var(--rad-ui-color-red-900);
       background-color: transparent;
       
       .rad-ui-callout-icon {
-        color: var(--rad-ui-color-red-600);
+        color: var(--rad-ui-color-red-700);
       }
     }
   }
   
   &[data-callout-variant="soft"] {
-    border-color: var(--rad-ui-color-accent-300);
+    border-color: var(--rad-ui-color-accent-500);
     background-color: var(--rad-ui-color-accent-100);
     color: var(--rad-ui-color-accent-1000);
     
     .rad-ui-callout-icon {
-      color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-700);
     }
     
     // Combined: soft variant with destructive intent
     &[data-callout-intent="destructive"] {
-      border-color: var(--rad-ui-color-red-300);
+      border-color: var(--rad-ui-color-red-500);
       background-color: var(--rad-ui-color-red-200);
       color: var(--rad-ui-color-red-1000);
       
       .rad-ui-callout-icon {
-        color: var(--rad-ui-color-red-600);
+        color: var(--rad-ui-color-red-700);
       }
     }
   }

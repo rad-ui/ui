@@ -84,13 +84,13 @@ export const metadata = {
     yahoo: process.env.YAHOO_VERIFICATION,
   },
   other: {
-    'theme-color': '#000000',
+    'theme-color': '#0f0f11',
     'color-scheme': 'dark light',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': 'Rad UI',
     'application-name': 'Rad UI',
-    'msapplication-TileColor': '#000000',
+    'msapplication-TileColor': '#0f0f11',
     'msapplication-config': '/browserconfig.xml',
   }
 }
@@ -108,7 +108,7 @@ export default async function RootLayout({ children, ...props }) {
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0f0f11" />
         
         {/* Structured Data */}
         <script

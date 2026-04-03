@@ -6,7 +6,7 @@ const code = {
         code: `import Strong from '@radui/ui/Strong'
 
 const StrongExample = () => (
-    <div className='text-gray-1000'>
+    <div className='text-gray-800'>
        <p>This is a <Strong>very important</Strong> message.</p>
     </div>
 )`

@@ -1,35 +1,41 @@
 .rad-ui-toggle {
     color: var(--rad-ui-text-primary);
-    background-color: var(--rad-ui-surface);
-    min-height: 3.75rem;
-    min-width: 9.25rem;
-    padding: 0 1.5rem;
-    border-radius: var(--rad-ui-radius-xl);
+    background-color: var(--rad-ui-surface-subtle);
+    min-height: 2.25rem;
+    min-width: 2.25rem;
+    padding: 0 0.75rem;
+    border-radius: var(--rad-ui-radius-lg);
     display: inline-flex;
-    gap: 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1;
     font-weight: 600;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--rad-ui-border);
-    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--rad-ui-border-soft);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-surface-panel) 55%, transparent);
+    transition:
+        color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-        background-color: var(--rad-ui-surface-subtle);
-        border-color: var(--rad-ui-border-strong);
+        background-color: color-mix(in oklab, var(--rad-ui-surface-panel) 88%, transparent);
+        border-color: var(--rad-ui-border-default);
     }
 
     &[data-state="on"],
     &[aria-pressed="true"] {
-        background-color: var(--rad-ui-surface-subtle);
-        border-color: var(--rad-ui-border-strong);
-        color: var(--rad-ui-text-primary);
+        background-color: var(--rad-ui-surface-panel);
+        border-color: var(--rad-ui-color-accent-600);
+        color: var(--rad-ui-color-accent-900);
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.06),
+            inset 0 0 0 1px var(--rad-ui-color-accent-600);
     }
 
     &:focus-visible {
         outline: none;
-        box-shadow: var(--rad-ui-ring-shadow);
+        box-shadow: var(--rad-ui-ring-shadow), inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-surface-panel) 55%, transparent);
     }
 
     &[data-disabled],
@@ -39,8 +45,8 @@
     }
 
     svg {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 1rem;
+        height: 1rem;
         flex-shrink: 0;
     }
 }
