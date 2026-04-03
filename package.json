@@ -209,7 +209,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "jest --findRelatedTests --passWithNoTests"
     ],
     "{src,e2e,scripts,test-utils,.storybook}/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
