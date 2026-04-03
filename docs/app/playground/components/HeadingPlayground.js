@@ -9,8 +9,8 @@ const Playground = () => (
         <div className='mt-4 space-y-2'>
             <ColorLooper loop={false} title="Heading">
                 <div className='space-y-2 mb-8'>
-                    <Heading className="text-gray-900">Excuse me while I kiss the sky</Heading>
-                    <Heading className="text-gray-800" as="h2">Sing a song of sixpence, pocket full of lies</Heading>
+                    <Heading className="text-gray-1000">Excuse me while I kiss the sky</Heading>
+                    <Heading className="text-gray-950" as="h2">Sing a song of sixpence, pocket full of lies</Heading>
                     <Heading className="text-gray-900" as="h3">Thinking I'm okay, but they're saying otherwise</Heading>
                     <Heading className="text-gray-800" as="h4">Tell me how I look but can't look me in the eyes</Heading>
                     <Heading className="text-gray-700" as="h5">Watching as I say this and then I do that</Heading>

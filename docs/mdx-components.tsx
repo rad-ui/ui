@@ -8,7 +8,7 @@ import { TableRoot, TableHead, TableBody, TableRow, TableHeader, TableCell } fro
 import Documentation from '@/components/layout/Documentation/Documentation';
 
 
-const headingColorClasses = "text-gray-900"
+const headingColorClasses = "text-gray-1000"
  
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -32,7 +32,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <Heading as="h6" className={`${headingColorClasses} mb-4 mt-8`} >{children}</Heading>
     ),
     p: ({ children }) => (
-      <Text className="text-gray-800 mb-4 font-light" >{children}</Text>
+      <Text className="text-gray-1000 mb-4 font-light" >{children}</Text>
     ),
     strong: ({ children }) => (
       <Strong>{children}</Strong>
@@ -48,7 +48,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </ul>
     ),
     li: ({ children }) => (
-      <li className="mb-2 text-gray-800">{children}</li>
+      <li className="mb-2 text-gray-1000">{children}</li>
     ),
     table: ({ children }) => (
       <TableRoot>

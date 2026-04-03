@@ -34,7 +34,6 @@
     border: 0;
     border-radius: 9999px;
     outline: none;
-    transition: box-shadow 150ms ease;
     flex-shrink: 0;
     flex-grow: 0;
     user-select: none;
@@ -73,7 +72,6 @@
         border-radius: 9999px;
         background: var(--rad-ui-border-default);
         opacity: 0;
-        transition: opacity 150ms ease;
       }
 
       &:focus-visible::after,
@@ -125,7 +123,6 @@
         border-radius: 9999px;
         background: var(--rad-ui-border-default);
         opacity: 0;
-        transition: opacity 150ms ease;
       }
 
       &:focus-visible::after,
@@ -149,11 +146,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .rad-ui-splitter-panel {
-      transition: none;
     }
     
     .rad-ui-splitter-handle {
-      transition: none;
     }
   }
 }

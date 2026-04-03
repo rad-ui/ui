@@ -62,10 +62,6 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    transition:
-      box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
-      border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
 
     &:hover {
@@ -105,7 +101,6 @@
     .rad-ui-slider-mark-line {
       background-color: var(--rad-ui-border-default);
       border-radius: 1px;
-      transition: all 0.2s ease;
     }
 
     .rad-ui-slider-mark-label {
@@ -117,7 +112,6 @@
       border-radius: 2px;
       border: none;
       box-shadow: none;
-      transition: all 0.2s ease;
       margin-top: 2px;
     }
 

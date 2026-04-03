@@ -21,9 +21,6 @@
         color: var(--rad-ui-text-primary);
         background-color: transparent;
         border-radius: var(--rad-ui-radius-md);
-        transition:
-            color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-            box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
             background-color: color-mix(in oklab, var(--rad-ui-surface-panel) 88%, transparent);

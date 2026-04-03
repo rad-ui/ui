@@ -22,7 +22,7 @@ const ButtonExample = () => (
 }
 .button-solid{
     background-color: var(--rad-ui-color-accent-900);
-    color: var(--rad-ui-color-gray-50);
+    color: white;
 }
 .button-solid:hover{
     background-color: var(--rad-ui-color-accent-950);

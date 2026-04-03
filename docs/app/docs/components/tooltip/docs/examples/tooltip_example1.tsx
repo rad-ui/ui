@@ -9,7 +9,7 @@ const TooltipExample1 = () => {
         <Tooltip.Root>
             <Tooltip.Trigger asChild>
                 <Card className="bg-gray-50" style={{ display: "flex", gap: 20 }}>
-                    <Text className="text-gray-800">Hello Tooltip. Hover Me!</Text>
+                    <Text className="text-gray-950">Hello Tooltip. Hover Me!</Text>
                 </Card>
             </Tooltip.Trigger>
             <Tooltip.Content>

@@ -45,7 +45,7 @@ const FontFamilyIcon = () => {
 };
 
 const IconContainer = ({ children }) => {
-    return <span className='p-2 border border-gray-400 hover:bg-gray-200 cursor-pointer text-gray-900 rounded-md bg-gray-100 inline-block'>
+    return <span className='p-2 border border-gray-400 hover:bg-gray-200 cursor-pointer text-gray-1000 rounded-md bg-gray-100  inline-block'>
         {children}
     </span>;
 };

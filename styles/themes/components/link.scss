@@ -4,7 +4,6 @@
     text-decoration: underline;
     text-decoration-color: color-mix(in oklab, var(--rad-ui-color-accent-900) 35%, transparent);
     text-underline-offset: 0.18em;
-    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       color: var(--rad-ui-color-accent-1000);

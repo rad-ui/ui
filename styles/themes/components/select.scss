@@ -21,7 +21,6 @@
         width: 100%;
         box-sizing: border-box;
         box-shadow: var(--rad-ui-shadow-xs);
-        transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
         
         &::after {
             content: '';

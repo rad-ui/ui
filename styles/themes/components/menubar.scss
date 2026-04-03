@@ -24,8 +24,6 @@
     background: transparent;
     cursor: default;
     border: none;
-    transition:
-        box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover, &[data-state="open"] {
         background-color: var(--rad-ui-surface-panel);
@@ -73,8 +71,6 @@
     outline: none;
     cursor: default;
     white-space: nowrap;
-    transition:
-        color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &[data-highlighted], &:focus, &:hover {
         background-color: var(--rad-ui-surface-hover);

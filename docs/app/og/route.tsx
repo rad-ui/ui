@@ -15,13 +15,13 @@ export async function GET(request: Request) {
               flexDirection: 'column',
               padding: '96px',
               gap: '32px',
-              backgroundColor: '#0f0f11',
+              backgroundColor: 'black',
               height: '100%',
               width: '100%',
               justifyContent: 'center',
             }}
           >
-            <h1 style={{ color: '#fafafa', fontSize: 64 }}>{title}</h1>
+            <h1 style={{ color: 'white', fontSize: 64 }}>{title}</h1>
             <h3 style={{ color: '#d1d5db', fontSize: 32 }}>{description}</h3>
           </div>
         ),

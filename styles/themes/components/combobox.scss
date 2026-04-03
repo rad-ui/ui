@@ -18,7 +18,6 @@
     border: 1px solid var(--rad-ui-border-soft);
     color: var(--rad-ui-text-primary);
     font-size: 0.875rem;
-    transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     cursor: pointer;
     box-sizing: border-box;
@@ -39,7 +38,6 @@
         border-width: 5px 5px 0 5px;
         border-color: var(--rad-ui-text-muted) transparent transparent transparent;
         margin-left: 8px;
-        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &[data-state="open"]::after {
@@ -86,7 +84,6 @@
     font-size: 0.875rem;
     outline: none;
     color: var(--rad-ui-text-primary);
-    transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &:focus {
         border-color: var(--rad-ui-color-accent-500);
@@ -106,7 +103,6 @@
     cursor: default;
     user-select: none;
     outline: none;
-    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &[data-highlighted], &:hover {
         background-color: var(--rad-ui-surface-hover);

@@ -27,9 +27,6 @@
                 font-weight: 500;
                 color: var(--rad-ui-text-muted);
                 box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-                transition:
-                    color 0.3s ease-in-out,
-                    box-shadow 0.3s ease-in-out;
 
                 &[data-in-view="true"] {
                     border-color: var(--rad-ui-text-primary);
@@ -44,7 +41,6 @@
                 border: 1px solid var(--rad-ui-border-soft);
                 width: 1px;
                 height: 100%;
-                transition: border 0.3s ease-in-out;
 
                 &[data-in-view="true"] {
                     border: 1px solid var(--rad-ui-text-primary);

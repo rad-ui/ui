@@ -14,8 +14,6 @@
     background-color: color-mix(in oklab, var(--rad-ui-surface-panel) 92%, var(--rad-ui-surface-subtle));
     border: 1px solid var(--rad-ui-border-default);
     box-shadow: var(--rad-ui-shadow-xs);
-    transition:
-        box-shadow 0.15s ease;
 
     &::placeholder {
       color: var(--rad-ui-text-muted);

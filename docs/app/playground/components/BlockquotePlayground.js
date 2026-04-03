@@ -10,7 +10,7 @@ const Playground = () => (
         <div className='mt-4 space-y-2'>
             <ColorLooper title="BlockQuote">
                 <div className='flex space-x-2'>
-                    <BlockQuote className="text-gray-800">Hey, at least in my mind
+                    <BlockQuote className="text-gray-1000">Hey, at least in my mind
                         I'm feeling like I'm the hero that saves me
                         There I hold my head high
                         Get everything right, delusional maybe

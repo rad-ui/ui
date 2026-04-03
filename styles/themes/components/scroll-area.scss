@@ -26,7 +26,6 @@
         touch-action: none;
         padding: 2px;
         background: transparent;
-        transition: background 160ms ease-out;
         z-index: 10;
 
         &[data-orientation="vertical"] {

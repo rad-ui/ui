@@ -11,14 +11,14 @@ const MenuItem = ({children, label="", active=false}) => {
     return <div className={`flex items-center space-x-2 cursor-pointer`}>
                 <div className='flex items-center space-x-2'>
                     <div className='flex-none' style={{width:DIMENSIONS, height:DIMENSIONS}}>{children}</div>
-                    <Text className={`${active?'!font-medium text-gray-900':'font-light text-gray-700 hover:text-gray-900 !hover:font-medium'}`}>{label}</Text>
+                    <Text className={`${active?'!font-medium text-gray-1000':'font-light text-gray-900 hover:text-gray-1000 !hover:font-medium'}`}>{label}</Text>
                 </div>
         </div>
 }
 
 const MusicSidebar = () => {
    return <div className='bg-gray-50 border flex-none p-4' style={{width:"220px"}}>
-                <div className='mb-4 text-gray-900' style={{width:"70%"}}>
+                <div className='mb-4 text-gray-1000' style={{width:"70%"}}>
                     <SoundWaveSampleLogo/>
                 </div>
                 <div className='space-y-2'>

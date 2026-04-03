@@ -95,13 +95,13 @@ const generateSeoMetadata = ({
             yahoo: process.env.YAHOO_VERIFICATION,
         },
         other: {
-            "theme-color": "#0f0f11",
+            "theme-color": "#000000",
             "color-scheme": "dark light",
             "apple-mobile-web-app-capable": "yes",
             "apple-mobile-web-app-status-bar-style": "default",
             "apple-mobile-web-app-title": "Rad UI",
             "application-name": "Rad UI",
-            "msapplication-TileColor": "#0f0f11",
+            "msapplication-TileColor": "#000000",
             "msapplication-config": "/browserconfig.xml",
         }
     }

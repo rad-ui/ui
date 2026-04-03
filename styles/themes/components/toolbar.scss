@@ -25,7 +25,6 @@
         color: var(--rad-ui-text-primary);
         cursor: pointer;
         text-decoration: none;
-        transition: color 150ms ease, transform 120ms ease;
 
         &:hover {
             background-color: var(--rad-ui-surface-subtle);
@@ -95,7 +94,6 @@
         background-color: transparent;
         color: var(--rad-ui-text-primary);
         cursor: pointer;
-        transition: color 150ms ease, transform 120ms ease;
 
         &[data-state='on'] {
             background-color: var(--rad-ui-color-accent-100);

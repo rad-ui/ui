@@ -10,9 +10,6 @@
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
   cursor: pointer;
-  transition:
-      box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
-      transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 4.75rem;
   width: 100%;
   margin: 0;
@@ -94,7 +91,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
   
   .rad-ui-checkbox-cards-item[data-state="checked"] & {
     background-color: var(--rad-ui-text-primary);

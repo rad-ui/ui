@@ -23,7 +23,7 @@ const AnalyticsBar = ({ index }) => {
 };
 
 const TrafficAnalyticsDemo = () => {
-    return <motion.div className='p-4 border border-gray-400 text-gray-800 rounded-md bg-gray-100'
+    return <motion.div className='p-4 border border-gray-400 text-gray-1000 rounded-md bg-gray-100'
         initial={{ opacity: 0.8, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 32, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}
