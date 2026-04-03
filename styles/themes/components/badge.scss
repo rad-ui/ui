@@ -30,12 +30,6 @@
     }
   }
   
-  &[data-badge-variant="destructive"] {
-    background-color: var(--rad-ui-color-red-100);
-    border-color: transparent;
-    color: var(--rad-ui-color-red-900);
-  }
-  
   &[data-badge-variant="outline"] {
     background-color: var(--rad-ui-surface-panel);
     border: 1px solid var(--rad-ui-border-soft);

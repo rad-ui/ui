@@ -8,7 +8,7 @@ const ArrowIcon = ({ className }: { className: string }) => {
 };
 
 const BadgeText = 'Badge';
-const Variants = ['secondary', 'destructive', 'outline'];
+const Variants = ['secondary', 'outline'];
 const Sizes = ['small', 'medium', 'large', 'x-large'];
 const Colors = ['blue', 'red', 'green', 'plum', 'gray'];
 
@@ -68,7 +68,6 @@ export const Default = () => {
             <Badge>Default</Badge>
             <Badge variant="outline">Outline</Badge>
             <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="destructive">Destructive</Badge>
         </div>
     </SandboxEditor>;
 };
@@ -90,13 +89,11 @@ export const WithColors = () => {
                     <div key={vIndex} className='flex flex-col gap-2'>
                         <p className='text-xs text-gray-600'>{variant}</p>
                         <div className='flex flex-wrap gap-2'>
-                            {variant === 'destructive'
-                                ? <Badge variant="destructive">destructive</Badge>
-                                : Colors.slice(0, 3).map((color, cIndex) => (
-                                    <Badge key={cIndex} color={color} variant={variant}>
-                                        {color}
-                                    </Badge>
-                                ))}
+                            {Colors.slice(0, 3).map((color, cIndex) => (
+                                <Badge key={cIndex} color={color} variant={variant}>
+                                    {color}
+                                </Badge>
+                            ))}
                         </div>
                     </div>
                 ))}
@@ -137,13 +134,11 @@ export const Variant = () => {
                 <Badge>Default</Badge>
                 <Badge variant="outline">Outline</Badge>
                 <Badge variant="secondary">Secondary</Badge>
-                <Badge variant="destructive">Destructive</Badge>
             </div>
             <div className='flex flex-wrap gap-2'>
                 <Badge color="blue">Default</Badge>
                 <Badge color="blue" variant="outline">Outline</Badge>
                 <Badge color="blue" variant="secondary">Secondary</Badge>
-                <Badge color="blue" variant="destructive">Destructive</Badge>
             </div>
         </div>
     </SandboxEditor>;

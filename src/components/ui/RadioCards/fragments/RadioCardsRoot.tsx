@@ -45,9 +45,9 @@ const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
             <RadioGroupPrimitive.Root
                 ref={ref}
                 className={clsx(rootClass, className)}
+                {...props}
                 {...composedAttributes}
                 orientation={orientation}
-                {...props}
             >
                 {children}
             </RadioGroupPrimitive.Root>

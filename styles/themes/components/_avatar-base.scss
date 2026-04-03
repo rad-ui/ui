@@ -62,11 +62,10 @@
   // Match solid accent surfaces (e.g. checkbox checked): high-contrast label on accent-800.
   // accent-900 is often another bright step on chromatic scales — unreadable on accent-800.
   &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
-    box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
-    
     .rad-ui-avatar-fallback {
       color: var(--rad-ui-color-accent-50);
       background-color: var(--rad-ui-color-accent-800);
+      box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
     }
   }
   
