@@ -27,9 +27,9 @@ const DialogPrimitivePortal = ({
             rootElementRef.current = container as HTMLElement;
         } else {
             const themeContainer = themeContext?.portalRootRef.current
-                || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement
+                || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
                 || themeContext?.containerRef.current
-                || document.querySelector('#rad-ui-theme-container') as HTMLElement;
+                || document.querySelector('#rad-ui-theme-container') as HTMLElement | null;
             const fallback = document.body;
             const selectedRoot = themeContainer || fallback;
             rootElementRef.current = selectedRoot;
@@ -42,29 +42,8 @@ const DialogPrimitivePortal = ({
         return null;
     }
 
-    // If forceMount is true, always render
-    if (forceMount) {
-        return (
-            <Floater.Portal
-                root={rootElementRef.current}
-                {...props}
-            >
-                {children}
-            </Floater.Portal>
-        );
-    }
-
-    // If keepMounted is true, keep the portal container but children follow their own mounting logic
-    if (keepMounted) {
-        return (
-            <Floater.Portal
-                root={rootElementRef.current}
-                {...props}
-            >
-                {children}
-            </Floater.Portal>
-        );
-    }
+    void forceMount;
+    void keepMounted;
 
     return (
         <Floater.Portal

@@ -22,8 +22,8 @@
 
     &[data-state="on"],
     &[aria-pressed="true"] {
-        background-color: var(--rad-ui-surface-panel);
-        border-color: var(--rad-ui-color-accent-600);
+        background-color: var(--rad-ui-surface-muted);
+        border-color: var(--rad-ui-border-strong);
         color: var(--rad-ui-color-accent-900);
         box-shadow:
             0 1px 2px rgba(0, 0, 0, 0.06),

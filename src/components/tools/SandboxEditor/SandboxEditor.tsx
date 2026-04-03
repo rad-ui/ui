@@ -42,9 +42,9 @@ const ColorSelect = ({ color, isDarkMode, isSelected }: ColorSelectProps) => {
     ></span>;
 };
 
-type SandboxProps = {className?: string | ''} & PropsWithChildren
+type SandboxProps = { className?: string } & PropsWithChildren
 
-const SandboxEditor = ({ children, className } : SandboxProps) => {
+const SandboxEditor = ({ children, className }: SandboxProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     type AvailableColors = keyof typeof colors
@@ -129,7 +129,7 @@ const SandboxEditor = ({ children, className } : SandboxProps) => {
                 </div>
             </div>
             <Separator/>
-            <div className={`pt-2.5 ${className}`} >
+            <div className={`pt-2.5 ${className ?? ''}`.trim()} >
                 {children}
             </div>
         </div>

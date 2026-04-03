@@ -1,9 +1,14 @@
 .rad-ui-radio-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
   width: 100%;
-  max-width: 29rem;
+  max-width: var(--rad-ui-radio-cards-max-width, 29rem);
+
+  /* Items render inside the roving-focus group wrapper, not as direct children */
+  [role="group"] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rad-ui-radio-cards-gap, 1.125rem);
+    width: 100%;
+  }
 }
 
 .rad-ui-radio-cards .rad-ui-radio-cards-item {
@@ -68,21 +73,30 @@
   }
 
   &[data-state="checked"] {
-    border-color: var(--rad-ui-color-accent-600);
-    background-color: color-mix(in oklab, var(--rad-ui-color-accent-100) 45%, var(--rad-ui-surface-panel));
+    border-color: var(--rad-ui-text-primary);
+    background-color: var(--rad-ui-surface-subtle);
     box-shadow:
-      inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-200) 60%, var(--rad-ui-color-gray-50)),
+      inset 0 0 0 1px var(--rad-ui-text-primary),
       var(--rad-ui-shadow-sm);
+
+    .rad-ui-radio-cards-title {
+      color: var(--rad-ui-text-primary);
+    }
+
+    .rad-ui-radio-cards-description {
+      color: var(--rad-ui-text-secondary);
+    }
   }
 
   &[data-state="checked"]::before {
-    border-color: var(--rad-ui-color-accent-600);
+    border-color: var(--rad-ui-text-primary);
     box-shadow:
-      inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-100) 70%, var(--rad-ui-color-gray-50)),
+      inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-text-primary) 22%, transparent),
       0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
   &[data-state="checked"]::after {
+    background-color: var(--rad-ui-text-primary);
     transform: translateY(-50%) scale(1);
   }
 
@@ -90,7 +104,6 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    pointer-events: none;
   }
 
   > * {

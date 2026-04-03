@@ -11,9 +11,7 @@
     border-radius: var(--rad-ui-radius-xl);
     font-size: 0.875rem;
     user-select: none;
-    padding: 6rem 1.5rem;
-    width: 24rem;
-    min-height: 13.5rem;
+    padding: 1.5rem;
     text-align: center;
     background-color: var(--rad-ui-surface-subtle);
 
@@ -171,6 +169,18 @@
 
 .rad-ui-context-menu-danger {
     color: var(--rad-ui-color-red-900);
+
+    &[data-highlighted],
+    &[aria-selected="true"] {
+        color: var(--rad-ui-color-red-900);
+    }
+
+    &[data-highlighted] .rad-ui-context-menu-shortcut,
+    &[aria-selected="true"] .rad-ui-context-menu-shortcut,
+    &[data-highlighted] .rad-ui-context-menu-sub-icon,
+    &[aria-selected="true"] .rad-ui-context-menu-sub-icon {
+        color: var(--rad-ui-color-red-900);
+    }
 }
 
 .rad-ui-context-menu-sub-icon {

@@ -51,10 +51,12 @@ const RovingFocusGroup = ({
         // For tree mode, recompute items from actual DOM children (browser-only)
         if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined' && groupRef.current) {
             const group = groupRef.current;
-            // get its children
-            const children = group.children;
-            // get ids of children
-            const childrenIds = Array.from(children).map((child) => child.id).filter(Boolean);
+            /** Prefer nested tree layout (treeitems inside branch groups); fall back to flat direct children. */
+            const treeItems = group.querySelectorAll('[role="treeitem"]');
+            const childrenIds =
+                treeItems.length > 0
+                    ? Array.from(treeItems).map((el) => el.id).filter(Boolean)
+                    : Array.from(group.children).map((child) => child.id).filter(Boolean);
             setFocusItems(childrenIds);
             return;
         }

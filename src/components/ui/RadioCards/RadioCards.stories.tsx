@@ -26,7 +26,11 @@ const RadioCardsTemplate = () => {
 
     return (
         <SandboxEditor>
-            <RadioCards.Root defaultValue="plus" aria-label="Plan">
+            <RadioCards.Root
+                defaultValue="plus"
+                aria-label="Plan"
+                className="[&>[role=group]]:flex [&>[role=group]]:w-full [&>[role=group]]:flex-col [&>[role=group]]:gap-4"
+            >
                 {options.map((option) => (
                     <RadioCards.Item key={option.id} value={option.value}>
                         <div className="rad-ui-radio-cards-title">{option.title}</div>

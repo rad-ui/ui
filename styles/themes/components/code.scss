@@ -5,19 +5,13 @@
   border-radius: var(--rad-ui-radius-sm);
   font-size: 0.875rem;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  font-weight: 600;
+  font-weight: 400;
   display: inline-block;
   border: 1px solid var(--rad-ui-color-accent-500);
   
   &[data-code-variant="outline"] {
     background-color: transparent;
     color: var(--rad-ui-color-accent-900);
-    border: 1px solid var(--rad-ui-color-accent-500);
-  }
-  
-  &[data-code-variant="soft"] {
-    background-color: var(--rad-ui-color-accent-100);
-    color: var(--rad-ui-color-accent-1000);
     border: 1px solid var(--rad-ui-color-accent-500);
   }
   

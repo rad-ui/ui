@@ -1,5 +1,31 @@
 @use 'button';
 
+%rad-ui-alert-dialog-action-skin {
+  @extend .rad-ui-button;
+  background-color: var(--rad-ui-text-primary);
+  color: var(--rad-ui-surface-panel);
+  border: 1px solid var(--rad-ui-text-primary);
+
+  &:hover {
+    background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
+    border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
+  }
+}
+
+%rad-ui-alert-dialog-cancel-skin {
+  @extend .rad-ui-button;
+  background-color: var(--rad-ui-surface-panel);
+  color: var(--rad-ui-text-primary);
+  border: 1px solid var(--rad-ui-border-soft);
+  box-shadow: var(--rad-ui-shadow-xs);
+
+  &:hover {
+    background-color: var(--rad-ui-surface-subtle);
+    border-color: var(--rad-ui-border);
+    color: var(--rad-ui-text-primary);
+  }
+}
+
 .rad-ui-alert-dialog-overlay {
   position: fixed;
   inset: 0;
@@ -89,36 +115,18 @@
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
     
-    @media (width >= 640px) {
+    @media (width > 640px) {
       flex-direction: row;
       justify-content: flex-end;
       align-items: center;
     }
     
     .rad-ui-alert-dialog-action {
-      @extend .rad-ui-button;
-      background-color: var(--rad-ui-text-primary);
-      color: var(--rad-ui-surface-panel);
-      border: 1px solid var(--rad-ui-text-primary);
-      
-      &:hover {
-        background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
-        border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
-      }
+      @extend %rad-ui-alert-dialog-action-skin;
     }
     
     .rad-ui-alert-dialog-cancel {
-      @extend .rad-ui-button;
-      background-color: var(--rad-ui-surface-panel);
-      color: var(--rad-ui-text-primary);
-      border: 1px solid var(--rad-ui-border-soft);
-      box-shadow: var(--rad-ui-shadow-xs);
-      
-      &:hover {
-        background-color: var(--rad-ui-surface-subtle);
-        border-color: var(--rad-ui-border);
-        color: var(--rad-ui-text-primary);
-      }
+      @extend %rad-ui-alert-dialog-cancel-skin;
     }
   }
 
@@ -146,27 +154,9 @@
 
 // Standalone button styles (for when used outside of content context)
 .rad-ui-alert-dialog-action {
-  @extend .rad-ui-button;
-  background-color: var(--rad-ui-text-primary);
-  color: var(--rad-ui-surface-panel);
-  border: 1px solid var(--rad-ui-text-primary);
-  
-  &:hover {
-    background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
-    border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
-  }
+  @extend %rad-ui-alert-dialog-action-skin;
 }
 
 .rad-ui-alert-dialog-cancel {
-  @extend .rad-ui-button;
-  background-color: var(--rad-ui-surface-panel);
-  color: var(--rad-ui-text-primary);
-  border: 1px solid var(--rad-ui-border-soft);
-  box-shadow: var(--rad-ui-shadow-xs);
-  
-  &:hover {
-    background-color: var(--rad-ui-surface-subtle);
-    border-color: var(--rad-ui-border);
-    color: var(--rad-ui-text-primary);
-  }
+  @extend %rad-ui-alert-dialog-cancel-skin;
 }

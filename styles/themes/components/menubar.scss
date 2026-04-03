@@ -41,14 +41,15 @@
 }
 
 .rad-ui-menubar-content {
-    z-index: 50;
+    /* Must not animate `transform` here — Floating UI positions via inline transform. */
+    z-index: var(--rad-ui-z-index-portal, 1000);
     min-width: 12.75rem;
     background-color: var(--rad-ui-surface-panel);
     border-radius: var(--rad-ui-radius-lg);
     border: 1px solid var(--rad-ui-border);
     padding: 0.375rem;
     box-shadow: var(--rad-ui-shadow-lg);
-    animation: rad-ui-slide-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: rad-ui-menubar-content-enter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
     &[data-state="closed"] {
         display: none;
@@ -87,7 +88,7 @@
 .rad-ui-menubar-separator {
     height: 1px;
     background-color: var(--rad-ui-border-soft);
-    margin: 0.375rem -0.375rem;
+    margin: 0.375rem 0;
 }
 
 .rad-ui-menubar-shortcut {
@@ -101,14 +102,12 @@
     color: var(--rad-ui-text-muted);
 }
 
-@keyframes rad-ui-slide-in {
+@keyframes rad-ui-menubar-content-enter {
     from {
         opacity: 0;
-        transform: translateY(2px) scale(0.96);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
     }
 }

@@ -26,7 +26,7 @@ export default meta;
 
 const DoubleChevronIcon = ({ ...props }: React.SVGProps<SVGSVGElement>) => {
     return (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path d="M5.146 5.146a.5.5 0 0 1 .708 0L8 7.293l2.146-2.147a.5.5 0 1 1 .708.708l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5a.5.5 0 0 1 0-.708Z" fill="currentColor" />
             <path d="M5.146 8.646a.5.5 0 0 1 .708 0L8 10.793l2.146-2.147a.5.5 0 1 1 .708.708l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5a.5.5 0 0 1 0-.708Z" fill="currentColor" />
         </svg>

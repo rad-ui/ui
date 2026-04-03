@@ -71,11 +71,5 @@
     }
   }
   
-  // Ring styles for grouped avatars - more specific
-  &[data-slot="avatar"] {
-    .rad-ui-avatar-group-item {
-      box-shadow: 0 0 0 2px var(--rad-ui-surface-panel);
-    }
-  }
 }
 /* stylelint-enable no-descending-specificity */

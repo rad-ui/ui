@@ -22,7 +22,8 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
     const thisRef = useRef<HTMLButtonElement>(null);
     useImperativeHandle(ref, () => thisRef.current as TreeItemElement);
 
-    const [isToggled, setIsToggled] = useState(false);
+    const hasChildren = Boolean(item?.items?.length);
+    const [isToggled, setIsToggled] = useState(() => Boolean(item?.expanded));
     const { rootClass } = useContext(TreeContext);
 
     const handleClick = () => {
@@ -31,21 +32,25 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
             onToggleSelect(id, item);
         }
         // On click, toggle expand/collapse if this item has children
-        if (item?.items && item.items.length > 0) {
+        if (hasChildren) {
             setIsToggled(prev => !prev);
         }
     };
 
     const handleExpand = () => {
         // validations
-        if (!item.items || item.items.length === 0) return;
+        if (!hasChildren) return;
         if (isToggled) {
-            // focus next item
             const itemElement = thisRef.current;
-            // get the button that comes after the current item
-            const nextButton = itemElement?.nextElementSibling as HTMLButtonElement;
-            if (nextButton) {
-                nextButton.focus();
+            const next = itemElement?.nextElementSibling as HTMLElement | null | undefined;
+            if (!next) return;
+            if (next.getAttribute('role') === 'group') {
+                const firstChild = next.querySelector('[role="treeitem"]') as HTMLElement | null;
+                firstChild?.focus();
+                return;
+            }
+            if (next.matches('[role="treeitem"]')) {
+                next.focus();
             }
             return;
         }
@@ -73,7 +78,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
 
     return (
         <>
-            <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse}>
+            <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse} role="treeitem">
                 <ButtonPrimitive
                     ref={thisRef}
                     className={clsx(`${rootClass}-item`, className)}
@@ -89,20 +94,43 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                             e.stopPropagation();
                         }
                     }}
+                    type="button"
                     data-selected={isSelected}
                     aria-selected={isSelected}
+                    aria-expanded={hasChildren ? isToggled : undefined}
                     data-toggled={isToggled}
+                    data-has-children={hasChildren}
                     data-id={id}
                     data-parent-id={parentId}
                     data-level={level}
                     {...props}
                 >
-                    {children}
+                    <span className={`${rootClass}-item-chevron`} aria-hidden>
+                        {hasChildren ? (
+                            <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 12 12"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                focusable="false"
+                            >
+                                <path
+                                    d="M4.5 2.5L7.5 6L4.5 9.5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        ) : null}
+                    </span>
+                    <span className={`${rootClass}-item-label`}>{children}</span>
                 </ButtonPrimitive>
             </RovingFocusGroup.Item>
 
             {isToggled && item.items && (
-                <>
+                <div className={`${rootClass}-branch`} role="group">
                     {item.items.map((subItem: any) => {
                         const nextLevel = level + 1;
                         const childIsSelected = getIsSelected ? getIsSelected(subItem) : false;
@@ -120,7 +148,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                             </TreeItem>
                         );
                     })}
-                </>
+                </div>
             )}
         </>
     );

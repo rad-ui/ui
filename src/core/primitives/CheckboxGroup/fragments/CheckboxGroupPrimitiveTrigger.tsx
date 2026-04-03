@@ -48,6 +48,7 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                     aria-disabled={isDisabled || undefined}
                     disabled={isDisabled}
                     {...triggerProps}
+                    data-state={isChecked ? 'checked' : 'unchecked'}
                 >
                     <button type="button" disabled={isDisabled}>
                         {children}

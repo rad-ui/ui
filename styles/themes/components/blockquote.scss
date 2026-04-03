@@ -7,8 +7,6 @@
   color: var(--rad-ui-text-secondary);
   font-size: 0.875rem; // text-sm
   line-height: 1.625; // leading-relaxed
-  border-inline-start-color: var(--rad-ui-color-accent-600);
-  color: var(--rad-ui-color-accent-1000);
   
   // Size variants
   // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
@@ -73,5 +71,10 @@
     &[data-block-quote-size="x-large"] {
       padding: 1.25rem 1.5rem; // py-5 px-6
     }
+  }
+
+  &[data-block-quote-variant="accent"] {
+    border-inline-start-color: var(--rad-ui-color-accent-600);
+    color: var(--rad-ui-color-accent-1000);
   }
 }

@@ -10,8 +10,6 @@
   padding: 1.5rem;
   
   &[data-card-variant="outline"] {
-    background-color: var(--rad-ui-surface);
-    border-color: var(--rad-ui-border-strong);
     box-shadow: none;
   }
   

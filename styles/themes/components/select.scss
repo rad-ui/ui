@@ -151,9 +151,20 @@
 
         &[aria-selected="true"][data-active="true"] {
             background-color: var(--rad-ui-surface-hover);
+            color: var(--rad-ui-text-primary);
             box-shadow:
                 inset 0 0 0 1px var(--rad-ui-text-primary),
                 var(--rad-ui-shadow-xs);
+        }
+
+        &[aria-selected="true"][data-highlighted],
+        &[aria-selected="true"][data-active="true"] {
+            background-color: var(--rad-ui-surface-subtle);
+            color: var(--rad-ui-text-primary);
+
+            .rad-ui-select-item-indicator {
+                opacity: 1;
+            }
         }
 
         &[role="option"] {

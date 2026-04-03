@@ -174,11 +174,11 @@
 
     .rad-ui-slider-mark {
       flex-direction: row;
+      align-items: center;
 
       .rad-ui-slider-mark-label {
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
+        margin-left: 0.5rem;
+        margin-top: 0;
       }
 
       .rad-ui-slider-mark-line { width: 2px; height: 8px; }

@@ -86,10 +86,17 @@ export const WithLabel = () => {
                                     htmlFor={key}
                                     className={`block text-base font-medium cursor-pointer ${key === 'disabled' ? 'text-gray-500' : 'text-gray-950'}`}
                                 >
-                                    {key === 'terms' ? 'Accept terms and conditions' : key === 'notifications' ? 'Accept terms and conditions' : 'Enable notifications'}
+                                    {key === 'terms'
+                                        ? 'Accept terms and conditions'
+                                        : key === 'notifications'
+                                            ? 'Enable notifications'
+                                            : 'Disabled'}
                                 </label>
-                                {key === 'notifications' && (
+                                {key === 'terms' && (
                                     <p className="text-sm text-gray-700">By clicking this checkbox, you agree to the terms.</p>
+                                )}
+                                {key === 'notifications' && (
+                                    <p className="text-sm text-gray-700">Enable notifications to receive updates.</p>
                                 )}
                             </div>
                         </div>

@@ -1,45 +1,36 @@
 .rad-ui-table-wrapper{
-    border: 1px solid var(--rad-ui-border);
-    border-radius: var(--rad-ui-radius-lg);
+    border: 1px solid var(--rad-ui-color-accent-500);
+    border-radius: 12px;
     overflow: hidden;
-    background-color: var(--rad-ui-surface-panel);
-    box-shadow: var(--rad-ui-shadow-xs);
 
     .rad-ui-table{
         width: 100%;
         text-align: left;
         vertical-align: top;
-        border-radius: var(--rad-ui-radius-lg);
+        border-radius: calc(10px);
         border-spacing: 0;
         box-sizing: border-box;
-        color: var(--rad-ui-text-primary);
+        color: var(--rad-ui-color-gray-1000);
 
         .header{
+            padding: 12px;
             vertical-align: inherit;
-            border-bottom: 1px solid var(--rad-ui-border-soft);
+            font-weight: 700;
+            font-size:14px;
+            border-bottom: 1px solid var(--rad-ui-color-accent-500);
 
             .cell-header{
-                height: 3rem;
-                padding: 0 1rem;
+                padding: 12px;
                 vertical-align: inherit;
-                font-weight: 600;
-                font-size: 0.875rem;
-                letter-spacing: 0;
-                text-transform: none;
-                color: var(--rad-ui-text-primary);
-                background-color: var(--rad-ui-surface-panel);
+                font-weight: 500;
+                background-color: var(--rad-ui-color-accent-200);
             }
         }
     
         .row{
             vertical-align: inherit;
-            border-bottom: 1px solid var(--rad-ui-border-soft);
-            background-color: var(--rad-ui-surface-panel);
-
-
-            &:hover{
-                background-color: var(--rad-ui-surface-subtle);
-            }
+            border-bottom: 1px solid var(--rad-ui-color-accent-300);
+            background-color: var(--rad-ui-color-accent-50);
 
             &:last-child{
                 border-bottom: none;
@@ -47,12 +38,11 @@
         }
     
         .cell{
-            padding: 0.875rem 1rem;
+            padding: 0.75rem 1rem;
             vertical-align: inherit;
-            color: var(--rad-ui-text-primary);
-            font-weight: 400;
-            font-size: 0.875rem;
-            line-height: 1.4;
+            color: var(--rad-ui-color-gray-1000);
+            font-weight: 300;
+            font-size: 14px;
         }
     }
 

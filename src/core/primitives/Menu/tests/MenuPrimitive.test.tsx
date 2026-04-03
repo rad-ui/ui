@@ -85,7 +85,8 @@ describe('MenuPrimitive', () => {
             );
 
             expect(flipSpy).toHaveBeenCalledWith({
-                mainAxis: false
+                mainAxis: false,
+                crossAxis: false
             });
 
             flipSpy.mockRestore();

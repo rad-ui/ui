@@ -39,6 +39,7 @@ export const Controlled: Story = {
                     <ProgressExample value={value} />
                     <input
                         type="range"
+                        aria-label="Progress value"
                         min="0"
                         max="100"
                         value={value}

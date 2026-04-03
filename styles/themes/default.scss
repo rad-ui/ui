@@ -87,6 +87,7 @@
     --rad-ui-ring-shadow: 0 0 0 3px var(--rad-ui-ring-strong);
     --rad-ui-ring-shadow-sm: 0 0 0 2px var(--rad-ui-ring-strong);
     --rad-ui-ring-shadow-inset: inset 0 0 0 2px var(--rad-ui-ring-strong);
+    --rad-ui-z-index-portal: 1000;
 
     color: var(--rad-ui-text-primary);
     background-color: var(--rad-ui-surface-canvas);
@@ -95,7 +96,7 @@
 [data-rad-ui-portal-root] {
     color: inherit;
     position: relative;
-    z-index: 1000;
+    z-index: var(--rad-ui-z-index-portal);
     isolation: isolate;
 }
 

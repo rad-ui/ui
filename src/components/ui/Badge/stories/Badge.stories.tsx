@@ -90,11 +90,13 @@ export const WithColors = () => {
                     <div key={vIndex} className='flex flex-col gap-2'>
                         <p className='text-xs text-gray-600'>{variant}</p>
                         <div className='flex flex-wrap gap-2'>
-                            {Colors.slice(0, 3).map((color, cIndex) => (
-                                <Badge key={cIndex} color={color} variant={variant}>
-                                    {color}
-                                </Badge>
-                            ))}
+                            {variant === 'destructive'
+                                ? <Badge variant="destructive">destructive</Badge>
+                                : Colors.slice(0, 3).map((color, cIndex) => (
+                                    <Badge key={cIndex} color={color} variant={variant}>
+                                        {color}
+                                    </Badge>
+                                ))}
                         </div>
                     </div>
                 ))}

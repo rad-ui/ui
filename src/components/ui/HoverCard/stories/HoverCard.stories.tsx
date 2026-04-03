@@ -61,7 +61,13 @@ const ControlledHoverCardExample = () => {
                 customRootClass=""
             >
                 <HoverCard.Trigger>
-                    <span onClick={() => setOpen(true)}>{open ? 'Hover Here' : 'Show Card'}</span>
+                    <button
+                        type="button"
+                        className="cursor-pointer bg-transparent p-0 text-inherit"
+                        onClick={() => setOpen(true)}
+                    >
+                        {open ? 'Hover Here' : 'Show Card'}
+                    </button>
                 </HoverCard.Trigger>
                 <HoverCard.Content>
                     <div className="w-[16rem] space-y-2">

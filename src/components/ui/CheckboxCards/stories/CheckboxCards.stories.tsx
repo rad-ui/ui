@@ -27,10 +27,10 @@ const CheckboxCardsExample = (args:any) => {
         <SandboxEditor>
             <div className="w-full max-w-[29rem] space-y-4">
                 <CheckboxCards.Root
+                    {...args}
                     name="preferences"
                     value={checked}
                     onValueChange={handleChange}
-                    {...args}
                 >
                     {options.map((option) => (
                         <CheckboxCards.Item key={option.id} value={option.value}>

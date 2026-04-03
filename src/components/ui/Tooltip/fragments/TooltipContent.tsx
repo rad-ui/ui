@@ -31,8 +31,14 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
 
         const { getFloatingProps } = interactions;
 
+        const portalRoot = themeContext?.portalRootRef.current
+            || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
+            || themeContext?.containerRef.current
+            || document.querySelector('#rad-ui-theme-container') as HTMLElement | null
+            || undefined;
+
         return (
-            <FloatingPortal root={themeContext?.portalRootRef.current || themeContext?.containerRef.current || undefined}>
+            <FloatingPortal root={portalRoot}>
                 <Primitive.div
                     className="rad-ui-tooltip-floating-element"
                     ref={mergedRef}

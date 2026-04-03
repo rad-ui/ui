@@ -17,7 +17,7 @@
 
     &::placeholder {
       color: var(--rad-ui-text-muted);
-      font-size: 1rem;
+      font-size: inherit;
     }
 
     &:disabled,

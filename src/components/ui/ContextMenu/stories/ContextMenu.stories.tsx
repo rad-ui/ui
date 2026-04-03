@@ -16,7 +16,11 @@ export const Basic: Story = {
     render: () => (
         <SandboxEditor>
             <ContextMenu.Root customRootClass="" >
-                <ContextMenu.Trigger >Right click here</ContextMenu.Trigger>
+                <ContextMenu.Trigger
+                    style={{ padding: '6rem 1.5rem', width: '24rem', minHeight: '13.5rem' }}
+                >
+                    Right click here
+                </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                     <ContextMenu.Content >
                         <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>

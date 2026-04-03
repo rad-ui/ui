@@ -149,6 +149,9 @@
     }
     
     .rad-ui-splitter-handle {
+      &::after {
+        transition: none;
+      }
     }
   }
 }

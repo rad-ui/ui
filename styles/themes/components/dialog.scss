@@ -39,7 +39,6 @@
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
-  gap: 0;
   
   &[data-state="open"] {
     opacity: 1;

@@ -72,5 +72,9 @@
                 color: var(--rad-ui-text-primary);
             }
         }
+
+        &:last-child .rad-ui-minimap-line {
+            display: none;
+        }
     }
 }

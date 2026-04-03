@@ -37,10 +37,15 @@ const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
     const [themeRadius, setThemeRadius] = useState(radius);
     const [themeScaling, setThemeScaling] = useState(scaling);
 
+    const refRef = useRef(ref);
+    useEffect(() => {
+        refRef.current = ref;
+    }, [ref]);
+
     const setRefs = useCallback((node: HTMLDivElement | null) => {
         containerRef.current = node;
-        assignRef(ref, node);
-    }, [ref]);
+        assignRef(refRef.current, node);
+    }, []);
 
     useEffect(() => {
         const media = window.matchMedia('(prefers-color-scheme: dark)');

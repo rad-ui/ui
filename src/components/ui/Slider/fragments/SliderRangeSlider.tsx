@@ -5,6 +5,7 @@ import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'SliderRangeSlider';
+const THUMB_HALF_SIZE = 8;
 
 export type SliderRangeSliderElement = ElementRef<'div'>;
 export type SliderRangeSliderProps = {
@@ -202,8 +203,8 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
                 onPointerMove={(e: React.PointerEvent<HTMLDivElement>) => handlePointerMove(e, 'lower')}
                 onPointerUp={handlePointerUp}
                 style={orientation === 'vertical'
-                    ? { bottom: `calc(${percent1}% - 8px)` }
-                    : { left: `calc(${percent1}% - 8px)` }
+                    ? { bottom: `calc(${percent1}% - ${THUMB_HALF_SIZE}px)` }
+                    : { left: `calc(${percent1}% - ${THUMB_HALF_SIZE}px)` }
                 }
             />
 
@@ -227,8 +228,8 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
                 onPointerMove={(e: React.PointerEvent<HTMLDivElement>) => handlePointerMove(e, 'upper')}
                 onPointerUp={handlePointerUp}
                 style={orientation === 'vertical'
-                    ? { bottom: `calc(${percent2}% - 8px)` }
-                    : { left: `calc(${percent2}% - 8px)` }
+                    ? { bottom: `calc(${percent2}% - ${THUMB_HALF_SIZE}px)` }
+                    : { left: `calc(${percent2}% - ${THUMB_HALF_SIZE}px)` }
                 }
             />
 

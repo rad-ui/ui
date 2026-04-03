@@ -32,6 +32,7 @@
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     background-color: var(--rad-ui-surface-subtle);
@@ -86,7 +87,7 @@
 .rad-ui-navigation-menu-content .rad-ui-navigation-menu-link {
   width: 100%;
   justify-content: flex-start;
-  border-radius: 0.75rem;
+  border-radius: var(--rad-ui-radius-md);
   padding: 0.65rem 0.8rem;
   color: var(--rad-ui-text-secondary);
 }

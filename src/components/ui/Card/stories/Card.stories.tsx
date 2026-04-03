@@ -26,10 +26,10 @@ const LoginCard = ({ variant, size }: CardStoryProps) => {
                 <Card.Content>
                     <div className="space-y-2">
                         <div className="flex items-center justify-between gap-4">
-                            <label className="text-sm font-medium text-gray-950">Email</label>
+                            <label className="text-sm font-medium text-[var(--rad-ui-text-primary)]">Email</label>
                         </div>
                         <input
-                            className="w-full rounded-xl border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-950 outline-none transition focus:border-gray-400"
+                            className="w-full rounded-xl border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] px-3 py-2 text-sm text-[var(--rad-ui-text-primary)] outline-none transition focus:border-[var(--rad-ui-border-default)]"
                             placeholder="m@example.com"
                             type="email"
                         />
@@ -37,11 +37,11 @@ const LoginCard = ({ variant, size }: CardStoryProps) => {
 
                     <div className="space-y-2">
                         <div className="flex items-center justify-between gap-4">
-                            <label className="text-sm font-medium text-gray-950">Password</label>
-                            <button className="text-sm font-medium text-gray-900" type="button">Forgot your password?</button>
+                            <label className="text-sm font-medium text-[var(--rad-ui-text-primary)]">Password</label>
+                            <button className="text-sm font-medium text-[var(--rad-ui-text-secondary)]" type="button">Forgot your password?</button>
                         </div>
                         <input
-                            className="w-full rounded-xl border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-950 outline-none transition focus:border-gray-400"
+                            className="w-full rounded-xl border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] px-3 py-2 text-sm text-[var(--rad-ui-text-primary)] outline-none transition focus:border-[var(--rad-ui-border-default)]"
                             type="password"
                         />
                     </div>
