@@ -6,6 +6,7 @@
 
     .rad-ui-tabs-list{
         display: inline-flex;
+        flex-direction: row;
         align-items: center;
         gap: 0.16rem;
         width: fit-content;
@@ -15,6 +16,11 @@
         box-shadow:
             inset 0 0 0 1px rgba(0, 0, 0, 0.06),
             0 2px 8px rgba(0, 0, 0, 0.025);
+
+        &[aria-orientation="vertical"] {
+            flex-direction: column;
+            align-items: stretch;
+        }
 
         .rad-ui-tabs-trigger {
             position: relative;
