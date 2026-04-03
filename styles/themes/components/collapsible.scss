@@ -1,26 +1,30 @@
 .rad-ui-collapsible {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+
   .rad-ui-collapsible-trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0.75rem; // py-2 px-3
-    border-radius: 0.375rem; // rounded-md
-    font-size: 0.875rem; // text-sm
-    font-weight: 500; // font-medium
-    color: var(--rad-ui-color-gray-950);
+    gap: 1rem;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--rad-ui-text-primary);
     background-color: transparent;
     border: none;
     cursor: pointer;
     width: 100%;
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    
-    &:hover {
-      background-color: var(--rad-ui-color-gray-50);
-    }
+    text-align: left;
+    transition:
+      color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
     
     &:focus-visible {
-      outline: 2px solid var(--rad-ui-color-gray-900);
-      outline-offset: 2px;
+      outline: none;
+      box-shadow: var(--rad-ui-ring-shadow-sm);
     }
     
     &[data-disabled],
@@ -33,11 +37,46 @@
 
   .rad-ui-collapsible-content {
     overflow: hidden;
-    font-size: 0.875rem; // text-sm
-    color: var(--rad-ui-color-gray-700);
-    padding: 0.5rem 0.75rem; // py-2 px-3
-    
-    // Height animation is handled by CollapsiblePrimitiveContent via inline styles
-    // No CSS transitions/animations needed here to avoid conflicts
+    font-size: 0.875rem;
+    color: var(--rad-ui-text-primary);
+    padding: 0;
+  }
+
+  .rad-ui-collapsible-panel {
+    border: 1px solid var(--rad-ui-border);
+    border-radius: var(--rad-ui-radius-lg);
+    background-color: var(--rad-ui-surface-panel);
+    overflow: hidden;
+  }
+
+  .rad-ui-collapsible-panel-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .rad-ui-collapsible-panel-row-label {
+    color: var(--rad-ui-text-muted);
+  }
+
+  .rad-ui-collapsible-panel-row-value {
+    font-weight: 600;
+    color: var(--rad-ui-text-primary);
+  }
+
+  .rad-ui-collapsible-trigger-icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--rad-ui-text-primary);
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &[data-state="open"] .rad-ui-collapsible-trigger-icon {
+    transform: rotate(180deg);
   }
 }

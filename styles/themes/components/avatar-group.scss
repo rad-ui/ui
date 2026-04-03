@@ -18,10 +18,12 @@
     flex-shrink: 0;
     overflow: hidden;
     border-radius: 9999px; // rounded-full
+    background-color: var(--rad-ui-surface-panel);
+    box-shadow: 0 0 0 2px var(--rad-ui-surface-panel);
     
     // Overlapping avatars with negative margin
     &:not(:first-child) {
-      margin-left: -0.75rem; // -12px
+      margin-left: -0.375rem; // -6px
       z-index: 1;
     }
     
@@ -54,30 +56,9 @@
       border-radius: inherit;
       font-size: 0.875rem; // text-sm
       line-height: 1;
-      font-weight: 500; // font-medium
-      // Default: muted colors (light gray background, medium gray text)
-      color: var(--rad-ui-color-gray-600);
-      background-color: var(--rad-ui-color-gray-200);
-    }
-    
-    // When image is present, always use default colors (even with color prop)
-    &[data-rad-ui-has-image] {
-      .rad-ui-avatar-fallback,
-      .rad-ui-avatar-group-fallback {
-        color: var(--rad-ui-color-gray-600);
-        background-color: var(--rad-ui-color-gray-200);
-      }
-    }
-    
-    // Border only when accent color is provided AND no image is present
-    &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
-      border: 1px solid var(--rad-ui-color-accent-600);
-      
-      .rad-ui-avatar-fallback,
-      .rad-ui-avatar-group-fallback {
-        color: var(--rad-ui-color-accent-900);
-        background-color: var(--rad-ui-color-accent-500);
-      }
+      font-weight: 600; // font-semibold
+      color: var(--rad-ui-text);
+      background-color: var(--rad-ui-surface-muted);
     }
   }
   
@@ -93,13 +74,7 @@
   // Ring styles for grouped avatars - more specific
   &[data-slot="avatar"] {
     .rad-ui-avatar-group-item {
-      border: 2px solid var(--rad-ui-color-gray-50);
-      filter: grayscale(100%);
-      
-      &:hover {
-        filter: grayscale(0%);
-        z-index: 2;
-      }
+      box-shadow: 0 0 0 2px var(--rad-ui-surface-panel);
     }
   }
 }

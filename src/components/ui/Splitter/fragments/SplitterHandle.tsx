@@ -20,7 +20,7 @@ const SplitterHandle = React.forwardRef<
         <div
             {...props}
             ref={forwardedRef}
-            className={clsx(`${rootClass}-handle`, className)}
+            className={clsx(`${rootClass}-handle`, { active: isActive }, className)}
             role="separator"
             aria-orientation={orientation}
             aria-label={ariaLabel || `${orientation} resize handle`}

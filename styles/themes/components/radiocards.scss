@@ -1,23 +1,110 @@
-.rad-ui-radio-cards{
+.rad-ui-radio-cards {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 29rem;
 
-    .rad-ui-radio-cards-item{
-        height: 80px;
-        width: 180px;
+    .rad-ui-radio-cards-item {
+        position: relative;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        border: 1px solid var(--rad-ui-color-gray-500);
-        border-radius: 8px;
-        padding: 1rem;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.3125rem;
+        width: 100%;
+        min-height: 4.8125rem;
+        padding: 0.9375rem 3.25rem 0.9375rem 0.9375rem;
+        border: 1px solid var(--rad-ui-border);
+        border-radius: var(--rad-ui-radius-lg);
+        background-color: var(--rad-ui-surface);
+        color: var(--rad-ui-text-primary);
+        text-align: left;
+        transition:
+            background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+            border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-        &[data-checked="true"]{
-            border: 1px solid var(--rad-ui-color-accent-800);
-            background-color: var(--rad-ui-color-accent-100);
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 0.875rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 9999px;
+            border: 1px solid var(--rad-ui-border);
+            background-color: var(--rad-ui-surface);
+            transform: translateY(-50%);
+            transition:
+                border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 1.1875rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background-color: var(--rad-ui-text-primary);
+            transform: translateY(-50%) scale(0);
+            transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &:hover {
+            border-color: var(--rad-ui-border-strong);
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--rad-ui-ring-shadow-sm);
+        }
+
+        &[data-state="checked"] {
+            border-color: var(--rad-ui-border-strong);
+            background-color: var(--rad-ui-surface-subtle);
+        }
+
+        &[data-state="checked"]::before {
+            border-color: var(--rad-ui-text-primary);
+            border-width: 2px;
+        }
+
+        &[data-state="checked"]::after {
+            transform: translateY(-50%) scale(1);
+        }
+
+        &[data-disabled],
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        > * {
+            width: 100%;
+        }
+
+        p,
+        span,
+        div {
+            color: inherit;
+        }
+
+        .rad-ui-radio-cards-title {
+            font-size: 1rem;
+            line-height: 1.5;
+            font-weight: 600;
+            color: var(--rad-ui-text-primary);
+        }
+
+        .rad-ui-radio-cards-description {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: var(--rad-ui-text-secondary);
         }
     }
 }

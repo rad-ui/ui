@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import HoverCard from '../HoverCard';
-import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
@@ -32,17 +31,15 @@ const HoverCardExample = () => {
                 customRootClass=""
             >
                 <HoverCard.Trigger>
-                    <Button variant="secondary" className="my-0" size="small">
-                        Hover over me
-                    </Button>
+                    <span>Hover Here</span>
                 </HoverCard.Trigger>
                 <HoverCard.Content>
-                    <div className="p-2 max-w-md">
-                        <div className="mb-2 text-base font-medium">Introduction to HoverCard</div>
-                        <p className="text-sm text-muted">
-                            The HoverCard component is a popup that displays when a user hovers over a trigger.
-                            It's perfect for providing additional information without requiring a click.
+                    <div className="w-[16rem] space-y-2">
+                        <div className="text-base font-semibold text-gray-950">@nextjs</div>
+                        <p className="text-sm leading-7 text-gray-950">
+                            The React Framework - created and maintained by @vercel.
                         </p>
+                        <p className="text-sm text-gray-700">Joined December 2021</p>
                     </div>
                 </HoverCard.Content>
             </HoverCard.Root>
@@ -64,24 +61,18 @@ const ControlledHoverCardExample = () => {
                 customRootClass=""
             >
                 <HoverCard.Trigger>
-                    <Button variant="secondary" className="my-0" size="small" onClick={() => setOpen(true)}>
-                        {open ? 'Card visible' : 'Click Me'}
-                    </Button>
+                    <span onClick={() => setOpen(true)}>{open ? 'Hover Here' : 'Show Card'}</span>
                 </HoverCard.Trigger>
                 <HoverCard.Content>
-                    <div className="p-2 max-w-md">
-                        <div className="mb-2 text-base font-medium">Controlled HoverCard</div>
-                        <p className="text-sm text-muted">
-                            This is a controlled example. The state is managed externally.
+                    <div className="w-[16rem] space-y-2">
+                        <div className="text-base font-semibold text-gray-950">@nextjs</div>
+                        <p className="text-sm leading-7 text-gray-950">
+                            The React Framework - created and maintained by @vercel.
                         </p>
-                        <Button
-                            variant="secondary"
-                            size="small"
-                            className="mt-2"
-                            onClick={() => setOpen(false)}
-                        >
+                        <p className="text-sm text-gray-700">Joined December 2021</p>
+                        <button className="text-sm text-gray-700 underline underline-offset-4" onClick={() => setOpen(false)} type="button">
                             Close
-                        </Button>
+                        </button>
                     </div>
                 </HoverCard.Content>
             </HoverCard.Root>

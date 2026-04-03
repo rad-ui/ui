@@ -2,88 +2,69 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px; // rounded-full
-  padding: 0.125rem 0.625rem; // px-2.5 py-0.5
-  font-size: 0.75rem; // text-xs
-  font-weight: 600; // font-semibold
-  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  // Default style: primary/default - very light/white background, dark text
-  color: var(--rad-ui-color-gray-950);
-  background-color: var(--rad-ui-color-gray-50);
+  gap: 0.375rem;
+  min-height: 1.5rem;
+  border-radius: 9999px;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
+  background-color: var(--rad-ui-text-primary);
+  color: var(--rad-ui-surface-panel);
   
-  // Accent color support (when color prop is provided)
-  &[data-rad-ui-accent-color] {
-    color: var(--rad-ui-color-accent-50);
-    background-color: var(--rad-ui-color-accent-900);
-  }
-  
-  // Variants
   &[data-badge-variant="secondary"] {
-    background-color: var(--rad-ui-color-gray-900);
-    color: var(--rad-ui-color-gray-50);
-    
-    &[data-rad-ui-accent-color] {
-      background-color: var(--rad-ui-color-accent-900);
-      color: var(--rad-ui-color-accent-50);
-    }
+    background-color: var(--rad-ui-surface-subtle);
+    border-color: transparent;
+    color: var(--rad-ui-text-primary);
   }
   
   &[data-badge-variant="destructive"] {
-    background-color: var(--rad-ui-color-red-500);
-    color: var(--rad-ui-color-red-50);
-    
-    &:hover {
-      background-color: var(--rad-ui-color-red-600);
-    }
+    background-color: var(--rad-ui-color-red-100);
+    border-color: transparent;
+    color: var(--rad-ui-color-red-900);
   }
   
   &[data-badge-variant="outline"] {
-    background-color: transparent;
-    border: 1px solid var(--rad-ui-color-gray-400);
-    color: var(--rad-ui-color-gray-950);
-    
-    &[data-rad-ui-accent-color] {
-      border-color: var(--rad-ui-color-accent-600);
-      color: var(--rad-ui-color-accent-900);
-    }
+    background-color: var(--rad-ui-surface-panel);
+    border: 1px solid var(--rad-ui-border);
+    color: var(--rad-ui-text-primary);
   }
   
   &[data-badge-variant="soft"] {
-    border: 1px solid var(--rad-ui-color-gray-400);
-    color: var(--rad-ui-color-gray-950);
-    background-color: var(--rad-ui-color-gray-200);
-    
-    &[data-rad-ui-accent-color] {
-      border-color: var(--rad-ui-color-accent-600);
-      color: var(--rad-ui-color-accent-950);
-      background-color: var(--rad-ui-color-accent-400);
-    }
+    background-color: var(--rad-ui-surface-subtle);
+    border-color: transparent;
+    color: var(--rad-ui-text-primary);
   }
   
   // Size variants
   &[data-badge-size="small"] {
     font-size: 0.625rem; // text-[10px]
     padding: 0.125rem 0.5rem; // px-2 py-0.5
-    height: 1.25rem; // h-5
+    min-height: 1.25rem; // h-5
   }
   
   &[data-badge-size="medium"] {
     font-size: 0.75rem; // text-xs
     padding: 0.125rem 0.625rem; // px-2.5 py-0.5
-    height: 1.5rem; // h-6
+    min-height: 1.5rem; // h-6
   }
   
   &[data-badge-size="large"] {
     font-size: 0.875rem; // text-sm
     padding: 0.25rem 0.75rem; // px-3 py-1
-    height: 1.75rem; // h-7
+    min-height: 1.75rem; // h-7
   }
   
   &[data-badge-size="x-large"] {
     font-size: 1rem; // text-base
     padding: 0.375rem 1rem; // px-4 py-1.5
-    height: 2rem; // h-8
+    min-height: 2rem; // h-8
   }
 }

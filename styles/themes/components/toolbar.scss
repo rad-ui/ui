@@ -3,10 +3,10 @@
     align-items: center;
     gap: 6px;
     padding: 12px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--rad-ui-color-gray-300);
-    background: var(--rad-ui-color-gray-100);
-    box-shadow: 0 14px 36px rgba(43, 24, 100, 0.22), 0 2px 8px rgba(20, 20, 45, 0.1);
+    border-radius: var(--rad-ui-radius-lg);
+    border: 1px solid var(--rad-ui-border-soft);
+    background: var(--rad-ui-surface-panel);
+    box-shadow: var(--rad-ui-shadow-sm);
 
     &[data-orientation='vertical'] {
         flex-direction: column;
@@ -22,13 +22,13 @@
         height: 36px;
         border-radius: 8px;
         background-color: transparent;
-        color: var(--rad-ui-color-slate-800);
+        color: var(--rad-ui-text-primary);
         cursor: pointer;
         text-decoration: none;
         transition: background-color 150ms ease, color 150ms ease, transform 120ms ease;
 
         &:hover {
-            background-color: rgba(120, 87, 255, 0.12);
+            background-color: var(--rad-ui-surface-subtle);
         }
 
         &:active {
@@ -36,8 +36,8 @@
         }
 
         &:focus-visible {
-            outline: 2px solid var(--rad-ui-color-accent-900);
-            outline-offset: 2px;
+            outline: none;
+            box-shadow: var(--rad-ui-ring-shadow-sm);
         }
     }
 
@@ -93,17 +93,17 @@
         height: 36px;
         border-radius: 8px;
         background-color: transparent;
-        color: var(--rad-ui-color-slate-800);
+        color: var(--rad-ui-text-primary);
         cursor: pointer;
         transition: background-color 150ms ease, color 150ms ease, transform 120ms ease;
 
         &[data-state='on'] {
-            background-color: rgba(112, 86, 230, 0.2);
-            color: #5e43c5;
+            background-color: var(--rad-ui-color-accent-100);
+            color: var(--rad-ui-color-accent-1000);
         }
 
         &:hover {
-            background-color: rgba(120, 87, 255, 0.12);
+            background-color: var(--rad-ui-surface-subtle);
         }
 
         &:active {
@@ -111,13 +111,13 @@
         }
 
         &:focus-visible {
-            outline: 2px solid var(--rad-ui-color-accent-900);
-            outline-offset: 2px;
+            outline: none;
+            box-shadow: var(--rad-ui-ring-shadow-sm);
         }
     }
 
     .rad-ui-toolbar-separator {
-        background-color: var(--rad-ui-color-gray-300);
+        background-color: var(--rad-ui-border-soft);
         width: 1px;
         height: 30px;
         margin: 0 2px;
@@ -133,7 +133,7 @@
         margin-left: 8px;
         margin-right: auto;
         font-size: 0.95rem;
-        color: #6b6f79;
+        color: var(--rad-ui-text-muted);
         white-space: nowrap;
     }
 }

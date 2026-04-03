@@ -1,6 +1,6 @@
 .rad-ui-radio {
-            width: 20px;
-            height: 20px;
+            width: 1.25rem;
+            height: 1.25rem;
             position:relative;
             display:inline-flex;
             align-items:center;
@@ -13,26 +13,43 @@
             &::before{
                 content: '';
                 display: inline-block;
-                width: 20px;
-                height: 20px;
+                width: 1.25rem;
+                height: 1.25rem;
                 border-radius: 50%;
-                background-color: var(--rad-ui-color-accent-900);
+                background-color: var(--rad-ui-surface);
+                border: 1px solid var(--rad-ui-border);
+                box-sizing: border-box;
+                transition: border-color 0.2s;
             }
 
             &[data-checked="true"]{
-               &::after{
-                content: '';
-               }
+                &::before{
+                    border-width: 2px;
+                    border-color: var(--rad-ui-text-primary);
+                }
+
+                &::after{
+                    content: '';
+                }
             }
 
             &::after{
                 display: inline-block;
                 position: absolute;
-                transform: scale(0.4);
-                width: 100%;
-                height: 100%;
+                width: 0.5rem;
+                height: 0.5rem;
                 border-radius: 50%;
-                background-color: var(--rad-ui-color-accent-400);
+                background-color: var(--rad-ui-text-primary);
+            }
+
+            &:focus-visible {
+                outline: none;
+                box-shadow: var(--rad-ui-ring-shadow-sm);
+                border-radius: 9999px;
+            }
+
+            &[data-disabled="true"]{
+                opacity: 0.55;
+                cursor: not-allowed;
             }
         }
-

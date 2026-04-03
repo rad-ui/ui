@@ -2,6 +2,7 @@ import React from 'react';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import { createDataAttributes } from '~/core/hooks/createDataAttribute';
+import CardContext from '../contexts/CardContext';
 const COMPONENT_NAME = 'Card';
 export type CardRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
@@ -14,9 +15,11 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(({ children, cu
     const dataAttributes = createDataAttributes('card', { variant, size });
 
     return (
-        <div ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props} >
-            {children}
-        </div>
+        <CardContext.Provider value={{ rootClass }}>
+            <div ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props} >
+                {children}
+            </div>
+        </CardContext.Provider>
     );
 });
 

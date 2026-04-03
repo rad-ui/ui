@@ -13,11 +13,11 @@ export const Default = () => {
 
     return (
         <SandboxEditor>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-3">
                 <Checkbox.Root id="accept-terms" checked={checked} onCheckedChange={(val) => setChecked(val as boolean)}>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label htmlFor="accept-terms" className="text-sm font-medium cursor-pointer">
+                <label htmlFor="accept-terms" className="text-base font-medium cursor-pointer text-gray-950">
                     Accept terms and conditions
                 </label>
             </div>
@@ -27,11 +27,14 @@ export const Default = () => {
 
 export const Checked = () => (
     <SandboxEditor>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-start gap-3">
             <Checkbox.Root id="checked-default" checked={true}>
                 <Checkbox.Indicator />
             </Checkbox.Root>
-            <label htmlFor="checked-default" className="text-sm font-medium cursor-pointer">Checked by default</label>
+            <div className="space-y-1">
+                <label htmlFor="checked-default" className="block text-base font-medium cursor-pointer text-gray-950">Accept terms and conditions</label>
+                <p className="text-sm text-gray-700">By clicking this checkbox, you agree to the terms.</p>
+            </div>
         </div>
     </SandboxEditor>
 );
@@ -39,17 +42,17 @@ export const Checked = () => (
 export const Disabled = () => (
     <SandboxEditor>
         <div className="space-y-4">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-3">
                 <Checkbox.Root id="disabled-unchecked" disabled>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label htmlFor="disabled-unchecked" className="text-sm font-medium text-gray-500">Disabled unchecked</label>
+                <label htmlFor="disabled-unchecked" className="text-base font-medium text-gray-500">Enable notifications</label>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-3">
                 <Checkbox.Root id="disabled-checked" checked disabled>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label htmlFor="disabled-checked" className="text-sm font-medium text-gray-500">Disabled checked</label>
+                <label htmlFor="disabled-checked" className="text-base font-medium text-gray-500">Receive weekly updates</label>
             </div>
         </div>
     </SandboxEditor>
@@ -57,33 +60,38 @@ export const Disabled = () => (
 
 export const WithLabel = () => {
     const [items, setItems] = useState({
+        terms: false,
         notifications: true,
-        marketing: false,
-        security: true
+        disabled: false
     });
 
     return (
         <SandboxEditor>
             <div className="space-y-4 w-full max-w-md">
-                <h3 className="text-lg font-semibold">Email Notifications</h3>
-                <div className="space-y-3">
+                <div className="space-y-5">
                     {Object.entries(items).map(([key, value]) => (
-                        <div key={key} className="flex items-center space-x-2">
+                        <div key={key} className="flex items-start gap-3">
                             <Checkbox.Root
                                 id={key}
                                 checked={value}
+                                disabled={key === 'disabled'}
                                 onCheckedChange={(checked) =>
-                                    setItems({ ...items, [key]: checked })
+                                    setItems({ ...items, [key]: checked as boolean })
                                 }
                             >
                                 <Checkbox.Indicator />
                             </Checkbox.Root>
-                            <label
-                                htmlFor={key}
-                                className="text-sm font-medium cursor-pointer capitalize"
-                            >
-                                {key.replace('_', ' ')}
-                            </label>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor={key}
+                                    className={`block text-base font-medium cursor-pointer ${key === 'disabled' ? 'text-gray-500' : 'text-gray-950'}`}
+                                >
+                                    {key === 'terms' ? 'Accept terms and conditions' : key === 'notifications' ? 'Accept terms and conditions' : 'Enable notifications'}
+                                </label>
+                                {key === 'notifications' && (
+                                    <p className="text-sm text-gray-700">By clicking this checkbox, you agree to the terms.</p>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>

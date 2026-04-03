@@ -1,6 +1,7 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Floater from '~/core/primitives/Floater';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
 export type DialogPrimitivePortalProps = {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const DialogPrimitivePortal = ({
     keepMounted = false,
     ...props
 }: DialogPrimitivePortalProps) => {
+    const themeContext = useContext(ThemeContext);
     const rootElementRef = useRef<HTMLElement | null>(null);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -24,13 +26,16 @@ const DialogPrimitivePortal = ({
         if (container) {
             rootElementRef.current = container as HTMLElement;
         } else {
-            const themeContainer = document.querySelector('#rad-ui-theme-container') as HTMLElement;
+            const themeContainer = themeContext?.portalRootRef.current
+                || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement
+                || themeContext?.containerRef.current
+                || document.querySelector('#rad-ui-theme-container') as HTMLElement;
             const fallback = document.body;
             const selectedRoot = themeContainer || fallback;
             rootElementRef.current = selectedRoot;
         }
         setIsMounted(true);
-    }, [container]);
+    }, [container, themeContext]);
 
     // Don't render anything until mounted (SSR safety)
     if (!isMounted) {

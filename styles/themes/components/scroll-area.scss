@@ -45,12 +45,12 @@
         }
 
         &:hover {
-            background: var(--rad-ui-color-gray-100);
+            background: var(--rad-ui-surface-subtle);
         }
 
         .rad-ui-scroll-area-thumb {
             flex: 1;
-            background: var(--rad-ui-color-gray-400);
+            background: var(--rad-ui-border-default);
             border-radius: 9999px; // fully rounded caps
             position: relative;
             
@@ -68,7 +68,7 @@
         }
         
         &:hover .rad-ui-scroll-area-thumb {
-            background: var(--rad-ui-color-gray-500);
+            background: var(--rad-ui-border-strong);
         }
     }
 }

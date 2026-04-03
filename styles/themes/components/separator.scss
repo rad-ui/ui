@@ -1,11 +1,7 @@
 /** Separator */
 .rad-ui-separator {
-    background-color: var(--rad-ui-color-gray-600);
+    background-color: var(--rad-ui-border-soft);
     align-self: stretch;
-}
-
-.rad-ui-separator[data-rad-ui-accent-color] {
-    background-color: var(--rad-ui-color-accent-900);
 }
 
 .rad-ui-separator-vertical{

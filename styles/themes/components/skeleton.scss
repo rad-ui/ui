@@ -17,11 +17,11 @@
 
     @keyframes skeleton-shimmer {
         0% {
-            background-color: var(--rad-ui-color-gray-200);
+            background-color: var(--rad-ui-surface-muted);
         }
 
         100% {
-            background-color: var(--rad-ui-color-gray-400);
+            background-color: var(--rad-ui-border-default);
         }
     }
 }

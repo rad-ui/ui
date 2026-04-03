@@ -1,43 +1,51 @@
 .rad-ui-radio-group-root {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  color: var(--rad-ui-color-accent-900);
-  font-family: inherit;
+  gap: 0.625rem;
+  color: var(--rad-ui-text-primary);
+  font-family: var(--rad-ui-font-sans);
 
   .rad-ui-radio-group-item {
-    height: 24px;
-    width: 24px;
+    height: 1.25rem;
+    width: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: var(--rad-ui-color-accent-100);
-    border: 2px solid var(--rad-ui-color-accent-400);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    background-color: var(--rad-ui-surface);
+    border: 1px solid var(--rad-ui-border);
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
     position: relative;
+    flex-shrink: 0;
 
     &:hover {
-      border-color: var(--rad-ui-color-accent-600);
-      background-color: var(--rad-ui-color-accent-200);
+      border-color: var(--rad-ui-border-strong);
     }
 
-    &:focus {
-      outline: 2px solid var(--rad-ui-color-accent-700);
-      outline-offset: 2px;
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--rad-ui-ring-shadow-sm);
+    }
+
+    &[data-state="checked"] {
+      border-width: 2px;
+      border-color: var(--rad-ui-text-primary);
+    }
+
+    &[data-disabled] {
+      cursor: not-allowed;
+      opacity: 0.55;
     }
   }
 
   .rad-ui-radio-group-indicator {
-    height: 12px;
-    width: 12px;
+    height: 0.5rem;
+    width: 0.5rem;
     border-radius: 50%;
-    background-color: var(--rad-ui-color-accent-900);
-    border: 2px solid var(--rad-ui-color-accent-100);
-    transition: background 0.2s, border 0.2s;
+    background-color: var(--rad-ui-text-primary);
+    transition: background-color 0.2s;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -47,17 +55,21 @@
 
   .rad-ui-radio-group-label {
     font-size: 1rem;
+    line-height: 1.5;
     font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    color: var(--rad-ui-color-accent-900);
-    margin-left: 8px;
+    margin: 0;
+    color: var(--rad-ui-text-primary);
     cursor: pointer;
     user-select: none;
-    width:max-content;
+    width: max-content;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
     transition: color 0.2s;
+
+    &[data-disabled] {
+      cursor: not-allowed;
+      color: var(--rad-ui-text-muted);
+    }
   }
 }

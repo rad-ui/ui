@@ -12,7 +12,7 @@
 
         .rad-ui-data-list-label {
             grid-column: 1;
-            color: var(--rad-ui-color-gray-900);
+            color: var(--rad-ui-text-muted);
             font-size: 14px;
             line-height: 20px;
             letter-spacing: 0.1px;
@@ -20,11 +20,10 @@
 
         .rad-ui-data-list-value {
             grid-column: 2;
-            color: var(--rad-ui-color-gray-1000);
+            color: var(--rad-ui-text-primary);
             font-size: 14px;
             line-height: 20px;
             letter-spacing: 0.1px;
         }
     }
 }
-

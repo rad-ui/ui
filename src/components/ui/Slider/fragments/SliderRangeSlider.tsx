@@ -202,8 +202,8 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
                 onPointerMove={(e: React.PointerEvent<HTMLDivElement>) => handlePointerMove(e, 'lower')}
                 onPointerUp={handlePointerUp}
                 style={orientation === 'vertical'
-                    ? { bottom: `calc(${percent1}% - 12px)` }
-                    : { left: `calc(${percent1}% - 12px)` }
+                    ? { bottom: `calc(${percent1}% - 8px)` }
+                    : { left: `calc(${percent1}% - 8px)` }
                 }
             />
 
@@ -227,8 +227,8 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
                 onPointerMove={(e: React.PointerEvent<HTMLDivElement>) => handlePointerMove(e, 'upper')}
                 onPointerUp={handlePointerUp}
                 style={orientation === 'vertical'
-                    ? { bottom: `calc(${percent2}% - 12px)` }
-                    : { left: `calc(${percent2}% - 12px)` }
+                    ? { bottom: `calc(${percent2}% - 8px)` }
+                    : { left: `calc(${percent2}% - 8px)` }
                 }
             />
 

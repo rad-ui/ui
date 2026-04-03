@@ -2,17 +2,13 @@
   position: relative;
   margin: 0;
   padding-inline-start: 1rem; // pl-4
-  border-inline-start: 4px solid var(--rad-ui-color-gray-400);
+  border-inline-start: 4px solid var(--rad-ui-border-default);
   font-style: italic;
-  color: var(--rad-ui-color-gray-950);
+  color: var(--rad-ui-text-secondary);
   font-size: 0.875rem; // text-sm
   line-height: 1.625; // leading-relaxed
-  
-  // Default styles (no color prop) - neutral/muted appearance
-  &[data-rad-ui-accent-color] {
-    border-inline-start-color: var(--rad-ui-color-accent-600);
-    color: var(--rad-ui-color-accent-1000);
-  }
+  border-inline-start-color: var(--rad-ui-color-accent-600);
+  color: var(--rad-ui-color-accent-1000);
   
   // Size variants
   // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
@@ -52,23 +48,13 @@
   &[data-block-quote-variant="outline"] {
     border-inline-start-style: dashed;
     background-color: transparent;
-    
-    &[data-rad-ui-accent-color] {
-      border-inline-start-color: var(--rad-ui-color-accent-600);
-      color: var(--rad-ui-color-accent-1000);
-    }
   }
   
   &[data-block-quote-variant="soft"] {
-    background-color: var(--rad-ui-color-gray-50);
+    background-color: var(--rad-ui-color-accent-50);
     border-radius: 0.375rem; // rounded-md
-    border-inline-start-color: var(--rad-ui-color-gray-400);
-    
-    &[data-rad-ui-accent-color] {
-      border-inline-start-color: var(--rad-ui-color-accent-600);
-      background-color: var(--rad-ui-color-accent-50);
-      color: var(--rad-ui-color-accent-950);
-    }
+    border-inline-start-color: var(--rad-ui-color-accent-600);
+    color: var(--rad-ui-color-accent-950);
     
     // Combined: soft variant with specific sizes that need padding adjustments
     // Only add combined selectors if the variant truly needs different sizing

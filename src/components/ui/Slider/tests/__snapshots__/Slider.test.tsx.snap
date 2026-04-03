@@ -26,7 +26,7 @@ exports[`Slider Component matches snapshot 1`] = `
           data-index="0"
           data-state="inactive"
           role="slider"
-          style="left: calc(25% - 12px);"
+          style="left: calc(25% - 8px);"
           tabindex="0"
         />
         <input
