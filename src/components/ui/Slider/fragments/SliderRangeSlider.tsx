@@ -26,7 +26,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
     onValueChange,
     ...props
 }, ref) => {
-    const { rootClass, minValue, maxValue, step, disabled, orientation } = React.useContext(SliderContext);
+    const { rootClass, minValue, maxValue, step, disabled, orientation, rootRef } = React.useContext(SliderContext);
 
     const [value, setValue] = React.useState<[number, number]>(valueProp || defaultValue);
     const [isDragging, setIsDragging] = React.useState<'lower' | 'upper' | null>(null);
@@ -79,7 +79,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
         // Add global listeners immediately for smooth dragging
         const handleGlobalPointerMove = (e: PointerEvent) => {
             e.preventDefault();
-            const rootElement = document.querySelector(`[data-slider-root="${rootClass}"]`) as HTMLDivElement;
+            const rootElement = rootRef.current;
             if (!rootElement) return;
 
             const rect = rootElement.getBoundingClientRect();

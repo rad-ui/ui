@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 
 import { customClassSwitcher } from '~/core/customClassSwitcher';
@@ -55,6 +55,8 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     const [isDragging, setDragging] = React.useState(false);
     const activeThumbIndexRef = React.useRef<number | null>(null);
     const internalRef = React.useRef<HTMLDivElement>(null);
+    const thumbRefsArray = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
+    
     const mergedRef = React.useMemo(() => {
         return (node: HTMLDivElement | null) => {
             (internalRef as any).current = node;
@@ -64,6 +66,11 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     }, [ref]);
 
     const clamp = (val: number) => Math.min(max, Math.max(min, val));
+    
+    // Callback to register thumb refs
+    const registerThumbRef = useCallback((index: number, thumbRef: React.RefObject<HTMLDivElement>) => {
+        thumbRefsArray.current[index] = thumbRef;
+    }, []);
 
     const setFromPosition = (e: React.PointerEvent<HTMLDivElement> | PointerEvent) => {
         const rootElement = internalRef.current;
@@ -125,8 +132,9 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         } else {
             activeThumbIndexRef.current = null;
             if (!Array.isArray(value)) {
-                const singleThumb = internalRef.current?.querySelector<HTMLElement>(`.${rootClass}-thumb`);
-                singleThumb?.focus();
+                // Focus the single thumb using ref
+                const singleThumb = thumbRefsArray.current[0];
+                singleThumb?.current?.focus();
             } else {
                 internalRef.current?.focus();
             }
@@ -176,7 +184,10 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         orientation,
         pageStepMultiplier,
         showStepMarks,
-        formatValue
+        formatValue,
+        rootRef: internalRef,
+        thumbRefs: thumbRefsArray.current,
+        registerThumbRef
     };
 
     return (

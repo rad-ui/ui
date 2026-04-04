@@ -40,28 +40,92 @@ const RovingFocusGroup = ({
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
     const groupId = useId();
+    
+    // Ref registry for direct access to item elements
+    const itemRefsMap = useRef(new Map<string, React.RefObject<HTMLElement>>());
 
     const SHOULD_RECOMPUTE_FOCUS_ITEMS = mode === 'tree';
+    
+    /**
+     * Registers an item's ref in the registry
+     * @param id - Unique identifier for the item
+     * @param ref - React ref to the item element
+     */
+    const registerItemRef = React.useCallback((id: string, ref: React.RefObject<HTMLElement>) => {
+        itemRefsMap.current.set(id, ref);
+    }, []);
+    
+    /**
+     * Unregisters an item's ref from the registry
+     * @param id - Unique identifier for the item
+     */
+    const unregisterItemRef = React.useCallback((id: string) => {
+        itemRefsMap.current.delete(id);
+        
+        // Remove from focusItems to avoid stale IDs
+        if (SHOULD_RECOMPUTE_FOCUS_ITEMS) {
+            setFocusItems((prev) => prev.filter((itemId) => itemId !== id));
+        }
+    }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
 
     /**
      * Adds a new focusable item to the group
      * @param id - Unique identifier for the item
      */
-    const addFocusItem = (id: string) => {
-        // For tree mode, recompute items from actual DOM children (browser-only)
-        if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined' && groupRef.current) {
-            const group = groupRef.current;
-            /** Prefer nested tree layout (treeitems inside branch groups); fall back to flat direct children. */
-            const treeItems = group.querySelectorAll('[role="treeitem"]');
-            const childrenIds =
-                treeItems.length > 0
-                    ? Array.from(treeItems).map((el) => el.id).filter(Boolean)
-                    : Array.from(group.children).map((child) => child.id).filter(Boolean);
-            setFocusItems(childrenIds);
+    const addFocusItem = React.useCallback((id: string) => {
+        // For tree mode, recompute items from registered refs in DOM order
+        if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined') {
+            setFocusItems((prevItems) => {
+                // Only recompute if the item isn't already in the list
+                if (prevItems.includes(id)) {
+                    return prevItems;
+                }
+                
+                // Get all registered refs and sort by DOM position
+                const entries = Array.from(itemRefsMap.current.entries());
+                
+                // Filter out refs that don't have a current element
+                const validEntries = entries.filter(([, ref]) => ref.current);
+                
+                // Sort by DOM position using compareDocumentPosition
+                validEntries.sort(([, refA], [, refB]) => {
+                    const nodeA = refA.current;
+                    const nodeB = refB.current;
+                    
+                    if (!nodeA || !nodeB) return 0;
+                    
+                    const position = nodeA.compareDocumentPosition(nodeB);
+                    
+                    // If nodeB comes after nodeA in document order
+                    if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
+                        return -1;
+                    }
+                    // If nodeB comes before nodeA in document order
+                    if (position & Node.DOCUMENT_POSITION_PRECEDING) {
+                        return 1;
+                    }
+                    
+                    return 0;
+                });
+                
+                // Extract IDs in DOM order
+                const orderedIds = validEntries.map(([itemId]) => itemId);
+                
+                // Only update if the order has changed
+                if (orderedIds.length === prevItems.length && 
+                    orderedIds.every((itemId, index) => itemId === prevItems[index])) {
+                    return prevItems;
+                }
+                
+                return orderedIds;
+            });
             return;
         }
-        setFocusItems((prev) => [...prev, id]);
-    };
+        setFocusItems((prev) => {
+            if (prev.includes(id)) return prev;
+            return [...prev, id];
+        });
+    }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
 
     // Set initial focus to the first item when items are added
     useEffect(() => {
@@ -76,7 +140,10 @@ const RovingFocusGroup = ({
         focusItems,
         setFocusItems,
         addFocusItem,
-        groupRef
+        groupRef,
+        itemRefs: itemRefsMap.current,
+        registerItemRef,
+        unregisterItemRef
     };
 
     return <RovingFocusGroupContext.Provider value={sendValues}>

@@ -1,6 +1,7 @@
-import React, { forwardRef, useContext, useEffect, useId } from 'react';
+import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import ButtonPrimitive from '~/core/primitives/Button';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
@@ -52,8 +53,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 }, ref) => {
     const autoId = useId();
     const registrationId = domId ?? autoId;
-    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, groupRef } = useContext(RovingFocusGroupContext);
-    const { orientation, loop, disableTabIndexing, dir, mode } = useContext(RovingFocusRootContext);
+    const itemRef = useRef<HTMLButtonElement>(null);
+    const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, itemRefs, registerItemRef, unregisterItemRef } = useContext(RovingFocusGroupContext);
+    const { orientation, loop, disableTabIndexing, dir } = useContext(RovingFocusRootContext);
+    
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
     const child = childrenArray[0] as React.ReactElement;
@@ -67,34 +70,34 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const isSelected = focusedItemId === registrationId;
     const tabIndex = disableTabIndexing ? 0 : !isDisabled && isSelected ? 0 : -1;
 
-    // Register this item with the parent group
+    // Register this item with the parent group on mount only
     useEffect(() => {
-        // we check if the item is in the focusItems array, if not we add it
-        if (!focusItems.includes(registrationId)) {
-            addFocusItem(registrationId);
-        }
-    }, [focusItems, focusedItemId, registrationId, addFocusItem]);
+        registerItemRef(registrationId, itemRef);
+        addFocusItem(registrationId);
+        
+        return () => {
+            unregisterItemRef(registrationId);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [registrationId]);
 
     /**
-     * Focuses an item by its ID, skipping disabled items
+     * Focuses an item by its ID using the ref registry
      * @param id - ID of the item to focus
      */
     const focusItemWithId = (id: string) => {
-        if (groupRef && groupRef.current) {
-            setFocusedItemId(id);
-            // Sanitize the id to ensure it's a valid CSS selector
-            const sanitizedId = CSS.escape(id);
-            const item = groupRef.current.querySelector(`#${sanitizedId}`);
-            if (item) {
-                (item as HTMLElement).focus();
-            }
+        setFocusedItemId(id);
+        // Get the item ref from the registry
+        const itemRef = itemRefs.get(id);
+        if (itemRef?.current) {
+            itemRef.current.focus();
         }
     };
 
     /**
      * Finds the next enabled item index from a starting position
      * @param startIndex - Index to start searching from
-     * @param step - orientation to move (-1 for previous, 1 for next)
+     * @param step - direction to move (-1 for previous, 1 for next)
      * @returns Index of the next enabled item, or -1 if none found
      */
     const findEnabledItemIndex = (startIndex: number, step: number): number => {
@@ -115,13 +118,13 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
                 }
             }
 
-            // Check if this item is enabled by finding the element and checking for disabled children
+            // Check if this item is enabled by getting the ref and checking disabled state
             const itemId = focusItems[currentIndex];
-            const itemElement = groupRef?.current?.querySelector(`#${CSS.escape(itemId)}`) as HTMLElement;
-            if (!itemElement) continue;
+            const itemRef = itemRefs.get(itemId);
+            if (!itemRef?.current) continue;
 
             // Check the data attribute that we set to indicate if child is disabled
-            const childIsDisabled = itemElement.getAttribute('data-child-disabled') === 'true';
+            const childIsDisabled = itemRef.current.getAttribute('data-child-disabled') === 'true';
 
             if (!childIsDisabled) {
                 return currentIndex;
@@ -268,7 +271,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
-        ref={ref}
+        ref={mergeRefs(itemRef, ref)}
         id={registrationId}
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}

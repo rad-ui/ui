@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import NavigationMenuItemContext from '../contexts/NavigationMenyItemContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -18,10 +18,8 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
 
         React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
 
-        useEffect(() => {
-            const firstFocusable = contentRef.current?.querySelector<HTMLElement>('*');
-            firstFocusable?.focus();
-        }, [itemOpen]);
+        // RovingFocusGroup automatically handles focus management
+        // No need for manual querySelector and focus
 
         if (!itemOpen) return null;
 
