@@ -1,5 +1,21 @@
 # @radui/ui
 
+## 0.2.0
+
+### Minor Changes
+
+- 11a4fe9: new spinner component added
+- 140d24d: Renamed the select to combobox primitive and separated themed components for select and combobox
+- bdf63a1: Addition of color and radius api support in TextArea and new styling
+
+### Patch Changes
+
+- 008342f: **Accordion**: add root `disabled` to disable every item; thread `data-orientation` through root, item, header, trigger, and content for styling hooks consistent with Radix-style patterns; expand accessibility tests.
+- 38503b6: mergeRefs added
+- b968b4a: export types for all comps
+- a42620d: Fix select and combobox popup behavior by improving portal rendering, restoring macOS-style reopen anchoring for `Select`, and tightening related UI polish in the sandbox and shared component styles.
+- 3e892dd: Refactored internal data attribute utilities from hook-style factories to plain functions and updated shared component usage.
+
 ## 0.1.10
 
 ### Patch Changes
