@@ -3,6 +3,7 @@
 import Button from "@radui/ui/Button";
 import { useCallback, useState, useContext } from "react";
 import { NavBarContext } from "@/components/Main/NavBar/NavBarContext";
+import { usePathname } from "next/navigation";
 
 import Link from "next/link";
 
@@ -120,6 +121,8 @@ width="15"
 
 const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
   const { isDocsNavOpen, setIsDocsNavOpen } = useContext(NavBarContext);
+  const pathname = usePathname();
+  const isDocsPage = pathname?.startsWith("/docs");
 
   const openLink = useCallback(
     (url) => () => {
@@ -144,7 +147,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
 
   return (
     <div
-      className={`px-3 py-2 flex items-center justify-between border-b border-gray-500 sticky z-20 top-0  backdrop-blur-md backdrop-saturate-150`}
+      className={`sticky top-0 z-20 flex items-center justify-between px-3 py-2 backdrop-blur-md backdrop-saturate-150 ${isDocsPage ? "border-b border-gray-300 bg-gray-50" : "border-b border-gray-500"}`}
     >
       <div className="mr-3 flex items-center space-x-8">
         <a
@@ -153,32 +156,34 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         >
           <RadUILogo />
         </a>
-        <div className="hidden lg:block">
-          <ul className="text-sm flex items-center space-x-4">
-            <li>
-              <Link
-                className="text-gray-950 hover:text-gray-1000"
-                href="/docs/first-steps/introduction"
-              >
-                Docs
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="text-gray-950 hover:text-gray-1000"
-                href="/showcase/music-app"
-              >
-                Showcase
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {!isDocsPage && (
+          <div className="hidden lg:block">
+            <ul className="flex items-center space-x-4 text-sm">
+              <li>
+                <Link
+                  className="text-gray-950 hover:text-gray-1000"
+                  href="/docs/first-steps/introduction"
+                >
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-gray-950 hover:text-gray-1000"
+                  href="/showcase/music-app"
+                >
+                  Showcase
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
       <div className="flex items-center">
         <div className="hidden lg:block">
           <Button
             color="gray"
-            variant="soft"
+            variant={isDocsPage ? "ghost" : "soft"}
             onClick={openLink("https://discord.gg/nMaQfeEPNp")}
           >
             <span className="text-gray-1000">
@@ -187,7 +192,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           </Button>
           <Button
             color="gray"
-            variant="soft"
+            variant={isDocsPage ? "ghost" : "soft"}
             onClick={openLink("https://github.com/rad-ui/ui")}
           >
             <span className="text-gray-1000">
@@ -195,7 +200,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             </span>
           </Button>
 
-          <Button color="gray" variant="soft" onClick={toggleDarkMode}>
+          <Button color="gray" variant={isDocsPage ? "ghost" : "soft"} onClick={toggleDarkMode}>
             <span className="text-gray-1000">
               {darkMode ? <MoonIcon /> : <SunIcon />}
             </span>

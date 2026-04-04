@@ -65,6 +65,37 @@ npm install @radui/ui
 
 Rad UI works with modern React setups and is friendly to tokens, CSS variables, and custom theming strategies.
 
+## Local development
+
+The repository has two primary workflows:
+
+- Component library: use `npm` from the repository root
+- Documentation site: use `pnpm` inside [`docs/`](/Users/pranaykothapalli/Desktop/dev/hobby/ui/docs)
+
+Install root dependencies and run Storybook:
+
+```bash
+npm install
+npm run sb
+```
+
+Run the docs app locally:
+
+```bash
+cd docs
+pnpm install
+pnpm dev
+```
+
+To test local library changes inside the docs app, build and link the package from the repo root, then link it into `docs`:
+
+```bash
+npm run build:rollup
+npm link
+cd docs
+pnpm link @radui/ui
+```
+
 ## Philosophy
 
 Rad UI is opinionated where bugs live and flexible where taste lives.

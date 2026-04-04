@@ -20,24 +20,24 @@ const RightArrow = () => {
 };
 
 const Documentation = ({ title = '', description = '', currentPage = undefined, children }) => {
-    return <div>
+    return <div className="text-gray-1000">
         <div>
-            <div className='flex items-center space-x-4 relative top-[1px]'>
+            <div className='relative top-[1px]'>
                 <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
             </div>
-            {description && <Text className="mb-4 text-gray-900 font-light relative top-[-4px]">{description}</Text>}
+            {description && <Text className="relative top-[-4px] mb-4 text-gray-800">{description}</Text>}
         </div>
         <div className='mt-4'>
             {children}
         </div>
-        <Separator className="my-10" />
+        <Separator className="my-10 opacity-40" />
     </div>;
 };
 
 const Anatomy = ({ code, as = "h3", language = 'jsx' }) => {
-    return <div className='mt-10'>
+    return <div className='mt-12'>
         <BookMarkLink id="anatomy"> <Heading as={as} className="mb-2">Anatomy</Heading> </BookMarkLink>
-        <Text className="mb-4 text-gray-950 font-light">Import all parts of the component and piece them together</Text>
+        <Text className="mb-4 text-gray-800">Import all parts of the component and piece them together</Text>
         <CodeBlock className='mb-10' language={language}>
             {code}
         </CodeBlock>
@@ -50,12 +50,12 @@ const Section = ({ title = '', as = "h2", children }) => {
         <div className=''>
             {children}
         </div>
-        <Separator className="my-10" />
+        <Separator className="my-10 opacity-40" />
     </div>;
 };
 
 const UnderConstruction = ({ children }) => {
-    return <div className='bg-gray-200 text-gray-1000  rounded-md'>
+    return <div className='rounded-xl border border-gray-300 bg-gray-100 p-5'>
         <Text className="mb-2 text-gray-1000 font-bold">
             Docs Under Construction
         </Text>

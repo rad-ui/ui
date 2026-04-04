@@ -86,12 +86,12 @@ const EnumRenderer = ({ enumValues=[] }) => {
 
 const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', columns = [], data = [] }) => {
     return (
-        <div className="mt-10 mb-20">
+        <div className="mt-12 mb-20">
             <div className="mb-4 space-y-2">
                 <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}> <Heading as={as}>{title}</Heading> </BookMarkLink>
-                <Text className="text-gray-950">{description}</Text>
+                <Text className="text-gray-800">{description}</Text>
             </div>
-            <Table.Root>
+            <Table.Root className="overflow-hidden rounded-2xl border border-gray-300 bg-gray-50">
                 <Table.Head>
                     <Table.Row>
                         {columns.map((column, idx) => (

@@ -6,13 +6,13 @@ Follow these steps to set up your development environment:
 
 - Fork the repository: Create a fork of the Rad UI repository to your GitHub account.
 - Clone the repository: Clone your forked repository to your local machine.
-- Install dependencies: Run 
+- Install root dependencies: Run
 
 ```bash
 npm install
 ```
 
-in the root directory. We use npm to maintain consistency in our dependencies.
+in the repository root. The component library uses `npm`.
 
 ## Understanding the code structure
 
@@ -41,23 +41,41 @@ in the root directory.
 
 To work on the documentation website, you'll need to run the development server. This is necessary for updating existing documentation, adding new pages, or modifying components.
 
-First, navigate to the docs directory: 
+The docs app uses `pnpm`, not `npm`.
+
+First, navigate to the docs directory:
 
 ```bash
 cd docs
 ```
 
-Then install the dependencies: 
+Then install the dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
-Then start the Next.js development server: 
+Then start the Next.js development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
+## Testing local library changes in the docs app
 
+If you are changing the library and want the docs app to consume your local build:
+
+From the repository root:
+
+```bash
+npm run build:rollup
+npm link
+```
+
+Then from `docs`:
+
+```bash
+pnpm link @radui/ui
+pnpm dev
+```
 

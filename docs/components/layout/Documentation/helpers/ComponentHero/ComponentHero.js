@@ -31,15 +31,13 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
     // Use useMemo to avoid recalculating tabs unnecessarily
     const data = useMemo(() => initializeTabs(codeUsage), [codeUsage]);
 
-    return <div>
+    return <div className="mt-8">
         {title && <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
-        <div className='bg-gradient-to-r from-green-50 to-gray-200  border border-gray-500 shadow-md p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center justify-evenly overflow-x-auto '>
+        <div className='flex items-center justify-center overflow-x-auto rounded-t-[18px] border border-b-0 border-gray-300 bg-gradient-to-b from-gray-100 to-gray-50 p-8'>
             {children}
         </div>
-        <div>
-            <div>
-                <CodeTabs data={data} />
-            </div>
+        <div className="overflow-hidden rounded-b-[18px] border border-gray-300 bg-gray-50">
+            <CodeTabs data={data} />
         </div>
     </div>
 }

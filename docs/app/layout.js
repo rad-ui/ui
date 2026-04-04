@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google'
+import { JetBrains_Mono, Manrope } from 'next/font/google'
 import Main from "../components/Main/Main"
 
 import { cookies } from 'next/headers'
@@ -11,7 +11,15 @@ import { PostHogProvider } from "../components/PostHogProvider"
 import './globals.scss';
 import "@radui/ui/themes/default.css";
 
-const inter = Inter({ subsets: ['latin'] })
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 
 export const metadata = {
   metadataBase: new URL('https://www.rad-ui.com'),
@@ -101,7 +109,7 @@ export default async function RootLayout({ children, ...props }) {
   const darkModeSsrValue = cookieStore.get('darkMode')?.value || false
 
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -139,7 +147,7 @@ export default async function RootLayout({ children, ...props }) {
           }}
         />
       </head>
-      <body className="h-screen overflow-hidden">
+      <body className="h-screen overflow-hidden font-sans">
         <PostHogProvider>
           <Main darkModeSsrValue={darkModeSsrValue}>
             {children}

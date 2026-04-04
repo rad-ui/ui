@@ -1,23 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
 
 body {
-  font-family: Inter, sans-serif;
+  font-family: var(--font-sans), sans-serif;
 }
 
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono), monospace;
+}
 
-
-
-code {
-  padding: 16px;
-  border-radius: 4px;
-  background-color: var(--rad-ui-color-accent-100);
-  color: var(--rad-ui-color-gray-1000);
+pre code {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--rad-ui-color-gray-1200);
   display: block;
-  border: 1px solid var(--rad-ui-color-accent-500);
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 code .string {
@@ -69,14 +73,14 @@ code .selector {
   color: var(--rad-ui-color-accent-800);
 }
 
-
 .background-animate {
   background-size: 400%;
   animation: AnimationName 10s ease infinite;
 }
 
 @keyframes AnimationName {
-  0%,100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
 
@@ -84,8 +88,6 @@ code .selector {
     background-position: 100% 50%;
   }
 }
-
-
 
 .code-block-blur {
   position: relative;
@@ -97,43 +99,32 @@ code .selector {
     display: block;
     height: 100px;
     width: 100%;
-    bottom: 0px;
-    background: linear-gradient(180deg, #0000, var(--rad-ui-color-gray-100) 70%);
-    opacity: .9;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent, var(--rad-ui-color-gray-50) 70%);
+    opacity: 0.9;
   }
 }
 
-
-
-
-
-/// Layout classes
-
-.top-layout-line{
+.top-layout-line {
   position: relative;
   height: 1px;
   margin-top: -5px;
- 
-  // background-color: var(--rad-ui-color-gray-100);
-  // background-color: var(--rad-ui-color-gray-950);
-  &::before{
-  top: 0px;   // 4px  
+
+  &::before {
+    top: 0;
     content: "";
     background-color: var(--rad-ui-color-gray-400);
-
-    // background-color: color-mix(in oklab, var(--rad-ui-color-gray-1000) 5%, transparent);
     width: 200vw;
     height: 1px;
     position: absolute;
     left: -100vw;
-    z-index: 100; 
+    z-index: 100;
   }
 }
 
-.bottom-layout-line{
+.bottom-layout-line {
   background-color: color-mix(in oklab, var(--rad-ui-color-gray-1000) 5%, transparent);
 }
-
 
 .layout-image {
   inset: -11 0 0 0;
@@ -146,13 +137,10 @@ code .selector {
 
   background-color: var(--rad-ui-color-gray-50);
 
-  [data-rad-ui-theme=dark] & {
-    // Only show the pattern on dark mode
-  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
-      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
-  background-size: 55px 55px;
+  [data-rad-ui-theme="dark"] & {
+    background-image:
+      linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
+    background-size: 55px 55px;
   }
-
-
-
 }

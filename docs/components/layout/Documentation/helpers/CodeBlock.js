@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { refractor } from 'refractor';
 import js from 'refractor/lang/javascript';
 import jsx from 'refractor/lang/jsx';
@@ -34,6 +34,8 @@ const renderElement = (element, index) => {
 
 const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
     const [expanded, setExpanded] = useState(false);
+    const [hasOverflow, setHasOverflow] = useState(false);
+    const viewportRef = useRef(null);
     let code = refractor.highlight(children, language);
     code = code.children.map((child, index) => renderElement(child, index));
 
@@ -42,6 +44,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
         .replace(/\n{2,}/g, '\n') // Replace multiple newlines with single newline
         .trim(); // Remove leading/trailing whitespace
 
+    const collapsedHeight = 150;
     let height = 'auto';
     let maxHeight = 'auto';
 
@@ -54,13 +57,36 @@ const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
     }
     else {
         if (!inline) {
-            height = 180;
+            height = collapsedHeight;
             maxHeight = 640;
         }
 
     }
+
+    useEffect(() => {
+        if (inline) return;
+
+        const viewport = viewportRef.current;
+        if (!viewport) return;
+
+        const measureOverflow = () => {
+            setHasOverflow(viewport.scrollHeight > collapsedHeight + 8);
+        };
+
+        measureOverflow();
+
+        const resizeObserver = new ResizeObserver(() => {
+            measureOverflow();
+        });
+
+        resizeObserver.observe(viewport);
+        Array.from(viewport.children).forEach((child) => resizeObserver.observe(child));
+
+        return () => resizeObserver.disconnect();
+    }, [children, inline, language]);
+
     return (
-        <pre className="relative mb-8">
+        <pre className="relative">
             <div className="relative height">
                 {/* <code
 className={`language-${language} whitespace-pre-wrap`}
@@ -80,13 +106,14 @@ className={`language-${language} whitespace-pre-wrap`}
                     )}
                 >
                     <ScrollArea.Viewport
+                        ref={viewportRef}
                         style={{
                             height: inline ? 'auto' : height,
                             maxHeight: inline ? 'none' : maxHeight,
                             overflowY: inline ? 'visible' : 'auto',
                         }}
                     >
-                        <code className={`language-${language} whitespace-pre-wrap block`}>
+                        <code className={`language-${language} block whitespace-pre-wrap px-4 py-4`}>
                             {code}
                         </code>
                     </ScrollArea.Viewport>
@@ -97,17 +124,17 @@ className={`language-${language} whitespace-pre-wrap`}
                         </ScrollArea.Scrollbar>
                     )}
                 </ScrollArea.Root>
-                {!inline && <>
+                {!inline && hasOverflow && <>
                     {!expanded && <div className="code-block-blur"></div>}
-                    <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
-                        <Button size="small" onClick={() => setExpanded(!expanded)}>
+                    <div className="flex w-full justify-center border-t border-gray-300 bg-gray-100 px-4 py-1.5">
+                        <Button size="small" variant="ghost" className="min-h-0 py-1 text-[0.82rem]" onClick={() => setExpanded(!expanded)}>
                             Show {expanded ? 'less' : 'more'}
                         </Button>
                     </div>
                 </>}
 
             </div>
-            <span className="absolute top-2 right-[20px]">
+            <span className="absolute top-3 right-3">
                 <TooltipWrapper label="Copy" placement="bottom">
                     <Copy content={copyContent} />
                 </TooltipWrapper>
@@ -119,6 +146,3 @@ className={`language-${language} whitespace-pre-wrap`}
 };
 
 export default CodeBlock;
-
-
-

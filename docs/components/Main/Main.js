@@ -18,6 +18,7 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
     const sendValues = {
         isDocsNavOpen,
         setIsDocsNavOpen,
+        darkMode,
     };
 
 

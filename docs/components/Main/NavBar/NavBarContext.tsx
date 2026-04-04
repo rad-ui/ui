@@ -4,9 +4,11 @@ import { createContext } from "react";
 type NavBarContextType = {
     isDocsNavOpen: boolean;
     setIsDocsNavOpen: (isDocsNavOpen: boolean) => void;
+    darkMode?: boolean;
 }
 
 export const NavBarContext = createContext<NavBarContextType>({
     isDocsNavOpen: false,
-    setIsDocsNavOpen: () => {}
+    setIsDocsNavOpen: () => {},
+    darkMode: false,
 });
