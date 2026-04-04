@@ -3,7 +3,7 @@ import Badge from '@radui/ui/Badge';
 
 const BadgeColor = () => {
     const sizes = ['small', 'medium', 'large', 'x-large'];
-    const variants = ['soft', 'outline'];
+    const variants = ['solid', 'soft', 'surface', 'outline', 'ghost'];
     return <div className='flex flex-col gap-4'>
         {variants.map((variant, index) => {
             return <div key={index} className='flex items-center gap-4'>

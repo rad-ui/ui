@@ -5,9 +5,28 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const BadgeText = 'Badge';
-const Variants = ['secondary', 'outline'];
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const BADGE_VARIANTS = ['solid', 'soft', 'surface', 'outline', 'ghost'] as const;
+const BADGE_SIZES = ['small', 'medium', 'large', 'x-large'] as const;
 const Colors = ['blue', 'red', 'green', 'plum', 'gray'];
+const DEMO_COLORS = ['blue', 'red', 'green'] as const;
+
+const VariantShowcase = ({ includeNeutral = false }: { includeNeutral?: boolean }) => {
+    return <div className='flex flex-col gap-3'>
+        {BADGE_VARIANTS.map((variant) => (
+            <div key={variant} className='grid gap-2 sm:grid-cols-[5rem_1fr] sm:items-center'>
+                <p className='text-xs font-medium uppercase tracking-[0.08em] text-gray-700'>{variant}</p>
+                <div className='flex flex-wrap items-center gap-2'>
+                    {includeNeutral ? <Badge variant={variant}>default</Badge> : null}
+                    {DEMO_COLORS.map((color) => (
+                        <Badge key={color} color={color} variant={variant}>
+                            {color}
+                        </Badge>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>;
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -63,53 +82,44 @@ export const Default = () => {
         </div>
         <div className='flex flex-wrap gap-2'>
             <Badge>Default</Badge>
+            <Badge variant="soft">Soft</Badge>
+            <Badge variant="surface">Surface</Badge>
             <Badge variant="outline">Outline</Badge>
-            <Badge variant="secondary">Secondary</Badge>
+            <Badge variant="ghost">Ghost</Badge>
         </div>
     </SandboxEditor>;
 };
 
 export const WithColors = () => {
     return <SandboxEditor>
-        <div className='mt-4 mb-2'>
-            <p className='text-gray-950 mb-4'>Badges with Color Prop</p>
-        </div>
-        <div className='flex flex-wrap gap-2'>
-            {Colors.map((color, index) => (
-                <Badge key={index} color={color}>{color}</Badge>
-            ))}
-        </div>
-        <div className='mt-4'>
-            <p className='text-gray-950 mb-4'>With Variants</p>
-            <div className='flex flex-wrap gap-2'>
-                {Variants.map((variant, vIndex) => (
-                    <div key={vIndex} className='flex flex-col gap-2'>
-                        <p className='text-xs text-gray-600'>{variant}</p>
-                        <div className='flex flex-wrap gap-2'>
-                            {Colors.slice(0, 3).map((color, cIndex) => (
-                                <Badge key={cIndex} color={color} variant={variant}>
-                                    {color}
-                                </Badge>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+        <div className='flex flex-col gap-6'>
+            <div>
+                <p className='mb-3 text-gray-950'>Badges with Color Prop</p>
+                <div className='flex flex-wrap gap-2'>
+                    {Colors.map((color, index) => (
+                        <Badge key={index} color={color}>{color}</Badge>
+                    ))}
+                </div>
+            </div>
+            <div>
+                <p className='mb-3 text-gray-950'>Variant Comparison</p>
+                <VariantShowcase />
             </div>
         </div>
     </SandboxEditor>;
 };
 
-export const Size = () => {
+export const Sizes = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
             <p className='text-gray-950 mb-4'>Badge Sizes</p>
         </div>
         <div className='flex flex-col gap-4'>
-            {Variants.map((variant, index) => (
+            {BADGE_VARIANTS.map((variant, index) => (
                 <div key={index} className='flex flex-col gap-2'>
                     <p className='text-sm text-gray-600'>{variant} variant</p>
                     <div className='flex flex-wrap items-center gap-2'>
-                        {Sizes.map((size, sizeIndex) => {
+                        {BADGE_SIZES.map((size, sizeIndex) => {
                             return <Badge key={sizeIndex} size={size} variant={variant}>
                                 {BadgeText}
                             </Badge>;
@@ -121,22 +131,11 @@ export const Size = () => {
     </SandboxEditor>;
 };
 
-export const Variant = () => {
+export const Variants = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950 mb-4'>Badge Variants</p>
-        </div>
-        <div className='flex flex-col gap-4'>
-            <div className='flex flex-wrap gap-2'>
-                <Badge>Default</Badge>
-                <Badge variant="outline">Outline</Badge>
-                <Badge variant="secondary">Secondary</Badge>
-            </div>
-            <div className='flex flex-wrap gap-2'>
-                <Badge color="blue">Default</Badge>
-                <Badge color="blue" variant="outline">Outline</Badge>
-                <Badge color="blue" variant="secondary">Secondary</Badge>
-            </div>
+            <p className='mb-4 text-gray-950'>Badge Variants</p>
+            <VariantShowcase includeNeutral />
         </div>
     </SandboxEditor>;
 };

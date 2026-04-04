@@ -39,9 +39,16 @@ describe('Badge', () => {
     });
 
     test('applies variant and size data attributes', () => {
-        render(<Badge variant='solid' size='lg'>Badge</Badge>);
+        render(<Badge variant='solid' size='large'>Badge</Badge>);
         const badgeElement = screen.getByText('Badge');
         expect(badgeElement).toHaveAttribute('data-badge-variant', 'solid');
-        expect(badgeElement).toHaveAttribute('data-badge-size', 'lg');
+        expect(badgeElement).toHaveAttribute('data-badge-size', 'large');
+    });
+
+    test('uses solid and medium defaults', () => {
+        render(<Badge>Badge</Badge>);
+        const badgeElement = screen.getByText('Badge');
+        expect(badgeElement).toHaveAttribute('data-badge-variant', 'solid');
+        expect(badgeElement).toHaveAttribute('data-badge-size', 'medium');
     });
 });

@@ -23,10 +23,13 @@ const Arrow = () => (
 );
 
 const BadgeVariants = () => {
-  const badgeVariants = ['soft', 'outline'];
+  const badgeVariants = ['solid', 'soft', 'surface', 'outline', 'ghost'];
   const badgestyleDescription = {
-    soft: 'Soft badge have a soft background color and a border.',
-    outline: 'Outline badge have a border and a background color.',
+    solid: 'Solid badge uses the strongest fill for high-emphasis status.',
+    soft: 'Soft badge uses a muted fill with no visible border.',
+    surface: 'Surface badge sits on a panel with a subtle stroke and shadow.',
+    outline: 'Outline badge keeps the fill transparent and emphasizes the border.',
+    ghost: 'Ghost badge removes both fill and border for the lightest treatment.',
   };
 
   return (
@@ -35,7 +38,7 @@ const BadgeVariants = () => {
         {badgeVariants.map((variant) => (
           <span key={variant}>
             <Badge variant={variant} className="space-x-2">
-              <span >badge</span>
+              <span>badge</span>
             </Badge>
             <Separator orientation="horizontal" style={{ marginTop: 20 }} />
             <TooltipWrapper label={badgestyleDescription[variant]} placement="bottom">

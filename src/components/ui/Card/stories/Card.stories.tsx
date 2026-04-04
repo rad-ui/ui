@@ -3,8 +3,8 @@ import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
 
-const Variants = ['soft', 'outline'];
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const CARD_VARIANTS = ['soft', 'outline'];
+const CARD_SIZES = ['small', 'medium', 'large', 'x-large'];
 
 type CardStoryProps = {
     variant?: string;
@@ -62,12 +62,12 @@ export default {
     argTypes: {
         variant: {
             control: 'select',
-            options: Variants,
+            options: CARD_VARIANTS,
             description: 'Card variant style'
         },
         size: {
             control: 'select',
-            options: Sizes,
+            options: CARD_SIZES,
             description: 'Card size'
         }
     },
@@ -92,20 +92,20 @@ export const Default = () => (
     </SandboxEditor>
 );
 
-export const Variant = () => (
+export const Variants = () => (
     <SandboxEditor>
         <div className="grid w-full max-w-6xl gap-6 md:grid-cols-2">
-            {Variants.map((variant) => (
+            {CARD_VARIANTS.map((variant) => (
                 <LoginCard key={variant} variant={variant} size="medium" />
             ))}
         </div>
     </SandboxEditor>
 );
 
-export const Size = () => (
+export const Sizes = () => (
     <SandboxEditor>
         <div className="grid w-full max-w-6xl gap-6 md:grid-cols-2">
-            {Sizes.map((size) => (
+            {CARD_SIZES.map((size) => (
                 <LoginCard key={size} variant="outline" size={size} />
             ))}
         </div>

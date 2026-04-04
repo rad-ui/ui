@@ -2,7 +2,7 @@ import React from 'react';
 import Kbd, { KbdProps } from '../Kbd';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const KBD_SIZES = ['small', 'medium', 'large', 'x-large'];
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -22,15 +22,15 @@ export const All = {
     }
 };
 
-export const Size = () => {
+export const Sizes = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>Kbd Size</p>
+            <p className='text-gray-950'>Kbd Sizes</p>
         </div>
         <div>
 
             <div className="inline-flex items-start space-x-2">
-                {Sizes.map((size, index) => {
+                {KBD_SIZES.map((size, index) => {
                     return <Kbd key={index} size={size}>Ctrl + X</Kbd>;
                 })}
             </div>
