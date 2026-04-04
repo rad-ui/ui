@@ -40,24 +40,39 @@ const RovingFocusGroup = ({
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
     const groupId = useId();
+    
+    // Ref registry for direct access to item elements
+    const itemRefsMap = useRef(new Map<string, React.RefObject<HTMLElement>>());
 
     const SHOULD_RECOMPUTE_FOCUS_ITEMS = mode === 'tree';
+    
+    /**
+     * Registers an item's ref in the registry
+     * @param id - Unique identifier for the item
+     * @param ref - React ref to the item element
+     */
+    const registerItemRef = React.useCallback((id: string, ref: React.RefObject<HTMLElement>) => {
+        itemRefsMap.current.set(id, ref);
+    }, []);
+    
+    /**
+     * Unregisters an item's ref from the registry
+     * @param id - Unique identifier for the item
+     */
+    const unregisterItemRef = React.useCallback((id: string) => {
+        itemRefsMap.current.delete(id);
+    }, []);
 
     /**
      * Adds a new focusable item to the group
      * @param id - Unique identifier for the item
      */
     const addFocusItem = (id: string) => {
-        // For tree mode, recompute items from actual DOM children (browser-only)
-        if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined' && groupRef.current) {
-            const group = groupRef.current;
-            /** Prefer nested tree layout (treeitems inside branch groups); fall back to flat direct children. */
-            const treeItems = group.querySelectorAll('[role="treeitem"]');
-            const childrenIds =
-                treeItems.length > 0
-                    ? Array.from(treeItems).map((el) => el.id).filter(Boolean)
-                    : Array.from(group.children).map((child) => child.id).filter(Boolean);
-            setFocusItems(childrenIds);
+        // For tree mode, recompute items from registered refs instead of DOM queries
+        if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined') {
+            // Use the ref registry to get all registered item IDs
+            const registeredIds = Array.from(itemRefsMap.current.keys());
+            setFocusItems(registeredIds);
             return;
         }
         setFocusItems((prev) => [...prev, id]);
@@ -76,7 +91,10 @@ const RovingFocusGroup = ({
         focusItems,
         setFocusItems,
         addFocusItem,
-        groupRef
+        groupRef,
+        itemRefs: itemRefsMap.current,
+        registerItemRef,
+        unregisterItemRef
     };
 
     return <RovingFocusGroupContext.Provider value={sendValues}>
