@@ -23,8 +23,9 @@ const Arrow = () => (
 );
 
 const BadgeVariants = () => {
-  const badgeVariants = ['solid', 'soft', 'surface', 'outline', 'ghost'];
-  const badgestyleDescription = {
+  const badgeVariants = ['solid', 'soft', 'surface', 'outline', 'ghost'] as const;
+  type BadgeVariant = typeof badgeVariants[number];
+  const badgestyleDescription: Record<BadgeVariant, string> = {
     solid: 'Solid badge uses the strongest fill for high-emphasis status.',
     soft: 'Soft badge uses a muted fill with no visible border.',
     surface: 'Surface badge sits on a panel with a subtle stroke and shadow.',

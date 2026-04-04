@@ -2,8 +2,8 @@ import Badge from '@radui/ui/Badge';
 
 
 const BadgeSizes = () => {
-    const sizes = ['small', 'medium', 'large', 'x-large'];
-    const variants = ['solid', 'soft', 'surface', 'outline', 'ghost'];
+    const sizes = ['small', 'medium', 'large', 'x-large'] as const;
+    const variants = ['solid', 'soft', 'surface', 'outline', 'ghost'] as const;
     return <div className='flex flex-col gap-4'>
         {variants.map((variant, index) => {
             return <div key={index} className='flex items-center gap-4'>

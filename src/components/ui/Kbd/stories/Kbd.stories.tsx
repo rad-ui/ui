@@ -2,7 +2,7 @@ import React from 'react';
 import Kbd, { KbdProps } from '../Kbd';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-const KBD_SIZES = ['small', 'medium', 'large', 'x-large'];
+const KBD_SIZES = ['small', 'medium', 'large', 'x-large'] as const;
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

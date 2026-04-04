@@ -16,7 +16,7 @@ const AlertIcon = () => {
 };
 
 const CALLOUT_VARIANTS = ['soft', 'outline'] as const;
-const CALLOUT_SIZES = ['small', 'medium', 'large', 'x-large'];
+const CALLOUT_SIZES = ['small', 'medium', 'large', 'x-large'] as const;
 
 const PaymentMessage = () => {
     return <>
