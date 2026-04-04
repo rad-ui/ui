@@ -1,7 +1,6 @@
 // Quote — Clarity design system aligned
-// Color: step 10 (900) — secondary/supporting text, readable but not dominant
-// Quotes punctuation inherits color naturally
-.rad-ui-Quote {
+// step 10 (900) — accessible secondary text
+.rad-ui-quote {
   font-style: italic;
   color: var(--rad-ui-color-gray-900); // step 10 — accessible secondary text
   quotes: "\201C" "\201D" "\2018" "\2019";
