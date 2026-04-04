@@ -16,7 +16,25 @@ export type SliderThumbProps = {
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue } = React.useContext(SliderContext);
+    const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const thumbRef = React.useRef<HTMLDivElement>(null);
+    
+    // Merge external ref with internal ref
+    const mergedRef = React.useMemo(() => {
+        return (node: HTMLDivElement | null) => {
+            (thumbRef as any).current = node;
+            if (typeof ref === 'function') ref(node);
+            else if (ref) (ref as any).current = node;
+        };
+    }, [ref]);
+    
+    // Register this thumb ref with the slider root
+    React.useEffect(() => {
+        if (registerThumbRef && thumbRef.current) {
+            registerThumbRef(index, thumbRef);
+        }
+    }, [index, registerThumbRef]);
+    
     // Extract individual value if it's an array
     const rawValue = Array.isArray(value) && index >= 0 && index < value.length
         ? value[index]
@@ -90,7 +108,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
 
     const thumbNode = (
         <Primitive.div
-            ref={ref}
+            ref={mergedRef}
             asChild={asChild}
             className={`${rootClass}-thumb`}
             role="slider"

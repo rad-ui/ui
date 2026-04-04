@@ -1,4 +1,4 @@
-import React, { useId, useState, useRef, useContext, forwardRef, useImperativeHandle } from 'react';
+import React, { useId, useState, useRef, useContext, forwardRef, useImperativeHandle, useEffect, RefObject } from 'react';
 import type { ElementRef, ComponentPropsWithoutRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 
@@ -15,16 +15,35 @@ export type TreeItemProps = {
     isSelected?: boolean;
     onToggleSelect?: (id: string, item: any) => void;
     getIsSelected?: (item: any) => boolean;
+    onChildRefReady?: (childRef: RefObject<HTMLButtonElement>) => void;
 } & ComponentPropsWithoutRef<typeof ButtonPrimitive>;
 
-const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, level = 0, className = '', parentId = null, isSelected = false, onToggleSelect, getIsSelected, ...props }, ref) => {
+const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, level = 0, className = '', parentId = null, isSelected = false, onToggleSelect, getIsSelected, onChildRefReady, ...props }, ref) => {
     const id = useId();
     const thisRef = useRef<HTMLButtonElement>(null);
     useImperativeHandle(ref, () => thisRef.current as TreeItemElement);
 
     const hasChildren = Boolean(item?.items?.length);
     const [isToggled, setIsToggled] = useState(() => Boolean(item?.expanded));
-    const { rootClass } = useContext(TreeContext);
+    const { rootClass, itemRefs, registerItemRef, unregisterItemRef } = useContext(TreeContext);
+    
+    // Store ref for first child
+    const firstChildRef = useRef<HTMLButtonElement | null>(null);
+
+    // Register this item's ref with the tree context
+    useEffect(() => {
+        registerItemRef(id, thisRef);
+        return () => {
+            unregisterItemRef(id);
+        };
+    }, [id, registerItemRef, unregisterItemRef]);
+    
+    // Notify parent of this ref when ready
+    useEffect(() => {
+        if (onChildRefReady && thisRef.current) {
+            onChildRefReady(thisRef);
+        }
+    }, [onChildRefReady]);
 
     const handleClick = () => {
         // Delegate selection toggling to the parent
@@ -41,17 +60,8 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
         // validations
         if (!hasChildren) return;
         if (isToggled) {
-            const itemElement = thisRef.current;
-            const next = itemElement?.nextElementSibling as HTMLElement | null | undefined;
-            if (!next) return;
-            if (next.getAttribute('role') === 'group') {
-                const firstChild = next.querySelector('[role="treeitem"]') as HTMLElement | null;
-                firstChild?.focus();
-                return;
-            }
-            if (next.matches('[role="treeitem"]')) {
-                next.focus();
-            }
+            // Focus first child when already expanded
+            firstChildRef.current?.focus();
             return;
         }
         setIsToggled(true);
@@ -59,21 +69,24 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
 
     const handleCollapse = () => {
         // validations
-        // if (!item.items || item.items.length === 0) return;
         if (isToggled) {
             setIsToggled(false);
             return;
         }
         if (!parentId) return;
-        // get the parent item
-
-        const parentItem = document.querySelector(`[data-id="${parentId}"]`) as HTMLButtonElement;
-        // get the button that comes before the current item
-        if (parentItem) {
-            parentItem.focus();
+        
+        // Focus parent item using ref from context
+        const parentRef = itemRefs.get(parentId);
+        if (parentRef?.current) {
+            parentRef.current.focus();
         }
 
         setIsToggled(false);
+    };
+
+    // Callback to capture first child ref
+    const handleFirstChildRef = (childRef: RefObject<HTMLButtonElement>) => {
+        firstChildRef.current = childRef.current;
     };
 
     return (
@@ -131,9 +144,10 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
 
             {isToggled && item.items && (
                 <div className={`${rootClass}-branch`} role="group">
-                    {item.items.map((subItem: any) => {
+                    {item.items.map((subItem: any, index: number) => {
                         const nextLevel = level + 1;
                         const childIsSelected = getIsSelected ? getIsSelected(subItem) : false;
+                        
                         return (
                             <TreeItem
                                 parentId={id}
@@ -143,6 +157,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                                 isSelected={childIsSelected}
                                 onToggleSelect={onToggleSelect}
                                 getIsSelected={getIsSelected}
+                                onChildRefReady={index === 0 ? handleFirstChildRef : undefined}
                             >
                                 {subItem.label}
                             </TreeItem>

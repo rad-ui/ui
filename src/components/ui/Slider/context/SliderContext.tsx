@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, RefObject } from 'react';
 
 type SliderContextType = {
     rootClass: string;
@@ -15,6 +15,9 @@ type SliderContextType = {
     pageStepMultiplier: number;
     showStepMarks: boolean;
     formatValue?: (value: number) => string;
+    rootRef: RefObject<HTMLDivElement>;
+    thumbRefs?: RefObject<HTMLDivElement>[];
+    registerThumbRef?: (index: number, thumbRef: RefObject<HTMLDivElement>) => void;
 };
 
 export const SliderContext = createContext<SliderContextType>({
@@ -31,5 +34,8 @@ export const SliderContext = createContext<SliderContextType>({
     orientation: 'horizontal',
     pageStepMultiplier: 10,
     showStepMarks: false,
-    formatValue: undefined
+    formatValue: undefined,
+    rootRef: { current: null },
+    thumbRefs: undefined,
+    registerThumbRef: undefined
 });

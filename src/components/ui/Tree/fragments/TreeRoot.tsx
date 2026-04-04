@@ -1,4 +1,4 @@
-import React, { useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, forwardRef, useImperativeHandle, useCallback, RefObject } from 'react';
 import type { ElementRef, ComponentPropsWithoutRef } from 'react';
 
 import { TreeContext } from '../contexts/TreeContext';
@@ -21,10 +21,23 @@ const TreeRoot = forwardRef<TreeRootElement, TreeRootProps>(({ children, classNa
     const treeRef = useRef<TreeRootElement>(null);
     useImperativeHandle(ref, () => treeRef.current as TreeRootElement);
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    
+    const itemRefsMap = useRef(new Map<string, RefObject<HTMLButtonElement>>());
+
+    const registerItemRef = useCallback((id: string, itemRef: RefObject<HTMLButtonElement>) => {
+        itemRefsMap.current.set(id, itemRef);
+    }, []);
+
+    const unregisterItemRef = useCallback((id: string) => {
+        itemRefsMap.current.delete(id);
+    }, []);
 
     const treeContextValue = {
         rootClass,
-        treeRef
+        treeRef,
+        itemRefs: itemRefsMap.current,
+        registerItemRef,
+        unregisterItemRef
     };
 
     return (
