@@ -1,8 +1,14 @@
+// RadioCards — Clarity design system aligned
+// Card border: step 6 (500) — light border / separator
+// Hover border: step 7 (600) — default border
+// Checked border: step 11 (1000) — max contrast, clear selection
+// Radio dot: accent-800 — solid fill
+// Title: step 11 (1000) — primary text
+// Description: step 10 (900) — secondary text
 .rad-ui-radio-cards {
   width: 100%;
   max-width: var(--rad-ui-radio-cards-max-width, 29rem);
 
-  /* Items render inside the roving-focus group wrapper, not as direct children */
   [role="group"] {
     display: flex;
     flex-direction: column;
@@ -21,14 +27,13 @@
   width: 100%;
   min-height: 5.25rem;
   padding: 1rem 3.25rem 1rem 1rem;
-  border: 1px solid var(--rad-ui-border-soft);
+  border: 1px solid var(--rad-ui-color-gray-500); // step 6 — light border
   border-radius: var(--rad-ui-radius-lg);
-  background-color: var(--rad-ui-surface-panel);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.52),
-    var(--rad-ui-shadow-xs);
-  color: var(--rad-ui-text-primary);
+  background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
+  box-shadow: var(--rad-ui-shadow-xs);
+  color: var(--rad-ui-color-gray-1000); // step 11 — primary text
   text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
   &::before {
     content: "";
@@ -38,12 +43,11 @@
     width: 1.125rem;
     height: 1.125rem;
     border-radius: 9999px;
-    border: 1px solid var(--rad-ui-border-default);
-    background-color: var(--rad-ui-surface-panel);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.6),
-      0 1px 2px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--rad-ui-color-gray-500); // step 6 — light border
+    background-color: var(--rad-ui-color-gray-50);  // step 1
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     transform: translateY(-50%);
+    transition: border-color 0.15s ease;
   }
 
   &::after {
@@ -54,49 +58,50 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 9999px;
-    background-color: var(--rad-ui-color-accent-700);
+    background-color: var(--rad-ui-color-accent-800); // accent — indicator dot
     transform: translateY(-50%) scale(0);
+    transition: transform 0.15s ease;
   }
 
   &:hover {
-    border-color: var(--rad-ui-border-default);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.62),
-      var(--rad-ui-shadow-sm);
+    border-color: var(--rad-ui-color-gray-600); // step 7 — default border
+    box-shadow: var(--rad-ui-shadow-sm);
+
+    &::before {
+      border-color: var(--rad-ui-color-gray-600); // step 7
+    }
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.62),
-      var(--rad-ui-ring-shadow-sm);
+    box-shadow: var(--rad-ui-ring-shadow-sm);
   }
 
   &[data-state="checked"] {
-    border-color: var(--rad-ui-text-primary);
-    background-color: var(--rad-ui-surface-subtle);
+    border-color: var(--rad-ui-color-accent-700); // accent — selected state signal
+    background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
     box-shadow:
-      inset 0 0 0 1px var(--rad-ui-text-primary),
+      inset 0 0 0 1px var(--rad-ui-color-accent-700),
       var(--rad-ui-shadow-sm);
 
     .rad-ui-radio-cards-title {
-      color: var(--rad-ui-text-primary);
+      color: var(--rad-ui-color-gray-1000); // step 11 — primary text
     }
 
     .rad-ui-radio-cards-description {
-      color: var(--rad-ui-text-secondary);
+      color: var(--rad-ui-color-gray-900); // step 10 — secondary text
     }
   }
 
   &[data-state="checked"]::before {
-    border-color: var(--rad-ui-text-primary);
+    border-color: var(--rad-ui-color-accent-700); // accent — radio circle border
     box-shadow:
-      inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-text-primary) 22%, transparent),
+      inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-200) 60%, transparent),
       0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
   &[data-state="checked"]::after {
-    background-color: var(--rad-ui-text-primary);
+    background-color: var(--rad-ui-color-accent-800); // accent — solid dot
     transform: translateY(-50%) scale(1);
   }
 
@@ -110,9 +115,7 @@
     width: 100%;
   }
 
-  p,
-  span,
-  div {
+  p, span, div {
     color: inherit;
   }
 
@@ -120,12 +123,12 @@
     font-size: 1rem;
     line-height: 1.35;
     font-weight: 700;
-    color: var(--rad-ui-text-primary);
+    color: var(--rad-ui-color-gray-1000); // step 11 — primary text
   }
 
   .rad-ui-radio-cards-description {
     font-size: 0.9375rem;
     line-height: 1.5;
-    color: var(--rad-ui-text-muted);
+    color: var(--rad-ui-color-gray-700); // step 8 — supporting content
   }
 }
