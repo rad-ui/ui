@@ -1,20 +1,22 @@
 .rad-ui-hover-card {
-    background-color: var(--rad-ui-surface-panel);
-    padding: 0.875rem 1rem;
-    box-shadow: var(--rad-ui-shadow-lg);
-    border-radius: var(--rad-ui-radius-lg);
-    border: 1px solid var(--rad-ui-border);
-    max-width: 20rem;
+    background-color: var(--rad-ui-surface);
+    padding: 0.875rem 1rem 0.9375rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    border-radius: 1rem;
+    border: 1px solid var(--rad-ui-border-soft);
+    max-width: 21rem;
     color: var(--rad-ui-text-primary);
 
     .rad-ui-hover-card-arrow {
-        fill: var(--rad-ui-surface-panel);
+        fill: var(--rad-ui-surface);
     }
 }
 
 .rad-ui-hover-card-trigger {
     color: var(--rad-ui-text-primary);
     text-decoration: underline;
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.18em;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
 }

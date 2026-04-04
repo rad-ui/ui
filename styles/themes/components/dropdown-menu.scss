@@ -78,6 +78,10 @@
     border: none;
     white-space: nowrap;
 
+    > *:last-child:not(:first-child) {
+        margin-inline-start: auto;
+        flex-shrink: 0;
+    }
 
     &:hover {
         background-color: var(--rad-ui-surface-hover);

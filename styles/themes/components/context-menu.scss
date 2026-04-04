@@ -52,7 +52,7 @@
 
 .rad-ui-context-menu-row-text,
 .rad-ui-context-menu-item > *:first-child:not(.rad-ui-context-menu-shortcut, .rad-ui-context-menu-sub-icon),
-.rad-ui-context-menu-sub-trigger > *:first-child:not(.rad-ui-context-menu-shortcut, .rad-ui-context-menu-sub-icon) {
+.rad-ui-context-menu-sub-trigger > *:not(.rad-ui-context-menu-shortcut, .rad-ui-context-menu-sub-icon, :last-child) {
     flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
@@ -70,7 +70,7 @@
     cursor: pointer;
     border-radius: var(--rad-ui-radius-md);
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
@@ -80,6 +80,10 @@
     border: none;
     white-space: nowrap;
 
+    > *:last-child:not(:first-child) {
+        margin-inline-start: auto;
+        flex-shrink: 0;
+    }
 
     &:hover {
         background-color: var(--rad-ui-surface-hover);
