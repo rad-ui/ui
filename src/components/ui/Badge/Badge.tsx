@@ -6,14 +6,17 @@ import clsx from 'clsx';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Badge';
+type BadgeVariant = 'solid' | 'soft' | 'surface' | 'outline' | 'ghost';
+type BadgeSize = 'small' | 'medium' | 'large' | 'x-large';
+
 export type BadgeProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
-    variant?: string;
-    size?: string;
+    variant?: BadgeVariant;
+    size?: BadgeSize;
     color?: string;
 };
 
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = 'solid', size = 'medium', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('badge', { variant, size });

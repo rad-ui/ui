@@ -2,37 +2,41 @@
     .rad-ui-minimap-item {
         display: flex;
         flex-direction: row;
-        gap: 10px;
+        gap: 8px;
         outline: none;
+        background: transparent;
+        border: none;
+        padding: 0;
+        text-align: left;
 
         .rad-ui-minimap-track {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             
             .rad-ui-minimap-bubble {
-                border: 1px solid var(--rad-ui-border-default);
-                background-color: var(--rad-ui-surface-subtle);
-                width: 24px;
-                height: 24px;
+                border: 1px solid transparent;
+                background-color: var(--rad-ui-surface-muted);
+                width: 20px;
+                height: 20px;
                 border-radius: 50%;
                 display: inline-flex;
                 flex:none;
                 align-items: center;
                 justify-content: center;
                 position: relative;
-                top:4px;
-                font-size: 12px;
+                top: 3px;
+                font-size: 11px;
                 font-weight: 500;
-                color: var(--rad-ui-text-muted);
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+                color: var(--rad-ui-text-secondary);
+                box-shadow: none;
 
                 &[data-in-view="true"] {
-                    border-color: var(--rad-ui-text-primary);
-                    background-color: var(--rad-ui-text-primary);
-                    color: var(--rad-ui-surface-panel);
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14);
+                    border-color: var(--rad-ui-surface-inverse);
+                    background-color: var(--rad-ui-surface-inverse);
+                    color: var(--rad-ui-surface-canvas);
+                    box-shadow: none;
                 }
 
             }
@@ -43,29 +47,38 @@
                 height: 100%;
 
                 &[data-in-view="true"] {
-                    border: 1px solid var(--rad-ui-text-primary);
+                    border: 1px solid var(--rad-ui-surface-inverse);
                 }
             }
 
         }
 
         .rad-ui-minimap-content {
-            padding-left: 10px;
+            padding-left: 8px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             padding-bottom: 0px;
             color: var(--rad-ui-text-secondary);
-            font-size: 0.875rem;
-            padding-top: 5px;
-            padding-bottom: 20px;
+            font-size: 0.8125rem;
+            line-height: 1.3;
+            padding-top: 4px;
+            padding-bottom: 14px;
+
+            > * {
+                margin: 0;
+                font: inherit;
+                line-height: inherit;
+                color: inherit;
+                letter-spacing: inherit;
+            }
         }
 
         &:focus-visible {
             .rad-ui-minimap-bubble {
                 box-shadow:
-                    var(--rad-ui-ring-shadow-sm),
-                    0 4px 10px rgba(0, 0, 0, 0.12);
+                    0 0 0 2px var(--rad-ui-surface),
+                    0 0 0 4px var(--rad-ui-ring-strong);
             }
 
             .rad-ui-minimap-content {

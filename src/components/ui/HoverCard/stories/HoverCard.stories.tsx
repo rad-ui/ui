@@ -34,12 +34,12 @@ const HoverCardExample = () => {
                     <span>Hover Here</span>
                 </HoverCard.Trigger>
                 <HoverCard.Content>
-                    <div className="w-[16rem] space-y-2">
-                        <div className="text-base font-semibold text-gray-950">@nextjs</div>
-                        <p className="text-sm leading-7 text-gray-950">
+                    <div className="w-[18rem] space-y-2">
+                        <div className="text-[0.95rem] font-semibold text-[var(--rad-ui-text-primary)]">@nextjs</div>
+                        <p className="text-[0.95rem] leading-8 text-[var(--rad-ui-text-primary)]">
                             The React Framework - created and maintained by @vercel.
                         </p>
-                        <p className="text-sm text-gray-700">Joined December 2021</p>
+                        <p className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)]">Joined December 2021</p>
                     </div>
                 </HoverCard.Content>
             </HoverCard.Root>
@@ -70,13 +70,13 @@ const ControlledHoverCardExample = () => {
                     </button>
                 </HoverCard.Trigger>
                 <HoverCard.Content>
-                    <div className="w-[16rem] space-y-2">
-                        <div className="text-base font-semibold text-gray-950">@nextjs</div>
-                        <p className="text-sm leading-7 text-gray-950">
+                    <div className="w-[18rem] space-y-2">
+                        <div className="text-[0.95rem] font-semibold text-[var(--rad-ui-text-primary)]">@nextjs</div>
+                        <p className="text-[0.95rem] leading-8 text-[var(--rad-ui-text-primary)]">
                             The React Framework - created and maintained by @vercel.
                         </p>
-                        <p className="text-sm text-gray-700">Joined December 2021</p>
-                        <button className="text-sm text-gray-700 underline underline-offset-4" onClick={() => setOpen(false)} type="button">
+                        <p className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)]">Joined December 2021</p>
+                        <button className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)] underline underline-offset-4" onClick={() => setOpen(false)} type="button">
                             Close
                         </button>
                     </div>

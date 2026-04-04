@@ -62,6 +62,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
     gap: 0.75rem;
     border-radius: var(--rad-ui-radius-md);
     padding: 0.5rem 0.625rem;
@@ -72,6 +74,12 @@
     outline: none;
     cursor: default;
     white-space: nowrap;
+    text-align: left;
+
+    > *:last-child:not(:first-child) {
+        margin-inline-start: auto;
+        flex-shrink: 0;
+    }
 
     &[data-highlighted], &:focus, &:hover {
         background-color: var(--rad-ui-surface-hover);

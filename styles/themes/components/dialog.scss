@@ -4,9 +4,10 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.56);
+  backdrop-filter: blur(10px);
   overflow: hidden;
+  transition: opacity 160ms ease, visibility 160ms ease;
   
   &[data-state="open"] {
     opacity: 1;
@@ -29,16 +30,19 @@
   top: 50%;
   z-index: 60;
   width: 100%;
-  max-width: 36rem;
+  max-width: 30rem;
   transform: translate(-50%, -50%);
-  padding: 1.2rem 1.2rem 0;
-  border-radius: 1.25rem;
+  padding: 1rem 1rem 0;
+  border-radius: 1rem;
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
   border: 1px solid var(--rad-ui-border-soft);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--rad-ui-shadow-lg);
   display: flex;
   flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  transition: opacity 160ms ease, visibility 160ms ease, transform 180ms ease;
   
   &[data-state="open"] {
     opacity: 1;
@@ -58,30 +62,32 @@
   
   // Nested child components
   .rad-ui-dialog-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.2;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.15;
     margin: 0;
-    margin-bottom: 0.625rem;
+    margin-bottom: 0.5rem;
     color: var(--rad-ui-text-primary);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.05em;
   }
 
   .rad-ui-dialog-description {
-    font-size: 0.875rem;
+    max-width: 23rem;
+    font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.45;
     margin: 0;
-    margin-bottom: 1.1rem;
-    color: var(--rad-ui-text-muted);
+    margin-bottom: 0.875rem;
+    color: var(--rad-ui-text-secondary);
+    letter-spacing: -0.025em;
   }
 
   .rad-ui-dialog-footer {
     display: flex;
     flex-direction: column-reverse;
-    gap: 0.625rem;
-    margin: 0 -1.2rem;
-    padding: 0.95rem 1.2rem 1.2rem;
+    gap: 0.5rem;
+    margin: 0 -1rem;
+    padding: 0.875rem 1rem 1rem;
     border-top: 1px solid var(--rad-ui-border-soft);
     background-color: var(--rad-ui-surface-subtle);
     border-bottom-left-radius: inherit;
@@ -96,27 +102,28 @@
   
   .rad-ui-dialog-close {
     position: absolute;
-    right: 0.75rem; // 12px
-    top: 0.75rem; // 12px
-    border-radius: 0.25rem; // 4px
-    opacity: 0.7;
+    right: 0.875rem;
+    top: 0.875rem;
+    border-radius: 0.5rem;
+    opacity: 1;
     color: var(--rad-ui-text-muted);
     background-color: transparent;
-    width: 1.5rem; // 24px
-    height: 1.5rem; // 24px
+    width: 1.75rem;
+    height: 1.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border: none;
     
     &:hover {
-      opacity: 1;
+      color: var(--rad-ui-text-primary);
       background-color: var(--rad-ui-surface-subtle);
     }
     
     &:focus-visible {
       outline: none;
-      box-shadow: var(--rad-ui-ring-shadow);
+      box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
     }
     
     &:disabled {
@@ -129,21 +136,22 @@
   @media (width <= 640px) {
     max-width: calc(100% - 2rem);
     margin: 1rem;
-    padding: 1rem 1rem 0;
+    padding: 0.875rem 0.875rem 0;
+    border-radius: 0.875rem;
 
     .rad-ui-dialog-title {
-      font-size: 1rem;
-      margin-bottom: 0.625rem;
+      font-size: 0.9375rem;
+      margin-bottom: 0.5rem;
     }
 
     .rad-ui-dialog-description {
-      font-size: 0.825rem;
-      margin-bottom: 1rem;
+      font-size: 0.8125rem;
+      margin-bottom: 0.875rem;
     }
 
     .rad-ui-dialog-footer {
-      margin: 0 -1rem;
-      padding: 0.875rem 1rem 1rem;
+      margin: 0 -0.875rem;
+      padding: 0.75rem 0.875rem 0.875rem;
     }
   }
 }

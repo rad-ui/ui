@@ -3,7 +3,7 @@ import Spinner from '../Spinner';
 
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-const Sizes = ['small', 'medium', 'large'];
+const SPINNER_SIZES = ['small', 'medium', 'large'];
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -11,7 +11,7 @@ export default {
     component: Spinner,
     render: (args: React.JSX.IntrinsicAttributes) => <SandboxEditor>
         <div className=''>
-            {Sizes.map((size, index) => {
+            {SPINNER_SIZES.map((size, index) => {
                 return <Spinner key={index} size={size} {...args} />;
             })}
         </div>
@@ -19,7 +19,7 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
+export const Sizes = {
     args: {
         className: ''
     }

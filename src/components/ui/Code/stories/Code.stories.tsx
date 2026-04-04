@@ -3,26 +3,18 @@ import Code, { CodeProps } from '../Code';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const Code_TEXT = 'console.log()';
-const Variants = ['soft', 'outline'];
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const CODE_VARIANTS = ['soft', 'outline'];
+const CODE_SIZES = ['small', 'medium', 'large', 'x-large'];
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Code',
     component: Code,
     render: (args: React.JSX.IntrinsicAttributes & CodeProps) => <SandboxEditor>
-        <div >
-            <div className='flex space-x-2'>
-                <Code {...args}>
-         requestAnimationFrame()
-                </Code>
-
-                <Code {...args}>
-                    {Code_TEXT}
-                </Code>
-
+        <div className="w-full max-w-[28rem]">
+            <div className='flex items-center space-x-2'>
+                <Code {...args}>{Code_TEXT}</Code>
             </div>
-
         </div>
     </SandboxEditor>
 };
@@ -62,17 +54,17 @@ export const WithAccentColor = () => (
     </SandboxEditor>
 );
 
-export const Size = () => {
+export const Sizes = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>Code Size</p>
+            <p className='text-gray-950'>Code Sizes</p>
         </div>
         <div>
 
-            {Variants.map((variant, index) => (
+            {CODE_VARIANTS.map((variant, index) => (
                 <div key={index} className='mb-10'>
                     <span key={index} className="inline-flex items-start space-x-2">
-                        {Sizes.map((size, index) => {
+                        {CODE_SIZES.map((size, index) => {
                             return <Code key={index} size={size} variant={variant}>
 
                                 {Code_TEXT}
@@ -87,14 +79,14 @@ export const Size = () => {
     </SandboxEditor>;
 };
 
-export const Variant = () => {
+export const Variants = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>Code Variant</p>
+            <p className='text-gray-950'>Code Variants</p>
         </div>
         <div className='flex space-x-2'>
 
-            {Variants.map((variant, index) => {
+            {CODE_VARIANTS.map((variant, index) => {
                 return <Code key={index} variant={variant} >
                     {Code_TEXT}
                 </Code>;

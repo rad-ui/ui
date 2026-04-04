@@ -60,7 +60,7 @@ export const Default = () => {
 export const WithCustomContent = () => {
     return (
         <SandboxEditor>
-            <div className="w-full max-w-[28rem] space-y-4">
+            <div className="w-full max-w-[24rem] space-y-4">
                 <Collapsible.Root transitionDuration={200} className="group">
                     <Collapsible.Trigger>
                         <span>Settings</span>

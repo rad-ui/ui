@@ -23,6 +23,11 @@ describe('Link component', () => {
         expect(container.querySelector('a')).toHaveAttribute('data-testid', 'link');
     });
 
+    test('Link applies accent color attribute correctly', () => {
+        const { container } = render(<Link color="blue">Test Link</Link>);
+        expect(container.querySelector('a')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+    });
+
     test('forwards ref to underlying anchor element', () => {
         const ref = React.createRef();
         render(<Link ref={ref}>Test Link</Link>);

@@ -2,7 +2,7 @@
 import React, { ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 import { customClassSwitcher } from '~/core';
-import { createDataAttributes } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Link';
@@ -10,15 +10,19 @@ const COMPONENT_NAME = 'Link';
 export interface LinkProps extends ComponentPropsWithoutRef<'a'> {
     customRootClass?: string;
     size?: string;
+    color?: string;
     asChild?: boolean;
 }
 
 type LinkElement = ElementRef<'a'>;
 
 const Link = React.forwardRef<LinkElement, LinkProps>(
-    ({ children, href = '#', customRootClass, className, size = '', asChild = false, ...props }, ref) => {
+    ({ children, href = '#', customRootClass, className, size = '', color = '', asChild = false, ...props }, ref) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-        const dataAttributes = createDataAttributes('link', { size });
+        const dataAttributes = composeAttributes(
+            createDataAttributes('link', { size }),
+            createDataAccentColorAttribute(color)
+        );
         const Anchor = Primitive.a as any;
         return (
             <Anchor

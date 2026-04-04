@@ -2,19 +2,13 @@ import React, { JSX } from 'react';
 import BlockQuote, { BlockQuoteProps } from '../BlockQuote';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-const BLOCKQUOTE_TEXT = `Avian carriers can provide high delay, low throughput, and low altitude
- service. The connection topology is limited to a single point-to-point path
- for each carrier, used with standard carriers, but many carriers can be used
- without significant interference with each other, outside early spring. This
- is because of the 3D ether space available to the carriers, in contrast to
- the 1D ether used by IEEE802.3. The carriers have an intrinsic collision
- avoidance system, which increases availability.`;
+const BLOCKQUOTE_TEXT = '"After all," he said, "everyone enjoys a good joke, so it\'s only fair that they should pay for the privilege."';
 
-const SHORT_TEXT = 'The best way to predict the future is to invent it.';
+const SHORT_TEXT = '"We shape our tools and thereafter our tools shape us."';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const Variants = ['outline', 'soft'];
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const BLOCKQUOTE_VARIANTS = ['outline', 'soft'];
+const BLOCKQUOTE_SIZES = ['small', 'medium', 'large', 'x-large'];
 
 export default {
     title: 'Components/BlockQuote',
@@ -84,7 +78,7 @@ const WithColorTemplate = (args: any) => {
 
 export const WithColor = WithColorTemplate.bind({});
 
-export const Size = () => {
+export const Sizes = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-4'>
             <p className='text-gray-950 mb-4'>BlockQuote Sizes</p>
@@ -92,7 +86,7 @@ export const Size = () => {
                 <div>
                     <p className='text-sm text-gray-600 mb-2'>Default (no color)</p>
                     <div className="flex flex-col gap-3">
-                        {Sizes.map((size, index) => {
+                        {BLOCKQUOTE_SIZES.map((size, index) => {
                             return (
                                 <BlockQuote key={index} size={size}>
                                     {SHORT_TEXT}
@@ -105,7 +99,7 @@ export const Size = () => {
                 <div>
                     <p className='text-sm text-gray-600 mb-2'>With Color Prop</p>
                     <div className="flex flex-col gap-3">
-                        {Sizes.map((size, index) => {
+                        {BLOCKQUOTE_SIZES.map((size, index) => {
                             return (
                                 <BlockQuote key={index} size={size} color="blue">
                                     {SHORT_TEXT}
@@ -119,7 +113,7 @@ export const Size = () => {
     </SandboxEditor>;
 };
 
-export const Variant = () => {
+export const Variants = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-4'>
             <p className='text-gray-950 mb-4'>BlockQuote Variants</p>

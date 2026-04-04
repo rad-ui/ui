@@ -3,14 +3,14 @@ import { render, screen } from '@testing-library/react';
 import Avatar from '../Avatar';
 
 const Component = () => {
-    return <Avatar.Root color='blue' size='small' variant='outline'>
+    return <Avatar.Root color='blue' size='sm' variant='square'>
         <Avatar.Image src='https://i.pravatar.cc/300' alt='avatar' />
         <Avatar.Fallback>RU</Avatar.Fallback>
     </Avatar.Root>;
 };
 
 const FallbackComponent = () => {
-    return <Avatar.Root color='blue' size='small' variant='outline'>
+    return <Avatar.Root color='blue' size='sm' variant='square'>
         <Avatar.Fallback>RU</Avatar.Fallback>
     </Avatar.Root>;
 };
@@ -37,13 +37,13 @@ describe('Avatar', () => {
     test('renders avatar with the given variant', () => {
         render(<FallbackComponent />);
         const fallback = screen.getByText('RU');
-        expect(fallback.parentElement).toHaveAttribute('data-avatar-variant', 'outline');
+        expect(fallback.parentElement).toHaveAttribute('data-avatar-variant', 'square');
     });
 
     test('renders avatar with the given size', () => {
         render(<FallbackComponent />);
         const fallback = screen.getByText('RU');
-        expect(fallback.parentElement).toHaveAttribute('data-avatar-size', 'small');
+        expect(fallback.parentElement).toHaveAttribute('data-avatar-size', 'sm');
     });
 
     test('renders avatar with the given color', () => {

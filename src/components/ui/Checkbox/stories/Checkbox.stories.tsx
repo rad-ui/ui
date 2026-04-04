@@ -13,13 +13,15 @@ export const Default = () => {
 
     return (
         <SandboxEditor>
-            <div className="flex items-center gap-3">
-                <Checkbox.Root id="accept-terms" checked={checked} onCheckedChange={(val) => setChecked(val as boolean)}>
-                    <Checkbox.Indicator />
-                </Checkbox.Root>
-                <label htmlFor="accept-terms" className="text-base font-medium cursor-pointer text-gray-950">
-                    Accept terms and conditions
-                </label>
+            <div className="w-full max-w-[38rem] space-y-6">
+                <div className="flex items-center gap-3">
+                    <Checkbox.Root id="accept-terms" checked={checked} onCheckedChange={(val) => setChecked(val as boolean)}>
+                        <Checkbox.Indicator />
+                    </Checkbox.Root>
+                    <label htmlFor="accept-terms" className="cursor-pointer text-[0.95rem] font-medium text-[var(--rad-ui-text-primary)]">
+                        Accept terms and conditions
+                    </label>
+                </div>
             </div>
         </SandboxEditor>
     );
@@ -27,13 +29,15 @@ export const Default = () => {
 
 export const Checked = () => (
     <SandboxEditor>
-        <div className="flex items-start gap-3">
-            <Checkbox.Root id="checked-default" checked={true}>
-                <Checkbox.Indicator />
-            </Checkbox.Root>
-            <div className="space-y-1">
-                <label htmlFor="checked-default" className="block text-base font-medium cursor-pointer text-gray-950">Accept terms and conditions</label>
-                <p className="text-sm text-gray-700">By clicking this checkbox, you agree to the terms.</p>
+        <div className="w-full max-w-[38rem] space-y-6">
+            <div className="flex items-start gap-3">
+                <Checkbox.Root id="checked-default" checked={true}>
+                    <Checkbox.Indicator />
+                </Checkbox.Root>
+                <div className="space-y-1">
+                    <label htmlFor="checked-default" className="block cursor-pointer text-[0.95rem] font-medium text-[var(--rad-ui-text-primary)]">Accept terms and conditions</label>
+                    <p className="text-[0.8125rem] text-[#6f6f6f]">By clicking this checkbox, you agree to the terms.</p>
+                </div>
             </div>
         </div>
     </SandboxEditor>
@@ -41,67 +45,41 @@ export const Checked = () => (
 
 export const Disabled = () => (
     <SandboxEditor>
-        <div className="space-y-4">
+        <div className="w-full max-w-[38rem] space-y-5">
             <div className="flex items-center gap-3">
                 <Checkbox.Root id="disabled-unchecked" disabled>
                     <Checkbox.Indicator />
                 </Checkbox.Root>
-                <label htmlFor="disabled-unchecked" className="text-base font-medium text-gray-500">Enable notifications</label>
-            </div>
-            <div className="flex items-center gap-3">
-                <Checkbox.Root id="disabled-checked" checked disabled>
-                    <Checkbox.Indicator />
-                </Checkbox.Root>
-                <label htmlFor="disabled-checked" className="text-base font-medium text-gray-500">Receive weekly updates</label>
+                <label htmlFor="disabled-unchecked" className="text-[0.95rem] font-medium text-[var(--rad-ui-text-muted)]">Enable notifications</label>
             </div>
         </div>
     </SandboxEditor>
 );
 
 export const WithLabel = () => {
-    const [items, setItems] = useState({
-        terms: false,
-        notifications: true,
-        disabled: false
-    });
+    const [checked, setChecked] = useState(false);
 
     return (
         <SandboxEditor>
-            <div className="space-y-4 w-full max-w-md">
-                <div className="space-y-5">
-                    {Object.entries(items).map(([key, value]) => (
-                        <div key={key} className="flex items-start gap-3">
-                            <Checkbox.Root
-                                id={key}
-                                checked={value}
-                                disabled={key === 'disabled'}
-                                onCheckedChange={(checked) =>
-                                    setItems({ ...items, [key]: checked as boolean })
-                                }
-                            >
-                                <Checkbox.Indicator />
-                            </Checkbox.Root>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor={key}
-                                    className={`block text-base font-medium cursor-pointer ${key === 'disabled' ? 'text-gray-500' : 'text-gray-950'}`}
-                                >
-                                    {key === 'terms'
-                                        ? 'Accept terms and conditions'
-                                        : key === 'notifications'
-                                            ? 'Enable notifications'
-                                            : 'Disabled'}
-                                </label>
-                                {key === 'terms' && (
-                                    <p className="text-sm text-gray-700">By clicking this checkbox, you agree to the terms.</p>
-                                )}
-                                {key === 'notifications' && (
-                                    <p className="text-sm text-gray-700">Enable notifications to receive updates.</p>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+            <div className="w-full max-w-[38rem]">
+                <label
+                    htmlFor="notifications"
+                    className="flex cursor-pointer items-start gap-3 rounded-[1rem] border border-[#dcdcdc] bg-[var(--rad-ui-surface)] px-4 py-4"
+                >
+                    <Checkbox.Root
+                        id="notifications"
+                        checked={checked}
+                        onCheckedChange={(value) => setChecked(value as boolean)}
+                    >
+                        <Checkbox.Indicator />
+                    </Checkbox.Root>
+                    <div className="space-y-1">
+                        <div className="text-[0.95rem] font-medium text-[var(--rad-ui-text-primary)]">Enable notifications</div>
+                        <p className="text-[0.8125rem] text-[#6f6f6f]">
+                            You can enable or disable notifications at any time.
+                        </p>
+                    </div>
+                </label>
             </div>
         </SandboxEditor>
     );

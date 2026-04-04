@@ -1,14 +1,18 @@
 import React from 'react';
 import Button from '../Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-
-const ArrowIcon = ({ className }: { className:string}) => {
-    return <svg className={className} width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>;
-};
+import { ArrowRight } from 'lucide-react';
 
 const BUTTON_TEXT = 'Proceed';
-const Variants = ['solid', 'soft', 'outline', 'ghost'];
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost'];
+const BUTTON_SIZES = ['small', 'medium', 'large', 'x-large'];
+
+const renderButtonContent = (variant?: string) => (
+    <>
+        <div>{BUTTON_TEXT}</div>
+        <ArrowRight className={variant === 'solid' ? 'text-gray-50' : 'text-accent-900'} size={16} />
+    </>
+);
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Button',
@@ -20,17 +24,17 @@ export default {
             </div>
             <div className='flex'>
 
-                {Variants.map((variant, index) => {
+                {BUTTON_VARIANTS.map((variant, index) => {
                     let label = `${variant} ${BUTTON_TEXT}`;
                     if (!BUTTON_TEXT) {
                         label = 'Proceed';
                     }
                     return <Button key={index} variant={variant} {...args}>
-                        <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
+                        {renderButtonContent(variant)}
                     </Button>;
                 })}
                 <Button {...args}>
-                    <div>{!BUTTON_TEXT} </div> <ArrowIcon className="text-gray-50" />
+                    {renderButtonContent('solid')}
                 </Button>
             </div>
         </div>
@@ -50,19 +54,34 @@ export const Color = {
     }
 };
 
-export const Size = () => {
+export const Variants = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>Button Size</p>
+            <p className='text-gray-950'>Button Variants</p>
+        </div>
+        <div className='flex flex-wrap gap-2'>
+            {BUTTON_VARIANTS.map((variant) => (
+                <Button key={variant} variant={variant}>
+                    {renderButtonContent(variant)}
+                </Button>
+            ))}
+        </div>
+    </SandboxEditor>;
+};
+
+export const Sizes = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950'>Button Sizes</p>
         </div>
         <div className=''>
 
-            {Variants.map((variant, index) => (
+            {BUTTON_VARIANTS.map((variant, index) => (
                 <div key={index} className='mb-10'>
                     <span key={index} className="inline-flex items-start space-x-2">
-                        {Sizes.map((size, index) => {
+                        {BUTTON_SIZES.map((size, index) => {
                             return <Button key={index} size={size} variant={variant} >
-                                <div>{BUTTON_TEXT} </div> <ArrowIcon className="text-accent-900" />
+                                {renderButtonContent(variant)}
                             </Button>;
                         })}
                     </span>

@@ -8,8 +8,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.5rem; // gap-2
-  font-size: 0.875rem; // text-sm
+  gap: 0.625rem;
+  font-size: 0.95rem;
   font-weight: 500; // font-medium
   color: var(--rad-ui-text-primary);
   cursor: pointer;
@@ -25,33 +25,54 @@
 }
 
 .rad-ui-checkbox-group-trigger {
-  height: 1rem; // h-4
-  width: 1rem; // w-4
+  height: 1rem;
+  width: 1rem;
   flex-shrink: 0;
-  border-radius: 0.25rem;
-  border: 1px solid var(--rad-ui-border-default);
-  background-color: var(--rad-ui-surface-panel);
-  color: var(--rad-ui-text-primary);
+  border-radius: 0.3125rem;
+  border: 1px solid var(--rad-ui-border-strong);
+  background-color: var(--rad-ui-surface);
+  color: var(--rad-ui-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: none;
+  transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
+
+  &:hover {
+    background-color: var(--rad-ui-surface-subtle);
+    border-color: var(--rad-ui-border-strong);
+  }
   
   &:focus-visible {
     outline: none;
-    box-shadow: var(--rad-ui-ring-shadow-sm);
+    box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
   }
   
   &[data-state="checked"] {
-    background-color: var(--rad-ui-color-accent-800);
-    border-color: var(--rad-ui-color-accent-600);
-    color: var(--rad-ui-color-accent-50);
+    background-color: var(--rad-ui-surface-inverse);
+    border-color: var(--rad-ui-surface-inverse);
+    color: var(--rad-ui-text-inverse);
+  }
+
+  &[data-state="checked"]:hover {
+    background-color: var(--rad-ui-surface-inverse);
+    border-color: var(--rad-ui-surface-inverse);
+  }
+
+  &[data-state="unchecked"] {
+    background-color: var(--rad-ui-surface);
+    border-color: var(--rad-ui-border-strong);
+  }
+
+  &[data-state="checked"]:focus-visible {
+    box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
   }
   
   &[data-disabled],
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.45;
     pointer-events: none;
   }
   
@@ -64,7 +85,8 @@
   color: currentcolor;
   
   svg {
-    height: 0.75rem; // h-3
-    width: 0.75rem; // w-3
+    height: 0.75rem;
+    width: 0.75rem;
+    stroke-width: 2.5;
   }
 }

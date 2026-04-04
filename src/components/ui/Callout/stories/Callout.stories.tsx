@@ -15,8 +15,22 @@ const AlertIcon = () => {
     return (<svg width="18" height="18" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.4449 0.608765C8.0183 -0.107015 6.9817 -0.107015 6.55509 0.608766L0.161178 11.3368C-0.275824 12.07 0.252503 13 1.10608 13H13.8939C14.7475 13 15.2758 12.07 14.8388 11.3368L8.4449 0.608765ZM7.4141 1.12073C7.45288 1.05566 7.54712 1.05566 7.5859 1.12073L13.9798 11.8488C14.0196 11.9154 13.9715 12 13.8939 12H1.10608C1.02849 12 0.980363 11.9154 1.02018 11.8488L7.4141 1.12073ZM6.8269 4.48611C6.81221 4.10423 7.11783 3.77563 7.5 3.77563C7.88217 3.77563 8.18778 4.10423 8.1731 4.48612L8.01921 8.48701C8.00848 8.766 7.7792 8.98664 7.5 8.98664C7.2208 8.98664 6.99152 8.766 6.98079 8.48701L6.8269 4.48611ZM8.24989 10.476C8.24989 10.8902 7.9141 11.226 7.49989 11.226C7.08567 11.226 6.74989 10.8902 6.74989 10.476C6.74989 10.0618 7.08567 9.726 7.49989 9.726C7.9141 9.726 8.24989 10.0618 8.24989 10.476Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>);
 };
 
-const Variants = ['soft', 'outline'] as const;
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const CALLOUT_VARIANTS = ['soft', 'outline'] as const;
+const CALLOUT_SIZES = ['small', 'medium', 'large', 'x-large'];
+
+const PaymentMessage = () => {
+    return <>
+        <strong>Payment successful</strong>
+        <span>Your payment of $29.99 has been processed. A receipt has been sent to your email address.</span>
+    </>;
+};
+
+const FeatureMessage = () => {
+    return <>
+        <strong>New feature available</strong>
+        <span>We've added dark mode support. You can enable it in your account settings.</span>
+    </>;
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -28,9 +42,9 @@ export default {
                 <p className='text-gray-950 mb-2'>Default Callout (no color prop)</p>
                 <Callout.Root>
                     <Callout.Icon>
-                        <InfoIcon/>
+                        <CheckIcon/>
                     </Callout.Icon>
-                    <Callout.Text>This is a default Callout with icon, title and description.</Callout.Text>
+                    <Callout.Text><PaymentMessage /></Callout.Text>
                 </Callout.Root>
             </div>
 
@@ -40,7 +54,7 @@ export default {
                     <Callout.Icon>
                         <InfoIcon/>
                     </Callout.Icon>
-                    <Callout.Text>This is a blue Callout with accent colors.</Callout.Text>
+                    <Callout.Text><FeatureMessage /></Callout.Text>
                 </Callout.Root>
             </div>
 
@@ -90,16 +104,16 @@ const DefaultTemplate = (args: any) => {
             <p className='text-gray-950 mb-2'>Default (no props)</p>
             <Callout.Root>
                 <Callout.Icon>
-                    <InfoIcon/>
+                    <CheckIcon/>
                 </Callout.Icon>
-                <Callout.Text>This is a default Callout with icon and text.</Callout.Text>
+                <Callout.Text><PaymentMessage /></Callout.Text>
             </Callout.Root>
         </div>
 
         <div>
             <p className='text-gray-950 mb-2'>Without Icon</p>
             <Callout.Root>
-                <Callout.Text>This is a Callout without an icon.</Callout.Text>
+                <Callout.Text><FeatureMessage /></Callout.Text>
             </Callout.Root>
         </div>
     </SandboxEditor>;
@@ -115,7 +129,7 @@ const WithColorTemplate = (args: any) => {
                 <Callout.Icon>
                     <InfoIcon/>
                 </Callout.Icon>
-                <Callout.Text>This is a blue Callout with accent colors applied.</Callout.Text>
+                <Callout.Text><FeatureMessage /></Callout.Text>
             </Callout.Root>
         </div>
 
@@ -125,7 +139,7 @@ const WithColorTemplate = (args: any) => {
                 <Callout.Icon>
                     <InfoIcon/>
                 </Callout.Icon>
-                <Callout.Text>This is a red Callout with accent colors applied.</Callout.Text>
+                <Callout.Text><FeatureMessage /></Callout.Text>
             </Callout.Root>
         </div>
 
@@ -135,7 +149,7 @@ const WithColorTemplate = (args: any) => {
                 <Callout.Icon>
                     <InfoIcon/>
                 </Callout.Icon>
-                <Callout.Text>This is a gold Callout with accent colors applied.</Callout.Text>
+                <Callout.Text><FeatureMessage /></Callout.Text>
             </Callout.Root>
         </div>
 
@@ -145,7 +159,7 @@ const WithColorTemplate = (args: any) => {
                 <Callout.Icon>
                     <CheckIcon/>
                 </Callout.Icon>
-                <Callout.Text>This is a green success Callout with check icon.</Callout.Text>
+                <Callout.Text><PaymentMessage /></Callout.Text>
             </Callout.Root>
         </div>
     </SandboxEditor>;
@@ -153,7 +167,7 @@ const WithColorTemplate = (args: any) => {
 
 export const WithColor = WithColorTemplate.bind({});
 
-export const Size = () => {
+export const Sizes = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-4'>
             <p className='text-gray-950 mb-4'>Callout Sizes</p>
@@ -161,13 +175,16 @@ export const Size = () => {
                 <div>
                     <p className='text-sm text-gray-600 mb-2'>Default Variant</p>
                     <div className="flex flex-wrap items-start gap-2">
-                        {Sizes.map((size, index) => {
+                        {CALLOUT_SIZES.map((size, index) => {
                             return (
                                 <Callout.Root key={index} size={size}>
                                     <Callout.Icon>
                                         <InfoIcon/>
                                     </Callout.Icon>
-                                    <Callout.Text>Size {size}</Callout.Text>
+                                    <Callout.Text>
+                                        <strong>Size {size}</strong>
+                                        <span>Consistent spacing, border radius, and icon scale at this size.</span>
+                                    </Callout.Text>
                                 </Callout.Root>
                             );
                         })}
@@ -177,13 +194,16 @@ export const Size = () => {
                 <div>
                     <p className='text-sm text-gray-600 mb-2'>With Color Prop</p>
                     <div className="flex flex-wrap items-start gap-2">
-                        {Sizes.map((size, index) => {
+                        {CALLOUT_SIZES.map((size, index) => {
                             return (
                                 <Callout.Root key={index} size={size} color="blue">
                                     <Callout.Icon>
                                         <InfoIcon/>
                                     </Callout.Icon>
-                                    <Callout.Text>Size {size}</Callout.Text>
+                                    <Callout.Text>
+                                        <strong>Size {size}</strong>
+                                        <span>Accent color is applied while preserving the neutral card treatment.</span>
+                                    </Callout.Text>
                                 </Callout.Root>
                             );
                         })}
@@ -193,13 +213,16 @@ export const Size = () => {
                 <div>
                     <p className='text-sm text-gray-600 mb-2'>Destructive Variant</p>
                     <div className="flex flex-wrap items-start gap-2">
-                        {Sizes.map((size, index) => {
+                        {CALLOUT_SIZES.map((size, index) => {
                             return (
                                 <Callout.Root key={index} size={size} intent="destructive">
                                     <Callout.Icon>
                                         <AlertIcon/>
                                     </Callout.Icon>
-                                    <Callout.Text>Size {size}</Callout.Text>
+                                    <Callout.Text>
+                                        <strong>Size {size}</strong>
+                                        <span>Destructive intent adjusts emphasis without changing the layout.</span>
+                                    </Callout.Text>
                                 </Callout.Root>
                             );
                         })}
@@ -210,7 +233,7 @@ export const Size = () => {
     </SandboxEditor>;
 };
 
-export const Variant = () => {
+export const Variants = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-4'>
             <p className='text-gray-950 mb-4'>Callout Variants</p>
@@ -219,20 +242,20 @@ export const Variant = () => {
                     <p className='text-sm text-gray-600 mb-2'>Default</p>
                     <Callout.Root>
                         <Callout.Icon>
-                            <InfoIcon/>
+                            <CheckIcon/>
                         </Callout.Icon>
-                        <Callout.Text>This is a default Callout.</Callout.Text>
+                        <Callout.Text><PaymentMessage /></Callout.Text>
                     </Callout.Root>
                 </div>
 
-                {Variants.map((variant) => (
+                {CALLOUT_VARIANTS.map((variant) => (
                     <div key={variant}>
                         <p className='text-sm text-gray-600 mb-2'>{variant.charAt(0).toUpperCase() + variant.slice(1)}</p>
                         <Callout.Root variant={variant}>
                             <Callout.Icon>
                                 <InfoIcon/>
                             </Callout.Icon>
-                            <Callout.Text>This is a {variant} Callout.</Callout.Text>
+                            <Callout.Text><FeatureMessage /></Callout.Text>
                         </Callout.Root>
                     </div>
                 ))}
@@ -243,18 +266,21 @@ export const Variant = () => {
                         <Callout.Icon>
                             <AlertIcon/>
                         </Callout.Icon>
-                        <Callout.Text>This is a destructive Callout.</Callout.Text>
+                        <Callout.Text>
+                            <strong>Payment failed</strong>
+                            <span>Your card was declined. Please verify your billing details and try again.</span>
+                        </Callout.Text>
                     </Callout.Root>
                 </div>
 
-                {Variants.map((variant) => (
+                {CALLOUT_VARIANTS.map((variant) => (
                     <div key={`${variant}-with-color`}>
                         <p className='text-sm text-gray-600 mb-2'>{variant.charAt(0).toUpperCase() + variant.slice(1)} with Color</p>
                         <Callout.Root variant={variant} color="blue">
                             <Callout.Icon>
                                 <InfoIcon/>
                             </Callout.Icon>
-                            <Callout.Text>This is a {variant} Callout with accent color.</Callout.Text>
+                            <Callout.Text><FeatureMessage /></Callout.Text>
                         </Callout.Root>
                     </div>
                 ))}

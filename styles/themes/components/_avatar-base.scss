@@ -60,12 +60,18 @@
   }
 
   // Match solid accent surfaces (e.g. checkbox checked): high-contrast label on accent-800.
-  // accent-900 is often another bright step on chromatic scales — unreadable on accent-800.
+  // Use a semantic inverse foreground so the initials stay readable across themes/scales.
   &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
     .rad-ui-avatar-fallback {
-      color: var(--rad-ui-color-accent-50);
+      color: var(--rad-ui-text-inverse);
       background-color: var(--rad-ui-color-accent-800);
       box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
+    }
+  }
+
+  &[data-rad-ui-accent-color="gray"]:not([data-rad-ui-has-image]) {
+    .rad-ui-avatar-fallback {
+      color: var(--rad-ui-text-primary);
     }
   }
   
@@ -73,9 +79,4 @@
   &[data-avatar-variant="square"] {
     border-radius: 0.375rem; // rounded-md
   }
-}
-
-// Gray accent + dark theme: accent-50 maps to a dark step, so initials vanish on accent-800
-[data-rad-ui-theme="dark"] .rad-ui-avatar[data-rad-ui-accent-color="gray"]:not([data-rad-ui-has-image]) .rad-ui-avatar-fallback {
-  color: var(--rad-ui-text-primary);
 }

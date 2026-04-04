@@ -147,6 +147,11 @@
       "require": "./dist/components/ToggleGroup.cjs",
       "types": "./dist/components/ToggleGroup.d.ts"
     },
+    "./Toolbar": {
+      "import": "./dist/components/Toolbar.js",
+      "require": "./dist/components/Toolbar.cjs",
+      "types": "./dist/components/Toolbar.d.ts"
+    },
     "./Tooltip": {
       "import": "./dist/components/Tooltip.js",
       "require": "./dist/components/Tooltip.cjs",
@@ -180,11 +185,13 @@
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",
     "patch": "npm version patch",
-    "sb": "storybook dev -p 6006",
-    "storybook": "storybook dev -p 6006",
+    "sb": "node ./scripts/storybook-dev.cjs",
+    "storybook": "node ./scripts/storybook-dev.cjs",
+    "storybook:server": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-css": "rollup -c rollup-css.config.js",
     "generate-tokens": "tsx ./src/tokenGen/index.js",
+    "generate-tokens:watch": "tsx watch ./src/tokenGen/index.js",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
     "compile-components": "rollup -c rollup.config.cjs",
     "process-components": "node scripts/process-components.cjs",
