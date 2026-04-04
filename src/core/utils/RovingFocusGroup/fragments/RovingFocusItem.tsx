@@ -1,6 +1,7 @@
 import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import ButtonPrimitive from '~/core/primitives/Button';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
@@ -55,15 +56,6 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const itemRef = useRef<HTMLButtonElement>(null);
     const { focusedItemId, setFocusedItemId, addFocusItem, focusItems, itemRefs, registerItemRef, unregisterItemRef } = useContext(RovingFocusGroupContext);
     const { orientation, loop, disableTabIndexing, dir } = useContext(RovingFocusRootContext);
-    
-    // Merge external ref with internal ref
-    const mergedRef = React.useMemo(() => {
-        return (node: HTMLButtonElement | null) => {
-            (itemRef as any).current = node;
-            if (typeof ref === 'function') ref(node);
-            else if (ref) (ref as any).current = node;
-        };
-    }, [ref]);
     
     // Check if the child element is disabled
     const childrenArray = React.Children.toArray(children);
@@ -284,7 +276,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
-        ref={mergedRef}
+        ref={mergeRefs(itemRef, ref)}
         id={registrationId}
         onKeyDown={handleKeyDown}
         data-child-disabled={isDisabled}
