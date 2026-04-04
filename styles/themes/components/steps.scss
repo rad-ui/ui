@@ -1,3 +1,18 @@
+// Steps — Clarity design system aligned
+// Bubble border (default): step 6 (500) — light border
+// Bubble bg (default): step 2 (100) — subtle surface
+// Bubble text (default): step 8 (700) — muted/disabled text
+// Connector line (default): step 6 (500) — light separator
+// Active bubble border: accent-500 — interactive selected state
+// Active bubble bg: accent-50 — subtle accent surface
+// Active bubble text: accent-900 — accessible accent text
+// Active bubble ring: accent-100 — soft glow
+// Completed bubble bg: accent-800 — solid accent fill
+// Completed bubble border: accent-600 — solid border
+// Completed line: accent-800 — solid accent connector
+// Title: step 11 (1000) — primary text
+// Description: step 8 (700) — supporting content
+
 .rad-ui-steps {
     .rad-ui-steps-item {
         display: flex;
@@ -10,52 +25,53 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            
+
             .rad-ui-steps-bubble {
                 width: 32px;
                 height: 32px;
-                border: 1px solid var(--rad-ui-border-soft);
-                background-color: var(--rad-ui-surface-panel);
+                border: 1px solid var(--rad-ui-color-gray-500); // step 6 — light border
+                background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--rad-ui-text-muted);
+                color: var(--rad-ui-color-gray-700); // step 8 — muted text
                 z-index: 2;
+                transition: border-color 0.15s ease, background-color 0.15s ease;
             }
 
             .rad-ui-steps-line {
                 width: 2px;
                 flex: 1;
                 min-height: 20px;
-                background-color: var(--rad-ui-border-soft);
+                background-color: var(--rad-ui-color-gray-500); // step 6 — light separator
                 margin: 4px 0;
                 border-radius: 1px;
-
+                transition: background-color 0.15s ease;
             }
         }
 
         &[data-state="active"] {
             .rad-ui-steps-bubble {
-                border-color: var(--rad-ui-color-accent-500);
-                background-color: var(--rad-ui-color-accent-50);
-                color: var(--rad-ui-color-accent-900);
-                box-shadow: 0 0 0 4px var(--rad-ui-color-accent-100);
+                border-color: var(--rad-ui-color-accent-500);   // accent — active border
+                background-color: var(--rad-ui-color-accent-50); // accent — subtle surface
+                color: var(--rad-ui-color-accent-900);           // accent — accessible text
+                box-shadow: 0 0 0 4px var(--rad-ui-color-accent-100); // accent — soft ring
             }
         }
 
         &[data-state="completed"] {
             .rad-ui-steps-bubble {
-                border-color: var(--rad-ui-color-accent-600);
-                background-color: var(--rad-ui-color-accent-800);
-                color: var(--rad-ui-text-inverse);
+                border-color: var(--rad-ui-color-accent-600);   // accent — solid border
+                background-color: var(--rad-ui-color-accent-800); // accent — solid fill
+                color: var(--rad-ui-color-gray-50);              // step 1 — inverse text
             }
-            
+
             // stylelint-disable-next-line no-descending-specificity
             .rad-ui-steps-track .rad-ui-steps-line {
-                background-color: var(--rad-ui-color-accent-800);
+                background-color: var(--rad-ui-color-accent-800); // accent — completed connector
             }
         }
 
@@ -65,26 +81,26 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            
+
             .rad-ui-steps-title {
                 font-size: 15px;
                 font-weight: 600;
-                color: var(--rad-ui-text-primary);
+                color: var(--rad-ui-color-gray-1000); // step 11 — primary text
                 line-height: 1.2;
             }
 
             .rad-ui-steps-description {
                 font-size: 13px;
-                color: var(--rad-ui-text-muted);
+                color: var(--rad-ui-color-gray-700); // step 8 — supporting content
                 line-height: 1.4;
             }
         }
-        
+
         &:last-child {
             .rad-ui-steps-line {
                 display: none;
             }
-            
+
             .rad-ui-steps-content {
                 padding-bottom: 0;
             }

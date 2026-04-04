@@ -1,15 +1,16 @@
-/** Separator */
+// Separator — Clarity design system aligned
+// step 6 (500) — light border/divider, visible but not distracting
 .rad-ui-separator {
-    background-color: var(--rad-ui-border-strong);
+    background-color: var(--rad-ui-color-gray-500); // step 6 — light border
     align-self: stretch;
 }
 
-.rad-ui-separator-vertical{
+.rad-ui-separator-vertical {
     margin: 0 8px;
     width: 1px;
 }
 
-.rad-ui-separator-horizontal{
+.rad-ui-separator-horizontal {
     margin: 8px 0;
     height: 1px;
 }
