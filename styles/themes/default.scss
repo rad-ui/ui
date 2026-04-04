@@ -53,11 +53,52 @@
 // import .css file
 @use "../cssTokens/base.tokens";
 
-// button:active, button:focus, input:active, input:focus, textarea:active, textarea:focus,a:focus {
-//     outline: 1px solid var(--rad-ui-color-accent-300);
-//     outline-style:groove;
-//     /* outline:0 none; */
-// }
+:root {
+    --rad-ui-font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "BlinkMacSystemFont", "Segoe UI", sans-serif;
+    --rad-ui-radius-sm: 0.375rem;
+    --rad-ui-radius-md: 0.5rem;
+    --rad-ui-radius-lg: 0.75rem;
+    --rad-ui-radius-xl: 1rem;
+}
+
+[data-rad-ui-theme] {
+    --rad-ui-surface-canvas: var(--rad-ui-color-gray-50);
+    --rad-ui-surface-panel: var(--rad-ui-color-gray-100);
+    --rad-ui-surface-subtle: var(--rad-ui-color-gray-100);
+    --rad-ui-surface-muted: var(--rad-ui-color-gray-200);
+    --rad-ui-surface-hover: var(--rad-ui-color-gray-200);
+    --rad-ui-surface-inverse: var(--rad-ui-color-gray-1000);
+    --rad-ui-border-soft: var(--rad-ui-color-gray-500);
+    --rad-ui-border-default: var(--rad-ui-color-gray-600);
+    --rad-ui-border-strong: var(--rad-ui-color-gray-600);
+    --rad-ui-text-primary: var(--rad-ui-color-gray-1000);
+    --rad-ui-text-secondary: var(--rad-ui-color-gray-900);
+    --rad-ui-text-muted: var(--rad-ui-color-gray-700);
+    --rad-ui-text-strong: var(--rad-ui-color-gray-1000);
+    --rad-ui-text-inverse: var(--rad-ui-color-gray-50);
+    --rad-ui-surface: var(--rad-ui-surface-panel);
+    --rad-ui-border: var(--rad-ui-border-default);
+    --rad-ui-ring: var(--rad-ui-color-accent-400);
+    --rad-ui-ring-strong: var(--rad-ui-color-accent-600);
+    --rad-ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --rad-ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --rad-ui-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --rad-ui-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --rad-ui-ring-shadow: 0 0 0 3px var(--rad-ui-ring-strong);
+    --rad-ui-ring-shadow-sm: 0 0 0 2px var(--rad-ui-ring-strong);
+    --rad-ui-ring-shadow-inset: inset 0 0 0 2px var(--rad-ui-ring-strong);
+    --rad-ui-z-index-portal: 1000;
+
+    color: var(--rad-ui-text-primary);
+    background-color: var(--rad-ui-surface-canvas);
+}
+
+[data-rad-ui-portal-root] {
+    color: inherit;
+    position: relative;
+    z-index: var(--rad-ui-z-index-portal);
+    isolation: isolate;
+}
 
 ::selection{
     background-color: var(--rad-ui-color-accent-300);

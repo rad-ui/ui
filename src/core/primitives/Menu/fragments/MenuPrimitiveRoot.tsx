@@ -29,7 +29,7 @@ export type MenuPrimitiveRootProps = {
   rtl?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset = 0, mainAxisOffset = 0, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -47,19 +47,26 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
     const parentId = Floater.useFloatingParentNodeId();
     const isNested = parentId != null;
 
+    const effectiveCrossAxisOffset = crossAxisOffset ?? 0;
+    const effectiveMainAxisOffset =
+        mainAxisOffset !== undefined ? mainAxisOffset : isNested ? 2 : 4;
+
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
         onOpenChange: setIsOpen,
+        strategy: 'fixed',
         placement: isNested ? 'right-start' : placement,
         middleware: [
-            Floater.flip({
-                mainAxis: avoidCollision
-            }),
             Floater.offset({
-                mainAxis: mainAxisOffset,
-                crossAxis: crossAxisOffset
-            })
+                mainAxis: effectiveMainAxisOffset,
+                crossAxis: effectiveCrossAxisOffset
+            }),
+            Floater.flip({
+                mainAxis: avoidCollision,
+                crossAxis: avoidCollision
+            }),
+            Floater.shift({ padding: 4 })
         ],
         whileElementsMounted: Floater.autoUpdate
     });

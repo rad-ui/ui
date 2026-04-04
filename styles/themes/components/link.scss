@@ -1,11 +1,19 @@
 .rad-ui-link {
-    color: var(--rad-ui-color-accent-800);
+    color: var(--rad-ui-color-accent-900);
     cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--rad-ui-color-accent-900) 35%, transparent);
+    text-underline-offset: 0.18em;
 
     &:hover {
-      color: var(--rad-ui-color-accent-900);
-      text-decoration: underline;
-      text-decoration-color: var(--rad-ui-color-accent-600);
+      color: var(--rad-ui-color-accent-1000);
+      text-decoration-color: var(--rad-ui-color-accent-700);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--rad-ui-ring-shadow-sm);
+      border-radius: 0.2rem;
     }
 
  /** link Sizes */

@@ -22,7 +22,19 @@ export type RadioCardsRootProps = RadioGroupPrimitiveRootProps & {
     defaultValue?: string;
 };
 const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
-    ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
+    (
+        {
+            children,
+            className = '',
+            customRootClass = '',
+            variant = '',
+            size = '',
+            color = '',
+            orientation = 'both',
+            ...props
+        },
+        ref
+    ) => {
         const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
         const dataAttributes = createDataAttributes('radio-cards', { variant, size });
@@ -30,7 +42,15 @@ const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
         const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
         return <RadioCardsContext.Provider value={{ rootClass }}>
-            <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...composedAttributes} {...props}>{children}</RadioGroupPrimitive.Root>
+            <RadioGroupPrimitive.Root
+                ref={ref}
+                className={clsx(rootClass, className)}
+                {...props}
+                {...composedAttributes}
+                orientation={orientation}
+            >
+                {children}
+            </RadioGroupPrimitive.Root>
         </RadioCardsContext.Provider>;
     }
 );

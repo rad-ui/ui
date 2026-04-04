@@ -1,36 +1,115 @@
 .rad-ui-card {
-  border-radius: 0.5rem; // rounded-lg
-  border: 1px solid var(--rad-ui-color-gray-300);
-  background-color: var(--rad-ui-color-gray-50);
-  color: var(--rad-ui-color-gray-950);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // shadow-sm
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--rad-ui-radius-xl);
+  border: 1px solid var(--rad-ui-border-strong);
+  background-color: var(--rad-ui-surface);
+  color: var(--rad-ui-text-primary);
+  box-shadow: var(--rad-ui-shadow-xs);
+  padding: 1.5rem;
   
   &[data-card-variant="outline"] {
-    border: 1px solid var(--rad-ui-color-gray-300);
+    box-shadow: none;
   }
   
   &[data-card-variant="soft"] {
-    background-color: var(--rad-ui-color-gray-100);
-    border: 1px solid var(--rad-ui-color-gray-300);
+    background-color: var(--rad-ui-surface-subtle);
+    border-color: var(--rad-ui-border-soft);
+    box-shadow: none;
   }
   
   // Card Sizes
   &[data-card-size="small"] {
-    padding: 0.75rem; // p-3
+    padding: 1rem;
   }
   
   &[data-card-size="medium"] {
-    padding: 1rem; // p-4
+    padding: 1.5rem;
   }
   
   &[data-card-size="large"] {
-    padding: 1.5rem; // p-6
+    padding: 1.75rem;
   }
   
   &[data-card-size="x-large"] {
     padding: 2rem; // p-8
   }
-  
-  // Default padding if no size specified
-  padding: 1.5rem; // p-6
+
+  .rad-ui-card-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.375rem 1rem;
+    align-items: start;
+  }
+
+  .rad-ui-card-title {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--rad-ui-text-strong);
+  }
+
+  .rad-ui-card-description {
+    grid-column: 1 / 2;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--rad-ui-text-muted);
+  }
+
+  .rad-ui-card-action {
+    grid-column: 2 / 3;
+    grid-row: 1 / span 2;
+    place-self: start end;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--rad-ui-text-strong);
+  }
+
+  .rad-ui-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1.5rem;
+  }
+
+  .rad-ui-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem -1.5rem -1.5rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--rad-ui-border);
+    background-color: color-mix(in oklab, var(--rad-ui-surface) 94%, var(--rad-ui-surface-subtle));
+  }
+
+  &[data-card-size="small"] > .rad-ui-card-content {
+    padding-top: 1rem;
+  }
+
+  &[data-card-size="small"] > .rad-ui-card-footer {
+    margin: 1rem -1rem -1rem;
+    padding: 1rem;
+  }
+
+  &[data-card-size="large"] > .rad-ui-card-content,
+  &[data-card-size="x-large"] > .rad-ui-card-content {
+    padding-top: 1.75rem;
+  }
+
+  &[data-card-size="large"] > .rad-ui-card-footer {
+    margin: 1.75rem -1.75rem -1.75rem;
+    padding: 1.25rem 1.75rem 1.75rem;
+  }
+
+  &[data-card-size="x-large"] > .rad-ui-card-footer {
+    margin: 2rem -2rem -2rem;
+    padding: 1.5rem 2rem 2rem;
+  }
 }

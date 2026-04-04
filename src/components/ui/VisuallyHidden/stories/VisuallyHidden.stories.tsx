@@ -133,7 +133,7 @@ export const AccessibilityExample = {
                 <div>
                     <h3>Skip link example</h3>
                     <VisuallyHidden asChild>
-                        <a href="#main-content" className="bg-blue-500 text-white p-2 rounded">
+                        <a href="#main-content" className="bg-blue-500 text-gray-50 p-2 rounded">
                             Skip to main content
                         </a>
                     </VisuallyHidden>

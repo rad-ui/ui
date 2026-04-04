@@ -4,18 +4,18 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const RadioButton = () => {
     const options = [
-        { id: 'html', value: 'html', label: 'HTML' },
-        { id: 'css', value: 'css', label: 'CSS' },
-        { id: 'javascript', value: 'javascript', label: 'JavaScript' }];
+        { id: 'default', value: 'default', label: 'Default' },
+        { id: 'comfortable', value: 'comfortable', label: 'Comfortable' },
+        { id: 'compact', value: 'compact', label: 'Compact' }
+    ];
 
     return (
         <SandboxEditor>
-            <RadioGroup.Root >
+            <RadioGroup.Root defaultValue="comfortable" aria-label="Density">
                 {options.map((option) => (
                     <RadioGroup.Label key={option.id}>
                         <RadioGroup.Item value={option.value}>
                             <RadioGroup.Indicator />
-
                         </RadioGroup.Item>
                         {option.label}
                     </RadioGroup.Label>

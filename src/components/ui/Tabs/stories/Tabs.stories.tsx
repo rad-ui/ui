@@ -154,19 +154,19 @@ const ControlledTabsExample = () => {
                 <div className="mb-4">
                     <button
                         onClick={() => setValue('tab1')}
-                        className={`mr-2 px-4 py-2 rounded ${value === 'tab1' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab1' ? 'bg-blue-500 text-gray-50' : 'bg-gray-200'}`}
                     >
                         Select Tab 1
                     </button>
                     <button
                         onClick={() => setValue('tab2')}
-                        className={`mr-2 px-4 py-2 rounded ${value === 'tab2' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab2' ? 'bg-blue-500 text-gray-50' : 'bg-gray-200'}`}
                     >
                         Select Tab 2
                     </button>
                     <button
                         onClick={() => setValue('tab3')}
-                        className={`px-4 py-2 rounded ${value === 'tab3' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-4 py-2 rounded ${value === 'tab3' ? 'bg-blue-500 text-gray-50' : 'bg-gray-200'}`}
                     >
                         Select Tab 3
                     </button>
@@ -351,12 +351,12 @@ const NestedTabsExample = () => {
                                 </Tabs.List>
 
                                 <Tabs.Content value="inner1">
-                                    <div className="p-4 bg-white mt-2 border">
+                                    <div className="p-4 bg-gray-50 mt-2 border">
                                         Inner Tab 1 Content
                                     </div>
                                 </Tabs.Content>
                                 <Tabs.Content value="inner2">
-                                    <div className="p-4 bg-white mt-2 border">
+                                    <div className="p-4 bg-gray-50 mt-2 border">
                                         Inner Tab 2 Content
                                     </div>
                                 </Tabs.Content>
@@ -375,12 +375,12 @@ const NestedTabsExample = () => {
                                 </Tabs.List>
 
                                 <Tabs.Content value="inner3">
-                                    <div className="p-4 bg-white mt-2 border">
+                                    <div className="p-4 bg-gray-50 mt-2 border">
                                         Inner Tab 3 Content
                                     </div>
                                 </Tabs.Content>
                                 <Tabs.Content value="inner4">
-                                    <div className="p-4 bg-white mt-2 border">
+                                    <div className="p-4 bg-gray-50 mt-2 border">
                                         Inner Tab 4 Content
                                     </div>
                                 </Tabs.Content>

@@ -2,34 +2,36 @@
 
 .rad-ui-menubar-root {
     display: inline-flex;
-    height: 40px;
+    min-height: 2.25rem;
     align-items: center;
-    padding: 4px;
-    border-radius: 8px; // rounded-md
-    background-color: var(--rad-ui-color-gray-50);
-    border: 1px solid var(--rad-ui-color-gray-200);
+    gap: 0.125rem;
+    padding: 0.25rem;
+    border-radius: var(--rad-ui-radius-lg);
+    background-color: var(--rad-ui-surface-panel);
+    border: 1px solid var(--rad-ui-border);
+    box-shadow: var(--rad-ui-shadow-xs);
 }
 
 .rad-ui-menubar-trigger {
-    padding: 8px 12px;
+    padding: 0.5rem 0.625rem;
     outline: none;
     user-select: none;
     font-weight: 500;
     line-height: 1;
-    border-radius: 4px;
-    font-size: 14px;
-    color: var(--rad-ui-color-gray-950);
+    border-radius: var(--rad-ui-radius-md);
+    font-size: 0.875rem;
+    color: var(--rad-ui-text-primary);
     background: transparent;
     cursor: default;
     border: none;
-    transition: all 0s;
 
     &:hover, &[data-state="open"] {
-        background-color: var(--rad-ui-color-gray-200);
+        background-color: var(--rad-ui-surface-panel);
+        box-shadow: var(--rad-ui-shadow-xs);
     }
 
     &:focus-visible {
-        box-shadow: 0 0 0 2px var(--rad-ui-color-accent-600);
+        box-shadow: var(--rad-ui-ring-shadow-sm);
     }
     
     &[data-disabled] {
@@ -39,15 +41,15 @@
 }
 
 .rad-ui-menubar-content {
-    z-index: 50;
-    min-width: 200px;
-    background-color: transparent;
-    backdrop-filter: blur(0px);
-    border-radius: 8px;
-    border: 1px solid var(--rad-ui-color-gray-200);
-    padding: 4px;
-    box-shadow: none;
-    animation: rad-ui-slide-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Must not animate `transform` here — Floating UI positions via inline transform. */
+    z-index: var(--rad-ui-z-index-portal, 1000);
+    min-width: 12.75rem;
+    background-color: var(--rad-ui-surface-panel);
+    border-radius: var(--rad-ui-radius-lg);
+    border: 1px solid var(--rad-ui-border);
+    padding: 0.375rem;
+    box-shadow: var(--rad-ui-shadow-lg);
+    animation: rad-ui-menubar-content-enter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
     &[data-state="closed"] {
         display: none;
@@ -59,42 +61,53 @@
     position: relative;
     display: flex;
     align-items: center;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 13px;
-    line-height: 1;
-    color: var(--rad-ui-color-gray-900);
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-radius: var(--rad-ui-radius-md);
+    padding: 0.5rem 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--rad-ui-text-primary);
     user-select: none;
     outline: none;
     cursor: default;
-    transition: all 0s;
+    white-space: nowrap;
 
     &[data-highlighted], &:focus, &:hover {
-        background-color: var(--rad-ui-color-accent-600);
-        color: white;
+        background-color: var(--rad-ui-surface-hover);
+        color: var(--rad-ui-text-primary);
         cursor: pointer;
     }
 
     &[data-disabled] {
-        color: var(--rad-ui-color-gray-400);
+        color: var(--rad-ui-text-muted);
         pointer-events: none;
     }
 }
 
 .rad-ui-menubar-separator {
     height: 1px;
-    background-color: var(--rad-ui-color-gray-200);
-    margin: 4px;
+    background-color: var(--rad-ui-border-soft);
+    margin: 0.375rem 0;
 }
 
-@keyframes rad-ui-slide-in {
+.rad-ui-menubar-shortcut {
+    margin-left: 1.25rem;
+    font-size: 0.75rem;
+    color: var(--rad-ui-text-muted);
+}
+
+.rad-ui-menubar-sub-icon {
+    flex-shrink: 0;
+    color: var(--rad-ui-text-muted);
+}
+
+@keyframes rad-ui-menubar-content-enter {
     from {
         opacity: 0;
-        transform: translateY(2px) scale(0.96);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
     }
 }

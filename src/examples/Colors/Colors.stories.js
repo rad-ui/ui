@@ -16,7 +16,7 @@ const AllColorsTemplate = () => {
             <button className='text-gray-900' onClick={toggleDarkMode}>
                 {darkMode ? 'Go To Light Mode' : 'Go To Dark Mode'}
             </button>
-            <div className={`flex ${darkMode ? 'bg-black' : ''} `}>
+            <div className={`flex ${darkMode ? 'bg-gray-1000' : ''} `}>
 
                 <div isDark={darkMode}>
                     <ColorsTemplate isDark={darkMode}/>

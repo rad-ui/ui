@@ -15,7 +15,8 @@ export type CheckboxCardsRootProps = {
     size?: string;
 } & ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Root>;
 
-const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
+const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(
+    ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', orientation = 'both', ...props }, ref) => {
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('checkbox-cards', { variant, size });
@@ -24,7 +25,13 @@ const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRoot
 
     return (
         <CheckboxCardsRootContext.Provider value={{ rootClass }}>
-            <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes}>
+            <CheckboxGroupPrimitive.Root
+                ref={ref}
+                className={clsx(`${rootClass}-root`, rootClass, className)}
+                {...props}
+                {...composedAttributes}
+                orientation={orientation}
+            >
 
                 {children}
 

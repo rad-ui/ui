@@ -111,8 +111,8 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             style={orientation === 'vertical'
-                ? { bottom: `calc(${percent}% - 12px)` }
-                : { left: `calc(${percent}% - 12px)` }
+                ? { bottom: `calc(${percent}% - 10px)` }
+                : { left: `calc(${percent}% - 10px)` }
             }
             {...props}
         >

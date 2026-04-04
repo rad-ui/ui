@@ -12,6 +12,8 @@ export type ToggleItemElement = React.ElementRef<typeof TogglePrimitive>;
 export interface ToggleItemProps extends React.ComponentPropsWithoutRef<typeof TogglePrimitive> {
     /** Value associated with this toggle item, used for selection state */
     value?: any;
+    /** Use square fixed dimensions (icon-only controls). Omit for labeled or mixed content. */
+    iconOnly?: boolean;
 }
 
 /**
@@ -34,6 +36,7 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
     value = null,
     disabled = false,
     asChild = false,
+    iconOnly = false,
     ...props
 }, ref) => {
     const { type, activeToggles, setActiveToggles, rootClass, disabled: groupDisabled } = useContext(ToggleContext);
@@ -99,6 +102,7 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
             className={`${rootClass}-item ${className}`}
             disabled={isDisabled}
             asChild={asChild}
+            {...(iconOnly ? { 'data-icon-only': '' } : {})}
             {...ariaProps}
             {...dataProps}
             {...props}

@@ -1,9 +1,7 @@
 import Card from '~/components/ui/Card/Card';
-import Avatar from '~/components/ui/Avatar/Avatar';
+import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
-
-const PLACEHOLDER_AVATAR = require('/assets/images/avatar-1.jpg');
 
 const Variants = ['soft', 'outline'];
 const Sizes = ['small', 'medium', 'large', 'x-large'];
@@ -13,29 +11,53 @@ type CardStoryProps = {
     size?: string;
 };
 
-const CardStory = ({ variant, size }: CardStoryProps) => {
+const LoginCard = ({ variant, size }: CardStoryProps) => {
     return (
-        <Card variant={variant} size={size}>
-            <div className='flex items-center space-x-4'>
-                <Avatar.Root>
-                    <Avatar.Image
-                        src={PLACEHOLDER_AVATAR}
-                        alt='User avatar for John Doe'
-                    />
-                </Avatar.Root>
-                <div>
-                    <p className='font-semibold text-gray-950'>John Doe</p>
-                    <p className='text-sm text-gray-700'>
-                        1 hour ago
-                    </p>
-                </div>
-            </div>
-        </Card>
+        <div style={{ width: '100%', maxWidth: '48rem' }}>
+            <Card variant={variant} size={size} style={{ width: '100%' }}>
+                <Card.Header>
+                    <Card.Title>Login to your account</Card.Title>
+                    <Card.Action>Sign Up</Card.Action>
+                    <Card.Description>
+                        Enter your email below to login to your account
+                    </Card.Description>
+                </Card.Header>
+
+                <Card.Content>
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between gap-4">
+                            <label className="text-sm font-medium text-[var(--rad-ui-text-primary)]">Email</label>
+                        </div>
+                        <input
+                            className="w-full rounded-xl border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] px-3 py-2 text-sm text-[var(--rad-ui-text-primary)] outline-none transition focus:border-[var(--rad-ui-border-default)]"
+                            placeholder="m@example.com"
+                            type="email"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between gap-4">
+                            <label className="text-sm font-medium text-[var(--rad-ui-text-primary)]">Password</label>
+                            <button className="text-sm font-medium text-[var(--rad-ui-text-secondary)]" type="button">Forgot your password?</button>
+                        </div>
+                        <input
+                            className="w-full rounded-xl border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] px-3 py-2 text-sm text-[var(--rad-ui-text-primary)] outline-none transition focus:border-[var(--rad-ui-border-default)]"
+                            type="password"
+                        />
+                    </div>
+                </Card.Content>
+
+                <Card.Footer>
+                    <Button className="w-full">Login</Button>
+                    <Button className="w-full" variant="outline">Login with Google</Button>
+                </Card.Footer>
+            </Card>
+        </div>
     );
 };
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+
 export default {
-    title: 'Components/Card',
+    title: 'WIP/Card',
     component: Card,
     argTypes: {
         variant: {
@@ -50,146 +72,42 @@ export default {
         }
     },
     args: {
-        variant: 'soft',
+        variant: 'outline',
         size: 'medium'
     },
     render: (args: CardStoryProps) => (
         <SandboxEditor>
-            <CardStory variant={args.variant} size={args.size} />
+            <div className="flex justify-center py-12">
+                <LoginCard variant={args.variant} size={args.size} />
+            </div>
         </SandboxEditor>
     )
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default = () => (
     <SandboxEditor>
-        <div className="w-full max-w-md">
-            <Card>
-                <div className="space-y-2">
-                    <h3 className="text-lg font-semibold">Card Title</h3>
-                    <p className="text-sm text-gray-700">
-                        This is a card component with default styling. It provides a clean container
-                        for your content with proper spacing and borders.
-                    </p>
-                </div>
-            </Card>
+        <div className="flex justify-center py-12">
+            <LoginCard variant="outline" size="medium" />
         </div>
     </SandboxEditor>
 );
 
-export const WithContent = () => (
+export const Variant = () => (
     <SandboxEditor>
-        <div className="w-full max-w-md">
-            <Card>
-                <div className="space-y-4">
-                    <div>
-                        <h3 className="text-lg font-semibold mb-2">Card Title</h3>
-                        <p className="text-sm text-gray-700">
-                            Cards are flexible containers that can hold any type of content.
-                        </p>
-                    </div>
-                    <div className="flex items-center space-x-4 pt-4 border-t border-gray-200">
-                        <Avatar.Root>
-                            <Avatar.Image
-                                src={PLACEHOLDER_AVATAR}
-                                alt='User avatar for John Doe, Software Engineer'
-                            />
-                        </Avatar.Root>
-                        <div>
-                            <p className='font-semibold text-gray-950'>John Doe</p>
-                            <p className='text-sm text-gray-700'>Software Engineer</p>
-                        </div>
-                    </div>
-                </div>
-            </Card>
-        </div>
-    </SandboxEditor>
-);
-
-const Template = () => (
-    <SandboxEditor>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-            {Array(6).fill(0).map((_, i) => (
-                <Card key={i}>
-                    <div className="space-y-2">
-                        <h3 className="font-semibold">Card {i + 1}</h3>
-                        <p className="text-sm text-gray-700">
-                            This is card content with proper spacing and styling.
-                        </p>
-                    </div>
-                </Card>
+        <div className="grid w-full max-w-6xl gap-6 md:grid-cols-2">
+            {Variants.map((variant) => (
+                <LoginCard key={variant} variant={variant} size="medium" />
             ))}
         </div>
     </SandboxEditor>
 );
-export const MultipleCards = Template.bind({});
 
-export const Size = () => {
-    return (
-        <SandboxEditor>
-            <div className="space-y-6 w-full max-w-4xl">
-                {Variants.map((variant, variantIndex) => (
-                    <div key={variantIndex} className="space-y-4">
-                        <h3 className="text-lg font-semibold capitalize">{variant} Variant</h3>
-                        <div className="flex flex-wrap gap-4">
-                            {Sizes.map((size, sizeIndex) => (
-                                <Card key={sizeIndex} size={size} variant={variant}>
-                                    <div className='flex items-center space-x-3'>
-                                        <Avatar.Root>
-                                            <Avatar.Image
-                                                src={PLACEHOLDER_AVATAR}
-                                                alt='User avatar demonstrating card size'
-                                            />
-                                        </Avatar.Root>
-                                        <div>
-                                            <p className='font-semibold text-gray-950'>John Doe</p>
-                                            <p className='text-xs text-gray-700'>
-                                                Size: {size}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </SandboxEditor>
-    );
-};
-
-export const Variant = () => {
-    return (
-        <SandboxEditor>
-            <div className="space-y-4 w-full max-w-2xl">
-                <h3 className="text-lg font-semibold">Card Variants</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Variants.map((variant, index) => (
-                        <Card key={index} variant={variant}>
-                            <div className="space-y-2">
-                                <h4 className="font-semibold capitalize">{variant} Card</h4>
-                                <p className="text-sm text-gray-700">
-                                    This card uses the {variant} variant styling.
-                                </p>
-                                <div className='flex items-center space-x-3 pt-2'>
-                                    <Avatar.Root>
-                                        <Avatar.Image
-                                            src={PLACEHOLDER_AVATAR}
-                                            alt='User avatar demonstrating card variant'
-                                        />
-                                    </Avatar.Root>
-                                    <div>
-                                        <p className='font-semibold text-gray-950'>John Doe</p>
-                                        <p className='text-xs text-gray-700'>
-                                            1 hour ago
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-            </div>
-        </SandboxEditor>
-    );
-};
+export const Size = () => (
+    <SandboxEditor>
+        <div className="grid w-full max-w-6xl gap-6 md:grid-cols-2">
+            {Sizes.map((size) => (
+                <LoginCard key={size} variant="outline" size={size} />
+            ))}
+        </div>
+    </SandboxEditor>
+);

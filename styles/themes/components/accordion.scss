@@ -1,24 +1,12 @@
 .rad-ui-accordion-root {
   width: 100%;
+  border: 1px solid var(--rad-ui-border-soft);
+  border-radius: var(--rad-ui-radius-lg);
+  background-color: var(--rad-ui-surface-panel);
+  overflow: visible;
   
   .rad-ui-accordion-item {
-    border-bottom: 1px solid var(--rad-ui-color-gray-200);
-    
-    &:first-child {
-      border-top: 1px solid var(--rad-ui-color-gray-200);
-      border-top-left-radius: 0.375rem; // rounded-md
-      border-top-right-radius: 0.375rem;
-    }
-    
-    &:last-child {
-      border-bottom: 1px solid var(--rad-ui-color-gray-200);
-      border-bottom-left-radius: 0.375rem;
-      border-bottom-right-radius: 0.375rem;
-    }
-    
-    &:only-child {
-      border-radius: 0.375rem;
-    }
+    border-bottom: 1px solid var(--rad-ui-border-soft);
     
     &[data-disabled] {
       opacity: 0.5;
@@ -34,24 +22,24 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem; // py-4 px-4
-      font-size: 0.875rem; // text-sm
-      font-weight: 500; // font-medium
-      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      padding: 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
       background-color: transparent;
-      color: var(--rad-ui-color-gray-950);
+      color: var(--rad-ui-text-primary);
       border: none;
       cursor: pointer;
       text-align: left;
       width: 100%;
       
       &:hover {
-        text-decoration: underline;
+        background-color: var(--rad-ui-surface-subtle);
       }
       
       &:focus-visible {
-        outline: 2px solid var(--rad-ui-color-gray-900);
-        outline-offset: 2px;
+        outline: 2px solid var(--rad-ui-ring-strong);
+        outline-offset: -2px;
       }
       
       &[aria-disabled="true"] {
@@ -62,14 +50,12 @@
       // Chevron icon styling - supports both class-based and direct SVG
       svg,
       .rad-ui-accordion-chevron {
-        height: 1rem; // h-4
-        width: 1rem; // w-4
+        height: 1rem;
+        width: 1rem;
         flex-shrink: 0;
-        transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
-        color: var(--rad-ui-color-gray-500);
+        color: var(--rad-ui-text-muted);
       }
-      
-      // Rotate chevron when trigger's parent item is open (shadcn pattern)
+
       &[data-state="open"] {
         svg,
         .rad-ui-accordion-chevron {
@@ -77,8 +63,7 @@
         }
       }
     }
-    
-    // Rotate chevron when item is open (alternative pattern for nested structure)
+
     &[data-state="open"] {
       .rad-ui-accordion-trigger {
         svg,
@@ -90,12 +75,30 @@
     
     .rad-ui-accordion-content {
       overflow: hidden;
-      font-size: 0.875rem; // text-sm
-      color: var(--rad-ui-color-gray-700);
-      padding: 0 1rem 1rem; // pt-0 px-4 pb-4, matches trigger horizontal padding for alignment
-      
-      // Height animation is handled by CollapsiblePrimitiveContent via inline styles
-      // No CSS transitions/animations needed here to avoid conflicts
+      font-size: 0.875rem;
+      color: var(--rad-ui-text-muted);
+      padding: 0 1rem 1rem;
+    }
+
+    &:first-child {
+      .rad-ui-accordion-trigger {
+        border-top-left-radius: calc(var(--rad-ui-radius-lg) - 1px);
+        border-top-right-radius: calc(var(--rad-ui-radius-lg) - 1px);
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
+
+      .rad-ui-accordion-trigger[aria-expanded="false"] {
+        border-bottom-left-radius: calc(var(--rad-ui-radius-lg) - 1px);
+        border-bottom-right-radius: calc(var(--rad-ui-radius-lg) - 1px);
+      }
+
+      .rad-ui-accordion-content {
+        border-bottom-left-radius: calc(var(--rad-ui-radius-lg) - 1px);
+        border-bottom-right-radius: calc(var(--rad-ui-radius-lg) - 1px);
+      }
     }
   }
 }

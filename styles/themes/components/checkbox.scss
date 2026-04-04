@@ -1,48 +1,51 @@
 .rad-ui-checkbox {
-  height: 1rem; // h-4
-  width: 1rem; // w-4
+  height: 1.125rem;
+  width: 1.125rem;
   flex-shrink: 0;
-  border-radius: 0.125rem; // rounded-sm
-  border: 1px solid var(--rad-ui-color-gray-400);
-  background-color: var(--rad-ui-color-gray-50);
-  color: var(--rad-ui-color-gray-950);
+  border-radius: 0.3125rem;
+  border: 1px solid var(--rad-ui-border-default);
+  background-color: var(--rad-ui-surface-panel);
+  color: var(--rad-ui-surface-panel);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--rad-ui-shadow-xs);
+
+  &:hover {
+    border-color: var(--rad-ui-border-strong);
+  }
   
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--rad-ui-color-gray-50), 0 0 0 4px var(--rad-ui-color-gray-900);
+    box-shadow: var(--rad-ui-ring-shadow-sm);
   }
   
   &[data-state="checked"] {
-    background-color: var(--rad-ui-color-gray-900);
-    border-color: var(--rad-ui-color-gray-900);
-    color: var(--rad-ui-color-gray-50);
+    background-color: var(--rad-ui-text-primary);
+    border-color: var(--rad-ui-text-primary);
+    color: var(--rad-ui-surface-panel);
   }
   
   &[data-state="unchecked"] {
-    background-color: var(--rad-ui-color-gray-50);
-    border-color: var(--rad-ui-color-gray-400);
+    background-color: var(--rad-ui-surface-panel);
+    border-color: var(--rad-ui-border-default);
+  }
+
+  &[data-state="indeterminate"] {
+    background-color: var(--rad-ui-text-primary);
+    border-color: var(--rad-ui-text-primary);
+    color: var(--rad-ui-surface-panel);
   }
   
   &[data-disabled],
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.55;
     pointer-events: none;
+    box-shadow: none;
   }
   
-  // Accent color support
-  [data-rad-ui-accent-color] & {
-    &[data-state="checked"] {
-      background-color: var(--rad-ui-color-accent-900);
-      border-color: var(--rad-ui-color-accent-900);
-      color: var(--rad-ui-color-accent-50);
-    }
-  }
 }
 
 .rad-ui-checkbox-indicator {
@@ -52,7 +55,7 @@
   color: currentcolor;
   
   svg {
-    height: 0.75rem; // h-3
-    width: 0.75rem; // w-3
+    height: 0.8125rem;
+    width: 0.8125rem;
   }
 }

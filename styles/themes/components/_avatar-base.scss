@@ -16,7 +16,7 @@
     border-radius: inherit;
   }
   
-  // Default styles (no color prop) - muted appearance
+  // Default styles (no color prop) — semantic tokens so dark theme keeps contrast vs canvas
   .rad-ui-avatar-fallback {
     display: flex;
     align-items: center;
@@ -27,9 +27,9 @@
     font-size: 0.875rem; // text-sm
     line-height: 1;
     font-weight: 500; // font-medium
-    // Default: muted colors (light gray background, medium gray text)
-    color: var(--rad-ui-color-gray-600);
-    background-color: var(--rad-ui-color-gray-200);
+    color: var(--rad-ui-text-primary);
+    background-color: var(--rad-ui-surface-muted);
+    box-shadow: inset 0 0 0 1px var(--rad-ui-border-soft);
   }
   
   // Size variants - must come before more specific selectors
@@ -50,22 +50,22 @@
       font-size: 1rem; // text-base
     }
   }
-  
-  // When image is present, always use default colors (even with color prop)
+
   &[data-rad-ui-has-image] {
     .rad-ui-avatar-fallback {
-      color: var(--rad-ui-color-gray-600);
-      background-color: var(--rad-ui-color-gray-200);
+      color: var(--rad-ui-text-primary);
+      background-color: var(--rad-ui-surface-muted);
+      box-shadow: inset 0 0 0 1px var(--rad-ui-border-soft);
     }
   }
-  
-  // Accent color support (when color prop is provided AND no image is present)
+
+  // Match solid accent surfaces (e.g. checkbox checked): high-contrast label on accent-800.
+  // accent-900 is often another bright step on chromatic scales — unreadable on accent-800.
   &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
-    box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
-    
     .rad-ui-avatar-fallback {
-      color: var(--rad-ui-color-accent-900);
-      background-color: var(--rad-ui-color-accent-500);
+      color: var(--rad-ui-color-accent-50);
+      background-color: var(--rad-ui-color-accent-800);
+      box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
     }
   }
   
@@ -75,3 +75,7 @@
   }
 }
 
+// Gray accent + dark theme: accent-50 maps to a dark step, so initials vanish on accent-800
+[data-rad-ui-theme="dark"] .rad-ui-avatar[data-rad-ui-accent-color="gray"]:not([data-rad-ui-has-image]) .rad-ui-avatar-fallback {
+  color: var(--rad-ui-text-primary);
+}

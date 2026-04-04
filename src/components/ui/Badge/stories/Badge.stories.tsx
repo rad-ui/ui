@@ -8,7 +8,7 @@ const ArrowIcon = ({ className }: { className: string }) => {
 };
 
 const BadgeText = 'Badge';
-const Variants = ['soft', 'outline', 'secondary'];
+const Variants = ['secondary', 'outline'];
 const Sizes = ['small', 'medium', 'large', 'x-large'];
 const Colors = ['blue', 'red', 'green', 'plum', 'gray'];
 
@@ -67,7 +67,6 @@ export const Default = () => {
         <div className='flex flex-wrap gap-2'>
             <Badge>Default</Badge>
             <Badge variant="outline">Outline</Badge>
-            <Badge variant="soft">Soft</Badge>
             <Badge variant="secondary">Secondary</Badge>
         </div>
     </SandboxEditor>;
@@ -134,13 +133,11 @@ export const Variant = () => {
             <div className='flex flex-wrap gap-2'>
                 <Badge>Default</Badge>
                 <Badge variant="outline">Outline</Badge>
-                <Badge variant="soft">Soft</Badge>
                 <Badge variant="secondary">Secondary</Badge>
             </div>
             <div className='flex flex-wrap gap-2'>
                 <Badge color="blue">Default</Badge>
                 <Badge color="blue" variant="outline">Outline</Badge>
-                <Badge color="blue" variant="soft">Soft</Badge>
                 <Badge color="blue" variant="secondary">Secondary</Badge>
             </div>
         </div>

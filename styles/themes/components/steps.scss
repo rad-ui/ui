@@ -14,35 +14,34 @@
             .rad-ui-steps-bubble {
                 width: 32px;
                 height: 32px;
-                border: 2px solid var(--rad-ui-color-gray-200);
-                background-color: var(--rad-ui-color-gray-50);
+                border: 1px solid var(--rad-ui-border-soft);
+                background-color: var(--rad-ui-surface-panel);
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--rad-ui-color-gray-500);
+                color: var(--rad-ui-text-muted);
                 z-index: 2;
-                transition: all 0s;
             }
 
             .rad-ui-steps-line {
                 width: 2px;
                 flex: 1;
                 min-height: 20px;
-                background-color: var(--rad-ui-color-gray-200);
+                background-color: var(--rad-ui-border-soft);
                 margin: 4px 0;
                 border-radius: 1px;
-                transition: background-color 0s;
+
             }
         }
 
         &[data-state="active"] {
             .rad-ui-steps-bubble {
-                border-color: var(--rad-ui-color-accent-600);
+                border-color: var(--rad-ui-color-accent-500);
                 background-color: var(--rad-ui-color-accent-50);
-                color: var(--rad-ui-color-accent-700);
+                color: var(--rad-ui-color-accent-900);
                 box-shadow: 0 0 0 4px var(--rad-ui-color-accent-100);
             }
         }
@@ -50,13 +49,13 @@
         &[data-state="completed"] {
             .rad-ui-steps-bubble {
                 border-color: var(--rad-ui-color-accent-600);
-                background-color: var(--rad-ui-color-accent-600);
-                color: white;
+                background-color: var(--rad-ui-color-accent-800);
+                color: var(--rad-ui-text-inverse);
             }
             
             // stylelint-disable-next-line no-descending-specificity
             .rad-ui-steps-track .rad-ui-steps-line {
-                background-color: var(--rad-ui-color-accent-600);
+                background-color: var(--rad-ui-color-accent-800);
             }
         }
 
@@ -70,13 +69,13 @@
             .rad-ui-steps-title {
                 font-size: 15px;
                 font-weight: 600;
-                color: var(--rad-ui-color-gray-900);
+                color: var(--rad-ui-text-primary);
                 line-height: 1.2;
             }
 
             .rad-ui-steps-description {
                 font-size: 13px;
-                color: var(--rad-ui-color-gray-500);
+                color: var(--rad-ui-text-muted);
                 line-height: 1.4;
             }
         }

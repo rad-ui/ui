@@ -9,6 +9,7 @@ import DialogContent from './fragments/DialogContent';
 import DialogTitle from './fragments/DialogTitle';
 import DialogDescription from './fragments/DialogDescription';
 import DialogClose from './fragments/DialogClose';
+import DialogFooter from './fragments/DialogFooter';
 
 type DialogElement = React.ElementRef<'div'>;
 type DialogProps = React.ComponentPropsWithoutRef<'div'>;
@@ -28,6 +29,7 @@ interface DialogComponent extends React.ForwardRefExoticComponent<DialogProps & 
     Content: typeof DialogContent;
     Title: typeof DialogTitle;
     Description: typeof DialogDescription;
+    Footer: typeof DialogFooter;
     Close: typeof DialogClose;
 }
 
@@ -40,6 +42,7 @@ Dialog.Overlay = DialogOverlay;
 Dialog.Content = DialogContent;
 Dialog.Title = DialogTitle;
 Dialog.Description = DialogDescription;
+Dialog.Footer = DialogFooter;
 Dialog.Close = DialogClose;
 
 export type { DialogRootProps } from './fragments/DialogRoot';
@@ -49,5 +52,6 @@ export type { DialogOverlayProps } from './fragments/DialogOverlay';
 export type { DialogContentProps } from './fragments/DialogContent';
 export type { DialogTitleProps } from './fragments/DialogTitle';
 export type { DialogDescriptionProps } from './fragments/DialogDescription';
+export type { DialogFooterProps } from './fragments/DialogFooter';
 export type { DialogCloseProps } from './fragments/DialogClose';
 export default Dialog;

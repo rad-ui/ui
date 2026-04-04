@@ -70,4 +70,14 @@ describe('Theme', () => {
         render(<Theme>content</Theme>);
         expect(screen.getByText('content')).toBeVisible();
     });
+
+    test('renders a dedicated portal root inside the theme container', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const { container } = render(<Theme>content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+        const portalRoot = themeDiv.querySelector('[data-rad-ui-portal-root]');
+
+        expect(portalRoot).toBeInstanceOf(HTMLDivElement);
+        expect(portalRoot?.parentElement).toBe(themeDiv);
+    });
 });

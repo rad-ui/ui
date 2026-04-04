@@ -1,63 +1,84 @@
 .rad-ui-radio-group-root {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  color: var(--rad-ui-color-accent-900);
-  font-family: inherit;
+  gap: 0.875rem;
+  color: var(--rad-ui-text-primary);
+  font-family: var(--rad-ui-font-sans);
+
+  .rad-ui-radio-group-label {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: max-content;
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--rad-ui-text-primary);
+    cursor: pointer;
+    user-select: none;
+
+    &[data-disabled] {
+      cursor: not-allowed;
+      color: var(--rad-ui-text-muted);
+    }
+  }
 
   .rad-ui-radio-group-item {
-    height: 24px;
-    width: 24px;
-    display: flex;
+    width: 1.125rem;
+    height: 1.125rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background-color: var(--rad-ui-color-accent-100);
-    border: 2px solid var(--rad-ui-color-accent-400);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-radius: 9999px;
+    background-color: var(--rad-ui-surface-panel);
+    border: 1px solid var(--rad-ui-border-default);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+      0 1px 2px rgba(0, 0, 0, 0.06);
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     position: relative;
+    flex-shrink: 0;
 
-    &:hover {
-      border-color: var(--rad-ui-color-accent-600);
-      background-color: var(--rad-ui-color-accent-200);
+    &:not([data-disabled]):hover {
+      border-color: var(--rad-ui-border-strong);
     }
 
-    &:focus {
-      outline: 2px solid var(--rad-ui-color-accent-700);
-      outline-offset: 2px;
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--rad-ui-ring-shadow-sm);
+    }
+
+    &[data-state="checked"] {
+      border-color: var(--rad-ui-color-accent-600);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-100) 70%, var(--rad-ui-color-gray-50)),
+        0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    &[data-state="checked"]:focus-visible {
+      outline: none;
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-100) 70%, var(--rad-ui-color-gray-50)),
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        var(--rad-ui-ring-shadow-sm);
+    }
+
+    &[data-disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 
   .rad-ui-radio-group-indicator {
-    height: 12px;
-    width: 12px;
+    height: 0.5rem;
+    width: 0.5rem;
     border-radius: 50%;
-    background-color: var(--rad-ui-color-accent-900);
-    border: 2px solid var(--rad-ui-color-accent-100);
-    transition: background 0.2s, border 0.2s;
+    background-color: var(--rad-ui-color-accent-700);
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-  }
-
-  .rad-ui-radio-group-label {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    color: var(--rad-ui-color-accent-900);
-    margin-left: 8px;
-    cursor: pointer;
-    user-select: none;
-    width:max-content;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: color 0.2s;
   }
 }

@@ -1,22 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import RadioCards from './RadioCards';
 
 const RadioCardsTemplate = () => {
     const options = [
-        { id: 'config-1', value: '8-core CPU', label: '8-core CPU' },
-        { id: 'config-2', value: '16-core CPU', label: '16-core CPU' },
-        { id: 'config-3', value: '32-core CPU', label: '32-core CPU' }];
+        {
+            id: 'plus',
+            value: 'plus',
+            title: 'Plus',
+            description: 'For individuals and small teams.'
+        },
+        {
+            id: 'pro',
+            value: 'pro',
+            title: 'Pro',
+            description: 'For growing businesses.'
+        },
+        {
+            id: 'enterprise',
+            value: 'enterprise',
+            title: 'Enterprise',
+            description: 'For large teams and enterprises.'
+        }
+    ];
 
     return (
         <SandboxEditor>
-
-            <RadioCards.Root >
+            <RadioCards.Root
+                defaultValue="plus"
+                aria-label="Plan"
+                className="[&>[role=group]]:flex [&>[role=group]]:w-full [&>[role=group]]:flex-col [&>[role=group]]:gap-4"
+            >
                 {options.map((option) => (
                     <RadioCards.Item key={option.id} value={option.value}>
-
-                        {option.label}
-
+                        <div className="rad-ui-radio-cards-title">{option.title}</div>
+                        <div className="rad-ui-radio-cards-description">{option.description}</div>
                     </RadioCards.Item>
                 ))}
             </RadioCards.Root>

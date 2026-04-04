@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import TooltipContext from '../context/TooltipContext';
 import { useMergeRefs, FloatingPortal, FloatingArrow } from '@floating-ui/react';
 import Primitive from '~/core/primitives/Primitive';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
 export type TooltipContentElement = React.ElementRef<typeof Primitive.div>;
 
@@ -15,6 +16,7 @@ export type TooltipContentProps = React.ComponentPropsWithoutRef<typeof Primitiv
 const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentProps>(
     ({ children, showArrow = true, ...props }, ref) => {
         const tooltipContext = useContext(TooltipContext);
+        const themeContext = useContext(ThemeContext);
 
         if (!tooltipContext) {
             throw new Error('TooltipContent must be used within a TooltipRoot component');
@@ -29,8 +31,14 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
 
         const { getFloatingProps } = interactions;
 
+        const portalRoot = themeContext?.portalRootRef.current
+            || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
+            || themeContext?.containerRef.current
+            || document.querySelector('#rad-ui-theme-container') as HTMLElement | null
+            || undefined;
+
         return (
-            <FloatingPortal>
+            <FloatingPortal root={portalRoot}>
                 <Primitive.div
                     className="rad-ui-tooltip-floating-element"
                     ref={mergedRef}

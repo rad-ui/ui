@@ -1,6 +1,7 @@
 import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import Floater from '~/core/primitives/Floater';
 import HoverCardContext from '../contexts/HoverCardContext';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
 export type HoverCardPortalElement = ElementRef<typeof Floater.Portal>;
 export type HoverCardPortalProps = ComponentPropsWithoutRef<typeof Floater.Portal> & {
@@ -9,7 +10,12 @@ export type HoverCardPortalProps = ComponentPropsWithoutRef<typeof Floater.Porta
 
 const HoverCardPortal = forwardRef<HoverCardPortalElement, HoverCardPortalProps>(({ children, rootElement, ...props }, ref) => {
     const { rootTriggerClass } = useContext(HoverCardContext);
-    const rootElem = rootElement || document.getElementsByClassName(rootTriggerClass)[0] as HTMLElement;
+    const themeContext = useContext(ThemeContext);
+    const rootElem = rootElement
+        || themeContext?.portalRootRef.current
+        || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
+        || themeContext?.containerRef.current
+        || document.getElementsByClassName(rootTriggerClass)[0] as HTMLElement;
 
     return <Floater.Portal
         root={rootElem}

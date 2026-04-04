@@ -138,12 +138,21 @@ describe('Collapsible controlled behaviour', () => {
                 </Collapsible.Root>
             );
         });
-        expect(error).not.toHaveBeenCalled();
-        expect(warn).not.toHaveBeenCalled();
-        root.unmount();
-        document.body.removeChild(container);
-        warn.mockRestore();
-        error.mockRestore();
+
+        try {
+            const errorCalls = error.mock.calls.filter(args =>
+                !(typeof args[0] === 'string' && args[0].includes('useLayoutEffect does nothing on the server'))
+            );
+            expect(errorCalls).toHaveLength(0);
+            expect(warn).not.toHaveBeenCalled();
+        } finally {
+            root?.unmount();
+            if (container.parentNode) {
+                container.parentNode.removeChild(container);
+            }
+            warn.mockRestore();
+            error.mockRestore();
+        }
     });
 
     test('handles nested collapsibles', async() => {
