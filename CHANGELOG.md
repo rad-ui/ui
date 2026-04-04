@@ -1,5 +1,15 @@
 # @radui/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- d2c5395: migration from querySelector to refs for rovingfoucs, tree and slider
+
+### Patch Changes
+
+- 4db8aa7: ui revamp for multiple comps
+
 ## 0.2.2
 
 ### Patch Changes
