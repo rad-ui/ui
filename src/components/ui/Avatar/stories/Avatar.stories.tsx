@@ -4,6 +4,9 @@ import React, { JSX } from 'react';
 const avatarImage1 = require('/assets/images/avatar-1.jpg');
 const avatarImage2 = require('/assets/images/avatar-11.jpg');
 
+const AVATAR_SIZES = ['', 'sm', 'lg'] as const;
+const AVATAR_VARIANTS = ['', 'square'] as const;
+
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Avatar',
@@ -22,8 +25,8 @@ export const withSrc = {
         src: avatarImage1,
         fallback: 'PK',
         color: 'blue',
-        size: 'small',
-        variant: 'outline'
+        size: 'sm',
+        variant: 'square'
     }
 };
 
@@ -63,16 +66,39 @@ export const withColor = {
     }
 };
 
-export const withSize = {
-    args: {
-        fallback: 'RU',
-        size: 'small'
-    }
-};
+export const Sizes = () => (
+    <SandboxEditor>
+        <div className='flex items-center gap-6'>
+            {AVATAR_SIZES.map((size) => (
+                <div key={size || 'default'} className='flex flex-col items-center gap-2'>
+                    <p className='text-xs text-gray-600'>{size || 'default'}</p>
+                    <Avatar.Root size={size}>
+                        <Avatar.Fallback>RU</Avatar.Fallback>
+                    </Avatar.Root>
+                </div>
+            ))}
+        </div>
+    </SandboxEditor>
+);
+
+export const Variants = () => (
+    <SandboxEditor>
+        <div className='flex items-center gap-6'>
+            {AVATAR_VARIANTS.map((variant) => (
+                <div key={variant || 'default'} className='flex flex-col items-center gap-2'>
+                    <p className='text-xs text-gray-600'>{variant || 'default'}</p>
+                    <Avatar.Root variant={variant}>
+                        <Avatar.Fallback>RU</Avatar.Fallback>
+                    </Avatar.Root>
+                </div>
+            ))}
+        </div>
+    </SandboxEditor>
+);
 
 const WithoutImgTemplate = () => {
     return <SandboxEditor>
-        <Avatar.Root size='small' variant='outline'>
+        <Avatar.Root size='sm' variant='square'>
             <Avatar.Fallback>PK</Avatar.Fallback>
         </Avatar.Root>
     </SandboxEditor>;
