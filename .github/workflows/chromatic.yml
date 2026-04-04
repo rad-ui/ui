@@ -16,14 +16,14 @@ jobs:
     if: github.repository == 'rad-ui/ui' && (github.event_name == 'push' || github.event.label.name == 'deploy-storybook')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0  # Required for Chromatic to retrieve git history
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Install dependencies
         run: npm ci  # Use 'yarn install --frozen-lockfile' if you use Yarn
@@ -34,4 +34,3 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           # Optional: Add any additional Chromatic CLI flags here
           # For example: --exit-zero-on-changes
-
