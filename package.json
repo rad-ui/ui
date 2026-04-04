@@ -147,6 +147,11 @@
       "require": "./dist/components/ToggleGroup.cjs",
       "types": "./dist/components/ToggleGroup.d.ts"
     },
+    "./Toolbar": {
+      "import": "./dist/components/Toolbar.js",
+      "require": "./dist/components/Toolbar.cjs",
+      "types": "./dist/components/Toolbar.d.ts"
+    },
     "./Tooltip": {
       "import": "./dist/components/Tooltip.js",
       "require": "./dist/components/Tooltip.cjs",

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
+import { composeRefs } from '~/core/utils/mergeProps';
 
 type CollapsiblePrimitiveContentElement = React.ElementRef<typeof Primitive.div>;
 export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
@@ -12,7 +13,7 @@ export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
 const CollapsiblePrimitiveContent = React.forwardRef<
     CollapsiblePrimitiveContentElement,
     CollapsiblePrimitiveContentProps
->(({ children, className, asChild = false, forceMount = false, ...props }, forwardedRef) => {
+>(({ children, className, asChild = false, forceMount = false, style, ...props }, forwardedRef) => {
     const {
         open,
         contentId,
@@ -20,22 +21,14 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         transitionTimingFunction
     } = useCollapsiblePrimitiveContext();
 
-    const ref = useRef<CollapsiblePrimitiveContentElement | null>(null);
-    const setRefs = (node: CollapsiblePrimitiveContentElement) => {
-        ref.current = node;
-        if (typeof forwardedRef === 'function') {
-            forwardedRef(node);
-        } else if (forwardedRef) {
-            (forwardedRef as React.MutableRefObject<CollapsiblePrimitiveContentElement | null>).current = node;
-        }
-    };
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const heightRef = useRef(height);
     const [shouldRender, setShouldRender] = useState(open || forceMount);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
+    const ref = useRef<HTMLDivElement | null>(null);
 
-    // When opening, we need to immediately render
+    // Track presence for mounting/unmounting
     useEffect(() => {
         if (open || forceMount) {
             setShouldRender(true);
@@ -43,30 +36,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     }, [open, forceMount]);
 
     useEffect(() => {
-        if (!open || !ref.current || transitionDuration === 0) return;
-
-        const resizeObserver = new ResizeObserver(() => {
-            if (ref.current && heightRef.current !== undefined) {
-                const newHeight = ref.current.scrollHeight;
-                if (newHeight !== heightRef.current) {
-                    setHeight(newHeight);
-                }
-            }
-        });
-
-        // Observe the first child if possible for more accurate content measurement,
-        // or the ref itself if it's not currently animating height: 0
-        resizeObserver.observe(ref.current);
-
-        return () => resizeObserver.disconnect();
-    }, [open, transitionDuration]);
-
-    useEffect(() => {
         heightRef.current = height;
     }, [height]);
 
     useLayoutEffect(() => {
-        // Clear any existing timeout and animation frames to avoid conflicts
         if (animationTimeoutRef.current) {
             clearTimeout(animationTimeoutRef.current);
         }
@@ -100,7 +73,6 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 });
             });
 
-            // After animation completes, set height to undefined for responsive flexibility
             animationTimeoutRef.current = setTimeout(() => {
                 setHeight(undefined);
             }, transitionDuration);
@@ -131,37 +103,41 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, transitionDuration, forceMount, shouldRender]);
+    }, [open, transitionDuration, forceMount]);
 
-    // Don't render anything if closed and animation is complete
-    if (!shouldRender && !open && !forceMount) {
+    const isClosed = !open && !forceMount;
+    const shouldHide = isClosed && !shouldRender;
+
+    if (shouldHide) {
         return null;
     }
+
+    const dynamicStyle: React.CSSProperties = {
+        ...style,
+        overflow: 'hidden',
+        height: height !== undefined ? `${height}px` : undefined,
+        ...(transitionDuration > 0
+            ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
+            : {})
+    };
 
     const shouldUseAsChild = asChild && React.isValidElement(children);
 
     return (
         <Primitive.div
             id={contentId}
-            ref={setRefs}
+            ref={composeRefs(forwardedRef, ref)}
             aria-hidden={!open}
             data-state={open ? 'open' : 'closed'}
             className={className}
-            style={{
-                height: height !== undefined ? `${height}px` : undefined,
-                overflow: 'hidden',
-                ...(transitionDuration > 0
-                    ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
-                    : {})
-            }}
+            style={dynamicStyle}
             asChild={shouldUseAsChild}
             {...props}
         >
             {children}
         </Primitive.div>
     );
-}
-);
+});
 
 CollapsiblePrimitiveContent.displayName = 'CollapsiblePrimitiveContent';
 

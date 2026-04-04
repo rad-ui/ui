@@ -9,17 +9,18 @@ export type AccordionContentProps = React.ComponentPropsWithoutRef<'div'> & {
     /** @deprecated Index is no longer required; ids come from collapsible context. */
     index?: number;
     forceMount?: boolean;
+    asChild?: boolean;
 };
 
 const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionContentProps>(
-    ({ children, index: _index, className = '', forceMount, ...props }, ref) => {
+    ({ children, index: _index, className = '', forceMount, asChild = false, ...props }, ref) => {
         const { rootClass, orientation } = useContext(AccordionContext);
         const { headerId } = useContext(AccordionItemContext);
 
         return (
             <CollapsiblePrimitive.Content
                 ref={ref}
-                asChild
+                asChild={asChild}
                 forceMount={forceMount}
                 className={clsx(`${rootClass}-content`, className)}
                 role="region"
@@ -27,7 +28,13 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 data-orientation={orientation}
                 {...props}
             >
-                {children}
+                {asChild ? (
+                    children
+                ) : (
+                    <div className={`${rootClass}-content-inner`}>
+                        {children}
+                    </div>
+                )}
             </CollapsiblePrimitive.Content>
         );
     });
