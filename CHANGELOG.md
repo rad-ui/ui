@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.2.1
+
+### Patch Changes
+
+- 9a28add: Align AlertDialog styling with theme tokens, and clean up Storybook examples and local dev startup behavior.
+
 ## 0.2.0
 
 ### Minor Changes
