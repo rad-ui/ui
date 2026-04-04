@@ -27,6 +27,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
+    const resizeObserverRef = useRef<ResizeObserver>();
 
     // Track presence for mounting/unmounting
     useEffect(() => {
@@ -46,6 +47,11 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
         if (rafRef.current) {
             cancelAnimationFrame(rafRef.current);
+        }
+
+        if (resizeObserverRef.current) {
+            resizeObserverRef.current.disconnect();
+            resizeObserverRef.current = undefined;
         }
 
         if (!ref.current) return;
@@ -76,6 +82,15 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             animationTimeoutRef.current = setTimeout(() => {
                 setHeight(undefined);
             }, transitionDuration);
+
+            if (typeof ResizeObserver !== 'undefined') {
+                resizeObserverRef.current = new ResizeObserver(() => {
+                    if (ref.current && heightRef.current !== undefined) {
+                        setHeight(ref.current.scrollHeight);
+                    }
+                });
+                resizeObserverRef.current.observe(ref.current);
+            }
         } else {
             const contentHeight = ref.current.scrollHeight;
             setHeight(contentHeight);
@@ -102,6 +117,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             if (rafRef.current) {
                 cancelAnimationFrame(rafRef.current);
             }
+            if (resizeObserverRef.current) {
+                resizeObserverRef.current.disconnect();
+                resizeObserverRef.current = undefined;
+            }
         };
     }, [open, transitionDuration, forceMount]);
 
@@ -113,9 +132,9 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     }
 
     const dynamicStyle: React.CSSProperties = {
-        ...style,
         overflow: 'hidden',
         height: height !== undefined ? `${height}px` : undefined,
+        ...style,
         ...(transitionDuration > 0
             ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
             : {})
