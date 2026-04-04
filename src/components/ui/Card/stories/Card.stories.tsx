@@ -12,44 +12,32 @@ type CardStoryProps = {
 };
 
 const LoginCard = ({ variant, size }: CardStoryProps) => {
+    const resolvedVariant = variant || 'default';
+    const resolvedSize = size || 'medium';
+    const title = resolvedVariant === 'soft' ? 'Weekly Summary' : 'Project Update';
+    const description = resolvedSize === 'small'
+        ? 'A quick snapshot from the latest activity.'
+        : 'Key progress, blockers, and next steps from the latest activity.';
+    const body = resolvedVariant === 'soft'
+        ? 'Three tasks were completed this week, and the team is on track to wrap the remaining review items tomorrow.'
+        : 'The latest changes are ready for review. Remaining work is limited to final QA and a short content pass before release.';
+
     return (
-        <div style={{ width: '100%', maxWidth: '48rem' }}>
+        <div style={{ width: '100%', maxWidth: '36rem' }}>
             <Card variant={variant} size={size} style={{ width: '100%' }}>
                 <Card.Header>
-                    <Card.Title>Login to your account</Card.Title>
-                    <Card.Action>Sign Up</Card.Action>
-                    <Card.Description>
-                        Enter your email below to login to your account
-                    </Card.Description>
+                    <Card.Title>{title}</Card.Title>
+                    <Card.Description>{description}</Card.Description>
                 </Card.Header>
 
                 <Card.Content>
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between gap-4">
-                            <label className="text-sm font-medium text-[var(--rad-ui-text-primary)]">Email</label>
-                        </div>
-                        <input
-                            className="w-full rounded-xl border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] px-3 py-2 text-sm text-[var(--rad-ui-text-primary)] outline-none transition focus:border-[var(--rad-ui-border-default)]"
-                            placeholder="m@example.com"
-                            type="email"
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between gap-4">
-                            <label className="text-sm font-medium text-[var(--rad-ui-text-primary)]">Password</label>
-                            <button className="text-sm font-medium text-[var(--rad-ui-text-secondary)]" type="button">Forgot your password?</button>
-                        </div>
-                        <input
-                            className="w-full rounded-xl border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] px-3 py-2 text-sm text-[var(--rad-ui-text-primary)] outline-none transition focus:border-[var(--rad-ui-border-default)]"
-                            type="password"
-                        />
-                    </div>
+                    <p className="m-0 text-[0.95rem] leading-6 text-[var(--rad-ui-text-primary)]">
+                        {body}
+                    </p>
                 </Card.Content>
 
                 <Card.Footer>
-                    <Button className="w-full">Login</Button>
-                    <Button className="w-full" variant="outline">Login with Google</Button>
+                    <Button className="w-full">Action</Button>
                 </Card.Footer>
             </Card>
         </div>
@@ -73,7 +61,7 @@ export default {
     },
     args: {
         variant: 'outline',
-        size: 'medium'
+        size: 'small'
     },
     render: (args: CardStoryProps) => (
         <SandboxEditor>
@@ -87,7 +75,7 @@ export default {
 export const Default = () => (
     <SandboxEditor>
         <div className="flex justify-center py-12">
-            <LoginCard variant="outline" size="medium" />
+            <LoginCard variant="outline" size="small" />
         </div>
     </SandboxEditor>
 );
@@ -96,7 +84,7 @@ export const Variants = () => (
     <SandboxEditor>
         <div className="grid w-full max-w-6xl gap-6 md:grid-cols-2">
             {CARD_VARIANTS.map((variant) => (
-                <LoginCard key={variant} variant={variant} size="medium" />
+                <LoginCard key={variant} variant={variant} size="small" />
             ))}
         </div>
     </SandboxEditor>

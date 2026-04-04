@@ -11,18 +11,10 @@ export default {
     title: 'Components/Code',
     component: Code,
     render: (args: React.JSX.IntrinsicAttributes & CodeProps) => <SandboxEditor>
-        <div >
-            <div className='flex space-x-2'>
-                <Code {...args}>
-         requestAnimationFrame()
-                </Code>
-
-                <Code {...args}>
-                    {Code_TEXT}
-                </Code>
-
+        <div className="w-full max-w-[28rem]">
+            <div className='flex items-center space-x-2'>
+                <Code {...args}>{Code_TEXT}</Code>
             </div>
-
         </div>
     </SandboxEditor>
 };
