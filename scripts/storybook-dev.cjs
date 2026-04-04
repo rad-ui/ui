@@ -3,6 +3,38 @@ const { spawn } = require('child_process');
 const children = [];
 let isShuttingDown = false;
 
+const waitForExit = (child) => new Promise((resolve) => {
+    if (child.exitCode !== null || child.killed) {
+        resolve();
+        return;
+    }
+
+    const done = () => resolve();
+    child.once('exit', done);
+    child.once('close', done);
+});
+
+const run = (command, args, name) => new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+        stdio: 'inherit',
+        shell: true
+    });
+
+    child.on('exit', (code, signal) => {
+        if (signal) {
+            reject(new Error(`${name} exited with signal ${signal}`));
+            return;
+        }
+
+        if (code && code !== 0) {
+            reject(new Error(`${name} exited with code ${code}`));
+            return;
+        }
+
+        resolve();
+    });
+});
+
 const start = (command, args, name) => {
     const child = spawn(command, args, {
         stdio: 'inherit',
@@ -30,7 +62,7 @@ const start = (command, args, name) => {
     return child;
 };
 
-const shutdown = (exitCode = 0) => {
+const shutdown = async(exitCode = 0) => {
     if (isShuttingDown) {
         return;
     }
@@ -43,11 +75,27 @@ const shutdown = (exitCode = 0) => {
         }
     }
 
+    await Promise.race([
+        Promise.all(children.map((child) => waitForExit(child))),
+        new Promise((resolve) => setTimeout(resolve, 4000))
+    ]);
+
     process.exit(exitCode);
 };
 
 process.on('SIGINT', () => shutdown(0));
 process.on('SIGTERM', () => shutdown(0));
 
-start('npm', ['run', 'generate-tokens:watch'], 'Token watcher');
-start('npm', ['run', 'storybook:server'], 'Storybook');
+const main = async() => {
+    try {
+        await run('npm', ['run', 'generate-tokens'], 'Token generation');
+    } catch (error) {
+        console.error(error instanceof Error ? error.message : error);
+        process.exit(1);
+    }
+
+    start('npm', ['run', 'generate-tokens:watch'], 'Token watcher');
+    start('npm', ['run', 'storybook:server'], 'Storybook');
+};
+
+main();

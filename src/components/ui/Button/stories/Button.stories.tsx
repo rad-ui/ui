@@ -7,10 +7,10 @@ const BUTTON_TEXT = 'Proceed';
 const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost'];
 const BUTTON_SIZES = ['small', 'medium', 'large', 'x-large'];
 
-const renderButtonContent = (variant?: string) => (
+const renderButtonContent = () => (
     <>
         <div>{BUTTON_TEXT}</div>
-        <ArrowRight className={variant === 'solid' ? 'text-gray-50' : 'text-accent-900'} size={16} />
+        <ArrowRight className="text-current" size={16} />
     </>
 );
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -25,16 +25,12 @@ export default {
             <div className='flex'>
 
                 {BUTTON_VARIANTS.map((variant, index) => {
-                    let label = `${variant} ${BUTTON_TEXT}`;
-                    if (!BUTTON_TEXT) {
-                        label = 'Proceed';
-                    }
                     return <Button key={index} variant={variant} {...args}>
-                        {renderButtonContent(variant)}
+                        {renderButtonContent()}
                     </Button>;
                 })}
                 <Button {...args}>
-                    {renderButtonContent('solid')}
+                    {renderButtonContent()}
                 </Button>
             </div>
         </div>
@@ -62,7 +58,7 @@ export const Variants = () => {
         <div className='flex flex-wrap gap-2'>
             {BUTTON_VARIANTS.map((variant) => (
                 <Button key={variant} variant={variant}>
-                    {renderButtonContent(variant)}
+                    {renderButtonContent()}
                 </Button>
             ))}
         </div>
@@ -81,7 +77,7 @@ export const Sizes = () => {
                     <span key={index} className="inline-flex items-start space-x-2">
                         {BUTTON_SIZES.map((size, index) => {
                             return <Button key={index} size={size} variant={variant} >
-                                {renderButtonContent(variant)}
+                                {renderButtonContent()}
                             </Button>;
                         })}
                     </span>

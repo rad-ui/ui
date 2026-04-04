@@ -3,8 +3,8 @@ import Code, { CodeProps } from '../Code';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const Code_TEXT = 'console.log()';
-const CODE_VARIANTS = ['soft', 'outline'];
-const CODE_SIZES = ['small', 'medium', 'large', 'x-large'];
+const CODE_VARIANTS = ['soft', 'outline'] as const;
+const CODE_SIZES = ['small', 'medium', 'large', 'x-large'] as const;
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -61,11 +61,11 @@ export const Sizes = () => {
         </div>
         <div>
 
-            {CODE_VARIANTS.map((variant, index) => (
-                <div key={index} className='mb-10'>
-                    <span key={index} className="inline-flex items-start space-x-2">
-                        {CODE_SIZES.map((size, index) => {
-                            return <Code key={index} size={size} variant={variant}>
+            {CODE_VARIANTS.map((variant) => (
+                <div key={variant} className='mb-10'>
+                    <span className="inline-flex items-start space-x-2">
+                        {CODE_SIZES.map((size) => {
+                            return <Code key={`${variant}-${size}`} size={size} variant={variant}>
 
                                 {Code_TEXT}
 
@@ -86,8 +86,8 @@ export const Variants = () => {
         </div>
         <div className='flex space-x-2'>
 
-            {CODE_VARIANTS.map((variant, index) => {
-                return <Code key={index} variant={variant} >
+            {CODE_VARIANTS.map((variant) => {
+                return <Code key={variant} variant={variant} >
                     {Code_TEXT}
                 </Code>;
             })}

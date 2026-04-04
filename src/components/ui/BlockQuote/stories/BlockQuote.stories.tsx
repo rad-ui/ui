@@ -7,7 +7,7 @@ const BLOCKQUOTE_TEXT = '"After all," he said, "everyone enjoys a good joke, so 
 const SHORT_TEXT = '"We shape our tools and thereafter our tools shape us."';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const BLOCKQUOTE_VARIANTS = ['outline', 'soft'];
+const BLOCKQUOTE_VARIANTS = ['outline', 'soft'] as const;
 const BLOCKQUOTE_SIZES = ['small', 'medium', 'large', 'x-large'];
 
 export default {
@@ -125,19 +125,14 @@ export const Variants = () => {
                     </BlockQuote>
                 </div>
 
-                <div>
-                    <p className='text-sm text-gray-600 mb-2'>Outline</p>
-                    <BlockQuote variant="outline">
-                        {SHORT_TEXT}
-                    </BlockQuote>
-                </div>
-
-                <div>
-                    <p className='text-sm text-gray-600 mb-2'>Soft</p>
-                    <BlockQuote variant="soft">
-                        {SHORT_TEXT}
-                    </BlockQuote>
-                </div>
+                {BLOCKQUOTE_VARIANTS.map((variant) => (
+                    <div key={variant}>
+                        <p className='text-sm text-gray-600 mb-2'>{variant[0].toUpperCase() + variant.slice(1)}</p>
+                        <BlockQuote variant={variant}>
+                            {SHORT_TEXT}
+                        </BlockQuote>
+                    </div>
+                ))}
 
                 <div>
                     <p className='text-sm text-gray-600 mb-2'>Outline with Color</p>

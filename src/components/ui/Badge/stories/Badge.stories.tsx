@@ -10,7 +10,7 @@ const BADGE_SIZES = ['small', 'medium', 'large', 'x-large'] as const;
 const Colors = ['blue', 'red', 'green', 'plum', 'gray'];
 const DEMO_COLORS = ['blue', 'red', 'green'] as const;
 
-const VariantShowcase = ({ includeNeutral = false }: { includeNeutral?: boolean }) => {
+const VariantShowcase = ({ includeNeutral = false }: { includeNeutral?: boolean }): React.ReactElement => {
     return <div className='flex flex-col gap-3'>
         {BADGE_VARIANTS.map((variant) => (
             <div key={variant} className='grid gap-2 sm:grid-cols-[5rem_1fr] sm:items-center'>
@@ -82,6 +82,7 @@ export const Default = () => {
         </div>
         <div className='flex flex-wrap gap-2'>
             <Badge>Default</Badge>
+            <Badge variant="solid">Solid</Badge>
             <Badge variant="soft">Soft</Badge>
             <Badge variant="surface">Surface</Badge>
             <Badge variant="outline">Outline</Badge>
