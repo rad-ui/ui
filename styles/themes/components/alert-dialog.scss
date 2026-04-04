@@ -2,27 +2,40 @@
 
 %rad-ui-alert-dialog-action-skin {
   @extend .rad-ui-button;
-  background-color: var(--rad-ui-text-primary);
-  color: var(--rad-ui-surface-panel);
-  border: 1px solid var(--rad-ui-text-primary);
+  min-height: 2.25rem;
+  padding: 0 0.875rem;
+  border-radius: 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border: 1px solid #1f1f1f;
+  box-shadow: none;
 
   &:hover {
-    background-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
-    border-color: color-mix(in oklab, var(--rad-ui-text-primary) 92%, var(--rad-ui-color-gray-1000));
+    background-color: #171717;
+    border-color: #171717;
   }
 }
 
 %rad-ui-alert-dialog-cancel-skin {
   @extend .rad-ui-button;
-  background-color: var(--rad-ui-surface-panel);
-  color: var(--rad-ui-text-primary);
-  border: 1px solid var(--rad-ui-border-soft);
-  box-shadow: var(--rad-ui-shadow-xs);
+  min-height: 2.25rem;
+  padding: 0 0.875rem;
+  border-radius: 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid #dddddd;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.85) inset, 0 1px 2px rgb(0 0 0 / 0.04);
 
   &:hover {
-    background-color: var(--rad-ui-surface-subtle);
-    border-color: var(--rad-ui-border);
-    color: var(--rad-ui-text-primary);
+    background-color: #fbfbfb;
+    border-color: #d4d4d4;
+    color: #171717;
   }
 }
 
@@ -30,9 +43,10 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  background-color: rgb(0 0 0 / 0.3);
-  backdrop-filter: blur(8px);
+  background-color: rgb(245 245 245 / 0.68);
+  backdrop-filter: blur(10px);
   overflow: hidden;
+  transition: opacity 160ms ease, visibility 160ms ease;
   
   &[data-state="open"] {
     opacity: 1;
@@ -56,17 +70,19 @@
   top: 50%;
   z-index: 60;
   width: 100%;
-  max-width: 36rem;
+  max-width: 30rem;
   transform: translate(-50%, -50%);
-  padding: 1.2rem 1.2rem 0;
-  border-radius: 1.25rem;
-  background-color: var(--rad-ui-surface-panel);
-  color: var(--rad-ui-text-primary);
-  border: 1px solid var(--rad-ui-border-soft);
-  box-shadow: 0 24px 80px rgb(0 0 0 / 0.12);
+  padding: 1rem 1rem 0;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid #d2d2d2;
+  box-shadow: 0 18px 60px rgb(0 0 0 / 0.1), 0 2px 8px rgb(0 0 0 / 0.04);
   display: flex;
   flex-direction: column;
   gap: 0;
+  overflow: hidden;
+  transition: opacity 160ms ease, visibility 160ms ease, transform 180ms ease;
   
   &[data-state="open"] {
     opacity: 1;
@@ -86,32 +102,34 @@
   
   // Nested child components
   .rad-ui-alert-dialog-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.2;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.15;
     margin: 0;
-    margin-bottom: 0.625rem;
-    color: var(--rad-ui-text-primary);
-    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+    color: #171717;
+    letter-spacing: -0.05em;
   }
   
   .rad-ui-alert-dialog-description {
-    font-size: 0.875rem;
+    max-width: 23rem;
+    font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.45;
     margin: 0;
-    margin-bottom: 1.1rem;
-    color: var(--rad-ui-text-muted);
+    margin-bottom: 0.875rem;
+    color: #777777;
+    letter-spacing: -0.025em;
   }
   
   .rad-ui-alert-dialog-footer {
     display: flex;
     flex-direction: column-reverse;
-    gap: 0.625rem;
-    margin: 0 -1.2rem;
-    padding: 0.95rem 1.2rem 1.2rem;
-    border-top: 1px solid var(--rad-ui-border-soft);
-    background-color: var(--rad-ui-surface-subtle);
+    gap: 0.5rem;
+    margin: 0 -1rem;
+    padding: 0.875rem 1rem 1rem;
+    border-top: 1px solid #e4e4e4;
+    background-color: #f5f5f5;
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
     
@@ -133,21 +151,27 @@
   @media (width <= 640px) {
     max-width: calc(100% - 2rem);
     margin: 1rem;
-    padding: 1rem 1rem 0;
+    padding: 0.875rem 0.875rem 0;
+    border-radius: 0.875rem;
 
     .rad-ui-alert-dialog-title {
-      font-size: 1rem;
-      margin-bottom: 0.625rem;
+      font-size: 0.9375rem;
+      margin-bottom: 0.5rem;
     }
 
     .rad-ui-alert-dialog-description {
-      font-size: 0.825rem;
-      margin-bottom: 1rem;
+      font-size: 0.8125rem;
+      margin-bottom: 0.875rem;
     }
 
     .rad-ui-alert-dialog-footer {
-      margin: 0 -1rem;
-      padding: 0.875rem 1rem 1rem;
+      margin: 0 -0.875rem;
+      padding: 0.75rem 0.875rem 0.875rem;
+    }
+
+    .rad-ui-alert-dialog-action,
+    .rad-ui-alert-dialog-cancel {
+      width: 100%;
     }
   }
 }
