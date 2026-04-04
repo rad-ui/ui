@@ -140,3 +140,20 @@ The following components still use querySelector and should be refactored in fut
 4. **NavigationMenuContent.tsx** - Can be simplified by using RovingFocusGroup's built-in focus management
 
 See `components-analysis.md` for detailed refactoring plans for remaining components.
+
+
+---
+
+## Known Issues
+
+### Vertical Slider Visual Inversion
+There appears to be an issue with the vertical range slider where the fill appears inverted (when thumb is up, fill is down). This needs investigation to determine if:
+1. It's a pre-existing bug in the main branch
+2. It's related to CSS styling
+3. It's related to the calculation logic
+
+The calculation logic appears correct:
+- Top position → high clientY → high value
+- Bottom position → low clientY → low value
+
+Next steps: Test on main branch to confirm if this is a pre-existing issue.
