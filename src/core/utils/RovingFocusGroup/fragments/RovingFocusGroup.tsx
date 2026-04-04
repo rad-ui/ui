@@ -61,22 +61,71 @@ const RovingFocusGroup = ({
      */
     const unregisterItemRef = React.useCallback((id: string) => {
         itemRefsMap.current.delete(id);
-    }, []);
+        
+        // Remove from focusItems to avoid stale IDs
+        if (SHOULD_RECOMPUTE_FOCUS_ITEMS) {
+            setFocusItems((prev) => prev.filter((itemId) => itemId !== id));
+        }
+    }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
 
     /**
      * Adds a new focusable item to the group
      * @param id - Unique identifier for the item
      */
-    const addFocusItem = (id: string) => {
-        // For tree mode, recompute items from registered refs instead of DOM queries
+    const addFocusItem = React.useCallback((id: string) => {
+        // For tree mode, recompute items from registered refs in DOM order
         if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined') {
-            // Use the ref registry to get all registered item IDs
-            const registeredIds = Array.from(itemRefsMap.current.keys());
-            setFocusItems(registeredIds);
+            setFocusItems((prevItems) => {
+                // Only recompute if the item isn't already in the list
+                if (prevItems.includes(id)) {
+                    return prevItems;
+                }
+                
+                // Get all registered refs and sort by DOM position
+                const entries = Array.from(itemRefsMap.current.entries());
+                
+                // Filter out refs that don't have a current element
+                const validEntries = entries.filter(([, ref]) => ref.current);
+                
+                // Sort by DOM position using compareDocumentPosition
+                validEntries.sort(([, refA], [, refB]) => {
+                    const nodeA = refA.current;
+                    const nodeB = refB.current;
+                    
+                    if (!nodeA || !nodeB) return 0;
+                    
+                    const position = nodeA.compareDocumentPosition(nodeB);
+                    
+                    // If nodeB comes after nodeA in document order
+                    if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
+                        return -1;
+                    }
+                    // If nodeB comes before nodeA in document order
+                    if (position & Node.DOCUMENT_POSITION_PRECEDING) {
+                        return 1;
+                    }
+                    
+                    return 0;
+                });
+                
+                // Extract IDs in DOM order
+                const orderedIds = validEntries.map(([itemId]) => itemId);
+                
+                // Only update if the order has changed
+                if (orderedIds.length === prevItems.length && 
+                    orderedIds.every((itemId, index) => itemId === prevItems[index])) {
+                    return prevItems;
+                }
+                
+                return orderedIds;
+            });
             return;
         }
-        setFocusItems((prev) => [...prev, id]);
-    };
+        setFocusItems((prev) => {
+            if (prev.includes(id)) return prev;
+            return [...prev, id];
+        });
+    }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
 
     // Set initial focus to the first item when items are added
     useEffect(() => {

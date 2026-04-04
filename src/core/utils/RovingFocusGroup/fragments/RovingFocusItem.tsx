@@ -70,21 +70,16 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const isSelected = focusedItemId === registrationId;
     const tabIndex = disableTabIndexing ? 0 : !isDisabled && isSelected ? 0 : -1;
 
-    // Register this item with the parent group
+    // Register this item with the parent group on mount only
     useEffect(() => {
-        // Register ref with the group
         registerItemRef(registrationId, itemRef);
-        
-        // Register item ID if not already in the list
-        if (!focusItems.includes(registrationId)) {
-            addFocusItem(registrationId);
-        }
+        addFocusItem(registrationId);
         
         return () => {
-            // Cleanup on unmount
             unregisterItemRef(registrationId);
         };
-    }, [focusItems, focusedItemId, registrationId, addFocusItem, registerItemRef, unregisterItemRef]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [registrationId]);
 
     /**
      * Focuses an item by its ID using the ref registry
