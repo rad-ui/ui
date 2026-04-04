@@ -1,3 +1,7 @@
+// ScrollArea — Clarity design system aligned
+// Scrollbar track hover: step 3 (200) — interactive hover surface
+// Thumb default: step 7 (600) — default border / separator
+// Thumb hover: step 8 (700) — solid, muted UI element — clearly distinct from default
 .rad-ui-scroll-area {
     width: 100%;
     height: 100%;
@@ -9,8 +13,7 @@
         height: 100%;
         border-radius: inherit;
         overflow: auto;
-        
-        // Hide scrollbars
+
         scrollbar-width: none;
         -ms-overflow-style: none;
 
@@ -27,6 +30,7 @@
         padding: 2px;
         background: transparent;
         z-index: 10;
+        transition: background 0.15s ease;
 
         &[data-orientation="vertical"] {
             width: 10px;
@@ -44,15 +48,16 @@
         }
 
         &:hover {
-            background: var(--rad-ui-surface-subtle);
+            background: var(--rad-ui-color-gray-200); // step 3 — interactive hover surface
         }
 
         .rad-ui-scroll-area-thumb {
             flex: 1;
-            background: var(--rad-ui-border-default);
-            border-radius: 9999px; // fully rounded caps
+            background: var(--rad-ui-color-gray-600); // step 7 — default border/separator
+            border-radius: 9999px;
             position: relative;
-            
+            transition: background 0.15s ease;
+
             &::before {
                 content: "";
                 position: absolute;
@@ -65,9 +70,9 @@
                 min-height: 44px;
             }
         }
-        
+
         &:hover .rad-ui-scroll-area-thumb {
-            background: var(--rad-ui-border-strong);
+            background: var(--rad-ui-color-gray-700); // step 8 — solid, muted — clearly darker
         }
     }
 }
