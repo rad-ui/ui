@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 0.2.2
+
+### Patch Changes
+
+- 83cf51c: Update GitHub Actions workflows to Node 24 and newer GitHub action versions for release, test, lint, coverage, and Chromatic jobs.
+
 ## 0.2.1
 
 ### Patch Changes
