@@ -34,7 +34,7 @@ const renderElement = (element, index) => {
     }
 };
 
-const CodeBlock = ({ children, inline = false, language = 'jsx', showHeader = true }) => {
+const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' }) => {
     const [expanded, setExpanded] = useState(false);
     const [hasOverflow, setHasOverflow] = useState(false);
     const viewportRef = useRef(null);
@@ -79,33 +79,20 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', showHeader = tr
     }, [children, language]);
 
     return (
-        <pre className="relative my-5 overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] shadow-[0_16px_40px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_12%,transparent)]">
-            {showHeader && (
-                <div className="flex items-center justify-between border-b border-[var(--rad-ui-border-soft)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--rad-ui-text-primary)_3%,transparent),transparent)] px-4 py-2.5">
-                    <span className="text-[0.74rem] font-semibold uppercase tracking-[0.14em] text-[var(--rad-ui-text-muted)]">
-                        {language === 'jsx' ? 'React' : language}
-                    </span>
-                    <TooltipWrapper label="Copy" placement="bottom">
-                        <Copy
-                            content={copyContent}
-                            className="h-8 w-8 rounded-[11px] border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]"
-                            iconSize={15}
-                        />
-                    </TooltipWrapper>
-                </div>
-            )}
+        <pre className={clsx("relative my-5 overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] shadow-[0_16px_40px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_12%,transparent)]", className)}>
+            <div className="flex items-center justify-between border-b border-[var(--rad-ui-border-soft)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--rad-ui-text-primary)_3%,transparent),transparent)] px-3.5 py-2">
+                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[var(--rad-ui-text-muted)]">
+                    {language === 'jsx' ? 'React' : language}
+                </span>
+                <TooltipWrapper label="Copy" placement="bottom">
+                    <Copy
+                        content={copyContent}
+                        className="h-8 w-8 rounded-[11px] border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]"
+                        iconSize={15}
+                    />
+                </TooltipWrapper>
+            </div>
             <div className="relative">
-                {!showHeader && (
-                    <span className="absolute right-4 top-4 z-10">
-                        <TooltipWrapper label="Copy" placement="bottom">
-                            <Copy
-                                content={copyContent}
-                                className="h-8 w-8 rounded-[11px] border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]"
-                                iconSize={15}
-                            />
-                        </TooltipWrapper>
-                    </span>
-                )}
                 <ScrollArea.Root
                     className={clsx(
                         "transition-all",
@@ -120,7 +107,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', showHeader = tr
                             overflowY: hasOverflow ? 'auto' : 'hidden',
                         }}
                     >
-                        <code className={`language-${language} docs-code-block block whitespace-pre-wrap px-5 ${showHeader ? 'py-3.5' : 'pb-3.5 pt-5'}`}>
+                        <code className={`language-${language} docs-code-block block whitespace-pre-wrap px-4 py-3`}>
                             {code}
                         </code>
                     </ScrollArea.Viewport>

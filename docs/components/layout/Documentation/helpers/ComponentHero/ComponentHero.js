@@ -22,7 +22,7 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
                 tabs.push({
                     label: key,
                     value: key,
-                    content: <CodeBlock language={language} showHeader={false}>{codeUsage[key]?.code}</CodeBlock>,
+                    content: <CodeBlock className="my-0" language={language}>{codeUsage[key]?.code}</CodeBlock>,
                 })
             }
         }
@@ -34,11 +34,13 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
 
     return <section className={docsSectionBlockClassName}>
         {title && <BookMarkLink id={title}> <Heading as="h2">{title}</Heading> </BookMarkLink>}
-        <div className='flex items-center justify-center overflow-x-auto rounded-t-[18px] border border-b-0 border-[var(--rad-ui-border-soft)] bg-gradient-to-b from-[var(--rad-ui-surface-subtle)] to-[var(--rad-ui-surface-canvas)] p-8'>
-            {children}
-        </div>
-        <div className="rounded-b-[18px]">
-            <CodeTabs data={data} />
+        <div className="overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)]">
+            <div className='flex items-center justify-center overflow-x-auto bg-gradient-to-b from-[var(--rad-ui-surface-subtle)] to-[var(--rad-ui-surface-canvas)] p-8'>
+                {children}
+            </div>
+            <div className="border-t border-[var(--rad-ui-border-soft)] px-5 pb-5 pt-4">
+                <CodeTabs data={data} />
+            </div>
         </div>
     </section>
 }
