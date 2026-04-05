@@ -1,6 +1,6 @@
 const data = {
-    name : "Trigger",
-    description : "The trigger component for the Accordion. This component is used to toggle the visibility of the AccordionItem.",
+    name : "Root",
+    description : "The root component for the Callout. Storybook uses it for neutral, colored, and destructive alert states.",
     columns : [
         {
             name : "Prop",
@@ -37,6 +37,8 @@ const data = {
             name : "className",
             info_tooltips: 'The class name for the CalloutRoot.'
         },
+        type: 'string',
+        default: '--',
        },
        {
         prop: {
@@ -60,7 +62,7 @@ const data = {
             info_tooltips: 'The variant of the CalloutRoot.'
         },
         type: 'string',
-        default: '--',
+        default: "''",
        },
        {
         prop: {
@@ -68,7 +70,15 @@ const data = {
             info_tooltips: 'The size of the CalloutRoot.'
         },
         type: 'string',
-        default: '--',
+        default: "''",
+       },
+       {
+        prop: {
+            name : "intent",
+            info_tooltips: 'Semantic intent for alert states such as destructive warnings.'
+        },
+        type: 'string',
+        default: "''",
        }
     ]
 }

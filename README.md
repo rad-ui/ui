@@ -70,7 +70,7 @@ Rad UI works with modern React setups and is friendly to tokens, CSS variables, 
 The repository has two primary workflows:
 
 - Component library: use `npm` from the repository root
-- Documentation site: use `pnpm` inside [`docs/`](/Users/pranaykothapalli/Desktop/dev/hobby/ui/docs)
+- Documentation site: use `pnpm` inside `docs/`
 
 Install root dependencies and run Storybook:
 

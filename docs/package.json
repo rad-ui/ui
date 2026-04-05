@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "@radui/docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -28,6 +28,7 @@
     "eslint": "9.39.2",
     "eslint-config-next": "16.2.1",
     "js-cookie": "^3.0.5",
+    "lucide-react": "^1.7.0",
     "motion": "^12.9.2",
     "next": "16.2.1",
     "node-fetch": "^3.3.2",

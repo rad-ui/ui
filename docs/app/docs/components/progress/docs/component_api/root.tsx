@@ -19,9 +19,9 @@ const data = {
         {
             prop: {
                 name: "value",
-                info_tooltips: "The current value of the progress bar, clamped between minValue and maxValue."
+                info_tooltips: "The current value of the progress bar. Use null for an indeterminate state."
             },
-            type: "number",
+            type: "number | null",
             default: "0",
         },
         {
@@ -47,6 +47,22 @@ const data = {
             },
             type: "string",
             default: "''",
+        },
+        {
+            prop: {
+                name: "children",
+                info_tooltips: "Usually a Progress.Indicator element."
+            },
+            type: "ReactNode",
+            default: "--",
+        },
+        {
+            prop: {
+                name: "getValueLabel",
+                info_tooltips: "Function used to generate an accessible label for the current value."
+            },
+            type: "function",
+            default: "--",
         }
     ]
 };

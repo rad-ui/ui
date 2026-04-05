@@ -1,9 +1,6 @@
-import PageDetails from '@/components/seo/PageDetails';
 import Documentation from '@/components/layout/Documentation/Documentation';
-import Callout from '@radui/ui/Callout';
-import Text from '@radui/ui/Text';
 import CalloutExample from './examples/CalloutExample';
-import codeUsage, { BookmarkIcon, api_documentation, features } from './docs/codeUsage';
+import codeUsage, { api_documentation, features } from './docs/codeUsage';
 import { code as variantCodeUsage } from './docs/variantCodeUsage';
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import { code as colorCodeUsage } from './docs/colorCodeUsage';
@@ -41,9 +38,9 @@ import CalloutColor from './examples/CalloutColor';
   </Documentation.ComponentHero>
   
 
-    {/* API Documentation */}
-<Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-<Documentation.Table title="Icon" description={api_documentation.icon.description} columns={api_documentation.icon.columns} data={api_documentation.icon.data} />
-<Documentation.Table title="Text" description={api_documentation.text.description} columns={api_documentation.text.columns} data={api_documentation.text.data} />
+  <Documentation.ApiReference
+    tables={api_documentation}
+    order={['root', 'icon', 'text']}
+  />
 
 </Documentation>

@@ -1,11 +1,13 @@
 const code = {
     javascript: {
-        code: `import VisuallyHidden from "@radui/ui/VisuallyHidden""
+        code: `import Button from "@radui/ui/Button"
+import VisuallyHidden from "@radui/ui/VisuallyHidden"
 
 const VisuallyHiddenExample = () => (
-    <VisuallyHidden asChild style={{display: "none"}}>
-            <span>This is a visually hidden text</span>
-    </VisuallyHidden>
+    <Button>
+        <VisuallyHidden>Search documentation</VisuallyHidden>
+        <span aria-hidden="true">⌕</span>
+    </Button>
 )`
     }
 }

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "lib": [
       "dom",
       "dom.iterable",
@@ -16,7 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true,
+    "incremental": false,
     "plugins": [
       {
         "name": "next"
@@ -30,17 +30,15 @@
   },
   "include": [
     "next-env.d.ts",
+    "**/*.js",
+    "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/docs/first-steps/installation/page.js",
-    "app/docs/first-steps/introduction/page.js",
-    "app/layout.js",
-    "app/docs/first-steps/usage/page.js",
-    "app/docsv2/page.mdx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next"
   ]
 }

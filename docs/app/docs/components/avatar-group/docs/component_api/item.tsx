@@ -31,6 +31,14 @@ const data = {
         },
         type : "React.ReactNode",
         default : "--",
+       },
+       {
+        prop : {
+            name : "className",
+            info_tooltips : "Additional class names for the AvatarGroupItem."
+        },
+        type : "string",
+        default : "--",
        }
     ]
 }

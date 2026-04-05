@@ -1,5 +1,3 @@
-import PageDetails from '@/components/seo/PageDetails';
-
 import Documentation from '@/components/layout/Documentation/Documentation';
 import TabsExample from "./docs/example_1"
 import {code, anatomy, api_documentation} from "./docs/codeUsage"
@@ -18,16 +16,9 @@ import {code, anatomy, api_documentation} from "./docs/codeUsage"
         <TabsExample />
     </Documentation.ComponentHero>
 
-
-    {/* Component Anatomy */}
-    <Documentation.Section title="API Documentation" as="h2"  />
-    <Documentation.Anatomy code={anatomy.code} />
-
-    {/* API Documentation */}
-    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-    <Documentation.Table title="Trigger" description={api_documentation.trigger.description} columns={api_documentation.trigger.columns} data={api_documentation.trigger.data} />
-    <Documentation.Table title="List" description={api_documentation.list.description} columns={api_documentation.list.columns} data={api_documentation.list.data} />
-    <Documentation.Table title="Content" description={api_documentation.content.description} columns={api_documentation.content.columns} data={api_documentation.content.data} />
-
-    
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'trigger', 'list', 'content']}
+    />
 </Documentation>

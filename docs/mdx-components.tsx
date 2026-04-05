@@ -1,4 +1,5 @@
 import type { MDXComponents } from 'mdx/types'
+import { isValidElement } from 'react'
 
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
@@ -37,6 +38,20 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     strong: ({ children }) => (
       <Strong>{children}</Strong>
     ),
+    pre: ({ children }) => {
+      if (isValidElement(children)) {
+        const childProps = children.props as { className?: string; children?: string }
+        const language = childProps.className?.replace(/^language-/, '') || 'jsx'
+
+        return (
+          <Documentation.CodeBlock language={language}>
+            {typeof childProps.children === 'string' ? childProps.children : ''}
+          </Documentation.CodeBlock>
+        )
+      }
+
+      return <pre>{children}</pre>
+    },
     code: ({ children }) => (
       <Documentation.CodeBlock inline>
         {children}

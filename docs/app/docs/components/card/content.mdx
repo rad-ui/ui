@@ -1,8 +1,6 @@
-import PageDetails from '@/components/seo/PageDetails';
 import Documentation from '@/components/layout/Documentation/Documentation';
-import Card from '@radui/ui/Card';
-import Button from '@radui/ui/Button';
 import codeUsage, { api_documentation, features } from './docs/codeUsage';
+import CardExample from './examples/CardExample';
 
 <Documentation 
   title="Card" 
@@ -10,20 +8,7 @@ import codeUsage, { api_documentation, features } from './docs/codeUsage';
 >
   {/* Component Hero */}
   <Documentation.ComponentHero codeUsage={codeUsage}>
-    <Card variant="outline" size="small" className="w-full max-w-[34rem]">
-      <Card.Header>
-        <Card.Title>Project Update</Card.Title>
-        <Card.Description>A quick snapshot from the latest activity.</Card.Description>
-      </Card.Header>
-      <Card.Content>
-        <p className="m-0 text-[0.95rem] leading-6 text-[var(--rad-ui-text-primary)]">
-          The latest changes are ready for review. Remaining work is limited to final QA and a short content pass before release.
-        </p>
-      </Card.Content>
-      <Card.Footer>
-        <Button className="w-full">Action</Button>
-      </Card.Footer>
-    </Card>
+    <CardExample />
   </Documentation.ComponentHero>
 
   {/* Component Features */}
@@ -31,12 +16,8 @@ import codeUsage, { api_documentation, features } from './docs/codeUsage';
     features={features} 
   />
 
-  {/* API Documentation */}
-  <Documentation.Section title="API Documentation" as="h2" />
-  <Documentation.Table 
-    title="Card" 
-    description={api_documentation.card.description}
-    columns={api_documentation.card.columns} 
-    data={api_documentation.card.data} 
+  <Documentation.ApiReference
+    tables={api_documentation}
+    order={['root', 'header', 'title', 'description', 'content', 'footer', 'action']}
   />
 </Documentation>

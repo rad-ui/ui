@@ -24,6 +24,7 @@ const DocsTableOfContents = () => {
 
     useEffect(() => {
         let observer: IntersectionObserver | null = null;
+        let timeout: number | undefined;
 
         const buildToc = () => {
             const article = document.getElementById("docs-article");
@@ -85,11 +86,14 @@ const DocsTableOfContents = () => {
 
         const frame = window.requestAnimationFrame(() => {
             buildToc();
-            window.setTimeout(buildToc, 80);
+            timeout = window.setTimeout(buildToc, 80);
         });
 
         return () => {
             window.cancelAnimationFrame(frame);
+            if (timeout !== undefined) {
+                window.clearTimeout(timeout);
+            }
             observer?.disconnect();
         };
     }, [pathname]);

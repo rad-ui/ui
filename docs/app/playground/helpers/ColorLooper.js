@@ -12,7 +12,7 @@ import Separator from "@radui/ui/Separator"
 const ColorLooper = ({ title = "", docsLink = "", inline = false, loop = true, children }) => {
     return <div className='pb-8'>
         <div className='flex space-x-3 items-baseline'>
-            <Heading className="text-gray-1000" as="h6">{title}</Heading>
+            <Heading className="text-gray-1000" as="h2">{title}</Heading>
             <Link href={docsLink} >Docs</Link>
         </div>
         <Separator />

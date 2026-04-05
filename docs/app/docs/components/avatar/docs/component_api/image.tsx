@@ -30,7 +30,7 @@ const data = {
             info_tooltips : "The alternative text for the image."
         },
         type : "string",
-        default : "--",
+        default : "''",
        }
     ]
 }

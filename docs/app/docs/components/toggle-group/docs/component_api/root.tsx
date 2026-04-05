@@ -54,10 +54,26 @@ const data = {
         {
             prop: {
                 name: "value",
-                info_tooltips: "The value of the toggle group."
+                info_tooltips: "Controlled active value or values."
             },
-            type: "string",
-            default: "null",
+            type: "any",
+            default: "--",
+        },
+        {
+            prop: {
+                name: "defaultValue",
+                info_tooltips: "Initial active value or values for uncontrolled usage."
+            },
+            type: "any",
+            default: "[]",
+        },
+        {
+            prop: {
+                name: "onValueChange",
+                info_tooltips: "Called when the active value set changes."
+            },
+            type: "function",
+            default: "--",
         },
         {
             prop: {
@@ -66,6 +82,47 @@ const data = {
             },
             type: "string",
             default: "null",
+        },
+        {
+            prop: {
+                name: "customRootClass",
+                info_tooltips: "Custom class namespace used to swap the default toggle-group styles."
+            },
+            type: "string",
+            default: "''",
+        },
+        {
+            prop: {
+                name: "disabled",
+                info_tooltips: "Disables the entire toggle group."
+            },
+            type: "boolean",
+            default: "false",
+        },
+        {
+            prop: {
+                name: "dir",
+                info_tooltips: "Text direction used by roving focus."
+            },
+            type: "enum",
+            enum_values: ['ltr', 'rtl'],
+            default: "ltr",
+        },
+        {
+            prop: {
+                name: "rovingFocus",
+                info_tooltips: "Whether arrow-key focus management is enabled."
+            },
+            type: "boolean",
+            default: "true",
+        },
+        {
+            prop: {
+                name: "asChild",
+                info_tooltips: "Render the root as the child element."
+            },
+            type: "boolean",
+            default: "false",
         },
         
         {

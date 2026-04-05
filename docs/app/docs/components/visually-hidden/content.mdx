@@ -1,6 +1,6 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import VisuallyHidden from "@radui/ui/VisuallyHidden"
 import codeUsage, { VisuallyHiddenTable } from "./docs/codeUsage"
+import VisuallyHiddenExample from "./docs/examples/VisuallyHiddenExample"
 
 <Documentation 
     title={`Visually Hidden`} 
@@ -9,9 +9,7 @@ import codeUsage, { VisuallyHiddenTable } from "./docs/codeUsage"
     `}
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
-        <VisuallyHidden>
-            <span>This is a visually hidden text</span>
-        </VisuallyHidden>
+        <VisuallyHiddenExample />
     </Documentation.ComponentHero>
 
     <Documentation.Table 

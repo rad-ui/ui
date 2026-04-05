@@ -38,7 +38,23 @@ const data = {
             info_tooltips : "The boolean to control the open state of the DialogRoot."
         },
         type : "boolean",
-        default : "false",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "children",
+            info_tooltips : "The dialog parts rendered inside the root."
+        },
+        type : "ReactNode",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "defaultOpen",
+            info_tooltips : "Not supported on this wrapper; control initial state by managing open in your own state."
+        },
+        type : "n/a",
+        default : "--",
        },
        {
         prop : {

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { refractor } from 'refractor';
 import js from 'refractor/lang/javascript';
 import jsx from 'refractor/lang/jsx';
+import bash from 'refractor/lang/bash';
 import scss from 'refractor/lang/scss'; // Add SCSS import
 import Copy from '@/components/Copy';
 
@@ -13,6 +14,7 @@ import ScrollArea from '@radui/ui/ScrollArea';
 
 refractor.register(js);
 refractor.register(jsx);
+refractor.register(bash);
 refractor.register(scss);
 
 const renderElement = (element, index) => {
@@ -32,10 +34,19 @@ const renderElement = (element, index) => {
     }
 };
 
-const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
+const CodeBlock = ({ children, inline = false, language = 'jsx', showHeader = true }) => {
     const [expanded, setExpanded] = useState(false);
     const [hasOverflow, setHasOverflow] = useState(false);
     const viewportRef = useRef(null);
+
+    if (inline) {
+        return (
+            <code className={`language-${language} docs-inline-code whitespace-pre-wrap`}>
+                {children}
+            </code>
+        );
+    }
+
     let code = refractor.highlight(children, language);
     code = code.children.map((child, index) => renderElement(child, index));
 
@@ -44,28 +55,10 @@ const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
         .replace(/\n{2,}/g, '\n') // Replace multiple newlines with single newline
         .trim(); // Remove leading/trailing whitespace
 
-    const collapsedHeight = 150;
-    let height = 'auto';
-    let maxHeight = 'auto';
-
-    if (expanded) {
-        if (!inline) {
-            height = 'auto';
-            maxHeight = 640;
-        }
-
-    }
-    else {
-        if (!inline) {
-            height = collapsedHeight;
-            maxHeight = 640;
-        }
-
-    }
+    const collapsedHeight = 220;
+    const maxHeight = expanded ? 640 : collapsedHeight;
 
     useEffect(() => {
-        if (inline) return;
-
         const viewport = viewportRef.current;
         if (!viewport) return;
 
@@ -83,65 +76,71 @@ const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
         Array.from(viewport.children).forEach((child) => resizeObserver.observe(child));
 
         return () => resizeObserver.disconnect();
-    }, [children, inline, language]);
+    }, [children, language]);
 
     return (
-        <pre className="relative">
-            <div className="relative height">
-                {/* <code
-className={`language-${language} whitespace-pre-wrap`}
-                style={{
-                    height,
-                    maxHeight,
-                    overflowY: expanded ? 'scroll' : 'hidden',  
-                    wordBreak: 'break-word',
-                }}
-            >{code}</code> */}
-
+        <pre className="relative my-5 overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] shadow-[0_16px_40px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_12%,transparent)]">
+            {showHeader && (
+                <div className="flex items-center justify-between border-b border-[var(--rad-ui-border-soft)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--rad-ui-text-primary)_3%,transparent),transparent)] px-4 py-2.5">
+                    <span className="text-[0.74rem] font-semibold uppercase tracking-[0.14em] text-[var(--rad-ui-text-muted)]">
+                        {language === 'jsx' ? 'React' : language}
+                    </span>
+                    <TooltipWrapper label="Copy" placement="bottom">
+                        <Copy
+                            content={copyContent}
+                            className="h-8 w-8 rounded-[11px] border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]"
+                            iconSize={15}
+                        />
+                    </TooltipWrapper>
+                </div>
+            )}
+            <div className="relative">
+                {!showHeader && (
+                    <span className="absolute right-4 top-4 z-10">
+                        <TooltipWrapper label="Copy" placement="bottom">
+                            <Copy
+                                content={copyContent}
+                                className="h-8 w-8 rounded-[11px] border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]"
+                                iconSize={15}
+                            />
+                        </TooltipWrapper>
+                    </span>
+                )}
                 <ScrollArea.Root
                     className={clsx(
                         "transition-all",
-                        expanded ? "max-h-[640px]" : "max-h-[180px]",
-                        inline && "overflow-visible max-h-none"
+                        expanded ? "max-h-[640px]" : "max-h-[220px]",
+                        "overflow-visible"
                     )}
                 >
                     <ScrollArea.Viewport
                         ref={viewportRef}
                         style={{
-                            height: inline ? 'auto' : height,
-                            maxHeight: inline ? 'none' : maxHeight,
-                            overflowY: inline ? 'visible' : 'auto',
+                            maxHeight,
+                            overflowY: hasOverflow ? 'auto' : 'hidden',
                         }}
                     >
-                        <code className={`language-${language} block whitespace-pre-wrap px-4 py-4`}>
+                        <code className={`language-${language} docs-code-block block whitespace-pre-wrap px-5 ${showHeader ? 'py-3.5' : 'pb-3.5 pt-5'}`}>
                             {code}
                         </code>
                     </ScrollArea.Viewport>
 
-                    {!inline && (
+                    {hasOverflow && (
                         <ScrollArea.Scrollbar>
                             <ScrollArea.Thumb />
                         </ScrollArea.Scrollbar>
                     )}
                 </ScrollArea.Root>
-                {!inline && hasOverflow && <>
+                {hasOverflow && <>
                     {!expanded && <div className="code-block-blur"></div>}
-                    <div className="flex w-full justify-center border-t border-gray-300 bg-gray-100 px-4 py-1.5">
-                        <Button size="small" variant="ghost" className="min-h-0 py-1 text-[0.82rem]" onClick={() => setExpanded(!expanded)}>
+                    <div className="flex w-full justify-center border-t border-[var(--rad-ui-border-soft)] bg-[color-mix(in_oklab,var(--rad-ui-surface-subtle)_55%,transparent)] px-4 py-1.5">
+                        <Button size="small" variant="ghost" className="min-h-0 rounded-full border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] px-3 py-1 text-[0.78rem] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]" onClick={() => setExpanded(!expanded)}>
                             Show {expanded ? 'less' : 'more'}
                         </Button>
                     </div>
                 </>}
-
             </div>
-            <span className="absolute top-3 right-3">
-                <TooltipWrapper label="Copy" placement="bottom">
-                    <Copy content={copyContent} />
-                </TooltipWrapper>
-            </span>
         </pre>
-
-
     );
 };
 

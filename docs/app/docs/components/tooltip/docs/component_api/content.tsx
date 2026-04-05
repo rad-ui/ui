@@ -18,42 +18,16 @@ const data = {
   data: [
     {
       prop: {
-        name: "side",
-        info_tooltips: "The preferred side of the trigger to render against."
+        name: "children",
+        info_tooltips: "The tooltip contents rendered inside the floating panel."
       },
-      type: "enum",
-      enum_values: ["top", "right", "bottom", "left"],
-      default: "top",
+      type: "ReactNode",
+      default: "--",
     },
     {
       prop: {
-        name: "sideOffset",
-        info_tooltips: "The distance in pixels from the trigger."
-      },
-      type: "number",
-      default: "5",
-    },
-    {
-      prop: {
-        name: "align",
-        info_tooltips: "The preferred alignment against the trigger."
-      },
-      type: "enum",
-      enum_values: ["start", "center", "end"],
-      default: "center",
-    },
-    {
-      prop: {
-        name: "alignOffset",
-        info_tooltips: "An offset in pixels from the edge of the boundary."
-      },
-      type: "number",
-      default: "0",
-    },
-    {
-      prop: {
-        name: "avoidCollisions",
-        info_tooltips: "When true, overrides the side and align preferences to prevent collisions with boundary edges."
+        name: "showArrow",
+        info_tooltips: "Whether to render the floating arrow."
       },
       type: "boolean",
       default: "true",

@@ -1,6 +1,5 @@
-import PageDetails from '@/components/seo/PageDetails';
 import Documentation from "@/components/layout/Documentation/Documentation"
-import codeUsage, { ProgressTable, api_documentation, features } from "./docs/codeUsage"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
 import ProgressExample from "./docs/examples/ProgressExample"
 
 <Documentation 
@@ -17,9 +16,9 @@ import ProgressExample from "./docs/examples/ProgressExample"
     features={features} 
   />
 
-      {/* API Documentation */}
-    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-    <Documentation.Table title="Indicator" description={api_documentation.indicator.description} columns={api_documentation.indicator.columns} data={api_documentation.indicator.data} />
-
+  <Documentation.ApiReference
+    tables={api_documentation}
+    order={['root', 'indicator']}
+  />
 
 </Documentation>

@@ -24,10 +24,6 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       capture_exceptions: true,
       debug: false,
     })
-
-    return () => {
-      posthog.shutdown()
-    }
   }, [])
 
   if (!hasPostHogKey) {
