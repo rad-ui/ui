@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Link2, Underline } from 'lucide-react';
+import { AlignCenter, AlignLeft, AlignRight, Bold, ExternalLink, Italic, Link2, Underline } from 'lucide-react';
 import Toolbar from '../Toolbar';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -52,14 +52,12 @@ const Template = (_args: any) => {
                     </Toolbar.ToggleGroup>
                     <Toolbar.Separator />
                     <Toolbar.Link href="#" aria-label="Insert link">
-                        <Link2 size={16} />
-            Add link
+                        <Link2 size={16} aria-hidden />
+                        <span>Add link</span>
                     </Toolbar.Link>
                     <Toolbar.Separator />
                     <span className="rad-ui-toolbar-meta">Edited 2 hours ago</span>
-                    <Toolbar.Button aria-label="Share">
-            Share
-                    </Toolbar.Button>
+                    <Toolbar.Button aria-label="Share">Share</Toolbar.Button>
                 </Toolbar.Root>
             </div>
         </SandboxEditor>
@@ -68,4 +66,49 @@ const Template = (_args: any) => {
 
 export const Default = {
     args: {}
+};
+
+/** `Toolbar.Link` with icon left, icon right, or icon-only (`aria-label`). */
+export const LinkWithIcon = {
+    render: () => (
+        <SandboxEditor className="pt-4">
+            <div
+                style={{
+                    minHeight: '200px',
+                    borderRadius: '14px',
+                    background: 'var(--rad-ui-color-gray-200)',
+                    border: '1px solid var(--rad-ui-color-gray-400)',
+                    display: 'grid',
+                    placeItems: 'center',
+                    padding: '40px 28px'
+                }}
+            >
+                <Toolbar.Root aria-label="Document links">
+                    <Toolbar.Link href="https://example.com" aria-label="Copy reference link">
+                        <Link2 size={16} aria-hidden />
+                        <span>Reference</span>
+                    </Toolbar.Link>
+                    <Toolbar.Separator />
+                    <Toolbar.Link href="https://example.com/docs" aria-label="Open documentation">
+                        <ExternalLink size={16} aria-hidden />
+                        <span>Open docs</span>
+                    </Toolbar.Link>
+                    <Toolbar.Separator />
+                    <Toolbar.Link href="https://example.com/changelog" aria-label="View changelog">
+                        <span>Changelog</span>
+                        <ExternalLink size={16} aria-hidden />
+                    </Toolbar.Link>
+                    <Toolbar.Separator />
+                    <Toolbar.Link href="https://example.com/help" aria-label="Open help center">
+                        <span>Help</span>
+                        <Link2 size={16} aria-hidden />
+                    </Toolbar.Link>
+                    <Toolbar.Separator />
+                    <Toolbar.Link href="#" aria-label="Share (icon only)">
+                        <ExternalLink size={16} aria-hidden />
+                    </Toolbar.Link>
+                </Toolbar.Root>
+            </div>
+        </SandboxEditor>
+    )
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ExternalLink, Link2 } from 'lucide-react';
 import Link, { LinkProps } from '../Link';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
@@ -38,4 +39,59 @@ export const Sizes = () => {
 
         </div>
     </SandboxEditor>;
+};
+
+/** Icon left, icon right, or icon-only (`inline-flex`). Toolbar links use the same markup. */
+export const WithIcon = {
+    render: () => (
+        <SandboxEditor>
+            <div className="flex flex-col items-start gap-4 text-gray-950">
+                <Link
+                    href="https://example.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5"
+                >
+                    <Link2 size={16} aria-hidden className="shrink-0" />
+                    <span>Reference</span>
+                </Link>
+                <Link
+                    href="https://example.com/docs"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5"
+                >
+                    <ExternalLink size={16} aria-hidden className="shrink-0" />
+                    <span>Open documentation</span>
+                </Link>
+                <Link
+                    href="https://example.com/changelog"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5"
+                >
+                    <span>Changelog</span>
+                    <ExternalLink size={16} aria-hidden className="shrink-0" />
+                </Link>
+                <Link
+                    href="https://example.com/help"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5"
+                >
+                    <span>Help center</span>
+                    <Link2 size={16} aria-hidden className="shrink-0" />
+                </Link>
+                <Link
+                    href="https://example.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open external page"
+                    className="inline-flex items-center justify-center"
+                >
+                    <ExternalLink size={16} aria-hidden className="shrink-0" />
+                </Link>
+            </div>
+        </SandboxEditor>
+    )
 };

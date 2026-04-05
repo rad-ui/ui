@@ -1,134 +1,199 @@
+// Toolbar — Clarity-aligned chrome; toggle groups match segmented control pattern
 .rad-ui-toolbar {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 12px 14px;
-    border-radius: var(--rad-ui-radius-lg);
-    border: 1px solid var(--rad-ui-border-soft);
-    background: var(--rad-ui-surface-panel);
-    box-shadow: var(--rad-ui-shadow-sm);
+    gap: 0.375rem;
+    padding: 0.5rem 0.625rem;
+    border-radius: 0.625rem;
+    border: 1px solid var(--rad-ui-color-gray-500);
+    background-color: var(--rad-ui-color-gray-50);
+    box-shadow: var(--rad-ui-shadow-xs);
 
     &[data-orientation='vertical'] {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .rad-ui-toolbar-button,
     .rad-ui-toolbar-link {
+        border-radius: 0.375rem;
+        transition:
+            background-color 0.12s ease,
+            color 0.12s ease;
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--rad-ui-ring-shadow-inset);
+            z-index: 1;
+        }
+    }
+
+    .rad-ui-toolbar-button {
         all: unset;
+        box-sizing: border-box;
+        cursor: pointer;
+        min-width: 2.375rem;
+        min-height: 2.375rem;
+        padding: 0 0.625rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1;
+        background-color: transparent;
+        color: var(--rad-ui-color-gray-1000);
+        align-self: stretch;
         display: inline-flex;
+        flex-flow: row nowrap;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        background-color: transparent;
-        color: var(--rad-ui-text-primary);
-        cursor: pointer;
-        text-decoration: none;
+        gap: 0.375rem;
 
-        &:hover:not([data-state='on']) {
-            background-color: var(--rad-ui-surface-subtle);
+        &:hover {
+            background-color: var(--rad-ui-color-gray-100);
         }
 
         &:active {
             transform: translateY(1px);
         }
 
-        &:focus-visible {
-            outline: none;
-            box-shadow: var(--rad-ui-ring-shadow-sm);
-        }
-    }
-
-    .rad-ui-toolbar-button {
-        min-width: 36px;
-        padding: 0 10px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        line-height: 1;
-
         svg {
-            width: 16px;
-            height: 16px;
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
         }
     }
 
     .rad-ui-toolbar-link {
+        all: unset;
+        box-sizing: border-box;
+        cursor: pointer;
         width: auto;
         height: auto;
-        padding: 0 4px;
-        border-radius: 0;
+        min-height: 2.375rem;
+        padding: 0 0.5rem;
         color: var(--rad-ui-color-accent-900);
         font-size: 0.92rem;
         font-weight: 500;
-        gap: 6px;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        text-decoration-thickness: 1px;
+        line-height: 1.25;
+        white-space: nowrap;
+
+        // override .rad-ui-link: underline label only, not the icon
+        text-decoration: none;
+        align-self: stretch;
+        display: inline-flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+
+        > span {
+            text-decoration: underline;
+            text-decoration-color: currentcolor;
+            text-underline-offset: 0.18em;
+            text-decoration-thickness: 1px;
+        }
 
         &:hover {
-            background-color: transparent;
+            background-color: var(--rad-ui-color-gray-100);
             color: var(--rad-ui-color-accent-1000);
+        }
+
+        &:hover > span {
             text-decoration-thickness: 2px;
         }
 
         &:active {
             transform: none;
         }
+
+        svg {
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
+        }
     }
 
     .rad-ui-toolbar-toggle-group {
         display: inline-flex;
-        align-items: center;
-        gap: 4px;
+        align-items: stretch;
+        align-self: center;
+        gap: 0;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 0.625rem;
+        border: 1px solid var(--rad-ui-color-gray-500);
+        background-color: var(--rad-ui-color-gray-50);
     }
 
     .rad-ui-toolbar-toggle-item {
         all: unset;
+        box-sizing: border-box;
+        position: relative;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        background-color: transparent;
-        color: var(--rad-ui-text-primary);
+        flex: 1 1 0;
+        min-width: 2.375rem;
+        min-height: 2.375rem;
+        padding: 0;
+        border-radius: 0;
+        background-color: var(--rad-ui-color-gray-50);
+        color: var(--rad-ui-color-gray-1000);
         cursor: pointer;
+        transition:
+            background-color 0.12s ease,
+            color 0.12s ease;
+
+        &:hover:not([data-disabled], :disabled, [data-state='on']) {
+            background-color: var(--rad-ui-color-gray-100);
+        }
 
         &[data-state='on'] {
-            background-color: var(--rad-ui-color-accent-100);
-            color: var(--rad-ui-color-accent-1000);
-        }
-
-        &:hover {
-            background-color: var(--rad-ui-surface-subtle);
-        }
-
-        &:active {
-            transform: translateY(1px);
+            background-color: var(--rad-ui-color-gray-200);
+            color: var(--rad-ui-color-gray-1000);
         }
 
         &:focus-visible {
             outline: none;
-            box-shadow: var(--rad-ui-ring-shadow-sm);
+            box-shadow: var(--rad-ui-ring-shadow-inset);
+            z-index: 1;
+        }
+
+        &[data-disabled],
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        svg {
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
         }
     }
 
+    .rad-ui-toolbar-toggle-group .rad-ui-toolbar-toggle-item:not(:last-child) {
+        border-right: 1px solid var(--rad-ui-color-gray-500);
+    }
+
     .rad-ui-toolbar-separator {
-        background-color: var(--rad-ui-border-soft);
+        background-color: var(--rad-ui-color-gray-500);
+        align-self: stretch;
         width: 1px;
-        height: 30px;
-        margin: 0 2px;
+        min-height: 2.375rem;
+        height: auto;
+        margin: 0 0.125rem;
+        flex-shrink: 0;
     }
 
     &[data-orientation='vertical'] .rad-ui-toolbar-separator {
         width: 100%;
+        min-height: 0;
         height: 1px;
-        margin: 4px 0;
+        margin: 0.25rem 0;
     }
 
     .rad-ui-toolbar-meta {
-        margin-left: 8px;
+        margin-left: 0.5rem;
         margin-right: auto;
         font-size: 0.95rem;
         color: var(--rad-ui-text-muted);

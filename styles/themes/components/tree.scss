@@ -54,8 +54,7 @@
             background-color: var(--rad-ui-surface-subtle);
         }
 
-        &:focus-visible,
-        &:focus {
+        &:focus-visible {
             outline: none;
             background-color: var(--rad-ui-surface-subtle);
             box-shadow: var(--rad-ui-ring-shadow);
