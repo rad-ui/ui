@@ -36,7 +36,8 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
     }
 
     const length = endPercent - startPercent;
-    console.log(typeof(value))
+     const length = endPercent - startPercent;
+     return (
     return (
         <div
             ref={ref}
