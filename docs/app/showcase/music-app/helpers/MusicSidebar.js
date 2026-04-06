@@ -24,7 +24,7 @@ const MenuItem = ({children, label="", active=false, meta=""}) => {
 
     return <button className={`flex w-full items-center justify-between rounded-2xl border px-3 py-3 text-left transition-all duration-300 ${
         active
-            ? 'border-white/15 bg-white text-zinc-950 shadow-xl'
+            ? 'border-orange-200/30 bg-white text-zinc-950 shadow-xl'
             : 'border-white/0 bg-white/[0.03] text-white/70 hover:border-white/10 hover:bg-white/[0.06] hover:text-white'
     }`}>
         <span className='flex items-center gap-3'>
@@ -70,7 +70,7 @@ const MusicSidebar = () => {
                     </div>
                 </div>
 
-                <div className='mt-8 rounded-[28px] border border-white/10 bg-gradient-to-b from-orange-500/15 to-white/5 p-4'>
+                <div className='mt-8 rounded-[28px] border border-orange-300/10 bg-gradient-to-b from-orange-500/15 via-orange-500/5 to-white/5 p-4'>
                     <Text className='!text-xs uppercase tracking-[0.3em] text-white/40'>Mood Capsule</Text>
                     <Text className='mt-3 font-semibold !text-white'>Cinematic Rock</Text>
                     <Text className='mt-2 !text-sm text-white/60'>

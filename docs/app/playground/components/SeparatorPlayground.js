@@ -14,7 +14,7 @@ const Playground = () => (
             docsLink="/docs/components/separator"
             description="Horizontal and vertical separators inside a denser card layout."
         >
-            <div className='space-y-4 rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm'>
+            <div className='space-y-4 rounded-xl border border-gray-200 bg-gray-50 px-5 py-4 shadow-sm'>
                 <Heading className="text-gray-1000 flex flex-wrap items-center gap-3" as="h3">
                     <span>Release Notes</span>
                     <Separator orientation="vertical" decorative />

@@ -28,9 +28,9 @@ const ShowCase = ({children}) => {
                         </Text>
                     </div>
                 </div>
-                <div className='relative overflow-hidden rounded-[32px] border border-white/10 bg-zinc-900 shadow-2xl'>
-                    <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/15 via-transparent to-rose-500/10' />
-                    <div className='pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-orange-400/10 to-transparent' />
+                <div className='relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-stone-950 via-zinc-900 to-stone-900 shadow-2xl'>
+                    <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/15 via-transparent to-amber-300/10' />
+                    <div className='pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/5 to-transparent' />
                     <div className='pointer-events-none absolute inset-x-0 top-0 h-px bg-white/10' />
                     <div className='relative'>
                         {children}

@@ -85,7 +85,7 @@ const quickQueue = [
 
 const Artist: any = ({ artist, index }: any) => {
     return (
-        <article className='group cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-xl'>
+        <article className='group cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-orange-200/20 hover:bg-white/[0.08] hover:shadow-xl'>
             <div className='relative overflow-hidden rounded-[22px]'>
                 <img className='h-52 w-full object-cover transition duration-500 group-hover:scale-105' src={artist.image} alt={`${artist.name} album cover`} />
                 <div className='absolute inset-x-0 top-0 flex items-center justify-between p-3'>
@@ -141,7 +141,7 @@ const TopArtists = () => {
                     ))}
                 </div>
 
-                <div className='mt-6 rounded-[24px] border border-white/10 bg-gradient-to-b from-orange-500/15 to-black/10 p-4'>
+                <div className='mt-6 rounded-[24px] border border-orange-300/10 bg-gradient-to-b from-orange-500/15 via-orange-500/5 to-black/10 p-4'>
                     <Text className='!text-xs uppercase tracking-[0.3em] text-white/40'>Session Lift</Text>
                     <Text className='mt-3 text-3xl font-semibold !text-white'>+28%</Text>
                     <Text className='mt-2 !text-sm text-white/60'>

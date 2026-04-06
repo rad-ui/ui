@@ -66,9 +66,10 @@ const PlaylistHero: any = () => {
     }
 
     return (
-        <section className='relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-stone-900 via-slate-900 to-zinc-950 p-5 shadow-2xl sm:p-6 lg:p-8'>
-            <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/20 via-transparent to-rose-500/15' />
+        <section className='relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-stone-950 via-zinc-900 to-orange-950 p-5 shadow-2xl sm:p-6 lg:p-8'>
+            <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/20 via-transparent to-amber-300/10' />
             <div className='pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-orange-300/10 to-transparent' />
+            <div className='pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/20 to-transparent' />
             <div className='relative grid gap-8 xl:grid-cols-[minmax(0,1.15fr)_460px] xl:items-center'>
                 <div className="space-y-6">
                     <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
@@ -96,7 +97,7 @@ const PlaylistHero: any = () => {
                     </div>
 
                     <div className='flex flex-col gap-4 sm:flex-row sm:items-center'>
-                        <Button variant="solid" className="flex items-center justify-center gap-2 rounded-full border-0 bg-gradient-to-br from-orange-500 to-rose-400 px-6 py-4 !text-white shadow-xl">
+                        <Button variant="solid" className="flex items-center justify-center gap-2 rounded-full border-0 bg-gradient-to-br from-orange-500 to-amber-300 px-6 py-4 !text-zinc-950 shadow-xl">
                             <span>Play Now</span> <RightArrow />
                         </Button>
                         <div className='rounded-full border border-white/10 bg-white/[0.04] px-4 py-3'>

@@ -103,28 +103,26 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         >
           <RadUILogo />
         </a>
-        {!isDocsPage && (
-          <div className="hidden lg:block">
-            <ul className="flex items-center space-x-4 text-sm">
-              <li>
-                <Link
-                  className="text-gray-950 hover:text-gray-1000"
-                  href="/docs/first-steps/introduction"
-                >
-                  Docs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-950 hover:text-gray-1000"
-                  href="/showcase/music-app"
-                >
-                  Showcase
-                </Link>
-              </li>
-            </ul>
-          </div>
-        )}
+        <div className="hidden lg:block">
+          <ul className="flex items-center space-x-4 text-sm">
+            <li>
+              <Link
+                className="text-gray-950 hover:text-gray-1000"
+                href="/docs/first-steps/introduction"
+              >
+                Docs
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="text-gray-950 hover:text-gray-1000"
+                href="/showcase/music-app"
+              >
+                Showcase
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
       <div className="flex items-center">
         <div className="hidden lg:flex lg:items-center lg:gap-2">
