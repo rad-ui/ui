@@ -1,27 +1,24 @@
 import MusicSidebar from './helpers/MusicSidebar'
 import MusicPlayer from './helpers/MusicPlayer'
 
-
-// sections
 import TopArtists from './helpers/sections/TopArtists'
 import PlaylistHero from './helpers/sections/PlaylistHero'
+
 const MusicAppPage = () => {
-    return <div >
-        <div className='flex h-full'>
-            {/* Sidebar */}
+    return <div className='relative min-h-[920px]'>
+        <div className='grid min-h-[920px] lg:grid-cols-[280px_minmax(0,1fr)]'>
             <MusicSidebar/>
-            {/* Main Content */}
-            <div className='flex-1'>
-                <div>
+            <main className='min-w-0 p-4 pb-40 sm:p-6 sm:pb-44 lg:p-8 lg:pb-48'>
+                <div className='space-y-8'>
                     <PlaylistHero/>
-                    <div className='p-4'>
-                        <TopArtists/>
-                    </div>
+                    <TopArtists/>
                 </div>
-            </div>
+            </main>
         </div>
 
-        <MusicPlayer/>
+        <div className='absolute inset-x-0 bottom-0 p-4 pt-0 sm:p-6 sm:pt-0 lg:p-8 lg:pt-0'>
+            <MusicPlayer/>
+        </div>
     </div>
 }
 

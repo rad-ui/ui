@@ -127,7 +127,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         )}
       </div>
       <div className="flex items-center">
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex lg:items-center lg:gap-2">
           <Button
             color="gray"
             variant={isDocsPage ? "ghost" : "soft"}
