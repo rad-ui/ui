@@ -27,7 +27,7 @@ export const VerticalWithMarks = {
                     defaultValue={40}
                     min={0}
                     max={100}
-                    marks={[0, 25, 50, 75, 100]}
+                    // marks={[0, 25, 50, 75, 100]}
                 />
             </div>
         </SandboxEditor>;
