@@ -10,11 +10,13 @@ export type ContextMenuRootProps = {
   children: React.ReactNode;
   customRootClass?: string;
   className?: string;
+  variant?: 'default' | 'soft' | 'outline';
+  size?: 'small' | 'medium' | 'large';
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Root>;
 
 const COMPONENT_NAME = 'ContextMenu';
 
-const ContextMenuRoot = forwardRef<ContextMenuRootElement, ContextMenuRootProps>(({ children, customRootClass, className, open, defaultOpen = false, onOpenChange, ...props }, ref) => {
+const ContextMenuRoot = forwardRef<ContextMenuRootElement, ContextMenuRootProps>(({ children, customRootClass, className, open, defaultOpen = false, onOpenChange, variant, size, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -23,7 +25,7 @@ const ContextMenuRoot = forwardRef<ContextMenuRootElement, ContextMenuRootProps>
     const [coords, setCoords] = React.useState({ x: 0, y: 0 });
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
-        <ContextMenuContext.Provider value={{ rootClass, setCoords, setIsOpen }} >
+        <ContextMenuContext.Provider value={{ rootClass, setCoords, setIsOpen, variant, size }} >
             <MenuPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} mainAxisOffset={-coords.y} crossAxisOffset={coords.x} open={isOpen} onOpenChange={setIsOpen} {...props}>
                 {children}
             </MenuPrimitive.Root>
