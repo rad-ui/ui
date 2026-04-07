@@ -9,13 +9,19 @@ export type SliderTrackElement = ElementRef<'div'>;
 export type SliderTrackProps = { children: React.ReactNode } & ComponentPropsWithoutRef<'div'>;
 
 const SliderTrack = forwardRef<SliderTrackElement, SliderTrackProps>(({ children, ...props }, ref) => {
-    const { rootClass } = React.useContext(SliderContext);
+    const { rootClass, orientation } = React.useContext(SliderContext);
 
     return (
         <div
             ref={ref}
             className={`${rootClass}-track`}
-            style={{ position: 'relative' }}
+            style={ orientation === 'vertical' ? { 
+                rotate: '180deg',
+                position: 'relative'
+            } : {
+                position: 'relative'
+            }}
+
             {...props}
         >
             {children}
