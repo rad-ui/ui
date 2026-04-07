@@ -147,7 +147,7 @@ export default async function RootLayout({ children, ...props }) {
           }}
         />
       </head>
-      <body className="h-screen overflow-hidden">
+      <body className="docs-no-motion h-screen overflow-hidden">
         <PostHogProvider>
           <Main darkModeSsrValue={darkModeSsrValue}>
             {children}

@@ -114,7 +114,7 @@ const DocsTableOfContents = () => {
                                         e.preventDefault();
                                         scrollToDocsAnchor(item.id);
                                     }}
-                                    className={`relative block border-l pl-4 transition ${
+                                    className={`relative block border-l pl-4 ${
                                         item.level === 3 ? "ml-3 py-1 text-[0.92rem]" : "py-1.5 text-[0.98rem]"
                                     } ${
                                         activeId === item.id

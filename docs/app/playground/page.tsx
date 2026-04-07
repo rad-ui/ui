@@ -33,7 +33,7 @@ import Text from "@radui/ui/Text"
 const Playground = () => {
     return (
         <FullHeightScroll>
-            <div className='min-h-full bg-gray-50 text-gray-900'>
+            <div className='playground-static min-h-full bg-gray-50 text-gray-900'>
                 <div className='mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-10 md:px-8'>
                     <section className='rounded-3xl bg-gray-50 p-8 shadow-sm'>
                         <div className='flex flex-col gap-4 md:flex-row md:items-end md:justify-between'>

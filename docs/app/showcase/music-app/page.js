@@ -5,18 +5,18 @@ import TopArtists from './helpers/sections/TopArtists'
 import PlaylistHero from './helpers/sections/PlaylistHero'
 
 const MusicAppPage = () => {
-    return <div className='relative min-h-[920px]'>
-        <div className='grid min-h-[920px] lg:grid-cols-[280px_minmax(0,1fr)]'>
+    return <div className='relative min-h-[760px]'>
+        <div className='grid min-h-[760px] lg:grid-cols-[216px_minmax(0,1fr)]'>
             <MusicSidebar/>
-            <main className='min-w-0 p-4 pb-40 sm:p-6 sm:pb-44 lg:p-8 lg:pb-48'>
-                <div className='space-y-8'>
+            <main className='min-w-0 p-2.5 pb-28 sm:p-3 sm:pb-32 lg:p-4 lg:pb-36'>
+                <div className='space-y-4'>
                     <PlaylistHero/>
                     <TopArtists/>
                 </div>
             </main>
         </div>
 
-        <div className='absolute inset-x-0 bottom-0 p-4 pt-0 sm:p-6 sm:pt-0 lg:p-8 lg:pt-0'>
+        <div className='absolute inset-x-0 bottom-0 p-2.5 pt-0 sm:p-3 sm:pt-0 lg:p-4 lg:pt-0'>
             <MusicPlayer/>
         </div>
     </div>

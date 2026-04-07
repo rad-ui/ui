@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { refractor } from 'refractor';
 import js from 'refractor/lang/javascript';
 import jsx from 'refractor/lang/jsx';
+import ts from 'refractor/lang/typescript';
+import tsx from 'refractor/lang/tsx';
 import bash from 'refractor/lang/bash';
 import scss from 'refractor/lang/scss'; // Add SCSS import
 import Copy from '@/components/Copy';
@@ -14,6 +16,8 @@ import ScrollArea from '@radui/ui/ScrollArea';
 
 refractor.register(js);
 refractor.register(jsx);
+refractor.register(ts);
+refractor.register(tsx);
 refractor.register(bash);
 refractor.register(scss);
 
@@ -39,16 +43,18 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
     const [hasOverflow, setHasOverflow] = useState(false);
     const viewportRef = useRef(null);
 
-    if (inline) {
-        return (
-            <code className={`language-${language} docs-inline-code whitespace-pre-wrap`}>
-                {children}
-            </code>
-        );
-    }
+    let code;
 
-    let code = refractor.highlight(children, language);
-    code = code.children.map((child, index) => renderElement(child, index));
+    try {
+        code = refractor.highlight(children, language);
+        code = code.children.map((child, index) => renderElement(child, index));
+    } catch (error) {
+        if (error instanceof Error && error.message.includes('Unknown language')) {
+            code = [children];
+        } else {
+            throw error;
+        }
+    }
 
     // Format the code for copying by removing extra newlines and trimming
     const copyContent = children
@@ -59,6 +65,8 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
     const maxHeight = expanded ? 640 : collapsedHeight;
 
     useEffect(() => {
+        if (inline) return;
+
         const viewport = viewportRef.current;
         if (!viewport) return;
 
@@ -76,13 +84,21 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
         Array.from(viewport.children).forEach((child) => resizeObserver.observe(child));
 
         return () => resizeObserver.disconnect();
-    }, [children, language]);
+    }, [children, language, inline]);
+
+    if (inline) {
+        return (
+            <code className={`language-${language} docs-inline-code whitespace-pre-wrap`}>
+                {children}
+            </code>
+        );
+    }
 
     return (
         <pre className={clsx("relative my-5 overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] shadow-[0_16px_40px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_12%,transparent)]", className)}>
             <div className="flex items-center justify-between border-b border-[var(--rad-ui-border-soft)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--rad-ui-text-primary)_3%,transparent),transparent)] px-3.5 py-2">
                 <span className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[var(--rad-ui-text-muted)]">
-                    {language === 'jsx' ? 'React' : language}
+                    {['jsx', 'tsx'].includes(language) ? 'React' : language}
                 </span>
                 <TooltipWrapper label="Copy" placement="bottom">
                     <Copy
@@ -95,7 +111,6 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
             <div className="relative">
                 <ScrollArea.Root
                     className={clsx(
-                        "transition-all",
                         expanded ? "max-h-[640px]" : "max-h-[220px]",
                         "overflow-visible"
                     )}

@@ -96,22 +96,6 @@ code .selector {
   color: var(--rad-ui-color-blue-900);
 }
 
-.background-animate {
-  background-size: 400%;
-  animation: AnimationName 10s ease infinite;
-}
-
-@keyframes AnimationName {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
 .code-block-blur {
   position: relative;
 
@@ -166,4 +150,20 @@ code .selector {
       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
     background-size: 55px 55px;
   }
+}
+
+.playground-static,
+.playground-static * {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+body.docs-no-motion,
+body.docs-no-motion *,
+body.docs-no-motion *::before,
+body.docs-no-motion *::after {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
 }

@@ -119,7 +119,7 @@ function PrimaryLink({
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 rounded-full bg-green-900 px-5 py-3 text-sm font-medium text-green-50 transition hover:-translate-y-0.5 hover:bg-green-1000"
+      className="inline-flex items-center gap-2 rounded-full bg-green-900 px-5 py-3 text-sm font-medium text-green-50 hover:bg-green-1000"
     >
       {children}
     </Link>
@@ -136,7 +136,7 @@ function SecondaryLink({
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 rounded-full border border-gray-400 bg-gray-100 px-5 py-3 text-sm font-medium text-gray-1000 backdrop-blur transition hover:-translate-y-0.5 hover:border-gray-500 hover:bg-gray-200"
+      className="inline-flex items-center gap-2 rounded-full border border-gray-400 bg-gray-100 px-5 py-3 text-sm font-medium text-gray-1000 backdrop-blur hover:border-gray-500 hover:bg-gray-200"
     >
       {children}
     </Link>
@@ -223,36 +223,24 @@ export default function Home() {
                 </div>
 
                 <div className="relative mx-auto min-h-[760px] w-full max-w-[700px] lg:min-h-[820px]">
-                    <FloatingSurface
+                  <FloatingSurface
                     className="absolute right-[5%] top-[8%] w-[50%] p-3 z-[2] w-fit"
-                    initial={{ x: -2, y: 4, rotate: 8 }}
-                    animate={{ x: -4, y: 6, rotate: 20 }}
-                    transition={{ duration: 24, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                   >
                     <MusicAppPlayerDemo />
                   </FloatingSurface>
                   <FloatingSurface
                     className="absolute left-[-12%] top-[18%] w-[30%] p-3 z-[1] opacity-26"
-                    initial={{ x: -6, y: 4, rotate: 4 }}
-                    animate={{ x: 6, y: -4, rotate: -2 }}
-                    transition={{ duration: 26, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                   >
                     <AddToCartDemo />
                   </FloatingSurface>
-                   <FloatingSurface
+                  <FloatingSurface
                     className="absolute right-[-40%] top-[-6%] w-[54%] p-3 z-[4]"
-                    initial={{ x: 4, y: 8, rotate: 40 }}
-                    animate={{ x: -6, y: -6, rotate: -3 }}
-                    transition={{ duration: 20, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                   >
                     <TrafficAnalyticsDemo />
                   </FloatingSurface>
                 
                   <FloatingSurface
                     className="absolute left-[6%] top-[54%] w-[30%] p-3 z-[5] w-fit"
-                    initial={{ x: 6, y: 6, rotate: -10 }}
-                    animate={{ x: 6, y: -8, rotate: 4 }}
-                    transition={{ duration: 18, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                   >
                     <YourTeamDemo />
                   </FloatingSurface>
@@ -395,14 +383,14 @@ export function ProductActions() {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
                     href="/playground"
-                    className="inline-flex items-center gap-2 rounded-full bg-green-900 px-5 py-3 text-sm font-medium text-green-50 transition hover:-translate-y-0.5 hover:bg-green-1000"
+                    className="inline-flex items-center gap-2 rounded-full bg-green-900 px-5 py-3 text-sm font-medium text-green-50 hover:bg-green-1000"
                   >
                     Open interactive playground
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link
                     href="https://discord.gg/nMaQfeEPNp"
-                    className="inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-1000 px-5 py-3 text-sm font-medium text-gray-50 transition hover:-translate-y-0.5 hover:border-gray-800 hover:bg-gray-950"
+                    className="inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-1000 px-5 py-3 text-sm font-medium text-gray-50 hover:border-gray-800 hover:bg-gray-950"
                   >
                     Join Discord
                   </Link>
