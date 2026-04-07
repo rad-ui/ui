@@ -16,6 +16,7 @@ export type SliderRootProps = {
     defaultValue?: number | number[];
     value?: number | number[];
     onValueChange?: (value: number | number[]) => void;
+    onValueCommit?: (value: number | number[]) => void;
     min?: number;
     max?: number;
     step?: number;
@@ -34,6 +35,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     defaultValue,
     value: valueProp,
     onValueChange,
+    onValueCommit,
     min = 0,
     max = 100,
     step = 1,
@@ -54,6 +56,8 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     );
     const [isDragging, setDragging] = React.useState(false);
     const activeThumbIndexRef = React.useRef<number | null>(null);
+    const committedValueRef = React.useRef(value);
+    React.useEffect(() => { committedValueRef.current = value; }, [value]);
     const internalRef = React.useRef<HTMLDivElement>(null);
     const thumbRefsArray = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
     
@@ -153,6 +157,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
             activeThumbIndexRef.current = null;
             document.removeEventListener('pointermove', handleGlobalPointerMove);
             document.removeEventListener('pointerup', handleGlobalPointerUp);
+            onValueCommit?.(committedValueRef.current);
         };
 
         document.addEventListener('pointermove', handleGlobalPointerMove);
