@@ -1,8 +1,7 @@
-import calloutMetadata from './seo'
+import { createDocsPage } from '@/components/docsPage/createDocsPage'
+import metadata from './seo'
 import Content from './content.mdx'
 
-export const metadata = calloutMetadata
+export { metadata }
 
-export default function Page() {
-  return <Content />
-}
+export default createDocsPage(Content)

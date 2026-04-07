@@ -20,11 +20,12 @@ import EmExample from "./docs/EmExample"
   />
 
   {/* API Documentation */}
-  <Documentation.Section title="API Documentation" as="h2" />
-  <Documentation.Table 
-    title="Em" 
-    description={api_documentation.em.description}
-    columns={api_documentation.em.columns} 
-    data={api_documentation.em.data} 
-  />
+  <Documentation.Section title="API Documentation" as="h2">
+    <Documentation.Table
+      title="Em"
+      description={api_documentation.em.description}
+      columns={api_documentation.em.columns}
+      data={api_documentation.em.data}
+    />
+  </Documentation.Section>
 </Documentation>

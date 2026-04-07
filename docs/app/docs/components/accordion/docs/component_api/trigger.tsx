@@ -31,6 +31,14 @@ const data = {
         },
         type: 'boolean',
         default: 'false',
+       },
+       {
+        prop: {
+            name : "id",
+            info_tooltips: 'Optional id forwarded to the roving focus item and trigger button.'
+        },
+        type: 'string',
+        default: '--',
        }
     ]
 }

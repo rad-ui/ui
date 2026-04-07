@@ -10,7 +10,6 @@ import Category from './Category'
 
 
 
-
 const Navigation = ({ customSections }: { customSections?: any }) => {
     const defaultSections = [
         {
@@ -29,10 +28,10 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const sections = /^\/docs(\/|$)/.test(pathname) ? docsSections : defaultSections;
 
 
-    return <ScrollArea.Root>
+    return <ScrollArea.Root className="h-full">
         <ScrollArea.Viewport style={{ height: "100%" }}>
-          <div className="min-w-[240px]">
-             <div className='flex-none pb-20 w-full lg:w-[240px] lg:bg-transparent'>
+          <div className="min-w-[272px]">
+             <div className='w-full flex-none px-3 pb-16 pt-4 lg:w-[272px]'>
                 {sections.map((section, i) => {
                     const isCategory = section.type === "CATEGORY";
                     if (isCategory) {

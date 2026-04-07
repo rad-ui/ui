@@ -23,7 +23,7 @@ export default function SponsorCard({
   logoHeight = 80
 }: SponsorCardProps) {
   return (
-    <Card className="text-center !bg-white">
+    <Card className="text-center !bg-gray-50">
       <div className="p-10 space-y-4">
       <div className="flex justify-center space-y-4">
         <Image

@@ -21,7 +21,8 @@ const data = {
                 name : "className",
                 info_tooltips : "The class name for the AlertDialogTitle."
             },
-            
+            type : "string",
+            default : "''",
         },
         {
             prop : {
@@ -30,6 +31,22 @@ const data = {
             },
             type : "ReactNode",
             default : "--",
+        },
+        {
+            prop : {
+                name : "asChild",
+                info_tooltips : "Render the title as the child element."
+            },
+            type : "boolean",
+            default : "false",
+        },
+        {
+            prop : {
+                name : "id",
+                info_tooltips : "Optional id used for aria-labelledby."
+            },
+            type : "string",
+            default : "auto",
         }
     ]
 }

@@ -40,6 +40,30 @@ const data = {
         type : "ReactNode",
         default : "--",
         required:true
+       },
+       {
+        prop : {
+            name : "customRootClass",
+            info_tooltips : "Custom class namespace used for the content wrapper."
+        },
+        type : "string",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Render the content as the child element."
+        },
+        type : "boolean",
+        default : "false",
+       },
+       {
+        prop : {
+            name : "forceMount",
+            info_tooltips : "Keep the content mounted even when it is inactive."
+        },
+        type : "boolean",
+        default : "false",
        }
     ]
 }

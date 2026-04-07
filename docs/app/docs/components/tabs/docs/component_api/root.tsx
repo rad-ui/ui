@@ -72,7 +72,41 @@ const data = {
         type : "function",
         default : "--",
        },
-       
+       {
+        prop : {
+            name : "orientation",
+            info_tooltips : "Layout orientation for keyboard navigation and data attributes."
+        },
+        type : "enum",
+        enum_values : ['horizontal', 'vertical'],
+        default : "horizontal",
+       },
+       {
+        prop : {
+            name : "dir",
+            info_tooltips : "Text direction used by roving focus."
+        },
+        type : "enum",
+        enum_values : ['ltr', 'rtl'],
+        default : "ltr",
+       },
+       {
+        prop : {
+            name : "activationMode",
+            info_tooltips : "Whether focusing a trigger activates it automatically or only on click/enter/space."
+        },
+        type : "enum",
+        enum_values : ['automatic', 'manual'],
+        default : "automatic",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Render the root as the child element."
+        },
+        type : "boolean",
+        default : "false",
+       },
     ]
 }
 

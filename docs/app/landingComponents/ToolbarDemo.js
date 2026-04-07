@@ -1,7 +1,6 @@
 'use client';
 
 import Separator from '@radui/ui/Separator';
-import { motion } from "motion/react"
 
 
 const FontItalic = () => {
@@ -45,18 +44,14 @@ const FontFamilyIcon = () => {
 };
 
 const IconContainer = ({ children }) => {
-    return <span className='p-2 border border-gray-400 hover:bg-gray-200 cursor-pointer text-gray-1000 rounded-md bg-gray-100  inline-block'>
+    return <span className='p-2 border border-gray-600 hover:bg-gray-800 cursor-pointer text-gray-100 rounded-md bg-gray-900 inline-block'>
         {children}
     </span>;
 };
 
 const ToolbarDemo = () => (
-    <motion.div
-        initial={{ opacity: 0.8, x: 500 }}
-        animate={{ opacity: 1, x: 300 }}
-        transition={{ duration: 40, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}
-    >
-        <div className='border border-gray-500 shadow rounded px-4 py-2 w-full text-xs flex space-x-4 bg-gradient-to-r from-gray-100 to-gold-100'>
+    <div>
+        <div className='border border-gray-700 shadow rounded px-4 py-2 w-full text-xs flex space-x-4 bg-gray-1000'>
             <div className='flex items-center space-x-2'>
                 <IconContainer >
                     <FontItalic />
@@ -96,12 +91,12 @@ const ToolbarDemo = () => (
                 </IconContainer>
             </div>
             <Separator orientation="vertical" />
-            <input value="Search..." onChange={() => { }} className='flex flex-1 items-center bg-gray-100 px-2 rounded-md border border-gray-400 text-gray-700'>
+            <input value="Search..." onChange={() => { }} className='flex flex-1 items-center bg-gray-950 px-2 rounded-md border border-gray-700 text-gray-400'>
 
             </input>
 
         </div>
-    </motion.div>
+    </div>
 );
 
 export default ToolbarDemo;

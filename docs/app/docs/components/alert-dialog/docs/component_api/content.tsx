@@ -21,7 +21,8 @@ const data = {
                 name : "className",
                 info_tooltips : "The class name for the AlertDialogContent."
             },
-            
+            type : "string",
+            default : "''",
         },
         {
             prop : {
@@ -30,6 +31,22 @@ const data = {
             },
             type : "ReactNode",
             default : "--",
+        },
+        {
+            prop : {
+                name : "asChild",
+                info_tooltips : "Render the content as the child element."
+            },
+            type : "boolean",
+            default : "false",
+        },
+        {
+            prop : {
+                name : "forceMount",
+                info_tooltips : "Keep the content mounted when closed."
+            },
+            type : "boolean",
+            default : "false",
         }
     ]
 }

@@ -31,6 +31,14 @@ const data = {
         },
         type : "string",
         default : "--",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Render the fallback as the child element."
+        },
+        type : "boolean",
+        default : "false",
        }
     ]
 }

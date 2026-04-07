@@ -1,6 +1,6 @@
 const data = {
-    name : "ColumnHeader",
-    description : "The column header component for the Table.",
+    name : "ColumnCellHeader",
+    description : "The table header-cell component rendered inside a Table.Row.",
     columns : [
         {
             name : "Prop",
@@ -19,16 +19,18 @@ const data = {
        {
         prop : {
             name : "className",
-            info_tooltips : "The class name for the ColumnHeader."
+            info_tooltips : "The class name for the ColumnCellHeader."
         },
         type : "string",
-        default : "--",
+        default : "cell-header",
        },
        {
         prop : {
             name : "children",
-            info_tooltips : "The children of the ColumnHeader."
+            info_tooltips : "The contents of the header cell."
         },
+        type : "ReactNode",
+        default : "--",
        },
     ]
 }

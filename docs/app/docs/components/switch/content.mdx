@@ -1,5 +1,4 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import Switch from "@radui/ui/Switch"
 import codeUsage, { api_documentation } from "./docs/codeUsage"
 import SwitchExample from "./docs/examples/SwitchExample"
 
@@ -11,10 +10,9 @@ import SwitchExample from "./docs/examples/SwitchExample"
                 <SwitchExample />
             </Documentation.ComponentHero>
 
-                 {/* API Documentation */}
-    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-    <Documentation.Table title="Thumb" description={api_documentation.thumb.description} columns={api_documentation.thumb.columns} data={api_documentation.thumb.data} />
-
-
+    <Documentation.ApiReference
+        tables={api_documentation}
+        order={['root', 'thumb']}
+    />
 
         </Documentation>

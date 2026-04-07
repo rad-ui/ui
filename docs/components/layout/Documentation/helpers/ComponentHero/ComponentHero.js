@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import Tabs from "@radui/ui/Tabs"
 import Heading from "@radui/ui/Heading"
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
+import { docsSectionBlockClassName } from '../../shared';
 
 import CodeTabs from './CodeTabs';
 
@@ -21,7 +22,7 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
                 tabs.push({
                     label: key,
                     value: key,
-                    content: <CodeBlock language={language} >{codeUsage[key]?.code}</CodeBlock>,
+                    content: <CodeBlock className="my-0" language={language}>{codeUsage[key]?.code}</CodeBlock>,
                 })
             }
         }
@@ -31,17 +32,17 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
     // Use useMemo to avoid recalculating tabs unnecessarily
     const data = useMemo(() => initializeTabs(codeUsage), [codeUsage]);
 
-    return <div>
-        {title && <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>}
-        <div className='bg-gradient-to-r from-green-50 to-gray-200  border border-gray-500 shadow-md p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center justify-evenly overflow-x-auto '>
-            {children}
-        </div>
-        <div>
-            <div>
+    return <section className={docsSectionBlockClassName}>
+        {title && <BookMarkLink id={title}> <Heading as="h2">{title}</Heading> </BookMarkLink>}
+        <div className="overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)]">
+            <div className='flex items-center justify-center overflow-x-auto bg-gradient-to-b from-[var(--rad-ui-surface-subtle)] to-[var(--rad-ui-surface-canvas)] p-8'>
+                {children}
+            </div>
+            <div className="border-t border-[var(--rad-ui-border-soft)] px-5 pb-5 pt-4">
                 <CodeTabs data={data} />
             </div>
         </div>
-    </div>
+    </section>
 }
 
 export default ComponentHero;

@@ -1,5 +1,3 @@
-import PageDetails from '@/components/seo/PageDetails';
-
 import Documentation from '@/components/layout/Documentation/Documentation';
 import AccordionExample from "./docs/example_1"
 import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
@@ -18,15 +16,11 @@ import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUs
         <AccordionExample />
     </Documentation.ComponentHero>
 
-
-    {/* Component Anatomy */}
-    <Documentation.Section title="API Documentation" as="h2"  />
-    <Documentation.Anatomy code={anatomy.code} />
-
-    {/* API Documentation */}
-    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-    <Documentation.Table title="Item" description={api_documentation.item.description} columns={api_documentation.item.columns} data={api_documentation.item.data} />
-    <Documentation.Table title="Trigger" description={api_documentation.trigger.description} columns={api_documentation.trigger.columns} data={api_documentation.trigger.data} />
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'item', 'header', 'trigger', 'content']}
+    />
 
     {/* Keyboard Shortcuts */}
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />

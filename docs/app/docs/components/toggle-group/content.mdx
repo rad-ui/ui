@@ -1,7 +1,5 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import ToggleGroup from "@radui/ui/ToggleGroup"
 import codeUsage from "./docs/codeUsage"
-import ToggleGroupExampleBasic from "./docs/toggle-group-example-basic"
 import { api_documentation } from "./docs/codeUsage"
 import ToggleGroupExample from "./docs/examples/ToggleGroupExample"
 
@@ -14,10 +12,10 @@ import ToggleGroupExample from "./docs/examples/ToggleGroupExample"
     <Documentation.ComponentHero codeUsage={codeUsage}>
         <ToggleGroupExample/>
     </Documentation.ComponentHero>
-
-    {/* API Documentation */}
-    <Documentation.Table title="Root" description={api_documentation.root.description} columns={api_documentation.root.columns} data={api_documentation.root.data} />
-    <Documentation.Table title="Item" description={api_documentation.item.description} columns={api_documentation.item.columns} data={api_documentation.item.data} />
-
+    <Documentation.ApiReference
+        title="API Documentation"
+        tables={api_documentation}
+        order={['root', 'item']}
+    />
 
 </Documentation>

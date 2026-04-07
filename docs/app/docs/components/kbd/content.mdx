@@ -21,11 +21,12 @@ import codeUsage, { api_documentation, features } from "./docs/codeUsage"
   />
 
   {/* API Documentation */}
-  <Documentation.Section title="API Documentation" as="h2" />
-  <Documentation.Table 
-    title="Kbd" 
-    description={api_documentation.kbd.description}
-    columns={api_documentation.kbd.columns} 
-    data={api_documentation.kbd.data} 
-  />
+  <Documentation.Section title="API Documentation" as="h2">
+    <Documentation.Table
+      title="Kbd"
+      description={api_documentation.kbd.description}
+      columns={api_documentation.kbd.columns}
+      data={api_documentation.kbd.data}
+    />
+  </Documentation.Section>
 </Documentation>
