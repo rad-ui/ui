@@ -22,11 +22,10 @@ const ContextMenuRoot = forwardRef<ContextMenuRootElement, ContextMenuRootProps>
         defaultOpen,
         onOpenChange
     );
-    const [coords, setCoords] = React.useState({ x: 0, y: 0 });
     const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
     return (
-        <ContextMenuContext.Provider value={{ rootClass, setCoords, setIsOpen, variant, size }} >
-            <MenuPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} mainAxisOffset={-coords.y} crossAxisOffset={coords.x} open={isOpen} onOpenChange={setIsOpen} {...props}>
+        <ContextMenuContext.Provider value={{ rootClass, setIsOpen, variant, size }} >
+            <MenuPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} open={isOpen} onOpenChange={setIsOpen} {...props}>
                 {children}
             </MenuPrimitive.Root>
         </ContextMenuContext.Provider>
