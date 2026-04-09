@@ -43,7 +43,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                         className={className}
                         {...props}
                     >
-                        <div style={{overflowY:"auto"}}>
+                        <div style={{overflowY:"auto", overflowX:"hidden"}}>
                         {children}
                         </div>
                     </div>
