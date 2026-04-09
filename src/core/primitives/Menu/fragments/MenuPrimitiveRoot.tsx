@@ -37,6 +37,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
     );
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
 
     const listRef = useRef([]);
     const elementsRef = useRef([]);
@@ -66,7 +67,14 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
                 mainAxis: avoidCollision,
                 crossAxis: avoidCollision
             }),
-            Floater.shift({ padding: 4 })
+            Floater.shift({ padding: 4 }),
+            ...(!isNested ? [Floater.size({
+                padding: 4,
+                apply({ availableHeight, elements }) {
+                    setMaxHeight(availableHeight);
+                    elements.floating.style.maxHeight = `${availableHeight}px`;
+                },
+            })] : []),
         ],
         whileElementsMounted: Floater.autoUpdate
     });
@@ -107,6 +115,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         setIsOpen,
         refs,
         floatingStyles,
+        maxHeight,
         getReferenceProps,
         getFloatingProps,
         getItemProps,

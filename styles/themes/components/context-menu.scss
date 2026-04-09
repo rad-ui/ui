@@ -54,6 +54,20 @@
         outline: none;
     }
 
+    // Scrollbar styling for overflow content
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--rad-ui-border);
+        border-radius: var(--rad-ui-radius-full, 9999px);
+    }
+
     // Variants
     &[data-context-menu-content-variant="soft"] {
         background-color: var(--rad-ui-surface-subtle);

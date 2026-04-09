@@ -17,6 +17,24 @@ const MenuItems = () => (
         <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
         <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
         <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
+        <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
+        <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
+        <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
+        <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
+        <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
+        <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
+        <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
+        <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
+        <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
+        <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
+        <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
+        <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
+        <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
+        <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
+        <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
+        <ContextMenu.Item label="Profile">Profile</ContextMenu.Item>
+        <ContextMenu.Item label="Settings">Settings</ContextMenu.Item>
+        <ContextMenu.Item label="Notifications">Notifications</ContextMenu.Item>
         <ContextMenu.Separator />
         <ContextMenu.Sub>
             <ContextMenu.SubTrigger>More Options <ChevronRight /></ContextMenu.SubTrigger>

@@ -26,13 +26,16 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
         } = context;
 
         return (
+            <>
+            <Floater.Overlay lockScroll/>
+           
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 <Floater.FocusManager
                     context={floatingContext}
                     modal={false}
                     initialFocus={isNested ? -1 : 0}
                     returnFocus={!isNested}
-                >
+                >         
                     <div
                         ref={mergedRef}
                         style={floatingStyles}
@@ -40,10 +43,13 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                         className={className}
                         {...props}
                     >
+                        <div style={{overflowY:"auto"}}>
                         {children}
+                        </div>
                     </div>
                 </Floater.FocusManager>
             </Floater.FloatingList>
+             </>
         );
     }
 );
