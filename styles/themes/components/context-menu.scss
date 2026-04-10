@@ -27,12 +27,6 @@
 }
 
 .rad-ui-context-menu-content {
-    // Size tokens — overridden per size modifier below
-    --_cm-font-size-item: 0.875rem;
-    --_cm-font-size-label: 0.75rem;
-    --_cm-font-size-shortcut: 0.75rem;
-    --_cm-item-padding: 0.5rem 0.625rem;
-
     z-index: 50;
     background-color: var(--rad-ui-surface-panel);
     border-radius: var(--rad-ui-radius-lg);
@@ -54,7 +48,6 @@
         outline: none;
     }
 
-    // Scrollbar styling for overflow content
     &::-webkit-scrollbar {
         width: 4px;
     }
@@ -68,7 +61,6 @@
         border-radius: var(--rad-ui-radius-full, 9999px);
     }
 
-    // Variants
     &[data-context-menu-content-variant="soft"] {
         background-color: var(--rad-ui-surface-subtle);
         border-color: var(--rad-ui-border-soft);
@@ -81,36 +73,46 @@
         box-shadow: none;
     }
 
-    // Sizes
     &[data-context-menu-content-size="small"] {
-        --_cm-font-size-item: 0.75rem;
-        --_cm-font-size-label: 0.6875rem;
-        --_cm-font-size-shortcut: 0.6875rem;
-        --_cm-item-padding: 0.375rem 0.5rem;
-
         min-width: 11rem;
         max-width: min(90vw, 18rem);
         padding: 0.25rem;
         border-radius: var(--rad-ui-radius-md);
-    }
 
-    &[data-context-menu-content-size="medium"] {
-        min-width: 14.5rem;
-        max-width: min(90vw, 22rem);
-        padding: 0.375rem;
-        border-radius: var(--rad-ui-radius-lg);
+        .rad-ui-context-menu-item,
+        .rad-ui-context-menu-sub-trigger {
+            font-size: 0.75rem;
+            padding: 0.375rem 0.5rem;
+        }
+
+        .rad-ui-context-menu-label {
+            font-size: 0.6875rem;
+        }
+
+        .rad-ui-context-menu-shortcut {
+            font-size: 0.6875rem;
+        }
     }
 
     &[data-context-menu-content-size="large"] {
-        --_cm-font-size-item: 1rem;
-        --_cm-font-size-label: 0.875rem;
-        --_cm-font-size-shortcut: 0.875rem;
-        --_cm-item-padding: 0.625rem 0.75rem;
-
         min-width: 18rem;
         max-width: min(90vw, 28rem);
         padding: 0.5rem;
         border-radius: var(--rad-ui-radius-xl);
+
+        .rad-ui-context-menu-item,
+        .rad-ui-context-menu-sub-trigger {
+            font-size: 1rem;
+            padding: 0.625rem 0.75rem;
+        }
+
+        .rad-ui-context-menu-label {
+            font-size: 0.875rem;
+        }
+
+        .rad-ui-context-menu-shortcut {
+            font-size: 0.875rem;
+        }
     }
 }
 
@@ -125,10 +127,10 @@
 }
 
 .rad-ui-context-menu-sub-trigger {
-    font-size: var(--_cm-font-size-item, 0.875rem);
+    font-size: 0.875rem;
     line-height: 1.4;
     color: var(--rad-ui-text-primary);
-    padding: var(--_cm-item-padding, 0.5rem 0.625rem);
+    padding: 0.5rem 0.625rem;
     user-select: none;
     outline: none;
     cursor: pointer;
@@ -172,10 +174,10 @@
 }
 
 .rad-ui-context-menu-item {
-    font-size: var(--_cm-font-size-item, 0.875rem);
+    font-size: 0.875rem;
     line-height: 1.4;
     color: var(--rad-ui-text-primary);
-    padding: var(--_cm-item-padding, 0.5rem 0.625rem);
+    padding: 0.5rem 0.625rem;
     user-select: none;
     outline: none;
     cursor: pointer;
@@ -224,18 +226,18 @@
     align-self: stretch;
 }
 
-.rad-ui-context-menu-separator-vertical{
+.rad-ui-context-menu-separator-vertical {
     margin: 0 8px;
     width: 1px;
 }
 
-.rad-ui-context-menu-separator-horizontal{
+.rad-ui-context-menu-separator-horizontal {
     margin: 0.375rem -0.375rem;
     height: 1px;
 }
 
 .rad-ui-context-menu-label {
-    font-size: var(--_cm-font-size-label, 0.75rem);
+    font-size: 0.75rem;
     font-weight: 500;
     color: var(--rad-ui-text-muted);
     padding: 0.375rem 0.625rem 0.125rem;
@@ -243,7 +245,7 @@
 
 .rad-ui-context-menu-shortcut {
     margin-inline-start: auto;
-    font-size: var(--_cm-font-size-shortcut, 0.75rem);
+    font-size: 0.75rem;
     color: var(--rad-ui-text-muted);
 }
 
