@@ -45,7 +45,7 @@ const LoginCard = ({ variant, size }: CardStoryProps) => {
 };
 
 export default {
-    title: 'WIP/Card',
+    title: 'Components/Card',
     component: Card,
     argTypes: {
         variant: {

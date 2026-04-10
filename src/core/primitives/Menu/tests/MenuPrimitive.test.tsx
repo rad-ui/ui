@@ -349,7 +349,7 @@ describe('MenuPrimitive', () => {
                 </MenuPrimitive.Root>
             );
 
-            const contentElement = screen.getByText('Menu Content').parentElement;
+            const contentElement = screen.getByText('Menu Content').parentElement?.parentElement;
             expect(contentElement).toHaveClass('flex', 'flex-col', 'mt-2', 'bg-gray-1000', 'border', 'border-gray-200', 'rounded', 'shadow-lg', 'min-w-[180px]');
         });
 

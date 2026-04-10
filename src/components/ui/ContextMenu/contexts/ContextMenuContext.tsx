@@ -4,8 +4,9 @@ import React from 'react';
 
 export interface ContextMenuContextProps {
     rootClass: string;
-    setCoords: (coords: { x: number, y: number }) => void;
     setIsOpen: (isOpen: boolean) => void;
+    variant?: 'default' | 'soft' | 'outline';
+    size?: 'small' | 'medium' | 'large';
 }
 
 const ContextMenuContext = React.createContext<ContextMenuContextProps|null>(null);
