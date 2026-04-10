@@ -13,6 +13,7 @@ export type SliderProps = {
     defaultValue?: number | number[];
     value?: number | number[];
     onValueChange?: (value: number | number[]) => void;
+    onValueCommit?: (value: number | number[]) => void;
     min?: number;
     max?: number;
     step?: number;
