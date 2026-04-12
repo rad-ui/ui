@@ -82,10 +82,10 @@
     --rad-ui-border: var(--rad-ui-border-default);
     --rad-ui-ring: var(--rad-ui-color-accent-400);
     --rad-ui-ring-strong: var(--rad-ui-color-accent-600);
-    --rad-ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-    --rad-ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --rad-ui-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --rad-ui-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --rad-ui-shadow-xs: 0 1px 2px rgb(0, 0, 0, 0.04);
+    --rad-ui-shadow-sm: 0 1px 2px rgb(0, 0, 0, 0.05);
+    --rad-ui-shadow-md: 0 4px 12px rgb(0, 0, 0, 0.08);
+    --rad-ui-shadow-lg: 0 10px 30px rgb(0, 0, 0, 0.12);
     --rad-ui-ring-shadow: 0 0 0 3px var(--rad-ui-ring-strong);
     --rad-ui-ring-shadow-sm: 0 0 0 2px var(--rad-ui-ring-strong);
     --rad-ui-ring-shadow-inset: inset 0 0 0 2px var(--rad-ui-ring-strong);
