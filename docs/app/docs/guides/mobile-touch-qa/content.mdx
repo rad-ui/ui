@@ -1,0 +1,30 @@
+# Mobile and touch interaction QA
+
+Use this checklist when touching **interactive** components (buttons, dialogs, menus, sliders, scroll areas).
+
+## Touch targets
+
+- [ ] **Minimum size**: Interactive hit targets are at least **44×44 CSS px** (or the design system’s documented minimum).
+- [ ] **Spacing**: Adjacent targets are not overlapping in a way that causes mis-taps.
+
+## Gestures and scroll
+
+- [ ] **Scroll chaining**: Nested scroll areas do not trap scrolling unexpectedly on mobile.
+- [ ] **Pull-to-refresh**: Full-screen overlays do not fight browser overscroll (where applicable).
+
+## Virtual keyboard
+
+- [ ] **Focus**: Focusing inputs in a dialog does not scroll the viewport into a broken state.
+- [ ] **Dismiss**: Keyboard dismiss behavior matches platform expectations (e.g. tapping outside).
+
+## Browsers
+
+| Environment | Notes |
+| --- | --- |
+| iOS Safari | Test `-webkit` touch quirks, 100vh behavior, and focus/scroll |
+| Chrome Android | Test toolbar show/hide resize and pointer events |
+
+## Automation
+
+- **Playwright** mobile projects can cover **basic** tap/scroll flows.
+- **Manual** QA remains valuable for gesture timing, IME interaction, and OS-level behaviors.

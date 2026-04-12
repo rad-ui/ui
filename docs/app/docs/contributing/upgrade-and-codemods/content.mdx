@@ -1,0 +1,27 @@
+# Upgrade assistant and codemods
+
+## Upgrading
+
+1. **Read the release notes** for your target version in the GitHub Releases page for [`rad-ui/ui`](https://github.com/rad-ui/ui/releases).
+2. **Bump the dependency** in your app (`@radui/ui`) following your package manager’s workflow.
+3. **Run your test suite** and a quick manual smoke test of critical flows.
+
+Patch and minor releases should be drop-in when the changelog reports no breaking changes. For **major** releases, follow the breaking-change section in the changelog and update any deprecated APIs.
+
+## Codemods index
+
+Codemods are small scripts that rewrite consumer code during major upgrades. When available, they will live under `codemods/` in the repository root and be listed here.
+
+| Codemod | From → to | Status |
+| --- | --- | --- |
+| — | — | *No codemods are published yet; this table will be updated as they are added.* |
+
+## When we add a codemod
+
+Each codemod entry will include:
+
+- **Purpose**: What API shape it updates.
+- **Command**: How to run it (for example `npx @radui/codemod@x …`).
+- **Safety**: What it does not touch (for example, dynamic imports).
+
+Until then, prefer explicit TypeScript errors and the [Changeset quality](/docs/contributing/changeset-quality) notes shipped with each major bump to guide manual migration.
