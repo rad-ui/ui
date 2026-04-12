@@ -28,8 +28,8 @@ function hasMajorBump (frontmatter) {
   return /"@radui\/ui"\s*:\s*major\b/m.test(frontmatter)
 }
 
-function documentsBreakingChange (fullContent) {
-  return /BREAKING|Breaking change|breaking change/m.test(fullContent)
+function documentsBreakingChange (body) {
+  return /BREAKING|Breaking change|breaking change/m.test(body)
 }
 
 let failed = false
@@ -43,7 +43,7 @@ for (const file of readChangesetFiles()) {
     failed = true
     continue
   }
-  if (hasMajorBump(parsed.frontmatter) && !documentsBreakingChange(content)) {
+  if (hasMajorBump(parsed.frontmatter) && !documentsBreakingChange(parsed.body)) {
     console.error(
       `[changeset] ${file}: major bump for "@radui/ui" must include a breaking-change note (e.g. "BREAKING:" or "Breaking change" in the changeset body).`
     )
