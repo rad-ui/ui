@@ -159,11 +159,6 @@ code .selector {
   scroll-behavior: auto !important;
 }
 
-body.docs-no-motion,
-body.docs-no-motion *,
-body.docs-no-motion *::before,
-body.docs-no-motion *::after {
-  transition: none !important;
-  animation: none !important;
-  scroll-behavior: auto !important;
-}
+/* Avoid `transition: none !important` on the whole docs shell: it overrides
+   inline height transitions on Rad UI components (e.g. Accordion) in demos.
+   Prefer `prefers-reduced-motion` in component CSS when reducing motion. */

@@ -30,6 +30,10 @@ jobs:
         run: npm ci
         continue-on-error: false
 
+      - name: Validate changesets
+        run: npm run validate:changesets
+        continue-on-error: false
+
       - name: Run ESLint
         run: npm run lint
         continue-on-error: false

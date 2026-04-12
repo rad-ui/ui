@@ -1,0 +1,27 @@
+# Date, time, and timezones
+
+Rad UI does not ship calendar or date-picker primitives today. If we introduce **date or time** UI, follow these guidelines so behavior stays predictable across locales and timezones.
+
+## Storage model
+
+- Prefer storing **UTC instants** (for example `Date` with clear UTC semantics, or epoch ms) for **absolute** moments.
+- Store **calendar dates** (birthdays, all-day holidays) as a **plain date** (YYYY-MM-DD) without a timezone, or use a dedicated date library.
+
+## Presentation
+
+- **Display** in the user’s local timezone for absolute times unless a different zone is explicitly part of the product requirement.
+- **Formatting** should use `Intl.DateTimeFormat` (or a well-vetted library) so locale rules are respected.
+
+## Testing
+
+- Add unit tests around **DST boundaries** and **timezone offsets** when logic converts between zones.
+- Snapshot tests for formatted strings can be fragile; prefer testing **structure** and **invariants** (ordering, equality) over exact strings.
+
+## Accessibility
+
+- Expose **machine-readable** values (`datetime` attributes, ISO strings in `aria-label`) when showing human-formatted dates.
+- Ensure **keyboard** and **screen reader** support for any calendar grid.
+
+## Dependencies
+
+- If we add a date library, document **why** and keep the **runtime bundle impact** justified.

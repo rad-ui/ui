@@ -19,16 +19,6 @@ export const docsNavigationSections = [
     },
     {
         type:"CATEGORY",
-        title:"Guides",
-        items:[
-            {
-                title:"Accessibility",
-                path:"/docs/guides/accessibility"
-            }
-        ]
-    },
-    {
-        type:"CATEGORY",
         title:"Components",
         items:[
             {
@@ -144,6 +134,36 @@ export const docsNavigationSections = [
     },
     {
         type:"CATEGORY",
+        title:"Guides",
+        items:[
+            {
+                title:"Accessibility",
+                path:"/docs/guides/accessibility"
+            },
+            {
+                title:"Date, Time & Timezones",
+                path:"/docs/guides/date-time-and-timezones"
+            },
+            {
+                title:"Internationalization",
+                path:"/docs/guides/internationalization"
+            },
+            {
+                title:"IME / Input Method QA",
+                path:"/docs/guides/ime-input-method-qa"
+            },
+            {
+                title:"Mobile & Touch QA",
+                path:"/docs/guides/mobile-touch-qa"
+            },
+            {
+                title:"SSR & No-JS Fallback",
+                path:"/docs/guides/ssr-and-no-js-fallback"
+            }
+        ]
+    },
+    {
+        type:"CATEGORY",
         title:"Contributing",
         items:[
             {
@@ -165,6 +185,26 @@ export const docsNavigationSections = [
             {
                 title:"Component Coverage",
                 path:"/docs/contributing/component-coverage"
+            },
+            {
+                title:"Security & Dependency SLA",
+                path:"/docs/contributing/security-dependency-sla"
+            },
+            {
+                title:"Contributor Checklist",
+                path:"/docs/contributing/contributor-checklist"
+            },
+            {
+                title:"Release Candidate Checklist",
+                path:"/docs/contributing/release-candidate-checklist"
+            },
+            {
+                title:"Upgrade & Codemods",
+                path:"/docs/contributing/upgrade-and-codemods"
+            },
+            {
+                title:"Changeset Quality",
+                path:"/docs/contributing/changeset-quality"
             }
         ]
     }

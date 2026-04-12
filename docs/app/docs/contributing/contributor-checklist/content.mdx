@@ -1,0 +1,30 @@
+# Contributor checklist (docs, tests, accessibility)
+
+Use this checklist before opening a PR. Skip items that clearly do not apply (for example, copy-only fixes).
+
+## Documentation
+
+- [ ] **Docs site**: If behavior or public API changed, updated the relevant docs page(s) under the docs app.
+- [ ] **Storybook**: Added or updated stories when visuals, states, or interactions changed.
+- [ ] **README / exports**: If you changed `package.json` exports or installation steps, updated root docs accordingly.
+
+## Tests
+
+- [ ] **Unit / component tests**: Added or updated tests for new behavior and regressions.
+- [ ] **Edge cases**: Covered empty states, controlled vs uncontrolled usage (if applicable), and keyboard interaction where relevant.
+
+## Accessibility
+
+- [ ] **Roles and labels**: Interactive elements have appropriate roles, labels, and (where needed) descriptions.
+- [ ] **Keyboard**: Focus order and focus visibility are reasonable; Escape / arrow keys behave as expected for the pattern.
+- [ ] **Motion**: Respects `prefers-reduced-motion` when adding animation (if applicable).
+
+## Release hygiene
+
+- [ ] **Changeset**: Added a `.changeset` entry when the change should appear in the changelog (see [Changeset quality](/docs/contributing/changeset-quality)).
+- [ ] **Breaking changes**: Documented breaking behavior explicitly in the changeset when bumping major.
+
+## Reviewer-friendly PR
+
+- [ ] Linked the tracking issue (if any) and summarized **what** and **why**.
+- [ ] Called out screenshots or Storybook links for visual changes.

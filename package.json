@@ -204,6 +204,7 @@
     "compile-components:esbuild": "node build-components.cjs",
     "check:types": "tsc --noEmit",
     "check:exports": "node scripts/generate-exports.cjs --check",
+    "validate:changesets": "node scripts/validate-changesets.mjs",
     "build-components:esbuild": "npm run compile-components:esbuild && npm run process-components",
     "build:esbuild": "npm run prebuild && npm run build:css && npm run build-components:esbuild",
     "release": "npm publish --access public",

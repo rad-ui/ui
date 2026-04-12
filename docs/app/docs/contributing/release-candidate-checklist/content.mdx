@@ -1,0 +1,26 @@
+# Release candidate checklist (parity and accessibility)
+
+Use this checklist before tagging a **release candidate** (for example `next` prerelease) or a stable release when the train includes user-facing changes.
+
+## Parity
+
+- [ ] **Changelog**: `.changeset` entries are accurate; no accidental omission of breaking notes.
+- [ ] **Docs**: Docs site builds cleanly; new or changed components have up-to-date docs pages.
+- [ ] **Storybook**: `build-storybook` succeeds; representative stories exist for new components or states.
+- [ ] **Package output**: `npm run build:rollup` and `npm run check:types` pass on a clean tree.
+
+## Accessibility sign-off
+
+- [ ] **Smoke keyboard pass**: Primary interactive components in this release behave correctly with keyboard only.
+- [ ] **Labels**: Form controls and custom widgets expose accessible names where applicable.
+- [ ] **Focus**: Modals, dialogs, and popovers manage focus (trap + restore) per project patterns.
+
+## Quality gates
+
+- [ ] **CI green**: Lint, tests, and coverage workflows are passing on the release branch.
+- [ ] **Visual regression**: Chromatic (or agreed substitute) reviewed for unexpected diffs.
+
+## Communication
+
+- [ ] **Migration notes**: Breaking changes include actionable upgrade steps in the changelog / release notes.
+- [ ] **Known issues**: Any deferred bugs are documented in the release notes or linked issues.
