@@ -19,36 +19,6 @@ export const docsNavigationSections = [
     },
     {
         type:"CATEGORY",
-        title:"Guides",
-        items:[
-            {
-                title:"Accessibility",
-                path:"/docs/guides/accessibility"
-            },
-            {
-                title:"Date, Time & Timezones",
-                path:"/docs/guides/date-time-and-timezones"
-            },
-            {
-                title:"Internationalization",
-                path:"/docs/guides/internationalization"
-            },
-            {
-                title:"IME / Input Method QA",
-                path:"/docs/guides/ime-input-method-qa"
-            },
-            {
-                title:"Mobile & Touch QA",
-                path:"/docs/guides/mobile-touch-qa"
-            },
-            {
-                title:"SSR & No-JS Fallback",
-                path:"/docs/guides/ssr-and-no-js-fallback"
-            }
-        ]
-    },
-    {
-        type:"CATEGORY",
         title:"Components",
         items:[
             {
@@ -160,6 +130,36 @@ export const docsNavigationSections = [
                 path:"/docs/components/visually-hidden"
             }
 
+        ]
+    },
+    {
+        type:"CATEGORY",
+        title:"Guides",
+        items:[
+            {
+                title:"Accessibility",
+                path:"/docs/guides/accessibility"
+            },
+            {
+                title:"Date, Time & Timezones",
+                path:"/docs/guides/date-time-and-timezones"
+            },
+            {
+                title:"Internationalization",
+                path:"/docs/guides/internationalization"
+            },
+            {
+                title:"IME / Input Method QA",
+                path:"/docs/guides/ime-input-method-qa"
+            },
+            {
+                title:"Mobile & Touch QA",
+                path:"/docs/guides/mobile-touch-qa"
+            },
+            {
+                title:"SSR & No-JS Fallback",
+                path:"/docs/guides/ssr-and-no-js-fallback"
+            }
         ]
     },
     {
