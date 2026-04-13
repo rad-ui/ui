@@ -30,7 +30,34 @@ const RELEASED_COMPONENTS = [
     // Released but not documented officially
     'ScrollArea',
     'Theme',
-    'Link'
+    'Link',
+    'Checkbox',
+    'CheckboxCards',
+    'CheckboxGroup',
+    'Collapsible',
+    'Combobox',
+    'ContextMenu',
+    'DataList',
+    'Disclosure',
+    'DropdownMenu',
+    'HoverCard',
+    'Menubar',
+    'Minimap',
+    'NavigationMenu',
+    'NumberField',
+    'Quote',
+    'Radio',
+    'RadioCards',
+    'RadioGroup',
+    'Select',
+    'Skeleton',
+    'Slider',
+    'Spinner',
+    'Splitter',
+    'Steps',
+    'TabNav',
+    'TextArea',
+    'Tree'
 ];
 
 module.exports = RELEASED_COMPONENTS;
