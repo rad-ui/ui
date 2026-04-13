@@ -1,20 +1,25 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import createMDX from '@next/mdx'
+import remarkGfm from 'remark-gfm'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 /** @type {import('next').NextConfig} */
-
-const createMDX = require('@next/mdx')
-
 const nextConfig = {
     // Configure `pageExtensions` to include markdown and MDX files
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-    
+
     typescript: {
         ignoreBuildErrors: true,
     },
-    
+
     // SEO and Performance optimizations
     compress: true,
     poweredByHeader: false,
     generateEtags: true,
-    
+
     // Image optimization
     images: {
         formats: ['image/webp', 'image/avif'],
@@ -22,9 +27,9 @@ const nextConfig = {
         imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
         minimumCacheTTL: 60,
     },
-    
+
     // Headers for security and caching
-    async headers() {
+    async headers () {
         return [
             {
                 source: '/(.*)',
@@ -67,9 +72,9 @@ const nextConfig = {
             },
         ]
     },
-    
+
     // Redirects for SEO
-    async redirects() {
+    async redirects () {
         return [
             {
                 source: '/docs',
@@ -80,7 +85,7 @@ const nextConfig = {
     },
 
     // PostHog API rewrites
-    async rewrites() {
+    async rewrites () {
         return [
             {
                 source: '/ingest/static/:path*',
@@ -113,10 +118,10 @@ const nextConfig = {
 }
 
 const withMDX = createMDX({
-    // Add markdown plugins here, as desired
     options: {
-        remarkPlugins: ['remark-gfm'],
+        // remark-gfm is a function; Turbopack requires serializable loader options. Use `next dev --webpack` (see package.json).
+        remarkPlugins: [remarkGfm],
     },
 })
 
-module.exports = withMDX(nextConfig)
+export default withMDX(nextConfig)

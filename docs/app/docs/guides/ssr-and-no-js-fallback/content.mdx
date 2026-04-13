@@ -1,0 +1,26 @@
+# SSR and no-JS fallback
+
+Rad UI is a **React** component library. Components assume client-side hydration for interactive behavior (state, effects, event listeners).
+
+## Server-side rendering (SSR)
+
+- **Render** static structure on the server when your framework supports it (React DOM server APIs, Next.js, Remix, etc.).
+- **Avoid** `window` / `document` in render paths; use `useEffect` or guarded checks for browser-only APIs.
+- **Hydration**: Ensure `suppressHydrationWarning` is **not** used to hide mismatches unless there is a documented reason (e.g. time-dependent demo text).
+
+## No JavaScript
+
+Without JavaScript, **interactive components will not function**. Recommended patterns:
+
+- **Progressive enhancement**: Ship meaningful **HTML** in the SSR output (headings, links, forms that can post without JS where applicable).
+- **Fallback content**: For critical UI, provide a **noscript** or server-rendered alternative for **read-only** views (for example, a static table instead of a sortable grid).
+
+## Frameworks
+
+- **Next.js App Router**: Follow React Server Components boundaries; keep client-only Rad UI in `"use client"` components when required.
+- **Streaming**: Avoid layout shifts that depend on client-only measurement; prefer stable skeletons or CSS.
+
+## Testing
+
+- Add **SSR smoke tests** when a component touches browser-only APIs or layout measurement.
+- For **no-JS**, rely on **manual** or **e2e** checks that critical content renders without executing scripts (where applicable to your product).

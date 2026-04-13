@@ -1,5 +1,5 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import DataListContext from '../contexts/DataListContex';
+import DataListContext from '../contexts/DataListContext';
 import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 

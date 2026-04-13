@@ -1,5 +1,5 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useContext } from 'react';
-import DataListContext from '../contexts/DataListContex';
+import DataListContext from '../contexts/DataListContext';
 import clsx from 'clsx';
 
 type DataListLabelElement = ElementRef<'dt'>;
