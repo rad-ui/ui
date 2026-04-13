@@ -22,4 +22,4 @@ Prefer minimal, focused diffs; no drive-by refactors.
 If gh or network access to GitHub fails, infer from package.json + lockfiles + audit and still produce a coherent upgrade plan.
 Start only when I say “go” (or equivalent).
 
-Once all the relevan changes are done, as a summary - let the user know what all PRs can be closed, what are pending and what arent addressed with relevant details and blockers if any.
+Once all the relevant changes are done, provide a summary telling the user which PRs can be closed, which are pending, and which were not addressed, including relevant details and any blockers.
