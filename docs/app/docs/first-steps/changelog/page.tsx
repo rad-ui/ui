@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import Button from "@radui/ui/Button";
 
 import { ChangelogMarkdown } from "./ChangelogMarkdown";
 import { getSourceCodeFromPath } from "@/utils/parseSourceCode";
@@ -172,28 +173,50 @@ export default async function ChangelogPage({
                     </p>
                     <div className="flex items-center gap-2">
                         {safePage > 1 ? (
-                            <Link
-                                className="rounded-md border border-gray-400 bg-white px-3 py-1.5 text-sm font-medium text-gray-1000 hover:bg-gray-50"
-                                href={safePage === 2 ? CHANGELOG_PATH : `${CHANGELOG_PATH}?page=${safePage - 1}`}
+                            <Button
+                                asChild
+                                size="small"
+                                variant="outline"
+                            >
+                                <Link
+                                    href={
+                                        safePage === 2
+                                            ? CHANGELOG_PATH
+                                            : `${CHANGELOG_PATH}?page=${safePage - 1}`
+                                    }
+                                >
+                                    Previous
+                                </Link>
+                            </Button>
+                        ) : (
+                            <Button
+                                disabled
+                                size="small"
+                                variant="outline"
                             >
                                 Previous
-                            </Link>
-                        ) : (
-                            <span className="rounded-md border border-transparent px-3 py-1.5 text-sm text-gray-500">
-                                Previous
-                            </span>
+                            </Button>
                         )}
                         {safePage < totalPages ? (
-                            <Link
-                                className="rounded-md border border-gray-400 bg-white px-3 py-1.5 text-sm font-medium text-gray-1000 hover:bg-gray-50"
-                                href={`${CHANGELOG_PATH}?page=${safePage + 1}`}
+                            <Button
+                                asChild
+                                size="small"
+                                variant="solid"
+                            >
+                                <Link
+                                    href={`${CHANGELOG_PATH}?page=${safePage + 1}`}
+                                >
+                                    Next
+                                </Link>
+                            </Button>
+                        ) : (
+                            <Button
+                                disabled
+                                size="small"
+                                variant="solid"
                             >
                                 Next
-                            </Link>
-                        ) : (
-                            <span className="rounded-md border border-transparent px-3 py-1.5 text-sm text-gray-500">
-                                Next
-                            </span>
+                            </Button>
                         )}
                     </div>
                 </nav>
