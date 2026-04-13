@@ -103,7 +103,7 @@ const DocsTableOfContents = () => {
     return (
         <aside className="hidden xl:block">
             <div className="sticky top-7 pt-1">
-                <p className="mb-4 text-[0.9rem] font-bold text-gray-800">On this page</p>
+                <p className="mb-4 text-[0.9rem] font-bold text-gray-950">On this page</p>
                 <nav aria-label="Table of contents">
                     <ul className="flex list-none flex-col gap-1 pl-0">
                         {items.map((item) => (
@@ -118,8 +118,8 @@ const DocsTableOfContents = () => {
                                         item.level === 3 ? "ml-3 py-1 text-[0.92rem]" : "py-1.5 text-[0.98rem]"
                                     } ${
                                         activeId === item.id
-                                            ? "border-amber-700 text-amber-1000"
-                                            : "border-gray-300 text-gray-800 hover:text-gray-1000"
+                                            ? "border-red-700 font-semibold text-gray-950"
+                                            : "border-gray-300 text-gray-800 hover:text-gray-950"
                                     }`}
                                 >
                                     {item.text}

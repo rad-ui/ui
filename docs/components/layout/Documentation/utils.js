@@ -46,7 +46,7 @@ export const BookMarkLink = ({ children, id }) => {
                 aria-label={`Direct link to ${id}`}
             >
                 <span className="min-w-0">{children}</span>
-                <span className="translate-x-[-4px] text-amber-900 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:translate-x-0 group-focus-within:opacity-100">
+                <span className="translate-x-[-4px] text-red-900 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:translate-x-0 group-focus-within:opacity-100">
                     <Link2 size={16} strokeWidth={2} />
                 </span>
             </a>

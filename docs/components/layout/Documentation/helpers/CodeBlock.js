@@ -95,15 +95,18 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
     }
 
     return (
-        <pre className={clsx("relative my-5 overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] shadow-[0_16px_40px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_12%,transparent)]", className)}>
-            <div className="flex items-center justify-between border-b border-[var(--rad-ui-border-soft)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--rad-ui-text-primary)_3%,transparent),transparent)] px-3.5 py-2">
-                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[var(--rad-ui-text-muted)]">
+        <pre className={clsx(
+            "docs-syntax-pre relative my-5 overflow-hidden rounded-[18px] border",
+            className,
+        )}>
+            <div className="docs-syntax-toolbar flex items-center justify-between px-3.5 py-2">
+                <span className="docs-syntax-toolbar-label">
                     {['jsx', 'tsx'].includes(language) ? 'React' : language}
                 </span>
                 <TooltipWrapper label="Copy" placement="bottom">
                     <Copy
                         content={copyContent}
-                        className="h-8 w-8 rounded-[11px] border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]"
+                        className="docs-syntax-copy h-8 w-8 rounded-[11px] border hover:opacity-90"
                         iconSize={15}
                     />
                 </TooltipWrapper>
@@ -112,7 +115,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
                 <ScrollArea.Root
                     className={clsx(
                         expanded ? "max-h-[640px]" : "max-h-[220px]",
-                        "overflow-visible"
+                        "docs-syntax-scroll-area overflow-visible",
                     )}
                 >
                     <ScrollArea.Viewport
@@ -122,7 +125,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
                             overflowY: hasOverflow ? 'auto' : 'hidden',
                         }}
                     >
-                        <code className={`language-${language} docs-code-block block whitespace-pre-wrap px-4 py-3`}>
+                        <code className={`language-${language} docs-code-block block whitespace-pre-wrap`}>
                             {code}
                         </code>
                     </ScrollArea.Viewport>
@@ -133,10 +136,10 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
                         </ScrollArea.Scrollbar>
                     )}
                 </ScrollArea.Root>
-                {hasOverflow && <>
+                    {hasOverflow && <>
                     {!expanded && <div className="code-block-blur"></div>}
-                    <div className="flex w-full justify-center border-t border-[var(--rad-ui-border-soft)] bg-[color-mix(in_oklab,var(--rad-ui-surface-subtle)_55%,transparent)] px-4 py-1.5">
-                        <Button size="small" variant="ghost" className="min-h-0 rounded-full border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] px-3 py-1 text-[0.78rem] text-[var(--rad-ui-text-muted)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)]" onClick={() => setExpanded(!expanded)}>
+                    <div className="docs-syntax-footer flex w-full justify-center px-4 py-1.5">
+                        <Button size="small" variant="ghost" className="docs-syntax-expand min-h-0 rounded-full border px-3 py-1 text-[0.78rem]" onClick={() => setExpanded(!expanded)}>
                             Show {expanded ? 'less' : 'more'}
                         </Button>
                     </div>

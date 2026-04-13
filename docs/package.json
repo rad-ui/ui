@@ -37,6 +37,7 @@
     "posthog-node": "^5.6.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-markdown": "^10.1.0",
     "refractor": "^4.8.1",
     "remark-gfm": "^4.0.1",
     "sass": "^1.70.0",

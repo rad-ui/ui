@@ -14,6 +14,10 @@ export const docsNavigationSections = [
             {
                 title:"Usage",
                 path:"/docs/first-steps/usage"
+            },
+            {
+                title:"Changelog",
+                path:"/docs/first-steps/changelog"
             }
         ]
     },
