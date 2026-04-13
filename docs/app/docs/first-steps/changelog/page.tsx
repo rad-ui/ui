@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 
 import { ChangelogMarkdown } from "./ChangelogMarkdown";
 import { getSourceCodeFromPath } from "@/utils/parseSourceCode";
@@ -10,8 +11,16 @@ import generateSeoMetadata from "@/utils/seo/generateSeoMetadata";
 
 const SITE_URL = process.env.SITE_URL ?? "https://www.rad-ui.com";
 const CHANGELOG_PATH = "/docs/first-steps/changelog";
-const NPM_VERSION = (v: string) =>
-    `https://www.npmjs.com/package/@radui/ui/v/${encodeURIComponent(v)}`;
+
+/** https://www.npmjs.com/package/@radui/ui */
+const NPM_PACKAGE_URL = "https://www.npmjs.com/package/@radui/ui";
+
+function npmPackageVersionUrl(version: string) {
+    return `${NPM_PACKAGE_URL}/v/${encodeURIComponent(version)}`;
+}
+
+/** Alias for older call sites / tooling that still references this name. */
+const NPM_VERSION = npmPackageVersionUrl;
 
 const baseMetadata = generateSeoMetadata({
     title: "Changelog",
@@ -76,17 +85,17 @@ export default async function ChangelogPage({
     return (
         <div className="w-full min-w-0 max-w-screen-lg">
             <header className="mb-10 border-b border-gray-300 pb-8">
-                <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-1000">
+                <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-950">
                     Changelog
                 </h1>
-                <p className="max-w-2xl text-sm leading-relaxed text-gray-800">
+                <p className="max-w-2xl text-sm leading-relaxed text-gray-900">
                     Published versions of{" "}
-                    <code className="rounded bg-gray-200 px-1.5 py-0.5 font-mono text-[0.9em]">
+                    <code className="rounded bg-gray-200 px-1.5 py-0.5 font-mono text-[0.9em] text-gray-950">
                         @radui/ui
                     </code>
                     . Minor and patch sections follow{" "}
                     <a
-                        className="text-blue-800 underline decoration-blue-800/30 underline-offset-2 hover:decoration-blue-800"
+                        className="font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
                         href="https://semver.org/"
                         rel="noreferrer"
                         target="_blank"
@@ -95,7 +104,7 @@ export default async function ChangelogPage({
                     </a>
                     . Source:{" "}
                     <a
-                        className="text-blue-800 underline decoration-blue-800/30 underline-offset-2 hover:decoration-blue-800"
+                        className="font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
                         href="https://github.com/rad-ui/ui/blob/main/CHANGELOG.md"
                         rel="noreferrer"
                         target="_blank"
@@ -118,17 +127,27 @@ export default async function ChangelogPage({
                         key={release.version}
                         className="border-b border-gray-200 pb-12 last:border-b-0 last:pb-0"
                     >
-                        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
-                            <h2 className="text-xl font-semibold text-gray-1000">
-                                {release.version}
-                            </h2>
+                        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex min-w-0 flex-col gap-0.5">
+                                <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-gray-700">
+                                    Release
+                                </p>
+                                <h2 className="font-mono text-2xl font-semibold tracking-tight text-gray-950">
+                                    v{release.version}
+                                </h2>
+                            </div>
                             <a
-                                className="text-sm text-blue-800 underline decoration-blue-800/30 underline-offset-2 hover:decoration-blue-800"
+                                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
                                 href={NPM_VERSION(release.version)}
                                 rel="noreferrer"
                                 target="_blank"
                             >
-                                View on npm
+                                npm
+                                <ExternalLink
+                                    aria-hidden
+                                    className="h-3.5 w-3.5 opacity-70"
+                                    strokeWidth={2}
+                                />
                             </a>
                         </div>
                         <ChangelogMarkdown markdown={release.body} />

@@ -23,7 +23,6 @@ samp {
 }
 
 .docs-code-block {
-  color: var(--rad-ui-text-primary);
   font-size: 0.84rem;
   line-height: 1.72;
 }
@@ -37,63 +36,240 @@ samp {
   box-shadow: none;
 }
 
-pre code {
-  padding: 0;
+/* Fenced code / CodeBlock: panel + tokens follow Theme ([data-rad-ui-theme]) */
+pre.docs-syntax-pre code.docs-code-block {
   border: 0;
   border-radius: 0;
   background: transparent;
   display: block;
+  padding: 0.875rem 1rem;
   font-size: 12px;
   line-height: 1.7;
 }
 
-code .string {
-  color: var(--rad-ui-color-green-900);
+[data-rad-ui-theme="light"] .docs-syntax-pre {
+  background-color: var(--rad-ui-surface-panel);
+  border-color: var(--rad-ui-border-soft);
+  color: var(--rad-ui-text-primary);
+  box-shadow: 0 16px 40px color-mix(in oklab, var(--rad-ui-color-gray-1000) 12%, transparent);
 }
 
-code .punctuation {
-  color: var(--rad-ui-text-muted);
+[data-rad-ui-theme="light"] .docs-syntax-pre .docs-code-block {
+  color: var(--rad-ui-text-primary);
 }
 
-code .keyword {
-  color: var(--rad-ui-color-amber-900);
-}
-
-code .function,
-.function-variable {
-  color: var(--rad-ui-color-blue-900);
-}
-
-code .class-name {
-  color: var(--rad-ui-color-blue-900);
-}
-
-code .tag {
-  color: var(--rad-ui-color-blue-900);
-}
-
-code .attr-name {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .keyword {
   color: var(--rad-ui-color-red-900);
 }
 
-code .attr-value {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .string,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .attr-value,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .template-string,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .inserted {
   color: var(--rad-ui-color-green-900);
 }
 
-code .operator {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .number,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .boolean {
+  color: var(--rad-ui-color-green-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .function,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .function-variable,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .class-name,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .tag,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .selector,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .property,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .maybe-class-name,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .builtin,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .constant {
+  color: var(--rad-ui-color-blue-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .attr-name {
+  color: var(--rad-ui-color-red-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .punctuation {
+  color: var(--rad-ui-text-muted);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .operator {
   color: var(--rad-ui-color-purple-900);
 }
 
-code .comment {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .comment,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .prolog,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .doctype,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .cdata {
   color: var(--rad-ui-color-gray-800);
 }
 
-code .property {
-  color: var(--rad-ui-color-pink-900);
+[data-rad-ui-theme="light"] .docs-syntax-pre code .regex,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .important,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .variable {
+  color: var(--rad-ui-color-blue-900);
 }
 
-code .selector {
-  color: var(--rad-ui-color-blue-900);
+[data-rad-ui-theme="light"] .docs-syntax-pre code .char {
+  color: var(--rad-ui-color-green-900);
+}
+
+/* Dark: high-contrast editor palette on black panel */
+[data-rad-ui-theme="dark"] .docs-syntax-pre {
+  background-color: #000;
+  border-color: #27272a;
+  color: #fafafa;
+  box-shadow: 0 16px 48px rgb(0, 0, 0, 0.55);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre .docs-code-block {
+  color: #fafafa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .keyword {
+  color: #f472b6;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .string,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .attr-value,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .template-string,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .inserted {
+  color: #4ade80;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .number,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .boolean {
+  color: #2dd4bf;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .function,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .function-variable,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .class-name,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .tag,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .selector,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .property,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .maybe-class-name,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .builtin,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .constant {
+  color: #93c5fd;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .attr-name {
+  color: #f0abfc;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .punctuation,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .operator {
+  color: #fafafa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .comment,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .prolog,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .doctype,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .cdata {
+  color: #737373;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .regex,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .important,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .variable {
+  color: #93c5fd;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .char {
+  color: #4ade80;
+}
+
+.docs-syntax-toolbar {
+  border-bottom: 1px solid var(--rad-ui-border-soft);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--rad-ui-text-primary) 3%, transparent),
+    transparent
+  );
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-toolbar {
+  border-color: #27272a;
+  background: #09090b;
+}
+
+.docs-syntax-toolbar-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--rad-ui-text-muted);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-toolbar-label {
+  color: #a1a1aa;
+}
+
+.docs-syntax-scroll-area {
+  background-color: var(--rad-ui-surface-panel);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-scroll-area {
+  background-color: #000;
+}
+
+.docs-syntax-footer {
+  border-top: 1px solid var(--rad-ui-border-soft);
+  background: color-mix(in oklab, var(--rad-ui-surface-subtle) 55%, transparent);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-footer {
+  border-color: #27272a;
+  background: rgb(9, 9, 11, 0.9);
+}
+
+.docs-syntax-copy {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-subtle);
+  color: var(--rad-ui-text-muted);
+}
+
+.docs-syntax-copy:hover {
+  background: var(--rad-ui-surface-hover);
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-copy {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-copy:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.docs-syntax-expand {
+  border-style: solid;
+  border-color: var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-subtle);
+  color: var(--rad-ui-text-muted);
+}
+
+.docs-syntax-expand:hover {
+  background: var(--rad-ui-surface-hover);
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-expand {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-expand:hover {
+  background: #27272a;
+  color: #fafafa;
 }
 
 .code-block-blur {
@@ -107,9 +283,20 @@ code .selector {
     height: 100px;
     width: 100%;
     bottom: 0;
-    background: linear-gradient(180deg, transparent, var(--rad-ui-surface-panel) 72%);
-    opacity: 0.9;
+    opacity: 0.95;
   }
+}
+
+[data-rad-ui-theme="light"] .code-block-blur::before {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--rad-ui-surface-panel) 72%
+  );
+}
+
+[data-rad-ui-theme="dark"] .code-block-blur::before {
+  background: linear-gradient(180deg, transparent, #000 72%);
 }
 
 .top-layout-line {

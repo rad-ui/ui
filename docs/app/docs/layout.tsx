@@ -6,11 +6,6 @@ import EditPageOnGithub from "@/components/docsHelpers/EditPageOnGithub";
 import DocsTableOfContents from "@/components/layout/Documentation/DocsTableOfContents";
 import ScrollArea from "@radui/ui/ScrollArea"
 
-import Callout from "@radui/ui/Callout"
-import Heading from "@radui/ui/Heading"
-import Link from "@radui/ui/Link";
-import { Wrench } from "lucide-react";
-
 type Doc = {
     children: React.ReactNode;
 };
@@ -32,7 +27,6 @@ const Layout = ({ children }: Doc) => {
                             <div className="grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,860px)_220px]">
                                 <div className="w-full min-w-0">
                                     <PageDetails />
-                                    <DocsLayoutJoinDiscordCallout />
                                     <article id="docs-article" className="w-full min-w-0">
                                         {children}
                                     </article>
@@ -52,10 +46,6 @@ const Layout = ({ children }: Doc) => {
     )
 }
 
-const DocsLayoutChunks = ({ children }: { children: React.ReactNode }) => {
-    return null;
-}
-
 
 const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
     return <div className="w-full pt-8 md:pt-10">
@@ -67,36 +57,5 @@ const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
         </div>
     </div>
 }
-
-const DocsLayoutJoinDiscordCallout = () => {
-    return <div className="!mb-8">
-        <Callout.Root color="orange" variant="outline" size="small">
-            <Callout.Icon>
-                <Wrench size={18} strokeWidth={2} />
-            </Callout.Icon>
-            <div className="ml-2 flex min-w-0 flex-col gap-2">
-                <Heading as="h3" className="!text-sm">
-                    Under Construction
-                </Heading>
-                <Callout.Text >
-                    We're actively working on new components and features. Stay tuned! Head over to our <Link className="!text-gray-1000 hover:!underline" href="https://github.com/rad-ui/ui/issues" target="_blank">GitHub</Link> to see what's coming next.
-                </Callout.Text>
-                <Callout.Text >
-                    Let’s build together on our{" "}
-                    <Link className="!text-gray-1000 hover:!underline p-0" href="https://discord.gg/nMaQfeEPNp" target="_blank">
-                        Discord
-                    </Link>
-                    .
-                </Callout.Text>
-            </div>
-        </Callout.Root>
-
-    </div>
-}
-
-
-// DocsLayoutChunks.Root = DocsLayoutGridRoot;
-// DocsLayoutChunks.displayName = "DocsLayoutChunks";
-
 
 export default Layout;

@@ -109,7 +109,7 @@ export default async function RootLayout({ children, ...props }) {
   const darkModeSsrValue = cookieStore.get('darkMode')?.value || false
 
   return (
-    <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -147,7 +147,7 @@ export default async function RootLayout({ children, ...props }) {
           }}
         />
       </head>
-      <body className="h-screen overflow-hidden">
+      <body className="h-screen overflow-hidden" suppressHydrationWarning>
         <PostHogProvider>
           <Main darkModeSsrValue={darkModeSsrValue}>
             {children}
