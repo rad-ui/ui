@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import DisclosureExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Disclosure"
+    description="A multi-item show/hide component. Use the convenience wrapper with an items array, or compose manually with Root, Item, Trigger, and Content."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <DisclosureExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

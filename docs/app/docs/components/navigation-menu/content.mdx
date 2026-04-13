@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import NavigationMenuExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="NavigationMenu"
+    description="A site navigation component with dropdown content panels. Supports nested items, links, and accessible keyboard navigation."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <NavigationMenuExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>
