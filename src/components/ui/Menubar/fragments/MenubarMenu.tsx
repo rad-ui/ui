@@ -25,9 +25,10 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
         if (id) {
             registerItem(id);
         }
-    }, [id]);
+    }, [id, registerItem]);
 
     const isOpen = items.find((item: MenubarItem) => item.id === id)?.state === 'open';
+    const menuContextValue = React.useMemo(() => ({ isOpen }), [isOpen]);
     return (
 
         <MenuPrimitive.Root
@@ -39,7 +40,7 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
             onOpenChange={(open) => id && updateItemState(id, open ? 'open' : 'closed')}
             {...props}
         >
-            <MenubarMenuContext.Provider value={{ isOpen }}>
+            <MenubarMenuContext.Provider value={menuContextValue}>
                 {children}
             </MenubarMenuContext.Provider>
         </MenuPrimitive.Root>

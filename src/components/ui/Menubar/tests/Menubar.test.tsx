@@ -1,6 +1,7 @@
 import React, { createRef } from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Menubar from '../Menubar';
+import MenubarContext from '../contexts/MenubarContext';
 
 describe('Menubar', () => {
     test('forwards refs to subcomponents', () => {
@@ -68,5 +69,39 @@ describe('Menubar', () => {
         expect(error).not.toHaveBeenCalled();
         warn.mockRestore();
         error.mockRestore();
+    });
+
+    test('does not re-render context consumers when parent re-renders without state changes', () => {
+        const renderSpy = jest.fn();
+
+        const RenderCounter = React.memo(() => {
+            const context = React.useContext(MenubarContext);
+            renderSpy();
+            return <span>{context?.rootClass}</span>;
+        });
+
+        const Wrapper = () => {
+            const [count, setCount] = React.useState(0);
+            return (
+                <>
+                    <button onClick={() => setCount((prev) => prev + 1)}>rerender {count}</button>
+                    <Menubar.Root>
+                        <RenderCounter />
+                        <Menubar.Menu>
+                            <Menubar.Trigger>File</Menubar.Trigger>
+                            <Menubar.Content>
+                                <Menubar.Item>New</Menubar.Item>
+                            </Menubar.Content>
+                        </Menubar.Menu>
+                    </Menubar.Root>
+                </>
+            );
+        };
+
+        const { getByText } = render(<Wrapper />);
+        const baselineRenderCount = renderSpy.mock.calls.length;
+
+        fireEvent.click(getByText(/rerender/i));
+        expect(renderSpy).toHaveBeenCalledTimes(baselineRenderCount);
     });
 });
