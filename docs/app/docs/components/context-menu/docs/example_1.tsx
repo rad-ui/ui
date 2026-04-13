@@ -11,11 +11,11 @@ const ContextMenuExample = () => {
                 </div>
             </ContextMenu.Trigger>
             <ContextMenu.Portal>
-                <ContextMenu.Content className="min-w-[160px]">
-                    <ContextMenu.Item>Copy</ContextMenu.Item>
-                    <ContextMenu.Item>Paste</ContextMenu.Item>
+                <ContextMenu.Content>
+                    <ContextMenu.Item label="Copy">Copy</ContextMenu.Item>
+                    <ContextMenu.Item label="Paste">Paste</ContextMenu.Item>
                     <ContextMenu.Separator />
-                    <ContextMenu.Item>Delete</ContextMenu.Item>
+                    <ContextMenu.Item label="Delete">Delete</ContextMenu.Item>
                 </ContextMenu.Content>
             </ContextMenu.Portal>
         </ContextMenu.Root>

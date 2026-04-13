@@ -2,11 +2,13 @@ import RadioGroup from "@radui/ui/RadioGroup"
 
 export default () => {
     return (
-        <RadioGroup.Root name="group">
-            <RadioGroup.Item value="">
-                <RadioGroup.Indicator />
-                <RadioGroup.Label />
-            </RadioGroup.Item>
+        <RadioGroup.Root aria-label="Group">
+            <RadioGroup.Label>
+                <RadioGroup.Item value="option">
+                    <RadioGroup.Indicator />
+                </RadioGroup.Item>
+                Label
+            </RadioGroup.Label>
         </RadioGroup.Root>
     )
 }

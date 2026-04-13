@@ -25,265 +25,62 @@ export const docsNavigationSections = [
         type:"CATEGORY",
         title:"Components",
         items:[
-            {
-                title:"Accordion",
-                path:"/docs/components/accordion"
-            },
-            {
-                title:"Avatar",
-                path:"/docs/components/avatar"
-            },
-            {
-                title:"AvatarGroup",
-                path:"/docs/components/avatar-group"
-            },
-            {
-                title:"AlertDialog",
-                path:"/docs/components/alert-dialog",
-                is_new:true
-            },
-            {
-                title:"AspectRatio",
-                path:"/docs/components/aspect-ratio"
-            },
-            {
-                title:"Badge",
-                path:"/docs/components/badge"
-            },
-            {
-                title:"Button",
-                path:"/docs/components/button"
-            },
-            {
-                title:"BlockQuote",
-                path:"/docs/components/blockquote"
-            },
-            {
-                title:"Callout",
-                path:"/docs/components/callout"
-            },
-            {
-                title:"Card",
-                path:"/docs/components/card"
-            },
-            {
-                title:"Code",
-                path:"/docs/components/code"
-            },
-            {
-                title:"Dialog",
-                path:"/docs/components/dialog",
-                is_new:true
-            },
-            {
-                title:"Em",
-                path:"/docs/components/em"
-            },
-            {
-                title:"Heading",
-                path:"/docs/components/heading"
-            },
-            {
-                title:"Text",
-                path:"/docs/components/text"
-            },
-            {
-                title:"Kbd",
-                path:"/docs/components/kbd"
-            },
-            {
-                title:"Progress",
-                path:"/docs/components/progress"
-            },
-            {
-                title:"Separator",
-                path:"/docs/components/separator"
-            },
-            {
-                title:"Strong",
-                path:"/docs/components/strong"
-            },
-            {
-                title:"Switch",
-                path:"/docs/components/switch"
-            },
-            {
-                title:"Table",
-                path:"/docs/components/table",
-                is_new:true
-            },
-            {
-                title:"Tabs",
-                path:"/docs/components/tabs",
-                is_new:true
-            },
-            {
-                title:"Toggle",
-                path:"/docs/components/toggle"
-            },
-            {
-                title:"ToggleGroup",
-                path:"/docs/components/toggle-group"
-            },
-            {
-                title:"Tooltip",
-                path:"/docs/components/tooltip"
-            },
-            {
-                title:"VisuallyHidden",
-                path:"/docs/components/visually-hidden"
-            },
-            {
-                title:"Link",
-                path:"/docs/components/link",
-                is_preview:true
-            },
-            {
-                title:"ScrollArea",
-                path:"/docs/components/scroll-area",
-                is_preview:true
-            },
-            {
-                title:"Theme",
-                path:"/docs/components/theme",
-                is_preview:true
-            },
-            {
-                title:"Checkbox",
-                path:"/docs/components/checkbox",
-                is_preview:true
-            },
-            {
-                title:"CheckboxCards",
-                path:"/docs/components/checkbox-cards",
-                is_preview:true
-            },
-            {
-                title:"CheckboxGroup",
-                path:"/docs/components/checkbox-group",
-                is_preview:true
-            },
-            {
-                title:"Collapsible",
-                path:"/docs/components/collapsible",
-                is_preview:true
-            },
-            {
-                title:"Combobox",
-                path:"/docs/components/combobox",
-                is_preview:true
-            },
-            {
-                title:"ContextMenu",
-                path:"/docs/components/context-menu",
-                is_preview:true
-            },
-            {
-                title:"DataList",
-                path:"/docs/components/data-list",
-                is_preview:true
-            },
-            {
-                title:"Disclosure",
-                path:"/docs/components/disclosure",
-                is_preview:true
-            },
-            {
-                title:"DropdownMenu",
-                path:"/docs/components/dropdown-menu",
-                is_preview:true
-            },
-            {
-                title:"HoverCard",
-                path:"/docs/components/hover-card",
-                is_preview:true
-            },
-            {
-                title:"Menubar",
-                path:"/docs/components/menubar",
-                is_preview:true
-            },
-            {
-                title:"Minimap",
-                path:"/docs/components/minimap",
-                is_preview:true
-            },
-            {
-                title:"NavigationMenu",
-                path:"/docs/components/navigation-menu",
-                is_preview:true
-            },
-            {
-                title:"NumberField",
-                path:"/docs/components/number-field",
-                is_preview:true
-            },
-            {
-                title:"Quote",
-                path:"/docs/components/quote",
-                is_preview:true
-            },
-            {
-                title:"Radio",
-                path:"/docs/components/radio",
-                is_preview:true
-            },
-            {
-                title:"RadioCards",
-                path:"/docs/components/radio-cards",
-                is_preview:true
-            },
-            {
-                title:"RadioGroup",
-                path:"/docs/components/radio-group",
-                is_preview:true
-            },
-            {
-                title:"Select",
-                path:"/docs/components/select",
-                is_preview:true
-            },
-            {
-                title:"Skeleton",
-                path:"/docs/components/skeleton",
-                is_preview:true
-            },
-            {
-                title:"Slider",
-                path:"/docs/components/slider",
-                is_preview:true
-            },
-            {
-                title:"Spinner",
-                path:"/docs/components/spinner",
-                is_preview:true
-            },
-            {
-                title:"Splitter",
-                path:"/docs/components/splitter",
-                is_preview:true
-            },
-            {
-                title:"Steps",
-                path:"/docs/components/steps",
-                is_preview:true
-            },
-            {
-                title:"TabNav",
-                path:"/docs/components/tab-nav",
-                is_preview:true
-            },
-            {
-                title:"TextArea",
-                path:"/docs/components/text-area",
-                is_preview:true
-            },
-            {
-                title:"Tree",
-                path:"/docs/components/tree",
-                is_preview:true
-            }
-
+            { title:"Accordion", path:"/docs/components/accordion" },
+            { title:"AlertDialog", path:"/docs/components/alert-dialog", is_new:true },
+            { title:"AspectRatio", path:"/docs/components/aspect-ratio" },
+            { title:"Avatar", path:"/docs/components/avatar" },
+            { title:"AvatarGroup", path:"/docs/components/avatar-group" },
+            { title:"Badge", path:"/docs/components/badge" },
+            { title:"BlockQuote", path:"/docs/components/blockquote" },
+            { title:"Button", path:"/docs/components/button" },
+            { title:"Callout", path:"/docs/components/callout" },
+            { title:"Card", path:"/docs/components/card" },
+            { title:"Checkbox", path:"/docs/components/checkbox", is_preview:true },
+            { title:"CheckboxCards", path:"/docs/components/checkbox-cards", is_preview:true },
+            { title:"CheckboxGroup", path:"/docs/components/checkbox-group", is_preview:true },
+            { title:"Code", path:"/docs/components/code" },
+            { title:"Collapsible", path:"/docs/components/collapsible", is_preview:true },
+            { title:"Combobox", path:"/docs/components/combobox", is_preview:true },
+            { title:"ContextMenu", path:"/docs/components/context-menu", is_preview:true },
+            { title:"DataList", path:"/docs/components/data-list", is_preview:true },
+            { title:"Dialog", path:"/docs/components/dialog", is_new:true },
+            { title:"Disclosure", path:"/docs/components/disclosure", is_preview:true },
+            { title:"DropdownMenu", path:"/docs/components/dropdown-menu", is_preview:true },
+            { title:"Em", path:"/docs/components/em" },
+            { title:"Heading", path:"/docs/components/heading" },
+            { title:"HoverCard", path:"/docs/components/hover-card", is_preview:true },
+            { title:"Kbd", path:"/docs/components/kbd" },
+            { title:"Link", path:"/docs/components/link", is_preview:true },
+            { title:"Menubar", path:"/docs/components/menubar", is_preview:true },
+            { title:"Minimap", path:"/docs/components/minimap", is_preview:true },
+            { title:"NavigationMenu", path:"/docs/components/navigation-menu", is_preview:true },
+            { title:"NumberField", path:"/docs/components/number-field", is_preview:true },
+            { title:"Progress", path:"/docs/components/progress" },
+            { title:"Quote", path:"/docs/components/quote", is_preview:true },
+            { title:"Radio", path:"/docs/components/radio", is_preview:true },
+            { title:"RadioCards", path:"/docs/components/radio-cards", is_preview:true },
+            { title:"RadioGroup", path:"/docs/components/radio-group", is_preview:true },
+            { title:"ScrollArea", path:"/docs/components/scroll-area", is_preview:true },
+            { title:"Select", path:"/docs/components/select", is_preview:true },
+            { title:"Separator", path:"/docs/components/separator" },
+            { title:"Skeleton", path:"/docs/components/skeleton", is_preview:true },
+            { title:"Slider", path:"/docs/components/slider", is_preview:true },
+            { title:"Spinner", path:"/docs/components/spinner", is_preview:true },
+            { title:"Splitter", path:"/docs/components/splitter", is_preview:true },
+            { title:"Steps", path:"/docs/components/steps", is_preview:true },
+            { title:"Strong", path:"/docs/components/strong" },
+            { title:"Switch", path:"/docs/components/switch" },
+            { title:"TabNav", path:"/docs/components/tab-nav", is_preview:true },
+            { title:"Table", path:"/docs/components/table", is_new:true },
+            { title:"Tabs", path:"/docs/components/tabs", is_new:true },
+            { title:"Text", path:"/docs/components/text" },
+            { title:"TextArea", path:"/docs/components/text-area", is_preview:true },
+            { title:"Theme", path:"/docs/components/theme", is_preview:true },
+            { title:"Toggle", path:"/docs/components/toggle" },
+            { title:"ToggleGroup", path:"/docs/components/toggle-group" },
+            { title:"Tooltip", path:"/docs/components/tooltip" },
+            { title:"Tree", path:"/docs/components/tree", is_preview:true },
+            { title:"VisuallyHidden", path:"/docs/components/visually-hidden" }
         ]
     },
     {

@@ -3,7 +3,7 @@ import Steps from "@radui/ui/Steps"
 export default () => {
     return (
         <Steps.Root>
-            <Steps.Item>
+            <Steps.Item value={0}>
                 <Steps.Track>
                     <Steps.Bubble />
                     <Steps.Line />

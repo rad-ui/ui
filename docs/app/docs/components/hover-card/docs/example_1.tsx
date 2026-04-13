@@ -4,15 +4,17 @@ import HoverCard from "@radui/ui/HoverCard"
 
 const HoverCardExample = () => {
     return (
-        <HoverCard.Root>
+        <HoverCard.Root openDelay={100} closeDelay={200}>
             <HoverCard.Trigger>
                 <a href="#" className="underline font-medium">@radui</a>
             </HoverCard.Trigger>
             <HoverCard.Portal>
-                <HoverCard.Content className="p-4 rounded-xl border shadow-lg bg-white w-[240px]">
-                    <div className="font-bold mb-1">Rad UI</div>
-                    <div className="text-sm text-gray-600">A headless component library for React. Build accessible UIs with full styling control.</div>
-                    <HoverCard.Arrow />
+                <HoverCard.Content>
+                    <div className="w-[240px] space-y-2">
+                        <div className="font-semibold">Rad UI</div>
+                        <p className="text-sm text-gray-600">A headless component library for React. Build accessible UIs with full styling control.</p>
+                        <p className="text-xs text-gray-400">Joined December 2021</p>
+                    </div>
                 </HoverCard.Content>
             </HoverCard.Portal>
         </HoverCard.Root>

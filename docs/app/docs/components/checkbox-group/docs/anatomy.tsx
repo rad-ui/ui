@@ -3,10 +3,12 @@ import CheckboxGroup from "@radui/ui/CheckboxGroup"
 export default () => {
     return (
         <CheckboxGroup.Root>
-            <CheckboxGroup.Trigger value="">
-                <CheckboxGroup.Indicator />
-                <CheckboxGroup.Label />
-            </CheckboxGroup.Trigger>
+            <CheckboxGroup.Label>
+                <CheckboxGroup.Trigger value="option">
+                    <CheckboxGroup.Indicator />
+                </CheckboxGroup.Trigger>
+                Label
+            </CheckboxGroup.Label>
         </CheckboxGroup.Root>
     )
 }

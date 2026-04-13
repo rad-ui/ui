@@ -2,38 +2,28 @@
 
 import Steps from "@radui/ui/Steps"
 
+const steps = [
+    { title: 'Account Setup', description: 'Create your account and verify your email' },
+    { title: 'Profile', description: 'Add your personal information' },
+    { title: 'Payment', description: 'Set up your billing details' },
+    { title: 'Confirmation', description: 'Review and complete registration' }
+]
+
 const StepsExample = () => {
     return (
-        <Steps.Root currentStep={1}>
-            <Steps.Item>
-                <Steps.Track>
-                    <Steps.Bubble>1</Steps.Bubble>
-                    <Steps.Line />
-                </Steps.Track>
-                <Steps.Content>
-                    <Steps.Title>Account</Steps.Title>
-                    <Steps.Description>Create your account</Steps.Description>
-                </Steps.Content>
-            </Steps.Item>
-            <Steps.Item>
-                <Steps.Track>
-                    <Steps.Bubble>2</Steps.Bubble>
-                    <Steps.Line />
-                </Steps.Track>
-                <Steps.Content>
-                    <Steps.Title>Profile</Steps.Title>
-                    <Steps.Description>Set up your profile</Steps.Description>
-                </Steps.Content>
-            </Steps.Item>
-            <Steps.Item>
-                <Steps.Track>
-                    <Steps.Bubble>3</Steps.Bubble>
-                </Steps.Track>
-                <Steps.Content>
-                    <Steps.Title>Done</Steps.Title>
-                    <Steps.Description>You're all set!</Steps.Description>
-                </Steps.Content>
-            </Steps.Item>
+        <Steps.Root>
+            {steps.map((step, index) => (
+                <Steps.Item key={index} value={index}>
+                    <Steps.Track>
+                        <Steps.Bubble>{index + 1}</Steps.Bubble>
+                        <Steps.Line />
+                    </Steps.Track>
+                    <Steps.Content>
+                        <Steps.Title>{step.title}</Steps.Title>
+                        <Steps.Description>{step.description}</Steps.Description>
+                    </Steps.Content>
+                </Steps.Item>
+            ))}
         </Steps.Root>
     )
 }

@@ -9,10 +9,10 @@ const MenubarExample = () => {
                 <Menubar.Trigger>File</Menubar.Trigger>
                 <Menubar.Portal>
                     <Menubar.Content>
-                        <Menubar.Item>New File</Menubar.Item>
-                        <Menubar.Item>Open...</Menubar.Item>
+                        <Menubar.Item label="New File">New File</Menubar.Item>
+                        <Menubar.Item label="Open">Open...</Menubar.Item>
                         <Menubar.Separator />
-                        <Menubar.Item>Save</Menubar.Item>
+                        <Menubar.Item label="Save">Save</Menubar.Item>
                     </Menubar.Content>
                 </Menubar.Portal>
             </Menubar.Menu>
@@ -20,12 +20,12 @@ const MenubarExample = () => {
                 <Menubar.Trigger>Edit</Menubar.Trigger>
                 <Menubar.Portal>
                     <Menubar.Content>
-                        <Menubar.Item>Undo</Menubar.Item>
-                        <Menubar.Item>Redo</Menubar.Item>
+                        <Menubar.Item label="Undo">Undo</Menubar.Item>
+                        <Menubar.Item label="Redo">Redo</Menubar.Item>
                         <Menubar.Separator />
-                        <Menubar.Item>Cut</Menubar.Item>
-                        <Menubar.Item>Copy</Menubar.Item>
-                        <Menubar.Item>Paste</Menubar.Item>
+                        <Menubar.Item label="Cut">Cut</Menubar.Item>
+                        <Menubar.Item label="Copy">Copy</Menubar.Item>
+                        <Menubar.Item label="Paste">Paste</Menubar.Item>
                     </Menubar.Content>
                 </Menubar.Portal>
             </Menubar.Menu>
@@ -33,8 +33,8 @@ const MenubarExample = () => {
                 <Menubar.Trigger>View</Menubar.Trigger>
                 <Menubar.Portal>
                     <Menubar.Content>
-                        <Menubar.Item>Zoom In</Menubar.Item>
-                        <Menubar.Item>Zoom Out</Menubar.Item>
+                        <Menubar.Item label="Zoom In">Zoom In</Menubar.Item>
+                        <Menubar.Item label="Zoom Out">Zoom Out</Menubar.Item>
                     </Menubar.Content>
                 </Menubar.Portal>
             </Menubar.Menu>

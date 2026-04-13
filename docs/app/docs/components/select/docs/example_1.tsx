@@ -4,22 +4,23 @@ import Select from "@radui/ui/Select"
 
 const SelectExample = () => {
     return (
-        <Select.Root>
-            <Select.Trigger className="flex items-center justify-between w-[200px] px-3 py-2 border rounded-lg cursor-pointer">
-                <span>Pick a color...</span>
-                <Select.Indicator />
-            </Select.Trigger>
-            <Select.Portal>
-                <Select.Content>
-                    <Select.Group>
-                        <Select.Item value="red">Red</Select.Item>
-                        <Select.Item value="green">Green</Select.Item>
-                        <Select.Item value="blue">Blue</Select.Item>
-                        <Select.Item value="purple">Purple</Select.Item>
-                    </Select.Group>
-                </Select.Content>
-            </Select.Portal>
-        </Select.Root>
+        <div className="w-[240px]">
+            <Select.Root>
+                <Select.Trigger>
+                    <span>Select a fruit...</span>
+                </Select.Trigger>
+                <Select.Portal>
+                    <Select.Content>
+                        <Select.Group>
+                            <Select.Item value="apple"><Select.Indicator />Apple</Select.Item>
+                            <Select.Item value="banana"><Select.Indicator />Banana</Select.Item>
+                            <Select.Item value="orange"><Select.Indicator />Orange</Select.Item>
+                            <Select.Item value="grape"><Select.Indicator />Grape</Select.Item>
+                        </Select.Group>
+                    </Select.Content>
+                </Select.Portal>
+            </Select.Root>
+        </div>
     )
 }
 

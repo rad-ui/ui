@@ -2,21 +2,23 @@
 
 import RadioGroup from "@radui/ui/RadioGroup"
 
+const options = [
+    { id: 'default', value: 'default', label: 'Default' },
+    { id: 'comfortable', value: 'comfortable', label: 'Comfortable' },
+    { id: 'compact', value: 'compact', label: 'Compact' }
+]
+
 const RadioGroupExample = () => {
     return (
-        <RadioGroup.Root name="plan">
-            <RadioGroup.Item value="free">
-                <RadioGroup.Indicator />
-                <RadioGroup.Label>Free — $0/month</RadioGroup.Label>
-            </RadioGroup.Item>
-            <RadioGroup.Item value="pro">
-                <RadioGroup.Indicator />
-                <RadioGroup.Label>Pro — $12/month</RadioGroup.Label>
-            </RadioGroup.Item>
-            <RadioGroup.Item value="enterprise">
-                <RadioGroup.Indicator />
-                <RadioGroup.Label>Enterprise — Custom pricing</RadioGroup.Label>
-            </RadioGroup.Item>
+        <RadioGroup.Root defaultValue="comfortable" aria-label="Density">
+            {options.map((option) => (
+                <RadioGroup.Label key={option.id}>
+                    <RadioGroup.Item value={option.value}>
+                        <RadioGroup.Indicator />
+                    </RadioGroup.Item>
+                    {option.label}
+                </RadioGroup.Label>
+            ))}
         </RadioGroup.Root>
     )
 }

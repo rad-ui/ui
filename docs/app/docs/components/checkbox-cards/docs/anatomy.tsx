@@ -4,8 +4,9 @@ export default () => {
     return (
         <CheckboxCards.Root>
             <CheckboxCards.Item value="">
-                <CheckboxCards.Content />
-                <CheckboxCards.Indicator />
+                <CheckboxCards.Content>
+                    <CheckboxCards.Indicator />
+                </CheckboxCards.Content>
             </CheckboxCards.Item>
         </CheckboxCards.Root>
     )
