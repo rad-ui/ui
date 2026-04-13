@@ -20,45 +20,91 @@ describe('RadioGroup behavior', () => {
         const one = screen.getByTestId('one');
         const two = screen.getByTestId('two');
         const three = screen.getByTestId('three');
+
         await user.tab();
         expect(one).toHaveFocus();
+
         await user.keyboard('{ArrowRight}');
         expect(two).toHaveFocus();
         expect(two).toHaveAttribute('aria-checked', 'true');
+
         await user.keyboard('{End}');
         expect(three).toHaveFocus();
         expect(three).toHaveAttribute('aria-checked', 'true');
+
         await user.keyboard('{Home}');
         expect(one).toHaveFocus();
         expect(one).toHaveAttribute('aria-checked', 'true');
     });
 
-    test('controlled value syncs with onValueChange and defaultValue works', async() => {
+    test('controlled value syncs with onValueChange', async() => {
+        const onValueChange = jest.fn();
+
         const Controlled = () => {
             const [value, setValue] = React.useState('one');
             return (
-                <RadioGroup.Root value={value} onValueChange={setValue}>
+                <RadioGroup.Root
+                    value={value}
+                    onValueChange={(nextValue) => {
+                        onValueChange(nextValue);
+                        setValue(nextValue);
+                    }}
+                >
                     <RadioGroup.Item value="one" data-testid="c-one">one</RadioGroup.Item>
                     <RadioGroup.Item value="two" data-testid="c-two">two</RadioGroup.Item>
                     <RadioGroup.Item value="three" data-testid="c-three">three</RadioGroup.Item>
                 </RadioGroup.Root>
             );
         };
+
         render(<Controlled />);
         const user = userEvent.setup();
+
         await user.tab();
         await user.keyboard('{ArrowRight}');
-        expect(screen.getByTestId('c-two')).toHaveAttribute('aria-checked', 'true');
         await user.keyboard('{ArrowRight}');
-        expect(screen.getByTestId('c-three')).toHaveAttribute('aria-checked', 'true');
 
+        expect(onValueChange).toHaveBeenCalledWith('two');
+        expect(onValueChange).toHaveBeenCalledWith('three');
+        expect(screen.getByTestId('c-three')).toHaveAttribute('aria-checked', 'true');
+    });
+
+    test('defaultValue is selected when provided', () => {
         render(
             <RadioGroup.Root defaultValue="two">
                 <RadioGroup.Item value="one" data-testid="u-one">one</RadioGroup.Item>
                 <RadioGroup.Item value="two" data-testid="u-two">two</RadioGroup.Item>
             </RadioGroup.Root>
         );
+
+        expect(screen.getByTestId('u-one')).toHaveAttribute('aria-checked', 'false');
         expect(screen.getByTestId('u-two')).toHaveAttribute('aria-checked', 'true');
+    });
+
+    test('with no default selection, initial radios are unchecked and form submit starts empty', async() => {
+        let submitted: FormData | undefined;
+        const handleSubmit = (e: React.FormEvent) => {
+            e.preventDefault();
+            submitted = new FormData(e.target as HTMLFormElement);
+        };
+
+        render(
+            <form onSubmit={handleSubmit}>
+                <RadioGroup.Root name="empty-rg">
+                    <RadioGroup.Item value="one" data-testid="nd-one">one</RadioGroup.Item>
+                    <RadioGroup.Item value="two" data-testid="nd-two">two</RadioGroup.Item>
+                </RadioGroup.Root>
+                <button type="submit">submit empty</button>
+            </form>
+        );
+
+        expect(screen.getByTestId('nd-one')).toHaveAttribute('aria-checked', 'false');
+        expect(screen.getByTestId('nd-two')).toHaveAttribute('aria-checked', 'false');
+
+        const user = userEvent.setup();
+        await user.click(screen.getByText('submit empty'));
+
+        expect(submitted?.get('empty-rg')).toBe('');
     });
 
     test('form submission includes selected value and disabled radios skip focus', async() => {
@@ -78,12 +124,50 @@ describe('RadioGroup behavior', () => {
             </form>
         );
         const user = userEvent.setup();
+
         await user.tab();
         await user.keyboard('{ArrowRight}');
+
+        const disabled = screen.getByTestId('f-two');
         const three = screen.getByTestId('f-three');
+        expect(disabled).toHaveAttribute('aria-disabled', 'true');
         expect(three).toHaveFocus();
+
         await user.click(screen.getByText('submit'));
         expect(submitted?.get('rg')).toBe('three');
+    });
+
+    test('nested groups keep keyboard focus navigation scoped to the active group', async() => {
+        render(
+            <div>
+                <RadioGroup.Root data-testid="outer-group" defaultValue="outer-1">
+                    <RadioGroup.Item value="outer-1" data-testid="outer-1">outer 1</RadioGroup.Item>
+                    <RadioGroup.Item value="outer-2" data-testid="outer-2">outer 2</RadioGroup.Item>
+                </RadioGroup.Root>
+
+                <RadioGroup.Root data-testid="inner-group" defaultValue="inner-1">
+                    <RadioGroup.Item value="inner-1" data-testid="inner-1">inner 1</RadioGroup.Item>
+                    <RadioGroup.Item value="inner-2" data-testid="inner-2">inner 2</RadioGroup.Item>
+                </RadioGroup.Root>
+            </div>
+        );
+
+        const user = userEvent.setup();
+
+        await user.tab();
+        expect(screen.getByTestId('outer-1')).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}');
+        expect(screen.getByTestId('outer-2')).toHaveFocus();
+        expect(screen.getByTestId('inner-1')).toHaveAttribute('aria-checked', 'true');
+        expect(screen.getByTestId('inner-2')).toHaveAttribute('aria-checked', 'false');
+
+        await user.tab();
+        expect(screen.getByTestId('inner-1')).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}');
+        expect(screen.getByTestId('inner-2')).toHaveFocus();
+        expect(screen.getByTestId('outer-2')).toHaveAttribute('aria-checked', 'true');
     });
 
     test('data-state and data-disabled attributes reflect state', () => {
