@@ -372,10 +372,14 @@
 --rad-ui-color-orange-900: #ef5f00;
 --rad-ui-color-orange-950: #cc4e00;
 --rad-ui-color-orange-1000: #582d1d;
-      --rad-ui-radius-sm: 0.375rem;
+--rad-ui-color-black: #0A0A0A;
+--rad-ui-color-white: #FFFFFF;
+      --rad-ui-radius-none: 0;
+--rad-ui-radius-sm: 0.375rem;
 --rad-ui-radius-md: 0.5rem;
 --rad-ui-radius-lg: 0.75rem;
 --rad-ui-radius-xl: 1rem;
+--rad-ui-radius-full: 9999px;
 --rad-ui-spacing-0: 0;
 --rad-ui-spacing-1: 0.25rem;
 --rad-ui-spacing-2: 0.5rem;
@@ -404,24 +408,35 @@
 --rad-ui-letter-spacing-tight: -0.01em;
 --rad-ui-letter-spacing-normal: 0;
 --rad-ui-letter-spacing-wide: 0.02em;
+--rad-ui-shadow-none: none;
 --rad-ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
 --rad-ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
 --rad-ui-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 --rad-ui-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+--rad-ui-shadow-xl: 0 18px 48px rgba(0, 0, 0, 0.16);
+--rad-ui-shadow-full: 0 28px 80px rgba(0, 0, 0, 0.22);
 --rad-ui-z-index-base: 0;
 --rad-ui-z-index-dropdown: 100;
 --rad-ui-z-index-sticky: 200;
 --rad-ui-z-index-overlay: 900;
 --rad-ui-z-index-portal: 1000;
+--rad-ui-motion-duration-instant: 80ms;
 --rad-ui-motion-duration-fast: 120ms;
 --rad-ui-motion-duration-normal: 180ms;
 --rad-ui-motion-duration-slow: 240ms;
+--rad-ui-motion-duration-slower: 320ms;
+--rad-ui-motion-easing-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+--rad-ui-motion-easing-exit: cubic-bezier(0.7, 0, 0.84, 0);
 --rad-ui-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
 --rad-ui-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+--rad-ui-motion-easing-linear: linear;
+--rad-ui-motion-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 --rad-ui-border-width-0: 0;
 --rad-ui-border-width-1: 1px;
 --rad-ui-border-width-2: 2px;
 --rad-ui-opacity-0: 0;
+--rad-ui-opacity-10: 0.1;
+--rad-ui-opacity-20: 0.2;
 --rad-ui-opacity-25: 0.25;
 --rad-ui-opacity-50: 0.5;
 --rad-ui-opacity-75: 0.75;
@@ -439,6 +454,7 @@
 --rad-ui-breakpoint-xl: 80rem;
 --rad-ui-breakpoint-2xl: 96rem;
 --rad-ui-blur-none: 0;
+--rad-ui-blur-xs: 2px;
 --rad-ui-blur-sm: 4px;
 --rad-ui-blur-md: 8px;
 --rad-ui-blur-lg: 12px;
@@ -484,6 +500,9 @@
 --rad-ui-grid-columns-4: 4;
 --rad-ui-grid-columns-6: 6;
 --rad-ui-grid-columns-12: 12;
+--rad-ui-grid-columns-24: 24;
+--rad-ui-grid-gutter-none: 0;
+--rad-ui-grid-gutter-xs: 0.5rem;
 --rad-ui-grid-gutter-sm: 0.75rem;
 --rad-ui-grid-gutter-md: 1rem;
 --rad-ui-grid-gutter-lg: 1.5rem;
@@ -491,9 +510,11 @@
 --rad-ui-grid-container-md: 48rem;
 --rad-ui-grid-container-lg: 64rem;
 --rad-ui-grid-container-xl: 80rem;
+--rad-ui-transition-instant: background-color 80ms linear, color 80ms linear;
 --rad-ui-transition-fast: background-color 120ms cubic-bezier(0.2, 0, 0, 1), color 120ms cubic-bezier(0.2, 0, 0, 1), border-color 120ms cubic-bezier(0.2, 0, 0, 1);
 --rad-ui-transition-normal: background-color 180ms cubic-bezier(0.2, 0, 0, 1), color 180ms cubic-bezier(0.2, 0, 0, 1), box-shadow 180ms cubic-bezier(0.2, 0, 0, 1), transform 180ms cubic-bezier(0.2, 0, 0, 1);
 --rad-ui-transition-slow: transform 240ms cubic-bezier(0.2, 0, 0, 1.2), opacity 240ms cubic-bezier(0.2, 0, 0, 1), box-shadow 240ms cubic-bezier(0.2, 0, 0, 1);
+--rad-ui-transition-expressive: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms cubic-bezier(0.2, 0, 0, 1), filter 320ms cubic-bezier(0.2, 0, 0, 1);
     }
 
     [data-rad-ui-accent-color=gray]{
@@ -1305,10 +1326,15 @@
 --rad-ui-color-orange-900: #ff801f;
 --rad-ui-color-orange-950: #ffa057;
 --rad-ui-color-orange-1000: #ffe0c2;
-      --rad-ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.03);
+--rad-ui-color-black: #FAFAFA;
+--rad-ui-color-white: #000000;
+      --rad-ui-shadow-none: none;
+--rad-ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.03);
 --rad-ui-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.04);
 --rad-ui-shadow-md: 0 8px 18px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.05);
 --rad-ui-shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.06);
+--rad-ui-shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(255, 255, 255, 0.07);
+--rad-ui-shadow-full: 0 32px 88px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(255, 255, 255, 0.08);
 --rad-ui-elevation-xs-shadow: 0 1px 2px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.03);
 --rad-ui-elevation-xs-border: rgba(255, 255, 255, 0.04);
 --rad-ui-elevation-xs-background: rgba(24, 24, 27, 0.82);

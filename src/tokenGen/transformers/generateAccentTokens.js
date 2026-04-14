@@ -27,6 +27,10 @@ const generateAccentTokens = (theme) => {
         const colorName = colorObj;
         const accentColors = colors[colorObj][theme];
 
+        if (!accentColors || typeof accentColors !== 'object' || Array.isArray(accentColors)) {
+            continue;
+        }
+
         // generate data-accent-color css styles
         let cssVariableName = `[data-rad-ui-accent-color=${colorObj}]{`;
         cssVariableName += '\n';

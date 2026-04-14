@@ -7,6 +7,7 @@ import tokens from '~/design-systems/clarity/tokens';
 const FONT_STACKS = tokens.fontFamily;
 const COLOR_SHADE_ORDER = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950', '1000'] as const;
 type ColorShade = typeof COLOR_SHADE_ORDER[number];
+type StandaloneColor = { light: string; dark: string };
 
 const PAGE_STYLE: React.CSSProperties = {
     padding: '8px 8px 24px',
@@ -143,10 +144,13 @@ const sectionDescriptionStyle: React.CSSProperties = {
 const toEntries = <T extends Record<string, string>>(value: T) => Object.entries(value);
 
 const RUNTIME_SHADOWS = {
+    none: 'var(--rad-ui-shadow-none)',
     xs: 'var(--rad-ui-shadow-xs)',
     sm: 'var(--rad-ui-shadow-sm)',
     md: 'var(--rad-ui-shadow-md)',
-    lg: 'var(--rad-ui-shadow-lg)'
+    lg: 'var(--rad-ui-shadow-lg)',
+    xl: 'var(--rad-ui-shadow-xl)',
+    full: 'var(--rad-ui-shadow-full)'
 } as const;
 
 const RUNTIME_ELEVATION = {
@@ -174,6 +178,8 @@ const RUNTIME_ELEVATION = {
 
 const ClarityShowcase = () => {
     const colors = tokens.colors;
+    const rampColors = Object.entries(colors).filter(([, colorValue]) => typeof colorValue.light === 'object');
+    const standaloneColors = Object.entries(colors).filter(([, colorValue]) => typeof colorValue.light === 'string') as Array<[string, StandaloneColor]>;
     const rootRef = useRef<HTMLDivElement | null>(null);
     const [selectedSwatch, setSelectedSwatch] = useState<{ paletteName: string; shade: ColorShade } | null>(null);
     const [runtimeValue, setRuntimeValue] = useState('');
@@ -183,14 +189,21 @@ const ClarityShowcase = () => {
             return;
         }
 
-        const variableName = `--rad-ui-color-${selectedSwatch.paletteName}-${selectedSwatch.shade}`;
+        const colorToken = colors[selectedSwatch.paletteName as keyof typeof colors];
+        const variableName = typeof colorToken.light === 'string'
+            ? `--rad-ui-color-${selectedSwatch.paletteName}`
+            : `--rad-ui-color-${selectedSwatch.paletteName}-${selectedSwatch.shade}`;
         const themedRoot = rootRef.current.closest('[data-rad-ui-theme]') ?? rootRef.current;
         const computedValue = window.getComputedStyle(themedRoot as Element).getPropertyValue(variableName).trim();
         setRuntimeValue(computedValue);
     }, [selectedSwatch]);
 
     const selectedValues = selectedSwatch ? colors[selectedSwatch.paletteName as keyof typeof colors] : null;
-    const selectedVariableName = selectedSwatch ? `--rad-ui-color-${selectedSwatch.paletteName}-${selectedSwatch.shade}` : '';
+    const selectedVariableName = selectedSwatch
+        ? (selectedValues && typeof selectedValues.light === 'string'
+            ? `--rad-ui-color-${selectedSwatch.paletteName}`
+            : `--rad-ui-color-${selectedSwatch.paletteName}-${selectedSwatch.shade}`)
+        : '';
 
     return (
         <SandboxEditor className='bg-transparent'>
@@ -248,7 +261,7 @@ const ClarityShowcase = () => {
                                 </p>
                             ))}
 
-                            {Object.entries(colors).map(([paletteName]) => (
+                            {rampColors.map(([paletteName]) => (
                                 <React.Fragment key={paletteName}>
                                     <p
                                         style={{
@@ -281,6 +294,34 @@ const ClarityShowcase = () => {
                                 </React.Fragment>
                             ))}
                         </div>
+                        {standaloneColors.length > 0
+                            ? (
+                                <div style={{ display: 'grid', gap: '12px', marginTop: '16px' }}>
+                                    <p style={{ ...LABEL_STYLE, margin: 0 }}>Standalone Colors</p>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '120px minmax(0, 1fr)', gap: '8px', alignItems: 'center' }}>
+                                        {standaloneColors.map(([colorName]) => (
+                                            <React.Fragment key={colorName}>
+                                                <p style={{ ...LABEL_STYLE, margin: 0, textTransform: 'capitalize' }}>{colorName}</p>
+                                                <button
+                                                    type="button"
+                                                    style={swatchButtonStyle}
+                                                    onClick={() => setSelectedSwatch({ paletteName: colorName, shade: '500' })}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            height: '60px',
+                                                            borderRadius: 0,
+                                                            border: '1px solid color-mix(in oklab, var(--rad-ui-border-soft) 55%, transparent)',
+                                                            background: `var(--rad-ui-color-${colorName})`
+                                                        }}
+                                                    />
+                                                </button>
+                                            </React.Fragment>
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                            : null}
                     </section>
 
                     <section style={PANEL_STYLE}>
@@ -1040,7 +1081,9 @@ const ClarityShowcase = () => {
                                         <div style={{ display: 'grid', gap: '6px' }}>
                                             <Dialog.Title asChild>
                                                 <h3 style={{ margin: 0, fontSize: '2rem', lineHeight: 1, fontWeight: 700, textTransform: 'capitalize' }}>
-                                                    {selectedSwatch.paletteName} {selectedSwatch.shade}
+                                                    {typeof selectedValues.light === 'string'
+                                                        ? selectedSwatch.paletteName
+                                                        : `${selectedSwatch.paletteName} ${selectedSwatch.shade}`}
                                                 </h3>
                                             </Dialog.Title>
                                             <Dialog.Description asChild>
@@ -1052,7 +1095,11 @@ const ClarityShowcase = () => {
 
                                         <div style={detailGridStyle}>
                                             <p style={{ ...META_STYLE, margin: 0 }}>Token</p>
-                                            <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>{`colors.${selectedSwatch.paletteName}.${selectedSwatch.shade}`}</p>
+                                            <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>
+                                                {typeof selectedValues.light === 'string'
+                                                    ? `colors.${selectedSwatch.paletteName}`
+                                                    : `colors.${selectedSwatch.paletteName}.${selectedSwatch.shade}`}
+                                            </p>
 
                                             <p style={{ ...META_STYLE, margin: 0 }}>CSS variable</p>
                                             <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>{selectedVariableName}</p>
@@ -1061,10 +1108,18 @@ const ClarityShowcase = () => {
                                             <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>{runtimeValue}</p>
 
                                             <p style={{ ...META_STYLE, margin: 0 }}>Light source</p>
-                                            <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>{selectedValues.light[selectedSwatch.shade]}</p>
+                                            <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>
+                                                {typeof selectedValues.light === 'string'
+                                                    ? selectedValues.light
+                                                    : selectedValues.light[selectedSwatch.shade]}
+                                            </p>
 
                                             <p style={{ ...META_STYLE, margin: 0 }}>Dark source</p>
-                                            <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>{selectedValues.dark[selectedSwatch.shade]}</p>
+                                            <p style={{ ...LABEL_STYLE, ...codeStyle, margin: 0 }}>
+                                                {typeof selectedValues.dark === 'string'
+                                                    ? selectedValues.dark
+                                                    : selectedValues.dark[selectedSwatch.shade]}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

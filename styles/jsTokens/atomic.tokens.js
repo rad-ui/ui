@@ -1,9 +1,11 @@
 export default {
     radius: {
+        none: 'var(--rad-ui-radius-none)',
         sm: 'var(--rad-ui-radius-sm)',
         md: 'var(--rad-ui-radius-md)',
         lg: 'var(--rad-ui-radius-lg)',
-        xl: 'var(--rad-ui-radius-xl)'
+        xl: 'var(--rad-ui-radius-xl)',
+        full: 'var(--rad-ui-radius-full)'
     },
     spacing: {
         0: 'var(--rad-ui-spacing-0)',
@@ -46,10 +48,13 @@ export default {
         wide: 'var(--rad-ui-letter-spacing-wide)'
     },
     shadows: {
+        none: 'var(--rad-ui-shadow-none)',
         xs: 'var(--rad-ui-shadow-xs)',
         sm: 'var(--rad-ui-shadow-sm)',
         md: 'var(--rad-ui-shadow-md)',
-        lg: 'var(--rad-ui-shadow-lg)'
+        lg: 'var(--rad-ui-shadow-lg)',
+        xl: 'var(--rad-ui-shadow-xl)',
+        full: 'var(--rad-ui-shadow-full)'
     },
     zIndex: {
         base: 'var(--rad-ui-z-index-base)',
@@ -59,13 +64,19 @@ export default {
         portal: 'var(--rad-ui-z-index-portal)'
     },
     duration: {
+        instant: 'var(--rad-ui-motion-duration-instant)',
         fast: 'var(--rad-ui-motion-duration-fast)',
         normal: 'var(--rad-ui-motion-duration-normal)',
-        slow: 'var(--rad-ui-motion-duration-slow)'
+        slow: 'var(--rad-ui-motion-duration-slow)',
+        slower: 'var(--rad-ui-motion-duration-slower)'
     },
     easing: {
+        entrance: 'var(--rad-ui-motion-easing-entrance)',
+        exit: 'var(--rad-ui-motion-easing-exit)',
         standard: 'var(--rad-ui-motion-easing-standard)',
-        emphasized: 'var(--rad-ui-motion-easing-emphasized)'
+        emphasized: 'var(--rad-ui-motion-easing-emphasized)',
+        linear: 'var(--rad-ui-motion-easing-linear)',
+        spring: 'var(--rad-ui-motion-easing-spring)'
     },
     borderWidth: {
         0: 'var(--rad-ui-border-width-0)',
@@ -74,6 +85,8 @@ export default {
     },
     opacity: {
         0: 'var(--rad-ui-opacity-0)',
+        10: 'var(--rad-ui-opacity-10)',
+        20: 'var(--rad-ui-opacity-20)',
         25: 'var(--rad-ui-opacity-25)',
         50: 'var(--rad-ui-opacity-50)',
         75: 'var(--rad-ui-opacity-75)',
@@ -97,6 +110,7 @@ export default {
     },
     blur: {
         none: 'var(--rad-ui-blur-none)',
+        xs: 'var(--rad-ui-blur-xs)',
         sm: 'var(--rad-ui-blur-sm)',
         md: 'var(--rad-ui-blur-md)',
         lg: 'var(--rad-ui-blur-lg)',
@@ -168,9 +182,12 @@ export default {
             3: 'var(--rad-ui-grid-columns-3)',
             4: 'var(--rad-ui-grid-columns-4)',
             6: 'var(--rad-ui-grid-columns-6)',
-            12: 'var(--rad-ui-grid-columns-12)'
+            12: 'var(--rad-ui-grid-columns-12)',
+            24: 'var(--rad-ui-grid-columns-24)'
         },
         gutter: {
+            none: 'var(--rad-ui-grid-gutter-none)',
+            xs: 'var(--rad-ui-grid-gutter-xs)',
             sm: 'var(--rad-ui-grid-gutter-sm)',
             md: 'var(--rad-ui-grid-gutter-md)',
             lg: 'var(--rad-ui-grid-gutter-lg)'
@@ -183,8 +200,10 @@ export default {
         }
     },
     transition: {
+        instant: 'var(--rad-ui-transition-instant)',
         fast: 'var(--rad-ui-transition-fast)',
         normal: 'var(--rad-ui-transition-normal)',
-        slow: 'var(--rad-ui-transition-slow)'
+        slow: 'var(--rad-ui-transition-slow)',
+        expressive: 'var(--rad-ui-transition-expressive)'
     }
 };
