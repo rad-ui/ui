@@ -1,6 +1,6 @@
 /* stylelint-disable no-descending-specificity */
 // Base avatar styles (least specific) - must come first
-@use "avatar-base";
+@use "../Avatar/avatar-base.clarity";
 
 // Avatar group styles (more specific due to nesting)
 // Note: This file has nested selectors that create specificity conflicts

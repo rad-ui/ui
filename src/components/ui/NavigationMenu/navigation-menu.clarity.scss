@@ -7,7 +7,7 @@
   border: 1px solid var(--rad-ui-border-soft);
   border-radius: 1rem;
   background-color: var(--rad-ui-surface-panel);
-  box-shadow: var(--rad-ui-shadow-xs);
+  box-shadow: var(--rad-ui-elevation-xs-shadow);
 }
 
 .rad-ui-navigation-menu-item {
@@ -63,7 +63,7 @@
 
   &[data-state="open"] {
     background-color: var(--rad-ui-surface-subtle);
-    box-shadow: var(--rad-ui-shadow-xs);
+    box-shadow: var(--rad-ui-elevation-xs-shadow);
 
     &::after {
       transform: rotate(-135deg) translateX(-1px);
@@ -80,7 +80,7 @@
   border: 1px solid var(--rad-ui-border-soft);
   border-radius: 1rem;
   background-color: var(--rad-ui-surface-panel);
-  box-shadow: var(--rad-ui-shadow-md);
+  box-shadow: var(--rad-ui-elevation-md-shadow);
   z-index: 100;
 }
 

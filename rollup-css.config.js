@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
-    input: 'styles/themes/default.scss',
+    input: 'src/design-systems/clarity/default.scss',
     output: {
         file: 'dist/themes/default.css'
     },

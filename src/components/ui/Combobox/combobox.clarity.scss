@@ -1,4 +1,4 @@
-@use 'button';
+@use '../Button/button.clarity';
 
 .rad-ui-combobox-root {
     position: relative;
@@ -64,7 +64,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    box-shadow: var(--rad-ui-shadow-md);
+    box-shadow: var(--rad-ui-elevation-md-shadow);
     
     // Animation
     animation: rad-ui-slide-down 0.2s cubic-bezier(0.16, 1, 0.3, 1);

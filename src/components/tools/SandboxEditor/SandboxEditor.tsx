@@ -31,7 +31,7 @@ const ColorSelect = ({ color, isDarkMode, isSelected }: ColorSelectProps) => {
     const dimensions = 18;
     return <span
         aria-hidden="true"
-        className='inline-flex rounded-full border transition-all duration-150 ease-out'
+        className='inline-flex rounded-full border'
         style={{
             width: dimensions,
             height: dimensions,
@@ -46,6 +46,7 @@ type SandboxProps = { className?: string } & PropsWithChildren
 
 const SandboxEditor = ({ children, className }: SandboxProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isCondensed, setIsCondensed] = useState(false);
 
     type AvailableColors = keyof typeof colors
 
@@ -54,6 +55,17 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
     useEffect(() => {
         const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
         setIsDarkMode(isDarkMode);
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsCondensed(window.scrollY > 48);
+        };
+
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const toggleDarkMode = () => {
@@ -65,18 +77,23 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
         appearance={isDarkMode ? 'dark' : 'light'}
         accentColor={colorName}>
         <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
-            <div className='mb-2'>
-                <div className='flex items-start justify-between gap-2'>
+            <div
+                className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}
+            >
+                <div
+                    className={`rounded-xl border border-transparent bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_82%,transparent)] backdrop-blur supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_72%,transparent)] ${isCondensed ? 'px-3 py-2 shadow-sm' : 'px-0 py-0 shadow-none'}`.trim()}
+                >
+                    <div className='flex items-start justify-between gap-2'>
                     <div className='flex min-w-0 items-center space-x-3'>
                         <div className='text-gray-1000 shrink-0'>
                             <RadUILogo/>
                         </div>
-                        <Separator orientation='vertical' />
+                        <Separator orientation='vertical' className={isCondensed ? 'opacity-60' : 'opacity-100'} />
                         <div className='min-w-0'>
-                            <Heading as='h1' className='text-3xl font-semibold leading-none tracking-tight text-gray-1000 sm:text-4xl'>
+                            <Heading as='h1' className={`font-semibold leading-none tracking-tight text-gray-1000 ${isCondensed ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'}`.trim()}>
                                 Sandbox Editor
                             </Heading>
-                            <Text className='mt-0.5 text-sm font-normal leading-tight text-gray-950'>
+                            <Text className={`mt-0.5 font-normal leading-tight text-gray-950 ${isCondensed ? 'hidden' : 'text-sm'}`.trim()}>
                                 Preview Rad UI components with theme and accent controls.
                             </Text>
                         </div>
@@ -89,42 +106,43 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
                         {isDarkMode ? <SunIcon/> : <MoonIcon/>}
                     </Button>
                 </div>
-                <Separator />
-                <div className='flex flex-col gap-1.5 py-1.5 sm:flex-row sm:items-center sm:justify-between'>
-                    <Text as='span' className='text-sm text-gray-950 leading-none'>
+                    <Separator className={isCondensed ? 'opacity-70' : 'opacity-100'} />
+                    <div className={`flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between ${isCondensed ? 'py-0.5' : 'py-1.5'}`.trim()}>
+                        <Text as='span' className='text-sm text-gray-950 leading-none'>
                             Accent: <span className='capitalize'>{colorName}</span>
-                    </Text>
-                    <div className='w-full sm:w-[220px]'>
-                        <Select.Root value={colorName} onValueChange={(value) => setColorName(value as AvailableColors)}>
-                            <Select.Trigger aria-label='Accent color'>
-                                <span className='flex items-center gap-2'>
-                                    <ColorSelect
-                                        color={colors[colorName]}
-                                        isDarkMode={isDarkMode}
-                                        isSelected={true}
-                                    />
-                                    <span className='capitalize'>{colorName}</span>
-                                </span>
-                            </Select.Trigger>
-                            <Select.Portal>
-                                <Select.Content>
-                                    <Select.Group>
-                                        {Object.entries(colors).map(([availableColorName, color]) => (
-                                            <Select.Item key={availableColorName} value={availableColorName}>
-                                                <span className='flex items-center gap-2'>
-                                                    <ColorSelect
-                                                        color={color}
-                                                        isDarkMode={isDarkMode}
-                                                        isSelected={availableColorName === colorName}
-                                                    />
-                                                    <span className='capitalize'>{availableColorName}</span>
-                                                </span>
-                                            </Select.Item>
-                                        ))}
-                                    </Select.Group>
-                                </Select.Content>
-                            </Select.Portal>
-                        </Select.Root>
+                        </Text>
+                        <div className={`w-full sm:w-[220px] ${isCondensed ? 'sm:w-[200px]' : ''}`.trim()}>
+                            <Select.Root value={colorName} onValueChange={(value) => setColorName(value as AvailableColors)}>
+                                <Select.Trigger aria-label='Accent color'>
+                                    <span className='flex items-center gap-2'>
+                                        <ColorSelect
+                                            color={colors[colorName]}
+                                            isDarkMode={isDarkMode}
+                                            isSelected={true}
+                                        />
+                                        <span className='capitalize'>{colorName}</span>
+                                    </span>
+                                </Select.Trigger>
+                                <Select.Portal>
+                                    <Select.Content>
+                                        <Select.Group>
+                                            {Object.entries(colors).map(([availableColorName, color]) => (
+                                                <Select.Item key={availableColorName} value={availableColorName}>
+                                                    <span className='flex items-center gap-2'>
+                                                        <ColorSelect
+                                                            color={color}
+                                                            isDarkMode={isDarkMode}
+                                                            isSelected={availableColorName === colorName}
+                                                        />
+                                                        <span className='capitalize'>{availableColorName}</span>
+                                                    </span>
+                                                </Select.Item>
+                                            ))}
+                                        </Select.Group>
+                                    </Select.Content>
+                                </Select.Portal>
+                            </Select.Root>
+                        </div>
                     </div>
                 </div>
             </div>

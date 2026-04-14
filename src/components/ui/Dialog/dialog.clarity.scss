@@ -1,4 +1,4 @@
-@use 'button';
+@use '../Button/button.clarity';
 
 .rad-ui-dialog-overlay {
   position: fixed;
@@ -37,7 +37,7 @@
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
   border: 1px solid var(--rad-ui-border-soft);
-  box-shadow: var(--rad-ui-shadow-lg);
+  box-shadow: var(--rad-ui-elevation-lg-shadow);
   display: flex;
   flex-direction: column;
   gap: 0;

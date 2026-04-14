@@ -6,7 +6,7 @@
   border: 1px solid var(--rad-ui-border-strong);
   background-color: var(--rad-ui-surface);
   color: var(--rad-ui-text-primary);
-  box-shadow: none;
+  box-shadow: var(--rad-ui-elevation-xs-shadow);
   padding: 1.5rem;
   
   &[data-card-variant="outline"] {

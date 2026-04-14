@@ -1,7 +1,8 @@
-@use 'button';
+@use '../Button/button.clarity';
 
 %rad-ui-alert-dialog-action-skin {
   @extend .rad-ui-button;
+
   min-height: 2.25rem;
   padding: 0 0.875rem;
   border-radius: 0.7rem;
@@ -21,6 +22,7 @@
 
 %rad-ui-alert-dialog-cancel-skin {
   @extend .rad-ui-button;
+
   min-height: 2.25rem;
   padding: 0 0.875rem;
   border-radius: 0.7rem;
@@ -61,6 +63,7 @@
 
 .rad-ui-alert-dialog-trigger {
   @extend .rad-ui-button;
+
   cursor: pointer;
 }
 

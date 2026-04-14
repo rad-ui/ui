@@ -31,7 +31,7 @@
     background-color: var(--rad-ui-surface-panel);
     border-radius: var(--rad-ui-radius-lg);
     border: 1px solid var(--rad-ui-border);
-    box-shadow: var(--rad-ui-shadow-lg);
+    box-shadow: var(--rad-ui-elevation-lg-shadow);
     min-width: 14.5rem;
     width: max-content;
     max-width: min(90vw, 22rem);
@@ -64,7 +64,7 @@
     &[data-context-menu-content-variant="soft"] {
         background-color: var(--rad-ui-surface-subtle);
         border-color: var(--rad-ui-border-soft);
-        box-shadow: var(--rad-ui-shadow-md);
+        box-shadow: var(--rad-ui-elevation-md-shadow);
     }
 
     &[data-context-menu-content-variant="outline"] {
