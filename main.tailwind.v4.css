@@ -1,0 +1,14 @@
+/* Tailwind CSS v4 Entry Point */
+/* Use this file instead of main.tailwind.css when using Tailwind v4 */
+
+@import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
+
+/* Import Tailwind v4 */
+@import "tailwindcss";
+
+/* Import rad-ui color tokens */
+@import "./styles/cssTokens/base.tokens.css";
+
+body {
+  font-family: Inter, sans-serif;
+}

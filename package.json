@@ -10,8 +10,18 @@
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
-    "./themes/default.css": "./dist/themes/default.css",
-    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js",
+    "./themes/default.css": {
+      "style": "./dist/themes/default.css",
+      "default": "./dist/themes/default.css"
+    },
+    "./themes/tailwind-presets/default.js": {
+      "import": "./dist/themes/tailwind-presets/default.js",
+      "default": "./dist/themes/tailwind-presets/default.js"
+    },
+    "./themes/tailwind-presets/default-v4.css": {
+      "style": "./dist/themes/tailwind-presets/default-v4.css",
+      "default": "./dist/themes/tailwind-presets/default-v4.css"
+    },
     "./Accordion": {
       "import": "./dist/components/Accordion.js",
       "require": "./dist/components/Accordion.cjs",
@@ -192,12 +202,13 @@
     "build-css": "rollup -c rollup-css.config.js",
     "generate-tokens": "tsx ./src/tokenGen/index.js",
     "generate-tokens:watch": "tsx watch ./src/tokenGen/index.js",
+    "generate-v4-preset": "node scripts/generate-v4-preset.cjs",
     "bundle-tokens": "rollup --config rollup-tokens.config.js",
     "compile-components": "rollup -c rollup.config.cjs",
     "process-components": "node scripts/process-components.cjs",
     "prebuild": "npm run test && npm run clean",
     "build:generate-exports": "node scripts/generate-exports.cjs",
-    "build:css": "npm run generate-tokens && npm run bundle-tokens && npm run build-css",
+    "build:css": "npm run generate-tokens && npm run generate-v4-preset && npm run bundle-tokens && npm run build-css",
     "build:components": "npm run compile-components && npm run process-components",
     "build:rollup": "NODE_OPTIONS='--max-old-space-size=8192' npm run build:rollup:process",
     "build:rollup:process": "npm run clean && (npm run build:css & npm run build:components & wait) && npm run build:generate-exports",
@@ -292,7 +303,8 @@
     "stylelint-config-standard": "^40.0.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "stylelint-config-tailwindcss": "^0.0.7",
-    "tailwindcss": "3.4.1",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
     "ts-jest": "29.4.9",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
@@ -310,6 +322,17 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    },
+    "@tailwindcss/postcss": {
+      "optional": true
+    },
+    "@tailwindcss/vite": {
+      "optional": true
+    }
   },
   "overrides": {
     "eslint-config-standard": {

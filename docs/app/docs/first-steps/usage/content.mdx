@@ -59,14 +59,15 @@ This setup ensures consistency across your app and makes it easier to manage glo
 Rad UI provides first-class support for Tailwind CSS, allowing you to easily integrate Rad UI's design system tokens into your Tailwind setup. By importing the appropriate preset, you gain access to a wide range of design tokens, making it seamless to build and customize your UI.
 
 ### For Tailwind CSS v3
-To use Rad UI with Tailwind CSS v3, simply import the preset in your <strong>tailwind.config.js</strong> file:
-```tsx
- // tailwind.config.js
+To use Rad UI with Tailwind CSS v3, import the preset in your **tailwind.config.js** file:
 
+```javascript
+// tailwind.config.js
 const config = {
-  presets:[
-    require("@radui/ui/themes/tailwind-presets/default.js") // import this
+  presets: [
+    require("@radui/ui/themes/tailwind-presets/default.js")
   ],
+  content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   theme: {
     extend: {},
   },
@@ -76,9 +77,76 @@ const config = {
 export default config;
 ```
 
+Then import the base styles in your JavaScript:
+
+```tsx
+import "@radui/ui/themes/default.css";
+```
+
 ### For Tailwind CSS v4
 
-We are actively working on a Tailwind CSS v4 preset to ensure you can leverage the latest features from Tailwind with minimal configuration. Stay tuned for updates!
+Tailwind CSS v4 uses a completely different configuration approach. Instead of JavaScript config files, everything is configured in CSS.
+
+**1. Install dependencies:**
+
+```bash
+npm install @radui/ui tailwindcss@^4.0.0 @tailwindcss/postcss
+# For Vite projects: npm install @radui/ui tailwindcss@^4.0.0 @tailwindcss/vite
+```
+
+**2. Configure PostCSS (Next.js, Remix, etc.):**
+
+```javascript
+// postcss.config.mjs
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};
+```
+
+**Or configure Vite:**
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+});
+```
+
+**3. Import everything in your CSS file:**
+
+```css
+/* globals.css or app.css */
+
+/* Import Tailwind v4 */
+@import "tailwindcss";
+
+/* Import rad-ui color tokens for Tailwind */
+@import "@radui/ui/themes/tailwind-presets/default-v4.css";
+
+/* Import rad-ui component styles */
+@import "@radui/ui/themes/default.css";
+```
+
+**Important notes for v4:**
+- **No `tailwind.config.js` needed** - Delete it if you have one
+- **All imports must be in CSS** - Don't import CSS files in JavaScript
+- **Use `@import` syntax** - Not the old `@tailwind` directives
+- **Import order matters** - Tailwind → Preset → Component styles
+
+**What each import does:**
+- `tailwindcss` - Provides base Tailwind utilities (`flex`, `grid`, `p-4`, etc.)
+- `default-v4.css` - Adds rad-ui colors to Tailwind (`bg-violet-500`, `text-crimson-600`, etc.)
+- `default.css` - Styles rad-ui components (Button, Card, Badge, etc.)
+
+For more details, see:
+- [Complete v4 setup guide](https://github.com/rad-ui/ui/blob/main/TAILWIND_V4_MIGRATION.md)
+- [Next.js specific guide](https://github.com/rad-ui/ui/blob/main/NEXTJS_V4_SETUP.md)
+- [v3 vs v4 comparison](https://github.com/rad-ui/ui/blob/main/V3_VS_V4_SETUP.md)
 
 
 

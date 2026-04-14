@@ -65,6 +65,41 @@ npm install @radui/ui
 
 Rad UI works with modern React setups and is friendly to tokens, CSS variables, and custom theming strategies.
 
+### Tailwind CSS Support
+
+Rad UI supports both Tailwind CSS v3 and v4:
+
+**For Tailwind v4 (recommended for new projects):**
+```bash
+npm install @radui/ui tailwindcss@^4.0.0 @tailwindcss/vite
+# For Next.js: npm install @radui/ui tailwindcss@^4.0.0 @tailwindcss/postcss
+```
+
+```css
+/* Import Tailwind v4 and rad-ui preset in CSS (NO config file needed!) */
+@import "tailwindcss";
+@import "@radui/ui/themes/tailwind-presets/default-v4.css";
+@import "@radui/ui/themes/default.css";
+```
+
+**For Tailwind v3:**
+```javascript
+// tailwind.config.js
+import radUIPreset from '@radui/ui/themes/tailwind-presets/default';
+
+module.exports = {
+  presets: [radUIPreset],
+  content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
+};
+```
+
+**Framework-specific guides:**
+- [Next.js Setup](./NEXTJS_V4_SETUP.md) - Complete Next.js + Tailwind v4 guide
+- [V3 vs V4 Comparison](./V3_VS_V4_SETUP.md) - Side-by-side comparison
+- [Migration Guide](./TAILWIND_V4_MIGRATION.md) - Complete setup instructions
+
+**Having issues?** Check [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for common problems and solutions.
+
 ## Local development
 
 The repository has two primary workflows:
