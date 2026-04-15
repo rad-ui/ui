@@ -1,0 +1,61 @@
+.rad-ui-number-field-root {
+  display: flex;
+  align-items: center;
+  gap: var(--rad-ui-spacing-2);
+
+
+ .rad-ui-number-field-input {
+  width: 4rem;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--rad-ui-font-size-2);
+  color: var(--rad-ui-text-primary);
+  background-color: var(--rad-ui-surface-panel);
+  border: 1px solid var(--rad-ui-border-soft);
+  border-radius: var(--rad-ui-radius-md);
+  outline: none;
+  box-shadow: var(--rad-ui-shadow-sm);
+
+  &:focus {
+    border-color: var(--rad-ui-color-accent-500);
+    box-shadow: var(--rad-ui-ring-shadow);
+  }
+
+  /* Hide number input spinners/arrows for Chrome, Safari, Edge */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  /* Hide number input spinners/arrows for Firefox */
+  appearance: textfield;
+}
+
+
+.rad-ui-number-field-increment,
+.rad-ui-number-field-decrement {
+  width: var(--rad-ui-size-8);
+  height: var(--rad-ui-size-8);
+  display: flex;
+  align-items: center;
+  color: var(--rad-ui-text-primary);
+  justify-content: center;
+  border: 1px solid var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-panel);
+  cursor: pointer;
+  font-size: var(--rad-ui-font-size-5);
+  border-radius: var(--rad-ui-radius-md);
+  box-shadow: var(--rad-ui-shadow-sm);
+
+  &:hover {
+    background: var(--rad-ui-surface-subtle);
+    border-color: var(--rad-ui-border-default);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--rad-ui-ring-shadow-sm);
+  }
+}
+
+}

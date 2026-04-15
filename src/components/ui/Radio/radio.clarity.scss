@@ -1,0 +1,74 @@
+// Radio — Clarity design system aligned
+// Unchecked border: step 6 (500) — light border / separator
+// Hover border: step 7 (600) — default border, stronger separator
+// Checked border: accent-700 — solid color, clear selection signal
+// Indicator dot: accent-800 — solid, high contrast fill
+.rad-ui-radio {
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  outline: none;
+  margin: 0;
+  border: none;
+  border-radius: var(--rad-ui-radius-full);
+  background: none;
+  vertical-align: middle;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
+    border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
+    box-shadow: 0 1px 2px rgb(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+  }
+
+  &::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: transparent;
+    transform: scale(0.6);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  &:hover::before {
+    border-color: var(--rad-ui-color-gray-600); // step 7 — default border on hover
+  }
+
+  &[data-checked="true"]::before {
+    border-color: var(--rad-ui-color-accent-700); // accent — selected state signal
+    background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface behind dot
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-200) 60%, transparent),
+      0 1px 2px rgb(0, 0, 0, 0.06);
+  }
+
+  &[data-checked="true"]::after {
+    background-color: var(--rad-ui-color-accent-800); // accent — solid indicator dot
+    transform: scale(1);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--rad-ui-ring-shadow-sm);
+  }
+
+  &[data-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

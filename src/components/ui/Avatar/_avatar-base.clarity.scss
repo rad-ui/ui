@@ -1,0 +1,82 @@
+// Base avatar styles - shared between avatar and avatar-group components
+.rad-ui-avatar {
+  position: relative;
+  display: flex;
+  height: var(--rad-ui-size-10); // h-10
+  width: var(--rad-ui-size-10); // w-10
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--rad-ui-radius-full); // rounded-full
+  
+  .rad-ui-avatar-image {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+  
+  // Default styles (no color prop) — semantic tokens so dark theme keeps contrast vs canvas
+  .rad-ui-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    font-size: var(--rad-ui-font-size-2); // text-sm
+    line-height: var(--rad-ui-line-height-1);
+    font-weight: 500; // font-medium
+    color: var(--rad-ui-text-primary);
+    background-color: var(--rad-ui-surface-muted);
+    box-shadow: inset 0 0 0 1px var(--rad-ui-border-soft);
+  }
+  
+  // Size variants - must come before more specific selectors
+  &[data-avatar-size="sm"] {
+    height: var(--rad-ui-size-8); // h-8
+    width: var(--rad-ui-size-8); // w-8
+    
+    .rad-ui-avatar-fallback {
+      font-size: var(--rad-ui-font-size-1); // text-xs
+    }
+  }
+  
+  &[data-avatar-size="lg"] {
+    height: var(--rad-ui-size-12); // h-12
+    width: var(--rad-ui-size-12); // w-12
+    
+    .rad-ui-avatar-fallback {
+      font-size: var(--rad-ui-font-size-3); // text-base
+    }
+  }
+
+  &[data-rad-ui-has-image] {
+    .rad-ui-avatar-fallback {
+      color: var(--rad-ui-text-primary);
+      background-color: var(--rad-ui-surface-muted);
+      box-shadow: inset 0 0 0 1px var(--rad-ui-border-soft);
+    }
+  }
+
+  // Match solid accent surfaces (e.g. checkbox checked): high-contrast label on accent-800.
+  // Use a semantic inverse foreground so the initials stay readable across themes/scales.
+  &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
+    .rad-ui-avatar-fallback {
+      color: var(--rad-ui-text-inverse);
+      background-color: var(--rad-ui-color-accent-800);
+      box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
+    }
+  }
+
+  &[data-rad-ui-accent-color="gray"]:not([data-rad-ui-has-image]) {
+    .rad-ui-avatar-fallback {
+      color: var(--rad-ui-text-primary);
+    }
+  }
+  
+  // Square variant
+  &[data-avatar-variant="square"] {
+    border-radius: var(--rad-ui-radius-sm); // rounded-md
+  }
+}

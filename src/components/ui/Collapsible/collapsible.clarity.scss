@@ -1,0 +1,84 @@
+.rad-ui-collapsible {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+
+  .rad-ui-collapsible-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--rad-ui-spacing-3);
+    width: 100%;
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.875rem;
+    border: 1px solid var(--rad-ui-border-soft);
+    background-color: var(--rad-ui-surface);
+    box-shadow: var(--rad-ui-shadow-none);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--rad-ui-text-primary);
+    cursor: pointer;
+    text-align: left;
+    
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
+    }
+    
+    &[data-disabled],
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  .rad-ui-collapsible-content {
+    overflow: hidden;
+    font-size: var(--rad-ui-font-size-1);
+    color: var(--rad-ui-text-primary);
+    padding: 0;
+  }
+
+  .rad-ui-collapsible-panel {
+    border: 1px solid var(--rad-ui-border-soft);
+    border-radius: var(--rad-ui-radius-lg);
+    background-color: var(--rad-ui-surface);
+    overflow: hidden;
+    box-shadow: var(--rad-ui-shadow-none);
+  }
+
+  .rad-ui-collapsible-panel-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--rad-ui-spacing-3);
+    padding: 0.6875rem 0.875rem;
+    font-size: var(--rad-ui-font-size-1);
+    line-height: 1.4;
+  }
+
+  .rad-ui-collapsible-panel-row-label {
+    color: var(--rad-ui-text-muted);
+  }
+
+  .rad-ui-collapsible-panel-row-value {
+    font-weight: 600;
+    color: var(--rad-ui-text-primary);
+  }
+
+  .rad-ui-collapsible-trigger-icon {
+    flex-shrink: 0;
+    width: var(--rad-ui-size-4);
+    height: var(--rad-ui-size-4);
+    color: var(--rad-ui-text-primary);
+    transition: transform 200ms ease;
+  }
+
+  &[data-state="open"] .rad-ui-collapsible-trigger-icon {
+    transform: rotate(180deg);
+  }
+}

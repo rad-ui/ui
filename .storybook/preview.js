@@ -1,5 +1,5 @@
 import '../main.tailwind.css';
-import '../styles/themes/default.scss';
+import '../src/design-systems/clarity/default.scss';
 
 /** @type { import('@storybook/react-webpack5').Preview } */
 const preview = {
