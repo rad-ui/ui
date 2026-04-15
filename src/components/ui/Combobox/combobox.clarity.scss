@@ -17,7 +17,7 @@
     background-color: transparent;
     border: 1px solid var(--rad-ui-border-soft);
     color: var(--rad-ui-text-primary);
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     outline: none;
     cursor: pointer;
     box-sizing: border-box;
@@ -51,7 +51,7 @@
 }
 
 .rad-ui-combobox-content {
-    z-index: 50;
+    z-index: var(--rad-ui-z-index-portal);
     margin-top: 4px;
     min-width: 240px;
     width: max-content;
@@ -67,7 +67,7 @@
     box-shadow: var(--rad-ui-elevation-md-shadow);
     
     // Animation
-    animation: rad-ui-slide-down 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: rad-ui-slide-down 0.2s var(--rad-ui-motion-easing-entrance);
     
     &[data-state="closed"] {
         display: none;
@@ -81,7 +81,7 @@
     border-radius: var(--rad-ui-radius-sm);
     border: 1px solid var(--rad-ui-border-soft);
     background-color: transparent;
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     outline: none;
     color: var(--rad-ui-text-primary);
 
@@ -96,7 +96,7 @@
     display: flex;
     align-items: center;
     padding: 8px 12px;
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     line-height: 1.2;
     color: var(--rad-ui-text-primary);
     border-radius: var(--rad-ui-radius-sm);

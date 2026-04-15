@@ -30,13 +30,13 @@
                 font-size: 11px;
                 font-weight: 500;
                 color: var(--rad-ui-text-secondary);
-                box-shadow: none;
+                box-shadow: var(--rad-ui-shadow-none);
 
                 &[data-in-view="true"] {
                     border-color: var(--rad-ui-surface-inverse);
                     background-color: var(--rad-ui-surface-inverse);
                     color: var(--rad-ui-surface-canvas);
-                    box-shadow: none;
+                    box-shadow: var(--rad-ui-shadow-none);
                 }
 
             }

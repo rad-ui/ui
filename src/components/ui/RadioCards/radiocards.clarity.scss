@@ -42,7 +42,7 @@
     right: 1rem;
     width: 1.125rem;
     height: 1.125rem;
-    border-radius: 9999px;
+    border-radius: var(--rad-ui-radius-full);
     border: 1px solid var(--rad-ui-color-gray-500); // step 6 — light border
     background-color: var(--rad-ui-color-gray-50);  // step 1
     box-shadow: 0 1px 2px rgb(0, 0, 0, 0.06);
@@ -57,7 +57,7 @@
     right: 1.3125rem;
     width: 0.5rem;
     height: 0.5rem;
-    border-radius: 9999px;
+    border-radius: var(--rad-ui-radius-full);
     background-color: var(--rad-ui-color-accent-800); // accent — indicator dot
     transform: translateY(-50%) scale(0);
     transition: transform 0.15s ease;
@@ -120,7 +120,7 @@
   }
 
   .rad-ui-radio-cards-title {
-    font-size: 1rem;
+    font-size: var(--rad-ui-font-size-3);
     line-height: 1.35;
     font-weight: 700;
     color: var(--rad-ui-color-gray-1000); // step 11 — primary text
@@ -128,7 +128,7 @@
 
   .rad-ui-radio-cards-description {
     font-size: 0.9375rem;
-    line-height: 1.5;
+    line-height: var(--rad-ui-line-height-3);
     color: var(--rad-ui-color-gray-700); // step 8 — supporting content
   }
 }

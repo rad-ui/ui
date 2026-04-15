@@ -9,7 +9,7 @@
   font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--rad-ui-text-primary);
-  font-size: 1.125rem;
+  font-size: var(--rad-ui-font-size-4);
   line-height: 1.55;
 
   &[data-rad-ui-accent-color] {
@@ -24,11 +24,11 @@
     font-size: 0.9375rem;
     padding-inline-start: 1rem;
     border-inline-start-width: 3px;
-    line-height: 1.5;
+    line-height: var(--rad-ui-line-height-3);
   }
   
   &[data-block-quote-size="medium"] {
-    font-size: 1.125rem;
+    font-size: var(--rad-ui-font-size-4);
     padding-inline-start: 1.5rem;
     border-inline-start-width: 4px;
     line-height: 1.55;
@@ -38,7 +38,7 @@
     font-size: 1.5rem;
     padding-inline-start: 1.75rem;
     border-inline-start-width: 5px;
-    line-height: 1.5;
+    line-height: var(--rad-ui-line-height-3);
   }
   
   &[data-block-quote-size="x-large"] {
@@ -55,7 +55,7 @@
   &[data-block-quote-variant="outline"] {
     padding: 1rem 1.25rem;
     border: 1px solid var(--rad-ui-border-default);
-    border-radius: 0.5rem;
+    border-radius: var(--rad-ui-radius-md);
     background-color: var(--rad-ui-surface-panel);
 
     &[data-block-quote-size="small"] {
@@ -82,7 +82,7 @@
   
   &[data-block-quote-variant="soft"] {
     background-color: var(--rad-ui-color-accent-50);
-    border-radius: 0.5rem;
+    border-radius: var(--rad-ui-radius-md);
     border-inline-start-width: 0;
     color: var(--rad-ui-color-accent-1000);
     padding: 1rem 1.25rem;

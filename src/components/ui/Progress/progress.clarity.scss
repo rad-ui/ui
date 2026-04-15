@@ -6,7 +6,7 @@
     border: none;
     overflow: hidden;
     height: 0.25rem;
-    border-radius: 9999px;
+    border-radius: var(--rad-ui-radius-full);
     width: 100%;
     max-width: 25.25rem;
 

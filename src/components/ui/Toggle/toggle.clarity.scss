@@ -6,9 +6,9 @@
     padding: 0 0.75rem;
     border-radius: var(--rad-ui-radius-lg);
     display: inline-flex;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    line-height: 1;
+    gap: var(--rad-ui-spacing-2);
+    font-size: var(--rad-ui-font-size-2);
+    line-height: var(--rad-ui-line-height-1);
     font-weight: 600;
     align-items: center;
     justify-content: center;
@@ -42,8 +42,8 @@
     }
 
     svg {
-        width: 1rem;
-        height: 1rem;
+        width: var(--rad-ui-size-4);
+        height: var(--rad-ui-size-4);
         flex-shrink: 0;
     }
 }

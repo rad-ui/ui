@@ -7,7 +7,7 @@
     resize: vertical;
     font-family: var(--rad-ui-font-sans);
     font-size: 0.9375rem;
-    line-height: 1.5;
+    line-height: var(--rad-ui-line-height-3);
     padding: 0.875rem 1rem;
     border-radius: var(--rad-ui-radius-lg);
     color: var(--rad-ui-text-primary);
@@ -60,17 +60,17 @@
   }
 
   &[data-textarea-size="small"] textarea {
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     min-height: 6rem;
     padding: 0.75rem 0.875rem;
   }
 
   &[data-textarea-size="medium"] textarea {
-    font-size: 1rem;
+    font-size: var(--rad-ui-font-size-3);
   }
 
   &[data-textarea-size="large"] textarea {
-    font-size: 1.125rem;
+    font-size: var(--rad-ui-font-size-4);
     min-height: 9rem;
     padding: 1.125rem 1.25rem;
   }
@@ -121,7 +121,7 @@
   &:where([data-textarea-variant="outline"]) textarea {
     background-color: transparent;
     border: 1px solid var(--rad-ui-border-default);
-    box-shadow: none;
+    box-shadow: var(--rad-ui-shadow-none);
   }
 
   &:where([data-textarea-variant="solid"]) textarea {
@@ -132,7 +132,7 @@
   &:where([data-textarea-variant="ghost"]) textarea {
     background-color: transparent;
     border: 1px solid transparent;
-    box-shadow: none;
+    box-shadow: var(--rad-ui-shadow-none);
 
     &:focus {
       border-color: var(--rad-ui-border-default);

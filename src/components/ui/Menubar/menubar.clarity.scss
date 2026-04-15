@@ -17,9 +17,9 @@
     outline: none;
     user-select: none;
     font-weight: 500;
-    line-height: 1;
+    line-height: var(--rad-ui-line-height-1);
     border-radius: var(--rad-ui-radius-md);
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     color: var(--rad-ui-text-primary);
     background: transparent;
     cursor: default;
@@ -42,7 +42,7 @@
 
 .rad-ui-menubar-content {
     /* Must not animate `transform` here — Floating UI positions via inline transform. */
-    z-index: var(--rad-ui-z-index-portal, 1000);
+    z-index: var(--rad-ui-z-index-portal);
     min-width: 12.75rem;
     background-color: var(--rad-ui-surface-panel);
     border-radius: var(--rad-ui-radius-lg);
@@ -64,10 +64,10 @@
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
-    gap: 0.75rem;
+    gap: var(--rad-ui-spacing-3);
     border-radius: var(--rad-ui-radius-md);
     padding: 0.5rem 0.625rem;
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     line-height: 1.4;
     color: var(--rad-ui-text-primary);
     user-select: none;
@@ -101,7 +101,7 @@
 
 .rad-ui-menubar-shortcut {
     margin-left: 1.25rem;
-    font-size: 0.75rem;
+    font-size: var(--rad-ui-font-size-1);
     color: var(--rad-ui-text-muted);
 }
 

@@ -18,12 +18,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--rad-ui-spacing-2);
     border-radius: var(--rad-ui-radius-xl);
     padding: 0 1rem;
-    min-height: 3rem;
+    min-height: var(--rad-ui-size-12);
     font-size: 0.9375rem;
-    line-height: 1.25rem;
+    line-height: var(--rad-ui-size-5);
     background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
     color: var(--rad-ui-color-gray-1000);            // step 11 — primary text
     border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
@@ -72,7 +72,7 @@
 }
 
 .rad-ui-select-content {
-    z-index: 50;
+    z-index: var(--rad-ui-z-index-portal);
     overflow: hidden;
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
     border-radius: calc(var(--rad-ui-radius-xl) + 0.25rem);
@@ -86,7 +86,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    padding: 0.5rem;
+    padding: var(--rad-ui-spacing-2);
     outline: none;
 
     &[data-state="closed"] {
@@ -100,8 +100,8 @@
 }
 
 .rad-ui-select-item {
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: var(--rad-ui-font-size-2);
+    line-height: var(--rad-ui-line-height-3);
     color: var(--rad-ui-color-gray-1000); // step 11 — primary text
     padding: 0.5rem 0.75rem 0.5rem 2rem; // left padding reserves space for indicator
     position: relative;
@@ -114,7 +114,7 @@
     width: 100%;
     box-sizing: border-box;
     text-align: left;
-    gap: 0.5rem;
+    gap: var(--rad-ui-spacing-2);
     transition: background-color 0.1s ease;
 
     &-indicator {
@@ -187,7 +187,7 @@
 .rad-ui-select-label {
     padding: 0.125rem 0.75rem 0.5rem;
     font-size: 0.8125rem;
-    line-height: 1rem;
+    line-height: var(--rad-ui-size-4);
     font-weight: 400;
     color: var(--rad-ui-color-gray-700); // step 8 — muted label
 }

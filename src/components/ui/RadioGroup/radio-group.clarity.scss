@@ -15,9 +15,9 @@
     margin: 0;
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--rad-ui-spacing-3);
     width: max-content;
-    font-size: 1rem;
+    font-size: var(--rad-ui-font-size-3);
     line-height: 1.4;
     font-weight: 500;
     color: var(--rad-ui-color-gray-1000); // step 11 — primary text
@@ -36,7 +36,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
+    border-radius: var(--rad-ui-radius-full);
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
     border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
     box-shadow: 0 1px 2px rgb(0, 0, 0, 0.06);

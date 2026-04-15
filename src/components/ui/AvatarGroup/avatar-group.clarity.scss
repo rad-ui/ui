@@ -13,11 +13,11 @@
   .rad-ui-avatar-group-item {
     position: relative;
     display: flex;
-    height: 2.5rem; // h-10
-    width: 2.5rem; // w-10
+    height: var(--rad-ui-size-10); // h-10
+    width: var(--rad-ui-size-10); // w-10
     flex-shrink: 0;
     overflow: hidden;
-    border-radius: 9999px; // rounded-full
+    border-radius: var(--rad-ui-radius-full); // rounded-full
     background-color: var(--rad-ui-surface-panel);
     box-shadow: 0 0 0 2px var(--rad-ui-surface-panel);
     
@@ -54,8 +54,8 @@
       height: 100%;
       width: 100%;
       border-radius: inherit;
-      font-size: 0.875rem; // text-sm
-      line-height: 1;
+      font-size: var(--rad-ui-font-size-2); // text-sm
+      line-height: var(--rad-ui-line-height-1);
       font-weight: 600; // font-semibold
       color: var(--rad-ui-text);
       background-color: var(--rad-ui-surface-muted);
@@ -64,7 +64,7 @@
   
   // Spacing variant (no overlap) - more specific
   &[data-avatar-variant="spacing"] {
-    gap: 0.5rem;
+    gap: var(--rad-ui-spacing-2);
     
     .rad-ui-avatar-group-item {
       margin-left: 0;

@@ -21,7 +21,7 @@
      .rad-ui-disclosure-trigger{
          display: flex;
          width: 100%;
-         padding: 1rem;
+         padding: var(--rad-ui-spacing-4);
          font-weight: 600;
          color: var(--rad-ui-text-primary);
          background-color: transparent;

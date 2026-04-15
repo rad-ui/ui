@@ -53,7 +53,7 @@
         .rad-ui-scroll-area-thumb {
             flex: 1;
             background: var(--rad-ui-color-gray-600); // step 7 — default border/separator
-            border-radius: 9999px;
+            border-radius: var(--rad-ui-radius-full);
             position: relative;
             transition: background 0.15s ease;
 

@@ -19,7 +19,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: var(--rad-ui-spacing-4);
       padding: 1rem 0;
       font-size: 0.9375rem;
       font-weight: 600;

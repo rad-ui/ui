@@ -5,7 +5,7 @@
   justify-content: stretch;
   gap: 0 0.5rem;
   padding: 0.5625rem 0.625rem 0.625rem;
-  border-radius: 0.75rem;
+  border-radius: var(--rad-ui-radius-lg);
   border: 1px solid var(--rad-ui-border-default);
   background-color: var(--rad-ui-surface);
   color: var(--rad-ui-text-primary);
@@ -13,7 +13,7 @@
   min-height: 3.5rem;
   width: 100%;
   margin: 0;
-  box-shadow: none;
+  box-shadow: var(--rad-ui-shadow-none);
   
   &:hover {
     background-color: var(--rad-ui-surface-subtle);
@@ -28,7 +28,7 @@
   &[aria-checked="true"] {
     border-color: var(--rad-ui-border-default);
     background-color: var(--rad-ui-surface);
-    box-shadow: none;
+    box-shadow: var(--rad-ui-shadow-none);
   }
 
   &[aria-checked="true"]:hover {
@@ -77,7 +77,7 @@
   [role="group"] {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: var(--rad-ui-spacing-3);
   }
   
   .rad-ui-checkbox-cards-item {

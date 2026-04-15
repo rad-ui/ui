@@ -5,7 +5,7 @@
   gap: 0.25rem;
   padding: 0.25rem;
   border: 1px solid var(--rad-ui-border-soft);
-  border-radius: 1rem;
+  border-radius: var(--rad-ui-radius-xl);
   background-color: var(--rad-ui-surface-panel);
   box-shadow: var(--rad-ui-elevation-xs-shadow);
 }
@@ -27,9 +27,9 @@
   border-radius: 0.8rem;
   background-color: transparent;
   color: var(--rad-ui-text-primary);
-  font-size: 0.875rem;
+  font-size: var(--rad-ui-font-size-2);
   font-weight: 500;
-  line-height: 1;
+  line-height: var(--rad-ui-line-height-1);
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
@@ -48,7 +48,7 @@
 
 .rad-ui-navigation-menu-trigger {
   position: relative;
-  gap: 0.5rem;
+  gap: var(--rad-ui-spacing-2);
 
   &::after {
     content: '';
@@ -78,7 +78,7 @@
   min-width: 14rem;
   padding: 0.4rem;
   border: 1px solid var(--rad-ui-border-soft);
-  border-radius: 1rem;
+  border-radius: var(--rad-ui-radius-xl);
   background-color: var(--rad-ui-surface-panel);
   box-shadow: var(--rad-ui-elevation-md-shadow);
   z-index: 100;

@@ -2,11 +2,11 @@
   color: var(--rad-ui-color-accent-1000);
   background-color: var(--rad-ui-color-accent-300);
   padding: 0.1rem 0.4rem;
-  border-radius: 0.5rem;
+  border-radius: var(--rad-ui-radius-md);
   font-size: 0.8125rem;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   font-weight: 300;
-  line-height: 1.25;
+  line-height: var(--rad-ui-line-height-2);
   display: inline-block;
   border: 0;
   
@@ -18,7 +18,7 @@
   
   // Code Sizes
   &[data-code-size="small"] {
-    font-size: 0.75rem;
+    font-size: var(--rad-ui-font-size-1);
     padding: 0.0625rem 0.3125rem;
   }
   
@@ -28,7 +28,7 @@
   }
   
   &[data-code-size="large"] {
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
     padding: 0.125rem 0.4375rem;
   }
   

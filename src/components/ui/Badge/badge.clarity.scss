@@ -3,16 +3,16 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  min-height: 1.25rem;
+  min-height: var(--rad-ui-size-5);
   padding: 0 0.625rem;
   border: 1px solid transparent;
-  border-radius: 9999px;
+  border-radius: var(--rad-ui-radius-full);
   box-sizing: border-box;
-  box-shadow: none;
+  box-shadow: var(--rad-ui-shadow-none);
   font-family: var(--rad-ui-font-sans);
-  font-size: 0.75rem;
+  font-size: var(--rad-ui-font-size-1);
   font-weight: 600;
-  line-height: 1;
+  line-height: var(--rad-ui-line-height-1);
   white-space: nowrap;
   background-color: var(--rad-ui-text-primary);
   color: var(--rad-ui-surface-panel);
@@ -74,19 +74,19 @@
   }
 
   &[data-badge-size="small"] {
-    min-height: 1rem;
+    min-height: var(--rad-ui-size-4);
     padding: 0 0.4375rem;
     font-size: 0.6875rem;
   }
 
   &[data-badge-size="medium"] {
-    min-height: 1.25rem;
+    min-height: var(--rad-ui-size-5);
     padding: 0 0.625rem;
-    font-size: 0.75rem;
+    font-size: var(--rad-ui-font-size-1);
   }
 
   &[data-badge-size="large"] {
-    min-height: 1.5rem;
+    min-height: var(--rad-ui-size-6);
     padding: 0 0.75rem;
     font-size: 0.8125rem;
   }
@@ -94,6 +94,6 @@
   &[data-badge-size="x-large"] {
     min-height: 1.75rem;
     padding: 0 0.875rem;
-    font-size: 0.875rem;
+    font-size: var(--rad-ui-font-size-2);
   }
 }

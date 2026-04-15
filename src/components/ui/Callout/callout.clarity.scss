@@ -7,20 +7,20 @@
   align-items: flex-start;
   gap: 0.875rem;
   border: 1px solid var(--rad-ui-border-soft);
-  border-radius: 1rem;
+  border-radius: var(--rad-ui-radius-xl);
   padding: 1rem 1.125rem;
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
   box-sizing: border-box;
-  box-shadow: none;
+  box-shadow: var(--rad-ui-shadow-none);
 
   .rad-ui-callout-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--rad-ui-size-6);
+    height: var(--rad-ui-size-6);
     margin-top: 0.0625rem;
     color: var(--rad-ui-callout-emphasis-color);
 
@@ -36,14 +36,14 @@
     margin: 0;
     color: inherit;
     font-size: 0.8125rem;
-    line-height: 1.5;
+    line-height: var(--rad-ui-line-height-3);
 
     strong,
     b {
       display: block;
       margin: 0 0 0.25rem;
       font-size: 0.8125rem;
-      line-height: 1.25;
+      line-height: var(--rad-ui-line-height-2);
       font-weight: 600;
       color: var(--rad-ui-callout-emphasis-color);
     }
@@ -104,19 +104,19 @@
     border-radius: 0.875rem;
 
     .rad-ui-callout-icon {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: var(--rad-ui-size-5);
+      height: var(--rad-ui-size-5);
     }
 
     .rad-ui-callout-text {
       strong,
       b {
         margin-bottom: 0.1875rem;
-        font-size: 0.75rem;
+        font-size: var(--rad-ui-font-size-1);
       }
 
       span {
-        font-size: 0.75rem;
+        font-size: var(--rad-ui-font-size-1);
       }
     }
   }
@@ -126,13 +126,13 @@
     padding: 1rem 1.125rem;
 
     .rad-ui-callout-icon {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: var(--rad-ui-size-6);
+      height: var(--rad-ui-size-6);
     }
   }
 
   &[data-callout-size="large"] {
-    gap: 1rem;
+    gap: var(--rad-ui-spacing-4);
     padding: 1.125rem 1.25rem;
     border-radius: 1.125rem;
 
@@ -144,17 +144,17 @@
     .rad-ui-callout-text {
       strong,
       b {
-        font-size: 0.875rem;
+        font-size: var(--rad-ui-font-size-2);
       }
 
       span {
-        font-size: 0.875rem;
+        font-size: var(--rad-ui-font-size-2);
       }
     }
   }
 
   &[data-callout-size="x-large"] {
-    gap: 1rem;
+    gap: var(--rad-ui-spacing-4);
     padding: 1.25rem 1.375rem;
     border-radius: 1.25rem;
 

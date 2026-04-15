@@ -9,7 +9,7 @@
     background-image: none !important;
     background-clip: initial !important;
     border: none !important;
-    box-shadow: none !important;
+    box-shadow: var(--rad-ui-shadow-none) !important;
     box-decoration-break: clone !important;
     outline: none !important;
     pointer-events: none !important;

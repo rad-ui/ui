@@ -8,13 +8,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: var(--rad-ui-spacing-3);
     width: 100%;
     padding: 0.75rem 0.875rem;
     border-radius: 0.875rem;
     border: 1px solid var(--rad-ui-border-soft);
     background-color: var(--rad-ui-surface);
-    box-shadow: none;
+    box-shadow: var(--rad-ui-shadow-none);
     font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1.3;
@@ -38,26 +38,26 @@
 
   .rad-ui-collapsible-content {
     overflow: hidden;
-    font-size: 0.75rem;
+    font-size: var(--rad-ui-font-size-1);
     color: var(--rad-ui-text-primary);
     padding: 0;
   }
 
   .rad-ui-collapsible-panel {
     border: 1px solid var(--rad-ui-border-soft);
-    border-radius: 0.75rem;
+    border-radius: var(--rad-ui-radius-lg);
     background-color: var(--rad-ui-surface);
     overflow: hidden;
-    box-shadow: none;
+    box-shadow: var(--rad-ui-shadow-none);
   }
 
   .rad-ui-collapsible-panel-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: var(--rad-ui-spacing-3);
     padding: 0.6875rem 0.875rem;
-    font-size: 0.75rem;
+    font-size: var(--rad-ui-font-size-1);
     line-height: 1.4;
   }
 
@@ -72,8 +72,8 @@
 
   .rad-ui-collapsible-trigger-icon {
     flex-shrink: 0;
-    width: 1rem;
-    height: 1rem;
+    width: var(--rad-ui-size-4);
+    height: var(--rad-ui-size-4);
     color: var(--rad-ui-text-primary);
     transition: transform 200ms ease;
   }

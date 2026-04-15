@@ -1,7 +1,7 @@
 .rad-ui-checkbox-group-root {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; // space-y-3
+  gap: var(--rad-ui-spacing-3); // space-y-3
 }
 
 .rad-ui-checkbox-group-label {
@@ -25,8 +25,8 @@
 }
 
 .rad-ui-checkbox-group-trigger {
-  height: 1rem;
-  width: 1rem;
+  height: var(--rad-ui-size-4);
+  width: var(--rad-ui-size-4);
   flex-shrink: 0;
   border-radius: 0.3125rem;
   border: 1px solid var(--rad-ui-border-strong);
@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: none;
+  box-shadow: var(--rad-ui-shadow-none);
   transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
 
   &:hover {

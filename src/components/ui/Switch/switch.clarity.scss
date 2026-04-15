@@ -18,7 +18,7 @@
   line-height: 0;
   width: 2.75rem;
   height: 1.625rem;
-  border-radius: 9999px;
+  border-radius: var(--rad-ui-radius-full);
   background-color: var(--rad-ui-color-gray-200); // step 3 — interactive surface
   border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
   cursor: pointer;
@@ -55,9 +55,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 9999px;
+    width: var(--rad-ui-size-5);
+    height: var(--rad-ui-size-5);
+    border-radius: var(--rad-ui-radius-full);
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
     box-shadow:
       0 1px 2px rgb(0, 0, 0, 0.16),

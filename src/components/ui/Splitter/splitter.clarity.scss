@@ -37,7 +37,7 @@
     position: relative;
     background: transparent;
     border: 0;
-    border-radius: 9999px;
+    border-radius: var(--rad-ui-radius-full);
     outline: none;
     flex-shrink: 0;
     flex-grow: 0;
@@ -47,7 +47,7 @@
 
     &:focus-visible {
       outline: none;
-      box-shadow: none;
+      box-shadow: var(--rad-ui-shadow-none);
     }
 
     &[aria-orientation="horizontal"] {
@@ -74,7 +74,7 @@
         width: 0.3125rem;
         height: 1.75rem;
         transform: translate(-50%, -50%);
-        border-radius: 9999px;
+        border-radius: var(--rad-ui-radius-full);
         background: var(--rad-ui-color-gray-600); // step 7 — default border
         opacity: 0;
         transition: opacity 0.15s ease;
@@ -121,7 +121,7 @@
         width: 1.75rem;
         height: 0.3125rem;
         transform: translate(-50%, -50%);
-        border-radius: 9999px;
+        border-radius: var(--rad-ui-radius-full);
         background: var(--rad-ui-color-gray-600); // step 7 — default border
         opacity: 0;
         transition: opacity 0.15s ease;
