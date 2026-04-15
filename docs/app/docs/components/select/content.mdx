@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import SelectExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Select"
+    description="A dropdown for choosing a single value from a list. Supports grouping, portal rendering, and controlled/uncontrolled modes."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <SelectExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'item']}
+    />
+</Documentation>

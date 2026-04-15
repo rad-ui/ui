@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import SliderExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Slider"
+    description="A range input for selecting numeric values. Supports single value, range selection, step marks, and both horizontal and vertical orientations."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <SliderExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

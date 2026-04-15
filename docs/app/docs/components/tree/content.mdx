@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import TreeExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Tree"
+    description="A hierarchical data display component. Nest Tree.Item elements to represent folder structures, file trees, or any recursive data."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <TreeExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['item']}
+    />
+</Documentation>

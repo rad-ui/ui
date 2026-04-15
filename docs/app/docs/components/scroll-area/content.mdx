@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import ScrollAreaExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="ScrollArea"
+    description="A composable scrollable container with custom-styled scrollbars. Built from sub-components so you have full control over layout and appearance."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <ScrollAreaExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'scrollbar']}
+    />
+</Documentation>

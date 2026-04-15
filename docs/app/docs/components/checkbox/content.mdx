@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import CheckboxExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Checkbox"
+    description="A composable checkbox with Root and Indicator sub-components. Fully headless — bring your own styles."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <CheckboxExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'indicator']}
+    />
+</Documentation>

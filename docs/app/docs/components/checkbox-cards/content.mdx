@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import CheckboxCardsExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="CheckboxCards"
+    description="Card-style multi-select component. Each card acts as a checkbox, making selections visually prominent."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <CheckboxCardsExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

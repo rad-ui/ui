@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import ComboboxExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Combobox"
+    description="A searchable dropdown combining a text input with a list of options. Supports grouping, custom indicators, and portal rendering."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <ComboboxExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'item']}
+    />
+</Documentation>
