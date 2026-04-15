@@ -5,7 +5,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 const meta: Meta<typeof Table> = {
-    title: 'WIP/Table',
+    title: 'Components/Table',
     component: Table,
     decorators: [(Story) => (
         <SandboxEditor>

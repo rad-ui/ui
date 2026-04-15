@@ -1,0 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-number-field-increment, .rad-ui-number-field-decrement) { @include baremetal.button-like; }
+#{baremetal.$theme-root} :where(.rad-ui-number-field-input) { @include baremetal.input-like; }

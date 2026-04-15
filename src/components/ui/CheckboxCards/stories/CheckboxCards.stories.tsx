@@ -56,7 +56,7 @@ const CheckboxCardsExample = (args:any) => {
 };
 
 export default {
-    title: 'WIP/CheckboxCards',
+    title: 'Components/CheckboxCards',
     component: CheckboxCards,
     render: (args:any) => <CheckboxCardsExample {...args} />
 };

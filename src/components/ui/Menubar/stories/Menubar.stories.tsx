@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 type Story = StoryObj<typeof Menubar>;
 
 export default {
-    title: 'WIP/Menubar',
+    title: 'Components/Menubar',
     component: Menubar
 };
 

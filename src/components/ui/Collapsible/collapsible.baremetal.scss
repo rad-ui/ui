@@ -1,0 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-collapsible-panel) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-collapsible-trigger) { @include baremetal.option-item; }

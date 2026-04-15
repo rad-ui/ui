@@ -43,7 +43,7 @@ const RadioCardsTemplate = () => {
 };
 
 export default {
-    title: 'WIP/RadioCards',
+    title: 'Components/RadioCards',
     component: RadioCards,
     render: () => <RadioCardsTemplate />
 } as any;

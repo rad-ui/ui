@@ -1,0 +1,8 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-menubar-trigger) { @include baremetal.button-like; }
+#{baremetal.$theme-root} :where(.rad-ui-menubar-content) { @include baremetal.surface; padding: 1.5rem; }
+#{baremetal.$theme-root} :where(.rad-ui-menubar-item, .rad-ui-menubar-sub-trigger) { @include baremetal.option-item; }
+#{baremetal.$theme-root} :where(.rad-ui-menubar-separator) { @include baremetal.divider; }
+#{baremetal.$theme-root} :where(.rad-ui-menubar-label) { border-color: var(--rad-ui-baremetal-black) !important; background: var(--rad-ui-baremetal-white) !important; }

@@ -6,7 +6,7 @@ import Badge from '~/components/ui/Badge/Badge';
 
 const meta: Meta<typeof DataList> = {
     component: DataList,
-    title: 'WIP/DataList'
+    title: 'Components/DataList'
 };
 
 export default meta;
