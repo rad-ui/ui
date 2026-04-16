@@ -2,13 +2,12 @@ import postcss from 'rollup-plugin-postcss';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Get the directory name of the current module
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default {
-    input: 'src/design-systems/clarity/default.scss',
+const createThemeConfig = (input, file) => ({
+    input,
     output: {
-        file: 'dist/themes/default.css'
+        file
     },
     onwarn(warning, warn) {
         // Suppress CSS file overwrite warnings
@@ -38,4 +37,9 @@ export default {
             }
         })
     ]
-};
+});
+
+export default [
+    createThemeConfig('src/design-systems/clarity/default.scss', 'dist/themes/default.css'),
+    createThemeConfig('src/design-systems/baremetal/default.scss', 'dist/themes/baremetal.css')
+];

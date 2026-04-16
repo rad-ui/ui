@@ -5,7 +5,7 @@ import Tooltip from '../Tooltip';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const meta: Meta<typeof Tooltip> = {
-    title: 'WIP/Tooltip',
+    title: 'Components/Tooltip',
     component: Tooltip
 };
 

@@ -26,7 +26,7 @@ const RadioButton = () => {
 };
 
 export default {
-    title: 'WIP/RadioGroup',
+    title: 'Components/RadioGroup',
     component: RadioGroup,
     render: () => <RadioButton />
 };

@@ -43,10 +43,12 @@ const ColorSelect = ({ color, isDarkMode, isSelected }: ColorSelectProps) => {
 };
 
 type SandboxProps = { className?: string } & PropsWithChildren
+type DesignSystem = 'clarity' | 'baremetal'
 
 const SandboxEditor = ({ children, className }: SandboxProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isCondensed, setIsCondensed] = useState(false);
+    const [designSystem, setDesignSystem] = useState<DesignSystem>('clarity');
 
     type AvailableColors = keyof typeof colors
 
@@ -54,7 +56,13 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
 
     useEffect(() => {
         const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+        const savedDesignSystem = localStorage.getItem('radUiDesignSystem');
+
         setIsDarkMode(isDarkMode);
+
+        if (savedDesignSystem === 'clarity' || savedDesignSystem === 'baremetal') {
+            setDesignSystem(savedDesignSystem);
+        }
     }, []);
 
     useEffect(() => {
@@ -73,85 +81,114 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
         setIsDarkMode(!isDarkMode);
     };
 
-    return <Theme
-        appearance={isDarkMode ? 'dark' : 'light'}
-        accentColor={colorName}>
-        <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
-            <div
-                className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}
-            >
+    const updateDesignSystem = (value: string) => {
+        if (value !== 'clarity' && value !== 'baremetal') {
+            return;
+        }
+
+        localStorage.setItem('radUiDesignSystem', value);
+        setDesignSystem(value);
+    };
+
+    return <div data-rad-ui-design-system={designSystem}>
+        <Theme
+            appearance={isDarkMode ? 'dark' : 'light'}
+            accentColor={colorName}>
+            <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
                 <div
-                    className={`rounded-xl border border-transparent bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_82%,transparent)] backdrop-blur supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_72%,transparent)] ${isCondensed ? 'px-3 py-2 shadow-sm' : 'px-0 py-0 shadow-none'}`.trim()}
+                    className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}
                 >
-                    <div className='flex items-start justify-between gap-2'>
-                    <div className='flex min-w-0 items-center space-x-3'>
-                        <div className='text-gray-1000 shrink-0'>
-                            <RadUILogo/>
-                        </div>
-                        <Separator orientation='vertical' className={isCondensed ? 'opacity-60' : 'opacity-100'} />
-                        <div className='min-w-0'>
-                            <Heading as='h1' className={`font-semibold leading-none tracking-tight text-gray-1000 ${isCondensed ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'}`.trim()}>
-                                Sandbox Editor
-                            </Heading>
-                            <Text className={`mt-0.5 font-normal leading-tight text-gray-950 ${isCondensed ? 'hidden' : 'text-sm'}`.trim()}>
-                                Preview Rad UI components with theme and accent controls.
-                            </Text>
-                        </div>
-                    </div>
-                    <Button
-                        variant="solid"
-                        aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-                        onClick={toggleDarkMode}
+                    <div
+                        className={`rounded-xl border border-transparent bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_82%,transparent)] backdrop-blur supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_72%,transparent)] ${isCondensed ? 'px-3 py-2 shadow-sm' : 'px-0 py-0 shadow-none'}`.trim()}
                     >
-                        {isDarkMode ? <SunIcon/> : <MoonIcon/>}
-                    </Button>
-                </div>
-                    <Separator className={isCondensed ? 'opacity-70' : 'opacity-100'} />
-                    <div className={`flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between ${isCondensed ? 'py-0.5' : 'py-1.5'}`.trim()}>
-                        <Text as='span' className='text-sm text-gray-950 leading-none'>
-                            Accent: <span className='capitalize'>{colorName}</span>
-                        </Text>
-                        <div className={`w-full sm:w-[220px] ${isCondensed ? 'sm:w-[200px]' : ''}`.trim()}>
-                            <Select.Root value={colorName} onValueChange={(value) => setColorName(value as AvailableColors)}>
-                                <Select.Trigger aria-label='Accent color'>
-                                    <span className='flex items-center gap-2'>
-                                        <ColorSelect
-                                            color={colors[colorName]}
-                                            isDarkMode={isDarkMode}
-                                            isSelected={true}
-                                        />
-                                        <span className='capitalize'>{colorName}</span>
-                                    </span>
-                                </Select.Trigger>
-                                <Select.Portal>
-                                    <Select.Content>
-                                        <Select.Group>
-                                            {Object.entries(colors).map(([availableColorName, color]) => (
-                                                <Select.Item key={availableColorName} value={availableColorName}>
-                                                    <span className='flex items-center gap-2'>
-                                                        <ColorSelect
-                                                            color={color}
-                                                            isDarkMode={isDarkMode}
-                                                            isSelected={availableColorName === colorName}
-                                                        />
-                                                        <span className='capitalize'>{availableColorName}</span>
-                                                    </span>
-                                                </Select.Item>
-                                            ))}
-                                        </Select.Group>
-                                    </Select.Content>
-                                </Select.Portal>
-                            </Select.Root>
+                        <div className='flex items-start justify-between gap-2'>
+                            <div className='flex min-w-0 items-center space-x-3'>
+                                <div className='text-gray-1000 shrink-0'>
+                                    <RadUILogo/>
+                                </div>
+                                <Separator orientation='vertical' className={isCondensed ? 'opacity-60' : 'opacity-100'} />
+                                <div className='min-w-0'>
+                                    <Heading as='h1' className={`font-semibold leading-none tracking-tight text-gray-1000 ${isCondensed ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'}`.trim()}>
+                                        Sandbox Editor
+                                    </Heading>
+                                    <Text className={`mt-0.5 font-normal leading-tight text-gray-950 ${isCondensed ? 'hidden' : 'text-sm'}`.trim()}>
+                                        Preview Rad UI components with theme and accent controls.
+                                    </Text>
+                                </div>
+                            </div>
+                            <Button
+                                variant="solid"
+                                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+                                onClick={toggleDarkMode}
+                            >
+                                {isDarkMode ? <SunIcon/> : <MoonIcon/>}
+                            </Button>
+                        </div>
+                        <Separator className={isCondensed ? 'opacity-70' : 'opacity-100'} />
+                        <div className={`grid gap-2 sm:grid-cols-2 sm:items-end ${isCondensed ? 'py-0.5' : 'py-1.5'}`.trim()}>
+                            <div className='grid gap-1'>
+                                <Text as='span' className='text-sm text-gray-950 leading-none'>
+                                    Design system
+                                </Text>
+                                <Select.Root value={designSystem} onValueChange={updateDesignSystem}>
+                                    <Select.Trigger aria-label='Design system'>
+                                        <span className='capitalize'>{designSystem}</span>
+                                    </Select.Trigger>
+                                    <Select.Portal>
+                                        <Select.Content>
+                                            <Select.Group>
+                                                <Select.Item value='clarity'>Clarity</Select.Item>
+                                                <Select.Item value='baremetal'>Baremetal</Select.Item>
+                                            </Select.Group>
+                                        </Select.Content>
+                                    </Select.Portal>
+                                </Select.Root>
+                            </div>
+                            <div className='grid gap-1'>
+                                <Text as='span' className='text-sm text-gray-950 leading-none'>
+                                    Accent: <span className='capitalize'>{colorName}</span>
+                                </Text>
+                                <Select.Root value={colorName} onValueChange={(value) => setColorName(value as AvailableColors)}>
+                                    <Select.Trigger aria-label='Accent color'>
+                                        <span className='flex items-center gap-2'>
+                                            <ColorSelect
+                                                color={colors[colorName]}
+                                                isDarkMode={isDarkMode}
+                                                isSelected={true}
+                                            />
+                                            <span className='capitalize'>{colorName}</span>
+                                        </span>
+                                    </Select.Trigger>
+                                    <Select.Portal>
+                                        <Select.Content>
+                                            <Select.Group>
+                                                {Object.entries(colors).map(([availableColorName, color]) => (
+                                                    <Select.Item key={availableColorName} value={availableColorName}>
+                                                        <span className='flex items-center gap-2'>
+                                                            <ColorSelect
+                                                                color={color}
+                                                                isDarkMode={isDarkMode}
+                                                                isSelected={availableColorName === colorName}
+                                                            />
+                                                            <span className='capitalize'>{availableColorName}</span>
+                                                        </span>
+                                                    </Select.Item>
+                                                ))}
+                                            </Select.Group>
+                                        </Select.Content>
+                                    </Select.Portal>
+                                </Select.Root>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <Separator/>
+                <div className={`pt-2.5 ${className ?? ''}`.trim()} >
+                    {children}
+                </div>
             </div>
-            <Separator/>
-            <div className={`pt-2.5 ${className ?? ''}`.trim()} >
-                {children}
-            </div>
-        </div>
-    </Theme>;
+        </Theme>
+    </div>;
 };
 
 export default SandboxEditor;

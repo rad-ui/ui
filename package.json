@@ -11,6 +11,7 @@
       "types": "./dist/index.d.ts"
     },
     "./themes/default.css": "./dist/themes/default.css",
+    "./themes/baremetal.css": "./dist/themes/baremetal.css",
     "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js",
     "./Accordion": {
       "import": "./dist/components/Accordion.js",

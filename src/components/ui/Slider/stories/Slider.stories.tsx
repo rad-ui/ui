@@ -3,7 +3,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Slider from '../Slider';
 
 export default {
-    title: 'WIP/Slider',
+    title: 'Components/Slider',
     component: Slider
 } as any;
 

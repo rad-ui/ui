@@ -25,7 +25,7 @@ const steps = [
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'WIP/Minimap',
+    title: 'Components/Minimap',
     component: Minimap,
     render: () => <SandboxEditor>
         <div className='mt-5'>

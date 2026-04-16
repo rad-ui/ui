@@ -38,7 +38,7 @@ const ScrollAreaTemplate = (args: any) => {
 };
 
 export default {
-    title: 'WIP/ScrollArea',
+    title: 'Components/ScrollArea',
     component: ScrollArea,
     render: (args: any) => <ScrollAreaTemplate {...args}/>
 };

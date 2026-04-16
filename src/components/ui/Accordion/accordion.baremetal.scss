@@ -1,0 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-root) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-accordion-trigger) { @include baremetal.option-item; }

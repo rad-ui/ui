@@ -1,0 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-minimap-track) { @include baremetal.track; }
+#{baremetal.$theme-root} :where(.rad-ui-minimap-bubble) { @include baremetal.fill; }
