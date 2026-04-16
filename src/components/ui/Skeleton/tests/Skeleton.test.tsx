@@ -48,7 +48,7 @@ describe('Skeleton', () => {
 
         const div = container.querySelector('div');
         expect(div?.className).toContain('custom-class');
-        expect(div?.className).toContain('custom-root'); // depends on customClassSwitcher output
+        expect(div?.className).toContain('custom-root');
     });
 
     it('applies custom CSS variables as inline styles', () => {
