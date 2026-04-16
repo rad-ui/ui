@@ -8,6 +8,7 @@ export type ThemeProps = ComponentPropsWithoutRef<'div'> & {
     accentColor?: string;
     radius?: string;
     scaling?: string;
+    classNamespace?: string;
 };
 
 const assignRef = <T,>(ref: React.ForwardedRef<T>, value: T) => {
@@ -27,6 +28,7 @@ const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
     accentColor = '',
     radius = '',
     scaling = '',
+    classNamespace,
     children,
     ...props
 }, ref) {
@@ -84,7 +86,7 @@ const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
     }, [scaling]);
 
     return (
-        <ThemeContext.Provider value={{ containerRef, portalRootRef }}>
+        <ThemeContext.Provider value={{ containerRef, portalRootRef, classNamespace }}>
             <div
                 ref={setRefs}
                 id={id}

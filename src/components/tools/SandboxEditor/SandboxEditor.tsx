@@ -75,7 +75,8 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
 
     return <Theme
         appearance={isDarkMode ? 'dark' : 'light'}
-        accentColor={colorName}>
+        accentColor={colorName}
+        classNamespace="rad-ui">
         <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
             <div
                 className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}

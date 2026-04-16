@@ -6,6 +6,7 @@ import { AccordionContext } from '../contexts/AccordionContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
+import ThemeContext from '../../Theme/ThemeContext';
 
 const COMPONENT_NAME = 'Accordion';
 
@@ -35,6 +36,7 @@ export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'de
 
 const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>(({
     children,
+    className = '',
     orientation = 'vertical',
     disableTabIndexing = false,
     asChild,
@@ -53,7 +55,9 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     ...props
 }, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const themeContext = React.useContext(ThemeContext);
+    const classNamespace = customRootClass || themeContext?.classNamespace || '';
+    const rootClass = classNamespace ? customClassSwitcher(classNamespace, COMPONENT_NAME) : '';
 
     const isMultiple = type === 'multiple' || (type !== 'single' && openMultiple);
     const collapsibleEffective = isMultiple ? true : collapsible;
@@ -96,7 +100,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
             >
                 <RovingFocusGroup.Group >
                     <Primitive.div
-                        className={clsx(`${rootClass}-root`)}
+                        className={clsx(rootClass && `${rootClass}-root`, className)}
                         dir={dir}
                         data-orientation={orientation}
                         ref={(node) => {
