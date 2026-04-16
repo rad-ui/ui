@@ -13,7 +13,7 @@ const SelectGroup = React.forwardRef<SelectGroupElement, SelectGroupComponentPro
     const { rootClass } = useContext(SelectRootContext);
     return (
         <ComboboxPrimitive.Group
-            className={`${rootClass}-group`}
+            className={rootClass ? `${rootClass}-group` : undefined}
             ref={forwardedRef}
             {...props}
         >

@@ -13,7 +13,7 @@ const ComboboxContent = React.forwardRef<ComboboxContentElement, ComboboxContent
 
     return (
         <ComboboxPrimitive.Content
-            className={`${rootClass}-content`}
+            className={rootClass ? `${rootClass}-content` : undefined}
             position={position}
             data-position={position}
             ref={forwardedRef}

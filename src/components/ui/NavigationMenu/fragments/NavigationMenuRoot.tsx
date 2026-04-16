@@ -2,7 +2,7 @@ import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'NavigationMenuRoot';
@@ -30,14 +30,14 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
 
         return (
             <div ref={ref} {...props}>
                 <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass }}>
                     <RovingFocusGroup.Root>
-                        <RovingFocusGroup.Group className={clsx(`${rootClass}-root`, className)}>
+                        <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
                             {children}
                         </RovingFocusGroup.Group>
                     </RovingFocusGroup.Root>

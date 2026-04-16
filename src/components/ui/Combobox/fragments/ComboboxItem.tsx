@@ -13,7 +13,7 @@ const ComboboxItem = React.forwardRef<ComboboxItemElement, ComboboxItemProps>(({
 
     return (
         <ComboboxPrimitive.Item
-            className={`${rootClass}-item`}
+            className={rootClass ? `${rootClass}-item` : undefined}
             value={value}
             disabled={disabled}
             data-disabled={disabled ? '' : undefined}
@@ -22,7 +22,7 @@ const ComboboxItem = React.forwardRef<ComboboxItemElement, ComboboxItemProps>(({
             ref={forwardedRef}
             {...props}
         >
-            <span className={`${rootClass}-text`}>{children}</span>
+            <span className={rootClass ? `${rootClass}-text` : undefined}>{children}</span>
         </ComboboxPrimitive.Item>
     );
 });

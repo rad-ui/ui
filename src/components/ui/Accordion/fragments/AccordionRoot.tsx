@@ -1,12 +1,11 @@
 'use client';
 import React, { useRef } from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { AccordionContext } from '../contexts/AccordionContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
-import ThemeContext from '../../Theme/ThemeContext';
 
 const COMPONENT_NAME = 'Accordion';
 
@@ -55,9 +54,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     ...props
 }, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
-    const themeContext = React.useContext(ThemeContext);
-    const classNamespace = customRootClass || themeContext?.classNamespace || '';
-    const rootClass = classNamespace ? customClassSwitcher(classNamespace, COMPONENT_NAME) : '';
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const isMultiple = type === 'multiple' || (type !== 'single' && openMultiple);
     const collapsibleEffective = isMultiple ? true : collapsible;

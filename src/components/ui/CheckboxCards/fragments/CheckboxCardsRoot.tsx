@@ -1,7 +1,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxGroupPrimitive from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxCardsRootContext from '../context/CheckboxCardsRootContext';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
@@ -17,7 +17,7 @@ export type CheckboxCardsRootProps = {
 
 const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(
     ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', orientation = 'both', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('checkbox-cards', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);
@@ -27,7 +27,7 @@ const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRoot
         <CheckboxCardsRootContext.Provider value={{ rootClass }}>
             <CheckboxGroupPrimitive.Root
                 ref={ref}
-                className={clsx(`${rootClass}-root`, rootClass, className)}
+                className={clsx(rootClass && `${rootClass}-root`, rootClass, className)}
                 {...props}
                 {...composedAttributes}
                 orientation={orientation}

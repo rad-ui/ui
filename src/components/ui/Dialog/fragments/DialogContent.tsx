@@ -14,7 +14,7 @@ export type DialogContentProps = DialogPrimitiveContentProps & {
 const DialogContent = forwardRef<DialogContentElement, DialogContentProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DialogContext);
     return (
-        <DialogPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
+        <DialogPrimitive.Content ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>
             {children}
         </DialogPrimitive.Content>
     );

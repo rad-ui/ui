@@ -39,7 +39,7 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
     return (
         <div
             ref={ref}
-            className={`${rootClass}-range`}
+            className={rootClass ? `${rootClass}-range` : undefined}
             style={orientation === 'vertical'
                 ? {
                     height: `${length}%`,

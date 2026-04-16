@@ -1,6 +1,6 @@
 import React from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
-import { customClassSwitcher } from '~/core/customClassSwitcher';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
 const COMPONENT_NAME = 'Combobox';
@@ -12,12 +12,12 @@ export type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPr
 
 const ComboboxRoot = React.forwardRef<ComboboxRootElement, ComboboxRootProps>(
     ({ customRootClass, children, defaultValue, value, onValueChange, shift, ...props }, forwardedRef) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         return (
             <ComboboxRootContext.Provider value={{ rootClass }}>
                 <ComboboxPrimitive.Root
-                    className={`${rootClass}-root`}
+                    className={rootClass ? `${rootClass}-root` : undefined}
                     defaultValue={defaultValue}
                     value={value}
                     onValueChange={onValueChange}

@@ -1,6 +1,6 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import DataListContext from '../contexts/DataListContext';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'DataList';
@@ -11,7 +11,7 @@ export interface DataListRootProps extends ComponentPropsWithoutRef<'div'> {
 }
 
 const DataListRoot = forwardRef<DataListRootElement, DataListRootProps>(({ children, className = '', customRootClass = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     return <DataListContext.Provider
         value={{
             rootClass

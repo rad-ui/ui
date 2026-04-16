@@ -24,7 +24,7 @@ const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogCont
     return (
         <DialogPrimitive.Content
             ref={ref}
-            className={clsx(`${rootClass}-content`, className)}
+            className={clsx(rootClass && `${rootClass}-content`, className)}
             asChild={asChild}
             forceMount={forceMount}
             role="alertdialog"

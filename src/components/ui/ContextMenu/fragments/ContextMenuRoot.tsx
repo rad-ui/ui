@@ -1,6 +1,6 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitive, { MenuPrimitiveProps } from '~/core/primitives/Menu/MenuPrimitive';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import ContextMenuContext from '../contexts/ContextMenuContext';
 import { useControllableState } from '~/core/hooks/useControllableState';
@@ -22,10 +22,10 @@ const ContextMenuRoot = forwardRef<ContextMenuRootElement, ContextMenuRootProps>
         defaultOpen,
         onOpenChange
     );
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     return (
         <ContextMenuContext.Provider value={{ rootClass, setIsOpen, variant, size }} >
-            <MenuPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} open={isOpen} onOpenChange={setIsOpen} {...props}>
+            <MenuPrimitive.Root ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} open={isOpen} onOpenChange={setIsOpen} {...props}>
                 {children}
             </MenuPrimitive.Root>
         </ContextMenuContext.Provider>

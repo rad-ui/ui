@@ -42,7 +42,7 @@ const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({
             onFocus={() => value && !disabled && handleFocus(value)}>
             <Primitive.a
                 ref={composedRef}
-                className={clsx(`${rootClass}-link`, className)}
+                className={clsx(rootClass && `${rootClass}-link`, className)}
                 asChild={asChild}
                 aria-disabled={disabled}
                 aria-selected={isActive}

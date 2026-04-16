@@ -4,7 +4,7 @@ import React, {
     ComponentPropsWithoutRef,
     ElementRef
 } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
@@ -32,7 +32,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         onClick,
         ...props
     }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         // apply data attribute for accent color
         // apply attribute only if color is present
         const dataAttributes = createDataAttributes('button', { variant, size });

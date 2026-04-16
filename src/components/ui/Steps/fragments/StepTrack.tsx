@@ -7,7 +7,7 @@ export type StepTrackProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepTrack = ({ children, className = '', ...props }: StepTrackProps) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(`${rootClass}-track`, className)} {...props}>{children}</div>;
+    return <div className={clsx(rootClass && `${rootClass}-track`, className)} {...props}>{children}</div>;
 };
 
 export default StepTrack;

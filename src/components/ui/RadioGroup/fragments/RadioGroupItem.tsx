@@ -14,7 +14,7 @@ export type RadioGroupItemProps = {
 const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>(
     ({ children, className = '', value, ...props }, ref) => {
         const { rootClass } = useContext(RadioGroupContext);
-        return <RadioGroupPrimitive.Item ref={ref} className={clsx(`${rootClass}-item`, className)} value={value} {...props}>{children}</RadioGroupPrimitive.Item>;
+        return <RadioGroupPrimitive.Item ref={ref} className={clsx(rootClass && `${rootClass}-item`, className)} value={value} {...props}>{children}</RadioGroupPrimitive.Item>;
     }
 );
 

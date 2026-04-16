@@ -182,10 +182,10 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
     };
 
     return (
-        <div ref={ref} className={`${rootClass}-range-slider`} {...props}>
+        <div ref={ref} className={rootClass ? `${rootClass}-range-slider` : undefined} {...props}>
             {/* Lower thumb */}
             <Primitive.div
-                className={`${rootClass}-thumb ${rootClass}-thumb-lower`}
+                className={rootClass ? `${rootClass}-thumb ${rootClass}-thumb-lower` : undefined}
                 role="slider"
                 tabIndex={disabled ? -1 : 0}
                 aria-valuemin={minValue}
@@ -210,7 +210,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
 
             {/* Upper thumb */}
             <Primitive.div
-                className={`${rootClass}-thumb ${rootClass}-thumb-upper`}
+                className={rootClass ? `${rootClass}-thumb ${rootClass}-thumb-upper` : undefined}
                 role="slider"
                 tabIndex={disabled ? -1 : 0}
                 aria-valuemin={minValue}
@@ -235,7 +235,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
 
             {/* Range fill between thumbs */}
             <div
-                className={`${rootClass}-range-fill`}
+                className={rootClass ? `${rootClass}-range-fill` : undefined}
                 style={orientation === 'vertical'
                     ? {
                         bottom: `${Math.min(percent1, percent2)}%`,

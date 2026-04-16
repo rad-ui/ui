@@ -28,7 +28,7 @@ const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTrig
     return (
         <DialogPrimitive.Trigger
             ref={ref}
-            className={clsx(`${rootClass}-trigger`, className)}
+            className={clsx(rootClass && `${rootClass}-trigger`, className)}
             asChild={asChild}
             disabled={disabled}
             data-state={dataState}

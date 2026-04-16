@@ -14,7 +14,7 @@ const SliderTrack = forwardRef<SliderTrackElement, SliderTrackProps>(({ children
     return (
         <div
             ref={ref}
-            className={`${rootClass}-track`}
+            className={rootClass ? `${rootClass}-track` : undefined}
             style={ orientation === 'vertical' ? { 
                 rotate: '180deg',
                 position: 'relative'

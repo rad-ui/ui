@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Quote';
@@ -11,7 +11,7 @@ export type QuoteProps = React.ComponentPropsWithoutRef<'q'> & {
 
 const Quote = React.forwardRef<React.ElementRef<'q'>, QuoteProps>(
     ({ children, customRootClass, className, ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         return (
             <q ref={ref} className={clsx(rootClass, className)} {...props}>
                 {children}

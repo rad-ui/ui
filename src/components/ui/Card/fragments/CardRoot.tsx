@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 import CardContext from '../contexts/CardContext';
@@ -11,7 +11,7 @@ export type CardRootProps = React.ComponentPropsWithoutRef<'div'> & {
 };
 
 const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(({ children, customRootClass, className = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const dataAttributes = createDataAttributes('card', { variant, size });
     const contextValue = useMemo(() => ({ rootClass }), [rootClass]);
 

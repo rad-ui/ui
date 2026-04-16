@@ -16,7 +16,7 @@ const AvatarGroupItem = React.forwardRef<React.ElementRef<typeof AvatarPrimitive
     const accentAttributes = createDataAccentColorAttribute(color);
     const composedAttributes = composeAttributes(accentAttributes);
 
-    return <AvatarPrimitiveRoot ref={ref} className={clsx(`${rootClass}-item`, className)} {...composedAttributes} {...props}>
+    return <AvatarPrimitiveRoot ref={ref} className={clsx(rootClass && `${rootClass}-item`, className)} {...composedAttributes} {...props}>
         {children}
     </AvatarPrimitiveRoot>;
 });

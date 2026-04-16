@@ -23,7 +23,7 @@ const ToolbarLink = React.forwardRef<React.ElementRef<typeof Link>, ToolbarLinkP
                     ref={ref}
                     asChild={asChild}
                     href={href}
-                    className={clsx(`${rootClass}-link`, className)}
+                    className={clsx(rootClass && `${rootClass}-link`, className)}
                     {...props}
                 />
             </RovingFocusGroup.Item>

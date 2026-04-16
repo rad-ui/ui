@@ -13,7 +13,7 @@ export type DialogDescriptionProps = PrimitiveParagraphProps & { className?: str
 const DialogDescription = forwardRef<DialogDescriptionElement, DialogDescriptionProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DialogContext);
     return (
-        <Primitive.p ref={ref} className={clsx(`${rootClass}-description`, className)} {...props}>
+        <Primitive.p ref={ref} className={clsx(rootClass && `${rootClass}-description`, className)} {...props}>
             {children}
         </Primitive.p>
     );

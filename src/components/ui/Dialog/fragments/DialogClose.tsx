@@ -14,7 +14,7 @@ export type DialogCloseProps = DialogPrimitiveCloseProps & {
 const DialogClose = forwardRef<DialogCloseElement, DialogCloseProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DialogContext);
     return (
-        <DialogPrimitive.Cancel ref={ref} className={clsx(`${rootClass}-close`, className)} asChild={asChild} {...props}>
+        <DialogPrimitive.Cancel ref={ref} className={clsx(rootClass && `${rootClass}-close`, className)} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Cancel>
     );

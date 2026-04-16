@@ -1,5 +1,6 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
+import clsx from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
@@ -14,7 +15,7 @@ export type AlertDialogCancelProps = DialogPrimitiveCancelProps & {
 const AlertDialogCancel = forwardRef<AlertDialogCancelElement, AlertDialogCancelProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
     return (
-        <DialogPrimitive.Cancel ref={ref} className={`${rootClass}-cancel ${className}`} asChild={asChild} {...props}>
+        <DialogPrimitive.Cancel ref={ref} className={clsx(rootClass && `${rootClass}-cancel`, className)} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Cancel>
     );

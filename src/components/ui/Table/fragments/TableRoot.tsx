@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 const COMPONENT_NAME = 'Table';
 
@@ -15,13 +15,13 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
     customRootClass = '',
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     // Its important to wrap the table in a div with the class 'rad-ui-table' so that the table can be styled properly
     // so we created a new class for <table> element as a one off case in pattern when it comes to naming classes/conventions
     // this is because we cant style the table element directly, so we'll need to wrap it in a div and style it instead
 
-    return <div ref={ref} className={clsx(`${rootClass}-wrapper`, className)} {...props} >
+    return <div ref={ref} className={clsx(rootClass && `${rootClass}-wrapper`, className)} {...props} >
         {/* Todo: need to break this down into its own wrapper component */}
         <table className={clsx(rootClass)}>
             {children}

@@ -30,7 +30,7 @@ const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemP
         <RovingFocusGroup.Item value={value}>
             <Primitive.button
                 onClick={handleClick}
-                className={clsx(`${rootClass}-item`, className)}
+                className={clsx(rootClass && `${rootClass}-item`, className)}
                 data-in-view={isVisible ? 'true' : 'false'}
                 {...props}>{children}</Primitive.button>
         </RovingFocusGroup.Item>

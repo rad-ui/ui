@@ -26,7 +26,7 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
         return (
             <div
                 ref={contentRef}
-                className={clsx(`${rootClass}-content`, className)}
+                className={clsx(rootClass && `${rootClass}-content`, className)}
                 data-state={itemOpen ? 'open' : 'closed'}
                 {...props}
             >

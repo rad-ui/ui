@@ -13,7 +13,7 @@ describe('Button asChild', () => {
     test('anchor child preserves role and forwards className and ref', () => {
         const ref = React.createRef<HTMLAnchorElement>();
         render(
-            <Button asChild className="test-class" ref={ref as any}>
+            <Button asChild customRootClass="rad-ui" className="test-class" ref={ref as any}>
                 <a href="#">link</a>
             </Button>
         );
@@ -25,7 +25,7 @@ describe('Button asChild', () => {
 
     test('span child preserves role and className', () => {
         render(
-            <Button asChild className="span-class">
+            <Button asChild customRootClass="rad-ui" className="span-class">
                 <span>span</span>
             </Button>
         );

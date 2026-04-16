@@ -19,7 +19,7 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
                 <button
                     ref={ref}
                     onClick={composeEventHandlers(onClick, handleTrigger)}
-                    className={clsx(`${rootClass}-trigger`, className)}
+                    className={clsx(rootClass && `${rootClass}-trigger`, className)}
                     {...props}
                 >
                     {children}

@@ -9,7 +9,7 @@ const CheckboxCardsContent = forwardRef<CheckboxCardsContentElement, CheckboxCar
     const { rootClass } = React.useContext(CheckboxCardsRootContext);
 
     return (
-        <CheckboxGroupPrimitive.Content ref={ref} className={`${rootClass}-content`} {...props} >{children}</CheckboxGroupPrimitive.Content>
+        <CheckboxGroupPrimitive.Content ref={ref} className={rootClass ? `${rootClass}-content` : undefined} {...props} >{children}</CheckboxGroupPrimitive.Content>
     );
 });
 

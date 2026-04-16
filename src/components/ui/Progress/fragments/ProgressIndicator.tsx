@@ -31,7 +31,7 @@ const ProgressIndicator = forwardRef<
     return (
         <Primitive.div
             role="progressbar"
-            className={clsx(`${rootClass}-indicator`, className)}
+            className={clsx(rootClass && `${rootClass}-indicator`, className)}
             style={{ transform: `translateX(-${100 - percentage}%)`, ...style }}
             aria-valuenow={boundedValue}
             aria-valuemax={maxValue}

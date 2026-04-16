@@ -12,7 +12,7 @@ const CheckboxCardsItem = forwardRef<CheckboxCardsItemElement, CheckboxCardsItem
     const { rootClass } = React.useContext(CheckboxCardsRootContext);
 
     return (
-        <CheckboxGroupPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-item`, className)} value={value} {...props}>
+        <CheckboxGroupPrimitive.Trigger ref={ref} className={clsx(rootClass && `${rootClass}-item`, className)} value={value} {...props}>
             {children}
         </CheckboxGroupPrimitive.Trigger>
     );

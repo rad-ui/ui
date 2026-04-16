@@ -9,7 +9,7 @@ export type AvatarImageProps = React.ComponentPropsWithoutRef<typeof AvatarPrimi
 
 const AvatarImage = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveImage>, AvatarImageProps>(({ src = '', alt = '', ...props }, ref) => {
     const { rootClass } = useContext(AvatarContext);
-    return <AvatarPrimitiveImage ref={ref} className={clsx(`${rootClass}-image`)} src={src} alt={alt} {...props} />;
+    return <AvatarPrimitiveImage ref={ref} className={clsx(rootClass && `${rootClass}-image`)} src={src} alt={alt} {...props} />;
 });
 
 AvatarImage.displayName = 'AvatarImage';

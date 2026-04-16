@@ -17,7 +17,7 @@ const CalloutText = React.forwardRef<CalloutTextElement, CalloutTextProps>(
         return (
             <Primitive.p
                 ref={ref}
-                className={clsx(`${rootClass}-text`, className)}
+                className={clsx(rootClass && `${rootClass}-text`, className)}
                 {...props}
             >
                 {children}

@@ -9,7 +9,7 @@ type ComboboxIndicatorProps = React.ComponentPropsWithoutRef<'div'>;
 const ComboboxIndicator = React.forwardRef<ComboboxIndicatorElement, ComboboxIndicatorProps>((props, forwardedRef) => {
     const { rootClass } = useContext(ComboboxRootContext);
     return (
-        <div className={`${rootClass}-item-indicator`} ref={forwardedRef} {...props}>
+        <div className={rootClass ? `${rootClass}-item-indicator` : undefined} ref={forwardedRef} {...props}>
             <Check width={16} height={16} />
         </div>
     );

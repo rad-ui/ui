@@ -53,7 +53,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             disabled={disabled}
             readOnly={readOnly}
             required={required}
-            className={clsx(`${rootClass}-input`, className)}
+            className={clsx(rootClass && `${rootClass}-input`, className)}
             {...props}/>
     );
 });

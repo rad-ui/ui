@@ -1,6 +1,6 @@
 'use client';
 import React, { ElementRef, ComponentPropsWithoutRef } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 import clsx from 'clsx';
 
@@ -14,11 +14,11 @@ export type SpinnerProps = {
 type SpinnerElement = ElementRef<'span'>;
 
 const Spinner = React.forwardRef<SpinnerElement, SpinnerProps>(({ className, customRootClass = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const dataAttributes = createDataAttributes('spinner', { size });
 
     return (
-        <div className={`${rootClass}-container`}>
+        <div className={rootClass ? `${rootClass}-container` : undefined}>
             <span
                 className={clsx(rootClass, className)} {...props}
 

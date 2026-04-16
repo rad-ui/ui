@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import Primitive from '~/core/primitives/Primitive';
 import StepsContext from '../context/StepsContext';
 
@@ -29,10 +29,10 @@ const StepsRoot = ({
 }: StepsRootProps) => {
     const [currentStep, setCurrentStep] = useControllableState<number>(value, defaultValue ?? 0, onValueChange);
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     return <StepsContext.Provider value={{ currentStep, setCurrentStep, rootClass, orientation }}>
-        <Primitive.div className={clsx(rootClass, className, `${rootClass}-${orientation}`)} data-orientation={orientation} {...props}>{children}</Primitive.div>
+        <Primitive.div className={clsx(rootClass, className, rootClass && `${rootClass}-${orientation}`)} data-orientation={orientation} {...props}>{children}</Primitive.div>
     </StepsContext.Provider>;
 };
 

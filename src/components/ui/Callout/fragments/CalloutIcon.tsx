@@ -17,7 +17,7 @@ const CalloutIcon = React.forwardRef<CalloutIconElement, CalloutIconProps>(
         return (
             <Primitive.span
                 ref={ref}
-                className={clsx(`${rootClass}-icon`, className)}
+                className={clsx(rootClass && `${rootClass}-icon`, className)}
                 {...props}
             >
                 {children}

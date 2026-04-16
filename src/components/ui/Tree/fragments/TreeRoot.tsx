@@ -5,7 +5,7 @@ import { TreeContext } from '../contexts/TreeContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Tree';
@@ -20,7 +20,7 @@ export type TreeRootProps = {
 const TreeRoot = forwardRef<TreeRootElement, TreeRootProps>(({ children, className = '', customRootClass = '', 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...props }, ref) => {
     const treeRef = useRef<TreeRootElement>(null);
     useImperativeHandle(ref, () => treeRef.current as TreeRootElement);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     
     const itemRefsMap = useRef(new Map<string, RefObject<HTMLButtonElement>>());
 

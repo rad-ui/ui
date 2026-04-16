@@ -9,7 +9,7 @@ const ComboboxSearch = React.forwardRef<ComboboxSearchElement, ComboboxSearchPro
     const { rootClass } = useContext(ComboboxRootContext);
     return (
         <ComboboxPrimitive.Search
-            className={`${rootClass}-search`}
+            className={rootClass ? `${rootClass}-search` : undefined}
             ref={forwardedRef}
             {...props}
         >

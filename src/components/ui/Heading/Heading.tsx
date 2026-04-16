@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
@@ -26,7 +26,7 @@ const Heading = React.forwardRef<React.ElementRef<'h1'>, HeadingProps>(({
     className = '',
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, as);
+    const rootClass = useComponentClass(customRootClass, as);
     const Tag: HeadingTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as) ? as : 'h1';
 
     return React.createElement(Tag, {

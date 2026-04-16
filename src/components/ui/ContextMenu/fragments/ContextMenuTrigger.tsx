@@ -61,7 +61,7 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
 
         return (
             <MenuPrimitive.Trigger
-                className={clsx(`${rootClass}-trigger`, className)}
+                className={clsx(rootClass && `${rootClass}-trigger`, className)}
                 asChild={true}
                 {...props}
             >

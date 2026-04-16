@@ -7,7 +7,7 @@ export type StepLineProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepLine = ({ children, className = '', ...props }: StepLineProps) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(`${rootClass}-line`, className)} {...props}>{children}</div>;
+    return <div className={clsx(rootClass && `${rootClass}-line`, className)} {...props}>{children}</div>;
 };
 
 export default StepLine;
