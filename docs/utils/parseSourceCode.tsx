@@ -1,6 +1,31 @@
 import fs from 'fs';
 import path from 'path';
 
+const STYLE_COMPONENT_FOLDER_EXCEPTIONS: Record<string, string> = {
+    blockquote: 'BlockQuote',
+    radiocards: 'RadioCards'
+};
+
+const toComponentFolderName = (fileName: string) => {
+    return STYLE_COMPONENT_FOLDER_EXCEPTIONS[fileName]
+        || fileName
+            .split('-')
+            .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+            .join('');
+};
+
+const normalizeSourcePath = (sourcePath: string) => {
+    const themedComponentMatch = sourcePath.match(/^styles\/themes\/components\/(.+)\.scss$/);
+
+    if (!themedComponentMatch) {
+        return sourcePath;
+    }
+
+    const componentFileName = themedComponentMatch[1];
+    const componentFolder = toComponentFolderName(componentFileName);
+
+    return `src/components/ui/${componentFolder}/${componentFileName}.clarity.scss`;
+};
 
 const getProjectRoot = () => {
     // For local development
@@ -25,16 +50,18 @@ export const getSourceCodeFromPath = async (sourcePath: string) => {
     // If vercel, this returns an response made from an API call to github
     // We just need to be consistent with the path
 
+    const normalizedSourcePath = normalizeSourcePath(sourcePath);
+
     if(process.env.ENVIRONMENT === 'VERCEL') {
         // Return the response from github
-        return readGithubSourceCode(sourcePath);
+        return readGithubSourceCode(normalizedSourcePath);
     }
 
     // If its local DEV server, then the path is automatically set here in this function
     const projectRoot = await getProjectRoot();
     const finalSourcePath = path.join(
         projectRoot,
-        sourcePath
+        normalizedSourcePath
     );
     // console.log('PATH: ', finalSourcePath);
 
@@ -48,7 +75,7 @@ export const getSourceCodeFromPath = async (sourcePath: string) => {
         // }
 
         console.log('PROJECT ROOT: ', projectRoot);
-        console.log('SOURCE PATH: ', sourcePath);
+        console.log('SOURCE PATH: ', normalizedSourcePath);
         console.log('PATH TO JSX: ', finalSourcePath);
     }
 
