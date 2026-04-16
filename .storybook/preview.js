@@ -1,5 +1,6 @@
 import '../main.tailwind.css';
 import '../src/design-systems/clarity/default.scss';
+import '../src/design-systems/baremetal/default.scss';
 
 /** @type { import('@storybook/react-webpack5').Preview } */
 const preview = {
@@ -15,8 +16,13 @@ const preview = {
     },
 
     decorators: [
-    // Adds theme switching support.
-    // NOTE: requires setting "darkMode" to "class" in your tailwind config
+        (Story) => {
+            if (typeof document !== 'undefined') {
+                document.body.setAttribute('data-rad-ui-design-system', 'clarity');
+            }
+
+            return Story();
+        }
     ]
 };
 

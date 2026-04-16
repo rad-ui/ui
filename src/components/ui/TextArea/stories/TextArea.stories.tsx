@@ -3,7 +3,7 @@ import TextArea from '../TextArea';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/TextArea',
+    title: 'Components/TextArea',
     component: TextArea
 } as any;
 

@@ -4,7 +4,7 @@ import ToggleGroup from '../ToggleGroup';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/ToggleGroup',
+    title: 'Components/ToggleGroup',
     component: ToggleGroup
 } as any;
 

@@ -1,0 +1,6 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-table-wrapper) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-table th, .rad-ui-table td, .rad-ui-table tr) { @include baremetal.divider; }
+#{baremetal.$theme-root} :where(.rad-ui-table thead) { border-color: var(--rad-ui-baremetal-black) !important; background: var(--rad-ui-baremetal-white) !important; }

@@ -67,7 +67,7 @@ const items = [
     }
 ];
 export default {
-    title: 'WIP/Tree',
+    title: 'Components/Tree',
     component: Tree,
     render: () => <SandboxEditor>
         <div >

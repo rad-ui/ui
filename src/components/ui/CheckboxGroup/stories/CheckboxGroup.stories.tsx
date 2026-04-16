@@ -40,7 +40,7 @@ const CheckboxGroupExample = (args:any) => {
 };
 
 export default {
-    title: 'WIP/CheckboxGroup',
+    title: 'Components/CheckboxGroup',
     component: CheckboxGroup,
     render: (args:any) => <CheckboxGroupExample {...args} />
 };

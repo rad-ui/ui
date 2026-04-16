@@ -3,7 +3,7 @@ import Radio from '../Radio';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/Radio',
+    title: 'Components/Radio',
     component: Radio,
     render: (args: React.ComponentProps<typeof Radio>) => (
         <SandboxEditor>

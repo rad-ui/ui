@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 type Story = StoryObj<typeof DropdownMenu>;
 
 export default {
-    title: 'WIP/DropdownMenu',
+    title: 'Components/DropdownMenu',
     component: DropdownMenu
 };
 

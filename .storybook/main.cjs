@@ -73,7 +73,18 @@ const config = {
 
         config.module.rules.push({
             test: /\.scss$/,
-            use: ['style-loader', 'css-loader', 'sass-loader']
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sassOptions: {
+                            includePaths: [path.resolve(__dirname, '..')]
+                        }
+                    }
+                }
+            ]
         });
 
         config.resolve.alias = {
@@ -81,6 +92,10 @@ const config = {
             '~': path.resolve(__dirname, '../src'),
             '~/components': path.resolve(__dirname, '../src/components')
         };
+        config.resolve.modules = [
+            ...(config.resolve.modules ?? []),
+            path.resolve(__dirname, '..')
+        ];
         return config;
     },
     framework: {

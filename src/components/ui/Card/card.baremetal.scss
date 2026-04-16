@@ -1,0 +1,7 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-card) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-card-title) { @include baremetal.title-text; }
+#{baremetal.$theme-root} :where(.rad-ui-card-description) { @include baremetal.body-text; }
+#{baremetal.$theme-root} :where(.rad-ui-card-header, .rad-ui-card-footer) { border-color: var(--rad-ui-baremetal-black) !important; background: var(--rad-ui-baremetal-white) !important; }

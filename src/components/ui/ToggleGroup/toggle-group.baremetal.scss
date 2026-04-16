@@ -1,0 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-toggle-group) { @include baremetal.surface(false); gap: 0; padding: 0; }
+#{baremetal.$theme-root} :where(.rad-ui-toggle-group-item) { @include baremetal.button-like; }

@@ -12,7 +12,7 @@ const CardComponent = ({ appearance }: { appearance: 'light' | 'dark' }) => {
 };
 
 export default {
-    title: 'WIP/Theme',
+    title: 'Components/Theme',
     component: Theme,
     render: (args: React.JSX.IntrinsicAttributes) => {
         const [toggle, setToggle] = useState(false);

@@ -1,0 +1,7 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-switch) { width: 4rem; height: 2rem; border: 1px solid var(--rad-ui-baremetal-black) !important; border-radius: 0 !important; background: var(--rad-ui-baremetal-white) !important; box-shadow: none !important; transition: none !important; }
+#{baremetal.$theme-root} :where(.rad-ui-switch[data-state="checked"]) { background: var(--rad-ui-baremetal-black) !important; border-color: var(--rad-ui-baremetal-black) !important; }
+#{baremetal.$theme-root} :where(.rad-ui-switch .rad-ui-switch-indicator) { left: 0.25rem; width: 1.5rem; height: 1.5rem; border: 1px solid var(--rad-ui-baremetal-black) !important; border-radius: 0 !important; background: var(--rad-ui-baremetal-black) !important; box-shadow: none !important; transition: none !important; }
+#{baremetal.$theme-root} :where(.rad-ui-switch .rad-ui-switch-indicator[data-state="checked"]) { transform: translateY(-50%) translateX(1.75rem) !important; background: var(--rad-ui-baremetal-white) !important; }

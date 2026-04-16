@@ -4,7 +4,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import { Italic, Bold } from 'lucide-react';
 
 export default {
-    title: 'WIP/Toggle',
+    title: 'Components/Toggle',
     component: Toggle
 } as any;
 

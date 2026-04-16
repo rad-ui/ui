@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 type Story = StoryObj<typeof ContextMenu>;
 
 export default {
-    title: 'WIP/ContextMenu',
+    title: 'Components/ContextMenu',
     component: ContextMenu
 } as Meta<typeof ContextMenu>;
 
