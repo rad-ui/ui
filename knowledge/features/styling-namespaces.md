@@ -81,6 +81,8 @@ acme-accordion-root
 
 ## Data Attribute Contract
 
+See `knowledge/features/data-attributes.md` for the full data attribute contract.
+
 Behavioral state and styling props should remain in `data-*` attributes rather than becoming additional generated classes:
 
 ```html
