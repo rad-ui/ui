@@ -17,7 +17,7 @@ const MenubarSubTrigger = forwardRef<MenubarSubTriggerElement, MenubarSubTrigger
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-sub-trigger`, className)} {...props}>
+        <MenuPrimitive.Trigger ref={ref} className={clsx(rootClass && `${rootClass}-sub-trigger`, className)} {...props}>
             {children}
         </MenuPrimitive.Trigger>
     );

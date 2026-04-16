@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { AccordionContext } from '../contexts/AccordionContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -35,6 +35,7 @@ export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'de
 
 const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>(({
     children,
+    className = '',
     orientation = 'vertical',
     disableTabIndexing = false,
     asChild,
@@ -53,7 +54,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     ...props
 }, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const isMultiple = type === 'multiple' || (type !== 'single' && openMultiple);
     const collapsibleEffective = isMultiple ? true : collapsible;
@@ -96,7 +97,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
             >
                 <RovingFocusGroup.Group >
                     <Primitive.div
-                        className={clsx(`${rootClass}-root`)}
+                        className={clsx(rootClass && `${rootClass}-root`, className)}
                         dir={dir}
                         data-orientation={orientation}
                         ref={(node) => {

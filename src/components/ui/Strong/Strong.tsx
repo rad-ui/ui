@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 const COMPONENT_NAME = 'Strong';
 
@@ -12,7 +12,7 @@ export type StrongProps = React.ComponentPropsWithoutRef<'strong'> & {
 
 const Strong = React.forwardRef<React.ElementRef<'strong'>, StrongProps>(
     ({ children, className, customRootClass, ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         return (
             <strong ref={ref} className={clsx(rootClass, className)} {...props}>
                 {children}

@@ -10,7 +10,7 @@ const HoverCardArrow = forwardRef<HoverCardArrowElement, HoverCardArrowProps>((p
     const { floatingContext, arrowRef, rootClass } = useContext(HoverCardContext);
     const mergedRef = Floater.useMergeRefs([arrowRef, ref]);
 
-    return <Floater.Arrow className={clsx(`${rootClass}-arrow`)} {...props} context={floatingContext} ref={mergedRef} />;
+    return <Floater.Arrow className={clsx(rootClass && `${rootClass}-arrow`)} {...props} context={floatingContext} ref={mergedRef} />;
 });
 
 HoverCardArrow.displayName = 'HoverCardArrow';

@@ -77,7 +77,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
             >
                 <Primitive.div
                     ref={mergeRefs(accordionItemRef, forwardedRef)}
-                    className={clsx(`${rootClass}-item`, className)}
+                    className={clsx(rootClass && `${rootClass}-item`, className)}
                     data-state={isOpen ? 'open' : 'closed'}
                     data-disabled={effectiveDisabled ? '' : undefined}
                     data-orientation={orientation}

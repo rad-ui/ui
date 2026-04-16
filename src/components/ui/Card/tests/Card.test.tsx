@@ -30,7 +30,7 @@ describe('Card', () => {
 
     test('renders card fragments with scoped classes', () => {
         render(
-            <Card data-testid="card">
+            <Card data-testid="card" customRootClass="rad-ui">
                 <Card.Header data-testid="card-header">
                     <Card.Title>Card title</Card.Title>
                     <Card.Action>Action</Card.Action>

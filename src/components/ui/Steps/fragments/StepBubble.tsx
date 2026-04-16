@@ -7,7 +7,7 @@ export type StepBubbleProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepBubble = ({ children, className = '', ...props }: StepBubbleProps) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(`${rootClass}-bubble`, className)} {...props}>{children}</div>;
+    return <div className={clsx(rootClass && `${rootClass}-bubble`, className)} {...props}>{children}</div>;
 };
 
 export default StepBubble;

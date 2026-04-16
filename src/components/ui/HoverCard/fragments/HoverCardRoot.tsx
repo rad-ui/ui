@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, forwardRef, ElementRef, ComponentPr
 
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import clsx from 'clsx';
 const COMPONENT_NAME = 'HoverCard';
@@ -17,8 +17,8 @@ export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
 };
 
 const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const rootTriggerClass = customClassSwitcher(customRootClass, `${COMPONENT_NAME}-trigger`);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
     const ARROW_HEIGHT = 8;
     const SPACING_GAP = 2;

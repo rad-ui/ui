@@ -3,7 +3,7 @@ import RadioGroupPrimitive from '~/core/primitives/RadioGroup/RadioGroupPrimitiv
 import RadioGroupPrimitiveRoot, { RadioGroupPrimitiveRootProps } from '~/core/primitives/RadioGroup/fragments/RadioGroupPrimitiveRoot';
 
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 import { RadioCardsContext } from '../context/RadioCardsContext';
 
@@ -35,7 +35,7 @@ const RadioCardsRoot = forwardRef<RadioCardsRootElement, RadioCardsRootProps>(
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         const dataAttributes = createDataAttributes('radio-cards', { variant, size });
         const accentAttributes = createDataAccentColorAttribute(color);

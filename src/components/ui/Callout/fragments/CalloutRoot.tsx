@@ -1,5 +1,5 @@
 import React from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import CalloutContext from '../contexts/CalloutContext';
 import Primitive from '~/core/primitives/Primitive';
@@ -23,7 +23,7 @@ const CalloutRoot = React.forwardRef<CalloutRootElement, CalloutRootProps>(
         { children, asChild = false, className = '', color = '', variant = '', intent = '', size = '', customRootClass = '', ...props },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         // Backward compatibility: if variant is "destructive", treat it as intent
         // This allows existing code to continue working while migrating to intent/variant separation

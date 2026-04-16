@@ -102,7 +102,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         <Primitive.div
             ref={mergeRefs(thumbRef, ref)}
             asChild={asChild}
-            className={`${rootClass}-thumb`}
+            className={rootClass ? `${rootClass}-thumb` : undefined}
             role="slider"
             tabIndex={disabled ? -1 : 0}
             aria-valuemin={minValue}

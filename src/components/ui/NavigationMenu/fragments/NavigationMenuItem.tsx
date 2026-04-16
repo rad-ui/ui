@@ -30,7 +30,7 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
                     ref={ref}
                     onMouseEnter={composeEventHandlers(onMouseEnter, handleTrigger)}
                     onMouseLeave={composeEventHandlers(onMouseLeave, handleTrigger)}
-                    className={clsx(`${rootClass}-item`, className)}
+                    className={clsx(rootClass && `${rootClass}-item`, className)}
                     onKeyDown={composeEventHandlers(onKeyDown, handleEscape)}
                     {...props}
                 >

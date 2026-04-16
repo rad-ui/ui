@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
 
@@ -39,7 +39,7 @@ const SplitterRoot = React.forwardRef<
     style,
     ...props
 }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);

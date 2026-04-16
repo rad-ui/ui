@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
@@ -17,7 +17,7 @@ export type BadgeProps = React.ComponentPropsWithoutRef<'div'> & {
 };
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = 'solid', size = 'medium', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('badge', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);

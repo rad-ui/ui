@@ -5,6 +5,7 @@ import * as axe from 'axe-core';
 import Accordion from '../Accordion';
 import { AccordionRootProps } from '../fragments/AccordionRoot';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
+import Theme from '../../Theme/Theme';
 
 // Test items to use in our composable accordion
 const testItems = [
@@ -34,11 +35,65 @@ const TestAccordion = (props: Partial<AccordionRootProps>) => {
 };
 
 describe('Accordion Component', () => {
+    const originalMatchMedia = window.matchMedia;
+
+    afterEach(() => {
+        window.matchMedia = originalMatchMedia;
+    });
+
     test('renders without crashing', () => {
         render(<TestAccordion />);
         expect(screen.getByText('Item 1')).toBeInTheDocument();
         expect(screen.getByText('Item 2')).toBeInTheDocument();
         expect(screen.getByText('Item 3')).toBeInTheDocument();
+    });
+
+    test('does not generate classes without a theme classNamespace', () => {
+        render(
+            <Accordion.Root data-testid="accordion-root" defaultValue={[0]}>
+                <Accordion.Item data-testid="accordion-item" value={0}>
+                    <Accordion.Header data-testid="accordion-header">
+                        <Accordion.Trigger data-testid="accordion-trigger">Item 1</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content data-testid="accordion-content">Content 1</Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        );
+
+        const content = screen.getByTestId('accordion-content');
+
+        expect(screen.getByTestId('accordion-root').className).toBe('');
+        expect(screen.getByTestId('accordion-item').className).toBe('');
+        expect(screen.getByTestId('accordion-header').className).toBe('');
+        expect(screen.getByTestId('accordion-trigger').className).toBe('');
+        expect(content.className).toBe('');
+        expect(content.firstElementChild?.className).toBe('');
+    });
+
+    test('generates namespaced classes from Theme classNamespace', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+
+        render(
+            <Theme classNamespace="acme">
+                <Accordion.Root data-testid="accordion-root" defaultValue={[0]}>
+                    <Accordion.Item data-testid="accordion-item" value={0}>
+                        <Accordion.Header data-testid="accordion-header">
+                            <Accordion.Trigger data-testid="accordion-trigger">Item 1</Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content data-testid="accordion-content">Content 1</Accordion.Content>
+                    </Accordion.Item>
+                </Accordion.Root>
+            </Theme>
+        );
+
+        const content = screen.getByTestId('accordion-content');
+
+        expect(screen.getByTestId('accordion-root')).toHaveClass('acme-accordion-root');
+        expect(screen.getByTestId('accordion-item')).toHaveClass('acme-accordion-item');
+        expect(screen.getByTestId('accordion-header')).toHaveClass('acme-accordion-header');
+        expect(screen.getByTestId('accordion-trigger')).toHaveClass('acme-accordion-trigger');
+        expect(content).toHaveClass('acme-accordion-content');
+        expect(content.firstElementChild).toHaveClass('acme-accordion-content-inner');
     });
 
     test('forwards refs to underlying elements without warnings', () => {

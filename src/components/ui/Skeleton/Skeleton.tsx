@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Skeleton';
@@ -28,9 +28,9 @@ const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
         },
         ref
     ) => {
-        if (!loading) return <>{children}</>;
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        if (!loading) return <>{children}</>;
 
         return (
             <div

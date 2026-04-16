@@ -7,7 +7,7 @@ export type DataListValueProps = ComponentPropsWithoutRef<'dd'>;
 
 const DataListValue = forwardRef<DataListValueElement, DataListValueProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DataListContext);
-    return <dd ref={ref} className={clsx(`${rootClass}-value`, className)} {...props}>{children}</dd>;
+    return <dd ref={ref} className={clsx(rootClass && `${rootClass}-value`, className)} {...props}>{children}</dd>;
 });
 
 DataListValue.displayName = 'DataListValue';

@@ -2,7 +2,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 
-import { customClassSwitcher } from '~/core/customClassSwitcher';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { SliderContext } from '../context/SliderContext';
 import useControllableState from '~/core/hooks/useControllableState';
 
@@ -47,7 +47,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     formatValue,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [value, setValue] = useControllableState<number | number[]>(
         valueProp,
@@ -127,7 +127,9 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
 
         // Check if we clicked a thumb
         const target = e.target as HTMLElement;
-        const thumbElement = target.closest(`.${rootClass}-thumb`) as HTMLElement | null;
+        const thumbElement = rootClass
+            ? target.closest(`.${rootClass}-thumb`) as HTMLElement | null
+            : target.closest('[role="slider"]') as HTMLElement | null;
 
         if (thumbElement && Array.isArray(value)) {
             const index = parseInt(thumbElement.getAttribute('data-index') || '0', 10);

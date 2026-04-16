@@ -22,7 +22,7 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 ref={ref}
                 asChild={asChild}
                 forceMount={forceMount}
-                className={clsx(`${rootClass}-content`, className)}
+                className={clsx(rootClass && `${rootClass}-content`, className)}
                 role="region"
                 aria-labelledby={headerId}
                 data-orientation={orientation}
@@ -31,7 +31,7 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 {asChild ? (
                     children
                 ) : (
-                    <div className={`${rootClass}-content-inner`}>
+                    <div className={rootClass ? `${rootClass}-content-inner` : undefined}>
                         {children}
                     </div>
                 )}

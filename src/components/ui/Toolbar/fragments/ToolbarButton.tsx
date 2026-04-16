@@ -21,7 +21,7 @@ const ToolbarButton = React.forwardRef<React.ElementRef<typeof ButtonPrimitive>,
             <RovingFocusGroup.Item>
                 <ButtonPrimitive
                     ref={ref}
-                    className={clsx(`${rootClass}-button`, className)}
+                    className={clsx(rootClass && `${rootClass}-button`, className)}
                     asChild={asChild}
                     type={asChild ? undefined : type}
                     {...props}

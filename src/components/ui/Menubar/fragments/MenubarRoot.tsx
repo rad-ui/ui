@@ -1,5 +1,5 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
 import MenubarContext, { MenubarItem } from '../contexts/MenubarContext';
@@ -14,7 +14,7 @@ export type MenubarRootProps = {
 const COMPONENT_NAME = 'Menubar';
 
 const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children, customRootClass, className, dir, loop, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [items, setItems] = React.useState<MenubarItem[]>([]);
     const [activeIndex, setActiveIndex] = React.useState(0);
 
@@ -60,7 +60,7 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
         <MenubarContext.Provider value={{ rootClass, registerItem, items, updateItemState }} >
             <Floater.Composite
                 ref={ref}
-                className={clsx(`${rootClass}-root`, className)} dir={dir} loop={loop} {...props} activeIndex={activeIndex}
+                className={clsx(rootClass && `${rootClass}-root`, className)} dir={dir} loop={loop} {...props} activeIndex={activeIndex}
                 onNavigate={handleOnNavigate}
             >
                 {children}

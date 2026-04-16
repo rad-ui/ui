@@ -1,5 +1,5 @@
 import React from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
@@ -28,8 +28,8 @@ const Separator = React.forwardRef<SeparatorElement, SeparatorProps>(
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-        const orientationClass = orientation === 'vertical' ? `${rootClass}-vertical` : `${rootClass}-horizontal`;
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const orientationClass = rootClass ? `${rootClass}-${orientation}` : undefined;
         const data_attributes: Record<string, string> = {};
 
         // Add data-orientation attribute

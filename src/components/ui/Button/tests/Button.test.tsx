@@ -25,7 +25,7 @@ describe('Button', () => {
     });
 
     test('renders button with the given variant', () => {
-        render(<Button variant='outline'>button</Button>);
+        render(<Button customRootClass="rad-ui" variant='outline'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveClass('rad-ui-button');
     });

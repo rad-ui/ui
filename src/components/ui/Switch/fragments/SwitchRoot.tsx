@@ -2,7 +2,7 @@
 
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { SwitchContext } from '../context/SwitchContext';
 import {
     createDataAttributes,
@@ -52,7 +52,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
         onCheckedChange
     );
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('switch', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);

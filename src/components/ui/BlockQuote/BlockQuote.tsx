@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 const COMPONENT_NAME = 'BlockQuote';
 
@@ -14,7 +14,7 @@ export type BlockQuoteProps = React.ComponentPropsWithoutRef<'blockquote'> & {
 
 const BlockQuote = React.forwardRef<React.ElementRef<'blockquote'>, BlockQuoteProps>(
     ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         const data_attributes: Record<string, string> = {};
 

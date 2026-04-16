@@ -28,7 +28,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
             marks.push(
                 <div
                     key={value}
-                    className={`${rootClass}-mark ${rootClass}-mark-custom`}
+                    className={rootClass ? `${rootClass}-mark ${rootClass}-mark-custom` : undefined}
                     data-testid={`mark-${value}`}
                     style={orientation === 'vertical'
                         ? {
@@ -46,7 +46,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                 >
                     {/* Connecting line to track */}
                     <div
-                        className={`${rootClass}-mark-line`}
+                        className={rootClass ? `${rootClass}-mark-line` : undefined}
                         style={orientation === 'vertical'
                             ? {
                                 width: '2px',
@@ -69,7 +69,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                     {/* Label */}
                     {label && (
                         <span
-                            className={`${rootClass}-mark-label`}
+                            className={rootClass ? `${rootClass}-mark-label` : undefined}
                             style={orientation === 'vertical'
                                 ? {
                                     right: '16px',
@@ -98,7 +98,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
             marks.push(
                 <div
                     key={value}
-                    className={`${rootClass}-mark`}
+                    className={rootClass ? `${rootClass}-mark` : undefined}
                     data-testid={`mark-${value}`}
                     style={orientation === 'vertical'
                         ? {
@@ -116,7 +116,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                 >
                     {/* Connecting line to track */}
                     <div
-                        className={`${rootClass}-mark-line`}
+                        className={rootClass ? `${rootClass}-mark-line` : undefined}
                         style={orientation === 'vertical'
                             ? {
                                 width: '2px',
@@ -144,7 +144,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
     return (
         <div
             ref={ref}
-            className={`${rootClass}-marks`}
+            className={rootClass ? `${rootClass}-marks` : undefined}
             style={{
                 position: 'absolute',
                 top: 0,

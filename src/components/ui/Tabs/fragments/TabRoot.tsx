@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
@@ -37,7 +37,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     asChild = false,
     ...props
 }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,

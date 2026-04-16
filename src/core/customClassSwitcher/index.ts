@@ -1,20 +1,14 @@
-const RAD_UI_CLASS_PREFIX = 'rad-ui';
+const lowerOrNumberBeforeUppercase = /([a-z0-9])([A-Z])/g;
 
-/**
- * Applies a custom root class the user provides, else applies the default rad-ui classes to the component
- * Rad UI's classes are based on this logic
- * */
+const toComponentClassName = (componentName: string = ''): string => {
+    return componentName.replace(lowerOrNumberBeforeUppercase, '$1-$2').toLowerCase();
+};
+
+// Compatibility export for consumers still importing from `~/core`.
 export const customClassSwitcher = (customRootClass: string = '', componentName: string = ''): string => {
-    if (!componentName) {
+    if (!customRootClass || !componentName) {
         return '';
     }
 
-    // add dashes between capitalized words
-    const componentClassName = componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-
-    if (customRootClass) {
-        return `${customRootClass}-${componentClassName}`;
-    }
-
-    return `${RAD_UI_CLASS_PREFIX}-${componentClassName}`;
+    return `${customRootClass}-${toComponentClassName(componentName)}`;
 };

@@ -16,7 +16,7 @@ const DialogFooter = forwardRef<DialogFooterElement, DialogFooterProps>(({ child
     const { rootClass } = useContext(DialogContext);
 
     return (
-        <DialogPrimitive.Footer ref={ref} className={clsx(`${rootClass}-footer`, className)} {...props}>
+        <DialogPrimitive.Footer ref={ref} className={clsx(rootClass && `${rootClass}-footer`, className)} {...props}>
             {children}
         </DialogPrimitive.Footer>
     );

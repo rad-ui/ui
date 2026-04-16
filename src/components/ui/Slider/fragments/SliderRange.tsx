@@ -2,13 +2,14 @@
 
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'SliderRange';
 
 export type SliderRangeElement = ElementRef<'div'>;
 export type SliderRangeProps = { children?: React.ReactNode } & ComponentPropsWithoutRef<'div'>;
 
-const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children, ...props }, ref) => {
+const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children, className, style, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, orientation } = React.useContext(SliderContext);
     let startPercent = 0;
     let endPercent = 0;
@@ -36,11 +37,15 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
     }
 
     const length = endPercent - startPercent;
+    const mergedClassName = clsx(rootClass ? `${rootClass}-range` : undefined, className) || undefined;
+
     return (
         <div
             ref={ref}
-            className={`${rootClass}-range`}
-            style={orientation === 'vertical'
+            className={mergedClassName}
+            style={{
+                ...style,
+                ...(orientation === 'vertical'
                 ? {
                     height: `${length}%`,
                     marginTop: `${100 - endPercent}%`
@@ -48,8 +53,8 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
                 : {
                     marginLeft: `${startPercent}%`,
                     width: `${length}%`
-                }
-            }
+                })
+            }}
             {...props}
         >
             {children}

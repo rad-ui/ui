@@ -1,6 +1,7 @@
 'use client';
 
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
+import clsx from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import Floater from '~/core/primitives/Floater';
 
@@ -51,7 +52,7 @@ const AlertDialogTitle = forwardRef<AlertDialogTitleElement, AlertDialogTitlePro
         <Primitive.h2
             ref={ref}
             id={titleId}
-            className={`${rootClass}-title ${className}`}
+            className={clsx(rootClass && `${rootClass}-title`, className)}
             asChild={asChild}
             {...props}
         >
