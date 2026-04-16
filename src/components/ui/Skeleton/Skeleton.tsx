@@ -28,9 +28,9 @@ const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
         },
         ref
     ) => {
-        if (!loading) return <>{children}</>;
-
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+
+        if (!loading) return <>{children}</>;
 
         return (
             <div

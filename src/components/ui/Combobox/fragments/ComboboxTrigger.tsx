@@ -1,6 +1,7 @@
 'use client';
 import React, { useContext } from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
+import clsx from 'clsx';
 
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 
@@ -10,21 +11,20 @@ export type ComboboxTriggerProps = React.ComponentPropsWithoutRef<typeof Combobo
     placeholder?: boolean;
 };
 
-const ComboboxTrigger = React.forwardRef<ComboboxTriggerElement, ComboboxTriggerProps>(({ customRootClass, children, disabled, placeholder, ...props }, forwardedRef) => {
+const ComboboxTrigger = React.forwardRef<ComboboxTriggerElement, ComboboxTriggerProps>(({ customRootClass, children, disabled, placeholder, className, ...props }, forwardedRef) => {
     const { rootClass } = useContext(ComboboxRootContext);
+    const mergedClassName = clsx(rootClass ? `${rootClass}-trigger` : undefined, className) || undefined;
 
     return (
         <ComboboxPrimitive.Trigger
-            className={rootClass ? `${rootClass}-trigger` : undefined}
+            className={mergedClassName}
             aria-disabled={disabled ? 'true' : undefined}
             data-placeholder={placeholder ? '' : undefined}
             disabled={disabled}
             ref={forwardedRef}
             {...props}
         >
-
             {children}
-
         </ComboboxPrimitive.Trigger>
     );
 });

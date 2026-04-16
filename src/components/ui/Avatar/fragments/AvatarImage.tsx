@@ -7,9 +7,10 @@ import clsx from 'clsx';
 
 export type AvatarImageProps = React.ComponentPropsWithoutRef<typeof AvatarPrimitiveImage>;
 
-const AvatarImage = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveImage>, AvatarImageProps>(({ src = '', alt = '', ...props }, ref) => {
+const AvatarImage = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveImage>, AvatarImageProps>(({ src = '', alt = '', className, ...props }, ref) => {
     const { rootClass } = useContext(AvatarContext);
-    return <AvatarPrimitiveImage ref={ref} className={clsx(rootClass && `${rootClass}-image`)} src={src} alt={alt} {...props} />;
+    const mergedClassName = clsx(rootClass && `${rootClass}-image`, className) || undefined;
+    return <AvatarPrimitiveImage ref={ref} className={mergedClassName} src={src} alt={alt} {...props} />;
 });
 
 AvatarImage.displayName = 'AvatarImage';

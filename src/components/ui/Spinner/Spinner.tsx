@@ -16,12 +16,13 @@ type SpinnerElement = ElementRef<'span'>;
 const Spinner = React.forwardRef<SpinnerElement, SpinnerProps>(({ className, customRootClass = '', size = '', ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const dataAttributes = createDataAttributes('spinner', { size });
+    const mergedClassName = clsx(rootClass, className) || undefined;
 
     return (
         <div className={rootClass ? `${rootClass}-container` : undefined}>
             <span
-                className={clsx(rootClass, className)} {...props}
-
+                ref={ref}
+                className={mergedClassName} {...props}
                 {...dataAttributes}>
             </span>
         </div>

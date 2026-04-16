@@ -35,6 +35,12 @@ const TestAccordion = (props: Partial<AccordionRootProps>) => {
 };
 
 describe('Accordion Component', () => {
+    const originalMatchMedia = window.matchMedia;
+
+    afterEach(() => {
+        window.matchMedia = originalMatchMedia;
+    });
+
     test('renders without crashing', () => {
         render(<TestAccordion />);
         expect(screen.getByText('Item 1')).toBeInTheDocument();

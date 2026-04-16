@@ -28,7 +28,7 @@ useEffect(() => {
 }, []);
 ```
 
-Do not rely on runtime CSS injection as the default styling mechanism. Runtime injection complicates SSR, streaming, CSP, style ordering, and first paint. Prefer static CSS imports or framework-level stylesheet links.
+See `Runtime Style Injection` below for the canonical guidance on CSS injection.
 
 ## Data Attribute Contract
 
@@ -131,11 +131,13 @@ If generated classes are opt-in, consumers need a stable styling map for each co
 
 Rules:
 
-- Document public slots or parts for every stylable component.
-- Document generated class names using the namespace pattern.
-- Document public data attributes.
-- Document public CSS variables, if any exist.
-- Document DOM structure guarantees that consumers can safely rely on.
+Document the following for each component:
+
+- Slots or parts for every stylable component
+- Generated class names using the namespace pattern
+- Public data attributes
+- Public CSS variables, if any exist
+- DOM structure guarantees that consumers can safely rely on
 - Be explicit about what is public and stable versus what is internal and may change.
 
 Each component should make its styling contract easy to find and easy to trust.
@@ -207,7 +209,7 @@ Rules:
 - Do not assume portaled content remains inside the visual or DOM subtree where the trigger was rendered.
 - SSR output and hydration behavior must stay deterministic.
 
-Portals can break styling assumptions when content escapes the original subtree. Audit dialog, popover, hover card, context menu, and similar components carefully anywhere theme context, CSS variables, or namespace-based styling is expected to flow across the portal boundary.
+Portals can break styling assumptions when content renders outside the original subtree; audit dialog, popover, hover card, context menu, and similar components wherever theme context, CSS variables, or namespace-based styling must flow across the portal boundary.
 
 ## Runtime Style Injection
 
