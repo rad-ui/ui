@@ -1,4 +1,9 @@
-import React from 'react';
+import React, {
+    forwardRef,
+    ComponentPropsWithoutRef,
+    ElementRef
+} from 'react';
+import Primitive from '~/core/primitives/Primitive';
 
 /**
  *
@@ -16,7 +21,18 @@ import React from 'react';
 
  */
 
-const ButtonPrimitive = ({ role = 'button', label = '', description = '', disabled = false, children, ...props }:any) => {
+export type ButtonPrimitiveProps = {
+    label?: string;
+    description?: string;
+    asChild?: boolean;
+    required?: boolean;
+    onChange?: any;
+} & ComponentPropsWithoutRef<'button'>;
+
+const ButtonPrimitive = forwardRef<
+    ElementRef<'button'>,
+    ButtonPrimitiveProps
+>(({ role = 'button', type = 'button', label = '', description = '', disabled = false, children, ...props }, ref) => {
     if (label) {
         // If we have a label, we should set the aria-label attribute
         // This is usually generated automatically by the screen reader
@@ -38,14 +54,16 @@ const ButtonPrimitive = ({ role = 'button', label = '', description = '', disabl
         }
     }
 
-    return <button
+    return <Primitive.button
+        ref={ref}
         role={role}
+        type={type}
         disabled={disabled}
-
         {...props}
         // We allow the user to pass any other props they want
         // Is it a good idea to pass all props? Maybe not, but it's a good starting point
-    >{children}</button>;
-};
+    >{children}</Primitive.button>;
+});
 
+ButtonPrimitive.displayName = 'ButtonPrimitive';
 export default ButtonPrimitive;

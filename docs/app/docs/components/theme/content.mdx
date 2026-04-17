@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import ThemeExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Theme"
+    description="A provider component that sets the visual context for all Rad UI components within it — controlling appearance, accent color, radius, and scaling."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <ThemeExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['theme']}
+    />
+</Documentation>

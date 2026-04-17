@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import TextAreaExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="TextArea"
+    description="A multi-line text input. Use it directly for simple cases, or compose with TextArea.Root and TextArea.Input for custom layouts."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <TextAreaExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'input']}
+    />
+</Documentation>

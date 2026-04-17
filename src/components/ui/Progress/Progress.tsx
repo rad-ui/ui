@@ -1,28 +1,31 @@
-import React, { PropsWithChildren } from 'react';
-
-import ProgressRoot from './shards/ProgressRoot';
-import ProgressIndicator from './shards/ProgressIndicator';
+import React, { forwardRef } from 'react';
+import ProgressRoot, {
+    ProgressRootElement,
+    ProgressRootProps
+} from './fragments/ProgressRoot';
+import ProgressIndicator from './fragments/ProgressIndicator';
 
 export const COMPONENT_NAME = 'Progress';
 
-export interface ProgressProps extends PropsWithChildren {
-    value: number;
-    minValue?: number,
-    maxValue?: number;
-    customRootClass?: string
-    renderLabel?(value: number): JSX.Element
-  }
+export type ProgressProps = ProgressRootProps;
+type ProgressComponent = React.ForwardRefExoticComponent<
+    ProgressProps & React.RefAttributes<ProgressRootElement>
+> & {
+    Root: typeof ProgressRoot;
+    Indicator: typeof ProgressIndicator;
+};
 
-function Progress({ customRootClass, ...indicatorProps }: ProgressProps) {
-    return (
-        <ProgressRoot customRootClass={customRootClass}>
-            <ProgressIndicator customRootClass={customRootClass} {...indicatorProps}/>
-        </ProgressRoot>
+const Progress = forwardRef<ProgressRootElement, ProgressProps>((props, ref) => {
+    console.warn(
+        'Direct usage of Progress is not supported. Please use Progress.Root, Progress.Indicator, etc. instead.'
     );
-}
+    return <ProgressRoot ref={ref} {...props} />;
+}) as ProgressComponent;
 
 Progress.displayName = COMPONENT_NAME;
 Progress.Root = ProgressRoot;
 Progress.Indicator = ProgressIndicator;
 
+export type { ProgressRootProps } from './fragments/ProgressRoot';
+export type { ProgressIndicatorProps } from './fragments/ProgressIndicator';
 export default Progress;

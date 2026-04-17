@@ -1,14 +1,39 @@
 'use client';
 import React from 'react';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
-export type CodeProps= {
-    children: React.ReactNode;
-}
+const COMPONENT_NAME = 'Code';
 
-const Code = ({ children }: CodeProps) => {
-    return <code className='rui-code-root'>
+export type CodeProps = React.ComponentPropsWithoutRef<'code'> & {
+    customRootClass?: string;
+    variant?: string;
+    size?: string;
+    color?: string;
+};
+
+const Code = React.forwardRef<React.ElementRef<'code'>, CodeProps>(({
+    children,
+    customRootClass = '',
+    color = '',
+    variant = '',
+    size = '',
+    className,
+    ...props
+}, ref) => {
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+
+    const dataAttributes = composeAttributes(
+        createDataAttributes('code', { variant, size }),
+        createDataAccentColorAttribute(color)
+    );
+
+    return <code ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props}>
         {children}
     </code>;
-};
+});
+
+Code.displayName = COMPONENT_NAME;
 
 export default Code;

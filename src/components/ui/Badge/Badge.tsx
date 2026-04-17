@@ -1,24 +1,33 @@
 'use client';
 import React from 'react';
-import BadgeRoot from './shards/BadgeRoot';
-import BadgeContent from './shards/BadgeContent';
-export type BadgeProps = {
-    children?: React.ReactNode,
-    customRootClass?: string,
-    className?: string,
-    color?: string,
-    props?: object[],
-}
 
-const Badge = ({ children, customRootClass, className, color, ...props }: BadgeProps) => {
-    return <BadgeRoot customRootClass={customRootClass} className={`${className}`} color={color ?? undefined} {...props}>
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import clsx from 'clsx';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
-        <BadgeContent>
-            {children}
-        </BadgeContent>
-    </BadgeRoot>;
+const COMPONENT_NAME = 'Badge';
+type BadgeVariant = 'solid' | 'soft' | 'surface' | 'outline' | 'ghost';
+type BadgeSize = 'small' | 'medium' | 'large' | 'x-large';
+
+export type BadgeProps = React.ComponentPropsWithoutRef<'div'> & {
+    customRootClass?: string;
+    variant?: BadgeVariant;
+    size?: BadgeSize;
+    color?: string;
 };
 
-Badge.Root = BadgeRoot;
-Badge.Content = BadgeContent;
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = 'solid', size = 'medium', ...props }, ref) => {
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+
+    const dataAttributes = createDataAttributes('badge', { variant, size });
+    const accentAttributes = createDataAccentColorAttribute(color);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
+
+    return <div ref={ref} className={clsx(rootClass, className)} {...composedAttributes} {...props}>
+        {children}
+    </div>;
+});
+
+Badge.displayName = COMPONENT_NAME;
+
 export default Badge;

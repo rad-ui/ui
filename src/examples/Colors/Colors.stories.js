@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
-import colors from '../../colors/index';
+import colors from '~/design-systems/clarity/tokens/colors';
 
 import ColorsTemplate from './ColorsTemplate';
+import Theme from '~/components/ui/Theme/Theme';
 
 const AllColorsTemplate = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -11,17 +12,17 @@ const AllColorsTemplate = () => {
         setDarkMode(!darkMode);
     };
     return (
-        <div className={darkMode ? 'rad-ui-dark-theme' : ''}>
+        <Theme appearance={darkMode ? 'dark' : 'light'}>
             <button className='text-gray-900' onClick={toggleDarkMode}>
                 {darkMode ? 'Go To Light Mode' : 'Go To Dark Mode'}
             </button>
-            <div className={`flex ${darkMode ? 'bg-black' : ''} `}>
+            <div className={`flex ${darkMode ? 'bg-gray-1000' : ''} `}>
 
                 <div isDark={darkMode}>
                     <ColorsTemplate isDark={darkMode}/>
                 </div>
             </div>
-        </div>
+        </Theme>
 
     );
 };

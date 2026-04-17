@@ -1,0 +1,75 @@
+.rad-ui-accordion-root {
+  width: 100%;
+
+  .rad-ui-accordion-item {
+    border-bottom: 1px solid var(--rad-ui-color-gray-300);
+
+    &[data-disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .rad-ui-accordion-header {
+      display: flex;
+      margin: 0;
+    }
+
+    .rad-ui-accordion-trigger {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--rad-ui-spacing-4);
+      padding: 1rem 0;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      line-height: 1.4;
+      background-color: transparent;
+      color: var(--rad-ui-text-primary);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+
+      &:focus-visible {
+        outline: 2px solid var(--rad-ui-ring-strong);
+        outline-offset: 2px;
+        border-radius: var(--rad-ui-radius-sm);
+      }
+
+      &[aria-disabled="true"] {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      // Chevron icon
+      svg,
+      .rad-ui-accordion-chevron {
+        height: 1.125rem;
+        width: 1.125rem;
+        flex-shrink: 0;
+        color: var(--rad-ui-text-secondary);
+      }
+    }
+
+    &[data-state="open"] {
+      .rad-ui-accordion-trigger {
+        svg,
+        .rad-ui-accordion-chevron {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .rad-ui-accordion-content {
+      overflow: hidden;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--rad-ui-text-secondary);
+
+      .rad-ui-accordion-content-inner {
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}

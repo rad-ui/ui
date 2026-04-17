@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import NumberFieldExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="NumberField"
+    description="A numeric input with increment and decrement controls. Supports min, max, step, and controlled/uncontrolled modes."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <NumberFieldExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

@@ -1,38 +1,85 @@
 {
-  "name": "my-app",
+  "name": "@radui/docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "rimraf .next && next dev",
-    "build": "next build",
+    "dev": "rimraf .next && next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint",
-    "update-rad": "npm update @radui/ui"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "update-rad": "pnpm i @radui/ui@latest",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "@radui/ui": "^0.0.23",
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^16.2.3",
+    "@radui/fx": "^0.2.0",
+    "@radui/ui": "^0.4.0",
+    "@types/mdx": "^2.0.13",
     "@types/node": "20.5.9",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/og": "^0.6.8",
     "@vercel/speed-insights": "^1.0.1",
     "autoprefixer": "10.4.15",
-    "eslint": "8.48.0",
-    "eslint-config-next": "13.4.19",
+    "clsx": "^2.1.1",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.2.3",
     "js-cookie": "^3.0.5",
-    "next": "^14.2.10",
-    "next-cookies": "^2.0.3",
+    "lucide-react": "^1.7.0",
+    "motion": "^12.9.2",
+    "next": "16.2.3",
     "node-fetch": "^3.3.2",
-    "nookies": "^2.5.2",
-    "postcss": "8.4.29",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "postcss": "8.5.8",
+    "posthog-js": "^1.258.6",
+    "posthog-node": "^5.6.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-markdown": "^10.1.0",
     "refractor": "^4.8.1",
+    "remark-gfm": "^4.0.1",
     "sass": "^1.70.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
   },
   "devDependencies": {
     "rimraf": "^5.0.5"
+  },
+  "overrides": {
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "ajv": "6.14.0",
+    "brace-expansion": "1.1.13",
+    "flatted": "3.4.2",
+    "immutable": "5.1.5",
+    "mdast-util-to-hast": "13.2.1",
+    "minimatch": "3.1.5",
+    "yaml": "2.8.3",
+    "glob@7": {
+      "brace-expansion": "1.1.13",
+      "minimatch": "3.1.5"
+    },
+    "glob@10": {
+      "brace-expansion": "2.0.3",
+      "minimatch": "9.0.7"
+    },
+    "micromatch": {
+      "picomatch": "2.3.2"
+    },
+    "next": {
+      "picomatch": "4.0.4"
+    },
+    "tinyglobby": {
+      "picomatch": "4.0.4"
+    },
+    "fdir": {
+      "picomatch": "4.0.4"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "9.0.7",
+      "yaml": "2.8.3"
+    }
   }
 }

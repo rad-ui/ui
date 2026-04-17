@@ -1,61 +1,48 @@
 "use client"
 import CodeBlock from '../CodeBlock';
-
-import { useState } from 'react'
-
-
-
+import { useState, useEffect, useMemo } from 'react'
 import Tabs from "@radui/ui/Tabs"
+import Heading from "@radui/ui/Heading"
+import { BookMarkLink } from '@/components/layout/Documentation/utils';
+import { docsSectionBlockClassName } from '../../shared';
 
+import CodeTabs from './CodeTabs';
 
+const ComponentHero = ({ children, title='', codeUsage = {} }) => {
 
-const TabContainer = ({ children }) => {
-    return <div className='px-2'>
-        {children}
-    </div>
-}
-
-const initializeTabs = (codeUsage) => {
-    const tabs = []
-
-    for (const key in codeUsage) {
-        if (Object.hasOwnProperty.call(codeUsage, key)) {
-            
-            let language = key
-            if(key === 'javascript') {
-                language = 'jsx'
+    const initializeTabs = (codeUsage) => {
+        const tabs = []
+        for (const key in codeUsage) {
+            if (Object.hasOwnProperty.call(codeUsage, key)) {
+                let language = key
+                if(key === 'javascript') {
+                    language = 'jsx'
+                }
+                const element = codeUsage[key];
+                tabs.push({
+                    label: key,
+                    value: key,
+                    content: <CodeBlock className="my-0" language={language}>{codeUsage[key]?.code}</CodeBlock>,
+                })
             }
-
-            const element = codeUsage[key];
-            tabs.push({
-                label: key,
-                value: key,
-                content: <CodeBlock language={language} >{codeUsage[key]?.code}</CodeBlock>,
-            })
         }
+        return tabs
     }
 
-    return tabs
+    // Use useMemo to avoid recalculating tabs unnecessarily
+    const data = useMemo(() => initializeTabs(codeUsage), [codeUsage]);
 
-
-
-}
-
-
-const ComponentHero = ({ children, codeUsage = {} }) => {
-    const [activeTab, setActiveTab] = useState('tab1')
-    const data = initializeTabs(codeUsage)
-
-    return <div>
-        <div className='bg-gradient-to-r from-indigo-900 to-purple-900 p-10 rounded-tl-md rounded-tr-md text-black flex items-center justify-center'>
-            {children}
+    return <section className={docsSectionBlockClassName}>
+        {title && <BookMarkLink id={title}> <Heading as="h2">{title}</Heading> </BookMarkLink>}
+        <div className="overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)]">
+            <div className='flex items-center justify-center overflow-x-auto bg-gradient-to-b from-[var(--rad-ui-surface-subtle)] to-[var(--rad-ui-surface-canvas)] p-8'>
+                {children}
+            </div>
+            <div className="border-t border-[var(--rad-ui-border-soft)] px-5 pb-5 pt-4">
+                <CodeTabs data={data} />
+            </div>
         </div>
-
-        <div>
-            <Tabs tabs={data} />
-        </div>
-    </div>
-
+    </section>
 }
 
 export default ComponentHero;

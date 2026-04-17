@@ -1,38 +1,25 @@
-import React from 'react';
-
-import AvatarPrimitive from '~/core/primitives/Avatar';
+import AvatarRoot, { AvatarRootProps } from './fragments/AvatarRoot';
+import AvatarImage, { AvatarImageProps } from './fragments/AvatarImage';
+import AvatarFallback from './fragments/AvatarFallback';
 
 const COMPONENT_NAME = 'Avatar';
 
-export type AvatarProps = {
-
-    customRootClass?: string,
-    fallback?: string,
-    className?: string,
-    src?: string,
-    alt?: string,
-    props?: Record<string, any>[]
-}
-
-const Avatar = ({ customRootClass = '', fallback, className, src, alt, ...props }: AvatarProps) => {
-    return (
-        <AvatarPrimitive.Root src={src} customRootClass={customRootClass}>
-            <AvatarPrimitive.Image
-                src={src}
-                alt={alt}
-                className={className}
-                {...props}
-            />
-            <AvatarPrimitive.Fallback>
-                {fallback}
-            </AvatarPrimitive.Fallback>
-        </AvatarPrimitive.Root>
-    );
+const Avatar = () => {
+    console.warn('Direct usage of Avatar is not supported. Please use Avatar.Root, Avatar.Image, Avatar.Fallback instead.');
+    return null;
 };
 
-Avatar.displayName = COMPONENT_NAME;
-Avatar.Root = AvatarPrimitive.Root;
-Avatar.Image = AvatarPrimitive.Image;
-Avatar.Fallback = AvatarPrimitive.Fallback;
+export namespace AvatarProps {
+    export type Root = AvatarRootProps;
+    export type Image = AvatarImageProps;
+}
 
+Avatar.displayName = COMPONENT_NAME;
+Avatar.Root = AvatarRoot;
+Avatar.Image = AvatarImage;
+Avatar.Fallback = AvatarFallback;
+
+export type { AvatarRootProps } from './fragments/AvatarRoot';
+export type { AvatarImageProps } from './fragments/AvatarImage';
+export type { AvatarFallbackProps } from './fragments/AvatarFallback';
 export default Avatar;

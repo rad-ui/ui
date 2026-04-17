@@ -1,37 +1,27 @@
-import React from 'react';
+import AvatarGroupRoot, { AvatarGroupRootProps } from './fragments/AvatarGroupRoot';
+import AvatarGroupItem, { AvatarGroupItemProps } from './fragments/AvatarGroupItem';
+import AvatarGroupAvatar, { AvatarGroupAvatarProps } from './fragments/AvatarGroupAvatar';
+import AvatarGroupFallback, { AvatarGroupFallbackProps } from './fragments/AvatarGroupFallback';
 
-import AvatarGroupRoot from './shards/AvatarGroupRoot';
-import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
-import AvatarPrimitiveFallback from '~/core/primitives/Avatar/fragments/AvatarPrimitiveFallback';
-import AvatarPrimitiveImage from '~/core/primitives/Avatar/fragments/AvatarPrimitiveImage';
-
-const COMPONENT_NAME = 'AvatarGroup';
-
-// contexts
-
-type AvatarGroupProps = {
-    avatars: { fallback: string, src: string, alt: string }[];
-    size: 'sm' | 'md' | 'lg';
-    customRootClass?: string;
-    className?: string;
-    props?: Record<string, any>;
-}
-
-const AvatarGroup = ({ avatars = [], size, customRootClass = '', className, ...props }: AvatarGroupProps) => {
-    return <AvatarGroupRoot customRootClass={customRootClass} className={className} {...props} >
-        {avatars.map((avatar, index) => (
-            <AvatarPrimitiveRoot key={index} src={avatar.src}>
-                <AvatarPrimitiveImage src={avatar.src} alt={avatar.alt} />
-                <AvatarPrimitiveFallback>{avatar.fallback}</AvatarPrimitiveFallback>
-            </AvatarPrimitiveRoot>
-        ))}
-    </AvatarGroupRoot>;
+const AvatarGroup = () => {
+    console.warn('Direct usage of AvatarGroup is not supported. Please use AvatarGroup.Root, AvatarGroup.Item, AvatarGroup.Avatar, AvatarGroup.Fallback instead.');
+    return null;
 };
 
-AvatarGroup.displayName = COMPONENT_NAME;
-AvatarGroup.Root = AvatarGroupRoot;
-AvatarGroup.AvatarRoot = AvatarPrimitiveRoot;
-AvatarGroup.AvatarImage = AvatarPrimitiveImage;
-AvatarGroup.AvatarFallback = AvatarPrimitiveFallback;
+export namespace AvatarGroupProps {
+    export type Root = AvatarGroupRootProps;
+    export type Item = AvatarGroupItemProps;
+    export type Avatar = AvatarGroupAvatarProps;
+    export type Fallback = AvatarGroupFallbackProps;
+}
 
+AvatarGroup.Root = AvatarGroupRoot;
+AvatarGroup.Item = AvatarGroupItem;
+AvatarGroup.Avatar = AvatarGroupAvatar;
+AvatarGroup.Fallback = AvatarGroupFallback;
+
+export type { AvatarGroupRootProps } from './fragments/AvatarGroupRoot';
+export type { AvatarGroupItemProps } from './fragments/AvatarGroupItem';
+export type { AvatarGroupAvatarProps } from './fragments/AvatarGroupAvatar';
+export type { AvatarGroupFallbackProps } from './fragments/AvatarGroupFallback';
 export default AvatarGroup;

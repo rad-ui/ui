@@ -1,23 +1,45 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+import blockquote_api_SourceCode from './component_api/blockquote.tsx';
+const example_1_SourceCode = await getSourceCodeFromPath(`docs/app/docs/components/blockquote/examples/BlockQuoteExample.tsx`);
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/blockquote.scss');
+
+
 const code = {
     javascript: {
-        code: `import BlockQuote from "@radui/ui/BlockQuote"
-
-const BlockQuoteExample = () => (
-    <div>
-        <BlockQuote> When my time comes, forget the wrong that I've done.
-        Help me leave behind some reasons to be missed.
-        Don't resent me and when you're feeling empty, keep me in your memory.
-        Leave out all the rest, leave out all the rest. </BlockQuote>
-    </div>
-)`
+        code: example_1_SourceCode
     },
     scss: {
-        code: `.rad-ui-block-quote{
-    border-color: var(--rad-ui-color-accent-600);
-    border-left-width: 0.5rem;
-    padding-left: 0.75rem; // Assuming 1rem = 16px
-}`
+        code: scss_SourceCode
     },
+}
+
+// API documentation
+export const api_documentation = {
+    blockquote: blockquote_api_SourceCode
+};
+
+// Component features
+export const features = [
+    "Multiple size options: small, medium, large, x-large",
+    "Customizable with different color themes",
+    "Clean and simple styling for emphasized quotes",
+    "Follows typography best practices",
+    "Perfect for testimonials and citations"
+];
+
+// Kept for backwards compatibility
+export const BlockQuoteTable = {
+   columns : [
+        {name: 'Prop', id: 'prop'},
+        {name: 'Type', id: 'type'},
+        {name: 'Default', id: 'default'},
+        {name: 'Description', id: 'description'},
+    ],
+
+     data : [
+        {prop: 'color', type: 'string', default: 'null', description: 'Accent Color of the quote', id: 'color'},
+    ]
 }
 
 export default code;

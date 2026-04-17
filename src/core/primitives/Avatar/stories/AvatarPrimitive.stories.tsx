@@ -1,12 +1,12 @@
 import React from 'react';
-import AvatarPrimitive from '../index';
+import AvatarPrimitive from '..';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Primitives/AvatarPrimitive',
     component: AvatarPrimitive,
-    render: (args) => <SandboxEditor>
+    render: (args: any) => <SandboxEditor>
         <div >
             <div className='flex space-x-2 w-full flex-1'>
                 <AvatarPrimitive.Root>
@@ -15,7 +15,6 @@ export default {
                         <span>{args.fallback}</span>
                     </AvatarPrimitive.Fallback>
                 </AvatarPrimitive.Root>
-
             </div>
 
         </div>
@@ -25,7 +24,7 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const WithSrc = {
     args: {
-        src: 'https://via.placeholder.com/150'
+        src: 'https://i.pravatar.cc/64'
     }
 };
 

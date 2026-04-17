@@ -2,9 +2,12 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 import Button from '~/components/ui/Button/Button';
 import Separator from '~/components/ui/Separator/Separator';
 import Heading from '~/components/ui/Heading/Heading';
+import Select from '~/components/ui/Select/Select';
 import Text from '~/components/ui/Text/Text';
 
-import colors from '~/colors';
+import Theme from '~/components/ui/Theme/Theme';
+
+import colors from '~/design-systems/clarity/tokens/colors';
 
 const SunIcon = () => {
     return <svg width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 0C7.77614 0 8 0.223858 8 0.5V2.5C8 2.77614 7.77614 3 7.5 3C7.22386 3 7 2.77614 7 2.5V0.5C7 0.223858 7.22386 0 7.5 0ZM2.1967 2.1967C2.39196 2.00144 2.70854 2.00144 2.90381 2.1967L4.31802 3.61091C4.51328 3.80617 4.51328 4.12276 4.31802 4.31802C4.12276 4.51328 3.80617 4.51328 3.61091 4.31802L2.1967 2.90381C2.00144 2.70854 2.00144 2.39196 2.1967 2.1967ZM0.5 7C0.223858 7 0 7.22386 0 7.5C0 7.77614 0.223858 8 0.5 8H2.5C2.77614 8 3 7.77614 3 7.5C3 7.22386 2.77614 7 2.5 7H0.5ZM2.1967 12.8033C2.00144 12.608 2.00144 12.2915 2.1967 12.0962L3.61091 10.682C3.80617 10.4867 4.12276 10.4867 4.31802 10.682C4.51328 10.8772 4.51328 11.1938 4.31802 11.3891L2.90381 12.8033C2.70854 12.9986 2.39196 12.9986 2.1967 12.8033ZM12.5 7C12.2239 7 12 7.22386 12 7.5C12 7.77614 12.2239 8 12.5 8H14.5C14.7761 8 15 7.77614 15 7.5C15 7.22386 14.7761 7 14.5 7H12.5ZM10.682 4.31802C10.4867 4.12276 10.4867 3.80617 10.682 3.61091L12.0962 2.1967C12.2915 2.00144 12.608 2.00144 12.8033 2.1967C12.9986 2.39196 12.9986 2.70854 12.8033 2.90381L11.3891 4.31802C11.1938 4.51328 10.8772 4.51328 10.682 4.31802ZM8 12.5C8 12.2239 7.77614 12 7.5 12C7.22386 12 7 12.2239 7 12.5V14.5C7 14.7761 7.22386 15 7.5 15C7.77614 15 8 14.7761 8 14.5V12.5ZM10.682 10.682C10.8772 10.4867 11.1938 10.4867 11.3891 10.682L12.8033 12.0962C12.9986 12.2915 12.9986 12.608 12.8033 12.8033C12.608 12.9986 12.2915 12.9986 12.0962 12.8033L10.682 11.3891C10.4867 11.1938 10.4867 10.8772 10.682 10.682ZM5.5 7.5C5.5 6.39543 6.39543 5.5 7.5 5.5C8.60457 5.5 9.5 6.39543 9.5 7.5C9.5 8.60457 8.60457 9.5 7.5 9.5C6.39543 9.5 5.5 8.60457 5.5 7.5ZM7.5 4.5C5.84315 4.5 4.5 5.84315 4.5 7.5C4.5 9.15685 5.84315 10.5 7.5 10.5C9.15685 10.5 10.5 9.15685 10.5 7.5C10.5 5.84315 9.15685 4.5 7.5 4.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>;
@@ -15,70 +18,177 @@ const MoonIcon = () => {
 };
 
 const RadUILogo = () => {
-    return <svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" viewBox="0 0 211 109" fill="none"><path d="M15.0469 77H4.17188C3.92188 77 3.79688 76.8438 3.79688 76.5312L3.98438 10.5781C3.98438 10.3281 4.10938 10.2031 4.35938 10.2031H23.7656C27.2344 10.2031 30.4219 11.0469 33.3281 12.7344C36.2344 14.4219 38.5469 16.6875 40.2656 19.5312C42.0156 22.375 42.8906 25.5937 42.8906 29.1875C42.8906 31.5312 42.5312 33.6562 41.8125 35.5625C41.0938 37.4688 40.25 39.0781 39.2812 40.3906C38.3438 41.7031 37.4844 42.6719 36.7031 43.2969C40.1719 47.1406 41.9062 51.6562 41.9062 56.8438L42 76.5312C42 76.8438 41.8438 77 41.5312 77H30.6562C30.4062 77 30.2812 76.9062 30.2812 76.7188V56.8438C30.2812 54.5312 29.4688 52.5312 27.8438 50.8438C26.2188 49.1562 24.2188 48.3125 21.8438 48.3125H15.5156L15.4219 76.5312C15.4219 76.8438 15.2969 77 15.0469 77ZM23.7656 21.6875H15.5156V36.7812H23.7656C25.7344 36.7812 27.4844 36.0469 29.0156 34.5781C30.5781 33.1094 31.3594 31.3125 31.3594 29.1875C31.3594 27.1563 30.6094 25.4062 29.1094 23.9375C27.6094 22.4375 25.8281 21.6875 23.7656 21.6875ZM46.875 76.5312L58.7812 10.5781C58.8438 10.3281 59 10.2031 59.25 10.2031H73.1719C73.4219 10.2031 73.5781 10.3281 73.6406 10.5781L85.0781 76.5312C85.1094 76.8438 84.9844 77 84.7031 77H74.0625C73.75 77 73.5781 76.8438 73.5469 76.5312L72.5156 69.5H59.4375L58.4062 76.5312C58.375 76.8438 58.2188 77 57.9375 77H47.25C47 77 46.875 76.8438 46.875 76.5312ZM65.6719 32.2812L61.3594 59.2344H70.5938L66.6562 32.2812L66.0938 28.7188L65.6719 32.2812ZM108.75 76.9062L91.5469 77C91.2344 77 91.0781 76.8438 91.0781 76.5312L91.2656 10.5781C91.2656 10.3281 91.3906 10.2031 91.6406 10.2031L109.594 10.1094C113.156 10.0156 116.375 10.8281 119.25 12.5469C122.156 14.2656 124.469 16.5937 126.188 19.5312C127.938 22.4375 128.812 25.6563 128.812 29.1875V56.75C128.812 60.4375 127.922 63.8125 126.141 66.875C124.328 69.9062 121.922 72.3281 118.922 74.1406C115.922 75.9219 112.531 76.8438 108.75 76.9062ZM109.594 21.5938L102.891 21.6875L102.797 65.1875H108.75C111.125 65.1875 113.125 64.3594 114.75 62.7031C116.375 61.0469 117.188 59.0625 117.188 56.75V29.0938C117.188 27.0625 116.438 25.2969 114.938 23.7969C113.438 22.2656 111.656 21.5313 109.594 21.5938Z" fill="currentColor"></path><rect x="5" y="84" width="128" height="19" fill="currentColor"></rect><path d="M167.469 100.938C164.094 100.938 160.969 100.062 158.094 98.3125C155.219 96.5625 152.922 94.2188 151.203 91.2812C149.516 88.3125 148.672 85.0781 148.672 81.5781L148.859 33.5781C148.859 33.3281 148.984 33.2031 149.234 33.2031H160.016C160.266 33.2031 160.391 33.3281 160.391 33.5781V81.5781C160.391 83.7344 161.078 85.5781 162.453 87.1094C163.828 88.6094 165.5 89.3594 167.469 89.3594C169.531 89.3594 171.25 88.6094 172.625 87.1094C174 85.5781 174.688 83.7344 174.688 81.5781V33.5781C174.688 33.3281 174.812 33.2031 175.062 33.2031H185.844C186.094 33.2031 186.219 33.3281 186.219 33.5781L186.406 81.5781C186.406 85.1094 185.562 88.3594 183.875 91.3281C182.156 94.2656 179.875 96.6094 177.031 98.3594C174.188 100.078 171 100.938 167.469 100.938ZM205.297 100H194.422C194.109 100 193.953 99.8438 193.953 99.5312L194.047 33.5781C194.047 33.3281 194.172 33.2031 194.422 33.2031H205.203C205.453 33.2031 205.578 33.3281 205.578 33.5781L205.672 99.5312C205.672 99.8438 205.547 100 205.297 100Z" fill="currentColor"></path><path d="M148 10H209V23H148V10Z" fill="currentColor"></path></svg>;
+    return <svg xmlns="http://www.w3.org/2000/svg" width="50" height="15" viewBox="0 0 951 275" fill="none"><path d="M211.75 272.493C194.441 267.63 180.91 259.376 166.776 245.07C145.884 223.912 136.769 201.743 136.804 172.243C136.857 141.767 146.647 117.84 167.751 96.5938C187.507 76.6964 209.675 67.5021 237.998 67.4666C262.471 67.4311 279.638 73.892 295.83 89.2099L305.265 98.138V87.2397C305.265 74.176 306.63 73.6967 318.317 82.6248C327.238 89.4407 337.914 102.877 344.192 115.195C353.556 133.549 353.733 135.111 354.46 204.441L355.152 269.529L350.168 270.115C347.42 270.417 335.396 270.434 323.443 270.133L301.718 269.6V259.926C301.718 254.619 301.292 250.271 300.778 250.271C300.263 250.271 295.67 253.59 290.58 257.637C274.123 270.736 264.741 273.966 241.42 274.57C227.445 274.925 218.117 274.268 211.75 272.493ZM270.044 224.818C281.518 219.191 290.669 209.801 296.77 197.43C301.806 187.188 302.604 183.727 302.604 172.207C302.604 161.185 301.735 157.102 297.657 148.76C284.693 122.366 255.963 109.658 228.971 118.373C216.752 122.331 202.316 135.519 195.931 148.6C182.701 175.651 195.789 210.156 224.537 224.001C234.078 228.598 236.721 229.095 249.401 228.563C258.357 228.19 265.965 226.806 270.044 224.818ZM456.203 272.316C429.938 265.251 404.791 243.845 392.43 218.055C383.474 199.382 380.778 185.609 381.966 164.593C383.58 136.069 394.505 112.622 414.988 93.6651C435.028 75.1167 460.353 66.2241 488.338 67.8571C509.23 69.0995 521.661 74.3002 534.608 87.2575C540.3 92.9551 545.302 97.6233 545.709 97.6233C546.117 97.6233 546.454 75.6492 546.454 48.8116V0H573.943H601.431V134.898V269.795H573.943H546.454V260.033C546.454 254.673 545.709 250.271 544.787 250.271C543.865 250.271 540.07 253.111 536.363 256.59C522.655 269.405 505.559 275.173 481.847 274.996C472.998 274.943 461.47 273.736 456.203 272.316ZM516.022 223.504C527.603 217.718 535.973 208.967 543.049 195.247C546.383 188.786 547.199 184.384 547.252 172.172C547.341 158.292 546.862 156.197 541.294 145.902C534.945 134.205 527.851 127.496 514.532 120.591C503.129 114.663 481.954 114.627 468.901 120.485C458.065 125.348 446.644 137.045 441.235 148.778C435.631 160.936 435.755 185.928 441.466 196.667C456.877 225.634 488.782 237.136 516.022 223.504ZM750.206 269.156C742.776 266.955 732.632 262.536 727.648 259.341C706.633 245.851 688.81 219.351 684.908 195.815C683.613 187.951 683.081 161.646 683.4 120.698L683.897 57.6865L702.908 57.1895L721.902 56.6748L722.416 124.638L722.913 192.584L727.488 202.364C736.019 220.54 752.618 231.935 773.315 233.817C795.217 235.805 818.041 222.634 827.228 202.737C830.934 194.714 831.129 191.501 831.98 126.023L832.867 57.6865L851.932 57.1895L870.996 56.6748L870.943 126.413C870.908 193.862 870.784 196.507 866.935 207.778C858.192 233.479 842.089 252.223 819.034 263.53C797.114 274.286 773.918 276.185 750.206 269.156ZM19.171 270.31L0 269.671L0.638443 205.399C1.24142 144.518 1.47197 140.471 5.23169 129.2C10.8358 112.391 24.2963 93.0084 36.8878 83.6543L47.2271 75.9687L47.7059 81.9148C47.9719 85.1808 48.6104 89.7602 49.1247 92.0854C50.0469 96.1856 50.3129 96.0791 58.0274 88.3402C62.4078 83.9738 70.3529 78.1696 75.691 75.4717C86.5977 69.9515 109.138 66.1886 119.566 68.1588L126.146 69.3835V93.0084V116.633L109.741 117.698C87.0056 119.189 80.8872 121.514 69.2888 133.069C62.0354 140.294 58.8964 144.997 57.389 150.872C56.1653 155.683 55.1012 180.621 54.6933 213.458C54.3032 243.473 53.647 268.393 53.2036 268.837C51.6784 270.363 38.2002 270.949 19.171 270.31ZM929.946 270.168L911.75 269.671L912.211 163.67L912.673 57.6865L931.737 57.1895L950.802 56.6748V163.137C950.802 221.676 950.199 269.831 949.472 270.133C948.745 270.434 939.948 270.452 929.946 270.168Z" fill="currentColor"/></svg>;
 };
 
-type ColorSelectProps = {color:typeof colors[keyof typeof colors], colorName: string, changeAccentColor: (colorName: string)=>void}
+type ColorSelectProps = {
+    color:typeof colors[keyof typeof colors],
+    isDarkMode: boolean,
+    isSelected: boolean
+}
 
-const ColorSelect = ({ color, colorName, changeAccentColor }: ColorSelectProps) => {
-    const dimensions = 32;
-    return <div
-        onClick={() => changeAccentColor(colorName)}
-        className='cursor-pointer rounded-full hover:border-gray-700 border'
-        style={{ width: dimensions, height: dimensions, backgroundColor: color.light['900'] }}></div>;
+const ColorSelect = ({ color, isDarkMode, isSelected }: ColorSelectProps) => {
+    const dimensions = 18;
+    return <span
+        aria-hidden="true"
+        className='inline-flex rounded-full border'
+        style={{
+            width: dimensions,
+            height: dimensions,
+            backgroundColor: isDarkMode ? color.dark['900'] : color.light['900'],
+            borderColor: isSelected ? 'var(--rad-ui-text-primary)' : 'transparent',
+            boxShadow: isSelected ? '0 0 0 2px var(--rad-ui-surface-panel)' : 'none'
+        }}
+    ></span>;
 };
 
-type SandboxProps = {className?: string | ''} & PropsWithChildren
+type SandboxProps = { className?: string } & PropsWithChildren
+type DesignSystem = 'clarity' | 'baremetal'
 
-const SandboxEditor = ({ children, className } : SandboxProps) => {
+const SandboxEditor = ({ children, className }: SandboxProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isCondensed, setIsCondensed] = useState(false);
+    const [designSystem, setDesignSystem] = useState<DesignSystem>('clarity');
 
     type AvailableColors = keyof typeof colors
 
-    const [colorName, setColorName] = useState<AvailableColors>('plum');
+    const [colorName, setColorName] = useState<AvailableColors>('gray');
 
     useEffect(() => {
+        const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+        const savedDesignSystem = localStorage.getItem('radUiDesignSystem');
 
+        setIsDarkMode(isDarkMode);
+
+        if (savedDesignSystem === 'clarity' || savedDesignSystem === 'baremetal') {
+            setDesignSystem(savedDesignSystem);
+        }
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsCondensed(window.scrollY > 48);
+        };
+
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const toggleDarkMode = () => {
+        localStorage.setItem('isDarkMode', (!isDarkMode).toString());
         setIsDarkMode(!isDarkMode);
     };
 
-    return <div data-accent-color={colorName} className={`p-4 shadow-sm text-gray-900 h-screen border border-gray-300 bg-gray-50 ${isDarkMode ? 'rad-ui-dark-theme' : ''}`}>
-        <div className='mb-4'>
-            {/* @ts-ignore */}
-            <div className='flex items-center space-x-4'>
-                <div className='text-gray-1000'>
-                    <RadUILogo/>
-                </div>
-                <Separator orientation='vertical' />
-                <Button description="Click this button" variant="outline" onClick={toggleDarkMode}>{isDarkMode ? <SunIcon/> : <MoonIcon/>}</Button>
-            </div>
-            <Separator />
-            <div>
-                <div className="flex items-center space-x-4">
-                    <Heading as='h1' className="text-gray-1000">Sandbox Editor</Heading>
-                    <Separator orientation='vertical' />
-                    <Text className="font-normal text-gray-950">
-                        Customize the colors of the Rad UI components by clicking on the color swatches below.
-                    </Text>
-                </div>
-                <Separator />
-                <div className='flex space-x-2 my-1'>
-                    {Object.keys(colors).map((color, idx) => {
-                        const colorName = color as AvailableColors;
-                        return <ColorSelect changeAccentColor={() => setColorName(colorName)} colorName={color} color={colors[colorName]} key={idx} />;
-                    }
-                    )}
+    const updateDesignSystem = (value: string) => {
+        if (value !== 'clarity' && value !== 'baremetal') {
+            return;
+        }
 
+        localStorage.setItem('radUiDesignSystem', value);
+        setDesignSystem(value);
+    };
+
+    return <div data-rad-ui-design-system={designSystem}>
+        <Theme
+            appearance={isDarkMode ? 'dark' : 'light'}
+            accentColor={colorName}
+            classNamespace="rad-ui">
+            <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
+                <div
+                    className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}
+                >
+                    <div
+                        className={`rounded-xl border border-transparent bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_82%,transparent)] backdrop-blur supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_72%,transparent)] ${isCondensed ? 'px-3 py-2 shadow-sm' : 'px-0 py-0 shadow-none'}`.trim()}
+                    >
+                        <div className='flex items-start justify-between gap-2'>
+                            <div className='flex min-w-0 items-center space-x-3'>
+                                <div className='text-gray-1000 shrink-0'>
+                                    <RadUILogo/>
+                                </div>
+                                <Separator orientation='vertical' className={isCondensed ? 'opacity-60' : 'opacity-100'} />
+                                <div className='min-w-0'>
+                                    <Heading as='h1' className={`font-semibold leading-none tracking-tight text-gray-1000 ${isCondensed ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'}`.trim()}>
+                                        Sandbox Editor
+                                    </Heading>
+                                    <Text className={`mt-0.5 font-normal leading-tight text-gray-950 ${isCondensed ? 'hidden' : 'text-sm'}`.trim()}>
+                                        Preview Rad UI components with theme and accent controls.
+                                    </Text>
+                                </div>
+                            </div>
+                            <Button
+                                variant="solid"
+                                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+                                onClick={toggleDarkMode}
+                            >
+                                {isDarkMode ? <SunIcon/> : <MoonIcon/>}
+                            </Button>
+                        </div>
+                        <Separator className={isCondensed ? 'opacity-70' : 'opacity-100'} />
+                        <div className={`grid gap-2 sm:grid-cols-2 sm:items-end ${isCondensed ? 'py-0.5' : 'py-1.5'}`.trim()}>
+                            <div className='grid gap-1'>
+                                <Text as='span' className='text-sm text-gray-950 leading-none'>
+                                    Design system
+                                </Text>
+                                <Select.Root value={designSystem} onValueChange={updateDesignSystem}>
+                                    <Select.Trigger aria-label='Design system'>
+                                        <span className='capitalize'>{designSystem}</span>
+                                    </Select.Trigger>
+                                    <Select.Portal>
+                                        <Select.Content>
+                                            <Select.Group>
+                                                <Select.Item value='clarity'>Clarity</Select.Item>
+                                                <Select.Item value='baremetal'>Baremetal</Select.Item>
+                                            </Select.Group>
+                                        </Select.Content>
+                                    </Select.Portal>
+                                </Select.Root>
+                            </div>
+                            <div className='grid gap-1'>
+                                <Text as='span' className='text-sm text-gray-950 leading-none'>
+                                    Accent: <span className='capitalize'>{colorName}</span>
+                                </Text>
+                                <Select.Root value={colorName} onValueChange={(value) => setColorName(value as AvailableColors)}>
+                                    <Select.Trigger aria-label='Accent color'>
+                                        <span className='flex items-center gap-2'>
+                                            <ColorSelect
+                                                color={colors[colorName]}
+                                                isDarkMode={isDarkMode}
+                                                isSelected={true}
+                                            />
+                                            <span className='capitalize'>{colorName}</span>
+                                        </span>
+                                    </Select.Trigger>
+                                    <Select.Portal>
+                                        <Select.Content>
+                                            <Select.Group>
+                                                {Object.entries(colors).map(([availableColorName, color]) => (
+                                                    <Select.Item key={availableColorName} value={availableColorName}>
+                                                        <span className='flex items-center gap-2'>
+                                                            <ColorSelect
+                                                                color={color}
+                                                                isDarkMode={isDarkMode}
+                                                                isSelected={availableColorName === colorName}
+                                                            />
+                                                            <span className='capitalize'>{availableColorName}</span>
+                                                        </span>
+                                                    </Select.Item>
+                                                ))}
+                                            </Select.Group>
+                                        </Select.Content>
+                                    </Select.Portal>
+                                </Select.Root>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Separator/>
+                <div className={`pt-2.5 ${className ?? ''}`.trim()} >
+                    {children}
                 </div>
             </div>
-        </div>
-        <Separator/>
-        <div className={`${className}`} >
-            {children}
-        </div>
+        </Theme>
     </div>;
 };
 

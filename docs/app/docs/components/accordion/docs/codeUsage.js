@@ -1,85 +1,122 @@
-const code = {
+import Kbd from '@radui/ui/Kbd';
+import Text from '@radui/ui/Text';
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/example_1.tsx');
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/accordion.scss');
+const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/anatomy.tsx');
+
+//
+
+import root_api_SourceCode from './component_api/root.tsx';
+import item_api_SourceCode from './component_api/item.tsx';
+import header_api_SourceCode from './component_api/header.tsx';
+import trigger_api_SourceCode from './component_api/trigger.tsx';
+import content_api_SourceCode from './component_api/content.tsx';
+
+export const code = {
     javascript: {
-        code: `import Accordion from "@radui/ui/Accordion"
-
-const AccordionExample = () => {        
-let items = [
-    {
-        title: "React",
-        content: "React is a JavaScript library for building user interfaces."
-    },
-    {
-        title: "Angular",
-        content: "Angular is a platform and framework for building single-page client applications using HTML and TypeScript."
-    },
-    {
-        title: "Vue",
-        content: "Vue.js is a progressive framework for building user interfaces."
-    },
-
-
-]   
-
-return <div style={{width:"400px"}}>
-    <Accordion items={items}>
-    </Accordion>
-</div>
-
-    }
-`
+        code: example_1_SourceCode
     },
     scss: {
-        code: `.rad-ui-accordion-root{
-            width: 100%;
-            border: 1px solid var(--rad-ui-color-gray-1000);
-            border-radius: 4px;
-            overflow: hidden;
-        
-        
-        
-            .rad-ui-accordion-item {
-                background-color: var(--rad-ui-color-gray-50);
-                // not last child
-                &:not(:last-child){
-                    border-bottom: 1px solid var(--rad-ui-color-gray-1000);
-                }
-        
-                
-                &:focus{
-                    outline: none;
-                    border: none;
-                    color:black;
-                }
-                &:focus-within{
-                    color: var(--rad-ui-color-gray-1000);
-                }
-        
-                .rad-ui-accordion-trigger{
-                    width: 100%;
-                    text-align: left;
-                    padding:16px;
-                    font-size: 1em;
-                    font-weight: 600;
-                    color: var(--rad-ui-color-gray-1000);
-                    background-color: var(--rad-ui-color-accent-100);
-        
-                    &:focus{
-                        outline: none;
-                        color: var(--rad-ui-color-accent-900);
-                    
-                    }
-                }
-        
-                .rad-ui-accordion-content {
-                    padding: 16px;
-                    font-size: 1em;
-                    background-color: var(--rad-ui-color-gray-100);
-                    color: var(--rad-ui-color-gray-1000);
-                    border-top: 1px solid var(--rad-ui-color-gray-1000);
-                }
-            }
-        }`
-    },
+        code: scss_SourceCode
+    }
+};
+
+export const anatomy = {
+    code: anatomy_SourceCode
 }
 
-export default code;
+export const api_documentation = {
+    root: root_api_SourceCode,
+    item: item_api_SourceCode,
+    header: header_api_SourceCode,
+    trigger: trigger_api_SourceCode,
+    content: content_api_SourceCode
+}
+
+export const keyboardShortcuts = {
+    columns: [
+        {
+            name: 'Shortcut',
+            id: 'shortcut'
+        },
+        {
+            name: 'Description',
+            id: 'description'
+        }
+    ],
+    data: [
+        {
+            shortcut: <Kbd>Space</Kbd>,
+            description: <Text>
+              When focus is on an Accordion.Trigger of a collapsed section, expands the section.
+            </Text>,
+            id: "space"
+        },
+        {
+          shortcut: <Kbd>Enter</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger of an expanded section, collapses the section.
+          </Text>,
+          id: "enter"
+        },
+        {
+          shortcut: <Kbd>Tab</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
+          </Text>,
+          id: "tab"
+        },
+        {
+          shortcut: <Kbd>Shift + Tab</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
+          </Text>,
+          id: "shift-tab"
+        },
+        {
+          shortcut: <Kbd>ArrowDown</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
+          </Text>,
+          id: "arrow-down"
+        },
+        {
+          shortcut: <Kbd>ArrowUp</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
+          </Text>,
+          id:   "arrow-up"
+        },
+        // {
+        //   shortcut: <Kbd>ArrowRight</Kbd>,
+        //   description: <Text>
+        //     When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
+        //   </Text>
+        // },
+        // {
+        //   shortcut: <Kbd>ArrowLeft</Kbd>,
+        //   description: <Text>
+        //     When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
+        //   </Text>
+        // }
+        {
+          shortcut: <Kbd>Home</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger, focuses the first Accordion.Trigger. [TODO]
+          </Text>,
+          id: "home"
+        },
+        {
+          shortcut: <Kbd>End</Kbd>,
+          description: <Text>
+            When focus is on an Accordion.Trigger, focuses the last Accordion.Trigger. [TODO]
+          </Text>,
+          id: "end"
+        }
+    ]
+}
+
+export default code

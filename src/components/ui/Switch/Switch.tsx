@@ -1,37 +1,37 @@
 'use client';
-import React, { useState } from 'react';
-import { customClassSwitcher } from '~/core';
-const COMPONENT_NAME = 'Switch';
+import SwitchRoot, { SwitchRootProps } from './fragments/SwitchRoot';
+import SwitchThumb from './fragments/SwitchThumb';
 
-export type SwitchProps = {
-    defaultChecked? : boolean;
-    checked: boolean;
-    color: string;
-    children?: React.ReactNode;
-    className?: string;
-    customRootClass?: string;
-    onChange : (isChecked:boolean) => void;
-    props?: any;
-}
+const Switch = () => {
+    console.warn('Direct usage of Switch is not supported. Please use Switch.Root, Switch.Thumb, etc. instead.');
+    return null;
 
-const Switch = ({ children, customRootClass = '', className = '', color = '', defaultChecked, checked, onChange, ...props }:SwitchProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    // const dataAttributes = createDataAttributes('switch', { variant, size });
+    // const accentAttributes = createDataAccentColorAttribute(color);
+    // const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
-    const [isChecked, setIsChecked] = useState(checked || defaultChecked);
+    // return (
+    //     <>
+    //         {/* <input type='checkbox' className={clsx(rootClass)} {...props} checked= {isChecked} onChange={(e) => setIsChecked(e.target.checked)}/>
+    //         <button
+    //             type="button"
+    //             onClick={handleChecked}
+    //             role="switch"
+    //             aria-checked={isChecked}
+    //             {...composedAttributes}
+    //         ></button> */}
 
-    const handleChecked = () => {
-        const updatedState = !isChecked;
-        setIsChecked(updatedState);
-        onChange(updatedState);
-    };
-    return (
-        <>
-            <input type='checkbox' className={`${rootClass}`} {...props} checked= {isChecked}/>
-            <button type="button" onClick={handleChecked} role="switch">
-                {isChecked ? 'on' : 'off'}</button>
-        </>
-    );
+    //     </>
+    // );
 };
 
-Switch.displayName = COMPONENT_NAME;
+export namespace SwitchProps {
+    export type Root = SwitchRootProps;
+}
+
+Switch.Root = SwitchRoot;
+Switch.Thumb = SwitchThumb;
+
+export type { SwitchRootProps } from './fragments/SwitchRoot';
+export type { SwitchThumbProps } from './fragments/SwitchThumb';
 export default Switch;

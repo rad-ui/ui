@@ -1,6 +1,7 @@
 'use client';
-import React from 'react';
-import { customClassSwitcher } from '~/core';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import clsx from 'clsx';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support
@@ -8,17 +9,35 @@ import { customClassSwitcher } from '~/core';
 
 const COMPONENT_NAME = 'Text';
 
+const TAGS = ['div', 'span', 'p', 'label'];
+
 export type TextProps = {
     children: React.ReactNode;
     customRootClass?: string;
     className?: string;
-    props?: Record<string, any>[]
-}
+    as?: string;
+} & ComponentPropsWithoutRef<'p'>;
 
-const Text = ({ children, customRootClass = '', className = '', ...props }: TextProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <p className={`${rootClass} ${className}`} {...props}>{children}</p>;
-};
+type TextElement = ElementRef<'p'>;
+
+const Text = forwardRef<TextElement, TextProps>(
+    (
+        { children, customRootClass = '', className = '', as = 'p', ...props },
+        ref
+    ) => {
+        const rootClassName = useComponentClass(customRootClass, COMPONENT_NAME);
+
+        if (!TAGS.includes(as)) {
+            as = 'p';
+        }
+
+        return React.createElement(
+            as,
+            { ref, className: clsx(rootClassName, className), ...props },
+            children
+        );
+    }
+);
 
 Text.displayName = COMPONENT_NAME;
 

@@ -1,0 +1,32 @@
+'use client';
+import React, { useContext } from 'react';
+import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
+import { SelectRootContext } from '../contexts/SelectRootContext';
+
+type SelectItemElement = React.ElementRef<typeof ComboboxPrimitive.Item>;
+export type SelectItemProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Item> & {
+    customRootClass?: string;
+};
+
+const SelectItem = React.forwardRef<SelectItemElement, SelectItemProps>(({ customRootClass, children, value, disabled, ...props }, forwardedRef) => {
+    const { rootClass } = useContext(SelectRootContext);
+
+    return (
+        <ComboboxPrimitive.Item
+            className={rootClass ? `${rootClass}-item` : undefined}
+            value={value}
+            disabled={disabled}
+            data-disabled={disabled ? '' : undefined}
+            role="option"
+            aria-disabled={disabled ? 'true' : undefined}
+            ref={forwardedRef}
+            {...props}
+        >
+            <span className={rootClass ? `${rootClass}-text` : undefined}>{children}</span>
+        </ComboboxPrimitive.Item>
+    );
+});
+
+SelectItem.displayName = 'SelectItem';
+
+export default SelectItem;

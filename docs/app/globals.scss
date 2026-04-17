@@ -2,87 +2,350 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: var(--font-sans), sans-serif;
+}
 
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono), monospace;
+}
 
+.docs-inline-code {
+  border: 1px solid color-mix(in oklab, var(--rad-ui-border-soft) 70%, transparent);
+  border-radius: 0.6rem;
+  background: color-mix(in oklab, var(--rad-ui-surface-subtle) 70%, transparent);
+  color: var(--rad-ui-text-primary);
+  font-size: 0.92em;
+  padding: 0.14rem 0.42rem;
+}
 
+.docs-code-block {
+  font-size: 0.84rem;
+  line-height: 1.72;
+}
 
-code {
-  padding: 16px;
-  border-radius: 4px;
-  background-color: var(--rad-ui-color-plum-800);
-  color: var(--rad-ui-color-gray-1000);
-  background-color: var(--rad-ui-color-accent-100);
+.docs-code-tab-content {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Fenced code / CodeBlock: panel + tokens follow Theme ([data-rad-ui-theme]) */
+pre.docs-syntax-pre code.docs-code-block {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   display: block;
-  border: 1px solid var(--rad-ui-color-indigo-500);
+  padding: 0.875rem 1rem;
   font-size: 12px;
+  line-height: 1.7;
 }
 
-code .string {
-  color: var(--rad-ui-color-violet-900);
+[data-rad-ui-theme="light"] .docs-syntax-pre {
+  background-color: var(--rad-ui-surface-panel);
+  border-color: var(--rad-ui-border-soft);
+  color: var(--rad-ui-text-primary);
+  box-shadow: 0 16px 40px color-mix(in oklab, var(--rad-ui-color-gray-1000) 12%, transparent);
 }
 
-code .punctuation {
-  color: var(--rad-ui-color-gray-1000);
+[data-rad-ui-theme="light"] .docs-syntax-pre .docs-code-block {
+  color: var(--rad-ui-text-primary);
 }
 
-code .keyword {
-  color: var(--rad-ui-color-crimson-900);
-}
-
-code .function,
-.function-variable {
-  color: var(--rad-ui-color-accent-900);
-}
-
-code .class-name {
-  color: var(--rad-ui-color-accent-900);
-}
-
-code .tag {
-  color: var(--rad-ui-color-accent-900);
-}
-
-code .attr-name {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .keyword {
   color: var(--rad-ui-color-red-900);
 }
 
-code .attr-value {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .string,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .attr-value,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .template-string,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .inserted {
   color: var(--rad-ui-color-green-900);
 }
 
-code .operator {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .number,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .boolean {
+  color: var(--rad-ui-color-green-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .function,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .function-variable,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .class-name,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .tag,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .selector,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .property,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .maybe-class-name,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .builtin,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .constant {
+  color: var(--rad-ui-color-blue-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .attr-name {
+  color: var(--rad-ui-color-red-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .punctuation {
+  color: var(--rad-ui-text-muted);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .operator {
   color: var(--rad-ui-color-purple-900);
 }
 
-code .comment {
+[data-rad-ui-theme="light"] .docs-syntax-pre code .comment,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .prolog,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .doctype,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .cdata {
   color: var(--rad-ui-color-gray-800);
 }
 
-code .property {
-  color: var(--rad-ui-color-red-800);
+[data-rad-ui-theme="light"] .docs-syntax-pre code .regex,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .important,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .variable {
+  color: var(--rad-ui-color-blue-900);
 }
 
-code .selector {
-  color: var(--rad-ui-color-accent-800);
+[data-rad-ui-theme="light"] .docs-syntax-pre code .char {
+  color: var(--rad-ui-color-green-900);
 }
 
-
-.background-animate {
-  background-size: 400%;
-
-
-
-  animation: AnimationName 10s ease infinite;
+/* Dark: high-contrast editor palette on black panel */
+[data-rad-ui-theme="dark"] .docs-syntax-pre {
+  background-color: #000;
+  border-color: #27272a;
+  color: #fafafa;
+  box-shadow: 0 16px 48px rgb(0, 0, 0, 0.55);
 }
 
-@keyframes AnimationName {
+[data-rad-ui-theme="dark"] .docs-syntax-pre .docs-code-block {
+  color: #fafafa;
+}
 
-  0%,
-  100% {
-    background-position: 0% 50%;
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .keyword {
+  color: #f472b6;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .string,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .attr-value,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .template-string,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .inserted {
+  color: #4ade80;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .number,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .boolean {
+  color: #2dd4bf;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .function,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .function-variable,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .class-name,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .tag,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .selector,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .property,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .maybe-class-name,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .builtin,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .constant {
+  color: #93c5fd;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .attr-name {
+  color: #f0abfc;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .punctuation,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .operator {
+  color: #fafafa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .comment,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .prolog,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .doctype,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .cdata {
+  color: #737373;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .regex,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .important,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .variable {
+  color: #93c5fd;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .char {
+  color: #4ade80;
+}
+
+.docs-syntax-toolbar {
+  border-bottom: 1px solid var(--rad-ui-border-soft);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--rad-ui-text-primary) 3%, transparent),
+    transparent
+  );
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-toolbar {
+  border-color: #27272a;
+  background: #09090b;
+}
+
+.docs-syntax-toolbar-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--rad-ui-text-muted);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-toolbar-label {
+  color: #a1a1aa;
+}
+
+.docs-syntax-scroll-area {
+  background-color: var(--rad-ui-surface-panel);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-scroll-area {
+  background-color: #000;
+}
+
+.docs-syntax-footer {
+  border-top: 1px solid var(--rad-ui-border-soft);
+  background: color-mix(in oklab, var(--rad-ui-surface-subtle) 55%, transparent);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-footer {
+  border-color: #27272a;
+  background: rgb(9, 9, 11, 0.9);
+}
+
+.docs-syntax-copy {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-subtle);
+  color: var(--rad-ui-text-muted);
+}
+
+.docs-syntax-copy:hover {
+  background: var(--rad-ui-surface-hover);
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-copy {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-copy:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.docs-syntax-expand {
+  border-style: solid;
+  border-color: var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-subtle);
+  color: var(--rad-ui-text-muted);
+}
+
+.docs-syntax-expand:hover {
+  background: var(--rad-ui-surface-hover);
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-expand {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-expand:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.code-block-blur {
+  position: relative;
+
+  &::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    display: block;
+    height: 100px;
+    width: 100%;
+    bottom: 0;
+    opacity: 0.95;
   }
+}
 
-  50% {
-    background-position: 100% 50%;
+[data-rad-ui-theme="light"] .code-block-blur::before {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--rad-ui-surface-panel) 72%
+  );
+}
+
+[data-rad-ui-theme="dark"] .code-block-blur::before {
+  background: linear-gradient(180deg, transparent, #000 72%);
+}
+
+.top-layout-line {
+  position: relative;
+  height: 1px;
+  margin-top: -5px;
+
+  &::before {
+    top: 0;
+    content: "";
+    background-color: var(--rad-ui-color-gray-400);
+    width: 200vw;
+    height: 1px;
+    position: absolute;
+    left: -100vw;
+    z-index: 100;
   }
 }
+
+.bottom-layout-line {
+  background-color: color-mix(in oklab, var(--rad-ui-color-gray-1000) 5%, transparent);
+}
+
+.layout-image {
+  inset: -11 0 0 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: fixed;
+
+  --color: var(--rad-ui-color-gray-200);
+
+  background-color: var(--rad-ui-color-gray-50);
+
+  [data-rad-ui-theme="dark"] & {
+    background-image:
+      linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
+    background-size: 55px 55px;
+  }
+}
+
+.playground-static,
+.playground-static * {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Avoid `transition: none !important` on the whole docs shell: it overrides
+   inline height transitions on Rad UI components (e.g. Accordion) in demos.
+   Prefer `prefers-reduced-motion` in component CSS when reducing motion. */

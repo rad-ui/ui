@@ -7,32 +7,39 @@ export default {
     component: RadioPrimitive,
     render: (args:React.ComponentProps<typeof RadioPrimitive>) => <SandboxEditor>
 
-        <RadioPrimitive {...args} />
+        <div className='flex flex-col gap-2'>
+
+            <span>
+                <form>
+                    <RadioPrimitive {...args}/>
+                    <label htmlFor='radio'>Radio 1</label>
+                </form>
+            </span>
+        </div>
     </SandboxEditor>
 
 };
 
 export const All = {
     args: {
-        role: 'radio',
-        children: 'Radio',
-        checked: false
+        onClick: (data: any) => {
+            console.log('data', data);
+        },
+        name: 'radio',
+        value: 'radio',
+        id: 'radio',
+        required: true
     }
 };
 
-export const WithAriaLabel = {
+export const Disabled = {
     args: {
-        role: 'radio',
-        'aria-label': 'Aria label',
-        children: 'Radio'
-    }
-};
+        disabled: true,
+        name: 'radio',
+        value: 'radio1',
+        onClick: (data: any) => {
+            console.log('data', data);
+        }
 
-export const Checked = {
-
-    args: {
-        role: 'radio',
-        checked: true,
-        children: 'Radio'
     }
 };

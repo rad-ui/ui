@@ -1,0 +1,75 @@
+.rad-ui-checkbox {
+  height: var(--rad-ui-size-4);
+  width: var(--rad-ui-size-4);
+  flex-shrink: 0;
+  border-radius: 0.3125rem;
+  border: 1px solid var(--rad-ui-border-strong);
+  background-color: var(--rad-ui-surface);
+  color: var(--rad-ui-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--rad-ui-shadow-none);
+  transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
+
+  &:hover {
+    background-color: var(--rad-ui-surface-subtle);
+    border-color: var(--rad-ui-border-strong);
+  }
+  
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
+  }
+  
+  &[data-state="checked"] {
+    background-color: var(--rad-ui-surface-inverse);
+    border-color: var(--rad-ui-surface-inverse);
+    color: var(--rad-ui-text-inverse);
+  }
+
+  &[data-state="checked"]:hover,
+  &[data-state="indeterminate"]:hover {
+    background-color: var(--rad-ui-surface-inverse);
+    border-color: var(--rad-ui-surface-inverse);
+  }
+  
+  &[data-state="unchecked"] {
+    background-color: var(--rad-ui-surface);
+    border-color: var(--rad-ui-border-strong);
+  }
+
+  &[data-state="indeterminate"] {
+    background-color: var(--rad-ui-surface-inverse);
+    border-color: var(--rad-ui-surface-inverse);
+    color: var(--rad-ui-text-inverse);
+  }
+
+  &[data-state="checked"]:focus-visible,
+  &[data-state="indeterminate"]:focus-visible {
+    box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
+  }
+  
+  &[data-disabled],
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    pointer-events: none;
+    box-shadow: var(--rad-ui-shadow-none);
+  }
+  
+}
+
+.rad-ui-checkbox-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: currentcolor;
+  
+  svg {
+    height: 0.75rem;
+    width: 0.75rem;
+    stroke-width: 2.5;
+  }
+}

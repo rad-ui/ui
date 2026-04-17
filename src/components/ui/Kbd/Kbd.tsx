@@ -1,19 +1,25 @@
 'use client';
-import React from 'react';
-import { customClassSwitcher } from '~/core';
+import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import clsx from 'clsx';
+import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Kbd';
 
-export type KbdProps = {
-    children: React.ReactNode;
+export type KbdElement = ElementRef<'kbd'>;
+export interface KbdProps extends ComponentPropsWithoutRef<'kbd'> {
     customRootClass?: string;
-    className?: string;
-    props: Record<string, any>[];
+    size?: string;
 }
 
-const Kbd = ({ children, customRootClass, className, ...props }: KbdProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <kbd className={`${rootClass} ${className}`} {...props}>{children}</kbd>;
-};
+const Kbd = forwardRef<KbdElement, KbdProps>(({ children, customRootClass, className, size = '', ...props }, ref) => {
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+
+    const dataAttributes = createDataAttributes('kbd', { size });
+
+    return <kbd ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props}>{children}</kbd>;
+});
+
+Kbd.displayName = COMPONENT_NAME;
 
 export default Kbd;

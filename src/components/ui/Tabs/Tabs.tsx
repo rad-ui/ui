@@ -1,32 +1,39 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
-import TabList from './shards/TabList';
-import TabContent from './shards/TabContent';
-import TabRoot from './shards/TabRoot';
+import TabList from './fragments/TabList';
+import TabTrigger from './fragments/TabTrigger';
+import TabContent from './fragments/TabContent';
+import TabRoot from './fragments/TabRoot';
 
-import { TabProps } from './types';
+// Empty props type - only supporting fragment exports
+export type TabsProps = React.HTMLAttributes<HTMLDivElement> & {
+    children?: React.ReactNode;
+};
 
-export type TabsProps = {
-    tabs?: TabProps[]
-    props?: Record<string, any>[]
+// Define compound component type
+interface TabsComponent extends React.ForwardRefExoticComponent<TabsProps & React.RefAttributes<HTMLDivElement>> {
+    List: typeof TabList;
+    Content: typeof TabContent;
+    Root: typeof TabRoot;
+    Trigger: typeof TabTrigger;
 }
 
-const Tabs = ({ tabs = [], ...props }: TabsProps) => {
-    // This should be a value <`tabs.value`> that is passed in from the parent component
-    const [activeTab, setActiveTab] = useState(tabs[0].value || '');
-    const defaultActiveTab = tabs[0].value || '';
+// Empty implementation - we don't support direct usage
+const Tabs = React.forwardRef<React.ElementRef<'div'>, TabsProps>((_props, _ref) => {
+    console.warn('Direct usage of Tabs is not supported. Please use Tabs.Root, Tabs.List, etc. instead.');
+    return null;
+}) as TabsComponent;
 
-    return (
-        <TabRoot tabs={tabs} defaultTab={defaultActiveTab} >
-            <TabList />
-            <TabContent />
-        </TabRoot>
-    );
-};
+Tabs.displayName = 'Tabs';
 
 Tabs.List = TabList;
 Tabs.Content = TabContent;
 Tabs.Root = TabRoot;
+Tabs.Trigger = TabTrigger;
 
+export type { TabRootProps } from './fragments/TabRoot';
+export type { TabListProps } from './fragments/TabList';
+export type { TabContentProps } from './fragments/TabContent';
+export type { TabTriggerProps } from './fragments/TabTrigger';
 export default Tabs;

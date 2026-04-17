@@ -1,0 +1,45 @@
+// Spinner — Clarity design system aligned
+// Track ring: accent-300 — light, low-weight accent surface (step 4 equivalent)
+// Active arc: accent-800 — solid, high contrast accent (step 9 equivalent)
+@keyframes spin {
+    0%   { transform: rotate(0deg);   opacity: 0.3; }
+    25%  { opacity: 0.6; }
+    50%  { opacity: 0.8; }
+    75%  { opacity: 0.6; }
+    100% { transform: rotate(360deg); opacity: 0.3; }
+}
+
+.rad-ui-spinner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rad-ui-spinner {
+    animation: spin 1.3s linear infinite;
+    border-style: solid;
+    border-color: var(--rad-ui-color-accent-300); // accent step 4 — light track ring
+    border-top-color: var(--rad-ui-color-accent-800); // accent step 9 — solid active arc
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+
+    &[data-spinner-size="small"] {
+        border-width: 2px;
+        width: 20px;
+        height: 20px;
+    }
+
+    &[data-spinner-size="medium"] {
+        border-width: 3px;
+        width: 30px;
+        height: 30px;
+    }
+
+    &[data-spinner-size="large"] {
+        border-width: 4px;
+        width: 40px;
+        height: 40px;
+    }
+}

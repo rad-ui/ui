@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useMemo } from 'react';
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
-import { customClassSwitcher } from '~/core/customClassSwitcher';
+import Primitive from '~/core/primitives/Primitive';
 
-export interface AvatarPrimitiveRootProps {
-    customRootClass?: string | '';
-    children: React.ReactNode;
-    src?: string;
-    className?: string | '';
-}
+export type AvatarPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Primitive.span>;
 
-const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', src, ...props }: AvatarPrimitiveRootProps) => {
-    const rootClass = customClassSwitcher(customRootClass, 'Avatar');
-    const fallBackRootClass = customClassSwitcher(customRootClass, 'Fallback');
+const AvatarPrimitiveRoot = React.forwardRef<React.ElementRef<typeof Primitive.span>, AvatarPrimitiveRootProps>(({ children, asChild = false, ...props }, ref) => {
     const [isImageLoaded, setIsImageLoaded] = useState(false);
-    const [hasError, setHasError] = useState(!src);
+    const [hasError, setHasError] = useState(false);
 
     const handleLoadImage = () => {
         setIsImageLoaded(true);
@@ -26,20 +18,42 @@ const AvatarPrimitiveRoot = ({ children, className = '', customRootClass = '', s
         setHasError(true);
     };
 
+    // Check if an image with src is present in children
+    const hasImage = useMemo(() => {
+        if (!children) return false;
+        const checkForImage = (node: React.ReactNode): boolean => {
+            if (React.isValidElement(node)) {
+                // Check if it's an img element with src
+                if (node.type === 'img' && node.props?.src) {
+                    return true;
+                }
+                // Check if it's an AvatarImage component with src
+                if (node.props?.src) {
+                    return true;
+                }
+                // Recursively check children
+                if (node.props?.children) {
+                    return React.Children.toArray(node.props.children).some(checkForImage);
+                }
+            }
+            return false;
+        };
+        return React.Children.toArray(children).some(checkForImage);
+    }, [children]);
+
     const values = {
-        rootClass,
-        fallBackRootClass,
         isImageLoaded,
         hasError,
         setHasError,
         handleLoadImage,
-        handleErrorImage,
-        src
+        handleErrorImage
     };
 
     return <AvatarPrimitiveContext.Provider value={values} >
-        <span className={`${rootClass} ${className}`} {...props}>{children}</span>
+        <Primitive.span ref={ref} asChild={asChild} data-rad-ui-has-image={hasImage ? '' : undefined} {...props}>{children}</Primitive.span>
     </AvatarPrimitiveContext.Provider>;
-};
+});
+
+AvatarPrimitiveRoot.displayName = 'AvatarPrimitiveRoot';
 
 export default AvatarPrimitiveRoot;

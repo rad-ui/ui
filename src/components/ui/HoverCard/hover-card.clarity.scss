@@ -1,0 +1,22 @@
+.rad-ui-hover-card {
+    background-color: var(--rad-ui-surface);
+    padding: 0.875rem 1rem 0.9375rem;
+    box-shadow: var(--rad-ui-elevation-lg-shadow);
+    border-radius: var(--rad-ui-radius-xl);
+    border: 1px solid var(--rad-ui-border-soft);
+    max-width: 21rem;
+    color: var(--rad-ui-text-primary);
+
+    .rad-ui-hover-card-arrow {
+        fill: var(--rad-ui-surface);
+    }
+}
+
+.rad-ui-hover-card-trigger {
+    color: var(--rad-ui-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+}

@@ -1,0 +1,112 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import Text from '../Text';
+
+describe('Text Component', () => {
+    test('renders Text component', () => {
+        render(<Text className='font-bold'>I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toBeInTheDocument();
+    });
+
+    test('renders Text component with className', () => {
+        render(<Text className='font-bold'>I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveClass('font-bold');
+    });
+
+    test('renders Text component with custom className', () => {
+        render(<Text className="text-gray-1000">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveClass('text-gray-1000');
+    });
+
+    test('renders Text component with custom style', () => {
+        render(<Text style={{ color: 'red' }}>I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveStyle('color: rgb(255, 0, 0)');
+    });
+
+    test('renders Text component with custom id', () => {
+        render(<Text id="text-id">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveAttribute('id', 'text-id');
+    });
+
+    test('renders Text component with custom data attribute', () => {
+        render(<Text data-testid="text-data">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveAttribute('data-testid', 'text-data');
+    });
+
+    test('renders Text component with span as prop', () => {
+        render(<Text as="span">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'SPAN');
+    });
+
+    test('renders Text component with div as prop', () => {
+        render(<Text as="div">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'DIV');
+    });
+
+    test('renders Text component with label as prop', () => {
+        render(<Text as="label">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'LABEL');
+    });
+
+    test('renders Text component with p as prop', () => {
+        render(<Text as="p">I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component with no prop', () => {
+        render(<Text>I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component as a default <p> tag when "as" is undefined', () => {
+        render(<Text as={undefined} >I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component as a default <p> tag when "as" is random text', () => {
+        render(<Text as="text" >I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component as a default <p> tag when "as" is a number', () => {
+        render(<Text as= {0} >I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component as a default <p> tag when "as" is an array', () => {
+        render(<Text as = {['testing', 'text']} >I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component as a default <p> tag when "as" is a false boolean', () => {
+        render(<Text as={false} >I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('renders Text component as a default <p> tag when "as" is true boolean', () => {
+        render(<Text as={true} >I am Text!</Text>);
+        expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
+    });
+
+    test('forwards ref to the underlying element', () => {
+        const ref = React.createRef();
+        render(<Text ref={ref}>I am Text!</Text>);
+        expect(ref.current).not.toBeNull();
+        expect(ref.current.tagName).toBe('P');
+    });
+
+    test('passes through accessibility attributes', () => {
+        render(<Text aria-label='hidden text'>Hidden content</Text>);
+        expect(screen.getByLabelText('hidden text')).toBeInTheDocument();
+    });
+
+    test('renders without console warnings', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<Text>I am Text!</Text>);
+        expect(warn).not.toHaveBeenCalled();
+        expect(error).not.toHaveBeenCalled();
+        warn.mockRestore();
+        error.mockRestore();
+    });
+});

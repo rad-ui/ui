@@ -1,31 +1,36 @@
+// Import API documentation
+import root_api_SourceCode from './component_api/root.tsx';
+import indicator_api_SourceCode from './component_api/indicator.tsx';
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/progress/docs/examples/ProgressExample.tsx');
+
+const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/progress.scss');
+
+
 const code = {
     javascript: {
-        code: `import Progress from "@radui/ui/Progress"
+        code: example_1_SourceCode
 
-const ProgressExample = () => {
-    return  <div style={{width:"200px"}}>
-                        <Progress value={90}  />
-                   </div>
-}
-
-<Kbd>Ctrl + C</Kbd>`
     },
     css: {
-        code: `.rad-ui-progress {
-    background:  var(--rad-ui-color-sand-600);
-    overflow: hidden;
-    height:32px;
-    border-radius: 8px;
-}
+        code: scss_SourceCode
+    }
 
-.rad-ui-progress-indicator {
-    background: var(--rad-ui-color-accent-900);
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
-}`
-    },
-}
+};
+
+// API documentation
+export const api_documentation = {
+    root: root_api_SourceCode,
+    indicator: indicator_api_SourceCode
+};
+
+// Component features
+export const features = [
+    "Displays completion status visually as a horizontal bar",
+    "Supports minimum and maximum value configuration",
+    "Customizable color themes",
+    "Smooth animations for value changes"
+];
 
 export default code;

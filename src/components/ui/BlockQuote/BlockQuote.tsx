@@ -1,21 +1,42 @@
 'use client';
 import React from 'react';
-
-import { customClassSwitcher } from '~/core';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 const COMPONENT_NAME = 'BlockQuote';
 
-export type BlockQuoteProps = {
-    children: React.ReactNode;
+export type BlockQuoteProps = React.ComponentPropsWithoutRef<'blockquote'> & {
     customRootClass?: string;
-    className?: string;
-    props: Record<string, any>[]
-}
-const BlockQuote = ({ children, customRootClass, className, ...props }: BlockQuoteProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-
-    return <blockquote className={`${rootClass} ${className}`} {...props}>{children}</blockquote>;
+    color?: string;
+    variant?: string;
+    size?: string;
 };
+
+const BlockQuote = React.forwardRef<React.ElementRef<'blockquote'>, BlockQuoteProps>(
+    ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+
+        const data_attributes: Record<string, string> = {};
+
+        if (variant) {
+            data_attributes['data-block-quote-variant'] = variant;
+        }
+
+        if (size) {
+            data_attributes['data-block-quote-size'] = size;
+        }
+
+        if (color) {
+            data_attributes['data-rad-ui-accent-color'] = color;
+        }
+
+        return (
+            <blockquote ref={ref} className={clsx(rootClass, className)} {...props} {...data_attributes}>
+                {children}
+            </blockquote>
+        );
+    }
+);
 
 BlockQuote.displayName = COMPONENT_NAME;
 

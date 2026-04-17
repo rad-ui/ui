@@ -1,0 +1,4 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-radio-group-item) { @include baremetal.square-control; border-radius: 50% !important; }

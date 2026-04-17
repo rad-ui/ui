@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 
-//https://stackoverflow.com/a/74244878
+// https://stackoverflow.com/a/74244878
 const Component = ({children}) => {
     const [hydrated, setHydrated] = useState(false);
     useEffect(() => {

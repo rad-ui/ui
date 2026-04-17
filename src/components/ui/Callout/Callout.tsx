@@ -1,27 +1,18 @@
-import React from 'react';
+import CalloutRoot from './fragments/CalloutRoot';
+import CalloutIcon from './fragments/CalloutIcon';
+import CalloutText from './fragments/CalloutText';
 
-/**
- * Shards
-*/
-import CalloutRoot from './shards/CalloutRoot';
-
-export type CalloutProps = {
-    children?: React.ReactNode;
-    className?: string ;
-    color?: string;
-    customRootClass?: string;
-    props?: object[]
-}
-
-const COMPONENT_NAME = 'Callout';
-const Callout = ({ children, className = '', color, customRootClass, ...props }: CalloutProps) => {
-    return (<CalloutRoot customRootClass={customRootClass} className={`${className}`} color={color ?? undefined} {...props}>
-        {children}
-    </CalloutRoot>);
+const Callout = () => {
+    console.warn('Direct usage of Callout is not supported. Please use Callout.Root, Callout.Icon, etc. instead.');
+    return null;
 };
-
-Callout.displayName = COMPONENT_NAME;
 
 // Callout Exports
 Callout.Root = CalloutRoot;
+Callout.Icon = CalloutIcon;
+Callout.Text = CalloutText;
+
+export type { CalloutRootProps } from './fragments/CalloutRoot';
+export type { CalloutIconProps } from './fragments/CalloutIcon';
+export type { CalloutTextProps } from './fragments/CalloutText';
 export default Callout;

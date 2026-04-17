@@ -1,25 +1,35 @@
 'use client';
 import React from 'react';
+import clsx from 'clsx';
+import TextAreaRoot, { TextAreaRootProps } from './fragments/TextAreaRoot';
+import TextAreaInput, { TextAreaInputProps } from './fragments/TextAreaInput';
 
-import TextAreaRoot from './shards/TextAreaRoot';
-import TextAreaInput from './shards/TextAreaInput';
-
-export type TextAreaProps = {
-    children: React.ReactNode;
+export type TextAreaProps = React.ComponentPropsWithoutRef<'div'> & TextAreaRootProps & TextAreaInputProps & {
     customRootClass?: string;
-    className?: string;
-}
-
-const TextArea = ({ customRootClass = '', className = '', children, ...props }: TextAreaProps) => {
-    return <TextAreaRoot customRootClass={customRootClass} className={`${className}`}>
-        <TextAreaInput placeholder="enter text">
-            {children}
-        </TextAreaInput>
-        {children}
-    </TextAreaRoot>;
+    readonly ?: boolean;
+    disabled ?: boolean;
 };
 
+type TextAreaComponent = React.ForwardRefExoticComponent<TextAreaProps & React.RefAttributes<React.ElementRef<'div'>>> & {
+    Input: typeof TextAreaInput;
+    Root: typeof TextAreaRoot;
+};
+
+const TextArea = React.forwardRef<React.ElementRef<'div'>, TextAreaProps>(({ customRootClass = '', placeholder = '', className = '', disabled = false, readonly = false, children, ...props }, ref) => {
+    return (
+        <TextAreaRoot ref={ref} customRootClass={customRootClass} className={clsx(className)} {...props}>
+            <TextAreaInput placeholder={placeholder} disabled={disabled} readOnly={readonly}>
+                {children}
+            </TextAreaInput>
+            {children}
+        </TextAreaRoot>
+    );
+}) as TextAreaComponent;
+
+TextArea.displayName = 'TextArea';
 TextArea.Input = TextAreaInput;
 TextArea.Root = TextAreaRoot;
 
+export type { TextAreaRootProps } from './fragments/TextAreaRoot';
+export type { TextAreaInputProps } from './fragments/TextAreaInput';
 export default TextArea;

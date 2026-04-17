@@ -1,27 +1,45 @@
 'use client';
-import React from 'react';
-
-import { customClassSwitcher } from '~/core';
+import React, { ElementRef, ComponentPropsWithoutRef } from 'react';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Link';
 
-export type LinkProps = {
-    children: React.ReactNode;
-    href: string;
-    alt?: string;
-    customRootClass: string;
-    className: string;
-    props: Record<string, any>[];
+export interface LinkProps extends ComponentPropsWithoutRef<'a'> {
+    customRootClass?: string;
+    size?: string;
+    color?: string;
+    asChild?: boolean;
 }
 
-// TODO: in the previous return value
-// return <a href={href} alt={alt} className={`${rootClass} ${className}`} {...props}>{children}</a>;
-// 'alt' prop does not exist on an anchor element
-const Link = ({ children, href = '#', alt, customRootClass, className, ...props }: LinkProps) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <a href={href} className={`${rootClass} ${className}`} {...props}>{children}</a>;
-};
+type LinkElement = ElementRef<'a'>;
+
+const Link = React.forwardRef<LinkElement, LinkProps>(
+    ({ children, href = '#', customRootClass, className, size = '', color = '', asChild = false, ...props }, ref) => {
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const dataAttributes = composeAttributes(
+            createDataAttributes('link', { size }),
+            createDataAccentColorAttribute(color)
+        );
+        const Anchor = Primitive.a as any;
+        return (
+            <Anchor
+                ref={ref}
+                asChild={asChild}
+                href={href}
+                className={clsx(rootClass, className)}
+                {...dataAttributes}
+                {...props}
+            >
+                {children}
+            </Anchor>
+        );
+    }
+);
 
 Link.displayName = COMPONENT_NAME;
 
 export default Link;
+export type { LinkElement };

@@ -1,44 +1,41 @@
 'use client';
 import React from 'react';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
-import { customClassSwitcher } from '~/core';
+export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-const RENDER_AS_ENUMS = [
-    {
-        label: 'H1',
-        tag: 'h1'
-    },
-    {
-        label: 'H2',
-        tag: 'h2'
-    },
-    {
-        label: 'H3',
-        tag: 'h3'
-    },
-    {
-        label: 'H4',
-        tag: 'h4'
-    },
-    {
-        label: 'H5',
-        tag: 'h5'
-    },
-    {
-        label: 'H6',
-        tag: 'h6'
-    }
-];
+/**
+ * Heading component that renders HTML heading elements (h1-h6)
+ * with customizable styling.
+ */
+export type HeadingProps = {
+    /** HTML heading tag to render */
+    as?: HeadingTag;
+    /** Custom root class for specialized styling */
+    customRootClass?: string;
+} & React.ComponentPropsWithoutRef<'h1'>;
 
-const Heading = ({ children, as = undefined, customRootClass = '', className = '' }, ...props) => {
-    const rootClass = customClassSwitcher(customRootClass, as || 'h1');
+/**
+ * Renders a heading element with customizable tag and styling
+ */
+const Heading = React.forwardRef<React.ElementRef<'h1'>, HeadingProps>(({
+    children,
+    as = 'h1',
+    customRootClass = '',
+    className = '',
+    ...props
+}, ref) => {
+    const rootClass = useComponentClass(customRootClass, as);
+    const Tag: HeadingTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as) ? as : 'h1';
 
-    if (as !== undefined && RENDER_AS_ENUMS.find((item) => item.tag === as)) {
-        const { tag: Tag } = RENDER_AS_ENUMS.find((item) => item.tag === as);
-        return <Tag className={`${rootClass} ${className}`} {...props}>{children}</Tag>;
-    }
-    return <h1 className={`${rootClass} ${className}`} {...props}>{children}</h1>;
-};
+    return React.createElement(Tag, {
+        className: clsx(rootClass, className),
+        ref,
+        ...props
+    }, children);
+});
+
 Heading.displayName = 'Heading';
 
 export default Heading;

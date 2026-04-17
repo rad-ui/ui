@@ -1,18 +1,53 @@
 'use client';
 import React from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Skeleton';
 
-const Skeleton = ({ loading = true, className = '', customRootClass = '', children, ...props }:any) => {
-    // If loading is false, return the children
-    if (!loading) return children;
-
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    return <span className={`${rootClass} ${className}`} {...props} >
-        {children}
-    </span>;
+export type SkeletonProps = React.ComponentPropsWithoutRef<'div'> & {
+    loading: boolean;
+    customRootClass?: string;
+    height: string;
+    width: string;
+    radius?: string;
 };
 
+const Skeleton = React.forwardRef<React.ElementRef<'div'>, SkeletonProps>(
+    (
+        {
+            loading = true,
+            className = '',
+            customRootClass = '',
+            children,
+            height,
+            width,
+            radius,
+            style,
+            ...props
+        },
+        ref
+    ) => {
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+
+        if (!loading) return <>{children}</>;
+
+        return (
+            <div
+                ref={ref}
+                className={clsx(rootClass, className)}
+                style={{
+                    ...style,
+                    ['--skeleton-height' as any]: height,
+                    ['--skeleton-width' as any]: width,
+                    ['--skeleton-radius' as any]: radius
+                }}
+                {...props}
+            />
+        );
+    }
+);
+
 Skeleton.displayName = COMPONENT_NAME;
+
 export default Skeleton;

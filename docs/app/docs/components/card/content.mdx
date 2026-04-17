@@ -1,0 +1,23 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import codeUsage, { api_documentation, features } from './docs/codeUsage';
+import CardExample from './examples/CardExample';
+
+<Documentation 
+  title="Card" 
+  description="Cards are used to group related information and actions, providing a consistent container with proper styling and spacing."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <CardExample />
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  <Documentation.ApiReference
+    tables={api_documentation}
+    order={['root', 'header', 'title', 'description', 'content', 'footer', 'action']}
+  />
+</Documentation>

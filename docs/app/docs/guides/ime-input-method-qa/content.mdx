@@ -1,0 +1,25 @@
+# IME and input method QA (text-entry components)
+
+Components that wrap or manage text input (`input`, `textarea`, contenteditable surfaces) must behave correctly with **input method editors** (IME) used for Chinese, Japanese, Korean, and other languages.
+
+## Composition events
+
+During IME composition, the browser fires **`compositionstart`**, **`compositionupdate`**, and **`compositionend`**. Logic that **commits** or **filters** input on every `input` or `change` event can break composition.
+
+**Checklist**
+
+- [ ] Do not **close overlays** or **move focus** mid-composition unless required by the platform pattern.
+- [ ] Debounced search or validation should **wait until composition ends** where feasible.
+- [ ] Avoid **mutating controlled value** in ways that reset the IME pre-edit string unexpectedly.
+
+## Manual test matrix
+
+| Scenario | Expected |
+| --- | --- |
+| macOS Japanese IME (Romaji → Hiragana/Kanji) in a text field | Composition completes; committed text matches selection |
+| Windows Microsoft IME (Chinese) | No dropped characters; caret stable |
+| Korean Hangul composition | Syllable blocks commit correctly |
+
+## Automation
+
+IME behavior is **hard to cover reliably** in unit tests alone. Prefer **manual QA** for releases that touch text-entry internals, and **Playwright** only when a stable, low-flake scenario exists.

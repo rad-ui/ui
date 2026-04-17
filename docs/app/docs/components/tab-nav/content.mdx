@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import TabNavExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="TabNav"
+    description="Link-based tab navigation for page-level routing. Unlike Tabs, TabNav uses anchor elements so each tab corresponds to a URL."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <TabNavExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'link']}
+    />
+</Documentation>

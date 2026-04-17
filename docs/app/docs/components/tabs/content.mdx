@@ -1,0 +1,24 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import TabsExample from "./docs/example_1"
+import {code, anatomy, api_documentation} from "./docs/codeUsage"
+
+
+
+
+
+<Documentation
+    title={`Tabs`}
+    description='Tabs are used to switch between different views of a component.'
+>
+
+    {/* Component Hero */}
+    <Documentation.ComponentHero codeUsage={code}>
+        <TabsExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'trigger', 'list', 'content']}
+    />
+</Documentation>

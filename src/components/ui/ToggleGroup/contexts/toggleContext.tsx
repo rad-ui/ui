@@ -1,3 +1,33 @@
 import { createContext } from 'react';
 
-export const ToggleContext = createContext({});
+/**
+ * Type definition for the ToggleContext
+ * @typedef ToggleContextType
+ */
+export type ToggleContextType = {
+    /** Selection mode: 'single' or 'multiple' */
+    type: 'single' | 'multiple';
+    /** Array of currently active/selected toggle values */
+    activeToggles: any[];
+    /** Function to update the active toggles */
+    setActiveToggles: (toggles: any[]) => void;
+    /** Root class name */
+    rootClass: string;
+    /** Whether the toggle group is disabled */
+    disabled?: boolean;
+    /** Orientation of the toggle group */
+    orientation?: 'horizontal' | 'vertical';
+};
+
+/**
+ * Context for sharing toggle state between ToggleGroupRoot and ToggleItem components.
+ * Provides selection state management for the toggle group.
+ */
+export const ToggleContext = createContext<ToggleContextType>({
+    type: 'single',
+    activeToggles: [],
+    setActiveToggles: () => {},
+    rootClass: '',
+    disabled: false,
+    orientation: 'horizontal'
+});

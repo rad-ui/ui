@@ -1,0 +1,135 @@
+@use "../clarity/default";
+@use "../../components/ui/Accordion/accordion.baremetal";
+@use "../../components/ui/AlertDialog/alert-dialog.baremetal";
+@use "../../components/ui/Avatar/avatar.baremetal";
+@use "../../components/ui/AvatarGroup/avatar-group.baremetal";
+@use "../../components/ui/Badge/badge.baremetal";
+@use "../../components/ui/BlockQuote/blockquote.baremetal";
+@use "../../components/ui/Button/button.baremetal";
+@use "../../components/ui/Callout/callout.baremetal";
+@use "../../components/ui/Card/card.baremetal";
+@use "../../components/ui/Checkbox/checkbox.baremetal";
+@use "../../components/ui/DataList/data-list.baremetal";
+@use "../../components/ui/Dialog/dialog.baremetal";
+@use "../../components/ui/Table/table.baremetal";
+@use "../../components/ui/Code/code.baremetal";
+@use "../../components/ui/Disclosure/disclosure.baremetal";
+@use "../../components/ui/Heading/heading.baremetal";
+@use "../../components/ui/HoverCard/hover-card.baremetal";
+@use "../../components/ui/Kbd/kbd.baremetal";
+@use "../../components/ui/Link/link.baremetal";
+@use "../../components/ui/Separator/separator.baremetal";
+@use "../../components/ui/Tabs/tabs.baremetal";
+@use "../../components/ui/Text/text.baremetal";
+@use "../../components/ui/TextArea/textarea.baremetal";
+@use "../../components/ui/Progress/progress.baremetal";
+@use "../../components/ui/Toggle/toggle.baremetal";
+@use "../../components/ui/ToggleGroup/toggle-group.baremetal";
+@use "../../components/ui/RadioGroup/radio-group.baremetal";
+@use "../../components/ui/Radio/radio.baremetal";
+@use "../../components/ui/RadioCards/radiocards.baremetal";
+@use "../../components/ui/Quote/quote.baremetal";
+@use "../../components/ui/Strong/strong.baremetal";
+@use "../../components/ui/Slider/slider.baremetal";
+@use "../../components/ui/ScrollArea/scroll-area.baremetal";
+@use "../../components/ui/Switch/switch.baremetal";
+@use "../../components/ui/Skeleton/skeleton.baremetal";
+@use "../../components/ui/Collapsible/collapsible.baremetal";
+@use "../../components/ui/TabNav/tab-nav.baremetal";
+@use "../../components/ui/Select/select.baremetal";
+@use "../../components/ui/Tree/tree.baremetal";
+@use "../../components/ui/CheckboxGroup/checkbox-group.baremetal";
+@use "../../components/ui/CheckboxCards/checkbox-cards.baremetal";
+@use "../../components/ui/NavigationMenu/navigation-menu.baremetal";
+@use "../../components/ui/DropdownMenu/dropdown-menu.baremetal";
+@use "../../components/ui/NumberField/number-field.baremetal";
+@use "../../components/ui/ContextMenu/context-menu.baremetal";
+@use "../../components/ui/Menubar/menubar.baremetal";
+@use "../../components/ui/Splitter/splitter.baremetal";
+@use "../../components/ui/Toolbar/toolbar.baremetal";
+@use "../../components/ui/Steps/steps.baremetal";
+@use "../../components/ui/Minimap/minimap.baremetal";
+@use "../../components/ui/Combobox/combobox.baremetal";
+@use "../../components/ui/Tooltip/tooltip.baremetal";
+@use "../../components/ui/Spinner/spinner.baremetal";
+@use "scope";
+
+#{scope.$theme-root} {
+    --rad-ui-baremetal-black: #282828;
+    --rad-ui-baremetal-white: #fff;
+    --rad-ui-baremetal-canvas: #fff;
+    --rad-ui-baremetal-panel: #fff;
+    --rad-ui-baremetal-subtle: #eee;
+    --rad-ui-baremetal-muted: #e8e8e8;
+    --rad-ui-baremetal-disabled: #a7a7a7;
+    --rad-ui-baremetal-shadow: 8px 8px 0 #e8e8e8;
+    --rad-ui-baremetal-shadow-sm: 4px 4px 0 #e8e8e8;
+    --rad-ui-surface-canvas: var(--rad-ui-baremetal-canvas);
+    --rad-ui-surface-panel: var(--rad-ui-baremetal-panel);
+    --rad-ui-surface-subtle: var(--rad-ui-baremetal-subtle);
+    --rad-ui-surface-muted: var(--rad-ui-baremetal-muted);
+    --rad-ui-surface-hover: var(--rad-ui-baremetal-subtle);
+    --rad-ui-surface-inverse: var(--rad-ui-baremetal-black);
+    --rad-ui-border-soft: var(--rad-ui-baremetal-black);
+    --rad-ui-border-default: var(--rad-ui-baremetal-black);
+    --rad-ui-border-strong: var(--rad-ui-baremetal-black);
+    --rad-ui-text-primary: var(--rad-ui-baremetal-black);
+    --rad-ui-text-secondary: var(--rad-ui-baremetal-black);
+    --rad-ui-text-muted: #777;
+    --rad-ui-text-strong: var(--rad-ui-baremetal-black);
+    --rad-ui-text-inverse: var(--rad-ui-baremetal-white);
+    --rad-ui-surface: var(--rad-ui-baremetal-panel);
+    --rad-ui-border: var(--rad-ui-baremetal-black);
+    --rad-ui-ring: var(--rad-ui-baremetal-black);
+    --rad-ui-ring-strong: var(--rad-ui-baremetal-black);
+    --rad-ui-ring-shadow: 0 0 0 2px var(--rad-ui-baremetal-white), 0 0 0 4px var(--rad-ui-baremetal-black);
+    --rad-ui-ring-shadow-sm: 0 0 0 1px var(--rad-ui-baremetal-white), 0 0 0 3px var(--rad-ui-baremetal-black);
+    --rad-ui-ring-shadow-inset: inset 0 0 0 2px var(--rad-ui-baremetal-black);
+    --rad-ui-shadow-none: none;
+    --rad-ui-shadow-xs: none;
+    --rad-ui-shadow-sm: none;
+    --rad-ui-shadow-md: var(--rad-ui-baremetal-shadow-sm);
+    --rad-ui-shadow-lg: var(--rad-ui-baremetal-shadow);
+    --rad-ui-shadow-xl: var(--rad-ui-baremetal-shadow);
+    --rad-ui-shadow-full: var(--rad-ui-baremetal-shadow);
+    --rad-ui-elevation-xs-shadow: none;
+    --rad-ui-elevation-sm-shadow: var(--rad-ui-baremetal-shadow-sm);
+    --rad-ui-elevation-md-shadow: var(--rad-ui-baremetal-shadow);
+    --rad-ui-elevation-lg-shadow: var(--rad-ui-baremetal-shadow);
+    --rad-ui-elevation-xs-border: 1px solid var(--rad-ui-baremetal-black);
+    --rad-ui-elevation-sm-border: 1px solid var(--rad-ui-baremetal-black);
+    --rad-ui-elevation-md-border: 1px solid var(--rad-ui-baremetal-black);
+    --rad-ui-elevation-lg-border: 1px solid var(--rad-ui-baremetal-black);
+    --rad-ui-elevation-xs-background: var(--rad-ui-baremetal-white);
+    --rad-ui-elevation-sm-background: var(--rad-ui-baremetal-white);
+    --rad-ui-elevation-md-background: var(--rad-ui-baremetal-white);
+    --rad-ui-elevation-lg-background: var(--rad-ui-baremetal-white);
+
+    color: var(--rad-ui-text-primary);
+    background: var(--rad-ui-surface-canvas);
+    font-family: var(--rad-ui-font-sans);
+}
+
+#{scope.$theme-root} *,
+#{scope.$portal-root} * {
+    letter-spacing: 0.08em;
+}
+
+#{scope.$theme-root} [class*="rad-ui-"],
+#{scope.$portal-root} [class*="rad-ui-"] {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+#{scope.$theme-root} :where([data-disabled], :disabled, .disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+#{scope.$theme-root}::selection,
+#{scope.$theme-root} ::selection {
+    background-color: var(--rad-ui-baremetal-black);
+    color: var(--rad-ui-baremetal-white);
+}
+

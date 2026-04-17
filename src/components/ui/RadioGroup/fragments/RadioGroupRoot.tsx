@@ -1,0 +1,41 @@
+import React from 'react';
+import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
+
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+
+import { RadioGroupContext } from '../context/RadioGroupContext';
+
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+
+const COMPONENT_NAME = 'RadioGroup';
+
+export type RadioGroupRootElement = React.ElementRef<typeof RadioGroupPrimitive.Root>;
+
+export type RadioGroupRootProps = {
+    children: React.ReactNode;
+    className?: string;
+    customRootClass?: string;
+    variant?: string;
+    size?: string;
+    color?: string;
+
+} & RadioGroupPrimitiveProps.Root;
+
+const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootProps>(
+    ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const dataAttributes = createDataAttributes('radio-group', { variant, size });
+
+        const accentAttributes = createDataAccentColorAttribute(color);
+        const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
+
+        return <RadioGroupContext.Provider value={{ rootClass }}>
+            <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...composedAttributes} {...props}> {children} </RadioGroupPrimitive.Root>
+        </RadioGroupContext.Provider>;
+    }
+);
+
+RadioGroupRoot.displayName = 'RadioGroupRoot';
+
+export default RadioGroupRoot;

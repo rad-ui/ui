@@ -1,9 +1,13 @@
 import ColorTemplate from "@/components/ColorTemplate"
 
+import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
+
 export default function Home() {
   return (
-   <div className='flex justify-center mt-6'>
-      <ColorTemplate/>
-   </div>
+   <FullHeightScroll>
+      <div className='w-full' >
+         <ColorTemplate/>
+      </div>
+   </FullHeightScroll>
   )
 }

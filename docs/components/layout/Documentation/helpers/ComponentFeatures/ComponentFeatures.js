@@ -1,20 +1,32 @@
+'use client'
+import Heading from "@radui/ui/Heading";
+import { BookMarkLink } from "@/components/layout/Documentation/utils";
+import { Check } from 'lucide-react';
+import { docsSectionBlockClassName, docsSectionHeadingClassName } from '../../shared';
 
-
-import Heading from "@radui/ui/Heading"
 
 const ComponentFeatures = ({ features }) => {
-    return <div>
-        <Heading as="h6" className="mb-2 text-gray-1000 font-bold">
-            Features
+  return (
+    <section className={docsSectionBlockClassName}>
+      <BookMarkLink id="features">
+        <Heading as="h2" className={`${docsSectionHeadingClassName} text-gray-1000 font-bold`}>
+          Features
         </Heading>
-        <div className='mb-10'>
-            <ul className='list-disc list-inside'>
-                {
-                    features.map((feature, index) => <li key={index}>{feature}</li>)
-                }
-            </ul>
-        </div>
-    </div>
-}
+      </BookMarkLink>
+      <ul className="list-disc list-inside space-y-2">
+        {features.map((feature, index) => (
+          <li className="flex items-center space-x-2" key={index}>
+            <span className="text-green-950 w-[24px] h-[24px] bg-green-500 rounded-full flex items-center justify-center p-1">
+              <Check size={14} strokeWidth={2.5} />
+            </span>
+            <span>
+            {feature}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+};
 
 export default ComponentFeatures;

@@ -1,0 +1,14 @@
+'use client';
+
+import React from 'react';
+
+export interface ContextMenuContextProps {
+    rootClass: string;
+    setIsOpen: (isOpen: boolean) => void;
+    variant?: 'default' | 'soft' | 'outline';
+    size?: 'small' | 'medium' | 'large';
+}
+
+const ContextMenuContext = React.createContext<ContextMenuContextProps|null>(null);
+
+export default ContextMenuContext;

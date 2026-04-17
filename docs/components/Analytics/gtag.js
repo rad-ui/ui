@@ -1,4 +1,4 @@
-//gtag.js
+// gtag.js
 
 
 export const GA_TRACKING_ID = 'G-9ZDDCHP50K';
@@ -13,6 +13,6 @@ export const event = ({ action, category, label, value }) => {
   window.gtag("event", action, {
     event_category: category,
     event_label: label,
-    value: value,
+    value,
   })
 }

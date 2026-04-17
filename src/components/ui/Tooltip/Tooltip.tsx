@@ -1,19 +1,31 @@
+'use client';
+
 import React from 'react';
 
-import Popper from '~/components/tools/Popper/Popper';
+import TooltipRoot from './fragments/TooltipRoot';
+import TooltipTrigger from './fragments/TooltipTrigger';
+import TooltipContent from './fragments/TooltipContent';
 
-const COMPONENT_NAME = 'Tooltip';
+interface TooltipComponent extends React.ForwardRefExoticComponent<React.ComponentPropsWithoutRef<'div'> & React.RefAttributes<React.ElementRef<'div'>>> {
+    Root: typeof TooltipRoot;
+    Trigger: typeof TooltipTrigger;
+    Content: typeof TooltipContent;
+}
 
-type TooltipProps = {
-    children: React.ReactNode;
-    label: string;
-    [key: string]: any;
-};
+const Tooltip = React.forwardRef<React.ElementRef<'div'>, React.ComponentPropsWithoutRef<'div'>>(
+    (_props, _ref) => {
+        console.warn('Direct usage of Tooltip is not supported. Please use Tooltip.Root, Tooltip.Trigger, etc. instead.');
+        return null;
+    }
+) as TooltipComponent;
 
-const Tooltip = ({ children, label, ...props }:TooltipProps) => {
-    return <div>
-        <Popper popperName={COMPONENT_NAME} pop={'hello'} {...props}>{children}</Popper>
-    </div>;
-};
+Tooltip.displayName = 'Tooltip';
 
+Tooltip.Root = TooltipRoot;
+Tooltip.Trigger = TooltipTrigger;
+Tooltip.Content = TooltipContent;
+
+export type { TooltipRootProps } from './fragments/TooltipRoot';
+export type { TooltipTriggerProps } from './fragments/TooltipTrigger';
+export type { TooltipContentProps } from './fragments/TooltipContent';
 export default Tooltip;
