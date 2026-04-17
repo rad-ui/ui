@@ -36,20 +36,14 @@ const Playground = () => {
             <div className='playground-static min-h-full bg-gray-50 text-gray-900'>
                 <div className='mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-10 md:px-8'>
                     <section className='rounded-3xl bg-gray-50 p-8 shadow-sm'>
-                        <div className='flex flex-col gap-4 md:flex-row md:items-end md:justify-between'>
-                            <div className='max-w-3xl space-y-3'>
-                                <Badge variant="soft">Interactive Playground</Badge>
-                                <Heading className="text-gray-950">
-                                    Playground coverage for the full documented component set
-                                </Heading>
-                                <Text className="text-gray-800">
-                                    Each section uses the current public API, keeps the layout neutral, and links back to the corresponding documentation page where one exists.
-                                </Text>
-                            </div>
-                            <div className='grid gap-2 text-sm text-gray-700 md:max-w-xs'>
-                                <span>Coverage: all documented components in the docs app</span>
-                                <span>Focus: valid default states with Tailwind-only layout styling</span>
-                            </div>
+                        <div className='max-w-5xl space-y-3'>
+                            <Badge variant="soft">Interactive Playground</Badge>
+                            <Heading className="text-gray-950">
+                                Try every documented component in one place
+                            </Heading>
+                            <Text className="text-gray-800">
+                                Explore the component library through real, working examples. Each section reflects the current public API, shows sensible default states, and links back to the relevant docs when needed.
+                            </Text>
                         </div>
                     </section>
 

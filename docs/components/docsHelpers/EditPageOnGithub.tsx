@@ -14,7 +14,7 @@ const EditPageOnGithub = () => {
     if (page === "first-steps/changelog") {
         return (
             <div className="mx-auto mt-2 w-full max-w-screen-lg py-[20px]">
-                <Link href={CHANGELOG_EDIT_HREF}>
+                <Link href={CHANGELOG_EDIT_HREF} target="_blank" rel="noreferrer">
                     Edit changelog on GitHub
                 </Link>
             </div>
@@ -26,7 +26,9 @@ const EditPageOnGithub = () => {
     return (
         <div className="mx-auto mt-2 w-full max-w-screen-lg py-[20px]">
             <Link
-                href={`${GITHUB_REPO_EDIT_BASE}/${currentDocsPath}/page.mdx`}
+                href={`${GITHUB_REPO_EDIT_BASE}/${currentDocsPath}/content.mdx`}
+                target="_blank"
+                rel="noreferrer"
             >
                 Edit this page on GitHub
             </Link>

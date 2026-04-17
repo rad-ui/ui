@@ -21,6 +21,8 @@ const normalizeSourcePath = (sourcePath: string) => {
         return sourcePath;
     }
 
+    // TODO: Bulk-update docs `codeUsage.js` files to point at the new
+    // `src/components/ui/*/*.clarity.scss` paths, then remove this compatibility mapping.
     const componentFileName = themedComponentMatch[1];
     const componentFolder = toComponentFolderName(componentFileName);
 
