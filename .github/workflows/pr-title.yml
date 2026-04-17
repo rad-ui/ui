@@ -1,0 +1,63 @@
+name: PR Title
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate title format
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const pattern = /^(feat|fix|docs|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9][a-z0-9-]*\))?: (.+)$/;
+            const match = title.match(pattern);
+
+            if (match) {
+              const summary = match[3];
+              const startsLowercase = summary[0] === summary[0].toLowerCase();
+              const hasTrailingPeriod = summary.endsWith('.');
+              const withinLimit = title.length <= 72;
+
+              if (startsLowercase && !hasTrailingPeriod && withinLimit) {
+                core.info(`PR title is valid: "${title}"`);
+                return;
+              }
+            }
+
+            core.setFailed(
+              [
+                `Invalid PR title: "${title}"`,
+                '',
+                'Expected format:',
+                'type(scope): short summary',
+                '',
+                'Allowed types:',
+                'feat, fix, docs, refactor, perf, test, build, ci, chore, revert',
+                '',
+                'Examples:',
+                '- ci(docs): add next build check for docs changes',
+                '- fix(dialog): restore focus after nested close',
+                '- docs(installation): clarify pnpm-only docs setup',
+                '',
+                'Rules:',
+                '- scope is optional',
+                '- use lowercase type and scope',
+                '- summary should start lowercase',
+                '- no trailing period',
+                '- keep the full title under 72 characters'
+              ].join('\n')
+            );
