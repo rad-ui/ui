@@ -169,94 +169,69 @@ export const WithSelection = {
     render: () => <TreeExampleWithSelection />
 };
 
-const anatomyItemStyle: React.CSSProperties = {
-    background: 'transparent',
-    border: 'none',
-    borderRadius: 0,
-    boxShadow: 'none',
-    minHeight: 'auto',
-    padding: '0.14rem 0',
-    color: '#1f1f23',
-    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-    fontSize: '0.98rem',
-    fontWeight: 400,
-    lineHeight: 1.4
-};
-
 const CardAnatomyTree = () => (
     <SandboxEditor>
         <div className="flex w-full items-center justify-center p-8 md:p-14">
-            <style>
-                {`
-                    .tree-anatomy-story .rad-ui-tree {
-                        width: fit-content;
-                        gap: 0.18rem;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-branch {
-                        gap: 0.18rem;
-                        margin: 0;
-                        margin-inline-start: 0.45rem;
-                        padding-inline-start: 1.05rem;
-                        border-inline-start: 1.5px solid #2a2a30;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-branch .rad-ui-tree-item::before {
-                        display: block;
-                        inset-inline-start: calc(-1 * 1.05rem);
-                        width: 0.95rem;
-                        height: 1.5px;
-                        top: 50%;
-                        background: #2a2a30;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-item {
-                        justify-content: flex-start;
-                        gap: 0;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-item:hover,
-                    .tree-anatomy-story .rad-ui-tree-item[data-toggled="true"],
-                    .tree-anatomy-story .rad-ui-tree-item[data-selected="true"] {
-                        background: transparent;
-                        border-color: transparent;
-                        box-shadow: none;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-item:focus-visible {
-                        outline: none;
-                        box-shadow: none;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-item-chevron {
-                        display: none;
-                        width: 0;
-                        min-width: 0;
-                    }
-
-                    .tree-anatomy-story .rad-ui-tree-item-label {
-                        flex: none;
-                    }
-                `}
-            </style>
             <Card
                 variant="soft"
-                className="tree-anatomy-story w-full max-w-[50rem] border-none bg-[#f5f5f4] px-8 py-10 shadow-none md:px-12 md:py-12"
+                className="w-full max-w-[50rem] border-none bg-[#f5f5f4] px-5 py-10 shadow-none md:px-7 md:py-12"
             >
                 <Tree.Root
                     aria-label="Card anatomy"
-                    style={
-                        {
-                            ['--tree-line' as string]: '#2a2a30',
-                            ['--tree-branch-gap' as string]: '1.05rem'
-                        } as React.CSSProperties
-                    }
+                    className="
+                        w-fit gap-[0.18rem]
+                        [--tree-line:#2a2a30]
+                        [--tree-branch-gap:0.62rem]
+                        [&_.rad-ui-tree-item]:!min-h-0
+                        [&_.rad-ui-tree-item]:!justify-start
+                        [&_.rad-ui-tree-item]:!gap-[0.7rem]
+                        [&_.rad-ui-tree-item]:!border-none
+                        [&_.rad-ui-tree-item]:!px-0
+                        [&_.rad-ui-tree-item]:!py-[0.14rem]
+                        [&_.rad-ui-tree-branch]:!m-0
+                        [&_.rad-ui-tree-branch]:!ms-0
+                        [&_.rad-ui-tree-branch]:!gap-[0.18rem]
+                        [&_.rad-ui-tree-branch]:!border-s-[1.5px]
+                        [&_.rad-ui-tree-branch]:!border-[#2a2a30]
+                        [&_.rad-ui-tree-branch]:!ps-[0.62rem]
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!start-[-0.62rem]
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!top-1/2
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!block
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!h-[1.5px]
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!w-[0.5rem]
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!-translate-y-1/2
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!bg-[#2a2a30]
+                        [&_.rad-ui-tree-item-chevron]:order-last
+                        [&_.rad-ui-tree-item-chevron]:ms-[0.28rem]
+                        [&_.rad-ui-tree-item-chevron]:inline-flex
+                        [&_.rad-ui-tree-item-chevron]:w-[0.9rem]
+                        [&_.rad-ui-tree-item-chevron]:min-w-[0.9rem]
+                        [&_.rad-ui-tree-item-chevron]:items-center
+                        [&_.rad-ui-tree-item-chevron]:justify-center
+                        [&_.rad-ui-tree-item-chevron]:text-[#6b6b72]
+                        [&_.rad-ui-tree-item-label]:!flex-none
+                    "
                 >
                     {cardAnatomyItems.map((item) => (
                         <Tree.Item
                             key={item.label}
                             item={item}
-                            style={anatomyItemStyle}
+                            className="
+                                bg-transparent font-mono text-[0.98rem] font-normal leading-[1.4] text-[#1f1f23] shadow-none
+                                hover:bg-transparent
+                                data-[selected=true]:border-transparent data-[selected=true]:bg-transparent
+                                data-[toggled=true]:bg-transparent
+                                focus:!bg-[rgba(31,31,35,0.06)]
+                                focus:!outline-none
+                                focus:!shadow-[inset_0_0_0_1px_rgba(31,31,35,0.18),0_0_0_2px_rgba(31,31,35,0.12)]
+                                focus-visible:!bg-[rgba(31,31,35,0.06)]
+                                focus-visible:!outline-none
+                                focus-visible:!shadow-[inset_0_0_0_1px_rgba(31,31,35,0.18),0_0_0_2px_rgba(31,31,35,0.12)]
+                                [tabindex='0']:relative [tabindex='0']:z-[1]
+                                [tabindex='0']:rounded-[0.35rem]
+                                [tabindex='0']:!bg-[rgba(31,31,35,0.06)]
+                                [tabindex='0']:!shadow-[inset_0_0_0_1px_rgba(31,31,35,0.18),0_0_0_2px_rgba(31,31,35,0.12)]
+                            "
                         >
                             {item.label}
                         </Tree.Item>
