@@ -1,12 +1,20 @@
 import React from 'react';
+import { ArrowRight, Search, X } from 'lucide-react';
 import TextField from '../TextField';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 import Button from '~/components/ui/Button/Button';
 
 export default {
-    title: 'Components/TextField',
+    title: 'Components/TextField (WIP)',
     component: TextField,
+    parameters: {
+        docs: {
+            description: {
+                component: 'Work in progress: TextField is still being iterated on and its API and visuals may change.'
+            }
+        }
+    },
     render: (args) => <Template {...args} />
 };
 
@@ -19,7 +27,10 @@ const Template = (args) => {
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All = {
     args: {
-        className: ''
+        className: '',
+        placeholder: 'Search the docs...',
+        startSlot: <Search aria-hidden="true" strokeWidth={2} />,
+        endSlot: null
     }
 };
 
@@ -44,4 +55,17 @@ const WithFormTemplate = (args) => {
 
 export const WithForm = WithFormTemplate.bind({});
 WithForm.args = {
+};
+
+export const Compound = {
+    render: () => (
+        <SandboxEditor className="space-y-4 pt-4">
+            <TextField.Root customRootClass="rad-ui">
+                <TextField.Slot side="start"><Search aria-hidden="true" /></TextField.Slot>
+                <TextField.Input aria-label="Search with reset" placeholder="Search the docs..." />
+                <TextField.Reset aria-label="Clear search"><X aria-hidden="true" /></TextField.Reset>
+                <TextField.Slot side="end"><ArrowRight aria-hidden="true" /></TextField.Slot>
+            </TextField.Root>
+        </SandboxEditor>
+    )
 };
