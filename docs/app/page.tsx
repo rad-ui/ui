@@ -172,7 +172,7 @@ export default function Home() {
   return (
     <FullHeightScroll>
       <div className="relative pb-20">
-        <section className="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-br from-gray-50 via-gray-100 to-green-100">
+        <section className="relative left-1/2 right-1/2 ml-[-50dvw] mr-[-50dvw] w-[100dvw] overflow-x-clip bg-gradient-to-br from-gray-50 via-gray-100 to-green-100">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,theme(colors.green.400/25),transparent_42%),radial-gradient(circle_at_20%_25%,theme(colors.sky.300/20),transparent_28%)]" />
           <div className="pointer-events-none absolute left-[-8%] top-28 h-72 w-72 rounded-full bg-green-400/20 blur-3xl" />
           <div className="pointer-events-none absolute right-[-4%] top-16 h-64 w-64 rounded-full bg-sky-400/20 blur-3xl" />
@@ -321,26 +321,26 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-gray-300 bg-gray-1000 p-5 text-gray-50 shadow-xl">
-                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                <div className="rounded-[24px] border border-gray-300 bg-gray-50 p-5 text-gray-1000 shadow-xl">
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
                     <TerminalSquare className="h-4 w-4" />
                     <span>Install and go</span>
                   </div>
-                  <pre className="mt-4 overflow-x-auto text-sm leading-7 text-green-200">
+                  <pre className="mt-4 overflow-x-auto text-sm leading-7 text-green-900">
                     <code>{`pnpm add @radui/ui
 
-import { Button, Dialog, Tabs } from "@radui/ui"
+import Button from "@radui/ui/Button"
 
 export function ProductActions() {
   return <Button variant="solid">Ship it</Button>
 }`}</code>
                   </pre>
-                  <div className="mt-5 rounded-2xl border border-gray-700 bg-gray-950/60 p-4">
-                    <div className="flex items-center gap-2 text-sm font-medium text-gray-50">
-                      <Rocket className="h-4 w-4 text-green-300" />
+                  <div className="mt-5 rounded-2xl border border-gray-300 bg-gray-100 p-4">
+                    <div className="flex items-center gap-2 text-sm font-medium text-gray-1000">
+                      <Rocket className="h-4 w-4 text-green-900" />
                       Ready for production-minded teams
                     </div>
-                    <p className="mt-2 text-sm leading-6 text-gray-400">
+                    <p className="mt-2 text-sm leading-6 text-gray-800">
                       Bring your own styling, compose only what you need, and keep
                       shipping with control instead of workarounds.
                     </p>
