@@ -1,6 +1,7 @@
 import Tree from '../Tree';
 import React from 'react';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import Card from '~/components/ui/Card/Card';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 
@@ -66,6 +67,42 @@ const items = [
         ]
     }
 ];
+
+const cardAnatomyItems = [
+    {
+        label: 'Card',
+        expanded: true,
+        items: [
+            {
+                label: 'CardHeader',
+                expanded: true,
+                items: [
+                    {
+                        label: 'CardTitle',
+                        expanded: false
+                    },
+                    {
+                        label: 'CardDescription',
+                        expanded: false
+                    },
+                    {
+                        label: 'CardAction',
+                        expanded: false
+                    }
+                ]
+            },
+            {
+                label: 'CardContent',
+                expanded: false
+            },
+            {
+                label: 'CardFooter',
+                expanded: false
+            }
+        ]
+    }
+];
+
 export default {
     title: 'Components/Tree',
     component: Tree,
@@ -130,4 +167,106 @@ const TreeExampleWithSelection = () => {
 
 export const WithSelection = {
     render: () => <TreeExampleWithSelection />
+};
+
+const anatomyItemStyle: React.CSSProperties = {
+    background: 'transparent',
+    border: 'none',
+    borderRadius: 0,
+    boxShadow: 'none',
+    minHeight: 'auto',
+    padding: '0.14rem 0',
+    color: '#1f1f23',
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+    fontSize: '0.98rem',
+    fontWeight: 400,
+    lineHeight: 1.4
+};
+
+const CardAnatomyTree = () => (
+    <SandboxEditor>
+        <div className="flex w-full items-center justify-center p-8 md:p-14">
+            <style>
+                {`
+                    .tree-anatomy-story .rad-ui-tree {
+                        width: fit-content;
+                        gap: 0.18rem;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-branch {
+                        gap: 0.18rem;
+                        margin: 0;
+                        margin-inline-start: 0.45rem;
+                        padding-inline-start: 1.05rem;
+                        border-inline-start: 1.5px solid #2a2a30;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-branch .rad-ui-tree-item::before {
+                        display: block;
+                        inset-inline-start: calc(-1 * 1.05rem);
+                        width: 0.95rem;
+                        height: 1.5px;
+                        top: 50%;
+                        background: #2a2a30;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-item {
+                        justify-content: flex-start;
+                        gap: 0;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-item:hover,
+                    .tree-anatomy-story .rad-ui-tree-item[data-toggled="true"],
+                    .tree-anatomy-story .rad-ui-tree-item[data-selected="true"] {
+                        background: transparent;
+                        border-color: transparent;
+                        box-shadow: none;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-item:focus-visible {
+                        outline: none;
+                        box-shadow: none;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-item-chevron {
+                        display: none;
+                        width: 0;
+                        min-width: 0;
+                    }
+
+                    .tree-anatomy-story .rad-ui-tree-item-label {
+                        flex: none;
+                    }
+                `}
+            </style>
+            <Card
+                variant="soft"
+                className="tree-anatomy-story w-full max-w-[50rem] border-none bg-[#f5f5f4] px-8 py-10 shadow-none md:px-12 md:py-12"
+            >
+                <Tree.Root
+                    aria-label="Card anatomy"
+                    style={
+                        {
+                            ['--tree-line' as string]: '#2a2a30',
+                            ['--tree-branch-gap' as string]: '1.05rem'
+                        } as React.CSSProperties
+                    }
+                >
+                    {cardAnatomyItems.map((item) => (
+                        <Tree.Item
+                            key={item.label}
+                            item={item}
+                            style={anatomyItemStyle}
+                        >
+                            {item.label}
+                        </Tree.Item>
+                    ))}
+                </Tree.Root>
+            </Card>
+        </div>
+    </SandboxEditor>
+);
+
+export const CardAnatomy = {
+    render: () => <CardAnatomyTree />
 };

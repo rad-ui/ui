@@ -28,8 +28,9 @@ jobs:
 
             if (match) {
               const summary = match[3];
-              const startsLowercase = summary[0] === summary[0].toLowerCase();
-              const hasTrailingPeriod = summary.endsWith('.');
+              const trimmed = summary.trim();
+              const startsLowercase = /^[a-z]/.test(trimmed);
+              const hasTrailingPeriod = trimmed.endsWith('.');
               const withinLimit = title.length <= 72;
 
               if (startsLowercase && !hasTrailingPeriod && withinLimit) {

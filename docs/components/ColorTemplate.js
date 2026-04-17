@@ -122,15 +122,17 @@ const ColorTemplate = () => {
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              {colorFamilies.map((family) => (
-                <div key={family} className="grid grid-cols-[84px_repeat(12,minmax(0,1fr))] items-center gap-3">
-                  <div className="pr-3 text-lg text-gray-950">{formatFamilyName(family)}</div>
-                  {scaleSteps.map((step) => (
-                    <ColorSwatch key={`${family}-${step}`} colorClass={`bg-${family}-${step}`} />
-                  ))}
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <div className="min-w-[960px] space-y-1.5">
+                {colorFamilies.map((family) => (
+                  <div key={family} className="grid grid-cols-[84px_repeat(12,minmax(0,1fr))] items-center gap-3">
+                    <div className="pr-3 text-lg text-gray-950">{formatFamilyName(family)}</div>
+                    {scaleSteps.map((step) => (
+                      <ColorSwatch key={`${family}-${step}`} colorClass={`bg-${family}-${step}`} />
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

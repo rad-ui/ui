@@ -3,7 +3,8 @@ import path from 'path';
 
 const STYLE_COMPONENT_FOLDER_EXCEPTIONS: Record<string, string> = {
     blockquote: 'BlockQuote',
-    radiocards: 'RadioCards'
+    radiocards: 'RadioCards',
+    textarea: 'TextArea'
 };
 
 const toComponentFolderName = (fileName: string) => {
@@ -95,6 +96,13 @@ const readGithubSourceCode = async (componentPath: string) => {
     const root_Path = getProjectRoot(); 
     const fullPath = `${root_Path}${componentPath}`;
     const response = await fetch(fullPath);
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load GitHub source (${response.status}) for ${componentPath}`
+        );
+    }
+
     const sourceCode = await response.text();
     return sourceCode;
 }
