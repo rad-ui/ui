@@ -41,6 +41,7 @@ export const docsNavigationSections = [
             { title:"Code", path:"/docs/components/code" },
             { title:"Collapsible", path:"/docs/components/collapsible", is_preview:true },
             { title:"Combobox", path:"/docs/components/combobox", is_preview:true },
+            { title:"Command", path:"/docs/components/command", is_preview:true },
             { title:"ContextMenu", path:"/docs/components/context-menu", is_preview:true },
             { title:"DataList", path:"/docs/components/data-list", is_preview:true },
             { title:"Dialog", path:"/docs/components/dialog", is_new:true },

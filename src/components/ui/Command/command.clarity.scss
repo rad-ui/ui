@@ -1,0 +1,215 @@
+@use '../Button/button.clarity';
+
+.rad-ui-command {
+  width: min(100%, 26rem);
+  max-height: min(32rem, 78vh);
+  border-radius: 1.25rem;
+  border: 1px solid var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-panel);
+  color: var(--rad-ui-text-primary);
+  box-shadow: var(--rad-ui-elevation-lg-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rad-ui-command-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--rad-ui-z-index-overlay);
+  background-color: rgb(10, 14, 20, 0.42);
+  backdrop-filter: blur(var(--rad-ui-blur-md));
+  transition:
+    opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
+    visibility var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
+
+  &[data-state="open"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &[data-state="closed"] {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.rad-ui-command-dialog-content {
+  position: fixed;
+  left: 50%;
+  top: 14vh;
+  z-index: var(--rad-ui-z-index-portal);
+  width: min(calc(100vw - 1.5rem), 31rem);
+  transform: translateX(-50%);
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.rad-ui-command-input {
+  width: 100%;
+  min-height: 2.625rem;
+  border: 0;
+  border-bottom: 1px solid var(--rad-ui-border-soft);
+  background: transparent;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.9375rem;
+  color: var(--rad-ui-text-primary);
+  outline: none;
+
+  &::placeholder {
+    color: var(--rad-ui-text-muted);
+  }
+}
+
+.rad-ui-command-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(24rem, 68vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  padding: 0.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+}
+
+.rad-ui-command-empty,
+.rad-ui-command-loading {
+  padding: 1.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--rad-ui-text-secondary);
+  text-align: center;
+}
+
+.rad-ui-command-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.rad-ui-command-group-heading {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--rad-ui-text-muted);
+}
+
+.rad-ui-command-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.0625rem;
+}
+
+.rad-ui-command-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.125rem;
+  padding: 0.4375rem 0.625rem;
+  border-radius: 0.875rem;
+  color: var(--rad-ui-text-primary);
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  cursor: default;
+  user-select: none;
+  outline: none;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:hover,
+  &[data-selected] {
+    background: var(--rad-ui-surface-hover);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--rad-ui-ring-shadow);
+  }
+
+  &[data-disabled] {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+.rad-ui-command-item > svg,
+.rad-ui-command-item .rad-ui-command-item-main > svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: none;
+  color: var(--rad-ui-text-muted);
+}
+
+.rad-ui-command-item-main {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.rad-ui-command-item-copy {
+  min-width: 0;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.rad-ui-command-item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rad-ui-command-item-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  color: var(--rad-ui-text-muted);
+}
+
+.rad-ui-command-separator {
+  height: 1px;
+  margin: 0.3125rem 0;
+  background: var(--rad-ui-border-soft);
+}
+
+.rad-ui-command-shortcut {
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--rad-ui-text-muted);
+  justify-self: end;
+}
+
+@media (width <= 640px) {
+  .rad-ui-command-dialog-content {
+    top: 1rem;
+    width: calc(100vw - 1rem);
+  }
+
+  .rad-ui-command {
+    width: 100%;
+    max-height: min(34rem, calc(100vh - 2rem));
+  }
+
+  .rad-ui-command-list {
+    max-height: min(28rem, calc(100vh - 5.5rem));
+  }
+}

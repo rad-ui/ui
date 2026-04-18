@@ -18,15 +18,16 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
     children,
     ...props
 }, ref) => {
-    const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
+    const { isOpen, handleOverlayClick, refs } = useContext(DialogPrimitiveContext);
 
     const shouldRender = isOpen || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
+    const floatingElement = (refs as { floating?: { current?: HTMLElement | null } }).floating?.current;
 
     return (
         <>
             {shouldRender && (
-                <RemoveScroll enabled={isOpen}>
+                <RemoveScroll enabled={isOpen} shards={floatingElement ? [floatingElement] : []}>
                     <Floater.Overlay
                         ref={ref}
                         onClick={handleOverlayClick}

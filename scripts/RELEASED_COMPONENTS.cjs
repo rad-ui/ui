@@ -36,6 +36,7 @@ const RELEASED_COMPONENTS = [
     'CheckboxGroup',
     'Collapsible',
     'Combobox',
+    'Command',
     'ContextMenu',
     'DataList',
     'Disclosure',
