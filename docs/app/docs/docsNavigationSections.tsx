@@ -131,14 +131,6 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/contributing-to-rad-ui"
             },
             {
-                title:"Component Maturity Rubric",
-                path:"/docs/contributing/component-maturity-rubric"
-            },
-            {
-                title:"Component Coverage",
-                path:"/docs/contributing/component-coverage"
-            },
-            {
                 title:"Security & Dependency SLA",
                 path:"/docs/contributing/security-dependency-sla"
             },
