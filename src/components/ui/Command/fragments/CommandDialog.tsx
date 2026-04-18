@@ -43,6 +43,8 @@ const CommandDialog = React.forwardRef<CommandDialogElement, CommandDialogProps>
 
     return (
         <DialogPrimitive.Root open={open} onOpenChange={onOpenChange} onClickOutside={onClickOutside}>
+            {/* TODO: When forceMount is used for animated command dialogs, closing does not
+                restore focus to the trigger yet because the shared dialog focus manager remains mounted. */}
             <DialogPrimitive.Portal container={container} forceMount={forceMount}>
                 <DialogPrimitive.Overlay
                     className={clsx(rootClass && `${rootClass}-overlay`, overlayClassName)}

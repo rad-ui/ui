@@ -39,6 +39,7 @@ const RELEASED_COMPONENTS = [
     'Command',
     'ContextMenu',
     'DataList',
+    'Drawer',
     'Disclosure',
     'DropdownMenu',
     'HoverCard',

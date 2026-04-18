@@ -24,6 +24,9 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     const { isOpen, getFloatingProps, refs, handleOpenChange, floaterContext } = useContext(DialogPrimitiveContext);
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
+    // TODO: When forceMount stays true after close, FocusManager does not unmount,
+    // so returnFocus does not restore focus to the trigger. We need an explicit
+    // focus-restoration path for force-mounted dialog-like surfaces.
     const shouldRender = isOpen || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
 
