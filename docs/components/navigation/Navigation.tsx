@@ -17,6 +17,8 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
             title: "Main",
             items: [
                 { title: "Documentation", path: "/docs/first-steps/introduction" },
+                { title: "Playground", path: "/playground" },
+                { title: "Colors", path: "/colors" },
                 { title: "Showcase", path: "/showcase/music-app" }
             ]
         }
