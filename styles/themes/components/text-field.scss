@@ -1,0 +1,105 @@
+.rad-ui-text-field{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 2rem;
+    box-sizing: border-box;
+    padding: 0 0.75rem;
+    border: 1px solid var(--rad-ui-color-gray-500);
+    border-radius: 0.625rem;
+    background-color: var(--rad-ui-color-white);
+    box-shadow:
+        0 0 0 1px color-mix(in oklab, var(--rad-ui-surface-canvas) 40%, transparent),
+        0 6px 18px -18px color-mix(in oklab, var(--rad-ui-color-gray-900) 14%, transparent);
+
+    &:focus-within {
+        border-color: var(--rad-ui-color-gray-700);
+        background-color: var(--rad-ui-color-white);
+        box-shadow:
+            0 0 0 1px color-mix(in oklab, var(--rad-ui-color-gray-300) 24%, var(--rad-ui-surface-panel)),
+            0 6px 18px -18px color-mix(in oklab, var(--rad-ui-color-gray-900) 16%, transparent);
+    }
+
+    &:has(.rad-ui-text-field-input:disabled),
+    &:has(.rad-ui-text-field-input:read-only) {
+        background-color: color-mix(in oklab, var(--rad-ui-surface-subtle) 92%, var(--rad-ui-surface-canvas));
+        border-color: var(--rad-ui-color-gray-500);
+        box-shadow: none;
+    }
+}
+
+.rad-ui-text-field-input{
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    height: calc(2rem - 2px);
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: color-mix(in oklab, var(--rad-ui-color-gray-1000) 90%, white);
+    font-family: var(--rad-ui-font-sans);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    letter-spacing: -0.01em;
+
+    &::placeholder {
+        color: color-mix(in oklab, var(--rad-ui-color-gray-700) 86%, white);
+    }
+
+    &:disabled,
+    &:read-only {
+        color: var(--rad-ui-text-muted);
+        cursor: not-allowed;
+    }
+}
+
+.rad-ui-text-field-slot{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--rad-ui-color-gray-950);
+    white-space: nowrap;
+    cursor: text;
+
+    svg {
+        width: 1rem;
+        height: 1rem;
+        stroke-width: 1.9;
+    }
+}
+
+.rad-ui-text-field-reset{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--rad-ui-color-gray-950);
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    svg {
+        width: 1rem;
+        height: 1rem;
+        stroke-width: 1.9;
+    }
+}
+
+.rad-ui-text-field-slot[data-text-field-slot="end"] {
+    margin-left: auto;
+}
