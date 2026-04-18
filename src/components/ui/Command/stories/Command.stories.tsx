@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 
 export default {
-    title: 'Components/Command',
+    title: 'WIP/Command',
     component: Command
 } as any;
 

@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 
 export default {
-    title: 'Components/TextField (WIP)',
+    title: 'WIP/TextField',
     component: TextField,
     parameters: {
         docs: {
