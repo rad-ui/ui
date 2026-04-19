@@ -1,6 +1,8 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import HoverCardExample from "./docs/example_1"
 import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import HoverCardSizes from './examples/HoverCardSizes';
 
 <Documentation
     title="HoverCard"
@@ -13,6 +15,12 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
-        order={['root']}
+        order={['root', 'content']}
     />
+
+    ## Examples
+
+    <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+        <HoverCardSizes />
+    </Documentation.ComponentHero>
 </Documentation>

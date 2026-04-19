@@ -1,6 +1,8 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import QuoteExample from "./docs/example_1"
 import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code as truncateCodeUsage } from './docs/truncateCodeUsage';
+import QuoteTruncate from './examples/QuoteTruncate';
 
 <Documentation
     title="Quote"
@@ -15,4 +17,8 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         tables={api_documentation}
         order={['quote']}
     />
+
+    <Documentation.ComponentHero title='Truncate' codeUsage={truncateCodeUsage}>
+        <QuoteTruncate />
+    </Documentation.ComponentHero>
 </Documentation>

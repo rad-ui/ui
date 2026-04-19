@@ -3,7 +3,8 @@ import HoverCard from '../HoverCard';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const HOVER_CARD_SIZES = ['small', 'medium', 'large'];
+
 const meta: Meta<typeof HoverCard> = {
     title: 'Components/HoverCard',
     component: HoverCard,
@@ -19,6 +20,16 @@ const meta: Meta<typeof HoverCard> = {
 export default meta;
 type Story = StoryObj<any>;
 
+const CardBody = () => (
+    <div className="space-y-2">
+        <div className="font-semibold text-[var(--rad-ui-text-primary)]">@radui</div>
+        <p className="leading-relaxed text-[var(--rad-ui-text-primary)]">
+            A headless component library for React. Build accessible UIs with full styling control.
+        </p>
+        <p className="text-xs text-[var(--rad-ui-text-secondary)]">Joined December 2021</p>
+    </div>
+);
+
 // HoverCard example using composable API
 const HoverCardExample = () => {
     return (
@@ -33,15 +44,13 @@ const HoverCardExample = () => {
                 <HoverCard.Trigger>
                     <span>Hover Here</span>
                 </HoverCard.Trigger>
-                <HoverCard.Content>
-                    <div className="w-[18rem] space-y-2">
-                        <div className="text-[0.95rem] font-semibold text-[var(--rad-ui-text-primary)]">@nextjs</div>
-                        <p className="text-[0.95rem] leading-8 text-[var(--rad-ui-text-primary)]">
-                            The React Framework - created and maintained by @vercel.
-                        </p>
-                        <p className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)]">Joined December 2021</p>
-                    </div>
-                </HoverCard.Content>
+                <HoverCard.Portal>
+                    <HoverCard.Content>
+                        <div className="w-[18rem]">
+                            <CardBody />
+                        </div>
+                    </HoverCard.Content>
+                </HoverCard.Portal>
             </HoverCard.Root>
         </div>
     );
@@ -69,18 +78,20 @@ const ControlledHoverCardExample = () => {
                         {open ? 'Hover Here' : 'Show Card'}
                     </button>
                 </HoverCard.Trigger>
-                <HoverCard.Content>
-                    <div className="w-[18rem] space-y-2">
-                        <div className="text-[0.95rem] font-semibold text-[var(--rad-ui-text-primary)]">@nextjs</div>
-                        <p className="text-[0.95rem] leading-8 text-[var(--rad-ui-text-primary)]">
-                            The React Framework - created and maintained by @vercel.
-                        </p>
-                        <p className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)]">Joined December 2021</p>
-                        <button className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)] underline underline-offset-4" onClick={() => setOpen(false)} type="button">
-                            Close
-                        </button>
-                    </div>
-                </HoverCard.Content>
+                <HoverCard.Portal>
+                    <HoverCard.Content>
+                        <div className="w-[18rem] space-y-2">
+                            <CardBody />
+                            <button
+                                className="text-xs text-[var(--rad-ui-text-secondary)] underline underline-offset-4"
+                                onClick={() => setOpen(false)}
+                                type="button"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </HoverCard.Content>
+                </HoverCard.Portal>
             </HoverCard.Root>
         </div>
     );
@@ -92,4 +103,30 @@ export const Default: Story = {
 
 export const Controlled: Story = {
     render: () => <ControlledHoverCardExample />
+};
+
+export const Sizes = () => {
+    return (
+        
+            <div className="flex flex-col gap-16 p-8">
+                {HOVER_CARD_SIZES.map((size) => (
+                    <div key={size}>
+                        <p className="text-gray-500 mb-4 text-xs">size: {size}</p>
+                        <HoverCard.Root openDelay={100} closeDelay={200}>
+                            <HoverCard.Trigger>
+                                <span className="underline underline-offset-2 cursor-pointer font-medium">
+                                    Hover Here
+                                </span>
+                            </HoverCard.Trigger>
+                            <HoverCard.Portal>
+                                <HoverCard.Content size={size}>
+                                    <CardBody />
+                                </HoverCard.Content>
+                            </HoverCard.Portal>
+                        </HoverCard.Root>
+                    </div>
+                ))}
+            </div>
+        
+    );
 };
