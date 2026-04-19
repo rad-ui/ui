@@ -107,26 +107,26 @@ export const Controlled: Story = {
 
 export const Sizes = () => {
     return (
-        
-            <div className="flex flex-col gap-16 p-8">
-                {HOVER_CARD_SIZES.map((size) => (
-                    <div key={size}>
-                        <p className="text-gray-500 mb-4 text-xs">size: {size}</p>
-                        <HoverCard.Root openDelay={100} closeDelay={200}>
-                            <HoverCard.Trigger>
-                                <span className="underline underline-offset-2 cursor-pointer font-medium">
+
+        <div className="flex flex-col gap-16 p-8">
+            {HOVER_CARD_SIZES.map((size) => (
+                <div key={size}>
+                    <p className="text-gray-500 mb-4 text-xs">size: {size}</p>
+                    <HoverCard.Root openDelay={100} closeDelay={200}>
+                        <HoverCard.Trigger>
+                            <span className="underline underline-offset-2 cursor-pointer font-medium">
                                     Hover Here
-                                </span>
-                            </HoverCard.Trigger>
-                            <HoverCard.Portal>
-                                <HoverCard.Content size={size}>
-                                    <CardBody />
-                                </HoverCard.Content>
-                            </HoverCard.Portal>
-                        </HoverCard.Root>
-                    </div>
-                ))}
-            </div>
-        
+                            </span>
+                        </HoverCard.Trigger>
+                        <HoverCard.Portal>
+                            <HoverCard.Content size={size}>
+                                <CardBody />
+                            </HoverCard.Content>
+                        </HoverCard.Portal>
+                    </HoverCard.Root>
+                </div>
+            ))}
+        </div>
+
     );
 };
