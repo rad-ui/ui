@@ -1,6 +1,10 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import DataListExample from "./docs/example_1"
 import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import { code as colorCodeUsage } from './docs/colorCodeUsage';
+import DataListSizes from './examples/DataListSizes';
+import DataListColor from './examples/DataListColor';
 
 <Documentation
     title="DataList"
@@ -13,6 +17,16 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
-        order={['root']}
+        order={['root', 'item', 'label', 'value']}
     />
+
+    ## Examples
+
+    <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+        <DataListSizes />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title='Label Color' codeUsage={colorCodeUsage}>
+        <DataListColor />
+    </Documentation.ComponentHero>
 </Documentation>

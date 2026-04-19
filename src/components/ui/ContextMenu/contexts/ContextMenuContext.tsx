@@ -5,8 +5,8 @@ import React from 'react';
 export interface ContextMenuContextProps {
     rootClass: string;
     setIsOpen: (isOpen: boolean) => void;
-    variant?: 'default' | 'soft' | 'outline';
-    size?: 'small' | 'medium' | 'large';
+    variant?: string;
+    size?: string;
 }
 
 const ContextMenuContext = React.createContext<ContextMenuContextProps|null>(null);
