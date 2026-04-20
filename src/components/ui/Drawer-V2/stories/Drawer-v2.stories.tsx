@@ -237,6 +237,31 @@ export const OnOpenChangeComplete: Story = {
     }
 };
 
+// ── Handle ────────────────────────────────────────────────────────────────
+
+export const WithHandle: Story = {
+    render: () => (
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            {(['right', 'left', 'top', 'bottom'] as Direction[]).map((dir) => (
+                <Drawer.Root key={dir} swipeDirection={dir}>
+                    <Drawer.Trigger><>From {dir}</></Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay />
+                        <Drawer.Content>
+                            <Drawer.Handle />
+                            <Drawer.Title>Drawer with Handle</Drawer.Title>
+                            <Drawer.Description>
+                                Drag the handle outward past the threshold to close, or inward to feel the rubber-band spring.
+                            </Drawer.Description>
+                            <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+            ))}
+        </div>
+    )
+};
+
 // ── Snap points ────────────────────────────────────────────────────────────
 
 export const SnapPoints: Story = {

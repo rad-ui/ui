@@ -9,6 +9,7 @@ import DrawerContent from './fragments/DrawerContent';
 import DrawerTitle from './fragments/DrawerTitle';
 import DrawerDescription from './fragments/DrawerDescription';
 import DrawerClose from './fragments/DrawerClose';
+import DrawerHandle from './fragments/DrawerHandle';
 
 type DrawerElement = React.ElementRef<'div'>;
 type DrawerProps = React.ComponentPropsWithoutRef<'div'>;
@@ -29,6 +30,7 @@ interface DrawerComponent extends React.ForwardRefExoticComponent<DrawerProps & 
     Title: typeof DrawerTitle;
     Description: typeof DrawerDescription;
     Close: typeof DrawerClose;
+    Handle: typeof DrawerHandle;
 }
 
 const Drawer = DrawerBase as DrawerComponent;
@@ -41,6 +43,7 @@ Drawer.Content = DrawerContent;
 Drawer.Title = DrawerTitle;
 Drawer.Description = DrawerDescription;
 Drawer.Close = DrawerClose;
+Drawer.Handle = DrawerHandle;
 
 export type { DrawerRootProps } from './fragments/DrawerRoot';
 export type { DrawerTriggerProps } from './fragments/DrawerTrigger';
@@ -50,6 +53,7 @@ export type { DrawerContentProps } from './fragments/DrawerContent';
 export type { DrawerTitleProps } from './fragments/DrawerTitle';
 export type { DrawerDescriptionProps } from './fragments/DrawerDescription';
 export type { DrawerCloseProps } from './fragments/DrawerClose';
+export type { DrawerHandleProps } from './fragments/DrawerHandle';
 export type { DrawerSnapPoint, DrawerRootActions } from './context/DrawerContext';
 
 export default Drawer;

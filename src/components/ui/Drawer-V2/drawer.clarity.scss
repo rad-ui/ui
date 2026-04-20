@@ -44,7 +44,7 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
   display: flex;
   flex-direction: column;
   gap: 0;
-  overflow: hidden;
+  overflow: visible;
   transition:
     opacity    $close-duration $close-easing,
     visibility $close-duration $close-easing,
@@ -59,6 +59,8 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     width: min(24rem, 85vw);
     border-radius: 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl) 0;
     border-left: none;
+    // Handle is first child → sits on the right (open) edge
+    &:has(.rad-ui-drawer-v2-handle) { flex-direction: row-reverse; }
 
     &[data-child-open="true"] {
       width: calc(min(24rem, 85vw) + var(--drawer-peek-offset, 0px));
@@ -80,6 +82,8 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     width: min(24rem, 85vw);
     border-radius: var(--rad-ui-radius-xl) 0 0 var(--rad-ui-radius-xl);
     border-right: none;
+    // Handle is first child → sits on the left (open) edge
+    &:has(.rad-ui-drawer-v2-handle) { flex-direction: row; }
 
     &[data-child-open="true"] {
       width: calc(min(24rem, 85vw) + var(--drawer-peek-offset, 0px));
@@ -103,6 +107,8 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     height: min(24rem, 85vh);
     border-radius: 0 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl);
     border-top: none;
+    // Handle is first child → column-reverse puts it at the bottom (open edge)
+    &:has(.rad-ui-drawer-v2-handle) { flex-direction: column-reverse; }
 
     &[data-child-open="true"] {
       height: calc(min(24rem, 85vh) + var(--drawer-peek-offset, 0px));
@@ -138,6 +144,86 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
         height     $open-duration $open-easing;
     }
     &[data-state="closed"] { opacity: 0; visibility: hidden; transform: translateY(100%); }
+  }
+
+  // ── Handle ───────────────────────────────────────────────────────────────
+  // In-flow element — the outer content switches flex-direction per direction
+  // so the handle always lands on the open (dismissal) edge.
+
+  .rad-ui-drawer-v2-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+
+    &[data-dragging] { cursor: grabbing; }
+
+    // Bottom / top → full-width horizontal bar
+    &[data-direction="bottom"],
+    &[data-direction="top"] {
+      width: 100%;
+      height: 2.25rem;
+
+      .rad-ui-drawer-v2-handle-grip {
+        width: 2.75rem;
+        height: 0.3rem;
+        margin: auto;
+      }
+    }
+
+    // Right / left → full-height vertical bar on the open edge
+    &[data-direction="right"],
+    &[data-direction="left"] {
+      width: 2.25rem;
+      height: 100%;
+
+      .rad-ui-drawer-v2-handle-grip {
+        width: 0.3rem;
+        height: 2.75rem;
+        margin: auto;
+      }
+    }
+
+    &:focus-visible {
+      outline: none;
+      .rad-ui-drawer-v2-handle-grip {
+        box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
+      }
+    }
+
+    &:hover .rad-ui-drawer-v2-handle-grip {
+      background-color: var(--rad-ui-text-muted);
+    }
+    &[data-dragging] .rad-ui-drawer-v2-handle-grip {
+      background-color: var(--rad-ui-text-secondary);
+      transform: scale(1.1);
+    }
+  }
+
+  .rad-ui-drawer-v2-handle-grip {
+    display: block;
+    border-radius: 9999px;
+    background-color: var(--rad-ui-border-strong, #cad1db);
+    flex-shrink: 0;
+    transition:
+      background-color 150ms ease,
+      transform        200ms ease;
+  }
+
+  // Inner content wrapper — fills remaining space in a column
+  .rad-ui-drawer-v2-content-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    position: relative; // for absolute-positioned close button
   }
 
   // ── Inner elements ────────────────────────────────────────────────────────

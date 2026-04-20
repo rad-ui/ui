@@ -109,7 +109,22 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 className={clsx(rootClass && `${rootClass}-content`, className)}
                 {...props}
             >
-                {children}
+                {/* Separate handle children from the rest so CSS can position
+                    them on the correct edge regardless of flex-direction */}
+                {React.Children.map(children, (child) => {
+                    if (React.isValidElement(child) && (child as any).type?.displayName === 'DrawerHandle') {
+                        return child;
+                    }
+                    return null;
+                })}
+                <div className={clsx(rootClass && `${rootClass}-content-inner`)}>
+                    {React.Children.map(children, (child) => {
+                        if (React.isValidElement(child) && (child as any).type?.displayName === 'DrawerHandle') {
+                            return null;
+                        }
+                        return child;
+                    })}
+                </div>
             </Primitive.div>
         </Floater.FocusManager>
     );
