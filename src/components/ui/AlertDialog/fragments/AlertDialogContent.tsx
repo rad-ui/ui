@@ -21,6 +21,9 @@ const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogCont
     ...props
 }, ref) => {
     const { rootClass, titleId, descriptionId } = useContext(AlertDialogContext);
+
+    // TODO: forceMount keeps the shared dialog focus manager mounted after close,
+    // so focus does not automatically return to the trigger yet.
     return (
         <DialogPrimitive.Content
             ref={ref}

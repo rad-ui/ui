@@ -41,6 +41,7 @@ export const docsNavigationSections = [
             { title:"Code", path:"/docs/components/code" },
             { title:"Collapsible", path:"/docs/components/collapsible", is_preview:true },
             { title:"Combobox", path:"/docs/components/combobox", is_preview:true },
+            { title:"Command", path:"/docs/components/command", is_preview:true },
             { title:"ContextMenu", path:"/docs/components/context-menu", is_preview:true },
             { title:"DataList", path:"/docs/components/data-list", is_preview:true },
             { title:"Dialog", path:"/docs/components/dialog", is_new:true },
@@ -128,14 +129,6 @@ export const docsNavigationSections = [
             {
                 title:"Contributing to Rad UI",
                 path:"/docs/contributing/contributing-to-rad-ui"
-            },
-            {
-                title:"Component Maturity Rubric",
-                path:"/docs/contributing/component-maturity-rubric"
-            },
-            {
-                title:"Component Coverage",
-                path:"/docs/contributing/component-coverage"
             },
             {
                 title:"Security & Dependency SLA",

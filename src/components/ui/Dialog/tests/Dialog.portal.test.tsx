@@ -46,17 +46,47 @@ describe('Dialog portal and accessibility', () => {
         await user.keyboard('{Escape}');
         // FIXME: Focus restoration is flaky in jsdom
         // await waitFor(() => expect(trigger).toHaveFocus());
+        const closedOverlay = screen.getByTestId('overlay');
+        const closedContent = screen.getByTestId('content');
         expect(root).toHaveAttribute('data-state', 'closed');
-        expect(overlay).toHaveAttribute('data-state', 'closed');
-        expect(content).toHaveAttribute('data-state', 'closed');
+        expect(closedOverlay).toHaveAttribute('data-state', 'closed');
+        expect(closedContent).toHaveAttribute('data-state', 'closed');
 
         await user.click(trigger);
-        await user.click(overlay);
+        await user.click(screen.getByTestId('overlay'));
         // FIXME: Focus restoration is flaky in jsdom
         // await waitFor(() => expect(trigger).toHaveFocus());
+        const finalOverlay = screen.getByTestId('overlay');
+        const finalContent = screen.getByTestId('content');
         expect(root).toHaveAttribute('data-state', 'closed');
-        expect(overlay).toHaveAttribute('data-state', 'closed');
-        expect(content).toHaveAttribute('data-state', 'closed');
+        expect(finalOverlay).toHaveAttribute('data-state', 'closed');
+        expect(finalContent).toHaveAttribute('data-state', 'closed');
+    });
+
+    test('force-mounted content autofocuses on every open', async() => {
+        const user = userEvent.setup();
+        render(
+            <Dialog.Root>
+                <Dialog.Trigger data-testid="trigger">Open</Dialog.Trigger>
+                <Dialog.Overlay forceMount data-testid="overlay" />
+                <Dialog.Content forceMount data-testid="content">
+                    <button>First</button>
+                    <button>Second</button>
+                    <Dialog.Close>Close</Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        const trigger = screen.getByTestId('trigger');
+
+        await user.click(trigger);
+        await waitFor(() => expect(screen.getByText('First')).toHaveFocus());
+
+        await user.click(screen.getByText('Close'));
+        await waitFor(() => expect(trigger).toHaveFocus());
+
+        await user.click(trigger);
+        await waitFor(() => expect(screen.getByText('First')).toHaveFocus());
     });
 
     test('portal container mounts elements and preserves layering', async() => {
