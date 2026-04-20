@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import Drawer from '../Drawer';
+import type { DrawerRootActions } from '../Drawer';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
 import { X } from 'lucide-react';
@@ -22,26 +23,22 @@ type Story = StoryObj<any>;
 
 type Direction = 'right' | 'left' | 'top' | 'bottom';
 
-const DrawerExample = ({ swipeDirection = 'right' as Direction, label = 'Open Drawer' }) => (
+const DrawerShell = ({
+    swipeDirection = 'right' as Direction,
+    label = 'Open Drawer',
+    children,
+}: {
+    swipeDirection?: Direction;
+    label?: string;
+    children: React.ReactNode;
+}) => (
     <Drawer.Root swipeDirection={swipeDirection}>
-        <Drawer.Trigger>
-            <>{label}</>
-        </Drawer.Trigger>
+        <Drawer.Trigger><>{label}</></Drawer.Trigger>
         <Drawer.Portal>
             <Drawer.Overlay />
             <Drawer.Content>
-                <Drawer.Title>Drawer</Drawer.Title>
-                <Drawer.Description>
-                    This drawer slides in from the {swipeDirection}. Press Escape or click outside to dismiss.
-                </Drawer.Description>
-                <div style={{ padding: '0 1.25rem 1.25rem' }}>
-                    <p style={{ fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)', lineHeight: 1.6 }}>
-                        Place any content here — navigation links, settings panels, filters, or forms.
-                    </p>
-                </div>
-                <Drawer.Close>
-                    <X width={15} height={15} />
-                </Drawer.Close>
+                {children}
+                <Drawer.Close><X width={15} height={15} /></Drawer.Close>
             </Drawer.Content>
         </Drawer.Portal>
     </Drawer.Root>
@@ -50,31 +47,28 @@ const DrawerExample = ({ swipeDirection = 'right' as Direction, label = 'Open Dr
 // ── Stories ────────────────────────────────────────────────────────────────
 
 export const Default: Story = {
-    render: () => <DrawerExample swipeDirection="right" label="Open Drawer (from right)" />
-};
-
-export const FromLeft: Story = {
-    render: () => <DrawerExample swipeDirection="left" label="Open Drawer (from left)" />
-};
-
-export const FromTop: Story = {
-    render: () => <DrawerExample swipeDirection="top" label="Open Drawer (from top)" />
-};
-
-export const FromBottom: Story = {
-    render: () => <DrawerExample swipeDirection="bottom" label="Open Drawer (from bottom)" />
+    render: () => (
+        <DrawerShell swipeDirection="right" label="Open Drawer (from right)">
+            <Drawer.Title>Drawer</Drawer.Title>
+            <Drawer.Description>Slides in from the right.</Drawer.Description>
+        </DrawerShell>
+    )
 };
 
 export const AllDirections: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <DrawerExample swipeDirection="right" label="→ From right" />
-            <DrawerExample swipeDirection="left" label="← From left" />
-            <DrawerExample swipeDirection="top" label="↓ From top" />
-            <DrawerExample swipeDirection="bottom" label="↑ From bottom" />
+            {(['right', 'left', 'top', 'bottom'] as Direction[]).map((dir) => (
+                <DrawerShell key={dir} swipeDirection={dir} label={`From ${dir}`}>
+                    <Drawer.Title>Drawer</Drawer.Title>
+                    <Drawer.Description>Slides in from the {dir}.</Drawer.Description>
+                </DrawerShell>
+            ))}
         </div>
     )
 };
+
+// ── Controlled open state ──────────────────────────────────────────────────
 
 export const Controlled: Story = {
     render: () => {
@@ -83,23 +77,19 @@ export const Controlled: Story = {
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <Button onClick={() => setOpen(true)}>Open programmatically</Button>
-                    <Button onClick={() => setOpen(false)}>Close programmatically</Button>
+                    <Button onClick={() => setOpen(true)}>Open</Button>
+                    <Button onClick={() => setOpen(false)}>Close</Button>
                 </div>
                 <Drawer.Root open={open} onOpenChange={setOpen} swipeDirection="right">
-                    <Drawer.Trigger>
-                        <>Open via trigger</>
-                    </Drawer.Trigger>
+                    <Drawer.Trigger><>Open via trigger</></Drawer.Trigger>
                     <Drawer.Portal>
                         <Drawer.Overlay />
                         <Drawer.Content>
                             <Drawer.Title>Controlled Drawer</Drawer.Title>
                             <Drawer.Description>
-                                This drawer is controlled externally. Use the buttons above to open and close it.
+                                Controlled via the <code>open</code> + <code>onOpenChange</code> props.
                             </Drawer.Description>
-                            <Drawer.Close>
-                                <X width={15} height={15} />
-                            </Drawer.Close>
+                            <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                         </Drawer.Content>
                     </Drawer.Portal>
                 </Drawer.Root>
@@ -108,215 +98,229 @@ export const Controlled: Story = {
     }
 };
 
-export const WithForm: Story = {
+// ── defaultOpen ────────────────────────────────────────────────────────────
+
+export const DefaultOpen: Story = {
     render: () => (
-        <Drawer.Root swipeDirection="right">
-            <Drawer.Trigger>
-                <>Edit Profile</>
-            </Drawer.Trigger>
+        <Drawer.Root defaultOpen swipeDirection="right">
+            <Drawer.Trigger><>Re-open</></Drawer.Trigger>
             <Drawer.Portal>
                 <Drawer.Overlay />
                 <Drawer.Content>
-                    <Drawer.Title>Edit Profile</Drawer.Title>
+                    <Drawer.Title>Initially Open</Drawer.Title>
                     <Drawer.Description>
-                        Make changes to your profile here.
+                        This drawer opens immediately via <code>defaultOpen</code>.
                     </Drawer.Description>
-                    <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                            <label style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--rad-ui-text-primary)' }}>
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                defaultValue="[name]"
-                                style={{
-                                    padding: '0.5rem 0.75rem',
-                                    borderRadius: 'var(--rad-ui-radius-md)',
-                                    border: '1px solid var(--rad-ui-border-soft)',
-                                    background: 'var(--rad-ui-surface-panel)',
-                                    color: 'var(--rad-ui-text-primary)',
-                                    fontSize: '0.875rem',
-                                    outline: 'none'
-                                }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                            <label style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--rad-ui-text-primary)' }}>
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                defaultValue="[email]"
-                                style={{
-                                    padding: '0.5rem 0.75rem',
-                                    borderRadius: 'var(--rad-ui-radius-md)',
-                                    border: '1px solid var(--rad-ui-border-soft)',
-                                    background: 'var(--rad-ui-surface-panel)',
-                                    color: 'var(--rad-ui-text-primary)',
-                                    fontSize: '0.875rem',
-                                    outline: 'none'
-                                }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
-                            <Drawer.Close asChild>
-                                <Button>Cancel</Button>
-                            </Drawer.Close>
-                            <Drawer.Close asChild>
-                                <Button>Save changes</Button>
-                            </Drawer.Close>
-                        </div>
-                    </div>
-                    <Drawer.Close>
-                        <X width={15} height={15} />
-                    </Drawer.Close>
+                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                 </Drawer.Content>
             </Drawer.Portal>
         </Drawer.Root>
     )
 };
 
-// ── Nested drawers ─────────────────────────────────────────────────────────
-//
-// Each level offsets slightly so all three panels are visible simultaneously.
-// z-index steps up per level so the innermost drawer always sits on top.
+// ── actionsRef — imperative close ──────────────────────────────────────────
 
-const drawerContentStyle = (level: 1 | 2 | 3): React.CSSProperties => {
-    // Each successive drawer is narrower and inset from the right edge,
-    // creating a visible stack effect.
-    const insetMap = { 1: '0px', 2: '1.5rem', 3: '3rem' };
-    const widthMap  = { 1: 'min(26rem, 85vw)', 2: 'min(24rem, 85vw)', 3: 'min(22rem, 85vw)' };
-    const zMap      = { 1: 1000, 2: 1010, 3: 1020 };
+export const ImperativeActions: Story = {
+    render: () => {
+        const actionsRef = useRef<DrawerRootActions | null>(null);
 
-    return {
-        right: insetMap[level],
-        width: widthMap[level],
-        zIndex: zMap[level],
-    };
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <Button onClick={() => actionsRef.current?.close()}>
+                    Close via actionsRef
+                </Button>
+                <Drawer.Root actionsRef={actionsRef} swipeDirection="right">
+                    <Drawer.Trigger><>Open Drawer</></Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay />
+                        <Drawer.Content>
+                            <Drawer.Title>Imperative Close</Drawer.Title>
+                            <Drawer.Description>
+                                The button above uses <code>actionsRef.current.close()</code> to close this drawer from outside.
+                            </Drawer.Description>
+                            <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+            </div>
+        );
+    }
 };
+
+// ── disablePointerDismissal ────────────────────────────────────────────────
+
+export const DisablePointerDismissal: Story = {
+    render: () => (
+        <Drawer.Root swipeDirection="right" disablePointerDismissal>
+            <Drawer.Trigger><>Open (no outside-click close)</></Drawer.Trigger>
+            <Drawer.Portal>
+                <Drawer.Overlay />
+                <Drawer.Content>
+                    <Drawer.Title>Pointer Dismissal Disabled</Drawer.Title>
+                    <Drawer.Description>
+                        Clicking outside or on the overlay does nothing. Use the close button or Escape.
+                    </Drawer.Description>
+                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                </Drawer.Content>
+            </Drawer.Portal>
+        </Drawer.Root>
+    )
+};
+
+// ── modal modes ────────────────────────────────────────────────────────────
+
+export const ModalModes: Story = {
+    render: () => (
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            {([true, false, 'trap-focus'] as const).map((mode) => (
+                <Drawer.Root key={String(mode)} swipeDirection="right" modal={mode}>
+                    <Drawer.Trigger><>modal={String(mode)}</></Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay />
+                        <Drawer.Content>
+                            <Drawer.Title>modal={String(mode)}</Drawer.Title>
+                            <Drawer.Description>
+                                {mode === true && 'Focus trapped, scroll locked, outside pointer events disabled.'}
+                                {mode === false && 'Full document interaction allowed. No focus trap, no scroll lock.'}
+                                {mode === 'trap-focus' && 'Focus trapped, but scroll and outside pointer events remain enabled.'}
+                            </Drawer.Description>
+                            <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+            ))}
+        </div>
+    )
+};
+
+// ── onOpenChangeComplete ───────────────────────────────────────────────────
+
+export const OnOpenChangeComplete: Story = {
+    render: () => {
+        const [log, setLog] = useState<string[]>([]);
+        const addLog = (msg: string) => setLog((prev) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev.slice(0, 4)]);
+
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <Drawer.Root
+                    swipeDirection="right"
+                    onOpenChange={(open) => addLog(`onOpenChange(${open})`)}
+                    onOpenChangeComplete={(open) => addLog(`onOpenChangeComplete(${open}) ← animation done`)}
+                >
+                    <Drawer.Trigger><>Open Drawer</></Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay />
+                        <Drawer.Content>
+                            <Drawer.Title>Animation Callbacks</Drawer.Title>
+                            <Drawer.Description>
+                                Watch the log below — <code>onOpenChangeComplete</code> fires after the animation finishes.
+                            </Drawer.Description>
+                            <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+                <div style={{
+                    fontFamily: 'monospace',
+                    fontSize: '0.75rem',
+                    color: 'var(--rad-ui-text-secondary)',
+                    background: 'var(--rad-ui-surface-subtle)',
+                    border: '1px solid var(--rad-ui-border-soft)',
+                    borderRadius: 'var(--rad-ui-radius-md)',
+                    padding: '0.75rem',
+                    minWidth: '22rem',
+                    minHeight: '5rem',
+                }}>
+                    {log.length === 0 ? 'Open/close the drawer to see events…' : log.map((l, i) => <div key={i}>{l}</div>)}
+                </div>
+            </div>
+        );
+    }
+};
+
+// ── Snap points ────────────────────────────────────────────────────────────
+
+export const SnapPoints: Story = {
+    render: () => {
+        const [snapPoint, setSnapPoint] = useState<number | string | null>(0.4);
+
+        return (
+            <Drawer.Root
+                swipeDirection="bottom"
+                snapPoints={[0.4, 0.7, 1]}
+                snapPoint={snapPoint}
+                onSnapPointChange={setSnapPoint}
+            >
+                <Drawer.Trigger><>Open with snap points</></Drawer.Trigger>
+                <Drawer.Portal>
+                    <Drawer.Overlay />
+                    <Drawer.Content>
+                        <Drawer.Title>Snap Points</Drawer.Title>
+                        <Drawer.Description>
+                            Active snap point: <strong>{snapPoint}</strong>
+                        </Drawer.Description>
+                        <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            {[0.4, 0.7, 1].map((p) => (
+                                <Button key={p} onClick={() => setSnapPoint(p)}>
+                                    Snap to {p * 100}%
+                                </Button>
+                            ))}
+                        </div>
+                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                    </Drawer.Content>
+                </Drawer.Portal>
+            </Drawer.Root>
+        );
+    }
+};
+
+// ── Nested drawers ─────────────────────────────────────────────────────────
+
+const drawerContentStyle = (level: 1 | 2 | 3): React.CSSProperties => ({
+    right: ({ 1: '0px', 2: '1.5rem', 3: '3rem' } as const)[level],
+    width: ({ 1: 'min(26rem, 85vw)', 2: 'min(24rem, 85vw)', 3: 'min(22rem, 85vw)' } as const)[level],
+    zIndex: ({ 1: 1000, 2: 1010, 3: 1020 } as const)[level],
+});
 
 export const NestedDrawers: Story = {
     render: () => (
-        // Level 1 — outermost
         <Drawer.Root swipeDirection="right">
-            <Drawer.Trigger>
-                <>Open Settings</>
-            </Drawer.Trigger>
+            <Drawer.Trigger><>Open Settings</></Drawer.Trigger>
             <Drawer.Portal>
                 <Drawer.Overlay />
                 <Drawer.Content style={drawerContentStyle(1)}>
                     <Drawer.Title>Settings</Drawer.Title>
-                    <Drawer.Description>
-                        Manage your account and preferences.
-                    </Drawer.Description>
-
+                    <Drawer.Description>Manage your account and preferences.</Drawer.Description>
                     <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        <p style={{ fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                            Open the profile panel to edit your personal details.
-                        </p>
-
-                        {/* Level 2 — nested inside level 1 */}
                         <Drawer.Root swipeDirection="right">
-                            <Drawer.Trigger>
-                                <>Edit Profile →</>
-                            </Drawer.Trigger>
+                            <Drawer.Trigger><>Edit Profile →</></Drawer.Trigger>
                             <Drawer.Portal>
                                 <Drawer.Overlay />
                                 <Drawer.Content style={drawerContentStyle(2)}>
                                     <Drawer.Title>Edit Profile</Drawer.Title>
-                                    <Drawer.Description>
-                                        Update your name, email, and avatar.
-                                    </Drawer.Description>
-
+                                    <Drawer.Description>Update your name and email.</Drawer.Description>
                                     <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                        {(['Name', 'Email'] as const).map((field) => (
-                                            <div key={field} style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                                                <label style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--rad-ui-text-primary)' }}>
-                                                    {field}
-                                                </label>
-                                                <input
-                                                    type={field === 'Email' ? 'email' : 'text'}
-                                                    defaultValue={field === 'Email' ? '[email]' : '[name]'}
-                                                    style={{
-                                                        padding: '0.5rem 0.75rem',
-                                                        borderRadius: 'var(--rad-ui-radius-md)',
-                                                        border: '1px solid var(--rad-ui-border-soft)',
-                                                        background: 'var(--rad-ui-surface-panel)',
-                                                        color: 'var(--rad-ui-text-primary)',
-                                                        fontSize: '0.875rem',
-                                                        outline: 'none',
-                                                    }}
-                                                />
-                                            </div>
-                                        ))}
-
-                                        <p style={{ fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                                            Need to change your password? Open security settings.
-                                        </p>
-
-                                        {/* Level 3 — nested inside level 2 */}
                                         <Drawer.Root swipeDirection="right">
-                                            <Drawer.Trigger>
-                                                <>Security Settings →</>
-                                            </Drawer.Trigger>
+                                            <Drawer.Trigger><>Security Settings →</></Drawer.Trigger>
                                             <Drawer.Portal>
                                                 <Drawer.Overlay />
                                                 <Drawer.Content style={drawerContentStyle(3)}>
                                                     <Drawer.Title>Security</Drawer.Title>
-                                                    <Drawer.Description>
-                                                        Change your password and manage two-factor authentication.
-                                                    </Drawer.Description>
-
-                                                    <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                                        {(['Current password', 'New password', 'Confirm password'] as const).map((field) => (
-                                                            <div key={field} style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                                                                <label style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--rad-ui-text-primary)' }}>
-                                                                    {field}
-                                                                </label>
-                                                                <input
-                                                                    type="password"
-                                                                    placeholder="••••••••"
-                                                                    style={{
-                                                                        padding: '0.5rem 0.75rem',
-                                                                        borderRadius: 'var(--rad-ui-radius-md)',
-                                                                        border: '1px solid var(--rad-ui-border-soft)',
-                                                                        background: 'var(--rad-ui-surface-panel)',
-                                                                        color: 'var(--rad-ui-text-primary)',
-                                                                        fontSize: '0.875rem',
-                                                                        outline: 'none',
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                        ))}
-                                                        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
-                                                            <Drawer.Close asChild>
-                                                                <Button>Cancel</Button>
-                                                            </Drawer.Close>
-                                                            <Drawer.Close asChild>
-                                                                <Button>Save password</Button>
-                                                            </Drawer.Close>
-                                                        </div>
+                                                    <Drawer.Description>Change your password.</Drawer.Description>
+                                                    <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                                                        <Drawer.Close asChild><Button>Cancel</Button></Drawer.Close>
+                                                        <Drawer.Close asChild><Button>Save</Button></Drawer.Close>
                                                     </div>
-
-                                                    <Drawer.Close>
-                                                        <X width={15} height={15} />
-                                                    </Drawer.Close>
+                                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                                                 </Drawer.Content>
                                             </Drawer.Portal>
                                         </Drawer.Root>
                                     </div>
-
-                                    <Drawer.Close>
-                                        <X width={15} height={15} />
-                                    </Drawer.Close>
+                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                                 </Drawer.Content>
                             </Drawer.Portal>
                         </Drawer.Root>
                     </div>
-
-                    <Drawer.Close>
-                        <X width={15} height={15} />
-                    </Drawer.Close>
+                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                 </Drawer.Content>
             </Drawer.Portal>
         </Drawer.Root>

@@ -15,15 +15,23 @@ const DrawerClose = forwardRef<DrawerCloseElement, DrawerCloseProps>(({
     children,
     asChild,
     className = '',
+    onClick,
     ...props
 }, ref) => {
-    const { rootClass } = useContext(DrawerContext);
+    const { rootClass, markIntentionalClose } = useContext(DrawerContext);
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        // Mark as intentional so disablePointerDismissal doesn't block it
+        markIntentionalClose();
+        onClick?.(e);
+    };
 
     return (
         <DialogPrimitive.Cancel
             ref={ref}
             className={clsx(rootClass && `${rootClass}-close`, className)}
             asChild={asChild}
+            onClick={handleClick}
             {...props}
         >
             {children}

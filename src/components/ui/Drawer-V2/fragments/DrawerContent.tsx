@@ -23,17 +23,19 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
     asChild = false,
     forceMount = false,
     role = 'dialog',
-    'aria-modal': ariaModal = true,
+    'aria-modal': ariaModal,
     'aria-labelledby': ariaLabelledBy,
     'aria-describedby': ariaDescribedBy,
     style: styleProp,
     ...props
 }, ref) => {
-    const { rootClass, swipeDirection } = useContext(DrawerContext);
+    const { rootClass, swipeDirection, modal, onOpenChangeComplete } = useContext(DrawerContext);
     const { isOpen, getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
 
-    // Keep the element mounted during the exit animation.
-    // isVisible tracks whether we should render; dataState drives the CSS transition.
+    // Derive aria-modal from the modal prop:
+    // true → aria-modal=true, 'trap-focus' → aria-modal=true, false → aria-modal=false
+    const resolvedAriaModal = ariaModal ?? (modal !== false);
+
     const [isVisible, setIsVisible] = useState(isOpen);
     const [dataState, setDataState] = useState<'open' | 'closed'>(isOpen ? 'open' : 'closed');
     const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -42,23 +44,26 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
         if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
 
         if (isOpen) {
-            // Mount first, then flip to open on next frame so the CSS transition fires
             setIsVisible(true);
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => setDataState('open'));
+                requestAnimationFrame(() => {
+                    setDataState('open');
+                    // Fire onOpenChangeComplete after open animation
+                    setTimeout(() => onOpenChangeComplete?.(true), EXIT_DURATION_MS);
+                });
             });
         } else {
-            // Flip to closed (triggers exit transition), then unmount after it finishes
             setDataState('closed');
             exitTimerRef.current = setTimeout(() => {
                 setIsVisible(false);
+                // onOpenChangeComplete(false) is fired by DrawerOverlay to avoid double-firing
             }, EXIT_DURATION_MS);
         }
 
         return () => {
             if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
         };
-    }, [isOpen]);
+    }, [isOpen, onOpenChangeComplete]);
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
 
@@ -68,10 +73,13 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
 
     if (!isVisible && !forceMount) return null;
 
+    // modal=false: no focus trap; modal=true or 'trap-focus': trap focus
+    const trapFocus = modal !== false;
+
     return (
         <Floater.FocusManager
             context={floaterContext}
-            modal={Boolean(ariaModal)}
+            modal={trapFocus}
             initialFocus={0}
             returnFocus={true}
         >
@@ -81,7 +89,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 {...floatingProps}
                 style={{ outline: 'none', ...styleProp }}
                 role={role}
-                aria-modal={ariaModal}
+                aria-modal={resolvedAriaModal}
                 aria-hidden={!isOpen ? 'true' : undefined}
                 aria-labelledby={isOpen ? ariaLabelledBy : undefined}
                 aria-describedby={isOpen ? ariaDescribedBy : undefined}

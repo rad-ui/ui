@@ -1,39 +1,189 @@
 'use client';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
-import { DrawerContext } from '../context/DrawerContext';
+import { DrawerContext, DrawerRootActions, DrawerSnapPoint } from '../context/DrawerContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
 const COMPONENT_NAME = 'DrawerV2';
 
-type DrawerRootElement = React.ElementRef<typeof DialogPrimitive.Root>;
-type DialogPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
+// ── Types ──────────────────────────────────────────────────────────────────
 
-export type DrawerRootProps = DialogPrimitiveRootProps & {
-    customRootClass?: string;
+export type DrawerRootProps = {
+    children?: React.ReactNode;
     className?: string;
+    customRootClass?: string;
+
+    // ── Open state ───────────────────────────────────────────────────────────
+    /** Uncontrolled initial open state. */
+    defaultOpen?: boolean;
+    /** Controlled open state. */
+    open?: boolean;
+    /** Called when the drawer opens or closes. */
+    onOpenChange?: (open: boolean) => void;
+    /** Called after open/close animations fully complete. */
+    onOpenChangeComplete?: (open: boolean) => void;
+
+    // ── Snap points ──────────────────────────────────────────────────────────
+    /**
+     * Snap points for the drawer. Use 0–1 for viewport fractions,
+     * numbers > 1 for pixel values, or strings like '148px' / '30rem'.
+     */
+    snapPoints?: DrawerSnapPoint[];
+    /** Initial snap point when uncontrolled. */
+    defaultSnapPoint?: DrawerSnapPoint | null;
+    /** Controlled active snap point. */
+    snapPoint?: DrawerSnapPoint | null;
+    /** Called when the active snap point changes. */
+    onSnapPointChange?: (snapPoint: DrawerSnapPoint | null) => void;
+    /** Disables velocity-based snap skipping; drag distance determines next snap point. */
+    snapToSequentialPoints?: boolean;
+
+    // ── Behaviour ────────────────────────────────────────────────────────────
+    /**
+     * Modal mode.
+     * - `true` (default): focus trapped, scroll locked, outside pointer events disabled.
+     * - `false`: full document interaction allowed.
+     * - `'trap-focus'`: focus trapped, but scroll and outside pointer events remain enabled.
+     */
+    modal?: boolean | 'trap-focus';
+    /** When true, clicking outside the drawer does not close it. */
+    disablePointerDismissal?: boolean;
+    /** Direction the user swipes to dismiss the drawer. */
     swipeDirection?: 'left' | 'right' | 'top' | 'bottom';
+
+    // ── Trigger association ──────────────────────────────────────────────────
+    /** ID of the trigger associated with this drawer (controlled). */
+    triggerId?: string | null;
+    /** ID of the trigger associated with this drawer (uncontrolled / defaultOpen). */
+    defaultTriggerId?: string | null;
+
+    // ── Imperative handle ────────────────────────────────────────────────────
+    /**
+     * Ref to imperative actions.
+     * - `close()`: closes the drawer programmatically.
+     * - `unmount()`: when provided, the drawer will not unmount automatically on close;
+     *   call this to unmount it manually (useful for externally-controlled animations).
+     */
+    actionsRef?: React.RefObject<DrawerRootActions | null>;
 };
 
-const DrawerRoot = forwardRef<DrawerRootElement, DrawerRootProps>(({
+// ── Component ──────────────────────────────────────────────────────────────
+
+const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     children,
     customRootClass = '',
     className = '',
+    // Open state
+    defaultOpen = false,
+    open: controlledOpen,
+    onOpenChange,
+    onOpenChangeComplete,
+    // Snap points
+    snapPoints = [],
+    defaultSnapPoint = null,
+    snapPoint: controlledSnapPoint,
+    onSnapPointChange,
+    snapToSequentialPoints: _snapToSequentialPoints = false,
+    // Behaviour
+    modal = true,
+    disablePointerDismissal = false,
     swipeDirection = 'right',
-    ...props
+    // Trigger association (stored for potential future use)
+    triggerId: _triggerId,
+    defaultTriggerId: _defaultTriggerId,
+    // Imperative handle
+    actionsRef,
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const contextProps = { rootClass, swipeDirection };
+    // ── Open state (uncontrolled fallback) ───────────────────────────────────
+    const isControlled = controlledOpen !== undefined;
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+    const isOpen = isControlled ? controlledOpen! : uncontrolledOpen;
+
+    // When disablePointerDismissal is true we need to block the close that
+    // floating-ui's useDismiss fires via onOpenChange on outside pointer events.
+    // We do this by tracking whether a close was initiated by our own imperative
+    // code (actionsRef / Drawer.Close) vs floating-ui's dismiss handler.
+    // The trick: we set a flag just before any intentional close, then in
+    // onOpenChange we only allow a close-to-false if the flag is set OR
+    // disablePointerDismissal is false.
+    const intentionalCloseRef = useRef(false);
+    // Use a ref so the handleOpenChange closure always reads the latest value
+    // even when floating-ui has cached an older version of the callback.
+    const disablePointerDismissalRef = useRef(disablePointerDismissal);
+    useEffect(() => { disablePointerDismissalRef.current = disablePointerDismissal; }, [disablePointerDismissal]);
+
+    const handleOpenChange = useCallback((next: boolean) => {
+        if (!next && disablePointerDismissalRef.current && !intentionalCloseRef.current) {
+            return;
+        }
+        intentionalCloseRef.current = false;
+        if (!isControlled) setUncontrolledOpen(next);
+        onOpenChange?.(next);
+    }, [isControlled, onOpenChange]);
+
+    // ── Snap point state (uncontrolled fallback) ─────────────────────────────
+    const isSnapControlled = controlledSnapPoint !== undefined;
+    const [uncontrolledSnapPoint, setUncontrolledSnapPoint] = useState<DrawerSnapPoint | null>(
+        defaultSnapPoint ?? (snapPoints.length > 0 ? snapPoints[0] : null)
+    );
+    const activeSnapPoint = isSnapControlled ? controlledSnapPoint! : uncontrolledSnapPoint;
+
+    const setActiveSnapPoint = useCallback((point: DrawerSnapPoint | null) => {
+        if (!isSnapControlled) setUncontrolledSnapPoint(point);
+        onSnapPointChange?.(point);
+    }, [isSnapControlled, onSnapPointChange]);
+
+    // ── Imperative actions ───────────────────────────────────────────────────
+    const registerActions = useCallback((actions: DrawerRootActions) => {
+        if (actionsRef && 'current' in actionsRef) {
+            (actionsRef as React.MutableRefObject<DrawerRootActions | null>).current = actions;
+        }
+    }, [actionsRef]);
+
+    // Register close/unmount actions whenever handleOpenChange changes
+    useEffect(() => {
+        if (!actionsRef) return;
+        const actions: DrawerRootActions = {
+            close: () => {
+                intentionalCloseRef.current = true;
+                handleOpenChange(false);
+            },
+            unmount: () => {
+                intentionalCloseRef.current = true;
+                handleOpenChange(false);
+            },
+        };
+        registerActions(actions);
+    }, [actionsRef, handleOpenChange, registerActions]);
+
+    // ── onOpenChangeComplete ─────────────────────────────────────────────────
+    // Fired after the exit/enter animation finishes. DrawerContent/Overlay
+    // call this via context once their animation timer completes.
+    const contextValue = {
+        rootClass,
+        swipeDirection,
+        snapPoints,
+        activeSnapPoint,
+        setActiveSnapPoint,
+        modal,
+        disablePointerDismissal,
+        onOpenChangeComplete,
+        registerActions,
+        // Exposed so DrawerClose can mark a close as intentional
+        markIntentionalClose: () => { intentionalCloseRef.current = true; },
+    };
 
     return (
         <DialogPrimitive.Root
             ref={ref}
+            open={isOpen}
+            onOpenChange={handleOpenChange}
             className={clsx(rootClass, className)}
-            {...props}
         >
-            <DrawerContext.Provider value={contextProps}>
+            <DrawerContext.Provider value={contextValue}>
                 {children}
             </DrawerContext.Provider>
         </DialogPrimitive.Root>

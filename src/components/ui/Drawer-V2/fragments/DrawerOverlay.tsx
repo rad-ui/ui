@@ -21,7 +21,7 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
     forceMount = false,
     ...props
 }, ref) => {
-    const { rootClass } = useContext(DrawerContext);
+    const { rootClass, modal, disablePointerDismissal, onOpenChangeComplete, markIntentionalClose } = useContext(DrawerContext);
     const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
 
     const [isVisible, setIsVisible] = useState(isOpen);
@@ -40,22 +40,32 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
             setDataState('closed');
             exitTimerRef.current = setTimeout(() => {
                 setIsVisible(false);
+                onOpenChangeComplete?.(false);
             }, EXIT_DURATION_MS);
         }
 
         return () => {
             if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
         };
-    }, [isOpen]);
+    }, [isOpen, onOpenChangeComplete]);
 
     if (!isVisible && !forceMount) return null;
 
+    const handleClick = disablePointerDismissal
+        ? undefined
+        : () => { markIntentionalClose(); handleOverlayClick(); };
+
+    // modal=false or 'trap-focus': don't lock scroll
+    const lockScroll = modal === true;
+
     return (
-        <RemoveScroll enabled={isOpen}>
+        <RemoveScroll enabled={isOpen && lockScroll}>
             <Floater.Overlay
                 ref={ref}
-                onClick={handleOverlayClick}
+                onClick={handleClick}
                 data-state={dataState}
+                // When modal=false, overlay is invisible (no backdrop) but still present for z-index stacking
+                style={modal === false ? { pointerEvents: 'none', background: 'transparent' } : undefined}
                 className={clsx(rootClass && `${rootClass}-overlay`, className)}
                 {...props}
             />

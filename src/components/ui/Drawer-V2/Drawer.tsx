@@ -50,5 +50,6 @@ export type { DrawerContentProps } from './fragments/DrawerContent';
 export type { DrawerTitleProps } from './fragments/DrawerTitle';
 export type { DrawerDescriptionProps } from './fragments/DrawerDescription';
 export type { DrawerCloseProps } from './fragments/DrawerClose';
+export type { DrawerSnapPoint, DrawerRootActions } from './context/DrawerContext';
 
 export default Drawer;
