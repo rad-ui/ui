@@ -1,0 +1,217 @@
+@use '../Button/button.clarity';
+
+// Open:  700ms, entrance curve (fast start → smooth deceleration into place)
+// Close: 400ms, ease-in       (starts gently, exits with purpose — motion visible throughout)
+$open-duration:  700ms;
+$close-duration: 400ms;
+$open-easing:    cubic-bezier(0.16, 1, 0.3, 1);  // entrance
+$close-easing:   cubic-bezier(0.4, 0, 1, 1);     // ease-in — smooth, readable exit
+
+.rad-ui-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--rad-ui-z-index-overlay);
+  background-color: rgb(0, 0, 0, 0.56);
+  backdrop-filter: blur(var(--rad-ui-blur-lg));
+  overflow: hidden;
+  // Default = closing transition
+  transition:
+    opacity  $close-duration $close-easing,
+    visibility $close-duration $close-easing;
+
+  &[data-state="open"] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity  $open-duration $open-easing,
+      visibility $open-duration $open-easing;
+  }
+
+  &[data-state="closed"] {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.rad-ui-drawer-trigger {
+  @extend .rad-ui-button;
+}
+
+.rad-ui-drawer-content {
+  position: fixed;
+  z-index: var(--rad-ui-z-index-portal);
+  background-color: var(--rad-ui-surface-panel);
+  color: var(--rad-ui-text-primary);
+  border: 1px solid var(--rad-ui-border-soft);
+  box-shadow: var(--rad-ui-elevation-lg-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  // Default = closing transition
+  transition:
+    opacity   $close-duration $close-easing,
+    visibility $close-duration $close-easing,
+    transform  $close-duration $close-easing;
+
+  &:focus {
+    outline: none;
+  }
+
+  // ── Side drawers ──────────────────────────────────────────────────────────
+
+  &[data-swipe-direction="left"] {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(24rem, 85vw);
+    border-radius: 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl) 0;
+    border-left: none;
+
+    &[data-state="open"] {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      transition:
+        opacity   $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing;
+    }
+
+    &[data-state="closed"] {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-100%);
+    }
+  }
+
+  &[data-swipe-direction="right"] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(24rem, 85vw);
+    border-radius: var(--rad-ui-radius-xl) 0 0 var(--rad-ui-radius-xl);
+    border-right: none;
+
+    &[data-state="open"] {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      transition:
+        opacity   $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing;
+    }
+
+    &[data-state="closed"] {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(100%);
+    }
+  }
+
+  // ── Top / bottom drawers ──────────────────────────────────────────────────
+
+  &[data-swipe-direction="top"] {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: min(24rem, 85vh);
+    border-radius: 0 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl);
+    border-top: none;
+
+    &[data-state="open"] {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition:
+        opacity   $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing;
+    }
+
+    &[data-state="closed"] {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-100%);
+    }
+  }
+
+  &[data-swipe-direction="bottom"] {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(24rem, 85vh);
+    border-radius: var(--rad-ui-radius-xl) var(--rad-ui-radius-xl) 0 0;
+    border-bottom: none;
+
+    &[data-state="open"] {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition:
+        opacity   $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing;
+    }
+
+    &[data-state="closed"] {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(100%);
+    }
+  }
+
+  // ── Inner elements ────────────────────────────────────────────────────────
+
+  .rad-ui-drawer-title {
+    font-size: var(--rad-ui-font-size-3);
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 0.5rem;
+    color: var(--rad-ui-text-primary);
+    letter-spacing: -0.05em;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .rad-ui-drawer-description {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.45;
+    margin: 0 0 0.875rem;
+    color: var(--rad-ui-text-secondary);
+    letter-spacing: -0.025em;
+    padding: 0 1.25rem;
+  }
+
+  .rad-ui-drawer-close {
+    position: absolute;
+    right: 0.875rem;
+    top: 0.875rem;
+    border-radius: var(--rad-ui-radius-md);
+    color: var(--rad-ui-text-muted);
+    background-color: transparent;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+      color: var(--rad-ui-text-primary);
+      background-color: var(--rad-ui-surface-subtle);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
+    }
+
+    &:disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+}
