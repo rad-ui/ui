@@ -5,7 +5,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { DrawerContext } from '../context/DrawerContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
-const COMPONENT_NAME = 'Drawer';
+const COMPONENT_NAME = 'DrawerV2';
 
 type DrawerRootElement = React.ElementRef<typeof DialogPrimitive.Root>;
 type DialogPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
