@@ -17,6 +17,9 @@ export type DrawerContentProps = React.ComponentPropsWithoutRef<typeof Primitive
 // Must match $close-duration in drawer.clarity.scss
 const EXIT_DURATION_MS = 400;
 
+// How much extra width (px) each open child level adds so the parent peeks out
+const PEEK_WIDTH_PX = 20;
+
 const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
     children,
     className = '',
@@ -29,7 +32,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
     style: styleProp,
     ...props
 }, ref) => {
-    const { rootClass, swipeDirection, modal, onOpenChangeComplete } = useContext(DrawerContext);
+    const { rootClass, swipeDirection, modal, onOpenChangeComplete, childOpenCount } = useContext(DrawerContext);
     const { isOpen, getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
 
     // Derive aria-modal from the modal prop:
@@ -76,6 +79,13 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
     // modal=false: no focus trap; modal=true or 'trap-focus': trap focus
     const trapFocus = modal !== false;
 
+    // When child drawers are open, expand this drawer's width so it peeks out
+    // behind the child. We use a CSS variable so the SCSS can also reference it.
+    const peekOffset = childOpenCount * PEEK_WIDTH_PX;
+    const peekStyle: React.CSSProperties = peekOffset > 0
+        ? { '--drawer-peek-offset': `${peekOffset}px` } as React.CSSProperties
+        : {};
+
     return (
         <Floater.FocusManager
             context={floaterContext}
@@ -87,7 +97,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 ref={mergedRef}
                 asChild={asChild}
                 {...floatingProps}
-                style={{ outline: 'none', ...styleProp }}
+                style={{ outline: 'none', ...peekStyle, ...styleProp }}
                 role={role}
                 aria-modal={resolvedAriaModal}
                 aria-hidden={!isOpen ? 'true' : undefined}
@@ -95,6 +105,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 aria-describedby={isOpen ? ariaDescribedBy : undefined}
                 data-state={dataState}
                 data-swipe-direction={swipeDirection}
+                data-child-open={childOpenCount > 0 ? 'true' : undefined}
                 className={clsx(rootClass && `${rootClass}-content`, className)}
                 {...props}
             >

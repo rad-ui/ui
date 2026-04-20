@@ -3,6 +3,7 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { DrawerContext, DrawerRootActions, DrawerSnapPoint } from '../context/DrawerContext';
+import { DrawerNestingContext, useDrawerNesting } from '../context/DrawerNestingContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
 const COMPONENT_NAME = 'DrawerV2';
@@ -97,6 +98,9 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
+    // ── Nesting ──────────────────────────────────────────────────────────────
+    const parentNesting = useDrawerNesting();
+
     // ── Open state (uncontrolled fallback) ───────────────────────────────────
     const isControlled = controlledOpen !== undefined;
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
@@ -122,7 +126,9 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
         intentionalCloseRef.current = false;
         if (!isControlled) setUncontrolledOpen(next);
         onOpenChange?.(next);
-    }, [isControlled, onOpenChange]);
+        // Notify parent drawer that a child opened/closed
+        parentNesting.onChildOpenChange(next);
+    }, [isControlled, onOpenChange, parentNesting]);
 
     // ── Snap point state (uncontrolled fallback) ─────────────────────────────
     const isSnapControlled = controlledSnapPoint !== undefined;
@@ -162,6 +168,22 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     // ── onOpenChangeComplete ─────────────────────────────────────────────────
     // Fired after the exit/enter animation finishes. DrawerContent/Overlay
     // call this via context once their animation timer completes.
+    // ── Nesting context for children ─────────────────────────────────────────
+    // Children (nested DrawerRoots) call onChildOpenChange to let DrawerContent
+    // know it should widen to peek out from behind the child drawer.
+    const [childOpenCount, setChildOpenCount] = useState(0);
+    const handleChildOpenChange = useCallback((open: boolean) => {
+        setChildOpenCount((n) => Math.max(0, n + (open ? 1 : -1)));
+        // Bubble up so all ancestors also widen
+        parentNesting.onChildOpenChange(open);
+    }, [parentNesting]);
+
+    const nestingContextValue = {
+        depth: parentNesting.depth + 1,
+        onChildOpenChange: handleChildOpenChange,
+    };
+
+    // Expose childOpenCount via context so DrawerContent can react to it
     const contextValue = {
         rootClass,
         swipeDirection,
@@ -172,21 +194,23 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
         disablePointerDismissal,
         onOpenChangeComplete,
         registerActions,
-        // Exposed so DrawerClose can mark a close as intentional
         markIntentionalClose: () => { intentionalCloseRef.current = true; },
+        childOpenCount,
     };
 
     return (
-        <DialogPrimitive.Root
-            ref={ref}
-            open={isOpen}
-            onOpenChange={handleOpenChange}
-            className={clsx(rootClass, className)}
-        >
-            <DrawerContext.Provider value={contextValue}>
-                {children}
-            </DrawerContext.Provider>
-        </DialogPrimitive.Root>
+        <DrawerNestingContext.Provider value={nestingContextValue}>
+            <DialogPrimitive.Root
+                ref={ref}
+                open={isOpen}
+                onOpenChange={handleOpenChange}
+                className={clsx(rootClass, className)}
+            >
+                <DrawerContext.Provider value={contextValue}>
+                    {children}
+                </DrawerContext.Provider>
+            </DialogPrimitive.Root>
+        </DrawerNestingContext.Provider>
     );
 });
 

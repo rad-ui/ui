@@ -24,6 +24,8 @@ export type DrawerContextType = {
     registerActions: (actions: DrawerRootActions) => void;
     // Marks the next close as intentional (bypasses disablePointerDismissal guard)
     markIntentionalClose: () => void;
+    // Number of currently-open child drawers (used by DrawerContent to widen itself)
+    childOpenCount: number;
 };
 
 export const DrawerContext = createContext<DrawerContextType>({
@@ -37,4 +39,5 @@ export const DrawerContext = createContext<DrawerContextType>({
     onOpenChangeComplete: undefined,
     registerActions: () => {},
     markIntentionalClose: () => {},
+    childOpenCount: 0,
 });

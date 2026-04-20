@@ -275,54 +275,125 @@ export const SnapPoints: Story = {
 
 // ── Nested drawers ─────────────────────────────────────────────────────────
 
-const drawerContentStyle = (level: 1 | 2 | 3): React.CSSProperties => ({
-    right: ({ 1: '0px', 2: '1.5rem', 3: '3rem' } as const)[level],
-    width: ({ 1: 'min(26rem, 85vw)', 2: 'min(24rem, 85vw)', 3: 'min(22rem, 85vw)' } as const)[level],
-    zIndex: ({ 1: 1000, 2: 1010, 3: 1020 } as const)[level],
-});
+const innerPad: React.CSSProperties = { padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' };
+
+type Dir = 'right' | 'left' | 'top' | 'bottom';
+
+const DirectionSelector = ({ value, onChange }: { value: Dir; onChange: (d: Dir) => void }) => (
+    <div style={{ padding: '0 1.25rem 1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <span style={{ fontSize: '0.75rem', color: 'var(--rad-ui-text-secondary)', fontFamily: 'monospace' }}>direction:</span>
+        {(['right', 'left', 'top', 'bottom'] as Dir[]).map((d) => (
+            <button
+                key={d}
+                onClick={() => onChange(d)}
+                style={{
+                    fontSize: '0.75rem',
+                    padding: '0.2rem 0.6rem',
+                    borderRadius: 'var(--rad-ui-radius-md)',
+                    border: '1px solid var(--rad-ui-border-soft)',
+                    background: value === d ? 'var(--rad-ui-surface-active)' : 'var(--rad-ui-surface-subtle)',
+                    color: value === d ? 'var(--rad-ui-text-primary)' : 'var(--rad-ui-text-secondary)',
+                    cursor: 'pointer',
+                    fontWeight: value === d ? 600 : 400,
+                }}
+            >
+                {d}
+            </button>
+        ))}
+    </div>
+);
 
 export const NestedDrawers: Story = {
-    render: () => (
-        <Drawer.Root swipeDirection="right">
-            <Drawer.Trigger><>Open Settings</></Drawer.Trigger>
-            <Drawer.Portal>
-                <Drawer.Overlay />
-                <Drawer.Content style={drawerContentStyle(1)}>
-                    <Drawer.Title>Settings</Drawer.Title>
-                    <Drawer.Description>Manage your account and preferences.</Drawer.Description>
-                    <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        <Drawer.Root swipeDirection="right">
-                            <Drawer.Trigger><>Edit Profile →</></Drawer.Trigger>
-                            <Drawer.Portal>
-                                <Drawer.Overlay />
-                                <Drawer.Content style={drawerContentStyle(2)}>
-                                    <Drawer.Title>Edit Profile</Drawer.Title>
-                                    <Drawer.Description>Update your name and email.</Drawer.Description>
-                                    <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                        <Drawer.Root swipeDirection="right">
-                                            <Drawer.Trigger><>Security Settings →</></Drawer.Trigger>
-                                            <Drawer.Portal>
-                                                <Drawer.Overlay />
-                                                <Drawer.Content style={drawerContentStyle(3)}>
-                                                    <Drawer.Title>Security</Drawer.Title>
-                                                    <Drawer.Description>Change your password.</Drawer.Description>
-                                                    <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                                                        <Drawer.Close asChild><Button>Cancel</Button></Drawer.Close>
-                                                        <Drawer.Close asChild><Button>Save</Button></Drawer.Close>
-                                                    </div>
-                                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
-                                                </Drawer.Content>
-                                            </Drawer.Portal>
-                                        </Drawer.Root>
-                                    </div>
-                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
-                                </Drawer.Content>
-                            </Drawer.Portal>
-                        </Drawer.Root>
-                    </div>
-                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
-                </Drawer.Content>
-            </Drawer.Portal>
-        </Drawer.Root>
-    )
+    render: () => {
+        const [dir, setDir] = useState<Dir>('right');
+
+        return (
+            <Drawer.Root swipeDirection={dir}>
+                <Drawer.Trigger><>Open Settings</></Drawer.Trigger>
+                <Drawer.Portal>
+                    <Drawer.Overlay />
+                    <Drawer.Content>
+                        <Drawer.Title>Settings</Drawer.Title>
+                        <Drawer.Description>Manage your account and preferences.</Drawer.Description>
+                        <DirectionSelector value={dir} onChange={setDir} />
+                        <div style={innerPad}>
+                            <Drawer.Root swipeDirection={dir}>
+                                <Drawer.Trigger><>Edit Profile →</></Drawer.Trigger>
+                                <Drawer.Portal>
+                                    <Drawer.Overlay />
+                                    <Drawer.Content>
+                                        <Drawer.Title>Edit Profile</Drawer.Title>
+                                        <Drawer.Description>Update your name and email.</Drawer.Description>
+                                        <DirectionSelector value={dir} onChange={setDir} />
+                                        <div style={innerPad}>
+                                            <Drawer.Root swipeDirection={dir}>
+                                                <Drawer.Trigger><>Security Settings →</></Drawer.Trigger>
+                                                <Drawer.Portal>
+                                                    <Drawer.Overlay />
+                                                    <Drawer.Content>
+                                                        <Drawer.Title>Security</Drawer.Title>
+                                                        <Drawer.Description>Change your password and 2FA.</Drawer.Description>
+                                                        <DirectionSelector value={dir} onChange={setDir} />
+                                                        <div style={innerPad}>
+                                                            <Drawer.Root swipeDirection={dir}>
+                                                                <Drawer.Trigger><>Connected Apps →</></Drawer.Trigger>
+                                                                <Drawer.Portal>
+                                                                    <Drawer.Overlay />
+                                                                    <Drawer.Content>
+                                                                        <Drawer.Title>Connected Apps</Drawer.Title>
+                                                                        <Drawer.Description>Manage third-party app access.</Drawer.Description>
+                                                                        <DirectionSelector value={dir} onChange={setDir} />
+                                                                        <div style={innerPad}>
+                                                                            <Drawer.Root swipeDirection={dir}>
+                                                                                <Drawer.Trigger><>Danger Zone →</></Drawer.Trigger>
+                                                                                <Drawer.Portal>
+                                                                                    <Drawer.Overlay />
+                                                                                    <Drawer.Content>
+                                                                                        <Drawer.Title>Danger Zone</Drawer.Title>
+                                                                                        <Drawer.Description>Irreversible account actions.</Drawer.Description>
+                                                                                        <DirectionSelector value={dir} onChange={setDir} />
+                                                                                        <div style={innerPad}>
+                                                                                            <Drawer.Root swipeDirection={dir}>
+                                                                                                <Drawer.Trigger><>Delete Account →</></Drawer.Trigger>
+                                                                                                <Drawer.Portal>
+                                                                                                    <Drawer.Overlay />
+                                                                                                    <Drawer.Content>
+                                                                                                        <Drawer.Title>Delete Account</Drawer.Title>
+                                                                                                        <Drawer.Description>This cannot be undone. Are you sure?</Drawer.Description>
+                                                                                                        <DirectionSelector value={dir} onChange={setDir} />
+                                                                                                        <div style={{ ...innerPad, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                                                                                            <Drawer.Close asChild><Button>Cancel</Button></Drawer.Close>
+                                                                                                            <Drawer.Close asChild><Button>Delete</Button></Drawer.Close>
+                                                                                                        </div>
+                                                                                                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                                                                                    </Drawer.Content>
+                                                                                                </Drawer.Portal>
+                                                                                            </Drawer.Root>
+                                                                                        </div>
+                                                                                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                                                                    </Drawer.Content>
+                                                                                </Drawer.Portal>
+                                                                            </Drawer.Root>
+                                                                        </div>
+                                                                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                                                    </Drawer.Content>
+                                                                </Drawer.Portal>
+                                                            </Drawer.Root>
+                                                        </div>
+                                                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                                    </Drawer.Content>
+                                                </Drawer.Portal>
+                                            </Drawer.Root>
+                                        </div>
+                                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                    </Drawer.Content>
+                                </Drawer.Portal>
+                            </Drawer.Root>
+                        </div>
+                        <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                    </Drawer.Content>
+                </Drawer.Portal>
+            </Drawer.Root>
+        );
+    }
 };
