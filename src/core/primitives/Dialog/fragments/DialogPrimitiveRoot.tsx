@@ -13,8 +13,9 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props }, ref) => {
     const [isOpen, setIsOpen] = useState(open);
+    const nodeId = Floater.useFloatingNodeId();
 
     // Sync internal state with the open prop
     useEffect(() => {
@@ -27,14 +28,18 @@ const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>
     };
     const handleOverlayClick = () => {
         onClickOutside();
+        handleOpenChange(false);
     };
 
     const { context: floaterContext, refs, floatingStyles } = Floater.useFloating({
         open: isOpen,
+        nodeId,
         onOpenChange: handleOpenChange
     });
 
-    const dismiss = Floater.useDismiss(floaterContext);
+    const dismiss = Floater.useDismiss(floaterContext, {
+        bubbles: false
+    });
     const role = Floater.useRole(floaterContext, { role: 'dialog' });
 
     const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
@@ -45,15 +50,33 @@ const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
     return (
         <DialogPrimitiveContext.Provider value={contextProps}>
-            <div
-                ref={ref}
-                data-state={isOpen ? 'open' : 'closed'}
-                {...props}
-                className={className}
-            >
-                {children}
-            </div>
+            <Floater.FloatingNode id={nodeId}>
+                <div
+                    ref={ref}
+                    data-state={isOpen ? 'open' : 'closed'}
+                    {...props}
+                    className={className}
+                >
+                    {children}
+                </div>
+            </Floater.FloatingNode>
         </DialogPrimitiveContext.Provider>
+    );
+});
+
+DialogPrimitiveRootInner.displayName = `${COMPONENT_NAME}Inner`;
+
+const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>((props, ref) => {
+    const floatingTree = Floater.useFloatingTree();
+
+    if (floatingTree) {
+        return <DialogPrimitiveRootInner ref={ref} {...props} />;
+    }
+
+    return (
+        <Floater.FloatingTree>
+            <DialogPrimitiveRootInner ref={ref} {...props} />
+        </Floater.FloatingTree>
     );
 });
 

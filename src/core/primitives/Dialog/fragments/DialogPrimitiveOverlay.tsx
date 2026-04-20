@@ -5,17 +5,16 @@ import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 
 import { RemoveScroll } from 'react-remove-scroll';
 
-type DialogPrimitiveOverlayProps = {
-    className?: string;
+export type DialogPrimitiveOverlayProps = React.ComponentPropsWithoutRef<typeof Floater.Overlay> & {
     asChild?: boolean;
     forceMount?: boolean;
-    children?: React.ReactNode;
-}
+};
 
 const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlayProps>(({
     asChild = false,
     forceMount = false,
     children,
+    onClick,
     ...props
 }, ref) => {
     const { isOpen, handleOverlayClick, refs } = useContext(DialogPrimitiveContext);
@@ -30,7 +29,15 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
                 <RemoveScroll enabled={isOpen} shards={floatingElement ? [floatingElement] : []}>
                     <Floater.Overlay
                         ref={ref}
-                        onClick={handleOverlayClick}
+                        onClick={(event) => {
+                            onClick?.(event);
+
+                            if (event.defaultPrevented) {
+                                return;
+                            }
+
+                            handleOverlayClick();
+                        }}
                         data-state={dataState}
                         {...props}
                     >

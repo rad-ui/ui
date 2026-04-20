@@ -9,8 +9,10 @@ type DialogPrimitiveContextType = {
   getReferenceProps: () => any;
   getFloatingProps: () => any;
   refs: {
-    setReference: React.RefCallback<HTMLElement> | (() => void);
-    setFloating: React.RefCallback<HTMLElement> | (() => void);
+    setReference: React.RefCallback<any> | (() => void);
+    setFloating: React.RefCallback<any> | (() => void);
+    reference?: { current?: any };
+    floating?: { current?: any };
   };
   floatingStyles: React.CSSProperties;
   floaterContext?: any
@@ -25,7 +27,9 @@ export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>(
     getFloatingProps: () => {},
     refs: {
         setReference: () => {},
-        setFloating: () => {}
+        setFloating: () => {},
+        reference: { current: null },
+        floating: { current: null }
     },
     floatingStyles: {
         position: 'absolute'
