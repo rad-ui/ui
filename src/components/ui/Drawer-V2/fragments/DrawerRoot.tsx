@@ -205,6 +205,7 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
                 open={isOpen}
                 onOpenChange={handleOpenChange}
                 className={clsx(rootClass, className)}
+                disablePointerDismissal={disablePointerDismissal}
             >
                 <DrawerContext.Provider value={contextValue}>
                     {children}
