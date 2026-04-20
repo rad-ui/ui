@@ -13,6 +13,9 @@ export type DialogContentProps = DialogPrimitiveContentProps & {
 
 const DialogContent = forwardRef<DialogContentElement, DialogContentProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DialogContext);
+
+    // TODO: forceMount flows through to DialogPrimitive.Content, which currently
+    // prevents automatic focus return on close because the focus manager stays mounted.
     return (
         <DialogPrimitive.Content ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>
             {children}

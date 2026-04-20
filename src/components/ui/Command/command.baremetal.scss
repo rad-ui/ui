@@ -1,0 +1,7 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-command) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-command-input) { @include baremetal.input-like; }
+#{baremetal.$theme-root} :where(.rad-ui-command-item) { @include baremetal.option-item; }
+#{baremetal.$theme-root} :where(.rad-ui-command-dialog-content) { @include baremetal.surface; }
