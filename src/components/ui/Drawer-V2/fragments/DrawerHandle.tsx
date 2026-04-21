@@ -111,7 +111,6 @@ const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>(({
 
         if (offsetRef.current >= closeThreshold) {
             markIntentionalClose();
-            // Let the drawer's own close animation take over — clear our inline transform
             const el = getContentEl();
             if (el) { el.style.transition = ''; el.style.transform = ''; }
             handleOpenChange(false);
@@ -119,6 +118,14 @@ const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>(({
             snapBack();
         }
     }, [closeThreshold, markIntentionalClose, handleOpenChange, snapBack, getContentEl]);
+
+    // Browser interrupted the gesture — never treat as intentional close
+    const onPointerCancel = useCallback(() => {
+        if (!dragRef.current) return;
+        dragRef.current = null;
+        offsetRef.current = 0;
+        snapBack();
+    }, [snapBack]);
 
     // Clean up inline styles if the drawer closes externally while dragging
     useEffect(() => {
@@ -137,7 +144,7 @@ const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>(({
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
-            onPointerCancel={onPointerUp}
+            onPointerCancel={onPointerCancel}
             onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();

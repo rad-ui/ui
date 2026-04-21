@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { DrawerContext } from '../context/DrawerContext';
 import { DialogPrimitiveContext } from '~/core/primitives/Dialog/context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
-import { RemoveScroll } from 'react-remove-scroll';
 
 type DrawerOverlayElement = React.ElementRef<'div'>;
 
@@ -59,8 +58,8 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
     const lockScroll = modal === true;
 
     return (
-        <RemoveScroll enabled={isOpen && lockScroll}>
             <Floater.Overlay
+                lockScroll={isOpen && lockScroll}
                 ref={ref}
                 onClick={handleClick}
                 data-state={dataState}
@@ -69,7 +68,6 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
                 className={clsx(rootClass && `${rootClass}-overlay`, className)}
                 {...props}
             />
-        </RemoveScroll>
     );
 });
 
