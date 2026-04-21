@@ -4,11 +4,13 @@ const data = {
     columns: [
         { name: "Prop", id: "prop" },
         { name: "Type", id: "type" },
-        { name: "Default", id: "default" }
+        { name: "Default", id: "default" },
+        { name: "Description", id: "description" }
     ],
     data: [
-        { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' },
-        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
+        { prop: "truncate", type: "boolean", default: "false", description: "Truncates overflowing text with an ellipsis. Sets data-quote-truncate on the element." },
+        { prop: "customRootClass", type: "string", default: '""', description: "Overrides the Theme classNamespace for this component only." },
+        { prop: "className", type: "string", default: '""', description: "Additional CSS classes applied to the element." }
     ]
 }
 

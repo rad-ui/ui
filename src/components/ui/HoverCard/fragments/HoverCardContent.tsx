@@ -2,11 +2,14 @@ import React, { useContext, useEffect, forwardRef, ElementRef, ComponentPropsWit
 import clsx from 'clsx';
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
+import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 
 export type HoverCardContentElement = ElementRef<'div'>;
-export type HoverCardContentProps = ComponentPropsWithoutRef<'div'>;
+export type HoverCardContentProps = ComponentPropsWithoutRef<'div'> & {
+    size?: string;
+};
 
-const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentProps>(({ children, className, ...props }, ref) => {
+const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentProps>(({ children, className, size = '', ...props }, ref) => {
     const {
         isOpen,
         floatingRefs,
@@ -28,6 +31,8 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     }, [closeWithoutDelay]);
 
     const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, ref]);
+    const dataAttributes = createDataAttributes('hover-card', { size });
+
     if (!isOpen) return null;
 
     return <div
@@ -36,6 +41,7 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         className={clsx(rootClass, className)}
         ref={mergedRef}
         style={floatingStyles}
+        {...dataAttributes}
         {...props}
         {...getFloatingProps()}>{children}</div>;
 });

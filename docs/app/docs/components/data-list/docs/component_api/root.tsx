@@ -1,14 +1,16 @@
 const data = {
     name: "Root",
-    description: "The root DataList container.",
+    description: "The root DataList container. Wraps all items and controls the size of the list.",
     columns: [
         { name: "Prop", id: "prop" },
         { name: "Type", id: "type" },
-        { name: "Default", id: "default" }
+        { name: "Default", id: "default" },
+        { name: "Description", id: "description" }
     ],
     data: [
-        { prop: { name: "orientation", info_tooltips: "Layout direction of label/value pairs." }, type: "enum", enum_values: ["horizontal", "vertical"], default: "horizontal" },
-        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
+        { prop: "size", type: "string", default: '""', description: "Controls font size and row gap. One of: small, medium, large." },
+        { prop: "customRootClass", type: "string", default: '""', description: "Overrides the Theme classNamespace for this component only." },
+        { prop: "className", type: "string", default: '""', description: "Additional CSS classes applied to the root element." }
     ]
 }
 
