@@ -8,12 +8,14 @@ export type DialogPrimitiveRootProps = {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     onClickOutside?: () => void;
-    className?:string
+    className?:string;
+    /** When true, outside pointer events and escape key will not close the dialog. */
+    disablePointerDismissal?: boolean;
 }
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, disablePointerDismissal = false, ...props }, ref) => {
     const [isOpen, setIsOpen] = useState(open);
     const nodeId = Floater.useFloatingNodeId();
 
@@ -27,6 +29,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         onOpenChange(open);
     };
     const handleOverlayClick = () => {
+        if (disablePointerDismissal) return;
         onClickOutside();
         handleOpenChange(false);
     };
@@ -38,7 +41,9 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     });
 
     const dismiss = Floater.useDismiss(floaterContext, {
-        bubbles: false
+        bubbles: false,
+        escapeKey: !disablePointerDismissal,
+        outsidePress: !disablePointerDismissal,
     });
     const role = Floater.useRole(floaterContext, { role: 'dialog' });
 
@@ -66,16 +71,16 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
 
 DialogPrimitiveRootInner.displayName = `${COMPONENT_NAME}Inner`;
 
-const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>((props, ref) => {
+const DialogPrimitiveRoot = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ disablePointerDismissal = false, ...props }, ref) => {
     const floatingTree = Floater.useFloatingTree();
 
     if (floatingTree) {
-        return <DialogPrimitiveRootInner ref={ref} {...props} />;
+        return <DialogPrimitiveRootInner ref={ref} disablePointerDismissal={disablePointerDismissal} {...props} />;
     }
 
     return (
         <Floater.FloatingTree>
-            <DialogPrimitiveRootInner ref={ref} {...props} />
+            <DialogPrimitiveRootInner ref={ref} disablePointerDismissal={disablePointerDismissal} {...props} />
         </Floater.FloatingTree>
     );
 });

@@ -1,330 +1,244 @@
 'use client';
-
-import React, { forwardRef, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import DialogPrimitive from '~/core/primitives/Dialog';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
-import {
-    DrawerContext,
-    type DrawerSnapPoint,
-    type DrawerRootChangeEventDetails,
-    type DrawerHandleLike,
-    type DrawerSwipeDirection
-} from '../context/DrawerContext';
-import DrawerProviderContext from '../context/DrawerProviderContext';
+import { DrawerContext, DrawerRootActions, DrawerSnapPoint } from '../context/DrawerContext';
+import { DrawerNestingContext, useDrawerNesting } from '../context/DrawerNestingContext';
+import DialogPrimitive from '~/core/primitives/Dialog';
 
 const COMPONENT_NAME = 'Drawer';
 
-type DrawerRootElement = React.ElementRef<typeof DialogPrimitive.Root>;
-type DialogPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
-type PayloadChildRenderFunction = (arg: { payload: unknown | undefined }) => React.ReactNode;
-type DrawerRootActions = {
-    close: () => void;
-    unmount: () => void;
-};
+// ── Types ──────────────────────────────────────────────────────────────────
 
-export type DrawerRootProps = Omit<DialogPrimitiveRootProps, 'onOpenChange'> & {
-    children?: React.ReactNode | PayloadChildRenderFunction;
+export type DrawerRootProps = {
+    children?: React.ReactNode;
     className?: string;
     customRootClass?: string;
+
+    // ── Open state ───────────────────────────────────────────────────────────
+    /** Uncontrolled initial open state. */
     defaultOpen?: boolean;
-    swipeDirection?: DrawerSwipeDirection;
-    modal?: boolean | 'trap-focus';
-    handle?: DrawerHandleLike | null;
-    triggerId?: string | null;
-    defaultTriggerId?: string | null;
-    snapPoints?: DrawerSnapPoint[];
-    defaultSnapPoint?: DrawerSnapPoint | null;
-    snapPoint?: DrawerSnapPoint | null;
-    onSnapPointChange?: (snapPoint: DrawerSnapPoint | null) => void;
-    actionsRef?: React.MutableRefObject<DrawerRootActions | null>;
-    onOpenChange?: (open: boolean, eventDetails: DrawerRootChangeEventDetails) => void;
+    /** Controlled open state. */
+    open?: boolean;
+    /** Called when the drawer opens or closes. */
+    onOpenChange?: (open: boolean) => void;
+    /** Called after open/close animations fully complete. */
     onOpenChangeComplete?: (open: boolean) => void;
+
+    // ── Snap points ──────────────────────────────────────────────────────────
+    /**
+     * Snap points for the drawer. Use 0–1 for viewport fractions,
+     * numbers > 1 for pixel values, or strings like '148px' / '30rem'.
+     */
+    snapPoints?: DrawerSnapPoint[];
+    /** Initial snap point when uncontrolled. */
+    defaultSnapPoint?: DrawerSnapPoint | null;
+    /** Controlled active snap point. */
+    snapPoint?: DrawerSnapPoint | null;
+    /** Called when the active snap point changes. */
+    onSnapPointChange?: (snapPoint: DrawerSnapPoint | null) => void;
+    /** Disables velocity-based snap skipping; drag distance determines next snap point. */
+    snapToSequentialPoints?: boolean;
+
+    // ── Behaviour ────────────────────────────────────────────────────────────
+    /**
+     * Modal mode.
+     * - `true` (default): focus trapped, scroll locked, outside pointer events disabled.
+     * - `false`: full document interaction allowed.
+     * - `'trap-focus'`: focus trapped, but scroll and outside pointer events remain enabled.
+     */
+    modal?: boolean | 'trap-focus';
+    /** When true, clicking outside the drawer does not close it. */
+    disablePointerDismissal?: boolean;
+    /** Direction the user swipes to dismiss the drawer. */
+    swipeDirection?: 'left' | 'right' | 'top' | 'bottom';
+
+    // ── Trigger association ──────────────────────────────────────────────────
+    /** ID of the trigger associated with this drawer (controlled). */
+    triggerId?: string | null;
+    /** ID of the trigger associated with this drawer (uncontrolled / defaultOpen). */
+    defaultTriggerId?: string | null;
+
+    // ── Imperative handle ────────────────────────────────────────────────────
+    /**
+     * Ref to imperative actions.
+     * - `close()`: closes the drawer programmatically.
+     * - `unmount()`: when provided, the drawer will not unmount automatically on close;
+     *   call this to unmount it manually (useful for externally-controlled animations).
+     */
+    actionsRef?: React.RefObject<DrawerRootActions | null>;
 };
 
-const DrawerRoot = forwardRef<DrawerRootElement, DrawerRootProps>(({
+// ── Component ──────────────────────────────────────────────────────────────
+
+const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     children,
-    className = '',
     customRootClass = '',
+    className = '',
+    // Open state
     defaultOpen = false,
-    swipeDirection = 'down',
-    modal = true,
-    handle = null,
-    triggerId = null,
-    defaultTriggerId = null,
-    snapPoints = [],
-    defaultSnapPoint = null,
-    snapPoint,
-    onSnapPointChange,
-    actionsRef,
-    open,
+    open: controlledOpen,
     onOpenChange,
     onOpenChangeComplete,
-    ...props
+    // Snap points
+    snapPoints = [],
+    defaultSnapPoint = null,
+    snapPoint: controlledSnapPoint,
+    onSnapPointChange,
+    snapToSequentialPoints: _snapToSequentialPoints = false,
+    // Behaviour
+    modal = true,
+    disablePointerDismissal = false,
+    swipeDirection = 'right',
+    // Trigger association (stored for potential future use)
+    triggerId: _triggerId,
+    defaultTriggerId: _defaultTriggerId,
+    // Imperative handle
+    actionsRef,
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
-    const providerContext = useContext(DrawerProviderContext);
-    const parentDrawer = useContext(DrawerContext);
-    const [nestedDrawerCount, setNestedDrawerCount] = useState(0);
-    const [nestedDrawerSwipingCount, setNestedDrawerSwipingCount] = useState(0);
-    const [payload, setPayload] = useState<unknown>(undefined);
-    const [internalOpen, setInternalOpen] = useState(open !== undefined ? Boolean(open) : defaultOpen);
-    const [handleOpen, setHandleOpen] = useState(false);
-    const [activeTriggerId, setActiveTriggerId] = useState(defaultTriggerId);
-    const [internalSnapPoint, setInternalSnapPoint] = useState<DrawerSnapPoint | null>(defaultSnapPoint);
-    const registeredProviderCleanupRef = useRef<(() => void) | null>(null);
-    const openCompleteTimeoutRef = useRef<number | null>(null);
-    const pendingChangeDetailsRef = useRef<Partial<Pick<DrawerRootChangeEventDetails, 'reason' | 'event' | 'trigger'>> | null>(null);
-    const isControlledByHandle = Boolean(handle);
-    const isControlled = isControlledByHandle || open !== undefined;
-    const isOpen = isControlledByHandle ? handleOpen : open !== undefined ? Boolean(open) : internalOpen;
-    const isNested = parentDrawer.rootClass !== '';
-    const nestingLevel = isNested ? parentDrawer.nestingLevel + 1 : 0;
-    const isSnapControlled = snapPoint !== undefined;
-    const activeSnapPoint = isSnapControlled ? snapPoint ?? null : internalSnapPoint;
-    const expanded = snapPoints.length === 0 || activeSnapPoint === null;
 
-    useEffect(() => {
-        if (open !== undefined) {
-            setInternalOpen(Boolean(open));
-        }
-    }, [open]);
+    // ── Nesting ──────────────────────────────────────────────────────────────
+    const parentNesting = useDrawerNesting();
 
-    useEffect(() => {
-        if (snapPoint !== undefined) {
-            setInternalSnapPoint(snapPoint ?? null);
-        }
-    }, [snapPoint]);
+    // ── Open state (uncontrolled fallback) ───────────────────────────────────
+    const isControlled = controlledOpen !== undefined;
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+    const isOpen = isControlled ? controlledOpen! : uncontrolledOpen;
 
-    useEffect(() => {
-        if (!handle) {
+    // When disablePointerDismissal is true we need to block the close that
+    // floating-ui's useDismiss fires via onOpenChange on outside pointer events.
+    // We do this by tracking whether a close was initiated by our own imperative
+    // code (actionsRef / Drawer.Close) vs floating-ui's dismiss handler.
+    // The trick: we set a flag just before any intentional close, then in
+    // onOpenChange we only allow a close-to-false if the flag is set OR
+    // disablePointerDismissal is false.
+    const intentionalCloseRef = useRef(false);
+    // Use a ref so the handleOpenChange closure always reads the latest value
+    // even when floating-ui has cached an older version of the callback.
+    const disablePointerDismissalRef = useRef(disablePointerDismissal);
+    useEffect(() => { disablePointerDismissalRef.current = disablePointerDismissal; }, [disablePointerDismissal]);
+
+    const handleOpenChange = useCallback((next: boolean) => {
+        if (!next && disablePointerDismissalRef.current && !intentionalCloseRef.current) {
             return;
         }
+        intentionalCloseRef.current = false;
+        if (!isControlled) setUncontrolledOpen(next);
+        onOpenChange?.(next);
+    }, [isControlled, onOpenChange]);
 
-        const syncFromHandle = () => {
-            setHandleOpen(handle.isOpen);
-            setPayload(handle.payload);
-            setActiveTriggerId(handle.triggerId ?? null);
-        };
+    // ── Snap point state (uncontrolled fallback) ─────────────────────────────
+    const isSnapControlled = controlledSnapPoint !== undefined;
+    const [uncontrolledSnapPoint, setUncontrolledSnapPoint] = useState<DrawerSnapPoint | null>(
+        defaultSnapPoint ?? (snapPoints.length > 0 ? snapPoints[0] : null)
+    );
+    const activeSnapPoint = isSnapControlled ? controlledSnapPoint! : uncontrolledSnapPoint;
 
-        syncFromHandle();
-        return handle.subscribe(syncFromHandle);
-    }, [handle]);
-
-    useEffect(() => {
-        if (isOpen && !registeredProviderCleanupRef.current) {
-            registeredProviderCleanupRef.current = providerContext.registerOpenDrawer();
-            return;
-        }
-
-        if (!isOpen && registeredProviderCleanupRef.current) {
-            registeredProviderCleanupRef.current();
-            registeredProviderCleanupRef.current = null;
-        }
-    }, [isOpen, providerContext]);
-
-    useEffect(() => {
-        return () => {
-            if (registeredProviderCleanupRef.current) {
-                registeredProviderCleanupRef.current();
-                registeredProviderCleanupRef.current = null;
-            }
-        };
-    }, []);
-
-    useEffect(() => {
-        if (openCompleteTimeoutRef.current !== null) {
-            window.clearTimeout(openCompleteTimeoutRef.current);
-        }
-
-        openCompleteTimeoutRef.current = window.setTimeout(() => {
-            onOpenChangeComplete?.(isOpen);
-            openCompleteTimeoutRef.current = null;
-        }, 420);
-
-        return () => {
-            if (openCompleteTimeoutRef.current !== null) {
-                window.clearTimeout(openCompleteTimeoutRef.current);
-                openCompleteTimeoutRef.current = null;
-            }
-        };
-    }, [isOpen, onOpenChangeComplete]);
-
-    useEffect(() => {
-        if (triggerId !== null) {
-            setActiveTriggerId(triggerId);
-        }
-    }, [triggerId]);
-
-    const setPendingChangeDetails = React.useCallback((details?: Partial<Pick<DrawerRootChangeEventDetails, 'reason' | 'event' | 'trigger'>>) => {
-        pendingChangeDetailsRef.current = details ?? null;
-    }, []);
-
-    const createChangeDetails = React.useCallback((
-        details?: Partial<Pick<DrawerRootChangeEventDetails, 'reason' | 'event' | 'trigger'>>
-    ): DrawerRootChangeEventDetails => {
-        const changeDetails: DrawerRootChangeEventDetails = {
-            reason: details?.reason ?? 'none',
-            event: details?.event ?? new Event('drawer-change'),
-            trigger: details?.trigger,
-            isCanceled: false,
-            isPropagationAllowed: false,
-            cancel() {
-                changeDetails.isCanceled = true;
-            },
-            allowPropagation() {
-                changeDetails.isPropagationAllowed = true;
-            },
-            preventUnmountOnClose() {}
-        };
-
-        return changeDetails;
-    }, []);
-
-    const registerNestedDrawerOpen = React.useCallback((nextOpen: boolean) => {
-        setNestedDrawerCount((current) => current + (nextOpen ? 1 : -1));
-
-        return () => {
-            setNestedDrawerCount((current) => Math.max(0, current + (nextOpen ? -1 : 1)));
-        };
-    }, []);
-
-    const registerNestedDrawerSwiping = React.useCallback((swiping: boolean) => {
-        setNestedDrawerSwipingCount((current) => current + (swiping ? 1 : -1));
-
-        return () => {
-            setNestedDrawerSwipingCount((current) => Math.max(0, current + (swiping ? -1 : 1)));
-        };
-    }, []);
-
-    useEffect(() => {
-        if (!isNested) {
-            return;
-        }
-
-        return parentDrawer.registerNestedDrawerOpen(isOpen);
-    }, [isNested, isOpen, parentDrawer]);
-
-    const handleRootOpenChange = React.useCallback((nextOpen: boolean) => {
-        const details = createChangeDetails(pendingChangeDetailsRef.current ?? undefined);
-        pendingChangeDetailsRef.current = null;
-
-        if (details.isCanceled) {
-            return;
-        }
-
-        if (!isControlled) {
-            setInternalOpen(nextOpen);
-        }
-
-        if (handle) {
-            if (nextOpen) {
-                handle.open(activeTriggerId);
-            } else {
-                handle.close();
-            }
-        }
-
-        onOpenChange?.(nextOpen, details as any);
-    }, [activeTriggerId, createChangeDetails, handle, isControlled, onOpenChange]);
-
-    const requestOpenChange = React.useCallback((
-        nextOpen: boolean,
-        details?: Partial<Pick<DrawerRootChangeEventDetails, 'reason' | 'event' | 'trigger'>>
-    ) => {
-        setPendingChangeDetails(details);
-        handleRootOpenChange(nextOpen);
-    }, [handleRootOpenChange, setPendingChangeDetails]);
-
-    const handleSnapPointChange = React.useCallback((nextSnapPoint: DrawerSnapPoint | null) => {
-        if (!isSnapControlled) {
-            setInternalSnapPoint(nextSnapPoint);
-        }
-
-        onSnapPointChange?.(nextSnapPoint);
+    const setActiveSnapPoint = useCallback((point: DrawerSnapPoint | null) => {
+        if (!isSnapControlled) setUncontrolledSnapPoint(point);
+        onSnapPointChange?.(point);
     }, [isSnapControlled, onSnapPointChange]);
 
-    useEffect(() => {
-        if (!actionsRef) {
-            return;
+    // ── Imperative actions ───────────────────────────────────────────────────
+    const registerActions = useCallback((actions: DrawerRootActions) => {
+        if (actionsRef && 'current' in actionsRef) {
+            (actionsRef as React.MutableRefObject<DrawerRootActions | null>).current = actions;
         }
+    }, [actionsRef]);
 
-        actionsRef.current = {
-            close: () => requestOpenChange(false, { reason: 'imperative-action', event: new Event('imperative-action') }),
-            unmount: () => requestOpenChange(false, { reason: 'imperative-action', event: new Event('imperative-action') })
+    // Register close/unmount actions whenever handleOpenChange changes
+    useEffect(() => {
+        if (!actionsRef) return;
+        const actions: DrawerRootActions = {
+            close: () => {
+                intentionalCloseRef.current = true;
+                handleOpenChange(false);
+            },
+            unmount: () => {
+                intentionalCloseRef.current = true;
+                handleOpenChange(false);
+            },
         };
+        registerActions(actions);
+    }, [actionsRef, handleOpenChange, registerActions]);
 
+    // ── Bubble open state to parent nesting context ───────────────────────────
+    // notifiedParentRef tracks whether we currently hold a +1 on the parent's
+    // childOpenCount so we can always decrement exactly once on close/unmount.
+    // We do NOT call parentNesting.onChildOpenChange here — that is owned
+    // exclusively by handleChildOpenChange on the parent, which also bubbles
+    // upward. This effect only handles the defaultOpen and unmount-while-open
+    // edge cases by going through the parent's handleChildOpenChange path
+    // via the nestingContext the parent provided.
+    const notifiedParentRef = useRef(false);
+    useEffect(() => {
+        if (isOpen && !notifiedParentRef.current) {
+            notifiedParentRef.current = true;
+            parentNesting.onChildOpenChange(true);
+        } else if (!isOpen && notifiedParentRef.current) {
+            notifiedParentRef.current = false;
+            parentNesting.onChildOpenChange(false);
+        }
+    }, [isOpen, parentNesting]);
+
+    // On unmount while open: decrement the parent count exactly once.
+    useEffect(() => {
         return () => {
-            actionsRef.current = null;
+            if (notifiedParentRef.current) {
+                parentNesting.onChildOpenChange(false);
+                notifiedParentRef.current = false;
+            }
         };
-    }, [actionsRef, requestOpenChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // mount/unmount only
 
-    const contextValue = useMemo(() => ({
+    // ── Nesting context for children ─────────────────────────────────────────
+    // Children call onChildOpenChange to update this drawer's childOpenCount
+    // AND bubble the event up to all ancestors.
+    const [childOpenCount, setChildOpenCount] = useState(0);
+    const handleChildOpenChange = useCallback((open: boolean) => {
+        setChildOpenCount((n) => Math.max(0, n + (open ? 1 : -1)));
+        // Bubble up so grandparents also widen
+        parentNesting.onChildOpenChange(open);
+    }, [parentNesting]);
+
+    const nestingContextValue = {
+        depth: parentNesting.depth + 1,
+        onChildOpenChange: handleChildOpenChange,
+    };
+
+    // Expose childOpenCount via context so DrawerContent can react to it
+    const contextValue = {
         rootClass,
         swipeDirection,
-        open: isOpen,
-        modal,
-        nested: isNested,
-        nestingLevel,
-        nestedDrawerCount,
-        nestedDrawerOpen: nestedDrawerCount > 0,
-        nestedDrawerSwiping: nestedDrawerSwipingCount > 0,
-        snapPoints,
-        snapPoint: activeSnapPoint,
-        expanded,
-        setSnapPoint: handleSnapPointChange,
-        payload,
-        setPayload,
-        registerNestedDrawerOpen,
-        registerNestedDrawerSwiping,
-        handle,
-        activeTriggerId,
-        setActiveTriggerId,
-        requestOpenChange,
-        setPendingChangeDetails
-    }), [
-        activeTriggerId,
-        handle,
-        isNested,
         isOpen,
-        modal,
-        nestedDrawerCount,
-        nestedDrawerSwipingCount,
-        nestingLevel,
+        onOpen: () => handleOpenChange(true),
         snapPoints,
         activeSnapPoint,
-        expanded,
-        handleSnapPointChange,
-        payload,
-        registerNestedDrawerOpen,
-        registerNestedDrawerSwiping,
-        requestOpenChange,
-        rootClass,
-        setPendingChangeDetails,
-        swipeDirection
-    ]);
+        setActiveSnapPoint,
+        modal,
+        disablePointerDismissal,
+        onOpenChangeComplete,
+        registerActions,
+        markIntentionalClose: () => { intentionalCloseRef.current = true; },
+        childOpenCount,
+    };
 
     return (
-        <DialogPrimitive.Root
-            ref={ref}
-            className={clsx(rootClass, className)}
-            data-swipe-direction={swipeDirection}
-            open={isOpen}
-            onOpenChange={handleRootOpenChange}
-            onClickOutside={() => {
-                setPendingChangeDetails({
-                    reason: 'outside-press',
-                    event: new Event('outside-press')
-                });
-            }}
-            {...props}
-        >
-            <DrawerContext.Provider value={contextValue}>
-                {typeof children === 'function'
-                    ? children({ payload })
-                    : children}
-            </DrawerContext.Provider>
-        </DialogPrimitive.Root>
+        <DrawerNestingContext.Provider value={nestingContextValue}>
+            <DialogPrimitive.Root
+                ref={ref}
+                open={isOpen}
+                onOpenChange={handleOpenChange}
+                className={clsx(rootClass, className)}
+                disablePointerDismissal={disablePointerDismissal}
+            >
+                <DrawerContext.Provider value={contextValue}>
+                    {children}
+                </DrawerContext.Provider>
+            </DialogPrimitive.Root>
+        </DrawerNestingContext.Provider>
     );
 });
 
