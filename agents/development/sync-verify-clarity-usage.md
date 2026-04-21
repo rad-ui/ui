@@ -14,16 +14,19 @@ this task.
 
 ## Goal
 
-Conduct a global audit of Clarity usage across the repo. Find places where UI,
-docs examples, stories, styles, or component demos drift from the design-system
-rules, then fix the issues with minimal, intentional changes.
+Conduct an audit of Clarity usage only inside `src/`. Find places where source
+UI, component stories, source examples, component styles, or component demos
+drift from the design-system rules, then fix the issues with minimal,
+intentional changes.
 
 ## Audit Scope
 
-Search globally across the repository, including `src/`, `docs/`, `styles/`,
-stories, examples, and generated design-system token surfaces. Do not edit
-generated files directly unless the repo's token-generation workflow requires
-it.
+Search only inside `src/`.
+
+Do not audit or edit `docs/`, root-level `styles/`, generated token output, or
+any other folder outside `src/` for this task. If generated files outside `src/`
+would need updates because of a `src/` token-source change, call that out in the
+final summary instead of editing those generated files directly.
 
 Look for:
 
@@ -43,12 +46,12 @@ Look for:
   needed.
 - Direct raw-token usage in component APIs where a semantic alias should be
   exposed instead.
-- Documentation, stories, or examples that teach patterns conflicting with the
-  Clarity rules.
+- Stories, examples, or demos inside `src/` that teach patterns conflicting with
+  the Clarity rules.
 
 ## Fix Rules
 
-- Prefer semantic aliases in component APIs, docs, and examples.
+- Prefer semantic aliases in component APIs, stories, and examples inside `src/`.
 - Keep raw scale tokens as implementation details unless the surrounding code is
   explicitly documenting the scale itself.
 - Preserve existing component behavior and public APIs unless an API is clearly
