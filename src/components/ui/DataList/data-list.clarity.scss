@@ -26,4 +26,40 @@
             letter-spacing: 0.1px;
         }
     }
+
+    // Size variants
+    &[data-datalist-size="small"] {
+        gap: 10px;
+
+        .rad-ui-data-list-label,
+        .rad-ui-data-list-value {
+            font-size: var(--rad-ui-font-size-1);
+            line-height: var(--rad-ui-line-height-1);
+        }
+    }
+
+    &[data-datalist-size="medium"] {
+        gap: 16px;
+
+        .rad-ui-data-list-label,
+        .rad-ui-data-list-value {
+            font-size: var(--rad-ui-font-size-2);
+            line-height: var(--rad-ui-line-height-2);
+        }
+    }
+
+    &[data-datalist-size="large"] {
+        gap: 20px;
+
+        .rad-ui-data-list-label,
+        .rad-ui-data-list-value {
+            font-size: var(--rad-ui-font-size-3);
+            line-height: var(--rad-ui-line-height-3);
+        }
+    }
+
+    // Label-level color — independent of root color
+    .rad-ui-data-list-label[data-rad-ui-accent-color] {
+        color: var(--rad-ui-color-accent-800);
+    }
 }

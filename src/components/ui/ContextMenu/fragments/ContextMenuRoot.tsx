@@ -10,8 +10,8 @@ export type ContextMenuRootProps = {
   children: React.ReactNode;
   customRootClass?: string;
   className?: string;
-  variant?: 'default' | 'soft' | 'outline';
-  size?: 'small' | 'medium' | 'large';
+  variant?: string;
+  size?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Root>;
 
 const COMPONENT_NAME = 'ContextMenu';

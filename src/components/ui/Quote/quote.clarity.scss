@@ -12,4 +12,11 @@
   &::after {
     content: close-quote;
   }
+
+  &[data-quote-truncate] {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
