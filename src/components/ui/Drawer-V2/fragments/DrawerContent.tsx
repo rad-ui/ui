@@ -42,17 +42,18 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
     const [isVisible, setIsVisible] = useState(isOpen);
     const [dataState, setDataState] = useState<'open' | 'closed'>(isOpen ? 'open' : 'closed');
     const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const openCompleteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+        if (openCompleteTimerRef.current) clearTimeout(openCompleteTimerRef.current);
 
         if (isOpen) {
             setIsVisible(true);
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     setDataState('open');
-                    // Fire onOpenChangeComplete after open animation
-                    setTimeout(() => onOpenChangeComplete?.(true), EXIT_DURATION_MS);
+                    openCompleteTimerRef.current = setTimeout(() => onOpenChangeComplete?.(true), EXIT_DURATION_MS);
                 });
             });
         } else {
@@ -65,6 +66,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
 
         return () => {
             if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+            if (openCompleteTimerRef.current) clearTimeout(openCompleteTimerRef.current);
         };
     }, [isOpen, onOpenChangeComplete]);
 

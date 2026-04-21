@@ -158,7 +158,7 @@ export const DisablePointerDismissal: Story = {
                 <Drawer.Content>
                     <Drawer.Title>Pointer Dismissal Disabled</Drawer.Title>
                     <Drawer.Description>
-                        Clicking outside or on the overlay does nothing. Use the close button or Escape.
+                        Clicking outside or on the overlay does nothing , Even escape doesnt do anything. Use the close btn.
                     </Drawer.Description>
                     <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                 </Drawer.Content>
@@ -298,7 +298,52 @@ export const SnapPoints: Story = {
     }
 };
 
-// ── Nested drawers ─────────────────────────────────────────────────────────
+// ── Nested with handles (initially open) ──────────────────────────────────
+
+export const NestedWithHandles: Story = {
+    render: () => (
+        <Drawer.Root swipeDirection="right">
+            <Drawer.Trigger><>Open Settings</></Drawer.Trigger>
+            <Drawer.Portal>
+                <Drawer.Overlay />
+                <Drawer.Content>
+                    <Drawer.Handle />
+                    <Drawer.Title>Settings</Drawer.Title>
+                    <Drawer.Description>Manage your account and preferences.</Drawer.Description>
+                
+                        <Drawer.Root swipeDirection="right" defaultOpen>
+                            <Drawer.Trigger><>Edit Profile →</></Drawer.Trigger>
+                            <Drawer.Portal>
+                                <Drawer.Overlay />
+                                <Drawer.Content>
+                                    <Drawer.Handle />
+                                    <Drawer.Title>Edit Profile</Drawer.Title>
+                                    <Drawer.Description>Update your name and email.</Drawer.Description>
+                   
+                                        <Drawer.Root swipeDirection="right">
+                                            <Drawer.Trigger><>Security Settings →</></Drawer.Trigger>
+                                            <Drawer.Portal>
+                                                <Drawer.Overlay />
+                                                <Drawer.Content>
+                                                    <Drawer.Handle />
+                                                    <Drawer.Title>Security</Drawer.Title>
+                                                    <Drawer.Description>Change your password and 2FA.</Drawer.Description>
+                                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                                </Drawer.Content>
+                                            </Drawer.Portal>
+                                        </Drawer.Root>
+                               
+                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                </Drawer.Content>
+                            </Drawer.Portal>
+                        </Drawer.Root>
+
+                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                </Drawer.Content>
+            </Drawer.Portal>
+        </Drawer.Root>
+    )
+};
 
 const innerPad: React.CSSProperties = { padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' };
 

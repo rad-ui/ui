@@ -126,9 +126,7 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
         intentionalCloseRef.current = false;
         if (!isControlled) setUncontrolledOpen(next);
         onOpenChange?.(next);
-        // Notify parent drawer that a child opened/closed
-        parentNesting.onChildOpenChange(next);
-    }, [isControlled, onOpenChange, parentNesting]);
+    }, [isControlled, onOpenChange]);
 
     // ── Snap point state (uncontrolled fallback) ─────────────────────────────
     const isSnapControlled = controlledSnapPoint !== undefined;
@@ -165,16 +163,43 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
         registerActions(actions);
     }, [actionsRef, handleOpenChange, registerActions]);
 
-    // ── onOpenChangeComplete ─────────────────────────────────────────────────
-    // Fired after the exit/enter animation finishes. DrawerContent/Overlay
-    // call this via context once their animation timer completes.
+    // ── Bubble open state to parent nesting context ───────────────────────────
+    // notifiedParentRef tracks whether we currently hold a +1 on the parent's
+    // childOpenCount so we can always decrement exactly once on close/unmount.
+    // We do NOT call parentNesting.onChildOpenChange here — that is owned
+    // exclusively by handleChildOpenChange on the parent, which also bubbles
+    // upward. This effect only handles the defaultOpen and unmount-while-open
+    // edge cases by going through the parent's handleChildOpenChange path
+    // via the nestingContext the parent provided.
+    const notifiedParentRef = useRef(false);
+    useEffect(() => {
+        if (isOpen && !notifiedParentRef.current) {
+            notifiedParentRef.current = true;
+            parentNesting.onChildOpenChange(true);
+        } else if (!isOpen && notifiedParentRef.current) {
+            notifiedParentRef.current = false;
+            parentNesting.onChildOpenChange(false);
+        }
+    }, [isOpen, parentNesting]);
+
+    // On unmount while open: decrement the parent count exactly once.
+    useEffect(() => {
+        return () => {
+            if (notifiedParentRef.current) {
+                parentNesting.onChildOpenChange(false);
+                notifiedParentRef.current = false;
+            }
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // mount/unmount only
+
     // ── Nesting context for children ─────────────────────────────────────────
-    // Children (nested DrawerRoots) call onChildOpenChange to let DrawerContent
-    // know it should widen to peek out from behind the child drawer.
+    // Children call onChildOpenChange to update this drawer's childOpenCount
+    // AND bubble the event up to all ancestors.
     const [childOpenCount, setChildOpenCount] = useState(0);
     const handleChildOpenChange = useCallback((open: boolean) => {
         setChildOpenCount((n) => Math.max(0, n + (open ? 1 : -1)));
-        // Bubble up so all ancestors also widen
+        // Bubble up so grandparents also widen
         parentNesting.onChildOpenChange(open);
     }, [parentNesting]);
 
@@ -187,6 +212,8 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     const contextValue = {
         rootClass,
         swipeDirection,
+        isOpen,
+        onOpen: () => handleOpenChange(true),
         snapPoints,
         activeSnapPoint,
         setActiveSnapPoint,
