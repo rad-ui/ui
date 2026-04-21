@@ -1,8 +1,8 @@
 /* stylelint-disable at-rule-no-unknown */
-@use 'src/design-systems/baremetal/scope' as baremetal;
+@use "src/design-systems/baremetal/scope" as baremetal;
 
-#{baremetal.$theme-root} :where(.rad-ui-drawer-trigger, .rad-ui-drawer-close) { @include baremetal.button-like; }
-#{baremetal.$theme-root} :where(.rad-ui-drawer-popup) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-drawer-trigger) { @include baremetal.button-like; }
+#{baremetal.$theme-root} :where(.rad-ui-drawer-content) { @include baremetal.surface; padding: 1.5rem; }
 #{baremetal.$theme-root} :where(.rad-ui-drawer-title) { @include baremetal.title-text; }
 #{baremetal.$theme-root} :where(.rad-ui-drawer-description) { @include baremetal.body-text; }
-#{baremetal.$theme-root} :where(.rad-ui-drawer-backdrop) { background: rgb(255, 255, 255, 0.72); backdrop-filter: none; }
+#{baremetal.$theme-root} :where(.rad-ui-drawer-overlay) { background: rgb(255, 255, 255, 0.72); backdrop-filter: none; }

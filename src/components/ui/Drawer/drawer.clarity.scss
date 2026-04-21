@@ -1,496 +1,283 @@
 @use '../Button/button.clarity';
 
-$drawer-side-width: min(100vw - 1.5rem, 28rem);
-$drawer-sheet-width: min(100vw, 42rem);
-$drawer-sheet-radius: var(--rad-ui-radius-2xl);
+$open-duration: 500ms;
+$close-duration: 400ms;
+$open-easing: cubic-bezier(0.16, 1, 0.3, 1);
+$close-easing: cubic-bezier(0.4, 0, 1, 1);
 
-.rad-ui-drawer-trigger,
-.rad-ui-drawer-close {
-  @extend .rad-ui-button;
-}
-
-.rad-ui-drawer-provider {
-  position: relative;
-}
-
-.rad-ui-drawer-indent,
-.rad-ui-drawer-indent-background {
-  transition:
-    transform var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-    border-radius var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-    background-color var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-    filter var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
-}
-
-.rad-ui-drawer-indent {
-  transform-origin: bottom center;
-
-  &[data-active] {
-    transform: translateY(0.625rem);
-    border-radius: var(--rad-ui-radius-2xl) var(--rad-ui-radius-2xl) 0 0;
-    overflow: hidden;
-    filter: brightness(0.92);
-  }
-}
-
-.rad-ui-drawer-indent-background {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: transparent;
-
-  &[data-active] {
-    background: rgb(0, 0, 0);
-  }
-}
-
-.rad-ui-drawer-trigger {
-  position: relative;
-  isolation: isolate;
-
-  &:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px var(--rad-ui-surface-panel),
-      0 0 0 5px color-mix(in oklab, var(--rad-ui-color-gray-1000) 82%, black),
-      0 16px 32px -22px rgb(0, 0, 0, 0.72);
-  }
-}
-
-.rad-ui-drawer-backdrop {
+.rad-ui-drawer-overlay {
   position: fixed;
   inset: 0;
   z-index: var(--rad-ui-z-index-overlay);
   background-color: rgb(0, 0, 0, 0.56);
-  backdrop-filter: blur(var(--rad-ui-blur-md));
+  backdrop-filter: blur(var(--rad-ui-blur-lg));
+  overflow: hidden;
   transition:
-    opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-    visibility var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
+    opacity    $close-duration $close-easing,
+    visibility $close-duration $close-easing;
 
-  &[data-state='open'] {
+  &[data-state="open"] {
     opacity: 1;
     visibility: visible;
+    transition:
+      opacity    $open-duration $open-easing,
+      visibility $open-duration $open-easing;
   }
 
-  &[data-state='closed'] {
+  &[data-state="closed"] {
     opacity: 0;
     visibility: hidden;
   }
 }
 
-.rad-ui-drawer-swipe-area {
-  position: fixed;
-  z-index: calc(var(--rad-ui-z-index-overlay) - 1);
-  pointer-events: auto;
-
-  &[data-swipe-direction='up'],
-  &[data-swipe-direction='down'] {
-    left: 0;
-    width: 100vw;
-    height: 1.5rem;
-  }
-
-  &[data-swipe-direction='up'] {
-    bottom: 0;
-  }
-
-  &[data-swipe-direction='down'] {
-    top: 0;
-  }
-
-  &[data-swipe-direction='left'],
-  &[data-swipe-direction='right'] {
-    top: 0;
-    width: 1.5rem;
-    height: 100vh;
-  }
-
-  &[data-swipe-direction='left'] {
-    right: 0;
-  }
-
-  &[data-swipe-direction='right'] {
-    left: 0;
-  }
+.rad-ui-drawer-trigger {
+  @extend .rad-ui-button;
 }
 
-.rad-ui-drawer-viewport {
+.rad-ui-drawer-content {
   position: fixed;
-  inset: 0;
   z-index: var(--rad-ui-z-index-portal);
-  display: flex;
-  pointer-events: none;
-  padding: 0.75rem;
-
-  &[data-swipe-direction='down'] {
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  &[data-swipe-direction='up'] {
-    align-items: flex-start;
-    justify-content: center;
-  }
-
-  &[data-swipe-direction='left'] {
-    align-items: stretch;
-    justify-content: flex-start;
-  }
-
-  &[data-swipe-direction='right'] {
-    align-items: stretch;
-    justify-content: flex-end;
-  }
-}
-
-.rad-ui-drawer-popup {
-  --rad-ui-drawer-drag-offset: 0px;
-  --rad-ui-drawer-drag-progress: 0;
-  --rad-ui-drawer-drag-stretch: 0px;
-  --rad-ui-drawer-drag-stretch-scale: 0;
-  --drawer-snap-point-offset: 0px;
-  --rad-ui-drawer-nesting-level: 0;
-  --rad-ui-drawer-nested-drawer-count: 0;
-  --rad-ui-drawer-stack-peek: 1.125rem;
-  --rad-ui-drawer-stack-side-peek: 1rem;
-  --rad-ui-drawer-stack-scale-step: 0.0225;
-  --rad-ui-drawer-stack-scale:
-    calc(1 - (var(--rad-ui-drawer-stack-scale-step) * var(--rad-ui-drawer-nested-drawer-count)));
-  --rad-ui-drawer-stack-shift-y:
-    calc(var(--rad-ui-drawer-stack-peek) * var(--rad-ui-drawer-nested-drawer-count));
-  --rad-ui-drawer-stack-shift-x:
-    calc(var(--rad-ui-drawer-stack-side-peek) * var(--rad-ui-drawer-nested-drawer-count));
-
-  pointer-events: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
   border: 1px solid var(--rad-ui-border-soft);
   box-shadow: var(--rad-ui-elevation-lg-shadow);
-  transition:
-    opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-    visibility var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-    transform var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
-
-  &[data-dragging='true'] {
-    transition: none;
-  }
-
-  &[data-drag-settling='stretch'][data-swipe-direction='down'] {
-    transition:
-      opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-      visibility var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-      transform 420ms cubic-bezier(0.22, 1.24, 0.32, 1);
-  }
-
-  &[data-drag-settling='stretch'][data-swipe-direction='up'],
-  &[data-drag-settling='stretch'][data-swipe-direction='left'],
-  &[data-drag-settling='stretch'][data-swipe-direction='right'] {
-    transition:
-      opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-      visibility var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
-      transform 420ms cubic-bezier(0.22, 1.24, 0.32, 1);
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &[data-swipe-direction='down'],
-  &[data-swipe-direction='up'] {
-    width: 100%;
-    max-width: 100%;
-    max-height: min(85vh, 48rem);
-  }
-
-  &[data-swipe-direction='left'],
-  &[data-swipe-direction='right'] {
-    width: $drawer-side-width;
-    height: 100%;
-    max-height: 100%;
-  }
-
-  &[data-swipe-direction='down'] {
-    border-radius: $drawer-sheet-radius $drawer-sheet-radius 0 0;
-    transform-origin: bottom center;
-    will-change: transform;
-
-    &[data-state='open'] {
-      transform:
-        translateY(calc(var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset) - var(--rad-ui-drawer-stack-shift-y)))
-        scaleX(var(--rad-ui-drawer-stack-scale))
-        scaleY(calc(var(--rad-ui-drawer-stack-scale) + var(--rad-ui-drawer-drag-stretch-scale)));
-    }
-
-    &[data-state='closed'] {
-      transform: translateY(calc(100% + var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset)));
-    }
-  }
-
-  &[data-drag-stretching='true'][data-swipe-direction='down'] {
-    box-shadow:
-      var(--rad-ui-elevation-lg-shadow),
-      0 calc(var(--rad-ui-drawer-drag-stretch) * -0.12) calc(var(--rad-ui-drawer-drag-stretch) * 0.3)
-        color-mix(in oklab, var(--rad-ui-color-accent-500) 12%, transparent);
-  }
-
-  &[data-swipe-direction='up'] {
-    border-radius: 0 0 $drawer-sheet-radius $drawer-sheet-radius;
-    transform-origin: top center;
-    will-change: transform;
-
-    &[data-state='open'] {
-      transform:
-        translateY(calc((var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset)) * -1 + var(--rad-ui-drawer-stack-shift-y)))
-        scaleX(var(--rad-ui-drawer-stack-scale))
-        scaleY(calc(var(--rad-ui-drawer-stack-scale) + var(--rad-ui-drawer-drag-stretch-scale)));
-    }
-
-    &[data-state='closed'] {
-      transform: translateY(calc((100% + var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset)) * -1));
-    }
-  }
-
-  &[data-drag-stretching='true'][data-swipe-direction='up'] {
-    box-shadow:
-      var(--rad-ui-elevation-lg-shadow),
-      0 calc(var(--rad-ui-drawer-drag-stretch) * 0.12) calc(var(--rad-ui-drawer-drag-stretch) * 0.3)
-        color-mix(in oklab, var(--rad-ui-color-accent-500) 12%, transparent);
-  }
-
-  &[data-swipe-direction='left'] {
-    border-radius: 0 $drawer-sheet-radius $drawer-sheet-radius 0;
-    transform-origin: left center;
-    will-change: transform;
-
-    &[data-state='open'] {
-      transform:
-        translateX(calc((var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset)) * -1 + var(--rad-ui-drawer-stack-shift-x)))
-        scaleX(calc(var(--rad-ui-drawer-stack-scale) + var(--rad-ui-drawer-drag-stretch-scale)))
-        scaleY(var(--rad-ui-drawer-stack-scale));
-    }
-
-    &[data-state='closed'] {
-      transform: translateX(calc((100% + var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset)) * -1));
-    }
-  }
-
-  &[data-drag-stretching='true'][data-swipe-direction='left'] {
-    box-shadow:
-      var(--rad-ui-elevation-lg-shadow),
-      calc(var(--rad-ui-drawer-drag-stretch) * 0.12) 0 calc(var(--rad-ui-drawer-drag-stretch) * 0.3)
-        color-mix(in oklab, var(--rad-ui-color-accent-500) 12%, transparent);
-  }
-
-  &[data-swipe-direction='right'] {
-    border-radius: $drawer-sheet-radius 0 0 $drawer-sheet-radius;
-    transform-origin: right center;
-    will-change: transform;
-
-    &[data-state='open'] {
-      transform:
-        translateX(calc(var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset) - var(--rad-ui-drawer-stack-shift-x)))
-        scaleX(calc(var(--rad-ui-drawer-stack-scale) + var(--rad-ui-drawer-drag-stretch-scale)))
-        scaleY(var(--rad-ui-drawer-stack-scale));
-    }
-
-    &[data-state='closed'] {
-      transform: translateX(calc(100% + var(--drawer-snap-point-offset) + var(--rad-ui-drawer-drag-offset)));
-    }
-  }
-
-  &[data-drag-stretching='true'][data-swipe-direction='right'] {
-    box-shadow:
-      var(--rad-ui-elevation-lg-shadow),
-      calc(var(--rad-ui-drawer-drag-stretch) * -0.12) 0 calc(var(--rad-ui-drawer-drag-stretch) * 0.3)
-        color-mix(in oklab, var(--rad-ui-color-accent-500) 12%, transparent);
-  }
-
-  &[data-state='open'] {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  &[data-state='closed'] {
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  &[data-nested-drawer-open] {
-    --nested-drawers: 1;
-  }
-
-  &[data-nested] {
-    box-shadow:
-      0 0 0 1px rgb(255, 255, 255, 0.04),
-      0 24px 48px -34px rgb(0, 0, 0, 0.82);
-  }
-}
-
-.rad-ui-drawer-content {
-  position: relative;
   display: flex;
-  flex: 1;
   flex-direction: column;
-  gap: 0.875rem;
-  overflow: auto;
-  padding: 1.25rem 1.125rem 1.125rem;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--rad-ui-surface-panel) 92%, white),
-      var(--rad-ui-surface-panel)
-    );
+  gap: 0;
+  overflow: visible;
+  transition:
+    opacity    $close-duration $close-easing,
+    visibility $close-duration $close-easing,
+    transform  $close-duration $close-easing;
 
-  &::before {
-    content: '';
-    display: none;
-    position: absolute;
-    top: 0.75rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2.75rem;
-    height: 0.3125rem;
-    border-radius: var(--rad-ui-radius-full);
-    background: color-mix(in oklab, var(--rad-ui-border-default) 48%, transparent);
+  &:focus { outline: none; }
+
+  // ── Side drawers ──────────────────────────────────────────────────────────
+
+  &[data-swipe-direction="left"] {
+    top: 0; left: 0; bottom: 0;
+    width: min(24rem, 85vw);
+    border-radius: 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl) 0;
+    border-left: none;
+
+    // Handle is first child → sits on the right (open) edge
+    &:has(.rad-ui-drawer-handle) { flex-direction: row-reverse; }
+
+    &[data-child-open="true"] {
+      width: calc(min(24rem, 85vw) + var(--drawer-peek-offset, 0px));
+    }
+
+    &[data-state="open"] {
+      opacity: 1; visibility: visible; transform: translateX(0);
+      transition:
+        opacity    $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing,
+        width      $open-duration $open-easing;
+    }
+    &[data-state="closed"] { opacity: 0; visibility: hidden; transform: translateX(-100%); }
   }
 
-  &::after {
-    content: '';
-    display: none;
-    position: absolute;
-    bottom: 0.75rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2.75rem;
-    height: 0.3125rem;
-    border-radius: var(--rad-ui-radius-full);
-    background: color-mix(in oklab, var(--rad-ui-border-default) 48%, transparent);
+  &[data-swipe-direction="right"] {
+    top: 0; right: 0; bottom: 0;
+    width: min(24rem, 85vw);
+    border-radius: var(--rad-ui-radius-xl) 0 0 var(--rad-ui-radius-xl);
+    border-right: none;
+
+    // Handle is first child → sits on the left (open) edge
+    &:has(.rad-ui-drawer-handle) { flex-direction: row; }
+
+    &[data-child-open="true"] {
+      width: calc(min(24rem, 85vw) + var(--drawer-peek-offset, 0px));
+    }
+
+    &[data-state="open"] {
+      opacity: 1; visibility: visible; transform: translateX(0);
+      transition:
+        opacity    $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing,
+        width      $open-duration $open-easing;
+    }
+    &[data-state="closed"] { opacity: 0; visibility: hidden; transform: translateX(100%); }
   }
 
-  &[data-swipe-direction='down'] {
-    padding-top: 1.625rem;
+  // ── Top / bottom drawers ──────────────────────────────────────────────────
+
+  &[data-swipe-direction="top"] {
+    left: 0; right: 0; top: 0;
+    height: min(24rem, 85vh);
+    border-radius: 0 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl);
+    border-top: none;
+
+    // Handle is first child → column-reverse puts it at the bottom (open edge)
+    &:has(.rad-ui-drawer-handle) { flex-direction: column-reverse; }
+
+    &[data-child-open="true"] {
+      height: calc(min(24rem, 85vh) + var(--drawer-peek-offset, 0px));
+    }
+
+    &[data-state="open"] {
+      opacity: 1; visibility: visible; transform: translateY(0);
+      transition:
+        opacity    $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing,
+        height     $open-duration $open-easing;
+    }
+    &[data-state="closed"] { opacity: 0; visibility: hidden; transform: translateY(-100%); }
   }
 
-  &[data-swipe-direction='down']::before {
-    display: block;
+  &[data-swipe-direction="bottom"] {
+    left: 0; right: 0; bottom: 0;
+    height: min(24rem, 85vh);
+    border-radius: var(--rad-ui-radius-xl) var(--rad-ui-radius-xl) 0 0;
+    border-bottom: none;
+
+    &[data-child-open="true"] {
+      height: calc(min(24rem, 85vh) + var(--drawer-peek-offset, 0px));
+    }
+
+    &[data-state="open"] {
+      opacity: 1; visibility: visible; transform: translateY(0);
+      transition:
+        opacity    $open-duration $open-easing,
+        visibility $open-duration $open-easing,
+        transform  $open-duration $open-easing,
+        height     $open-duration $open-easing;
+    }
+    &[data-state="closed"] { opacity: 0; visibility: hidden; transform: translateY(100%); }
   }
 
-  &[data-swipe-direction='up'] {
-    padding-bottom: 1.5rem;
-  }
+  // ── Handle ───────────────────────────────────────────────────────────────
+  // In-flow element — the outer content switches flex-direction per direction
+  // so the handle always lands on the open (dismissal) edge.
 
-  &[data-swipe-direction='up']::after {
-    display: block;
-  }
-
-  &[data-swipe-direction='left'] {
-    padding-right: 1.625rem;
-  }
-
-  &[data-swipe-direction='left']::after {
-    display: block;
-    inset: 50% 0.75rem auto auto;
-    width: 0.3125rem;
-    height: 2.75rem;
-    transform: translateY(-50%);
-  }
-
-  &[data-swipe-direction='right'] {
-    padding-left: 1.625rem;
-  }
-
-  &[data-swipe-direction='right']::before {
-    display: block;
-    inset: 50% auto auto 0.75rem;
-    width: 0.3125rem;
-    height: 2.75rem;
-    transform: translateY(-50%);
-  }
-}
-
-.rad-ui-drawer-title {
-  margin: 0;
-  font-size: var(--rad-ui-font-size-3);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.04em;
-  max-width: calc(100% - 3.5rem);
-}
-
-.rad-ui-drawer-description {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  color: var(--rad-ui-text-secondary);
-  max-width: 36rem;
-}
-
-.rad-ui-drawer-close {
-  position: absolute;
-  top: 0.875rem;
-  right: 0.875rem;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2rem;
-  min-height: 2rem;
-  padding: 0;
-  border-color: transparent;
-  border-radius: var(--rad-ui-radius-full);
-  background: color-mix(in oklab, var(--rad-ui-surface-subtle) 72%, transparent);
-  color: var(--rad-ui-text-secondary);
-  box-shadow: var(--rad-ui-shadow-none);
-  backdrop-filter: blur(var(--rad-ui-blur-xs));
-
-  &:hover {
-    background: var(--rad-ui-surface-subtle);
-    border-color: transparent;
-    color: var(--rad-ui-text-primary);
-  }
-
-  &:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
-  }
-
-  svg {
-    width: 1rem;
-    height: 1rem;
-    flex: 0 0 auto;
-    stroke-width: 2;
-  }
-}
-
-@media (width <= 640px) {
-  .rad-ui-drawer-viewport {
+  .rad-ui-drawer-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    border: none;
+    background: transparent;
     padding: 0;
-  }
 
-  .rad-ui-drawer-popup {
-    &[data-swipe-direction='down'],
-    &[data-swipe-direction='up'] {
+    &[data-dragging] { cursor: grabbing; }
+
+    // Bottom / top → full-width horizontal bar
+    &[data-direction="bottom"],
+    &[data-direction="top"] {
       width: 100%;
-      max-height: min(90vh, 48rem);
+      height: 2.25rem;
+
+      .rad-ui-drawer-handle-grip {
+        width: 2.75rem;
+        height: 0.3rem;
+        margin: auto;
+      }
     }
 
-    &[data-swipe-direction='left'],
-    &[data-swipe-direction='right'] {
-      width: min(100vw - 0.75rem, 24rem);
+    // Right / left → full-height vertical bar on the open edge
+    &[data-direction="right"],
+    &[data-direction="left"] {
+      width: 2.25rem;
       height: 100%;
-      max-height: 100%;
+
+      .rad-ui-drawer-handle-grip {
+        width: 0.3rem;
+        height: 2.75rem;
+        margin: auto;
+      }
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      .rad-ui-drawer-handle-grip {
+        box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
+      }
+    }
+
+    &:hover .rad-ui-drawer-handle-grip {
+      background-color: var(--rad-ui-text-muted);
+    }
+
+    &[data-dragging] .rad-ui-drawer-handle-grip {
+      background-color: var(--rad-ui-text-secondary);
+      transform: scale(1.1);
     }
   }
 
-  .rad-ui-drawer-content {
-    padding: 1rem 1rem 1rem;
+  .rad-ui-drawer-handle-grip {
+    display: block;
+    border-radius: 9999px;
+    background-color: var(--rad-ui-border-strong, #cad1db);
+    flex-shrink: 0;
+    transition:
+      background-color 150ms ease,
+      transform        200ms ease;
   }
+
+  // Inner content wrapper — fills remaining space in a column
+  .rad-ui-drawer-content-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    position: relative; // for absolute-positioned close button
+  }
+
+  // ── Inner elements ────────────────────────────────────────────────────────
 
   .rad-ui-drawer-title {
-    font-size: 0.975rem;
+    font-size: var(--rad-ui-font-size-3);
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 0.5rem;
+    color: var(--rad-ui-text-primary);
+    letter-spacing: -0.05em;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .rad-ui-drawer-description {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.45;
+    margin: 0 0 0.875rem;
+    color: var(--rad-ui-text-secondary);
+    letter-spacing: -0.025em;
+    padding: 0 1.25rem;
+  }
+
+  .rad-ui-drawer-close {
+    position: absolute;
+    right: 0.875rem;
+    top: 0.875rem;
+    border-radius: var(--rad-ui-radius-md);
+    color: var(--rad-ui-text-muted);
+    background-color: transparent;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+      color: var(--rad-ui-text-primary);
+      background-color: var(--rad-ui-surface-subtle);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
+    }
+
+    &:disabled { pointer-events: none; opacity: 0.5; }
   }
 }

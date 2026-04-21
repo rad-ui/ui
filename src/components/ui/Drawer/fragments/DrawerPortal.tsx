@@ -1,5 +1,4 @@
 'use client';
-
 import React, { forwardRef } from 'react';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
@@ -8,7 +7,10 @@ type DialogPrimitivePortalProps = React.ComponentPropsWithoutRef<typeof DialogPr
 
 export type DrawerPortalProps = DialogPrimitivePortalProps;
 
-const DrawerPortal = forwardRef<DrawerPortalElement, DrawerPortalProps>(({ children, ...props }, _ref) => {
+const DrawerPortal = forwardRef<DrawerPortalElement, DrawerPortalProps>(({
+    children,
+    ...props
+}, _ref) => {
     return (
         <DialogPrimitive.Portal {...props}>
             {children}

@@ -1,8 +1,0 @@
-/* stylelint-disable at-rule-no-unknown */
-@use "src/design-systems/baremetal/scope" as baremetal;
-
-#{baremetal.$theme-root} :where(.rad-ui-drawer-v2-trigger) { @include baremetal.button-like; }
-#{baremetal.$theme-root} :where(.rad-ui-drawer-v2-content) { @include baremetal.surface; padding: 1.5rem; }
-#{baremetal.$theme-root} :where(.rad-ui-drawer-v2-title) { @include baremetal.title-text; }
-#{baremetal.$theme-root} :where(.rad-ui-drawer-v2-description) { @include baremetal.body-text; }
-#{baremetal.$theme-root} :where(.rad-ui-drawer-v2-overlay) { background: rgb(255, 255, 255, 0.72); backdrop-filter: none; }

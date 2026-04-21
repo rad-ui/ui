@@ -7,7 +7,7 @@ import Button from '~/components/ui/Button/Button';
 import { X } from 'lucide-react';
 
 const meta: Meta<typeof Drawer> = {
-    title: 'Components/Drawer-v2',
+    title: 'Components/Drawer',
     component: Drawer,
     decorators: [(Story) => (
         <SandboxEditor>
