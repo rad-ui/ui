@@ -26,7 +26,7 @@ type Direction = 'right' | 'left' | 'top' | 'bottom';
 const DrawerShell = ({
     swipeDirection = 'right' as Direction,
     label = 'Open Drawer',
-    children,
+    children
 }: {
     swipeDirection?: Direction;
     label?: string;
@@ -219,17 +219,18 @@ export const OnOpenChangeComplete: Story = {
                         </Drawer.Content>
                     </Drawer.Portal>
                 </Drawer.Root>
-                <div style={{
-                    fontFamily: 'monospace',
-                    fontSize: '0.75rem',
-                    color: 'var(--rad-ui-text-secondary)',
-                    background: 'var(--rad-ui-surface-subtle)',
-                    border: '1px solid var(--rad-ui-border-soft)',
-                    borderRadius: 'var(--rad-ui-radius-md)',
-                    padding: '0.75rem',
-                    minWidth: '22rem',
-                    minHeight: '5rem',
-                }}>
+                <div
+                    style={{
+                        fontFamily: 'monospace',
+                        fontSize: '0.75rem',
+                        color: 'var(--rad-ui-text-secondary)',
+                        background: 'var(--rad-ui-surface-subtle)',
+                        border: '1px solid var(--rad-ui-border-soft)',
+                        borderRadius: 'var(--rad-ui-radius-md)',
+                        padding: '0.75rem',
+                        minWidth: '22rem',
+                        minHeight: '5rem'
+                    }}>
                     {log.length === 0 ? 'Open/close the drawer to see events…' : log.map((l, i) => <div key={i}>{l}</div>)}
                 </div>
             </div>
@@ -310,33 +311,33 @@ export const NestedWithHandles: Story = {
                     <Drawer.Handle />
                     <Drawer.Title>Settings</Drawer.Title>
                     <Drawer.Description>Manage your account and preferences.</Drawer.Description>
-                
-                        <Drawer.Root swipeDirection="right" defaultOpen>
-                            <Drawer.Trigger><>Edit Profile →</></Drawer.Trigger>
-                            <Drawer.Portal>
-                                <Drawer.Overlay />
-                                <Drawer.Content>
-                                    <Drawer.Handle />
-                                    <Drawer.Title>Edit Profile</Drawer.Title>
-                                    <Drawer.Description>Update your name and email.</Drawer.Description>
-                   
-                                        <Drawer.Root swipeDirection="right">
-                                            <Drawer.Trigger><>Security Settings →</></Drawer.Trigger>
-                                            <Drawer.Portal>
-                                                <Drawer.Overlay />
-                                                <Drawer.Content>
-                                                    <Drawer.Handle />
-                                                    <Drawer.Title>Security</Drawer.Title>
-                                                    <Drawer.Description>Change your password and 2FA.</Drawer.Description>
-                                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
-                                                </Drawer.Content>
-                                            </Drawer.Portal>
-                                        </Drawer.Root>
-                               
-                                    <Drawer.Close><X width={15} height={15} /></Drawer.Close>
-                                </Drawer.Content>
-                            </Drawer.Portal>
-                        </Drawer.Root>
+
+                    <Drawer.Root swipeDirection="right" defaultOpen>
+                        <Drawer.Trigger><>Edit Profile →</></Drawer.Trigger>
+                        <Drawer.Portal>
+                            <Drawer.Overlay />
+                            <Drawer.Content>
+                                <Drawer.Handle />
+                                <Drawer.Title>Edit Profile</Drawer.Title>
+                                <Drawer.Description>Update your name and email.</Drawer.Description>
+
+                                <Drawer.Root swipeDirection="right">
+                                    <Drawer.Trigger><>Security Settings →</></Drawer.Trigger>
+                                    <Drawer.Portal>
+                                        <Drawer.Overlay />
+                                        <Drawer.Content>
+                                            <Drawer.Handle />
+                                            <Drawer.Title>Security</Drawer.Title>
+                                            <Drawer.Description>Change your password and 2FA.</Drawer.Description>
+                                            <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                                        </Drawer.Content>
+                                    </Drawer.Portal>
+                                </Drawer.Root>
+
+                                <Drawer.Close><X width={15} height={15} /></Drawer.Close>
+                            </Drawer.Content>
+                        </Drawer.Portal>
+                    </Drawer.Root>
 
                     <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                 </Drawer.Content>
@@ -364,7 +365,7 @@ const DirectionSelector = ({ value, onChange }: { value: Dir; onChange: (d: Dir)
                     background: value === d ? 'var(--rad-ui-surface-active)' : 'var(--rad-ui-surface-subtle)',
                     color: value === d ? 'var(--rad-ui-text-primary)' : 'var(--rad-ui-text-secondary)',
                     cursor: 'pointer',
-                    fontWeight: value === d ? 600 : 400,
+                    fontWeight: value === d ? 600 : 400
                 }}
             >
                 {d}

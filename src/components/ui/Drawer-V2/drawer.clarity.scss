@@ -1,9 +1,9 @@
 @use '../Button/button.clarity';
 
-$open-duration:  500ms;
+$open-duration: 500ms;
 $close-duration: 400ms;
-$open-easing:    cubic-bezier(0.16, 1, 0.3, 1);
-$close-easing:   cubic-bezier(0.4, 0, 1, 1);
+$open-easing: cubic-bezier(0.16, 1, 0.3, 1);
+$close-easing: cubic-bezier(0.4, 0, 1, 1);
 
 .rad-ui-drawer-v2-overlay {
   position: fixed;
@@ -59,6 +59,7 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     width: min(24rem, 85vw);
     border-radius: 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl) 0;
     border-left: none;
+
     // Handle is first child → sits on the right (open) edge
     &:has(.rad-ui-drawer-v2-handle) { flex-direction: row-reverse; }
 
@@ -82,6 +83,7 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     width: min(24rem, 85vw);
     border-radius: var(--rad-ui-radius-xl) 0 0 var(--rad-ui-radius-xl);
     border-right: none;
+
     // Handle is first child → sits on the left (open) edge
     &:has(.rad-ui-drawer-v2-handle) { flex-direction: row; }
 
@@ -107,6 +109,7 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     height: min(24rem, 85vh);
     border-radius: 0 0 var(--rad-ui-radius-xl) var(--rad-ui-radius-xl);
     border-top: none;
+
     // Handle is first child → column-reverse puts it at the bottom (open edge)
     &:has(.rad-ui-drawer-v2-handle) { flex-direction: column-reverse; }
 
@@ -192,6 +195,7 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
 
     &:focus-visible {
       outline: none;
+
       .rad-ui-drawer-v2-handle-grip {
         box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
       }
@@ -200,6 +204,7 @@ $close-easing:   cubic-bezier(0.4, 0, 1, 1);
     &:hover .rad-ui-drawer-v2-handle-grip {
       background-color: var(--rad-ui-text-muted);
     }
+
     &[data-dragging] .rad-ui-drawer-v2-handle-grip {
       background-color: var(--rad-ui-text-secondary);
       transform: scale(1.1);
