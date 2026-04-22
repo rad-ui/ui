@@ -174,13 +174,13 @@ const CardAnatomyTree = () => (
         <div className="flex w-full items-center justify-center p-8 md:p-14">
             <Card
                 variant="soft"
-                className="w-full max-w-[50rem] border-none bg-[#f5f5f4] px-5 py-10 shadow-none md:px-7 md:py-12"
+                className="w-full max-w-[50rem] border-none bg-[var(--rad-ui-surface-subtle)] px-5 py-10 shadow-none md:px-7 md:py-12"
             >
                 <Tree.Root
                     aria-label="Card anatomy"
                     className="
                         w-fit gap-[0.18rem]
-                        [--tree-line:#2a2a30]
+                        [--tree-line:var(--rad-ui-text-primary)]
                         [--tree-branch-gap:0.62rem]
                         [&_.rad-ui-tree-item]:!min-h-0
                         [&_.rad-ui-tree-item]:!justify-start
@@ -192,7 +192,7 @@ const CardAnatomyTree = () => (
                         [&_.rad-ui-tree-branch]:!ms-0
                         [&_.rad-ui-tree-branch]:!gap-[0.18rem]
                         [&_.rad-ui-tree-branch]:!border-s-[1.5px]
-                        [&_.rad-ui-tree-branch]:!border-[#2a2a30]
+                        [&_.rad-ui-tree-branch]:!border-[var(--rad-ui-text-primary)]
                         [&_.rad-ui-tree-branch]:!ps-[0.62rem]
                         [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!start-[-0.62rem]
                         [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!top-1/2
@@ -200,7 +200,7 @@ const CardAnatomyTree = () => (
                         [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!h-[1.5px]
                         [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!w-[0.5rem]
                         [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!-translate-y-1/2
-                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!bg-[#2a2a30]
+                        [&_.rad-ui-tree-branch_.rad-ui-tree-item]:before:!bg-[var(--rad-ui-text-primary)]
                         [&_.rad-ui-tree-item-chevron]:order-last
                         [&_.rad-ui-tree-item-chevron]:ms-[0.28rem]
                         [&_.rad-ui-tree-item-chevron]:inline-flex
@@ -208,7 +208,7 @@ const CardAnatomyTree = () => (
                         [&_.rad-ui-tree-item-chevron]:min-w-[0.9rem]
                         [&_.rad-ui-tree-item-chevron]:items-center
                         [&_.rad-ui-tree-item-chevron]:justify-center
-                        [&_.rad-ui-tree-item-chevron]:text-[#6b6b72]
+                        [&_.rad-ui-tree-item-chevron]:text-[var(--rad-ui-text-secondary)]
                         [&_.rad-ui-tree-item-label]:!flex-none
                     "
                 >
@@ -217,20 +217,20 @@ const CardAnatomyTree = () => (
                             key={item.label}
                             item={item}
                             className="
-                                bg-transparent font-mono text-[0.98rem] font-normal leading-[1.4] text-[#1f1f23] shadow-none
+                                bg-transparent font-mono text-[0.98rem] font-normal leading-[1.4] text-[var(--rad-ui-text-primary)] shadow-none
                                 hover:bg-transparent
                                 data-[selected=true]:border-transparent data-[selected=true]:bg-transparent
                                 data-[toggled=true]:bg-transparent
-                                focus:!bg-[rgba(31,31,35,0.06)]
+                                focus:!bg-[var(--rad-ui-surface-subtle)]
                                 focus:!outline-none
-                                focus:!shadow-[inset_0_0_0_1px_rgba(31,31,35,0.18),0_0_0_2px_rgba(31,31,35,0.12)]
-                                focus-visible:!bg-[rgba(31,31,35,0.06)]
+                                focus:!shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]
+                                focus-visible:!bg-[var(--rad-ui-surface-subtle)]
                                 focus-visible:!outline-none
-                                focus-visible:!shadow-[inset_0_0_0_1px_rgba(31,31,35,0.18),0_0_0_2px_rgba(31,31,35,0.12)]
+                                focus-visible:!shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]
                                 [tabindex='0']:relative [tabindex='0']:z-[1]
                                 [tabindex='0']:rounded-[0.35rem]
-                                [tabindex='0']:!bg-[rgba(31,31,35,0.06)]
-                                [tabindex='0']:!shadow-[inset_0_0_0_1px_rgba(31,31,35,0.18),0_0_0_2px_rgba(31,31,35,0.12)]
+                                [tabindex='0']:!bg-[var(--rad-ui-surface-subtle)]
+                                [tabindex='0']:!shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]
                             "
                         >
                             {item.label}

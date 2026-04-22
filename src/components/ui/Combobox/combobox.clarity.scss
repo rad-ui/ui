@@ -29,7 +29,7 @@
 
     &:focus-visible, &[data-state="open"] {
         border-color: var(--rad-ui-color-accent-500);
-        box-shadow: var(--rad-ui-ring-shadow);
+        box-shadow: var(--rad-ui-focus-ring-shadow);
     }
 
     &::after {
@@ -87,7 +87,7 @@
 
     &:focus {
         border-color: var(--rad-ui-color-accent-500);
-        box-shadow: var(--rad-ui-ring-shadow);
+        box-shadow: var(--rad-ui-focus-ring-shadow);
     }
 }
 

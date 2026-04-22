@@ -13,10 +13,10 @@ const AllColorsTemplate = () => {
     };
     return (
         <Theme appearance={darkMode ? 'dark' : 'light'}>
-            <button className='text-gray-900' onClick={toggleDarkMode}>
+            <button className='text-[var(--rad-ui-text-secondary)]' onClick={toggleDarkMode}>
                 {darkMode ? 'Go To Light Mode' : 'Go To Dark Mode'}
             </button>
-            <div className={`flex ${darkMode ? 'bg-gray-1000' : ''} `}>
+            <div className={`flex ${darkMode ? 'bg-[var(--rad-ui-surface-inverse)]' : ''} `}>
 
                 <div isDark={darkMode}>
                     <ColorsTemplate isDark={darkMode}/>

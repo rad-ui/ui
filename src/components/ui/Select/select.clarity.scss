@@ -54,15 +54,15 @@
 
     &:focus-visible {
         outline: none;
-        box-shadow: var(--rad-ui-ring-shadow), var(--rad-ui-shadow-xs);
+        box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-shadow-xs);
     }
 
     &[data-placeholder] {
-        color: var(--rad-ui-color-gray-700); // step 8 — muted placeholder
+        color: var(--rad-ui-text-secondary);
     }
 
     &[aria-invalid="true"] {
-        border-color: var(--rad-ui-color-error, #d93025);
+        border-color: var(--rad-ui-color-error, var(--rad-ui-color-red-600));
     }
 
     &[aria-disabled="true"] {
@@ -148,7 +148,7 @@
     }
 
     &[data-disabled] {
-        color: var(--rad-ui-color-gray-700); // step 8 — muted
+        color: var(--rad-ui-text-secondary);
         pointer-events: none;
         opacity: 0.5;
     }
@@ -189,7 +189,7 @@
     font-size: 0.8125rem;
     line-height: var(--rad-ui-size-4);
     font-weight: 400;
-    color: var(--rad-ui-color-gray-700); // step 8 — muted label
+    color: var(--rad-ui-text-secondary);
 }
 
 .rad-ui-select-icon {

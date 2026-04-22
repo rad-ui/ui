@@ -29,7 +29,7 @@
         padding: 1.25rem 1.375rem 1.375rem;
         max-width: 28rem;
         font-size: var(--rad-ui-font-size-3);
-        border-radius: var(--rad-ui-radius-2xl);
+        border-radius: calc(var(--rad-ui-radius-xl) + 0.25rem);
     }
 }
 

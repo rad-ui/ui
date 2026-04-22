@@ -16,14 +16,14 @@ type Story = StoryObj<typeof CollapsiblePrimitive>;
 export const Default: Story = {
     render: () => {
         return (
-            <div style={{ width: '300px', border: '1px solid #ccc', borderRadius: '4px', padding: '8px' }}>
+            <div style={{ width: '300px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '4px', padding: '8px' }}>
                 <CollapsiblePrimitive.Root defaultOpen={false}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px' }}>
                         <span>Click me to toggle content</span>
                         <CollapsiblePrimitive.Trigger
                             style={{
                                 background: 'none',
-                                border: '1px solid #ddd',
+                                border: '1px solid var(--rad-ui-border-default)',
                                 borderRadius: '4px',
                                 padding: '4px 8px',
                                 cursor: 'pointer'
@@ -35,7 +35,7 @@ export const Default: Story = {
                     <CollapsiblePrimitive.Content
                         data-radui-collapsible-content
                     >
-                        <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
+                        <div style={{ padding: '8px', backgroundColor: 'var(--rad-ui-surface-subtle)', borderRadius: '4px', marginTop: '8px' }}>
                             <p>This is collapsible content that can be toggled open and closed.</p>
                         </div>
                     </CollapsiblePrimitive.Content>
@@ -51,7 +51,7 @@ export const Controlled: Story = {
         const [isOpen, setIsOpen] = useState(false);
 
         return (
-            <div style={{ width: '300px', border: '1px solid #ccc', borderRadius: '4px', padding: '8px' }}>
+            <div style={{ width: '300px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '4px', padding: '8px' }}>
                 <CollapsiblePrimitive.Root
                     open={isOpen}
                     onOpenChange={(open) => setIsOpen(open)}
@@ -61,7 +61,7 @@ export const Controlled: Story = {
                         <CollapsiblePrimitive.Trigger
                             style={{
                                 background: 'none',
-                                border: '1px solid #ddd',
+                                border: '1px solid var(--rad-ui-border-default)',
                                 borderRadius: '4px',
                                 padding: '4px 8px',
                                 cursor: 'pointer'
@@ -71,7 +71,7 @@ export const Controlled: Story = {
                         </CollapsiblePrimitive.Trigger>
                     </div>
                     <CollapsiblePrimitive.Content>
-                        <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
+                        <div style={{ padding: '8px', backgroundColor: 'var(--rad-ui-surface-subtle)', borderRadius: '4px', marginTop: '8px' }}>
                             <p>This is controlled collapsible content using React state.</p>
                             <p>Current state: {isOpen ? 'Open' : 'Closed'}</p>
                         </div>
@@ -98,7 +98,7 @@ export const MultipleCollapsibles: Story = {
         };
 
         return (
-            <div style={{ width: '300px', border: '1px solid #ccc', borderRadius: '4px', padding: '8px' }}>
+            <div style={{ width: '300px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '4px', padding: '8px' }}>
                 {Object.entries(openItems).map(([id, isOpen]) => (
                     <CollapsiblePrimitive.Root
                         key={id}
@@ -112,7 +112,7 @@ export const MultipleCollapsibles: Story = {
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 padding: '8px',
-                                backgroundColor: '#eee',
+                                backgroundColor: 'var(--rad-ui-surface-muted)',
                                 borderRadius: '4px'
                             }}
                         >
@@ -129,7 +129,7 @@ export const MultipleCollapsibles: Story = {
                             </CollapsiblePrimitive.Trigger>
                         </div>
                         <CollapsiblePrimitive.Content>
-                            <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '4px' }}>
+                            <div style={{ padding: '8px', backgroundColor: 'var(--rad-ui-surface-subtle)', borderRadius: '4px', marginTop: '4px' }}>
                                 <p>Content for {id}</p>
                             </div>
                         </CollapsiblePrimitive.Content>
@@ -145,7 +145,7 @@ export const AnimationDisabled: Story = {
         const [isOpen, setIsOpen] = useState(false);
 
         return (
-            <div style={{ width: '300px', border: '1px solid #ccc', borderRadius: '4px', padding: '8px' }}>
+            <div style={{ width: '300px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '4px', padding: '8px' }}>
                 <CollapsiblePrimitive.Root
                     open={isOpen}
                     onOpenChange={(open) => setIsOpen(open)}
@@ -156,7 +156,7 @@ export const AnimationDisabled: Story = {
                         <CollapsiblePrimitive.Trigger
                             style={{
                                 background: 'none',
-                                border: '1px solid #ddd',
+                                border: '1px solid var(--rad-ui-border-default)',
                                 borderRadius: '4px',
                                 padding: '4px 8px',
                                 cursor: 'pointer'
@@ -171,7 +171,7 @@ export const AnimationDisabled: Story = {
                             height: 'auto'
                         }}
                     >
-                        <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
+                        <div style={{ padding: '8px', backgroundColor: 'var(--rad-ui-surface-subtle)', borderRadius: '4px', marginTop: '8px' }}>
                             <p>This content toggles instantly without animation.</p>
                         </div>
                     </CollapsiblePrimitive.Content>
@@ -186,7 +186,7 @@ export const CustomAnimation: Story = {
         const [isOpen, setIsOpen] = useState(false);
 
         return (
-            <div style={{ width: '300px', border: '1px solid #ccc', borderRadius: '4px', padding: '8px' }}>
+            <div style={{ width: '300px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '4px', padding: '8px' }}>
                 <CollapsiblePrimitive.Root
                     open={isOpen}
                     onOpenChange={(open) => setIsOpen(open)}
@@ -198,7 +198,7 @@ export const CustomAnimation: Story = {
                         <CollapsiblePrimitive.Trigger
                             style={{
                                 background: 'none',
-                                border: '1px solid #ddd',
+                                border: '1px solid var(--rad-ui-border-default)',
                                 borderRadius: '4px',
                                 padding: '4px 8px',
                                 cursor: 'pointer'
@@ -208,7 +208,7 @@ export const CustomAnimation: Story = {
                         </CollapsiblePrimitive.Trigger>
                     </div>
                     <CollapsiblePrimitive.Content>
-                        <div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', marginTop: '8px' }}>
+                        <div style={{ padding: '8px', backgroundColor: 'var(--rad-ui-surface-subtle)', borderRadius: '4px', marginTop: '8px' }}>
                             <p>This content uses a custom animation with a spring effect that takes 800ms to complete.</p>
                             <p>The animation is controlled through props instead of inline styles, making the component truly headless.</p>
                         </div>

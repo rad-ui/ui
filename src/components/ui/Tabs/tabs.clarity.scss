@@ -43,7 +43,7 @@
                 background-color: var(--rad-ui-surface-canvas);
                 outline: none;
                 box-shadow:
-                    var(--rad-ui-ring-shadow),
+                    var(--rad-ui-focus-ring-shadow),
                     0 0 0 1px color-mix(in oklab, var(--rad-ui-border-soft) 35%, transparent),
                     0 1px 2px rgb(0, 0, 0, 0.05),
                     0 2px 6px rgb(0, 0, 0, 0.04);
@@ -62,7 +62,7 @@
 
             &.active:focus-visible{
                 box-shadow:
-                    var(--rad-ui-ring-shadow),
+                    var(--rad-ui-focus-ring-shadow),
                     0 0 0 1px color-mix(in oklab, var(--rad-ui-border-soft) 35%, transparent),
                     0 1px 2px rgb(0, 0, 0, 0.06),
                     0 2px 8px rgb(0, 0, 0, 0.05);

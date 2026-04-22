@@ -51,8 +51,7 @@ $drawer-sheet-radius: var(--rad-ui-radius-2xl);
   &:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 2px var(--rad-ui-surface-panel),
-      0 0 0 5px color-mix(in oklab, var(--rad-ui-color-gray-1000) 82%, black),
+      var(--rad-ui-focus-ring-shadow-offset-panel),
       0 16px 32px -22px rgb(0, 0, 0, 0.72);
   }
 }
@@ -455,7 +454,7 @@ $drawer-sheet-radius: var(--rad-ui-radius-2xl);
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
+    box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel);
   }
 
   svg {

@@ -16,7 +16,7 @@ export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
     closeDelay?: number;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
@@ -127,7 +127,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     };
 
     return <HoverCardContext.Provider value={sendValues}>
-        <div ref={ref} className={clsx(rootClass)} {...props}>{children}</div>
+        <div ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...props}>{children}</div>
     </HoverCardContext.Provider>;
 });
 

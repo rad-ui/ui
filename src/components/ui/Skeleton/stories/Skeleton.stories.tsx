@@ -133,17 +133,17 @@ export default {
                             </Tabs.List>
 
                             <Tabs.Content value="tab1">
-                                <div className="p-4 bg-gray-100 mt-2">
+                                <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                                     Content for Tab 1 (Uncontrolled)
                                 </div>
                             </Tabs.Content>
                             <Tabs.Content value="tab2">
-                                <div className="p-4 bg-gray-100 mt-2">
+                                <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                                     Content for Tab 2 (Uncontrolled) - This tab is selected by default
                                 </div>
                             </Tabs.Content>
                             <Tabs.Content value="tab3">
-                                <div className="p-4 bg-gray-100 mt-2">
+                                <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                                     Content for Tab 3 (Uncontrolled)
                                 </div>
                             </Tabs.Content>

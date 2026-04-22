@@ -37,6 +37,28 @@ describe('RadioGroup behavior', () => {
         expect(one).toHaveAttribute('aria-checked', 'true');
     });
 
+    test('arrow key navigation loops by default', async() => {
+        render(
+            <RadioGroup.Root>
+                <RadioGroup.Item value="one" data-testid="loop-one">one</RadioGroup.Item>
+                <RadioGroup.Item value="two" data-testid="loop-two">two</RadioGroup.Item>
+                <RadioGroup.Item value="three" data-testid="loop-three">three</RadioGroup.Item>
+            </RadioGroup.Root>
+        );
+        const user = userEvent.setup();
+
+        await user.tab();
+        expect(screen.getByTestId('loop-one')).toHaveFocus();
+
+        await user.keyboard('{ArrowLeft}');
+        expect(screen.getByTestId('loop-three')).toHaveFocus();
+        expect(screen.getByTestId('loop-three')).toHaveAttribute('aria-checked', 'true');
+
+        await user.keyboard('{ArrowRight}');
+        expect(screen.getByTestId('loop-one')).toHaveFocus();
+        expect(screen.getByTestId('loop-one')).toHaveAttribute('aria-checked', 'true');
+    });
+
     test('controlled value syncs with onValueChange', async() => {
         const onValueChange = jest.fn();
 

@@ -50,13 +50,14 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
 
     const effectiveCrossAxisOffset = crossAxisOffset ?? 0;
     const effectiveMainAxisOffset =
-        mainAxisOffset !== undefined ? mainAxisOffset : isNested ? 2 : 4;
+        mainAxisOffset !== undefined ? mainAxisOffset : isNested ? 14 : 4;
 
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
         onOpenChange: setIsOpen,
         strategy: 'fixed',
+        transform: false,
         placement: isNested ? 'right-start' : placement,
         middleware: [
             Floater.offset({
@@ -65,9 +66,12 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
             }),
             Floater.flip({
                 mainAxis: avoidCollision,
-                crossAxis: avoidCollision
+                crossAxis: avoidCollision && !isNested
             }),
-            Floater.shift({ padding: 4 }),
+            Floater.shift({
+                padding: 4,
+                crossAxis: !isNested
+            }),
             ...(!isNested ? [Floater.size({
                 padding: 4,
                 apply({ availableHeight, elements }) {

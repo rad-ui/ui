@@ -22,7 +22,7 @@
 
     &:focus-visible {
         outline: none;
-        box-shadow: var(--rad-ui-ring-shadow-sm);
+        box-shadow: var(--rad-ui-focus-ring-shadow-sm);
     }
 }
 
@@ -158,7 +158,7 @@
     &:focus-visible, &:focus {
         outline: none;
         background-color: var(--rad-ui-surface-hover);
-        box-shadow: var(--rad-ui-ring-shadow-inset);
+        box-shadow: var(--rad-ui-focus-ring-shadow-inset);
     }
 
     &[data-highlighted] {
@@ -200,7 +200,7 @@
     &:focus-visible, &:focus {
         outline: none;
         background-color: var(--rad-ui-surface-hover);
-        box-shadow: var(--rad-ui-ring-shadow-inset);
+        box-shadow: var(--rad-ui-focus-ring-shadow-inset);
     }
 
     &[data-highlighted] {

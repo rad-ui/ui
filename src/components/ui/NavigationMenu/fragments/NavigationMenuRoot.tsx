@@ -5,7 +5,7 @@ import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
-const COMPONENT_NAME = 'NavigationMenuRoot';
+const COMPONENT_NAME = 'NavigationMenu';
 
 export type NavigationMenuRootElement = React.ElementRef<'div'>;
 

@@ -15,7 +15,7 @@
     background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
 
     .rad-ui-tab-nav-link {
-        color: var(--rad-ui-color-gray-700); // step 8 — muted text
+        color: var(--rad-ui-text-secondary);
         font-family: var(--rad-ui-font-sans);
         padding: 0.375rem 0.75rem;
         display: flex;
@@ -31,7 +31,7 @@
         &:focus-visible,
         &:focus {
             color: var(--rad-ui-color-gray-1000); // step 11 — primary text
-            box-shadow: var(--rad-ui-ring-shadow);
+            box-shadow: var(--rad-ui-focus-ring-shadow);
             outline: none;
         }
 

@@ -36,7 +36,7 @@
       outline: none;
       border-color: var(--rad-ui-color-accent-500);
       background-color: var(--rad-ui-surface-panel);
-      box-shadow: var(--rad-ui-ring-shadow), var(--rad-ui-shadow-xs);
+      box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-shadow-xs);
     }
 
     &::-webkit-scrollbar {
@@ -48,13 +48,13 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: var(--rad-ui-border-default);
+      background-color: var(--rad-ui-solid-background);
       border-radius: 6px;
       border: 3px solid transparent;
       background-clip: content-box;
 
       &:hover {
-        background-color: var(--rad-ui-border-strong);
+        background-color: var(--rad-ui-solid-hover);
       }
     }
   }

@@ -2,6 +2,25 @@ import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HoverCard from '../HoverCard';
+import Theme from '~/components/ui/Theme/Theme';
+
+const mockMatchMedia = () => {
+    if ('matchMedia' in window && typeof window.matchMedia === 'function') {
+        return;
+    }
+
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: jest.fn().mockImplementation(query => ({
+            matches: false,
+            media: query,
+            onchange: null,
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        }))
+    });
+};
 
 describe('HoverCard', () => {
     test('forwards refs', () => {
@@ -41,6 +60,45 @@ describe('HoverCard', () => {
         expect(triggerRef.current).toBeInstanceOf(HTMLSpanElement);
         expect(buttonRef.current).toBeInstanceOf(HTMLButtonElement);
         expect(buttonRef.current).not.toBe(triggerRef.current);
+    });
+
+    test('keeps root and content classes separate', () => {
+        render(
+            <HoverCard.Root open customRootClass="rad-ui" className="custom-root">
+                <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                <HoverCard.Content>Content</HoverCard.Content>
+            </HoverCard.Root>
+        );
+
+        const trigger = screen.getByText('Trigger');
+        const root = trigger.parentElement;
+        const content = screen.getByRole('dialog');
+
+        expect(root).toHaveClass('rad-ui-hover-card-root');
+        expect(root).toHaveClass('custom-root');
+        expect(root).not.toHaveClass('rad-ui-hover-card');
+        expect(trigger).toHaveClass('rad-ui-hover-card-trigger');
+        expect(content).toHaveClass('rad-ui-hover-card');
+    });
+
+    test('portals content inside the active theme scope', async() => {
+        mockMatchMedia();
+
+        render(
+            <Theme appearance="dark" classNamespace="rad-ui">
+                <HoverCard.Root open customRootClass="rad-ui">
+                    <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                    <HoverCard.Portal>
+                        <HoverCard.Content>Content</HoverCard.Content>
+                    </HoverCard.Portal>
+                </HoverCard.Root>
+            </Theme>
+        );
+
+        const content = await screen.findByRole('dialog');
+
+        expect(content.closest('[data-rad-ui-theme="dark"]')).toBeInTheDocument();
+        expect(content.closest('[data-rad-ui-portal-root]')).toBeInTheDocument();
     });
 
     test('renders without warnings and toggles on hover', async() => {

@@ -111,7 +111,7 @@ export const Sizes = () => {
         <div className="flex flex-col gap-16 p-8">
             {HOVER_CARD_SIZES.map((size) => (
                 <div key={size}>
-                    <p className="text-gray-500 mb-4 text-xs">size: {size}</p>
+                    <p className="text-[var(--rad-ui-text-secondary)] mb-4 text-xs">size: {size}</p>
                     <HoverCard.Root openDelay={100} closeDelay={200}>
                         <HoverCard.Trigger>
                             <span className="underline underline-offset-2 cursor-pointer font-medium">

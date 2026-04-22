@@ -71,7 +71,7 @@ export const Sizes = () => (
         <div className='flex items-center gap-6'>
             {AVATAR_SIZES.map((size) => (
                 <div key={size || 'default'} className='flex flex-col items-center gap-2'>
-                    <p className='text-xs text-gray-600'>{size || 'default'}</p>
+                    <p className='text-xs text-[var(--rad-ui-text-secondary)]'>{size || 'default'}</p>
                     <Avatar.Root size={size}>
                         <Avatar.Fallback>RU</Avatar.Fallback>
                     </Avatar.Root>
@@ -86,7 +86,7 @@ export const Variants = () => (
         <div className='flex items-center gap-6'>
             {AVATAR_VARIANTS.map((variant) => (
                 <div key={variant || 'default'} className='flex flex-col items-center gap-2'>
-                    <p className='text-xs text-gray-600'>{variant || 'default'}</p>
+                    <p className='text-xs text-[var(--rad-ui-text-secondary)]'>{variant || 'default'}</p>
                     <Avatar.Root variant={variant}>
                         <Avatar.Fallback>RU</Avatar.Fallback>
                     </Avatar.Root>

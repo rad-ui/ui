@@ -128,7 +128,7 @@
     
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 2px var(--rad-ui-surface-panel), 0 0 0 4px var(--rad-ui-ring-strong);
+      box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel);
     }
     
     &:disabled {

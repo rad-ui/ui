@@ -93,6 +93,9 @@ These rules protect the scale from drifting into one-off styling decisions.
 - Do not use `50` or `100` for interactive states; they are background and surface steps.
 - Do not make disabled text by lowering opacity over arbitrary colors; use the appropriate semantic disabled token once defined.
 - Do not mix semantic aliases and raw tokens in the same component API.
+- Do not hand-code focus rings in components. Use the `--rad-ui-focus-*` aliases so focus color, width, offset, and inset/offset shadows stay consistent.
+- Do not remap component token intent by theme mode in component styles. For example, do not add `[data-rad-ui-theme="dark"] &` overrides that change a solid fill from `800`/`900` to another step.
+- Do not fix a component that looks wrong in one appearance by adding local light/dark step exceptions. Adjust the token scale, semantic alias, or component-wide intent mapping instead.
 - Do not encode visual state only through color. Pair state with data attributes, ARIA state, or another accessible signal when needed.
 - Do not add hue to the neutral scale. Semantic colors must be defined separately.
 - Do not create component-specific private grayscale ramps.

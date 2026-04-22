@@ -1,4 +1,6 @@
 import React from 'react';
+import fs from 'node:fs';
+import path from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as axe from 'axe-core';
@@ -28,6 +30,13 @@ describe('Button', () => {
         render(<Button customRootClass="rad-ui" variant='outline'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveClass('rad-ui-button');
+    });
+
+    test('focus-visible styles are declared after variants so focus shadow wins', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../button.clarity.scss'), 'utf8');
+        expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-button-variant="ghost"]'));
+        expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-button-variant="outline"]'));
+        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-shadow-sm);');
     });
 
     test('renders button with the given size', () => {

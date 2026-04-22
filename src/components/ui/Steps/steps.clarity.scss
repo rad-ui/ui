@@ -37,7 +37,7 @@
                 justify-content: center;
                 font-size: 14px;
                 font-weight: 600;
-                color: var(--rad-ui-color-gray-700); // step 8 — muted text
+                color: var(--rad-ui-text-secondary);
                 z-index: 2;
                 transition: border-color 0.15s ease, background-color 0.15s ease;
             }
@@ -91,7 +91,7 @@
 
             .rad-ui-steps-description {
                 font-size: 13px;
-                color: var(--rad-ui-color-gray-700); // step 8 — supporting content
+                color: var(--rad-ui-text-secondary);
                 line-height: 1.4;
             }
         }

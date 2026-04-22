@@ -108,7 +108,7 @@ export const FormExample = () => {
             </form>
 
             {submittedData && (
-                <div className="mt-4 p-4 bg-gray-100 rounded">
+                <div className="mt-4 p-4 bg-[var(--rad-ui-surface-subtle)] rounded">
                     <h3 className="font-bold mb-2">Submitted Form Data:</h3>
                     <pre>{submittedData}</pre>
                 </div>

@@ -19,7 +19,7 @@ export type RadioGroupPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof
 };
 
 const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(
-    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = false, dir = 'ltr', ...props }, ref) => {
+    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', ...props }, ref) => {
         const [selectedValue, setSelectedValue] = useControllableState(
             value,
             defaultValue,
