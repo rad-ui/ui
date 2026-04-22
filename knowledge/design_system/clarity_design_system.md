@@ -12,6 +12,19 @@ numbers as arbitrary lightness values or as a linear color ramp.
 
 ## Core Principles
 
+### Public Styling Contract
+
+Clarity components must expose public styling props through the shared semantic
+attributes `data-variant`, `data-size`, and `data-color`.
+
+Do not emit component-scoped styling attributes such as `data-button-variant`,
+`data-badge-size`, or `data-radio-group-variant`. Component ownership belongs in
+the generated class name; data attributes describe the active public prop value.
+
+Theme infrastructure attributes may remain Rad UI-prefixed when they configure
+provider-level behavior, such as `data-rad-ui-theme` or
+`data-rad-ui-accent-color`.
+
 ### 1. Perceptual Consistency
 - Steps must feel evenly spaced to the human eye
 - Do NOT use linear interpolation blindly
@@ -77,13 +90,28 @@ tokens should remain the implementation mapping.
 | `textSecondary` | `950` | Supporting text when contrast passes |
 | `textPrimary` | `1000` | Primary text, headings, and icons |
 
+State and component-level aliases should sit above the raw scale and base
+aliases:
+
+| Alias group | CSS tokens | Usage |
+|-------------|------------|-------|
+| Disabled | `--rad-ui-disabled-text`, `--rad-ui-disabled-background`, `--rad-ui-disabled-border` | Disabled text, inactive control backgrounds, and disabled borders |
+| Status | `--rad-ui-danger-*`, `--rad-ui-success-*`, `--rad-ui-warning-*`, `--rad-ui-info-*` | Semantic status backgrounds, borders, text, solid fills, and solid hover fills |
+| Overlay | `--rad-ui-overlay-scrim` | Dialog, drawer, command, and modal scrims |
+| Items | `--rad-ui-item-selected-*`, `--rad-ui-item-highlighted-*` | Selected and highlighted option/menu/list rows |
+| Fields | `--rad-ui-field-background`, `--rad-ui-field-border`, `--rad-ui-field-placeholder`, `--rad-ui-field-invalid` | Text input, textarea, number field, and invalid field states |
+
 ### 4. Rules / What Not To Do
 
 These rules protect the scale from drifting into one-off styling decisions.
 
+- Follow the generated class contract `{namespace}-{component}-{part}` for Clarity selectors.
+- Root selectors must include the `root` part, such as `.rad-ui-button-root`, `.rad-ui-badge-root`, and `.rad-ui-card-root`.
+- Keep component child selectors on explicit parts and slots, such as `.rad-ui-card-title` or `.rad-ui-accordion-trigger`.
 - Do not use raw hex values in components when a scale token or semantic alias exists.
 - Do not introduce extra neutral steps such as `25`, `75`, `150`, or `1100`.
 - Do not introduce `1` through `12` public tokens. Rad UI uses `50` through `1000`.
+- Do not append part suffixes to an empty generated root class. Headless mode must not emit accidental classes like `-viewport`; only generate part classes when a namespace-backed root class exists.
 - Do not use a token outside its intended role just because it looks close in one context.
 - Do not use `900` for text; use `950` for supporting text or `1000` for primary text.
 - Do not use `700` or `800` for body text unless the contrast has been explicitly checked.

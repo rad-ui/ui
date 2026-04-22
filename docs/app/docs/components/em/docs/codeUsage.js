@@ -1,6 +1,6 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
-// const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/em.scss');
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Em/em.clarity.scss');
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/em/docs/EmExample.tsx');
 
 // Import API documentation
@@ -10,10 +10,8 @@ const code = {
     javascript: {
         code: example_1_SourceCode,
     },
-    css: {
-        code: `.rad-ui-em {
-    font-style: italic;
-}`
+    scss: {
+        code: scss_SourceCode
     },
 }
 

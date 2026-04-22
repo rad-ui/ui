@@ -4,7 +4,7 @@
   position: fixed;
   inset: 0;
   z-index: var(--rad-ui-z-index-overlay);
-  background-color: rgb(0, 0, 0, 0.56);
+  background-color: var(--rad-ui-overlay-scrim);
   backdrop-filter: blur(var(--rad-ui-blur-lg));
   overflow: hidden;
   transition:
@@ -23,7 +23,7 @@
 }
 
 .rad-ui-dialog-trigger {
-  @extend .rad-ui-button;
+  @extend .rad-ui-button-root;
 }
 
 .rad-ui-dialog-content {

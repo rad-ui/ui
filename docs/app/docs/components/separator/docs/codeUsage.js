@@ -1,5 +1,9 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
 // Import API documentation
 import separator_api_SourceCode from './component_api/separator.tsx';
+
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Separator/separator.clarity.scss');
 
 const code = {
     javascript: {
@@ -31,21 +35,7 @@ const SeparatorExample = () => (
 )`
     },
     scss: {
-        code: `/** Separator */
-.rad-ui-separator {
-    background-color: var(--rad-ui-color-gray-600);
-    align-self: stretch;
-}
-
-.rad-ui-separator-vertical{
-    margin: 0px 8px;
-    width: 1px;
-}
-
-.rad-ui-separator-horizontal{
-    margin: 8px 0px;
-    height: 1px;
-}`
+        code: scss_SourceCode
     },
 }
 

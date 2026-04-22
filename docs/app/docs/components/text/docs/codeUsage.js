@@ -3,6 +3,8 @@ import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 // Import API documentation
 import text_api_SourceCode from './component_api/text.tsx';
 
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Text/text.clarity.scss');
+
 const code = {
     javascript: {
         code: `import Text from "@radui/ui/Text"
@@ -13,12 +15,8 @@ const TextExample = () => (
     </div>
 )`
     },
-    css: {
-        code: `.rad-ui-text{
-    font-size: 16px;
-    line-height: 24px;
-    }
-`
+    scss: {
+        code: scss_SourceCode
     },
 }
 

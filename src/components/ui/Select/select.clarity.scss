@@ -62,7 +62,7 @@
     }
 
     &[aria-invalid="true"] {
-        border-color: var(--rad-ui-color-error, var(--rad-ui-color-red-600));
+        border-color: var(--rad-ui-field-invalid);
     }
 
     &[aria-disabled="true"] {
@@ -142,13 +142,13 @@
 
     &[data-highlighted],
     &[data-active="true"] {
-        background-color: var(--rad-ui-color-gray-200); // step 3 — hover surface
-        color: var(--rad-ui-color-gray-1000);
-        box-shadow: inset 0 0 0 1px var(--rad-ui-color-gray-500); // step 6 — light border
+        background-color: var(--rad-ui-item-highlighted-background);
+        color: var(--rad-ui-item-highlighted-text);
+        box-shadow: inset 0 0 0 1px var(--rad-ui-item-highlighted-border);
     }
 
     &[data-disabled] {
-        color: var(--rad-ui-text-secondary);
+        color: var(--rad-ui-disabled-text);
         pointer-events: none;
         opacity: 0.5;
     }
@@ -158,16 +158,16 @@
     }
 
     &[aria-selected="true"] {
-        background-color: var(--rad-ui-color-gray-300); // step 4 — selected/active surface
-        color: var(--rad-ui-color-gray-1000);
+        background-color: var(--rad-ui-item-selected-background);
+        color: var(--rad-ui-item-selected-text);
         font-weight: 500;
     }
 
     &[aria-selected="true"][data-active="true"],
     &[aria-selected="true"][data-highlighted] {
-        background-color: var(--rad-ui-color-gray-300); // step 4 — selected surface
-        color: var(--rad-ui-color-gray-1000);
-        box-shadow: inset 0 0 0 1px var(--rad-ui-color-gray-600), // step 7 — default border
+        background-color: var(--rad-ui-item-selected-background);
+        color: var(--rad-ui-item-selected-text);
+        box-shadow: inset 0 0 0 1px var(--rad-ui-item-selected-border),
                     var(--rad-ui-shadow-xs);
 
         .rad-ui-select-item-indicator {

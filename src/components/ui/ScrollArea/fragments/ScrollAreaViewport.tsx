@@ -20,7 +20,7 @@ const ScrollAreaViewport = forwardRef<ScrollAreaViewportElement, ScrollAreaViewp
         }
     };
 
-    return <div ref={setRef} className={clsx(rootClass + '-viewport', className)} onScroll={handleScroll} {...props} >{children}</div>;
+    return <div ref={setRef} className={clsx(rootClass && `${rootClass}-viewport`, className)} onScroll={handleScroll} {...props} >{children}</div>;
 });
 
 ScrollAreaViewport.displayName = 'ScrollAreaViewport';

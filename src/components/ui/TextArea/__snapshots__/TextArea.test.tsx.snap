@@ -3,7 +3,7 @@
 exports[`TextArea matches snapshot 1`] = `
 <div
   class=""
-  data-textarea-resize="both"
+  data-resize="both"
 >
   <textarea
     placeholder=""

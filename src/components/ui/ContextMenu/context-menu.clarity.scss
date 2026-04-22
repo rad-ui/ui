@@ -61,19 +61,19 @@
         border-radius: var(--rad-ui-radius-full, 9999px);
     }
 
-    &[data-context-menu-content-variant="soft"] {
+    &[data-variant="soft"] {
         background-color: var(--rad-ui-surface-subtle);
         border-color: var(--rad-ui-border-soft);
         box-shadow: var(--rad-ui-elevation-md-shadow);
     }
 
-    &[data-context-menu-content-variant="outline"] {
+    &[data-variant="outline"] {
         background-color: transparent;
         border-color: var(--rad-ui-border);
         box-shadow: var(--rad-ui-shadow-none);
     }
 
-    &[data-context-menu-content-size="small"] {
+    &[data-size="small"] {
         min-width: 11rem;
         max-width: min(90vw, 18rem);
         padding: 0.25rem;
@@ -94,7 +94,7 @@
         }
     }
 
-    &[data-context-menu-content-size="large"] {
+    &[data-size="large"] {
         min-width: 18rem;
         max-width: min(90vw, 28rem);
         padding: var(--rad-ui-spacing-2);
@@ -250,18 +250,18 @@
 }
 
 .rad-ui-context-menu-danger {
-    color: var(--rad-ui-color-red-900);
+    color: var(--rad-ui-danger-text);
 
     &[data-highlighted],
     &[aria-selected="true"] {
-        color: var(--rad-ui-color-red-900);
+        color: var(--rad-ui-danger-text);
     }
 
     &[data-highlighted] .rad-ui-context-menu-shortcut,
     &[aria-selected="true"] .rad-ui-context-menu-shortcut,
     &[data-highlighted] .rad-ui-context-menu-sub-icon,
     &[aria-selected="true"] .rad-ui-context-menu-sub-icon {
-        color: var(--rad-ui-color-red-900);
+        color: var(--rad-ui-danger-text);
     }
 }
 

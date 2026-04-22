@@ -17,7 +17,7 @@
   position: fixed;
   inset: 0;
   z-index: var(--rad-ui-z-index-overlay);
-  background-color: rgb(10, 14, 20, 0.42);
+  background-color: var(--rad-ui-overlay-scrim);
   backdrop-filter: blur(var(--rad-ui-blur-md));
   transition:
     opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
@@ -64,7 +64,7 @@
   outline: none;
 
   &::placeholder {
-    color: var(--rad-ui-text-muted);
+    color: var(--rad-ui-field-placeholder);
   }
 }
 
@@ -134,9 +134,13 @@
     display: none;
   }
 
-  &:hover,
+  &:hover {
+    background: var(--rad-ui-item-highlighted-background);
+  }
+
   &[data-selected] {
-    background: var(--rad-ui-surface-hover);
+    background: var(--rad-ui-item-selected-background);
+    color: var(--rad-ui-item-selected-text);
   }
 
   &:focus-visible {
@@ -144,6 +148,7 @@
   }
 
   &[data-disabled] {
+    color: var(--rad-ui-disabled-text);
     opacity: 0.45;
     pointer-events: none;
   }

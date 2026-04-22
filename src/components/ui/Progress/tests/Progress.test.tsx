@@ -297,6 +297,6 @@ describe('Progress', () => {
     // TODO: Add color test after supporting color prop
     // test('renders progress bar with correct color', () => {
     //     render(<ProgressComp color='blue' />);
-    //     expect(screen.getByRole('progressbar')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+    //     expect(screen.getByRole('progressbar')).toHaveAttribute('data-color', 'blue');
     // });
 });

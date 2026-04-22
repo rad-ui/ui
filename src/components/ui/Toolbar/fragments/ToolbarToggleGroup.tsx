@@ -57,7 +57,7 @@ const ToolbarToggleGroup = React.forwardRef<HTMLDivElement, ToolbarToggleGroupPr
                     ref={ref}
                     {...props}
                     role="group"
-                    className={clsx(`${toolbarContext.rootClass}-toggle-group`, className)}
+                    className={clsx(toolbarContext.rootClass && `${toolbarContext.rootClass}-toggle-group`, className)}
                 >
                     {children}
                 </div>

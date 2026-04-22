@@ -6,7 +6,7 @@ $drawer-sheet-radius: var(--rad-ui-radius-2xl);
 
 .rad-ui-drawer-trigger,
 .rad-ui-drawer-close {
-  @extend .rad-ui-button;
+  @extend .rad-ui-button-root;
 }
 
 .rad-ui-drawer-provider {
@@ -60,7 +60,7 @@ $drawer-sheet-radius: var(--rad-ui-radius-2xl);
   position: fixed;
   inset: 0;
   z-index: var(--rad-ui-z-index-overlay);
-  background-color: rgb(0, 0, 0, 0.56);
+  background-color: var(--rad-ui-overlay-scrim);
   backdrop-filter: blur(var(--rad-ui-blur-md));
   transition:
     opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),

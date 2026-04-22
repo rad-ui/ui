@@ -45,4 +45,44 @@ describe('ScrollArea', () => {
         warnSpy.mockRestore();
         errorSpy.mockRestore();
     });
+
+    test('does not emit generated part classes without a namespace', () => {
+        render(
+            <ScrollArea.Root data-testid="root" type="always">
+                <ScrollArea.Viewport data-testid="viewport">
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+                <ScrollArea.Corner data-testid="corner" />
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('root').className).toBe('');
+        expect(screen.getByTestId('viewport').className).toBe('');
+        expect(screen.getByTestId('scrollbar').className).toBe('');
+        expect(screen.getByTestId('thumb').className).toBe('');
+        expect(screen.getByTestId('corner').className).toBe('');
+    });
+
+    test('emits generated part classes when customRootClass provides a namespace', () => {
+        render(
+            <ScrollArea.Root customRootClass="acme" data-testid="root" type="always">
+                <ScrollArea.Viewport data-testid="viewport">
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+                <ScrollArea.Corner data-testid="corner" />
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('root')).toHaveClass('acme-scroll-area');
+        expect(screen.getByTestId('viewport')).toHaveClass('acme-scroll-area-viewport');
+        expect(screen.getByTestId('scrollbar')).toHaveClass('acme-scroll-area-scrollbar');
+        expect(screen.getByTestId('thumb')).toHaveClass('acme-scroll-area-thumb');
+        expect(screen.getByTestId('corner')).toHaveClass('acme-scroll-area-corner');
+    });
 });

@@ -11,9 +11,10 @@ export type CardRootProps = React.ComponentPropsWithoutRef<'div'> & {
 };
 
 const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(({ children, customRootClass, className = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const componentClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
     const dataAttributes = createDataAttributes('card', { variant, size });
-    const contextValue = useMemo(() => ({ rootClass }), [rootClass]);
+    const contextValue = useMemo(() => ({ rootClass: componentClass }), [componentClass]);
 
     return (
         <CardContext.Provider value={contextValue}>

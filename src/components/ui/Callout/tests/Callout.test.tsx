@@ -30,7 +30,7 @@ describe('Callout', () => {
                 </Callout.Root>
             );
             const element = screen.getByText('Test Content').parentElement;
-            expect(element).toHaveAttribute('data-rad-ui-accent-color', 'red');
+            expect(element).toHaveAttribute('data-color', 'red');
         });
 
         it('applies variant prop correctly', () => {
@@ -40,7 +40,7 @@ describe('Callout', () => {
                 </Callout.Root>
             );
             const element = screen.getByText('Test Content').parentElement;
-            expect(element).toHaveAttribute('data-callout-variant', 'soft');
+            expect(element).toHaveAttribute('data-variant', 'soft');
         });
 
         it('applies intent prop correctly', () => {
@@ -50,7 +50,7 @@ describe('Callout', () => {
                 </Callout.Root>
             );
             const element = screen.getByText('Test Content').parentElement;
-            expect(element).toHaveAttribute('data-callout-intent', 'destructive');
+            expect(element).toHaveAttribute('data-intent', 'destructive');
         });
 
         it('supports both intent and variant props together', () => {
@@ -60,8 +60,8 @@ describe('Callout', () => {
                 </Callout.Root>
             );
             const element = screen.getByText('Test Content').parentElement;
-            expect(element).toHaveAttribute('data-callout-intent', 'destructive');
-            expect(element).toHaveAttribute('data-callout-variant', 'outline');
+            expect(element).toHaveAttribute('data-intent', 'destructive');
+            expect(element).toHaveAttribute('data-variant', 'outline');
         });
 
         it('maintains backward compatibility: variant="destructive" maps to intent', () => {
@@ -71,8 +71,8 @@ describe('Callout', () => {
                 </Callout.Root>
             );
             const element = screen.getByText('Test Content').parentElement;
-            expect(element).toHaveAttribute('data-callout-intent', 'destructive');
-            expect(element).not.toHaveAttribute('data-callout-variant', 'destructive');
+            expect(element).toHaveAttribute('data-intent', 'destructive');
+            expect(element).not.toHaveAttribute('data-variant', 'destructive');
         });
 
         it('applies size prop correctly', () => {
@@ -82,7 +82,7 @@ describe('Callout', () => {
                 </Callout.Root>
             );
             const element = screen.getByText('Test Content').parentElement;
-            expect(element).toHaveAttribute('data-callout-size', 'large');
+            expect(element).toHaveAttribute('data-size', 'large');
         });
 
         it('forwards ref to root element', () => {
@@ -189,10 +189,10 @@ describe('Callout', () => {
             expect(screen.getByText('Icon')).toBeInTheDocument();
             expect(screen.getByText('Callout Message')).toBeInTheDocument();
 
-            const rootElement = screen.getByText('Callout Message').closest('[data-rad-ui-accent-color]');
-            expect(rootElement).toHaveAttribute('data-rad-ui-accent-color', 'blue');
-            expect(rootElement).toHaveAttribute('data-callout-variant', 'soft');
-            expect(rootElement).toHaveAttribute('data-callout-size', 'medium');
+            const rootElement = screen.getByText('Callout Message').closest('[data-color]');
+            expect(rootElement).toHaveAttribute('data-color', 'blue');
+            expect(rootElement).toHaveAttribute('data-variant', 'soft');
+            expect(rootElement).toHaveAttribute('data-size', 'medium');
         });
     });
 });

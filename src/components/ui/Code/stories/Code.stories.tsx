@@ -39,7 +39,7 @@ export const Default = () => (
 
 export const WithAccentColor = () => (
     <SandboxEditor>
-        <div className="space-y-4" data-rad-ui-accent-color="blue">
+        <div className="space-y-4" data-color="blue">
             <div>
                 <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-2">
                     Code with accent color: <Code>const x = 42</Code>

@@ -7,9 +7,9 @@
     width: fit-content;
     max-width: 100%;
     box-sizing: border-box;
-    border: 1px solid var(--rad-ui-color-gray-600);
+    border: 1px solid var(--rad-ui-field-border);
     border-radius: var(--rad-ui-radius-md);
-    background-color: var(--rad-ui-color-gray-100);
+    background-color: var(--rad-ui-field-background);
     color: var(--rad-ui-color-gray-1000);
     box-shadow: var(--rad-ui-shadow-xs);
 
@@ -20,8 +20,8 @@
 
     &:has(.rad-ui-number-field-input:disabled),
     &:has(.rad-ui-number-field-input:read-only) {
-        background-color: var(--rad-ui-surface-subtle);
-        border-color: var(--rad-ui-border-soft);
+        background-color: var(--rad-ui-disabled-background);
+        border-color: var(--rad-ui-disabled-border);
         box-shadow: none;
     }
 }
@@ -44,12 +44,12 @@
     letter-spacing: 0;
 
     &::placeholder {
-        color: var(--rad-ui-text-muted);
+        color: var(--rad-ui-field-placeholder);
     }
 
     &:disabled,
     &:read-only {
-        color: var(--rad-ui-text-muted);
+        color: var(--rad-ui-disabled-text);
         cursor: not-allowed;
     }
 

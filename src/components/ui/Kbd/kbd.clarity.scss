@@ -27,25 +27,25 @@
 
 
     /** Kbd Sizes */
-    &[data-kbd-size="small"]{
+    &[data-size="small"]{
         font-size: small;
         padding: 2px 8px;
         height: 24px;
     }
 
-    &[data-kbd-size="medium"]{
+    &[data-size="medium"]{
         font-size: medium;
         padding: 4px 12px;
         height: 32px;
     }
 
-    &[data-kbd-size="large"]{
+    &[data-size="large"]{
         font-size: large;
         padding: 4px 16px;
         height: 40px;
     }
 
-    &[data-kbd-size="x-large"]{
+    &[data-size="x-large"]{
         font-size: x-large;
         padding: 4px 24px;
         height: 48px;

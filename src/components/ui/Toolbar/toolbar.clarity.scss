@@ -16,6 +16,7 @@
 
     .rad-ui-toolbar-button,
     .rad-ui-toolbar-link {
+        position: relative;
         border-radius: var(--rad-ui-radius-sm);
         transition:
             background-color 0.12s ease,

@@ -517,7 +517,7 @@
 --rad-ui-transition-expressive: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms cubic-bezier(0.2, 0, 0, 1), filter 320ms cubic-bezier(0.2, 0, 0, 1);
     }
 
-    [data-rad-ui-accent-color=gray]{
+    :where([data-rad-ui-accent-color=gray], [data-color=gray]){
 --rad-ui-color-accent-50: var(--rad-ui-color-gray-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-gray-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-gray-200);
@@ -531,7 +531,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-gray-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-gray-1000);
 }
-[data-rad-ui-accent-color=mauve]{
+:where([data-rad-ui-accent-color=mauve], [data-color=mauve]){
 --rad-ui-color-accent-50: var(--rad-ui-color-mauve-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-mauve-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-mauve-200);
@@ -545,7 +545,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-mauve-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-mauve-1000);
 }
-[data-rad-ui-accent-color=slate]{
+:where([data-rad-ui-accent-color=slate], [data-color=slate]){
 --rad-ui-color-accent-50: var(--rad-ui-color-slate-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-slate-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-slate-200);
@@ -559,7 +559,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-slate-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-slate-1000);
 }
-[data-rad-ui-accent-color=sage]{
+:where([data-rad-ui-accent-color=sage], [data-color=sage]){
 --rad-ui-color-accent-50: var(--rad-ui-color-sage-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-sage-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-sage-200);
@@ -573,7 +573,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-sage-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-sage-1000);
 }
-[data-rad-ui-accent-color=olive]{
+:where([data-rad-ui-accent-color=olive], [data-color=olive]){
 --rad-ui-color-accent-50: var(--rad-ui-color-olive-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-olive-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-olive-200);
@@ -587,7 +587,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-olive-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-olive-1000);
 }
-[data-rad-ui-accent-color=sand]{
+:where([data-rad-ui-accent-color=sand], [data-color=sand]){
 --rad-ui-color-accent-50: var(--rad-ui-color-sand-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-sand-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-sand-200);
@@ -601,7 +601,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-sand-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-sand-1000);
 }
-[data-rad-ui-accent-color=tomato]{
+:where([data-rad-ui-accent-color=tomato], [data-color=tomato]){
 --rad-ui-color-accent-50: var(--rad-ui-color-tomato-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-tomato-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-tomato-200);
@@ -615,7 +615,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-tomato-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-tomato-1000);
 }
-[data-rad-ui-accent-color=red]{
+:where([data-rad-ui-accent-color=red], [data-color=red]){
 --rad-ui-color-accent-50: var(--rad-ui-color-red-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-red-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-red-200);
@@ -629,7 +629,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-red-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-red-1000);
 }
-[data-rad-ui-accent-color=ruby]{
+:where([data-rad-ui-accent-color=ruby], [data-color=ruby]){
 --rad-ui-color-accent-50: var(--rad-ui-color-ruby-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-ruby-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-ruby-200);
@@ -643,7 +643,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-ruby-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-ruby-1000);
 }
-[data-rad-ui-accent-color=crimson]{
+:where([data-rad-ui-accent-color=crimson], [data-color=crimson]){
 --rad-ui-color-accent-50: var(--rad-ui-color-crimson-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-crimson-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-crimson-200);
@@ -657,7 +657,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-crimson-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-crimson-1000);
 }
-[data-rad-ui-accent-color=pink]{
+:where([data-rad-ui-accent-color=pink], [data-color=pink]){
 --rad-ui-color-accent-50: var(--rad-ui-color-pink-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-pink-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-pink-200);
@@ -671,7 +671,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-pink-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-pink-1000);
 }
-[data-rad-ui-accent-color=plum]{
+:where([data-rad-ui-accent-color=plum], [data-color=plum]){
 --rad-ui-color-accent-50: var(--rad-ui-color-plum-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-plum-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-plum-200);
@@ -685,7 +685,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-plum-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-plum-1000);
 }
-[data-rad-ui-accent-color=purple]{
+:where([data-rad-ui-accent-color=purple], [data-color=purple]){
 --rad-ui-color-accent-50: var(--rad-ui-color-purple-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-purple-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-purple-200);
@@ -699,7 +699,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-purple-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-purple-1000);
 }
-[data-rad-ui-accent-color=violet]{
+:where([data-rad-ui-accent-color=violet], [data-color=violet]){
 --rad-ui-color-accent-50: var(--rad-ui-color-violet-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-violet-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-violet-200);
@@ -713,7 +713,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-violet-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-violet-1000);
 }
-[data-rad-ui-accent-color=iris]{
+:where([data-rad-ui-accent-color=iris], [data-color=iris]){
 --rad-ui-color-accent-50: var(--rad-ui-color-iris-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-iris-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-iris-200);
@@ -727,7 +727,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-iris-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-iris-1000);
 }
-[data-rad-ui-accent-color=indigo]{
+:where([data-rad-ui-accent-color=indigo], [data-color=indigo]){
 --rad-ui-color-accent-50: var(--rad-ui-color-indigo-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-indigo-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-indigo-200);
@@ -741,7 +741,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-indigo-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-indigo-1000);
 }
-[data-rad-ui-accent-color=blue]{
+:where([data-rad-ui-accent-color=blue], [data-color=blue]){
 --rad-ui-color-accent-50: var(--rad-ui-color-blue-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-blue-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-blue-200);
@@ -755,7 +755,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-blue-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-blue-1000);
 }
-[data-rad-ui-accent-color=cyan]{
+:where([data-rad-ui-accent-color=cyan], [data-color=cyan]){
 --rad-ui-color-accent-50: var(--rad-ui-color-cyan-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-cyan-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-cyan-200);
@@ -769,7 +769,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-cyan-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-cyan-1000);
 }
-[data-rad-ui-accent-color=teal]{
+:where([data-rad-ui-accent-color=teal], [data-color=teal]){
 --rad-ui-color-accent-50: var(--rad-ui-color-teal-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-teal-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-teal-200);
@@ -783,7 +783,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-teal-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-teal-1000);
 }
-[data-rad-ui-accent-color=jade]{
+:where([data-rad-ui-accent-color=jade], [data-color=jade]){
 --rad-ui-color-accent-50: var(--rad-ui-color-jade-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-jade-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-jade-200);
@@ -797,7 +797,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-jade-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-jade-1000);
 }
-[data-rad-ui-accent-color=green]{
+:where([data-rad-ui-accent-color=green], [data-color=green]){
 --rad-ui-color-accent-50: var(--rad-ui-color-green-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-green-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-green-200);
@@ -811,7 +811,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-green-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-green-1000);
 }
-[data-rad-ui-accent-color=grass]{
+:where([data-rad-ui-accent-color=grass], [data-color=grass]){
 --rad-ui-color-accent-50: var(--rad-ui-color-grass-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-grass-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-grass-200);
@@ -825,7 +825,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-grass-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-grass-1000);
 }
-[data-rad-ui-accent-color=brown]{
+:where([data-rad-ui-accent-color=brown], [data-color=brown]){
 --rad-ui-color-accent-50: var(--rad-ui-color-brown-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-brown-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-brown-200);
@@ -839,7 +839,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-brown-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-brown-1000);
 }
-[data-rad-ui-accent-color=bronze]{
+:where([data-rad-ui-accent-color=bronze], [data-color=bronze]){
 --rad-ui-color-accent-50: var(--rad-ui-color-bronze-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-bronze-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-bronze-200);
@@ -853,7 +853,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-bronze-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-bronze-1000);
 }
-[data-rad-ui-accent-color=gold]{
+:where([data-rad-ui-accent-color=gold], [data-color=gold]){
 --rad-ui-color-accent-50: var(--rad-ui-color-gold-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-gold-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-gold-200);
@@ -867,7 +867,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-gold-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-gold-1000);
 }
-[data-rad-ui-accent-color=sky]{
+:where([data-rad-ui-accent-color=sky], [data-color=sky]){
 --rad-ui-color-accent-50: var(--rad-ui-color-sky-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-sky-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-sky-200);
@@ -881,7 +881,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-sky-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-sky-1000);
 }
-[data-rad-ui-accent-color=mint]{
+:where([data-rad-ui-accent-color=mint], [data-color=mint]){
 --rad-ui-color-accent-50: var(--rad-ui-color-mint-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-mint-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-mint-200);
@@ -895,7 +895,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-mint-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-mint-1000);
 }
-[data-rad-ui-accent-color=lime]{
+:where([data-rad-ui-accent-color=lime], [data-color=lime]){
 --rad-ui-color-accent-50: var(--rad-ui-color-lime-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-lime-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-lime-200);
@@ -909,7 +909,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-lime-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-lime-1000);
 }
-[data-rad-ui-accent-color=yellow]{
+:where([data-rad-ui-accent-color=yellow], [data-color=yellow]){
 --rad-ui-color-accent-50: var(--rad-ui-color-yellow-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-yellow-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-yellow-200);
@@ -923,7 +923,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-yellow-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-yellow-1000);
 }
-[data-rad-ui-accent-color=amber]{
+:where([data-rad-ui-accent-color=amber], [data-color=amber]){
 --rad-ui-color-accent-50: var(--rad-ui-color-amber-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-amber-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-amber-200);
@@ -937,7 +937,7 @@
 --rad-ui-color-accent-950: var(--rad-ui-color-amber-950);
 --rad-ui-color-accent-1000: var(--rad-ui-color-amber-1000);
 }
-[data-rad-ui-accent-color=orange]{
+:where([data-rad-ui-accent-color=orange], [data-color=orange]){
 --rad-ui-color-accent-50: var(--rad-ui-color-orange-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-orange-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-orange-200);

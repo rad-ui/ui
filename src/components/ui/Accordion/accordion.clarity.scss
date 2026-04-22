@@ -32,8 +32,8 @@
       width: 100%;
 
       &:focus-visible {
-        outline: var(--rad-ui-focus-ring-width-sm) var(--rad-ui-focus-ring-style) var(--rad-ui-focus-ring-color);
-        outline-offset: var(--rad-ui-focus-ring-offset);
+        outline: none;
+        box-shadow: var(--rad-ui-focus-ring-shadow-offset);
         border-radius: var(--rad-ui-radius-sm);
       }
 
