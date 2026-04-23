@@ -54,6 +54,7 @@
 @use "../../components/ui/Command/command.baremetal";
 @use "../../components/ui/Tooltip/tooltip.baremetal";
 @use "../../components/ui/Spinner/spinner.baremetal";
+@use "../../components/ui/Toast/toast.baremetal";
 @use "scope";
 
 #{scope.$theme-root} {

@@ -1,0 +1,251 @@
+/* ── Toast – Clarity design system ─────────────────────────────────────────── */
+
+/*
+ * Easing reference (Emil Kowalski / animations.dev):
+ *   Enter/exit UI elements  → ease-out  (fast start, settles in)
+ *   On-screen movement      → ease-in-out
+ *   Hover/color changes     → ease
+ *
+ * Durations:
+ *   Enter  200ms  — feels instant, responsive
+ *   Exit   150ms  — slightly faster than enter
+ *   Restack 320ms — on-screen movement, ease-in-out
+ *   Text fade 150ms
+ */
+
+/* ── Viewport ────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-viewport {
+    position: fixed;
+    z-index: var(--rad-ui-z-index-portal, 9999);
+    list-style: none;
+    margin: 0;
+    padding: 0 1rem 1rem;
+    width: 390px;
+    max-width: 100vw;
+    outline: none;
+    height: calc(var(--viewport-height, 0px) + 1rem);
+    /* Viewport height change = on-screen resize → ease-in-out */
+    transition: height 320ms cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    &[data-position="bottom-right"]  { bottom: 0; right: 0; }
+    &[data-position="bottom-left"]   { bottom: 0; left: 0; }
+    &[data-position="bottom-center"] { bottom: 0; left: 50%; transform: translateX(-50%); }
+    &[data-position="top-right"]     { top: 0; right: 0; }
+    &[data-position="top-left"]      { top: 0; left: 0; }
+    &[data-position="top-center"]    { top: 0; left: 50%; transform: translateX(-50%); }
+}
+
+/* ── Toast item ──────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-item {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    list-style: none;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    will-change: transform, opacity;
+
+    transform:
+        translateY(calc(var(--offset, 0px) * -1))
+        translateY(var(--swipe-amount, 0px))
+        scale(var(--scale, 1));
+    transform-origin: center bottom;
+
+    /*
+     * Default transition = restacking (an existing toast moving to a new position).
+     * This is on-screen movement → ease-in-out, slightly longer so it feels deliberate.
+     */
+    transition:
+        transform 320ms cubic-bezier(0.645, 0.045, 0.355, 1),
+        opacity   200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        height    320ms cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    /*
+     * ENTER state — toast not yet mounted.
+     * Starts below the viewport (translateY 100%) and invisible.
+     * When [data-mounted] is added, the transition above carries it into position.
+     * Using ease-out-quart for a snappy, responsive feel.
+     */
+    &:not([data-mounted]) {
+        opacity: 0;
+        transform: translateY(100%) scale(var(--scale, 1));
+        /* Override transition for the enter movement — ease-out, faster */
+        transition:
+            transform 200ms cubic-bezier(0.165, 0.84, 0.44, 1),
+            opacity   200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /*
+     * EXIT state — ease-in (slow start, fast end) so it feels like it's
+     * being pulled away. Slightly faster than enter.
+     */
+    &[data-leaving] {
+        opacity: 0;
+        transform: translateY(100%) scale(var(--scale, 1));
+        pointer-events: none;
+        transition:
+            transform 150ms cubic-bezier(0.55, 0, 1, 0.45),
+            opacity   150ms cubic-bezier(0.55, 0, 1, 0.45);
+    }
+
+    /* Swiping — no transition, follow pointer exactly */
+    &[data-swiping] {
+        transition: none;
+        cursor: grabbing;
+    }
+
+    /* Back toasts: clamp to front toast height so stack is even */
+    &[data-behind] {
+        height: var(--front-height, auto);
+    }
+
+    /* Top-positioned viewports */
+    [data-position^="top"] & {
+        bottom: auto;
+        top: 0;
+        transform-origin: center top;
+
+        &:not([data-mounted]) { transform: translateY(-100%) scale(var(--scale, 1)); }
+        &[data-leaving]       { transform: translateY(-100%) scale(var(--scale, 1)); }
+    }
+}
+
+/* ── Content wrapper ─────────────────────────────────────────────────────── */
+
+.rad-ui-toast-content {
+    overflow: hidden;
+    border-radius: var(--rad-ui-radius-xl, 0.75rem);
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    background-color: var(--rad-ui-surface-panel);
+    border: 1px solid var(--rad-ui-border-soft);
+    box-shadow: var(--rad-ui-elevation-md-shadow, 0 4px 16px rgb(0 0 0 / 0.12));
+    color: var(--rad-ui-text-primary);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/*
+ * Back toast text: hidden so only the card shape is visible in the stack.
+ * Fade out fast (ease-in), fade in slightly slower (ease-out).
+ */
+.rad-ui-toast-item[data-behind] .rad-ui-toast-title,
+.rad-ui-toast-item[data-behind] .rad-ui-toast-description,
+.rad-ui-toast-item[data-behind] .rad-ui-toast-action,
+.rad-ui-toast-item[data-behind] .rad-ui-toast-close {
+    opacity: 0;
+    transition: opacity 100ms cubic-bezier(0.55, 0, 1, 0.45);
+}
+
+.rad-ui-toast-item[data-expanded] .rad-ui-toast-title,
+.rad-ui-toast-item[data-expanded] .rad-ui-toast-description,
+.rad-ui-toast-item[data-expanded] .rad-ui-toast-action,
+.rad-ui-toast-item[data-expanded] .rad-ui-toast-close {
+    opacity: 1;
+    transition: opacity 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── Title ───────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-title {
+    margin: 0;
+    font-size: var(--rad-ui-font-size-2, 0.875rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--rad-ui-text-primary);
+    letter-spacing: -0.025em;
+}
+
+/* ── Description ─────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-description {
+    margin: 0;
+    font-size: var(--rad-ui-font-size-1, 0.8125rem);
+    line-height: 1.5;
+    color: var(--rad-ui-text-secondary);
+    letter-spacing: -0.01em;
+}
+
+/* ── Action button ───────────────────────────────────────────────────────── */
+
+.rad-ui-toast-action {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    font-size: var(--rad-ui-font-size-1, 0.8125rem);
+    font-weight: 500;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--rad-ui-radius-md, 0.375rem);
+    border: 1px solid var(--rad-ui-border-default);
+    background: transparent;
+    color: var(--rad-ui-text-primary);
+    cursor: pointer;
+    line-height: 1.5;
+    transition: background-color 150ms ease;
+
+    &:hover { background-color: var(--rad-ui-surface-hover); }
+    &:focus-visible { outline: none; box-shadow: var(--rad-ui-ring-shadow-sm); }
+}
+
+/* ── Close button ────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--rad-ui-radius-md, 0.375rem);
+    border: none;
+    background: transparent;
+    color: var(--rad-ui-text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0;
+    transition: color 150ms ease, background-color 150ms ease;
+
+    &:hover { color: var(--rad-ui-text-primary); background-color: var(--rad-ui-surface-hover); }
+    &:focus-visible { outline: none; box-shadow: var(--rad-ui-ring-shadow-sm); }
+}
+
+/* ── Variant accent borders ──────────────────────────────────────────────── */
+
+.rad-ui-toast-item[data-variant="success"] .rad-ui-toast-content { border-color: var(--rad-ui-color-green-400, #4ade80); }
+.rad-ui-toast-item[data-variant="error"]   .rad-ui-toast-content { border-color: var(--rad-ui-color-red-400,   #f87171); }
+.rad-ui-toast-item[data-variant="warning"] .rad-ui-toast-content { border-color: var(--rad-ui-color-amber-400, #fbbf24); }
+.rad-ui-toast-item[data-variant="info"]    .rad-ui-toast-content { border-color: var(--rad-ui-color-blue-400,  #60a5fa); }
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-ui-toast-viewport { transition: none; }
+
+    .rad-ui-toast-item {
+        transition: opacity 100ms ease;
+        will-change: auto;
+
+        &:not([data-mounted]) { opacity: 0; transform: scale(var(--scale, 1)); transition: none; }
+        &[data-leaving]       { opacity: 0; transform: scale(var(--scale, 1)); transition: opacity 100ms ease; }
+    }
+
+    .rad-ui-toast-item[data-behind] .rad-ui-toast-title,
+    .rad-ui-toast-item[data-behind] .rad-ui-toast-description,
+    .rad-ui-toast-item[data-behind] .rad-ui-toast-action,
+    .rad-ui-toast-item[data-behind] .rad-ui-toast-close,
+    .rad-ui-toast-item[data-expanded] .rad-ui-toast-title,
+    .rad-ui-toast-item[data-expanded] .rad-ui-toast-description,
+    .rad-ui-toast-item[data-expanded] .rad-ui-toast-action,
+    .rad-ui-toast-item[data-expanded] .rad-ui-toast-close {
+        transition: none;
+    }
+}
