@@ -13,9 +13,10 @@ export type ComboboxPrimitiveContentProps = {
 const ComboboxPrimitiveContent = React.forwardRef<
     React.ElementRef<'div'>,
     ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
->(({ children, className, ...props }, forwardedRef) => {
-    const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles } = useContext(ComboboxPrimitiveContext);
+>(({ children, className, style, ...props }, forwardedRef) => {
+    const { isOpen, elementsRef, labelsRef, floatingContext, refs, getFloatingProps, floatingStyles, isPositioned } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
+    const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
 
     return (
         <>
@@ -24,9 +25,16 @@ const ComboboxPrimitiveContent = React.forwardRef<
                     <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
                         <div
                             ref={mergedRef}
-                            style={floatingStyles}
+                            style={{
+                                ...floatingStyles,
+                                ...style,
+                                visibility: !isPositioned && shouldHideUntilPositioned
+                                    ? 'hidden'
+                                    : (style?.visibility || floatingStyles.visibility)
+                            }}
                             className={className}
                             data-state={isOpen ? 'open' : 'closed'}
+                            data-positioned={isPositioned ? '' : undefined}
                             {...getFloatingProps()}
                             {...props}
                         >

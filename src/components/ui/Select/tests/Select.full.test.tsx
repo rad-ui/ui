@@ -35,7 +35,7 @@ describe('Select full behavior', () => {
 
         await userEvent.keyboard('{Enter}');
         await waitFor(() => expect(trigger).toHaveAttribute('data-state', 'closed'));
-        expect(trigger).toHaveTextContent('banana');
+        expect(trigger).toHaveTextContent('Banana');
     });
 
     test('form submit includes value and disabled options not selectable', async() => {
@@ -68,7 +68,7 @@ describe('Select full behavior', () => {
         await userEvent.click(screen.getByText('Banana'));
         expect(trigger).toHaveTextContent('trigger');
         await userEvent.click(screen.getByText('Apple'));
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
         await userEvent.click(screen.getByText('submit'));
         expect(submittedValue).toBe('apple');
     });
@@ -96,7 +96,7 @@ describe('Select full behavior', () => {
         expect(trigger).toHaveTextContent('apple');
         await userEvent.click(trigger);
         await userEvent.click(screen.getByText('Orange'));
-        expect(trigger).toHaveTextContent('orange');
+        expect(trigger).toHaveTextContent('Orange');
         unmount();
         render(
             <Select.Root defaultValue="apple">
@@ -115,7 +115,7 @@ describe('Select full behavior', () => {
         expect(trigger2).toHaveTextContent('apple');
         await userEvent.click(trigger2);
         await userEvent.click(screen.getByText('Grape'));
-        expect(trigger2).toHaveTextContent('grape');
+        expect(trigger2).toHaveTextContent('Grape');
     });
 
     test('portal container renders and focus returns to trigger', async() => {

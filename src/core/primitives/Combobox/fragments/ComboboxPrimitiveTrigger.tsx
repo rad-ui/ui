@@ -16,7 +16,7 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
     ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(({ children, className, disabled, asChild, onClick, ...props }, forwardedRef) => {
-    const { isOpen, setIsOpen, selectedLabel, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
+    const { isOpen, setIsOpen, selectedLabel, selectedValue, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
 
     const { onClick: _refOnClick, ...refProps } = getReferenceProps();
 
@@ -41,7 +41,7 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             {...refProps}
             {...props}
         >
-            {selectedLabel || children}
+            {selectedLabel || selectedValue || children}
         </Primitive.button>
     );
 });

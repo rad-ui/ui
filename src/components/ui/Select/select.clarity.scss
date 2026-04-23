@@ -14,31 +14,40 @@
     width: var(--rad-select-width, 220px);
 }
 
+.rad-ui-select-trigger,
+.rad-ui-select-content,
+.rad-ui-select-item,
+.rad-ui-select-label {
+    --rad-ui-select-control-height: 32px;
+    --rad-ui-select-control-padding-x: 0.75rem;
+    --rad-ui-select-control-radius: var(--rad-ui-radius-md);
+}
+
 .rad-ui-select-trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--rad-ui-spacing-2);
-    border-radius: var(--rad-ui-radius-xl);
-    padding: 0 1rem;
-    min-height: var(--rad-ui-size-12);
-    font-size: 0.9375rem;
-    line-height: var(--rad-ui-size-5);
+    border-radius: var(--rad-ui-select-control-radius);
+    padding: 0 var(--rad-ui-select-control-padding-x);
+    min-height: var(--rad-ui-select-control-height);
+    font-size: var(--rad-ui-font-size-2);
+    line-height: var(--rad-ui-line-height-3);
     background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
     color: var(--rad-ui-color-gray-1000);            // step 11 — primary text
     border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
-    box-shadow: var(--rad-ui-shadow-xs);
+    box-shadow: none;
     transition: border-color 0.15s ease;
 
     &::after {
         content: '';
         border-style: solid;
         border-width: 0 3px 3px 0;
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 0.375rem;
+        height: 0.375rem;
         margin-left: 0.5rem;
         transform: rotate(45deg);
         border-color: transparent var(--rad-ui-color-gray-700) var(--rad-ui-color-gray-700) transparent; // step 8 — muted icon
@@ -54,7 +63,7 @@
 
     &:focus-visible {
         outline: none;
-        box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-shadow-xs);
+        box-shadow: var(--rad-ui-focus-ring-shadow);
     }
 
     &[data-placeholder] {
@@ -75,9 +84,9 @@
     z-index: var(--rad-ui-z-index-portal);
     overflow: hidden;
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
-    border-radius: calc(var(--rad-ui-radius-xl) + 0.25rem);
+    border-radius: var(--rad-ui-select-control-radius);
     border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
-    box-shadow: var(--rad-ui-shadow-lg);
+    box-shadow: var(--rad-ui-elevation-md-shadow);
     max-height: var(--rad-select-content-height, 300px);
     overflow-y: auto;
     min-width: var(--rad-select-width, 220px);
@@ -86,7 +95,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    padding: var(--rad-ui-spacing-2);
+    padding: 0;
     outline: none;
 
     &[data-state="closed"] {
@@ -103,12 +112,13 @@
     font-size: var(--rad-ui-font-size-2);
     line-height: var(--rad-ui-line-height-3);
     color: var(--rad-ui-color-gray-1000); // step 11 — primary text
-    padding: 0.5rem 0.75rem 0.5rem 2rem; // left padding reserves space for indicator
+    min-height: var(--rad-ui-select-control-height);
+    padding: 0 calc(var(--rad-ui-select-control-padding-x) + 1.75rem) 0 var(--rad-ui-select-control-padding-x);
     position: relative;
     user-select: none;
     outline: none;
     cursor: pointer;
-    border-radius: var(--rad-ui-radius-lg);
+    border-radius: var(--rad-ui-radius-sm);
     display: flex;
     align-items: center;
     width: 100%;
@@ -121,12 +131,12 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: var(--rad-ui-color-accent-800); // accent — selected checkmark
-        width: 16px;
-        height: 16px;
+        color: var(--rad-ui-color-gray-1000); // step 11 — primary text
+        width: 14px;
+        height: 14px;
         opacity: 0;
         position: absolute;
-        left: 0.5rem;
+        right: var(--rad-ui-select-control-padding-x);
         top: 50%;
         transform: translateY(-50%);
     }
@@ -142,9 +152,9 @@
 
     &[data-highlighted],
     &[data-active="true"] {
-        background-color: var(--rad-ui-item-highlighted-background);
+        background-color: var(--rad-ui-color-gray-100);
         color: var(--rad-ui-item-highlighted-text);
-        box-shadow: inset 0 0 0 1px var(--rad-ui-item-highlighted-border);
+        box-shadow: none;
     }
 
     &[data-disabled] {
@@ -158,17 +168,16 @@
     }
 
     &[aria-selected="true"] {
-        background-color: var(--rad-ui-item-selected-background);
+        background-color: transparent;
         color: var(--rad-ui-item-selected-text);
-        font-weight: 500;
+        font-weight: 400;
     }
 
     &[aria-selected="true"][data-active="true"],
     &[aria-selected="true"][data-highlighted] {
-        background-color: var(--rad-ui-item-selected-background);
+        background-color: var(--rad-ui-color-gray-100);
         color: var(--rad-ui-item-selected-text);
-        box-shadow: inset 0 0 0 1px var(--rad-ui-item-selected-border),
-                    var(--rad-ui-shadow-xs);
+        box-shadow: none;
 
         .rad-ui-select-item-indicator {
             opacity: 1;
@@ -176,16 +185,12 @@
     }
 
     &[role="option"] {
-        margin-bottom: 0.125rem;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
+        margin-bottom: 0;
     }
 }
 
 .rad-ui-select-label {
-    padding: 0.125rem 0.75rem 0.5rem;
+    padding: 0.25rem var(--rad-ui-select-control-padding-x);
     font-size: 0.8125rem;
     line-height: var(--rad-ui-size-4);
     font-weight: 400;
