@@ -36,26 +36,18 @@
         translateY(var(--y, 0px))
         translateY(var(--swipe-y, 0px))
         scale(var(--scale, 1));
+    /* Sonner [data-sonner-toast]: transform/opacity 400ms (+ height in Sonner; omitted here). */
     transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
 
-    /* Exit: Sonner styles.css — [data-removed] front vs non-front (collapsed only). */
+    /* Exit: same full slide for front and behind (Sonner front path) — avoids 40% / mismatched timing flicker */
     &[data-leaving] {
         pointer-events: none;
-    }
-
-    &[data-leaving][data-front]:not([data-expanded]) {
         opacity: 0;
-        transform: translateY(100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
-    }
-
-    &[data-leaving]:not([data-front]):not([data-expanded]) {
-        opacity: 0;
-        transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
-        transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease;
-    }
-
-    &[data-leaving][data-expanded] {
-        opacity: 0;
+        transform:
+            translateY(calc(var(--toast-lift, -1) * -100%))
+            translateY(var(--swipe-y, 0px))
+            scale(var(--scale, 1));
+        transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
     }
 
     &:not([data-mounted]) {
@@ -83,13 +75,6 @@
         transform-origin: top center;
         &:not([data-mounted]) {
             transform: translateY(-100%) scale(var(--scale, 1));
-        }
-        &[data-leaving][data-front]:not([data-expanded]) {
-            transform: translateY(-100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
-        }
-        &[data-leaving]:not([data-front]):not([data-expanded]) {
-            transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
-            transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease;
         }
     }
 

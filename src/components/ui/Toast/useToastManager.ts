@@ -46,8 +46,10 @@ export function useToastManager(): ToastManagerReturn {
         // browser from moving existing DOM nodes when a new toast arrives, which
         // would reset their CSS transition state and cause them to re-animate
         // from their off-screen start position instead of their current position.
-        // ToastRoot uses visibleToasts (newest-first) for index/stacking math.
-        toasts: [...ctx.visibleToasts].reverse(),
+        // Must map the full provider list (not only visibleToasts): queued items
+        // still need ToastRoot mounted so the global-oldest FIFO timer can run
+        // and silent-dismiss the backlog; ToastRoot returns null when not visible.
+        toasts: [...ctx.toasts].reverse(),
         add: (data) => ToastState.create(data),
         dismiss: (id) => ToastState.dismiss(id),
         dismissAll: () => ToastState.dismissAll(),

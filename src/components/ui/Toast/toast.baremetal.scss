@@ -106,29 +106,15 @@
     transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease !important;
     &[data-leaving] {
         pointer-events: none;
-    }
-    &[data-leaving][data-front]:not([data-expanded]) {
         opacity: 0 !important;
-        transform: translateY(100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
-    }
-    &[data-leaving]:not([data-front]):not([data-expanded]) {
-        opacity: 0 !important;
-        transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
-        transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease !important;
-    }
-    &[data-leaving][data-expanded] {
-        opacity: 0 !important;
+        transform:
+            translateY(calc(var(--toast-lift, -1) * -100%))
+            translateY(var(--swipe-y, 0px))
+            scale(var(--scale, 1)) !important;
+        transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease !important;
     }
     &[data-restack-skip] { transition: none !important; }
     &[data-swiping] { transition: none !important; }
-}
-
-#{baremetal.$theme-root} [data-position^="top"] .rad-ui-toast-item[data-leaving][data-front]:not([data-expanded]) {
-    transform: translateY(-100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
-}
-#{baremetal.$theme-root} [data-position^="top"] .rad-ui-toast-item[data-leaving]:not([data-front]):not([data-expanded]) {
-    transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
-    transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease !important;
 }
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-description,

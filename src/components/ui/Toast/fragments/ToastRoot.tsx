@@ -20,7 +20,7 @@ export type ToastRootProps = {
 const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => {
     const {
         rootClass, position, expand, isHovered,
-        heights, gap, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
+        heights, gap, toasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
     } = useContext(ToastProviderContext);
 
     const itemRef = useRef<HTMLLIElement>(null);
@@ -41,11 +41,13 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     const isTop = position.startsWith('top');
     const isExpanded = expand || isHovered;
 
-    // Index among visible (non-leaving) toasts
+    // Index among visible stack (slice of newest `maxToasts`); -1 = queued, not shown
     const index = visibleToasts.findIndex((t) => t.id === toast.id);
     const isFront = index === 0;
     const isBehind = !isFront && !isExpanded;
-    const isOldest = index === visibleToasts.length - 1;
+    // Newest-first array: true oldest (FIFO) is the last element, not “back of visible slice”
+    const isGlobalOldest =
+        toasts.length > 0 && toast.id === toasts[toasts.length - 1]?.id;
 
     // Heights — when the new front toast isn’t measured yet, use the ex-front’s height for
     // stack math so --y doesn’t animate from a wrong refH when frontHeight flips from 0 → real.
@@ -126,10 +128,17 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     // ── Dismiss ─────────────────────────────────────────────────────────────
     const dismiss = useCallback(() => {
         if (leaving) return;
+        // Queued toasts aren’t mounted — drop immediately so the visible stack doesn’t restack/animate
+        if (index === -1) {
+            toast.onDismiss?.();
+            unlinkStackHeight(toast.id);
+            removeToast(toast.id);
+            return;
+        }
         unlinkStackHeight(toast.id);
         setLeaving(true);
         toast.onDismiss?.();
-    }, [leaving, toast, unlinkStackHeight]);
+    }, [index, leaving, toast, unlinkStackHeight, removeToast]);
 
     const dismissRef = useRef(dismiss);
     useEffect(() => { dismissRef.current = dismiss; }, [dismiss]);
@@ -159,10 +168,10 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     }, [toast.persistent]);
 
     useEffect(() => {
-        const shouldRun = !isDocHidden && (isOldest || isExpanded) && !leaving;
+        const shouldRun = !isDocHidden && (isGlobalOldest || isExpanded) && !leaving;
         if (shouldRun) { startTimer(); } else { pauseTimer(); }
         return pauseTimer;
-    }, [isExpanded, isDocHidden, isOldest, leaving, startTimer, pauseTimer]);
+    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, startTimer, pauseTimer]);
 
     // ── Remove from list after Sonner-style delay (exit motion is CSS-driven) ─
     useEffect(() => {
@@ -216,9 +225,8 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     let y: number;
     if (leaving) {
-        // Collapsed: Sonner styles.css sets transform via [data-leaving] + front/back.
-        // Expanded: keep a full slide so stacked layout doesn’t fight CSS.
-        y = isExpanded ? (isTop ? -window.innerHeight : window.innerHeight) : 0;
+        // Exit motion: Sonner [data-removed] rules in styles.css (lift × −100%, non-front 40%, etc.)
+        y = 0;
     } else if (isExpanded) {
         y = isTop ? expandedOffsetY : -expandedOffsetY;
     } else {
@@ -228,13 +236,16 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     const style: React.CSSProperties & Record<string, string | number> = {
         '--swipe-y': '0px',
-        '--scale': leaving ? 1 : scale,
+        // Keep stacked scale through exit — forcing 1 on leave made back cards pop to full size (flicker).
+        '--scale': scale,
         '--y': `${y}px`,
+        // Sonner --lift: bottom −1, top +1 → translateY(calc(lift × −100%)) on dismiss
+        '--toast-lift': isTop ? 1 : -1,
         '--front-height': `${measuredFrontHeight > 0 ? measuredFrontHeight : (formerFrontHeight > 0 ? formerFrontHeight : ownHeight)}px`,
         '--toast-index': index,
         '--toast-offset-y': `${isTop ? expandedOffsetY : -expandedOffsetY}px`,
-        // Keep exiting toast above the stack so the card behind doesn’t flash through (was z-index 0).
-        zIndex: leaving ? 1000 - index : 10 - index,
+        // Keep stack order while leaving — back toasts must stay under the front (no z-boost on exit).
+        zIndex: 10 - index,
     };
 
     return (
