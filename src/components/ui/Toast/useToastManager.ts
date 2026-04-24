@@ -8,7 +8,7 @@ type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey'>;
 
 export interface ToastManagerReturn {
     toasts: ToastData[];
-    add: (data: Omit<ToastData, 'id'>) => string;
+    add: (data: Omit<ToastData, 'id' | 'updateKey'> & { id?: string }) => string;
     dismiss: (id: string) => void;
     dismissAll: () => void;
     /** Base UI–style: loading toast → success or error when the promise settles. */

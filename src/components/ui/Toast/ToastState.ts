@@ -49,6 +49,9 @@ export const ToastState = new ToastStateManager();
 
 type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey'>;
 
+/** Options for `toast()` / `toast.success()` / `manager.add()` — optional stable `id` for upsert + pulse. */
+export type CreateToastInput = Omit<ToastData, 'id' | 'updateKey'> & { id?: string };
+
 /** Messages for `promiseToast` / `toast.promise` / `useToastManager().promise` (Base UI–style). */
 export type ToastPromiseMessages<T> = {
     loading: ToastData['title'];
@@ -85,9 +88,9 @@ export function promiseToast<T>(
     return promiseLike;
 }
 
-function createToast(options: ToastOptions): string;
-function createToast(title: string, options?: ToastOptions): string;
-function createToast(titleOrOptions: string | ToastOptions, options?: ToastOptions): string {
+function createToast(options: CreateToastInput): string;
+function createToast(title: string, options?: CreateToastInput): string;
+function createToast(titleOrOptions: string | CreateToastInput, options?: CreateToastInput): string {
     if (typeof titleOrOptions === 'string') {
         return ToastState.create({ title: titleOrOptions, ...options });
     }
@@ -95,7 +98,7 @@ function createToast(titleOrOptions: string | ToastOptions, options?: ToastOptio
 }
 
 function createVariantToast(variant: ToastVariant) {
-    return (titleOrOptions: string | ToastOptions, options?: ToastOptions): string => {
+    return (titleOrOptions: string | CreateToastInput, options?: CreateToastInput): string => {
         if (typeof titleOrOptions === 'string') {
             return ToastState.create({ title: titleOrOptions, variant, ...options });
         }

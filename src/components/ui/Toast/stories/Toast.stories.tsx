@@ -149,7 +149,7 @@ export const WithDescription = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Promise (Base UI–style)
+// Promise 
 // ─────────────────────────────────────────────────────────────────────────────
 
 function PromiseToastDemo() {
@@ -182,7 +182,7 @@ function PromiseToastDemo() {
             <Toaster />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
                 <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)' }}>
-                    Persistent loading toast, then success or error (~70% / 30%). Same API as Base UI{' '}
+                    Persistent loading toast, then success or error (~70% / 30%)
                     <code style={{ fontSize: '0.8125rem' }}>useToastManager().promise()</code>.
                 </p>
                 <Button type="button" onClick={runPromise}>
@@ -199,6 +199,87 @@ export const PromiseToast = {
         <SandboxEditor>
             <Toast.Provider position="bottom-right" gap={14} maxToasts={3}>
                 <PromiseToastDemo />
+            </Toast.Provider>
+        </SandboxEditor>
+    ),
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Stable id + pulse on duplicate (Base UI–style)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const PULSE_TOAST_STORY_STYLE_ID = 'rad-ui-toast-pulse-story-css';
+
+function usePulseStoryStyles() {
+    useEffect(() => {
+        if (typeof document === 'undefined') return;
+        if (document.getElementById(PULSE_TOAST_STORY_STYLE_ID)) return;
+        const el = document.createElement('style');
+        el.id = PULSE_TOAST_STORY_STYLE_ID;
+        el.textContent = `
+@keyframes rad-ui-toast-pulse-scale-even {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.04); }
+}
+@keyframes rad-ui-toast-pulse-scale-odd {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.035); }
+}
+.rad-ui-toast-item[data-pulse="even"] .rad-ui-toast-content {
+  transform-origin: center center;
+  animation: rad-ui-toast-pulse-scale-even 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rad-ui-toast-item[data-pulse="odd"] .rad-ui-toast-content {
+  transform-origin: center center;
+  animation: rad-ui-toast-pulse-scale-odd 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+`;
+        document.head.appendChild(el);
+        return () => {
+            el.remove();
+        };
+    }, []);
+}
+
+function PulseDuplicateDemo() {
+    useCleanup();
+    usePulseStoryStyles();
+    const manager = Toast.useToastManager();
+
+    function saveDraft() {
+        manager.add({
+            id: 'save-status',
+            title: 'Draft saved',
+            description: 'Click again while it is visible to replay the pulse.',
+        });
+    }
+
+    return (
+        <>
+            <Toaster />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)' }}>
+                    Pass a stable <code style={{ fontSize: '0.8125rem' }}>id</code> on{' '}
+                    <code style={{ fontSize: '0.8125rem' }}>add()</code>. Each duplicate bumps{' '}
+                    <code style={{ fontSize: '0.8125rem' }}>toast.updateKey</code>; the card does a quick{' '}
+                    expand/shrink scale pulse (no color flash).{' '}
+                    <code style={{ fontSize: '0.8125rem' }}>data-pulse</code> alternates even/odd so the animation
+                    restarts.
+                </p>
+                <Button type="button" onClick={saveDraft}>
+                    Save draft
+                </Button>
+            </div>
+        </>
+    );
+}
+
+export const PulseDuplicateId = {
+    name: 'Duplicate id (pulse)',
+    render: () => (
+        <SandboxEditor>
+            <Toast.Provider position="bottom-right" gap={14} maxToasts={3}>
+                <PulseDuplicateDemo />
             </Toast.Provider>
         </SandboxEditor>
     ),

@@ -167,11 +167,17 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         timerRef.current = setTimeout(() => dismissRef.current(), remainingRef.current);
     }, [toast.persistent]);
 
+    // Same toast `id` bumped `updateKey` (duplicate add) — full duration again
+    useEffect(() => {
+        remainingRef.current = toast.duration ?? 4000;
+        pauseTimer();
+    }, [toast.updateKey, toast.duration, pauseTimer]);
+
     useEffect(() => {
         const shouldRun = !isDocHidden && (isGlobalOldest || isExpanded) && !leaving;
         if (shouldRun) { startTimer(); } else { pauseTimer(); }
         return pauseTimer;
-    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, startTimer, pauseTimer]);
+    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, startTimer, pauseTimer, toast.updateKey]);
 
     // ── Remove from list after Sonner-style delay (exit motion is CSS-driven) ─
     useEffect(() => {
@@ -218,6 +224,12 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     // If not in visible list AND not leaving, don't render
     if (index === -1 && !leaving) return null;
 
+    /** Alternating phase so CSS can re-run pulse when `updateKey` changes (Base UI pattern). */
+    const pulsePhase =
+        toast.updateKey && toast.updateKey > 0
+            ? (toast.updateKey % 2 === 0 ? 'even' : 'odd')
+            : undefined;
+
     // ── Stacking math ───────────────────────────────────────────────────────
     const scale = isExpanded ? 1 : Math.max(0.82, 1 - index * 0.05);
     const shrink = 1 - scale;
@@ -263,6 +275,8 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
                 data-expanded={isExpanded ? '' : undefined}
                 data-front={isFront ? '' : undefined}
                 data-behind={isBehind ? '' : undefined}
+                data-pulse={pulsePhase}
+                data-update-key={toast.updateKey ?? 0}
                 className={clsx(rootClass && `${rootClass}-item`, className)}
                 style={style}
                 onPointerDown={onPointerDown}

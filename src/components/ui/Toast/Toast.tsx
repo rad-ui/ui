@@ -29,6 +29,7 @@
  * manager.dismiss(id);
  * manager.dismissAll();
  * manager.promise(fetch('/api'), { loading: '…', success: (d) => 'Done', error: (e) => 'Failed' });
+ * manager.add({ id: 'save-status', title: 'Draft saved' }); // same id again → updates + bumps `updateKey` / `data-pulse`
  * ```
  */
 
@@ -51,6 +52,7 @@ export type { ToastTitleProps } from './fragments/ToastTitle';
 export type { ToastDescriptionProps } from './fragments/ToastDescription';
 export type { ToastCloseProps } from './fragments/ToastClose';
 export type { ToastData, ToastVariant, ToastPosition } from './contexts/ToastContext';
+export type { CreateToastInput } from './ToastState';
 export type { ToastManagerReturn } from './useToastManager';
 export type { ToastPromiseMessages } from './ToastState';
 
