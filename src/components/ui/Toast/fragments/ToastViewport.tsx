@@ -43,7 +43,10 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) =>
             data-position={position}
             data-expanded={isExpanded ? '' : undefined}
             className={clsx(rootClass && `${rootClass}-viewport`, className)}
-            style={{ '--viewport-height': `${viewportHeight}px` } as React.CSSProperties}
+            style={{
+                '--viewport-height': `${viewportHeight}px`,
+                '--toast-frontmost-height': `${frontHeight}px`,
+            } as React.CSSProperties}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onFocusCapture={() => setIsHovered(true)}

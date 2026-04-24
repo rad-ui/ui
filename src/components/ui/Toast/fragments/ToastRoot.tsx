@@ -3,7 +3,6 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import clsx from 'clsx';
 import { ToastProviderContext, ToastItemContext } from '../contexts/ToastContext';
 import type { ToastData } from '../contexts/ToastContext';
-import { ToastState } from '../ToastState';
 
 const SWIPE_THRESHOLD = 40;
 const SWIPE_VELOCITY_THRESHOLD = 0.11;
@@ -21,11 +20,13 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     const {
         rootClass, position, expand, isHovered,
         heights, gap, toasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
+        defaultToastTimeout, toastManager,
     } = useContext(ToastProviderContext);
 
     const itemRef = useRef<HTMLLIElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const remainingRef = useRef<number>(toast.duration ?? 4000);
+    const durationMs = toast.duration ?? toast.timeout ?? defaultToastTimeout;
+    const remainingRef = useRef<number>(durationMs);
     const startTimeRef = useRef<number | null>(null);
     const [mounted, setMounted] = useState(false);
     const [entering, setEntering] = useState(true);
@@ -130,6 +131,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         if (leaving) return;
         // Queued toasts aren’t mounted — drop immediately so the visible stack doesn’t restack/animate
         if (index === -1) {
+            toast.onClose?.();
             toast.onDismiss?.();
             unlinkStackHeight(toast.id);
             removeToast(toast.id);
@@ -137,20 +139,21 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         }
         unlinkStackHeight(toast.id);
         setLeaving(true);
+        toast.onClose?.();
         toast.onDismiss?.();
     }, [index, leaving, toast, unlinkStackHeight, removeToast]);
 
     const dismissRef = useRef(dismiss);
     useEffect(() => { dismissRef.current = dismiss; }, [dismiss]);
 
-    // Imperative dismiss (ToastState.dismiss / manager.dismiss) — same exit as Close / timer
+    // Imperative dismiss — same exit as Close / timer
     useEffect(() => {
-        const unsub = ToastState.subscribeDismiss((id) => {
+        const unsub = toastManager.subscribeDismiss((id) => {
             if (id === '__all__') return;
             if (id === toast.id) dismissRef.current();
         });
         return unsub;
-    }, [toast.id]);
+    }, [toast.id, toastManager]);
 
     // ── Timer: only oldest toast ticks down when collapsed (FIFO) ───────────
     const pauseTimer = useCallback(() => {
@@ -169,9 +172,9 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     // Same toast `id` bumped `updateKey` (duplicate add) — full duration again
     useEffect(() => {
-        remainingRef.current = toast.duration ?? 4000;
+        remainingRef.current = toast.duration ?? toast.timeout ?? defaultToastTimeout;
         pauseTimer();
-    }, [toast.updateKey, toast.duration, pauseTimer]);
+    }, [toast.updateKey, toast.duration, toast.timeout, defaultToastTimeout, pauseTimer]);
 
     useEffect(() => {
         const shouldRun = !isDocHidden && (isGlobalOldest || isExpanded) && !leaving;
@@ -248,6 +251,9 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     const style: React.CSSProperties & Record<string, string | number> = {
         '--swipe-y': '0px',
+        '--toast-swipe-movement-x': '0px',
+        '--toast-swipe-movement-y': 'var(--swipe-y, 0px)',
+        '--toast-height': `${ownHeight}px`,
         // Keep stacked scale through exit — forcing 1 on leave made back cards pop to full size (flicker).
         '--scale': scale,
         '--y': `${y}px`,
@@ -265,9 +271,13 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
             <li
                 ref={itemRef}
                 role="status"
-                aria-live={toast.variant === 'error' ? 'assertive' : 'polite'}
+                aria-live={
+                    toast.priority === 'high' || toast.variant === 'error' ? 'assertive' : 'polite'
+                }
                 aria-atomic="true"
                 data-variant={toast.variant ?? 'default'}
+                data-type={toast.type ?? toast.variant ?? 'default'}
+                data-limited={toast.limited ? '' : undefined}
                 data-mounted={mounted ? '' : undefined}
                 data-entering={entering && isFront ? '' : undefined}
                 data-restack-skip={restackSkip ? '' : undefined}

@@ -1,19 +1,37 @@
 /**
- * Observer-pattern state manager for toasts.
- * No React context required — call `toast()` from anywhere.
+ * Toast manager — Base UI–aligned imperative API (`add`, `close`, `update`, `promise`).
+ * Use `ToastState` singleton or `createToastManager()` per `<Toast.Provider toastManager={…}>`.
  */
-import type { ToastData, ToastVariant } from './contexts/ToastContext';
+import type {
+    ToastData,
+    ToastVariant,
+    CreateToastInput,
+    ToastManagerUpdateOptions,
+    IToastManager,
+} from './contexts/ToastContext';
 
 type Subscriber = (toast: ToastData) => void;
 type DismissSubscriber = (id: string) => void;
+type UpdateSubscriber = (id: string, partial: Partial<ToastData>) => void;
 
 let counter = 0;
 
 const generateId = () => `toast-${++counter}-${Math.random().toString(36).slice(2, 7)}`;
 
-class ToastStateManager {
+function mapUpdateToPartial(u: ToastManagerUpdateOptions): Partial<ToastData> {
+    const { timeout, ...rest } = u;
+    if (timeout !== undefined) {
+        return { ...rest, duration: timeout, timeout };
+    }
+    return rest;
+}
+
+export class ToastManager implements IToastManager {
+    defaultTimeout = 5000;
+
     private subscribers: Set<Subscriber> = new Set();
     private dismissSubscribers: Set<DismissSubscriber> = new Set();
+    private updateSubscribers: Set<UpdateSubscriber> = new Set();
 
     subscribe(fn: Subscriber): () => void {
         this.subscribers.add(fn);
@@ -25,13 +43,29 @@ class ToastStateManager {
         return () => this.dismissSubscribers.delete(fn);
     }
 
-    /** `id` optional — omit for auto id; reuse `id` to update an existing toast (provider bumps `updateKey`). */
-    create(data: Omit<ToastData, 'id' | 'updateKey'> & { id?: string }): string {
-        const { id: providedId, ...rest } = data;
+    subscribeUpdate(fn: UpdateSubscriber): () => void {
+        this.updateSubscribers.add(fn);
+        return () => this.updateSubscribers.delete(fn);
+    }
+
+    /** `id` optional — omit for auto id; reuse `id` to upsert (provider bumps `updateKey`). */
+    create(data: CreateToastInput): string {
+        const { id: providedId, timeout, duration, ...rest } = data;
         const id = providedId ?? generateId();
-        const toast: ToastData = { id, duration: 4000, variant: 'default', ...rest };
+        const ms = duration ?? timeout ?? this.defaultTimeout;
+        const toast: ToastData = {
+            ...rest,
+            id,
+            duration: ms,
+            variant: rest.variant ?? 'default',
+        };
         this.subscribers.forEach((fn) => fn(toast));
         return id;
+    }
+
+    update(id: string, partial: ToastManagerUpdateOptions): void {
+        const p = mapUpdateToPartial(partial);
+        this.updateSubscribers.forEach((fn) => fn(id, p));
     }
 
     dismiss(id: string): void {
@@ -41,49 +75,83 @@ class ToastStateManager {
     dismissAll(): void {
         this.dismissSubscribers.forEach((fn) => fn('__all__'));
     }
+
+    /** Base UI — `close(id?)` dismisses one or all. */
+    close(id?: string): void {
+        if (id === undefined) this.dismissAll();
+        else this.dismiss(id);
+    }
 }
 
-export const ToastState = new ToastStateManager();
+export const ToastState = new ToastManager();
 
-// ── Convenience API ──────────────────────────────────────────────────────────
+export function createToastManager(options?: { timeout?: number }): ToastManager {
+    const m = new ToastManager();
+    if (options?.timeout !== undefined) m.defaultTimeout = options.timeout;
+    return m;
+}
 
-type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey'>;
+// ── Convenience global `toast()` API (singleton) ─────────────────────────────
 
-/** Options for `toast()` / `toast.success()` / `manager.add()` — optional stable `id` for upsert + pulse. */
-export type CreateToastInput = Omit<ToastData, 'id' | 'updateKey'> & { id?: string };
+type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey' | 'limited'>;
 
-/** Messages for `promiseToast` / `toast.promise` / `useToastManager().promise` (Base UI–style). */
+/** Per-state options for `promise()` (string shortcut or full toast fields). */
+export type ToastPromiseState = string | Omit<CreateToastInput, 'id' | 'updateKey'>;
+
 export type ToastPromiseMessages<T> = {
-    loading: ToastData['title'];
-    success: ToastData['title'] | ((data: T) => ToastData['title']);
-    error: ToastData['title'] | ((err: unknown) => ToastData['title']);
+    loading: ToastPromiseState;
+    success: ToastPromiseState | ((data: T) => ToastPromiseState);
+    error: ToastPromiseState | ((err: unknown) => ToastPromiseState);
 };
 
+function resolvePromiseState(s: ToastPromiseState): CreateToastInput {
+    if (typeof s === 'string') return { title: s };
+    return s;
+}
+
+function resolveSuccessError<T>(
+    msg: ToastPromiseMessages<T>['success'],
+    data: T,
+): CreateToastInput {
+    if (typeof msg === 'function') return resolvePromiseState(msg(data));
+    return resolvePromiseState(msg);
+}
+
+function resolveError<T>(
+    msg: ToastPromiseMessages<T>['error'],
+    err: unknown,
+): CreateToastInput {
+    if (typeof msg === 'function') return resolvePromiseState(msg(err));
+    return resolvePromiseState(msg);
+}
+
 /**
- * Track a promise with a persistent loading toast, then replace with success or error.
- * Returns the same promise so callers can chain `.then` / `await`.
+ * Track a promise with a persistent loading toast, then success or error.
+ * Pass `manager` to target a non-default provider instance.
  */
 export function promiseToast<T>(
     promiseLike: Promise<T>,
     messages: ToastPromiseMessages<T>,
     options?: ToastOptions,
+    manager: IToastManager = ToastState,
 ): Promise<T> {
-    const id = ToastState.create({
-        title: messages.loading,
+    const loadingOpts = resolvePromiseState(messages.loading);
+    const id = manager.create({
         persistent: true,
         variant: 'default',
         ...options,
+        ...loadingOpts,
     });
     promiseLike
         .then((data) => {
-            ToastState.dismiss(id);
-            const title = typeof messages.success === 'function' ? messages.success(data) : messages.success;
-            ToastState.create({ title, variant: 'success', ...options });
+            manager.dismiss(id);
+            const next = resolveSuccessError(messages.success, data);
+            manager.create({ variant: 'success', ...options, ...next });
         })
         .catch((err: unknown) => {
-            ToastState.dismiss(id);
-            const title = typeof messages.error === 'function' ? messages.error(err) : messages.error;
-            ToastState.create({ title, variant: 'error', ...options });
+            manager.dismiss(id);
+            const next = resolveError(messages.error, err);
+            manager.create({ variant: 'error', ...options, ...next });
         });
     return promiseLike;
 }
@@ -113,5 +181,6 @@ export const toast = Object.assign(createToast, {
     info: createVariantToast('info'),
     dismiss: (id: string) => ToastState.dismiss(id),
     dismissAll: () => ToastState.dismissAll(),
+    close: (id?: string) => ToastState.close(id),
     promise: promiseToast,
 });

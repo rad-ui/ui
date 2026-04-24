@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Toast from '../Toast';
+import React, { useEffect, useMemo, useState } from 'react';
+import Toast, { createToastManager } from '../Toast';
+import type { ToastData } from '../contexts/ToastContext';
 import { ToastState } from '../ToastState';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
@@ -7,7 +8,7 @@ import Button from '~/components/ui/Button/Button';
 export default {
     title: 'Components/Toast',
     component: Toast.Provider,
-    parameters: { layout: 'fullscreen' },
+    parameters: { layout: 'fullscreen' }
 } as any;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -21,13 +22,14 @@ function Toaster() {
     return (
         <Toast.Portal>
             <Toast.Viewport>
-                {toasts.map((t) => (
+                {toasts.map((t: ToastData) => (
                     <Toast.Root key={t.id} toast={t}>
                         <Toast.Content>
                             <Toast.Title>{t.title}</Toast.Title>
                             {t.description && (
                                 <Toast.Description>{t.description}</Toast.Description>
                             )}
+                            {t.actionProps != null && <Toast.Action />}
                             <Toast.Close />
                         </Toast.Content>
                     </Toast.Root>
@@ -70,11 +72,11 @@ function StackingDemo() {
 export const Stacking = {
     render: () => (
         <SandboxEditor>
-            <Toast.Provider position="bottom-right" gap={14} maxToasts={3}>
+            <Toast.Provider position="bottom-right" gap={14} limit={3}>
                 <StackingDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -89,7 +91,6 @@ function PreloadedDemo() {
         setTimeout(() => manager.add({ title: 'Third — oldest', variant: 'default' }), 0);
         setTimeout(() => manager.add({ title: 'Second notification', variant: 'info' }), 80);
         setTimeout(() => manager.add({ title: 'First — newest', variant: 'success' }), 160);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -115,7 +116,7 @@ export const StackingPreloaded = {
                 <PreloadedDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -128,10 +129,11 @@ function WithDescriptionDemo() {
     return (
         <>
             <Toaster />
-            <Button onClick={() => manager.add({
-                title: 'Scheduled: Catch up',
-                description: 'Friday, February 10, 2023 at 5:57 PM',
-            })}>
+            <Button
+                onClick={() => manager.add({
+                    title: 'Scheduled: Catch up',
+                    description: 'Friday, February 10, 2023 at 5:57 PM'
+                })}>
                 Show with description
             </Button>
         </>
@@ -145,11 +147,11 @@ export const WithDescription = {
                 <WithDescriptionDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Promise 
+// Promise
 // ─────────────────────────────────────────────────────────────────────────────
 
 function PromiseToastDemo() {
@@ -172,8 +174,8 @@ function PromiseToastDemo() {
                 loading: 'Loading data…',
                 success: (data: string) => `Success: ${data}`,
                 error: (err: unknown) =>
-                    `Error: ${err instanceof Error ? err.message : String(err)}`,
-            },
+                    `Error: ${err instanceof Error ? err.message : String(err)}`
+            }
         );
     }
 
@@ -201,7 +203,7 @@ export const PromiseToast = {
                 <PromiseToastDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -250,7 +252,7 @@ function PulseDuplicateDemo() {
         manager.add({
             id: 'save-status',
             title: 'Draft saved',
-            description: 'Click again while it is visible to replay the pulse.',
+            description: 'Click again while it is visible to replay the pulse.'
         });
     }
 
@@ -278,11 +280,158 @@ export const PulseDuplicateId = {
     name: 'Duplicate id (pulse)',
     render: () => (
         <SandboxEditor>
-            <Toast.Provider position="bottom-right" gap={14} maxToasts={3}>
+            <Toast.Provider position="bottom-right" gap={14} limit={3}>
                 <PulseDuplicateDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Action (Base UI `actionProps` + Toast.Action)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function WithActionDemo() {
+    useCleanup();
+    const manager = Toast.useToastManager();
+
+    return (
+        <>
+            <Toaster />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)' }}>
+                    <code style={{ fontSize: '0.8125rem' }}>actionProps</code> is merged into{' '}
+                    <code style={{ fontSize: '0.8125rem' }}>Toast.Action</code> (label via{' '}
+                    <code style={{ fontSize: '0.8125rem' }}>children</code> or props).
+                </p>
+                <Button
+                    type="button"
+                    onClick={() => {
+                        manager.add({
+                            title: 'Unread messages',
+                            description: 'You have new mail in your inbox.',
+                            actionProps: {
+                                children: 'Open',
+                                onClick: () => manager.close()
+                            }
+                        });
+                    }}
+                >
+                    Toast with action
+                </Button>
+            </div>
+        </>
+    );
+}
+
+export const WithAction = {
+    name: 'With action',
+    render: () => (
+        <SandboxEditor>
+            <Toast.Provider position="bottom-right" timeout={8000}>
+                <WithActionDemo />
+            </Toast.Provider>
+        </SandboxEditor>
+    )
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// update() + close() (Base UI manager)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function UpdateAndCloseDemo() {
+    useCleanup();
+    const manager = Toast.useToastManager();
+    const storyId = 'toast-story-update';
+
+    return (
+        <>
+            <Toaster />
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+                <Button
+                    type="button"
+                    onClick={() => {
+                        manager.add({
+                            id: storyId,
+                            title: 'Progress: step 1',
+                            description: 'Use Update to change copy without a new toast id.'
+                        });
+                    }}
+                >
+                    Add (stable id)
+                </Button>
+                <Button
+                    type="button"
+                    onClick={() => {
+                        manager.update(storyId, {
+                            title: 'Progress: step 2',
+                            description: 'Updated via manager.update().'
+                        });
+                    }}
+                >
+                    Update
+                </Button>
+                <Button type="button" onClick={() => manager.close(storyId)}>
+                    close(id)
+                </Button>
+                <Button type="button" onClick={() => manager.close()}>
+                    close() all
+                </Button>
+            </div>
+        </>
+    );
+}
+
+export const UpdateAndClose = {
+    name: 'Update & close',
+    render: () => (
+        <SandboxEditor>
+            <Toast.Provider position="bottom-right" limit={3}>
+                <UpdateAndCloseDemo />
+            </Toast.Provider>
+        </SandboxEditor>
+    )
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Isolated toastManager (createToastManager)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function IsolatedManagerInner() {
+    const manager = Toast.useToastManager();
+    return (
+        <>
+            <Toaster />
+            <Button
+                type="button"
+                onClick={() => manager.add({ title: 'Uses non-singleton manager', variant: 'info' })}
+            >
+                Add (isolated queue)
+            </Button>
+        </>
+    );
+}
+
+function IsolatedManagerDemo() {
+    const tm = useMemo(() => createToastManager({ timeout: 4000 }), []);
+    useEffect(() => () => {
+        tm.close();
+    }, [tm]);
+
+    return (
+        <Toast.Provider toastManager={tm} position="bottom-right" limit={2}>
+            <IsolatedManagerInner />
+        </Toast.Provider>
+    );
+}
+
+export const IsolatedToastManager = {
+    name: 'Isolated toastManager',
+    render: () => (
+        <SandboxEditor>
+            <IsolatedManagerDemo />
+        </SandboxEditor>
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -298,9 +447,8 @@ function VaryingHeightsDemo() {
         setTimeout(() => manager.add({ title: 'Medium toast', description: 'One line of description.' }), 80);
         setTimeout(() => manager.add({
             title: 'Tall toast',
-            description: 'This toast has a longer description that wraps onto multiple lines to demonstrate how the height clamping works when toasts have different heights in the stack.',
+            description: 'This toast has a longer description that wraps onto multiple lines to demonstrate how the height clamping works when toasts have different heights in the stack.'
         }), 160);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -321,7 +469,7 @@ export const VaryingHeights = {
                 <VaryingHeightsDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -353,7 +501,7 @@ export const Expanded = {
                 <ExpandedDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -369,7 +517,7 @@ function CustomRenderDemo() {
         <>
             <Toast.Portal>
                 <Toast.Viewport>
-                    {manager.toasts.map((t) => (
+                    {manager.toasts.map((t: ToastData) => (
                         <Toast.Root key={t.id} toast={t}>
                             <Toast.Content style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                                 <span style={{ fontSize: '1.25rem' }}>
@@ -387,17 +535,18 @@ function CustomRenderDemo() {
             </Toast.Portal>
 
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <Button onClick={() => {
-                    setCount((c) => c + 1);
-                    manager.add({
-                        title: `Toast ${count + 1} created`,
-                        description: 'This is a toast notification.',
-                    });
-                }}>
+                <Button
+                    onClick={() => {
+                        setCount((c) => c + 1);
+                        manager.add({
+                            title: `Toast ${count + 1} created`,
+                            description: 'This is a toast notification.'
+                        });
+                    }}>
                     Add toast
                 </Button>
-                <Button onClick={() => manager.dismissAll()}>
-                    Dismiss all
+                <Button onClick={() => manager.close()}>
+                    Close all
                 </Button>
             </div>
         </>
@@ -412,5 +561,5 @@ export const CustomRender = {
                 <CustomRenderDemo />
             </Toast.Provider>
         </SandboxEditor>
-    ),
+    )
 };

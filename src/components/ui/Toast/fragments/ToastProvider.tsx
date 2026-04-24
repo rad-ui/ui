@@ -1,8 +1,8 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ToastProviderContext, ToastPosition } from '../contexts/ToastContext';
 import type { ToastData } from '../contexts/ToastContext';
-import { ToastState } from '../ToastState';
+import { ToastState, type ToastManager } from '../ToastState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 const COMPONENT_NAME = 'Toast';
@@ -13,7 +13,14 @@ export type ToastProviderProps = {
     position?: ToastPosition;
     expand?: boolean;
     gap?: number;
+    /** @deprecated Prefer Base UI name `limit`. */
     maxToasts?: number;
+    /** Base UI — max visible stack size (default `3`). */
+    limit?: number;
+    /** Base UI — default auto-dismiss ms (default `5000`). */
+    timeout?: number;
+    /** Base UI — isolate queue / use outside React tree (pair with `createToastManager()`). */
+    toastManager?: ToastManager;
 };
 
 const ToastProvider: React.FC<ToastProviderProps> = ({
@@ -22,15 +29,28 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     position = 'bottom-right',
     expand = false,
     gap = 14,
-    maxToasts = 3,
+    maxToasts: maxToastsProp,
+    limit,
+    timeout = 5000,
+    toastManager: toastManagerProp,
 }) => {
+    const maxToasts = limit ?? maxToastsProp ?? 3;
+    const manager = useMemo(
+        () => toastManagerProp ?? ToastState,
+        [toastManagerProp],
+    );
+
+    useEffect(() => {
+        manager.defaultTimeout = timeout;
+    }, [manager, timeout]);
+
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [toasts, setToasts] = useState<ToastData[]>([]);
     const [isHovered, setIsHovered] = useState(false);
     const [heights, setHeights] = useState<Map<string, number>>(new Map());
 
     useEffect(() => {
-        const unsubAdd = ToastState.subscribe((incoming) => {
+        const unsubAdd = manager.subscribe((incoming) => {
             setToasts((prev) => {
                 const idx = prev.findIndex((t) => t.id === incoming.id);
                 if (idx !== -1) {
@@ -45,22 +65,27 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
                 return [{ ...incoming, updateKey: 0 }, ...prev].slice(0, maxToasts * 2);
             });
         });
-        const unsubDismiss = ToastState.subscribeDismiss((id) => {
+        const unsubDismiss = manager.subscribeDismiss((id) => {
             if (id === '__all__') {
                 setToasts([]);
-            } else {
-                // Don't remove immediately — let the toast animate out first.
-                // ToastRoot calls removeToast() after its exit transition ends.
-                // We just mark it for dismissal by calling dismiss() on it via ToastState.
-                // The actual array removal happens in removeToast below.
             }
         });
-        return () => { unsubAdd(); unsubDismiss(); };
-    }, [maxToasts]);
+        const unsubUpdate = manager.subscribeUpdate((id, partial) => {
+            setToasts((prev) => prev.map((t) => (t.id === id ? { ...t, ...partial } : t)));
+        });
+        return () => {
+            unsubAdd();
+            unsubDismiss();
+            unsubUpdate();
+        };
+    }, [manager, maxToasts]);
 
-    // Called by ToastRoot after exit animation completes
     const removeToast = useCallback((id: string) => {
-        setToasts((prev) => prev.filter((t) => t.id !== id));
+        setToasts((prev) => {
+            const victim = prev.find((t) => t.id === id);
+            victim?.onRemove?.();
+            return prev.filter((t) => t.id !== id);
+        });
         setHeights((prev) => {
             const next = new Map(prev);
             next.delete(id);
@@ -86,8 +111,6 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
         });
     }, []);
 
-    // visibleToasts: only non-leaving toasts count toward the stack index
-    // We pass ALL toasts so leaving ones can still render their exit animation
     const visibleToasts = toasts.slice(0, maxToasts);
 
     return (
@@ -97,6 +120,8 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             expand,
             gap,
             maxToasts,
+            defaultToastTimeout: timeout,
+            toastManager: manager,
             isHovered,
             setIsHovered,
             heights,

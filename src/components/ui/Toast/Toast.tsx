@@ -13,6 +13,8 @@
  *           <Toast.Content>                   // card wrapper, clips height
  *             <Toast.Title>{t.title}</Toast.Title>
  *             <Toast.Description>{t.description}</Toast.Description>
+ *             // optional — merges toast.actionProps
+ *             <Toast.Action />
  *             <Toast.Close />
  *           </Toast.Content>
  *         </Toast.Root>
@@ -22,15 +24,19 @@
  * </Toast.Provider>
  * ```
  *
- * ## Adding toasts
+ * ## Adding toasts (Base UI–aligned)
  * ```tsx
  * const manager = Toast.useToastManager();
- * manager.add({ title: 'Saved!', variant: 'success' });
- * manager.dismiss(id);
- * manager.dismissAll();
+ * manager.add({ title: 'Saved!', variant: 'success', timeout: 4000 });
+ * manager.close(id);       // one toast
+ * manager.close();         // all
+ * manager.update(id, { title: 'Updated' });
  * manager.promise(fetch('/api'), { loading: '…', success: (d) => 'Done', error: (e) => 'Failed' });
- * manager.add({ id: 'save-status', title: 'Draft saved' }); // same id again → updates + bumps `updateKey` / `data-pulse`
+ * manager.add({ id: 'save-status', title: 'Draft saved' }); // same id → upsert + `updateKey` / pulse
  * ```
+ *
+ * Optional isolated queue: `const tm = createToastManager({ timeout: 5000 });` then
+ * `<Toast.Provider toastManager={tm} limit={3}>`.
  */
 
 import ToastProvider from './fragments/ToastProvider';
@@ -41,6 +47,7 @@ import ToastContent from './fragments/ToastContent';
 import ToastTitle from './fragments/ToastTitle';
 import ToastDescription from './fragments/ToastDescription';
 import ToastClose from './fragments/ToastClose';
+import ToastAction from './fragments/ToastAction';
 import { useToastManager } from './useToastManager';
 
 export type { ToastProviderProps } from './fragments/ToastProvider';
@@ -51,14 +58,21 @@ export type { ToastContentProps } from './fragments/ToastContent';
 export type { ToastTitleProps } from './fragments/ToastTitle';
 export type { ToastDescriptionProps } from './fragments/ToastDescription';
 export type { ToastCloseProps } from './fragments/ToastClose';
-export type { ToastData, ToastVariant, ToastPosition } from './contexts/ToastContext';
-export type { CreateToastInput } from './ToastState';
+export type { ToastActionProps } from './fragments/ToastAction';
+export type {
+    ToastData,
+    ToastVariant,
+    ToastPosition,
+    CreateToastInput,
+    ToastManagerUpdateOptions,
+    IToastManager,
+} from './contexts/ToastContext';
 export type { ToastManagerReturn } from './useToastManager';
 export type { ToastPromiseMessages } from './ToastState';
 
 // Named exports for tree-shaking
 export { useToastManager };
-export { ToastState, toast, promiseToast } from './ToastState';
+export { ToastState, toast, promiseToast, createToastManager, ToastManager } from './ToastState';
 
 interface ToastNamespace {
     Provider: typeof ToastProvider;
@@ -68,6 +82,7 @@ interface ToastNamespace {
     Content: typeof ToastContent;
     Title: typeof ToastTitle;
     Description: typeof ToastDescription;
+    Action: typeof ToastAction;
     Close: typeof ToastClose;
     useToastManager: typeof useToastManager;
 }
@@ -80,6 +95,7 @@ const Toast: ToastNamespace = {
     Content: ToastContent,
     Title: ToastTitle,
     Description: ToastDescription,
+    Action: ToastAction,
     Close: ToastClose,
     useToastManager,
 };

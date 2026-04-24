@@ -31,11 +31,11 @@
     user-select: none;
     touch-action: none;
     transform-origin: bottom center;
-
     transform:
         translateY(var(--y, 0px))
         translateY(var(--swipe-y, 0px))
         scale(var(--scale, 1));
+
     /* Sonner [data-sonner-toast]: transform/opacity 400ms (+ height in Sonner; omitted here). */
     transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
 
@@ -73,6 +73,7 @@
         bottom: auto;
         top: 0;
         transform-origin: top center;
+
         &:not([data-mounted]) {
             transform: translateY(-100%) scale(var(--scale, 1));
         }
@@ -101,7 +102,7 @@
     position: relative;
     background-color: var(--rad-ui-surface-panel);
     border: 1px solid var(--rad-ui-border-soft);
-    box-shadow: var(--rad-ui-elevation-md-shadow, 0 4px 16px rgb(0 0 0 / 0.12));
+    box-shadow: var(--rad-ui-elevation-md-shadow, 0 4px 16px rgb(0, 0, 0, 0.12));
     color: var(--rad-ui-text-primary);
 }
 
