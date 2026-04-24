@@ -3,47 +3,81 @@
 /**
  * Toast — headless, composable notification system.
  *
- * ## Quick start
+ * ## Anatomy
  * ```tsx
- * // 1. Mount the provider once near the root of your app
- * <Toast.Provider />
- *
- * // 2. Fire toasts from anywhere — no hooks or context needed
- * import { toast } from '@/components/ui/Toast';
- * toast('Saved!');
- * toast.success('File uploaded');
- * toast.error('Something went wrong');
- * toast.promise(saveFile(), {
- *   loading: 'Saving…',
- *   success: 'Saved!',
- *   error: 'Failed to save',
- * });
+ * <Toast.Provider>          // wrap your app — owns state & stacking engine
+ *   <Toast.Portal>          // portals into the theme root
+ *     <Toast.Viewport>      // the <ol>, handles hover expand
+ *       {toasts.map(t => (
+ *         <Toast.Root key={t.id} toast={t}>   // <li>, owns timer & swipe
+ *           <Toast.Content>                   // card wrapper, clips height
+ *             <Toast.Title>{t.title}</Toast.Title>
+ *             <Toast.Description>{t.description}</Toast.Description>
+ *             <Toast.Close />
+ *           </Toast.Content>
+ *         </Toast.Root>
+ *       ))}
+ *     </Toast.Viewport>
+ *   </Toast.Portal>
+ * </Toast.Provider>
  * ```
  *
- * ## Composable anatomy
+ * ## Adding toasts
+ * ```tsx
+ * const manager = Toast.useToastManager();
+ * manager.add({ title: 'Saved!', variant: 'success' });
+ * manager.dismiss(id);
+ * manager.dismissAll();
  * ```
- * Toast.Provider          — mounts the viewport portal, manages state
- * ```
- *
- * ## Hooks
- * `useToastManager`       — subscribe to the live toast list inside a component
  */
 
 import ToastProvider from './fragments/ToastProvider';
+import ToastPortal from './fragments/ToastPortal';
+import ToastViewport from './fragments/ToastViewport';
+import ToastRoot from './fragments/ToastRoot';
+import ToastContent from './fragments/ToastContent';
+import ToastTitle from './fragments/ToastTitle';
+import ToastDescription from './fragments/ToastDescription';
+import ToastClose from './fragments/ToastClose';
+import { useToastManager } from './useToastManager';
 
 export type { ToastProviderProps } from './fragments/ToastProvider';
+export type { ToastPortalProps } from './fragments/ToastPortal';
+export type { ToastViewportProps } from './fragments/ToastViewport';
+export type { ToastRootProps } from './fragments/ToastRoot';
+export type { ToastContentProps } from './fragments/ToastContent';
+export type { ToastTitleProps } from './fragments/ToastTitle';
+export type { ToastDescriptionProps } from './fragments/ToastDescription';
+export type { ToastCloseProps } from './fragments/ToastClose';
 export type { ToastData, ToastVariant, ToastPosition } from './contexts/ToastContext';
+export type { ToastManagerReturn } from './useToastManager';
 
-export { toast } from './ToastState';
+// Named exports for tree-shaking
+export { useToastManager };
 export { ToastState } from './ToastState';
-export { useToastManager } from './useToastManager';
 
-interface ToastComponent {
+interface ToastNamespace {
     Provider: typeof ToastProvider;
+    Portal: typeof ToastPortal;
+    Viewport: typeof ToastViewport;
+    Root: typeof ToastRoot;
+    Content: typeof ToastContent;
+    Title: typeof ToastTitle;
+    Description: typeof ToastDescription;
+    Close: typeof ToastClose;
+    useToastManager: typeof useToastManager;
 }
 
-const Toast: ToastComponent = {
+const Toast: ToastNamespace = {
     Provider: ToastProvider,
+    Portal: ToastPortal,
+    Viewport: ToastViewport,
+    Root: ToastRoot,
+    Content: ToastContent,
+    Title: ToastTitle,
+    Description: ToastDescription,
+    Close: ToastClose,
+    useToastManager,
 };
 
 export default Toast;

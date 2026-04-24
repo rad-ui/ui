@@ -3,38 +3,43 @@ import { useEffect, useState } from 'react';
 import { ToastState } from './ToastState';
 import type { ToastData } from './contexts/ToastContext';
 
+export interface ToastManagerReturn {
+    toasts: ToastData[];
+    add: (data: Omit<ToastData, 'id'>) => string;
+    dismiss: (id: string) => void;
+    dismissAll: () => void;
+}
+
 /**
- * Hook that gives you live access to the current toast list and the
- * same imperative API as the `toast()` helper.
- *
- * Useful when you need to render toasts in a custom viewport or
- * inspect the queue programmatically.
+ * Subscribe to the live toast list and get imperative controls.
  *
  * @example
  * ```tsx
- * function MyToaster() {
- *   const { toasts, dismiss, dismissAll } = useToastManager();
+ * function MyViewport() {
+ *   const { toasts, add, dismiss } = Toast.useToastManager();
+ *
  *   return (
- *     <ul>
+ *     <Toast.Viewport>
  *       {toasts.map(t => (
- *         <li key={t.id}>
- *           {t.title}
- *           <button onClick={() => dismiss(t.id)}>×</button>
- *         </li>
+ *         <Toast.Root key={t.id} toast={t}>
+ *           <Toast.Content>
+ *             <Toast.Title>{t.title}</Toast.Title>
+ *             <Toast.Close />
+ *           </Toast.Content>
+ *         </Toast.Root>
  *       ))}
- *     </ul>
+ *     </Toast.Viewport>
  *   );
  * }
  * ```
  */
-export function useToastManager() {
+export function useToastManager(): ToastManagerReturn {
     const [toasts, setToasts] = useState<ToastData[]>([]);
 
     useEffect(() => {
         const unsubAdd = ToastState.subscribe((toast) => {
             setToasts((prev) => [toast, ...prev]);
         });
-
         const unsubDismiss = ToastState.subscribeDismiss((id) => {
             if (id === '__all__') {
                 setToasts([]);
@@ -42,17 +47,13 @@ export function useToastManager() {
                 setToasts((prev) => prev.filter((t) => t.id !== id));
             }
         });
-
-        return () => {
-            unsubAdd();
-            unsubDismiss();
-        };
+        return () => { unsubAdd(); unsubDismiss(); };
     }, []);
 
     return {
         toasts,
-        add: (data: Omit<ToastData, 'id'>) => ToastState.create(data),
-        dismiss: (id: string) => ToastState.dismiss(id),
+        add: (data) => ToastState.create(data),
+        dismiss: (id) => ToastState.dismiss(id),
         dismissAll: () => ToastState.dismissAll(),
     };
 }

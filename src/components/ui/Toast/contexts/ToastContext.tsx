@@ -15,27 +15,49 @@ export interface ToastData {
     description?: React.ReactNode;
     variant?: ToastVariant;
     duration?: number;
-    /** When true the toast stays until manually dismissed. */
     persistent?: boolean;
-    action?: {
-        label: string;
-        onClick: () => void;
-    };
     onDismiss?: () => void;
 }
 
-export interface ToastContextType {
+// ── Provider context — shared config ────────────────────────────────────────
+
+export interface ToastProviderContextType {
     rootClass: string;
     position: ToastPosition;
     expand: boolean;
     gap: number;
     maxToasts: number;
+    isHovered: boolean;
+    setIsHovered: (v: boolean) => void;
+    heights: Map<string, number>;
+    updateHeight: (id: string, h: number) => void;
+    removeToast: (id: string) => void;
+    visibleToasts: ToastData[];
 }
 
-export const ToastContext = createContext<ToastContextType>({
+export const ToastProviderContext = createContext<ToastProviderContextType>({
     rootClass: '',
     position: 'bottom-right',
     expand: false,
     gap: 14,
     maxToasts: 3,
+    isHovered: false,
+    setIsHovered: () => {},
+    heights: new Map(),
+    updateHeight: () => {},
+    removeToast: () => {},
+    visibleToasts: [],
 });
+
+// ── Per-toast context — stacking vars for one toast ──────────────────────────
+
+export interface ToastItemContextType {
+    toast: ToastData;
+    index: number;
+    isExpanded: boolean;
+    isFront: boolean;
+    isBehind: boolean;
+    dismiss: () => void;
+}
+
+export const ToastItemContext = createContext<ToastItemContextType | null>(null);

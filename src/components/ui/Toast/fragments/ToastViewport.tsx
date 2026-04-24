@@ -1,44 +1,32 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import clsx from 'clsx';
-import type { ToastData, ToastPosition } from '../contexts/ToastContext';
-import ToastItem from './ToastItem';
+import { ToastProviderContext } from '../contexts/ToastContext';
 
 export type ToastViewportProps = {
-    toasts: ToastData[];
-    heights: Map<string, number>;
-    isHovered: boolean;
-    onHoverChange: (hovered: boolean) => void;
-    onRemove: (id: string) => void;
-    onHeightUpdate: (id: string, height: number) => void;
-    rootClass: string;
-    position: ToastPosition;
-    expand: boolean;
-    gap: number;
-    maxToasts: number;
+    children: React.ReactNode;
+    className?: string;
 };
 
-const ToastViewport: React.FC<ToastViewportProps> = ({
-    toasts,
-    heights,
-    isHovered,
-    onHoverChange,
-    onRemove,
-    onHeightUpdate,
-    rootClass,
-    position,
-    expand,
-    gap,
-    maxToasts,
-}) => {
+const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) => {
+    const {
+        rootClass,
+        position,
+        expand,
+        isHovered,
+        setIsHovered,
+        heights,
+        gap,
+        visibleToasts,
+    } = useContext(ToastProviderContext);
+
     const listRef = useRef<HTMLOListElement>(null);
     const isExpanded = expand || isHovered;
-    const visibleToasts = toasts.slice(0, maxToasts);
 
-    // Height of the front (index 0) toast
+    // Front toast height — back toasts clamp to this when collapsed
     const frontHeight = heights.get(visibleToasts[0]?.id) ?? 0;
 
-    // Viewport height drives the <ol> size so the hover area covers the whole stack
+    // Viewport height = hover target that covers the whole stack
     const viewportHeight = isExpanded
         ? visibleToasts.reduce((sum, t) => sum + (heights.get(t.id) ?? 0), 0)
           + Math.max(0, visibleToasts.length - 1) * gap
@@ -52,40 +40,18 @@ const ToastViewport: React.FC<ToastViewportProps> = ({
             tabIndex={-1}
             data-position={position}
             data-expanded={isExpanded ? '' : undefined}
-            className={clsx(rootClass && `${rootClass}-viewport`)}
+            className={clsx(rootClass && `${rootClass}-viewport`, className)}
             style={{ '--viewport-height': `${viewportHeight}px` } as React.CSSProperties}
-            onMouseEnter={() => onHoverChange(true)}
-            onMouseLeave={() => onHoverChange(false)}
-            onFocusCapture={() => onHoverChange(true)}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onFocusCapture={() => setIsHovered(true)}
             onBlurCapture={(e) => {
                 if (!listRef.current?.contains(e.relatedTarget as Node)) {
-                    onHoverChange(false);
+                    setIsHovered(false);
                 }
             }}
         >
-            {visibleToasts.map((toast, index) => {
-                // Expanded offset: sum of heights of all toasts in front + gaps
-                let expandedOffsetY = 0;
-                for (let i = 0; i < index; i++) {
-                    expandedOffsetY += (heights.get(visibleToasts[i].id) ?? 0) + gap;
-                }
-
-                return (
-                    <ToastItem
-                        key={toast.id}
-                        toast={toast}
-                        index={index}
-                        isExpanded={isExpanded}
-                        gap={gap}
-                        expandedOffsetY={expandedOffsetY}
-                        frontHeight={frontHeight}
-                        rootClass={rootClass}
-                        position={position}
-                        onRemove={onRemove}
-                        onHeightUpdate={onHeightUpdate}
-                    />
-                );
-            })}
+            {children}
         </ol>
     );
 };

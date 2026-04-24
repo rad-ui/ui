@@ -1,23 +1,24 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { ToastContext, ToastPosition } from '../contexts/ToastContext';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ToastProviderContext, ToastPosition } from '../contexts/ToastContext';
 import type { ToastData } from '../contexts/ToastContext';
 import { ToastState } from '../ToastState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
-import ThemeContext from '~/components/ui/Theme/ThemeContext';
-import ToastViewport from './ToastViewport';
 
 const COMPONENT_NAME = 'Toast';
 
 export type ToastProviderProps = {
     children: React.ReactNode;
+    /** Override the generated class namespace. */
     customRootClass?: string;
+    /** Where toasts appear on screen. @default "bottom-right" */
     position?: ToastPosition;
+    /** Always show all toasts expanded (no stacking). @default false */
     expand?: boolean;
+    /** Gap between toasts in px when collapsed. @default 14 */
     gap?: number;
+    /** Max toasts visible at once. @default 3 */
     maxToasts?: number;
-    portalContainer?: HTMLElement | null;
 };
 
 const ToastProvider: React.FC<ToastProviderProps> = ({
@@ -27,18 +28,11 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     expand = false,
     gap = 14,
     maxToasts = 3,
-    portalContainer,
 }) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
-    const themeContext = React.useContext(ThemeContext);
     const [toasts, setToasts] = useState<ToastData[]>([]);
     const [isHovered, setIsHovered] = useState(false);
-    const [mounted, setMounted] = useState(false);
-
-    // Heights in STATE so viewport re-renders when they change
     const [heights, setHeights] = useState<Map<string, number>>(new Map());
-
-    useEffect(() => { setMounted(true); }, []);
 
     useEffect(() => {
         const unsubAdd = ToastState.subscribe((toast) => {
@@ -65,7 +59,6 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
 
     const updateHeight = useCallback((id: string, height: number) => {
         setHeights((prev) => {
-            // Skip update if height hasn't changed — avoids infinite loops
             if (prev.get(id) === height) return prev;
             const next = new Map(prev);
             next.set(id, height);
@@ -73,32 +66,24 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
         });
     }, []);
 
-    const container = portalContainer
-        ?? themeContext?.portalRootRef.current
-        ?? (mounted ? document.body : null);
+    const visibleToasts = toasts.slice(0, maxToasts);
 
     return (
-        <ToastContext.Provider value={{ rootClass, position, expand, gap, maxToasts }}>
+        <ToastProviderContext.Provider value={{
+            rootClass,
+            position,
+            expand,
+            gap,
+            maxToasts,
+            isHovered,
+            setIsHovered,
+            heights,
+            updateHeight,
+            removeToast,
+            visibleToasts,
+        }}>
             {children}
-            {container
-                ? createPortal(
-                    <ToastViewport
-                        toasts={toasts}
-                        heights={heights}
-                        isHovered={isHovered}
-                        onHoverChange={setIsHovered}
-                        onRemove={removeToast}
-                        onHeightUpdate={updateHeight}
-                        rootClass={rootClass}
-                        position={position}
-                        expand={expand}
-                        gap={gap}
-                        maxToasts={maxToasts}
-                    />,
-                    container
-                )
-                : null}
-        </ToastContext.Provider>
+        </ToastProviderContext.Provider>
     );
 };
 
