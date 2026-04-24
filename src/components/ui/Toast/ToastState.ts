@@ -25,9 +25,11 @@ class ToastStateManager {
         return () => this.dismissSubscribers.delete(fn);
     }
 
-    create(data: Omit<ToastData, 'id'>): string {
-        const id = generateId();
-        const toast: ToastData = { id, duration: 4000, variant: 'default', ...data };
+    /** `id` optional — omit for auto id; reuse `id` to update an existing toast (provider bumps `updateKey`). */
+    create(data: Omit<ToastData, 'id' | 'updateKey'> & { id?: string }): string {
+        const { id: providedId, ...rest } = data;
+        const id = providedId ?? generateId();
+        const toast: ToastData = { id, duration: 4000, variant: 'default', ...rest };
         this.subscribers.forEach((fn) => fn(toast));
         return id;
     }
@@ -45,7 +47,43 @@ export const ToastState = new ToastStateManager();
 
 // ── Convenience API ──────────────────────────────────────────────────────────
 
-type ToastOptions = Omit<ToastData, 'id' | 'variant'>;
+type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey'>;
+
+/** Messages for `promiseToast` / `toast.promise` / `useToastManager().promise` (Base UI–style). */
+export type ToastPromiseMessages<T> = {
+    loading: ToastData['title'];
+    success: ToastData['title'] | ((data: T) => ToastData['title']);
+    error: ToastData['title'] | ((err: unknown) => ToastData['title']);
+};
+
+/**
+ * Track a promise with a persistent loading toast, then replace with success or error.
+ * Returns the same promise so callers can chain `.then` / `await`.
+ */
+export function promiseToast<T>(
+    promiseLike: Promise<T>,
+    messages: ToastPromiseMessages<T>,
+    options?: ToastOptions,
+): Promise<T> {
+    const id = ToastState.create({
+        title: messages.loading,
+        persistent: true,
+        variant: 'default',
+        ...options,
+    });
+    promiseLike
+        .then((data) => {
+            ToastState.dismiss(id);
+            const title = typeof messages.success === 'function' ? messages.success(data) : messages.success;
+            ToastState.create({ title, variant: 'success', ...options });
+        })
+        .catch((err: unknown) => {
+            ToastState.dismiss(id);
+            const title = typeof messages.error === 'function' ? messages.error(err) : messages.error;
+            ToastState.create({ title, variant: 'error', ...options });
+        });
+    return promiseLike;
+}
 
 function createToast(options: ToastOptions): string;
 function createToast(title: string, options?: ToastOptions): string;
@@ -72,28 +110,5 @@ export const toast = Object.assign(createToast, {
     info: createVariantToast('info'),
     dismiss: (id: string) => ToastState.dismiss(id),
     dismissAll: () => ToastState.dismissAll(),
-    /** Promise helper — shows loading → success/error */
-    promise<T>(
-        promise: Promise<T>,
-        messages: {
-            loading: string;
-            success: string | ((data: T) => string);
-            error: string | ((err: unknown) => string);
-        },
-        options?: ToastOptions
-    ): Promise<T> {
-        const id = ToastState.create({ title: messages.loading, persistent: true, variant: 'default', ...options });
-        promise
-            .then((data) => {
-                ToastState.dismiss(id);
-                const title = typeof messages.success === 'function' ? messages.success(data) : messages.success;
-                ToastState.create({ title, variant: 'success', ...options });
-            })
-            .catch((err) => {
-                ToastState.dismiss(id);
-                const title = typeof messages.error === 'function' ? messages.error(err) : messages.error;
-                ToastState.create({ title, variant: 'error', ...options });
-            });
-        return promise;
-    },
+    promise: promiseToast,
 });

@@ -17,6 +17,11 @@ export interface ToastData {
     duration?: number;
     persistent?: boolean;
     onDismiss?: () => void;
+    /**
+     * Incremented when `add({ id })` targets an existing toast (Base UI–style replay / pulse).
+     * `0` or missing = first show; `>= 1` = duplicate updates.
+     */
+    updateKey?: number;
 }
 
 // ── Provider context — shared config ────────────────────────────────────────

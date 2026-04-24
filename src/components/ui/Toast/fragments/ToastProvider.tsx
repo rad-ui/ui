@@ -30,8 +30,20 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     const [heights, setHeights] = useState<Map<string, number>>(new Map());
 
     useEffect(() => {
-        const unsubAdd = ToastState.subscribe((toast) => {
-            setToasts((prev) => [toast, ...prev].slice(0, maxToasts * 2));
+        const unsubAdd = ToastState.subscribe((incoming) => {
+            setToasts((prev) => {
+                const idx = prev.findIndex((t) => t.id === incoming.id);
+                if (idx !== -1) {
+                    const old = prev[idx];
+                    const next = [...prev];
+                    next[idx] = {
+                        ...incoming,
+                        updateKey: (old.updateKey ?? 0) + 1,
+                    };
+                    return next;
+                }
+                return [{ ...incoming, updateKey: 0 }, ...prev].slice(0, maxToasts * 2);
+            });
         });
         const unsubDismiss = ToastState.subscribeDismiss((id) => {
             if (id === '__all__') {

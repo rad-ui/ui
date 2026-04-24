@@ -149,6 +149,62 @@ export const WithDescription = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Promise (Base UI–style)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function PromiseToastDemo() {
+    useCleanup();
+    const manager = Toast.useToastManager();
+
+    function runPromise() {
+        manager.promise(
+            new Promise<string>((resolve, reject) => {
+                const shouldSucceed = Math.random() > 0.3;
+                setTimeout(() => {
+                    if (shouldSucceed) {
+                        resolve('operation completed');
+                    } else {
+                        reject(new Error('operation failed'));
+                    }
+                }, 2000);
+            }),
+            {
+                loading: 'Loading data…',
+                success: (data: string) => `Success: ${data}`,
+                error: (err: unknown) =>
+                    `Error: ${err instanceof Error ? err.message : String(err)}`,
+            },
+        );
+    }
+
+    return (
+        <>
+            <Toaster />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--rad-ui-text-secondary)' }}>
+                    Persistent loading toast, then success or error (~70% / 30%). Same API as Base UI{' '}
+                    <code style={{ fontSize: '0.8125rem' }}>useToastManager().promise()</code>.
+                </p>
+                <Button type="button" onClick={runPromise}>
+                    Run promise
+                </Button>
+            </div>
+        </>
+    );
+}
+
+export const PromiseToast = {
+    name: 'Promise',
+    render: () => (
+        <SandboxEditor>
+            <Toast.Provider position="bottom-right" gap={14} maxToasts={3}>
+                <PromiseToastDemo />
+            </Toast.Provider>
+        </SandboxEditor>
+    ),
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Varying heights
 // ─────────────────────────────────────────────────────────────────────────────
 

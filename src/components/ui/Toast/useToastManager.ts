@@ -1,14 +1,18 @@
 'use client';
 import { useContext } from 'react';
 import { ToastProviderContext } from './contexts/ToastContext';
-import { ToastState } from './ToastState';
+import { ToastState, promiseToast, type ToastPromiseMessages } from './ToastState';
 import type { ToastData } from './contexts/ToastContext';
+
+type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey'>;
 
 export interface ToastManagerReturn {
     toasts: ToastData[];
     add: (data: Omit<ToastData, 'id'>) => string;
     dismiss: (id: string) => void;
     dismissAll: () => void;
+    /** Base UI–style: loading toast → success or error when the promise settles. */
+    promise: <T>(p: Promise<T>, messages: ToastPromiseMessages<T>, options?: ToastOptions) => Promise<T>;
 }
 
 /**
@@ -53,5 +57,6 @@ export function useToastManager(): ToastManagerReturn {
         add: (data) => ToastState.create(data),
         dismiss: (id) => ToastState.dismiss(id),
         dismissAll: () => ToastState.dismissAll(),
+        promise: promiseToast,
     };
 }

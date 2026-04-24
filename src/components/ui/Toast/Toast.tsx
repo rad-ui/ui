@@ -28,6 +28,7 @@
  * manager.add({ title: 'Saved!', variant: 'success' });
  * manager.dismiss(id);
  * manager.dismissAll();
+ * manager.promise(fetch('/api'), { loading: '…', success: (d) => 'Done', error: (e) => 'Failed' });
  * ```
  */
 
@@ -51,10 +52,11 @@ export type { ToastDescriptionProps } from './fragments/ToastDescription';
 export type { ToastCloseProps } from './fragments/ToastClose';
 export type { ToastData, ToastVariant, ToastPosition } from './contexts/ToastContext';
 export type { ToastManagerReturn } from './useToastManager';
+export type { ToastPromiseMessages } from './ToastState';
 
 // Named exports for tree-shaking
 export { useToastManager };
-export { ToastState } from './ToastState';
+export { ToastState, toast, promiseToast } from './ToastState';
 
 interface ToastNamespace {
     Provider: typeof ToastProvider;
