@@ -11,12 +11,12 @@
     max-width: calc(100vw - 2rem);
     height: calc(var(--viewport-height, 0px) + 1rem);
 
-    &[data-position="bottom-right"]  { bottom: 0; right: 0; }
-    &[data-position="bottom-left"]   { bottom: 0; left: 0; }
-    &[data-position="bottom-center"] { bottom: 0; left: 50%; transform: translateX(-50%); }
-    &[data-position="top-right"]     { top: 0; right: 0; }
-    &[data-position="top-left"]      { top: 0; left: 0; }
-    &[data-position="top-center"]    { top: 0; left: 50%; transform: translateX(-50%); }
+    &[data-position="bottom-right"]  { bottom: 3rem; right: 1.5rem; }
+    &[data-position="bottom-left"]   { bottom: 3rem; left: 1.5rem; }
+    &[data-position="bottom-center"] { bottom: 3rem; left: 50%; transform: translateX(-50%); }
+    &[data-position="top-right"]     { top: 1.5rem; right: 1.5rem; }
+    &[data-position="top-left"]      { top: 1.5rem; left: 1.5rem; }
+    &[data-position="top-center"]    { top: 1.5rem; left: 50%; transform: translateX(-50%); }
 }
 
 #{baremetal.$theme-root} :where(.rad-ui-toast-item) {
@@ -42,8 +42,6 @@
         transform: translateY(100%) scale(var(--scale, 1));
     }
     &[data-leaving] {
-        opacity: 0;
-        transform: translateY(100%) scale(var(--scale, 1));
         pointer-events: none;
     }
     &[data-swiping] { cursor: grabbing; }
@@ -52,7 +50,6 @@
         bottom: auto; top: 0;
         transform-origin: top center;
         &:not([data-mounted]) { transform: translateY(-100%) scale(var(--scale, 1)); }
-        &[data-leaving]       { transform: translateY(-100%) scale(var(--scale, 1)); }
     }
 
     &::after {
@@ -105,42 +102,48 @@
     font-size: 0.875rem; line-height: 1; padding: 0;
 }
 
-/* Restore transitions (baremetal nukes them globally) */
-#{baremetal.$theme-root} .rad-ui-toast-viewport {
-    transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-}
 #{baremetal.$theme-root} .rad-ui-toast-item {
-    transition:
-        transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
-        opacity   400ms cubic-bezier(0.22, 1, 0.36, 1),
-        height    300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-    &:not([data-mounted]) {
-        transition:
-            transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
-            opacity   300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-    }
+    transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease !important;
     &[data-leaving] {
-        transition:
-            transform 300ms cubic-bezier(0.55, 0, 1, 0.45),
-            opacity   250ms cubic-bezier(0.55, 0, 1, 0.45) !important;
+        pointer-events: none;
     }
+    &[data-leaving][data-front]:not([data-expanded]) {
+        opacity: 0 !important;
+        transform: translateY(100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
+    }
+    &[data-leaving]:not([data-front]):not([data-expanded]) {
+        opacity: 0 !important;
+        transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
+        transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease !important;
+    }
+    &[data-leaving][data-expanded] {
+        opacity: 0 !important;
+    }
+    &[data-restack-skip] { transition: none !important; }
     &[data-swiping] { transition: none !important; }
+}
+
+#{baremetal.$theme-root} [data-position^="top"] .rad-ui-toast-item[data-leaving][data-front]:not([data-expanded]) {
+    transform: translateY(-100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
+}
+#{baremetal.$theme-root} [data-position^="top"] .rad-ui-toast-item[data-leaving]:not([data-front]):not([data-expanded]) {
+    transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1)) !important;
+    transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease !important;
 }
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-description,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-action,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-close {
-    transition: opacity 150ms ease !important;
+    transition: opacity 400ms ease !important;
 }
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-description,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-action,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-close {
-    transition: opacity 200ms ease !important;
+    transition: opacity 400ms ease !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #{baremetal.$theme-root} .rad-ui-toast-viewport { transition: none !important; }
     #{baremetal.$theme-root} .rad-ui-toast-item {
         transition: opacity 100ms ease !important;
         &:not([data-mounted]) { opacity: 0; transition: none !important; }

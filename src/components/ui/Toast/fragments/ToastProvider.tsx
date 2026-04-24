@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ToastProviderContext, ToastPosition } from '../contexts/ToastContext';
 import type { ToastData } from '../contexts/ToastContext';
 import { ToastState } from '../ToastState';
@@ -9,15 +9,10 @@ const COMPONENT_NAME = 'Toast';
 
 export type ToastProviderProps = {
     children: React.ReactNode;
-    /** Override the generated class namespace. */
     customRootClass?: string;
-    /** Where toasts appear on screen. @default "bottom-right" */
     position?: ToastPosition;
-    /** Always show all toasts expanded (no stacking). @default false */
     expand?: boolean;
-    /** Gap between toasts in px when collapsed. @default 14 */
     gap?: number;
-    /** Max toasts visible at once. @default 3 */
     maxToasts?: number;
 };
 
@@ -42,12 +37,16 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             if (id === '__all__') {
                 setToasts([]);
             } else {
-                setToasts((prev) => prev.filter((t) => t.id !== id));
+                // Don't remove immediately — let the toast animate out first.
+                // ToastRoot calls removeToast() after its exit transition ends.
+                // We just mark it for dismissal by calling dismiss() on it via ToastState.
+                // The actual array removal happens in removeToast below.
             }
         });
         return () => { unsubAdd(); unsubDismiss(); };
     }, [maxToasts]);
 
+    // Called by ToastRoot after exit animation completes
     const removeToast = useCallback((id: string) => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
         setHeights((prev) => {
@@ -66,6 +65,17 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
         });
     }, []);
 
+    const unlinkStackHeight = useCallback((id: string) => {
+        setHeights((prev) => {
+            if (!prev.has(id)) return prev;
+            const next = new Map(prev);
+            next.delete(id);
+            return next;
+        });
+    }, []);
+
+    // visibleToasts: only non-leaving toasts count toward the stack index
+    // We pass ALL toasts so leaving ones can still render their exit animation
     const visibleToasts = toasts.slice(0, maxToasts);
 
     return (
@@ -79,6 +89,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             setIsHovered,
             heights,
             updateHeight,
+            unlinkStackHeight,
             removeToast,
             toasts,
             visibleToasts,

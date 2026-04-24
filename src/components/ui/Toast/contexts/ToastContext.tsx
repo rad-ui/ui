@@ -31,6 +31,8 @@ export interface ToastProviderContextType {
     setIsHovered: (v: boolean) => void;
     heights: Map<string, number>;
     updateHeight: (id: string, h: number) => void;
+    /** Remove height from stack math immediately when exit starts (Sonner-style). */
+    unlinkStackHeight: (id: string) => void;
     removeToast: (id: string) => void;
     toasts: ToastData[];
     visibleToasts: ToastData[];
@@ -46,6 +48,7 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     setIsHovered: () => {},
     heights: new Map(),
     updateHeight: () => {},
+    unlinkStackHeight: () => {},
     removeToast: () => {},
     toasts: [],
     visibleToasts: [],

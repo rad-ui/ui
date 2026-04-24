@@ -41,7 +41,13 @@ export function useToastManager(): ToastManagerReturn {
     const ctx = useContext(ToastProviderContext);
 
     return {
-        toasts: ctx.visibleToasts,   // only the visible slice — matches what Toast.Root expects
+        // Reversed so oldest toast is first in the DOM — new toasts are always
+        // appended rather than inserted before existing ones. This prevents the
+        // browser from moving existing DOM nodes when a new toast arrives, which
+        // would reset their CSS transition state and cause them to re-animate
+        // from their off-screen start position instead of their current position.
+        // ToastRoot uses visibleToasts (newest-first) for index/stacking math.
+        toasts: [...ctx.visibleToasts].reverse(),
         add: (data) => ToastState.create(data),
         dismiss: (id) => ToastState.dismiss(id),
         dismissAll: () => ToastState.dismissAll(),

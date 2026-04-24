@@ -10,20 +10,18 @@
     max-width: calc(100vw - 2rem);
     outline: none;
     height: calc(var(--viewport-height, 0px) + 1rem);
-    transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1);
 
-    &[data-position="bottom-right"]  { bottom: 0; right: 0; }
-    &[data-position="bottom-left"]   { bottom: 0; left: 0; }
-    &[data-position="bottom-center"] { bottom: 0; left: 50%; transform: translateX(-50%); }
-    &[data-position="top-right"]     { top: 0; right: 0; }
-    &[data-position="top-left"]      { top: 0; left: 0; }
-    &[data-position="top-center"]    { top: 0; left: 50%; transform: translateX(-50%); }
+    &[data-position="bottom-right"]  { bottom: 3rem; right: 1.5rem; }
+    &[data-position="bottom-left"]   { bottom: 3rem; left: 1.5rem; }
+    &[data-position="bottom-center"] { bottom: 3rem; left: 50%; transform: translateX(-50%); }
+    &[data-position="top-right"]     { top: 1.5rem; right: 1.5rem; }
+    &[data-position="top-left"]      { top: 1.5rem; left: 1.5rem; }
+    &[data-position="top-center"]    { top: 1.5rem; left: 50%; transform: translateX(-50%); }
 }
 
 /* ── Item ────────────────────────────────────────────────────────────────── */
 
 .rad-ui-toast-item {
-    /* JS sets: --y (translateY px), --scale, --swipe-y, --front-height */
     position: absolute;
     bottom: 0;
     left: 0;
@@ -32,58 +30,70 @@
     cursor: grab;
     user-select: none;
     touch-action: none;
-    will-change: transform, opacity;
     transform-origin: bottom center;
 
     transform:
         translateY(var(--y, 0px))
         translateY(var(--swipe-y, 0px))
         scale(var(--scale, 1));
+    transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
 
-    transition:
-        transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
-        opacity   400ms cubic-bezier(0.22, 1, 0.36, 1),
-        height    300ms cubic-bezier(0.22, 1, 0.36, 1);
+    /* Exit: Sonner styles.css — [data-removed] front vs non-front (collapsed only). */
+    &[data-leaving] {
+        pointer-events: none;
+    }
 
-    /* ENTER */
+    &[data-leaving][data-front]:not([data-expanded]) {
+        opacity: 0;
+        transform: translateY(100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
+    }
+
+    &[data-leaving]:not([data-front]):not([data-expanded]) {
+        opacity: 0;
+        transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
+        transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease;
+    }
+
+    &[data-leaving][data-expanded] {
+        opacity: 0;
+    }
+
     &:not([data-mounted]) {
         opacity: 0;
         transform: translateY(100%) scale(var(--scale, 1));
-        transition:
-            transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
-            opacity   300ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* EXIT */
-    &[data-leaving] {
-        opacity: 0;
-        transform: translateY(100%) scale(var(--scale, 1));
-        pointer-events: none;
-        transition:
-            transform 300ms cubic-bezier(0.55, 0, 1, 0.45),
-            opacity   250ms cubic-bezier(0.55, 0, 1, 0.45);
+    &[data-restack-skip] {
+        transition: none;
     }
 
-    &[data-swiping] { transition: none; cursor: grabbing; }
+    &[data-swiping] {
+        transition: none;
+        cursor: grabbing;
+    }
 
-    /*
-     * Back toasts: clamp to front toast height so the stack is even.
-     * Only set when we have a real measured height (> 0).
-     */
+    /* Back toasts: clamp height to front toast height */
     &[data-behind] {
         height: var(--front-height);
     }
 
-    /* Top positions */
     [data-position^="top"] & {
         bottom: auto;
         top: 0;
         transform-origin: top center;
-        &:not([data-mounted]) { transform: translateY(-100%) scale(var(--scale, 1)); }
-        &[data-leaving]       { transform: translateY(-100%) scale(var(--scale, 1)); }
+        &:not([data-mounted]) {
+            transform: translateY(-100%) scale(var(--scale, 1));
+        }
+        &[data-leaving][data-front]:not([data-expanded]) {
+            transform: translateY(-100%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
+        }
+        &[data-leaving]:not([data-front]):not([data-expanded]) {
+            transform: translateY(40%) translateY(var(--swipe-y, 0px)) scale(var(--scale, 1));
+            transition: transform 500ms ease, opacity 200ms ease, box-shadow 200ms ease;
+        }
     }
 
-    /* Fill gap between cards so hover doesn't break */
+    /* Gap filler so hover works between cards */
     &::after {
         content: '';
         position: absolute;
@@ -110,24 +120,21 @@
     color: var(--rad-ui-text-primary);
 }
 
-/*
- * Back toasts: keep the card background visible (so you see the stack),
- * but hide the text content. Target children, not the wrapper itself.
- */
+/* Back toasts: hide text, keep card background visible */
 .rad-ui-toast-item[data-behind] .rad-ui-toast-title,
 .rad-ui-toast-item[data-behind] .rad-ui-toast-description,
 .rad-ui-toast-item[data-behind] .rad-ui-toast-action,
 .rad-ui-toast-item[data-behind] .rad-ui-toast-close {
     opacity: 0;
-    transition: opacity 150ms cubic-bezier(0.55, 0, 1, 0.45);
+    transition: opacity 400ms ease;
 }
 
-.rad-ui-toast-item[data-expanded] .rad-ui-toast-title,
-.rad-ui-toast-item[data-expanded] .rad-ui-toast-description,
-.rad-ui-toast-item[data-expanded] .rad-ui-toast-action,
-.rad-ui-toast-item[data-expanded] .rad-ui-toast-close {
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-title,
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-description,
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-action,
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-close {
     opacity: 1;
-    transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1) 50ms;
+    transition: opacity 400ms ease;
 }
 
 /* ── Title ───────────────────────────────────────────────────────────────── */
@@ -204,11 +211,7 @@
 /* ── Reduced motion ──────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-    .rad-ui-toast-viewport { transition: none; }
-    .rad-ui-toast-item {
-        transition: opacity 100ms ease;
-        will-change: auto;
-        &:not([data-mounted]) { opacity: 0; transition: none; }
-        &[data-leaving]       { opacity: 0; transition: opacity 100ms ease; }
-    }
+    .rad-ui-toast-item { transition: opacity 150ms ease; }
+    .rad-ui-toast-item:not([data-mounted]) { opacity: 0; transition: none; }
+    .rad-ui-toast-item[data-leaving] { opacity: 0; }
 }

@@ -23,8 +23,10 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) =>
     const listRef = useRef<HTMLOListElement>(null);
     const isExpanded = expand || isHovered;
 
-    // Front toast height — back toasts clamp to this when collapsed
-    const frontHeight = heights.get(visibleToasts[0]?.id) ?? 0;
+    // Front toast height — match ToastRoot fallback so viewport height doesn’t jump when the new front isn’t measured yet
+    const measuredFront = heights.get(visibleToasts[0]?.id) ?? 0;
+    const formerFront = visibleToasts[1] ? (heights.get(visibleToasts[1].id) ?? 0) : 0;
+    const frontHeight = measuredFront > 0 ? measuredFront : formerFront;
 
     // Viewport height = hover target that covers the whole stack
     const viewportHeight = isExpanded
