@@ -77,7 +77,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
                 <Primitive.div
                     ref={forwardedRef}
                     className={clsx(rootClass, className)}
-                    data-rad-ui-accent-color={color}
+                    data-color={color}
                     asChild={asChild}
                     {...dataAttributes}
                     {...props}

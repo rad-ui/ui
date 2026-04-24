@@ -57,6 +57,8 @@ Open these as needed based on the task:
   Use when touching components that currently rely on `querySelector`.
 - `knowledge/design_system/clarity_design_system.md`
   Use for design-system thinking and perceptual consistency decisions.
+- `knowledge/design_system/clarity_audit_spec.md`
+  Use before adding or changing Clarity component styles; defines component recipes, token usage, audit categories, and enforcement rules.
 - `knowledge/releases/how-rad-ui-releases-are-made.md`
   Use for release-stage terminology and release documentation.
 

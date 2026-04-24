@@ -27,13 +27,13 @@ export const Truncate = () => {
         <SandboxEditor>
             <div className="flex flex-col gap-6 max-w-sm">
                 <div>
-                    <p className="text-gray-500 text-xs mb-2">truncate: false (default)</p>
+                    <p className="text-[var(--rad-ui-text-secondary)] text-xs mb-2">truncate: false (default)</p>
                     <Text className="text-gray-950">
                         <Quote>The only way to do great work is to love what you do. If you haven't found it yet, keep looking.</Quote>
                     </Text>
                 </div>
                 <div>
-                    <p className="text-gray-500 text-xs mb-2">truncate: true</p>
+                    <p className="text-[var(--rad-ui-text-secondary)] text-xs mb-2">truncate: true</p>
                     <Text className="text-gray-950">
                         <Quote truncate>The only way to do great work is to love what you do. If you haven't found it yet, keep looking.</Quote>
                     </Text>

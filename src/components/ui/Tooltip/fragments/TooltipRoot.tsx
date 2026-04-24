@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import TooltipContext from '../context/TooltipContext';
-import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow } from '@floating-ui/react';
+import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate } from '@floating-ui/react';
 
 const COMPONENT_NAME = 'Tooltip';
 
@@ -24,13 +24,22 @@ export type TooltipRootElement = React.ElementRef<'div'>;
 export interface TooltipRootProps extends React.ComponentPropsWithoutRef<'div'> {
     children: React.ReactNode;
     placement?: Placement;
+    collisionBoundary?: Element | null | Array<Element | null>;
+    collisionPadding?: number;
 }
 
 const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
-    ({ children, placement = 'top', ...props }, ref) => {
+    ({ children, placement = 'top', collisionBoundary = null, collisionPadding = 5, ...props }, ref) => {
         const arrowRef = useRef<SVGSVGElement>(null);
 
         const [isOpen, setIsOpen] = useState(false);
+        const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
+        const filteredBoundary = boundary.filter((item): item is Element => item != null);
+        const detectOverflowOptions = {
+            padding: collisionPadding,
+            boundary: filteredBoundary,
+            altBoundary: filteredBoundary.length > 0
+        };
 
         const data = useFloating({
             placement,
@@ -45,10 +54,11 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
                 flip({
                     crossAxis: true,
                     fallbackAxisSideDirection: 'start',
-                    padding: 5
+                    ...detectOverflowOptions
                 }),
-                shift({ padding: 5 })
-            ]
+                shift(detectOverflowOptions)
+            ],
+            whileElementsMounted: autoUpdate
         });
 
         const context = data.context;

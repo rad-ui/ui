@@ -19,7 +19,7 @@ export default {
                         Open Dialog
                     </DialogPrimitive.Trigger>
                     <DialogPrimitive.Portal>
-                        <DialogPrimitive.Content className="p-4 z-50 fixed mx-auto bg-gray-200 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md ">
+                        <DialogPrimitive.Content className="p-4 z-50 fixed mx-auto bg-[var(--rad-ui-surface-muted)] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md ">
                             <DialogPrimitive.Cancel>
                                 Cancel
                             </DialogPrimitive.Cancel>
@@ -27,9 +27,9 @@ export default {
                     </DialogPrimitive.Portal>
 
                 </DialogPrimitive.Root>
-                <div className=" bg-gray-200">
+                <div className=" bg-[var(--rad-ui-surface-muted)]">
                     {Array.from({ length: 100 }).map((_, index) => (
-                        <div key={index} className="bg-gray-200">
+                        <div key={index} className="bg-[var(--rad-ui-surface-muted)]">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
                         </div>
                     ))}

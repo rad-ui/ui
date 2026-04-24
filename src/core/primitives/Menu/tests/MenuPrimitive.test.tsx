@@ -107,6 +107,43 @@ describe('MenuPrimitive', () => {
             useFloatingSpy.mockRestore();
         });
 
+        it('keeps nested submenu cross-axis alignment anchored to its trigger', () => {
+            const offsetSpy = jest.spyOn(Floater, 'offset');
+            const flipSpy = jest.spyOn(Floater, 'flip');
+            const shiftSpy = jest.spyOn(Floater, 'shift');
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Trigger>Open</MenuPrimitive.Trigger>
+                    <MenuPrimitive.Content>
+                        <MenuPrimitive.Sub defaultOpen={true}>
+                            <MenuPrimitive.Trigger>Nested</MenuPrimitive.Trigger>
+                            <MenuPrimitive.Content>
+                                <MenuPrimitive.Item>Nested item</MenuPrimitive.Item>
+                            </MenuPrimitive.Content>
+                        </MenuPrimitive.Sub>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            expect(offsetSpy).toHaveBeenCalledWith({
+                mainAxis: 14,
+                crossAxis: 0
+            });
+            expect(flipSpy).toHaveBeenCalledWith({
+                mainAxis: true,
+                crossAxis: false
+            });
+            expect(shiftSpy).toHaveBeenCalledWith({
+                padding: 4,
+                crossAxis: false
+            });
+
+            offsetSpy.mockRestore();
+            flipSpy.mockRestore();
+            shiftSpy.mockRestore();
+        });
+
         it('should pass rtl and loop to Floater.useListNavigation', () => {
             const listNavSpy = jest.spyOn(Floater, 'useListNavigation');
 

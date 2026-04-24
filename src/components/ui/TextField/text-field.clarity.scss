@@ -6,16 +6,16 @@
     min-height: 2rem;
     box-sizing: border-box;
     padding: 0 0.75rem;
-    border: 1px solid var(--rad-ui-color-gray-500);
+    border: 1px solid var(--rad-ui-field-border);
     border-radius: 0.625rem;
-    background-color: var(--rad-ui-color-white);
+    background-color: var(--rad-ui-field-background);
     box-shadow:
         0 0 0 1px color-mix(in oklab, var(--rad-ui-surface-canvas) 40%, transparent),
         0 6px 18px -18px color-mix(in oklab, var(--rad-ui-color-gray-900) 14%, transparent);
 
     &:focus-within {
         border-color: var(--rad-ui-color-gray-700);
-        background-color: var(--rad-ui-color-white);
+        background-color: var(--rad-ui-field-background);
         box-shadow:
             0 0 0 1px color-mix(in oklab, var(--rad-ui-color-gray-300) 24%, var(--rad-ui-surface-panel)),
             0 6px 18px -18px color-mix(in oklab, var(--rad-ui-color-gray-900) 16%, transparent);
@@ -23,8 +23,8 @@
 
     &:has(.rad-ui-text-field-input:disabled),
     &:has(.rad-ui-text-field-input:read-only) {
-        background-color: color-mix(in oklab, var(--rad-ui-surface-subtle) 92%, var(--rad-ui-surface-canvas));
-        border-color: var(--rad-ui-color-gray-500);
+        background-color: var(--rad-ui-disabled-background);
+        border-color: var(--rad-ui-disabled-border);
         box-shadow: none;
     }
 }
@@ -44,12 +44,12 @@
     letter-spacing: -0.01em;
 
     &::placeholder {
-        color: color-mix(in oklab, var(--rad-ui-color-gray-700) 86%, white);
+        color: var(--rad-ui-field-placeholder);
     }
 
     &:disabled,
     &:read-only {
-        color: var(--rad-ui-text-muted);
+        color: var(--rad-ui-disabled-text);
         cursor: not-allowed;
     }
 }

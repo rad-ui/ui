@@ -52,6 +52,24 @@ describe('NavigationMenu component', () => {
         expect(link).toHaveAttribute('href', '/about');
     });
 
+    test('generates NavigationMenu classes from customRootClass', () => {
+        const { getByText } = render(
+            <NavigationMenu.Root customRootClass="rad-ui" defaultValue="item1">
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                    <NavigationMenu.Content>
+                        <NavigationMenu.Link href="#">Item 1 Content</NavigationMenu.Link>
+                    </NavigationMenu.Content>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        expect(getByText('Open')).toHaveClass('rad-ui-navigation-menu-trigger');
+        expect(getByText('Item 1 Content')).toHaveClass('rad-ui-navigation-menu-link');
+        expect(getByText('Item 1 Content').closest('.rad-ui-navigation-menu-content')).toBeInTheDocument();
+        expect(getByText('Open').closest('.rad-ui-navigation-menu-root')).toBeInTheDocument();
+    });
+
     test('sets data-state to open on content when triggered', () => {
         const { getByText } = render(
             <NavigationMenu.Root>
@@ -67,6 +85,28 @@ describe('NavigationMenu component', () => {
         fireEvent.click(getByText('Open'));
         const content = getByText('Item 1 Content').closest('[data-state]');
         expect(content).toHaveAttribute('data-state', 'open');
+    });
+
+    test('sets trigger state attributes when opened', () => {
+        const { getByText } = render(
+            <NavigationMenu.Root>
+                <NavigationMenu.Item value="item1">
+                    <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                    <NavigationMenu.Content>
+                        <NavigationMenu.Link href="#">Item 1 Content</NavigationMenu.Link>
+                    </NavigationMenu.Content>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+
+        const trigger = getByText('Open');
+        expect(trigger).toHaveAttribute('data-state', 'closed');
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+        fireEvent.click(trigger);
+
+        expect(trigger).toHaveAttribute('data-state', 'open');
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
     });
 
     test('forwards ref to root', () => {

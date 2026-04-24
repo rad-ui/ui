@@ -4,7 +4,7 @@
 // Checked border: step 11 (1000) — max contrast, clear selection
 // Radio dot: accent-800 — solid fill
 // Title: step 11 (1000) — primary text
-// Description: step 10 (900) — secondary text
+// Description: step 11 (950) — secondary text
 .rad-ui-radio-cards {
   width: 100%;
   max-width: var(--rad-ui-radio-cards-max-width, 29rem);
@@ -74,7 +74,7 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: var(--rad-ui-ring-shadow-sm);
+    box-shadow: var(--rad-ui-focus-ring-shadow-sm);
   }
 
   &[data-state="checked"] {
@@ -89,7 +89,7 @@
     }
 
     .rad-ui-radio-cards-description {
-      color: var(--rad-ui-color-gray-900); // step 10 — secondary text
+      color: var(--rad-ui-text-secondary);
     }
   }
 
@@ -129,6 +129,6 @@
   .rad-ui-radio-cards-description {
     font-size: 0.9375rem;
     line-height: var(--rad-ui-line-height-3);
-    color: var(--rad-ui-color-gray-700); // step 8 — supporting content
+    color: var(--rad-ui-text-secondary);
   }
 }

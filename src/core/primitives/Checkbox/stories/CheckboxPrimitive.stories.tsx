@@ -14,7 +14,7 @@ export default {
 export const Basic: Story = {
     render: () => (
         <SandboxEditor>
-            <CheckboxPrimitive.Root className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+            <CheckboxPrimitive.Root className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                 <CheckboxPrimitive.Indicator>
                     <span className='text-blue-900'>
                         <TickIcon />
@@ -40,7 +40,7 @@ export const FormWithCheckboxPrimitive: Story = {
             <SandboxEditor>
                 <form onSubmit={handleSubmit}>
                     <div className='flex space-x-2 items-center'>
-                        <CheckboxPrimitive.Root name="acceptTerms" id="acceptTerms" value="yes" required className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                        <CheckboxPrimitive.Root name="acceptTerms" id="acceptTerms" value="yes" required className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                             <CheckboxPrimitive.Indicator>
                                 <span className='text-blue-900'>
                                     <TickIcon />

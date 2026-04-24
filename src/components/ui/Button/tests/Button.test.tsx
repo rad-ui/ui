@@ -1,4 +1,6 @@
 import React from 'react';
+import fs from 'node:fs';
+import path from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as axe from 'axe-core';
@@ -21,19 +23,26 @@ describe('Button', () => {
     test('renders button with the given color', () => {
         render(<Button color='white'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('data-rad-ui-accent-color', 'white');
+        expect(button).toHaveAttribute('data-color', 'white');
     });
 
     test('renders button with the given variant', () => {
         render(<Button customRootClass="rad-ui" variant='outline'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveClass('rad-ui-button');
+        expect(button).toHaveClass('rad-ui-button-root');
+    });
+
+    test('focus-visible styles are declared after variants so focus shadow wins', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../button.clarity.scss'), 'utf8');
+        expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-variant="ghost"]'));
+        expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-variant="outline"]'));
+        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-shadow-sm);');
     });
 
     test('renders button with the given size', () => {
         render(<Button size='small'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('data-button-size', 'small');
+        expect(button).toHaveAttribute('data-size', 'small');
     });
 
     test('calls the onClick handler when the button is clicked', async() => {

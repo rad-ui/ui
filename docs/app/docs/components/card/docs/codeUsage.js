@@ -1,3 +1,5 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
 // Import API documentation
 import root_api_SourceCode from './component_api/root.tsx';
 import header_api_SourceCode from './component_api/header.tsx';
@@ -6,6 +8,8 @@ import description_api_SourceCode from './component_api/description.tsx';
 import content_api_SourceCode from './component_api/content.tsx';
 import footer_api_SourceCode from './component_api/footer.tsx';
 import action_api_SourceCode from './component_api/action.tsx';
+
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Card/card.clarity.scss');
 
 const code = {
     javascript: {
@@ -28,12 +32,7 @@ const CardExample = () => (
 )`
     },
     scss: {
-        code: `.rad-ui-card{
-    border: 1px solid var(--rad-ui-color-gray-400);
-    padding: 12px;
-    border-radius: 4px;
-    box-shadow: 1px 1px 4px 1px var(--rad-ui-color-gray-200);
-}`
+        code: scss_SourceCode
     },
 }
 

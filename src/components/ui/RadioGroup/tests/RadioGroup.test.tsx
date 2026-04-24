@@ -84,9 +84,9 @@ describe('RadioGroup (fragments)', () => {
         );
         const group = screen.getByTestId('radio-group');
         // Data attributes for variant/size/color
-        expect(group.getAttribute('data-radio-group-variant')).toBe('filled');
-        expect(group.getAttribute('data-radio-group-size')).toBe('lg');
-        expect(group.getAttribute('data-rad-ui-accent-color')).toBe('primary');
+        expect(group.getAttribute('data-variant')).toBe('filled');
+        expect(group.getAttribute('data-size')).toBe('lg');
+        expect(group.getAttribute('data-color')).toBe('primary');
     });
 
     it('warns on direct usage of RadioGroup', () => {

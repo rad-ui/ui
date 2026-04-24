@@ -72,3 +72,36 @@ export const Basic: Story = {
         </SandboxEditor>
     )
 };
+
+export const ScrollCollisionVisualTest: Story = {
+    render: () => {
+        const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+        return (
+            <SandboxEditor>
+                <div
+                    ref={setContainer}
+                    className="relative h-[360px] w-[560px] overflow-y-auto border border-[var(--rad-ui-border-default)] p-6"
+                >
+                    <div className="h-[280px]" />
+                    <Menubar.Root>
+                        <Menubar.Menu collisionBoundary={container}>
+                            <Menubar.Trigger>Trigger</Menubar.Trigger>
+                            <Menubar.Portal root={container}>
+                                <Menubar.Content>
+                                    <Menubar.Item label="Profile">Profile</Menubar.Item>
+                                    <Menubar.Item label="Settings">Settings</Menubar.Item>
+                                    <Menubar.Item label="Notifications">Notifications</Menubar.Item>
+                                    <Menubar.Item label="Billing">Billing</Menubar.Item>
+                                    <Menubar.Item label="Team">Team</Menubar.Item>
+                                    <Menubar.Item label="Logout">Logout</Menubar.Item>
+                                </Menubar.Content>
+                            </Menubar.Portal>
+                        </Menubar.Menu>
+                    </Menubar.Root>
+                    <div className="h-[520px]" />
+                </div>
+            </SandboxEditor>
+        );
+    }
+};

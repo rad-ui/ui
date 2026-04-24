@@ -1,9 +1,29 @@
 
-Each step represents a **specific UI intent**, not just a color.
+# Clarity Design System
+
+This is Rad UI's neutral clarity scale. It uses these public token names:
+
+`50`, `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`, `950`, `1000`
+
+Each step represents a **specific UI intent**, not just a color. Do not treat the
+numbers as arbitrary lightness values or as a linear color ramp.
 
 ---
 
 ## Core Principles
+
+### Public Styling Contract
+
+Clarity components must expose public styling props through the shared semantic
+attributes `data-variant`, `data-size`, and `data-color`.
+
+Do not emit component-scoped styling attributes such as `data-button-variant`,
+`data-badge-size`, or `data-radio-group-variant`. Component ownership belongs in
+the generated class name; data attributes describe the active public prop value.
+
+Theme infrastructure attributes may remain Rad UI-prefixed when they configure
+provider-level behavior, such as `data-rad-ui-theme` or
+`data-rad-ui-accent-color`.
 
 ### 1. Perceptual Consistency
 - Steps must feel evenly spaced to the human eye
@@ -21,23 +41,94 @@ Good:
 
 ### 2. Intent-Based Design (VERY IMPORTANT)
 
+Use the `50` through `1000` scale by intent, including the `950` text step.
+Components should rely on semantic aliases first, then map those aliases to the
+scale.
 
 | Step | Token | Category                  | Usage Description |
 |------|------|---------------------------|------------------|
 | 1    | 50   | Backgrounds               | App/page background, lowest visual weight |
-| 2    | 100  | Backgrounds               | Subtle surfaces, section backgrounds |
-| 3    | 200  | Interactive components    | Hover backgrounds, subtle interaction states |
-| 4    | 300  | Interactive components    | Active/pressed states, stronger surface contrast |
-| 5    | 400  | Interactive components    | Selected states, emphasized surfaces |
-| 6    | 500  | Borders & separators      | Light borders, dividers |
-| 7    | 600  | Borders & separators      | Default borders, stronger separators |
-| 8    | 700  | Solid colors              | Disabled text/icons, muted UI elements
-| 9    | 800  | Solid colors              | supporting content
-| 10   | 900  | Accessible text           | Secondary text, high readability |
-| 11   | 1000 | Accessible text           | Headings,Primary text, max contrast text (near black) |
+| 2    | 100  | Backgrounds               | Subtle surfaces, section backgrounds, cards, sidebars, code blocks |
+| 3    | 200  | Component backgrounds     | Default UI element background |
+| 4    | 300  | Component backgrounds     | Hovered UI element background |
+| 5    | 400  | Component backgrounds     | Active, pressed, or selected UI element background |
+| 6    | 500  | Borders & separators      | Subtle borders and separators for non-interactive surfaces |
+| 7    | 600  | Borders & focus rings     | Default borders on interactive components, default focus rings |
+| 8    | 700  | Strong borders            | Hovered interactive borders, stronger focus rings, high-emphasis separators |
+| 9    | 800  | Solid backgrounds         | Solid fills for high-emphasis components and visual anchors |
+| 10   | 900  | Solid hover               | Hovered solid fills |
+| 11   | 950  | Accessible text           | Secondary/supporting text, readable foregrounds with slightly lower emphasis |
+| 12   | 1000 | High-contrast text        | Headings, primary text, icons, and maximum-contrast foregrounds |
+
 ---
 
-### 3. No Pure Extremes
+Notes:
+
+- If a component is transparent by default, use `200` for its hover background.
+- Use `800` for the default solid fill and `900` for its hover state.
+- Use `950` for secondary or supporting text when it meets the required contrast on the chosen background.
+- Use `1000` for primary foreground content.
+- Do not introduce `1` through `12` public tokens. Rad UI uses `50` through `1000`.
+
+### 3. Semantic Alias Mapping
+
+Prefer semantic aliases in component APIs, docs, and examples. The raw scale
+tokens should remain the implementation mapping.
+
+| Alias | Token | Usage |
+|-------|-------|-------|
+| `appBackground` | `50` | Main page or app background |
+| `surfaceSubtle` | `100` | Subtle sections, sidebars, cards, code blocks |
+| `elementBackground` | `200` | Default UI element background |
+| `elementHover` | `300` | Hovered UI element background |
+| `elementActive` | `400` | Active, pressed, or selected UI element background |
+| `borderSubtle` | `500` | Non-interactive borders and separators |
+| `borderDefault` | `600` | Interactive component borders and default focus rings |
+| `borderStrong` | `700` | Hovered borders, strong focus rings, high-emphasis separators |
+| `solidBackground` | `800` | Default solid fills for high-emphasis components |
+| `solidHover` | `900` | Hovered solid fills |
+| `textSecondary` | `950` | Supporting text when contrast passes |
+| `textPrimary` | `1000` | Primary text, headings, and icons |
+
+State and component-level aliases should sit above the raw scale and base
+aliases:
+
+| Alias group | CSS tokens | Usage |
+|-------------|------------|-------|
+| Disabled | `--rad-ui-disabled-text`, `--rad-ui-disabled-background`, `--rad-ui-disabled-border` | Disabled text, inactive control backgrounds, and disabled borders |
+| Status | `--rad-ui-danger-*`, `--rad-ui-success-*`, `--rad-ui-warning-*`, `--rad-ui-info-*` | Semantic status backgrounds, borders, text, solid fills, and solid hover fills |
+| Overlay | `--rad-ui-overlay-scrim` | Dialog, drawer, command, and modal scrims |
+| Items | `--rad-ui-item-selected-*`, `--rad-ui-item-highlighted-*` | Selected and highlighted option/menu/list rows |
+| Fields | `--rad-ui-field-background`, `--rad-ui-field-border`, `--rad-ui-field-placeholder`, `--rad-ui-field-invalid` | Text input, textarea, number field, and invalid field states |
+
+### 4. Rules / What Not To Do
+
+These rules protect the scale from drifting into one-off styling decisions.
+
+- Follow the generated class contract `{namespace}-{component}-{part}` for Clarity selectors.
+- Root selectors must include the `root` part, such as `.rad-ui-button-root`, `.rad-ui-badge-root`, and `.rad-ui-card-root`.
+- Keep component child selectors on explicit parts and slots, such as `.rad-ui-card-title` or `.rad-ui-accordion-trigger`.
+- Do not use raw hex values in components when a scale token or semantic alias exists.
+- Do not introduce extra neutral steps such as `25`, `75`, `150`, or `1100`.
+- Do not introduce `1` through `12` public tokens. Rad UI uses `50` through `1000`.
+- Do not append part suffixes to an empty generated root class. Headless mode must not emit accidental classes like `-viewport`; only generate part classes when a namespace-backed root class exists.
+- Do not use a token outside its intended role just because it looks close in one context.
+- Do not use `900` for text; use `950` for supporting text or `1000` for primary text.
+- Do not use `700` or `800` for body text unless the contrast has been explicitly checked.
+- Do not use `800` as a solid background without defining the matching `900` hover state.
+- Do not use `200`, `300`, or `400` as borders; those steps are for component backgrounds.
+- Do not use `500`, `600`, or `700` as filled component backgrounds; those steps are for borders and focus states.
+- Do not use `50` or `100` for interactive states; they are background and surface steps.
+- Do not make disabled text by lowering opacity over arbitrary colors; use the appropriate semantic disabled token once defined.
+- Do not mix semantic aliases and raw tokens in the same component API.
+- Do not hand-code focus rings in components. Use the `--rad-ui-focus-*` aliases so focus color, width, offset, and inset/offset shadows stay consistent.
+- Do not remap component token intent by theme mode in component styles. For example, do not add `[data-rad-ui-theme="dark"] &` overrides that change a solid fill from `800`/`900` to another step.
+- Do not fix a component that looks wrong in one appearance by adding local light/dark step exceptions. Adjust the token scale, semantic alias, or component-wide intent mapping instead.
+- Do not encode visual state only through color. Pair state with data attributes, ARIA state, or another accessible signal when needed.
+- Do not add hue to the neutral scale. Semantic colors must be defined separately.
+- Do not create component-specific private grayscale ramps.
+
+### 5. No Pure Extremes
 
 - ❌ No `#ffffff`
 - ❌ No `#000000`
@@ -51,7 +142,7 @@ Instead:
 
 ---
 
-### 4. Neutral Only
+### 6. Neutral Only
 
 - No hue tint (including blue/green/purple); chroma stays at zero
 - True grayscale only: neutral white through neutral near-black
@@ -60,10 +151,10 @@ If you want semantic colors, define them separately.
 
 ---
 
-### 5. Accessibility First
+### 7. Accessibility First
 
-- Text (900–1000) must meet **WCAG AA**
-- Borders (400–500) must be visible but not distracting
+- Text (`950` and `1000`) must meet **WCAG AA**
+- Borders (`500` through `700`) must be visible but not distracting
 - Avoid low contrast adjacent steps
 
 ---
@@ -74,15 +165,17 @@ This is the default Rad UI grayscale.
 
 ```json
 {
-  "50":  "#fafafa",
-  "100": "#f4f4f5",
-  "200": "#e4e4e7",
-  "300": "#d4d4d8",
-  "400": "#a1a1aa",
-  "500": "#71717a",
-  "600": "#52525b",
-  "700": "#3f3f46",
-  "800": "#27272a",
-  "900": "#18181b",
-  "1000": "#0f0f11"
+  "50": "hsl(0, 0%, 99.0%)",
+  "100": "hsl(0, 0%, 97.8%)",
+  "200": "hsl(0, 0%, 95.3%)",
+  "300": "hsl(0, 0%, 92.4%)",
+  "400": "hsl(0, 0%, 89.5%)",
+  "500": "hsl(0, 0%, 86.3%)",
+  "600": "hsl(0, 0%, 80.9%)",
+  "700": "hsl(0, 0%, 71.0%)",
+  "800": "hsl(0, 0%, 56.1%)",
+  "900": "hsl(0, 0%, 50.3%)",
+  "950": "hsl(0, 0%, 39.3%)",
+  "1000": "hsl(0, 0%, 13.0%)"
 }
+```

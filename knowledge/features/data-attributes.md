@@ -49,6 +49,10 @@ Example:
 
 These attributes should mirror public styling props. They do not apply styles by themselves; they give consumers and optional design-system CSS a stable selector API.
 
+Do not scope these attributes to a component name. For example, use
+`data-variant="soft"` instead of `data-button-variant="soft"`, and
+`data-size="large"` instead of `data-badge-size="large"`.
+
 `data-slot` is an optional component anatomy marker.
 
 Example:
@@ -76,6 +80,7 @@ Avoid:
 
 ```html
 <button data-rad-ui-variant="soft" data-acme-state="open"></button>
+<button data-button-variant="soft"></button>
 ```
 
 Class names are the namespace boundary:

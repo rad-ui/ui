@@ -120,6 +120,34 @@ describe('Toolbar keyboard navigation and a11y', () => {
         expect(italic).toHaveAttribute('aria-pressed', 'false');
     });
 
+    test('toggle group does not emit generated classes without a namespace', () => {
+        render(
+            <Toolbar.Root aria-label="Editor toolbar" data-testid="toolbar-root">
+                <Toolbar.ToggleGroup data-testid="toggle-group" type="single">
+                    <Toolbar.ToggleItem value="italic">Italic</Toolbar.ToggleItem>
+                </Toolbar.ToggleGroup>
+            </Toolbar.Root>
+        );
+
+        expect(screen.getByTestId('toolbar-root').className).toBe('');
+        expect(screen.getByTestId('toggle-group').className).toBe('');
+        expect(screen.getByRole('button', { name: 'Italic' }).className).toBe('');
+    });
+
+    test('toggle group emits generated classes when customRootClass provides a namespace', () => {
+        render(
+            <Toolbar.Root aria-label="Editor toolbar" customRootClass="acme" data-testid="toolbar-root">
+                <Toolbar.ToggleGroup data-testid="toggle-group" type="single">
+                    <Toolbar.ToggleItem value="italic">Italic</Toolbar.ToggleItem>
+                </Toolbar.ToggleGroup>
+            </Toolbar.Root>
+        );
+
+        expect(screen.getByTestId('toolbar-root')).toHaveClass('acme-toolbar');
+        expect(screen.getByTestId('toggle-group')).toHaveClass('acme-toolbar-toggle-group');
+        expect(screen.getByRole('button', { name: 'Italic' })).toHaveClass('acme-toolbar-toggle-item');
+    });
+
     test('asChild preserves custom element semantics', async() => {
         render(
             <Toolbar.Root aria-label="Editor toolbar">

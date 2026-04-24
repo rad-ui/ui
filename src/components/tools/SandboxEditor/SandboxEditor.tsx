@@ -44,26 +44,46 @@ const ColorSelect = ({ color, isDarkMode, isSelected }: ColorSelectProps) => {
 
 type SandboxProps = { className?: string } & PropsWithChildren
 type DesignSystem = 'clarity' | 'baremetal'
+type AvailableColors = keyof typeof colors
+
+const DESIGN_SYSTEM_STORAGE_KEY = 'radUiDesignSystem';
+const ACCENT_COLOR_STORAGE_KEY = 'radUiAccentColor';
+
+const isDesignSystem = (value: string | null): value is DesignSystem => (
+    value === 'clarity' || value === 'baremetal'
+);
+
+const isAvailableColor = (value: string | null): value is AvailableColors => (
+    value != null && Object.prototype.hasOwnProperty.call(colors, value)
+);
+
+const readStoredDarkMode = () => (
+    typeof window !== 'undefined' && window.localStorage.getItem('isDarkMode') === 'true'
+);
+
+const readStoredDesignSystem = (): DesignSystem => {
+    if (typeof window === 'undefined') {
+        return 'clarity';
+    }
+
+    const savedDesignSystem = window.localStorage.getItem(DESIGN_SYSTEM_STORAGE_KEY);
+    return isDesignSystem(savedDesignSystem) ? savedDesignSystem : 'clarity';
+};
+
+const readStoredAccentColor = (): AvailableColors => {
+    if (typeof window === 'undefined') {
+        return 'gray';
+    }
+
+    const savedAccentColor = window.localStorage.getItem(ACCENT_COLOR_STORAGE_KEY);
+    return isAvailableColor(savedAccentColor) ? savedAccentColor : 'gray';
+};
 
 const SandboxEditor = ({ children, className }: SandboxProps) => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(readStoredDarkMode);
     const [isCondensed, setIsCondensed] = useState(false);
-    const [designSystem, setDesignSystem] = useState<DesignSystem>('clarity');
-
-    type AvailableColors = keyof typeof colors
-
-    const [colorName, setColorName] = useState<AvailableColors>('gray');
-
-    useEffect(() => {
-        const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
-        const savedDesignSystem = localStorage.getItem('radUiDesignSystem');
-
-        setIsDarkMode(isDarkMode);
-
-        if (savedDesignSystem === 'clarity' || savedDesignSystem === 'baremetal') {
-            setDesignSystem(savedDesignSystem);
-        }
-    }, []);
+    const [designSystem, setDesignSystem] = useState<DesignSystem>(readStoredDesignSystem);
+    const [colorName, setColorName] = useState<AvailableColors>(readStoredAccentColor);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -82,12 +102,21 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
     };
 
     const updateDesignSystem = (value: string) => {
-        if (value !== 'clarity' && value !== 'baremetal') {
+        if (!isDesignSystem(value)) {
             return;
         }
 
-        localStorage.setItem('radUiDesignSystem', value);
+        localStorage.setItem(DESIGN_SYSTEM_STORAGE_KEY, value);
         setDesignSystem(value);
+    };
+
+    const updateAccentColor = (value: string) => {
+        if (!isAvailableColor(value)) {
+            return;
+        }
+
+        localStorage.setItem(ACCENT_COLOR_STORAGE_KEY, value);
+        setColorName(value);
     };
 
     return <div data-rad-ui-design-system={designSystem}>
@@ -95,7 +124,7 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
             appearance={isDarkMode ? 'dark' : 'light'}
             accentColor={colorName}
             classNamespace="rad-ui">
-            <div className='min-h-screen border border-gray-300 bg-gray-50 p-3 shadow-sm text-gray-900 sm:p-4'>
+            <div className='min-h-screen border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)] p-3 shadow-sm text-[var(--rad-ui-text-secondary)] sm:p-4'>
                 <div
                     className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}
                 >
@@ -149,8 +178,20 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
                                 <Text as='span' className='text-sm text-gray-950 leading-none'>
                                     Accent: <span className='capitalize'>{colorName}</span>
                                 </Text>
-                                <Select.Root value={colorName} onValueChange={(value) => setColorName(value as AvailableColors)}>
-                                    <Select.Trigger aria-label='Accent color'>
+                                <Select.Root value={colorName} onValueChange={updateAccentColor}>
+                                    <Select.Trigger
+                                        aria-label='Accent color'
+                                        renderValue={() => (
+                                            <span className='flex items-center gap-2'>
+                                                <ColorSelect
+                                                    color={colors[colorName]}
+                                                    isDarkMode={isDarkMode}
+                                                    isSelected={true}
+                                                />
+                                                <span className='capitalize'>{colorName}</span>
+                                            </span>
+                                        )}
+                                    >
                                         <span className='flex items-center gap-2'>
                                             <ColorSelect
                                                 color={colors[colorName]}

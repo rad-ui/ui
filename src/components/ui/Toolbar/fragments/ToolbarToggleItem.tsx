@@ -41,7 +41,7 @@ const ToolbarToggleItem = React.forwardRef<React.ElementRef<typeof TogglePrimiti
                     pressed={isPressed}
                     disabled={isDisabled}
                     onPressedChange={handlePressedChange}
-                    className={clsx(`${context.rootClass}-toggle-item`, className)}
+                    className={clsx(context.rootClass && `${context.rootClass}-toggle-item`, className)}
                     {...props}
                 />
             </RovingFocusGroup.Item>

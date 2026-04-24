@@ -32,6 +32,16 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
 
 .rad-ui-drawer-trigger {
   @extend .rad-ui-button;
+
+  position: relative;
+  isolation: isolate;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      var(--rad-ui-focus-ring-shadow-offset-panel),
+      0 16px 32px -22px rgb(0, 0, 0, 0.72);
+  }
 }
 
 .rad-ui-drawer-content {

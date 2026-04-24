@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export type NumberFieldIncrementElement = ElementRef<'button'>;
 export type NumberFieldIncrementProps = ComponentPropsWithoutRef<'button'>;
 
-const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberFieldIncrementProps>(({ children, className, ...props }, ref) => {
+const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberFieldIncrementProps>(({ children, className, onMouseDown, ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldIncrement must be used within a NumberField');
@@ -20,7 +20,14 @@ const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberField
             className={clsx(rootClass && `${rootClass}-increment`, className)}
             disabled={disabled || readOnly}
             type="button"
-            {...props}>
+            {...props}
+            tabIndex={-1}
+            onMouseDown={(event) => {
+                onMouseDown?.(event);
+                if (!event.defaultPrevented) {
+                    event.preventDefault();
+                }
+            }}>
             {children}
         </button>
     );

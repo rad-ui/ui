@@ -41,6 +41,7 @@ describe('Card', () => {
             </Card>
         );
 
+        expect(screen.getByTestId('card')).toHaveClass('rad-ui-card-root');
         expect(screen.getByTestId('card-header')).toHaveClass('rad-ui-card-header');
         expect(screen.getByText('Card title')).toHaveClass('rad-ui-card-title');
         expect(screen.getByText('Action')).toHaveClass('rad-ui-card-action');

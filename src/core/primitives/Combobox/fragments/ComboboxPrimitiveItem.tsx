@@ -9,6 +9,7 @@ import { useComboboxGroupContext } from '../contexts/ComboboxGroupContext';
 export interface ComboboxPrimitiveItemProps {
     children: React.ReactNode;
     value: string;
+    label?: string;
     disabled?: boolean;
     className?: string;
     [key: string]: any;
@@ -17,7 +18,7 @@ export interface ComboboxPrimitiveItemProps {
 const ComboboxPrimitiveItem = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
     ComboboxPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
->(({ children, value, disabled, className, ...props }, forwardedRef) => {
+>(({ children, value, label, disabled, className, ...props }, forwardedRef) => {
     const context = useContext(ComboboxPrimitiveContext);
 
     if (!context) {
@@ -31,6 +32,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
         getItemProps,
         activeIndex,
         selectedIndex,
+        selectedValue,
         virtualItemRef,
         selectedItemRef,
         hasSearch,
@@ -38,15 +40,18 @@ const ComboboxPrimitiveItem = React.forwardRef<
         hiddenIndices,
         disabledIndices,
         setDisabledIndices,
+        labelsRef,
+        displayLabelsRef,
         valuesRef,
         bumpLabelsVersion
     } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
-    const { ref, index } = Floater.useListItem({ label: value });
+    const itemLabel = label || value;
+    const { ref, index } = Floater.useListItem({ label: itemLabel });
 
     const isHidden = hiddenIndices.includes(index);
     const isActive = activeIndex === index;
-    const isSelected = selectedIndex === index;
+    const isSelected = selectedIndex === index || selectedValue === value;
 
     // Use the value prop for the ID, fallback to index if value is not provided
     const itemId = value || `select-item-${index}`;
@@ -60,19 +65,23 @@ const ComboboxPrimitiveItem = React.forwardRef<
         }
     }, [groupContext, itemId, isHidden]);
 
-    // Value registration
+    // Value and label registration
     React.useEffect(() => {
         valuesRef.current[index] = itemId;
+        labelsRef.current[index] = itemLabel;
+        displayLabelsRef.current[index] = itemLabel;
         return () => {
             delete valuesRef.current[index];
+            delete labelsRef.current[index];
+            delete displayLabelsRef.current[index];
         };
-    }, [index, itemId, valuesRef]);
+    }, [displayLabelsRef, index, itemId, itemLabel, labelsRef, valuesRef]);
     React.useEffect(() => {
         bumpLabelsVersion();
         return () => {
             bumpLabelsVersion();
         };
-    }, [index, value, bumpLabelsVersion]);
+    }, [index, itemLabel, value, bumpLabelsVersion]);
     // Disabled indices management
     React.useEffect(() => {
         const currentIndex = index;
@@ -99,22 +108,23 @@ const ComboboxPrimitiveItem = React.forwardRef<
         };
     }, [index, disabled, setDisabledIndices]);
 
-    // Selected item ref management
-    React.useEffect(() => {
+    const setSelectedItemNode = React.useCallback((node: HTMLElement | null) => {
         if (isSelected && !hasSearch) {
-            selectedItemRef.current = itemRef.current;
+            selectedItemRef.current = node;
+        } else if (selectedItemRef.current === node) {
+            selectedItemRef.current = null;
         }
-    }, [isSelected, hasSearch, selectedItemRef]);
+    }, [hasSearch, isSelected, selectedItemRef]);
 
     return (
         <Primitive.div
-            ref={Floater.useMergeRefs([ref, itemRef, forwardedRef])}
+            ref={Floater.useMergeRefs([ref, itemRef, setSelectedItemNode, forwardedRef])}
             id={itemId}
             role="option"
             className={className}
             style={{ display: isHidden ? 'none' : undefined, ...props.style }}
             data-value={value}
-            data-label={value}
+            data-label={itemLabel}
             data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
             aria-selected={isSelected}
             aria-disabled={disabled ? true : undefined}

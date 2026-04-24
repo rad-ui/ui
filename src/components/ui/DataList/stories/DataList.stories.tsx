@@ -37,7 +37,7 @@ export const Sizes = () => {
         <SandboxEditor>
             {DATA_LIST_SIZES.map((size) => (
                 <div key={size} className="mb-8">
-                    <p className="text-gray-500 mb-2">size: {size}</p>
+                    <p className="text-[var(--rad-ui-text-secondary)] mb-2">size: {size}</p>
                     <DataList.Root size={size}>
                         <SampleItems />
                     </DataList.Root>
@@ -52,7 +52,7 @@ export const Colors = () => {
         <SandboxEditor>
             {['blue', 'green'].map((color) => (
                 <div key={color} className="mb-8">
-                    <p className="text-gray-500 mb-2">label color: {color}</p>
+                    <p className="text-[var(--rad-ui-text-secondary)] mb-2">label color: {color}</p>
                     <DataList.Root>
                         <DataList.Item>
                             <DataList.Label color={color}>Name</DataList.Label>

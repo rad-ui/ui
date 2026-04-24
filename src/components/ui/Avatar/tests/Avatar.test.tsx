@@ -37,19 +37,19 @@ describe('Avatar', () => {
     test('renders avatar with the given variant', () => {
         render(<FallbackComponent />);
         const fallback = screen.getByText('RU');
-        expect(fallback.parentElement).toHaveAttribute('data-avatar-variant', 'square');
+        expect(fallback.parentElement).toHaveAttribute('data-variant', 'square');
     });
 
     test('renders avatar with the given size', () => {
         render(<FallbackComponent />);
         const fallback = screen.getByText('RU');
-        expect(fallback.parentElement).toHaveAttribute('data-avatar-size', 'sm');
+        expect(fallback.parentElement).toHaveAttribute('data-size', 'sm');
     });
 
     test('renders avatar with the given color', () => {
         render(<FallbackComponent />);
         const fallback = screen.getByText('RU');
-        expect(fallback.parentElement).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+        expect(fallback.parentElement).toHaveAttribute('data-color', 'blue');
     });
 
     test('renders avatar with the given asChild', () => {

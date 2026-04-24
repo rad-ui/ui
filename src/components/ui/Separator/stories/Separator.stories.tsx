@@ -42,14 +42,14 @@ export const AsChildSupport = () => {
             <h2 className='text-gray-950 font-bold text-xl'>Separator with asChild Support</h2>
 
             <div>
-                <p className='text-sm text-gray-600 mb-2'>Using native hr element:</p>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Using native hr element:</p>
                 <Separator asChild>
                     <hr className='border-t-2 border-blue-500' />
                 </Separator>
             </div>
 
             <div>
-                <p className='text-sm text-gray-600 mb-2'>Using custom div element:</p>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Using custom div element:</p>
                 <Separator asChild>
                     <div className='h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent' />
                 </Separator>
@@ -70,7 +70,7 @@ export const DecorativeSeparators = () => {
     return <SandboxEditor>
         <div className='mt-5 space-y-4'>
             <h2 className='text-gray-950 font-bold text-xl'>Decorative Separators</h2>
-            <p className='text-sm text-gray-600'>These separators are marked as decorative and hidden from screen readers</p>
+            <p className='text-sm text-[var(--rad-ui-text-secondary)]'>These separators are marked as decorative and hidden from screen readers</p>
 
             <div className='space-y-2'>
                 <p className='text-sm'>Section 1</p>
@@ -95,30 +95,30 @@ export const DataAttributes = () => {
     return <SandboxEditor>
         <div className='mt-5 space-y-4'>
             <h2 className='text-gray-950 font-bold text-xl'>Separator Data Attributes</h2>
-            <p className='text-sm text-gray-600'>Open browser inspector to see data-orientation attributes</p>
+            <p className='text-sm text-[var(--rad-ui-text-secondary)]'>Open browser inspector to see data-orientation attributes</p>
 
             <div className='space-y-2'>
                 <p className='text-sm'>Horizontal separator:</p>
                 <Separator data-testid="horizontal-separator" />
-                <p className='text-xs text-gray-500'>Has data-orientation="horizontal"</p>
+                <p className='text-xs text-[var(--rad-ui-text-secondary)]'>Has data-orientation="horizontal"</p>
             </div>
 
             <div className='flex items-center gap-2'>
                 <span className='text-sm'>Vertical separator:</span>
                 <Separator orientation='vertical' data-testid="vertical-separator" />
-                <p className='text-xs text-gray-500'>Has data-orientation="vertical"</p>
+                <p className='text-xs text-[var(--rad-ui-text-secondary)]'>Has data-orientation="vertical"</p>
             </div>
 
             <div className='space-y-2'>
                 <p className='text-sm'>Decorative horizontal:</p>
                 <Separator decorative data-testid="decorative-horizontal" />
-                <p className='text-xs text-gray-500'>Has data-orientation="horizontal", role="separator", aria-hidden="true"</p>
+                <p className='text-xs text-[var(--rad-ui-text-secondary)]'>Has data-orientation="horizontal", role="separator", aria-hidden="true"</p>
             </div>
 
             <div className='flex items-center gap-2'>
                 <span className='text-sm'>Decorative vertical:</span>
                 <Separator decorative orientation='vertical' data-testid="decorative-vertical" />
-                <p className='text-xs text-gray-500'>Has data-orientation="vertical", role="separator", aria-hidden="true"</p>
+                <p className='text-xs text-[var(--rad-ui-text-secondary)]'>Has data-orientation="vertical", role="separator", aria-hidden="true"</p>
             </div>
         </div>
     </SandboxEditor>;
@@ -128,16 +128,16 @@ export const CombinedFeatures = () => {
     return <SandboxEditor>
         <div className='mt-5 space-y-4'>
             <h2 className='text-gray-950 font-bold text-xl'>Combined Features</h2>
-            <p className='text-sm text-gray-600'>Showing all new features working together</p>
+            <p className='text-sm text-[var(--rad-ui-text-secondary)]'>Showing all new features working together</p>
 
             <div className='space-y-4'>
                 <div>
                     <h3 className='text-md font-medium mb-2'>Content Sections</h3>
-                    <p className='text-sm text-gray-600'>This content is separated by decorative separators</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)]'>This content is separated by decorative separators</p>
                     <Separator decorative asChild>
-                        <hr className='border-t border-gray-200 my-4' />
+                        <hr className='border-t border-[var(--rad-ui-border-soft)] my-4' />
                     </Separator>
-                    <p className='text-sm text-gray-600'>More content here with custom styling</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)]'>More content here with custom styling</p>
                 </div>
 
                 <div className='flex items-center gap-4'>

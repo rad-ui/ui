@@ -1,5 +1,9 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
 // Import API documentation
 import kbd_api_SourceCode from './component_api/kbd.tsx';
+
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Kbd/kbd.clarity.scss');
 
 const code = {
     javascript: {
@@ -10,22 +14,8 @@ const KbdExample = () => (
 )
 `
     },
-    css: {
-        code: `.rad-ui-kbd{
-    user-select: none;
-    font-weight: 400;
-    font-family: inherit;
-    background-color: var(--rad-ui-color-gray-50);
-    color: var(--rad-ui-color-gray-950);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border-radius: 4px;
-    border: 1px solid var(--rad-ui-color-gray-500);
-    box-shadow:  0px 0px 3px 1px var(--rad-ui-color-gray-400);
-    padding: 4px 8px;
-}`
+    scss: {
+        code: scss_SourceCode
     }
 };
 

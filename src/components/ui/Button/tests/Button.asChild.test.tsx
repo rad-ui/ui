@@ -19,7 +19,7 @@ describe('Button asChild', () => {
         );
         const button = screen.getByRole('button');
         expect(button.tagName.toLowerCase()).toBe('a');
-        expect(button).toHaveClass('rad-ui-button', 'test-class');
+        expect(button).toHaveClass('rad-ui-button-root', 'test-class');
         expect(ref.current).toBe(button);
     });
 
@@ -31,7 +31,7 @@ describe('Button asChild', () => {
         );
         const button = screen.getByRole('button');
         expect(button.tagName.toLowerCase()).toBe('span');
-        expect(button).toHaveClass('rad-ui-button', 'span-class');
+        expect(button).toHaveClass('rad-ui-button-root', 'span-class');
     });
 
     test('disabled asChild suppresses clicks and sets data-disabled', async() => {

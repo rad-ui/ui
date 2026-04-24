@@ -6,7 +6,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 
 const CardComponent = ({ appearance }: { appearance: 'light' | 'dark' }) => {
-    return <div className="bg-gray-50 p-4 rounded-lg">
+    return <div className="bg-[var(--rad-ui-surface-canvas)] p-4 rounded-lg">
         <h1 className="text-gray-950">Hello World, This is in {appearance} mode</h1>
     </div>;
 };

@@ -79,6 +79,10 @@ acme-card-root
 acme-accordion-root
 ```
 
+Implementation helpers should make the part explicit instead of treating the
+bare component class as the root class. Use the bare component class only as the
+base for composing child parts and slots.
+
 ## Data Attribute Contract
 
 See `knowledge/features/data-attributes.md` for the full data attribute contract.

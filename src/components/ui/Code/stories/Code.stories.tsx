@@ -24,12 +24,12 @@ export const Default = () => (
     <SandboxEditor>
         <div className="space-y-4">
             <div>
-                <p className="text-sm text-gray-700 mb-2">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-2">
                     Inline code: <Code>console.log('Hello World')</Code>
                 </p>
             </div>
             <div>
-                <p className="text-sm text-gray-700 mb-2">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-2">
                     You can use <Code>requestAnimationFrame()</Code> for smooth animations.
                 </p>
             </div>
@@ -39,14 +39,14 @@ export const Default = () => (
 
 export const WithAccentColor = () => (
     <SandboxEditor>
-        <div className="space-y-4" data-rad-ui-accent-color="blue">
+        <div className="space-y-4" data-color="blue">
             <div>
-                <p className="text-sm text-gray-700 mb-2">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-2">
                     Code with accent color: <Code>const x = 42</Code>
                 </p>
             </div>
             <div>
-                <p className="text-sm text-gray-700 mb-2">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-2">
                     Another example: <Code>function hello() {}</Code>
                 </p>
             </div>

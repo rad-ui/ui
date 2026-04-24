@@ -12,7 +12,7 @@
   font-size: var(--rad-ui-font-size-4);
   line-height: 1.55;
 
-  &[data-rad-ui-accent-color] {
+  &[data-color] {
     border-inline-start-color: var(--rad-ui-color-accent-400);
     color: var(--rad-ui-color-accent-1000);
   }
@@ -20,28 +20,28 @@
   // Size variants
   // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
   // Variants should NOT override these sizing properties unless explicitly combined
-  &[data-block-quote-size="small"] {
+  &[data-size="small"] {
     font-size: 0.9375rem;
     padding-inline-start: 1rem;
     border-inline-start-width: 3px;
     line-height: var(--rad-ui-line-height-3);
   }
   
-  &[data-block-quote-size="medium"] {
+  &[data-size="medium"] {
     font-size: var(--rad-ui-font-size-4);
     padding-inline-start: 1.5rem;
     border-inline-start-width: 4px;
     line-height: 1.55;
   }
   
-  &[data-block-quote-size="large"] {
+  &[data-size="large"] {
     font-size: 1.5rem;
     padding-inline-start: 1.75rem;
     border-inline-start-width: 5px;
     line-height: var(--rad-ui-line-height-3);
   }
   
-  &[data-block-quote-size="x-large"] {
+  &[data-size="x-large"] {
     font-size: 1.875rem;
     padding-inline-start: 2rem;
     border-inline-start-width: 6px;
@@ -51,36 +51,36 @@
   // Variant styles
   // Variants only change color, background, and border style (not sizing)
   // If a variant must change sizing, create explicit combined selectors like:
-  // &[data-block-quote-size="large"][data-block-quote-variant="soft"]
-  &[data-block-quote-variant="outline"] {
+  // &[data-size="large"][data-variant="soft"]
+  &[data-variant="outline"] {
     padding: 1rem 1.25rem;
     border: 1px solid var(--rad-ui-border-default);
     border-radius: var(--rad-ui-radius-md);
     background-color: var(--rad-ui-surface-panel);
 
-    &[data-block-quote-size="small"] {
+    &[data-size="small"] {
       padding: 0.75rem 0.875rem;
     }
 
-    &[data-block-quote-size="medium"] {
+    &[data-size="medium"] {
       padding: 1rem 1.25rem;
     }
 
-    &[data-block-quote-size="large"] {
+    &[data-size="large"] {
       padding: 1.125rem 1.375rem;
     }
 
-    &[data-block-quote-size="x-large"] {
+    &[data-size="x-large"] {
       padding: 1.25rem 1.5rem;
     }
 
-    &[data-rad-ui-accent-color] {
+    &[data-color] {
       border-color: var(--rad-ui-color-accent-300);
       color: var(--rad-ui-color-accent-1000);
     }
   }
   
-  &[data-block-quote-variant="soft"] {
+  &[data-variant="soft"] {
     background-color: var(--rad-ui-color-accent-50);
     border-radius: var(--rad-ui-radius-md);
     border-inline-start-width: 0;
@@ -89,29 +89,29 @@
     
     // Combined: soft variant with specific sizes that need padding adjustments
     // Only add combined selectors if the variant truly needs different sizing
-    &[data-block-quote-size="small"] {
+    &[data-size="small"] {
       padding: 0.75rem 0.875rem;
     }
     
-    &[data-block-quote-size="medium"] {
+    &[data-size="medium"] {
       padding: 1rem 1.25rem;
     }
     
-    &[data-block-quote-size="large"] {
+    &[data-size="large"] {
       padding: 1.125rem 1.375rem;
     }
     
-    &[data-block-quote-size="x-large"] {
+    &[data-size="x-large"] {
       padding: 1.25rem 1.5rem;
     }
 
-    &[data-rad-ui-accent-color] {
+    &[data-color] {
       background-color: var(--rad-ui-color-accent-50);
       color: var(--rad-ui-color-accent-1000);
     }
   }
 
-  &[data-block-quote-variant="accent"] {
+  &[data-variant="accent"] {
     border-inline-start-color: var(--rad-ui-color-accent-400);
     color: var(--rad-ui-color-accent-1000);
   }

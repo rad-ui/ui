@@ -64,7 +64,7 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: var(--rad-ui-ring-shadow-sm);
+    box-shadow: var(--rad-ui-focus-ring-shadow-sm);
   }
 
   &[data-disabled="true"] {

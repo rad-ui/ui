@@ -9,7 +9,7 @@ export type ScrollAreaCornerProps = ComponentPropsWithoutRef<'div'>;
 
 const ScrollAreaCorner = forwardRef<ScrollAreaCornerElement, ScrollAreaCornerProps>(({ children, className, ...props }, ref) => {
     const { rootClass } = useContext(ScrollAreaContext);
-    return <div ref={ref} className={clsx(rootClass + '-corner', className)} {...props}>{children}</div>;
+    return <div ref={ref} className={clsx(rootClass && `${rootClass}-corner`, className)} {...props}>{children}</div>;
 });
 
 ScrollAreaCorner.displayName = 'ScrollAreaCorner';
