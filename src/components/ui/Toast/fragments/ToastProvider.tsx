@@ -80,6 +80,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             heights,
             updateHeight,
             removeToast,
+            toasts,
             visibleToasts,
         }}>
             {children}

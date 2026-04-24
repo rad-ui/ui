@@ -1,16 +1,14 @@
 /* stylelint-disable at-rule-no-unknown */
 @use "src/design-systems/baremetal/scope" as baremetal;
 
-/* ── Viewport ────────────────────────────────────────────────────────────── */
-
 #{baremetal.$theme-root} :where(.rad-ui-toast-viewport) {
     position: fixed;
     z-index: 9999;
     list-style: none;
     margin: 0;
     padding: 0 1rem 1rem;
-    width: 390px;
-    max-width: 100vw;
+    width: 356px;
+    max-width: calc(100vw - 2rem);
     height: calc(var(--viewport-height, 0px) + 1rem);
 
     &[data-position="bottom-right"]  { bottom: 0; right: 0; }
@@ -21,8 +19,6 @@
     &[data-position="top-center"]    { top: 0; left: 50%; transform: translateX(-50%); }
 }
 
-/* ── Toast item ──────────────────────────────────────────────────────────── */
-
 #{baremetal.$theme-root} :where(.rad-ui-toast-item) {
     position: absolute;
     bottom: 0;
@@ -32,39 +28,42 @@
     cursor: grab;
     user-select: none;
     touch-action: none;
+    transform-origin: bottom center;
 
     transform:
-        translateY(calc(var(--offset, 0px) * -1))
-        translateY(var(--swipe-amount, 0px))
+        translateY(var(--y, 0px))
+        translateY(var(--swipe-y, 0px))
         scale(var(--scale, 1));
-    transform-origin: center bottom;
+
+    &[data-behind] { height: var(--front-height); }
 
     &:not([data-mounted]) {
         opacity: 0;
         transform: translateY(100%) scale(var(--scale, 1));
     }
-
     &[data-leaving] {
         opacity: 0;
         transform: translateY(100%) scale(var(--scale, 1));
         pointer-events: none;
     }
-
     &[data-swiping] { cursor: grabbing; }
 
-    &[data-behind] { height: var(--front-height, auto); }
-
     [data-position^="top"] & {
-        bottom: auto;
-        top: 0;
-        transform-origin: center top;
-
+        bottom: auto; top: 0;
+        transform-origin: top center;
         &:not([data-mounted]) { transform: translateY(-100%) scale(var(--scale, 1)); }
         &[data-leaving]       { transform: translateY(-100%) scale(var(--scale, 1)); }
     }
-}
 
-/* ── Content wrapper ─────────────────────────────────────────────────────── */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 16px;
+    }
+}
 
 #{baremetal.$theme-root} :where(.rad-ui-toast-content) {
     @include baremetal.surface;
@@ -74,122 +73,77 @@
     flex-direction: column;
     gap: 0.25rem;
     position: relative;
-    height: 100%;
-    box-sizing: border-box;
 }
 
-/* Hide text of back toasts, keep card background visible */
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-description,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-action,
-#{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-close {
-    opacity: 0;
-}
+#{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-close { opacity: 0; }
 
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-description,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-action,
-#{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-close {
-    opacity: 1;
-}
-
-/* ── Title & description ─────────────────────────────────────────────────── */
+#{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-close { opacity: 1; }
 
 #{baremetal.$theme-root} :where(.rad-ui-toast-title) {
     @include baremetal.title-text;
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.4;
+    margin: 0; font-size: 0.875rem; line-height: 1.4;
 }
-
 #{baremetal.$theme-root} :where(.rad-ui-toast-description) {
     @include baremetal.body-text;
-    margin: 0;
-    font-size: 0.8125rem;
-    line-height: 1.5;
+    margin: 0; font-size: 0.8125rem; line-height: 1.5;
 }
-
-/* ── Action & close ──────────────────────────────────────────────────────── */
-
 #{baremetal.$theme-root} :where(.rad-ui-toast-action) {
     @include baremetal.button-like;
-    margin-top: 0.5rem;
-    align-self: flex-start;
-    font-size: 0.8125rem;
+    margin-top: 0.5rem; align-self: flex-start; font-size: 0.8125rem;
 }
-
 #{baremetal.$theme-root} :where(.rad-ui-toast-close) {
     @include baremetal.button-like;
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    min-height: unset;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    line-height: 1;
-    padding: 0;
+    position: absolute; top: 0.5rem; right: 0.5rem;
+    width: 1.25rem; height: 1.25rem; min-height: unset;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.875rem; line-height: 1; padding: 0;
 }
 
-/* ── Restore structural transitions ──────────────────────────────────────── */
-/*
- * baremetal/default.scss nukes all transitions on [class*="rad-ui-"].
- * Toast transitions are structural (they drive stacking/enter/exit),
- * so we restore them here with higher specificity.
- */
+/* Restore transitions (baremetal nukes them globally) */
 #{baremetal.$theme-root} .rad-ui-toast-viewport {
-    transition: height 320ms cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+    transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
-
 #{baremetal.$theme-root} .rad-ui-toast-item {
     transition:
-        transform 320ms cubic-bezier(0.645, 0.045, 0.355, 1),
-        opacity   200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        height    320ms cubic-bezier(0.645, 0.045, 0.355, 1) !important;
-
+        transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity   400ms cubic-bezier(0.22, 1, 0.36, 1),
+        height    300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
     &:not([data-mounted]) {
         transition:
-            transform 200ms cubic-bezier(0.165, 0.84, 0.44, 1),
-            opacity   200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+            opacity   300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
     }
-
     &[data-leaving] {
         transition:
-            transform 150ms cubic-bezier(0.55, 0, 1, 0.45),
-            opacity   150ms cubic-bezier(0.55, 0, 1, 0.45) !important;
+            transform 300ms cubic-bezier(0.55, 0, 1, 0.45),
+            opacity   250ms cubic-bezier(0.55, 0, 1, 0.45) !important;
     }
-
     &[data-swiping] { transition: none !important; }
 }
-
-#{baremetal.$theme-root} .rad-ui-toast-content {
-    transition: opacity 200ms ease !important;
-}
-
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-description,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-action,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-behind] .rad-ui-toast-close {
-    transition: opacity 100ms cubic-bezier(0.55, 0, 1, 0.45) !important;
+    transition: opacity 150ms ease !important;
 }
-
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-title,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-description,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-action,
 #{baremetal.$theme-root} .rad-ui-toast-item[data-expanded] .rad-ui-toast-close {
-    transition: opacity 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transition: opacity 200ms ease !important;
 }
 
-/* ── Reduced motion ──────────────────────────────────────────────────────── */
-
 @media (prefers-reduced-motion: reduce) {
+    #{baremetal.$theme-root} .rad-ui-toast-viewport { transition: none !important; }
     #{baremetal.$theme-root} .rad-ui-toast-item {
-        transition: opacity 150ms ease !important;
-
-        &:not([data-mounted]) { opacity: 0; transform: scale(var(--scale, 1)); }
-        &[data-leaving]       { opacity: 0; transform: scale(var(--scale, 1)); transition: opacity 150ms ease !important; }
+        transition: opacity 100ms ease !important;
+        &:not([data-mounted]) { opacity: 0; transition: none !important; }
+        &[data-leaving]       { opacity: 0; transition: opacity 100ms ease !important; }
     }
 }

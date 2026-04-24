@@ -32,6 +32,7 @@ export interface ToastProviderContextType {
     heights: Map<string, number>;
     updateHeight: (id: string, h: number) => void;
     removeToast: (id: string) => void;
+    toasts: ToastData[];
     visibleToasts: ToastData[];
 }
 
@@ -46,6 +47,7 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     heights: new Map(),
     updateHeight: () => {},
     removeToast: () => {},
+    toasts: [],
     visibleToasts: [],
 });
 

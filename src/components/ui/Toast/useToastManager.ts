@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { ToastProviderContext } from './contexts/ToastContext';
 import { ToastState } from './ToastState';
 import type { ToastData } from './contexts/ToastContext';
 
@@ -11,47 +12,36 @@ export interface ToastManagerReturn {
 }
 
 /**
- * Subscribe to the live toast list and get imperative controls.
+ * Must be called inside a <Toast.Provider>.
+ * Returns the live toast list from the provider and imperative controls.
  *
  * @example
  * ```tsx
  * function MyViewport() {
- *   const { toasts, add, dismiss } = Toast.useToastManager();
+ *   const { toasts, add } = Toast.useToastManager();
  *
  *   return (
- *     <Toast.Viewport>
- *       {toasts.map(t => (
- *         <Toast.Root key={t.id} toast={t}>
- *           <Toast.Content>
- *             <Toast.Title>{t.title}</Toast.Title>
- *             <Toast.Close />
- *           </Toast.Content>
- *         </Toast.Root>
- *       ))}
- *     </Toast.Viewport>
+ *     <Toast.Portal>
+ *       <Toast.Viewport>
+ *         {toasts.map(t => (
+ *           <Toast.Root key={t.id} toast={t}>
+ *             <Toast.Content>
+ *               <Toast.Title>{t.title}</Toast.Title>
+ *               <Toast.Close />
+ *             </Toast.Content>
+ *           </Toast.Root>
+ *         ))}
+ *       </Toast.Viewport>
+ *     </Toast.Portal>
  *   );
  * }
  * ```
  */
 export function useToastManager(): ToastManagerReturn {
-    const [toasts, setToasts] = useState<ToastData[]>([]);
-
-    useEffect(() => {
-        const unsubAdd = ToastState.subscribe((toast) => {
-            setToasts((prev) => [toast, ...prev]);
-        });
-        const unsubDismiss = ToastState.subscribeDismiss((id) => {
-            if (id === '__all__') {
-                setToasts([]);
-            } else {
-                setToasts((prev) => prev.filter((t) => t.id !== id));
-            }
-        });
-        return () => { unsubAdd(); unsubDismiss(); };
-    }, []);
+    const ctx = useContext(ToastProviderContext);
 
     return {
-        toasts,
+        toasts: ctx.visibleToasts,   // only the visible slice — matches what Toast.Root expects
         add: (data) => ToastState.create(data),
         dismiss: (id) => ToastState.dismiss(id),
         dismissAll: () => ToastState.dismissAll(),
