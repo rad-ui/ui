@@ -52,7 +52,7 @@ export const Basic: Story = {
     render: () => (
         <SandboxEditor>
             <ContextMenu.Root customRootClass="">
-                <ContextMenu.Trigger style={{ padding: '6rem 1.5rem', width: '24rem', minHeight: '13.5rem' }}>
+                <ContextMenu.Trigger className="block min-h-[13.5rem] w-[24rem] px-6 py-24">
                     Right click here
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
@@ -73,7 +73,7 @@ export const Variants: Story = {
                     <div key={variant} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
                         <span style={{ fontSize: '0.75rem', color: 'var(--rad-ui-text-muted)' }}>{variant}</span>
                         <ContextMenu.Root customRootClass="" variant={variant === 'default' ? undefined : variant}>
-                            <ContextMenu.Trigger style={{ padding: '4rem 1.5rem', width: '16rem', minHeight: '10rem' }}>
+                            <ContextMenu.Trigger className="block min-h-[10rem] w-[16rem] px-6 py-16">
                                 Right click — {variant}
                             </ContextMenu.Trigger>
                             <ContextMenu.Portal>
@@ -97,7 +97,7 @@ export const Sizes: Story = {
                     <div key={size} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
                         <span style={{ fontSize: '0.75rem', color: 'var(--rad-ui-text-muted)' }}>{size}</span>
                         <ContextMenu.Root customRootClass="" size={size}>
-                            <ContextMenu.Trigger style={{ padding: '4rem 1.5rem', width: '16rem', minHeight: '10rem' }}>
+                            <ContextMenu.Trigger className="block min-h-[10rem] w-[16rem] px-6 py-16">
                                 Right click — {size}
                             </ContextMenu.Trigger>
                             <ContextMenu.Portal>
@@ -127,7 +127,7 @@ export const VariantsAndSizes: Story = {
                                 <div key={size} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
                                     <span style={{ fontSize: '0.75rem', color: 'var(--rad-ui-text-muted)' }}>{size}</span>
                                     <ContextMenu.Root customRootClass="" variant={variant === 'default' ? undefined : variant} size={size}>
-                                        <ContextMenu.Trigger style={{ padding: '3rem 1rem', width: '13rem', minHeight: '8rem' }}>
+                                        <ContextMenu.Trigger className="block min-h-[8rem] w-[13rem] px-4 py-12">
                                             Right click
                                         </ContextMenu.Trigger>
                                         <ContextMenu.Portal>
@@ -144,4 +144,32 @@ export const VariantsAndSizes: Story = {
             </div>
         </SandboxEditor>
     )
+};
+
+export const ScrollCollisionVisualTest: Story = {
+    render: () => {
+        const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+        return (
+            <SandboxEditor>
+                <div
+                    ref={setContainer}
+                    className="relative h-[360px] w-[460px] overflow-y-auto border border-[var(--rad-ui-border-default)] p-6"
+                >
+                    <div className="h-[260px]" />
+                    <ContextMenu.Root customRootClass="" collisionBoundary={container}>
+                        <ContextMenu.Trigger className="flex h-[180px] w-[320px] items-center justify-center rounded border border-[var(--rad-ui-border-default)] text-[var(--rad-ui-text-primary)]">
+                            Right click
+                        </ContextMenu.Trigger>
+                        <ContextMenu.Portal root={container}>
+                            <ContextMenu.Content>
+                                <MenuItems />
+                            </ContextMenu.Content>
+                        </ContextMenu.Portal>
+                    </ContextMenu.Root>
+                    <div className="h-[520px]" />
+                </div>
+            </SandboxEditor>
+        );
+    }
 };

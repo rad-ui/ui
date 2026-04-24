@@ -12,6 +12,8 @@ export type MenuPrimitiveRootProps = {
     defaultOpen?: boolean
     crossAxisOffset?: number
     mainAxisOffset?: number
+    collisionBoundary?: Element | null | Array<Element | null>
+    collisionPadding?: number
     loop?: boolean
     placement?: | 'top'
   | 'top-start'
@@ -29,7 +31,7 @@ export type MenuPrimitiveRootProps = {
   rtl?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -51,6 +53,30 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
     const effectiveCrossAxisOffset = crossAxisOffset ?? 0;
     const effectiveMainAxisOffset =
         mainAxisOffset !== undefined ? mainAxisOffset : isNested ? 14 : 4;
+    const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
+    const filteredBoundary = boundary.filter((item): item is Element => item != null);
+    const hasCustomCollisionBoundary = filteredBoundary.length > 0;
+    const sharedDetectOverflowOptions = hasCustomCollisionBoundary
+        ? {
+            boundary: filteredBoundary,
+            altBoundary: true
+        }
+        : {};
+    const flipOptions = {
+        mainAxis: avoidCollision,
+        crossAxis: avoidCollision && !isNested,
+        ...(collisionPadding !== 4 ? { padding: collisionPadding } : {}),
+        ...sharedDetectOverflowOptions
+    };
+    const shiftOptions = {
+        padding: collisionPadding,
+        crossAxis: !isNested,
+        ...sharedDetectOverflowOptions
+    };
+    const sizeOptions = {
+        padding: collisionPadding,
+        ...sharedDetectOverflowOptions
+    };
 
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
@@ -64,16 +90,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
                 mainAxis: effectiveMainAxisOffset,
                 crossAxis: effectiveCrossAxisOffset
             }),
-            Floater.flip({
-                mainAxis: avoidCollision,
-                crossAxis: avoidCollision && !isNested
-            }),
-            Floater.shift({
-                padding: 4,
-                crossAxis: !isNested
-            }),
+            Floater.flip(flipOptions),
+            Floater.shift(shiftOptions),
             ...(!isNested ? [Floater.size({
-                padding: 4,
+                ...sizeOptions,
                 apply({ availableHeight, elements }) {
                     setMaxHeight(availableHeight);
                     elements.floating.style.maxHeight = `${availableHeight}px`;
@@ -166,10 +186,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
 
 MenuComponentRoot.displayName = 'MenuComponentRoot';
 
-const MenuPrimitiveRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, ...props }, ref) => {
+const MenuPrimitiveRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary, collisionPadding, ...props }, ref) => {
     return (
         <Floater.FloatingTree>
-            <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} {...props}>
+            <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} collisionBoundary={collisionBoundary} collisionPadding={collisionPadding} {...props}>
                 {children}
             </MenuComponentRoot>
         </Floater.FloatingTree>

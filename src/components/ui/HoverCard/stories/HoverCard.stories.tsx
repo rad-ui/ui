@@ -130,3 +130,34 @@ export const Sizes = () => {
 
     );
 };
+
+export const ScrollCollisionVisualTest = () => {
+    const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+    return (
+        <div
+            ref={setContainer}
+            className="relative h-[360px] w-[460px] overflow-y-auto border border-[var(--rad-ui-border-default)] p-6"
+        >
+            <div className="h-[280px]" />
+            <HoverCard.Root open={true} onOpenChange={() => {}} openDelay={0} closeDelay={0} customRootClass="" collisionBoundary={container}>
+                <HoverCard.Trigger>
+                    <button
+                        type="button"
+                        className="cursor-pointer bg-transparent p-0 text-inherit underline underline-offset-2"
+                    >
+                        Hover card anchor
+                    </button>
+                </HoverCard.Trigger>
+                <HoverCard.Portal rootElement={container ?? undefined}>
+                    <HoverCard.Content>
+                        <div className="w-[18rem]">
+                            <CardBody />
+                        </div>
+                    </HoverCard.Content>
+                </HoverCard.Portal>
+            </HoverCard.Root>
+            <div className="h-[520px]" />
+        </div>
+    );
+};

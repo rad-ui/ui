@@ -14,14 +14,23 @@ export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
     openDelay?: number;
     closeDelay?: number;
+    collisionBoundary?: Element | null | Array<Element | null>;
+    collisionPadding?: number;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
     const ARROW_HEIGHT = 8;
     const SPACING_GAP = 2;
+    const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
+    const filteredBoundary = boundary.filter((item): item is Element => item != null);
+    const detectOverflowOptions = {
+        padding: collisionPadding,
+        boundary: filteredBoundary,
+        altBoundary: filteredBoundary.length > 0
+    };
 
     const { refs: floatingRefs, floatingStyles, context: floatingContext } = Floater.useFloating({
         placement: 'bottom',
@@ -32,9 +41,14 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
             }),
             Floater.offset(ARROW_HEIGHT + SPACING_GAP),
             Floater.flip({
-                mainAxis: true
+                mainAxis: true,
+                ...detectOverflowOptions
+            }),
+            Floater.shift({
+                ...detectOverflowOptions
             })
-        ]
+        ],
+        whileElementsMounted: Floater.autoUpdate
     });
 
     const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);

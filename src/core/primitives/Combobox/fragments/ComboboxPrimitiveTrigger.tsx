@@ -6,16 +6,17 @@ import Primitive from '../../Primitive';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 export type ComboboxPrimitiveTriggerProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
     disabled?: boolean;
+    renderValue?: (value: string, label: string) => React.ReactNode;
     [key: string]: any;
 };
 
 const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
     ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
->(({ children, className, disabled, asChild, onClick, ...props }, forwardedRef) => {
+>(({ children, className, disabled, asChild, onClick, renderValue, ...props }, forwardedRef) => {
     const { isOpen, setIsOpen, selectedLabel, selectedValue, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
 
     const { onClick: _refOnClick, ...refProps } = getReferenceProps();
@@ -25,6 +26,10 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             setIsOpen(prev => !prev);
         }
     });
+    const hasSelectedValue = Boolean(selectedLabel || selectedValue);
+    const renderedValue = hasSelectedValue
+        ? renderValue?.(selectedValue, selectedLabel || selectedValue)
+        : undefined;
 
     return (
         <Primitive.button
@@ -41,7 +46,7 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             {...refProps}
             {...props}
         >
-            {selectedLabel || selectedValue || children}
+            {renderedValue ?? (selectedLabel || selectedValue || children)}
         </Primitive.button>
     );
 });

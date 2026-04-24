@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axe from 'axe-core';
 import Select from '../Select';
+import ThemeContext from '../../Theme/ThemeContext';
 
 describe('Select full behavior', () => {
     test('keyboard navigation and selection with data-state', async() => {
@@ -139,6 +140,51 @@ describe('Select full behavior', () => {
         expect(container.querySelector('[role="listbox"]')).toBeTruthy();
         await userEvent.click(screen.getByText('One'));
         expect(document.activeElement).toBe(trigger);
+    });
+
+    test('custom trigger value rendering still opens controlled select', async() => {
+        const portalRoot = document.createElement('div');
+        portalRoot.setAttribute('data-rad-ui-portal-root', '');
+        document.body.appendChild(portalRoot);
+
+        function Controlled() {
+            const [value, setValue] = React.useState('amber');
+            return (
+                <ThemeContext.Provider
+                    value={{
+                        containerRef: { current: null },
+                        portalRootRef: { current: portalRoot }
+                    }}>
+                    <Select.Root value={value} onValueChange={setValue}>
+                        <Select.Trigger
+                            aria-label="Accent color"
+                            renderValue={(selectedValue: string) => (
+                                <span data-testid="custom-value">swatch {selectedValue}</span>
+                            )}
+                        />
+                        <Select.Portal>
+                            <Select.Content>
+                                <Select.Group>
+                                    <Select.Item value="amber">Amber</Select.Item>
+                                    <Select.Item value="blue">Blue</Select.Item>
+                                </Select.Group>
+                            </Select.Content>
+                        </Select.Portal>
+                    </Select.Root>
+                </ThemeContext.Provider>
+            );
+        }
+
+        render(<Controlled />);
+
+        const trigger = screen.getByRole('combobox', { name: 'Accent color' });
+        expect(screen.getByTestId('custom-value')).toHaveTextContent('swatch amber');
+        await userEvent.click(trigger);
+        expect(screen.getByRole('listbox')).toBeInTheDocument();
+        expect(portalRoot.querySelector('[role="listbox"]')).toBeTruthy();
+        await userEvent.click(screen.getByText('Blue'));
+        expect(screen.getByTestId('custom-value')).toHaveTextContent('swatch blue');
+        portalRoot.remove();
     });
 
     test('axe: no violations and aria attributes set', async() => {

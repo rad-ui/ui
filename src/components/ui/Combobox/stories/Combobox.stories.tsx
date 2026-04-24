@@ -33,3 +33,39 @@ export const Basic = () => {
         </SandboxEditor>
     );
 };
+
+export const ScrollCollisionVisualTest = () => {
+    const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+    return (
+        <SandboxEditor className="min-h-[620px]">
+            <div
+                ref={setContainer}
+                className="relative h-[360px] w-[420px] overflow-y-auto border border-[var(--rad-ui-border-default)] p-6"
+            >
+                <div className="h-[280px]" />
+                <Combobox.Root collisionBoundary={container}>
+                    <Combobox.Trigger>
+                        Scroll test
+                    </Combobox.Trigger>
+                    <Combobox.Portal container={container}>
+                        <Combobox.Content>
+                            <Combobox.Search />
+                            <Combobox.Group>
+                                <Combobox.Item value="alpha">Alpha</Combobox.Item>
+                                <Combobox.Item value="bravo">Bravo</Combobox.Item>
+                                <Combobox.Item value="charlie">Charlie</Combobox.Item>
+                                <Combobox.Item value="delta">Delta</Combobox.Item>
+                                <Combobox.Item value="echo">Echo</Combobox.Item>
+                                <Combobox.Item value="foxtrot">Foxtrot</Combobox.Item>
+                                <Combobox.Item value="golf">Golf</Combobox.Item>
+                                <Combobox.Item value="hotel">Hotel</Combobox.Item>
+                            </Combobox.Group>
+                        </Combobox.Content>
+                    </Combobox.Portal>
+                </Combobox.Root>
+                <div className="h-[520px]" />
+            </div>
+        </SandboxEditor>
+    );
+};

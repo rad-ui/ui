@@ -11,6 +11,9 @@ export type ComboboxPrimitiveContextType = {
         setFloating: (node: any) => void;
     };
     isPositioned: boolean;
+    updatePosition: () => void;
+    middlewareData: any;
+    placedPlacement: string;
     floatingStyles: React.CSSProperties;
     floatingContext: any;
     getReferenceProps: () => any;

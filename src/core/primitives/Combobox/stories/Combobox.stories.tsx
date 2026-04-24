@@ -12,7 +12,7 @@ export const BasicCombobox = () => {
     return (
         <SandboxEditor>
             <div>
-                <ComboboxPrimitive.Root shift={false}>
+                <ComboboxPrimitive.Root>
 
                     <ComboboxPrimitive.Trigger>
             hello
@@ -39,7 +39,7 @@ export const ControlledExample = () => {
 
     return (
         <SandboxEditor>
-            <ComboboxPrimitive.Root value={value} onValueChange={setValue} shift={false}>
+            <ComboboxPrimitive.Root value={value} onValueChange={setValue}>
 
                 <ComboboxPrimitive.Trigger>
             helo
@@ -79,7 +79,7 @@ export const FormExample = () => {
         <SandboxEditor>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <ComboboxPrimitive.Root name="raduiCombobox" shift={false}>
+                    <ComboboxPrimitive.Root name="raduiCombobox">
                         <ComboboxPrimitive.Trigger>
                             Combobox an option
                         </ComboboxPrimitive.Trigger>
@@ -120,7 +120,7 @@ export const FormExample = () => {
 export const GroupExample = () => {
     return (
         <SandboxEditor>
-            <ComboboxPrimitive.Root shift={false}>
+            <ComboboxPrimitive.Root>
                 <ComboboxPrimitive.Trigger>
                     Combobox an option
                 </ComboboxPrimitive.Trigger>
@@ -146,7 +146,7 @@ export const SearchCombobox = () => {
     return (
         <SandboxEditor>
             <div>
-                <ComboboxPrimitive.Root shift={false}>
+                <ComboboxPrimitive.Root>
 
                     <ComboboxPrimitive.Trigger>
             hello

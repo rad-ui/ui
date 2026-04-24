@@ -179,7 +179,19 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
                                     Accent: <span className='capitalize'>{colorName}</span>
                                 </Text>
                                 <Select.Root value={colorName} onValueChange={updateAccentColor}>
-                                    <Select.Trigger aria-label='Accent color'>
+                                    <Select.Trigger
+                                        aria-label='Accent color'
+                                        renderValue={() => (
+                                            <span className='flex items-center gap-2'>
+                                                <ColorSelect
+                                                    color={colors[colorName]}
+                                                    isDarkMode={isDarkMode}
+                                                    isSelected={true}
+                                                />
+                                                <span className='capitalize'>{colorName}</span>
+                                            </span>
+                                        )}
+                                    >
                                         <span className='flex items-center gap-2'>
                                             <ColorSelect
                                                 color={colors[colorName]}

@@ -52,11 +52,13 @@
 
 .rad-ui-combobox-content {
     z-index: var(--rad-ui-z-index-portal);
-    margin-top: var(--rad-ui-density-gap-sm);
     min-width: var(--rad-ui-overlay-width-sm);
     width: max-content;
     max-width: min(var(--rad-ui-overlay-width-md), calc(100vw - var(--rad-ui-overlay-viewport-gutter)));
-    max-height: var(--rad-combobox-content-height, var(--rad-ui-overlay-max-height-md));
+    max-height: min(
+        var(--rad-combobox-content-height, var(--rad-ui-overlay-max-height-md)),
+        var(--rad-ui-floating-available-height, var(--rad-ui-overlay-max-height-md))
+    );
     padding: var(--rad-ui-density-gap-sm);
     background-color: var(--rad-ui-surface-panel);
     border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);

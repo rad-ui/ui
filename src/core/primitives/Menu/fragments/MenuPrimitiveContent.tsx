@@ -27,8 +27,6 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
 
         return (
             <>
-            {!isNested && <Floater.Overlay lockScroll/>}
-           
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 <Floater.FocusManager
                     context={floatingContext}

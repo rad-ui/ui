@@ -4,8 +4,13 @@ import Primitive from '../../Primitive';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
-import { Placement } from '@floating-ui/react';
+import { Middleware, Placement, Strategy } from '@floating-ui/react';
 import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
+
+type Side = 'top' | 'right' | 'bottom' | 'left';
+type Align = 'start' | 'center' | 'end';
+type CollisionPadding = number | Partial<Record<Side, number>>;
+type Boundary = Element | null;
 
 export type ComboboxPrimitiveRootProps = {
     children: React.ReactNode,
@@ -13,17 +18,63 @@ export type ComboboxPrimitiveRootProps = {
     value?: string,
     defaultValue?: string,
     name?: string,
+    align?: Align,
+    alignOffset?: number,
+    avoidCollisions?: boolean,
+    collisionBoundary?: Boundary | Boundary[],
+    collisionPadding?: CollisionPadding,
+    constrainSize?: boolean,
+    enableFlip?: boolean,
+    enableShift?: boolean,
+    hideWhenDetached?: boolean,
+    matchReferenceWidth?: boolean,
     offsetValue?: number,
-    shift?: boolean,
+    onPlaced?: () => void,
+    positioningStrategy?: Strategy,
+    side?: Side,
+    sideOffset?: number,
+    sticky?: 'partial' | 'always',
+    updatePositionStrategy?: 'optimized' | 'always',
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
 }
 
+function getPlacement(side: Side, align: Align): Placement {
+    return align === 'center' ? side : `${side}-${align}` as Placement;
+}
+
 const ComboboxPrimitiveRoot = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
     ComboboxPrimitiveRootProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
->(({ children, className, value, name, defaultValue = '', onValueChange, onClickOutside = () => {}, placement = 'bottom-start', offsetValue, shift = true, ...props }, forwardedRef) => {
+>(({
+    children,
+    className,
+    value,
+    name,
+    defaultValue = '',
+    onValueChange,
+    onClickOutside = () => {},
+    align = 'start',
+    alignOffset = 0,
+    avoidCollisions = true,
+    collisionBoundary = null,
+    collisionPadding = 8,
+    constrainSize = true,
+    enableFlip = true,
+    enableShift = true,
+    hideWhenDetached = false,
+    matchReferenceWidth = false,
+    offsetValue,
+    onPlaced,
+    placement,
+    positioningStrategy = 'fixed',
+    side = 'bottom',
+    sideOffset,
+    sticky = 'partial',
+    updatePositionStrategy = 'optimized',
+    ...props
+}, forwardedRef) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
@@ -67,26 +118,95 @@ const ComboboxPrimitiveRoot = React.forwardRef<
 
     const isFormChild = useIsInsideForm(rootRef.current);
 
-    const selectOffset = React.useMemo(() => Floater.offset(() => {
-        if (!shift) {
-            return offsetValue || 0;
-        }
+    const resolvedPlacement = placement ?? getPlacement(side, align);
+    const mainAxisOffset = sideOffset ?? offsetValue ?? 0;
+    const boundary = React.useMemo(() => (
+        Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary]
+    ), [collisionBoundary]);
+    const detectOverflowOptions = React.useMemo(() => {
+        const filteredBoundary = boundary.filter((item): item is Element => item != null);
 
-        const selectedItem = selectedItemRef.current;
-        if (!selectedItem) {
-            return offsetValue || 0;
-        }
+        return {
+            padding: collisionPadding,
+            boundary: filteredBoundary,
+            altBoundary: filteredBoundary.length > 0
+        };
+    }, [boundary, collisionPadding]);
 
-        return (offsetValue || 0) - selectedItem.offsetTop - selectedItem.offsetHeight;
-    }), [offsetValue, shift]);
+    const middleware = React.useMemo(() => {
+        const configuredMiddleware: Array<Middleware | false> = [
+            Floater.offset({
+                mainAxis: mainAxisOffset,
+                alignmentAxis: alignOffset
+            }),
+            avoidCollisions && enableShift && Floater.shift({
+                mainAxis: true,
+                crossAxis: false,
+                limiter: sticky === 'partial' ? Floater.limitShift() : undefined,
+                ...detectOverflowOptions
+            }),
+            avoidCollisions && enableFlip && Floater.flip(detectOverflowOptions),
+            constrainSize && Floater.size({
+                ...detectOverflowOptions,
+                apply: ({ elements, rects, availableWidth, availableHeight }) => {
+                    const floatingStyle = elements.floating.style;
+                    floatingStyle.setProperty('--rad-ui-floating-available-width', `${Math.max(0, availableWidth)}px`);
+                    floatingStyle.setProperty('--rad-ui-floating-available-height', `${Math.max(0, availableHeight)}px`);
+                    floatingStyle.setProperty('--rad-ui-floating-reference-width', `${rects.reference.width}px`);
+                    floatingStyle.setProperty('--rad-ui-floating-reference-height', `${rects.reference.height}px`);
 
-    const { refs, floatingStyles, context: floatingContext, isPositioned } = Floater.useFloating({
-        middleware: [selectOffset],
+                    if (matchReferenceWidth) {
+                        floatingStyle.width = `${rects.reference.width}px`;
+                    }
+                }
+            }),
+            hideWhenDetached && Floater.hide({
+                strategy: 'referenceHidden',
+                ...detectOverflowOptions
+            })
+        ];
+
+        return configuredMiddleware.filter(Boolean) as Middleware[];
+    }, [
+        alignOffset,
+        avoidCollisions,
+        constrainSize,
+        detectOverflowOptions,
+        enableFlip,
+        enableShift,
+        hideWhenDetached,
+        mainAxisOffset,
+        matchReferenceWidth,
+        sticky
+    ]);
+
+    const {
+        refs,
+        floatingStyles,
+        context: floatingContext,
+        isPositioned,
+        middlewareData,
+        update,
+        placement: placedPlacement
+    } = Floater.useFloating({
+        middleware,
         open: isOpen,
         onOpenChange: setIsOpen,
-        placement,
-        whileElementsMounted: Floater.autoUpdate
+        placement: resolvedPlacement,
+        strategy: positioningStrategy,
+        whileElementsMounted: (reference, floating, updatePosition) => Floater.autoUpdate(
+            reference,
+            floating,
+            updatePosition,
+            { animationFrame: updatePositionStrategy === 'always' }
+        )
     });
+
+    useLayoutEffect(() => {
+        if (isPositioned) {
+            onPlaced?.();
+        }
+    }, [isPositioned, onPlaced]);
 
     const click = Floater.useClick(floatingContext);
     const dismiss = Floater.useDismiss(floatingContext);
@@ -179,6 +299,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         floatingContext,
         refs,
         isPositioned,
+        updatePosition: update,
+        middlewareData,
+        placedPlacement,
         getFloatingProps,
         getReferenceProps,
         floatingStyles,
@@ -210,6 +333,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         floatingContext,
         refs,
         isPositioned,
+        update,
+        middlewareData,
+        placedPlacement,
         getFloatingProps,
         getReferenceProps,
         floatingStyles,
