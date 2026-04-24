@@ -271,12 +271,10 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
             <li
                 ref={itemRef}
                 role="status"
-                aria-live={
-                    toast.priority === 'high' || toast.variant === 'error' ? 'assertive' : 'polite'
-                }
+                aria-live={toast.priority === 'high' ? 'assertive' : 'polite'}
                 aria-atomic="true"
-                data-variant={toast.variant ?? 'default'}
-                data-type={toast.type ?? toast.variant ?? 'default'}
+                data-variant={toast.variant ?? undefined}
+                data-type={toast.type ?? undefined}
                 data-limited={toast.limited ? '' : undefined}
                 data-mounted={mounted ? '' : undefined}
                 data-entering={entering && isFront ? '' : undefined}

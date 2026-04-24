@@ -61,7 +61,6 @@ export type { ToastCloseProps } from './fragments/ToastClose';
 export type { ToastActionProps } from './fragments/ToastAction';
 export type {
     ToastData,
-    ToastVariant,
     ToastPosition,
     CreateToastInput,
     ToastManagerUpdateOptions,

@@ -4,7 +4,6 @@
  */
 import type {
     ToastData,
-    ToastVariant,
     CreateToastInput,
     ToastManagerUpdateOptions,
     IToastManager,
@@ -57,7 +56,6 @@ export class ToastManager implements IToastManager {
             ...rest,
             id,
             duration: ms,
-            variant: rest.variant ?? 'default',
         };
         this.subscribers.forEach((fn) => fn(toast));
         return id;
@@ -165,7 +163,7 @@ function createToast(titleOrOptions: string | CreateToastInput, options?: Create
     return ToastState.create(titleOrOptions);
 }
 
-function createVariantToast(variant: ToastVariant) {
+function createVariantToast(variant: string) {
     return (titleOrOptions: string | CreateToastInput, options?: CreateToastInput): string => {
         if (typeof titleOrOptions === 'string') {
             return ToastState.create({ title: titleOrOptions, variant, ...options });

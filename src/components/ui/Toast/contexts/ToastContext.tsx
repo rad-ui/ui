@@ -1,34 +1,27 @@
 import { createContext } from 'react';
 
-export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
-export type ToastPosition =
-    | 'top-left'
-    | 'top-center'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-center'
-    | 'bottom-right';
+/**
+ * Viewport corner — headless string for `data-position` (theme defines valid values).
+ * Common: `bottom-right`, `bottom-left`, `bottom-center`, `top-right`, `top-left`, `top-center`.
+ */
+export type ToastPosition = string;
 
 export interface ToastData {
     id: string;
     title?: React.ReactNode;
     description?: React.ReactNode;
-    /** Rad semantic styling — `data-variant`. */
-    variant?: ToastVariant;
-    /**
-     * Base UI arbitrary type string — `data-type` (e.g. `loading`, custom).
-     * Falls back to `variant` when omitted for `data-type`.
-     */
+    /** Headless semantic / styling hook — forwarded as `data-variant` when set. */
+    variant?: string;
+    /** Headless — forwarded as `data-type` when set (e.g. `loading`). */
     type?: string;
     /** Auto-dismiss delay (ms). Base UI name: prefer `timeout`; we normalize both. */
     duration?: number;
     timeout?: number;
     persistent?: boolean;
     /**
-     * Base UI: `low` = polite live region, `high` = assertive.
-     * @default 'low'
+     * Live-region urgency — headless string; we treat `high` as `aria-live="assertive"`, otherwise `polite`.
      */
-    priority?: 'low' | 'high';
+    priority?: string;
     onDismiss?: () => void;
     /** Base UI name — called when the toast begins closing. */
     onClose?: () => void;
