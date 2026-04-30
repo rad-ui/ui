@@ -75,8 +75,9 @@ describe('MenuPrimitive', () => {
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
         });
 
-        it('should pass avoidCollision to Floater.flip middleware', () => {
+        it('should omit collision middleware when avoidCollision is false', () => {
             const flipSpy = jest.spyOn(Floater, 'flip');
+            const shiftSpy = jest.spyOn(Floater, 'shift');
 
             render(
                 <MenuPrimitive.Root avoidCollision={false}>
@@ -84,12 +85,11 @@ describe('MenuPrimitive', () => {
                 </MenuPrimitive.Root>
             );
 
-            expect(flipSpy).toHaveBeenCalledWith({
-                mainAxis: false,
-                crossAxis: false
-            });
+            expect(flipSpy).not.toHaveBeenCalled();
+            expect(shiftSpy).not.toHaveBeenCalled();
 
             flipSpy.mockRestore();
+            shiftSpy.mockRestore();
         });
 
         it('should pass placement to Floater.useFloating', () => {
@@ -132,7 +132,8 @@ describe('MenuPrimitive', () => {
             });
             expect(flipSpy).toHaveBeenCalledWith({
                 mainAxis: true,
-                crossAxis: false
+                crossAxis: false,
+                padding: 4
             });
             expect(shiftSpy).toHaveBeenCalledWith({
                 padding: 4,

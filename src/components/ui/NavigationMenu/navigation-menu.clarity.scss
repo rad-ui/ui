@@ -81,7 +81,7 @@
   top: calc(100% + 0.375rem);
   left: 0;
   min-width: 12rem;
-  width: max-content;
+  width: auto;
   max-width: min(28rem, calc(100vw - 2rem));
   box-sizing: border-box;
   padding: 0.4rem;
@@ -100,7 +100,8 @@
   border-radius: var(--rad-ui-radius-md);
   padding: 0.65rem 0.8rem;
   color: var(--rad-ui-text-secondary);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .rad-ui-navigation-menu-content .rad-ui-navigation-menu-link:hover,

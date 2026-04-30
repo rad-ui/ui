@@ -7,7 +7,7 @@ import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 const CardComponent = ({ appearance }: { appearance: 'light' | 'dark' }) => {
     return <div className="bg-[var(--rad-ui-surface-canvas)] p-4 rounded-lg">
-        <h1 className="text-gray-950">Hello World, This is in {appearance} mode</h1>
+        <h1 className="text-[var(--rad-ui-text-primary)]">Hello World, This is in {appearance} mode</h1>
     </div>;
 };
 

@@ -30,6 +30,7 @@ describe('Button', () => {
         render(<Button customRootClass="rad-ui" variant='outline'>button</Button>);
         const button = screen.getByText('button');
         expect(button).toHaveClass('rad-ui-button-root');
+        expect(button).toHaveAttribute('data-variant', 'outline');
     });
 
     test('focus-visible styles are declared after variants so focus shadow wins', () => {

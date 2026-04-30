@@ -12,7 +12,10 @@ export const createDataAttributes = (
 };
 
 const toKebabCase = (value: string) => {
-    return value.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+    return value
+        .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+        .toLowerCase();
 };
 
 export const composeAttributes = (

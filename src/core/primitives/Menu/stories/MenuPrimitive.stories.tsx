@@ -25,7 +25,7 @@ export const Basic: Story = {
                             <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow min-w-[160px]">
                                 <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="Nested item 1">Nested item 1</MenuPrimitive.Item>
                                 <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="Nested item 2">Nested item 2</MenuPrimitive.Item>
-                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="item 3">item 1</MenuPrimitive.Item>
+                                <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="item 3">item 3</MenuPrimitive.Item>
                                 <MenuPrimitive.Sub className="flex flex-col">
                                     <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded">Trigger</MenuPrimitive.Trigger>
                                     <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow min-w-[140px]">

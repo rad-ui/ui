@@ -65,7 +65,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
     const flipOptions = {
         mainAxis: avoidCollision,
         crossAxis: avoidCollision && !isNested,
-        ...(collisionPadding !== 4 ? { padding: collisionPadding } : {}),
+        padding: collisionPadding,
         ...sharedDetectOverflowOptions
     };
     const shiftOptions = {
@@ -90,8 +90,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
                 mainAxis: effectiveMainAxisOffset,
                 crossAxis: effectiveCrossAxisOffset
             }),
-            Floater.flip(flipOptions),
-            Floater.shift(shiftOptions),
+            ...(avoidCollision ? [
+                Floater.flip(flipOptions),
+                Floater.shift(shiftOptions)
+            ] : []),
             ...(!isNested ? [Floater.size({
                 ...sizeOptions,
                 apply({ availableHeight, elements }) {

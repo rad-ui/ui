@@ -18,8 +18,7 @@
         box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-shadow-xs);
     }
 
-    &:has(.rad-ui-number-field-input:disabled),
-    &:has(.rad-ui-number-field-input:read-only) {
+    &:has(.rad-ui-number-field-input:disabled) {
         background-color: var(--rad-ui-disabled-background);
         border-color: var(--rad-ui-disabled-border);
         box-shadow: none;
@@ -47,10 +46,14 @@
         color: var(--rad-ui-field-placeholder);
     }
 
-    &:disabled,
-    &:read-only {
+    &:disabled {
         color: var(--rad-ui-disabled-text);
         cursor: not-allowed;
+    }
+
+    &:read-only {
+        color: var(--rad-ui-color-gray-1000);
+        cursor: text;
     }
 
     &::-webkit-outer-spin-button,

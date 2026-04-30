@@ -157,6 +157,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
 
                     if (matchReferenceWidth) {
                         floatingStyle.width = `${rects.reference.width}px`;
+                    } else {
+                        floatingStyle.removeProperty('width');
                     }
                 }
             }),
