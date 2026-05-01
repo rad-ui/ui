@@ -1,5 +1,16 @@
 # @radui/ui
 
+## 0.5.0
+
+### Minor Changes
+
+- ad29c4f: hovercard - size prop , datalist - size , color prop, quote -truncate prop
+- fd2bd8b: drawer preview added
+
+### Patch Changes
+
+- a25ee5a: Add a work-in-progress `TextField` compound API with slot and reset fragments, updated styling, Storybook stories, and behavioral test coverage.
+
 ## 0.4.0
 
 ### Minor Changes
