@@ -93,7 +93,7 @@ const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>
     return (
         <div
             ref={setRef}
-            className={clsx(rootClass + '-thumb', className)}
+            className={clsx(rootClass && `${rootClass}-thumb`, className)}
             onMouseDown={startDrag}
             {...props}
         >

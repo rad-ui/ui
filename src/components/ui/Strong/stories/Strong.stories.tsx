@@ -9,7 +9,7 @@ export default {
     component: Strong,
     render: () => <SandboxEditor>
         <div className='mt-5'>
-            <Text className="text-gray-900">This is a very  <Strong className='text-gray-1000'>Strong</Strong> word</Text>
+            <Text className="text-[var(--rad-ui-text-secondary)]">This is a very  <Strong className='text-gray-1000'>Strong</Strong> word</Text>
         </div>
     </SandboxEditor>
 };

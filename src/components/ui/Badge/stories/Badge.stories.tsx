@@ -14,7 +14,7 @@ const VariantShowcase = ({ includeNeutral = false }: { includeNeutral?: boolean 
     return <div className='flex flex-col gap-3'>
         {BADGE_VARIANTS.map((variant) => (
             <div key={variant} className='grid gap-2 sm:grid-cols-[5rem_1fr] sm:items-center'>
-                <p className='text-xs font-medium uppercase tracking-[0.08em] text-gray-700'>{variant}</p>
+                <p className='text-xs font-medium uppercase tracking-[0.08em] text-[var(--rad-ui-text-secondary)]'>{variant}</p>
                 <div className='flex flex-wrap items-center gap-2'>
                     {includeNeutral ? <Badge variant={variant}>default</Badge> : null}
                     {DEMO_COLORS.map((color) => (
@@ -36,7 +36,7 @@ export default {
         <div className='flex flex-wrap items-center gap-4'>
             {/* Default badge */}
             <div className='flex flex-col gap-2'>
-                <p className='text-sm text-gray-600'>Default</p>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)]'>Default</p>
                 <Badge>Badge</Badge>
             </div>
 
@@ -44,7 +44,7 @@ export default {
 
             {/* Badges with color prop */}
             <div className='flex flex-col gap-2'>
-                <p className='text-sm text-gray-600'>With Color Prop</p>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)]'>With Color Prop</p>
                 <div className='flex flex-wrap gap-2'>
                     {Colors.map((color, index) => (
                         <Badge key={index} color={color}>{color}</Badge>
@@ -56,7 +56,7 @@ export default {
 
             {/* Badge with icon */}
             <div className='flex flex-col gap-2'>
-                <p className='text-sm text-gray-600'>With Icon</p>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)]'>With Icon</p>
                 <Badge>
                     <div className='flex items-center gap-1'>
                         <span>With Icon</span>
@@ -118,7 +118,7 @@ export const Sizes = () => {
         <div className='flex flex-col gap-4'>
             {BADGE_VARIANTS.map((variant, index) => (
                 <div key={index} className='flex flex-col gap-2'>
-                    <p className='text-sm text-gray-600'>{variant} variant</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)]'>{variant} variant</p>
                     <div className='flex flex-wrap items-center gap-2'>
                         {BADGE_SIZES.map((size, sizeIndex) => {
                             return <Badge key={sizeIndex} size={size} variant={variant}>

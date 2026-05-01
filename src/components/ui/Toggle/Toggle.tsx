@@ -61,7 +61,7 @@ const Toggle = forwardRef<ToggleElement, ToggleProps>(({
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
+        data_attributes['data-color'] = color;
     }
 
     return (

@@ -1,11 +1,11 @@
 // Switch — Clarity design system aligned
-// Off track bg: step 3 (200) — interactive surface
-// Off track border: step 6 (500) — light border
-// Off hover border: step 7 (600) — default border
+// Off track bg: step 4 (300) — muted filled track
+// Off track border: step 7 (600) — defined border
+// Off hover bg/border: step 5/8 (400/700) — stronger muted state
 // On track bg: accent-800 — solid accent fill
 // On track border: accent-600 — solid accent border
-// Thumb bg: step 1 (50) — canvas bg (clean white knob)
-// Thumb border: step 6 (500) — light border
+// Thumb bg: step 3 (200) — filled muted knob
+// Thumb border: step 8 (700) — defined knob edge
 // Thumb checked bg: accent-50 — subtle accent tint on knob
 
 .rad-ui-switch {
@@ -19,8 +19,8 @@
   width: 2.75rem;
   height: 1.625rem;
   border-radius: var(--rad-ui-radius-full);
-  background-color: var(--rad-ui-color-gray-200); // step 3 — interactive surface
-  border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
+  background-color: var(--rad-ui-color-gray-300); // step 4 — muted filled track
+  border: 1px solid var(--rad-ui-color-gray-600);  // step 7 — defined border
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -29,7 +29,8 @@
     opacity 0.2s ease;
 
   &:hover {
-    border-color: var(--rad-ui-color-gray-600); // step 7 — default border
+    background-color: var(--rad-ui-color-gray-400); // step 5 — stronger muted fill
+    border-color: var(--rad-ui-color-gray-700); // step 8 — stronger border
   }
 
   &[data-state="checked"] {
@@ -45,7 +46,7 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: var(--rad-ui-ring-shadow);
+    box-shadow: var(--rad-ui-focus-ring-shadow);
   }
 
   .rad-ui-switch-indicator {
@@ -58,10 +59,10 @@
     width: var(--rad-ui-size-5);
     height: var(--rad-ui-size-5);
     border-radius: var(--rad-ui-radius-full);
-    background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
+    background-color: var(--rad-ui-color-gray-200);  // step 3 — filled muted knob
     box-shadow:
-      0 1px 2px rgb(0, 0, 0, 0.16),
-      inset 0 0 0 1px var(--rad-ui-color-gray-500); // step 6 — light border
+      0 1px 2px rgb(0, 0, 0, 0.18),
+      inset 0 0 0 1px var(--rad-ui-color-gray-700); // step 8 — defined knob edge
 
     transform: translateY(-50%) translateX(0);
     transition:

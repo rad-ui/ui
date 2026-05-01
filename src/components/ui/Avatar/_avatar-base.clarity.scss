@@ -33,7 +33,7 @@
   }
   
   // Size variants - must come before more specific selectors
-  &[data-avatar-size="sm"] {
+  &[data-size="sm"] {
     height: var(--rad-ui-size-8); // h-8
     width: var(--rad-ui-size-8); // w-8
     
@@ -42,7 +42,7 @@
     }
   }
   
-  &[data-avatar-size="lg"] {
+  &[data-size="lg"] {
     height: var(--rad-ui-size-12); // h-12
     width: var(--rad-ui-size-12); // w-12
     
@@ -61,7 +61,7 @@
 
   // Match solid accent surfaces (e.g. checkbox checked): high-contrast label on accent-800.
   // Use a semantic inverse foreground so the initials stay readable across themes/scales.
-  &[data-rad-ui-accent-color]:not([data-rad-ui-has-image]) {
+  &[data-color]:not([data-rad-ui-has-image]) {
     .rad-ui-avatar-fallback {
       color: var(--rad-ui-text-inverse);
       background-color: var(--rad-ui-color-accent-800);
@@ -69,14 +69,14 @@
     }
   }
 
-  &[data-rad-ui-accent-color="gray"]:not([data-rad-ui-has-image]) {
+  &[data-color="gray"]:not([data-rad-ui-has-image]) {
     .rad-ui-avatar-fallback {
       color: var(--rad-ui-text-primary);
     }
   }
   
   // Square variant
-  &[data-avatar-variant="square"] {
+  &[data-variant="square"] {
     border-radius: var(--rad-ui-radius-sm); // rounded-md
   }
 }

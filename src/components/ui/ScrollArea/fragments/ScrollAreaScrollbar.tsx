@@ -183,7 +183,7 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
     return (
         <div
             ref={ref}
-            className={clsx(rootClass + '-scrollbar', className)}
+            className={clsx(rootClass && `${rootClass}-scrollbar`, className)}
             data-orientation={orientation}
             data-state={isVisible ? 'visible' : 'hidden'}
             style={{

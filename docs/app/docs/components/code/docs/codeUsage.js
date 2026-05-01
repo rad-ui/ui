@@ -1,5 +1,9 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
 // Import API documentation
 import code_api_SourceCode from './component_api/code.tsx';
+
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Code/code.clarity.scss');
 
 const code = {
     javascript: {
@@ -11,15 +15,8 @@ const CodeExample = () => (
     </div>
 )`
     },
-    css: {
-        code: `.rui-code-root{
-    color: var(--rad-ui-color-accent-950);
-    background-color: var(--rad-ui-color-accent-400);
-    padding: 1px 10px; // Add space for readability
-    display: inline-block;
-    border-radius: 4px;
-    font-size:12px;
-}`
+    scss: {
+        code: scss_SourceCode
     },
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import NumberField from '../NumberField';
 
 describe('NumberField', () => {
@@ -34,6 +34,30 @@ describe('NumberField', () => {
 
         expect(screen.getByLabelText('Quantity')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: '+' })).toBeInTheDocument();
+    });
+
+    test('keeps stepper buttons out of the tab order while preserving pointer clicks', () => {
+        render(
+            <NumberField.Root defaultValue={3} step={1}>
+                <NumberField.Decrement>-</NumberField.Decrement>
+                <NumberField.Input aria-label="value" />
+                <NumberField.Increment>+</NumberField.Increment>
+            </NumberField.Root>
+        );
+
+        const input = screen.getByLabelText('value') as HTMLInputElement;
+        const increment = screen.getByRole('button', { name: '+' });
+        const decrement = screen.getByRole('button', { name: '-' });
+
+        expect(input).not.toHaveAttribute('tabindex');
+        expect(increment).toHaveAttribute('tabindex', '-1');
+        expect(decrement).toHaveAttribute('tabindex', '-1');
+
+        fireEvent.click(increment);
+        expect(input).toHaveValue(4);
+
+        fireEvent.click(decrement);
+        expect(input).toHaveValue(3);
     });
 
     test('renders without warnings', () => {

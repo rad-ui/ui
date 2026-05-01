@@ -24,7 +24,7 @@ describe('Code Component', () => {
 
         const codeElement = container.querySelector('code');
         expect(codeElement).toBeInTheDocument();
-        expect(codeElement).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+        expect(codeElement).toHaveAttribute('data-color', 'blue');
     });
 
     it('renders without console warnings', () => {

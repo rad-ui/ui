@@ -2,7 +2,7 @@
   width: 100%;
 
   .rad-ui-accordion-item {
-    border-bottom: 1px solid var(--rad-ui-color-gray-300);
+    border-bottom: 1px solid var(--rad-ui-border-soft);
 
     &[data-disabled] {
       opacity: 0.5;
@@ -32,8 +32,8 @@
       width: 100%;
 
       &:focus-visible {
-        outline: 2px solid var(--rad-ui-ring-strong);
-        outline-offset: 2px;
+        outline: none;
+        box-shadow: var(--rad-ui-focus-ring-shadow-offset);
         border-radius: var(--rad-ui-radius-sm);
       }
 

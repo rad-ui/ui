@@ -36,7 +36,7 @@ const Separator = React.forwardRef<SeparatorElement, SeparatorProps>(
         data_attributes['data-orientation'] = orientation;
 
         if (color) {
-            data_attributes['data-rad-ui-accent-color'] = color;
+            data_attributes['data-color'] = color;
         }
 
         // Add decorative role if specified

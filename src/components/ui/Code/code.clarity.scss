@@ -10,29 +10,29 @@
   display: inline-block;
   border: 0;
   
-  &[data-code-variant="outline"] {
+  &[data-variant="outline"] {
     background-color: transparent;
     color: var(--rad-ui-color-accent-900);
     border: 1px solid var(--rad-ui-color-accent-500);
   }
   
   // Code Sizes
-  &[data-code-size="small"] {
+  &[data-size="small"] {
     font-size: var(--rad-ui-font-size-1);
     padding: 0.0625rem 0.3125rem;
   }
   
-  &[data-code-size="medium"] {
+  &[data-size="medium"] {
     font-size: 0.8125rem;
     padding: 0.1rem 0.4rem;
   }
   
-  &[data-code-size="large"] {
+  &[data-size="large"] {
     font-size: var(--rad-ui-font-size-2);
     padding: 0.125rem 0.4375rem;
   }
   
-  &[data-code-size="x-large"] {
+  &[data-size="x-large"] {
     font-size: 0.9375rem;
     padding: 0.1875rem 0.5rem;
   }

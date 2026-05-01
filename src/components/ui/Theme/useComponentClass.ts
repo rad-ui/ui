@@ -11,7 +11,7 @@ const toComponentClassName = (componentName: string = ''): string => {
     return componentName.replace(lowerOrNumberBeforeUppercase, '$1-$2').toLowerCase();
 };
 
-export const useComponentClass = (customRootClass: string = '', componentName: string = '') => {
+export const useComponentClass = (customRootClass: string = '', componentName: string = '', part: string = '') => {
     const themeContext = React.useContext(ThemeContext);
     const classNamespace = customRootClass || themeContext?.classNamespace || '';
 
@@ -19,5 +19,6 @@ export const useComponentClass = (customRootClass: string = '', componentName: s
         return '';
     }
 
-    return `${classNamespace}-${toComponentClassName(componentName)}`;
+    const componentClass = `${classNamespace}-${toComponentClassName(componentName)}`;
+    return part ? `${componentClass}-${toComponentClassName(part)}` : componentClass;
 };

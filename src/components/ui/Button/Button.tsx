@@ -32,7 +32,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         onClick,
         ...props
     }, ref) => {
-        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
         // apply data attribute for accent color
         // apply attribute only if color is present
         const dataAttributes = createDataAttributes('button', { variant, size });

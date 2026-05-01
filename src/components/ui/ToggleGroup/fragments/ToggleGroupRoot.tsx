@@ -79,7 +79,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
+        data_attributes['data-color'] = color;
     }
 
     if (disabled) {

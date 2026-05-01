@@ -71,7 +71,7 @@ export const AllProps = {
                             defaultValue={50}
                             onValueCommit={v => log('committed', v)}
                         />
-                        <ul className="mt-2 text-xs text-gray-500 list-disc pl-4">
+                        <ul className="mt-2 text-xs text-[var(--rad-ui-text-secondary)] list-disc pl-4">
                             {commitLog.map((entry, i) => <li key={i}>{entry}</li>)}
                         </ul>
                     </div>

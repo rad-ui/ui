@@ -2,9 +2,8 @@
 // Outer border: step 6 (500) — light border
 // Panel bg: step 2 (100) — subtle surface
 // Handle divider line: step 6 (500) — light border/separator
-// Handle grip pill default: step 7 (600) — default border (hidden until hover)
-// Handle grip pill active: step 8 (700) — solid, muted UI element
-// Handle grip pill focus: accent ring — interactive signal
+// Handle divider line active: accent focus color — interaction signal
+// Handle grip pill default: step 9 (800) — solid UI element
 
 .rad-ui-splitter {
   position: relative;
@@ -64,6 +63,7 @@
         width: 1px;
         transform: translateX(-50%);
         background: var(--rad-ui-color-gray-500); // step 6 — separator line
+        transition: background-color 0.15s ease, width 0.15s ease;
       }
 
       &::after {
@@ -75,25 +75,21 @@
         height: 1.75rem;
         transform: translate(-50%, -50%);
         border-radius: var(--rad-ui-radius-full);
-        background: var(--rad-ui-color-gray-600); // step 7 — default border
-        opacity: 0;
-        transition: opacity 0.15s ease;
-      }
-
-      &:focus-visible::after,
-      &:hover::after,
-      &.active::after,
-      &:active::after {
+        background: var(--rad-ui-solid-background);
         opacity: 1;
       }
 
-      &:focus-visible::after {
-        background: var(--rad-ui-ring-strong); // accent — focus signal
+      &:hover::before,
+      &:focus-visible::before,
+      &.active::before,
+      &:active::before {
+        width: 2px;
+        background: var(--rad-ui-focus-ring-color); // accent — interaction signal
       }
 
-      &.active::after,
-      &:active::after {
-        background: var(--rad-ui-color-gray-700); // step 8 — solid, active state
+      &[data-disabled]::before {
+        width: 1px;
+        background: var(--rad-ui-color-gray-500);
       }
     }
 
@@ -111,6 +107,7 @@
         height: 1px;
         transform: translateY(-50%);
         background: var(--rad-ui-color-gray-500); // step 6 — separator line
+        transition: background-color 0.15s ease, height 0.15s ease;
       }
 
       &::after {
@@ -122,31 +119,27 @@
         height: 0.3125rem;
         transform: translate(-50%, -50%);
         border-radius: var(--rad-ui-radius-full);
-        background: var(--rad-ui-color-gray-600); // step 7 — default border
-        opacity: 0;
-        transition: opacity 0.15s ease;
-      }
-
-      &:focus-visible::after,
-      &:hover::after,
-      &.active::after,
-      &:active::after {
+        background: var(--rad-ui-solid-background);
         opacity: 1;
       }
 
-      &:focus-visible::after {
-        background: var(--rad-ui-ring-strong); // accent — focus signal
+      &:hover::before,
+      &:focus-visible::before,
+      &.active::before,
+      &:active::before {
+        height: 2px;
+        background: var(--rad-ui-focus-ring-color); // accent — interaction signal
       }
 
-      &.active::after,
-      &:active::after {
-        background: var(--rad-ui-color-gray-700); // step 8 — solid, active state
+      &[data-disabled]::before {
+        height: 1px;
+        background: var(--rad-ui-color-gray-500);
       }
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .rad-ui-splitter-handle::after {
+    .rad-ui-splitter-handle::before {
       transition: none;
     }
   }

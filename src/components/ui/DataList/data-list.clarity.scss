@@ -28,7 +28,7 @@
     }
 
     // Size variants
-    &[data-datalist-size="small"] {
+    &[data-size="small"] {
         gap: 10px;
 
         .rad-ui-data-list-label,
@@ -38,7 +38,7 @@
         }
     }
 
-    &[data-datalist-size="medium"] {
+    &[data-size="medium"] {
         gap: 16px;
 
         .rad-ui-data-list-label,
@@ -48,7 +48,7 @@
         }
     }
 
-    &[data-datalist-size="large"] {
+    &[data-size="large"] {
         gap: 20px;
 
         .rad-ui-data-list-label,
@@ -59,7 +59,7 @@
     }
 
     // Label-level color — independent of root color
-    .rad-ui-data-list-label[data-rad-ui-accent-color] {
+    .rad-ui-data-list-label[data-color] {
         color: var(--rad-ui-color-accent-800);
     }
 }

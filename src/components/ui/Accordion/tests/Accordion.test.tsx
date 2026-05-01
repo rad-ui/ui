@@ -1,4 +1,6 @@
 import { fireEvent, render, screen, act } from '@testing-library/react';
+import fs from 'node:fs';
+import path from 'node:path';
 import React from 'react';
 import * as axe from 'axe-core';
 
@@ -94,6 +96,14 @@ describe('Accordion Component', () => {
         expect(screen.getByTestId('accordion-trigger')).toHaveClass('acme-accordion-trigger');
         expect(content).toHaveClass('acme-accordion-content');
         expect(content.firstElementChild).toHaveClass('acme-accordion-content-inner');
+    });
+
+    test('focus-visible styles use centralized focus ring aliases', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../accordion.clarity.scss'), 'utf8');
+
+        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset);');
+        expect(stylesheet).not.toContain('outline: var(--rad-ui-focus-ring-width');
+        expect(stylesheet).not.toContain('outline-offset: var(--rad-ui-focus-ring-offset');
     });
 
     test('forwards refs to underlying elements without warnings', () => {

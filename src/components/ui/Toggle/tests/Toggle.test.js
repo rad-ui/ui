@@ -81,7 +81,7 @@ describe('Toggle component', () => {
 
     test('Toggle renders color correctly', () => {
         const { getByText } = render(<Toggle onPressedChange={() => {}} color='blue'>Test Toggle</Toggle>);
-        expect(getByText('Test Toggle')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+        expect(getByText('Test Toggle')).toHaveAttribute('data-color', 'blue');
     });
 
     test('renders with asChild prop correctly', () => {

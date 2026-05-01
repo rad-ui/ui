@@ -54,7 +54,8 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     ...props
 }, forwardedRef) => {
     const accordionRef = useRef<HTMLDivElement | null>(null);
-    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const componentClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
 
     const isMultiple = type === 'multiple' || (type !== 'single' && openMultiple);
     const collapsibleEffective = isMultiple ? true : collapsible;
@@ -78,7 +79,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     return (
         <AccordionContext.Provider
             value={{
-                rootClass,
+                rootClass: componentClass,
                 activeItems,
                 setActiveItems,
                 accordionRef,
@@ -97,7 +98,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
             >
                 <RovingFocusGroup.Group >
                     <Primitive.div
-                        className={clsx(rootClass && `${rootClass}-root`, className)}
+                        className={clsx(rootClass, className)}
                         dir={dir}
                         data-orientation={orientation}
                         ref={(node) => {

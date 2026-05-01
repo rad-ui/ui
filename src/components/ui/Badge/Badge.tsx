@@ -17,7 +17,7 @@ export type BadgeProps = React.ComponentPropsWithoutRef<'div'> & {
 };
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = 'solid', size = 'medium', ...props }, ref) => {
-    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
 
     const dataAttributes = createDataAttributes('badge', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);

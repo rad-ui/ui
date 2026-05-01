@@ -11,6 +11,7 @@ const data = {
         { prop: { name: "value", info_tooltips: "Controlled selected value." }, type: "string", default: "--" },
         { prop: { name: "defaultValue", info_tooltips: "Initial selected value (uncontrolled)." }, type: "string", default: "--" },
         { prop: { name: "disabled", info_tooltips: "Disables all items in the group." }, type: "boolean", default: "false" },
+        { prop: { name: "loop", info_tooltips: "Whether arrow key navigation wraps from the last item to the first, and from the first item to the last." }, type: "boolean", default: "true" },
         { prop: { name: "onValueChange", info_tooltips: "Callback when selection changes." }, type: "function", default: "--" }
     ]
 }
