@@ -1,45 +1,67 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { SlidersHorizontal, X } from 'lucide-react';
 import Popover from '../Popover';
-import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
+import Button from '~/components/ui/Button/Button';
+import Heading from '~/components/ui/Heading/Heading';
+import Text from '~/components/ui/Text/Text';
+import TextField from '~/components/ui/TextField/TextField';
 
 export default {
     title: 'Components/Popover',
     component: Popover,
     render: () => (
-        <SandboxEditor>
-            <div style={{ padding: '5rem', display: 'flex', justifyContent: 'center' }}>
-                <Popover.Root>
-                    <Popover.Trigger asChild>
-                        <Button>Open popover</Button>
-                    </Popover.Trigger>
-                    <Popover.Portal>
-                        <Popover.Content sideOffset={8}>
-                            <div style={{ display: 'grid', gap: '0.75rem' }}>
-                                <strong>Dimensions</strong>
-                                <label style={{ display: 'grid', gap: '0.25rem' }}>
-                                    Width
-                                    <input defaultValue="100%" />
-                                </label>
-                                <label style={{ display: 'grid', gap: '0.25rem' }}>
-                                    Max width
-                                    <input defaultValue="300px" />
-                                </label>
-                                <Popover.Close
-                                    aria-label="Close"
-                                    style={{ position: 'absolute', top: 8, right: 8 }}
-                                >
-                                    <X width={14} height={14} />
-                                </Popover.Close>
-                            </div>
-                            <Popover.Arrow />
-                        </Popover.Content>
-                    </Popover.Portal>
-                </Popover.Root>
-            </div>
-        </SandboxEditor>
+        <PopoverDemo />
     )
 } as any;
 
-export const Default = {};
+const PopoverDemo = ({ modal = false }: { modal?: boolean }) => (
+    <SandboxEditor>
+        <div style={{ padding: '3rem', display: 'flex', justifyContent: 'center' }}>
+            <Popover.Root modal={modal}>
+                <Popover.Trigger asChild>
+                    <Button aria-label="Adjust dimensions" variant="soft">
+                        <SlidersHorizontal />
+                    </Button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                    <Popover.Content sideOffset={12}>
+                        <div style={{ display: 'grid', gap: '1rem', minWidth: '18rem' }}>
+                            <Heading as="h3">Dimensions</Heading>
+                            <div style={{ display: 'grid', gap: '0.75rem' }}>
+                                <div style={{ display: 'grid', gap: '0.35rem' }}>
+                                    <Text as="label" htmlFor="popover-width">Width</Text>
+                                    <TextField id="popover-width" defaultValue="100%" />
+                                </div>
+                                <div style={{ display: 'grid', gap: '0.35rem' }}>
+                                    <Text as="label" htmlFor="popover-max-width">Max. width</Text>
+                                    <TextField id="popover-max-width" defaultValue="300px" />
+                                </div>
+                                <div style={{ display: 'grid', gap: '0.35rem' }}>
+                                    <Text as="label" htmlFor="popover-height">Height</Text>
+                                    <TextField id="popover-height" defaultValue="25px" />
+                                </div>
+                                <div style={{ display: 'grid', gap: '0.35rem' }}>
+                                    <Text as="label" htmlFor="popover-max-height">Max. height</Text>
+                                    <TextField id="popover-max-height" defaultValue="none" />
+                                </div>
+                            </div>
+                            <Popover.Close aria-label="Close">
+                                <X width={18} height={18} />
+                            </Popover.Close>
+                        </div>
+                        <Popover.Arrow />
+                    </Popover.Content>
+                </Popover.Portal>
+            </Popover.Root>
+        </div>
+    </SandboxEditor>
+);
+
+export const Default = {
+    render: () => <PopoverDemo />
+};
+
+export const Modal = {
+    render: () => <PopoverDemo modal />
+};

@@ -144,4 +144,96 @@ describe('Popover', () => {
         expect(content.closest('[data-rad-ui-theme="dark"]')).toBeInTheDocument();
         expect(content.closest('[data-rad-ui-portal-root]')).toBeInTheDocument();
     });
+
+    test('supports Portal forceMount parity by keeping content mounted while closed', () => {
+        render(
+            <Popover.Root>
+                <Popover.Trigger>Open</Popover.Trigger>
+                <Popover.Portal forceMount>
+                    <Popover.Content forceMount={false} data-testid="popover-content">
+                        Forced content
+                    </Popover.Content>
+                </Popover.Portal>
+            </Popover.Root>
+        );
+
+        const content = screen.getByTestId('popover-content');
+        expect(content).toBeInTheDocument();
+        expect(content).toHaveAttribute('data-state', 'closed');
+        expect(content).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    test('supports Arrow asChild parity', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Popover.Root>
+                <Popover.Trigger>Open</Popover.Trigger>
+                <Popover.Content>
+                    Body
+                    <Popover.Arrow asChild data-testid="popover-arrow">
+                        <svg data-testid="custom-arrow" />
+                    </Popover.Arrow>
+                </Popover.Content>
+            </Popover.Root>
+        );
+
+        await user.click(screen.getByRole('button', { name: 'Open' }));
+
+        const arrow = screen.getByTestId('custom-arrow');
+        expect(arrow.tagName.toLowerCase()).toBe('svg');
+        expect(arrow).toHaveAttribute('width', '10');
+        expect(arrow).toHaveAttribute('height', '5');
+    });
+
+    test('traps tab focus inside modal popover content', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <div>
+                <button>Before</button>
+                <Popover.Root modal>
+                    <Popover.Trigger>Open</Popover.Trigger>
+                    <Popover.Content>
+                        <input aria-label="Width" />
+                        <input aria-label="Height" />
+                        <button>Apply</button>
+                    </Popover.Content>
+                </Popover.Root>
+                <button>After</button>
+            </div>
+        );
+
+        await user.click(screen.getByRole('button', { name: 'Open' }));
+        const dialog = screen.getByRole('dialog');
+        const widthInput = screen.getByRole('textbox', { name: 'Width' });
+        const heightInput = screen.getByRole('textbox', { name: 'Height' });
+        const applyButton = screen.getByRole('button', { name: 'Apply' });
+
+        await waitFor(() => {
+            expect(dialog).toHaveFocus();
+        });
+
+        await user.tab();
+        expect(widthInput).toHaveFocus();
+
+        await user.tab();
+        expect(heightInput).toHaveFocus();
+
+        await user.tab();
+        expect(applyButton).toHaveFocus();
+
+        await user.tab();
+        await waitFor(() => {
+            expect(dialog).toContainElement(document.activeElement as HTMLElement);
+        });
+
+        await user.tab({ shift: true });
+        await waitFor(() => {
+            expect(dialog).toContainElement(document.activeElement as HTMLElement);
+        });
+
+        expect(screen.getByText('Before')).not.toHaveFocus();
+        expect(screen.getByText('After')).not.toHaveFocus();
+    });
 });

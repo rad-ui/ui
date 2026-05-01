@@ -17,7 +17,7 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
     onClick,
     ...props
 }, ref) => {
-    const { isOpen, contentId, handleOpenChange, setTriggerNode } = useContext(PopoverPrimitiveContext);
+    const { isOpen, contentId, getReferenceProps, setTriggerNode } = useContext(PopoverPrimitiveContext);
 
     const mergedRef = Floater.useMergeRefs([
         ref,
@@ -36,12 +36,11 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
             aria-controls={contentId || undefined}
             data-state={isOpen ? 'open' : 'closed'}
             data-disabled={disabled ? '' : undefined}
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                onClick?.(event);
-                if (!event.defaultPrevented && !disabled) {
-                    handleOpenChange(!isOpen, 'trigger');
+            {...getReferenceProps({
+                onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+                    onClick?.(event);
                 }
-            }}
+            })}
             {...props}
         >
             {children}

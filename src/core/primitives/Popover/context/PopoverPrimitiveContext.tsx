@@ -19,22 +19,37 @@ export type PopoverPositioning = {
     hideWhenDetached: boolean;
 };
 
+export type PopoverOutsideInteractionEvent<T extends Event> = {
+    originalEvent: T;
+    defaultPrevented: boolean;
+    preventDefault: () => void;
+};
+
 type PopoverPrimitiveContextType = {
     isOpen: boolean;
     modal: boolean;
     contentId: string;
     triggerNode: HTMLElement | null;
     anchorNode: HTMLElement | null;
-    handleOpenChange: (open: boolean, reason?: string) => void;
+    handleOpenChange: (open: boolean) => void;
     setTriggerNode: (node: HTMLElement | null) => void;
     setAnchorNode: (node: HTMLElement | null) => void;
     setArrowNode: (node: SVGSVGElement | null) => void;
     positioning: PopoverPositioning;
     setPositioning: (value: Partial<PopoverPositioning>) => void;
+    getReferenceProps: (userProps?: Record<string, unknown>) => Record<string, unknown>;
+    getFloatingProps: (userProps?: Record<string, unknown>) => Record<string, unknown>;
+    setContentEventHandlers: (handlers: {
+        onEscapeKeyDown?: (event: KeyboardEvent) => void;
+        onPointerDownOutside?: (event: PopoverOutsideInteractionEvent<PointerEvent>) => void;
+        onFocusOutside?: (event: PopoverOutsideInteractionEvent<FocusEvent>) => void;
+        onInteractOutside?: (event: PopoverOutsideInteractionEvent<PointerEvent | FocusEvent>) => void;
+    }) => void;
     refs: {
         setFloating: React.RefCallback<HTMLElement>;
         floating: React.MutableRefObject<HTMLElement | null>;
     };
+    isPositioned: boolean;
     floatingStyles: React.CSSProperties;
     floatingContext: any;
 };
@@ -64,10 +79,14 @@ export const PopoverPrimitiveContext = createContext<PopoverPrimitiveContextType
     setArrowNode: () => {},
     positioning: defaultPopoverPositioning,
     setPositioning: () => {},
+    getReferenceProps: (userProps = {}) => userProps,
+    getFloatingProps: (userProps = {}) => userProps,
+    setContentEventHandlers: () => {},
     refs: {
         setFloating: () => {},
         floating: { current: null }
     },
+    isPositioned: false,
     floatingStyles: {
         position: 'absolute',
         top: 0,

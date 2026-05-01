@@ -18,6 +18,13 @@ export type PopoverPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Pr
 };
 
 const COMPONENT_NAME = 'PopoverPrimitive';
+type OutsideInteractionEvent<T extends Event> = import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<T>;
+type ContentEventHandlers = {
+    onEscapeKeyDown?: (event: KeyboardEvent) => void;
+    onPointerDownOutside?: (event: OutsideInteractionEvent<PointerEvent>) => void;
+    onFocusOutside?: (event: OutsideInteractionEvent<FocusEvent>) => void;
+    onInteractOutside?: (event: OutsideInteractionEvent<PointerEvent | FocusEvent>) => void;
+};
 
 const getPlacement = (side: 'top' | 'right' | 'bottom' | 'left', align: 'start' | 'center' | 'end') => {
     if (align === 'center') {
@@ -25,6 +32,20 @@ const getPlacement = (side: 'top' | 'right' | 'bottom' | 'left', align: 'start' 
     }
 
     return `${side}-${align}` as const;
+};
+
+const createOutsideInteractionEvent = <T extends Event>(event: T): OutsideInteractionEvent<T> => {
+    let defaultPrevented = false;
+
+    return {
+        originalEvent: event,
+        get defaultPrevented() {
+            return defaultPrevented;
+        },
+        preventDefault() {
+            defaultPrevented = true;
+        }
+    };
 };
 
 const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRootProps>(({
@@ -40,6 +61,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     const [anchorNode, setAnchorNode] = React.useState<HTMLElement | null>(null);
     const [arrowNode, setArrowNode] = React.useState<SVGSVGElement | null>(null);
     const [positioning, setPositioningState] = React.useState(defaultPopoverPositioning);
+    const contentEventHandlersRef = React.useRef<ContentEventHandlers>({});
     const nodeId = Floater.useFloatingNodeId();
 
     const placement = React.useMemo(
@@ -61,12 +83,35 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         altBoundary: collisionBoundary.length > 0
     }), [collisionBoundary, positioning.collisionPadding]);
 
-    const { context: floatingContext, refs, floatingStyles } = Floater.useFloating({
+    const referenceElement = anchorNode ?? triggerNode;
+
+    const { context: floatingContext, refs, floatingStyles, isPositioned } = Floater.useFloating({
         open: isOpen,
         nodeId,
-        onOpenChange: setIsOpen,
+        onOpenChange: (nextOpen, event, reason) => {
+            if (!nextOpen && reason === 'escape-key' && event instanceof KeyboardEvent) {
+                contentEventHandlersRef.current.onEscapeKeyDown?.(event);
+                if (event.defaultPrevented) {
+                    return;
+                }
+            }
+
+            if (!nextOpen && reason === 'focus-out' && event instanceof FocusEvent) {
+                const outsideEvent = createOutsideInteractionEvent(event);
+                contentEventHandlersRef.current.onFocusOutside?.(outsideEvent);
+                contentEventHandlersRef.current.onInteractOutside?.(outsideEvent);
+                if (outsideEvent.defaultPrevented) {
+                    return;
+                }
+            }
+
+            setIsOpen(nextOpen);
+        },
         placement,
         strategy: 'fixed',
+        elements: {
+            reference: referenceElement
+        },
         middleware: [
             Floater.offset({
                 mainAxis: positioning.sideOffset + (arrowNode ? 5 : 0),
@@ -98,9 +143,28 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         whileElementsMounted: Floater.autoUpdate
     });
 
-    React.useEffect(() => {
-        refs.setReference(anchorNode ?? triggerNode);
-    }, [anchorNode, refs, triggerNode]);
+    const click = Floater.useClick(floatingContext, {
+        event: 'click',
+        toggle: true
+    });
+
+    const dismiss = Floater.useDismiss(floatingContext, {
+        outsidePressEvent: 'pointerdown',
+        outsidePress: (event) => {
+            const outsideEvent = createOutsideInteractionEvent(event as PointerEvent);
+            contentEventHandlersRef.current.onPointerDownOutside?.(outsideEvent);
+            contentEventHandlersRef.current.onInteractOutside?.(outsideEvent);
+            return !outsideEvent.defaultPrevented;
+        }
+    });
+
+    const role = Floater.useRole(floatingContext, { role: 'dialog' });
+
+    const { getReferenceProps, getFloatingProps } = Floater.useInteractions([
+        click,
+        dismiss,
+        role
+    ]);
 
     const contentId = Floater.useId() ?? '';
 
@@ -111,6 +175,10 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     const handleOpenChange = React.useCallback((nextOpen: boolean) => {
         setIsOpen(nextOpen);
     }, [setIsOpen]);
+
+    const setContentEventHandlers = React.useCallback((handlers: typeof contentEventHandlersRef.current) => {
+        contentEventHandlersRef.current = handlers;
+    }, []);
 
     const contextValue = React.useMemo(() => ({
         isOpen,
@@ -124,7 +192,11 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         setArrowNode,
         positioning,
         setPositioning,
+        getReferenceProps,
+        getFloatingProps,
+        setContentEventHandlers,
         refs,
+        isPositioned,
         floatingStyles,
         floatingContext
     }), [
@@ -132,11 +204,15 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         contentId,
         floatingContext,
         floatingStyles,
+        getFloatingProps,
+        getReferenceProps,
         handleOpenChange,
         isOpen,
+        isPositioned,
         modal,
         positioning,
         refs,
+        setContentEventHandlers,
         setPositioning,
         triggerNode
     ]);

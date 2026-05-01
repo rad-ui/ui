@@ -9,32 +9,7 @@ import {
     PopoverSide,
     PopoverSticky
 } from '../context/PopoverPrimitiveContext';
-
-type OutsideInteractionEvent<T extends Event> = {
-    originalEvent: T;
-    defaultPrevented: boolean;
-    preventDefault: () => void;
-};
-
-const createOutsideInteractionEvent = <T extends Event>(event: T): OutsideInteractionEvent<T> => {
-    let defaultPrevented = false;
-
-    return {
-        originalEvent: event,
-        get defaultPrevented() {
-            return defaultPrevented;
-        },
-        preventDefault() {
-            defaultPrevented = true;
-        }
-    };
-};
-
-const getFocusableElements = (container: HTMLElement) => {
-    return Array.from(container.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    )).filter(element => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true');
-};
+import { PopoverPrimitivePortalContext } from '../context/PopoverPrimitivePortalContext';
 
 export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     asChild?: boolean;
@@ -52,9 +27,9 @@ export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof
     onOpenAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
     onCloseAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
-    onPointerDownOutside?: (event: OutsideInteractionEvent<PointerEvent>) => void;
-    onFocusOutside?: (event: OutsideInteractionEvent<FocusEvent>) => void;
-    onInteractOutside?: (event: OutsideInteractionEvent<PointerEvent | FocusEvent>) => void;
+    onPointerDownOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<PointerEvent>) => void;
+    onFocusOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<FocusEvent>) => void;
+    onInteractOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<PointerEvent | FocusEvent>) => void;
 };
 
 const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveContentProps>(({
@@ -81,23 +56,24 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     style,
     ...props
 }, ref) => {
+    const { forceMount: portalForceMount } = React.useContext(PopoverPrimitivePortalContext);
     const {
         isOpen,
         modal,
         contentId,
         triggerNode,
-        anchorNode,
-        handleOpenChange,
+        getFloatingProps,
         refs,
+        isPositioned,
         floatingStyles,
         floatingContext,
+        setContentEventHandlers,
         setPositioning
     } = useContext(PopoverPrimitiveContext);
 
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
-    const closeReasonRef = React.useRef<'outside' | 'escape' | 'close' | 'trigger' | null>(null);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const shouldRender = isOpen || forceMount;
+    const shouldRender = isOpen || forceMount || portalForceMount;
 
     React.useEffect(() => {
         setPositioning({
@@ -127,6 +103,25 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     ]);
 
     React.useEffect(() => {
+        setContentEventHandlers({
+            onEscapeKeyDown,
+            onPointerDownOutside,
+            onFocusOutside,
+            onInteractOutside
+        });
+
+        return () => {
+            setContentEventHandlers({});
+        };
+    }, [
+        onEscapeKeyDown,
+        onFocusOutside,
+        onInteractOutside,
+        onPointerDownOutside,
+        setContentEventHandlers
+    ]);
+
+    React.useEffect(() => {
         if (!isOpen || !refs.floating.current) {
             return;
         }
@@ -135,42 +130,35 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
             ? document.activeElement
             : null;
 
-        const autoFocusEvent = createOutsideInteractionEvent(new FocusEvent('focus')) as {
-            defaultPrevented: boolean;
-            preventDefault: () => void;
-        };
-        onOpenAutoFocus?.(autoFocusEvent);
-
-        if (!autoFocusEvent.defaultPrevented) {
-            requestAnimationFrame(() => {
-                const container = refs.floating.current;
-                if (!container) {
-                    return;
-                }
-
-                const [firstFocusable] = getFocusableElements(container);
-                (firstFocusable ?? container).focus();
-            });
+        if (!onOpenAutoFocus) {
+            return;
         }
+
+        const event = {
+            defaultPrevented: false,
+            preventDefault() {
+                this.defaultPrevented = true;
+            }
+        };
+
+        onOpenAutoFocus(event);
     }, [isOpen, onOpenAutoFocus, refs.floating]);
 
     React.useEffect(() => {
-        if (isOpen) {
+        if (isOpen || !onCloseAutoFocus) {
             return;
         }
 
-        if (closeReasonRef.current === 'outside') {
-            closeReasonRef.current = null;
-            return;
-        }
-
-        const closeAutoFocusEvent = createOutsideInteractionEvent(new FocusEvent('focus')) as {
-            defaultPrevented: boolean;
-            preventDefault: () => void;
+        const event = {
+            defaultPrevented: false,
+            preventDefault() {
+                this.defaultPrevented = true;
+            }
         };
-        onCloseAutoFocus?.(closeAutoFocusEvent);
 
-        if (!closeAutoFocusEvent.defaultPrevented) {
+        onCloseAutoFocus(event);
+
+        if (!event.defaultPrevented) {
             const focusTarget = triggerNode ?? previousFocusedElementRef.current;
             if (focusTarget) {
                 requestAnimationFrame(() => {
@@ -178,102 +166,13 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
                 });
             }
         }
-
-        closeReasonRef.current = null;
     }, [isOpen, onCloseAutoFocus, triggerNode]);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            return;
-        }
-
-        const isOutsideTarget = (target: EventTarget | null) => {
-            if (!(target instanceof Node)) {
-                return false;
-            }
-
-            const floatingNode = refs.floating.current;
-            if (floatingNode?.contains(target)) {
-                return false;
-            }
-
-            if (triggerNode?.contains(target)) {
-                return false;
-            }
-
-            if (anchorNode?.contains(target)) {
-                return false;
-            }
-
-            return true;
-        };
-
-        const handlePointerDown = (event: PointerEvent) => {
-            if (!isOutsideTarget(event.target)) {
-                return;
-            }
-
-            const outsideEvent = createOutsideInteractionEvent(event);
-            onPointerDownOutside?.(outsideEvent);
-            onInteractOutside?.(outsideEvent);
-
-            if (!outsideEvent.defaultPrevented) {
-                closeReasonRef.current = 'outside';
-                handleOpenChange(false, 'outside');
-            }
-        };
-
-        const handleFocusIn = (event: FocusEvent) => {
-            if (!isOutsideTarget(event.target)) {
-                return;
-            }
-
-            const outsideEvent = createOutsideInteractionEvent(event);
-            onFocusOutside?.(outsideEvent);
-            onInteractOutside?.(outsideEvent);
-
-            if (!outsideEvent.defaultPrevented) {
-                closeReasonRef.current = 'outside';
-                handleOpenChange(false, 'outside');
-            }
-        };
-
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key !== 'Escape') {
-                return;
-            }
-
-            onEscapeKeyDown?.(event);
-            if (!event.defaultPrevented) {
-                closeReasonRef.current = 'escape';
-                handleOpenChange(false, 'escape');
-            }
-        };
-
-        document.addEventListener('pointerdown', handlePointerDown, true);
-        document.addEventListener('focusin', handleFocusIn, true);
-        document.addEventListener('keydown', handleKeyDown, true);
-
-        return () => {
-            document.removeEventListener('pointerdown', handlePointerDown, true);
-            document.removeEventListener('focusin', handleFocusIn, true);
-            document.removeEventListener('keydown', handleKeyDown, true);
-        };
-    }, [
-        anchorNode,
-        handleOpenChange,
-        isOpen,
-        onEscapeKeyDown,
-        onFocusOutside,
-        onInteractOutside,
-        onPointerDownOutside,
-        refs.floating,
-        triggerNode
-    ]);
 
     if (!shouldRender) {
         return null;
     }
+
+    const floatingProps = getFloatingProps();
 
     const content = (
         <Primitive.div
@@ -281,12 +180,18 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
             asChild={asChild}
             id={contentId}
             role={role}
-            tabIndex={-1}
             data-state={isOpen ? 'open' : 'closed'}
             data-side={side}
             data-align={align}
             aria-hidden={!isOpen ? 'true' : undefined}
-            style={{ ...floatingStyles, ...style }}
+            style={{
+                ...floatingStyles,
+                outline: 'none',
+                visibility: isOpen && !isPositioned ? 'hidden' : undefined,
+                pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
+                ...style
+            }}
+            {...floatingProps}
             {...props}
         >
             {children}
@@ -295,7 +200,15 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
 
     if (isOpen) {
         return (
-            <Floater.FocusManager context={floatingContext} modal={modal} initialFocus={-1} returnFocus={false}>
+            <Floater.FocusManager
+                context={floatingContext}
+                modal={modal}
+                initialFocus={modal ? 0 : -1}
+                returnFocus={!onCloseAutoFocus}
+                restoreFocus={true}
+                outsideElementsInert={modal}
+                closeOnFocusOut={!modal}
+            >
                 {content}
             </Floater.FocusManager>
         );

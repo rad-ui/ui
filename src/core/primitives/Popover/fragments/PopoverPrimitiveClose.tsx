@@ -23,7 +23,7 @@ const PopoverPrimitiveClose = forwardRef<HTMLButtonElement, PopoverPrimitiveClos
             onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                 onClick?.(event);
                 if (!event.defaultPrevented) {
-                    handleOpenChange(false, 'close');
+                    handleOpenChange(false);
                 }
             }}
             {...props}
