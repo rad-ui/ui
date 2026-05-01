@@ -11,7 +11,7 @@ const ScrollAreaTemplate = (args: any) => {
         <SandboxEditor>
             <ScrollArea.Root>
                 <ScrollArea.Viewport>
-                    <div className='bg-gray-100 text-gray-950 p-4 max-h-screen'>
+                    <div className='bg-[var(--rad-ui-surface-subtle)] text-gray-950 p-4 max-h-screen'>
                         <Heading>Scroll Area</Heading>
                         <Text>This is scrollArea content</Text>
 
@@ -48,10 +48,10 @@ export const All = {};
 
 const LayoutTemplate = () => {
     return <SandboxEditor>
-        <div className='w-full h-screen bg-gray-200 text-gray-950 border-2 border-gray-300 max-h-screen'>
+        <div className='w-full h-screen bg-[var(--rad-ui-surface-muted)] text-gray-950 border-2 border-[var(--rad-ui-border-soft)] max-h-screen'>
             <ScrollArea.Root>
                 <ScrollArea.Viewport>
-                    <div className='w-full bg-gray-200 text-gray-950 p-4'>
+                    <div className='w-full bg-[var(--rad-ui-surface-muted)] text-gray-950 p-4'>
                         <Heading>Scroll Area</Heading>
                         {Array.from({ length: 100 }).map((_, index) => (
                             <>
@@ -75,7 +75,7 @@ export const Layout = LayoutTemplate.bind({});
 export const AutoType = {
     render: () => (
         <SandboxEditor>
-            <div className="h-64 border border-gray-300">
+            <div className="h-64 border border-[var(--rad-ui-border-soft)]">
                 <ScrollArea.Root type="auto">
                     <ScrollArea.Viewport>
                         <div className="p-4">
@@ -98,7 +98,7 @@ export const AutoType = {
 export const AlwaysType = {
     render: () => (
         <SandboxEditor>
-            <div className="h-64 border border-gray-300">
+            <div className="h-64 border border-[var(--rad-ui-border-soft)]">
                 <ScrollArea.Root type="always">
                     <ScrollArea.Viewport>
                         <div className="p-4">
@@ -118,7 +118,7 @@ export const AlwaysType = {
 export const ScrollType = {
     render: () => (
         <SandboxEditor>
-            <div className="h-64 border border-gray-300">
+            <div className="h-64 border border-[var(--rad-ui-border-soft)]">
                 <ScrollArea.Root type="scroll">
                     <ScrollArea.Viewport>
                         <div className="p-4">
@@ -141,7 +141,7 @@ export const ScrollType = {
 export const HoverType = {
     render: () => (
         <SandboxEditor>
-            <div className="h-64 border border-gray-300">
+            <div className="h-64 border border-[var(--rad-ui-border-soft)]">
                 <ScrollArea.Root type="hover">
                     <ScrollArea.Viewport>
                         <div className="p-4">
@@ -164,7 +164,7 @@ export const HoverType = {
 export const BothOrientations = {
     render: () => (
         <SandboxEditor>
-            <div className="h-64 border border-gray-300">
+            <div className="h-64 border border-[var(--rad-ui-border-soft)]">
                 <ScrollArea.Root type="always">
                     <ScrollArea.Viewport>
                         <div className="p-4 w-[1000px]">
@@ -172,7 +172,7 @@ export const BothOrientations = {
                             <Text>Try scrolling both vertically and horizontally.</Text>
                             <div className="flex gap-4">
                                 {Array.from({ length: 20 }).map((_, i) => (
-                                    <div key={i} className="min-w-[200px] h-96 bg-gray-100 border border-gray-200 flex items-center justify-center">
+                                    <div key={i} className="min-w-[200px] h-96 bg-[var(--rad-ui-surface-subtle)] border border-[var(--rad-ui-border-soft)] flex items-center justify-center">
                                         Card {i + 1}
                                     </div>
                                 ))}
@@ -195,7 +195,7 @@ export const BothOrientations = {
 export const HorizontalOnly = {
     render: () => (
         <SandboxEditor>
-            <div className="h-32 border border-gray-300">
+            <div className="h-32 border border-[var(--rad-ui-border-soft)]">
                 <ScrollArea.Root type="always">
                     <ScrollArea.Viewport>
                         <div className="p-4 w-[1000px] whitespace-nowrap">

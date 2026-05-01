@@ -20,7 +20,7 @@
   
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
+    box-shadow: var(--rad-ui-focus-ring-shadow-offset);
   }
   
   &[data-state="checked"] {
@@ -48,7 +48,7 @@
 
   &[data-state="checked"]:focus-visible,
   &[data-state="indeterminate"]:focus-visible {
-    box-shadow: 0 0 0 2px var(--rad-ui-surface), 0 0 0 4px var(--rad-ui-ring-strong);
+    box-shadow: var(--rad-ui-focus-ring-shadow-offset);
   }
   
   &[data-disabled],

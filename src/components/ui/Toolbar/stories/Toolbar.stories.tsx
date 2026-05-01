@@ -19,8 +19,8 @@ const Template = (_args: any) => {
                 style={{
                     minHeight: '320px',
                     borderRadius: '14px',
-                    background: 'var(--rad-ui-color-gray-200)',
-                    border: '1px solid var(--rad-ui-color-gray-400)',
+                    background: 'var(--rad-ui-surface-muted)',
+                    border: '1px solid var(--rad-ui-border-soft)',
                     display: 'grid',
                     placeItems: 'center',
                     padding: '40px 28px'
@@ -76,8 +76,8 @@ export const LinkWithIcon = {
                 style={{
                     minHeight: '200px',
                     borderRadius: '14px',
-                    background: 'var(--rad-ui-color-gray-200)',
-                    border: '1px solid var(--rad-ui-color-gray-400)',
+                    background: 'var(--rad-ui-surface-muted)',
+                    border: '1px solid var(--rad-ui-border-soft)',
                     display: 'grid',
                     placeItems: 'center',
                     padding: '40px 28px'

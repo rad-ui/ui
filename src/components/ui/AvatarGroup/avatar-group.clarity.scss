@@ -63,7 +63,7 @@
   }
   
   // Spacing variant (no overlap) - more specific
-  &[data-avatar-variant="spacing"] {
+  &[data-variant="spacing"] {
     gap: var(--rad-ui-spacing-2);
     
     .rad-ui-avatar-group-item {

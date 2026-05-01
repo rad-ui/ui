@@ -19,15 +19,15 @@ const BlockQuote = React.forwardRef<React.ElementRef<'blockquote'>, BlockQuotePr
         const data_attributes: Record<string, string> = {};
 
         if (variant) {
-            data_attributes['data-block-quote-variant'] = variant;
+            data_attributes['data-variant'] = variant;
         }
 
         if (size) {
-            data_attributes['data-block-quote-size'] = size;
+            data_attributes['data-size'] = size;
         }
 
         if (color) {
-            data_attributes['data-rad-ui-accent-color'] = color;
+            data_attributes['data-color'] = color;
         }
 
         return (

@@ -84,7 +84,7 @@ export const Sizes = () => {
             <p className='text-gray-950 mb-4'>BlockQuote Sizes</p>
             <div className='space-y-6'>
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Default (no color)</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Default (no color)</p>
                     <div className="flex flex-col gap-3">
                         {BLOCKQUOTE_SIZES.map((size, index) => {
                             return (
@@ -97,7 +97,7 @@ export const Sizes = () => {
                 </div>
 
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>With Color Prop</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>With Color Prop</p>
                     <div className="flex flex-col gap-3">
                         {BLOCKQUOTE_SIZES.map((size, index) => {
                             return (
@@ -119,7 +119,7 @@ export const Variants = () => {
             <p className='text-gray-950 mb-4'>BlockQuote Variants</p>
             <div className='space-y-4'>
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Default</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Default</p>
                     <BlockQuote>
                         {SHORT_TEXT}
                     </BlockQuote>
@@ -127,7 +127,7 @@ export const Variants = () => {
 
                 {BLOCKQUOTE_VARIANTS.map((variant) => (
                     <div key={variant}>
-                        <p className='text-sm text-gray-600 mb-2'>{variant[0].toUpperCase() + variant.slice(1)}</p>
+                        <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>{variant[0].toUpperCase() + variant.slice(1)}</p>
                         <BlockQuote variant={variant}>
                             {SHORT_TEXT}
                         </BlockQuote>
@@ -135,14 +135,14 @@ export const Variants = () => {
                 ))}
 
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Outline with Color</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Outline with Color</p>
                     <BlockQuote variant="outline" color="blue">
                         {SHORT_TEXT}
                     </BlockQuote>
                 </div>
 
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Soft with Color</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Soft with Color</p>
                     <BlockQuote variant="soft" color="blue">
                         {SHORT_TEXT}
                     </BlockQuote>

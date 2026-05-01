@@ -154,19 +154,19 @@ const ControlledTabsExample = () => {
                 <div className="mb-4">
                     <button
                         onClick={() => setValue('tab1')}
-                        className={`mr-2 px-4 py-2 rounded ${value === 'tab1' ? 'bg-blue-500 text-gray-50' : 'bg-gray-200'}`}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab1' ? 'bg-blue-500 text-gray-50' : 'bg-[var(--rad-ui-surface-muted)]'}`}
                     >
                         Select Tab 1
                     </button>
                     <button
                         onClick={() => setValue('tab2')}
-                        className={`mr-2 px-4 py-2 rounded ${value === 'tab2' ? 'bg-blue-500 text-gray-50' : 'bg-gray-200'}`}
+                        className={`mr-2 px-4 py-2 rounded ${value === 'tab2' ? 'bg-blue-500 text-gray-50' : 'bg-[var(--rad-ui-surface-muted)]'}`}
                     >
                         Select Tab 2
                     </button>
                     <button
                         onClick={() => setValue('tab3')}
-                        className={`px-4 py-2 rounded ${value === 'tab3' ? 'bg-blue-500 text-gray-50' : 'bg-gray-200'}`}
+                        className={`px-4 py-2 rounded ${value === 'tab3' ? 'bg-blue-500 text-gray-50' : 'bg-[var(--rad-ui-surface-muted)]'}`}
                     >
                         Select Tab 3
                     </button>
@@ -183,17 +183,17 @@ const ControlledTabsExample = () => {
                     </Tabs.List>
 
                     <Tabs.Content value="tab1">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 1 (Controlled)
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 2 (Controlled)
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 3 (Controlled)
                         </div>
                     </Tabs.Content>
@@ -220,17 +220,17 @@ const UncontrolledTabsExample = () => {
                     </Tabs.List>
 
                     <Tabs.Content value="tab1">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 1 (Uncontrolled)
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 2 (Uncontrolled) - This tab is selected by default
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 3 (Uncontrolled)
                         </div>
                     </Tabs.Content>
@@ -257,7 +257,7 @@ const DisabledTabsExample = () => {
             <div className="border shadow rounded-md p-4">
                 <div className="mb-4">
                     <strong>Disabled Tabs Test</strong>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-[var(--rad-ui-text-secondary)]">
                         Testing tabs with disabled states - the second tab should be disabled and not selectable.
                     </p>
                 </div>
@@ -270,17 +270,17 @@ const DisabledTabsExample = () => {
                     </Tabs.List>
 
                     <Tabs.Content value="tab1">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 1
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 2 - This content should not be visible since the tab is disabled
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 3
                         </div>
                     </Tabs.Content>
@@ -297,7 +297,7 @@ const ManyTabsExample = () => {
             <div className="border shadow rounded-md p-4">
                 <div className="mb-4">
                     <strong>Many Tabs Test</strong>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-[var(--rad-ui-text-secondary)]">
                         Testing tabs with many items to ensure proper horizontal scrolling/overflow behavior.
                     </p>
                 </div>
@@ -311,7 +311,7 @@ const ManyTabsExample = () => {
 
                     {[...Array(10)].map((_, i) => (
                         <Tabs.Content key={i} value={`tab${i + 1}`}>
-                            <div className="p-4 bg-gray-100 mt-2">
+                            <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                 Content for Tab {i + 1}
                             </div>
                         </Tabs.Content>
@@ -329,7 +329,7 @@ const NestedTabsExample = () => {
             <div className="border shadow rounded-md p-4">
                 <div className="mb-4">
                     <strong>Nested Tabs Test</strong>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-[var(--rad-ui-text-secondary)]">
                         Testing tabs nested within other tabs to ensure proper context isolation.
                     </p>
                 </div>
@@ -341,7 +341,7 @@ const NestedTabsExample = () => {
                     </Tabs.List>
 
                     <Tabs.Content value="outer1">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             <h3 className="font-medium mb-2">Outer Tab 1 Content</h3>
 
                             <Tabs.Root defaultValue="inner1">
@@ -351,12 +351,12 @@ const NestedTabsExample = () => {
                                 </Tabs.List>
 
                                 <Tabs.Content value="inner1">
-                                    <div className="p-4 bg-gray-50 mt-2 border">
+                                    <div className="p-4 bg-[var(--rad-ui-surface-canvas)] mt-2 border">
                                         Inner Tab 1 Content
                                     </div>
                                 </Tabs.Content>
                                 <Tabs.Content value="inner2">
-                                    <div className="p-4 bg-gray-50 mt-2 border">
+                                    <div className="p-4 bg-[var(--rad-ui-surface-canvas)] mt-2 border">
                                         Inner Tab 2 Content
                                     </div>
                                 </Tabs.Content>
@@ -365,7 +365,7 @@ const NestedTabsExample = () => {
                     </Tabs.Content>
 
                     <Tabs.Content value="outer2">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             <h3 className="font-medium mb-2">Outer Tab 2 Content</h3>
 
                             <Tabs.Root defaultValue="inner3">
@@ -375,12 +375,12 @@ const NestedTabsExample = () => {
                                 </Tabs.List>
 
                                 <Tabs.Content value="inner3">
-                                    <div className="p-4 bg-gray-50 mt-2 border">
+                                    <div className="p-4 bg-[var(--rad-ui-surface-canvas)] mt-2 border">
                                         Inner Tab 3 Content
                                     </div>
                                 </Tabs.Content>
                                 <Tabs.Content value="inner4">
-                                    <div className="p-4 bg-gray-50 mt-2 border">
+                                    <div className="p-4 bg-[var(--rad-ui-surface-canvas)] mt-2 border">
                                         Inner Tab 4 Content
                                     </div>
                                 </Tabs.Content>
@@ -415,7 +415,7 @@ const ProgrammaticTabsExample = () => {
             <div className="border shadow rounded-md p-4">
                 <div className="mb-4">
                     <strong>Programmatic Tabs Test</strong>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-[var(--rad-ui-text-secondary)]">
                         Testing tabs that change automatically every 2 seconds. Current tab: {activeTab}
                     </p>
                 </div>
@@ -428,17 +428,17 @@ const ProgrammaticTabsExample = () => {
                     </Tabs.List>
 
                     <Tabs.Content value="tab1">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 1 - This will automatically change in 2 seconds
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 2 - This will automatically change in 2 seconds
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3">
-                        <div className="p-4 bg-gray-100 mt-2">
+                        <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                             Content for Tab 3 - This will automatically change in 2 seconds
                         </div>
                     </Tabs.Content>
@@ -477,19 +477,19 @@ export const VerticalOrientation: Story = {
                         <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
                     </Tabs.List>
                     <Tabs.Content value="tab1" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 1</h4>
                             <p>This is the content for the first tab. Notice how the tabs are arranged vertically.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 2</h4>
                             <p>This is the content for the second tab. Use arrow keys to navigate vertically.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 3</h4>
                             <p>This is the content for the third tab. The orientation is set to vertical.</p>
                         </div>
@@ -505,7 +505,7 @@ export const ManualActivationMode: Story = {
         <div className="w-full my-4">
             <div className="border shadow rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Manual Activation Mode</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     In manual mode, tabs only activate when clicked, not when focused with keyboard.
                 </p>
                 <Tabs.Root defaultValue="tab1" activationMode="manual">
@@ -515,19 +515,19 @@ export const ManualActivationMode: Story = {
                         <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
                     </Tabs.List>
                     <Tabs.Content value="tab1" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 1</h4>
                             <p>Try using arrow keys to focus different tabs. The content won't change until you click.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 2</h4>
                             <p>This tab content only shows when you click the tab, not when you focus it.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 3</h4>
                             <p>Manual activation mode provides more control over when tabs activate.</p>
                         </div>
@@ -543,7 +543,7 @@ export const ForceMount: Story = {
         <div className="w-full my-4">
             <div className="border shadow rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Force Mount</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     The second tab content is force-mounted, so it stays in the DOM even when inactive.
                 </p>
                 <Tabs.Root defaultValue="tab1">
@@ -553,19 +553,19 @@ export const ForceMount: Story = {
                         <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
                     </Tabs.List>
                     <Tabs.Content value="tab1" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 1</h4>
                             <p>This content is normally mounted/unmounted based on active state.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2" forceMount className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 2</h4>
                             <p>This content is force-mounted and stays in the DOM. Check the browser inspector to see it's always there.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Content for Tab 3</h4>
                             <p>This content is normally mounted/unmounted based on active state.</p>
                         </div>
@@ -581,7 +581,7 @@ export const RTLDirection: Story = {
         <div className="w-full my-4">
             <div className="border shadow rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">RTL Direction</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     Tabs with right-to-left text direction support.
                 </p>
                 <Tabs.Root defaultValue="tab1" dir="rtl">
@@ -591,19 +591,19 @@ export const RTLDirection: Story = {
                         <Tabs.Trigger value="tab3">تب 3</Tabs.Trigger>
                     </Tabs.List>
                     <Tabs.Content value="tab1" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">محتوى التب الأول</h4>
                             <p>هذا هو محتوى التب الأول مع دعم الاتجاه من اليمين إلى اليسار.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">محتوى التب الثاني</h4>
                             <p>هذا هو محتوى التب الثاني مع دعم الاتجاه من اليمين إلى اليسار.</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">محتوى التب الثالث</h4>
                             <p>هذا هو محتوى التب الثالث مع دعم الاتجاه من اليمين إلى اليسار.</p>
                         </div>
@@ -619,7 +619,7 @@ export const DataAttributes: Story = {
         <div className="w-full my-4">
             <div className="border shadow rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Data Attributes</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     This example shows the data attributes that are automatically added to tabs.
                     Open the browser inspector to see data-state, data-orientation, and data-disabled attributes.
                 </p>
@@ -630,19 +630,19 @@ export const DataAttributes: Story = {
                         <Tabs.Trigger value="tab3">Inactive Tab</Tabs.Trigger>
                     </Tabs.List>
                     <Tabs.Content value="tab1" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Active Tab Content</h4>
                             <p>This tab has data-state="active" and data-orientation="horizontal".</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab2" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Disabled Tab Content</h4>
                             <p>This tab has data-state="inactive", data-orientation="horizontal", and data-disabled="".</p>
                         </div>
                     </Tabs.Content>
                     <Tabs.Content value="tab3" className="mt-4">
-                        <div className="p-4 bg-gray-50 rounded">
+                        <div className="p-4 bg-[var(--rad-ui-surface-canvas)] rounded">
                             <h4 className="font-medium mb-2">Inactive Tab Content</h4>
                             <p>This tab has data-state="inactive" and data-orientation="horizontal".</p>
                         </div>

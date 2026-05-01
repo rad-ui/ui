@@ -25,7 +25,7 @@ describe('Link component', () => {
 
     test('Link applies accent color attribute correctly', () => {
         const { container } = render(<Link color="blue">Test Link</Link>);
-        expect(container.querySelector('a')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+        expect(container.querySelector('a')).toHaveAttribute('data-color', 'blue');
     });
 
     test('forwards ref to underlying anchor element', () => {

@@ -13,11 +13,11 @@ describe('create data attribute utilities', () => {
         const accentAttributes = createDataAccentColorAttribute('red');
 
         expect(composeAttributes(dataAttributes, accentAttributes)).toEqual({
-            'data-button-variant': 'primary',
-            'data-button-active': '',
-            'data-button-id': '123',
-            'data-button-camelCaseKey': 'value',
-            'data-rad-ui-accent-color': 'red'
+            'data-variant': 'primary',
+            'data-active': '',
+            'data-id': '123',
+            'data-camel-case-key': 'value',
+            'data-color': 'red'
         });
     });
 

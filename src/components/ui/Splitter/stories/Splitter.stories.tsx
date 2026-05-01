@@ -183,7 +183,7 @@ export const Vertical = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root {...args}>
                     <Splitter.Panel index={0}>
                         <SamplePanel title="Top Panel" />
@@ -213,7 +213,7 @@ export const CustomSizes = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root {...args}>
                     <Splitter.Panel index={0}>
                         <SamplePanel title="Sidebar (30%)" />
@@ -244,7 +244,7 @@ export const WithMinSizes = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root {...args}>
                     <Splitter.Panel index={0}>
                         <SamplePanel title="Min 20%" />
@@ -274,7 +274,7 @@ export const CodeEditor = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root {...args}>
                     <Splitter.Panel index={0}>
                         <CodePanel title="File Explorer" />
@@ -304,7 +304,7 @@ export const ThreePanels = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root orientation="horizontal" defaultSizes={[25, 75]}>
                     <Splitter.Panel index={0}>
                         <SamplePanel title="Left Panel" />
@@ -346,12 +346,12 @@ export const WithCallback = {
         return (
             <SandboxEditor>
                 <div>
-                    <div style={{ marginBottom: '10px', padding: '10px', background: '#f3f4f6', borderRadius: '4px' }}>
+                    <div style={{ marginBottom: '10px', padding: '10px', background: 'var(--rad-ui-surface-subtle)', borderRadius: '4px' }}>
                         <p style={{ margin: 0, fontSize: '14px' }}>
               Current sizes: {sizes[0].toFixed(1)}% | {sizes[1].toFixed(1)}%
                         </p>
                     </div>
-                    <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+                    <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                         <Splitter.Root {...args} onSizesChange={setSizes}>
                             <Splitter.Panel index={0}>
                                 <SamplePanel title="Panel A" />
@@ -383,7 +383,7 @@ export const Accessibility = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '400px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '400px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root {...args}>
                     <Splitter.Panel index={0}>
                         <SamplePanel title="Navigation">
@@ -423,7 +423,7 @@ export const ComplexIDELayout = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '500px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '500px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root orientation="horizontal" defaultSizes={[20, 80]}>
                     {/* Left Sidebar */}
                     <Splitter.Panel index={0}>
@@ -481,7 +481,7 @@ export const DashboardLayout = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '500px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '500px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root orientation="horizontal" defaultSizes={[25, 75]}>
                     {/* Sidebar */}
                     <Splitter.Panel index={0}>
@@ -562,7 +562,7 @@ export const PhotoEditorLayout = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '500px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            <div style={{ height: '500px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px' }}>
                 <Splitter.Root orientation="horizontal" defaultSizes={[20, 60, 20]}>
                     {/* Tools Panel */}
                     <Splitter.Panel index={0}>
@@ -597,14 +597,14 @@ export const PhotoEditorLayout = {
                     <Splitter.Panel index={1}>
                         <Splitter.Root orientation="vertical" defaultSizes={[80, 20]}>
                             <Splitter.Panel index={0}>
-                                <SamplePanel title="Canvas" color="#1f2937">
+                                <SamplePanel title="Canvas" color="var(--rad-ui-color-gray-1000)">
                                     <p>Main editing area</p>
                                     <p>Image canvas</p>
                                 </SamplePanel>
                             </Splitter.Panel>
                             <Splitter.Handle index={0} />
                             <Splitter.Panel index={1}>
-                                <SamplePanel title="Timeline" color="#111827">
+                                <SamplePanel title="Timeline" color="var(--rad-ui-color-gray-1000)">
                                     <p>Animation timeline</p>
                                     <p>Keyframes</p>
                                 </SamplePanel>
@@ -618,7 +618,7 @@ export const PhotoEditorLayout = {
                     <Splitter.Panel index={2}>
                         <Splitter.Root orientation="vertical" defaultSizes={[50, 50]}>
                             <Splitter.Panel index={0}>
-                                <SamplePanel title="Properties" color="#6b7280">
+                                <SamplePanel title="Properties" color="var(--rad-ui-color-gray-800)">
                                     <p>Tool properties</p>
                                     <p>Color picker</p>
                                     <p>Brush settings</p>
@@ -626,7 +626,7 @@ export const PhotoEditorLayout = {
                             </Splitter.Panel>
                             <Splitter.Handle index={0} />
                             <Splitter.Panel index={1}>
-                                <SamplePanel title="Color Palette" color="#374151">
+                                <SamplePanel title="Color Palette" color="var(--rad-ui-color-gray-950)">
                                     <p>Swatches</p>
                                     <p>Gradients</p>
                                     <p>Patterns</p>
@@ -655,13 +655,13 @@ export const DataAnalysisLayout = {
     },
     render: (args: any) => (
         <SandboxEditor>
-            <div style={{ height: '500px', border: '1px solid #e5e7eb', borderRadius: '8px', width: '600px' }}>
+            <div style={{ height: '500px', border: '1px solid var(--rad-ui-border-soft)', borderRadius: '8px', width: '600px' }}>
                 <Splitter.Root orientation="horizontal" defaultSizes={[30, 70]}>
                     {/* Data Sources */}
                     <Splitter.Panel index={0}>
                         <Splitter.Root orientation="vertical" defaultSizes={[40, 30, 30]}>
                             <Splitter.Panel index={0}>
-                                <SamplePanel title="Data Sources" color="#3b82f6">
+                                <SamplePanel title="Data Sources" color="var(--rad-ui-color-blue-800)">
                                     <p>Database connections</p>
                                     <p>API endpoints</p>
                                     <p>File imports</p>
@@ -669,14 +669,14 @@ export const DataAnalysisLayout = {
                             </Splitter.Panel>
                             <Splitter.Handle index={0} />
                             <Splitter.Panel index={1}>
-                                <SamplePanel title="Query Builder" color="#10b981">
+                                <SamplePanel title="Query Builder" color="var(--rad-ui-color-green-800)">
                                     <p>SQL editor</p>
                                     <p>Query history</p>
                                 </SamplePanel>
                             </Splitter.Panel>
                             <Splitter.Handle index={1} />
                             <Splitter.Panel index={2}>
-                                <SamplePanel title="Data Preview" color="#f59e0b">
+                                <SamplePanel title="Data Preview" color="var(--rad-ui-color-amber-800)">
                                     <p>Table view</p>
                                     <p>Data statistics</p>
                                 </SamplePanel>
@@ -692,14 +692,14 @@ export const DataAnalysisLayout = {
                             <Splitter.Panel index={0}>
                                 <Splitter.Root orientation="horizontal" defaultSizes={[50, 50]}>
                                     <Splitter.Panel index={0}>
-                                        <SamplePanel title="Visualizations" color="#8b5cf6">
+                                        <SamplePanel title="Visualizations" color="var(--rad-ui-color-purple-800)">
                                             <p>Charts and graphs</p>
                                             <p>Interactive plots</p>
                                         </SamplePanel>
                                     </Splitter.Panel>
                                     <Splitter.Handle index={0} />
                                     <Splitter.Panel index={1}>
-                                        <SamplePanel title="Insights" color="#ef4444">
+                                        <SamplePanel title="Insights" color="var(--rad-ui-color-red-800)">
                                             <p>AI insights</p>
                                             <p>Trend analysis</p>
                                         </SamplePanel>
@@ -710,14 +710,14 @@ export const DataAnalysisLayout = {
                             <Splitter.Panel index={1}>
                                 <Splitter.Root orientation="horizontal" defaultSizes={[40, 60]}>
                                     <Splitter.Panel index={0}>
-                                        <SamplePanel title="Reports" color="#059669">
+                                        <SamplePanel title="Reports" color="var(--rad-ui-color-green-900)">
                                             <p>Generated reports</p>
                                             <p>Export options</p>
                                         </SamplePanel>
                                     </Splitter.Panel>
                                     <Splitter.Handle index={0} />
                                     <Splitter.Panel index={1}>
-                                        <SamplePanel title="Collaboration" color="#dc2626">
+                                        <SamplePanel title="Collaboration" color="var(--rad-ui-color-red-900)">
                                             <p>Team comments</p>
                                             <p>Share settings</p>
                                         </SamplePanel>

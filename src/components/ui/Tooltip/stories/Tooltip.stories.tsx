@@ -31,3 +31,31 @@ export const Basic: Story = {
         </SandboxEditor>
     )
 };
+
+export const ScrollCollisionVisualTest: Story = {
+    render: () => {
+        const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+        return (
+            <SandboxEditor>
+                <div
+                    ref={setContainer}
+                    className="relative h-[360px] w-[420px] overflow-y-auto border border-[var(--rad-ui-border-default)] p-6"
+                >
+                    <div className="h-[280px]" />
+                    <Tooltip.Root placement="bottom" collisionBoundary={container}>
+                        <Tooltip.Trigger asChild>
+                            <button className="inline-flex min-h-[4rem] items-center justify-center rounded-[1.25rem] border border-[var(--rad-ui-border)] bg-[var(--rad-ui-surface)] px-6 text-[1rem] font-semibold text-[var(--rad-ui-text-primary)]">
+                                Focus or hover
+                            </button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content container={container}>
+                            Collision test
+                        </Tooltip.Content>
+                    </Tooltip.Root>
+                    <div className="h-[520px]" />
+                </div>
+            </SandboxEditor>
+        );
+    }
+};

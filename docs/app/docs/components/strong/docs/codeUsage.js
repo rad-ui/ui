@@ -1,5 +1,9 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
 // Import API documentation
 import strong_api_SourceCode from './component_api/strong.tsx';
+
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Strong/strong.clarity.scss');
 
 const code = {
     javascript: {
@@ -11,10 +15,8 @@ const StrongExample = () => (
     </div>
 )`
     },
-    css: {
-        code: `.rad-ui-strong {
-    font-weight: bold;
-}`
+    scss: {
+        code: scss_SourceCode
     }
 }
 

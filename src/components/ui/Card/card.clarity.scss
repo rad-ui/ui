@@ -1,4 +1,4 @@
-.rad-ui-card {
+.rad-ui-card-root {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -9,34 +9,34 @@
   box-shadow: var(--rad-ui-elevation-xs-shadow);
   padding: 1.5rem;
   
-  &[data-card-variant="outline"] {
+  &[data-variant="outline"] {
     box-shadow: var(--rad-ui-shadow-none);
   }
   
-  &[data-card-variant="soft"] {
+  &[data-variant="soft"] {
     background-color: var(--rad-ui-surface-subtle);
     border-color: var(--rad-ui-border-soft);
     box-shadow: var(--rad-ui-shadow-none);
   }
 
-  &[data-card-variant="soft"] > .rad-ui-card-footer {
+  &[data-variant="soft"] > .rad-ui-card-footer {
     background-color: var(--rad-ui-surface-muted);
   }
   
   // Card Sizes
-  &[data-card-size="small"] {
+  &[data-size="small"] {
     padding: var(--rad-ui-spacing-4);
   }
   
-  &[data-card-size="medium"] {
+  &[data-size="medium"] {
     padding: 1.5rem;
   }
   
-  &[data-card-size="large"] {
+  &[data-size="large"] {
     padding: 1.75rem;
   }
   
-  &[data-card-size="x-large"] {
+  &[data-size="x-large"] {
     padding: 2rem; // p-8
   }
 
@@ -95,26 +95,26 @@
     background-color: var(--rad-ui-surface-subtle);
   }
 
-  &[data-card-size="small"] > .rad-ui-card-content {
+  &[data-size="small"] > .rad-ui-card-content {
     padding-top: var(--rad-ui-spacing-4);
   }
 
-  &[data-card-size="small"] > .rad-ui-card-footer {
+  &[data-size="small"] > .rad-ui-card-footer {
     margin: 1rem -1rem -1rem;
     padding: 0.875rem 1rem 1rem;
   }
 
-  &[data-card-size="large"] > .rad-ui-card-content,
-  &[data-card-size="x-large"] > .rad-ui-card-content {
+  &[data-size="large"] > .rad-ui-card-content,
+  &[data-size="x-large"] > .rad-ui-card-content {
     padding-top: 1.75rem;
   }
 
-  &[data-card-size="large"] > .rad-ui-card-footer {
+  &[data-size="large"] > .rad-ui-card-footer {
     margin: 1.75rem -1.75rem -1.75rem;
     padding: 1.25rem 1.75rem 1.75rem;
   }
 
-  &[data-card-size="x-large"] > .rad-ui-card-footer {
+  &[data-size="x-large"] > .rad-ui-card-footer {
     margin: 2rem -2rem -2rem;
     padding: 1.5rem 2rem 2rem;
   }

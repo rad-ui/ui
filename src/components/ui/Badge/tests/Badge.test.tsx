@@ -12,7 +12,7 @@ describe('Badge', () => {
     // customRootClass check
     test('renders Badge component with customRootClass', () => {
         render(<Badge customRootClass='acme-corp'>Badge</Badge>);
-        expect(screen.getByText('Badge')).toHaveClass('acme-corp-badge');
+        expect(screen.getByText('Badge')).toHaveClass('acme-corp-badge-root');
     });
 
     // className check
@@ -29,7 +29,7 @@ describe('Badge', () => {
 
     test('renders Badge component with custom color', () => {
         render(<Badge color='blue'>Badge</Badge>);
-        expect(screen.getByText('Badge')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+        expect(screen.getByText('Badge')).toHaveAttribute('data-color', 'blue');
     });
 
     test('forwards refs to the underlying element', () => {
@@ -41,14 +41,14 @@ describe('Badge', () => {
     test('applies variant and size data attributes', () => {
         render(<Badge variant='solid' size='large'>Badge</Badge>);
         const badgeElement = screen.getByText('Badge');
-        expect(badgeElement).toHaveAttribute('data-badge-variant', 'solid');
-        expect(badgeElement).toHaveAttribute('data-badge-size', 'large');
+        expect(badgeElement).toHaveAttribute('data-variant', 'solid');
+        expect(badgeElement).toHaveAttribute('data-size', 'large');
     });
 
     test('uses solid and medium defaults', () => {
         render(<Badge>Badge</Badge>);
         const badgeElement = screen.getByText('Badge');
-        expect(badgeElement).toHaveAttribute('data-badge-variant', 'solid');
-        expect(badgeElement).toHaveAttribute('data-badge-size', 'medium');
+        expect(badgeElement).toHaveAttribute('data-variant', 'solid');
+        expect(badgeElement).toHaveAttribute('data-size', 'medium');
     });
 });
