@@ -29,6 +29,7 @@ const RELEASED_COMPONENTS = [
     'VisuallyHidden',
     // Released but not documented officially
     'ScrollArea',
+    'Popover',
     'Theme',
     'Link',
     'Checkbox',

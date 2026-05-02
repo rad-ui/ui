@@ -31,7 +31,7 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .rad-ui-drawer-trigger {
-  @extend .rad-ui-button;
+  @extend .rad-ui-button-root;
 
   position: relative;
   isolation: isolate;
