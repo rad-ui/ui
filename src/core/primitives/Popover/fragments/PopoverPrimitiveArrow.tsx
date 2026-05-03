@@ -74,7 +74,6 @@ const PopoverPrimitiveArrow = forwardRef<SVGSVGElement, PopoverPrimitiveArrowPro
             }
         };
     };
-
     if (asChild) {
         const childrenArray = React.Children.toArray(children);
 
