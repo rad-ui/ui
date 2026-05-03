@@ -17,8 +17,8 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         getFloatingProps,
         rootClass,
         closeWithDelay,
-        closeWithoutDelay,
-        openWithDelay
+        openWithDelay,
+        closeWithoutDelay
     } = useContext(HoverCardContext);
 
     useEffect(() => {
@@ -36,14 +36,15 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     if (!isOpen) return null;
 
     return <div
-        onPointerEnter={openWithDelay}
-        onPointerLeave={closeWithDelay}
         className={clsx(rootClass, className)}
         ref={mergedRef}
         style={floatingStyles}
         {...dataAttributes}
-        {...props}
-        {...getFloatingProps()}>{children}</div>;
+        {...getFloatingProps({
+            onPointerEnter: openWithDelay,
+            onPointerLeave: closeWithDelay,
+            ...props
+        })}>{children}</div>;
 });
 
 HoverCardContent.displayName = 'HoverCardContent';

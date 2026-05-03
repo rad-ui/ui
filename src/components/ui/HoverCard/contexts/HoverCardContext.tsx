@@ -7,8 +7,8 @@ type HoverCardContextType = {
         setReference: (node: HTMLElement | null) => void;
         setFloating: (node: HTMLElement | null) => void;
     };
-    getReferenceProps: () => Record<string, any>;
-    getFloatingProps: () => Record<string, any>;
+    getReferenceProps: (userProps?: Record<string, any>) => Record<string, any>;
+    getFloatingProps: (userProps?: Record<string, any>) => Record<string, any>;
     floatingStyles: React.CSSProperties;
     rootClass: string;
     rootTriggerClass: string;

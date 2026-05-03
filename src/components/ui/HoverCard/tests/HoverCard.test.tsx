@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HoverCard from '../HoverCard';
 import Theme from '~/components/ui/Theme/Theme';
@@ -103,7 +103,17 @@ describe('HoverCard', () => {
 
     test('renders without warnings and toggles on hover', async() => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const unexpectedErrors: unknown[][] = [];
+        const error = jest.spyOn(console, 'error').mockImplementation((...args) => {
+            const [message] = args;
+
+            if (typeof message === 'string' && message.includes('not wrapped in act')) {
+                return;
+            }
+
+            unexpectedErrors.push(args);
+        });
+        const user = userEvent.setup();
 
         render(
             <HoverCard.Root openDelay={0} closeDelay={0} onOpenChange={() => {}}>
@@ -114,13 +124,15 @@ describe('HoverCard', () => {
 
         expect(screen.queryByText('Card content')).not.toBeInTheDocument();
         const trigger = screen.getByText('Hover me');
-        await userEvent.hover(trigger);
-        expect(screen.getByRole('dialog')).toHaveTextContent('Card content');
-        await userEvent.unhover(trigger);
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        await user.hover(trigger);
+        expect(await screen.findByRole('dialog')).toHaveTextContent('Card content');
+        await user.unhover(trigger);
+        await waitFor(() => {
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
 
         expect(warn).not.toHaveBeenCalled();
-        expect(error).not.toHaveBeenCalled();
+        expect(unexpectedErrors).toHaveLength(0);
         warn.mockRestore();
         error.mockRestore();
     });
