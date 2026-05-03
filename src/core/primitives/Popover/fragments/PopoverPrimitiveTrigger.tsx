@@ -39,9 +39,9 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
             {...getReferenceProps({
                 onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
                     onClick?.(event);
-                }
+                },
+                ...props
             })}
-            {...props}
         >
             {children}
         </ButtonPrimitive>

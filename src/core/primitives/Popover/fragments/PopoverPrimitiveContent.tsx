@@ -72,6 +72,7 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     } = useContext(PopoverPrimitiveContext);
 
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
+    const previousIsOpenRef = React.useRef(isOpen);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
     const shouldRender = isOpen || forceMount || portalForceMount;
 
@@ -145,7 +146,8 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     }, [isOpen, onOpenAutoFocus, refs.floating]);
 
     React.useEffect(() => {
-        if (isOpen || !onCloseAutoFocus) {
+        if (!(previousIsOpenRef.current === true && isOpen === false) || !onCloseAutoFocus) {
+            previousIsOpenRef.current = isOpen;
             return;
         }
 
@@ -166,6 +168,8 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
                 });
             }
         }
+
+        previousIsOpenRef.current = isOpen;
     }, [isOpen, onCloseAutoFocus, triggerNode]);
 
     if (!shouldRender) {
