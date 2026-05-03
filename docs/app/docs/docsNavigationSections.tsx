@@ -77,6 +77,7 @@ export const docsNavigationSections = [
             { title:"Text", path:"/docs/components/text" },
             { title:"TextArea", path:"/docs/components/text-area", is_preview:true },
             { title:"Theme", path:"/docs/components/theme", is_preview:true },
+            { title:"Toast", path:"/docs/components/toast", is_preview:true },
             { title:"Toggle", path:"/docs/components/toggle" },
             { title:"ToggleGroup", path:"/docs/components/toggle-group" },
             { title:"Tooltip", path:"/docs/components/tooltip" },

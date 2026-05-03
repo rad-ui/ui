@@ -1,0 +1,60 @@
+import Documentation from '@/components/layout/Documentation/Documentation'
+import ToastStackingExample from './docs/example_1'
+import ToastPositionsExample from './docs/example_positions'
+import ToastPromiseExample from './docs/example_promise'
+import ToastIsolatedManagerExample from './docs/example_isolated_manager'
+import ToastActionExample from './docs/example_action'
+import ToastLimitExample from './docs/example_limit'
+import ToastExpandExample from './docs/example_expand'
+import {
+    code,
+    anatomy,
+    api_documentation,
+    positionsCodeUsage,
+    promiseCodeUsage,
+    isolatedCodeUsage,
+    actionCodeUsage,
+    limitCodeUsage,
+    expandCodeUsage,
+} from './docs/codeUsage'
+
+<Documentation
+    title="Toast"
+    description="Composable toast notifications with stacking, swipe-to-dismiss, and an imperative manager API aligned with Base UI patterns. Wrap your app in Toast.Provider, render a portal + viewport, and map active toasts to Toast.Root."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <ToastStackingExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['provider', 'portal', 'viewport', 'root', 'content', 'title', 'description', 'action', 'close']}
+    />
+
+    ## Examples
+
+    <Documentation.ComponentHero title="Positions" codeUsage={positionsCodeUsage}>
+        <ToastPositionsExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title="Promise" codeUsage={promiseCodeUsage}>
+        <ToastPromiseExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title="Isolated manager" codeUsage={isolatedCodeUsage}>
+        <ToastIsolatedManagerExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title="Action" codeUsage={actionCodeUsage}>
+        <ToastActionExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title="Stack limit" codeUsage={limitCodeUsage}>
+        <ToastLimitExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title="Always expanded" codeUsage={expandCodeUsage}>
+        <ToastExpandExample />
+    </Documentation.ComponentHero>
+</Documentation>
