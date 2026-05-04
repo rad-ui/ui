@@ -155,4 +155,18 @@ describe('Collapsible.Content Component', () => {
         const content = screen.getByText('Content');
         expect(content).toHaveAttribute('aria-hidden', 'false');
     });
+
+    it('publishes Radix-compatible size variables and skips inline animation styles when disabled', () => {
+        render(
+            <Collapsible.Root defaultOpen transitionDuration={0}>
+                <Collapsible.Content data-testid="content">Content</Collapsible.Content>
+            </Collapsible.Root>
+        );
+
+        const content = screen.getByTestId('content');
+        expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('0px');
+        expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('0px');
+        expect(content.style.height).toBe('');
+        expect(content.style.transition).toBe('');
+    });
 });

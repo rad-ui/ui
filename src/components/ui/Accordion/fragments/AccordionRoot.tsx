@@ -9,7 +9,8 @@ import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Accordion';
 
-export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue'> & {
+type AccordionItemValue = number | string;
+type AccordionRootBaseProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue'> & {
     customRootClass?: string;
     transitionDuration?: number;
     transitionTimingFunction?: string;
@@ -28,9 +29,36 @@ export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'de
      * Matches Radix: defaults to false (trigger does not collapse the only open item).
      */
     collapsible?: boolean;
-    value?: (number | string)[];
-    defaultValue?: (number | string)[];
-    onValueChange?: (value: (number | string)[]) => void;
+};
+
+export type AccordionSingleValue = AccordionItemValue | '';
+
+export type AccordionSingleRootProps = AccordionRootBaseProps & {
+    /** @deprecated Prefer `type="single"` or omit `type`. */
+    openMultiple?: false;
+    type?: 'single';
+    value?: AccordionSingleValue;
+    defaultValue?: AccordionItemValue;
+    onValueChange?: (value: AccordionSingleValue) => void;
+};
+
+export type AccordionMultipleRootProps = AccordionRootBaseProps & {
+    type: 'multiple';
+    value?: AccordionItemValue[];
+    defaultValue?: AccordionItemValue[];
+    onValueChange?: (value: AccordionItemValue[]) => void;
+};
+
+export type AccordionRootProps =
+    | AccordionSingleRootProps
+    | AccordionMultipleRootProps;
+
+const normalizeSingleValue = (value: AccordionSingleValue | undefined): AccordionItemValue[] => {
+    if (value === undefined || value === '') {
+        return [];
+    }
+
+    return [value];
 };
 
 const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>(({
@@ -48,7 +76,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     type,
     collapsible = false,
     value,
-    defaultValue = [],
+    defaultValue,
     onValueChange,
     dir,
     ...props
@@ -61,17 +89,28 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
     const collapsibleEffective = isMultiple ? true : collapsible;
 
     const processedValue = value !== undefined
-        ? (isMultiple ? value : (value.length > 0 ? [value[0]] : []))
+        ? (isMultiple
+            ? (Array.isArray(value) ? value : normalizeSingleValue(value))
+            : normalizeSingleValue(Array.isArray(value) ? value[0] : value))
         : undefined;
 
     const processedDefaultValue = isMultiple
-        ? defaultValue
-        : (defaultValue.length > 0 ? [defaultValue[0]] : []);
+        ? (Array.isArray(defaultValue) ? defaultValue : normalizeSingleValue(defaultValue))
+        : normalizeSingleValue(Array.isArray(defaultValue) ? defaultValue[0] : defaultValue);
 
-    const [activeItems, setActiveItems] = useControllableState<(number | string)[]>(
+    const handleValueChange = React.useCallback((nextValue: AccordionItemValue[]) => {
+        if (isMultiple) {
+            (onValueChange as ((value: AccordionItemValue[]) => void) | undefined)?.(nextValue);
+            return;
+        }
+
+        (onValueChange as ((value: AccordionSingleValue) => void) | undefined)?.(nextValue[0] ?? '');
+    }, [isMultiple, onValueChange]);
+
+    const [activeItems, setActiveItems] = useControllableState<AccordionItemValue[]>(
         processedValue,
-    processedDefaultValue,
-    onValueChange
+        processedDefaultValue,
+        handleValueChange
     );
 
     const rovingDir: 'ltr' | 'rtl' = dir === 'rtl' ? 'rtl' : 'ltr';

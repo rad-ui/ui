@@ -5,7 +5,7 @@ import * as axe from 'axe-core';
 import { TextEncoder } from 'util';
 
 import Accordion from '../Accordion';
-import { AccordionRootProps } from '../fragments/AccordionRoot';
+import { AccordionMultipleRootProps, AccordionRootProps, AccordionSingleRootProps } from '../fragments/AccordionRoot';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 // Polyfill TextEncoder before requiring react-dom server utilities
@@ -21,18 +21,24 @@ const items = [
 ];
 
 // Helper to render a simple accordion
-const TestAccordion = (props: Partial<AccordionRootProps>) => (
-    <Accordion.Root collapsible {...props}>
-        {items.map((item, index) => (
-            <Accordion.Item value={index} key={index} disabled={(item as any).disabled}>
-                <Accordion.Header>
-                    <Accordion.Trigger>{item.title}</Accordion.Trigger>
-                </Accordion.Header>
-                <Accordion.Content index={index}>{item.content}</Accordion.Content>
-            </Accordion.Item>
-        ))}
-    </Accordion.Root>
-);
+const TestAccordion = (props: Partial<AccordionRootProps>) => {
+    const rootProps = props.type === 'multiple'
+        ? ({ collapsible: true, ...props } as AccordionMultipleRootProps)
+        : ({ collapsible: true, ...props } as AccordionSingleRootProps);
+
+    return (
+        <Accordion.Root {...rootProps}>
+            {items.map((item, index) => (
+                <Accordion.Item value={index} key={index} disabled={(item as any).disabled}>
+                    <Accordion.Header>
+                        <Accordion.Trigger>{item.title}</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content index={index}>{item.content}</Accordion.Content>
+                </Accordion.Item>
+            ))}
+        </Accordion.Root>
+    );
+};
 
 describe('Accordion accessibility', () => {
     describe('ARIA attributes', () => {
@@ -63,7 +69,7 @@ describe('Accordion accessibility', () => {
         });
 
         test('content has correct ARIA attributes', () => {
-            render(<TestAccordion defaultValue={[0]} />);
+            render(<TestAccordion defaultValue={0} />);
             const contents = screen.getAllByRole('region', { hidden: true });
 
             contents.forEach((content) => {
@@ -78,7 +84,7 @@ describe('Accordion accessibility', () => {
                 <TestAccordion
                     orientation="horizontal"
                     data-testid="accordion-root"
-                    defaultValue={[0]}
+                    defaultValue={0}
                 />
             );
             const root = screen.getByTestId('accordion-root');
@@ -254,10 +260,10 @@ describe('Accordion accessibility', () => {
         test('controlled value prop syncs with external changes', async() => {
             const user = userEvent.setup();
             const Controlled = () => {
-                const [value, setValue] = React.useState<(number | string)[]>([]);
+                const [value, setValue] = React.useState<string | number | ''>('');
                 return (
                     <>
-                        <button onClick={() => setValue([1])}>Open 2</button>
+                        <button onClick={() => setValue(1)}>Open 2</button>
                         <TestAccordion value={value} onValueChange={setValue} />
                     </>
                 );
@@ -280,7 +286,7 @@ describe('Accordion accessibility', () => {
         });
 
         test('defaultValue opens specified item initially', () => {
-            render(<TestAccordion defaultValue={[2]} />);
+            render(<TestAccordion defaultValue={2} />);
             expect(screen.getByText('Content 3')).toBeInTheDocument();
             const triggers = screen.getAllByRole('button');
             expect(triggers[2]).toHaveAttribute('aria-expanded', 'true');
@@ -326,7 +332,7 @@ describe('Accordion accessibility', () => {
 
         test('axe has no violations with multiple open panels', async() => {
             const user = userEvent.setup();
-            const { container } = render(<TestAccordion openMultiple />);
+            const { container } = render(<TestAccordion type="multiple" />);
 
             const triggers = screen.getAllByRole('button');
             await user.click(triggers[0]);
@@ -398,7 +404,7 @@ describe('Accordion accessibility', () => {
     });
 
     test('renders and hydrates without mismatches', async() => {
-        const markup = renderToString(<TestAccordion defaultValue={[0]} />);
+        const markup = renderToString(<TestAccordion defaultValue={0} />);
         const container = document.createElement('div');
         container.innerHTML = markup;
         document.body.appendChild(container);
@@ -407,7 +413,7 @@ describe('Accordion accessibility', () => {
 
         let root: ReturnType<typeof hydrateRoot>;
         await act(async() => {
-            root = hydrateRoot(container, <TestAccordion defaultValue={[0]} />);
+            root = hydrateRoot(container, <TestAccordion defaultValue={0} />);
         });
         act(() => root.unmount());
 
@@ -425,20 +431,26 @@ describe('Accordion accessibility', () => {
                 { title: 'Item 3', content: <div>Content 3</div> }
             ];
 
-            const DisabledAccordion = (props: Partial<AccordionRootProps>) => (
-                <Accordion.Root collapsible {...props}>
-                    {disabledItems.map((item, index) => (
-                        <Accordion.Item value={index} key={index} disabled={(item as any).disabled}>
-                            <Accordion.Header>
-                                <Accordion.Trigger>{item.title}</Accordion.Trigger>
-                            </Accordion.Header>
-                            <Accordion.Content index={index}>{item.content}</Accordion.Content>
-                        </Accordion.Item>
-                    ))}
-                </Accordion.Root>
-            );
+            const DisabledAccordion = (props: Partial<AccordionRootProps>) => {
+                const rootProps = props.type === 'multiple'
+                    ? ({ collapsible: true, ...props } as AccordionMultipleRootProps)
+                    : ({ collapsible: true, ...props } as AccordionSingleRootProps);
 
-            render(<DisabledAccordion openMultiple />);
+                return (
+                    <Accordion.Root {...rootProps}>
+                        {disabledItems.map((item, index) => (
+                            <Accordion.Item value={index} key={index} disabled={(item as any).disabled}>
+                                <Accordion.Header>
+                                    <Accordion.Trigger>{item.title}</Accordion.Trigger>
+                                </Accordion.Header>
+                                <Accordion.Content index={index}>{item.content}</Accordion.Content>
+                            </Accordion.Item>
+                        ))}
+                    </Accordion.Root>
+                );
+            };
+
+            render(<DisabledAccordion type="multiple" />);
             const triggers = screen.getAllByRole('button');
 
             await user.click(triggers[0]);
@@ -493,7 +505,7 @@ describe('Accordion accessibility', () => {
         });
 
         test('content is properly associated with trigger via aria-controls', () => {
-            render(<TestAccordion defaultValue={[0]} />);
+            render(<TestAccordion defaultValue={0} />);
             const trigger = screen.getByRole('button', { name: 'Item 1' });
             const controlsId = trigger.getAttribute('aria-controls');
             expect(controlsId).toBeTruthy();
@@ -503,7 +515,7 @@ describe('Accordion accessibility', () => {
         });
 
         test('items have proper role="region"', () => {
-            render(<TestAccordion defaultValue={[0, 1, 2]} openMultiple />);
+            render(<TestAccordion type="multiple" defaultValue={[0, 1, 2]} />);
             const regions = screen.getAllByRole('region', { hidden: true });
             expect(regions.length).toBe(3);
             regions.forEach((item) => {
@@ -536,7 +548,7 @@ describe('Accordion accessibility', () => {
         });
 
         test('renders and hydrates without mismatches', async() => {
-            const markup = renderToString(<TestAccordion defaultValue={[0]} />);
+            const markup = renderToString(<TestAccordion defaultValue={0} />);
             const container = document.createElement('div');
             container.innerHTML = markup;
             document.body.appendChild(container);
@@ -545,7 +557,7 @@ describe('Accordion accessibility', () => {
 
             let root: ReturnType<typeof hydrateRoot>;
             await act(async() => {
-                root = hydrateRoot(container, <TestAccordion defaultValue={[0]} />);
+                root = hydrateRoot(container, <TestAccordion defaultValue={0} />);
             });
             act(() => root.unmount());
 

@@ -15,7 +15,7 @@ describe('Accordion Dynamic Content', () => {
             }, []);
 
             return (
-                <Accordion.Root collapsible defaultValue={['item-1']} transitionDuration={300}>
+                <Accordion.Root collapsible defaultValue="item-1" transitionDuration={300}>
                     <Accordion.Item value="item-1">
                         <Accordion.Header>
                             <Accordion.Trigger>Trigger 1</Accordion.Trigger>
@@ -46,5 +46,26 @@ describe('Accordion Dynamic Content', () => {
         expect(screen.getByText('Item 1')).toBeInTheDocument();
         expect(screen.getByText('Item 2')).toBeInTheDocument();
         expect(screen.getByText('Item 3')).toBeInTheDocument();
+    });
+
+    it('publishes Radix-compatible content size CSS variables', () => {
+        render(
+            <Accordion.Root collapsible defaultValue="item-1" transitionDuration={0}>
+                <Accordion.Item value="item-1">
+                    <Accordion.Header>
+                        <Accordion.Trigger>Trigger 1</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content data-testid="content">
+                        <div>Content</div>
+                    </Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        );
+
+        const content = screen.getByTestId('content');
+        expect(content.style.getPropertyValue('--radix-accordion-content-height')).toBe('0px');
+        expect(content.style.getPropertyValue('--radix-accordion-content-width')).toBe('0px');
+        expect(content.style.height).toBe('');
+        expect(content.style.transition).toBe('');
     });
 });

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Accordion from '../Accordion';
-import { AccordionRootProps } from '../fragments/AccordionRoot';
+import { AccordionSingleRootProps } from '../fragments/AccordionRoot';
 
 const testItems = [
     { title: 'First', content: <div>Content A</div> },
@@ -11,10 +11,10 @@ const testItems = [
     { title: 'Third', content: <div>Content C</div> }
 ];
 
-const FocusHarness = (props: Partial<AccordionRootProps>) => (
+const FocusHarness = (props: Partial<AccordionSingleRootProps>) => (
     <div>
         <button type="button">Before</button>
-        <Accordion.Root collapsible {...props}>
+        <Accordion.Root {...({ collapsible: true, ...props } as AccordionSingleRootProps)}>
             {testItems.map((item, index) => (
                 <Accordion.Item value={index} key={index}>
                     <Accordion.Header>

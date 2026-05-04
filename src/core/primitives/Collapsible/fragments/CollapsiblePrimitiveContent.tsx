@@ -23,10 +23,37 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const heightRef = useRef(height);
+    const [contentSize, setContentSize] = useState({ height: 0, width: 0 });
     const [shouldRender, setShouldRender] = useState(open || forceMount);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
+
+    useLayoutEffect(() => {
+        if (!ref.current) return;
+
+        const measure = () => {
+            if (!ref.current) return;
+
+            setContentSize({
+                height: ref.current.scrollHeight,
+                width: ref.current.scrollWidth
+            });
+        };
+
+        measure();
+
+        const resizeObserver = new ResizeObserver(() => {
+            measure();
+        });
+
+        resizeObserver.observe(ref.current);
+
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, [children, shouldRender]);
+
     // Track presence for mounting/unmounting
     useEffect(() => {
         if (open || forceMount) {
@@ -68,6 +95,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                     if (ref.current) {
                         const contentHeight = ref.current.scrollHeight;
                         setHeight(contentHeight);
+                        setContentSize({
+                            height: contentHeight,
+                            width: ref.current.scrollWidth
+                        });
                     }
                 });
             });
@@ -114,11 +145,15 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     const dynamicStyle: React.CSSProperties = {
         ...style,
         overflow: 'hidden',
-        height: height !== undefined ? `${height}px` : undefined,
+        '--radix-collapsible-content-height': `${contentSize.height}px`,
+        '--radix-collapsible-content-width': `${contentSize.width}px`,
+        '--radix-accordion-content-height': `${contentSize.height}px`,
+        '--radix-accordion-content-width': `${contentSize.width}px`,
+        height: transitionDuration > 0 && height !== undefined ? `${height}px` : undefined,
         ...(transitionDuration > 0
             ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
             : {})
-    };
+    } as React.CSSProperties;
 
     const shouldUseAsChild = asChild && React.isValidElement(children);
 

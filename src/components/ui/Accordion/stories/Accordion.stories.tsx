@@ -103,22 +103,33 @@ export const OpenMultiple: Story = {
 };
 
 export const WithDeafultValue: Story = {
-    render: () => <AccordionExample defaultValue={[2]} />
+    render: () => <AccordionExample defaultValue={2} />
 };
 
 export const ControlledValue: Story = {
     render: () => {
-        const [value, setValue] = React.useState<number[]>([]);
+        const [value, setValue] = React.useState<number | number[] | ''>('');
         const [multiple, setMultiple] = React.useState(false);
 
         return (
             <>
                 <Button onClick={() => setMultiple(!multiple)}>{`Toggle Open Multiple (${multiple ? 'on' : 'off'})`}</Button>
-                <Button onClick={() => setValue([])}>Close All</Button>
-                <Button onClick={() => setValue([1])}>Open 2</Button>
-                <Button onClick={() => setValue([0])}>Open 0</Button>
-                <Button onClick={() => setValue([0, 1])}>Open 0, 1</Button>
-                <AccordionExample value={value} onValueChange={setValue} openMultiple={multiple} />
+                <Button onClick={() => setValue(multiple ? [] : '')}>Close All</Button>
+                <Button onClick={() => setValue(multiple ? [1] : 1)}>Open 2</Button>
+                <Button onClick={() => setValue(multiple ? [0] : 0)}>Open 0</Button>
+                <Button onClick={() => setValue(multiple ? [0, 1] : 0)}>Open 0, 1</Button>
+                {multiple ? (
+                    <AccordionExample
+                        type="multiple"
+                        value={Array.isArray(value) ? value : (value === '' ? [] : [value])}
+                        onValueChange={setValue}
+                    />
+                ) : (
+                    <AccordionExample
+                        value={Array.isArray(value) ? (value[0] ?? '') : value}
+                        onValueChange={setValue}
+                    />
+                )}
             </>
         );
     }

@@ -111,7 +111,7 @@ const data = {
             name : "value",
             info_tooltips : "Controlled open item values."
         },
-        type : "(string | number)[]",
+        type : "single: string | number | '' | multiple: (string | number)[]",
         default : "--",
        },
        {
@@ -119,8 +119,8 @@ const data = {
             name : "defaultValue",
             info_tooltips : "Initial open item values for uncontrolled usage."
         },
-        type : "(string | number)[]",
-        default : "[]",
+        type : "single: string | number | multiple: (string | number)[]",
+        default : "single: -- | multiple: []",
        },
        {
         prop : {
