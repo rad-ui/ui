@@ -72,4 +72,6 @@ Open these as needed based on the task:
 
 - Treat this file as the starting point, not the only source of truth.
 - Pull in only the minimum additional docs needed for the task to keep context focused.
+- Agent-specific task playbooks live in `agents/`.
+- When a change touches docs, user-facing copy, comments, examples, or public API names, consider running the spell and readability workflow in `agents/skills/spell-check-readability.md`.
 - If this file becomes outdated, update it as part of the change.
