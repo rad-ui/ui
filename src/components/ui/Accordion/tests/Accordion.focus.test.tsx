@@ -28,6 +28,23 @@ const FocusHarness = (props: Partial<AccordionRootProps>) => (
     </div>
 );
 
+const DisabledFirstHarness = (props: Partial<AccordionRootProps>) => (
+    <div>
+        <button type="button">Before</button>
+        <Accordion.Root collapsible {...props}>
+            {testItems.map((item, index) => (
+                <Accordion.Item value={index} key={index} disabled={index === 0}>
+                    <Accordion.Header>
+                        <Accordion.Trigger>{item.title}</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content>{item.content}</Accordion.Content>
+                </Accordion.Item>
+            ))}
+        </Accordion.Root>
+        <button type="button">After</button>
+    </div>
+);
+
 describe('Accordion focus behavior', () => {
     test('roving tabindex: only one trigger has tabIndex 0 in the accordion', () => {
         render(<FocusHarness />);
@@ -110,5 +127,29 @@ describe('Accordion focus behavior', () => {
         triggers.forEach((t) => {
             expect(t).toHaveAttribute('tabindex', '0');
         });
+    });
+
+    test('disabled first trigger does not consume the roving tabindex entry point', () => {
+        render(<DisabledFirstHarness />);
+        const first = screen.getByRole('button', { name: 'First' });
+        const second = screen.getByRole('button', { name: 'Second' });
+        const third = screen.getByRole('button', { name: 'Third' });
+
+        expect(first).toHaveAttribute('tabindex', '-1');
+        expect(second).toHaveAttribute('tabindex', '0');
+        expect(third).toHaveAttribute('tabindex', '-1');
+    });
+
+    test('Tab enters the first enabled trigger when the first item is disabled', async() => {
+        const user = userEvent.setup();
+        render(<DisabledFirstHarness />);
+        const before = screen.getByRole('button', { name: 'Before' });
+        const second = screen.getByRole('button', { name: 'Second' });
+
+        before.focus();
+        expect(before).toHaveFocus();
+
+        await user.tab();
+        expect(second).toHaveFocus();
     });
 });
