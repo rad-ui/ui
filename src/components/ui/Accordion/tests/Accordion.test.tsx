@@ -98,6 +98,28 @@ describe('Accordion Component', () => {
         expect(content.firstElementChild).toHaveClass('acme-accordion-content-inner');
     });
 
+    test('maps collapsible measurement variables to radix accordion variables', () => {
+        render(
+            <Accordion.Root defaultValue="0">
+                <Accordion.Item value="0">
+                    <Accordion.Header>
+                        <Accordion.Trigger>Item 1</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content data-testid="accordion-content">Content 1</Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        );
+
+        const content = screen.getByTestId('accordion-content');
+
+        expect(content.style.getPropertyValue('--radix-accordion-content-height')).toBe(
+            'var(--radix-collapsible-content-height)'
+        );
+        expect(content.style.getPropertyValue('--radix-accordion-content-width')).toBe(
+            'var(--radix-collapsible-content-width)'
+        );
+    });
+
     test('focus-visible styles use centralized focus ring aliases', () => {
         const stylesheet = fs.readFileSync(path.resolve(__dirname, '../accordion.clarity.scss'), 'utf8');
 

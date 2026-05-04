@@ -22,22 +22,26 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     } = useCollapsiblePrimitiveContext();
 
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
-    const heightRef = useRef(height);
-    const [shouldRender, setShouldRender] = useState(open || forceMount);
+    const [isPresent, setIsPresent] = useState(open || forceMount);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
-    const hasInitializedRef = useRef(false);
-    // Track presence for mounting/unmounting
-    useEffect(() => {
-        if (open || forceMount) {
-            setShouldRender(true);
-        }
-    }, [open, forceMount]);
+    const heightRef = useRef<number | undefined>(0);
+    const widthRef = useRef<number | undefined>(0);
+    const originalStylesRef = useRef<{
+        transitionDuration: string;
+        transitionProperty: string;
+        transitionTimingFunction: string;
+    }>();
+    const isMountAnimationPreventedRef = useRef(open || forceMount);
 
     useEffect(() => {
-        heightRef.current = height;
-    }, [height]);
+        const animationFrame = requestAnimationFrame(() => {
+            isMountAnimationPreventedRef.current = false;
+        });
+
+        return () => cancelAnimationFrame(animationFrame);
+    }, []);
 
     useLayoutEffect(() => {
         if (animationTimeoutRef.current) {
@@ -48,28 +52,52 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             cancelAnimationFrame(rafRef.current);
         }
 
-        if (!ref.current) return;
+        const node = ref.current;
 
-        if (!hasInitializedRef.current) {
-            hasInitializedRef.current = true;
-            setHeight(open ? undefined : 0);
+        if (!node) return;
 
-            if (!open && !forceMount) {
-                setShouldRender(false);
-            }
-            return;
+        originalStylesRef.current = originalStylesRef.current || {
+            transitionDuration: node.style.transitionDuration,
+            transitionProperty: node.style.transitionProperty,
+            transitionTimingFunction: node.style.transitionTimingFunction
+        };
+
+        // Measure the content at its natural size before the browser paints.
+        node.style.transitionDuration = '0s';
+        node.style.transitionProperty = 'none';
+
+        const rect = node.getBoundingClientRect();
+        const measuredHeight = rect.height || node.scrollHeight;
+        const measuredWidth = rect.width || node.scrollWidth;
+
+        heightRef.current = measuredHeight;
+        widthRef.current = measuredWidth;
+
+        if (!isMountAnimationPreventedRef.current) {
+            node.style.transitionDuration = originalStylesRef.current.transitionDuration;
+            node.style.transitionProperty = originalStylesRef.current.transitionProperty;
+            node.style.transitionTimingFunction = originalStylesRef.current.transitionTimingFunction;
         }
 
         if (transitionDuration === 0) {
             setHeight(open ? undefined : 0);
 
             if (!open && !forceMount) {
-                setShouldRender(false);
+                setIsPresent(false);
+            } else {
+                setIsPresent(true);
             }
             return;
         }
 
+        if (isMountAnimationPreventedRef.current && open) {
+            setIsPresent(true);
+            setHeight(undefined);
+            return;
+        }
+
         if (open) {
+            setIsPresent(true);
             setHeight(0);
 
             rafRef.current = requestAnimationFrame(() => {
@@ -77,8 +105,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
                 rafRef.current = requestAnimationFrame(() => {
                     if (ref.current) {
-                        const contentHeight = ref.current.scrollHeight;
-                        setHeight(contentHeight);
+                        setHeight(heightRef.current ?? ref.current.scrollHeight);
                     }
                 });
             });
@@ -87,8 +114,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 setHeight(undefined);
             }, transitionDuration);
         } else {
-            const contentHeight = ref.current.scrollHeight;
-            setHeight(contentHeight);
+            setHeight(heightRef.current ?? node.scrollHeight);
 
             rafRef.current = requestAnimationFrame(() => {
                 const _ = ref.current?.offsetHeight;
@@ -100,7 +126,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
             animationTimeoutRef.current = setTimeout(() => {
                 if (!forceMount) {
-                    setShouldRender(false);
+                    setIsPresent(false);
                 }
             }, transitionDuration);
         }
@@ -113,12 +139,11 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, transitionDuration, forceMount]);
+    }, [open, transitionDuration, forceMount, children]);
 
-    const isClosed = !open && !forceMount;
-    const shouldHide = isClosed && !shouldRender;
+    const shouldRender = open || isPresent || forceMount;
 
-    if (shouldHide) {
+    if (!shouldRender) {
         return null;
     }
 
@@ -126,6 +151,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         ...style,
         overflow: 'hidden',
         height: height !== undefined ? `${height}px` : undefined,
+        ['--radix-collapsible-content-height' as string]:
+            heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
+        ['--radix-collapsible-content-width' as string]:
+            widthRef.current !== undefined ? `${widthRef.current}px` : undefined,
         ...(transitionDuration > 0
             ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
             : {})
