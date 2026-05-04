@@ -5,6 +5,7 @@ import Floater from '~/core/primitives/Floater';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import clsx from 'clsx';
+
 const COMPONENT_NAME = 'HoverCard';
 
 export type HoverCardRootElement = ElementRef<'div'>;
@@ -32,7 +33,15 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         altBoundary: filteredBoundary.length > 0
     };
 
+    const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);
+
+    const handleOpenChange = (newOpen: boolean) => {
+        setOpen(newOpen);
+    };
+
     const { refs: floatingRefs, floatingStyles, context: floatingContext } = Floater.useFloating({
+        open,
+        onOpenChange: handleOpenChange,
         placement: 'bottom',
         strategy: 'fixed',
         middleware: [
@@ -51,27 +60,16 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         whileElementsMounted: Floater.autoUpdate
     });
 
-    const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);
-
-    // when hovered out, we set this to true, after delay we check if it's still true and then we set open to false
-    // eslint-disable-next-line no-unused-vars
+    // When the pointer leaves the trigger/content, delay closing and confirm
+    // the pointer has not re-entered before committing the state change.
     const [mouseIsExiting, setMouseIsExiting] = useState(false);
     const openTimeoutRef = useRef<number | null>(null);
     const closeTimeoutRef = useRef<number | null>(null);
 
-    const handleOpenChange = (newOpen: boolean) => {
-        setOpen(newOpen);
-    };
-
-    const role = Floater.useRole(floatingContext);
+    const role = Floater.useRole(floatingContext, { role: 'dialog' });
     const dismiss = Floater.useDismiss(floatingContext);
 
-    const hover = Floater.useHover(floatingContext, {
-        delay: 100
-    });
-
     const { getReferenceProps, getFloatingProps } = Floater.useInteractions([
-        hover,
         role,
         dismiss
     ]);
@@ -86,9 +84,18 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
 
     const openWithDelay = () => {
         markMouseIsEntering();
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+        }
         if (openTimeoutRef.current) {
             clearTimeout(openTimeoutRef.current);
         }
+
+        if (openDelay <= 0) {
+            handleOpenChange(true);
+            return;
+        }
+
         openTimeoutRef.current = setTimeout(() => {
             handleOpenChange(true);
         }, openDelay) as unknown as number;
@@ -99,6 +106,12 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         if (closeTimeoutRef.current) {
             clearTimeout(closeTimeoutRef.current);
         }
+
+        if (closeDelay <= 0) {
+            handleOpenChange(false);
+            return;
+        }
+
         closeTimeoutRef.current = setTimeout(() => {
             setMouseIsExiting(prevState => {
                 if (prevState) {

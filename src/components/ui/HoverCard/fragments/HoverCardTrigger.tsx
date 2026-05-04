@@ -9,16 +9,18 @@ export type HoverCardTriggerElement = ElementRef<typeof Primitive.span>;
 export type HoverCardTriggerProps = ComponentPropsWithoutRef<typeof Primitive.span>;
 
 const HoverCardTrigger = forwardRef<HoverCardTriggerElement, HoverCardTriggerProps>(({ children, className = '', ...props }, ref) => {
-    const { floatingRefs, closeWithDelay, openWithDelay, rootTriggerClass } = useContext(HoverCardContext);
+    const { floatingRefs, getReferenceProps, closeWithDelay, openWithDelay, rootTriggerClass } = useContext(HoverCardContext);
 
     const mergedRef = Floater.useMergeRefs([floatingRefs.setReference, ref]);
 
     return <Primitive.span
-        className={clsx(rootTriggerClass, className)}
-        onClick={() => {}}
-        onMouseEnter={openWithDelay} onMouseLeave={closeWithDelay}
         ref={mergedRef}
-        {...props}
+        className={clsx(rootTriggerClass, className)}
+        {...getReferenceProps({
+            onMouseEnter: openWithDelay,
+            onMouseLeave: closeWithDelay,
+            ...props
+        })}
     >{children}</Primitive.span>;
 });
 
