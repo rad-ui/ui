@@ -1,6 +1,10 @@
-import Kbd from '@radui/ui/Kbd';
 import Text from '@radui/ui/Text';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+import {
+    ACCESSIBLE_KEYBOARD_KEYS,
+    KEYBOARD_SHORTCUT_COLUMNS,
+    renderKeyboardShortcut
+} from '@/utils/accessibility/keyboard';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/example_1.tsx');
 
@@ -37,80 +41,71 @@ export const api_documentation = {
 }
 
 export const keyboardShortcuts = {
-    columns: [
-        {
-            name: 'Shortcut',
-            id: 'shortcut'
-        },
-        {
-            name: 'Description',
-            id: 'description'
-        }
-    ],
+    columns: KEYBOARD_SHORTCUT_COLUMNS,
     data: [
         {
-            shortcut: <Kbd>Space</Kbd>,
+            shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.SPACE),
             description: <Text>
               When focus is on an Accordion.Trigger of a collapsed section, expands the section.
             </Text>,
             id: "space"
         },
         {
-          shortcut: <Kbd>Enter</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ENTER),
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, collapses the section.
           </Text>,
           id: "enter"
         },
         {
-          shortcut: <Kbd>Tab</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.TAB),
           description: <Text>
             When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
           </Text>,
           id: "tab"
         },
         {
-          shortcut: <Kbd>Shift + Tab</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.SHIFT_TAB),
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
           </Text>,
           id: "shift-tab"
         },
         {
-          shortcut: <Kbd>ArrowDown</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ARROW_DOWN),
           description: <Text>
             When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
           </Text>,
           id: "arrow-down"
         },
         {
-          shortcut: <Kbd>ArrowUp</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ARROW_UP),
           description: <Text>
             When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
           </Text>,
           id:   "arrow-up"
         },
         // {
-        //   shortcut: <Kbd>ArrowRight</Kbd>,
+        //   shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ARROW_RIGHT),
         //   description: <Text>
         //     When focus is on an Accordion.Trigger of a collapsed section, focuses the next Accordion.Trigger.
         //   </Text>
         // },
         // {
-        //   shortcut: <Kbd>ArrowLeft</Kbd>,
+        //   shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ARROW_LEFT),
         //   description: <Text>
         //     When focus is on an Accordion.Trigger of an expanded section, focuses the previous Accordion.Trigger.
         //   </Text>
         // }
         {
-          shortcut: <Kbd>Home</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.HOME),
           description: <Text>
             When focus is on an Accordion.Trigger, focuses the first Accordion.Trigger. [TODO]
           </Text>,
           id: "home"
         },
         {
-          shortcut: <Kbd>End</Kbd>,
+          shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.END),
           description: <Text>
             When focus is on an Accordion.Trigger, focuses the last Accordion.Trigger. [TODO]
           </Text>,

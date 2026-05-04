@@ -1,6 +1,10 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
-import Kbd from '@radui/ui/Kbd';
 import Text from '@radui/ui/Text';
+import {
+    ACCESSIBLE_KEYBOARD_KEYS,
+    KEYBOARD_SHORTCUT_COLUMNS,
+    renderKeyboardShortcut
+} from '@/utils/accessibility/keyboard';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/examples/tooltip_example1.tsx');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/anatomy.tsx');
@@ -41,40 +45,31 @@ export const api_documentation = {
 
 // Keyboard shortcuts
 export const keyboardShortcuts = {
-    columns: [
-        {
-            name: 'Shortcut',
-            id: 'shortcut'
-        },
-        {
-            name: 'Description',
-            id: 'description'
-        }
-    ],
+    columns: KEYBOARD_SHORTCUT_COLUMNS,
     data: [
         {
-            shortcut: <Kbd>Tab</Kbd>,
+            shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.TAB),
             description: <Text>
                 Moves focus to the trigger element.
             </Text>,
             id: "tab"
         },
         {
-            shortcut: <Kbd>Space</Kbd>,
+            shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.SPACE),
             description: <Text>
                 When focus is on the trigger, toggles the tooltip.
             </Text>,
             id: "space"
         },
         {
-            shortcut: <Kbd>Enter</Kbd>,
+            shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ENTER),
             description: <Text>
                 When focus is on the trigger, toggles the tooltip.
             </Text>,
             id: "enter"
         },
         {
-            shortcut: <Kbd>Escape</Kbd>,
+            shortcut: renderKeyboardShortcut(ACCESSIBLE_KEYBOARD_KEYS.ESCAPE),
             description: <Text>
                 Dismisses an open tooltip.
             </Text>,
