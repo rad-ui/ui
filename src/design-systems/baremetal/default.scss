@@ -113,6 +113,22 @@
     font-family: var(--rad-ui-font-sans);
 }
 
+#{scope.$theme-root}[data-rad-ui-theme="dark"] {
+    --rad-ui-baremetal-black: #f5f5f5;
+    --rad-ui-baremetal-white: #121212;
+    --rad-ui-baremetal-canvas: #121212;
+    --rad-ui-baremetal-panel: #161616;
+    --rad-ui-baremetal-subtle: #202020;
+    --rad-ui-baremetal-muted: #2a2a2a;
+    --rad-ui-baremetal-disabled: #686868;
+    --rad-ui-baremetal-shadow: 8px 8px 0 #050505;
+    --rad-ui-baremetal-shadow-sm: 4px 4px 0 #050505;
+    --rad-ui-text-muted: #b3b3b3;
+    --rad-ui-ring-shadow: 0 0 0 2px var(--rad-ui-baremetal-white), 0 0 0 4px var(--rad-ui-baremetal-black);
+    --rad-ui-ring-shadow-sm: 0 0 0 1px var(--rad-ui-baremetal-white), 0 0 0 3px var(--rad-ui-baremetal-black);
+    --rad-ui-ring-shadow-inset: inset 0 0 0 2px var(--rad-ui-baremetal-black);
+}
+
 #{scope.$theme-root} *,
 #{scope.$portal-root} * {
     letter-spacing: 0.08em;
