@@ -3,6 +3,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 const COMPONENT_NAME = 'SliderRangeSlider';
 const THUMB_HALF_SIZE = 8;
@@ -140,26 +141,26 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
         const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
 
         switch (e.key) {
-        case 'ArrowRight':
+        case KEYBOARD_KEYS.ARROW_RIGHT:
             newValue[thumb === 'lower' ? 0 : 1] = isRtl
                 ? value[thumb === 'lower' ? 0 : 1] - step
                 : value[thumb === 'lower' ? 0 : 1] + step;
             break;
-        case 'ArrowLeft':
+        case KEYBOARD_KEYS.ARROW_LEFT:
             newValue[thumb === 'lower' ? 0 : 1] = isRtl
                 ? value[thumb === 'lower' ? 0 : 1] + step
                 : value[thumb === 'lower' ? 0 : 1] - step;
             break;
-        case 'ArrowUp':
+        case KEYBOARD_KEYS.ARROW_UP:
             newValue[thumb === 'lower' ? 0 : 1] = value[thumb === 'lower' ? 0 : 1] + step;
             break;
-        case 'ArrowDown':
+        case KEYBOARD_KEYS.ARROW_DOWN:
             newValue[thumb === 'lower' ? 0 : 1] = value[thumb === 'lower' ? 0 : 1] - step;
             break;
-        case 'Home':
+        case KEYBOARD_KEYS.HOME:
             newValue[thumb === 'lower' ? 0 : 1] = minValue;
             break;
-        case 'End':
+        case KEYBOARD_KEYS.END:
             newValue[thumb === 'lower' ? 0 : 1] = maxValue;
             break;
         default:

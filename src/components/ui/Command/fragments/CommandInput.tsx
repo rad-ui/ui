@@ -3,6 +3,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { useCommandContext } from '../context/CommandContext';
 
 type CommandInputElement = React.ElementRef<typeof Primitive.input>;
@@ -54,27 +55,27 @@ const CommandInput = React.forwardRef<CommandInputElement, CommandInputProps>(({
                 onValueChange?.(nextValue);
             }}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                if (event.key === 'ArrowDown') {
+                if (event.key === KEYBOARD_KEYS.ARROW_DOWN) {
                     event.preventDefault();
                     moveActive(1);
                 }
 
-                if (event.key === 'ArrowUp') {
+                if (event.key === KEYBOARD_KEYS.ARROW_UP) {
                     event.preventDefault();
                     moveActive(-1);
                 }
 
-                if (event.key === 'Home') {
+                if (event.key === KEYBOARD_KEYS.HOME) {
                     event.preventDefault();
                     moveToBoundary('start');
                 }
 
-                if (event.key === 'End') {
+                if (event.key === KEYBOARD_KEYS.END) {
                     event.preventDefault();
                     moveToBoundary('end');
                 }
 
-                if (event.key === 'Enter') {
+                if (event.key === KEYBOARD_KEYS.ENTER) {
                     event.preventDefault();
                     selectActiveItem();
                 }

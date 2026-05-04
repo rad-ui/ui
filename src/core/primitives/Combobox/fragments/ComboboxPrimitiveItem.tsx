@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { useComboboxGroupContext } from '../contexts/ComboboxGroupContext';
 
 export interface ComboboxPrimitiveItemProps {
@@ -134,12 +135,12 @@ const ComboboxPrimitiveItem = React.forwardRef<
                 onClick: () => !disabled && handleSelect(index),
                 onKeyDown: (event: React.KeyboardEvent) => {
                     if (disabled) return;
-                    if (event.key === 'Enter') {
+                    if (event.key === KEYBOARD_KEYS.ENTER) {
                         event.preventDefault();
                         handleSelect(index);
                     }
 
-                    if (event.key === ' ' && !isTypingRef.current) {
+                    if (event.key === KEYBOARD_KEYS.SPACE && !isTypingRef.current) {
                         event.preventDefault();
                         handleSelect(index);
                     }

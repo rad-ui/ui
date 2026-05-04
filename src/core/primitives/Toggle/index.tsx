@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from 'react';
 
 import ButtonPrimitive from '~/core/primitives/Button';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
+import { isActivationKey } from '~/core/utils/keyboard';
 
 export type TogglePrimitiveElement = React.ElementRef<typeof ButtonPrimitive>;
 export interface TogglePrimitiveProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive> {
@@ -41,7 +42,7 @@ const TogglePrimitive = forwardRef<TogglePrimitiveElement, TogglePrimitiveProps>
     };
 
     const handleKeyDown = (event: any) => {
-        if (event.key === ' ' || event.key === 'Enter') {
+        if (isActivationKey(event.key)) {
             event.preventDefault();
             handleTogglePressed();
         }
