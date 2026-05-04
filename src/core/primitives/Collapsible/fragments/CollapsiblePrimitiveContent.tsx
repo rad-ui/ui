@@ -27,6 +27,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
+    const hasInitializedRef = useRef(false);
     // Track presence for mounting/unmounting
     useEffect(() => {
         if (open || forceMount) {
@@ -48,6 +49,16 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         }
 
         if (!ref.current) return;
+
+        if (!hasInitializedRef.current) {
+            hasInitializedRef.current = true;
+            setHeight(open ? undefined : 0);
+
+            if (!open && !forceMount) {
+                setShouldRender(false);
+            }
+            return;
+        }
 
         if (transitionDuration === 0) {
             setHeight(open ? undefined : 0);

@@ -277,6 +277,39 @@ describe('Accordion Component', () => {
         expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
     });
 
+    test('does not collapse an initially open item during hydration', () => {
+        const { TextEncoder, TextDecoder } = require('util');
+        // @ts-ignore
+        global.TextEncoder = TextEncoder;
+        // @ts-ignore
+        global.TextDecoder = TextDecoder;
+        const { renderToString } = require('react-dom/server');
+        const { hydrateRoot } = require('react-dom/client');
+
+        const html = renderToString(<TestAccordion defaultValue={[0]} transitionDuration={300} />);
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+        let root: any;
+
+        act(() => {
+            root = hydrateRoot(
+                container,
+                <TestAccordion defaultValue={[0]} transitionDuration={300} />
+            );
+        });
+
+        try {
+            const content = screen.getByRole('region');
+            expect(content).toHaveAttribute('data-state', 'open');
+            expect(content.style.height).toBe('');
+        } finally {
+            root?.unmount();
+            container.parentNode?.removeChild(container);
+        }
+    });
+
     test('Radix-style non-collapsible single mode keeps panel open on second click', () => {
         render(
             <Accordion.Root>
