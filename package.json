@@ -450,8 +450,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.16",
-    "clsx": "^2.1.1",
-    "react-remove-scroll": "^2.7.2"
+    "clsx": "^2.1.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",
