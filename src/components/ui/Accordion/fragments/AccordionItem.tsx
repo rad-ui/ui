@@ -9,7 +9,7 @@ import Primitive from '~/core/primitives/Primitive';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 
 export type AccordionItemProps = React.ComponentPropsWithoutRef<'div'> & {
-    value?: number | string;
+    value: string;
     disabled?: boolean;
     asChild?: boolean;
 };
@@ -23,9 +23,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
         rootClass,
         activeItems,
         setActiveItems,
-        transitionDuration,
-        transitionTimingFunction,
-        openMultiple: isMultiple,
+        multiple: isMultiple,
         collapsible,
         disabled: rootDisabled,
         orientation
@@ -71,8 +69,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                 open={isOpen}
                 onOpenChange={handleOpenChange}
                 disabled={effectiveDisabled}
-                transitionDuration={transitionDuration}
-                transitionTimingFunction={transitionTimingFunction}
+                transitionDuration={0}
                 asChild
             >
                 <Primitive.div

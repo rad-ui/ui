@@ -66,13 +66,24 @@ const items = [
     }
 ];
 
+const longItems = Array.from({ length: 10 }, (_, index) => ({
+    title: `Section ${index + 1}`,
+    disabled: index === 4 || index === 6,
+    content: (
+        <div>
+            <p>{`Details for section ${index + 1}.`}</p>
+            <p>{'This item is part of a longer accordion list for interaction and disabled-state coverage.'}</p>
+        </div>
+    )
+}));
+
 // Create a sample Accordion using the composable API
 const AccordionExample = ({ ...args }) => {
     return (
         <div className="w-[600px] mx-auto mt-10">
             <Accordion.Root collapsible {...args}>
                 {items.map((item, index) => (
-                    <Accordion.Item value={index} key={index}>
+                    <Accordion.Item value={`${index}`} key={index}>
                         <Accordion.Header>
                             <Accordion.Trigger>
                                 {item.title}
@@ -89,36 +100,144 @@ const AccordionExample = ({ ...args }) => {
     );
 };
 
+const LongAccordionExample = ({ ...args }) => {
+    return (
+        <div className="w-[600px] mx-auto mt-10">
+            <Accordion.Root collapsible {...args}>
+                {longItems.map((item, index) => (
+                    <Accordion.Item value={`${index}`} key={index} disabled={item.disabled}>
+                        <Accordion.Header>
+                            <Accordion.Trigger>
+                                {item.title}
+                                <ChevronDown />
+                            </Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content>
+                            {item.content}
+                        </Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        </div>
+    );
+};
+
+const AnimatedAccordionExample = ({ ...args }) => {
+    return (
+        <div className="w-[600px] mx-auto mt-10">
+            <style>{`
+                .animated-accordion-trigger {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .animated-accordion-trigger svg {
+                    transition: transform 200ms ease;
+                }
+
+                .animated-accordion-trigger[data-state="open"] svg {
+                    transform: rotate(180deg);
+                }
+
+                .animated-accordion-content {
+                    overflow: hidden;
+                    height: auto !important;
+                    display: grid;
+                    grid-template-rows: 0fr;
+                    transition: grid-template-rows 200ms ease;
+                }
+
+                .animated-accordion-content > div {
+                    min-height: 0;
+                    transform-origin: top;
+                    opacity: 0;
+                    transform: translateY(-8px) scaleY(0.96);
+                    transition: opacity 200ms ease, transform 200ms ease;
+                }
+
+                .animated-accordion-content[data-state="open"] {
+                    grid-template-rows: 1fr;
+                }
+
+                .animated-accordion-content[data-state="open"] > div {
+                    opacity: 1;
+                    transform: translateY(0) scaleY(1);
+                }
+            `}</style>
+            <Accordion.Root collapsible {...args}>
+                {items.map((item, index) => (
+                    <Accordion.Item value={`${index}`} key={index}>
+                        <Accordion.Header>
+                            <Accordion.Trigger className="animated-accordion-trigger">
+                                {item.title}
+                                <ChevronDown />
+                            </Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content className="animated-accordion-content" forceMount>
+                            {item.content}
+                        </Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        </div>
+    );
+};
+
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All: Story = {
     render: () => <AccordionExample />
-};
-
-export const WithAnimation: Story = {
-    render: () => <AccordionExample transitionDuration={200} />
 };
 
 export const OpenMultiple: Story = {
     render: () => <AccordionExample type="multiple" />
 };
 
+export const WithAnimation: Story = {
+    render: () => <AnimatedAccordionExample />
+};
+
+export const LongListWithDisabledItems: Story = {
+    render: () => <LongAccordionExample />
+};
+
 export const WithDeafultValue: Story = {
-    render: () => <AccordionExample defaultValue={[2]} />
+    render: () => <AccordionExample defaultValue="2" />
 };
 
 export const ControlledValue: Story = {
     render: () => {
-        const [value, setValue] = React.useState<number[]>([]);
+        const [multipleValue, setMultipleValue] = React.useState<string[]>([]);
+        const [singleValue, setSingleValue] = React.useState<string | undefined>(undefined);
         const [multiple, setMultiple] = React.useState(false);
 
         return (
             <>
                 <Button onClick={() => setMultiple(!multiple)}>{`Toggle Open Multiple (${multiple ? 'on' : 'off'})`}</Button>
-                <Button onClick={() => setValue([])}>Close All</Button>
-                <Button onClick={() => setValue([1])}>Open 2</Button>
-                <Button onClick={() => setValue([0])}>Open 0</Button>
-                <Button onClick={() => setValue([0, 1])}>Open 0, 1</Button>
-                <AccordionExample value={value} onValueChange={setValue} openMultiple={multiple} />
+                <Button
+                    onClick={() => {
+                        setSingleValue(undefined);
+                        setMultipleValue([]);
+                    }}>Close All</Button>
+                <Button
+                    onClick={() => {
+                        setSingleValue('1');
+                        setMultipleValue(['1']);
+                    }}>Open 2</Button>
+                <Button
+                    onClick={() => {
+                        setSingleValue('0');
+                        setMultipleValue(['0']);
+                    }}>Open 0</Button>
+                <Button onClick={() => setMultipleValue(['0', '1'])}>Open 0, 1</Button>
+                {multiple
+                    ? (
+                        <AccordionExample value={multipleValue} onValueChange={setMultipleValue} type="multiple" />
+                    )
+                    : (
+                        <AccordionExample value={singleValue} onValueChange={setSingleValue} type="single" />
+                    )}
             </>
         );
     }

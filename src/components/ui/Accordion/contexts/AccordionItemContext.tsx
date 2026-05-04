@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 interface AccordionItemContextType {
-    itemValue: number | string;
+    itemValue: string;
     disabled: boolean;
     headerId: string;
 }

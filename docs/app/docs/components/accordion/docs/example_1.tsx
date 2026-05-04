@@ -4,7 +4,7 @@ import type { ComponentProps } from "react"
 import Accordion from "@radui/ui/Accordion"
 import { ChevronDown } from "lucide-react"
 
-// Mirrors `WithAnimation` in `src/components/ui/Accordion/stories/Accordion.stories.tsx`
+// Mirrors the default composable story in `src/components/ui/Accordion/stories/Accordion.stories.tsx`
 const items = [
   {
     title: "The Matrix (1999)",
@@ -61,9 +61,9 @@ type AccordionExampleProps = ComponentProps<typeof Accordion.Root>
 const AccordionExample = ({ ...args }: AccordionExampleProps) => {
   return (
     <div className="mx-auto mt-10 w-full max-w-[600px]">
-      <Accordion.Root collapsible transitionDuration={200} {...args}>
+      <Accordion.Root collapsible {...args}>
         {items.map((item, index) => (
-          <Accordion.Item key={index} value={index}>
+          <Accordion.Item key={index} value={`${index}`}>
             <Accordion.Header>
               <Accordion.Trigger>
                 {item.title}

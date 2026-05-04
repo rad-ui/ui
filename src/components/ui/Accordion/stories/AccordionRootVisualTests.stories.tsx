@@ -10,7 +10,7 @@ export default {
 
 const Template: StoryFn = () => <SandboxEditor>
     <Accordion.Root>
-        <Accordion.Item>
+        <Accordion.Item value="1">
             <Accordion.Trigger>
                 Hello
             </Accordion.Trigger>
@@ -31,7 +31,7 @@ const AsChildTemplate: StoryFn = () => {
         <SandboxEditor>
             <Accordion.Root asChild>
                 <span>
-                    <Accordion.Item>
+                    <Accordion.Item value="1">
                         <Accordion.Trigger>
                             Hello
                         </Accordion.Trigger>

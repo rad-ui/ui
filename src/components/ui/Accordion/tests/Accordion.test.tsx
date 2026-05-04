@@ -19,9 +19,9 @@ const testItems = [
 // Create a test accordion component using the composable pattern
 const TestAccordion = (props: Partial<AccordionRootProps>) => {
     return (
-        <Accordion.Root collapsible {...props}>
+        <Accordion.Root collapsible {...props as AccordionRootProps}>
             {testItems.map((item, index) => (
-                <Accordion.Item value={index} key={index}>
+                <Accordion.Item value={`${index}`} key={index}>
                     <Accordion.Header>
                         <Accordion.Trigger>
                             {item.title}
@@ -52,8 +52,8 @@ describe('Accordion Component', () => {
 
     test('does not generate classes without a theme classNamespace', () => {
         render(
-            <Accordion.Root data-testid="accordion-root" defaultValue={[0]}>
-                <Accordion.Item data-testid="accordion-item" value={0}>
+            <Accordion.Root data-testid="accordion-root" defaultValue="0">
+                <Accordion.Item data-testid="accordion-item" value="0">
                     <Accordion.Header data-testid="accordion-header">
                         <Accordion.Trigger data-testid="accordion-trigger">Item 1</Accordion.Trigger>
                     </Accordion.Header>
@@ -77,8 +77,8 @@ describe('Accordion Component', () => {
 
         render(
             <Theme classNamespace="acme">
-                <Accordion.Root data-testid="accordion-root" defaultValue={[0]}>
-                    <Accordion.Item data-testid="accordion-item" value={0}>
+                <Accordion.Root data-testid="accordion-root" defaultValue="0">
+                    <Accordion.Item data-testid="accordion-item" value="0">
                         <Accordion.Header data-testid="accordion-header">
                             <Accordion.Trigger data-testid="accordion-trigger">Item 1</Accordion.Trigger>
                         </Accordion.Header>
@@ -116,8 +116,8 @@ describe('Accordion Component', () => {
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
         render(
-            <Accordion.Root ref={rootRef} defaultValue={[0]}>
-                <Accordion.Item value={0} ref={itemRef}>
+            <Accordion.Root ref={rootRef} defaultValue="0">
+                <Accordion.Item value="0" ref={itemRef}>
                     <Accordion.Header ref={headerRef}>
                         <Accordion.Trigger ref={triggerRef}>Item 1</Accordion.Trigger>
                     </Accordion.Header>
@@ -151,7 +151,7 @@ describe('Accordion Component', () => {
         const handleClick = jest.fn();
         render(
             <Accordion.Root collapsible>
-                <Accordion.Item value={0}>
+                <Accordion.Item value="0">
                     <Accordion.Header>
                         <Accordion.Trigger onClick={handleClick}>
                             Item 1
@@ -230,14 +230,14 @@ describe('Accordion Component', () => {
 
     test('controlled mode responds to external value changes', () => {
         const TestWithControls = () => {
-            const [value, setValue] = React.useState<(number | string)[]>([]);
+            const [value, setValue] = React.useState<string[]>([]);
 
             return (
                 <>
                     <button onClick={() => setValue([])}>Close All</button>
-                    <button onClick={() => setValue([1])}>Open 2</button>
-                    <button onClick={() => setValue([0, 2])}>Open 1 & 3</button>
-                    <TestAccordion value={value} onValueChange={setValue} openMultiple />
+                    <button onClick={() => setValue(['1'])}>Open 2</button>
+                    <button onClick={() => setValue(['0', '2'])}>Open 1 & 3</button>
+                    <TestAccordion value={value} onValueChange={setValue} type="multiple" />
                 </>
             );
         };
@@ -269,7 +269,7 @@ describe('Accordion Component', () => {
     });
 
     test('works with defaultValue to show initial item', () => {
-        render(<TestAccordion defaultValue={[2]} />);
+        render(<TestAccordion defaultValue="2" />);
 
         // Item 3 content should be visible initially
         expect(screen.getByText('Content 3')).toBeInTheDocument();
@@ -314,7 +314,7 @@ describe('Accordion Component', () => {
         render(
             <Accordion.Root>
                 {testItems.map((item, index) => (
-                    <Accordion.Item value={index} key={index}>
+                    <Accordion.Item value={`${index}`} key={index}>
                         <Accordion.Header>
                             <Accordion.Trigger>{item.title}</Accordion.Trigger>
                         </Accordion.Header>
@@ -332,8 +332,8 @@ describe('Accordion Component', () => {
 
     test('Escape on trigger closes panel and syncs aria-expanded (collapsible)', () => {
         render(
-            <Accordion.Root collapsible defaultValue={[0]}>
-                <Accordion.Item value={0}>
+            <Accordion.Root collapsible defaultValue="0">
+                <Accordion.Item value="0">
                     <Accordion.Header>
                         <Accordion.Trigger>Item 1</Accordion.Trigger>
                     </Accordion.Header>

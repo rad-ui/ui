@@ -67,30 +67,6 @@ const data = {
        },
        {
         prop : {
-            name : "transitionDuration",
-            info_tooltips : "Transition duration in milliseconds for item open and close animations."
-        },
-        type : "number",
-        default : "0",
-       },
-       {
-        prop : {
-            name : "transitionTimingFunction",
-            info_tooltips : "CSS timing function used by accordion transitions."
-        },
-        type : "string",
-        default : "linear",
-       },
-       {
-        prop : {
-            name : "openMultiple",
-            info_tooltips : "Deprecated alias for allowing multiple items to be open at once. Prefer type='multiple'."
-        },
-        type : "boolean",
-        default : "false",
-       },
-       {
-        prop : {
             name : "type",
             info_tooltips : "Selection mode for the accordion."
         },
@@ -109,23 +85,23 @@ const data = {
        {
         prop : {
             name : "value",
-            info_tooltips : "Controlled open item values."
+            info_tooltips : "Controlled open item value for single accordions, or an array of item values when type='multiple'."
         },
-        type : "(string | number)[]",
+        type : "string | string[]",
         default : "--",
        },
        {
         prop : {
             name : "defaultValue",
-            info_tooltips : "Initial open item values for uncontrolled usage."
+            info_tooltips : "Initial open item value for single accordions, or an array of item values when type='multiple'."
         },
-        type : "(string | number)[]",
-        default : "[]",
+        type : "string | string[]",
+        default : "--",
        },
        {
         prop : {
             name : "onValueChange",
-            info_tooltips : "Called whenever the set of open item values changes."
+            info_tooltips : "Called with the open item value in single mode, or an array of open item values in multiple mode."
         },
         type : "function",
         default : "--",
