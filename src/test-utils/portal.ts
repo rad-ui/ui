@@ -51,9 +51,11 @@ export function assertFocusReturn(element: HTMLElement) {
 }
 
 export function assertScrollLock() {
-    expect(document.body.getAttribute('data-scroll-locked')).toBe('1');
+    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.paddingRight).not.toBe('');
 }
 
 export function assertScrollUnlock() {
-    expect(document.body.getAttribute('data-scroll-locked')).toBeNull();
+    expect(document.body.style.overflow).toBe('');
+    expect(document.body.style.paddingRight).toBe('');
 }
