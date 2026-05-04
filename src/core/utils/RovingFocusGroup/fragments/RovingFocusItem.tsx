@@ -1,6 +1,7 @@
 import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import ButtonPrimitive from '~/core/primitives/Button';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
@@ -196,14 +197,14 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 
         // Always prevent default for arrow keys to stop scrolling
         switch (event.key) {
-        case 'ArrowUp':
+        case KEYBOARD_KEYS.ARROW_UP:
             event.preventDefault();
             if (orientation === 'vertical' || orientation === 'both') {
                 focusPreviousItem();
             }
             break;
 
-        case 'ArrowLeft':
+        case KEYBOARD_KEYS.ARROW_LEFT:
             event.preventDefault();
             if (handleLeftKeyDown) {
                 handleLeftKeyDown();
@@ -217,14 +218,14 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
             }
             break;
 
-        case 'ArrowDown':
+        case KEYBOARD_KEYS.ARROW_DOWN:
             event.preventDefault();
             if (orientation === 'vertical' || orientation === 'both') {
                 focusNextItem();
             }
             break;
 
-        case 'ArrowRight':
+        case KEYBOARD_KEYS.ARROW_RIGHT:
             event.preventDefault();
             if (handleRightKeyDown) {
                 handleRightKeyDown();
@@ -238,17 +239,17 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
             }
             break;
 
-        case 'Home':
+        case KEYBOARD_KEYS.HOME:
             event.preventDefault();
             focusFirstItem();
             break;
 
-        case 'End':
+        case KEYBOARD_KEYS.END:
             event.preventDefault();
             focusLastItem();
             break;
 
-        case 'Tab':
+        case KEYBOARD_KEYS.TAB:
             // Tab key is handled by the browser for normal tab navigation
             break;
 

@@ -1,6 +1,7 @@
 'use client';
 import React, { forwardRef, useContext, useRef, useState, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
+import { isActivationKey } from '~/core/utils/keyboard';
 import { DrawerContext } from '../context/DrawerContext';
 import { DialogPrimitiveContext } from '~/core/primitives/Dialog/context/DialogPrimitiveContext';
 
@@ -146,7 +147,7 @@ const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>(({
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerCancel}
             onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (isActivationKey(e.key)) {
                     e.preventDefault();
                     markIntentionalClose();
                     handleOpenChange(false);

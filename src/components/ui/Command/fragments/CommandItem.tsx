@@ -4,6 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import { composeRefs } from '~/core/utils/mergeProps';
+import { isActivationKey } from '~/core/utils/keyboard';
 import { useCommandContext } from '../context/CommandContext';
 import { useCommandGroupContext } from '../context/CommandGroupContext';
 
@@ -102,7 +103,7 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
                     return;
                 }
 
-                if (event.key === 'Enter' || event.key === ' ') {
+                if (isActivationKey(event.key)) {
                     event.preventDefault();
                     onSelect?.(inferredValue);
                 }

@@ -5,6 +5,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import clsx from 'clsx';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { TreeContext } from '../contexts/TreeContext';
 
 export type TreeItemElement = ElementRef<typeof ButtonPrimitive>;
@@ -98,7 +99,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                     onClick={handleClick}
                     onKeyDownCapture={(e: React.KeyboardEvent) => {
                         // Prevent Enter from triggering click/expand; expansion is only via ArrowRight
-                        if (e.key === 'Enter') {
+                        if (e.key === KEYBOARD_KEYS.ENTER) {
                             // Select via parent handler
                             if (onToggleSelect) {
                                 onToggleSelect(id, item);
