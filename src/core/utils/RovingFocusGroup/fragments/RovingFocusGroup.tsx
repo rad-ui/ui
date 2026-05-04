@@ -44,6 +44,13 @@ const RovingFocusGroup = ({
     // Ref registry for direct access to item elements
     const itemRefsMap = useRef(new Map<string, React.RefObject<HTMLElement>>());
 
+    const findFirstEnabledItemId = React.useCallback((itemIds: string[]) => {
+        return itemIds.find((itemId) => {
+            const itemRef = itemRefsMap.current.get(itemId);
+            return itemRef?.current?.getAttribute('data-child-disabled') !== 'true';
+        }) ?? null;
+    }, []);
+
     const SHOULD_RECOMPUTE_FOCUS_ITEMS = mode === 'tree';
     
     /**
@@ -127,12 +134,26 @@ const RovingFocusGroup = ({
         });
     }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
 
-    // Set initial focus to the first item when items are added
+    // Keep the roving entry point on an enabled item so the group remains tabbable.
     useEffect(() => {
-        if (!focusedItemId && focusItems.length > 0) {
-            setFocusedItemId(focusItems[0]);
+        if (focusItems.length === 0) {
+            if (focusedItemId !== null) {
+                setFocusedItemId(null);
+            }
+            return;
         }
-    }, [focusItems, focusedItemId]);
+
+        const focusedItemRef = focusedItemId ? itemRefsMap.current.get(focusedItemId) : null;
+        const focusedItemIsEnabled = focusedItemId != null
+            && focusedItemRef?.current?.getAttribute('data-child-disabled') !== 'true';
+
+        if (!focusedItemIsEnabled) {
+            const firstEnabledItemId = findFirstEnabledItemId(focusItems);
+            if (firstEnabledItemId !== focusedItemId) {
+                setFocusedItemId(firstEnabledItemId);
+            }
+        }
+    }, [findFirstEnabledItemId, focusItems, focusedItemId, setFocusedItemId]);
 
     const sendValues = {
         focusedItemId,
