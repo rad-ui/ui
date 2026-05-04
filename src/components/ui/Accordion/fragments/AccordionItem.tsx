@@ -69,7 +69,8 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                 open={isOpen}
                 onOpenChange={handleOpenChange}
                 disabled={effectiveDisabled}
-                transitionDuration={0}
+                transitionDuration={200}
+                transitionTimingFunction="ease"
                 asChild
             >
                 <Primitive.div

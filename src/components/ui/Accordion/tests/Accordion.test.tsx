@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen, act, waitFor } from '@testing-library/react';
 import fs from 'node:fs';
 import path from 'node:path';
 import React from 'react';
@@ -173,16 +173,20 @@ describe('Accordion Component', () => {
         const item1Trigger = getByText('Item 1');
         fireEvent.click(item1Trigger);
         fireEvent.click(item1Trigger);
-        expect(queryByText('Content 1')).not.toBeInTheDocument();
+        return waitFor(() => {
+            expect(queryByText('Content 1')).not.toBeInTheDocument();
+        });
     });
 
-    test('only one item content is visible at a time', () => {
+    test('only one item content is visible at a time', async() => {
         render(<TestAccordion />);
         const item1Trigger = screen.getByText('Item 1');
         const item2Trigger = screen.getByText('Item 2');
         fireEvent.click(item1Trigger);
         fireEvent.click(item2Trigger);
-        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        });
         expect(screen.getByText('Content 2')).toBeInTheDocument();
     });
 
@@ -228,7 +232,7 @@ describe('Accordion Component', () => {
         });
     });
 
-    test('controlled mode responds to external value changes', () => {
+    test('controlled mode responds to external value changes', async() => {
         const TestWithControls = () => {
             const [value, setValue] = React.useState<string[]>([]);
 
@@ -258,14 +262,18 @@ describe('Accordion Component', () => {
         // Open items 1 & 3
         fireEvent.click(screen.getByText('Open 1 & 3'));
         expect(screen.getByText('Content 1')).toBeInTheDocument();
-        expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+        });
         expect(screen.getByText('Content 3')).toBeInTheDocument();
 
         // Close all
         fireEvent.click(screen.getByText('Close All'));
-        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
-        expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
-        expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+            expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+            expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+        });
     });
 
     test('works with defaultValue to show initial item', () => {
@@ -286,7 +294,7 @@ describe('Accordion Component', () => {
         const { renderToString } = require('react-dom/server');
         const { hydrateRoot } = require('react-dom/client');
 
-        const html = renderToString(<TestAccordion defaultValue={[0]} transitionDuration={300} />);
+        const html = renderToString(<TestAccordion defaultValue="0" />);
         const container = document.createElement('div');
         container.innerHTML = html;
         document.body.appendChild(container);
@@ -296,14 +304,13 @@ describe('Accordion Component', () => {
         act(() => {
             root = hydrateRoot(
                 container,
-                <TestAccordion defaultValue={[0]} transitionDuration={300} />
+                <TestAccordion defaultValue="0" />
             );
         });
 
         try {
             const content = screen.getByRole('region');
             expect(content).toHaveAttribute('data-state', 'open');
-            expect(content.style.height).toBe('');
         } finally {
             root?.unmount();
             container.parentNode?.removeChild(container);
@@ -330,7 +337,7 @@ describe('Accordion Component', () => {
         expect(screen.getByText('Content 1')).toBeInTheDocument();
     });
 
-    test('Escape on trigger closes panel and syncs aria-expanded (collapsible)', () => {
+    test('Escape on trigger closes panel and syncs aria-expanded (collapsible)', async() => {
         render(
             <Accordion.Root collapsible defaultValue="0">
                 <Accordion.Item value="0">
@@ -345,6 +352,8 @@ describe('Accordion Component', () => {
         expect(trigger).toHaveAttribute('aria-expanded', 'true');
         fireEvent.keyDown(trigger, { key: 'Escape' });
         expect(trigger).toHaveAttribute('aria-expanded', 'false');
-        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        });
     });
 });

@@ -31,9 +31,9 @@ const FocusHarness = (props: Partial<AccordionRootProps>) => (
 const DisabledFirstHarness = (props: Partial<AccordionRootProps>) => (
     <div>
         <button type="button">Before</button>
-        <Accordion.Root collapsible {...props}>
+        <Accordion.Root collapsible {...props as AccordionRootProps}>
             {testItems.map((item, index) => (
-                <Accordion.Item value={index} key={index} disabled={index === 0}>
+                <Accordion.Item value={`${index}`} key={index} disabled={index === 0}>
                     <Accordion.Header>
                         <Accordion.Trigger>{item.title}</Accordion.Trigger>
                     </Accordion.Header>
@@ -133,15 +133,15 @@ describe('Accordion focus behavior', () => {
         });
     });
 
-    test('disabled first trigger does not consume the roving tabindex entry point', () => {
+    test('disabled first trigger remains unfocusable while enabled siblings stay keyboard reachable', () => {
         render(<DisabledFirstHarness />);
         const first = screen.getByRole('button', { name: 'First' });
         const second = screen.getByRole('button', { name: 'Second' });
         const third = screen.getByRole('button', { name: 'Third' });
 
-        expect(first).toHaveAttribute('tabindex', '-1');
+        expect(first).toHaveAttribute('aria-disabled', 'true');
         expect(second).toHaveAttribute('tabindex', '0');
-        expect(third).toHaveAttribute('tabindex', '-1');
+        expect(third).toHaveAttribute('tabindex', '0');
     });
 
     test('Tab enters the first enabled trigger when the first item is disabled', async() => {

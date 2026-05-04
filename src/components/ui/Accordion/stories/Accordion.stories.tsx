@@ -122,69 +122,6 @@ const LongAccordionExample = ({ ...args }) => {
     );
 };
 
-const AnimatedAccordionExample = ({ ...args }) => {
-    return (
-        <div className="w-[600px] mx-auto mt-10">
-            <style>{`
-                .animated-accordion-trigger {
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-
-                .animated-accordion-trigger svg {
-                    transition: transform 200ms ease;
-                }
-
-                .animated-accordion-trigger[data-state="open"] svg {
-                    transform: rotate(180deg);
-                }
-
-                .animated-accordion-content {
-                    overflow: hidden;
-                    height: auto !important;
-                    display: grid;
-                    grid-template-rows: 0fr;
-                    transition: grid-template-rows 200ms ease;
-                }
-
-                .animated-accordion-content > div {
-                    min-height: 0;
-                    transform-origin: top;
-                    opacity: 0;
-                    transform: translateY(-8px) scaleY(0.96);
-                    transition: opacity 200ms ease, transform 200ms ease;
-                }
-
-                .animated-accordion-content[data-state="open"] {
-                    grid-template-rows: 1fr;
-                }
-
-                .animated-accordion-content[data-state="open"] > div {
-                    opacity: 1;
-                    transform: translateY(0) scaleY(1);
-                }
-            `}</style>
-            <Accordion.Root collapsible {...args}>
-                {items.map((item, index) => (
-                    <Accordion.Item value={`${index}`} key={index}>
-                        <Accordion.Header>
-                            <Accordion.Trigger className="animated-accordion-trigger">
-                                {item.title}
-                                <ChevronDown />
-                            </Accordion.Trigger>
-                        </Accordion.Header>
-                        <Accordion.Content className="animated-accordion-content" forceMount>
-                            {item.content}
-                        </Accordion.Content>
-                    </Accordion.Item>
-                ))}
-            </Accordion.Root>
-        </div>
-    );
-};
-
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const All: Story = {
     render: () => <AccordionExample />
@@ -192,10 +129,6 @@ export const All: Story = {
 
 export const OpenMultiple: Story = {
     render: () => <AccordionExample type="multiple" />
-};
-
-export const WithAnimation: Story = {
-    render: () => <AnimatedAccordionExample />
 };
 
 export const LongListWithDisabledItems: Story = {

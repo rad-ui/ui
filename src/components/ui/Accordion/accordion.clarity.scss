@@ -1,8 +1,8 @@
 .rad-ui-accordion-root {
   width: 100%;
 
-  .rad-ui-accordion-item {
-    border-bottom: 1px solid var(--rad-ui-border-soft);
+    .rad-ui-accordion-item {
+      border-bottom: 1px solid var(--rad-ui-border-soft);
 
     &[data-disabled] {
       opacity: 0.5;
@@ -14,13 +14,13 @@
       margin: 0;
     }
 
-    .rad-ui-accordion-trigger {
+      .rad-ui-accordion-trigger {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: var(--rad-ui-spacing-4);
-      padding: 1rem 0;
+      padding: 1rem 4px;
       font-size: 0.9375rem;
       font-weight: 600;
       line-height: 1.4;
@@ -49,6 +49,7 @@
         width: 1.125rem;
         flex-shrink: 0;
         color: var(--rad-ui-text-secondary);
+        transition: transform 200ms ease;
       }
     }
 
@@ -69,6 +70,14 @@
 
       .rad-ui-accordion-content-inner {
         padding-bottom: 1rem;
+
+        > :first-child {
+          margin-top: 0;
+        }
+
+        > :last-child {
+          margin-bottom: 0;
+        }
       }
     }
   }
