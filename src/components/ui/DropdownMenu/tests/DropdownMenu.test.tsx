@@ -89,4 +89,24 @@ describe('DropdownMenu', () => {
         assertFocusReturn(getByText('Menu'));
         cleanup();
     });
+
+    it('supports a custom portal container', async() => {
+        const user = userEvent.setup();
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+
+        render(
+            <DropdownMenu.Root>
+                <DropdownMenu.Trigger>Menu</DropdownMenu.Trigger>
+                <DropdownMenu.Portal container={container}>
+                    <DropdownMenu.Content>
+                        <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+            </DropdownMenu.Root>
+        );
+
+        await user.click(screen.getByText('Menu'));
+        expect(container).toContainElement(screen.getByText('Profile'));
+    });
 });
