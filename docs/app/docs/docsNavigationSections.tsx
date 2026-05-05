@@ -132,6 +132,10 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/contributing-to-rad-ui"
             },
             {
+                title:"Naming Conventions",
+                path:"/docs/contributing/naming-conventions"
+            },
+            {
                 title:"Security & Dependency SLA",
                 path:"/docs/contributing/security-dependency-sla"
             },
