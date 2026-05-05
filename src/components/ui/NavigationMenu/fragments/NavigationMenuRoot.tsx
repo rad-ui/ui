@@ -15,6 +15,8 @@ export interface NavigationMenuRootProps extends React.ComponentPropsWithoutRef<
     defaultValue?: string;
     onValueChange?: (value: string) => void;
     customRootClass?: string;
+    loop?: boolean;
+    contentLoop?: boolean;
 }
 
 const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, NavigationMenuRootProps>(
@@ -25,6 +27,8 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
             defaultValue = '',
             onValueChange,
             customRootClass,
+            loop = true,
+            contentLoop = true,
             className,
             ...props
         },
@@ -35,8 +39,8 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
 
         return (
             <div ref={ref} {...props}>
-                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass }}>
-                    <RovingFocusGroup.Root>
+                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop }}>
+                    <RovingFocusGroup.Root loop={loop}>
                         <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
                             {children}
                         </RovingFocusGroup.Group>

@@ -19,6 +19,7 @@ export type TabRootProps = React.ComponentPropsWithoutRef<'div'> & {
     onValueChange?: (value: string) => void;
     orientation?: 'horizontal' | 'vertical';
     dir?: 'ltr' | 'rtl';
+    loop?: boolean;
     activationMode?: 'automatic' | 'manual';
     asChild?: boolean;
 };
@@ -33,6 +34,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     color,
     orientation = 'horizontal',
     dir = 'ltr',
+    loop = true,
     activationMode = 'automatic',
     asChild = false,
     ...props
@@ -73,7 +75,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root orientation={orientation} loop dir={dir} asChild>
+            <RovingFocusGroup.Root orientation={orientation} loop={loop} dir={dir} asChild>
                 <Primitive.div
                     ref={forwardedRef}
                     className={clsx(rootClass, className)}

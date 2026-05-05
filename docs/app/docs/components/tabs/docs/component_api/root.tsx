@@ -92,6 +92,14 @@ const data = {
        },
        {
         prop : {
+            name : "loop",
+            info_tooltips : "Whether arrow key navigation wraps from the last trigger to the first, and from the first to the last."
+        },
+        type : "boolean",
+        default : "true",
+       },
+       {
+        prop : {
             name : "activationMode",
             info_tooltips : "Whether focusing a trigger activates it automatically or only on click/enter/space."
         },
