@@ -10,9 +10,10 @@ const COMPONENT_NAME = 'Disclosure';
 export type DisclosureRootProps = React.ComponentPropsWithoutRef<'div'> & {
      customRootClass?: string;
      defaultOpen?: number | null;
+     loop?: boolean;
 };
 
-const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, ...props }, forwardedRef) => {
+const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, loop = true, ...props }, forwardedRef) => {
     const disclosureRef = useRef<React.ElementRef<'div'> | null>(null);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
@@ -37,7 +38,7 @@ const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootP
                 disclosureRef
 
             }}>
-            <RovingFocusGroup.Root>
+            <RovingFocusGroup.Root loop={loop}>
                 <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`)}>
                     <div
                         {...props}
