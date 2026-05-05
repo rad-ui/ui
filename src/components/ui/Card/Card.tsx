@@ -7,8 +7,9 @@ import CardFooter from './fragments/CardFooter';
 import CardHeader from './fragments/CardHeader';
 import CardTitle from './fragments/CardTitle';
 import clsx from 'clsx';
+import Primitive from '~/core/primitives/Primitive';
 
-export type CardProps = React.ComponentPropsWithoutRef<'div'> & {
+export type CardProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
     variant?: string;
     size?: string;

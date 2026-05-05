@@ -3,9 +3,10 @@
 import React, { useContext, useRef, useCallback, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
+import Primitive from '~/core/primitives/Primitive';
 
-type ScrollAreaThumbElement = ElementRef<'div'>;
-export type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
+type ScrollAreaThumbElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaThumbProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     orientation?: 'horizontal' | 'vertical';
 };
 
@@ -91,14 +92,14 @@ const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>
     };
 
     return (
-        <div
+        <Primitive.div
             ref={setRef}
             className={clsx(rootClass && `${rootClass}-thumb`, className)}
             onMouseDown={startDrag}
             {...props}
         >
             {children}
-        </div>
+        </Primitive.div>
     );
 });
 

@@ -82,6 +82,38 @@ describe('AvatarGroup', () => {
         expect(fallbackRef.current).not.toBeNull();
     });
 
+    test('supports asChild across avatar group parts', () => {
+        const rootRef = React.createRef();
+        const itemRef = React.createRef();
+        const avatarRef = React.createRef();
+        const fallbackRef = React.createRef();
+
+        render(
+            <AvatarGroup.Root asChild customRootClass="acme" ref={rootRef}>
+                <section data-testid="root">
+                    <AvatarGroup.Item asChild ref={itemRef}>
+                        <button data-testid="item" type="button">
+                            <AvatarGroup.Avatar asChild ref={avatarRef} src='https://i.pravatar.cc/300?img=1' alt='Avatar child'>
+                                <img data-testid="avatar" />
+                            </AvatarGroup.Avatar>
+                            <AvatarGroup.Fallback asChild ref={fallbackRef}>
+                                <span data-testid="fallback">A</span>
+                            </AvatarGroup.Fallback>
+                        </button>
+                    </AvatarGroup.Item>
+                </section>
+            </AvatarGroup.Root>
+        );
+
+        expect(screen.getByTestId('root')).toHaveClass('acme-avatar-group');
+        expect(screen.getByTestId('item')).toHaveClass('acme-avatar-group-item');
+        expect(screen.getByTestId('fallback')).toHaveClass('acme-avatar-group-fallback');
+        expect(rootRef.current.tagName).toBe('SECTION');
+        expect(itemRef.current.tagName).toBe('BUTTON');
+        expect(avatarRef.current.tagName).toBe('IMG');
+        expect(fallbackRef.current.tagName).toBe('SPAN');
+    });
+
     // test('renders color for fallback when src is not provided', async() => {
     //     render(<AvatarGroup avatars={avatarsWithFallback} color='blue'/>);
     //     expect(screen.getByText('A')).toHaveAttribute('data-color', 'blue');

@@ -55,6 +55,14 @@ const data = {
         },
         type : "React.ReactNode",
         default : "--",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Merges root props onto the immediate child element instead of rendering a default div."
+        },
+        type : "boolean",
+        default : "false",
        }
     ]
 }

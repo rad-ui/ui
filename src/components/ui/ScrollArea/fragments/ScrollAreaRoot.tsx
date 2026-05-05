@@ -5,11 +5,12 @@ import clsx from 'clsx';
 
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
+import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'ScrollArea';
 
-type ScrollAreaRootElement = ElementRef<'div'>;
-export type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
+type ScrollAreaRootElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaRootProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
     type?: 'auto' | 'always' | 'scroll' | 'hover';
 };
@@ -219,7 +220,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 type,
                 rootRef: internalRootRef
             }}>
-            <div
+            <Primitive.div
                 ref={mergedRootRef}
                 className={clsx(rootClass, className)}
                 data-scrollbar-x={String(overflow.x || type === 'always')}
@@ -227,7 +228,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 {...props}
             >
                 {children}
-            </div>
+            </Primitive.div>
         </ScrollAreaContext.Provider>
     );
 });

@@ -85,4 +85,45 @@ describe('ScrollArea', () => {
         expect(screen.getByTestId('thumb')).toHaveClass('acme-scroll-area-thumb');
         expect(screen.getByTestId('corner')).toHaveClass('acme-scroll-area-corner');
     });
+
+    test('supports asChild across scroll area parts', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const viewportRef = React.createRef<HTMLDivElement>();
+        const scrollbarRef = React.createRef<HTMLDivElement>();
+        const thumbRef = React.createRef<HTMLDivElement>();
+        const cornerRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <ScrollArea.Root asChild customRootClass="acme" ref={rootRef} type="always">
+                <section data-testid="root">
+                    <ScrollArea.Viewport asChild ref={viewportRef}>
+                        <div data-testid="viewport">
+                            <div>content</div>
+                        </div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar asChild ref={scrollbarRef} orientation="vertical">
+                        <div data-testid="scrollbar">
+                            <ScrollArea.Thumb asChild ref={thumbRef}>
+                                <div data-testid="thumb" />
+                            </ScrollArea.Thumb>
+                        </div>
+                    </ScrollArea.Scrollbar>
+                    <ScrollArea.Corner asChild ref={cornerRef}>
+                        <div data-testid="corner" />
+                    </ScrollArea.Corner>
+                </section>
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('root')).toHaveClass('acme-scroll-area');
+        expect(screen.getByTestId('viewport')).toHaveClass('acme-scroll-area-viewport');
+        expect(screen.getByTestId('scrollbar')).toHaveClass('acme-scroll-area-scrollbar');
+        expect(screen.getByTestId('thumb')).toHaveClass('acme-scroll-area-thumb');
+        expect(screen.getByTestId('corner')).toHaveClass('acme-scroll-area-corner');
+        expect(rootRef.current?.tagName).toBe('SECTION');
+        expect(viewportRef.current?.tagName).toBe('DIV');
+        expect(scrollbarRef.current?.tagName).toBe('DIV');
+        expect(thumbRef.current?.tagName).toBe('DIV');
+        expect(cornerRef.current?.tagName).toBe('DIV');
+    });
 });
