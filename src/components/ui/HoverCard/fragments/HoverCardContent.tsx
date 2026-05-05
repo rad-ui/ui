@@ -22,13 +22,15 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     } = useContext(HoverCardContext);
 
     useEffect(() => {
+        if (!isOpen) return;
+
         const handleScroll = () => closeWithoutDelay();
         window.addEventListener('scroll', handleScroll);
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [closeWithoutDelay]);
+    }, [closeWithoutDelay, isOpen]);
 
     const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, ref]);
     const dataAttributes = createDataAttributes('hover-card', { size });
