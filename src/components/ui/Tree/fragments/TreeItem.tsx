@@ -5,6 +5,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import clsx from 'clsx';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { TreeContext } from '../contexts/TreeContext';
 
 export type TreeItemElement = ElementRef<typeof ButtonPrimitive>;
@@ -94,11 +95,11 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
             <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse} role="treeitem">
                 <ButtonPrimitive
                     ref={thisRef}
-                    className={clsx(`${rootClass}-item`, className)}
+                    className={clsx(rootClass && `${rootClass}-item`, className)}
                     onClick={handleClick}
                     onKeyDownCapture={(e: React.KeyboardEvent) => {
                         // Prevent Enter from triggering click/expand; expansion is only via ArrowRight
-                        if (e.key === 'Enter') {
+                        if (e.key === KEYBOARD_KEYS.ENTER) {
                             // Select via parent handler
                             if (onToggleSelect) {
                                 onToggleSelect(id, item);
@@ -118,7 +119,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                     data-level={level}
                     {...props}
                 >
-                    <span className={`${rootClass}-item-chevron`} aria-hidden>
+                    <span className={rootClass ? `${rootClass}-item-chevron` : undefined} aria-hidden>
                         {hasChildren ? (
                             <svg
                                 width="12"
@@ -138,12 +139,12 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                             </svg>
                         ) : null}
                     </span>
-                    <span className={`${rootClass}-item-label`}>{children}</span>
+                    <span className={rootClass ? `${rootClass}-item-label` : undefined}>{children}</span>
                 </ButtonPrimitive>
             </RovingFocusGroup.Item>
 
             {isToggled && item.items && (
-                <div className={`${rootClass}-branch`} role="group">
+                <div className={rootClass ? `${rootClass}-branch` : undefined} role="group">
                     {item.items.map((subItem: any, index: number) => {
                         const nextLevel = level + 1;
                         const childIsSelected = getIsSelected ? getIsSelected(subItem) : false;

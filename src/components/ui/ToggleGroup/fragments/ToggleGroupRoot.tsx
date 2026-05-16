@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import useControllableState from '~/core/hooks/useControllableState';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -58,7 +58,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     children,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     // Use controllable state for value management
     const [activeToggles, setActiveToggles] = useControllableState(
@@ -79,7 +79,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
+        data_attributes['data-color'] = color;
     }
 
     if (disabled) {

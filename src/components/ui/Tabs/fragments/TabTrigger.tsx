@@ -63,7 +63,7 @@ const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>
                     ref={composedRef}
                     onClick={handleClick}
                     className={clsx(
-                        `${rootClass}-trigger`,
+                        rootClass && `${rootClass}-trigger`,
                         isActive ? 'active' : '',
                         disabled ? 'disabled' : '',
                         className

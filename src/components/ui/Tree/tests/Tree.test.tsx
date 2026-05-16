@@ -49,6 +49,33 @@ describe('Tree', () => {
         expect(screen.getByText('Child')).toBeInTheDocument();
     });
 
+    test('loop={false} stops arrow navigation at tree edges', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Tree.Root aria-label='Files' loop={false}>
+                <Tree.Item item={{ label: 'Item 1' }}>Item 1</Tree.Item>
+                <Tree.Item item={{ label: 'Item 2' }}>Item 2</Tree.Item>
+                <Tree.Item item={{ label: 'Item 3' }}>Item 3</Tree.Item>
+            </Tree.Root>
+        );
+
+        const item1 = screen.getByRole('treeitem', { name: 'Item 1' });
+        const item3 = screen.getByRole('treeitem', { name: 'Item 3' });
+
+        await user.tab();
+        expect(item1).toHaveFocus();
+
+        await user.keyboard('{ArrowUp}');
+        expect(item1).toHaveFocus();
+
+        await user.keyboard('{ArrowDown}{ArrowDown}');
+        expect(item3).toHaveFocus();
+
+        await user.keyboard('{ArrowDown}');
+        expect(item3).toHaveFocus();
+    });
+
     test('renders without console errors or warnings', () => {
         const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
         const consoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});

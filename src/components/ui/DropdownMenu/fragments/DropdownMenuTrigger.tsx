@@ -17,7 +17,7 @@ const DropdownMenuTrigger = forwardRef<DropdownMenuTriggerElement, DropdownMenuT
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-trigger`, className)} {...props}>
+        <MenuPrimitive.Trigger ref={ref} className={clsx(rootClass && `${rootClass}-trigger`, className)} {...props}>
             {children}
         </MenuPrimitive.Trigger>
     );

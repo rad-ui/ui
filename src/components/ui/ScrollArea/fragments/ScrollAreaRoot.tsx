@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 
 const COMPONENT_NAME = 'ScrollArea';
@@ -21,7 +21,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     type = 'hover',
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const internalRootRef = useRef<HTMLDivElement>(null);
     const scrollYThumbRef = useRef<HTMLDivElement>(null);
     const scrollXThumbRef = useRef<HTMLDivElement>(null);

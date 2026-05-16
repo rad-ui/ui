@@ -16,7 +16,7 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
             if (Object.hasOwnProperty.call(codeUsage, key)) {
                 let language = key
                 if(key === 'javascript') {
-                    language = 'jsx'
+                    language = 'tsx'
                 }
                 const element = codeUsage[key];
                 tabs.push({

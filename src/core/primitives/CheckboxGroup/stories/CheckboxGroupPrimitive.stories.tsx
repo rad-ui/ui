@@ -21,7 +21,7 @@ export const Basic: Story = {
         <SandboxEditor>
             <CheckboxGroupPrimitive.Root className="flex gap-4" name="fruits" defaultValue={['apple', 'banana']}>
 
-                <CheckboxGroupPrimitive.Trigger value="apple" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                <CheckboxGroupPrimitive.Trigger value="apple" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                     <CheckboxGroupPrimitive.Content >
                         <TickIcon />
                     </CheckboxGroupPrimitive.Content>
@@ -30,7 +30,7 @@ export const Basic: Story = {
                     Apple
                 </label>
 
-                <CheckboxGroupPrimitive.Trigger value="banana" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                <CheckboxGroupPrimitive.Trigger value="banana" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                     <CheckboxGroupPrimitive.Content >
                         <TickIcon />
                     </CheckboxGroupPrimitive.Content>
@@ -39,7 +39,7 @@ export const Basic: Story = {
                     Banana
                 </label>
 
-                <CheckboxGroupPrimitive.Trigger value="cherry" className='bg-gray-200 border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                <CheckboxGroupPrimitive.Trigger value="cherry" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                     <CheckboxGroupPrimitive.Content >
                         <TickIcon />
                     </CheckboxGroupPrimitive.Content>

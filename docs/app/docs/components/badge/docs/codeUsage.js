@@ -1,3 +1,7 @@
+import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Badge/badge.clarity.scss');
+
 const code = {
     javascript: {
         code: `import Badge from "@radui/ui/Badge"
@@ -9,17 +13,7 @@ const BadgeExample = () => (
 )`
     },
     scss: {
-        code: `/** Badge */
-.rad-ui-badge {
-    background-color: var(--rad-ui-color-accent-300);
-    color: var(--rad-ui-color-accent-950);
-    padding:4px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    border-radius: 4px;
-}`
+        code: scss_SourceCode
     },
 }
 

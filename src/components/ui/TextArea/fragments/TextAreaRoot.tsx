@@ -1,5 +1,5 @@
 import React from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
@@ -16,7 +16,7 @@ export type TextAreaRootProps = React.ComponentPropsWithoutRef<'div'> & {
 
 const TextAreaRoot = React.forwardRef<React.ElementRef<'div'>, TextAreaRootProps>(
     ({ children, customRootClass = '', className = '', variant = '', size = '', resize = 'both', color = '', radius = '', ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const dataAttributes = createDataAttributes('textarea', { variant, size, resize, radius });
         const accentAttributes = createDataAccentColorAttribute(color);
         const composedAttributes = composeAttributes(dataAttributes, accentAttributes);

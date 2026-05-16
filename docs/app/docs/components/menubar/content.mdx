@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import MenubarExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Menubar"
+    description="An application-style horizontal menu bar. Each menu has a trigger that opens a dropdown with items, sub-menus, and separators."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <MenubarExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

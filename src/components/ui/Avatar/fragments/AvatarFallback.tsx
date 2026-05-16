@@ -10,7 +10,7 @@ export type AvatarFallbackProps = React.ComponentPropsWithoutRef<typeof AvatarPr
 const AvatarFallback = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveFallback>, AvatarFallbackProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AvatarContext);
     return (
-        <AvatarPrimitiveFallback ref={ref} className={clsx(`${rootClass}-fallback`, className)} {...props}>
+        <AvatarPrimitiveFallback ref={ref} className={clsx(rootClass && `${rootClass}-fallback`, className)} {...props}>
             {children}
         </AvatarPrimitiveFallback>
     );

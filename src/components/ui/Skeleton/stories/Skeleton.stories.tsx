@@ -108,7 +108,7 @@ export default {
                     <Skeleton loading={loading} height="200px" width="100%">
                         <Accordion.Root >
                             {items.map((item, index) => (
-                                <Accordion.Item value={index} key={index}>
+                                <Accordion.Item value={`${index}`} key={index}>
                                     <Accordion.Header>
                                         <Accordion.Trigger>
                                             {item.title}
@@ -133,17 +133,17 @@ export default {
                             </Tabs.List>
 
                             <Tabs.Content value="tab1">
-                                <div className="p-4 bg-gray-100 mt-2">
+                                <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                                     Content for Tab 1 (Uncontrolled)
                                 </div>
                             </Tabs.Content>
                             <Tabs.Content value="tab2">
-                                <div className="p-4 bg-gray-100 mt-2">
+                                <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                                     Content for Tab 2 (Uncontrolled) - This tab is selected by default
                                 </div>
                             </Tabs.Content>
                             <Tabs.Content value="tab3">
-                                <div className="p-4 bg-gray-100 mt-2">
+                                <div className="p-4 bg-[var(--rad-ui-surface-subtle)] mt-2">
                                                     Content for Tab 3 (Uncontrolled)
                                 </div>
                             </Tabs.Content>

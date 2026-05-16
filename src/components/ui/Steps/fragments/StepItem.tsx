@@ -16,7 +16,7 @@ const StepItem = ({ children, value = 0, className = '', ...props }: StepItemPro
 
     return (
         <div
-            className={clsx(`${rootClass}-item`, className)}
+            className={clsx(rootClass && `${rootClass}-item`, className)}
             data-state={state}
             data-value={value}
             {...props}

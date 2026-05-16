@@ -1,0 +1,65 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-root) {
+  @include baremetal.surface;
+
+  width: 100%;
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-item) {
+  border-bottom: 1px solid var(--rad-ui-border-soft);
+
+  &[data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-header) {
+  display: flex;
+  margin: 0;
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-trigger) {
+  @include baremetal.option-item;
+
+  justify-content: space-between;
+  gap: var(--rad-ui-spacing-4);
+  padding: 1rem 4px;
+  width: 100%;
+
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  svg,
+  .rad-ui-accordion-chevron {
+    flex-shrink: 0;
+    transition: transform 200ms ease;
+  }
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-item[data-state="open"] .rad-ui-accordion-trigger) {
+  svg,
+  .rad-ui-accordion-chevron {
+    transform: rotate(180deg);
+  }
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-content) {
+  overflow: hidden;
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-accordion-content-inner) {
+  padding-bottom: 1rem;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}

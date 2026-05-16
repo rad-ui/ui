@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, useState } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import clsx from 'clsx';
 import { useControllableState } from '~/core/hooks/useControllableState';
@@ -29,7 +29,7 @@ const AlertDialogRoot = forwardRef<AlertDialogRootElement, AlertDialogRootProps>
     onOpenChange,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const [titleId, setTitleId] = useState<string | undefined>(undefined);

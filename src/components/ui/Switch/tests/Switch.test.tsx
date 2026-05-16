@@ -6,7 +6,7 @@ describe('Switch Component', () => {
     test('renders correctly with composable API', () => {
         const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const { container } = render(
-            <Switch.Root>
+            <Switch.Root customRootClass="rad-ui">
                 <Switch.Thumb />
             </Switch.Root>
         );
@@ -41,7 +41,7 @@ describe('Switch Component', () => {
     test('forwards ref to Switch.Thumb', () => {
         const ref = React.createRef<HTMLSpanElement>();
         render(
-            <Switch.Root>
+            <Switch.Root customRootClass="rad-ui">
                 <Switch.Thumb ref={ref} />
             </Switch.Root>
         );
@@ -78,7 +78,7 @@ describe('Switch Component', () => {
 
     test('thumb indicator reflects switch state', () => {
         const { container } = render(
-            <Switch.Root>
+            <Switch.Root customRootClass="rad-ui">
                 <Switch.Thumb />
             </Switch.Root>
         );
@@ -180,7 +180,7 @@ describe('Switch Component', () => {
 
         test('thumb reflects disabled state', () => {
             const { container } = render(
-                <Switch.Root disabled>
+                <Switch.Root customRootClass="rad-ui" disabled>
                     <Switch.Thumb />
                 </Switch.Root>
             );
@@ -191,7 +191,7 @@ describe('Switch Component', () => {
 
         test('thumb data-state changes with switch state', () => {
             const { container } = render(
-                <Switch.Root defaultChecked={true}>
+                <Switch.Root customRootClass="rad-ui" defaultChecked={true}>
                     <Switch.Thumb />
                 </Switch.Root>
             );

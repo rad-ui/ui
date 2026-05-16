@@ -3,7 +3,7 @@ import NavigationMenu from '../NavigationMenu';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/NavigationMenu',
+    title: 'Components/NavigationMenu',
     component: NavigationMenu.Root
 };
 

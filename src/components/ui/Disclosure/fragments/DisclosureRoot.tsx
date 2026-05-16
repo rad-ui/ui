@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import { DisclosureContext } from '../contexts/DisclosureContext';
 
@@ -10,11 +10,12 @@ const COMPONENT_NAME = 'Disclosure';
 export type DisclosureRootProps = React.ComponentPropsWithoutRef<'div'> & {
      customRootClass?: string;
      defaultOpen?: number | null;
+     loop?: boolean;
 };
 
-const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, ...props }, forwardedRef) => {
+const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, loop = true, ...props }, forwardedRef) => {
     const disclosureRef = useRef<React.ElementRef<'div'> | null>(null);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [activeItem, setActiveItem] = useState<number | null>(null);
 
@@ -37,11 +38,11 @@ const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootP
                 disclosureRef
 
             }}>
-            <RovingFocusGroup.Root>
-                <RovingFocusGroup.Group className={clsx(`${rootClass}-root`)}>
+            <RovingFocusGroup.Root loop={loop}>
+                <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`)}>
                     <div
                         {...props}
-                        className={clsx(`${rootClass}-root`)}
+                        className={clsx(rootClass && `${rootClass}-root`)}
                         ref={setRefs}
                         role="region"
                         aria-label={ariaLabel}

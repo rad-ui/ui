@@ -1,0 +1,4 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-splitter, .rad-ui-splitter-handle) { border-color: var(--rad-ui-baremetal-black) !important; }

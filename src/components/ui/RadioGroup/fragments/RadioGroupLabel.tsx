@@ -10,7 +10,7 @@ export type RadioGroupLabelProps = React.ComponentPropsWithoutRef<typeof Primiti
 const RadioGroupLabel = React.forwardRef<RadioGroupLabelElement, RadioGroupLabelProps>(
     ({ className = '', asChild = false, children, ...props }, ref) => {
         const { rootClass } = React.useContext(RadioGroupContext);
-        return <Primitive.label ref={ref} {...props} className={clsx(`${rootClass}-label`, className)} asChild={asChild}> {children} </Primitive.label>;
+        return <Primitive.label ref={ref} {...props} className={clsx(rootClass && `${rootClass}-label`, className)} asChild={asChild}> {children} </Primitive.label>;
     }
 );
 

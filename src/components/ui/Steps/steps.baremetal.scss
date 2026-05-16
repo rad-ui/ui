@@ -1,0 +1,7 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-steps-track) { @include baremetal.track; }
+#{baremetal.$theme-root} :where(.rad-ui-steps-line) { @include baremetal.fill; }
+#{baremetal.$theme-root} :where(.rad-ui-steps-bubble) { @include baremetal.chip-like; }
+#{baremetal.$theme-root} :where(.rad-ui-steps-description) { @include baremetal.body-text; }

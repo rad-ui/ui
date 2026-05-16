@@ -5,6 +5,7 @@ import React from 'react';
 export type ThemeContextValue = {
     containerRef: React.MutableRefObject<HTMLDivElement | null>;
     portalRootRef: React.MutableRefObject<HTMLDivElement | null>;
+    classNamespace?: string;
 };
 
 const ThemeContext = React.createContext<ThemeContextValue | null>(null);

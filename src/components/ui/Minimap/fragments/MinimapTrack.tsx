@@ -7,7 +7,7 @@ export type MinimapTrackProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimapTrack = ({ children, className = '', ...props }: MinimapTrackProps) => {
     const { rootClass } = React.useContext(MinimapContext);
-    return <div className={clsx(`${rootClass}-track`, className)} {...props}>{children}</div>;
+    return <div className={clsx(rootClass && `${rootClass}-track`, className)} {...props}>{children}</div>;
 };
 
 export default MinimapTrack;

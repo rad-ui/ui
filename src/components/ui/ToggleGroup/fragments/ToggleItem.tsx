@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import clsx from 'clsx';
 
 import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
@@ -99,7 +100,7 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
         <TogglePrimitive
             ref={ref}
             onClick={handleToggleSelect}
-            className={`${rootClass}-item ${className}`}
+            className={clsx(rootClass && `${rootClass}-item`, className)}
             disabled={isDisabled}
             asChild={asChild}
             {...(iconOnly ? { 'data-icon-only': '' } : {})}

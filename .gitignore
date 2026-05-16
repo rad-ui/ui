@@ -2,7 +2,6 @@
 .idea/
 .vscode/
 .zed/
-.cursor/
 
 # Dependencies
 node_modules/

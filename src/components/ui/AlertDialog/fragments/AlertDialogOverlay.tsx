@@ -26,7 +26,7 @@ const AlertDialogOverlay = forwardRef<AlertDialogOverlayElement, AlertDialogOver
     return (
         <DialogPrimitive.Overlay
             ref={ref}
-            className={clsx(`${rootClass}-overlay`, className)}
+            className={clsx(rootClass && `${rootClass}-overlay`, className)}
             asChild={asChild}
             forceMount={forceMount}
             {...props}

@@ -10,11 +10,12 @@ export type TooltipContentElement = React.ElementRef<typeof Primitive.div>;
 
 export type TooltipContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     showArrow?: boolean;
+    container?: HTMLElement | null;
     children: React.ReactNode;
 };
 
 const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentProps>(
-    ({ children, showArrow = true, ...props }, ref) => {
+    ({ children, showArrow = true, container, ...props }, ref) => {
         const tooltipContext = useContext(TooltipContext);
         const themeContext = useContext(ThemeContext);
 
@@ -31,7 +32,8 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
 
         const { getFloatingProps } = interactions;
 
-        const portalRoot = themeContext?.portalRootRef.current
+        const portalRoot = container
+            || themeContext?.portalRootRef.current
             || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
             || themeContext?.containerRef.current
             || document.querySelector('#rad-ui-theme-container') as HTMLElement | null

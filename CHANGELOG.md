@@ -1,5 +1,29 @@
 # @radui/ui
 
+## 0.5.0
+
+### Minor Changes
+
+- ad29c4f: hovercard - size prop , datalist - size , color prop, quote -truncate prop
+- fd2bd8b: drawer preview added
+
+### Patch Changes
+
+- a25ee5a: Add a work-in-progress `TextField` compound API with slot and reset fragments, updated styling, Storybook stories, and behavioral test coverage.
+
+## 0.4.0
+
+### Minor Changes
+
+- 2708fb3: 27 components as officially released as preview, including Checkbox, Radio, Select, Combobox, DropdownMenu, and others.
+- 5c8ec74: Context Menu (bugs fixes,placement fixes, scroll , variant and size prop)
+
+### Patch Changes
+
+- 3accf7b: slider vertical inverted fix
+- 5b55d3c: Refresh **ToggleGroup** and **Toolbar** styles to match the segmented neutral treatment (shared borders, gray fills, internal dividers). Fix **Toolbar** link/button layout after `all: unset` by restoring `inline-flex` row alignment. Expand **Link** and **Toolbar** Storybook examples for icons (leading, trailing, icon-only) and correct **WithIcon** column alignment with `items-start`.
+- 69e0c14: onValueCommit prop for slider
+
 ## 0.3.0
 
 ### Minor Changes

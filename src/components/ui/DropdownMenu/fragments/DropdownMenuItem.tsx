@@ -18,7 +18,7 @@ const DropdownMenuItem = forwardRef<DropdownMenuItemElement, DropdownMenuItemPro
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Item ref={ref} className={clsx(`${rootClass}-item`, className)} label={label} {...props}>
+        <MenuPrimitive.Item ref={ref} className={clsx(rootClass && `${rootClass}-item`, className)} label={label} {...props}>
             {children}
         </MenuPrimitive.Item>
     );

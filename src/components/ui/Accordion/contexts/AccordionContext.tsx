@@ -2,12 +2,10 @@ import React, { createContext } from 'react';
 
 interface AccordionContextType {
     rootClass?: string | null;
-    activeItems: (number | string)[];
-    setActiveItems: React.Dispatch<React.SetStateAction<(number | string)[]>>;
+    activeItems: string[];
+    setActiveItems: React.Dispatch<React.SetStateAction<string[]>>;
     accordionRef?: React.RefObject<HTMLDivElement | null>;
-    transitionDuration?: number;
-    transitionTimingFunction?: string;
-    openMultiple?: boolean;
+    multiple: boolean;
     collapsible: boolean;
     /** Matches Radix: disables the entire accordion (all items non-interactive). */
     disabled: boolean;
@@ -17,11 +15,9 @@ interface AccordionContextType {
 export const AccordionContext = createContext<AccordionContextType>({
     rootClass: '',
     activeItems: [],
-    setActiveItems: (() => {}) as React.Dispatch<React.SetStateAction<(number | string)[]>>,
+    setActiveItems: (() => {}) as React.Dispatch<React.SetStateAction<string[]>>,
     accordionRef: undefined,
-    transitionDuration: 0,
-    transitionTimingFunction: 'ease-out',
-    openMultiple: false,
+    multiple: false,
     collapsible: false,
     disabled: false,
     orientation: 'vertical'

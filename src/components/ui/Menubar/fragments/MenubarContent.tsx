@@ -17,7 +17,7 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
+        <MenuPrimitive.Content ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>
             {children}
         </MenuPrimitive.Content>
     );

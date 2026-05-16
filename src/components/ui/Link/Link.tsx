@@ -1,7 +1,7 @@
 'use client';
 import React, { ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 import Primitive from '~/core/primitives/Primitive';
 
@@ -18,7 +18,7 @@ type LinkElement = ElementRef<'a'>;
 
 const Link = React.forwardRef<LinkElement, LinkProps>(
     ({ children, href = '#', customRootClass, className, size = '', color = '', asChild = false, ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const dataAttributes = composeAttributes(
             createDataAttributes('link', { size }),
             createDataAccentColorAttribute(color)

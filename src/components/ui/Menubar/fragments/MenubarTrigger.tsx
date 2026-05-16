@@ -32,7 +32,7 @@ const MenubarTrigger = forwardRef<MenubarTriggerElement, MenubarTriggerProps>(({
             render={() => (
                 <MenuPrimitive.Trigger
                     ref={ref}
-                    className={clsx(`${rootClass}-trigger`, className)}
+                    className={clsx(rootClass && `${rootClass}-trigger`, className)}
                     data-active={isOpen}
                     {...props}
                 >

@@ -7,7 +7,7 @@ import React, {
     ComponentPropsWithoutRef
 } from 'react';
 import { clsx } from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ProgressContext } from '../contexts/ProgressContext';
 
 import Primitive from '~/core/primitives/Primitive';
@@ -48,7 +48,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             (typeof STATE_ENUMS)[keyof typeof STATE_ENUMS]
                 >(STATE_ENUMS.LOADING);
 
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? '';
 
         useEffect(() => {

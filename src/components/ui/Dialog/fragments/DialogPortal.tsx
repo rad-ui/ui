@@ -8,6 +8,8 @@ type DialogPrimitivePortalProps = React.ComponentPropsWithoutRef<typeof DialogPr
 export type DialogPortalProps = DialogPrimitivePortalProps;
 
 const DialogPortal = forwardRef<DialogPortalElement, DialogPortalProps>(({ children, ...props }, _ref) => {
+    // TODO: forceMount on dialog portal/content is useful for exit animations,
+    // but focus return is currently incomplete for that case. See DialogPrimitive.Content.
     return (
         <DialogPrimitive.Portal {...props}>
             {children}

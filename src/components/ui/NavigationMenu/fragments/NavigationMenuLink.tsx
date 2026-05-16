@@ -17,7 +17,7 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
                 <a
                     ref={ref}
                     href={href}
-                    className={clsx(`${rootClass}-link`, className)}
+                    className={clsx(rootClass && `${rootClass}-link`, className)}
                     {...props}
                 >
                     {children}

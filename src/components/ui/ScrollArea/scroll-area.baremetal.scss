@@ -1,0 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-scroll-area-scrollbar, .rad-ui-scroll-area-thumb) { border-radius: 0 !important; background: var(--rad-ui-baremetal-subtle) !important; }
+#{baremetal.$theme-root} :where(.rad-ui-scroll-area-thumb) { background: var(--rad-ui-baremetal-black) !important; }

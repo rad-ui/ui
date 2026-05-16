@@ -16,7 +16,7 @@ const CheckboxIndicator = forwardRef<CheckboxIndicatorElement, CheckboxIndicator
         <Check
             width={15}
             height={15}
-            className={clsx(`${rootClass}-indicator`, className)}
+            className={clsx(rootClass && `${rootClass}-indicator`, className)}
         />
         {children}
     </CheckboxPrimitiveIndicator>;

@@ -3,6 +3,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 const COMPONENT_NAME = 'SliderRangeSlider';
 const THUMB_HALF_SIZE = 8;
@@ -140,26 +141,26 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
         const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
 
         switch (e.key) {
-        case 'ArrowRight':
+        case KEYBOARD_KEYS.ARROW_RIGHT:
             newValue[thumb === 'lower' ? 0 : 1] = isRtl
                 ? value[thumb === 'lower' ? 0 : 1] - step
                 : value[thumb === 'lower' ? 0 : 1] + step;
             break;
-        case 'ArrowLeft':
+        case KEYBOARD_KEYS.ARROW_LEFT:
             newValue[thumb === 'lower' ? 0 : 1] = isRtl
                 ? value[thumb === 'lower' ? 0 : 1] + step
                 : value[thumb === 'lower' ? 0 : 1] - step;
             break;
-        case 'ArrowUp':
+        case KEYBOARD_KEYS.ARROW_UP:
             newValue[thumb === 'lower' ? 0 : 1] = value[thumb === 'lower' ? 0 : 1] + step;
             break;
-        case 'ArrowDown':
+        case KEYBOARD_KEYS.ARROW_DOWN:
             newValue[thumb === 'lower' ? 0 : 1] = value[thumb === 'lower' ? 0 : 1] - step;
             break;
-        case 'Home':
+        case KEYBOARD_KEYS.HOME:
             newValue[thumb === 'lower' ? 0 : 1] = minValue;
             break;
-        case 'End':
+        case KEYBOARD_KEYS.END:
             newValue[thumb === 'lower' ? 0 : 1] = maxValue;
             break;
         default:
@@ -182,10 +183,10 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
     };
 
     return (
-        <div ref={ref} className={`${rootClass}-range-slider`} {...props}>
+        <div ref={ref} className={rootClass ? `${rootClass}-range-slider` : undefined} {...props}>
             {/* Lower thumb */}
             <Primitive.div
-                className={`${rootClass}-thumb ${rootClass}-thumb-lower`}
+                className={rootClass ? `${rootClass}-thumb ${rootClass}-thumb-lower` : undefined}
                 role="slider"
                 tabIndex={disabled ? -1 : 0}
                 aria-valuemin={minValue}
@@ -210,7 +211,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
 
             {/* Upper thumb */}
             <Primitive.div
-                className={`${rootClass}-thumb ${rootClass}-thumb-upper`}
+                className={rootClass ? `${rootClass}-thumb ${rootClass}-thumb-upper` : undefined}
                 role="slider"
                 tabIndex={disabled ? -1 : 0}
                 aria-valuemin={minValue}
@@ -235,7 +236,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
 
             {/* Range fill between thumbs */}
             <div
-                className={`${rootClass}-range-fill`}
+                className={rootClass ? `${rootClass}-range-fill` : undefined}
                 style={orientation === 'vertical'
                     ? {
                         bottom: `${Math.min(percent1, percent2)}%`,

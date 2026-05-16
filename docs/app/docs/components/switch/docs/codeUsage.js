@@ -2,7 +2,7 @@ import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/switch/docs/examples/SwitchExample.tsx');
 
-const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/switch.scss');
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Switch/switch.clarity.scss');
 
 
 import root_api_SourceCode from "./component_api/root.tsx";

@@ -19,7 +19,7 @@ const MinimapLine = ({ children, className = '', ...props }: MinimapLineProps) =
     const shouldShowLine = isCurrentVisible && hasVisibleItemAfter;
 
     return <div
-        className={clsx(`${rootClass}-line`, className)}
+        className={clsx(rootClass && `${rootClass}-line`, className)}
         data-in-view={shouldShowLine ? 'true' : 'false'} {...props}>{children}</div>;
 };
 

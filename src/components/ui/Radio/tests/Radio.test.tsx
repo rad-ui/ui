@@ -62,9 +62,9 @@ describe('Radio', () => {
             <Radio {...baseProps} variant="filled" size="lg" color="red" />
         );
         const radio = screen.getByRole('radio');
-        expect(radio).toHaveAttribute('data-button-variant', 'filled');
-        expect(radio).toHaveAttribute('data-button-size', 'lg');
-        expect(radio).toHaveAttribute('data-rad-ui-accent-color', 'red');
+        expect(radio).toHaveAttribute('data-variant', 'filled');
+        expect(radio).toHaveAttribute('data-size', 'lg');
+        expect(radio).toHaveAttribute('data-color', 'red');
     });
 
     it('forwards refs', () => {

@@ -1,7 +1,7 @@
 'use client';
 import React, { CSSProperties, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'VisuallyHidden';
@@ -28,7 +28,7 @@ const VISUALLY_HIDDEN_STYLES: CSSProperties = {
 } as const;
 
 const VisuallyHidden = forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>(({ children, customRootClass, className, style = {}, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     return (
         <Primitive.div

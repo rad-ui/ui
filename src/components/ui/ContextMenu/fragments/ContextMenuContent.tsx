@@ -25,7 +25,7 @@ const ContextMenuContent = forwardRef<ContextMenuContentElement, ContextMenuCont
     const resolvedSize = size ?? context.size;
     const dataAttributes = createDataAttributes('context-menu-content', { variant: resolvedVariant, size: resolvedSize });
     return (
-        <MenuPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...dataAttributes} {...props}>
+        <MenuPrimitive.Content ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...dataAttributes} {...props}>
             {children}
         </MenuPrimitive.Content>
     );

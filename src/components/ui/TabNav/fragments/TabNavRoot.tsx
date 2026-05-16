@@ -1,5 +1,5 @@
 import React, { useEffect, forwardRef } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import TabNavContext from '../context/TabNav.context';
@@ -22,7 +22,7 @@ const TabNavRoot = forwardRef<React.ElementRef<'div'>, TabNavRootProps>(({
     onValueChange = () => {},
     value, ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,

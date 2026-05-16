@@ -3,6 +3,7 @@ import NavigationMenuItemContext from '../contexts/NavigationMenyItemContext';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import clsx from 'clsx';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 export type NavigationMenuItemElement = React.ElementRef<'div'>;
 
@@ -21,7 +22,7 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
         };
 
         const handleEscape = (e: React.KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === 'Escape') setIsOpen('');
+            if (e.key === KEYBOARD_KEYS.ESCAPE) setIsOpen('');
         };
 
         return (
@@ -30,7 +31,7 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
                     ref={ref}
                     onMouseEnter={composeEventHandlers(onMouseEnter, handleTrigger)}
                     onMouseLeave={composeEventHandlers(onMouseLeave, handleTrigger)}
-                    className={clsx(`${rootClass}-item`, className)}
+                    className={clsx(rootClass && `${rootClass}-item`, className)}
                     onKeyDown={composeEventHandlers(onKeyDown, handleEscape)}
                     {...props}
                 >

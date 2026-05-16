@@ -3,7 +3,7 @@ const COLOR_PREFIX = '--rad-ui-color-';
 
 /**
  * This file generates base css files for accent colors like this
- * [data-accent-color=purple]{
+ * :where([data-rad-ui-accent-color=purple], [data-color=purple]){
      --rad-ui-color-accent-50: var(--rad-ui-color-purple-50);
     --rad-ui-color-accent-100: var(--rad-ui-color-purple-100);
     --rad-ui-color-accent-200: var(--rad-ui-color-purple-200);
@@ -27,8 +27,12 @@ const generateAccentTokens = (theme) => {
         const colorName = colorObj;
         const accentColors = colors[colorObj][theme];
 
-        // generate data-accent-color css styles
-        let cssVariableName = `[data-rad-ui-accent-color=${colorObj}]{`;
+        if (!accentColors || typeof accentColors !== 'object' || Array.isArray(accentColors)) {
+            continue;
+        }
+
+        // Theme uses data-rad-ui-accent-color; components expose the public data-color contract.
+        let cssVariableName = `:where([data-rad-ui-accent-color=${colorObj}], [data-color=${colorObj}]){`;
         cssVariableName += '\n';
         // plug in variables here
         for (const [shadeName] of Object.entries(accentColors)) {

@@ -3,7 +3,7 @@ import Switch from '../Switch';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/Switch',
+    title: 'Components/Switch',
     component: Switch
 } as any;
 

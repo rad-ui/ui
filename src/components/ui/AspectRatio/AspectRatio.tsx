@@ -1,6 +1,6 @@
 'use client';
 import React, { ComponentPropsWithoutRef, ElementRef } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
 const COMPONENT_NAME = 'AspectRatio';
@@ -14,7 +14,7 @@ const AspectRatio = React.forwardRef<ElementRef<'div'>, AspectRatioProps>(({ chi
     if (isNaN(Number(ratio)) && !ratio.match(/^(\d+)\/(\d+)$/)) ratio = '1';
     if (Number(ratio) <= 0) ratio = '1';
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     return (
         <div ref={ref} style={{ aspectRatio: ratio }} className={clsx(rootClass, className)} {...props}>
             {children}

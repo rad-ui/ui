@@ -1,6 +1,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import MenuPrimitiveRootContext from '~/core/primitives/Menu/contexts/MenuPrimitiveRootContext';
+import { isContextMenuKey } from '~/core/utils/keyboard';
 import ContextMenuContext from '../contexts/ContextMenuContext';
 import clsx from 'clsx';
 import { useMergeRefs } from '@floating-ui/react';
@@ -51,7 +52,7 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
         };
 
         const handleKeyDown = (e: React.KeyboardEvent) => {
-            if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) {
+            if (isContextMenuKey(e.key, e.shiftKey)) {
                 e.preventDefault();
                 if (!contextTriggerRef.current) return;
                 const rect = contextTriggerRef.current.getBoundingClientRect();
@@ -61,7 +62,7 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
 
         return (
             <MenuPrimitive.Trigger
-                className={clsx(`${rootClass}-trigger`, className)}
+                className={clsx(rootClass && `${rootClass}-trigger`, className)}
                 asChild={true}
                 {...props}
             >

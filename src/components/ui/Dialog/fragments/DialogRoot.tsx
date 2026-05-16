@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react';
 import { DialogContext } from '../context/DialogContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 const COMPONENT_NAME = 'Dialog';
 
@@ -17,7 +17,7 @@ export type DialogRootProps = DialogPrimitiveRootProps & {
 };
 
 const DialogRoot = forwardRef<DialogRootElement, DialogRootProps>(({ children, customRootClass = '', className = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const contextProps = { rootClass };
 

@@ -1,0 +1,159 @@
+/* stylelint-disable at-rule-no-unknown */
+$theme-root: ':where(body:not([data-rad-ui-design-system]), [data-rad-ui-design-system="baremetal"]) [data-rad-ui-theme]';
+$portal-root: ':where(body:not([data-rad-ui-design-system]), [data-rad-ui-design-system="baremetal"]) [data-rad-ui-portal-root]';
+
+@mixin button-like {
+    min-height: 2.75rem;
+    border: 1px solid var(--rad-ui-baremetal-black) !important;
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-subtle) !important;
+    color: var(--rad-ui-baremetal-black) !important;
+    box-shadow: none !important;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    transition: none !important;
+
+    &:hover {
+        border-color: var(--rad-ui-baremetal-black) !important;
+        background: var(--rad-ui-baremetal-muted) !important;
+        color: var(--rad-ui-baremetal-black) !important;
+    }
+
+    &:active,
+    &[data-state="on"],
+    &[data-state="checked"],
+    &[aria-pressed="true"],
+    &.active {
+        transform: none !important;
+        background: var(--rad-ui-baremetal-black) !important;
+        color: var(--rad-ui-baremetal-white) !important;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--rad-ui-ring-shadow-sm) !important;
+    }
+}
+
+@mixin surface($shadow: true) {
+    border: 1px solid var(--rad-ui-baremetal-black) !important;
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-white) !important;
+    color: var(--rad-ui-baremetal-black) !important;
+
+    @if $shadow {
+        box-shadow: var(--rad-ui-baremetal-shadow) !important;
+    } @else {
+        box-shadow: none !important;
+    }
+}
+
+@mixin title-text {
+    color: var(--rad-ui-baremetal-black) !important;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+@mixin body-text {
+    color: var(--rad-ui-baremetal-black) !important;
+}
+
+@mixin option-item {
+    border-radius: 0 !important;
+    color: var(--rad-ui-baremetal-black) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transition: none !important;
+
+    &:hover,
+    &:focus-visible,
+    &[data-highlighted],
+    &[data-active="true"],
+    &[aria-selected="true"],
+    &.active {
+        outline: none;
+        background: var(--rad-ui-baremetal-black) !important;
+        color: var(--rad-ui-baremetal-white) !important;
+        box-shadow: none !important;
+    }
+}
+
+@mixin checked-item {
+    background: var(--rad-ui-baremetal-black) !important;
+    color: var(--rad-ui-baremetal-white) !important;
+    box-shadow: none !important;
+}
+
+@mixin input-like {
+    border: 1px solid var(--rad-ui-baremetal-black) !important;
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-white) !important;
+    color: var(--rad-ui-baremetal-black) !important;
+    box-shadow: none !important;
+    letter-spacing: 0.08em;
+
+    &::placeholder {
+        color: var(--rad-ui-baremetal-disabled);
+    }
+
+    &:focus,
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--rad-ui-ring-shadow-sm) !important;
+    }
+}
+
+@mixin square-control {
+    width: 1.625rem;
+    height: 1.625rem;
+    border: 1px solid var(--rad-ui-baremetal-black) !important;
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-white) !important;
+    color: var(--rad-ui-baremetal-white) !important;
+    box-shadow: none !important;
+    transition: none !important;
+
+    &:hover {
+        background: var(--rad-ui-baremetal-white) !important;
+        border-color: var(--rad-ui-baremetal-black) !important;
+    }
+
+    &[data-state="checked"],
+    &[data-state="indeterminate"],
+    &[aria-checked="true"] {
+        background: var(--rad-ui-baremetal-black) !important;
+        border-color: var(--rad-ui-baremetal-black) !important;
+        color: var(--rad-ui-baremetal-white) !important;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--rad-ui-ring-shadow-sm) !important;
+    }
+}
+
+@mixin chip-like {
+    border: 1px solid var(--rad-ui-baremetal-black) !important;
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-subtle) !important;
+    color: var(--rad-ui-baremetal-black) !important;
+    box-shadow: none !important;
+}
+
+@mixin track {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-subtle) !important;
+    box-shadow: none !important;
+}
+
+@mixin fill {
+    border-radius: 0 !important;
+    background: var(--rad-ui-baremetal-black) !important;
+    box-shadow: none !important;
+}
+
+@mixin divider {
+    border-color: var(--rad-ui-baremetal-black) !important;
+}
+

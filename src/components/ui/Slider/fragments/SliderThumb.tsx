@@ -3,6 +3,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 
 const COMPONENT_NAME = 'SliderThumb';
@@ -45,28 +46,28 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         let newValue = currentValue;
         const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
         switch (e.key) {
-        case 'ArrowRight':
+        case KEYBOARD_KEYS.ARROW_RIGHT:
             newValue = isRtl ? currentValue - step : currentValue + step;
             break;
-        case 'ArrowLeft':
+        case KEYBOARD_KEYS.ARROW_LEFT:
             newValue = isRtl ? currentValue + step : currentValue - step;
             break;
-        case 'ArrowUp':
+        case KEYBOARD_KEYS.ARROW_UP:
             newValue = currentValue + step;
             break;
-        case 'ArrowDown':
+        case KEYBOARD_KEYS.ARROW_DOWN:
             newValue = currentValue - step;
             break;
-        case 'Home':
+        case KEYBOARD_KEYS.HOME:
             newValue = minValue;
             break;
-        case 'End':
+        case KEYBOARD_KEYS.END:
             newValue = maxValue;
             break;
-        case 'PageUp':
+        case KEYBOARD_KEYS.PAGE_UP:
             newValue = currentValue + step * pageStepMultiplier;
             break;
-        case 'PageDown':
+        case KEYBOARD_KEYS.PAGE_DOWN:
             newValue = currentValue - step * pageStepMultiplier;
             break;
         default:
@@ -102,7 +103,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         <Primitive.div
             ref={mergeRefs(thumbRef, ref)}
             asChild={asChild}
-            className={`${rootClass}-thumb`}
+            className={rootClass ? `${rootClass}-thumb` : undefined}
             role="slider"
             tabIndex={disabled ? -1 : 0}
             aria-valuemin={minValue}

@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 
@@ -13,7 +13,7 @@ export interface KbdProps extends ComponentPropsWithoutRef<'kbd'> {
 }
 
 const Kbd = forwardRef<KbdElement, KbdProps>(({ children, customRootClass, className, size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('kbd', { size });
 

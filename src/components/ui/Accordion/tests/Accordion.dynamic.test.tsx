@@ -15,7 +15,7 @@ describe('Accordion Dynamic Content', () => {
             }, []);
 
             return (
-                <Accordion.Root collapsible defaultValue={['item-1']} transitionDuration={300}>
+                <Accordion.Root collapsible defaultValue="item-1">
                     <Accordion.Item value="item-1">
                         <Accordion.Header>
                             <Accordion.Trigger>Trigger 1</Accordion.Trigger>

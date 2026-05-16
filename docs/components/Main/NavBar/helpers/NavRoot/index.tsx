@@ -116,6 +116,22 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             <li>
               <Link
                 className="text-gray-950 hover:text-gray-1000"
+                href="/playground"
+              >
+                Playground
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="text-gray-950 hover:text-gray-1000"
+                href="/colors"
+              >
+                Colors
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="text-gray-950 hover:text-gray-1000"
                 href="/showcase/music-app"
               >
                 Showcase

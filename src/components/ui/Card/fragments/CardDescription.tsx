@@ -7,7 +7,7 @@ export type CardDescriptionProps = React.ComponentPropsWithoutRef<'p'>;
 const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(CardContext);
 
-    return <p ref={ref} className={clsx(`${rootClass}-description`, className)} {...props}>{children}</p>;
+    return <p ref={ref} className={clsx(rootClass && `${rootClass}-description`, className)} {...props}>{children}</p>;
 });
 
 CardDescription.displayName = 'CardDescription';

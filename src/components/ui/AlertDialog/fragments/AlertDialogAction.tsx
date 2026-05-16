@@ -1,5 +1,6 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
+import clsx from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
@@ -13,7 +14,7 @@ export type AlertDialogActionProps = DialogPrimitiveActionProps & {
 const AlertDialogAction = forwardRef<AlertDialogActionElement, AlertDialogActionProps>(({ children, asChild, className = '', ...props }, ref) => {
     const { rootClass } = useContext(AlertDialogContext);
     return (
-        <DialogPrimitive.Action ref={ref} className={`${rootClass}-action ${className}`} asChild={asChild} {...props}>
+        <DialogPrimitive.Action ref={ref} className={clsx(rootClass && `${rootClass}-action`, className)} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Action>
 

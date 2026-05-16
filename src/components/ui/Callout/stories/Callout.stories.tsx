@@ -173,7 +173,7 @@ export const Sizes = () => {
             <p className='text-gray-950 mb-4'>Callout Sizes</p>
             <div className='space-y-6'>
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Default Variant</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Default Variant</p>
                     <div className="flex flex-wrap items-start gap-2">
                         {CALLOUT_SIZES.map((size, index) => {
                             return (
@@ -192,7 +192,7 @@ export const Sizes = () => {
                 </div>
 
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>With Color Prop</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>With Color Prop</p>
                     <div className="flex flex-wrap items-start gap-2">
                         {CALLOUT_SIZES.map((size, index) => {
                             return (
@@ -211,7 +211,7 @@ export const Sizes = () => {
                 </div>
 
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Destructive Variant</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Destructive Variant</p>
                     <div className="flex flex-wrap items-start gap-2">
                         {CALLOUT_SIZES.map((size, index) => {
                             return (
@@ -239,7 +239,7 @@ export const Variants = () => {
             <p className='text-gray-950 mb-4'>Callout Variants</p>
             <div className='space-y-4'>
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Default</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Default</p>
                     <Callout.Root>
                         <Callout.Icon>
                             <CheckIcon/>
@@ -250,7 +250,7 @@ export const Variants = () => {
 
                 {CALLOUT_VARIANTS.map((variant) => (
                     <div key={variant}>
-                        <p className='text-sm text-gray-600 mb-2'>{variant.charAt(0).toUpperCase() + variant.slice(1)}</p>
+                        <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>{variant.charAt(0).toUpperCase() + variant.slice(1)}</p>
                         <Callout.Root variant={variant}>
                             <Callout.Icon>
                                 <InfoIcon/>
@@ -261,7 +261,7 @@ export const Variants = () => {
                 ))}
 
                 <div>
-                    <p className='text-sm text-gray-600 mb-2'>Destructive</p>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Destructive</p>
                     <Callout.Root intent="destructive">
                         <Callout.Icon>
                             <AlertIcon/>
@@ -275,7 +275,7 @@ export const Variants = () => {
 
                 {CALLOUT_VARIANTS.map((variant) => (
                     <div key={`${variant}-with-color`}>
-                        <p className='text-sm text-gray-600 mb-2'>{variant.charAt(0).toUpperCase() + variant.slice(1)} with Color</p>
+                        <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>{variant.charAt(0).toUpperCase() + variant.slice(1)} with Color</p>
                         <Callout.Root variant={variant} color="blue">
                             <Callout.Icon>
                                 <InfoIcon/>

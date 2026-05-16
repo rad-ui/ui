@@ -7,7 +7,7 @@ export type StepDescriptionProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepDescription = ({ children, className = '', ...props }: StepDescriptionProps) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(`${rootClass}-description`, className)} {...props}>{children}</div>;
+    return <div className={clsx(rootClass && `${rootClass}-description`, className)} {...props}>{children}</div>;
 };
 
 export default StepDescription;

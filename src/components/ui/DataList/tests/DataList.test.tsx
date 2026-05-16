@@ -16,9 +16,9 @@ describe('DataList Component', () => {
         expect(screen.getByText('John Doe')).toBeInTheDocument();
     });
 
-    test('should apply default class names correctly', () => {
+    test('should apply namespaced class names correctly', () => {
         const { container } = render(
-            <DataList.Root>
+            <DataList.Root customRootClass="rad-ui">
                 <DataList.Item>
                     <DataList.Label>Email</DataList.Label>
                     <DataList.Value>test@example.com</DataList.Value>

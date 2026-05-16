@@ -10,7 +10,7 @@ const MinimapBubble = ({ children, className = '', ...props }: MinimapBubbleProp
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
     const { isVisible } = React.useContext(MinimapItemContext) || { isVisible: false };
     return <div
-        className={clsx(`${rootClass}-bubble`, className)}
+        className={clsx(rootClass && `${rootClass}-bubble`, className)}
         data-in-view={isVisible ? 'true' : 'false'}
         {...props}>{children}</div>;
 };

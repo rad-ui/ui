@@ -9,7 +9,7 @@ export type CheckboxGroupIndicatorProps = ComponentPropsWithoutRef<'svg'>;
 const CheckboxGroupIndicator = forwardRef<CheckboxGroupIndicatorElement, CheckboxGroupIndicatorProps>(({ className, ...props }, ref) => {
     const { rootClass } = useContext(CheckboxGroupRootContext);
     return (
-        <Check ref={ref} width={15} height={15} className={clsx(`${rootClass}-tick-icon`, className)} {...props} />
+        <Check ref={ref} width={15} height={15} className={clsx(rootClass && `${rootClass}-tick-icon`, className)} {...props} />
     );
 });
 

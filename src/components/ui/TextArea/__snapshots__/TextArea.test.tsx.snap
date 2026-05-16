@@ -2,8 +2,8 @@
 
 exports[`TextArea matches snapshot 1`] = `
 <div
-  class="rad-ui-text-area"
-  data-textarea-resize="both"
+  class=""
+  data-resize="both"
 >
   <textarea
     placeholder=""

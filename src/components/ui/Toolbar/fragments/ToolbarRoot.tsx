@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { clsx } from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import Primitive from '~/core/primitives/Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ToolbarRootContext from '../context/ToolbarRootContext';
@@ -30,7 +30,7 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const context = React.useMemo(() => ({ rootClass, orientation, dir }), [rootClass, orientation, dir]);
         const dataAttributes: Record<string, string> = {
             'data-orientation': orientation as string

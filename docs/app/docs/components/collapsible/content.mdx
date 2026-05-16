@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import CollapsibleExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Collapsible"
+    description="A simple show/hide component with a trigger and content area. Useful for secondary information that doesn't need to be always visible."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <CollapsibleExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'trigger', 'content']}
+    />
+</Documentation>

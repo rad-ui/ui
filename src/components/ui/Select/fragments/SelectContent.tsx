@@ -13,7 +13,7 @@ const SelectContent = React.forwardRef<SelectContentElement, SelectContentProps>
 
     return (
         <ComboboxPrimitive.Content
-            className={`${rootClass}-content`}
+            className={rootClass ? `${rootClass}-content` : undefined}
             position={position}
             data-position={position}
             ref={forwardedRef}

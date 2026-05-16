@@ -3,7 +3,7 @@ import React from 'react';
 import RadioPrimitive, { RadioPrimitiveProps } from '~/core/primitives/Radio';
 
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
@@ -23,7 +23,7 @@ const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
     { name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props },
     ref
 ) {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const dataAttributes = createDataAttributes('button', { variant, size });

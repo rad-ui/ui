@@ -2,10 +2,10 @@ import React from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 
-const COMPONENT_NAME = 'NavigationMenuRoot';
+const COMPONENT_NAME = 'NavigationMenu';
 
 export type NavigationMenuRootElement = React.ElementRef<'div'>;
 
@@ -15,6 +15,8 @@ export interface NavigationMenuRootProps extends React.ComponentPropsWithoutRef<
     defaultValue?: string;
     onValueChange?: (value: string) => void;
     customRootClass?: string;
+    loop?: boolean;
+    contentLoop?: boolean;
 }
 
 const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, NavigationMenuRootProps>(
@@ -25,19 +27,21 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
             defaultValue = '',
             onValueChange,
             customRootClass,
+            loop = true,
+            contentLoop = true,
             className,
             ...props
         },
         ref
     ) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
 
         return (
             <div ref={ref} {...props}>
-                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass }}>
-                    <RovingFocusGroup.Root>
-                        <RovingFocusGroup.Group className={clsx(`${rootClass}-root`, className)}>
+                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop }}>
+                    <RovingFocusGroup.Root loop={loop}>
+                        <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
                             {children}
                         </RovingFocusGroup.Group>
                     </RovingFocusGroup.Root>

@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 const ComboboxPrimitiveSearch = React.forwardRef<
     React.ElementRef<typeof Primitive.input>,
@@ -55,7 +56,7 @@ const ComboboxPrimitiveSearch = React.forwardRef<
             {...referenceProps}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
                 if (activeIndex !== null) {
-                    if (event.key === 'Enter') {
+                    if (event.key === KEYBOARD_KEYS.ENTER) {
                         event.preventDefault();
                         handleSelect(activeIndex);
                     }

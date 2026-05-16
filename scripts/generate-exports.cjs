@@ -63,6 +63,7 @@ exportsMap['.'] = {
 
 // Add theme exports
 exportsMap['./themes/default.css'] = './dist/themes/default.css';
+exportsMap['./themes/baremetal.css'] = './dist/themes/baremetal.css';
 exportsMap['./themes/tailwind-presets/default.js'] = './dist/themes/tailwind-presets/default.js';
 
 const notReleasedComponents = [];

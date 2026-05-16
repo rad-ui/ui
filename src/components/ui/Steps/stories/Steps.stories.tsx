@@ -58,7 +58,7 @@ const checkoutSteps = [
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'WIP/Steps',
+    title: 'Components/Steps',
     component: Steps,
     render: () => <SandboxEditor>
         <div className='mt-5'>

@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import StepsExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Steps"
+    description="A multi-step progress indicator. Compose with Root, Item, Track, Bubble, Line, Content, Title, and Description for full control."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <StepsExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

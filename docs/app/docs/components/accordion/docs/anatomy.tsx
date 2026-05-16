@@ -3,7 +3,7 @@ import Accordion from "@radui/ui/Accordion";
 export default () => {
     return (
         <Accordion.Root>
-            <Accordion.Item>
+            <Accordion.Item value="item-1">
                 <Accordion.Header>
                     <Accordion.Trigger />
                 </Accordion.Header>

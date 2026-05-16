@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { customClassSwitcher } from '~/core';
 import clsx from 'clsx';
 import { useSplitter } from './SplitterRoot';
 
@@ -31,7 +30,7 @@ const SplitterPanel = React.forwardRef<
         <div
             {...props}
             ref={forwardedRef}
-            className={clsx(`${rootClass}-panel`, className)}
+            className={clsx(rootClass && `${rootClass}-panel`, className)}
             style={panelStyle}
         >
             {children}

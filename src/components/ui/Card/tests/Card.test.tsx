@@ -30,7 +30,7 @@ describe('Card', () => {
 
     test('renders card fragments with scoped classes', () => {
         render(
-            <Card data-testid="card">
+            <Card data-testid="card" customRootClass="rad-ui">
                 <Card.Header data-testid="card-header">
                     <Card.Title>Card title</Card.Title>
                     <Card.Action>Action</Card.Action>
@@ -41,6 +41,7 @@ describe('Card', () => {
             </Card>
         );
 
+        expect(screen.getByTestId('card')).toHaveClass('rad-ui-card-root');
         expect(screen.getByTestId('card-header')).toHaveClass('rad-ui-card-header');
         expect(screen.getByText('Card title')).toHaveClass('rad-ui-card-title');
         expect(screen.getByText('Action')).toHaveClass('rad-ui-card-action');

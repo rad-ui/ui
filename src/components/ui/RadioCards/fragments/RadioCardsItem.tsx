@@ -18,7 +18,7 @@ const RadioCardsItem = forwardRef<RadioCardsItemElement, RadioCardsItemProps>(
         return (
             <RadioGroupPrimitive.Item
                 ref={ref}
-                className={clsx(`${rootClass}-item`, className)}
+                className={clsx(rootClass && `${rootClass}-item`, className)}
                 {...props}
                 value={value}
             >

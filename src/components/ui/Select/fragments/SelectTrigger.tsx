@@ -15,7 +15,7 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
 
     return (
         <ComboboxPrimitive.Trigger
-            className={`${rootClass}-trigger`}
+            className={rootClass ? `${rootClass}-trigger` : undefined}
             aria-disabled={disabled ? 'true' : undefined}
             data-placeholder={placeholder ? '' : undefined}
             disabled={disabled}

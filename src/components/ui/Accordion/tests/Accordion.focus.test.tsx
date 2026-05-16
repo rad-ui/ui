@@ -14,9 +14,26 @@ const testItems = [
 const FocusHarness = (props: Partial<AccordionRootProps>) => (
     <div>
         <button type="button">Before</button>
-        <Accordion.Root collapsible {...props}>
+        <Accordion.Root collapsible {...props as AccordionRootProps}>
             {testItems.map((item, index) => (
-                <Accordion.Item value={index} key={index}>
+                <Accordion.Item value={`${index}`} key={index}>
+                    <Accordion.Header>
+                        <Accordion.Trigger>{item.title}</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content>{item.content}</Accordion.Content>
+                </Accordion.Item>
+            ))}
+        </Accordion.Root>
+        <button type="button">After</button>
+    </div>
+);
+
+const DisabledFirstHarness = (props: Partial<AccordionRootProps>) => (
+    <div>
+        <button type="button">Before</button>
+        <Accordion.Root collapsible {...props as AccordionRootProps}>
+            {testItems.map((item, index) => (
+                <Accordion.Item value={`${index}`} key={index} disabled={index === 0}>
                     <Accordion.Header>
                         <Accordion.Trigger>{item.title}</Accordion.Trigger>
                     </Accordion.Header>
@@ -29,30 +46,36 @@ const FocusHarness = (props: Partial<AccordionRootProps>) => (
 );
 
 describe('Accordion focus behavior', () => {
-    test('roving tabindex: only one trigger has tabIndex 0 in the accordion', () => {
+    test('accordion triggers are keyboard focusable', () => {
         render(<FocusHarness />);
         const triggers = screen.getAllByRole('button').filter((el) =>
             ['First', 'Second', 'Third'].some((label) => el.textContent === label)
         );
-        const zeros = triggers.filter((t) => t.getAttribute('tabindex') === '0');
-        expect(zeros).toHaveLength(1);
-        expect(triggers.filter((t) => t.getAttribute('tabindex') === '-1').length).toBe(2);
+        triggers.forEach((trigger) => {
+            expect(trigger).toHaveAttribute('tabindex', '0');
+        });
     });
 
-    test('Tab moves from Before into accordion, then to After', async() => {
+    test('Tab moves from Before through accordion triggers, then to After', async() => {
         const user = userEvent.setup();
         render(<FocusHarness />);
         const before = screen.getByRole('button', { name: 'Before' });
+        const first = screen.getByRole('button', { name: 'First' });
+        const second = screen.getByRole('button', { name: 'Second' });
+        const third = screen.getByRole('button', { name: 'Third' });
         const after = screen.getByRole('button', { name: 'After' });
 
         before.focus();
         expect(before).toHaveFocus();
 
         await user.tab();
-        const inGroup = screen.getAllByRole('button').find((b) =>
-            ['First', 'Second', 'Third'].includes(b.textContent || '')
-        );
-        expect(inGroup).toHaveFocus();
+        expect(first).toHaveFocus();
+
+        await user.tab();
+        expect(second).toHaveFocus();
+
+        await user.tab();
+        expect(third).toHaveFocus();
 
         await user.tab();
         expect(after).toHaveFocus();
@@ -83,8 +106,6 @@ describe('Accordion focus behavior', () => {
         triggers[0].focus();
         await user.keyboard('{ArrowDown}');
         expect(triggers[1]).toHaveFocus();
-        expect(triggers[1]).toHaveAttribute('tabindex', '0');
-        expect(triggers[0]).toHaveAttribute('tabindex', '-1');
     });
 
     test('horizontal orientation uses ArrowRight/Left between triggers', async() => {
@@ -110,5 +131,29 @@ describe('Accordion focus behavior', () => {
         triggers.forEach((t) => {
             expect(t).toHaveAttribute('tabindex', '0');
         });
+    });
+
+    test('disabled first trigger remains unfocusable while enabled siblings stay keyboard reachable', () => {
+        render(<DisabledFirstHarness />);
+        const first = screen.getByRole('button', { name: 'First' });
+        const second = screen.getByRole('button', { name: 'Second' });
+        const third = screen.getByRole('button', { name: 'Third' });
+
+        expect(first).toHaveAttribute('aria-disabled', 'true');
+        expect(second).toHaveAttribute('tabindex', '0');
+        expect(third).toHaveAttribute('tabindex', '0');
+    });
+
+    test('Tab enters the first enabled trigger when the first item is disabled', async() => {
+        const user = userEvent.setup();
+        render(<DisabledFirstHarness />);
+        const before = screen.getByRole('button', { name: 'Before' });
+        const second = screen.getByRole('button', { name: 'Second' });
+
+        before.focus();
+        expect(before).toHaveFocus();
+
+        await user.tab();
+        expect(second).toHaveFocus();
     });
 });

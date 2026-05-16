@@ -2,7 +2,7 @@
 import React from 'react';
 import AvatarPrimitiveRoot from '~/core/primitives/Avatar/fragments/AvatarPrimitiveRoot';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { AvatarContext } from '../contexts/AvatarContext';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 const COMPONENT_NAME = 'Avatar';
@@ -16,7 +16,7 @@ export type AvatarRootProps = React.ComponentPropsWithoutRef<typeof AvatarPrimit
 }
 
 const AvatarRoot = React.forwardRef<React.ElementRef<typeof AvatarPrimitiveRoot>, AvatarRootProps>(({ children, customRootClass = '', className = '', size = '', variant = '', color = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('avatar', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);

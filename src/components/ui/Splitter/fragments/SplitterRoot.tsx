@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import clsx from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
 
@@ -39,7 +40,7 @@ const SplitterRoot = React.forwardRef<
     style,
     ...props
 }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);
@@ -233,11 +234,11 @@ const SplitterRoot = React.forwardRef<
 
         let delta = 0;
         if (isHorizontal) {
-            if (event.key === 'ArrowLeft') delta = -step;
-            if (event.key === 'ArrowRight') delta = step;
+            if (event.key === KEYBOARD_KEYS.ARROW_LEFT) delta = -step;
+            if (event.key === KEYBOARD_KEYS.ARROW_RIGHT) delta = step;
         } else {
-            if (event.key === 'ArrowUp') delta = -step;
-            if (event.key === 'ArrowDown') delta = step;
+            if (event.key === KEYBOARD_KEYS.ARROW_UP) delta = -step;
+            if (event.key === KEYBOARD_KEYS.ARROW_DOWN) delta = step;
         }
 
         if (delta !== 0) {

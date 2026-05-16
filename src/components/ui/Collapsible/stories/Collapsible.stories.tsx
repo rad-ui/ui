@@ -19,7 +19,7 @@ const Items = [
 
 const meta: Meta<typeof Collapsible> = {
     component: Collapsible,
-    title: 'WIP/Collapsible'
+    title: 'Components/Collapsible'
 };
 
 export default meta;

@@ -17,7 +17,7 @@ const DialogTrigger = forwardRef<DialogTriggerElement, DialogTriggerProps>(({ ch
     const { rootClass } = useContext(DialogContext);
 
     return (
-        <DialogPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-trigger`, className)} asChild={asChild} {...props}>
+        <DialogPrimitive.Trigger ref={ref} className={clsx(rootClass && `${rootClass}-trigger`, className)} asChild={asChild} {...props}>
             {children}
         </DialogPrimitive.Trigger>
 

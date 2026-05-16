@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import RadioCardsExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="RadioCards"
+    description="Card-style single-selection component. Each card acts as a radio button, ideal for plan or option pickers."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <RadioCardsExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

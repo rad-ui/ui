@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import TabsRootContext from '../context/TabsRootContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
@@ -16,7 +16,7 @@ export type TabContentProps = React.ComponentPropsWithoutRef<'div'> & {
 
 const TabContent = React.forwardRef<React.ElementRef<'div'>, TabContentProps>(
     ({ className = '', value, children, customRootClass, asChild = false, forceMount = false, ...props }, forwardedRef) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const context = useContext(TabsRootContext);
         if (!context) throw new Error('TabContent must be used within a TabRoot');
         const { tabValue: activeValue, orientation } = context;

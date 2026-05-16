@@ -21,7 +21,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
             <RovingFocusGroup.Item domId={id ?? headerId}>
                 <CollapsiblePrimitive.Trigger disabled={disabled} asChild>
                     <ButtonPrimitive
-                        className={clsx(`${rootClass}-trigger`, className)}
+                        className={clsx(rootClass && `${rootClass}-trigger`, className)}
                         ref={ref}
                         aria-disabled={disabled}
                         aria-expanded={activeItems.includes(itemValue)}

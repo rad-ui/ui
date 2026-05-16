@@ -24,20 +24,22 @@ We recommend wrapping Rad UI components with your own abstractions to streamline
 
 
 ## Importing base styles
-Rad UI is headless by default, meaning it doesn't come with built-in styles. However, to help you get started quickly, we provide a default theme that you can import and use right away. This theme includes basic styles that will allow you to begin building your application without needing to define all styles from scratch.
+Rad UI is headless by default. Components work without built-in visual styles, so you can bring your own design system, utility classes, CSS Modules, SCSS, or any other styling approach.
+
+If you want Rad UI's default design system styles, import the default theme stylesheet explicitly:
 
 ```tsx
 import "@radui/ui/themes/default.css";
 ```
 
-If you prefer to use your own custom styles or integrate with a specific design system, you can easily detach components from the default theme and apply your own styles. Alternatively, you can import only the styles you need by referring to the specific component’s documentation page.
+If you prefer to use your own styles, you do not need to import any Rad UI CSS. Alternatively, you can import only the styles you need by referring to the specific component’s documentation page.
 
 
+## Theme
+Rad UI provides a `Theme` component that sets shared visual context for a subtree. Use it to configure things like appearance and accent color, and to opt into generated component classes when you want to target Rad UI's default styles or your own namespaced design system CSS.
 
-## Configuring the theme
-Rad UI provides a Theme component that allows you to configure all your global app preferences in one place. With this component, you can easily control the appearance and other design tokens across your entire application.
-
-For example, you can customize global settings such as the app's appearance (light or dark mode) and accent colors to align with your design system or branding.
+### Basic usage
+You can configure global settings such as appearance and accent color to align with your product or design system:
 
 ```tsx
 import Theme from "@radui/ui/Theme";
@@ -45,13 +47,71 @@ import Theme from "@radui/ui/Theme";
 const App = () => {
     return (
         <Theme appearance="dark" accentColor="gray">
-            <App />
+            <YourApp />
         </Theme>
     )
 }
 ```
 
-This setup ensures consistency across your app and makes it easier to manage global styles and preferences from a single component.
+This keeps visual preferences in one place and makes them easy to apply consistently across your app.
+
+### Using `classNamespace`
+By default, `Theme` does **not** add generated component classes on its own.
+
+This means the following stays classless from the library's point of view:
+
+```tsx
+<Theme>
+    <Accordion.Root />
+</Theme>
+```
+
+If you want generated classes for a subtree, pass `classNamespace`:
+
+```tsx
+<Theme classNamespace="rad-ui">
+    <Accordion.Root />
+</Theme>
+```
+
+This generates namespaced classes such as:
+
+```html
+<div class="rad-ui-accordion-root"></div>
+```
+
+Use `classNamespace` when:
+
+- you want to use Rad UI's default theme stylesheet
+- you want to namespace your own design system CSS
+- you want a stable class contract for styling component parts
+
+If you are importing the default Rad UI CSS, wrap that subtree with `Theme classNamespace="rad-ui"` so the generated class names match the selectors in the stylesheet:
+
+```tsx
+import "@radui/ui/themes/default.css";
+import Theme from "@radui/ui/Theme";
+
+const App = () => {
+    return (
+        <Theme classNamespace="rad-ui" appearance="dark" accentColor="gray">
+            <YourApp />
+        </Theme>
+    )
+}
+```
+
+If you are bringing your own styles, choose any namespace that fits your system:
+
+```tsx
+<Theme classNamespace="acme">
+    <Accordion.Root />
+</Theme>
+```
+
+This generates classes like `acme-accordion-root`, `acme-accordion-item`, and `acme-accordion-trigger`.
+
+For the full `Theme` API, see the dedicated Theme component docs.
 
 
 
@@ -79,7 +139,6 @@ export default config;
 ### For Tailwind CSS v4
 
 We are actively working on a Tailwind CSS v4 preset to ensure you can leverage the latest features from Tailwind with minimal configuration. Stay tuned for updates!
-
 
 
 

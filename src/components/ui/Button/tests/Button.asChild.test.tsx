@@ -13,25 +13,25 @@ describe('Button asChild', () => {
     test('anchor child preserves role and forwards className and ref', () => {
         const ref = React.createRef<HTMLAnchorElement>();
         render(
-            <Button asChild className="test-class" ref={ref as any}>
+            <Button asChild customRootClass="rad-ui" className="test-class" ref={ref as any}>
                 <a href="#">link</a>
             </Button>
         );
         const button = screen.getByRole('button');
         expect(button.tagName.toLowerCase()).toBe('a');
-        expect(button).toHaveClass('rad-ui-button', 'test-class');
+        expect(button).toHaveClass('rad-ui-button-root', 'test-class');
         expect(ref.current).toBe(button);
     });
 
     test('span child preserves role and className', () => {
         render(
-            <Button asChild className="span-class">
+            <Button asChild customRootClass="rad-ui" className="span-class">
                 <span>span</span>
             </Button>
         );
         const button = screen.getByRole('button');
         expect(button.tagName.toLowerCase()).toBe('span');
-        expect(button).toHaveClass('rad-ui-button', 'span-class');
+        expect(button).toHaveClass('rad-ui-button-root', 'span-class');
     });
 
     test('disabled asChild suppresses clicks and sets data-disabled', async() => {

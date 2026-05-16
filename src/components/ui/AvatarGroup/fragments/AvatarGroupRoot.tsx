@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core/customClassSwitcher';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { AvatarGroupContext } from '../contexts/AvatarGroupContext';
 import { createDataAttributes, composeAttributes } from '~/core/hooks/createDataAttribute';
 
@@ -13,7 +13,7 @@ export type AvatarGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
 const COMPONENT_NAME = 'AvatarGroup';
 
 const AvatarGroupRoot = React.forwardRef<HTMLDivElement, AvatarGroupRootProps>(({ customRootClass = '', size = '', variant = '', children, className = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const dataAttributes = createDataAttributes('avatar', { variant, size });
     const composedAttributes = composeAttributes(dataAttributes);
 

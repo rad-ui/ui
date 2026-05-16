@@ -10,6 +10,10 @@ export type ComboboxPrimitiveContextType = {
         setReference: (node: any) => void;
         setFloating: (node: any) => void;
     };
+    isPositioned: boolean;
+    updatePosition: () => void;
+    middlewareData: any;
+    placedPlacement: string;
     floatingStyles: React.CSSProperties;
     floatingContext: any;
     getReferenceProps: () => any;
@@ -20,10 +24,12 @@ export type ComboboxPrimitiveContextType = {
     selectedIndex: number | null;
     elementsRef: React.MutableRefObject<(HTMLElement | null)[]>;
     labelsRef: React.MutableRefObject<(string | null)[]>;
+    displayLabelsRef: React.MutableRefObject<(string | null)[]>;
     valuesRef: React.MutableRefObject<(string | null)[]>;
     disabledIndices: number[];
     setDisabledIndices: React.Dispatch<React.SetStateAction<number[]>>;
     selectedLabel: string;
+    selectedValue: string;
     isTypingRef: React.RefObject<boolean>;
     selectedItemRef: React.MutableRefObject<HTMLElement | null>;
     virtualItemRef: React.RefObject<HTMLElement | null>;

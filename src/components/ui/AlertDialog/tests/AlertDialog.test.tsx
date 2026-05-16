@@ -230,7 +230,7 @@ describe('AlertDialog', () => {
             await user.click(screen.getByText('Open Dialog'));
 
             // Content should now have open state
-            expect(content).toHaveAttribute('data-state', 'open');
+            expect(screen.getByTestId('dialog-content')).toHaveAttribute('data-state', 'open');
         });
 
         it('should support keepMounted prop', async() => {
@@ -253,7 +253,7 @@ describe('AlertDialog', () => {
             await user.click(screen.getByText('Open Dialog'));
 
             // Content should now have open state
-            expect(content).toHaveAttribute('data-state', 'open');
+            expect(screen.getByTestId('dialog-content')).toHaveAttribute('data-state', 'open');
         });
     });
 

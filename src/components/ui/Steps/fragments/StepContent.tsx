@@ -7,7 +7,7 @@ export type StepContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 const StepContent = ({ children, className = '', ...props }: StepContentProps) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(`${rootClass}-content`, className)} {...props}>{children}</div>;
+    return <div className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>{children}</div>;
 };
 
 export default StepContent;

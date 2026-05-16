@@ -36,7 +36,7 @@ export const Checked = () => (
                 </Checkbox.Root>
                 <div className="space-y-1">
                     <label htmlFor="checked-default" className="block cursor-pointer text-[0.95rem] font-medium text-[var(--rad-ui-text-primary)]">Accept terms and conditions</label>
-                    <p className="text-[0.8125rem] text-[#6f6f6f]">By clicking this checkbox, you agree to the terms.</p>
+                    <p className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)]">By clicking this checkbox, you agree to the terms.</p>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@ export const WithLabel = () => {
             <div className="w-full max-w-[38rem]">
                 <label
                     htmlFor="notifications"
-                    className="flex cursor-pointer items-start gap-3 rounded-[1rem] border border-[#dcdcdc] bg-[var(--rad-ui-surface)] px-4 py-4"
+                    className="flex cursor-pointer items-start gap-3 rounded-[1rem] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface)] px-4 py-4"
                 >
                     <Checkbox.Root
                         id="notifications"
@@ -75,7 +75,7 @@ export const WithLabel = () => {
                     </Checkbox.Root>
                     <div className="space-y-1">
                         <div className="text-[0.95rem] font-medium text-[var(--rad-ui-text-primary)]">Enable notifications</div>
-                        <p className="text-[0.8125rem] text-[#6f6f6f]">
+                        <p className="text-[0.8125rem] text-[var(--rad-ui-text-secondary)]">
                             You can enable or disable notifications at any time.
                         </p>
                     </div>

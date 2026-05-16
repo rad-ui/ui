@@ -2,7 +2,7 @@ import React from 'react';
 import RadioGroupPrimitive, { RadioGroupPrimitiveProps } from '~/core/primitives/RadioGroup/RadioGroupPrimitive';
 
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 import { RadioGroupContext } from '../context/RadioGroupContext';
 
@@ -24,14 +24,14 @@ export type RadioGroupRootProps = {
 
 const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootProps>(
     ({ children, className = '', customRootClass = '', variant = '', size = '', color = '', ...props }, ref) => {
-        const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const dataAttributes = createDataAttributes('radio-group', { variant, size });
 
         const accentAttributes = createDataAccentColorAttribute(color);
         const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
         return <RadioGroupContext.Provider value={{ rootClass }}>
-            <RadioGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} {...composedAttributes} {...props}> {children} </RadioGroupPrimitive.Root>
+            <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...composedAttributes} {...props}> {children} </RadioGroupPrimitive.Root>
         </RadioGroupContext.Provider>;
     }
 );

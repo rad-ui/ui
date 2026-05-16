@@ -21,7 +21,7 @@ const ToolbarSeparator = React.forwardRef<React.ElementRef<typeof Separator>, Se
                 {...props}
                 decorative
                 orientation={separatorOrientation}
-                className={clsx(`${rootClass}-separator`, className)}
+                className={clsx(rootClass && `${rootClass}-separator`, className)}
             />
         );
     }

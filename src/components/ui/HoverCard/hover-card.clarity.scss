@@ -1,0 +1,43 @@
+.rad-ui-hover-card {
+    background-color: var(--rad-ui-surface);
+    padding: 0.875rem 1rem 0.9375rem;
+    box-shadow: var(--rad-ui-elevation-lg-shadow);
+    border-radius: var(--rad-ui-radius-xl);
+    border: 1px solid var(--rad-ui-border-soft);
+    max-width: 21rem;
+    color: var(--rad-ui-text-primary);
+    font-size: var(--rad-ui-font-size-2);
+
+    .rad-ui-hover-card-arrow {
+        fill: var(--rad-ui-surface);
+    }
+
+    &[data-size="small"] {
+        padding: 0.625rem 0.75rem;
+        max-width: 16rem;
+        font-size: var(--rad-ui-font-size-1);
+        border-radius: var(--rad-ui-radius-lg);
+    }
+
+    &[data-size="medium"] {
+        padding: 0.875rem 1rem 0.9375rem;
+        max-width: 21rem;
+        font-size: var(--rad-ui-font-size-2);
+    }
+
+    &[data-size="large"] {
+        padding: 1.25rem 1.375rem 1.375rem;
+        max-width: 28rem;
+        font-size: var(--rad-ui-font-size-3);
+        border-radius: calc(var(--rad-ui-radius-xl) + 0.25rem);
+    }
+}
+
+.rad-ui-hover-card-trigger {
+    color: var(--rad-ui-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+}

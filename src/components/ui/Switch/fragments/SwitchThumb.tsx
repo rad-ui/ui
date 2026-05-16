@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import { SwitchContext } from '../context/SwitchContext';
 
@@ -24,7 +25,7 @@ const SwitchThumb = forwardRef<SwitchThumbElement, SwitchThumbProps>(({ asChild 
         <Primitive.span
             ref={ref}
             role='switch'
-            className={`${rootClass}-indicator ${className || ''}`}
+            className={clsx(rootClass && `${rootClass}-indicator`, className)}
             asChild={asChild}
             {...dataAttributes}
             {...props}

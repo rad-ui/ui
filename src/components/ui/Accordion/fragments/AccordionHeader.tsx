@@ -11,7 +11,7 @@ export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'h3'> & {
 const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
     ({ children, className = '', asChild = false, ...props }, ref) => {
         const { rootClass, orientation } = useContext(AccordionContext);
-        const mergedClass = clsx(`${rootClass}-header`, className);
+        const mergedClass = clsx(rootClass && `${rootClass}-header`, className);
 
         if (asChild && isValidElement(children)) {
             const child = children as React.ReactElement;

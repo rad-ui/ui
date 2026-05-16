@@ -8,17 +8,29 @@ const items = [
     {
         id: "overview",
         title: "Overview",
-        content: "The tabs API separates list, trigger, and content so you can keep structure explicit and styling flexible."
+        content: [
+            "The tabs API separates list, trigger, and content so you can keep structure explicit and styling flexible.",
+            "Each part stays composable, which makes it easier to control layout, slot in custom content, and adapt the pattern to different page structures.",
+            "This is the right fit when users need to compare related sections without losing their place in the current view."
+        ]
     },
     {
         id: "usage",
         title: "Usage",
-        content: "Use tabs when content belongs on the same hierarchy level and users need quick switching without navigation."
+        content: [
+            "Use tabs when content belongs on the same hierarchy level and users need quick switching without navigation.",
+            "Good examples include settings groups, product details, analytics summaries, or any place where the active section should change instantly in place.",
+            "Keep tab labels short, make the selected state obvious, and avoid hiding unrelated workflows behind the same tab set."
+        ]
     },
     {
         id: "notes",
         title: "Notes",
-        content: "This playground keeps the content short on purpose so the interactive pattern is clear at a glance."
+        content: [
+            "This playground keeps the structure simple, but the component can comfortably handle denser real-world content.",
+            "If your panels include forms, tables, or secondary actions, the interaction model still holds as long as the tab labels remain clear and predictable.",
+            "When the content starts to represent a navigation change rather than a local view switch, move to routes instead of tabs."
+        ]
     }
 ]
 
@@ -42,8 +54,10 @@ const TabsPlayground = () => {
                     </Tabs.List>
                     {items.map((item) => (
                         <Tabs.Content key={item.id} value={item.id}>
-                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-                                {item.content}
+                            <div className="space-y-3">
+                                {item.content.map((paragraph) => (
+                                    <p key={paragraph}>{paragraph}</p>
+                                ))}
                             </div>
                         </Tabs.Content>
                     ))}

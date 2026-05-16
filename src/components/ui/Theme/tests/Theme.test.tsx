@@ -2,6 +2,7 @@ import React from 'react';
 import { render, act, screen } from '@testing-library/react';
 
 import Theme from '../Theme';
+import ThemeContext from '../ThemeContext';
 
 describe('Theme', () => {
     const originalMatchMedia = window.matchMedia;
@@ -79,5 +80,30 @@ describe('Theme', () => {
 
         expect(portalRoot).toBeInstanceOf(HTMLDivElement);
         expect(portalRoot?.parentElement).toBe(themeDiv);
+    });
+
+    test('provides classNamespace through context', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+
+        const Consumer = () => {
+            const context = React.useContext(ThemeContext);
+            return <span data-testid="class-namespace">{context?.classNamespace}</span>;
+        };
+
+        render(
+            <Theme classNamespace="acme">
+                <Consumer />
+            </Theme>
+        );
+
+        expect(screen.getByTestId('class-namespace')).toHaveTextContent('acme');
+    });
+
+    test('does not add generated classes without classNamespace', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const { container } = render(<Theme>content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+
+        expect(themeDiv).not.toHaveClass('rad-ui-theme');
     });
 });
