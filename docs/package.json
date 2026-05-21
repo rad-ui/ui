@@ -27,7 +27,7 @@
     "clsx": "^2.1.1",
     "eslint": "9.39.2",
     "eslint-config-next": "16.2.3",
-    "js-cookie": "^3.0.5",
+    "js-cookie": "^3.0.7",
     "lucide-react": "^1.7.0",
     "motion": "^12.9.2",
     "next": "16.2.3",
