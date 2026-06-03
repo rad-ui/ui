@@ -55,6 +55,10 @@ https://www.rad-ui.com/docs/first-steps/introduction
 
 Docs are treated as product, not an afterthought.
 
+Browser support policy:
+
+https://www.rad-ui.com/docs/guides/browser-support
+
 ## Installation
 
 Install Rad UI from npm:

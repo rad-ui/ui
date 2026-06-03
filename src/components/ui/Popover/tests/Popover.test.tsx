@@ -1,8 +1,16 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { TextEncoder, TextDecoder } from 'util';
 import Popover from '../Popover';
 import Theme from '~/components/ui/Theme/Theme';
+;(global as any).TextEncoder = TextEncoder;
+;(global as any).TextDecoder = TextDecoder;
+const { renderToString } = require('react-dom/server');
+const { hydrateRoot } = require('react-dom/client');
+const { act } = require('react-dom/test-utils');
+
+const flush = () => new Promise(resolve => setTimeout(resolve, 0));
 
 const mockMatchMedia = () => {
     if ('matchMedia' in window && typeof window.matchMedia === 'function') {
@@ -161,6 +169,49 @@ describe('Popover', () => {
         expect(content).toBeInTheDocument();
         expect(content).toHaveAttribute('data-state', 'closed');
         expect(content).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    test('hydrates SSR markup without warnings when open', async() => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        const html = renderToString(
+            <Popover.Root open>
+                <Popover.Trigger>Open</Popover.Trigger>
+                <Popover.Content>Popover body</Popover.Content>
+            </Popover.Root>
+        );
+
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+        let root: ReturnType<typeof hydrateRoot>;
+        await act(async() => {
+            root = hydrateRoot(container, (
+                <Popover.Root open>
+                    <Popover.Trigger>Open</Popover.Trigger>
+                    <Popover.Content>Popover body</Popover.Content>
+                </Popover.Root>
+            ));
+            await flush();
+        });
+
+        const filteredWarns = warn.mock.calls.filter(([message]) => !String(message).includes('useLayoutEffect does nothing on the server'));
+        const filteredErrors = error.mock.calls.filter(([message]) => {
+            const text = String(message);
+            return !text.includes('useLayoutEffect does nothing on the server') &&
+                !text.includes('ReactDOMTestUtils.act') &&
+                !text.includes('not wrapped in act');
+        });
+
+        expect(filteredWarns).toHaveLength(0);
+        expect(filteredErrors).toHaveLength(0);
+
+        await act(() => root.unmount());
+        container.remove();
+        warn.mockRestore();
+        error.mockRestore();
     });
 
     test('supports Arrow asChild parity', async() => {

@@ -1,0 +1,64 @@
+# Flaky test quarantine policy and owner SLA
+
+Use this policy when a test is **intermittently failing** but the underlying product behavior is not intentionally changing.
+
+Quarantine is a temporary containment tool. It is not a substitute for fixing the root cause.
+
+## When quarantine is allowed
+
+Quarantine a test only when all of the following are true:
+
+- the failure is non-deterministic or environment-sensitive
+- the failure has been reproduced or investigated enough to rule out a real product regression
+- leaving the test active would block unrelated work or keep CI red
+- a tracking issue exists for the follow-up fix
+
+If the failure indicates a likely user-facing regression, **do not quarantine first**. Fix or revert the breaking change.
+
+## Required quarantine steps
+
+Every quarantine change should include:
+
+1. a tracking issue link
+2. a short code comment explaining why the test was quarantined
+3. a named owner responsible for the follow-up
+4. a target removal window
+
+Preferred patterns:
+
+- `test.skip(...)` for a single unstable case
+- `describe.skip(...)` only when the full suite shares the same instability source
+- guard the narrowest failing assertion rather than broad test files
+
+## Owner SLA
+
+| Situation | Target action |
+| --- | --- |
+| Flake turns `main` red repeatedly | Owner acknowledges the same working day and either quarantines or fixes it |
+| Release-blocking flake | Fix or quarantine within 24 hours |
+| Non-blocking flake in CI | Root-cause investigation starts within 3 working days |
+| Quarantined test | Remove quarantine or post a status update within 7 calendar days |
+
+If the named owner is unavailable, another maintainer should reassign the issue instead of letting the quarantine age silently.
+
+## Reviewer expectations
+
+Reviewers should ask for:
+
+- evidence that the failure is actually flaky
+- the issue link and owner name in the PR description
+- the smallest possible quarantine scope
+- a note describing how the test will be restored
+
+## Restoring the test
+
+When the root cause is fixed:
+
+- remove the quarantine guard in the same PR as the fix when possible
+- keep the regression test active
+- mention the original tracking issue in the fix PR so the history stays connected
+
+## Related guidance
+
+- Use the [Contributor Checklist](/docs/contributing/contributor-checklist) before opening the PR.
+- Use [Browser Support](/docs/guides/browser-support) and [Mobile & Touch QA](/docs/guides/mobile-touch-qa) when the flake is environment-specific.
