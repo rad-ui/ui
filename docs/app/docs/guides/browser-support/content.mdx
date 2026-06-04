@@ -1,0 +1,60 @@
+# Browser support
+
+Rad UI targets **modern evergreen browsers**. The library assumes JavaScript is enabled and that the runtime supports the platform features needed for composition, portals, focus management, and CSS custom properties.
+
+## Support policy
+
+Rad UI is **officially supported** in the following environments:
+
+| Environment | Support level | Version policy |
+| --- | --- | --- |
+| Chrome | Official | Latest 2 stable versions |
+| Edge | Official | Latest 2 stable versions |
+| Firefox | Official | Latest 2 stable versions |
+| Safari (macOS) | Official | Latest 2 stable versions |
+| iOS Safari | Official | Current major version |
+| Chrome on Android | Official | Current major version |
+
+Everything else is **best effort only**:
+
+- older non-evergreen browsers
+- embedded webviews with partial API support
+- browsers that disable modern DOM or CSS features Rad UI relies on
+
+## Platform assumptions
+
+Rad UI components assume support for:
+
+- ES modules and modern React client rendering
+- CSS custom properties
+- `matchMedia`
+- `ResizeObserver`
+- `IntersectionObserver` where components opt into viewport awareness
+- focus management, portals, and keyboard interaction APIs expected in current evergreen browsers
+
+If one of these APIs is missing, the environment is outside the library's guaranteed support baseline unless the consuming app provides a compatible polyfill.
+
+## Compatibility notes
+
+- **No legacy IE / pre-Chromium Edge support**: those environments are outside the project baseline.
+- **Reduced motion**: components should respect `prefers-reduced-motion` when motion is introduced.
+- **Mobile Safari**: verify touch, scrolling, viewport, and keyboard behavior for overlays and form-heavy components.
+- **SSR**: hydration-sensitive primitives should keep server and client markup aligned. See [SSR & No-JS Fallback](/docs/guides/ssr-and-no-js-fallback).
+
+## Validation policy
+
+The support matrix should match what maintainers can realistically validate:
+
+- **Automated coverage**: unit and component tests run primarily in jsdom and should cover behavior, accessibility, and hydration regressions where relevant.
+- **Targeted manual QA**: browser-sensitive changes should be spot-checked in at least one Chromium browser, Safari, and Firefox before merge when the change affects overlays, focus management, scrolling, or layout measurement.
+- **Mobile QA**: use the [Mobile & Touch QA](/docs/guides/mobile-touch-qa) checklist for touch interactions and small-screen behavior.
+
+## Triage guidance
+
+When a browser-specific bug is reported:
+
+1. Confirm whether the browser is inside the support matrix.
+2. Reproduce on a currently supported version before treating it as a regression.
+3. If the issue reproduces only outside the matrix, label it as **best effort** and avoid expanding the support promise casually.
+
+Consumers should treat the support matrix as the baseline for production usage and maintenance expectations.
