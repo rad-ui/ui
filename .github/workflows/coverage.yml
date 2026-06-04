@@ -45,11 +45,7 @@ jobs:
           git fetch --no-tags --prune --depth=1 origin +$BASE_SHA:
           git checkout $BASE_SHA
           npm ci
-          if [ ! -f ./jest.coverage-ci.config.ts ]; then
-            echo "Base coverage config missing on base branch"
-            echo "base_coverage_success=false" >> $GITHUB_OUTPUT
-            echo '{"total":{"statements":{"pct":0},"branches":{"pct":0},"functions":{"pct":0},"lines":{"pct":0}}}' > base-coverage.json
-          elif npx jest --coverage --config ./jest.coverage-ci.config.ts; then
+          if npx jest --coverage --config ./jest.coverage-ci.config.ts; then
             cp coverage/coverage-summary.json base-coverage.json
             echo "base_coverage_success=true" >> $GITHUB_OUTPUT
           else
