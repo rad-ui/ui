@@ -87,7 +87,8 @@ const renderCellValue = (row, columnType, value) => {
         return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
     }
 
-    if (value === "boolean" || value === "false" || value === "true") {
+    // Defensive: support boolean-like strings for future non-standard columns.
+    if (typeof value === 'string' && (value === "boolean" || value === "false" || value === "true")) {
         return <InlineCode tone="accent">{value}</InlineCode>;
     }
 

@@ -1,16 +1,14 @@
 import React, { createRef } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { TextEncoder, TextDecoder } from 'util';
 import HoverCard from '../HoverCard';
 import Theme from '~/components/ui/Theme/Theme';
-;(global as any).TextEncoder = TextEncoder;
-;(global as any).TextDecoder = TextDecoder;
-const { renderToString } = require('react-dom/server');
-const { hydrateRoot } = require('react-dom/client');
-const { act } = require('react-dom/test-utils');
-
-const flush = () => new Promise(resolve => setTimeout(resolve, 0));
+import {
+    expectNoUnexpectedHydrationWarnings,
+    flush,
+    hydrateRoot,
+    renderToString
+} from '../../tests/ssrHydration';
 
 const mockMatchMedia = () => {
     if ('matchMedia' in window && typeof window.matchMedia === 'function') {
@@ -160,7 +158,7 @@ describe('HoverCard', () => {
         container.innerHTML = html;
         document.body.appendChild(container);
 
-        let root: ReturnType<typeof hydrateRoot>;
+        let root!: ReturnType<typeof hydrateRoot>;
         await act(async() => {
             root = hydrateRoot(container, (
                 <HoverCard.Root open onOpenChange={() => {}}>
@@ -171,16 +169,7 @@ describe('HoverCard', () => {
             await flush();
         });
 
-        const filteredWarns = warn.mock.calls.filter(([message]) => !String(message).includes('useLayoutEffect does nothing on the server'));
-        const filteredErrors = error.mock.calls.filter(([message]) => {
-            const text = String(message);
-            return !text.includes('useLayoutEffect does nothing on the server') &&
-                !text.includes('ReactDOMTestUtils.act') &&
-                !text.includes('not wrapped in act');
-        });
-
-        expect(filteredWarns).toHaveLength(0);
-        expect(filteredErrors).toHaveLength(0);
+        expectNoUnexpectedHydrationWarnings(warn, error);
 
         await act(() => root.unmount());
         container.remove();

@@ -41,16 +41,13 @@ jobs:
       - name: Build library package
         run: npm run build:rollup
 
-      - name: Link local library package
-        run: npm link
-
       - name: Install docs dependencies
         working-directory: docs
         run: pnpm install --frozen-lockfile
 
       - name: Use local library package in docs
         working-directory: docs
-        run: pnpm link @radui/ui
+        run: pnpm link ..
 
       - name: Build docs
         working-directory: docs
