@@ -1,3 +1,6 @@
+import Kbd from '@radui/ui/Kbd';
+import { ACCESSIBLE_KEYBOARD_KEYS } from '@/utils/accessibility/keyboard';
+
 # Accessibility
 
 Accessibility is not an add on in Rad UI.  
@@ -29,10 +32,10 @@ ARIA is used deliberately and only when necessary. Native semantics are preferre
 All Rad UI components are designed to be fully operable using a keyboard.
 
 Supported interactions include:
-- Tab and Shift + Tab for navigation
+- <Kbd>{ACCESSIBLE_KEYBOARD_KEYS.TAB}</Kbd> and <Kbd>{ACCESSIBLE_KEYBOARD_KEYS.SHIFT_TAB}</Kbd> for navigation
 - Arrow keys for directional movement
-- Enter and Space for activation
-- Escape for dismissal where applicable
+- <Kbd>{ACCESSIBLE_KEYBOARD_KEYS.ENTER}</Kbd> and <Kbd>{ACCESSIBLE_KEYBOARD_KEYS.SPACE}</Kbd> for activation
+- <Kbd>{ACCESSIBLE_KEYBOARD_KEYS.ESCAPE}</Kbd> for dismissal where applicable
 
 Keyboard behavior follows platform conventions so interactions feel familiar and predictable.
 
