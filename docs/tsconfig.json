@@ -23,6 +23,15 @@
       }
     ],
     "paths": {
+      "@radui/ui/Command": [
+        "../src/components/ui/Command/Command.tsx"
+      ],
+      "@radui/ui/Toast": [
+        "../src/components/ui/Toast/Toast.tsx"
+      ],
+      "~/*": [
+        "../src/*"
+      ],
       "@/*": [
         "./*"
       ]

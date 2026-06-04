@@ -5,7 +5,6 @@ import createMDX from '@next/mdx'
 import remarkGfm from 'remark-gfm'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // Configure `pageExtensions` to include markdown and MDX files
@@ -107,6 +106,16 @@ const nextConfig = {
 
     turbopack: {
         root: __dirname,
+    },
+
+    webpack: (config) => {
+        config.resolve.alias = {
+            ...(config.resolve.alias || {}),
+            '@radui/ui/Command': path.resolve(__dirname, '../src/components/ui/Command/Command.tsx'),
+            '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
+        }
+
+        return config
     },
 
     // Environment variables for SEO
