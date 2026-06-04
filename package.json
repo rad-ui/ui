@@ -26,6 +26,7 @@
     "test:storybook:e2e": "playwright test -c playwright.storybook.config.ts",
     "test:storybook:e2e:ci": "npm run build-storybook && npm run test:storybook:e2e",
     "coverage": "jest --coverage",
+    "coverage:ci": "jest --coverage --config jest.coverage-ci.config.ts",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "prerelease:enter": "changeset pre enter next",
