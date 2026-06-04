@@ -10,7 +10,7 @@ export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
 };
 
 const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScrollbarProps>(({ children, className = '', orientation = 'vertical', ...props }, ref) => {
-    const { rootClass, handleScrollbarClick, scrollXThumbRef, scrollYThumbRef, type, scrollAreaViewportRef, rootRef } = useContext(ScrollAreaContext);
+    const { rootClass, handleScrollbarClick, scrollXThumbRef, scrollYThumbRef, type, scrollbarVisible, overflow } = useContext(ScrollAreaContext);
 
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const isScrollingRef = useRef(false);
@@ -18,77 +18,7 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
     const [isScrollingState, setIsScrollingState] = React.useState(false);
     const mousePositionRef = useRef<number>(0);
 
-    const [visible, setVisible] = React.useState(type === 'always');
-    const [isOverflowing, setIsOverflowing] = React.useState(false);
-    const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    const show = React.useCallback(() => {
-        if (type === 'scroll' || type === 'hover') {
-            setVisible(true);
-            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-            hideTimeoutRef.current = setTimeout(() => {
-                setVisible(false);
-            }, 1000);
-        }
-    }, [type]);
-
-    // Handle scroll visibility
-    React.useEffect(() => {
-        if (type === 'always' || type === 'auto') return;
-        const viewport = scrollAreaViewportRef?.current;
-        if (!viewport) return;
-
-        const handleViewportScroll = () => show();
-        viewport.addEventListener('scroll', handleViewportScroll);
-        return () => {
-            viewport.removeEventListener('scroll', handleViewportScroll);
-            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-        };
-    }, [type, scrollAreaViewportRef, show]);
-
-    // Handle hover visibility
-    React.useEffect(() => {
-        if (type !== 'hover') return;
-        const root = rootRef?.current;
-        if (!root) return;
-
-        const handleMouseEnter = () => {
-            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-            setVisible(true);
-        };
-        const handleMouseLeave = () => {
-            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-            hideTimeoutRef.current = setTimeout(() => {
-                setVisible(false);
-            }, 500);
-        };
-
-        root.addEventListener('mouseenter', handleMouseEnter);
-        root.addEventListener('mouseleave', handleMouseLeave);
-        return () => {
-            root.removeEventListener('mouseenter', handleMouseEnter);
-            root.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, [type, rootRef]);
-
-    // Overflow detection
-    React.useEffect(() => {
-        const viewport = scrollAreaViewportRef?.current;
-        if (!viewport) return;
-
-        const checkOverflow = () => {
-            const overflowing = orientation === 'vertical'
-                ? viewport.scrollHeight > viewport.clientHeight
-                : viewport.scrollWidth > viewport.clientWidth;
-            setIsOverflowing(overflowing);
-        };
-
-        checkOverflow();
-        const ro = new ResizeObserver(checkOverflow);
-        ro.observe(viewport);
-        Array.from(viewport.children).forEach(c => ro.observe(c));
-        return () => ro.disconnect();
-    }, [scrollAreaViewportRef, orientation]);
+    const isOverflowing = orientation === 'vertical' ? overflow.y : overflow.x;
 
     // Determine whether the auto-scroll should continue based on mouse position
     const shouldContinueScrolling = React.useCallback((mousePos: number): boolean => {
@@ -177,7 +107,10 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         };
     }, [isScrollingState, stopContinuousScroll]);
 
-    const isVisible = type === 'always' || (type === 'auto' && isOverflowing) || (isOverflowing && visible);
+    const isVisible =
+        type === 'always'
+        || (type === 'auto' && isOverflowing)
+        || (isOverflowing && (type === 'scroll' || type === 'hover') && scrollbarVisible);
     const shouldKeepInDOM = isOverflowing || type === 'always';
 
     return (
