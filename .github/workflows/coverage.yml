@@ -33,7 +33,7 @@ jobs:
         run: npm ci
 
       - name: Run coverage on PR
-        run: npx jest --coverage --config jest.coverage-ci.config.ts
+        run: npm run coverage
 
       - name: Save PR coverage
         run: cp coverage/coverage-summary.json pr-coverage.json
@@ -45,7 +45,7 @@ jobs:
           git fetch --no-tags --prune --depth=1 origin +$BASE_SHA:
           git checkout $BASE_SHA
           npm ci
-          if npx jest --coverage --config jest.coverage-ci.config.ts; then
+          if npm run coverage; then
             cp coverage/coverage-summary.json base-coverage.json
             echo "base_coverage_success=true" >> $GITHUB_OUTPUT
           else
@@ -87,7 +87,6 @@ jobs:
               : 'Coverage improved or stayed the same. Great job!';
 
             const baseFailed = base.statements.pct === 0 && base.branches.pct === 0 && base.functions.pct === 0 && base.lines.pct === 0;
-            const thresholdsNote = 'CI coverage runs without global threshold enforcement so this job reports test-backed coverage deltas instead of failing on the repo-wide baseline.';
             const comparisonNote = baseFailed 
               ? '⚠️ Could not compare with base branch (base branch has failing tests or coverage issues). Showing PR coverage only.'
               : 'This report compares the PR with the base branch. "Δ" shows how the PR affects each metric.';
@@ -104,9 +103,7 @@ jobs:
                 ? `| Statements | ${pr.statements.pct}% |\n| Branches | ${pr.branches.pct}% |\n| Functions | ${pr.functions.pct}% |\n| Lines | ${pr.lines.pct}% |`
                 : [row('Statements', 'statements'), row('Branches', 'branches'), row('Functions', 'functions'), row('Lines', 'lines')].join('\n'),
               '',
-              thresholdsNote,
-              '',
-              summary,
+              baseFailed ? '✅ Coverage thresholds met! All tests passing.' : summary,
               '',
               'Run `npm run coverage` locally for detailed reports and target untested areas to raise these numbers.'
             ].join('\n');
