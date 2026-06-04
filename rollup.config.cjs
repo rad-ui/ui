@@ -11,7 +11,11 @@ const { dts } = require('rollup-plugin-dts');
 function getComponentDirectories() {
     const componentsPath = 'src/components/ui';
     return fs.readdirSync(componentsPath)
-        .filter((file) => fs.statSync(path.join(componentsPath, file)).isDirectory());
+        .filter((file) => {
+            const componentPath = path.join(componentsPath, file);
+            return fs.statSync(componentPath).isDirectory() &&
+                fs.existsSync(path.join(componentPath, `${file}.tsx`));
+        });
 }
 
 const components = getComponentDirectories();
