@@ -106,6 +106,11 @@ const nextConfig = {
 
     turbopack: {
         root: __dirname,
+        resolveAlias: {
+            '@radui/ui/Command': path.resolve(__dirname, '../src/components/ui/Command/Command.tsx'),
+            '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
+            '~': path.resolve(__dirname, '../src'),
+        },
     },
 
     webpack: (config) => {
@@ -113,6 +118,7 @@ const nextConfig = {
             ...(config.resolve.alias || {}),
             '@radui/ui/Command': path.resolve(__dirname, '../src/components/ui/Command/Command.tsx'),
             '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
+            '~': path.resolve(__dirname, '../src'),
         }
         config.resolve.modules = [
             path.resolve(__dirname, 'node_modules'),

@@ -35,7 +35,7 @@ const InfoButton = ({ infoText }) => {
                     <Info size={12} strokeWidth={2.2} />
                 </button>
             </Tooltip.Trigger>
-            <Tooltip.Content className="z-[9999] max-w-xs rounded-xl border border-gray-800 bg-gray-950 px-3 py-2 text-sm text-white shadow-xl">
+            <Tooltip.Content className="z-50 max-w-xs rounded-xl border border-gray-800 bg-gray-950 px-3 py-2 text-sm text-white shadow-xl">
                 <span className="flex flex-col gap-2">
                     {infoText}
                 </span>
@@ -87,6 +87,7 @@ const renderCellValue = (row, columnType, value) => {
         return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
     }
 
+    // API table metadata stores these as strings, not runtime boolean values.
     if (value === "boolean" || value === "false" || value === "true") {
         return <InlineCode tone="accent">{value}</InlineCode>;
     }

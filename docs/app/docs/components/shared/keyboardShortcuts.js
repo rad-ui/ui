@@ -24,11 +24,17 @@ export const DOCS_KEYBOARD_SHORTCUTS = Object.freeze({
     TAB: { id: 'tab', label: 'Tab' }
 });
 
-export const createKeyboardShortcutRow = (shortcut, description) => ({
-    shortcut: <Kbd>{shortcut.label}</Kbd>,
-    description: <Text>{description}</Text>,
-    id: shortcut.id
-});
+export const createKeyboardShortcutRow = (shortcut, description) => {
+    if (!shortcut || typeof shortcut !== 'object' || !shortcut.id || !shortcut.label) {
+        throw new Error('createKeyboardShortcutRow: invalid shortcut; use a DOCS_KEYBOARD_SHORTCUTS value.');
+    }
+
+    return {
+        shortcut: <Kbd>{shortcut.label}</Kbd>,
+        description: <Text>{description}</Text>,
+        id: shortcut.id
+    };
+};
 
 export const createKeyboardShortcutTable = (rows = []) => ({
     columns: keyboardShortcutColumns,
