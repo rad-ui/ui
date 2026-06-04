@@ -35,7 +35,7 @@ const InfoButton = ({ infoText }) => {
                     <Info size={12} strokeWidth={2.2} />
                 </button>
             </Tooltip.Trigger>
-            <Tooltip.Content className="z-[9999] max-w-xs rounded-xl border border-gray-800 bg-gray-950 px-3 py-2 text-sm text-white shadow-xl">
+            <Tooltip.Content className="z-50 max-w-xs rounded-xl border border-gray-800 bg-gray-950 px-3 py-2 text-sm text-white shadow-xl">
                 <span className="flex flex-col gap-2">
                     {infoText}
                 </span>
@@ -55,7 +55,7 @@ const InfoRenderer = ({ row }) => {
     );
 }
 
-const EnumRenderer = ({ enumValues=[] }) => {
+const EnumRenderer = ({ enumValues = [] }) => {
     const enumValuesString = enumValues.map(value => `'${value}'`).join(" | ")
     return (
         <div className="flex items-start gap-2 text-gray-950">
@@ -87,8 +87,8 @@ const renderCellValue = (row, columnType, value) => {
         return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
     }
 
-    // Defensive: support boolean-like strings for future non-standard columns.
-    if (typeof value === 'string' && (value === "boolean" || value === "false" || value === "true")) {
+    // API table metadata stores these as strings, not runtime boolean values.
+    if (value === "boolean" || value === "false" || value === "true") {
         return <InlineCode tone="accent">{value}</InlineCode>;
     }
 
@@ -123,8 +123,7 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
                         <Table.Row key={idx}>
                             {columns.map((column, idx) => {
                                 const value = row[column.id];
-                                const columnType = column.id;
-                                const itemToRender = renderCellValue(row, columnType, value);
+                                const itemToRender = renderCellValue(row, column.id, value);
 
                                 return (
                                     <Table.Cell key={idx}>
