@@ -33,7 +33,7 @@ jobs:
         run: npm ci
 
       - name: Run coverage on PR
-        run: npm run coverage
+        run: npx jest --coverage --config ./jest.coverage-ci.config.ts
 
       - name: Save PR coverage
         run: cp coverage/coverage-summary.json pr-coverage.json
@@ -45,7 +45,7 @@ jobs:
           git fetch --no-tags --prune --depth=1 origin +$BASE_SHA:
           git checkout $BASE_SHA
           npm ci
-          if npm run coverage; then
+          if npx jest --coverage --config ./jest.coverage-ci.config.ts; then
             cp coverage/coverage-summary.json base-coverage.json
             echo "base_coverage_success=true" >> $GITHUB_OUTPUT
           else

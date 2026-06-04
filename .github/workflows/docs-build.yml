@@ -19,9 +19,6 @@ jobs:
   build-docs:
     name: Build docs
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: docs
 
     steps:
       - uses: actions/checkout@v5
@@ -38,8 +35,23 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: docs/pnpm-lock.yaml
 
+      - name: Install library dependencies
+        run: npm ci
+
+      - name: Build library package
+        run: npm run build:rollup
+
+      - name: Link local library package
+        run: npm link
+
       - name: Install docs dependencies
+        working-directory: docs
         run: pnpm install --frozen-lockfile
 
+      - name: Use local library package in docs
+        working-directory: docs
+        run: pnpm link @radui/ui
+
       - name: Build docs
+        working-directory: docs
         run: pnpm build
