@@ -150,7 +150,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     const dynamicStyle: React.CSSProperties = {
         ...style,
         overflow: 'hidden',
-        height: height !== undefined ? `${height}px` : undefined,
+        height: transitionDuration > 0 && height !== undefined ? `${height}px` : undefined,
         ['--radix-collapsible-content-height' as string]:
             heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
         ['--radix-collapsible-content-width' as string]:
