@@ -1,8 +1,14 @@
 import React, { createRef } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HoverCard from '../HoverCard';
 import Theme from '~/components/ui/Theme/Theme';
+import {
+    expectNoUnexpectedHydrationWarnings,
+    flush,
+    hydrateRoot,
+    renderToString
+} from '../../tests/ssrHydration';
 
 const mockMatchMedia = () => {
     if ('matchMedia' in window && typeof window.matchMedia === 'function') {
@@ -133,6 +139,40 @@ describe('HoverCard', () => {
 
         expect(warn).not.toHaveBeenCalled();
         expect(unexpectedErrors).toHaveLength(0);
+        warn.mockRestore();
+        error.mockRestore();
+    });
+
+    test('hydrates SSR markup without warnings when open', async() => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        const html = renderToString(
+            <HoverCard.Root open onOpenChange={() => {}}>
+                <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                <HoverCard.Content>Content</HoverCard.Content>
+            </HoverCard.Root>
+        );
+
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+        let root!: ReturnType<typeof hydrateRoot>;
+        await act(async() => {
+            root = hydrateRoot(container, (
+                <HoverCard.Root open onOpenChange={() => {}}>
+                    <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                    <HoverCard.Content>Content</HoverCard.Content>
+                </HoverCard.Root>
+            ));
+            await flush();
+        });
+
+        expectNoUnexpectedHydrationWarnings(warn, error);
+
+        await act(() => root.unmount());
+        container.remove();
         warn.mockRestore();
         error.mockRestore();
     });
