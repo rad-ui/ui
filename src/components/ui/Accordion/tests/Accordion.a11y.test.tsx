@@ -251,6 +251,36 @@ describe('Accordion accessibility', () => {
     });
 
     describe('State management', () => {
+        test('single mode onValueChange returns a scalar value and undefined when closed', async() => {
+            const user = userEvent.setup();
+            const handleValueChange = jest.fn();
+
+            render(<TestAccordion onValueChange={handleValueChange} />);
+
+            const trigger = screen.getByRole('button', { name: 'Item 1' });
+
+            await user.click(trigger);
+            expect(handleValueChange).toHaveBeenLastCalledWith('0');
+
+            await user.click(trigger);
+            expect(handleValueChange).toHaveBeenLastCalledWith(undefined);
+        });
+
+        test('multiple mode onValueChange returns an array of open values', async() => {
+            const user = userEvent.setup();
+            const handleValueChange = jest.fn();
+
+            render(<TestAccordion type="multiple" onValueChange={handleValueChange} />);
+
+            const triggers = screen.getAllByRole('button');
+
+            await user.click(triggers[0]);
+            expect(handleValueChange).toHaveBeenLastCalledWith(['0']);
+
+            await user.click(triggers[1]);
+            expect(handleValueChange).toHaveBeenLastCalledWith(['0', '1']);
+        });
+
         test('controlled value prop syncs with external changes', async() => {
             const user = userEvent.setup();
             const Controlled = () => {

@@ -94,6 +94,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
+                title:"Browser Support",
+                path:"/docs/guides/browser-support"
+            },
+            {
                 title:"Date, Time & Timezones",
                 path:"/docs/guides/date-time-and-timezones"
             },
@@ -142,6 +146,10 @@ export const docsNavigationSections = [
             {
                 title:"Contributor Checklist",
                 path:"/docs/contributing/contributor-checklist"
+            },
+            {
+                title:"Flaky Test Quarantine",
+                path:"/docs/contributing/flaky-test-quarantine"
             },
             {
                 title:"Release Candidate Checklist",
