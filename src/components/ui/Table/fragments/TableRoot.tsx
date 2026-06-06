@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef, useCallback, useMemo, useLayoutEffect } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useLayoutEffect, useEffect } from 'react';
 import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
@@ -99,6 +99,28 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
     const columnWidthsRef = useRef<ColumnWidths>({});
     const columnCountRef = useRef(0);
     const hasInitializedWidthsRef = useRef(false);
+    const activeResizeRef = useRef<{
+        handleMove: (moveEvent: MouseEvent | TouchEvent) => void;
+        handleEnd: () => void;
+    } | null>(null);
+
+    const detachResizeListeners = useCallback(() => {
+        const active = activeResizeRef.current;
+        if (!active) {
+            return;
+        }
+
+        document.removeEventListener('mousemove', active.handleMove);
+        document.removeEventListener('mouseup', active.handleEnd);
+        document.removeEventListener('touchmove', active.handleMove);
+        document.removeEventListener('touchend', active.handleEnd);
+        document.removeEventListener('touchcancel', active.handleEnd);
+        activeResizeRef.current = null;
+    }, []);
+
+    useEffect(() => () => {
+        detachResizeListeners();
+    }, [detachResizeListeners]);
 
     const isControlled = controlledColumnWidths !== undefined;
     const columnWidths = isControlled
@@ -225,6 +247,8 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
         setIsResizing(true);
         setActiveColumnIndex(columnIndex);
 
+        detachResizeListeners();
+
         const handleMove = (moveEvent: MouseEvent | TouchEvent) => {
             const currentPosition = 'clientX' in moveEvent
                 ? moveEvent.clientX
@@ -241,18 +265,17 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
         const handleEnd = () => {
             setIsResizing(false);
             setActiveColumnIndex(null);
-
-            document.removeEventListener('mousemove', handleMove);
-            document.removeEventListener('mouseup', handleEnd);
-            document.removeEventListener('touchmove', handleMove);
-            document.removeEventListener('touchend', handleEnd);
+            detachResizeListeners();
         };
+
+        activeResizeRef.current = { handleMove, handleEnd };
 
         document.addEventListener('mousemove', handleMove);
         document.addEventListener('mouseup', handleEnd);
         document.addEventListener('touchmove', handleMove);
         document.addEventListener('touchend', handleEnd);
-    }, [applyPairedColumnResize, getNeighborHeader, resizable]);
+        document.addEventListener('touchcancel', handleEnd);
+    }, [applyPairedColumnResize, detachResizeListeners, getColumnWidth, getNeighborHeader, resizable]);
 
     const handleColumnResizeKeyDown = useCallback((
         columnIndex: number,

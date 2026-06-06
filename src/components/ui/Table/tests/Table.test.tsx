@@ -132,6 +132,12 @@ describe('Table resizable columns', () => {
         { id: '2', name: 'Jane Doe', age: 24 }
     ];
 
+    const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
+    const originalOffsetWidthDescriptor = Object.getOwnPropertyDescriptor(
+        HTMLTableElement.prototype,
+        'offsetWidth'
+    );
+
     beforeEach(() => {
         Element.prototype.getBoundingClientRect = jest.fn(() => ({
             width: 160,
@@ -149,6 +155,20 @@ describe('Table resizable columns', () => {
             configurable: true,
             get: () => 400
         });
+    });
+
+    afterEach(() => {
+        Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+
+        if (originalOffsetWidthDescriptor) {
+            Object.defineProperty(
+                HTMLTableElement.prototype,
+                'offsetWidth',
+                originalOffsetWidthDescriptor
+            );
+        } else {
+            delete (HTMLTableElement.prototype as { offsetWidth?: number }).offsetWidth;
+        }
     });
 
     it('renders resize handles when resizable is enabled', () => {
@@ -232,6 +252,64 @@ describe('Table resizable columns', () => {
         const latestWidths = onColumnWidthsChange.mock.calls.at(-1)?.[0];
         expect(latestWidths[0]).toBe(259);
         expect(latestWidths[1]).toBe(141);
+    });
+
+    it('clears resize state when a touch gesture is cancelled', () => {
+        const { container } = render(
+            <Table.Root resizable defaultColumnWidths={[160, 120]}>
+                <Table.Head>
+                    <Table.Row>
+                        {columns.map((column, columnIndex) => (
+                            <Table.ColumnCellHeader key={column.id} columnIndex={columnIndex}>
+                                {column.name}
+                                <Table.ColumnResizeHandle />
+                            </Table.ColumnCellHeader>
+                        ))}
+                    </Table.Row>
+                </Table.Head>
+            </Table.Root>
+        );
+
+        const wrapper = container.querySelector('[data-resize-handle-visibility]');
+        const [firstHandle] = screen.getAllByRole('separator');
+
+        fireEvent.touchStart(firstHandle, { touches: [{ clientX: 100 }] });
+        expect(wrapper).toHaveAttribute('data-resizing', '');
+
+        fireEvent.touchCancel(document);
+        expect(wrapper).not.toHaveAttribute('data-resizing');
+    });
+
+    it('removes document listeners when unmounted during a resize', () => {
+        const removeListenerSpy = jest.spyOn(document, 'removeEventListener');
+
+        const { unmount } = render(
+            <Table.Root resizable defaultColumnWidths={[160, 120]}>
+                <Table.Head>
+                    <Table.Row>
+                        {columns.map((column, columnIndex) => (
+                            <Table.ColumnCellHeader key={column.id} columnIndex={columnIndex}>
+                                {column.name}
+                                <Table.ColumnResizeHandle />
+                            </Table.ColumnCellHeader>
+                        ))}
+                    </Table.Row>
+                </Table.Head>
+            </Table.Root>
+        );
+
+        const [firstHandle] = screen.getAllByRole('separator');
+
+        fireEvent.mouseDown(firstHandle, { clientX: 100 });
+        unmount();
+
+        expect(removeListenerSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
+        expect(removeListenerSpy).toHaveBeenCalledWith('mouseup', expect.any(Function));
+        expect(removeListenerSpy).toHaveBeenCalledWith('touchmove', expect.any(Function));
+        expect(removeListenerSpy).toHaveBeenCalledWith('touchend', expect.any(Function));
+        expect(removeListenerSpy).toHaveBeenCalledWith('touchcancel', expect.any(Function));
+
+        removeListenerSpy.mockRestore();
     });
 
     it('applies scaled default column widths through colgroup', () => {
