@@ -84,3 +84,6 @@ jobs:
 
       - name: Build package
         run: npm run build:rollup
+
+      - name: Validate publish artifact
+        run: npm run validate:publish
