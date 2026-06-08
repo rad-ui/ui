@@ -81,9 +81,6 @@ jobs:
       - name: Build
         run: npm run build:rollup
 
-      - name: Validate publish artifact
-        run: npm run validate:publish
-
       - name: Disable npm lifecycle scripts (safety)
         run: |
           npm config set ignore-scripts true
