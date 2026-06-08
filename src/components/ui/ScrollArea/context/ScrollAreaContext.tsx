@@ -2,6 +2,8 @@
 
 import { createContext, RefObject } from 'react';
 
+export type ScrollAreaScrollbarType = 'auto' | 'always' | 'scroll' | 'hover';
+
 interface ScrollAreaContextType {
     rootClass: string;
     scrollYThumbRef?: RefObject<HTMLDivElement>;
@@ -9,11 +11,15 @@ interface ScrollAreaContextType {
     scrollAreaViewportRef?: RefObject<HTMLDivElement>;
     handleScroll?: () => void;
     handleScrollbarClick?: (e : { clientX?: any; clientY?: any; orientation: 'vertical' | 'horizontal' }) => void;
-    type: 'auto' | 'always' | 'scroll' | 'hover';
+    type: ScrollAreaScrollbarType;
+    scrollbarVisible: boolean;
+    overflow: { x: boolean; y: boolean };
     rootRef?: RefObject<HTMLDivElement>;
 }
 
 export const ScrollAreaContext = createContext<ScrollAreaContextType>({
     rootClass: '',
-    type: 'hover'
+    type: 'hover',
+    scrollbarVisible: false,
+    overflow: { x: false, y: false }
 });

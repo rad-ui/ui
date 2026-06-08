@@ -32,6 +32,7 @@ ScrollArea.Corner = ScrollAreaCorner;
 ScrollArea.displayName = 'ScrollArea';
 
 export type { ScrollAreaRootProps } from './fragments/ScrollAreaRoot';
+export type { ScrollAreaScrollbarType } from './context/ScrollAreaContext';
 export type { ScrollAreaViewportProps } from './fragments/ScrollAreaViewport';
 export type { ScrollAreaScrollbarProps } from './fragments/ScrollAreaScrollbar';
 export type { ScrollAreaThumbProps } from './fragments/ScrollAreaThumb';
