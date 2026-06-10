@@ -79,6 +79,8 @@ npm install
 npm run sb
 ```
 
+If you create a fresh clone or `git worktree`, run `npm install` before committing so Husky regenerates the local hook helpers under `.husky/_/`.
+
 Run the docs app locally:
 
 ```bash
