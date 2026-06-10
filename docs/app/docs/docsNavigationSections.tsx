@@ -98,6 +98,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/browser-support"
             },
             {
+                title:"React Support",
+                path:"/docs/guides/react-support"
+            },
+            {
                 title:"Date, Time & Timezones",
                 path:"/docs/guides/date-time-and-timezones"
             },

@@ -1,0 +1,53 @@
+# React support
+
+Rad UI is built first for stable React applications, then validated against newer React releases before the public support contract expands.
+
+## Current support matrix
+
+| Environment | Status | What it means |
+| --- | --- | --- |
+| React `18.2.x` | Official | This is the primary peer dependency target and the main unit-test baseline for the library. |
+| React `19.x` | Compatibility smoke-tested | The docs app runs on React 19 with Next.js App Router, which gives maintainers an integration signal, but the package peer dependency and full test matrix are not widened yet. |
+| Earlier React 18 minors | Best effort | They may work, but the project baseline is `18.2.x` rather than every earlier 18.x release. |
+| React 17 and older | Unsupported | These versions are outside the current maintenance target. |
+
+## Why the matrix is split
+
+Rad UI has two different validation layers:
+
+- **Library validation**: Jest and component tests run against the root library environment and enforce the primary support contract.
+- **Consumer validation**: the docs app is a real Next.js App Router consumer and exercises the package in a modern React 19 application.
+
+That split is intentional. It lets maintainers catch integration regressions early without claiming full React 19 support before the peer dependency range, release process, and regression matrix all match that promise.
+
+## React 19 strategy
+
+The current strategy is:
+
+1. Keep the published peer dependency baseline on React `18.2.x`.
+2. Continuously smoke-test Rad UI inside the docs app on React `19.x` and Next.js App Router.
+3. Expand the peer dependency range only after targeted validation shows that core primitives, hydration behavior, and packaging all behave consistently on React 19.
+
+Before the package officially claims React 19 support, maintainers should verify:
+
+- component tests pass on a React 19 library test matrix
+- hydration-sensitive components do not emit new warnings
+- consumer builds still succeed in Next.js App Router and other supported bundlers
+- any React 19 behavior changes are documented in release notes and migration guidance
+
+## App Router and Server Components
+
+Rad UI is a client-side interaction library. In Next.js App Router and other React Server Component environments:
+
+- keep interactive Rad UI usage inside `"use client"` components
+- pass only serializable data across the server-to-client boundary
+- render static layout or content wrappers on the server when that improves first paint or SEO
+
+If your page must remain useful without client hydration, pair this guide with [SSR & No-JS Fallback](/docs/guides/ssr-and-no-js-fallback).
+
+## Practical recommendation
+
+For production apps today:
+
+- choose React `18.2.x` if you want the narrowest, officially supported path
+- use React `19.x` only if your team is comfortable operating on the compatibility-smoke-tested path while the support contract catches up

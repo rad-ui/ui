@@ -1,0 +1,113 @@
+name: Consumer Compatibility
+
+on:
+  pull_request:
+    branches: [ main, security-fixes ]
+    paths:
+      - 'src/**'
+      - 'styles/**'
+      - 'docs/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'rollup.config.cjs'
+      - 'rollup-css.config.js'
+      - 'rollup-tokens.config.js'
+      - 'tsconfig.json'
+      - '.github/workflows/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'styles/**'
+      - 'docs/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'rollup.config.cjs'
+      - 'rollup-css.config.js'
+      - 'rollup-tokens.config.js'
+      - 'tsconfig.json'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node-smoke:
+    name: Node ESM/CJS smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build:rollup
+
+      - name: Pack package
+        run: |
+          mkdir -p .tmp/consumer-compat
+          npm pack --pack-destination .tmp/consumer-compat
+
+      - name: Run node consumer smoke tests
+        run: |
+          TARBALL=$(find .tmp/consumer-compat -maxdepth 1 -name '*.tgz' -print -quit)
+          node scripts/consumer-compat/run-node-smoke.mjs "$TARBALL"
+
+  next-app-router:
+    name: Next.js App Router consumer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build:rollup
+
+      - name: Pack package
+        run: |
+          mkdir -p .tmp/consumer-compat
+          npm pack --pack-destination .tmp/consumer-compat
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup docs cache
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+          cache-dependency-path: docs/pnpm-lock.yaml
+
+      - name: Install docs dependencies
+        run: pnpm --dir docs install --frozen-lockfile
+
+      - name: Install local package tarball into docs app
+        run: |
+          TARBALL=$(find .tmp/consumer-compat -maxdepth 1 -name '*.tgz' -print -quit)
+          pnpm --dir docs add "../$TARBALL"
+
+      - name: Build docs app
+        run: pnpm --dir docs build

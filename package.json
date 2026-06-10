@@ -33,6 +33,7 @@
     "prerelease:exit": "changeset pre exit",
     "prepublishOnly": "npm run build:rollup",
     "test:shard": "jest --shard=$JEST_SHARD",
+    "test:consumer:node": "node scripts/consumer-compat/run-node-smoke.mjs",
     "test:watch": "jest --watch",
     "clean": "rimraf dist",
     "chromatic": "chromatic --exit-zero-on-changes",

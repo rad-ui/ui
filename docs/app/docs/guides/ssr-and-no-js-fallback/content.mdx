@@ -15,6 +15,28 @@ Without JavaScript, **interactive components will not function**. Recommended pa
 - **Progressive enhancement**: Ship meaningful **HTML** in the SSR output (headings, links, forms that can post without JS where applicable).
 - **Fallback content**: For critical UI, provide a **noscript** or server-rendered alternative for **read-only** views (for example, a static table instead of a sortable grid).
 
+## Component fallback matrix
+
+The important question is not whether a component can render on the server. Most of them can. The real question is whether the SSR output stays useful before hydration and with JavaScript disabled.
+
+| Category | Examples | SSR output | No-JS behavior | Recommended fallback |
+| --- | --- | --- | --- | --- |
+| Static content and layout primitives | `Text`, `Heading`, `Badge`, `BlockQuote`, `Code`, `Em`, `Kbd`, `Separator`, `Strong`, `Table`, `VisuallyHidden` | Useful semantic markup | Usually still useful | No special fallback needed beyond normal semantic HTML. |
+| Simple presentational wrappers | `AspectRatio`, `Avatar`, `AvatarGroup`, `Callout`, `Card`, `Quote` | Useful structure and content | Usually still readable | Prefer meaningful text and alt content so the server render carries the essential information. |
+| Stateful disclosure and selection patterns | `Accordion`, `Collapsible`, `Disclosure`, `Tabs`, `Toggle`, `ToggleGroup`, `Tree` | Initial state can render correctly | The initial state is visible, but users cannot change it without hydration | When no-JS matters, prefer server-rendered summaries or native elements such as `<details>` for critical disclosures. |
+| Form-adjacent controls with richer interaction | `Checkbox`, `CheckboxGroup`, `NumberField`, `Radio`, `RadioGroup`, `Slider`, `Switch`, `TextArea` | Markup can render, labels can remain visible | Enhanced keyboard, pointer, or state syncing behavior depends on hydration | For critical workflows, prefer native HTML controls or server-postable forms as the baseline. |
+| Overlay, popup, and command surfaces | `AlertDialog`, `Combobox`, `ContextMenu`, `Dialog`, `DropdownMenu`, `HoverCard`, `Menubar`, `NavigationMenu`, `Select`, `Toast`, `Tooltip` | Trigger markup may render, but the interactive surface relies on client behavior | Usually non-functional without JavaScript | Use always-visible server content, native alternatives, or dedicated no-JS navigation paths when the interaction is essential. |
+
+## What to document in product code
+
+If you build product abstractions on top of Rad UI, document three states for critical flows:
+
+- what the page renders during SSR
+- what the user can do before hydration completes
+- what still works when JavaScript is disabled entirely
+
+That framing is more useful than a generic "SSR supported" claim because it matches the actual experience users see.
+
 ## Frameworks
 
 - **Next.js App Router**: Follow React Server Components boundaries; keep client-only Rad UI in `"use client"` components when required.
