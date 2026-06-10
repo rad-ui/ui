@@ -25,12 +25,12 @@ type PrimitiveComponentProps<TTag extends SupportedElement> = React.ComponentPro
 };
 type PrimitiveComponentMap = {
     [TTag in SupportedElement]: React.ForwardRefExoticComponent<
-        PrimitiveComponentProps<TTag> & React.RefAttributes<HTMLElementTagNameMap[TTag]>
+        PrimitiveComponentProps<TTag> & React.RefAttributes<HTMLElement>
     >;
 };
 
 const createPrimitiveComponent = <TTag extends SupportedElement>(elementType: TTag) => {
-    const PrimitiveComponent = React.forwardRef<HTMLElementTagNameMap[TTag], PrimitiveComponentProps<TTag>>((props, ref) => {
+    const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveComponentProps<TTag>>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
 
         if (asChild) {
@@ -51,7 +51,7 @@ const createPrimitiveComponent = <TTag extends SupportedElement>(elementType: TT
             }
 
             const child = childrenArray[0] as React.ReactElement;
-            const childRef = (child as React.ReactElement & { ref?: React.Ref<HTMLElementTagNameMap[TTag]> }).ref;
+            const childRef = (child as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref;
             const mergedRef = composeRefs(ref, childRef);
             const mergedProps = mergeProps(elementProps, child.props as Record<string, unknown>);
 
