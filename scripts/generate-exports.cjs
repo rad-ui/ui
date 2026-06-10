@@ -48,8 +48,8 @@ let files = [];
 try {
     files = fs.readdirSync(distPath);
 } catch (error) {
-    console.warn(`Warning: ${distPath} not found. No components will be exported.`);
-    files = [];
+    console.error(`❌ ${distPath} not found. Build components before generating exports.`);
+    process.exit(1);
 }
 
 const exportsMap = {};
@@ -86,6 +86,12 @@ files.forEach(file => {
         };
     }
 });
+
+const releasedComponentExports = Object.keys(exportsMap).filter((key) => key.startsWith('./') && !key.startsWith('./themes/'));
+if (releasedComponentExports.length === 0) {
+    console.error(`❌ No released component exports were generated from ${distPath}. Refusing to rewrite package.json exports.`);
+    process.exit(1);
+}
 
 if (notReleasedComponents.length > 0) {
     console.log(`Not released components: ${notReleasedComponents.join(', ')}`);
