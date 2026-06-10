@@ -4,7 +4,8 @@ import React, { useEffect, useRef, forwardRef, ElementRef, ComponentPropsWithout
 import clsx from 'clsx';
 
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
-import { ScrollAreaContext } from '../context/ScrollAreaContext';
+import { ScrollAreaContext, type ScrollAreaScrollbarType } from '../context/ScrollAreaContext';
+import { useScrollbarVisibility } from '../hooks/useScrollbarVisibility';
 import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'ScrollArea';
@@ -12,7 +13,8 @@ const COMPONENT_NAME = 'ScrollArea';
 type ScrollAreaRootElement = ElementRef<typeof Primitive.div>;
 export type ScrollAreaRootProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
-    type?: 'auto' | 'always' | 'scroll' | 'hover';
+    /** Controls scrollbar and thumb visibility: always, on scroll (1s fade), on hover + scroll, or when overflowing (auto). */
+    type?: ScrollAreaScrollbarType;
 };
 
 const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
@@ -29,6 +31,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     const scrollAreaViewportRef = useRef<HTMLDivElement>(null);
 
     const [overflow, setOverflow] = React.useState({ x: false, y: false });
+    const scrollbarVisible = useScrollbarVisibility(type, scrollAreaViewportRef, internalRootRef);
 
     const mergedRootRef = (node: HTMLDivElement | null) => {
         (internalRootRef as any).current = node;
@@ -218,11 +221,14 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 handleScroll,
                 handleScrollbarClick,
                 type,
+                scrollbarVisible,
+                overflow,
                 rootRef: internalRootRef
             }}>
             <Primitive.div
                 ref={mergedRootRef}
                 className={clsx(rootClass, className)}
+                data-scrollbar-type={type}
                 data-scrollbar-x={String(overflow.x || type === 'always')}
                 data-scrollbar-y={String(overflow.y || type === 'always')}
                 {...props}

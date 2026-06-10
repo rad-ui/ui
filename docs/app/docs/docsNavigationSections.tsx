@@ -94,6 +94,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
+                title:"Browser Support",
+                path:"/docs/guides/browser-support"
+            },
+            {
                 title:"Date, Time & Timezones",
                 path:"/docs/guides/date-time-and-timezones"
             },
@@ -132,12 +136,20 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/contributing-to-rad-ui"
             },
             {
+                title:"Naming Conventions",
+                path:"/docs/contributing/naming-conventions"
+            },
+            {
                 title:"Security & Dependency SLA",
                 path:"/docs/contributing/security-dependency-sla"
             },
             {
                 title:"Contributor Checklist",
                 path:"/docs/contributing/contributor-checklist"
+            },
+            {
+                title:"Flaky Test Quarantine",
+                path:"/docs/contributing/flaky-test-quarantine"
             },
             {
                 title:"Release Candidate Checklist",

@@ -1,11 +1,13 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import ScrollArea from '../ScrollArea';
 
-// Mock ResizeObserver for jsdom
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
+// Mock ResizeObserver for jsdom — invoke callback when observe runs so overflow is detected
+global.ResizeObserver = jest.fn().mockImplementation((callback: ResizeObserverCallback) => ({
+    observe: jest.fn((target: Element) => {
+        callback([{ target } as ResizeObserverEntry], {} as ResizeObserver);
+    }),
     unobserve: jest.fn(),
     disconnect: jest.fn()
 })) as unknown as typeof ResizeObserver;
@@ -125,5 +127,94 @@ describe('ScrollArea', () => {
         expect(scrollbarRef.current?.tagName).toBe('DIV');
         expect(thumbRef.current?.tagName).toBe('DIV');
         expect(cornerRef.current?.tagName).toBe('DIV');
+    });
+
+    test('exposes scrollbar type on root', () => {
+        render(
+            <ScrollArea.Root data-testid="root" type="scroll">
+                <ScrollArea.Viewport data-testid="viewport">
+                    <div style={{ height: 2000 }}>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('root')).toHaveAttribute('data-scrollbar-type', 'scroll');
+    });
+
+    test('type always keeps scrollbar and thumb visible', () => {
+        render(
+            <ScrollArea.Root type="always">
+                <ScrollArea.Viewport>
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+        expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('type scroll hides scrollbar until viewport scrolls', () => {
+        render(
+            <ScrollArea.Root type="scroll" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport');
+        Object.defineProperty(viewport, 'scrollHeight', { configurable: true, value: 400 });
+        Object.defineProperty(viewport, 'clientHeight', { configurable: true, value: 100 });
+
+        act(() => {
+            window.dispatchEvent(new Event('resize'));
+        });
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+
+        act(() => {
+            viewport.scrollTop = 20;
+            fireEvent.scroll(viewport);
+        });
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+        expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('type hover shows scrollbar on root hover', () => {
+        render(
+            <ScrollArea.Root data-testid="root" type="hover" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport">
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport');
+        Object.defineProperty(viewport, 'scrollHeight', { configurable: true, value: 400 });
+        Object.defineProperty(viewport, 'clientHeight', { configurable: true, value: 100 });
+
+        act(() => {
+            window.dispatchEvent(new Event('resize'));
+        });
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+
+        fireEvent.mouseEnter(screen.getByTestId('root'));
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
     });
 });

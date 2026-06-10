@@ -29,7 +29,15 @@
         padding: 2px;
         background: transparent;
         z-index: 10;
-        transition: background 0.15s ease;
+        opacity: 1;
+        pointer-events: auto;
+        transition: opacity 0.2s ease, background 0.15s ease;
+
+        &[data-state="hidden"] {
+            opacity: 0;
+            pointer-events: none;
+            background: transparent !important;
+        }
 
         &[data-orientation="vertical"] {
             width: 10px;
@@ -46,7 +54,7 @@
             right: 0;
         }
 
-        &:hover {
+        &[data-state="visible"]:hover {
             background: var(--rad-ui-color-gray-200); // step 3 — interactive hover surface
         }
 
@@ -55,7 +63,12 @@
             background: var(--rad-ui-solid-background);
             border-radius: var(--rad-ui-radius-full);
             position: relative;
-            transition: background 0.15s ease;
+            opacity: 1;
+            transition: opacity 0.2s ease, background 0.15s ease;
+
+            &[data-state="hidden"] {
+                opacity: 0;
+            }
 
             &::before {
                 content: "";
@@ -70,7 +83,7 @@
             }
         }
 
-        &:hover .rad-ui-scroll-area-thumb {
+        &[data-state="visible"]:hover .rad-ui-scroll-area-thumb[data-state="visible"] {
             background: var(--rad-ui-solid-hover);
         }
     }

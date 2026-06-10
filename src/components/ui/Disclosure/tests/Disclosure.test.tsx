@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Disclosure from '../Disclosure';
 
 const items = [
@@ -53,6 +54,38 @@ describe('Disclosure', () => {
         render(<Disclosure items={items} aria-label="test" />);
         fireEvent.click(screen.getByText('Item 1'));
         expect(screen.getByText('Content 1')).toBeInTheDocument();
+    });
+
+    test('loop={false} stops focus wrap between triggers', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Disclosure.Root aria-label="test" loop={false}>
+                <Disclosure.Item value={0}>
+                    <Disclosure.Trigger>Item 1</Disclosure.Trigger>
+                    <Disclosure.Content>Content 1</Disclosure.Content>
+                </Disclosure.Item>
+                <Disclosure.Item value={1}>
+                    <Disclosure.Trigger>Item 2</Disclosure.Trigger>
+                    <Disclosure.Content>Content 2</Disclosure.Content>
+                </Disclosure.Item>
+            </Disclosure.Root>
+        );
+
+        const item1 = screen.getByText('Item 1');
+        const item2 = screen.getByText('Item 2');
+
+        await user.tab();
+        expect(item1).toHaveFocus();
+
+        await user.keyboard('{ArrowLeft}');
+        expect(item1).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}');
+        expect(item2).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}');
+        expect(item2).toHaveFocus();
     });
 
     test('hides content when the same item is clicked again', () => {
