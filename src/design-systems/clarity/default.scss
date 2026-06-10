@@ -60,6 +60,7 @@
 
 // import .css file
 @use "../../../styles/cssTokens/base.tokens";
+@use "../../../styles/cssTokens/tailwind-v4.tokens";
 
 [data-rad-ui-theme] {
     --rad-ui-surface-canvas: var(--rad-ui-color-gray-50);

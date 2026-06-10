@@ -60,6 +60,20 @@
 #{scope.$theme-root} {
     --rad-ui-baremetal-black: #282828;
     --rad-ui-baremetal-white: #fff;
+    --rad-ui-color-gray-50: #fff;
+    --rad-ui-color-gray-100: #f7f7f7;
+    --rad-ui-color-gray-200: #eee;
+    --rad-ui-color-gray-300: #e8e8e8;
+    --rad-ui-color-gray-400: #d8d8d8;
+    --rad-ui-color-gray-500: #c4c4c4;
+    --rad-ui-color-gray-600: #a7a7a7;
+    --rad-ui-color-gray-700: #8a8a8a;
+    --rad-ui-color-gray-800: #777;
+    --rad-ui-color-gray-900: #555;
+    --rad-ui-color-gray-950: #3a3a3a;
+    --rad-ui-color-gray-1000: #282828;
+    --rad-ui-color-black: var(--rad-ui-baremetal-black);
+    --rad-ui-color-white: var(--rad-ui-baremetal-white);
     --rad-ui-baremetal-canvas: #fff;
     --rad-ui-baremetal-panel: #fff;
     --rad-ui-baremetal-subtle: #eee;
@@ -116,6 +130,20 @@
 #{scope.$theme-root}[data-rad-ui-theme="dark"] {
     --rad-ui-baremetal-black: #f5f5f5;
     --rad-ui-baremetal-white: #121212;
+    --rad-ui-color-gray-50: #121212;
+    --rad-ui-color-gray-100: #161616;
+    --rad-ui-color-gray-200: #202020;
+    --rad-ui-color-gray-300: #2a2a2a;
+    --rad-ui-color-gray-400: #383838;
+    --rad-ui-color-gray-500: #4a4a4a;
+    --rad-ui-color-gray-600: #686868;
+    --rad-ui-color-gray-700: #8a8a8a;
+    --rad-ui-color-gray-800: #b3b3b3;
+    --rad-ui-color-gray-900: #d0d0d0;
+    --rad-ui-color-gray-950: #e6e6e6;
+    --rad-ui-color-gray-1000: #f5f5f5;
+    --rad-ui-color-black: var(--rad-ui-baremetal-black);
+    --rad-ui-color-white: var(--rad-ui-baremetal-white);
     --rad-ui-baremetal-canvas: #121212;
     --rad-ui-baremetal-panel: #161616;
     --rad-ui-baremetal-subtle: #202020;
