@@ -1,0 +1,70 @@
+# Large lists and virtualization
+
+Guidance for using Rad UI in performance-sensitive collections such as long menus, select options, combobox results, and trees.
+
+## When to virtualize
+
+Consider virtualization when **any** of these are true:
+
+- rendering more than ~100 interactive rows measurably slows typing or pointer moves
+- opening a popover causes a visible frame drop on mid-tier hardware
+- keyboard navigation (arrow keys, typeahead) lags behind input
+
+Rad UI primitives remain accessible and composable at scale, but React still pays a cost to reconcile large subtrees. Virtualization limits mounted DOM nodes to the visible window plus a small overscan buffer.
+
+## Components that commonly hit limits
+
+| Pattern | Hot path | Mitigation |
+| --- | --- | --- |
+| `Select` / `Combobox` with many options | open popover + initial focus | virtualize the list body; keep the trigger mounted |
+| `Menu` / `DropdownMenu` with long action lists | arrow-key traversal | group infrequent actions; paginate or virtualize |
+| `Tree` with deep/wide data | expand/collapse + roving focus | lazy-load branches; virtualize siblings at each level |
+| Tables built from repeated rows | scroll + selection | virtualize rows; keep header/footer outside the window |
+
+## Recommended integration pattern
+
+1. **Filter before render** when possible (server search, debounced query).
+2. **Virtualize the collection**, not the entire overlay — keep Rad UI trigger, portal, and focus scope intact.
+3. **Preserve stable item keys** so focus and selection survive scroll.
+4. **Expose item height** to your virtualizer (fixed height is simplest; dynamic height needs measurement).
+
+```tsx
+// Conceptual pattern — swap in your virtualizer (react-window, TanStack Virtual, etc.)
+<Combobox.Root>
+  <Combobox.Trigger />
+  <Combobox.Content>
+    <VirtualList
+      itemCount={items.length}
+      itemSize={32}
+      renderItem={({ index, style }) => (
+        <Combobox.Item key={items[index].id} value={items[index].id} style={style}>
+          {items[index].label}
+        </Combobox.Item>
+      )}
+    />
+  </Combobox.Content>
+</Combobox.Root>
+```
+
+Adapt to the exact anatomy of the component you use; the important part is that **only visible items mount** inside the scrollable region.
+
+## Keyboard and accessibility
+
+When virtualizing:
+
+- ensure the active item stays mounted while focused, or scroll it into view before moving focus
+- keep typeahead targeting visible rows or maintain a separate search index
+- do not remove `role` / `aria-*` attributes from items that are mounted
+- test with screen readers after scroll — position in set should remain meaningful
+
+Rad UI handles roving tabindex inside the mounted set. Your virtualizer must scroll items into view before focus moves to off-screen indices.
+
+## What not to do
+
+- mounting thousands of `Menu.Item` nodes without measurement
+- re-creating the entire items array on every keystroke without memoization
+- virtualizing at the page root while leaving multiple open overlays mounted
+
+## Related guidance
+
+Profile before optimizing, and test focus restoration when combining virtual scroll containers with portaled overlays.

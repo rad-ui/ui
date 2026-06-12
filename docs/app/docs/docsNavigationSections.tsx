@@ -116,6 +116,10 @@ export const docsNavigationSections = [
             {
                 title:"SSR & No-JS Fallback",
                 path:"/docs/guides/ssr-and-no-js-fallback"
+            },
+            {
+                title:"Large Lists & Virtualization",
+                path:"/docs/guides/large-lists-and-virtualization"
             }
         ]
     },
