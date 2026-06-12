@@ -1,0 +1,101 @@
+# Troubleshooting
+
+Common integration issues when using Rad UI in SSR frameworks, with portals, and around focus management.
+
+For baseline SSR and no-JS guidance, see [SSR & No-JS Fallback](/docs/guides/ssr-and-no-js-fallback).
+
+## Hydration mismatches
+
+**Symptom:** React warns that server HTML did not match the client, often on overlay or theme components.
+
+**Likely causes**
+
+- Reading `window`, `document`, or `matchMedia` during render instead of in `useEffect`.
+- Rendering different initial state on the server and client (for example, open dialogs or system theme resolution).
+- Generating random IDs during render without a stable SSR strategy.
+
+**What to try**
+
+- Keep browser-only logic in effects or event handlers.
+- Defer client-only UI behind a mounted flag when the initial visual state cannot match SSR output.
+- Use explicit `appearance` on `Theme` instead of `system` when SSR must be deterministic.
+
+## Portal container issues
+
+**Symptom:** Overlays render in the wrong place, inherit unexpected styles, or appear behind other UI.
+
+**Likely causes**
+
+- A global portal root outside the themed subtree, so portaled content misses theme tokens or `classNamespace` scope.
+- Missing or duplicate `data-rad-ui-portal-root` containers when nesting `Theme` providers.
+- Parent `overflow: hidden`, `transform`, or `filter` creating a containing block that traps fixed positioning.
+
+**What to try**
+
+- Wrap interactive surfaces with `Theme` so each theme subtree owns its portal root.
+- Prefer Rad UI's built-in portal targets tied to the active `Theme` context.
+- Inspect the DOM to confirm portaled nodes mount under the expected theme container.
+
+## Focus not restoring after close
+
+**Symptom:** Focus disappears, jumps to the body, or lands on an unexpected element after closing a dialog, popover, or menu.
+
+**Likely causes**
+
+- The trigger element unmounted while the overlay was open.
+- Multiple layered overlays closing in the wrong order.
+- Custom `onOpenChange` handlers preventing the default close path before focus restoration runs.
+
+**What to try**
+
+- Keep the trigger mounted while the overlay is open, or move focus explicitly in `onOpenChange`.
+- Close nested overlays from the top layer down.
+- Avoid calling `preventDefault` on dismiss events unless you also manage focus manually.
+
+## Focus trapped incorrectly
+
+**Symptom:** Tab cycles only inside an overlay when it should not, or escapes an open modal.
+
+**Likely causes**
+
+- Multiple focus scopes active at once.
+- Portals rendering outside the modal subtree.
+- Browser extensions or third-party widgets inserting focusable nodes into the trap.
+
+**What to try**
+
+- Ensure only one modal `Dialog` is marked open at a time unless using a documented nested pattern.
+- Verify portaled content belongs to the same overlay instance.
+- Test with extensions disabled when diagnosing focus order.
+
+## Overlays flash or fail on first paint
+
+**Symptom:** SSR output shows closed triggers, then content flashes open, or overlays never open until a full reload.
+
+**Likely causes**
+
+- Open state initialized from `localStorage` or URL params during the first client render without matching SSR.
+- Missing `"use client"` boundary in Next.js App Router for interactive entrypoints.
+
+**What to try**
+
+- Initialize open state to a value that matches SSR, then sync from storage in `useEffect`.
+- Mark Rad UI consumer components as client components in App Router apps.
+
+## Scroll locking side effects
+
+**Symptom:** Background page cannot scroll after closing a dialog, or layout shifts when scrollbars disappear.
+
+**Likely causes**
+
+- Multiple components requesting scroll lock without balanced unlock on unmount.
+- Nested overlays where only the top layer released scroll lock.
+
+**What to try**
+
+- Close overlays in reverse open order.
+- Confirm no errors interrupted cleanup effects during fast route changes.
+
+## When to open an issue
+
+Open a GitHub issue when you have a minimal reproduction, the Rad UI version, your framework version, and steps showing unexpected focus, portal, or SSR behavior compared to the docs.
