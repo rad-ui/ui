@@ -162,7 +162,12 @@ export const docsNavigationSections = [
             {
                 title:"Changeset Quality",
                 path:"/docs/contributing/changeset-quality"
+            ,
+            {
+                title:"Component Docs",
+                path:"/docs/contributing/component-docs-features"
             }
+        ]
         ]
     }
     // {
