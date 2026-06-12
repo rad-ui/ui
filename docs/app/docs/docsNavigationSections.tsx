@@ -94,6 +94,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
+                title:"Styling & Customization",
+                path:"/docs/guides/styling-and-customization"
+            },
+            {
                 title:"Browser Support",
                 path:"/docs/guides/browser-support"
             },

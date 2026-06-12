@@ -1,0 +1,76 @@
+# Styling and customization policy
+
+How Rad UI expects consumers to customize appearance without coupling to internal implementation details.
+
+## Headless by default
+
+Rad UI owns **behavior**, **accessibility**, and **composition**. Visual design is yours unless you opt into Rad UI's default theme CSS and `Theme classNamespace` classes.
+
+Without `classNamespace` and without importing theme CSS, components render **without library-owned styling classes**.
+
+## Supported customization surfaces
+
+Use these stable hooks when styling:
+
+| Surface | Example | Intended use |
+| --- | --- | --- |
+| `className` on parts | `<Button className="billing-cta" />` | local layout and app-specific styles |
+| `data-*` state attributes | `[data-state="open"]` | state-driven styling in your CSS |
+| `Theme` props | `appearance`, `accentColor`, `radius`, `scaling` | subtree-wide visual context |
+| `Theme classNamespace` | `classNamespace="rad-ui"` | generated part classes that match theme CSS |
+| `customRootClass` | per-component namespace override | incremental migrations |
+| documented CSS variables | `--rad-ui-radius-md` | tokenized styling when theme CSS is loaded |
+
+See [Usage](/docs/first-steps/usage) for `Theme` and `classNamespace` examples.
+
+## What not to rely on
+
+Avoid styling strategies that break when Rad UI refactors internals:
+
+- deep descendant selectors against undocumented DOM nesting
+- overriding private class names that are not part of your `classNamespace`
+- `!important` rules that fight component state styles
+- copying markup from Storybook and assuming incidental wrapper elements are stable
+
+If a style requirement needs a hook that does not exist, open an issue or PR to add a **documented** public attribute rather than targeting internals.
+
+## Default theme vs bring-your-own
+
+**Rad UI default theme**
+
+```tsx
+import '@radui/ui/themes/default.css'
+import Theme from '@radui/ui/Theme'
+
+<Theme classNamespace="rad-ui" appearance="dark">
+  <App />
+</Theme>
+```
+
+**Consumer design system**
+
+- import Rad UI primitives per component
+- map `data-*` attributes and slots to your tokens
+- wrap primitives in your design-system components
+
+Rad UI should not force a specific CSS framework. Tailwind, CSS Modules, SCSS, and CSS-in-JS are all valid as long as they target public hooks.
+
+## Customization decision tree
+
+1. Need one-off spacing or layout? → `className` on the relevant part.
+2. Need state styling (open, checked, disabled)? → documented `data-*` attributes.
+3. Need shared product theme? → `Theme` + optional theme CSS import.
+4. Need a different visual system entirely? → headless usage + your tokens; do not import Rad UI theme CSS.
+
+## Testing custom styles
+
+When you ship custom CSS:
+
+- verify focus rings remain visible
+- test keyboard paths documented on each component page
+- check contrast in both light and dark `Theme` appearances
+- run SSR/hydration smoke tests if styles depend on client-only measurements
+
+## Maintainer alignment
+
+Library changes should preserve documented `data-*` attributes and public anatomy. Undocumented selectors may change in patch releases if they were never part of the supported contract.
