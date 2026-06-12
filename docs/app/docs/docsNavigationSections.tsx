@@ -116,6 +116,10 @@ export const docsNavigationSections = [
             {
                 title:"SSR & No-JS Fallback",
                 path:"/docs/guides/ssr-and-no-js-fallback"
+            },
+            {
+                title:"Performance",
+                path:"/docs/guides/performance"
             }
         ]
     },
