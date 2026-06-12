@@ -124,6 +124,10 @@ export const docsNavigationSections = [
             {
                 title:"Performance",
                 path:"/docs/guides/performance"
+            },
+            {
+                title:"Large Lists & Virtualization",
+                path:"/docs/guides/large-lists-and-virtualization"
             }
         ]
     },
