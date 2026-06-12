@@ -94,6 +94,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
+                title:"Styling & Customization",
+                path:"/docs/guides/styling-and-customization"
+            },
+            {
                 title:"Browser Support",
                 path:"/docs/guides/browser-support"
             },
@@ -116,6 +120,10 @@ export const docsNavigationSections = [
             {
                 title:"SSR & No-JS Fallback",
                 path:"/docs/guides/ssr-and-no-js-fallback"
+            },
+            {
+                title:"Performance",
+                path:"/docs/guides/performance"
             },
             {
                 title:"Large Lists & Virtualization",
