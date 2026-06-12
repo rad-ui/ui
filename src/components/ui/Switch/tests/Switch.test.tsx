@@ -250,4 +250,22 @@ describe('Switch Component', () => {
         expect(checkbox).not.toBeChecked();
     });
     */
+
+    test('renders under StrictMode without console errors', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { unmount } = render(
+            <React.StrictMode>
+                <Switch.Root>
+                    <Switch.Thumb />
+                </Switch.Root>
+            </React.StrictMode>
+        );
+
+        expect(screen.getAllByRole('switch').length).toBeGreaterThan(0);
+        unmount();
+        expect(errorSpy).not.toHaveBeenCalled();
+        warnSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
 });
