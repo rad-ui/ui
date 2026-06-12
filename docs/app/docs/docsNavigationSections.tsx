@@ -94,6 +94,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
+                title:"Design System Integration",
+                path:"/docs/guides/design-system-integration"
+            },
+            {
                 title:"Browser Support",
                 path:"/docs/guides/browser-support"
             },
