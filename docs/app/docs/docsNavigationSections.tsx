@@ -152,6 +152,10 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/flaky-test-quarantine"
             },
             {
+                title:"Snapshot Testing Policy",
+                path:"/docs/contributing/snapshot-testing-policy"
+            },
+            {
                 title:"Release Candidate Checklist",
                 path:"/docs/contributing/release-candidate-checklist"
             },
