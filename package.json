@@ -56,6 +56,7 @@
     "compile-components:esbuild": "node build-components.cjs",
     "check:types": "tsc --noEmit",
     "check:exports": "node scripts/generate-exports.cjs --check",
+    "check:api-surface": "node scripts/check-public-api-surface.mjs --check",
     "validate:changesets": "node scripts/validate-changesets.mjs",
     "build-components:esbuild": "npm run compile-components:esbuild && npm run process-components",
     "build:esbuild": "npm run prebuild && npm run build:css && npm run build-components:esbuild",

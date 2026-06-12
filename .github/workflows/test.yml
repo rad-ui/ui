@@ -84,3 +84,6 @@ jobs:
 
       - name: Build package
         run: npm run build:rollup
+
+      - name: Check public API surface
+        run: npm run check:api-surface
