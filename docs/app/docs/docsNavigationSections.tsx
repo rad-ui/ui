@@ -140,6 +140,10 @@ export const docsNavigationSections = [
             {
                 title:"Screen Reader Testing",
                 path:"/docs/guides/screen-reader-testing"
+            },
+            {
+                title:"Keyboard Interaction Spec",
+                path:"/docs/guides/keyboard-interaction-spec"
             }
         ]
     },
