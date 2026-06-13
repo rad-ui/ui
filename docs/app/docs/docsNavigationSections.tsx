@@ -128,6 +128,10 @@ export const docsNavigationSections = [
             {
                 title:"Large Lists & Virtualization",
                 path:"/docs/guides/large-lists-and-virtualization"
+            },
+            {
+                title:"Framework Usage",
+                path:"/docs/guides/framework-usage"
             }
         ]
     },
