@@ -56,6 +56,7 @@
     "build:rollup:process": "npm run clean && npm run build:components && npm run build:css && npm run validate:build-artifacts && npm run build:generate-exports && npm run validate:publish",
     "check:types": "tsc --noEmit",
     "check:exports": "node scripts/generate-exports.cjs --check",
+    "check:api-surface": "node scripts/check-public-api-surface.mjs --check",
     "validate:changesets": "node scripts/validate-changesets.mjs",
     "validate:build-artifacts": "node scripts/validate-build-artifacts.cjs",
     "validate:publish": "node scripts/validate-publish-package.cjs",
