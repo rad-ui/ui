@@ -26,6 +26,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Setup Node.js (root)
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Check docs snippet consistency
+        run: npm run check:docs-snippets
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -40,6 +48,9 @@ jobs:
 
       - name: Install docs dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Typecheck docs examples
+        run: pnpm check:examples
 
       - name: Build docs
         run: pnpm build
