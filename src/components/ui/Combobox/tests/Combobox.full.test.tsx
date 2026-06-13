@@ -141,6 +141,23 @@ describe('Combobox full behavior', () => {
         expect(document.activeElement).toBe(trigger);
     });
 
+    test('portal forceMount keeps content mounted while closed', () => {
+        render(
+            <Combobox.Root>
+                <Combobox.Trigger>open</Combobox.Trigger>
+                <Combobox.Portal forceMount>
+                    <Combobox.Content>
+                        <Combobox.Group>
+                            <Combobox.Item value="one">One</Combobox.Item>
+                        </Combobox.Group>
+                    </Combobox.Content>
+                </Combobox.Portal>
+            </Combobox.Root>
+        );
+
+        expect(screen.getByRole('listbox', { hidden: true })).toHaveAttribute('data-state', 'closed');
+    });
+
     test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>

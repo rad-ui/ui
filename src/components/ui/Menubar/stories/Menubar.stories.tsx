@@ -87,7 +87,7 @@ export const ScrollCollisionVisualTest: Story = {
                     <Menubar.Root>
                         <Menubar.Menu collisionBoundary={container}>
                             <Menubar.Trigger>Trigger</Menubar.Trigger>
-                            <Menubar.Portal root={container}>
+                            <Menubar.Portal container={container}>
                                 <Menubar.Content>
                                     <Menubar.Item label="Profile">Profile</Menubar.Item>
                                     <Menubar.Item label="Settings">Settings</Menubar.Item>

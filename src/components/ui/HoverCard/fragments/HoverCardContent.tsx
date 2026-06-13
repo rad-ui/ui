@@ -3,13 +3,15 @@ import clsx from 'clsx';
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
 import { createDataAttributes } from '~/core/hooks/createDataAttribute';
+import { HoverCardPortalContext } from '../contexts/HoverCardPortalContext';
 
 export type HoverCardContentElement = ElementRef<'div'>;
 export type HoverCardContentProps = ComponentPropsWithoutRef<'div'> & {
     size?: string;
+    forceMount?: boolean;
 };
 
-const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentProps>(({ children, className, size = '', ...props }, ref) => {
+const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentProps>(({ children, className, forceMount = false, size = '', ...props }, ref) => {
     const {
         isOpen,
         floatingRefs,
@@ -20,6 +22,7 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         openWithDelay,
         closeWithoutDelay
     } = useContext(HoverCardContext);
+    const { forceMount: portalForceMount } = useContext(HoverCardPortalContext);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -35,12 +38,18 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, ref]);
     const dataAttributes = createDataAttributes('hover-card', { size });
 
-    if (!isOpen) return null;
+    if (!isOpen && !forceMount && !portalForceMount) return null;
 
     return <div
         className={clsx(rootClass, className)}
         ref={mergedRef}
-        style={floatingStyles}
+        data-state={isOpen ? 'open' : 'closed'}
+        aria-hidden={!isOpen ? 'true' : undefined}
+        style={{
+            ...floatingStyles,
+            visibility: isOpen ? undefined : 'hidden',
+            pointerEvents: isOpen ? undefined : 'none'
+        }}
         {...dataAttributes}
         {...getFloatingProps({
             onPointerEnter: openWithDelay,
