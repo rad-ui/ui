@@ -148,6 +148,10 @@ export const docsNavigationSections = [
             {
                 title:"Controlled & Uncontrolled Forms",
                 path:"/docs/guides/controlled-uncontrolled-forms"
+            },
+            {
+                title:"Hidden Input Strategies",
+                path:"/docs/guides/hidden-input-strategies"
             }
         ]
     },
