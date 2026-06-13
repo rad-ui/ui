@@ -71,7 +71,8 @@
     "update-rad": "npm update @radui/ui",
     "setup:dependencies": "npm install --force",
     "setup": "npm run setup:dependencies",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check:docs-examples": "pnpm --dir docs check:examples"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

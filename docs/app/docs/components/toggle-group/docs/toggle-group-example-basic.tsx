@@ -17,9 +17,7 @@ const ToggleGroupExampleBasic = () => {
     return <div>
         <ToggleGroup.Root type="multiple" defaultValue={['item1']}>
             {items.map((item) => (
-                <ToggleGroup.Item key={item.value} value={item.value} iconOnly aria-label={item.value}>
-                    {item.label}
-                </ToggleGroup.Item>
+                <ToggleGroup.Item key={item.value} value={item.value} iconOnly aria-label={item.value} />
             ))}
         </ToggleGroup.Root>
     </div>;

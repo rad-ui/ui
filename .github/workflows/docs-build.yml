@@ -41,5 +41,8 @@ jobs:
       - name: Install docs dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck docs examples
+        run: pnpm check:examples
+
       - name: Build docs
         run: pnpm build
