@@ -156,6 +156,10 @@ export const docsNavigationSections = [
             {
                 title:"Composition Recipes",
                 path:"/docs/guides/composition-recipes"
+            },
+            {
+                title:"Design System Integration",
+                path:"/docs/guides/design-system-integration"
             }
         ]
     },
