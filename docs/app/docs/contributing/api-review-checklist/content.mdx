@@ -1,0 +1,56 @@
+# API review checklist
+
+Use this checklist before exporting a new public symbol from `@radui/ui` or changing an existing supported export.
+
+The goal is to keep the public surface intentional, documented, and semver-safe.
+
+## When this applies
+
+- Adding a new component entry under `package.json` `exports`
+- Exporting a new type, hook, or utility from a public entrypoint
+- Promoting an internal module to a supported public API
+- Renaming or removing anything consumers may import today
+
+Skip this checklist for purely internal refactors that do not change supported exports.
+
+## Checklist
+
+### Scope and naming
+
+- [ ] The symbol is **truly public**. If it is only needed inside the library, keep it internal.
+- [ ] The name matches existing Rad UI conventions (see [Naming conventions](/docs/contributing/naming-conventions)).
+- [ ] The export path follows the per-component entry pattern (`@radui/ui/ComponentName`) when appropriate.
+- [ ] The API shape is composable and headless — behavior and accessibility live in the library; visual design stays with consumers.
+
+### Semver and compatibility
+
+- [ ] The change is classified as **patch**, **minor**, or **major** before merge.
+- [ ] Breaking removals or signature changes include a **major** changeset and migration notes (see [Changeset quality](/docs/contributing/changeset-quality)).
+- [ ] Deprecated APIs have a documented replacement and a reasonable removal timeline when possible.
+
+### Documentation and examples
+
+- [ ] A docs page exists or is updated for new components and meaningful API changes.
+- [ ] Storybook stories cover primary states and keyboard interaction where relevant.
+- [ ] Public `data-*` attributes and styling hooks are documented when they are part of the supported contract.
+
+### Tests and accessibility
+
+- [ ] Unit or integration tests cover the new export and expected behavior.
+- [ ] Keyboard interaction, focus management, and ARIA roles are verified for interactive APIs.
+- [ ] SSR-safe patterns are used — no `window` / `document` in render paths.
+
+### Release hygiene
+
+- [ ] A changeset is added when the change should appear in release notes.
+- [ ] Generated `dist` types and exports were checked locally with `npm run build:rollup`.
+
+## Reviewer prompts
+
+Reviewers should ask:
+
+1. Would we support this API for multiple major versions?
+2. Can consumers style and extend it without relying on internal DOM structure?
+3. Is there a smaller surface that solves the same problem?
+
+Link the tracking issue in the PR and call out any checklist items that do not apply.

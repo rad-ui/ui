@@ -164,6 +164,10 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/contributor-checklist"
             },
             {
+                title:"API Review Checklist",
+                path:"/docs/contributing/api-review-checklist"
+            },
+            {
                 title:"Flaky Test Quarantine",
                 path:"/docs/contributing/flaky-test-quarantine"
             },
