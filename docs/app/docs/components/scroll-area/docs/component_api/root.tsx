@@ -8,7 +8,8 @@ const data = {
     ],
     data: [
         { prop: { name: "type", info_tooltips: "Controls when the scrollbar is visible." }, type: "enum", enum_values: ["auto", "always", "scroll", "hover"], default: "hover" },
-        { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' }
+        { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' },
+        { prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." }, type: "boolean", default: "false" }
     ]
 }
 

@@ -108,6 +108,18 @@ const nextConfig = {
         root: __dirname,
     },
 
+    webpack (config) {
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
+            '@radui/ui/themes/default.css': path.resolve(__dirname, '../src/design-systems/clarity/default.scss'),
+            '@radui/ui/themes/baremetal.css': path.resolve(__dirname, '../src/design-systems/baremetal/default.scss'),
+            '~': path.resolve(__dirname, '../src'),
+        }
+
+        return config
+    },
+
     // Environment variables for SEO
     env: {
         SITE_URL: 'https://www.rad-ui.com',
