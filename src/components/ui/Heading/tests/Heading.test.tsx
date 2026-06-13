@@ -27,7 +27,7 @@ describe('Heading', () => {
     });
 
     test('Heading renders default h1 tag when as prop is not valid', () => {
-        render(<Heading as="h10">Test Content</Heading>);
+        render(<Heading as={'h10' as 'h1'}>Test Content</Heading>);
         const element = screen.getByText('Test Content');
         expect(element.tagName.toLowerCase()).toBe('h1');
     });
@@ -39,7 +39,7 @@ describe('Heading', () => {
     });
 
     test('forwards ref to the DOM element', () => {
-        const ref = React.createRef();
+        const ref = React.createRef<HTMLHeadingElement>();
         render(<Heading ref={ref}>Test Content</Heading>);
         expect(ref.current).toBeInstanceOf(HTMLHeadingElement);
     });

@@ -1,13 +1,17 @@
 # Usage
 
+For framework-specific setup (Vite, Next.js App Router, Remix), see [Framework usage](/docs/guides/framework-usage).
+
 ## Importing components
 Integrating Rad UI into your project is straightforward. Whether you're looking for a headless library with full flexibility or a quick way to prototype with a default theme, Rad UI has you covered. Here’s how you can get started.
 
-To use Rad UI components, you need to import them from the "@radui/ui" package.
+To use Rad UI components, import them from per-component entrypoints:
 
 ```tsx
 import Button from "@radui/ui/Button";
 ```
+
+See [Barrel export policy](/docs/contributing/barrel-export-policy) for why root barrel imports are discouraged in application code.
 
 ## Using components
 Once you've imported the components you need, you can start using them right away. Here's an example of how to integrate Rad UI’s Button component into your app:
@@ -24,7 +28,7 @@ We recommend wrapping Rad UI components with your own abstractions to streamline
 
 
 ## Importing base styles
-Rad UI is headless by default. Components work without built-in visual styles, so you can bring your own design system, utility classes, CSS Modules, SCSS, or any other styling approach.
+Rad UI is headless by default. Components work without built-in visual styles, so you can bring your own design system, utility classes, CSS Modules, SCSS, or any other styling approach. Read [Styling and customization](/docs/guides/styling-and-customization) for supported hooks and what to avoid overriding.
 
 If you want Rad UI's default design system styles, import the default theme stylesheet explicitly:
 
