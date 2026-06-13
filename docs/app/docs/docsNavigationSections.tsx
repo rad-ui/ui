@@ -140,6 +140,10 @@ export const docsNavigationSections = [
             {
                 title:"Screen Reader Testing",
                 path:"/docs/guides/screen-reader-testing"
+            },
+            {
+                title:"Troubleshooting",
+                path:"/docs/guides/troubleshooting"
             }
         ]
     },
