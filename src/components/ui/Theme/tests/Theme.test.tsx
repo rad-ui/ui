@@ -149,6 +149,20 @@ describe('Theme', () => {
         expect(themeDiv).not.toHaveClass('rad-ui-theme');
     });
 
+    test('renders under StrictMode without console errors', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { unmount } = render(
+            <React.StrictMode>
+                <Theme appearance="light">content</Theme>
+            </React.StrictMode>
+        );
+
+        expect(screen.getByText('content')).toBeVisible();
+        unmount();
+        expect(errorSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+    });
     describe('nested Theme providers', () => {
         const mockMatchMedia = () => {
             window.matchMedia = jest.fn().mockReturnValue({
