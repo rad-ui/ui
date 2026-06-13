@@ -1,0 +1,67 @@
+# Design token contract
+
+Canonical `--rad-ui-*` tokens for Rad UI's styled layers. The headless component core does **not** require these variables; they apply when you import theme CSS or use Clarity/baremetal styles.
+
+Source of truth in the repository:
+
+- `styles/cssTokens/` — CSS custom property definitions
+- `styles/jsTokens/` — JS token maps referencing CSS variables
+- `src/tokenGen/` — generation pipeline
+
+## Naming convention
+
+All public theme variables use the prefix `--rad-ui-` with kebab-case segments:
+
+```txt
+--rad-ui-<category>-<name>
+--rad-ui-color-gray-100
+--rad-ui-radius-md
+--rad-ui-spacing-4
+```
+
+Semantic accent tokens are scoped by `Theme` attributes such as `data-rad-ui-accent-color`.
+
+## Token families
+
+| Family | Examples | Used for |
+| --- | --- | --- |
+| Color scales | `--rad-ui-color-gray-100`, `--rad-ui-color-indigo-9` | surfaces, borders, text |
+| Radius | `--rad-ui-radius-sm` … `--rad-ui-radius-full` | corners |
+| Spacing | `--rad-ui-spacing-1` … `--rad-ui-spacing-12` | padding, gaps |
+| Typography | `--rad-ui-font-sans`, `--rad-ui-font-size-3` | text styles |
+| Shadows | `--rad-ui-shadow-sm`, `--rad-ui-shadow-md` | elevation |
+| Motion | `--rad-ui-motion-duration-fast`, `--rad-ui-motion-easing-standard` | transitions |
+| Z-index | `--rad-ui-z-index-overlay`, `--rad-ui-z-index-portal` | stacking |
+
+## Component expectations
+
+Styled Rad UI layers should:
+
+1. Read layout and color from token variables, not hard-coded hex in component SCSS.
+2. Use semantic `data-*` attributes for state; tokens supply the values in CSS.
+3. Respect `Theme` appearance (`data-rad-ui-theme`) for light/dark palettes.
+4. Keep motion on tokenized durations/easings so `prefers-reduced-motion` can be applied consistently.
+
+## Consumer contract
+
+When importing `@radui/ui/themes/default.css`:
+
+- You may rely on documented `--rad-ui-*` names in your own CSS.
+- Override tokens on `Theme` containers or `:root` for product branding.
+- Do not depend on undocumented internal class selectors.
+
+When using Rad UI headlessly:
+
+- Tokens are optional; bring your own design tokens and map them in wrappers.
+
+## Adding or changing tokens
+
+1. Update `styles/cssTokens/` and regenerate via `npm run generate-tokens`.
+2. Mirror changes in `styles/jsTokens/` when Tailwind/JS consumers need the name.
+3. Document new public variables if components expose them as styling hooks.
+4. Run visual review on Clarity components affected by the token change.
+
+## Related docs
+
+- [Usage](/docs/first-steps/usage) for `Theme` and optional theme CSS import
+- [Clarity design system](https://github.com/rad-ui/ui/blob/main/knowledge/design_system/clarity_design_system.md) in the repository knowledge docs
