@@ -5,55 +5,58 @@ import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 
 type ScrollAreaScrollbarElement = ElementRef<'div'>;
-type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
+export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
     orientation?: 'horizontal' | 'vertical';
 };
 
-const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScrollbarProps>(({ children, className = '', orientation, ...props }, ref) => {
-    const { rootClass, handleScrollbarClick, scrollXThumbRef } = useContext(ScrollAreaContext);
-    // stores the interval id for the repeated scroll action
+const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScrollbarProps>(({ children, className = '', orientation = 'vertical', ...props }, ref) => {
+    const { rootClass, handleScrollbarClick, scrollXThumbRef, scrollYThumbRef, type, scrollbarVisible, overflow } = useContext(ScrollAreaContext);
+
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
-    // read/write ref to know if continuous scrolling is currently active
     const isScrollingRef = useRef(false);
-    // ref holding a function to remove global listeners when scrolling stops
     const removeListenersRef = useRef<(() => void) | null>(null);
-    // state used to trigger re-renders and styling changes when scrolling
-    const [isScrolling, setIsScrolling] = React.useState(false);
-    // tracks the latest mouse Y position for the next scroll step
+    const [isScrollingState, setIsScrollingState] = React.useState(false);
     const mousePositionRef = useRef<number>(0);
 
+    const isOverflowing = orientation === 'vertical' ? overflow.y : overflow.x;
+
     // Determine whether the auto-scroll should continue based on mouse position
-    const shouldContinueScrolling = useCallback((mouseY: number): boolean => {
-        if (!scrollXThumbRef?.current) return false;
+    const shouldContinueScrolling = React.useCallback((mousePos: number): boolean => {
+        const thumb = orientation === 'vertical' ? scrollYThumbRef?.current : scrollXThumbRef?.current;
+        if (!thumb) return false;
 
-        const thumbRect = scrollXThumbRef.current.getBoundingClientRect();
-        const thumbStart = thumbRect.top;
-        const thumbEnd = thumbRect.bottom;
-
-        // Stop if mouse is within thumb bounds
-        if (mouseY >= thumbStart && mouseY <= thumbEnd) {
-            return false;
+        const thumbRect = thumb.getBoundingClientRect();
+        if (orientation === 'vertical') {
+            return mousePos < thumbRect.top || mousePos > thumbRect.bottom;
+        } else {
+            return mousePos < thumbRect.left || mousePos > thumbRect.right;
         }
-
-        return true;
-    }, [scrollXThumbRef]);
+    }, [orientation, scrollXThumbRef, scrollYThumbRef]);
 
     // Begins the continuous scrolling sequence and sets up the interval
-    const startContinuousScroll = useCallback((e: React.MouseEvent) => {
+    const startContinuousScroll = React.useCallback((e: React.MouseEvent) => {
         if (!handleScrollbarClick) return;
 
         e.preventDefault();
-        mousePositionRef.current = e.clientY;
+        mousePositionRef.current = orientation === 'vertical' ? e.clientY : e.clientX;
 
         // Initial scroll
-        handleScrollbarClick({ clientY: e.clientY });
+        handleScrollbarClick({
+            clientY: e.clientY,
+            clientX: e.clientX,
+            orientation
+        });
 
         // Start continuous scrolling after a brief delay
         setTimeout(() => {
             if (isScrollingRef.current) {
                 intervalRef.current = setInterval(() => {
                     if (isScrollingRef.current && shouldContinueScrolling(mousePositionRef.current)) {
-                        handleScrollbarClick({ clientY: mousePositionRef.current });
+                        handleScrollbarClick({
+                            clientY: orientation === 'vertical' ? mousePositionRef.current : undefined,
+                            clientX: orientation === 'horizontal' ? mousePositionRef.current : undefined,
+                            orientation
+                        });
                     } else {
                         // Stop scrolling if thumb reached mouse position
                         stopContinuousScroll();
@@ -63,11 +66,11 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         }, 300); // 300ms delay before continuous scrolling starts
 
         isScrollingRef.current = true;
-        setIsScrolling(true);
-    }, [handleScrollbarClick, shouldContinueScrolling]);
+        setIsScrollingState(true);
+    }, [handleScrollbarClick, orientation, shouldContinueScrolling]);
 
     // Stops any ongoing scroll activity and clears side effects
-    const stopContinuousScroll = useCallback(() => {
+    const stopContinuousScroll = React.useCallback(() => {
         isScrollingRef.current = false;
         removeListenersRef.current?.();
         removeListenersRef.current = null;
@@ -75,10 +78,9 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
-        setIsScrolling(false);
+        setIsScrollingState(false);
     }, []);
 
-    // Attach global mouse listeners only while actively scrolling
     React.useEffect(() => {
         if (!isScrollingRef.current) {
             return () => {
@@ -101,15 +103,26 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         return () => {
             removeListenersRef.current?.();
             removeListenersRef.current = null;
-            stopContinuousScroll(); // Cleanup on unmount
+            stopContinuousScroll(); // Cleanup
         };
-    }, [isScrolling, stopContinuousScroll]);
+    }, [isScrollingState, stopContinuousScroll]);
+
+    const isVisible =
+        type === 'always'
+        || (type === 'auto' && isOverflowing)
+        || (isOverflowing && (type === 'scroll' || type === 'hover') && scrollbarVisible);
+    const shouldKeepInDOM = isOverflowing || type === 'always';
 
     return (
         <div
             ref={ref}
-            className={clsx(rootClass + '-scrollbar', className)}
+            className={clsx(rootClass && `${rootClass}-scrollbar`, className)}
             data-orientation={orientation}
+            data-state={isVisible ? 'visible' : 'hidden'}
+            style={{
+                display: shouldKeepInDOM ? undefined : 'none',
+                ...props.style
+            }}
             onMouseDown={startContinuousScroll}
             onMouseUp={stopContinuousScroll}
             onMouseLeave={stopContinuousScroll}

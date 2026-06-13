@@ -30,6 +30,14 @@ const data = {
             info_tooltips : "The children of the TabsList."
         },
         type : "ReactNode",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Render the list as the child element."
+        },
+        type : "boolean",
+        default : "false",
        }
     ]
 }

@@ -2,33 +2,68 @@ import Badge from '../Badge';
 import Separator from '../../Separator/Separator';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
 
-const ArrowIcon = ({ className }: { className:string}) => {
-    return <svg className={className} width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>;
-};
 const BadgeText = 'Badge';
-const Variants = ['soft', 'outline'];
-const Sizes = ['small', 'medium', 'large', 'x-large'];
+const BADGE_VARIANTS = ['solid', 'soft', 'surface', 'outline', 'ghost'] as const;
+const BADGE_SIZES = ['small', 'medium', 'large', 'x-large'] as const;
+const Colors = ['blue', 'red', 'green', 'plum', 'gray'];
+const DEMO_COLORS = ['blue', 'red', 'green'] as const;
+
+const VariantShowcase = ({ includeNeutral = false }: { includeNeutral?: boolean }): React.ReactElement => {
+    return <div className='flex flex-col gap-3'>
+        {BADGE_VARIANTS.map((variant) => (
+            <div key={variant} className='grid gap-2 sm:grid-cols-[5rem_1fr] sm:items-center'>
+                <p className='text-xs font-medium uppercase tracking-[0.08em] text-[var(--rad-ui-text-secondary)]'>{variant}</p>
+                <div className='flex flex-wrap items-center gap-2'>
+                    {includeNeutral ? <Badge variant={variant}>default</Badge> : null}
+                    {DEMO_COLORS.map((color) => (
+                        <Badge key={color} color={color} variant={variant}>
+                            {color}
+                        </Badge>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>;
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Components/Badge',
     component: Badge,
     render: () => <SandboxEditor>
-        <div className='flex space-x-2'>
-            <Badge >Plum</Badge>
-            <Separator orientation="vertical" />
-            <Badge color="plum">Plum</Badge>
-            <Badge color="red" >Red</Badge>
-            <Badge color="gray" >Gray</Badge>
-            <Separator orientation="vertical" />
-            <Badge >
+        <div className='flex flex-wrap items-center gap-4'>
+            {/* Default badge */}
+            <div className='flex flex-col gap-2'>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)]'>Default</p>
+                <Badge>Badge</Badge>
+            </div>
 
-                <div>
-                    With Icon
+            <Separator orientation="vertical" />
+
+            {/* Badges with color prop */}
+            <div className='flex flex-col gap-2'>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)]'>With Color Prop</p>
+                <div className='flex flex-wrap gap-2'>
+                    {Colors.map((color, index) => (
+                        <Badge key={index} color={color}>{color}</Badge>
+                    ))}
                 </div>
-                <ArrowIcon className=''/>
-            </Badge>
+            </div>
+
+            <Separator orientation="vertical" />
+
+            {/* Badge with icon */}
+            <div className='flex flex-col gap-2'>
+                <p className='text-sm text-[var(--rad-ui-text-secondary)]'>With Icon</p>
+                <Badge>
+                    <div className='flex items-center gap-1'>
+                        <span>With Icon</span>
+                        <ArrowRight className='w-3 h-3' />
+                    </div>
+                </Badge>
+            </div>
         </div>
     </SandboxEditor>
 };
@@ -40,42 +75,102 @@ export const All = {
     }
 };
 
-export const Size = () => {
+export const Default = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>Badge Size</p>
+            <p className='text-gray-950 mb-4'>Default Badge (no color prop)</p>
         </div>
-        <div className=''>
-
-            {Variants.map((variant, index) => (
-                <div key={index} className='mb-10'>
-                    <span key={index} className="inline-flex items-start space-x-2">
-                        {Sizes.map((size, index) => {
-                            return <Badge key={index} size={size} variant={variant} >
-                                <div>{BadgeText} </div>
-                            </Badge>;
-                        })}
-                    </span>
-                </div>
-            ))}
-
+        <div className='flex flex-wrap gap-2'>
+            <Badge>Default</Badge>
+            <Badge variant="solid">Solid</Badge>
+            <Badge variant="soft">Soft</Badge>
+            <Badge variant="surface">Surface</Badge>
+            <Badge variant="outline">Outline</Badge>
+            <Badge variant="ghost">Ghost</Badge>
         </div>
     </SandboxEditor>;
 };
 
-export const Variant = () => {
+export const WithColors = () => {
+    return <SandboxEditor>
+        <div className='flex flex-col gap-6'>
+            <div>
+                <p className='mb-3 text-gray-950'>Badges with Color Prop</p>
+                <div className='flex flex-wrap gap-2'>
+                    {Colors.map((color, index) => (
+                        <Badge key={index} color={color}>{color}</Badge>
+                    ))}
+                </div>
+            </div>
+            <div>
+                <p className='mb-3 text-gray-950'>Variant Comparison</p>
+                <VariantShowcase />
+            </div>
+        </div>
+    </SandboxEditor>;
+};
+
+export const Sizes = () => {
     return <SandboxEditor>
         <div className='mt-4 mb-2'>
-            <p className='text-gray-950'>Badge Variant</p>
+            <p className='text-gray-950 mb-4'>Badge Sizes</p>
         </div>
-        <div className='flex space-x-2'>
+        <div className='flex flex-col gap-4'>
+            {BADGE_VARIANTS.map((variant, index) => (
+                <div key={index} className='flex flex-col gap-2'>
+                    <p className='text-sm text-[var(--rad-ui-text-secondary)]'>{variant} variant</p>
+                    <div className='flex flex-wrap items-center gap-2'>
+                        {BADGE_SIZES.map((size, sizeIndex) => {
+                            return <Badge key={sizeIndex} size={size} variant={variant}>
+                                {BadgeText}
+                            </Badge>;
+                        })}
+                    </div>
+                </div>
+            ))}
+        </div>
+    </SandboxEditor>;
+};
 
-            {Variants.map((variant, index) => {
-                return <Badge key={index} variant={variant} >
-                    <div>{BadgeText} </div>
-                </Badge>;
-            })}
+export const Variants = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='mb-4 text-gray-950'>Badge Variants</p>
+            <VariantShowcase includeNeutral />
+        </div>
+    </SandboxEditor>;
+};
 
+export const WithIcons = () => {
+    return <SandboxEditor>
+        <div className='mt-4 mb-2'>
+            <p className='text-gray-950 mb-4'>Badges with Icons</p>
+        </div>
+        <div className='flex flex-wrap gap-2'>
+            <Badge>
+                <div className='flex items-center gap-1'>
+                    <ArrowRight className='w-3 h-3' />
+                    <span>Left Icon</span>
+                </div>
+            </Badge>
+            <Badge>
+                <div className='flex items-center gap-1'>
+                    <span>Right Icon</span>
+                    <ArrowRight className='w-3 h-3' />
+                </div>
+            </Badge>
+            <Badge color="blue">
+                <div className='flex items-center gap-1'>
+                    <ArrowRight className='w-3 h-3' />
+                    <span>Colored</span>
+                </div>
+            </Badge>
+            <Badge variant="outline">
+                <div className='flex items-center gap-1'>
+                    <ArrowRight className='w-3 h-3' />
+                    <span>Outline</span>
+                </div>
+            </Badge>
         </div>
     </SandboxEditor>;
 };

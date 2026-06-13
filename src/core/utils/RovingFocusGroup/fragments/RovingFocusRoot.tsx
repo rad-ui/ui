@@ -38,7 +38,7 @@ type RovingFocusRootProps = React.ComponentPropsWithoutRef<'div'> & {
  *   </RovingFocusGroup>
  * </RovingFocusRoot>
  */
-const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRootProps>(({ 
+const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRootProps>(({
     children,
     orientation = 'horizontal',
     loop = true,

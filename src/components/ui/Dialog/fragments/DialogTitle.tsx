@@ -14,7 +14,7 @@ export type DialogTitleProps = PrimitiveHeadingProps & {
 const DialogTitle = forwardRef<DialogTitleElement, DialogTitleProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(DialogContext);
     return (
-        <Primitive.h2 ref={ref} className={clsx(`${rootClass}-title`, className)} {...props}>
+        <Primitive.h2 ref={ref} className={clsx(rootClass && `${rootClass}-title`, className)} {...props}>
             {children}
         </Primitive.h2>
     );

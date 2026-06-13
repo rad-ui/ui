@@ -1,7 +1,12 @@
 "use client"
 import Tooltip from "@radui/ui/Tooltip"
 
-const TooltipWrapper = ({ children, label='', placement='bottom', ...props }: { children: React.ReactNode, label: string, placement: string, props?: any }) => {
+type TooltipWrapperProps = Omit<React.ComponentProps<typeof Tooltip.Root>, "children"> & {
+    children: React.ReactNode;
+    label?: React.ReactNode;
+};
+
+const TooltipWrapper = ({ children, label = '', placement = 'bottom', ...props }: TooltipWrapperProps) => {
     return (
         <Tooltip.Root {...props} placement={placement}>
             <Tooltip.Trigger asChild>

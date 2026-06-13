@@ -3,9 +3,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axe from 'axe-core';
 import Select from '../Select';
+import ThemeContext from '../../Theme/ThemeContext';
 
 describe('Select full behavior', () => {
-    test('keyboard navigation and selection with data-state', async () => {
+    test('keyboard navigation and selection with data-state', async() => {
         render(
             <Select.Root>
                 <Select.Trigger>choose</Select.Trigger>
@@ -35,11 +36,10 @@ describe('Select full behavior', () => {
 
         await userEvent.keyboard('{Enter}');
         await waitFor(() => expect(trigger).toHaveAttribute('data-state', 'closed'));
-        expect(trigger).toHaveTextContent('banana');
+        expect(trigger).toHaveTextContent('Banana');
     });
 
-
-    test('form submit includes value and disabled options not selectable', async () => {
+    test('form submit includes value and disabled options not selectable', async() => {
         let submittedValue: FormDataEntryValue | null = null;
         const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -69,12 +69,12 @@ describe('Select full behavior', () => {
         await userEvent.click(screen.getByText('Banana'));
         expect(trigger).toHaveTextContent('trigger');
         await userEvent.click(screen.getByText('Apple'));
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
         await userEvent.click(screen.getByText('submit'));
         expect(submittedValue).toBe('apple');
     });
 
-    test('controlled and uncontrolled values work', async () => {
+    test('controlled and uncontrolled values work', async() => {
         function Controlled() {
             const [value, setValue] = React.useState('apple');
             return (
@@ -97,7 +97,7 @@ describe('Select full behavior', () => {
         expect(trigger).toHaveTextContent('apple');
         await userEvent.click(trigger);
         await userEvent.click(screen.getByText('Orange'));
-        expect(trigger).toHaveTextContent('orange');
+        expect(trigger).toHaveTextContent('Orange');
         unmount();
         render(
             <Select.Root defaultValue="apple">
@@ -116,10 +116,10 @@ describe('Select full behavior', () => {
         expect(trigger2).toHaveTextContent('apple');
         await userEvent.click(trigger2);
         await userEvent.click(screen.getByText('Grape'));
-        expect(trigger2).toHaveTextContent('grape');
+        expect(trigger2).toHaveTextContent('Grape');
     });
 
-    test('portal container renders and focus returns to trigger', async () => {
+    test('portal container renders and focus returns to trigger', async() => {
         const container = document.createElement('div');
         document.body.appendChild(container);
         render(
@@ -142,7 +142,52 @@ describe('Select full behavior', () => {
         expect(document.activeElement).toBe(trigger);
     });
 
-    test('axe: no violations and aria attributes set', async () => {
+    test('custom trigger value rendering still opens controlled select', async() => {
+        const portalRoot = document.createElement('div');
+        portalRoot.setAttribute('data-rad-ui-portal-root', '');
+        document.body.appendChild(portalRoot);
+
+        function Controlled() {
+            const [value, setValue] = React.useState('amber');
+            return (
+                <ThemeContext.Provider
+                    value={{
+                        containerRef: { current: null },
+                        portalRootRef: { current: portalRoot }
+                    }}>
+                    <Select.Root value={value} onValueChange={setValue}>
+                        <Select.Trigger
+                            aria-label="Accent color"
+                            renderValue={(selectedValue: string) => (
+                                <span data-testid="custom-value">swatch {selectedValue}</span>
+                            )}
+                        />
+                        <Select.Portal>
+                            <Select.Content>
+                                <Select.Group>
+                                    <Select.Item value="amber">Amber</Select.Item>
+                                    <Select.Item value="blue">Blue</Select.Item>
+                                </Select.Group>
+                            </Select.Content>
+                        </Select.Portal>
+                    </Select.Root>
+                </ThemeContext.Provider>
+            );
+        }
+
+        render(<Controlled />);
+
+        const trigger = screen.getByRole('combobox', { name: 'Accent color' });
+        expect(screen.getByTestId('custom-value')).toHaveTextContent('swatch amber');
+        await userEvent.click(trigger);
+        expect(screen.getByRole('listbox')).toBeInTheDocument();
+        expect(portalRoot.querySelector('[role="listbox"]')).toBeTruthy();
+        await userEvent.click(screen.getByText('Blue'));
+        expect(screen.getByTestId('custom-value')).toHaveTextContent('swatch blue');
+        portalRoot.remove();
+    });
+
+    test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>
                 <label id="label">Label</label>
@@ -167,7 +212,7 @@ describe('Select full behavior', () => {
         expect(trigger).toHaveAttribute('aria-labelledby', 'label');
     });
 
-    test('asChild trigger preserves semantics', async () => {
+    test('asChild trigger preserves semantics', async() => {
         const childRef = React.createRef<HTMLSpanElement>();
         render(
             <Select.Root>
@@ -191,7 +236,7 @@ describe('Select full behavior', () => {
         expect(childRef.current).toBe(trigger);
     });
 
-    test('disabled trigger does not open', async () => {
+    test('disabled trigger does not open', async() => {
         render(
             <Select.Root>
                 <Select.Trigger disabled>disabled</Select.Trigger>

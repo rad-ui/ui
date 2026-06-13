@@ -9,10 +9,13 @@ node_modules/
 # Miscellaneous
 coverage/
 dist/
+storybook-static/
 .cache/
 .DS_Store
 chromatic.log
 build-storybook.log
+
+test-results/
 
 
 LLM.md

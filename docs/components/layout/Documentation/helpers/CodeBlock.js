@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { refractor } from 'refractor';
 import js from 'refractor/lang/javascript';
 import jsx from 'refractor/lang/jsx';
+import ts from 'refractor/lang/typescript';
+import tsx from 'refractor/lang/tsx';
+import bash from 'refractor/lang/bash';
 import scss from 'refractor/lang/scss'; // Add SCSS import
 import Copy from '@/components/Copy';
 
@@ -13,6 +16,9 @@ import ScrollArea from '@radui/ui/ScrollArea';
 
 refractor.register(js);
 refractor.register(jsx);
+refractor.register(ts);
+refractor.register(tsx);
+refractor.register(bash);
 refractor.register(scss);
 
 const renderElement = (element, index) => {
@@ -32,93 +38,115 @@ const renderElement = (element, index) => {
     }
 };
 
-const CodeBlock = ({ children, inline = false, language = 'jsx' }) => {
+const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' }) => {
     const [expanded, setExpanded] = useState(false);
-    let code = refractor.highlight(children, language);
-    code = code.children.map((child, index) => renderElement(child, index));
+    const [hasOverflow, setHasOverflow] = useState(false);
+    const viewportRef = useRef(null);
+
+    let code;
+
+    try {
+        code = refractor.highlight(children, language);
+        code = code.children.map((child, index) => renderElement(child, index));
+    } catch (error) {
+        if (error instanceof Error && error.message.includes('Unknown language')) {
+            code = [children];
+        } else {
+            throw error;
+        }
+    }
 
     // Format the code for copying by removing extra newlines and trimming
     const copyContent = children
         .replace(/\n{2,}/g, '\n') // Replace multiple newlines with single newline
         .trim(); // Remove leading/trailing whitespace
 
-    let height = 'auto';
-    let maxHeight = 'auto';
+    const collapsedHeight = 220;
+    const maxHeight = expanded ? 640 : collapsedHeight;
 
-    if (expanded) {
-        if (!inline) {
-            height = 'auto';
-            maxHeight = 640;
-        }
+    useEffect(() => {
+        if (inline) return;
 
+        const viewport = viewportRef.current;
+        if (!viewport) return;
+
+        const measureOverflow = () => {
+            setHasOverflow(viewport.scrollHeight > collapsedHeight + 8);
+        };
+
+        measureOverflow();
+
+        const resizeObserver = new ResizeObserver(() => {
+            measureOverflow();
+        });
+
+        resizeObserver.observe(viewport);
+        Array.from(viewport.children).forEach((child) => resizeObserver.observe(child));
+
+        return () => resizeObserver.disconnect();
+    }, [children, language, inline]);
+
+    if (inline) {
+        return (
+            <code className={`language-${language} docs-inline-code whitespace-pre-wrap`}>
+                {children}
+            </code>
+        );
     }
-    else {
-        if (!inline) {
-            height = 180;
-            maxHeight = 640;
-        }
 
-    }
     return (
-        <pre className="relative mb-8">
-            <div className="relative height">
-                {/* <code
-className={`language-${language} whitespace-pre-wrap`}
-                style={{
-                    height,
-                    maxHeight,
-                    overflowY: expanded ? 'scroll' : 'hidden',  
-                    wordBreak: 'break-word',
-                }}
-            >{code}</code> */}
-
+        <pre className={clsx(
+            "docs-syntax-pre relative my-5 overflow-hidden rounded-[18px] border",
+            className,
+        )}>
+            <div className="docs-syntax-toolbar flex items-center justify-between px-3.5 py-2">
+                <span className="docs-syntax-toolbar-label">
+                    {['jsx', 'tsx'].includes(language) ? 'React' : language}
+                </span>
+                <TooltipWrapper label="Copy" placement="bottom">
+                    <Copy
+                        content={copyContent}
+                        className="docs-syntax-copy h-8 w-8 rounded-[11px] border hover:opacity-90"
+                        iconSize={15}
+                    />
+                </TooltipWrapper>
+            </div>
+            <div className="relative">
                 <ScrollArea.Root
                     className={clsx(
-                        "transition-all",
-                        expanded ? "max-h-[640px]" : "max-h-[180px]",
-                        inline && "overflow-visible max-h-none"
+                        expanded ? "max-h-[640px]" : "max-h-[220px]",
+                        "docs-syntax-scroll-area overflow-visible",
                     )}
                 >
                     <ScrollArea.Viewport
+                        ref={viewportRef}
                         style={{
-                            height: inline ? 'auto' : height,
-                            maxHeight: inline ? 'none' : maxHeight,
-                            overflowY: inline ? 'visible' : 'auto',
+                            maxHeight,
+                            overflowY: hasOverflow ? 'auto' : 'hidden',
                         }}
                     >
-                        <code className={`language-${language} whitespace-pre-wrap block`}>
+                        <code className={`language-${language} docs-code-block block whitespace-pre-wrap`}>
                             {code}
                         </code>
                     </ScrollArea.Viewport>
 
-                    {!inline && (
+                    {hasOverflow && (
                         <ScrollArea.Scrollbar>
                             <ScrollArea.Thumb />
                         </ScrollArea.Scrollbar>
                     )}
                 </ScrollArea.Root>
-                {!inline && <>
+                    {hasOverflow && <>
                     {!expanded && <div className="code-block-blur"></div>}
-                    <div className="flex justify-center w-full bg-gradient-to-t from-background to-transparent bg-gray-100 px-4 py-2">
-                        <Button size="small" onClick={() => setExpanded(!expanded)}>
+                    <div className="docs-syntax-footer flex w-full justify-center px-4 py-1.5">
+                        <Button size="small" variant="ghost" className="docs-syntax-expand min-h-0 rounded-full border px-3 py-1 text-[0.78rem]" onClick={() => setExpanded(!expanded)}>
                             Show {expanded ? 'less' : 'more'}
                         </Button>
                     </div>
                 </>}
-
             </div>
-            <span className="absolute top-2 right-[20px]">
-                <TooltipWrapper label="Copy" placement="bottom">
-                    <Copy content={copyContent} />
-                </TooltipWrapper>
-            </span>
         </pre>
-
-
     );
 };
 
 export default CodeBlock;
-
-
-

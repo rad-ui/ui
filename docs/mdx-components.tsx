@@ -1,8 +1,10 @@
 import type { MDXComponents } from 'mdx/types'
+import { isValidElement } from 'react'
 
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
 import Strong from "@radui/ui/Strong"
+import { TableRoot, TableHead, TableBody, TableRow, TableHeader, TableCell } from '@/components/mdx/TableComponents'
 
 import Documentation from '@/components/layout/Documentation/Documentation';
 
@@ -36,6 +38,20 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     strong: ({ children }) => (
       <Strong>{children}</Strong>
     ),
+    pre: ({ children }) => {
+      if (isValidElement(children)) {
+        const childProps = children.props as { className?: string; children?: string }
+        const language = childProps.className?.replace(/^language-/, '') || 'jsx'
+
+        return (
+          <Documentation.CodeBlock language={language}>
+            {typeof childProps.children === 'string' ? childProps.children : ''}
+          </Documentation.CodeBlock>
+        )
+      }
+
+      return <pre>{children}</pre>
+    },
     code: ({ children }) => (
       <Documentation.CodeBlock inline>
         {children}
@@ -49,7 +65,36 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     li: ({ children }) => (
       <li className="mb-2 text-gray-1000">{children}</li>
     ),
-    
+    table: ({ children }) => (
+      <TableRoot>
+        {children}
+      </TableRoot>
+    ),
+    thead: ({ children }) => (
+      <TableHead>
+        {children}
+      </TableHead>
+    ),
+    tbody: ({ children }) => (
+      <TableBody>
+        {children}
+      </TableBody>
+    ),
+    tr: ({ children }) => (
+      <TableRow>
+        {children}
+      </TableRow>
+    ),
+    th: ({ children }) => (
+      <TableHeader>
+        {children}
+      </TableHeader>
+    ),
+    td: ({ children }) => (
+      <TableCell>
+        {children}
+      </TableCell>
+    ),
     // img: (props) => (
     //   <Image
     //     sizes="100vw"

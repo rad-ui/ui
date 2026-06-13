@@ -1,152 +1,182 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
+import { composeRefs } from '~/core/utils/mergeProps';
 
 type CollapsiblePrimitiveContentElement = React.ElementRef<typeof Primitive.div>;
 export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
     typeof Primitive.div
->;
+> & {
+    forceMount?: boolean;
+};
 
 const CollapsiblePrimitiveContent = React.forwardRef<
     CollapsiblePrimitiveContentElement,
     CollapsiblePrimitiveContentProps
->(({ children, className, asChild = false, ...props }, forwardedRef) => {
-        const {
-            open,
-            contentId,
-            transitionDuration,
-            transitionTimingFunction
-        } = useCollapsiblePrimitiveContext();
+>(({ children, className, asChild = false, forceMount = false, style, ...props }, forwardedRef) => {
+    const {
+        open,
+        contentId,
+        transitionDuration,
+        transitionTimingFunction
+    } = useCollapsiblePrimitiveContext();
 
-        const ref = useRef<CollapsiblePrimitiveContentElement | null>(null);
-        const setRefs = (node: CollapsiblePrimitiveContentElement) => {
-            ref.current = node;
-            if (typeof forwardedRef === 'function') {
-                forwardedRef(node);
-            } else if (forwardedRef) {
-                (forwardedRef as React.MutableRefObject<CollapsiblePrimitiveContentElement | null>).current = node;
-            }
+    const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
+    const [isPresent, setIsPresent] = useState(open || forceMount);
+    const animationTimeoutRef = useRef<NodeJS.Timeout>();
+    const rafRef = useRef<number>();
+    const ref = useRef<HTMLDivElement | null>(null);
+    const heightRef = useRef<number | undefined>(0);
+    const widthRef = useRef<number | undefined>(0);
+    const originalStylesRef = useRef<{
+        transitionDuration: string;
+        transitionProperty: string;
+        transitionTimingFunction: string;
+    }>();
+    const isMountAnimationPreventedRef = useRef(open || forceMount);
+
+    useEffect(() => {
+        const animationFrame = requestAnimationFrame(() => {
+            isMountAnimationPreventedRef.current = false;
+        });
+
+        return () => cancelAnimationFrame(animationFrame);
+    }, []);
+
+    useLayoutEffect(() => {
+        if (animationTimeoutRef.current) {
+            clearTimeout(animationTimeoutRef.current);
+        }
+
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+        }
+
+        const node = ref.current;
+
+        if (!node) return;
+
+        originalStylesRef.current = originalStylesRef.current || {
+            transitionDuration: node.style.transitionDuration,
+            transitionProperty: node.style.transitionProperty,
+            transitionTimingFunction: node.style.transitionTimingFunction
         };
-        const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
-        const [shouldRender, setShouldRender] = useState(open);
-        const animationTimeoutRef = useRef<NodeJS.Timeout>();
-        const rafRef = useRef<number>();
 
-        // When opening, we need to immediately render
-        useEffect(() => {
-            if (open) {
-                setShouldRender(true);
+        // Measure the content at its natural size before the browser paints.
+        node.style.transitionDuration = '0s';
+        node.style.transitionProperty = 'none';
+
+        const rect = node.getBoundingClientRect();
+        const measuredHeight = rect.height || node.scrollHeight;
+        const measuredWidth = rect.width || node.scrollWidth;
+
+        heightRef.current = measuredHeight;
+        widthRef.current = measuredWidth;
+
+        if (!isMountAnimationPreventedRef.current) {
+            node.style.transitionDuration = originalStylesRef.current.transitionDuration;
+            node.style.transitionProperty = originalStylesRef.current.transitionProperty;
+            node.style.transitionTimingFunction = originalStylesRef.current.transitionTimingFunction;
+        }
+
+        if (transitionDuration === 0) {
+            setHeight(open ? undefined : 0);
+
+            if (!open && !forceMount) {
+                setIsPresent(false);
+            } else {
+                setIsPresent(true);
             }
-        }, [open]);
+            return;
+        }
 
-        useEffect(() => {
-            // Clear any existing timeout and animation frames to avoid conflicts
+        if (isMountAnimationPreventedRef.current && open) {
+            setIsPresent(true);
+            setHeight(undefined);
+            return;
+        }
+
+        if (open) {
+            setIsPresent(true);
+            setHeight(0);
+
+            rafRef.current = requestAnimationFrame(() => {
+                const _ = ref.current?.offsetHeight;
+
+                rafRef.current = requestAnimationFrame(() => {
+                    if (ref.current) {
+                        setHeight(heightRef.current ?? ref.current.scrollHeight);
+                    }
+                });
+            });
+
+            animationTimeoutRef.current = setTimeout(() => {
+                setHeight(undefined);
+            }, transitionDuration);
+        } else {
+            setHeight(heightRef.current ?? node.scrollHeight);
+
+            rafRef.current = requestAnimationFrame(() => {
+                const _ = ref.current?.offsetHeight;
+
+                rafRef.current = requestAnimationFrame(() => {
+                    setHeight(0);
+                });
+            });
+
+            animationTimeoutRef.current = setTimeout(() => {
+                if (!forceMount) {
+                    setIsPresent(false);
+                }
+            }, transitionDuration);
+        }
+
+        return () => {
             if (animationTimeoutRef.current) {
                 clearTimeout(animationTimeoutRef.current);
             }
-
             if (rafRef.current) {
                 cancelAnimationFrame(rafRef.current);
             }
+        };
+    }, [open, transitionDuration, forceMount, children]);
 
-            if (!ref.current) return;
+    const shouldRender = open || isPresent || forceMount;
 
-            // Handle the case when transitionDuration is 0 - no animation
-            if (transitionDuration === 0) {
-                setHeight(open ? undefined : 0);
-
-                // For instant changes, also update visibility immediately
-                if (!open) {
-                    setShouldRender(false);
-                }
-                return;
-            }
-
-            if (open) {
-                // Opening animation
-                // First set height to 0 to ensure proper animation start state
-                setHeight(0);
-
-                // Use RAF to ensure the DOM has updated with the new height
-                rafRef.current = requestAnimationFrame(() => {
-                    // Force a reflow
-                    const _ = ref.current?.offsetHeight;
-
-                    // Now measure and start animation in the next frame
-                    rafRef.current = requestAnimationFrame(() => {
-                        if (ref.current) {
-                            const contentHeight = ref.current.scrollHeight;
-                            setHeight(contentHeight);
-                        }
-                    });
-                });
-
-                // After animation completes, set height to undefined for responsive flexibility
-                animationTimeoutRef.current = setTimeout(() => {
-                    setHeight(undefined);
-                }, transitionDuration);
-            } else {
-                // Closing animation
-                // First set to current height to ensure smooth start
-                const contentHeight = ref.current.scrollHeight;
-                setHeight(contentHeight);
-
-                // Use RAF to ensure browser processes the height setting
-                rafRef.current = requestAnimationFrame(() => {
-                    // Force a reflow
-                    const _ = ref.current?.offsetHeight;
-
-                    // Then animate to 0 in the next frame
-                    rafRef.current = requestAnimationFrame(() => {
-                        setHeight(0);
-                    });
-                });
-
-                // After animation completes, we can hide the element completely
-                animationTimeoutRef.current = setTimeout(() => {
-                    setShouldRender(false);
-                }, transitionDuration);
-            }
-
-            return () => {
-                if (animationTimeoutRef.current) {
-                    clearTimeout(animationTimeoutRef.current);
-                }
-                if (rafRef.current) {
-                    cancelAnimationFrame(rafRef.current);
-                }
-            };
-        }, [open, transitionDuration]);
-
-        // Don't render anything if closed and animation is complete
-        if (!shouldRender && !open) {
-            return null;
-        }
-
-        const shouldUseAsChild = asChild && React.isValidElement(children);
-
-        return (
-            <Primitive.div
-                id={contentId}
-                ref={setRefs}
-                aria-hidden={!open}
-                data-state={open ? 'open' : 'closed'}
-                className={className}
-                style={{
-                    height: height !== undefined ? `${height}px` : undefined,
-                    overflow: 'hidden',
-                    ...(transitionDuration > 0
-                        ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
-                        : {})
-                }}
-                asChild={shouldUseAsChild}
-                {...props}
-            >
-                {children}
-            </Primitive.div>
-        );
+    if (!shouldRender) {
+        return null;
     }
-);
+
+    const dynamicStyle: React.CSSProperties = {
+        ...style,
+        overflow: 'hidden',
+        height: height !== undefined ? `${height}px` : undefined,
+        ['--radix-collapsible-content-height' as string]:
+            heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
+        ['--radix-collapsible-content-width' as string]:
+            widthRef.current !== undefined ? `${widthRef.current}px` : undefined,
+        ...(transitionDuration > 0
+            ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
+            : {})
+    };
+
+    const shouldUseAsChild = asChild && React.isValidElement(children);
+
+    return (
+        <Primitive.div
+            id={contentId}
+            ref={composeRefs(forwardedRef, ref)}
+            aria-hidden={!open}
+            data-state={open ? 'open' : 'closed'}
+            className={className}
+            style={dynamicStyle}
+            asChild={shouldUseAsChild}
+            {...props}
+        >
+            {children}
+        </Primitive.div>
+    );
+});
 
 CollapsiblePrimitiveContent.displayName = 'CollapsiblePrimitiveContent';
 

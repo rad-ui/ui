@@ -24,6 +24,30 @@ const data = {
             type : "ReactNode",
             default : "--",
         }
+        ,{
+            prop : {
+                name : "container",
+                info_tooltips : "Custom DOM node used as the portal mount point."
+            },
+            type : "Element | null",
+            default : "--",
+        }
+        ,{
+            prop : {
+                name : "forceMount",
+                info_tooltips : "Keeps portal internals mounted even before opening."
+            },
+            type : "boolean",
+            default : "false",
+        }
+        ,{
+            prop : {
+                name : "keepMounted",
+                info_tooltips : "Retains portal content in the DOM after close when supported by the primitive."
+            },
+            type : "boolean",
+            default : "false",
+        }
     ]
 }
 

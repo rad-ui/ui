@@ -49,4 +49,3 @@ describe('Quote', () => {
         consoleError.mockRestore();
     });
 });
-

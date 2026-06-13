@@ -1,0 +1,203 @@
+/* ── Toast – Clarity ─────────────────────────────────────────────────────── */
+
+.rad-ui-toast-viewport {
+    position: fixed;
+    z-index: var(--rad-ui-z-index-portal, 9999);
+    list-style: none;
+    margin: 0;
+    padding: 0 1rem 1rem;
+    width: 356px;
+    max-width: calc(100vw - 2rem);
+    outline: none;
+    height: calc(var(--viewport-height, 0px) + 1rem);
+
+    &[data-position="bottom-right"]  { bottom: 3rem; right: 1.5rem; }
+    &[data-position="bottom-left"]   { bottom: 3rem; left: 1.5rem; }
+    &[data-position="bottom-center"] { bottom: 3rem; left: 50%; transform: translateX(-50%); }
+    &[data-position="top-right"]     { top: 1.5rem; right: 1.5rem; }
+    &[data-position="top-left"]      { top: 1.5rem; left: 1.5rem; }
+    &[data-position="top-center"]    { top: 1.5rem; left: 50%; transform: translateX(-50%); }
+}
+
+/* ── Item ────────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-item {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    list-style: none;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    transform-origin: bottom center;
+    transform:
+        translateY(var(--y, 0px))
+        translateY(var(--swipe-y, 0px))
+        scale(var(--scale, 1));
+
+    /* Sonner [data-sonner-toast]: transform/opacity 400ms (+ height in Sonner; omitted here). */
+    transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
+
+    /* Exit: same full slide for front and behind (Sonner front path) — avoids 40% / mismatched timing flicker */
+    &[data-leaving] {
+        pointer-events: none;
+        opacity: 0;
+        transform:
+            translateY(calc(var(--toast-lift, -1) * -100%))
+            translateY(var(--swipe-y, 0px))
+            scale(var(--scale, 1));
+        transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
+    }
+
+    &:not([data-mounted]) {
+        opacity: 0;
+        transform: translateY(100%) scale(var(--scale, 1));
+    }
+
+    &[data-restack-skip] {
+        transition: none;
+    }
+
+    &[data-swiping] {
+        transition: none;
+        cursor: grabbing;
+    }
+
+    /* Back toasts: clamp height to front toast height */
+    &[data-behind] {
+        height: var(--front-height);
+    }
+
+    [data-position^="top"] & {
+        bottom: auto;
+        top: 0;
+        transform-origin: top center;
+
+        &:not([data-mounted]) {
+            transform: translateY(-100%) scale(var(--scale, 1));
+        }
+    }
+
+    /* Gap filler so hover works between cards */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 16px;
+    }
+}
+
+/* ── Content ─────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-content {
+    overflow: hidden;
+    border-radius: var(--rad-ui-radius-xl, 0.75rem);
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    background-color: var(--rad-ui-surface-panel);
+    border: 1px solid var(--rad-ui-border-soft);
+    box-shadow: var(--rad-ui-elevation-md-shadow, 0 4px 16px rgb(0, 0, 0, 0.12));
+    color: var(--rad-ui-text-primary);
+}
+
+/* Back toasts: hide text, keep card background visible */
+.rad-ui-toast-item[data-behind] .rad-ui-toast-title,
+.rad-ui-toast-item[data-behind] .rad-ui-toast-description,
+.rad-ui-toast-item[data-behind] .rad-ui-toast-action,
+.rad-ui-toast-item[data-behind] .rad-ui-toast-close {
+    opacity: 0;
+    transition: opacity 400ms ease;
+}
+
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-title,
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-description,
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-action,
+.rad-ui-toast-item:not([data-behind]) .rad-ui-toast-close {
+    opacity: 1;
+    transition: opacity 400ms ease;
+}
+
+/* ── Title ───────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-title {
+    margin: 0;
+    font-size: var(--rad-ui-font-size-2, 0.875rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--rad-ui-text-primary);
+    letter-spacing: -0.025em;
+}
+
+/* ── Description ─────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-description {
+    margin: 0;
+    font-size: var(--rad-ui-font-size-1, 0.8125rem);
+    line-height: 1.5;
+    color: var(--rad-ui-text-secondary);
+    letter-spacing: -0.01em;
+}
+
+/* ── Action ──────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-action {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    font-size: var(--rad-ui-font-size-1, 0.8125rem);
+    font-weight: 500;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--rad-ui-radius-md, 0.375rem);
+    border: 1px solid var(--rad-ui-border-default);
+    background: transparent;
+    color: var(--rad-ui-text-primary);
+    cursor: pointer;
+    line-height: 1.5;
+    transition: background-color 150ms ease;
+    &:hover { background-color: var(--rad-ui-surface-hover); }
+    &:focus-visible { outline: none; box-shadow: var(--rad-ui-ring-shadow-sm); }
+}
+
+/* ── Close ───────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--rad-ui-radius-sm, 0.25rem);
+    border: none;
+    background: transparent;
+    color: var(--rad-ui-text-muted);
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1;
+    padding: 0;
+    transition: background-color 150ms ease;
+    &:hover { background-color: var(--rad-ui-surface-hover); }
+    &:focus-visible { outline: none; box-shadow: var(--rad-ui-ring-shadow-sm); }
+}
+
+/* ── Variants ────────────────────────────────────────────────────────────── */
+
+.rad-ui-toast-item[data-variant="success"] .rad-ui-toast-content { border-color: var(--rad-ui-color-green-400, #4ade80); }
+.rad-ui-toast-item[data-variant="error"]   .rad-ui-toast-content { border-color: var(--rad-ui-color-red-400,   #f87171); }
+.rad-ui-toast-item[data-variant="warning"] .rad-ui-toast-content { border-color: var(--rad-ui-color-amber-400, #fbbf24); }
+.rad-ui-toast-item[data-variant="info"]    .rad-ui-toast-content { border-color: var(--rad-ui-color-blue-400,  #60a5fa); }
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-ui-toast-item { transition: opacity 150ms ease; }
+    .rad-ui-toast-item:not([data-mounted]) { opacity: 0; transition: none; }
+    .rad-ui-toast-item[data-leaving] { opacity: 0; }
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { composeRefs, mergeProps } from '../../utils/mergeProps';
 
 // Define supported HTML elements
 const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input', 'a', 'img', 'p', 'h2', 'label'] as const;
@@ -33,28 +34,13 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
 
             const child = childrenArray[0] as React.ReactElement;
 
-            // Merge refs if child already has one
-            // TODO: This can be made into a utility function
-            const mergedRef = (childRef: any) => {
-                if (typeof ref === 'function') ref(childRef);
-                else if (ref) ref.current = childRef;
+            const childRef = (child as any).ref;
+            const mergedRef = composeRefs(ref, childRef);
+            const mergedProps = mergeProps(elementProps, child.props);
 
-                // Access ref safely using type assertion
-                const childOriginalRef = (child as any).ref;
-                if (typeof childOriginalRef === 'function') childOriginalRef(childRef);
-                else if (childOriginalRef) (childOriginalRef as React.MutableRefObject<any>).current = childRef;
-            };
-
-            // Clone with proper type handling and proper prop merging
-            // We prioritize the child's props over elementProps
-            // TODO: Utilities for merging props and refs can be created and used here
             return React.cloneElement(child, {
-                // Start with all the elementProps
-                ...elementProps,
-                // Override with the child's own props to preserve them
-                ...child.props,
-                // Only forward ref if it exists
-                ...(ref ? { ref: mergedRef } : {})
+                ...mergedProps,
+                ...(mergedRef ? { ref: mergedRef } : {})
             });
         }
 

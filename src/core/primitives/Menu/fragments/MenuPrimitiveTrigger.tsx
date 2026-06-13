@@ -16,7 +16,7 @@ const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerP
         const mergedRef = Floater.useMergeRefs([
             context?.refs.setReference,
             ref,
-            propRef,
+            propRef
         ]);
 
         if (!context) return null;

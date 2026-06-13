@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TableColumnCellHeader';
 
-type TableColumnCellHeaderProps = React.ComponentPropsWithoutRef<'th'>;
+export type TableColumnCellHeaderProps = React.ComponentPropsWithoutRef<'th'>;
 
 const TableColumnCellHeader = React.forwardRef<
     React.ElementRef<'th'>,

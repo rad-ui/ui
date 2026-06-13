@@ -29,6 +29,8 @@ const data = {
             name : "children",
             info_tooltips : "The children of the Row."
         },
+        type : "ReactNode",
+        default : "--",
        },
     ]
 }

@@ -7,6 +7,7 @@ import AlertDialogPortal from './fragments/AlertDialogPortal';
 import AlertDialogOverlay from './fragments/AlertDialogOverlay';
 import AlertDialogCancel from './fragments/AlertDialogCancel';
 import AlertDialogAction from './fragments/AlertDialogAction';
+import AlertDialogFooter from './fragments/AlertDialogFooter';
 import AlertDialogTitle from './fragments/AlertDialogTitle';
 import AlertDialogDescription from './fragments/AlertDialogDescription';
 // Explicit extension to satisfy ESM linting/resolution
@@ -27,6 +28,7 @@ AlertDialog.Portal = AlertDialogPortal;
 AlertDialog.Content = AlertDialogContent;
 AlertDialog.Title = AlertDialogTitle;
 AlertDialog.Description = AlertDialogDescription;
+AlertDialog.Footer = AlertDialogFooter;
 AlertDialog.Cancel = AlertDialogCancel;
 AlertDialog.Action = AlertDialogAction;
 

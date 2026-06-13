@@ -1,0 +1,53 @@
+# Snapshot testing policy
+
+Rad UI tests should prefer **semantic assertions** over large Jest snapshots. Snapshots are allowed only when they carry clear, stable signal.
+
+## Default preference
+
+**Prefer**
+
+```tsx
+expect(button).toHaveAttribute('data-state', 'open')
+expect(button).toHaveAccessibleName('Save')
+await user.keyboard('{ArrowDown}')
+expect(items[1]).toHaveFocus()
+```
+
+**Avoid**
+
+```tsx
+expect(container).toMatchSnapshot()
+```
+
+Full-tree snapshots hide regressions behind noisy diffs and break when unrelated markup changes.
+
+## When snapshots are acceptable
+
+- small, stable strings (serialized server HTML helpers, token maps) with an explicit comment explaining why
+- Storybook or visual regression tooling outside Jest (Chromatic) for intentional visual coverage
+- temporary snapshots during a refactor, deleted before merge unless promoted to a visual test
+
+## Required practices
+
+- Assert **roles**, **labels**, **focus**, and documented **`data-*`** attributes for behavior tests.
+- Use `@testing-library/react` queries oriented on user-visible output.
+- Keep interaction tests (`userEvent`) for keyboard paths documented on component pages.
+- If a snapshot is unavoidable, limit scope to a single element and name the file descriptively.
+
+## Reviewer checklist
+
+- [ ] Does the test fail for the right reason when behavior breaks?
+- [ ] Would a harmless className change cause a false failure?
+- [ ] Are accessibility expectations covered without snapshot-only coverage?
+- [ ] If updating a snapshot, does the PR explain the intentional behavior change?
+
+## Migrating away from snapshots
+
+1. Replace `toMatchSnapshot()` with targeted assertions on public hooks.
+2. Delete obsolete `__snapshots__` files in the same PR.
+3. Add a regression test for the behavior the snapshot was meant to guard.
+
+## Related docs
+
+- [Contributor checklist](/docs/contributing/contributor-checklist)
+- [Flaky test quarantine](/docs/contributing/flaky-test-quarantine)

@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -26,7 +26,7 @@ const TabList = React.forwardRef<React.ElementRef<'div'>, TabListProps>(
                     role="tablist"
                     aria-orientation={orientation}
                     aria-label="todo"
-                    className={clsx(`${rootClass}-list`, className)}
+                    className={clsx(rootClass && `${rootClass}-list`, className)}
                     asChild={asChild}
                     {...props}
                 >

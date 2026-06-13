@@ -1,4 +1,6 @@
 import React from 'react';
+import fs from 'node:fs';
+import path from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as axe from 'axe-core';
@@ -21,19 +23,27 @@ describe('Button', () => {
     test('renders button with the given color', () => {
         render(<Button color='white'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('data-rad-ui-accent-color', 'white');
+        expect(button).toHaveAttribute('data-color', 'white');
     });
 
     test('renders button with the given variant', () => {
-        render(<Button variant='outline'>button</Button>);
+        render(<Button customRootClass="rad-ui" variant='outline'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveClass('rad-ui-button');
+        expect(button).toHaveClass('rad-ui-button-root');
+        expect(button).toHaveAttribute('data-variant', 'outline');
+    });
+
+    test('focus-visible styles are declared after variants so focus shadow wins', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../button.clarity.scss'), 'utf8');
+        expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-variant="ghost"]'));
+        expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-variant="outline"]'));
+        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-shadow-sm);');
     });
 
     test('renders button with the given size', () => {
         render(<Button size='small'>button</Button>);
         const button = screen.getByText('button');
-        expect(button).toHaveAttribute('data-button-size', 'small');
+        expect(button).toHaveAttribute('data-size', 'small');
     });
 
     test('calls the onClick handler when the button is clicked', async() => {
@@ -68,7 +78,7 @@ describe('Button', () => {
         warnSpy.mockRestore();
     });
 
-    test('disabled suppresses clicks and sets data-disabled', async () => {
+    test('disabled suppresses clicks and sets data-disabled', async() => {
         const onClick = jest.fn();
         render(<Button disabled onClick={onClick}>disabled</Button>);
         const btn = screen.getByRole('button');
@@ -77,7 +87,7 @@ describe('Button', () => {
         expect(btn).toHaveAttribute('data-disabled', '');
     });
 
-    test('form submit and reset work when type is set', async () => {
+    test('form submit and reset work when type is set', async() => {
         const user = userEvent.setup();
         const handleSubmit = jest.fn((e) => e.preventDefault());
         render(
@@ -98,13 +108,13 @@ describe('Button', () => {
         expect(input).toHaveValue('initial');
     });
 
-    test('axe: no violations', async () => {
+    test('axe: no violations', async() => {
         const { container } = render(<Button>axe</Button>);
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });
 
-    test('works in RTL layouts', async () => {
+    test('works in RTL layouts', async() => {
         const user = userEvent.setup();
         const onClick = jest.fn();
         render(

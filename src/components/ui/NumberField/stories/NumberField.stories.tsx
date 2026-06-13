@@ -3,7 +3,7 @@ import NumberField from '../NumberField';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/NumberField',
+    title: 'Components/NumberField',
     component: NumberField
 };
 

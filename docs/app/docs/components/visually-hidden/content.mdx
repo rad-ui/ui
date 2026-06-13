@@ -1,0 +1,19 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import codeUsage, { VisuallyHiddenTable } from "./docs/codeUsage"
+import VisuallyHiddenExample from "./docs/examples/VisuallyHiddenExample"
+
+<Documentation 
+    title={`Visually Hidden`} 
+    description={`
+        Use these helpers to visually hide elements but keep them accessible to assistive technologies.
+    `}
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <VisuallyHiddenExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.Table 
+        columns={VisuallyHiddenTable.columns} 
+        data={VisuallyHiddenTable.data} 
+    />
+</Documentation>

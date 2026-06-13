@@ -25,14 +25,14 @@ export default {
                             <AlertDialog.Description>
                                 This action cannot be undone.
                             </AlertDialog.Description>
-                            <div className="flex justify-end">
-                                <AlertDialog.Action>
-                                    <>Confirm</>
-                                </AlertDialog.Action>
+                            <AlertDialog.Footer>
                                 <AlertDialog.Cancel>
                                     <>Cancel</>
                                 </AlertDialog.Cancel>
-                            </div>
+                                <AlertDialog.Action>
+                                    <>Confirm</>
+                                </AlertDialog.Action>
+                            </AlertDialog.Footer>
                         </AlertDialog.Content>
 
                     </AlertDialog.Portal>
@@ -60,14 +60,14 @@ export const Basic = {
                         <AlertDialog.Description>
                             This action cannot be undone. This will permanently delete your account and remove your data from our servers.
                         </AlertDialog.Description>
-                        <div className="flex justify-end gap-2 mt-4">
+                        <AlertDialog.Footer>
                             <AlertDialog.Cancel>
                                 Cancel
                             </AlertDialog.Cancel>
                             <AlertDialog.Action>
                                 Delete Account
                             </AlertDialog.Action>
-                        </div>
+                        </AlertDialog.Footer>
                     </AlertDialog.Content>
                 </AlertDialog.Portal>
             </AlertDialog.Root>
@@ -97,14 +97,14 @@ export const Controlled = {
                                 <AlertDialog.Description>
                                     This dialog is controlled by external state. It opens when you click the button above.
                                 </AlertDialog.Description>
-                                <div className="flex justify-end gap-2 mt-4">
+                                <AlertDialog.Footer>
                                     <AlertDialog.Cancel>
                                         Cancel
                                     </AlertDialog.Cancel>
                                     <AlertDialog.Action>
                                         Confirm
                                     </AlertDialog.Action>
-                                </div>
+                                </AlertDialog.Footer>
                             </AlertDialog.Content>
                         </AlertDialog.Portal>
                     </AlertDialog.Root>
@@ -131,11 +131,11 @@ export const DefaultOpen = {
                         <AlertDialog.Description>
                             This dialog opens by default when the component mounts.
                         </AlertDialog.Description>
-                        <div className="flex justify-end gap-2 mt-4">
+                        <AlertDialog.Footer>
                             <AlertDialog.Cancel>
                                 Close
                             </AlertDialog.Cancel>
-                        </div>
+                        </AlertDialog.Footer>
                     </AlertDialog.Content>
                 </AlertDialog.Portal>
             </AlertDialog.Root>
@@ -178,11 +178,11 @@ export const DisabledTrigger = {
                             <AlertDialog.Description>
                                 This trigger is enabled and will open the dialog.
                             </AlertDialog.Description>
-                            <div className="flex justify-end gap-2 mt-4">
+                            <AlertDialog.Footer>
                                 <AlertDialog.Cancel>
                                     Close
                                 </AlertDialog.Cancel>
-                            </div>
+                            </AlertDialog.Footer>
                         </AlertDialog.Content>
                     </AlertDialog.Portal>
                 </AlertDialog.Root>
@@ -208,11 +208,11 @@ export const ForceMount = {
                         <AlertDialog.Description>
                             This dialog and its overlay are force mounted, meaning they stay in the DOM even when closed.
                         </AlertDialog.Description>
-                        <div className="flex justify-end gap-2 mt-4">
+                        <AlertDialog.Footer>
                             <AlertDialog.Cancel>
                                 Close
                             </AlertDialog.Cancel>
-                        </div>
+                        </AlertDialog.Footer>
                     </AlertDialog.Content>
                 </AlertDialog.Portal>
             </AlertDialog.Root>
@@ -239,14 +239,14 @@ export const AsChildPolymorphism = {
                         <AlertDialog.Description>
                             Are you sure you want to delete your account? This action cannot be undone.
                         </AlertDialog.Description>
-                        <div className="flex justify-end gap-2">
+                        <AlertDialog.Footer>
                             <AlertDialog.Cancel>
                                 Cancel
                             </AlertDialog.Cancel>
                             <AlertDialog.Action>
                                 Delete
                             </AlertDialog.Action>
-                        </div>
+                        </AlertDialog.Footer>
                     </AlertDialog.Content>
                 </AlertDialog.Portal>
             </AlertDialog.Root>

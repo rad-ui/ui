@@ -22,7 +22,7 @@ describe('TextArea', () => {
     });
 
     it('is accessible via placeholder', () => {
-        render(<TextArea>hidden</TextArea>);
+        render(<TextArea placeholder="enter text">hidden</TextArea>);
         expect(screen.getByPlaceholderText('enter text')).toBeInTheDocument();
     });
 

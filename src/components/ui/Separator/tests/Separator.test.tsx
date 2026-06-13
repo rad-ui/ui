@@ -10,7 +10,7 @@ describe('Separator Component', () => {
 
     test('renders Separator component with custom style', () => {
         render(<Separator data-testid="separator" style={{ color: 'red' }} />);
-        expect(screen.getByTestId('separator')).toHaveStyle('color: red');
+        expect(screen.getByTestId('separator')).toHaveStyle('color: rgb(255, 0, 0)');
     });
 
     test('renders Separator component with custom id', () => {
@@ -25,7 +25,7 @@ describe('Separator Component', () => {
 
     test('renders Separator component with color', () => {
         render(<Separator color='blue' data-testid="separator"/>);
-        expect(screen.getByTestId('separator')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+        expect(screen.getByTestId('separator')).toHaveAttribute('data-color', 'blue');
     });
 
     test('forwards ref to underlying DOM element', () => {

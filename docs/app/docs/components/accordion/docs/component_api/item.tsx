@@ -43,9 +43,9 @@ const data = {
        {
         prop: {
             name : "value*",
-            info_tooltips: 'The value of the AccordionItem. This is used to identify the item in the Accordion.'
+            info_tooltips: 'The item value used for controlled state. If omitted, an internal id is generated.'
         },
-        type: 'string',
+        type: 'string | number',
         default: '--',
        }
     ]

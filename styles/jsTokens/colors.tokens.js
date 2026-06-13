@@ -432,5 +432,7 @@ export default {
         900: 'var(--rad-ui-color-orange-900)',
         950: 'var(--rad-ui-color-orange-950)',
         1000: 'var(--rad-ui-color-orange-1000)'
-    }
+    },
+    black: 'var(--rad-ui-color-black)',
+    white: 'var(--rad-ui-color-white)'
 };

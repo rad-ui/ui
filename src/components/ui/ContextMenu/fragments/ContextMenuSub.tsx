@@ -12,12 +12,12 @@ export type ContextMenuSubProps = {
 const ContextMenuSub = forwardRef<ContextMenuSubElement, ContextMenuSubProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(ContextMenuContext);
     if (!context) {
-        console.log('ContextMenuSub should be used in the ContextMenuRoot');
+        console.warn('ContextMenuSub should be used in the ContextMenuRoot');
         return null;
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Sub ref={ref} className={clsx(`${rootClass}-sub`, className)} {...props}>
+        <MenuPrimitive.Sub ref={ref} className={clsx(rootClass && `${rootClass}-sub`, className)} {...props}>
             {children}
         </MenuPrimitive.Sub>
     );

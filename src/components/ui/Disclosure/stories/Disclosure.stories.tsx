@@ -3,7 +3,7 @@ import Disclosure, { DisclosureProps } from '../Disclosure';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
 export default {
-    title: 'WIP/Disclosure',
+    title: 'Components/Disclosure',
     component: Disclosure,
     render: (args: JSX.IntrinsicAttributes & DisclosureProps) => <SandboxEditor>
 
@@ -12,7 +12,7 @@ export default {
         </div>
 
     </SandboxEditor>
-};
+} as any;
 
 export const All = {
     args: {

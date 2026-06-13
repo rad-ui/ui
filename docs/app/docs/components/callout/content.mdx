@@ -1,0 +1,46 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import CalloutExample from './examples/CalloutExample';
+import codeUsage, { api_documentation, features } from './docs/codeUsage';
+import { code as variantCodeUsage } from './docs/variantCodeUsage';
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import { code as colorCodeUsage } from './docs/colorCodeUsage';
+import CalloutVariants from './examples/CalloutVariants';
+import CalloutSizes from './examples/CalloutSizes';
+import CalloutColor from './examples/CalloutColor';
+
+<Documentation 
+  title="Callout" 
+  description="Callout is a component that displays important messages, warnings, or notifications with customizable styling to draw attention to specific information."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <CalloutExample />
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  {/* Variant Examples */}
+  <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
+    <CalloutVariants />
+  </Documentation.ComponentHero>
+
+  {/* Size Examples */}
+  <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+    <CalloutSizes />
+  </Documentation.ComponentHero>
+
+  {/* Color Examples */}
+  <Documentation.ComponentHero title='Color' codeUsage={colorCodeUsage}>
+    <CalloutColor />
+  </Documentation.ComponentHero>
+  
+
+  <Documentation.ApiReference
+    tables={api_documentation}
+    order={['root', 'icon', 'text']}
+  />
+
+</Documentation>

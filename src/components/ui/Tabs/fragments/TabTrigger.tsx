@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext, useRef, useCallback } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import TabsRootContext from '../context/TabsRootContext';
 
@@ -63,7 +63,7 @@ const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>
                     ref={composedRef}
                     onClick={handleClick}
                     className={clsx(
-                        `${rootClass}-trigger`,
+                        rootClass && `${rootClass}-trigger`,
                         isActive ? 'active' : '',
                         disabled ? 'disabled' : '',
                         className

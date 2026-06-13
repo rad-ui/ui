@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
-import { clsx } from 'clsx';
-import { customClassSwitcher } from '~/core';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { AccordionContext } from '../contexts/AccordionContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -9,66 +9,121 @@ import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'Accordion';
 
-export type AccordionRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue'> & {
+export type AccordionItemValue = string;
+
+type AccordionRootSharedProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue'> & {
     customRootClass?: string;
-    transitionDuration?: number;
-    transitionTimingFunction?: string;
     orientation?: 'horizontal' | 'vertical';
+    /** When true, every item is non-interactive (Radix Accordion.Root `disabled`). */
+    disabled?: boolean;
     asChild?: boolean;
     loop?: boolean;
     disableTabIndexing?: boolean;
+    /** @deprecated Prefer `type="multiple"` to match the Radix Accordion API. */
     openMultiple?: boolean;
-    value?: (number | string)[];
-    defaultValue?: (number | string)[];
-    onValueChange?: (value: (number | string)[]) => void;
 };
 
-const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>(({
-    children,
-    orientation = 'vertical',
-    disableTabIndexing = true,
-    asChild,
-    transitionDuration = 0,
-    transitionTimingFunction = 'linear',
-    customRootClass,
-    loop = true,
-    openMultiple = false,
-    value,
-    defaultValue = [],
-    onValueChange,
-    ...props
-}, forwardedRef) => {
+type AccordionRootSingleProps = {
+    type?: 'single';
+    /**
+     * When `type` is single (default), whether the open item can be closed by activating its trigger again.
+     * Matches Radix: defaults to false (trigger does not collapse the only open item).
+     */
+    collapsible?: boolean;
+    value?: AccordionItemValue;
+    defaultValue?: AccordionItemValue;
+    onValueChange?: (value: AccordionItemValue | undefined) => void;
+};
+
+type AccordionRootMultipleProps = {
+    type: 'multiple';
+    value?: AccordionItemValue[];
+    defaultValue?: AccordionItemValue[];
+    onValueChange?: (value: AccordionItemValue[]) => void;
+    collapsible?: boolean;
+};
+
+export type AccordionRootProps = AccordionRootSharedProps & (
+    AccordionRootSingleProps |
+    AccordionRootMultipleProps
+);
+
+const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootProps>((props, forwardedRef) => {
+    const {
+        children,
+        className = '',
+        orientation = 'vertical',
+        disableTabIndexing = true,
+        asChild,
+        customRootClass,
+        disabled: rootDisabled = false,
+        loop = true,
+        collapsible = false,
+        type,
+        value,
+        defaultValue,
+        onValueChange,
+        openMultiple = false,
+        dir,
+        ...restProps
+    } = props;
     const accordionRef = useRef<HTMLDivElement | null>(null);
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const processedValue = value !== undefined
-        ? (openMultiple ? value : (value.length > 0 ? [value[0]] : []))
-        : undefined;
+    const componentClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
 
-    const processedDefaultValue = openMultiple
-        ? defaultValue
-        : (defaultValue.length > 0 ? [defaultValue[0]] : []);
+    const isMultiple = type === 'multiple' || openMultiple;
+    const collapsibleEffective = isMultiple ? true : collapsible;
+    const rawValue = value as AccordionItemValue | AccordionItemValue[] | undefined;
+    const rawDefaultValue = defaultValue as AccordionItemValue | AccordionItemValue[] | undefined;
 
-    const [activeItems, setActiveItems] = useControllableState<(number | string)[]>(
+    const processedValue = rawValue === undefined
+        ? undefined
+        : (Array.isArray(rawValue) ? rawValue : [rawValue]);
+
+    const processedDefaultValue = rawDefaultValue === undefined
+        ? []
+        : (Array.isArray(rawDefaultValue) ? rawDefaultValue : [rawDefaultValue]);
+
+    const handleValueChange = (nextValue: AccordionItemValue[]) => {
+        if (isMultiple) {
+            (onValueChange as AccordionRootMultipleProps['onValueChange'])?.(nextValue);
+            return;
+        }
+
+        (onValueChange as AccordionRootSingleProps['onValueChange'])?.(nextValue[0]);
+    };
+
+    const [activeItems, setActiveItems] = useControllableState<AccordionItemValue[]>(
         processedValue,
-    processedDefaultValue,
-    onValueChange
+        processedDefaultValue,
+        handleValueChange
     );
+
+    const rovingDir: 'ltr' | 'rtl' = dir === 'rtl' ? 'rtl' : 'ltr';
 
     return (
         <AccordionContext.Provider
             value={{
-                rootClass,
+                rootClass: componentClass,
                 activeItems,
                 setActiveItems,
                 accordionRef,
-                transitionDuration,
-                transitionTimingFunction,
-                openMultiple
+                multiple: isMultiple,
+                collapsible: collapsibleEffective,
+                disabled: rootDisabled,
+                orientation
             }}>
-            <RovingFocusGroup.Root orientation={orientation} loop={loop} disableTabIndexing={disableTabIndexing} >
+            <RovingFocusGroup.Root
+                orientation={orientation}
+                loop={loop}
+                disableTabIndexing={disableTabIndexing}
+                dir={rovingDir}
+            >
                 <RovingFocusGroup.Group >
                     <Primitive.div
-                        className={clsx(`${rootClass}-root`)}
+                        className={clsx(rootClass, className)}
+                        dir={dir}
+                        data-orientation={orientation}
                         ref={(node) => {
                             const element = node as HTMLDivElement | null;
                             accordionRef.current = element;
@@ -76,7 +131,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
                             else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
                         }}
                         asChild={asChild}
-                        {...props}
+                        {...restProps}
                     >
                         {children}
                     </Primitive.div>

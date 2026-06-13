@@ -1,16 +1,16 @@
 import React from 'react';
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import { Story } from '@storybook/react';
+import type { StoryFn } from '@storybook/react-webpack5';
 
 export default {
     title: 'Components/Accordion/AccordionRoot',
     component: 'AccordionRoot'
 };
 
-const Template: Story = (args) => <SandboxEditor>
+const Template: StoryFn = () => <SandboxEditor>
     <Accordion.Root>
-        <Accordion.Item>
+        <Accordion.Item value="1">
             <Accordion.Trigger>
                 Hello
             </Accordion.Trigger>
@@ -26,12 +26,12 @@ Default.args = {
     children: 'Accordion Root'
 };
 
-const AsChildTemplate: Story = (args) => {
+const AsChildTemplate: StoryFn = () => {
     return (
         <SandboxEditor>
             <Accordion.Root asChild>
                 <span>
-                    <Accordion.Item>
+                    <Accordion.Item value="1">
                         <Accordion.Trigger>
                             Hello
                         </Accordion.Trigger>
@@ -47,7 +47,7 @@ const AsChildTemplate: Story = (args) => {
 
 export const AsChild = AsChildTemplate.bind({});
 
-const HorizontalTemplate: Story = (args) => {
+const HorizontalTemplate: StoryFn = () => {
     return (
         <SandboxEditor>
             <Accordion.Root orientation="horizontal">
@@ -74,7 +74,7 @@ const HorizontalTemplate: Story = (args) => {
 
 export const Horizontal = HorizontalTemplate.bind({});
 
-const LoopOffTemplate: Story = (args) => {
+const LoopOffTemplate: StoryFn = () => {
     return (
         <SandboxEditor>
             <Accordion.Root loop={false}>

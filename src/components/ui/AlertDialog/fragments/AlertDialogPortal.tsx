@@ -14,6 +14,8 @@ const AlertDialogPortal = ({
     children,
     ...props
 }: AlertDialogPortalProps) => {
+    // TODO: forceMount here is affected by the same focus-return limitation as Dialog:
+    // keeping content mounted for animations currently skips automatic trigger refocus.
     return (
         <DialogPrimitive.Portal
             {...props}

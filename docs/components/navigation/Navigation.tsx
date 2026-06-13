@@ -1,12 +1,11 @@
 'use client'
 import { usePathname } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 import docsSections from "@/app/docs/docsNavigationSections"
 import ScrollArea from "@radui/ui/ScrollArea"
 import Category from './Category'
-
 
 
 
@@ -18,6 +17,8 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
             title: "Main",
             items: [
                 { title: "Documentation", path: "/docs/first-steps/introduction" },
+                { title: "Playground", path: "/playground" },
+                { title: "Colors", path: "/colors" },
                 { title: "Showcase", path: "/showcase/music-app" }
             ]
         }
@@ -26,23 +27,13 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const pathname = usePathname();
     const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
 
-    const [sections, setSections] = useState(docsSections)
-    // customSections || sections;
-
-    useEffect(() => {
-        if (pathname.includes("/docs/")) {
-            setSections(docsSections)
-        }
-        else {
-            setSections(defaultSections)
-        }
-    }, [pathname])
+    const sections = /^\/docs(\/|$)/.test(pathname) ? docsSections : defaultSections;
 
 
-    return <ScrollArea.Root>
+    return <ScrollArea.Root className="h-full">
         <ScrollArea.Viewport style={{ height: "100%" }}>
-          <div className="min-w-[240px]">
-             <div className='flex-none pb-20 w-full lg:w-[240px] lg:bg-transparent'>
+          <div className="min-w-[272px]">
+             <div className='w-full flex-none px-3 pb-16 pt-4 lg:w-[272px]'>
                 {sections.map((section, i) => {
                     const isCategory = section.type === "CATEGORY";
                     if (isCategory) {

@@ -31,7 +31,7 @@ describe('useControllableState', () => {
 
     // Test controlled mode
     it('should use controlledValue when in controlled mode', () => {
-        const { result } = renderHook(() => useControllableState<string>('controlled', 'default'));
+        const { result } = renderHook(() => useControllableState<string>('controlled', 'default', jest.fn()));
         expect(result.current[0]).toBe('controlled');
     });
 
@@ -75,7 +75,7 @@ describe('useControllableState', () => {
     it('should update when controlledValue changes externally', () => {
         const initialProps: { value: string } = { value: 'first' };
         const { result, rerender } = renderHook(
-            ({ value }) => useControllableState<string>(value, 'default'),
+            ({ value }) => useControllableState<string>(value, 'default', jest.fn()),
             { initialProps }
         );
 
@@ -86,9 +86,10 @@ describe('useControllableState', () => {
     });
 
     it('should fall back to defaultValue when controlledValue becomes undefined', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const initialProps: { value: string | undefined } = { value: 'controlled' };
         const { result, rerender } = renderHook(
-            ({ value }) => useControllableState<string>(value, 'default'),
+            ({ value }) => useControllableState<string>(value, 'default', jest.fn()),
             { initialProps }
         );
 
@@ -96,12 +97,14 @@ describe('useControllableState', () => {
 
         rerender({ value: undefined });
         expect(result.current[0]).toBe('default');
+        warnSpy.mockRestore();
     });
 
     it('should support switching from uncontrolled to controlled', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const initialProps: { value: string | undefined } = { value: undefined };
         const { result, rerender } = renderHook(
-            ({ value }) => useControllableState<string>(value, 'default'),
+            ({ value }) => useControllableState<string>(value, 'default', jest.fn()),
             { initialProps }
         );
 
@@ -114,6 +117,7 @@ describe('useControllableState', () => {
 
         rerender({ value: 'controlled' });
         expect(result.current[0]).toBe('controlled');
+        warnSpy.mockRestore();
     });
 
     it('should call onChange once per change with latest value', () => {
@@ -132,9 +136,10 @@ describe('useControllableState', () => {
     });
 
     it('should handle transitions between null and undefined', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const initialProps: { value: string | null | undefined } = { value: null };
         const { result, rerender } = renderHook(
-            ({ value }) => useControllableState<string | null>(value, 'default'),
+            ({ value }) => useControllableState<string | null>(value, 'default', jest.fn()),
             { initialProps }
         );
 
@@ -153,5 +158,6 @@ describe('useControllableState', () => {
 
         rerender({ value: null });
         expect(result.current[0]).toBeNull();
+        warnSpy.mockRestore();
     });
 });

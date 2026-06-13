@@ -26,14 +26,21 @@ const data = {
         },
         {
             prop: {
-                name: "customThumbClass",
-                info_tooltips: "Custom thumb class name to override default styling."
+                name: "className",
+                info_tooltips: "Additional class names for the switch thumb."
             },
             type: "string",
-            default: "''",
+            default: "--",
         },
+        {
+            prop: {
+                name: "children",
+                info_tooltips: "Optional thumb contents."
+            },
+            type: "ReactNode",
+            default: "--",
+        }
     ]
 };
 
 export default data; 
-

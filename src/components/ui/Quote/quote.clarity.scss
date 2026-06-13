@@ -1,0 +1,22 @@
+// Quote — Clarity design system aligned
+// step 11 (950) — accessible secondary text
+.rad-ui-quote {
+  font-style: italic;
+  color: var(--rad-ui-text-secondary);
+  quotes: "\201C" "\201D" "\2018" "\2019";
+
+  &::before {
+    content: open-quote;
+  }
+
+  &::after {
+    content: close-quote;
+  }
+
+  &[data-quote-truncate] {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

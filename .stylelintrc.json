@@ -21,6 +21,7 @@
     ],
     "scss/at-extend-no-missing-placeholder": null,
     "block-no-empty": null,
+    "no-descending-specificity": null,
     "keyframes-name-pattern": null,
     "length-zero-no-unit": null,
     "declaration-block-no-duplicate-properties": null,

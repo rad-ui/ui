@@ -3,7 +3,6 @@
 import Text from '@radui/ui/Text';
 import Link from '@radui/ui/Link';
 import Separator from '@radui/ui/Separator';
-import { motion } from "motion/react"
 
 
 const LockIcon = () => {
@@ -23,11 +22,7 @@ const AnalyticsBar = ({ index }) => {
 };
 
 const TrafficAnalyticsDemo = () => {
-    return <motion.div className='p-4 border border-gray-400 text-gray-1000 rounded-md bg-gray-100'
-        initial={{ opacity: 0.8, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 32, repeat: Infinity, repeatType: 'reverse', type: 'linear' }}
-    >
+    return <div className='p-4 border border-gray-400 text-gray-1000 rounded-md bg-gray-100'>
         <div className='flex items-center justify-between'>
             <Text className="font-bold">Traffic this week</Text>
             <LockIcon />
@@ -58,7 +53,7 @@ const TrafficAnalyticsDemo = () => {
             </div>
         </div>
 
-    </motion.div>;
+    </div>;
 };
 
 export default TrafficAnalyticsDemo;

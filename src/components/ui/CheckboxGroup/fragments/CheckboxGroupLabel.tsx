@@ -10,7 +10,7 @@ const CheckboxGroupLabel = forwardRef<CheckboxGroupLabelElement, CheckboxGroupLa
     const { rootClass } = useContext(CheckboxGroupRootContext);
 
     return (
-        <Primitive.label ref={ref} className={clsx(`${rootClass}-label`, className)} {...props}>
+        <Primitive.label ref={ref} className={clsx(rootClass && `${rootClass}-label`, className)} {...props}>
             {children}
         </Primitive.label>
     );

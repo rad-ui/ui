@@ -1,6 +1,6 @@
 import React from 'react';
-import { clsx } from 'clsx';
-import { customClassSwitcher } from '~/core';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import useControllableState from '~/core/hooks/useControllableState';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -8,7 +8,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { ToggleContext } from '../contexts/toggleContext';
 
 type ToggleGroupRootElement = React.ElementRef<'div'>;
-type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
+export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
     type?: 'single' | 'multiple';
     /** Additional CSS class names to apply */
@@ -41,7 +41,7 @@ type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
 
 const COMPONENT_NAME = 'ToggleGroup';
 
-const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({ 
+const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
     type = 'single',
     className = '',
     loop = true,
@@ -58,7 +58,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     children,
     ...props
 }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     // Use controllable state for value management
     const [activeToggles, setActiveToggles] = useControllableState(
@@ -79,7 +79,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
+        data_attributes['data-color'] = color;
     }
 
     if (disabled) {

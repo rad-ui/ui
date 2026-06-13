@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { useSplitter } from './SplitterRoot';
 
 export interface SplitterHandleProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -19,7 +19,7 @@ const SplitterHandle = React.forwardRef<
         <div
             {...props}
             ref={forwardedRef}
-            className={clsx(`${rootClass}-handle`, className)}
+            className={clsx(rootClass && `${rootClass}-handle`, { active: isActive }, className)}
             role="separator"
             aria-orientation={orientation}
             aria-label={ariaLabel || `${orientation} resize handle`}

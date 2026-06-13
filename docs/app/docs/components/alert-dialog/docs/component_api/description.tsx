@@ -21,7 +21,8 @@ const data = {
                 name : "className",
                 info_tooltips : "The class name for the AlertDialogDescription."
             },
-            
+            type : "string",
+            default : "''",
         },
         {
             prop : {
@@ -30,6 +31,22 @@ const data = {
             },
             type : "ReactNode",
             default : "--",
+        },
+        {
+            prop : {
+                name : "asChild",
+                info_tooltips : "Render the description as the child element."
+            },
+            type : "boolean",
+            default : "false",
+        },
+        {
+            prop : {
+                name : "id",
+                info_tooltips : "Optional id used for aria-describedby."
+            },
+            type : "string",
+            default : "auto",
         }
     ]
 }

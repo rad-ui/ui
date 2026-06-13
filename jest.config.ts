@@ -4,6 +4,13 @@ const config: Config = {
     verbose: false, // enable to see the full test suite output, console.log, etc.
     testEnvironment: 'jsdom', // enable to use DOM APIs
     setupFilesAfterEnv: ['./src/setupTests.ts'], // enable to use custom setup files
+    testPathIgnorePatterns: [
+        '/node_modules/',
+        '/dist/',
+        '/coverage/',
+        '/docs/',
+        '/\\.worktrees/'
+    ],
     moduleNameMapper: {
         '\\.(css|less|scss)$': 'identity-obj-proxy', // enable to mock CSS imports
         '^~/(.*)$': '<rootDir>/src/$1',
@@ -17,6 +24,19 @@ const config: Config = {
         '^.+\\.tsx?$': 'ts-jest',
         '^.+\\.jsx?$': 'babel-jest'
     },
+    collectCoverageFrom: [
+        'src/**/*.{ts,tsx}',
+        '!src/**/*.test.{ts,tsx}',
+        '!src/**/*.stories.{ts,tsx}',
+        '!src/**/tests/**',
+        '!src/**/__tests__/**',
+        '!src/**/*.d.ts',
+        '!src/examples/**',
+        '!src/tokenGen/**',
+        '!src/design-systems/**',
+        '!src/test-utils/**',
+        '!src/setupTests.ts'
+    ],
     coverageReporters: ['text', 'lcov', 'json-summary'],
     coverageThreshold: {
         global: {

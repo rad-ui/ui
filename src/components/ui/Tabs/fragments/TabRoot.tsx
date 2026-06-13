@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
-import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -19,6 +19,7 @@ export type TabRootProps = React.ComponentPropsWithoutRef<'div'> & {
     onValueChange?: (value: string) => void;
     orientation?: 'horizontal' | 'vertical';
     dir?: 'ltr' | 'rtl';
+    loop?: boolean;
     activationMode?: 'automatic' | 'manual';
     asChild?: boolean;
 };
@@ -33,11 +34,12 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     color,
     orientation = 'horizontal',
     dir = 'ltr',
+    loop = true,
     activationMode = 'automatic',
     asChild = false,
     ...props
 }, forwardedRef) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,
@@ -73,11 +75,11 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root orientation={orientation} loop dir={dir} asChild>
+            <RovingFocusGroup.Root orientation={orientation} loop={loop} dir={dir} asChild>
                 <Primitive.div
                     ref={forwardedRef}
                     className={clsx(rootClass, className)}
-                    data-rad-ui-accent-color={color}
+                    data-color={color}
                     asChild={asChild}
                     {...dataAttributes}
                     {...props}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import NavigationMenuItemContext from '../contexts/NavigationMenyItemContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
@@ -8,31 +8,31 @@ export type NavigationMenuContentElement = React.ElementRef<'div'>;
 
 export interface NavigationMenuContentProps extends React.ComponentPropsWithoutRef<'div'> {
     children: React.ReactNode;
+    loop?: boolean;
 }
 
 const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, NavigationMenuContentProps>(
-    ({ children, className, ...props }, ref) => {
+    ({ children, className, loop, ...props }, ref) => {
         const { itemOpen } = React.useContext(NavigationMenuItemContext);
-        const { rootClass } = React.useContext(NavigationMenuRootContext);
+        const { rootClass, contentLoop } = React.useContext(NavigationMenuRootContext);
         const contentRef = React.useRef<HTMLDivElement>(null);
+        const resolvedLoop = loop ?? contentLoop;
 
         React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
 
-        useEffect(() => {
-            const firstFocusable = contentRef.current?.querySelector<HTMLElement>('*');
-            firstFocusable?.focus();
-        }, [itemOpen]);
+        // RovingFocusGroup automatically handles focus management
+        // No need for manual querySelector and focus
 
         if (!itemOpen) return null;
 
         return (
             <div
                 ref={contentRef}
-                className={clsx(`${rootClass}-content`, className)}
+                className={clsx(rootClass && `${rootClass}-content`, className)}
                 data-state={itemOpen ? 'open' : 'closed'}
                 {...props}
             >
-                <RovingFocusGroup.Root>
+                <RovingFocusGroup.Root loop={resolvedLoop}>
                     <RovingFocusGroup.Group>{children}</RovingFocusGroup.Group>
                 </RovingFocusGroup.Root>
             </div>
@@ -43,4 +43,3 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
 NavigationMenuContent.displayName = 'NavigationMenuContent';
 
 export default NavigationMenuContent;
-

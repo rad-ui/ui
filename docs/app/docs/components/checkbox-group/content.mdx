@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import CheckboxGroupExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="CheckboxGroup"
+    description="Groups multiple checkboxes together with shared state management. Each item has a Trigger, Indicator, and Label."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <CheckboxGroupExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

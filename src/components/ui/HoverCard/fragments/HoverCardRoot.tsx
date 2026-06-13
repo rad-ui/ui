@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect, forwardRef, ElementRef, ComponentPr
 
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { useControllableState } from '~/core/hooks/useControllableState';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
+
 const COMPONENT_NAME = 'HoverCard';
 
 export type HoverCardRootElement = ElementRef<'div'>;
@@ -14,16 +15,33 @@ export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
     openDelay?: number;
     closeDelay?: number;
+    collisionBoundary?: Element | null | Array<Element | null>;
+    collisionPadding?: number;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', openDelay = 100, closeDelay = 200, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
-    const rootTriggerClass = customClassSwitcher(customRootClass, `${COMPONENT_NAME}-trigger`);
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, ...props }, ref) => {
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
     const ARROW_HEIGHT = 8;
     const SPACING_GAP = 2;
+    const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
+    const filteredBoundary = boundary.filter((item): item is Element => item != null);
+    const detectOverflowOptions = {
+        padding: collisionPadding,
+        boundary: filteredBoundary,
+        altBoundary: filteredBoundary.length > 0
+    };
+
+    const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);
+
+    const handleOpenChange = (newOpen: boolean) => {
+        setOpen(newOpen);
+    };
 
     const { refs: floatingRefs, floatingStyles, context: floatingContext } = Floater.useFloating({
+        open,
+        onOpenChange: handleOpenChange,
         placement: 'bottom',
         strategy: 'fixed',
         middleware: [
@@ -32,32 +50,26 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
             }),
             Floater.offset(ARROW_HEIGHT + SPACING_GAP),
             Floater.flip({
-                mainAxis: true
+                mainAxis: true,
+                ...detectOverflowOptions
+            }),
+            Floater.shift({
+                ...detectOverflowOptions
             })
-        ]
+        ],
+        whileElementsMounted: Floater.autoUpdate
     });
 
-    const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);
-
-    // when hovered out, we set this to true, after delay we check if it's still true and then we set open to false
-    // eslint-disable-next-line no-unused-vars
+    // When the pointer leaves the trigger/content, delay closing and confirm
+    // the pointer has not re-entered before committing the state change.
     const [mouseIsExiting, setMouseIsExiting] = useState(false);
     const openTimeoutRef = useRef<number | null>(null);
     const closeTimeoutRef = useRef<number | null>(null);
 
-    const handleOpenChange = (newOpen: boolean) => {
-        setOpen(newOpen);
-    };
-
-    const role = Floater.useRole(floatingContext);
+    const role = Floater.useRole(floatingContext, { role: 'dialog' });
     const dismiss = Floater.useDismiss(floatingContext);
 
-    const hover = Floater.useHover(floatingContext, {
-        delay: 100
-    });
-
     const { getReferenceProps, getFloatingProps } = Floater.useInteractions([
-        hover,
         role,
         dismiss
     ]);
@@ -72,9 +84,18 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
 
     const openWithDelay = () => {
         markMouseIsEntering();
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+        }
         if (openTimeoutRef.current) {
             clearTimeout(openTimeoutRef.current);
         }
+
+        if (openDelay <= 0) {
+            handleOpenChange(true);
+            return;
+        }
+
         openTimeoutRef.current = setTimeout(() => {
             handleOpenChange(true);
         }, openDelay) as unknown as number;
@@ -85,6 +106,12 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         if (closeTimeoutRef.current) {
             clearTimeout(closeTimeoutRef.current);
         }
+
+        if (closeDelay <= 0) {
+            handleOpenChange(false);
+            return;
+        }
+
         closeTimeoutRef.current = setTimeout(() => {
             setMouseIsExiting(prevState => {
                 if (prevState) {
@@ -127,7 +154,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     };
 
     return <HoverCardContext.Provider value={sendValues}>
-        <div ref={ref} className={clsx(rootClass)} {...props}>{children}</div>
+        <div ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...props}>{children}</div>
     </HoverCardContext.Provider>;
 });
 

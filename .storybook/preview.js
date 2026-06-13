@@ -1,26 +1,29 @@
-import { withThemeByClassName } from '@storybook/addon-styling';
-
-/* TODO: update import to your tailwind styles file. If you're using Angular, inject this through your angular.json config instead */
 import '../main.tailwind.css';
-import "../styles/themes/default.scss";
+import '../src/design-systems/clarity/default.scss';
+import '../src/design-systems/baremetal/default.scss';
 
-/** @type { import('@storybook/react').Preview } */
+/** @type { import('@storybook/react-webpack5').Preview } */
 const preview = {
-  parameters: {
-    layout:"fullscreen",
-    actions: { argTypesRegex: '^on[A-Z].*' },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
-      },
+    parameters: {
+        layout: 'fullscreen',
+        actions: { argTypesRegex: '^on[A-Z].*' },
+        controls: {
+            matchers: {
+                color: /(background|color)$/i,
+                date: /Date$/
+            }
+        }
     },
-  },
 
-  decorators: [
-    // Adds theme switching support.
-    // NOTE: requires setting "darkMode" to "class" in your tailwind config
-  ],
+    decorators: [
+        (Story) => {
+            if (typeof document !== 'undefined') {
+                document.body.setAttribute('data-rad-ui-design-system', 'clarity');
+            }
+
+            return Story();
+        }
+    ]
 };
 
 export default preview;

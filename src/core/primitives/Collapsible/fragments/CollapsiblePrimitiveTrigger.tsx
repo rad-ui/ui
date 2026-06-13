@@ -1,5 +1,6 @@
 import React from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 
 type CollapsiblePrimitiveTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
@@ -23,13 +24,17 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         props.onKeyDown?.(event);
-        if (event.key === 'Escape' && open && !disabled) {
+        if (event.defaultPrevented) {
+            return;
+        }
+        if (event.key === KEYBOARD_KEYS.ESCAPE && open && !disabled) {
             onOpenChange(false);
         }
     };
 
     return (
         <ButtonPrimitive
+            {...props}
             aria-controls={contentId}
             aria-expanded={open}
             data-state={open ? 'open' : 'closed'}
@@ -38,7 +43,6 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<
             onClick={handleClick}
             onKeyDown={handleKeyDown}
             asChild={asChild}
-            {...props}
         >
             {children}
         </ButtonPrimitive>

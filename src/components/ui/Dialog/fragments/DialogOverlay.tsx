@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
 import { DialogContext } from '../context/DialogContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
 
@@ -14,10 +14,9 @@ export type DialogOverlayProps = DialogPrimitiveOverlayProps & {
 
 const DialogOverlay = forwardRef<DialogOverlayElement, DialogOverlayProps>(({ className = '', ...props }, ref) => {
     const { rootClass } = useContext(DialogContext);
-    return <DialogPrimitive.Overlay ref={ref} className={clsx(`${rootClass}-overlay`, className)} {...props} />;
+    return <DialogPrimitive.Overlay ref={ref} className={clsx(rootClass && `${rootClass}-overlay`, className)} {...props} />;
 });
 
 DialogOverlay.displayName = 'DialogOverlay';
 
 export default DialogOverlay;
-

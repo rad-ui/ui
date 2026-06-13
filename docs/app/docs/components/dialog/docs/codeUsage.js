@@ -14,6 +14,7 @@ import description_api_SourceCode from './component_api/description.tsx';
 import portal_api_SourceCode from './component_api/portal.tsx';
 import overlay_api_SourceCode from './component_api/overlay.tsx';
 import content_api_SourceCode from './component_api/content.tsx';
+import footer_api_SourceCode from './component_api/footer.tsx';
 import close_api_SourceCode from './component_api/close.tsx';
 
 
@@ -38,6 +39,7 @@ export const api_documentation = {
     portal: portal_api_SourceCode,
     overlay: overlay_api_SourceCode,
     content: content_api_SourceCode,
+    footer: footer_api_SourceCode,
     close: close_api_SourceCode,
 }
 

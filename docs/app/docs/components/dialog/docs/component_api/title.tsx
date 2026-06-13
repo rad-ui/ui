@@ -21,7 +21,8 @@ const data = {
                 name : "className",
                 info_tooltips : "The class name for the DialogTitle."
             },
-            
+            type : "string",
+            default : "''",
         },
         {
             prop : {

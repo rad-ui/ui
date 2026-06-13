@@ -4,7 +4,7 @@ import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScr
 
 export default function Home() {
   return (
-   <FullHeightScroll>
+   <FullHeightScroll fullWidth>
       <div className='w-full' >
          <ColorTemplate/>
       </div>

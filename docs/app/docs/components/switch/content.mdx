@@ -1,0 +1,18 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import codeUsage, { api_documentation } from "./docs/codeUsage"
+import SwitchExample from "./docs/examples/SwitchExample"
+
+<Documentation  title='Switch' description={`
+            Switch is used to toggle between two states on and off. It is commonly used in settings panel, forms and any other 
+            place where a user needs to enable or disable feature.
+            `}>
+            <Documentation.ComponentHero codeUsage={codeUsage}>
+                <SwitchExample />
+            </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        tables={api_documentation}
+        order={['root', 'thumb']}
+    />
+
+        </Documentation>

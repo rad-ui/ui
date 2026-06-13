@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import DropdownMenuExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="DropdownMenu"
+    description="A button-triggered dropdown menu with full keyboard navigation. Supports sub-menus, separators, and portal rendering."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <DropdownMenuExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'item']}
+    />
+</Documentation>

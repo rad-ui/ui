@@ -1,7 +1,13 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Tooltip from '../Tooltip';
+import {
+    expectNoUnexpectedHydrationWarnings,
+    flush,
+    hydrateRoot,
+    renderToString
+} from '../../tests/ssrHydration';
 
 describe('Tooltip', () => {
     test('renders component', () => {
@@ -138,6 +144,40 @@ describe('Tooltip', () => {
 
         expect(warn).not.toHaveBeenCalled();
         expect(error).not.toHaveBeenCalled();
+        warn.mockRestore();
+        error.mockRestore();
+    });
+
+    test('hydrates SSR markup without warnings', async() => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        const html = renderToString(
+            <Tooltip.Root>
+                <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+                <Tooltip.Content>label</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+        let root!: ReturnType<typeof hydrateRoot>;
+        await act(async() => {
+            root = hydrateRoot(container, (
+                <Tooltip.Root>
+                    <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+                    <Tooltip.Content>label</Tooltip.Content>
+                </Tooltip.Root>
+            ));
+            await flush();
+        });
+
+        expectNoUnexpectedHydrationWarnings(warn, error);
+
+        await act(() => root.unmount());
+        container.remove();
         warn.mockRestore();
         error.mockRestore();
     });

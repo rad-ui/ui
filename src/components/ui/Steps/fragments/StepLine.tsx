@@ -1,0 +1,13 @@
+'use client';
+import React from 'react';
+import clsx from 'clsx';
+import { useStepsContext } from '../context/StepsContext';
+
+export type StepLineProps = React.HTMLAttributes<HTMLDivElement>;
+
+const StepLine = ({ children, className = '', ...props }: StepLineProps) => {
+    const { rootClass } = useStepsContext();
+    return <div className={clsx(rootClass && `${rootClass}-line`, className)} {...props}>{children}</div>;
+};
+
+export default StepLine;

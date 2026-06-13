@@ -16,7 +16,7 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
     const id = Floater.useId();
 
     if (!context) {
-        console.log('MenubarMenu should be used in the MenubarRoot');
+        console.warn('MenubarMenu should be used in the MenubarRoot');
         return null;
     }
     const { rootClass, registerItem, items, updateItemState } = context;
@@ -32,7 +32,7 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
 
         <MenuPrimitive.Root
             ref={ref}
-            className={clsx(`${rootClass}-menu`, className)}
+            className={clsx(rootClass && `${rootClass}-menu`, className)}
             data-id={id}
             data-active={isOpen}
             open={isOpen}

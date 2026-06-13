@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import SplitterExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Splitter"
+    description="Resizable panel layouts with drag and keyboard support. Supports horizontal and vertical orientations with configurable min sizes."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <SplitterExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

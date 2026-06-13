@@ -1,0 +1,22 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import TableExample from "./docs/example_1"
+import {code, anatomy, api_documentation} from "./docs/codeUsage"
+
+<Documentation
+    title={`Table`}
+    description='Table is a component that displays data in a structured format. It is used to display data in a table format.'
+>
+
+    {/* Component Hero */}
+    <Documentation.ComponentHero codeUsage={code}>
+        <TableExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'head', 'body', 'row', 'column_header', 'cell']}
+        titles={{ column_header: 'Column Header' }}
+    />
+
+</Documentation>

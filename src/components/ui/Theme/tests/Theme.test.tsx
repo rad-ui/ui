@@ -2,18 +2,15 @@ import React from 'react';
 import { render, act, screen } from '@testing-library/react';
 
 import Theme from '../Theme';
+import ThemeContext from '../ThemeContext';
 
 describe('Theme', () => {
     const originalMatchMedia = window.matchMedia;
 
-    afterEach(() => {
-        window.matchMedia = originalMatchMedia;
-    });
-
-    test('updates theme on system preference change and cleans up listeners', () => {
+    const createMediaQueryList = (matches: boolean) => {
         const listeners: Array<(e: MediaQueryListEvent) => void> = [];
         const mediaQueryList = {
-            matches: false,
+            matches,
             addEventListener: jest.fn((_event, listener) => {
                 listeners.push(listener);
             }),
@@ -25,6 +22,52 @@ describe('Theme', () => {
             })
         } as unknown as MediaQueryList;
 
+        return { listeners, mediaQueryList };
+    };
+
+    afterEach(() => {
+        window.matchMedia = originalMatchMedia;
+    });
+
+    test('applies light appearance regardless of system preference', () => {
+        const { mediaQueryList } = createMediaQueryList(true);
+        window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+
+        const { container } = render(<Theme appearance="light">content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+
+        expect(themeDiv).toHaveAttribute('data-rad-ui-theme', 'light');
+        expect(mediaQueryList.addEventListener).not.toHaveBeenCalled();
+    });
+
+    test('applies dark appearance regardless of system preference', () => {
+        const { mediaQueryList } = createMediaQueryList(false);
+        window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+
+        const { container } = render(<Theme appearance="dark">content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+
+        expect(themeDiv).toHaveAttribute('data-rad-ui-theme', 'dark');
+        expect(mediaQueryList.addEventListener).not.toHaveBeenCalled();
+    });
+
+    test('resolves system appearance from the current color scheme preference', () => {
+        const darkPreference = createMediaQueryList(true);
+        window.matchMedia = jest.fn().mockReturnValue(darkPreference.mediaQueryList);
+
+        const { container, rerender } = render(<Theme appearance="system">content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+        expect(themeDiv).toHaveAttribute('data-rad-ui-theme', 'dark');
+
+        const lightPreference = createMediaQueryList(false);
+        window.matchMedia = jest.fn().mockReturnValue(lightPreference.mediaQueryList);
+
+        rerender(<Theme appearance="system" key="light-system">content</Theme>);
+        expect(container.firstChild as HTMLElement).toHaveAttribute('data-rad-ui-theme', 'light');
+    });
+
+    test('updates theme on system preference change and cleans up listeners', () => {
+        const { listeners, mediaQueryList } = createMediaQueryList(false);
         window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
 
         const { container, unmount } = render(<Theme appearance="system">content</Theme>);
@@ -69,5 +112,55 @@ describe('Theme', () => {
         window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
         render(<Theme>content</Theme>);
         expect(screen.getByText('content')).toBeVisible();
+    });
+
+    test('renders a dedicated portal root inside the theme container', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const { container } = render(<Theme>content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+        const portalRoot = themeDiv.querySelector('[data-rad-ui-portal-root]');
+
+        expect(portalRoot).toBeInstanceOf(HTMLDivElement);
+        expect(portalRoot?.parentElement).toBe(themeDiv);
+    });
+
+    test('provides classNamespace through context', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+
+        const Consumer = () => {
+            const context = React.useContext(ThemeContext);
+            return <span data-testid="class-namespace">{context?.classNamespace}</span>;
+        };
+
+        render(
+            <Theme classNamespace="acme">
+                <Consumer />
+            </Theme>
+        );
+
+        expect(screen.getByTestId('class-namespace')).toHaveTextContent('acme');
+    });
+
+    test('does not add generated classes without classNamespace', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const { container } = render(<Theme>content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+
+        expect(themeDiv).not.toHaveClass('rad-ui-theme');
+    });
+
+    test('renders under StrictMode without console errors', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { unmount } = render(
+            <React.StrictMode>
+                <Theme appearance="light">content</Theme>
+            </React.StrictMode>
+        );
+
+        expect(screen.getByText('content')).toBeVisible();
+        unmount();
+        expect(errorSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
     });
 });

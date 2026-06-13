@@ -1,12 +1,12 @@
 'use client'
 import ScrollArea from '@radui/ui/ScrollArea';
 
-const FullHeightScroll = ({ children, scrollable = true, className='', ...props }) => {
+const FullHeightScroll = ({ children, scrollable = true, fullWidth = false, className='', ...props }) => {
     // An important layout component that allows for full height scrolling
     return <ScrollArea.Root style={{ height: "100%", width: "100%" }}>
-        <ScrollArea.Viewport style={{ height: "100%" }}>
+        <ScrollArea.Viewport style={{ height: "100%", overflowX: "hidden" }}>
             <div className={` ${className}  ${scrollable?'':''}`} {...props}>
-                <div className="max-w-[1440px] mx-auto">
+                <div className={fullWidth ? "w-full" : "max-w-[1440px] mx-auto"}>
                     {children}
                 </div>
             </div>

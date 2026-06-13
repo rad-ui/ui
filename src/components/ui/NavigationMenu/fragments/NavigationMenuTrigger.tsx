@@ -11,7 +11,7 @@ export interface NavigationMenuTriggerProps extends React.ComponentPropsWithoutR
 
 const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, NavigationMenuTriggerProps>(
     ({ children, className, onClick, ...props }, ref) => {
-        const { handleTrigger } = React.useContext(NavigationMenuItemContext);
+        const { handleTrigger, itemOpen } = React.useContext(NavigationMenuItemContext);
         const { rootClass } = React.useContext(NavigationMenuRootContext);
 
         return (
@@ -19,7 +19,9 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
                 <button
                     ref={ref}
                     onClick={composeEventHandlers(onClick, handleTrigger)}
-                    className={clsx(`${rootClass}-trigger`, className)}
+                    className={clsx(rootClass && `${rootClass}-trigger`, className)}
+                    aria-expanded={itemOpen}
+                    data-state={itemOpen ? 'open' : 'closed'}
                     {...props}
                 >
                     {children}
@@ -32,4 +34,3 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
 NavigationMenuTrigger.displayName = 'NavigationMenuTrigger';
 
 export default NavigationMenuTrigger;
-

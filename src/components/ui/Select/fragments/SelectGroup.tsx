@@ -1,24 +1,26 @@
 import React, { useContext } from 'react';
-import SelectPrimitive from '~/core/primitives/Select/Select';
+import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { SelectRootContext } from '../contexts/SelectRootContext';
+import clsx from 'clsx';
 
 export type SelectGroupProps = {
     children: React.ReactNode
 };
 
-type SelectGroupElement = React.ElementRef<typeof SelectPrimitive.Group>;
-type SelectGroupComponentProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Group> & SelectGroupProps;
+type SelectGroupElement = React.ElementRef<typeof ComboboxPrimitive.Group>;
+type SelectGroupComponentProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Group> & SelectGroupProps;
 
-const SelectGroup = React.forwardRef<SelectGroupElement, SelectGroupComponentProps>(({ children, ...props }, forwardedRef) => {
+const SelectGroup = React.forwardRef<SelectGroupElement, SelectGroupComponentProps>(({ children, className, ...props }, forwardedRef) => {
     const { rootClass } = useContext(SelectRootContext);
+    const mergedClassName = clsx(rootClass ? `${rootClass}-group` : undefined, className) || undefined;
     return (
-        <SelectPrimitive.Group
-            className={`${rootClass}-group`}
+        <ComboboxPrimitive.Group
+            className={mergedClassName}
             ref={forwardedRef}
             {...props}
         >
             {children}
-        </SelectPrimitive.Group>
+        </ComboboxPrimitive.Group>
 
     );
 });

@@ -1,9 +1,9 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxPrimitiveRoot from '~/core/primitives/Checkbox/fragments/CheckboxPrimitiveRoot';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import CheckboxContext from '../context/CheckboxContext';
-import { clsx } from 'clsx';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import clsx from 'clsx';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Checkbox';
 
@@ -16,14 +16,14 @@ export type CheckboxRootProps = {
 } & ComponentPropsWithoutRef<typeof CheckboxPrimitiveRoot>;
 
 const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>(({ children, className = '', customRootClass, color = '', variant, size, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('checkbox', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+    const dataAttributes = createDataAttributes('checkbox', { variant, size });
+    const accentAttributes = createDataAccentColorAttribute(color);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     return <CheckboxContext.Provider value={{ rootClass }}>
-        <CheckboxPrimitiveRoot ref={ref} className={clsx(rootClass, className)} {...props} {...composedAttributes()}>
+        <CheckboxPrimitiveRoot ref={ref} className={clsx(rootClass, className)} {...props} {...composedAttributes}>
             {children}
         </CheckboxPrimitiveRoot>
     </CheckboxContext.Provider>;

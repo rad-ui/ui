@@ -13,6 +13,7 @@
     },
     "editor.formatOnSave": false,
     "eslint.format.enable": true,
-    "editor.formatOnSaveMode": "modifications"
+    "editor.formatOnSaveMode": "modifications",
+    "typescript.autoClosingTags": false
 }
 

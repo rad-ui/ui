@@ -29,4 +29,5 @@ RadioGroup.Item = RadioGroupItem;
 RadioGroup.Indicator = RadioGroupIndicator;
 RadioGroup.Label = RadioGroupLabel;
 
+export type { RadioGroupRootProps } from './fragments/RadioGroupRoot';
 export default RadioGroup;

@@ -1,0 +1,23 @@
+# Internationalization and locale-sensitive formatting
+
+Rad UI components are **headless** and **do not** ship translated strings. Applications own translations and locale selection.
+
+## Principles
+
+- **Avoid hard-coded copy** in examples; when we must ship demo text, keep it minimal and clearly marked as demo-only.
+- **Do not** bake locale-specific formatting into components; accept **values** or **formatters** from the app.
+
+## Formatting
+
+- Use **`Intl`** APIs (`Intl.NumberFormat`, `Intl.DateTimeFormat`, `Intl.ListFormat`, `Intl.RelativeTimeFormat`) for locale-aware output.
+- For **pluralization**, use ICU message format or your i18n framework’s plural rules; avoid naive string concatenation.
+
+## Layout and semantics
+
+- Allow **translated strings** to vary in length; avoid fixed widths that clip content.
+- **RTL**: Rad UI components should respect logical CSS (`margin-inline`, `inset-inline`) where layout is directional; test with `dir="rtl"` when adding new layout primitives.
+
+## Testing
+
+- Storybook stories can showcase **pseudo-translation** or **long strings** to catch layout issues.
+- Automated tests should not depend on a single locale’s formatted output unless the assertion is locale-scoped.

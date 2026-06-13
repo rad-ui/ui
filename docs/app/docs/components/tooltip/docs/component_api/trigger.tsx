@@ -19,10 +19,18 @@ const data = {
     {
       prop: {
         name: "asChild",
-        info_tooltips: "When true, tooltip will be rendered in the DOM as the child component of the trigger element rather than as a sibling."
+        info_tooltips: "Render the trigger as the child element."
       },
       type: "boolean",
       default: "false",
+    },
+    {
+      prop: {
+        name: "children",
+        info_tooltips: "The interactive element that receives hover and focus handlers."
+      },
+      type: "ReactNode",
+      default: "--",
     }
   ]
 };

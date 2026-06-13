@@ -12,12 +12,12 @@ export type MenubarContentProps = {
 const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
-        console.log('MenubarContent should be used in the MenubarRoot');
+        console.warn('MenubarContent should be used in the MenubarRoot');
         return null;
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Content ref={ref} className={clsx(`${rootClass}-content`, className)} {...props}>
+        <MenuPrimitive.Content ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>
             {children}
         </MenuPrimitive.Content>
     );

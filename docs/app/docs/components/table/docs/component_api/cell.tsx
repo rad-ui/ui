@@ -16,13 +16,13 @@ const data = {
         }
     ],
     data:[
-       {
-        prop : {
-            name : "className",
-            info_tooltips : "The class name for the Cell."
-        },
-        type : "string",
-        default : "--",
+        {
+            prop : {
+                name : "className",
+                info_tooltips : "The class name for the Cell."
+            },
+            type : "string",
+            default : "cell",
        },
        {
         prop : {
@@ -30,6 +30,7 @@ const data = {
             info_tooltips : "The children of the Cell."
         },
         type : "ReactNode",
+        default : "--",
        },
     ]
 }

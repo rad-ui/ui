@@ -17,12 +17,14 @@ const AlertDialogExample = () => {
             <AlertDialog.Description>
               This action cannot be undone.
             </AlertDialog.Description>
-            <AlertDialog.Action>
-              Delete
-            </AlertDialog.Action>
-            <AlertDialog.Cancel>
-              Cancel
-            </AlertDialog.Cancel>
+            <AlertDialog.Footer>
+              <AlertDialog.Cancel>
+                Cancel
+              </AlertDialog.Cancel>
+              <AlertDialog.Action>
+                Delete
+              </AlertDialog.Action>
+            </AlertDialog.Footer>
           </AlertDialog.Content>
         </AlertDialog.Portal>
       </AlertDialog.Root>

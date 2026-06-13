@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
@@ -28,7 +28,7 @@ const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTrig
     return (
         <DialogPrimitive.Trigger
             ref={ref}
-            className={clsx(`${rootClass}-trigger`, className)}
+            className={clsx(rootClass && `${rootClass}-trigger`, className)}
             asChild={asChild}
             disabled={disabled}
             data-state={dataState}

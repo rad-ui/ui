@@ -8,6 +8,9 @@ import { createContext, RefObject } from 'react';
  * @property {Function} setFocusItems - Function to update the array of focus items
  * @property {Function} addFocusItem - Function to add a new item to the focus group
  * @property {RefObject<HTMLDivElement>|null} groupRef - Reference to the group container element
+ * @property {Map<string, RefObject<HTMLElement>>} itemRefs - Map of item IDs to their refs
+ * @property {Function} registerItemRef - Function to register an item's ref
+ * @property {Function} unregisterItemRef - Function to unregister an item's ref
  */
 export type RovingFocusGroupContextTypes = {
   focusedItemId: string | null;
@@ -16,6 +19,9 @@ export type RovingFocusGroupContextTypes = {
   setFocusItems: React.Dispatch<React.SetStateAction<string[]>>;
   addFocusItem: (id: string) => void;
   groupRef: RefObject<HTMLDivElement> | null;
+  itemRefs: Map<string, RefObject<HTMLElement>>;
+  registerItemRef: (id: string, ref: RefObject<HTMLElement>) => void;
+  unregisterItemRef: (id: string) => void;
 }
 
 /**
@@ -29,5 +35,8 @@ export const RovingFocusGroupContext = createContext<RovingFocusGroupContextType
     focusItems: [],
     setFocusItems: () => {},
     addFocusItem: () => {},
-    groupRef: null
+    groupRef: null,
+    itemRefs: new Map(),
+    registerItemRef: () => {},
+    unregisterItemRef: () => {}
 });

@@ -16,13 +16,13 @@ const MenubarTrigger = forwardRef<MenubarTriggerElement, MenubarTriggerProps>(({
     const menuContext = React.useContext(MenubarMenuContext);
 
     if (!context) {
-        console.log('MenubarTrigger should be used in the MenubarRoot');
+        console.warn('MenubarTrigger should be used in the MenubarRoot');
         return null;
     }
     const { rootClass } = context;
 
     if (!menuContext) {
-        console.log('MenubarTrigger should be used in the MenubarMenu');
+        console.warn('MenubarTrigger should be used in the MenubarMenu');
         return null;
     }
     const { isOpen } = menuContext;
@@ -32,7 +32,7 @@ const MenubarTrigger = forwardRef<MenubarTriggerElement, MenubarTriggerProps>(({
             render={() => (
                 <MenuPrimitive.Trigger
                     ref={ref}
-                    className={clsx(`${rootClass}-trigger`, className)}
+                    className={clsx(rootClass && `${rootClass}-trigger`, className)}
                     data-active={isOpen}
                     {...props}
                 >

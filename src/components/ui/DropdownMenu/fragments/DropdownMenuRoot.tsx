@@ -1,6 +1,6 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import DropdownMenuContext from '../contexts/DropdownMenuContext';
 
@@ -14,10 +14,10 @@ export type DropdownMenuRootProps = {
 const COMPONENT_NAME = 'DropdownMenu';
 
 const DropdownMenuRoot = forwardRef<DropdownMenuRootElement, DropdownMenuRootProps>(({ children, customRootClass, className, ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     return (
         <DropdownMenuContext.Provider value={{ rootClass }} >
-            <MenuPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, className)} {...props}>
+            <MenuPrimitive.Root ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...props}>
                 {children}
             </MenuPrimitive.Root>
         </DropdownMenuContext.Provider>

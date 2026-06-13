@@ -24,4 +24,6 @@ ToggleGroup.displayName = 'ToggleGroup';
 ToggleGroup.Root = ToggleGroupRoot;
 ToggleGroup.Item = ToggleItem;
 
+export type { ToggleGroupRootProps } from './fragments/ToggleGroupRoot';
+export type { ToggleItemProps } from './fragments/ToggleItem';
 export default ToggleGroup;

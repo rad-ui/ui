@@ -1,9 +1,9 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxGroupPrimitive from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxGroupRootContext from '../context/CheckboxGroupRootContext';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'CheckboxGroup';
 
@@ -16,21 +16,20 @@ export type CheckboxGroupRootProps = {
 } & ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Root>;
 
 const CheckboxGroupRoot = forwardRef<CheckboxGroupRootElement, CheckboxGroupRootProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('checkbox-group', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+    const dataAttributes = createDataAttributes('checkbox-group', { variant, size });
+    const accentAttributes = createDataAccentColorAttribute(color);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     return (
-
-        <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
-            <CheckboxGroupRootContext.Provider value={{ rootClass }}>
+        <CheckboxGroupRootContext.Provider value={{ rootClass }}>
+            <CheckboxGroupPrimitive.Root ref={ref} className={clsx(rootClass && `${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes}>
 
                 {children}
+            </CheckboxGroupPrimitive.Root>
+        </CheckboxGroupRootContext.Provider>
 
-            </CheckboxGroupRootContext.Provider>
-        </CheckboxGroupPrimitive.Root>
     );
 });
 

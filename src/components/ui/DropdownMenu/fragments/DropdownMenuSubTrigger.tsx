@@ -12,12 +12,12 @@ export type DropdownMenuSubTriggerProps = {
 const DropdownMenuSubTrigger = forwardRef<DropdownMenuSubTriggerElement, DropdownMenuSubTriggerProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
     if (!context) {
-        console.log('DropdownMenuSubTrigger should be used in the DropdownMenuRoot');
+        console.warn('DropdownMenuSubTrigger should be used in the DropdownMenuRoot');
         return null;
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Trigger ref={ref} className={clsx(`${rootClass}-sub-trigger`, className)} {...props}>
+        <MenuPrimitive.Trigger ref={ref} className={clsx(rootClass && `${rootClass}-sub-trigger`, className)} {...props}>
             {children}
         </MenuPrimitive.Trigger>
     );

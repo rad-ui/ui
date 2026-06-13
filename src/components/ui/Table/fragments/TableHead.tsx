@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'TableHead';
 
-type TableHeadProps = React.ComponentPropsWithoutRef<'thead'>;
+export type TableHeadProps = React.ComponentPropsWithoutRef<'thead'>;
 
 const TableHead = React.forwardRef<React.ElementRef<'thead'>, TableHeadProps>(
     ({ children, className = 'header', ...props }, ref) => {

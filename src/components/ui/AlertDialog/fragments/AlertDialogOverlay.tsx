@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
 
@@ -26,7 +26,7 @@ const AlertDialogOverlay = forwardRef<AlertDialogOverlayElement, AlertDialogOver
     return (
         <DialogPrimitive.Overlay
             ref={ref}
-            className={clsx(`${rootClass}-overlay`, className)}
+            className={clsx(rootClass && `${rootClass}-overlay`, className)}
             asChild={asChild}
             forceMount={forceMount}
             {...props}

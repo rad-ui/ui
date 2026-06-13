@@ -1,0 +1,24 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+import ProgressExample from "./docs/examples/ProgressExample"
+
+<Documentation 
+  title="Progress" 
+  description="The Progress component visually represents the completion status of a task or process, such as uploading a file, loading content, or completing form steps."
+>
+  {/* Component Hero */}
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <ProgressExample />
+  </Documentation.ComponentHero>
+
+  {/* Component Features */}
+  <Documentation.ComponentFeatures 
+    features={features} 
+  />
+
+  <Documentation.ApiReference
+    tables={api_documentation}
+    order={['root', 'indicator']}
+  />
+
+</Documentation>

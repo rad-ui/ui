@@ -2,30 +2,142 @@
 
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
+import Primitive from '~/core/primitives/Primitive';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 const COMPONENT_NAME = 'SliderThumb';
 
-export type SliderThumbElement = ElementRef<'div'>;
-export type SliderThumbProps = { children?: React.ReactNode } & ComponentPropsWithoutRef<'div'>;
+export type SliderThumbElement = ElementRef<typeof Primitive.div>;
+export type SliderThumbProps = {
+    children?: React.ReactNode;
+    asChild?: boolean;
+    index?: number;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+} & ComponentPropsWithoutRef<'div'>;
 
-const SliderThumb = forwardRef<SliderThumbElement, SliderThumbProps>(({ children: _children, ...props }, ref) => {
-    const { rootClass, value } = React.useContext(SliderContext);
-    const sliderInputRef = React.useRef<HTMLInputElement>(null);
+const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
+    const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const thumbRef = React.useRef<HTMLDivElement>(null);
+    
+    // Register this thumb ref with the slider root
+    React.useEffect(() => {
+        if (registerThumbRef && thumbRef.current) {
+            registerThumbRef(index, thumbRef);
+        }
+    }, [index, registerThumbRef]);
+    
+    // Extract individual value if it's an array
+    const rawValue = Array.isArray(value) && index >= 0 && index < value.length
+        ? value[index]
+        : typeof value === 'number'
+            ? value
+            : minValue;
+    const safeValue = Number.isFinite(rawValue) ? rawValue : minValue;
+    const currentValue = Math.min(maxValue, Math.max(minValue, safeValue));
+    const percent = maxValue === minValue ? 0 : ((currentValue - minValue) / (maxValue - minValue)) * 100;
+    const [focused, setFocused] = React.useState(false);
 
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.stopPropagation();
-        sliderInputRef.current?.focus();
+    const clamp = (val: number) => Math.min(maxValue, Math.max(minValue, val));
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (disabled) return;
+        let newValue = currentValue;
+        const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
+        switch (e.key) {
+        case KEYBOARD_KEYS.ARROW_RIGHT:
+            newValue = isRtl ? currentValue - step : currentValue + step;
+            break;
+        case KEYBOARD_KEYS.ARROW_LEFT:
+            newValue = isRtl ? currentValue + step : currentValue - step;
+            break;
+        case KEYBOARD_KEYS.ARROW_UP:
+            newValue = currentValue + step;
+            break;
+        case KEYBOARD_KEYS.ARROW_DOWN:
+            newValue = currentValue - step;
+            break;
+        case KEYBOARD_KEYS.HOME:
+            newValue = minValue;
+            break;
+        case KEYBOARD_KEYS.END:
+            newValue = maxValue;
+            break;
+        case KEYBOARD_KEYS.PAGE_UP:
+            newValue = currentValue + step * pageStepMultiplier;
+            break;
+        case KEYBOARD_KEYS.PAGE_DOWN:
+            newValue = currentValue - step * pageStepMultiplier;
+            break;
+        default:
+            return;
+        }
+        e.preventDefault();
+        const clampedValue = clamp(newValue);
+
+        if (Array.isArray(value)) {
+            const nextValue = [...value];
+            nextValue[index] = clampedValue;
+            // Note: We don't sort here on keyboard to avoid thumb hopping,
+            // but we might want to prevent crossing depending on design.
+            setValue(nextValue);
+        } else {
+            setValue(clampedValue);
+        }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+        if (disabled) return;
+        e.currentTarget.focus();
+        setDragging(true);
     };
 
-    return <div ref={ref} className={`${rootClass}-thumb`} onClick={handleClick} style={{ left: `calc(${value}% - 16px)` }} {...props}>
-        <span className={`${rootClass}-thumb-value`}></span>
-        <input onChange={handleChange} value={value} style={{ display: 'none' }} ref={sliderInputRef} />
-    </div>;
-});
+    const handlePointerUp = () => {
+        setDragging(false);
+    };
+
+    const state = isDragging ? 'dragging' : focused ? 'active' : 'inactive';
+
+    const thumbNode = (
+        <Primitive.div
+            ref={mergeRefs(thumbRef, ref)}
+            asChild={asChild}
+            className={rootClass ? `${rootClass}-thumb` : undefined}
+            role="slider"
+            tabIndex={disabled ? -1 : 0}
+            aria-valuemin={minValue}
+            aria-valuemax={maxValue}
+            aria-valuenow={currentValue}
+            aria-valuetext={formatValue ? formatValue(currentValue) : undefined}
+            aria-orientation={orientation}
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledby}
+            data-state={state}
+            data-disabled={disabled}
+            data-index={index}
+            onKeyDown={handleKeyDown}
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            style={orientation === 'vertical'
+                ? { top: `calc(${percent}% - 10px)` }
+                : { left: `calc(${percent}% - 10px)` }
+            }
+            {...props}
+        >
+            {children}
+        </Primitive.div>
+    );
+
+    return (
+        <>
+            {thumbNode}
+            <input type="hidden" value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} />
+        </>
+    );
+}));
 
 SliderThumb.displayName = COMPONENT_NAME;
 

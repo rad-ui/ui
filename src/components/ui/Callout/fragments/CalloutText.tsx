@@ -8,7 +8,7 @@ const COMPONENT_NAME = 'CalloutText';
 type CalloutTextElement = React.ElementRef<typeof Primitive.p>;
 type PrimitivePProps = React.ComponentPropsWithoutRef<typeof Primitive.p>;
 
-type CalloutTextProps = PrimitivePProps;
+export type CalloutTextProps = PrimitivePProps;
 
 const CalloutText = React.forwardRef<CalloutTextElement, CalloutTextProps>(
     ({ children, className = '', ...props }, ref) => {
@@ -17,7 +17,7 @@ const CalloutText = React.forwardRef<CalloutTextElement, CalloutTextProps>(
         return (
             <Primitive.p
                 ref={ref}
-                className={clsx(`${rootClass}-text`, className)}
+                className={clsx(rootClass && `${rootClass}-text`, className)}
                 {...props}
             >
                 {children}

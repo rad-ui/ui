@@ -11,7 +11,7 @@ type TitleAndMetaTagsProps = {
 	pathname?: string;
 	keywords?: string[];
 	canonicalUrl?: string;
-	structuredData?: any;
+	structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
 export function PageDetails({
@@ -37,7 +37,10 @@ export function PageDetails({
 	) : null;
 
 	// Combine structured data
-	const allStructuredData = [structuredData, breadcrumbData].filter(Boolean);
+	const allStructuredData = [
+		...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []),
+		...(breadcrumbData ? [breadcrumbData] : [])
+	];
 
 	return (
 		<Head>

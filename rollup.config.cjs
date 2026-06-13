@@ -11,7 +11,11 @@ const { dts } = require('rollup-plugin-dts');
 function getComponentDirectories() {
     const componentsPath = 'src/components/ui';
     return fs.readdirSync(componentsPath)
-        .filter((file) => fs.statSync(path.join(componentsPath, file)).isDirectory());
+        .filter((file) => {
+            const componentPath = path.join(componentsPath, file);
+            return fs.statSync(componentPath).isDirectory() &&
+                fs.existsSync(path.join(componentPath, `${file}.tsx`));
+        });
 }
 
 const components = getComponentDirectories();
@@ -27,7 +31,10 @@ const components = getComponentDirectories();
 const typescriptPluginInstance = typescript({
     tsconfig: './tsconfig.json',
     sourceMap: false,
-    outDir: 'dist/temp-cleanup' // Match Rollup's output directory
+    outDir: 'dist/temp-cleanup', // Match Rollup's output directory
+    // Storybook stories are only for interactive docs and testing; excluding them
+    // keeps the published package lean and avoids unnecessary build work.
+    exclude: ['**/*.stories.*']
 });
 const aliasPluginInstance = alias({
     entries: [

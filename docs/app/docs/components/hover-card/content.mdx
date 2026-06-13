@@ -1,0 +1,26 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import HoverCardExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
+import HoverCardSizes from './examples/HoverCardSizes';
+
+<Documentation
+    title="HoverCard"
+    description="Shows a rich preview card when hovering over a trigger element. Useful for user profiles, link previews, or contextual info."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <HoverCardExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'content']}
+    />
+
+    ## Examples
+
+    <Documentation.ComponentHero title='Sizes' codeUsage={sizeCodeUsage}>
+        <HoverCardSizes />
+    </Documentation.ComponentHero>
+</Documentation>

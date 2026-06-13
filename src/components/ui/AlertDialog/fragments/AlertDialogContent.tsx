@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, useContext } from 'react';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import DialogPrimitive from '~/core/primitives/Dialog';
 
 type AlertDialogContentElement = React.ElementRef<typeof DialogPrimitive.Content>;
@@ -21,10 +21,13 @@ const AlertDialogContent = forwardRef<AlertDialogContentElement, AlertDialogCont
     ...props
 }, ref) => {
     const { rootClass, titleId, descriptionId } = useContext(AlertDialogContext);
+
+    // TODO: forceMount keeps the shared dialog focus manager mounted after close,
+    // so focus does not automatically return to the trigger yet.
     return (
         <DialogPrimitive.Content
             ref={ref}
-            className={clsx(`${rootClass}-content`, className)}
+            className={clsx(rootClass && `${rootClass}-content`, className)}
             asChild={asChild}
             forceMount={forceMount}
             role="alertdialog"

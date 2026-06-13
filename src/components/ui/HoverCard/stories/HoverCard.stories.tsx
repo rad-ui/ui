@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import HoverCard from '../HoverCard';
-import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const HOVER_CARD_SIZES = ['small', 'medium', 'large'];
+
 const meta: Meta<typeof HoverCard> = {
-    title: 'WIP/HoverCard',
+    title: 'Components/HoverCard',
     component: HoverCard,
     decorators: [(Story) => (
         <SandboxEditor>
@@ -20,6 +20,16 @@ const meta: Meta<typeof HoverCard> = {
 export default meta;
 type Story = StoryObj<any>;
 
+const CardBody = () => (
+    <div className="space-y-2">
+        <div className="font-semibold text-[var(--rad-ui-text-primary)]">@radui</div>
+        <p className="leading-relaxed text-[var(--rad-ui-text-primary)]">
+            A headless component library for React. Build accessible UIs with full styling control.
+        </p>
+        <p className="text-xs text-[var(--rad-ui-text-secondary)]">Joined December 2021</p>
+    </div>
+);
+
 // HoverCard example using composable API
 const HoverCardExample = () => {
     return (
@@ -32,19 +42,15 @@ const HoverCardExample = () => {
                 customRootClass=""
             >
                 <HoverCard.Trigger>
-                    <Button variant="secondary" className="my-0" size="small">
-                        Hover over me
-                    </Button>
+                    <span>Hover Here</span>
                 </HoverCard.Trigger>
-                <HoverCard.Content>
-                    <div className="p-2 max-w-md">
-                        <div className="mb-2 text-base font-medium">Introduction to HoverCard</div>
-                        <p className="text-sm text-muted">
-                            The HoverCard component is a popup that displays when a user hovers over a trigger.
-                            It's perfect for providing additional information without requiring a click.
-                        </p>
-                    </div>
-                </HoverCard.Content>
+                <HoverCard.Portal>
+                    <HoverCard.Content>
+                        <div className="w-[18rem]">
+                            <CardBody />
+                        </div>
+                    </HoverCard.Content>
+                </HoverCard.Portal>
             </HoverCard.Root>
         </div>
     );
@@ -64,26 +70,28 @@ const ControlledHoverCardExample = () => {
                 customRootClass=""
             >
                 <HoverCard.Trigger>
-                    <Button variant="secondary" className="my-0" size="small" onClick={() => setOpen(true)}>
-                        {open ? 'Card visible' : 'Click Me'}
-                    </Button>
+                    <button
+                        type="button"
+                        className="cursor-pointer bg-transparent p-0 text-inherit"
+                        onClick={() => setOpen(true)}
+                    >
+                        {open ? 'Hover Here' : 'Show Card'}
+                    </button>
                 </HoverCard.Trigger>
-                <HoverCard.Content>
-                    <div className="p-2 max-w-md">
-                        <div className="mb-2 text-base font-medium">Controlled HoverCard</div>
-                        <p className="text-sm text-muted">
-                            This is a controlled example. The state is managed externally.
-                        </p>
-                        <Button
-                            variant="secondary"
-                            size="small"
-                            className="mt-2"
-                            onClick={() => setOpen(false)}
-                        >
-                            Close
-                        </Button>
-                    </div>
-                </HoverCard.Content>
+                <HoverCard.Portal>
+                    <HoverCard.Content>
+                        <div className="w-[18rem] space-y-2">
+                            <CardBody />
+                            <button
+                                className="text-xs text-[var(--rad-ui-text-secondary)] underline underline-offset-4"
+                                onClick={() => setOpen(false)}
+                                type="button"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </HoverCard.Content>
+                </HoverCard.Portal>
             </HoverCard.Root>
         </div>
     );
@@ -95,4 +103,61 @@ export const Default: Story = {
 
 export const Controlled: Story = {
     render: () => <ControlledHoverCardExample />
+};
+
+export const Sizes = () => {
+    return (
+
+        <div className="flex flex-col gap-16 p-8">
+            {HOVER_CARD_SIZES.map((size) => (
+                <div key={size}>
+                    <p className="text-[var(--rad-ui-text-secondary)] mb-4 text-xs">size: {size}</p>
+                    <HoverCard.Root openDelay={100} closeDelay={200}>
+                        <HoverCard.Trigger>
+                            <span className="underline underline-offset-2 cursor-pointer font-medium">
+                                    Hover Here
+                            </span>
+                        </HoverCard.Trigger>
+                        <HoverCard.Portal>
+                            <HoverCard.Content size={size}>
+                                <CardBody />
+                            </HoverCard.Content>
+                        </HoverCard.Portal>
+                    </HoverCard.Root>
+                </div>
+            ))}
+        </div>
+
+    );
+};
+
+export const ScrollCollisionVisualTest = () => {
+    const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+    return (
+        <div
+            ref={setContainer}
+            className="relative h-[360px] w-[460px] overflow-y-auto border border-[var(--rad-ui-border-default)] p-6"
+        >
+            <div className="h-[280px]" />
+            <HoverCard.Root open={true} onOpenChange={() => {}} openDelay={0} closeDelay={0} customRootClass="" collisionBoundary={container}>
+                <HoverCard.Trigger>
+                    <button
+                        type="button"
+                        className="cursor-pointer bg-transparent p-0 text-inherit underline underline-offset-2"
+                    >
+                        Hover card anchor
+                    </button>
+                </HoverCard.Trigger>
+                <HoverCard.Portal rootElement={container ?? undefined}>
+                    <HoverCard.Content>
+                        <div className="w-[18rem]">
+                            <CardBody />
+                        </div>
+                    </HoverCard.Content>
+                </HoverCard.Portal>
+            </HoverCard.Root>
+            <div className="h-[520px]" />
+        </div>
+    );
 };

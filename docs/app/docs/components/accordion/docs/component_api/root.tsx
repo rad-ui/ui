@@ -25,14 +25,6 @@ const data = {
         default : "--",
        },
        {
-        prop : {
-            name : "openMultiple",
-            info_tooltips : "Whether to allow multiple items to be open at once."
-        },
-        type : "boolean",
-        default : "false",
-       },
-       {
         prop: {
             name : "asChild",
             info_tooltips: 'Whether to use the child component as the Accordion.'
@@ -55,7 +47,7 @@ const data = {
         },
         type: 'enum',
         enum_values : ['horizontal', 'vertical'],
-        default: 'horizontal',
+        default: 'vertical',
        },
        {
         prop: {
@@ -63,7 +55,56 @@ const data = {
             info_tooltips: 'Disables the roving tabindex behavior for keyboard navigation.'
         },
         type: 'boolean',
-        default: 'true',
+        default: 'false',
+       },
+       {
+        prop : {
+            name : "disabled",
+            info_tooltips : "Disables all accordion items."
+        },
+        type : "boolean",
+        default : "false",
+       },
+       {
+        prop : {
+            name : "type",
+            info_tooltips : "Selection mode for the accordion."
+        },
+        type : "enum",
+        enum_values : ['single', 'multiple'],
+        default : "single",
+       },
+       {
+        prop : {
+            name : "collapsible",
+            info_tooltips : "When type is single, allows the currently open item to be closed."
+        },
+        type : "boolean",
+        default : "false",
+       },
+       {
+        prop : {
+            name : "value",
+            info_tooltips : "Controlled open item value for single accordions, or an array of item values when type='multiple'."
+        },
+        type : "string | string[]",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "defaultValue",
+            info_tooltips : "Initial open item value for single accordions, or an array of item values when type='multiple'."
+        },
+        type : "string | string[]",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "onValueChange",
+            info_tooltips : "Called with the open item value in single mode, or an array of open item values in multiple mode."
+        },
+        type : "function",
+        default : "--",
        }
     ]
 }

@@ -16,6 +16,7 @@ import description_api_SourceCode from './component_api/description.tsx';
 import portal_api_SourceCode from './component_api/portal.tsx';
 import overlay_api_SourceCode from './component_api/overlay.tsx';
 import content_api_SourceCode from './component_api/content.tsx';
+import footer_api_SourceCode from './component_api/footer.tsx';
 import cancel_api_SourceCode from './component_api/cancel.tsx';
 import action_api_SourceCode from './component_api/action.tsx';
 export const code = {
@@ -39,6 +40,7 @@ export const api_documentation = {
     portal: portal_api_SourceCode,
     overlay: overlay_api_SourceCode,
     content: content_api_SourceCode,
+    footer: footer_api_SourceCode,
     cancel: cancel_api_SourceCode,
     action: action_api_SourceCode
 }

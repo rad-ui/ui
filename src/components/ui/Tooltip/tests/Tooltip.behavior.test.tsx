@@ -97,7 +97,7 @@ describe('Tooltip interactions', () => {
         expect(await screen.findByRole('tooltip')).toBeInTheDocument();
     });
 
-    test('portal renders tooltip content and focus is restored on escape', async () => {
+    test('portal renders tooltip content and focus is restored on escape', async() => {
         const user = userEvent.setup();
         const { getByText, cleanup } = renderWithPortal(
             <Tooltip.Root>

@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MenuPrimitive from '../MenuPrimitive';
+import Floater from '~/core/primitives/Floater';
 
 // Mock console.warn to capture warnings
 const originalWarn = console.warn;
@@ -73,6 +74,95 @@ describe('MenuPrimitive', () => {
 
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
         });
+
+        it('should omit collision middleware when avoidCollision is false', () => {
+            const flipSpy = jest.spyOn(Floater, 'flip');
+            const shiftSpy = jest.spyOn(Floater, 'shift');
+
+            render(
+                <MenuPrimitive.Root avoidCollision={false}>
+                    <div>Menu Content</div>
+                </MenuPrimitive.Root>
+            );
+
+            expect(flipSpy).not.toHaveBeenCalled();
+            expect(shiftSpy).not.toHaveBeenCalled();
+
+            flipSpy.mockRestore();
+            shiftSpy.mockRestore();
+        });
+
+        it('should pass placement to Floater.useFloating', () => {
+            const useFloatingSpy = jest.spyOn(Floater, 'useFloating');
+
+            render(
+                <MenuPrimitive.Root placement="top-end">
+                    <div>Menu Content</div>
+                </MenuPrimitive.Root>
+            );
+
+            const callArg = useFloatingSpy.mock.calls[0]?.[0] as any;
+            expect(callArg?.placement).toBe('top-end');
+
+            useFloatingSpy.mockRestore();
+        });
+
+        it('keeps nested submenu cross-axis alignment anchored to its trigger', () => {
+            const offsetSpy = jest.spyOn(Floater, 'offset');
+            const flipSpy = jest.spyOn(Floater, 'flip');
+            const shiftSpy = jest.spyOn(Floater, 'shift');
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Trigger>Open</MenuPrimitive.Trigger>
+                    <MenuPrimitive.Content>
+                        <MenuPrimitive.Sub defaultOpen={true}>
+                            <MenuPrimitive.Trigger>Nested</MenuPrimitive.Trigger>
+                            <MenuPrimitive.Content>
+                                <MenuPrimitive.Item>Nested item</MenuPrimitive.Item>
+                            </MenuPrimitive.Content>
+                        </MenuPrimitive.Sub>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            expect(offsetSpy).toHaveBeenCalledWith({
+                mainAxis: 14,
+                crossAxis: 0
+            });
+            expect(flipSpy).toHaveBeenCalledWith({
+                mainAxis: true,
+                crossAxis: false,
+                padding: 4
+            });
+            expect(shiftSpy).toHaveBeenCalledWith({
+                padding: 4,
+                crossAxis: false
+            });
+
+            offsetSpy.mockRestore();
+            flipSpy.mockRestore();
+            shiftSpy.mockRestore();
+        });
+
+        it('should pass rtl and loop to Floater.useListNavigation', () => {
+            const listNavSpy = jest.spyOn(Floater, 'useListNavigation');
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true} rtl={true} loop={false}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            // First arg is floatingContext, second is options
+            const options = listNavSpy.mock.calls[0][1];
+            expect(options.rtl).toBe(true);
+            expect(options.loop).toBe(false);
+
+            listNavSpy.mockRestore();
+        });
     });
 
     describe('MenuPrimitive.Trigger', () => {
@@ -91,14 +181,14 @@ describe('MenuPrimitive', () => {
         it('should render with custom className', () => {
             render(
                 <MenuPrimitive.Root>
-                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded">
+                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded">
                         <span>Open Menu</span>
                     </MenuPrimitive.Trigger>
                 </MenuPrimitive.Root>
             );
 
             const triggerButton = screen.getByText('Open Menu').closest('button');
-            expect(triggerButton).toHaveClass('px-4', 'py-2', 'bg-blue-900', 'text-white', 'rounded');
+            expect(triggerButton).toHaveClass('px-4', 'py-2', 'bg-blue-900', 'text-gray-50', 'rounded');
         });
 
         it('should handle asChild prop', () => {
@@ -171,6 +261,94 @@ describe('MenuPrimitive', () => {
 
             expect(container.firstChild).toBeNull();
         });
+
+        it('should support asChild prop and render span element', () => {
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <MenuPrimitive.Item asChild>
+                            <span>Custom Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const el = screen.getByText('Custom Item');
+            expect(el).toBeInTheDocument();
+            expect(el.tagName).toBe('SPAN');
+            expect(el.closest('button')).toBeNull();
+        });
+
+        it('should not trigger onSelect or close when disabled', async() => {
+            const onSelect = jest.fn();
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <MenuPrimitive.Item disabled onSelect={onSelect}>
+                            <span>Disabled Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const item = screen.getByText('Disabled Item');
+
+            await act(async() => {
+                fireEvent.click(item);
+            });
+
+            expect(onSelect).not.toHaveBeenCalled();
+            expect(screen.getByText('Disabled Item')).toBeInTheDocument();
+        });
+
+        it('should call onSelect and keep menu open when onSelect is provided', async() => {
+            const onSelect = jest.fn();
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                        <MenuPrimitive.Item onSelect={onSelect}>
+                            <span>Selectable Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const item = screen.getByText('Selectable Item');
+
+            await act(async() => {
+                fireEvent.click(item);
+            });
+
+            expect(onSelect).toHaveBeenCalled();
+            // Since onSelect is handled by user, default close should not occur
+            expect(screen.getByText('Menu Content')).toBeInTheDocument();
+        });
+
+        it('should close the menu when item has no onSelect', async() => {
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                        <MenuPrimitive.Item>
+                            <span>Auto-close Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            const item = screen.getByText('Auto-close Item');
+
+            await act(async() => {
+                fireEvent.click(item);
+            });
+
+            await waitFor(() => {
+                expect(screen.queryByText('Menu Content')).not.toBeInTheDocument();
+            });
+        });
     });
 
     describe('MenuPrimitive.Content', () => {
@@ -209,7 +387,7 @@ describe('MenuPrimitive', () => {
                 </MenuPrimitive.Root>
             );
 
-            const contentElement = screen.getByText('Menu Content').parentElement;
+            const contentElement = screen.getByText('Menu Content').parentElement?.parentElement;
             expect(contentElement).toHaveClass('flex', 'flex-col', 'mt-2', 'bg-gray-1000', 'border', 'border-gray-200', 'rounded', 'shadow-lg', 'min-w-[180px]');
         });
 
@@ -322,7 +500,7 @@ describe('MenuPrimitive', () => {
             act(() => {
                 render(
                     <MenuPrimitive.Root defaultOpen={true}>
-                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
             Trigger
                         </MenuPrimitive.Trigger>
                         <MenuPrimitive.Portal>
@@ -376,7 +554,7 @@ describe('MenuPrimitive', () => {
 
             render(
                 <MenuPrimitive.Root onOpenChange={onOpenChange}>
-                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-white rounded">
+                    <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded">
             Open Menu
                     </MenuPrimitive.Trigger>
                     <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-lg min-w-[180px]">

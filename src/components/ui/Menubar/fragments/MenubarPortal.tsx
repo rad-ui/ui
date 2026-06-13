@@ -10,7 +10,7 @@ export type MenubarPortalProps = {
 const MenubarPortal = forwardRef<MenubarPortalElement, MenubarPortalProps>(({ children, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
-        console.log('MenubarPortal should be used in the MenubarRoot');
+        console.warn('MenubarPortal should be used in the MenubarRoot');
         return null;
     }
     return (

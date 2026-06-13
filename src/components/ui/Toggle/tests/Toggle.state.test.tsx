@@ -9,7 +9,7 @@ import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 // Verify Toggle button updates pressed state, aria-pressed attribute, and data-state, supporting asChild usage.
 
 describe('Toggle state management', () => {
-    test('click and space toggle pressed state and attributes', async () => {
+    test('click and space toggle pressed state and attributes', async() => {
         const user = userEvent.setup();
         const handleChange = jest.fn();
         const { getByRole } = render(<Toggle onPressedChange={handleChange}>Label</Toggle>);
@@ -30,7 +30,7 @@ describe('Toggle state management', () => {
         expect(button).toHaveAttribute('aria-pressed', 'false');
     });
 
-    test('controlled pressed prop syncs with onPressedChange', async () => {
+    test('controlled pressed prop syncs with onPressedChange', async() => {
         const user = userEvent.setup();
         const handleChange = jest.fn();
         const { getByRole, rerender } = render(
@@ -49,7 +49,7 @@ describe('Toggle state management', () => {
         expect(button).toHaveAttribute('data-state', 'on');
     });
 
-    test('disabled prevents interaction', async () => {
+    test('disabled prevents interaction', async() => {
         const user = userEvent.setup();
         const handleChange = jest.fn();
         const { getByRole } = render(
@@ -63,7 +63,7 @@ describe('Toggle state management', () => {
         expect(button).toHaveAttribute('data-state', 'off');
     });
 
-    test('is accessible and has button role', async () => {
+    test('is accessible and has button role', async() => {
         const { getByRole, container } = render(<Toggle onPressedChange={() => {}}>A11y</Toggle>);
         const button = getByRole('button');
         expect(button).toHaveAttribute('role', 'button');
@@ -73,7 +73,7 @@ describe('Toggle state management', () => {
         expect(results.incomplete.length).toBe(0);
     });
 
-    test('asChild preserves semantics and forwards refs', async () => {
+    test('asChild preserves semantics and forwards refs', async() => {
         const user = userEvent.setup();
         const ref = React.createRef<HTMLDivElement>();
         const { getByRole } = render(
@@ -97,7 +97,7 @@ describe('Toggle state management', () => {
         expect(button).toHaveAttribute('data-state', 'off');
     });
 
-    test('does not submit form when used inside form', async () => {
+    test('does not submit form when used inside form', async() => {
         const user = userEvent.setup();
         const handleSubmit = jest.fn((e) => e.preventDefault());
         const { getByRole } = render(
@@ -109,7 +109,7 @@ describe('Toggle state management', () => {
         expect(handleSubmit).not.toHaveBeenCalled();
     });
 
-    test('works in RTL layouts', async () => {
+    test('works in RTL layouts', async() => {
         const user = userEvent.setup();
         const { getByRole } = render(
             <div dir="rtl">
@@ -122,4 +122,3 @@ describe('Toggle state management', () => {
         expect(button).toHaveAttribute('data-state', 'on');
     });
 });
-

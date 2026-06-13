@@ -38,6 +38,14 @@ const data = {
             info_tooltips : "The boolean to control the open state of the AlertDialogRoot."
         },
         type : "boolean",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "defaultOpen",
+            info_tooltips : "Initial open state when the component is uncontrolled."
+        },
+        type : "boolean",
         default : "false",
        },
        {
@@ -48,14 +56,6 @@ const data = {
         type : "function",
         default : "--",
        },
-       {
-        prop : {
-            name : "onClickOutside",
-            info_tooltips : "The function to handle the click outside of the AlertDialogRoot."
-        },
-        type : "function",
-        default : "--",
-       }
     ]
 }
 

@@ -1,0 +1,19 @@
+import Documentation from "@/components/layout/Documentation/Documentation";
+import codeUsage, { anatomy } from "./docs/codeUsage";
+import Example1 from "./docs/example_1";
+import { api_documentation } from "./docs/codeUsage";
+
+<Documentation 
+    title='Avatar Group' 
+    description={`Avatar Group is used to represent a group of users or a brand. They are used in the header, sidebar, and in the chat.`}
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <Example1 />
+    </Documentation.ComponentHero>
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'item', 'avatar', 'fallback']}
+    />
+
+</Documentation>

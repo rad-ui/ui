@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import { customClassSwitcher } from '~/core';
-import { clsx } from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import clsx from 'clsx';
 
 // Can be rendered as p, label, div, span, etc.
 // TODO: Add as prop support
@@ -25,7 +25,7 @@ const Text = forwardRef<TextElement, TextProps>(
         { children, customRootClass = '', className = '', as = 'p', ...props },
         ref
     ) => {
-        const rootClassName = customClassSwitcher(customRootClass, COMPONENT_NAME);
+        const rootClassName = useComponentClass(customRootClass, COMPONENT_NAME);
 
         if (!TAGS.includes(as)) {
             as = 'p';

@@ -7,7 +7,7 @@ import Checkbox from '../Checkbox';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 describe('Checkbox states', () => {
-    test('click toggles checked state and data-state attribute', async () => {
+    test('click toggles checked state and data-state attribute', async() => {
         const user = userEvent.setup();
         const { container } = render(
             <Checkbox.Root>
@@ -22,7 +22,7 @@ describe('Checkbox states', () => {
         expect(button).toHaveAttribute('data-state', 'unchecked');
     });
 
-    test('supports indeterminate state and updates to checked on click', async () => {
+    test('supports indeterminate state and updates to checked on click', async() => {
         const user = userEvent.setup();
         const { container } = render(
             <Checkbox.Root defaultChecked={'indeterminate' as any}>
@@ -36,7 +36,7 @@ describe('Checkbox states', () => {
         expect(button).toHaveAttribute('data-state', 'checked');
     });
 
-    test('controlled checked prop syncs with onCheckedChange and defaultChecked works', async () => {
+    test('controlled checked prop syncs with onCheckedChange and defaultChecked works', async() => {
         const user = userEvent.setup();
         const Controlled = () => {
             const [checked, setChecked] = React.useState<boolean | 'indeterminate' | null>(false);
@@ -63,7 +63,7 @@ describe('Checkbox states', () => {
         expect(button).toHaveAttribute('data-state', 'unchecked');
     });
 
-    test('form submission reflects value and disabled prevents submit/change events', async () => {
+    test('form submission reflects value and disabled prevents submit/change events', async() => {
         const user = userEvent.setup();
         let submitted: Record<string, FormDataEntryValue> | undefined;
         const handleSubmit = jest.fn((e: React.FormEvent<HTMLFormElement>) => {
@@ -104,7 +104,7 @@ describe('Checkbox states', () => {
         expect(submitted).toEqual({});
     });
 
-    test('axe has no violations and checkbox has appropriate aria attributes', async () => {
+    test('axe has no violations and checkbox has appropriate aria attributes', async() => {
         const { container } = render(
             <Checkbox.Root>
                 <Checkbox.Indicator />
@@ -116,7 +116,7 @@ describe('Checkbox states', () => {
         expect(checkbox).toHaveAttribute('aria-checked', 'false');
     });
 
-    test('asChild label preserves semantics and refs', async () => {
+    test('asChild label preserves semantics and refs', async() => {
         const user = userEvent.setup();
         const ref = React.createRef<HTMLLabelElement>();
         render(
@@ -134,7 +134,7 @@ describe('Checkbox states', () => {
         expect(label).toHaveAttribute('data-state', 'checked');
     });
 
-    test('rtl dir works correctly', async () => {
+    test('rtl dir works correctly', async() => {
         const user = userEvent.setup();
         const { container } = render(
             <div dir="rtl">

@@ -2,24 +2,29 @@ import React from 'react';
 import TextArea from '../TextArea';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 
-const Template = (args:any) => {
-    return <SandboxEditor className="space-y-4 pt-4">
-        <TextArea {...args} >
-
-        </TextArea>
-    </SandboxEditor>;
-};
-
 export default {
-    title: 'WIP/TextArea',
-    component: TextArea,
-    render: (args: React.JSX.IntrinsicAttributes) => <Template {...args} />
-};
+    title: 'Components/TextArea',
+    component: TextArea
+} as any;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const All = {
-    args: {
-        className: '',
-        placeholder: 'Type something here'
+export const Basic = {
+    render: () => {
+        return <SandboxEditor>
+            <div className="flex justify-center py-16">
+                <div className="w-full max-w-[40rem] space-y-3">
+                    <label htmlFor="message-textarea" className="block text-[0.9375rem] font-semibold text-[var(--rad-ui-text-primary)]">
+                        Message
+                    </label>
+                    <div id="message-desc" className="text-[0.9375rem] text-[var(--rad-ui-text-secondary)]">
+                        Enter your message below.
+                    </div>
+                    <TextArea
+                        id="message-textarea"
+                        placeholder="Type your message here."
+                        aria-describedby="message-desc"
+                    />
+                </div>
+            </div>
+        </SandboxEditor>;
     }
 };

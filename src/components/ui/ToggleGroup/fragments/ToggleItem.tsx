@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import clsx from 'clsx';
 
 import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
@@ -12,6 +13,8 @@ export type ToggleItemElement = React.ElementRef<typeof TogglePrimitive>;
 export interface ToggleItemProps extends React.ComponentPropsWithoutRef<typeof TogglePrimitive> {
     /** Value associated with this toggle item, used for selection state */
     value?: any;
+    /** Use square fixed dimensions (icon-only controls). Omit for labeled or mixed content. */
+    iconOnly?: boolean;
 }
 
 /**
@@ -28,12 +31,13 @@ export interface ToggleItemProps extends React.ComponentPropsWithoutRef<typeof T
  * @param {ToggleItemProps} props - Component props
  * @returns {JSX.Element} The ToggleItem component
  */
-const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({ 
+const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
     children,
     className = '',
     value = null,
     disabled = false,
     asChild = false,
+    iconOnly = false,
     ...props
 }, ref) => {
     const { type, activeToggles, setActiveToggles, rootClass, disabled: groupDisabled } = useContext(ToggleContext);
@@ -96,9 +100,10 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
         <TogglePrimitive
             ref={ref}
             onClick={handleToggleSelect}
-            className={`${rootClass}-item ${className}`}
+            className={clsx(rootClass && `${rootClass}-item`, className)}
             disabled={isDisabled}
             asChild={asChild}
+            {...(iconOnly ? { 'data-icon-only': '' } : {})}
             {...ariaProps}
             {...dataProps}
             {...props}

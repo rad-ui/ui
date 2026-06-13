@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import { clsx } from 'clsx';
-import { customClassSwitcher } from '~/core';
+import clsx from 'clsx';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import useControllableState from '~/core/hooks/useControllableState';
 
 import TogglePrimitive from '~/core/primitives/Toggle';
@@ -56,12 +56,12 @@ const Toggle = forwardRef<ToggleElement, ToggleProps>(({
     // We don't need the validation anymore since the hook handles this
     // This is now handled by the hook's type safety and error messages
 
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const data_attributes: Record<string, string> = {};
 
     if (color) {
-        data_attributes['data-rad-ui-accent-color'] = color;
+        data_attributes['data-color'] = color;
     }
 
     return (

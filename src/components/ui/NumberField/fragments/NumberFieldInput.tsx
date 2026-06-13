@@ -1,6 +1,7 @@
 import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import NumberFieldContext from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 export type NumberFieldInputElement = ElementRef<'input'>;
 export type NumberFieldInputProps = ComponentPropsWithoutRef<'input'>;
@@ -24,19 +25,19 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     } = context;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'ArrowUp' && !event.shiftKey) {
+        if (event.key === KEYBOARD_KEYS.ARROW_UP && !event.shiftKey) {
             event.preventDefault();
             handleStep({ direction: 'increment', type: 'small' });
         }
-        if (event.key === 'ArrowDown' && !event.shiftKey) {
+        if (event.key === KEYBOARD_KEYS.ARROW_DOWN && !event.shiftKey) {
             event.preventDefault();
             handleStep({ direction: 'decrement', type: 'small' });
         }
-        if (event.key === 'ArrowUp' && event.shiftKey) {
+        if (event.key === KEYBOARD_KEYS.ARROW_UP && event.shiftKey) {
             event.preventDefault();
             handleStep({ direction: 'increment', type: 'large' });
         }
-        if (event.key === 'ArrowDown' && event.shiftKey) {
+        if (event.key === KEYBOARD_KEYS.ARROW_DOWN && event.shiftKey) {
             event.preventDefault();
             handleStep({ direction: 'decrement', type: 'large' });
         }
@@ -53,7 +54,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             disabled={disabled}
             readOnly={readOnly}
             required={required}
-            className={clsx(`${rootClass}-input`, className)}
+            className={clsx(rootClass && `${rootClass}-input`, className)}
             {...props}/>
     );
 });

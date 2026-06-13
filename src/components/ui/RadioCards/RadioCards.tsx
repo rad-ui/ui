@@ -27,4 +27,6 @@ RadioCards.displayName = 'RadioCards';
 RadioCards.Root = RadioCardsRoot;
 RadioCards.Item = RadioCardsItem;
 
+export type { RadioCardsRootProps } from './fragments/RadioCardsRoot';
+export type { RadioCardsItemProps } from './fragments/RadioCardsItem';
 export default RadioCards;

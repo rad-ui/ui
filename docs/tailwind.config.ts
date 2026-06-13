@@ -4,6 +4,11 @@ const config: Config = {
   presets:[
     require("@radui/ui/themes/tailwind-presets/default.js")
   ],
+  safelist: [
+    {
+      pattern: /bg-(gray|mauve|slate|sage|olive|sand|tomato|red|ruby|crimson|pink|plum|purple|indigo|blue|cyan|teal|jade|green|grass|bronze|gold|brown|orange|amber|yellow|lime|mint|sky)-(50|100|200|300|400|500|600|700|800|900|950|1000)/
+    }
+  ],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",

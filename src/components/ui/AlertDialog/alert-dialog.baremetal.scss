@@ -1,0 +1,9 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-alert-dialog-trigger, .rad-ui-alert-dialog-action, .rad-ui-alert-dialog-cancel) { @include baremetal.button-like; }
+#{baremetal.$theme-root} :where(.rad-ui-alert-dialog-content) { @include baremetal.surface; padding: 1.5rem; }
+#{baremetal.$theme-root} :where(.rad-ui-alert-dialog-title) { @include baremetal.title-text; }
+#{baremetal.$theme-root} :where(.rad-ui-alert-dialog-description) { @include baremetal.body-text; }
+#{baremetal.$theme-root} :where(.rad-ui-alert-dialog-footer) { border-color: var(--rad-ui-baremetal-black) !important; background: var(--rad-ui-baremetal-white) !important; }
+#{baremetal.$theme-root} :where(.rad-ui-alert-dialog-overlay) { background: rgb(255, 255, 255, 0.72); backdrop-filter: none; }

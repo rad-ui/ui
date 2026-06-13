@@ -47,4 +47,10 @@ Table.Row = TableRow;
 Table.Cell = TableCell;
 Table.ColumnCellHeader = TableColumnCellHeader;
 
+export type { TableRootProps } from './fragments/TableRoot';
+export type { TableBodyProps } from './fragments/TableBody';
+export type { TableHeadProps } from './fragments/TableHead';
+export type { TableRowProps } from './fragments/TableRow';
+export type { TableCellProps } from './fragments/TableCell';
+export type { TableColumnCellHeaderProps } from './fragments/TableColumnCellHeader';
 export default Table;

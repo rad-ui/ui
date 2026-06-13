@@ -19,4 +19,7 @@ Avatar.Root = AvatarRoot;
 Avatar.Image = AvatarImage;
 Avatar.Fallback = AvatarFallback;
 
+export type { AvatarRootProps } from './fragments/AvatarRoot';
+export type { AvatarImageProps } from './fragments/AvatarImage';
+export type { AvatarFallbackProps } from './fragments/AvatarFallback';
 export default Avatar;

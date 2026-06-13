@@ -1,11 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`TextArea matches snapshot 1`] = `
 <div
-  class="rad-ui-text-area"
+  class=""
+  data-resize="both"
 >
   <textarea
-    placeholder="enter text"
+    placeholder=""
   >
     content
   </textarea>

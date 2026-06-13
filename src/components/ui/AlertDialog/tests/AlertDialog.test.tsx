@@ -64,7 +64,7 @@ describe('AlertDialog', () => {
 
         it('should support controlled open state', () => {
             const { rerender } = render(
-                <AlertDialog.Root open={false}>
+                <AlertDialog.Root open={false} onOpenChange={() => {}}>
                     <AlertDialog.Trigger>Open Dialog</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                         <AlertDialog.Content>
@@ -82,7 +82,7 @@ describe('AlertDialog', () => {
             expect(screen.queryByText('Test Description')).not.toBeInTheDocument();
 
             rerender(
-                <AlertDialog.Root open={true}>
+                <AlertDialog.Root open={true} onOpenChange={() => {}}>
                     <AlertDialog.Trigger>Open Dialog</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                         <AlertDialog.Content>
@@ -230,7 +230,7 @@ describe('AlertDialog', () => {
             await user.click(screen.getByText('Open Dialog'));
 
             // Content should now have open state
-            expect(content).toHaveAttribute('data-state', 'open');
+            expect(screen.getByTestId('dialog-content')).toHaveAttribute('data-state', 'open');
         });
 
         it('should support keepMounted prop', async() => {
@@ -253,7 +253,7 @@ describe('AlertDialog', () => {
             await user.click(screen.getByText('Open Dialog'));
 
             // Content should now have open state
-            expect(content).toHaveAttribute('data-state', 'open');
+            expect(screen.getByTestId('dialog-content')).toHaveAttribute('data-state', 'open');
         });
     });
 

@@ -29,6 +29,8 @@ import lime from './lime';
 import yellow from './yellow';
 import amber from './amber';
 import orange from './orange';
+import black from './black';
+import white from './white';
 
 const colors = {
     gray,
@@ -61,7 +63,9 @@ const colors = {
     lime,
     yellow,
     amber,
-    orange
+    orange,
+    black,
+    white
 
 } as const;
 

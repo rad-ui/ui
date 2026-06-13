@@ -13,12 +13,12 @@ export type DropdownMenuItemProps = {
 const DropdownMenuItem = forwardRef<DropdownMenuItemElement, DropdownMenuItemProps>(({ children, className, label, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
     if (!context) {
-        console.log('DropdownMenuItem should be used in the DropdownMenuRoot');
+        console.warn('DropdownMenuItem should be used in the DropdownMenuRoot');
         return null;
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Item ref={ref} className={clsx(`${rootClass}-item`, className)} label={label} {...props}>
+        <MenuPrimitive.Item ref={ref} className={clsx(rootClass && `${rootClass}-item`, className)} label={label} {...props}>
             {children}
         </MenuPrimitive.Item>
     );

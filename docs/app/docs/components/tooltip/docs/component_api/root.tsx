@@ -18,35 +18,20 @@ const data = {
   data: [
     {
       prop: {
-        name: "defaultOpen",
-        info_tooltips: "Whether the tooltip is open by default."
+        name: "children",
+        info_tooltips: "The trigger and content elements rendered inside Tooltip.Root."
       },
-      type: "boolean",
-      default: "false",
-    },
-    {
-      prop: {
-        name: "open",
-        info_tooltips: "Controlled open state of the tooltip."
-      },
-      type: "boolean",
+      type: "ReactNode",
       default: "--",
     },
     {
       prop: {
-        name: "onOpenChange",
-        info_tooltips: "Callback called when open state changes."
+        name: "placement",
+        info_tooltips: "Preferred floating placement for the tooltip content."
       },
-      type: "function",
-      default: "--",
-    },
-    {
-      prop: {
-        name: "delayDuration",
-        info_tooltips: "Duration from when the mouse enters the trigger until the tooltip opens."
-      },
-      type: "number",
-      default: "700",
+      type: "enum",
+      enum_values: ["top", "bottom", "left", "right", "top-start", "top-end", "bottom-start", "bottom-end", "left-start", "left-end", "right-start", "right-end"],
+      default: "top",
     }
   ]
 };

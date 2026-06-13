@@ -1,5 +1,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
+import MenuPrimitiveRootContext from '~/core/primitives/Menu/contexts/MenuPrimitiveRootContext';
+import { isContextMenuKey } from '~/core/utils/keyboard';
 import ContextMenuContext from '../contexts/ContextMenuContext';
 import clsx from 'clsx';
 import { useMergeRefs } from '@floating-ui/react';
@@ -13,41 +15,54 @@ export type ContextMenuTriggerProps = {
 const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTriggerProps>(
     ({ children, className, ...props }, ref) => {
         const context = React.useContext(ContextMenuContext);
+        const menuContext = React.useContext(MenuPrimitiveRootContext);
         const contextTriggerRef = React.useRef<HTMLSpanElement>(null);
         const mergedRef = useMergeRefs([contextTriggerRef, ref]);
 
         if (!context) {
-            console.log('ContextMenuTrigger should be used in the ContextMenuRoot');
+            console.warn('ContextMenuTrigger should be used in the ContextMenuRoot');
             return null;
         }
-        const { rootClass, setCoords, setIsOpen } = context;
+        const { rootClass, setIsOpen } = context;
 
-        const handleContextMenu = (e: React.MouseEvent) => {
-            e.preventDefault();
-            if (!contextTriggerRef.current) return;
-            const rect = contextTriggerRef.current.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = rect.bottom - e.clientY;
-
-            setCoords({ x, y });
+        const openAtPoint = (x: number, y: number) => {
+            // Use a virtual element at the exact cursor position so floating-ui
+            // can correctly flip/shift in any direction without offset math.
+            menuContext?.refs.setPositionReference({
+                getBoundingClientRect() {
+                    return {
+                        width: 0,
+                        height: 0,
+                        x,
+                        y,
+                        top: y,
+                        left: x,
+                        right: x,
+                        bottom: y,
+                        toJSON() { return this; },
+                    };
+                },
+            } as Element);
             setIsOpen(true);
         };
 
+        const handleContextMenu = (e: React.MouseEvent) => {
+            e.preventDefault();
+            openAtPoint(e.clientX, e.clientY);
+        };
+
         const handleKeyDown = (e: React.KeyboardEvent) => {
-            if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) {
+            if (isContextMenuKey(e.key, e.shiftKey)) {
                 e.preventDefault();
                 if (!contextTriggerRef.current) return;
                 const rect = contextTriggerRef.current.getBoundingClientRect();
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + rect.height / 2;
-                setCoords({ x, y });
-                setIsOpen(true);
+                openAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
             }
         };
 
         return (
             <MenuPrimitive.Trigger
-                className={clsx(`${rootClass}-trigger`, className)}
+                className={clsx(rootClass && `${rootClass}-trigger`, className)}
                 asChild={true}
                 {...props}
             >
@@ -57,6 +72,7 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
                     onKeyDown={handleKeyDown}
                     onClick={(e) => {
                         e.preventDefault();
+                        setIsOpen(false);
                     }}
                     role="button"
                     tabIndex={0}

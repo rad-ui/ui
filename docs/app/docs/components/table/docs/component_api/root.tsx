@@ -29,6 +29,16 @@ const data = {
             name : "children",
             info_tooltips : "The children of the Root."
         },
+        type : "ReactNode",
+        default : "--",
+       },
+       {
+        prop : {
+            name : "customRootClass",
+            info_tooltips : "Custom class namespace used to swap the default table styles."
+        },
+        type : "string",
+        default : "''",
        },
     ]
 }

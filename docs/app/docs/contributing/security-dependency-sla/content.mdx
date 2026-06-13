@@ -1,0 +1,36 @@
+# Security and dependency update SLA (runtime dependencies)
+
+This document sets **maintainer-facing** expectations for how quickly we respond to **security issues** and **runtime dependency** updates. It is not a legal SLA; timelines assume healthy volunteer bandwidth.
+
+## Definitions
+
+- **Runtime dependencies**: Packages listed under `dependencies` in the root `package.json` (code shipped to consumers).
+- **Security advisory**: A CVE, GitHub Dependabot security alert, or credible report that indicates exploitable risk in a dependency we ship or in our published code.
+
+## Security advisories
+
+| Severity | Target response |
+| --- | --- |
+| Critical (remote code execution, auth bypass, data exfiltration in default usage) | Acknowledge within **72 hours**; ship a fix or documented mitigation as soon as practical |
+| High | Acknowledge within **1 week**; prioritize a patch release in the next release window |
+| Medium / Low | Triage in the next **2–4 weeks**; batch with other maintenance work |
+
+**Practices**
+
+- Prefer **patch/minor** dependency bumps that resolve CVEs without breaking the public API.
+- If a fix requires a **breaking** change, document it in a changeset with an explicit **breaking** note and follow the [Changeset quality](/docs/contributing/changeset-quality) guidance.
+
+## Routine dependency updates (runtime)
+
+- **Patch releases** of runtime deps (bug fixes): roll up **at least monthly** or sooner if a release is already planned.
+- **Minor** updates: evaluate **per release**; run tests, Storybook, and docs build before merging.
+- **Major** updates: schedule explicitly; treat as a **mini-migration** with notes for consumers.
+
+## What this does not cover
+
+- `devDependencies` used only in CI, Storybook, or tooling — update on a best-effort basis, prioritizing security alerts for **secrets** and **supply-chain** tooling (e.g. lockfile integrity, provenance).
+- Transitive dependencies — rely on **Dependabot** and `npm audit` signals; bump direct deps to pull in fixed transitive versions where possible.
+
+## Reporting
+
+Report security issues via the contact path described in the repository **Security** policy (GitHub Security Advisories). Please avoid filing public issues for undisclosed vulnerabilities.

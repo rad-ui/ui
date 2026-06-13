@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import RadioGroupExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="RadioGroup"
+    description="A composable group of radio buttons for single-selection. Manages shared state across all items."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <RadioGroupExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root']}
+    />
+</Documentation>

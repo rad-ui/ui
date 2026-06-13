@@ -1,0 +1,8 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-slider-track) { @include baremetal.track; }
+#{baremetal.$theme-root} :where(.rad-ui-slider-range) { @include baremetal.fill; }
+#{baremetal.$theme-root} :where(.rad-ui-slider-mark-label) { @include baremetal.body-text; }
+#{baremetal.$theme-root} :where(.rad-ui-slider-thumb, .rad-ui-slider-thumb-lower, .rad-ui-slider-thumb-upper) { width: 1.75rem; height: 1.75rem; border: 1px solid var(--rad-ui-baremetal-black) !important; border-radius: 0 !important; background: var(--rad-ui-baremetal-black) !important; box-shadow: none !important; transition: none !important; }
+#{baremetal.$theme-root} :where(.rad-ui-slider-thumb, .rad-ui-slider-thumb-lower, .rad-ui-slider-thumb-upper):where(:hover, [data-state="active"], [data-state="dragging"]) { border-color: var(--rad-ui-baremetal-black) !important; box-shadow: none !important; }

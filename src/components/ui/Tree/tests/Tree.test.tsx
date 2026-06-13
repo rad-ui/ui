@@ -36,7 +36,7 @@ describe('Tree', () => {
         expect(screen.getByRole('tree')).toHaveAttribute('aria-label', 'File explorer');
     });
 
-    test('renders children when expanded', async () => {
+    test('renders children when expanded', async() => {
         const user = userEvent.setup();
         const item = { label: 'Parent', items: [{ label: 'Child', items: [] }] };
         render(
@@ -47,6 +47,33 @@ describe('Tree', () => {
         expect(screen.queryByText('Child')).toBeNull();
         await user.click(screen.getByText('Parent'));
         expect(screen.getByText('Child')).toBeInTheDocument();
+    });
+
+    test('loop={false} stops arrow navigation at tree edges', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Tree.Root aria-label='Files' loop={false}>
+                <Tree.Item item={{ label: 'Item 1' }}>Item 1</Tree.Item>
+                <Tree.Item item={{ label: 'Item 2' }}>Item 2</Tree.Item>
+                <Tree.Item item={{ label: 'Item 3' }}>Item 3</Tree.Item>
+            </Tree.Root>
+        );
+
+        const item1 = screen.getByRole('treeitem', { name: 'Item 1' });
+        const item3 = screen.getByRole('treeitem', { name: 'Item 3' });
+
+        await user.tab();
+        expect(item1).toHaveFocus();
+
+        await user.keyboard('{ArrowUp}');
+        expect(item1).toHaveFocus();
+
+        await user.keyboard('{ArrowDown}{ArrowDown}');
+        expect(item3).toHaveFocus();
+
+        await user.keyboard('{ArrowDown}');
+        expect(item3).toHaveFocus();
     });
 
     test('renders without console errors or warnings', () => {
@@ -63,4 +90,3 @@ describe('Tree', () => {
         consoleWarn.mockRestore();
     });
 });
-

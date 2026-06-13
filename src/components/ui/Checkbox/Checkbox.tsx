@@ -9,4 +9,6 @@ const Checkbox = () => {
 Checkbox.Root = CheckboxRoot;
 Checkbox.Indicator = CheckboxIndicator;
 
+export type { CheckboxRootProps } from './fragments/CheckboxRoot';
+export type { CheckboxIndicatorProps } from './fragments/CheckboxIndicator';
 export default Checkbox;

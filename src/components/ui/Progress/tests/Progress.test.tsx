@@ -23,7 +23,7 @@ describe('Progress', () => {
         render(
             <Progress.Root ref={ref} value={50} maxValue={100} minValue={0}>
                 <Progress.Indicator />
-            </Progress.Root>,
+            </Progress.Root>
         );
         expect(ref.current).not.toBeNull();
     });
@@ -33,7 +33,7 @@ describe('Progress', () => {
         render(
             <Progress.Root value={50} maxValue={100} minValue={0}>
                 <Progress.Indicator ref={ref} />
-            </Progress.Root>,
+            </Progress.Root>
         );
         expect(ref.current).not.toBeNull();
     });
@@ -297,6 +297,6 @@ describe('Progress', () => {
     // TODO: Add color test after supporting color prop
     // test('renders progress bar with correct color', () => {
     //     render(<ProgressComp color='blue' />);
-    //     expect(screen.getByRole('progressbar')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+    //     expect(screen.getByRole('progressbar')).toHaveAttribute('data-color', 'blue');
     // });
 });

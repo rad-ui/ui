@@ -7,7 +7,7 @@ import Switch from '../Switch';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 describe('Switch behaviour', () => {
-    test('space and enter keys toggle the switch and update data-state', async () => {
+    test('space and enter keys toggle the switch and update data-state', async() => {
         const user = userEvent.setup();
         const { container } = render(
             <Switch.Root>
@@ -25,7 +25,7 @@ describe('Switch behaviour', () => {
         expect(button).toHaveAttribute('data-state', 'unchecked');
     });
 
-    test('controlled and uncontrolled checked states stay in sync', async () => {
+    test('controlled and uncontrolled checked states stay in sync', async() => {
         const user = userEvent.setup();
 
         const Controlled = () => {
@@ -66,7 +66,7 @@ describe('Switch behaviour', () => {
         expect(button).toHaveAttribute('data-state', 'checked');
     });
 
-    test('asChild renders custom button preserving semantics and refs', async () => {
+    test('asChild renders custom button preserving semantics and refs', async() => {
         const user = userEvent.setup();
         const ref = React.createRef<HTMLButtonElement>();
         render(
@@ -85,7 +85,7 @@ describe('Switch behaviour', () => {
         expect(custom).toHaveAttribute('data-state', 'checked');
     });
 
-    test('no axe violations and proper aria attributes', async () => {
+    test('no axe violations and proper aria attributes', async() => {
         const { container } = render(
             <Switch.Root>
                 <Switch.Thumb />
@@ -97,7 +97,7 @@ describe('Switch behaviour', () => {
         expect(switchEl).toHaveAttribute('aria-checked', 'false');
     });
 
-    test('rtl direction maintains correct behaviour', async () => {
+    test('rtl direction maintains correct behaviour', async() => {
         const user = userEvent.setup();
         const { container } = render(
             <div dir="rtl">
@@ -112,7 +112,7 @@ describe('Switch behaviour', () => {
         expect(button).toHaveAttribute('data-state', 'checked');
     });
 
-    test('disabled switch cannot be toggled via mouse or keyboard', async () => {
+    test('disabled switch cannot be toggled via mouse or keyboard', async() => {
         const user = userEvent.setup();
         const handleChange = jest.fn();
         const { container } = render(
@@ -128,7 +128,7 @@ describe('Switch behaviour', () => {
         expect(handleChange).not.toHaveBeenCalled();
     });
 
-    test('rapid toggling updates state correctly', async () => {
+    test('rapid toggling updates state correctly', async() => {
         const user = userEvent.setup();
         const { container } = render(
             <Switch.Root>
@@ -142,4 +142,3 @@ describe('Switch behaviour', () => {
         expect(button).toHaveAttribute('data-state', 'checked');
     });
 });
-

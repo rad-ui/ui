@@ -1,0 +1,4 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-h1, .rad-ui-h2, .rad-ui-h3, .rad-ui-h4, .rad-ui-h5, .rad-ui-h6) { @include baremetal.title-text; }

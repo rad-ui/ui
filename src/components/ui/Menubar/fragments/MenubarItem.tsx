@@ -13,12 +13,12 @@ export type MenubarItemProps = {
 const MenubarItem = forwardRef<MenubarItemElement, MenubarItemProps>(({ children, className, label, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     if (!context) {
-        console.log('MenubarItem should be used in the MenubarRoot');
+        console.warn('MenubarItem should be used in the MenubarRoot');
         return null;
     }
     const { rootClass } = context;
     return (
-        <MenuPrimitive.Item ref={ref} className={clsx(`${rootClass}-item`, className)} label={label} {...props}>
+        <MenuPrimitive.Item ref={ref} className={clsx(rootClass && `${rootClass}-item`, className)} label={label} {...props}>
             {children}
         </MenuPrimitive.Item>
     );

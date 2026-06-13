@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 import Primitive from '~/core/primitives/Primitive';
 
@@ -18,6 +18,29 @@ const AvatarPrimitiveRoot = React.forwardRef<React.ElementRef<typeof Primitive.s
         setHasError(true);
     };
 
+    // Check if an image with src is present in children
+    const hasImage = useMemo(() => {
+        if (!children) return false;
+        const checkForImage = (node: React.ReactNode): boolean => {
+            if (React.isValidElement(node)) {
+                // Check if it's an img element with src
+                if (node.type === 'img' && node.props?.src) {
+                    return true;
+                }
+                // Check if it's an AvatarImage component with src
+                if (node.props?.src) {
+                    return true;
+                }
+                // Recursively check children
+                if (node.props?.children) {
+                    return React.Children.toArray(node.props.children).some(checkForImage);
+                }
+            }
+            return false;
+        };
+        return React.Children.toArray(children).some(checkForImage);
+    }, [children]);
+
     const values = {
         isImageLoaded,
         hasError,
@@ -27,7 +50,7 @@ const AvatarPrimitiveRoot = React.forwardRef<React.ElementRef<typeof Primitive.s
     };
 
     return <AvatarPrimitiveContext.Provider value={values} >
-        <Primitive.span ref={ref} asChild={asChild} {...props}>{children}</Primitive.span>
+        <Primitive.span ref={ref} asChild={asChild} data-rad-ui-has-image={hasImage ? '' : undefined} {...props}>{children}</Primitive.span>
     </AvatarPrimitiveContext.Provider>;
 });
 

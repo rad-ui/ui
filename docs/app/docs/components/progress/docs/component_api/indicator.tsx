@@ -23,6 +23,22 @@ const data = {
             },
             type: "boolean",
             default: "false",
+        },
+        {
+            prop: {
+                name: "className",
+                info_tooltips: "Additional class names for the progress indicator."
+            },
+            type: "string",
+            default: "--",
+        },
+        {
+            prop: {
+                name: "style",
+                info_tooltips: "Inline styles merged with the computed translateX transform."
+            },
+            type: "CSSProperties",
+            default: "--",
         }
     ]
 };

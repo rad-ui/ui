@@ -28,4 +28,3 @@ const CollapsibleContent = React.forwardRef<
 CollapsibleContent.displayName = 'CollapsibleContent';
 
 export default CollapsibleContent;
-

@@ -175,4 +175,3 @@ describe('DropdownMenu keyboard interactions', () => {
         expect(await screen.findByText('Item')).toBeInTheDocument();
     });
 });
-

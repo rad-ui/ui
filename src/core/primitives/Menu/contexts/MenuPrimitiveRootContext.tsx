@@ -14,6 +14,7 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
     setPositionReference(node: Element): void;
   };
   floatingStyles: React.CSSProperties;
+  maxHeight: number | undefined;
   getReferenceProps: (userProps?: any) => any;
   getFloatingProps: (userProps?: any) => any;
   getItemProps: (userProps?: any) => any;
@@ -26,6 +27,7 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   nodeId: any;
   isNested: boolean;
   floatingContext: any;
+  rtl: boolean;
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);

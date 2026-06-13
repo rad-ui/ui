@@ -15,7 +15,7 @@ const DisclosureContent = React.forwardRef<React.ElementRef<'div'>, DisclosureCo
             : <CollapsiblePrimitive.Content
                 {...props}
                 ref={forwardedRef}
-                className={clsx(`${rootClass}-content`, className)}
+                className={clsx(rootClass && `${rootClass}-content`, className)}
 
                 role="region"
                 aria-hidden={activeItem !== itemValue}

@@ -1,37 +1,28 @@
 'use client'
 
-const colors = ["red", "tomato", "plum", "gray", "sky", "gold", "bronze", "indigo", "grass", "blue", "teal", "jade", "amber", "yellow", "mint"]
-
-
-
 import Heading from "@radui/ui/Heading"
 import Link from "@radui/ui/Link"
 import Separator from "@radui/ui/Separator"
+import Text from "@radui/ui/Text"
 
-
-const ColorLooper = ({ title = "", docsLink = "", inline = false, loop = true, children }) => {
-    return <div className='pb-8'>
-        <div className='flex space-x-3 items-baseline'>
-            <Heading className="text-gray-1000" as="h6">{title}</Heading>
-            <Link href={docsLink} >Docs</Link>
-        </div>
-        <Separator />
-        <div className='space-y-2 pt-4'>
-            {loop &&
-                colors.map((color, index) => {
-                    return <div key={index} data-accent-color={color}>
-                        <div>{children}</div>
-                    </div>
-                })
-            }
-            {!loop &&
-                <div data-accent-color="red">
-                    <div>{children}</div>
+const ColorLooper = ({ title = "", docsLink = "", description = "", children }) => {
+    return (
+        <section className='rounded-3xl bg-gray-50 p-6 shadow-sm'>
+            <div className='flex flex-wrap items-end justify-between gap-3'>
+                <div className='space-y-1'>
+                    <Heading className="text-gray-950" as="h2">{title}</Heading>
+                    {description ? <Text className="text-gray-700">{description}</Text> : null}
                 </div>
-            }
-        </div>
-
-    </div>
+                {docsLink ? <Link href={docsLink}>Open docs</Link> : null}
+            </div>
+            <Separator className="mt-4" decorative />
+            <div className='pt-4'>
+                <div className='rounded-2xl border border-gray-200 bg-gray-50 p-5'>
+                    {children}
+                </div>
+            </div>
+        </section>
+    )
 }
 
-export default ColorLooper;
+export default ColorLooper

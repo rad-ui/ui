@@ -1,9 +1,9 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxGroupPrimitive from '~/core/primitives/CheckboxGroup/CheckboxGroupPrimitive';
 import CheckboxCardsRootContext from '../context/CheckboxCardsRootContext';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'CheckboxCards';
 
@@ -15,22 +15,28 @@ export type CheckboxCardsRootProps = {
     size?: string;
 } & ComponentPropsWithoutRef<typeof CheckboxGroupPrimitive.Root>;
 
-const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(({ children, customRootClass = '', className = '', color = '', variant = '', size = '', ...props }, ref) => {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+const CheckboxCardsRoot = forwardRef<CheckboxCardsRootElement, CheckboxCardsRootProps>(
+    ({ children, customRootClass = '', className = '', color = '', variant = '', size = '', orientation = 'both', ...props }, ref) => {
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const dataAttributes = useCreateDataAttribute('checkbox-cards', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+    const dataAttributes = createDataAttributes('checkbox-cards', { variant, size });
+    const accentAttributes = createDataAccentColorAttribute(color);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     return (
-
-        <CheckboxGroupPrimitive.Root ref={ref} className={clsx(`${rootClass}-root`, rootClass, className)} {...props} {...composedAttributes()}>
-            <CheckboxCardsRootContext.Provider value={{ rootClass }}>
+        <CheckboxCardsRootContext.Provider value={{ rootClass }}>
+            <CheckboxGroupPrimitive.Root
+                ref={ref}
+                className={clsx(rootClass && `${rootClass}-root`, rootClass, className)}
+                {...props}
+                {...composedAttributes}
+                orientation={orientation}
+            >
 
                 {children}
 
-            </CheckboxCardsRootContext.Provider>
-        </CheckboxGroupPrimitive.Root>
+            </CheckboxGroupPrimitive.Root>
+        </CheckboxCardsRootContext.Provider>
     );
 });
 

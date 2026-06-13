@@ -1,0 +1,18 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import SkeletonExample from "./docs/example_1"
+import { code, anatomy, api_documentation } from "./docs/codeUsage"
+
+<Documentation
+    title="Skeleton"
+    description="A loading placeholder that mimics the shape of content. When loading is false, it renders its children instead."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <SkeletonExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['skeleton']}
+    />
+</Documentation>

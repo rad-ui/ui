@@ -88,7 +88,7 @@ describe('Dialog', () => {
         error.mockRestore();
     });
 
-    test('mounts in portal, traps focus, returns focus and locks scroll', async () => {
+    test('mounts in portal, traps focus, returns focus and locks scroll', async() => {
         const user = userEvent.setup();
         const { getByText, portalRoot, cleanup } = renderWithPortal(
             <Dialog.Root>
@@ -110,5 +110,24 @@ describe('Dialog', () => {
         await waitFor(() => assertScrollUnlock());
         cleanup();
     });
-});
 
+    test('renders under StrictMode without console errors', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { getByText, unmount } = render(
+            <React.StrictMode>
+                <Dialog.Root open>
+                    <Dialog.Trigger>Open</Dialog.Trigger>
+                    <Dialog.Content>
+                        <Dialog.Title>Title</Dialog.Title>
+                        <Dialog.Close>Close</Dialog.Close>
+                    </Dialog.Content>
+                </Dialog.Root>
+            </React.StrictMode>
+        );
+
+        expect(getByText('Title')).toBeInTheDocument();
+        unmount();
+        expect(errorSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+    });
+});

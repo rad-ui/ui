@@ -1,0 +1,81 @@
+# Setting Up Dev Environment
+
+## Cloning the repository
+
+Follow these steps to set up your development environment:
+
+- Fork the repository: Create a fork of the Rad UI repository to your GitHub account.
+- Clone the repository: Clone your forked repository to your local machine.
+- Install root dependencies: Run
+
+```bash
+npm install
+```
+
+in the repository root. The component library uses `npm`.
+
+## Understanding the code structure
+
+The project is organized into these main directories:
+
+- docs: Contains the documentation website built with Next.js and Tailwind CSS. You're currently reading content from this directory. Use global search to quickly locate specific documentation.
+- src: Contains the core component library source code.
+- scripts: Contains utility scripts for building and managing library assets.
+- styles: Contains the production-ready component styles.
+
+Take some time to explore the codebase and understand its structure. The organization is straightforward, making it easy to start contributing once you're familiar with it.
+
+## Running Storybook
+
+We use Storybook for component development and testing. You can explore our existing components and work-in-progress features in the WIP section. Storybook is essential for developing and testing new components.
+
+To start Storybook, run 
+
+```bash
+npm run sb
+```
+
+in the root directory.
+
+## Running the Documentation Website Dev Server
+
+To work on the documentation website, you'll need to run the development server. This is necessary for updating existing documentation, adding new pages, or modifying components.
+
+The docs app uses `pnpm`, not `npm`.
+
+First, navigate to the docs directory:
+
+```bash
+cd docs
+```
+
+Then install the dependencies:
+
+```bash
+pnpm install
+```
+
+Then start the Next.js development server:
+
+```bash
+pnpm dev
+```
+
+## Testing local library changes in the docs app
+
+If you are changing the library and want the docs app to consume your local build:
+
+From the repository root:
+
+```bash
+npm run build:rollup
+npm link
+```
+
+Then from `docs`:
+
+```bash
+pnpm link @radui/ui
+pnpm dev
+```
+

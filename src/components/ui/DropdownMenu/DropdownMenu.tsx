@@ -6,6 +6,7 @@ import DropdownMenuPortal from './fragments/DropdownMenuPortal';
 import DropdownMenuItem from './fragments/DropdownMenuItem';
 import DropdownMenuSub from './fragments/DropdownMenuSub';
 import DropdownMenuSubTrigger from './fragments/DropdownMenuSubTrigger';
+import DropdownMenuSeparator from './fragments/DropdownMenuSeparator';
 
 export type DropdownMenuElement = ElementRef<'div'>;
 export type DropdownMenuProps = ComponentPropsWithoutRef<'div'>;
@@ -18,6 +19,7 @@ type DropdownMenuComponent = React.ForwardRefExoticComponent<DropdownMenuProps &
     Item: typeof DropdownMenuItem;
     Sub: typeof DropdownMenuSub;
     SubTrigger: typeof DropdownMenuSubTrigger;
+    Separator : typeof DropdownMenuSeparator;
 };
 
 const DropdownMenu = forwardRef<DropdownMenuElement, DropdownMenuProps>((_props, _ref) => {
@@ -34,5 +36,14 @@ DropdownMenu.Portal = DropdownMenuPortal;
 DropdownMenu.Item = DropdownMenuItem;
 DropdownMenu.Sub = DropdownMenuSub;
 DropdownMenu.SubTrigger = DropdownMenuSubTrigger;
+DropdownMenu.Separator = DropdownMenuSeparator;
 
+export type { DropdownMenuRootProps } from './fragments/DropdownMenuRoot';
+export type { DropdownMenuTriggerProps } from './fragments/DropdownMenuTrigger';
+export type { DropdownMenuContentProps } from './fragments/DropdownMenuContent';
+export type { DropdownMenuPortalProps } from './fragments/DropdownMenuPortal';
+export type { DropdownMenuItemProps } from './fragments/DropdownMenuItem';
+export type { DropdownMenuSubProps } from './fragments/DropdownMenuSub';
+export type { DropdownMenuSubTriggerProps } from './fragments/DropdownMenuSubTrigger';
+export type { DropdownMenuSeparatorProps } from './fragments/DropdownMenuSeparator';
 export default DropdownMenu;

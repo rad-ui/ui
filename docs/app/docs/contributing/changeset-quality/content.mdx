@@ -1,0 +1,52 @@
+# Changeset quality rubric
+
+Every user-visible change should have a **clear changeset** so maintainers can produce accurate release notes.
+
+## Required content
+
+- **What changed** in plain language (not only a PR title).
+- **Who is affected** (app developers, design-system consumers, Storybook readers, etc.).
+- **How to adopt** the change when it is not obvious (new prop, renamed export, new CSS dependency).
+
+## Breaking changes
+
+When `"@radui/ui": major` is used in a changeset:
+
+- Include an explicit marker such as **`BREAKING:`** or the phrase **Breaking change** in the changeset body.
+- Describe **before / after** usage or point to a migration section in docs.
+
+The repository validates this rule in CI for major bumps (see `scripts/validate-changesets.mjs`).
+
+## Examples
+
+**Patch / minor (good)**
+
+```md
+---
+"@radui/ui": patch
+---
+
+Fix Tooltip positioning when the anchor scrolls inside a transformed parent.
+```
+
+**Major (good)**
+
+```md
+---
+"@radui/ui": major
+---
+
+Breaking change: `Dialog` now requires a `Title` part for accessibility. Migrate by wrapping titles with `Dialog.Title` or pass `aria-labelledby` as documented.
+```
+
+**Major (needs improvement)**
+
+```md
+---
+"@radui/ui": major
+---
+
+Update Dialog
+```
+
+The last example will fail CI until it documents the breaking behavior.

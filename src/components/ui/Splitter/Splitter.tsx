@@ -46,4 +46,7 @@ Splitter.Root = SplitterRoot;
 Splitter.Panel = SplitterPanel;
 Splitter.Handle = SplitterHandle;
 
+export type { SplitterRootProps } from './fragments/SplitterRoot';
+export type { SplitterPanelProps } from './fragments/SplitterPanel';
+export type { SplitterHandleProps } from './fragments/SplitterHandle';
 export default Splitter;

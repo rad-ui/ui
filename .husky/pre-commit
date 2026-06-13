@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-npm test
+HUSKY_HELPER="$(dirname -- "$0")/_/husky.sh"
 
+if [ ! -f "$HUSKY_HELPER" ]; then
+  echo "Husky is not bootstrapped in this checkout."
+  echo "Run 'npm install' or 'npm run prepare' from the repository root, then retry the commit."
+  exit 1
+fi
+
+. "$HUSKY_HELPER"
+npm run check:exports
 npm run lint:staged

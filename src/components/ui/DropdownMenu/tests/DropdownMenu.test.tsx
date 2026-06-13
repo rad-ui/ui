@@ -70,7 +70,7 @@ describe('DropdownMenu', () => {
         expect(container.firstChild).toBeNull();
     });
 
-    it('renders in portal and returns focus when closed', async () => {
+    it('renders in portal and returns focus when closed', async() => {
         const user = userEvent.setup();
         const { getByText, portalRoot, cleanup } = renderWithPortal(
             <DropdownMenu.Root>

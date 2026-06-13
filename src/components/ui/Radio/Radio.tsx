@@ -3,9 +3,9 @@ import React from 'react';
 import RadioPrimitive, { RadioPrimitiveProps } from '~/core/primitives/Radio';
 
 import clsx from 'clsx';
-import { customClassSwitcher } from '~/core';
+import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
-import { useCreateDataAttribute, useComposeAttributes, useCreateDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 
 const COMPONENT_NAME = 'Radio';
 
@@ -23,12 +23,12 @@ const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
     { name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props },
     ref
 ) {
-    const rootClass = customClassSwitcher(customRootClass, COMPONENT_NAME);
+    const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [isChecked, setIsChecked] = React.useState(checked);
 
-    const dataAttributes = useCreateDataAttribute('button', { variant, size });
-    const accentAttributes = useCreateDataAccentColorAttribute(color);
-    const composedAttributes = useComposeAttributes(dataAttributes(), accentAttributes());
+    const dataAttributes = createDataAttributes('button', { variant, size });
+    const accentAttributes = createDataAccentColorAttribute(color);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     const handleChange = () => {
         if (onChange) {
@@ -49,7 +49,7 @@ const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
             asChild={asChild}
             className={clsx(rootClass, className)}
             data-checked={isChecked}
-            {...composedAttributes()}
+            {...composedAttributes}
             {...props}
         />
 

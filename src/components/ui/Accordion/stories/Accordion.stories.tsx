@@ -1,8 +1,9 @@
 import Accordion from '../Accordion';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import Button from '../../Button/Button';
 import React from 'react';
+import { ChevronDown } from 'lucide-react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Accordion> = {
@@ -21,21 +22,6 @@ const meta: Meta<typeof Accordion> = {
 
 export default meta;
 type Story = StoryObj<any>;
-
-const ChevronDownIcon = () => {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="transition-transform duration-200 ease-in-out [.rad-ui-accordion-item[data-state=open]_&]:rotate-180"
-        >
-            <path d="M12 15L6 9L7.41 7.59L12 12.17L16.59 7.59L18 9L12 15Z" fill="currentColor"/>
-        </svg>
-    );
-};
 
 const items = [
     {
@@ -80,20 +66,53 @@ const items = [
     }
 ];
 
+const longItems = Array.from({ length: 10 }, (_, index) => ({
+    title: `Section ${index + 1}`,
+    disabled: index === 4 || index === 6,
+    content: (
+        <div>
+            <p>{`Details for section ${index + 1}.`}</p>
+            <p>{'This item is part of a longer accordion list for interaction and disabled-state coverage.'}</p>
+        </div>
+    )
+}));
+
 // Create a sample Accordion using the composable API
 const AccordionExample = ({ ...args }) => {
     return (
         <div className="w-[600px] mx-auto mt-10">
-            <Accordion.Root {...args}>
+            <Accordion.Root collapsible {...args}>
                 {items.map((item, index) => (
-                    <Accordion.Item value={index} key={index}>
+                    <Accordion.Item value={`${index}`} key={index}>
                         <Accordion.Header>
-                            <Accordion.Trigger className="flex items-center justify-between gap-2">
+                            <Accordion.Trigger>
                                 {item.title}
-                                <ChevronDownIcon />
+                                <ChevronDown />
                             </Accordion.Trigger>
                         </Accordion.Header>
-                        <Accordion.Content index={index}>
+                        <Accordion.Content>
+                            {item.content}
+                        </Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        </div>
+    );
+};
+
+const LongAccordionExample = ({ ...args }) => {
+    return (
+        <div className="w-[600px] mx-auto mt-10">
+            <Accordion.Root collapsible {...args}>
+                {longItems.map((item, index) => (
+                    <Accordion.Item value={`${index}`} key={index} disabled={item.disabled}>
+                        <Accordion.Header>
+                            <Accordion.Trigger>
+                                {item.title}
+                                <ChevronDown />
+                            </Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content>
                             {item.content}
                         </Accordion.Content>
                     </Accordion.Item>
@@ -108,31 +127,50 @@ export const All: Story = {
     render: () => <AccordionExample />
 };
 
-export const WithAnimation: Story = {
-    render: () => <AccordionExample transitionDuration={200} />
+export const OpenMultiple: Story = {
+    render: () => <AccordionExample type="multiple" />
 };
 
-export const OpenMultiple: Story = {
-    render: () => <AccordionExample openMultiple />
+export const LongListWithDisabledItems: Story = {
+    render: () => <LongAccordionExample />
 };
 
 export const WithDeafultValue: Story = {
-    render: () => <AccordionExample defaultValue={[2]} />
+    render: () => <AccordionExample defaultValue="2" />
 };
 
 export const ControlledValue: Story = {
     render: () => {
-        const [value, setValue] = React.useState<number[]>([]);
+        const [multipleValue, setMultipleValue] = React.useState<string[]>([]);
+        const [singleValue, setSingleValue] = React.useState<string | undefined>(undefined);
         const [multiple, setMultiple] = React.useState(false);
 
         return (
             <>
                 <Button onClick={() => setMultiple(!multiple)}>{`Toggle Open Multiple (${multiple ? 'on' : 'off'})`}</Button>
-                <Button onClick={() => setValue([])}>Close All</Button>
-                <Button onClick={() => setValue([1])}>Open 2</Button>
-                <Button onClick={() => setValue([0])}>Open 0</Button>
-                <Button onClick={() => setValue([0, 1])}>Open 0, 1</Button>
-                <AccordionExample value={value} onValueChange={setValue} openMultiple={multiple} />
+                <Button
+                    onClick={() => {
+                        setSingleValue(undefined);
+                        setMultipleValue([]);
+                    }}>Close All</Button>
+                <Button
+                    onClick={() => {
+                        setSingleValue('1');
+                        setMultipleValue(['1']);
+                    }}>Open 2</Button>
+                <Button
+                    onClick={() => {
+                        setSingleValue('0');
+                        setMultipleValue(['0']);
+                    }}>Open 0</Button>
+                <Button onClick={() => setMultipleValue(['0', '1'])}>Open 0, 1</Button>
+                {multiple
+                    ? (
+                        <AccordionExample value={multipleValue} onValueChange={setMultipleValue} type="multiple" />
+                    )
+                    : (
+                        <AccordionExample value={singleValue} onValueChange={setSingleValue} type="single" />
+                    )}
             </>
         );
     }

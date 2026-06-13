@@ -4,33 +4,29 @@ import posthog from "posthog-js"
 import { PostHogProvider as PHProvider } from "posthog-js/react"
 import { useEffect } from "react"
 
+const postHogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim()
+const hasPostHogKey =
+  typeof postHogKey === "string" &&
+  postHogKey.length > 0 &&
+  postHogKey !== "your_posthog_api_key_here"
+
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-
-    // Only initialize PostHog if the API key is available
-    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-      console.warn('PostHog API key not found. PostHog will not be initialized.')
+    if (!hasPostHogKey) {
       return
     }
 
-    console.log('Initializing PostHog...')
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+    posthog.init(postHogKey, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.posthog.com",
       ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.posthog.com",
-      defaults: '2025-05-24',
-      capture_exceptions: true, // This enables capturing exceptions using Error Tracking
-      debug: process.env.NODE_ENV === "development",
-      loaded: (posthog) => {
-        if (process.env.NODE_ENV === "development") {
-          console.log('PostHog loaded successfully')
-          posthog.capture('my event', { property: 'value' })
-        }
-      },
+      defaults: "2025-05-24",
+      autocapture: false,
+      capture_exceptions: true,
+      debug: false,
     })
   }, [])
 
-  // If no API key, avoid mounting the provider to prevent extensions from loading
-  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+  if (!hasPostHogKey) {
     return <>{children}</>
   }
 

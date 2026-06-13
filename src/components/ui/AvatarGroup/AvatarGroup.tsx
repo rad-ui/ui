@@ -20,4 +20,8 @@ AvatarGroup.Item = AvatarGroupItem;
 AvatarGroup.Avatar = AvatarGroupAvatar;
 AvatarGroup.Fallback = AvatarGroupFallback;
 
+export type { AvatarGroupRootProps } from './fragments/AvatarGroupRoot';
+export type { AvatarGroupItemProps } from './fragments/AvatarGroupItem';
+export type { AvatarGroupAvatarProps } from './fragments/AvatarGroupAvatar';
+export type { AvatarGroupFallbackProps } from './fragments/AvatarGroupFallback';
 export default AvatarGroup;
