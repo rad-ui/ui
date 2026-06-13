@@ -160,6 +160,10 @@ export const docsNavigationSections = [
             {
                 title:"Design System Integration",
                 path:"/docs/guides/design-system-integration"
+            },
+            {
+                title:"Migration Guides",
+                path:"/docs/guides/migration-guides"
             }
         ]
     },
