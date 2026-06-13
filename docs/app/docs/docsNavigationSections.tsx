@@ -156,6 +156,10 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/naming-conventions"
             },
             {
+                title:"Barrel Export Policy",
+                path:"/docs/contributing/barrel-export-policy"
+            },
+            {
                 title:"Security & Dependency SLA",
                 path:"/docs/contributing/security-dependency-sla"
             },
