@@ -132,6 +132,10 @@ export const docsNavigationSections = [
             {
                 title:"Framework Usage",
                 path:"/docs/guides/framework-usage"
+            },
+            {
+                title:"Screen Reader Testing",
+                path:"/docs/guides/screen-reader-testing"
             }
         ]
     },
