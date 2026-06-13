@@ -7,6 +7,7 @@ import TableHead from './fragments/TableHead';
 import TableBody from './fragments/TableBody';
 import TableRow from './fragments/TableRow';
 import TableColumnCellHeader from './fragments/TableColumnCellHeader';
+import TableColumnResizeHandle from './fragments/TableColumnResizeHandle';
 import TableCell from './fragments/TableCell';
 
 // Empty props type - only supporting fragment exports
@@ -24,6 +25,7 @@ interface TableComponent
     Row: typeof TableRow;
     Cell: typeof TableCell;
     ColumnCellHeader: typeof TableColumnCellHeader;
+    ColumnResizeHandle: typeof TableColumnResizeHandle;
 }
 
 // Empty implementation - we don't support direct usage
@@ -46,11 +48,14 @@ Table.Head = TableHead;
 Table.Row = TableRow;
 Table.Cell = TableCell;
 Table.ColumnCellHeader = TableColumnCellHeader;
+Table.ColumnResizeHandle = TableColumnResizeHandle;
 
-export type { TableRootProps } from './fragments/TableRoot';
+export type { TableRootProps, TableResizeHandleVisibility } from './fragments/TableRoot';
 export type { TableBodyProps } from './fragments/TableBody';
 export type { TableHeadProps } from './fragments/TableHead';
 export type { TableRowProps } from './fragments/TableRow';
 export type { TableCellProps } from './fragments/TableCell';
 export type { TableColumnCellHeaderProps } from './fragments/TableColumnCellHeader';
+export type { TableColumnResizeHandleProps } from './fragments/TableColumnResizeHandle';
+export { useTable } from './fragments/TableRoot';
 export default Table;
