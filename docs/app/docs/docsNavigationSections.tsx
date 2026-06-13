@@ -94,6 +94,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
+                title:"Styling & Customization",
+                path:"/docs/guides/styling-and-customization"
+            },
+            {
                 title:"Browser Support",
                 path:"/docs/guides/browser-support"
             },
@@ -116,6 +120,18 @@ export const docsNavigationSections = [
             {
                 title:"SSR & No-JS Fallback",
                 path:"/docs/guides/ssr-and-no-js-fallback"
+            },
+            {
+                title:"Performance",
+                path:"/docs/guides/performance"
+            },
+            {
+                title:"Large Lists & Virtualization",
+                path:"/docs/guides/large-lists-and-virtualization"
+            },
+            {
+                title:"Framework Usage",
+                path:"/docs/guides/framework-usage"
             }
         ]
     },
@@ -140,6 +156,10 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/naming-conventions"
             },
             {
+                title:"Barrel Export Policy",
+                path:"/docs/contributing/barrel-export-policy"
+            },
+            {
                 title:"Security & Dependency SLA",
                 path:"/docs/contributing/security-dependency-sla"
             },
@@ -148,8 +168,16 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/contributor-checklist"
             },
             {
+                title:"API Review Checklist",
+                path:"/docs/contributing/api-review-checklist"
+            },
+            {
                 title:"Flaky Test Quarantine",
                 path:"/docs/contributing/flaky-test-quarantine"
+            },
+            {
+                title:"Snapshot Testing Policy",
+                path:"/docs/contributing/snapshot-testing-policy"
             },
             {
                 title:"Release Candidate Checklist",
@@ -162,12 +190,15 @@ export const docsNavigationSections = [
             {
                 title:"Changeset Quality",
                 path:"/docs/contributing/changeset-quality"
-            ,
+            },
+            {
+                title:"Side Effects & Tree-shaking",
+                path:"/docs/contributing/side-effects-and-tree-shaking"
+            },
             {
                 title:"Component Docs",
                 path:"/docs/contributing/component-docs-features"
             }
-        ]
         ]
     }
     // {
