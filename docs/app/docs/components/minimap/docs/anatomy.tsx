@@ -3,11 +3,11 @@ import Minimap from "@radui/ui/Minimap"
 export default () => {
     return (
         <Minimap.Provider>
-            <Minimap.Waypoint id="section" label="Section" />
+            <Minimap.Waypoint value="section" />
             <Minimap.Root>
                 <Minimap.Track>
                     <Minimap.Content>
-                        <Minimap.Item id="section">
+                        <Minimap.Item value="section">
                             <Minimap.Bubble />
                             <Minimap.Line />
                         </Minimap.Item>
