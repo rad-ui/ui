@@ -1,0 +1,48 @@
+# Screen reader testing matrix
+
+Manual QA guidance for validating Rad UI with NVDA, JAWS, and VoiceOver.
+
+Automated tests catch regressions in roles and labels; screen reader testing catches real announcement and reading-order issues.
+
+## Recommended matrix
+
+| Platform | Screen reader | Browser | Priority flows |
+| --- | --- | --- | --- |
+| Windows | NVDA | Firefox or Chrome | Dialog, Menu, Select, Tabs |
+| Windows | JAWS | Chrome | Forms, Tables, Tree |
+| macOS | VoiceOver | Safari | Overlays, Disclosure, Navigation |
+| iOS | VoiceOver | Safari | Mobile touch + focus |
+| Android | TalkBack | Chrome | Mobile menus, toasts |
+
+You do not need every cell for every change. Test the **component family you touched** on at least one platform.
+
+## Per-flow script
+
+For each flow, verify:
+
+1. **Name** — control has an accessible name (visible label, `aria-label`, or `aria-labelledby`)
+2. **Role** — announced role matches intent (button, combobox, tab, etc.)
+3. **State** — expanded/checked/selected/disabled states are announced when they change
+4. **Focus** — focus moves predictably on open, close, and activation
+5. **Live regions** — async updates (toasts, validation) are announced without stealing focus inappropriately
+
+## Component-specific notes
+
+- **Overlays** — opening should move reading cursor into the overlay; closing should return to trigger
+- **Menus** — item count and position in set should be sensible; disabled items skipped
+- **Tabs** — selected tab announced; panel associated via `aria-labelledby` / `aria-controls`
+- **Forms** — errors linked with `aria-describedby`; invalid fields expose `aria-invalid`
+
+## Reporting issues
+
+Include in GitHub issues:
+
+- OS, browser, screen reader + version
+- Steps and expected vs actual announcement
+- Whether the problem is focus, name, role, or state
+
+## Related docs
+
+- [Accessibility](/docs/guides/accessibility)
+- [IME / Input Method QA](/docs/guides/ime-input-method-qa)
+- [Mobile & Touch QA](/docs/guides/mobile-touch-qa)

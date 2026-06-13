@@ -1,0 +1,39 @@
+# Component docs: Anatomy section
+
+Template for the **Anatomy** section on component docs pages.
+
+## Purpose
+
+Show the public part tree consumers should compose — not incidental internal wrappers.
+
+## Required content
+
+1. **Minimal example** — smallest working usage (one import path, required parts only)
+2. **Anatomy diagram or code tree** — list `Root`, `Trigger`, `Content`, etc.
+3. **Advanced example** (optional) — realistic pattern with labels, descriptions, or portals
+
+## MDX pattern
+
+Component pages already support anatomy via `docs/anatomy.tsx` and `Documentation.ApiReference`. When adding a new component:
+
+```tsx
+// docs/anatomy.tsx — public parts only
+import Dialog from '@radui/ui/Dialog'
+
+export default () => (
+  <Dialog.Root>
+    <Dialog.Trigger>Open</Dialog.Trigger>
+    <Dialog.Content>
+      <Dialog.Title>Title</Dialog.Title>
+      <Dialog.Close>Close</Dialog.Close>
+    </Dialog.Content>
+  </Dialog.Root>
+)
+```
+
+## Checklist
+
+- [ ] Every public part used in examples is exported and documented in API tables
+- [ ] Minimal example runs in Storybook and docs
+- [ ] Advanced example reflects a realistic product pattern documented in guides
+- [ ] No private/internal nodes in anatomy snippets
