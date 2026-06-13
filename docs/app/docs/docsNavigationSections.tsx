@@ -197,6 +197,10 @@ export const docsNavigationSections = [
             },
             {
                 title:"Component Docs",
+                path:"/docs/contributing/component-docs-styling"
+            },
+            {
+                title:"Component Docs",
                 path:"/docs/contributing/component-docs-anatomy"
             }
         ]
