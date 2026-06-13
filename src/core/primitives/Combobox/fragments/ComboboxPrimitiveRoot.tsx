@@ -5,7 +5,7 @@ import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
-import { useIsInsideForm } from '~/core/hooks/useIsInsideFrom';
+import { useIsInsideForm } from '~/core/hooks/useIsInsideForm';
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'start' | 'center' | 'end';
