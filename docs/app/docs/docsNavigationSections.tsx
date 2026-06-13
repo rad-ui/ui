@@ -186,6 +186,10 @@ export const docsNavigationSections = [
             {
                 title:"Changeset Quality",
                 path:"/docs/contributing/changeset-quality"
+            },
+            {
+                title:"Side Effects & Tree-shaking",
+                path:"/docs/contributing/side-effects-and-tree-shaking"
             }
         ]
     }
