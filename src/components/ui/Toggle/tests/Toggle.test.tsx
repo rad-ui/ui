@@ -27,7 +27,7 @@ describe('Toggle component', () => {
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
 
         // Click toggle
-        fireEvent.click(container.firstChild);
+        fireEvent.click(container.firstChild as HTMLElement);
 
         // onPressedChange should be called with true
         expect(handleChange).toHaveBeenCalledWith(true);
@@ -49,7 +49,7 @@ describe('Toggle component', () => {
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'false');
 
         // Click toggle
-        fireEvent.click(container.firstChild);
+        fireEvent.click(container.firstChild as HTMLElement);
 
         // onPressedChange should be called with true
         expect(handleChange).toHaveBeenCalledWith(true);
@@ -58,7 +58,7 @@ describe('Toggle component', () => {
         expect(container.firstChild).toHaveAttribute('aria-pressed', 'true');
 
         // Click again
-        fireEvent.click(container.firstChild);
+        fireEvent.click(container.firstChild as HTMLElement);
 
         // onPressedChange should be called with false
         expect(handleChange).toHaveBeenCalledWith(false);
@@ -122,7 +122,7 @@ describe('Toggle component', () => {
     });
 
     test('forwards ref to underlying element', () => {
-        const ref = React.createRef();
+        const ref = React.createRef<HTMLButtonElement>();
         const { getByText } = render(<Toggle ref={ref} onPressedChange={() => {}}>Ref Toggle</Toggle>);
         expect(ref.current).toBe(getByText('Ref Toggle'));
     });
