@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "app/docs/**/docs/**/*.ts",
+    "app/docs/**/docs/**/*.tsx",
+    "app/docs/**/examples/**/*.ts",
+    "app/docs/**/examples/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "app/docs/components/toast/**"
+  ]
+}
