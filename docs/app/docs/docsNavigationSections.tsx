@@ -144,6 +144,10 @@ export const docsNavigationSections = [
             {
                 title:"Keyboard Interaction Spec",
                 path:"/docs/guides/keyboard-interaction-spec"
+            },
+            {
+                title:"Controlled & Uncontrolled Forms",
+                path:"/docs/guides/controlled-uncontrolled-forms"
             }
         ]
     },
