@@ -94,8 +94,8 @@ export const docsNavigationSections = [
                 path:"/docs/guides/accessibility"
             },
             {
-                title:"Design System Integration",
-                path:"/docs/guides/design-system-integration"
+                title:"Styling & Customization",
+                path:"/docs/guides/styling-and-customization"
             },
             {
                 title:"Browser Support",
@@ -120,6 +120,18 @@ export const docsNavigationSections = [
             {
                 title:"SSR & No-JS Fallback",
                 path:"/docs/guides/ssr-and-no-js-fallback"
+            },
+            {
+                title:"Performance",
+                path:"/docs/guides/performance"
+            },
+            {
+                title:"Large Lists & Virtualization",
+                path:"/docs/guides/large-lists-and-virtualization"
+            },
+            {
+                title:"Design System Integration",
+                path:"/docs/guides/design-system-integration"
             }
         ]
     },
@@ -154,6 +166,10 @@ export const docsNavigationSections = [
             {
                 title:"Flaky Test Quarantine",
                 path:"/docs/contributing/flaky-test-quarantine"
+            },
+            {
+                title:"Snapshot Testing Policy",
+                path:"/docs/contributing/snapshot-testing-policy"
             },
             {
                 title:"Release Candidate Checklist",
