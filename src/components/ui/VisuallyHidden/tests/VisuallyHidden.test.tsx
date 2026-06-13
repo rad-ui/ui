@@ -125,7 +125,7 @@ describe('VisuallyHidden Component', () => {
     test('handles empty children gracefully', () => {
         const { container } = render(<VisuallyHidden />);
         // Should render a div element even without children
-        const element = container.firstChild;
+        const element = container.firstChild as HTMLElement;
         expect(element).toBeInTheDocument();
         expect(element.tagName).toBe('DIV');
         expect(element).toHaveStyle({
@@ -148,7 +148,7 @@ describe('VisuallyHidden Component', () => {
     });
 
     test('forwards ref to underlying element', () => {
-        const ref = React.createRef();
+        const ref = React.createRef<HTMLElement>();
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         render(<VisuallyHidden ref={ref}>Hidden content</VisuallyHidden>);

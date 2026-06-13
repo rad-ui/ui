@@ -36,7 +36,7 @@ describe('AvatarGroup', () => {
     test('AvatarGroup applies className correctly', () => {
         const customClass = 'acme-corp';
         render(<Comp className={customClass} />);
-        expect(screen.getByText('A').parentElement.parentElement).toHaveClass(customClass);
+        expect(screen.getByText('A').parentElement!.parentElement).toHaveClass(customClass);
     });
 
     test('AvatarGroup renders correct number of avatars', () => {
@@ -64,10 +64,10 @@ describe('AvatarGroup', () => {
     });
 
     test('forwards refs to subcomponents', () => {
-        const rootRef = React.createRef();
-        const itemRef = React.createRef();
-        const avatarRef = React.createRef();
-        const fallbackRef = React.createRef();
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLElement>();
+        const avatarRef = React.createRef<HTMLElement>();
+        const fallbackRef = React.createRef<HTMLElement>();
         render(
             <AvatarGroup.Root ref={rootRef}>
                 <AvatarGroup.Item ref={itemRef}>
