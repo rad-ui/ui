@@ -142,6 +142,14 @@ export const docsNavigationSections = [
                 path:"/docs/guides/screen-reader-testing"
             },
             {
+                title:"Keyboard Interaction Spec",
+                path:"/docs/guides/keyboard-interaction-spec"
+            },
+            {
+                title:"Controlled & Uncontrolled Forms",
+                path:"/docs/guides/controlled-uncontrolled-forms"
+            },
+            {
                 title:"Hidden Input Strategies",
                 path:"/docs/guides/hidden-input-strategies"
             }
