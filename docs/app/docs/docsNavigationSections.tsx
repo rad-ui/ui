@@ -152,6 +152,10 @@ export const docsNavigationSections = [
             {
                 title:"Hidden Input Strategies",
                 path:"/docs/guides/hidden-input-strategies"
+            },
+            {
+                title:"Composition Recipes",
+                path:"/docs/guides/composition-recipes"
             }
         ]
     },
