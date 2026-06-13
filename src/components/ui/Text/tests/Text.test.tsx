@@ -69,30 +69,30 @@ describe('Text Component', () => {
     });
 
     test('renders Text component as a default <p> tag when "as" is a number', () => {
-        render(<Text as= {0} >I am Text!</Text>);
+        render(<Text as={0 as unknown as string}>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
     test('renders Text component as a default <p> tag when "as" is an array', () => {
-        render(<Text as = {['testing', 'text']} >I am Text!</Text>);
+        render(<Text as={['testing', 'text'] as unknown as string}>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
     test('renders Text component as a default <p> tag when "as" is a false boolean', () => {
-        render(<Text as={false} >I am Text!</Text>);
+        render(<Text as={false as unknown as string}>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
     test('renders Text component as a default <p> tag when "as" is true boolean', () => {
-        render(<Text as={true} >I am Text!</Text>);
+        render(<Text as={true as unknown as string}>I am Text!</Text>);
         expect(screen.getByText('I am Text!')).toHaveProperty('tagName', 'P');
     });
 
     test('forwards ref to the underlying element', () => {
-        const ref = React.createRef();
+        const ref = React.createRef<HTMLParagraphElement>();
         render(<Text ref={ref}>I am Text!</Text>);
         expect(ref.current).not.toBeNull();
-        expect(ref.current.tagName).toBe('P');
+        expect(ref.current!.tagName).toBe('P');
     });
 
     test('passes through accessibility attributes', () => {

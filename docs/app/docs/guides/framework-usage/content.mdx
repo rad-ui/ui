@@ -1,0 +1,173 @@
+# Framework usage
+
+Minimal setup patterns for using Rad UI in **Vite**, **Next.js App Router**, and **Remix**.
+
+For SSR pitfalls, see [Troubleshooting](/docs/guides/troubleshooting).
+
+## Shared setup
+
+Install the package:
+
+```bash
+npm install @radui/ui
+```
+
+Import components from per-component entrypoints:
+
+```tsx
+import Button from '@radui/ui/Button'
+import Theme from '@radui/ui/Theme'
+```
+
+Optional default theme styles:
+
+```tsx
+import '@radui/ui/themes/default.css'
+```
+
+Wrap interactive UI with `Theme` when you use Rad UI's tokenized styles or generated `classNamespace` classes.
+
+## Vite + React
+
+Vite works with Rad UI out of the box. No special SSR configuration is required for a client-rendered SPA.
+
+```tsx
+// src/main.tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import '@radui/ui/themes/default.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
+```
+
+```tsx
+// src/App.tsx
+import Theme from '@radui/ui/Theme'
+import Button from '@radui/ui/Button'
+
+export default function App() {
+  return (
+    <Theme appearance="light" accentColor="indigo">
+      <Button>Get started</Button>
+    </Theme>
+  )
+}
+```
+
+**Notes**
+
+- Prefer per-component imports for tree-shaking.
+- Add your own global styles or Tailwind preset alongside the optional Rad UI theme CSS.
+
+## Next.js App Router
+
+Rad UI components are client-side interaction primitives. Place them in a **Client Component** file.
+
+```tsx
+// app/providers.tsx
+'use client'
+
+import Theme from '@radui/ui/Theme'
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <Theme appearance="system" accentColor="gray">
+      {children}
+    </Theme>
+  )
+}
+```
+
+```tsx
+// app/layout.tsx
+import { Providers } from './providers'
+import '@radui/ui/themes/default.css'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+```tsx
+// app/page.tsx
+'use client'
+
+import Button from '@radui/ui/Button'
+
+export default function HomePage() {
+  return <Button>Save</Button>
+}
+```
+
+**Notes**
+
+- Import Rad UI only from files marked with `'use client'` when they use state, effects, or event handlers.
+- Keep server components free of interactive Rad UI imports unless they only re-export static markup wrappers you control.
+- The docs app in this repository is a Next.js App Router consumer and is built in CI for compatibility smoke coverage.
+
+## Remix
+
+Remix can SSR Rad UI markup, but interactive behavior still hydrates on the client.
+
+```tsx
+// app/root.tsx
+import type { LinksFunction } from '@remix-run/node'
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import themeStyles from '@radui/ui/themes/default.css?url'
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: themeStyles }]
+
+export default function App() {
+  return (
+    <html lang="en">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+```
+
+```tsx
+// app/routes/_index.tsx
+import Theme from '@radui/ui/Theme'
+import Button from '@radui/ui/Button'
+
+export default function Index() {
+  return (
+    <Theme appearance="light">
+      <Button>Continue</Button>
+    </Theme>
+  )
+}
+```
+
+**Notes**
+
+- Load theme CSS through Remix `links` so styles are present on the first server render.
+- Avoid reading browser-only APIs during the initial render path.
+
+## Choosing a pattern
+
+| Framework | Rad UI entry | Theme CSS | Client boundary |
+| --- | --- | --- | --- |
+| Vite SPA | `main.tsx` | import in entry | not required for SPA |
+| Next.js App Router | `providers.tsx` + route components | `layout.tsx` | `'use client'` for interactive components |
+| Remix | `root.tsx` + routes | `links` export | route components hydrate automatically |

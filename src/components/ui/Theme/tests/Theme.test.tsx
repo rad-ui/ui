@@ -148,4 +148,90 @@ describe('Theme', () => {
 
         expect(themeDiv).not.toHaveClass('rad-ui-theme');
     });
+
+    test('renders under StrictMode without console errors', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { unmount } = render(
+            <React.StrictMode>
+                <Theme appearance="light">content</Theme>
+            </React.StrictMode>
+        );
+
+        expect(screen.getByText('content')).toBeVisible();
+        unmount();
+        expect(errorSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
+    });
+    describe('nested Theme providers', () => {
+        const mockMatchMedia = () => {
+            window.matchMedia = jest.fn().mockReturnValue({
+                matches: false,
+                addEventListener: jest.fn(),
+                removeEventListener: jest.fn()
+            } as unknown as MediaQueryList);
+        };
+
+        test('scopes appearance and accent metadata to each provider subtree', () => {
+            mockMatchMedia();
+
+            const { container } = render(
+                <Theme appearance="light" accentColor="gray" data-testid="outer-theme">
+                    <span data-testid="outer-content">outer</span>
+                    <Theme appearance="dark" accentColor="tomato" data-testid="inner-theme">
+                        <span data-testid="inner-content">inner</span>
+                    </Theme>
+                </Theme>
+            );
+
+            const outerTheme = screen.getByTestId('outer-theme');
+            const innerTheme = screen.getByTestId('inner-theme');
+
+            expect(outerTheme).toHaveAttribute('data-rad-ui-theme', 'light');
+            expect(outerTheme).toHaveAttribute('data-rad-ui-accent-color', 'gray');
+            expect(innerTheme).toHaveAttribute('data-rad-ui-theme', 'dark');
+            expect(innerTheme).toHaveAttribute('data-rad-ui-accent-color', 'tomato');
+            expect(outerTheme).toContainElement(screen.getByTestId('outer-content'));
+            expect(innerTheme).toContainElement(screen.getByTestId('inner-content'));
+            expect(container.querySelectorAll('[data-rad-ui-portal-root]')).toHaveLength(2);
+        });
+
+        test('provides independent classNamespace values through nested context', () => {
+            mockMatchMedia();
+
+            const NamespaceReader = ({ testId }: { testId: string }) => {
+                const context = React.useContext(ThemeContext);
+                return <span data-testid={testId}>{context?.classNamespace ?? 'none'}</span>;
+            };
+
+            render(
+                <Theme classNamespace="outer">
+                    <NamespaceReader testId="outer-namespace" />
+                    <Theme classNamespace="inner">
+                        <NamespaceReader testId="inner-namespace" />
+                    </Theme>
+                </Theme>
+            );
+
+            expect(screen.getByTestId('outer-namespace')).toHaveTextContent('outer');
+            expect(screen.getByTestId('inner-namespace')).toHaveTextContent('inner');
+        });
+
+        test('keeps radius and scaling scoped to the matching nested provider', () => {
+            mockMatchMedia();
+
+            render(
+                <Theme radius="sm" scaling="90%" data-testid="outer-theme">
+                    <Theme radius="lg" scaling="110%" data-testid="inner-theme">
+                        inner
+                    </Theme>
+                </Theme>
+            );
+
+            expect(screen.getByTestId('outer-theme')).toHaveAttribute('data-rad-ui-radius', 'sm');
+            expect(screen.getByTestId('outer-theme')).toHaveAttribute('data-rad-ui-scaling', '90%');
+            expect(screen.getByTestId('inner-theme')).toHaveAttribute('data-rad-ui-radius', 'lg');
+            expect(screen.getByTestId('inner-theme')).toHaveAttribute('data-rad-ui-scaling', '110%');
+        });
+    });
 });
