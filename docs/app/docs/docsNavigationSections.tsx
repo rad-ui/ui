@@ -102,6 +102,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/browser-support"
             },
             {
+                title:"Design Token Contract",
+                path:"/docs/guides/design-token-contract"
+            },
+            {
                 title:"Date, Time & Timezones",
                 path:"/docs/guides/date-time-and-timezones"
             },
