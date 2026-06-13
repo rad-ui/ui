@@ -102,6 +102,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/browser-support"
             },
             {
+                title:"Design Token Contract",
+                path:"/docs/guides/design-token-contract"
+            },
+            {
                 title:"Date, Time & Timezones",
                 path:"/docs/guides/date-time-and-timezones"
             },
@@ -132,6 +136,10 @@ export const docsNavigationSections = [
             {
                 title:"Framework Usage",
                 path:"/docs/guides/framework-usage"
+            },
+            {
+                title:"Screen Reader Testing",
+                path:"/docs/guides/screen-reader-testing"
             },
             {
                 title:"Design System Integration",
@@ -198,6 +206,14 @@ export const docsNavigationSections = [
             {
                 title:"Side Effects & Tree-shaking",
                 path:"/docs/contributing/side-effects-and-tree-shaking"
+            },
+            {
+                title:"Component Docs",
+                path:"/docs/contributing/component-docs-styling"
+            },
+            {
+                title:"Component Docs",
+                path:"/docs/contributing/component-docs-anatomy"
             }
         ]
     }
