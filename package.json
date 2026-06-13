@@ -4,6 +4,10 @@
   "description": "",
   "main": "dist",
   "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
