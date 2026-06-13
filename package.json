@@ -56,7 +56,7 @@
     "compile-components:esbuild": "node build-components.cjs",
     "check:types": "tsc --noEmit",
     "check:exports": "node scripts/generate-exports.cjs --check",
-    "check:docs-examples": "pnpm --dir docs check:examples",
+    "check:api-surface": "node scripts/check-public-api-surface.mjs --check",
     "validate:changesets": "node scripts/validate-changesets.mjs",
     "build-components:esbuild": "npm run compile-components:esbuild && npm run process-components",
     "build:esbuild": "npm run prebuild && npm run build:css && npm run build-components:esbuild",
@@ -67,7 +67,8 @@
     "update-rad": "npm update @radui/ui",
     "setup:dependencies": "npm install --force",
     "setup": "npm run setup:dependencies",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check:docs-examples": "pnpm --dir docs check:examples"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
