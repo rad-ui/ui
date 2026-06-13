@@ -138,8 +138,15 @@ export default config;
 
 ### For Tailwind CSS v4
 
-We are actively working on a Tailwind CSS v4 preset to ensure you can leverage the latest features from Tailwind with minimal configuration. Stay tuned for updates!
+Tailwind CSS v4 uses CSS theme variables instead of JavaScript presets. Import Tailwind and the Rad UI design system you want to use from your global CSS file:
 
+```css
+@import "tailwindcss";
+@import "@radui/ui/themes/default.css";
+```
 
+Each Rad UI design-system stylesheet includes its Tailwind v4 `@theme inline` token map, so classes like `bg-gray-500`, `text-blue-900`, `rounded-md`, `p-4`, `font-sans`, and `shadow-sm` resolve to the active design system's CSS variables. Use `@radui/ui/themes/baremetal.css` instead when you want the Baremetal design system.
+
+If you are using PostCSS directly, Tailwind CSS v4 also requires the separate `@tailwindcss/postcss` plugin in your PostCSS config.
 
 
