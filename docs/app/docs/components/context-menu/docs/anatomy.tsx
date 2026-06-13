@@ -3,13 +3,13 @@ import ContextMenu from "@radui/ui/ContextMenu"
 export default () => {
     return (
         <ContextMenu.Root>
-            <ContextMenu.Trigger />
+            <ContextMenu.Trigger>Right click</ContextMenu.Trigger>
             <ContextMenu.Portal>
                 <ContextMenu.Content>
-                    <ContextMenu.Item />
+                    <ContextMenu.Item>Copy</ContextMenu.Item>
                     <ContextMenu.Separator />
                     <ContextMenu.Sub>
-                        <ContextMenu.SubTrigger />
+                        <ContextMenu.SubTrigger>More</ContextMenu.SubTrigger>
                     </ContextMenu.Sub>
                 </ContextMenu.Content>
             </ContextMenu.Portal>
