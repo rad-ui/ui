@@ -1,0 +1,30 @@
+# Component docs: Features section
+
+Template for a scannable **Features** list on component docs.
+
+## Purpose
+
+Let consumers understand capabilities before reading the full API.
+
+## Format
+
+Use a short bullet list (3–8 items). Each bullet is one concrete behavior.
+
+**Example (Dialog)**
+
+- Modal focus trap while open
+- `Escape` closes and restores focus to trigger
+- Optional modal vs non-modal modes
+- Composable `Title`, `Description`, and `Close` parts
+- Portal rendering with theme-scoped container
+
+## Rules
+
+- Derive bullets from the **shipped public API**, not roadmap ideas
+- Prefer verbs: "supports", "exposes", "restores", "traps"
+- Avoid comparing to other libraries by name
+- Link to keyboard spec rows when interaction is non-obvious
+
+## Where to add
+
+Add a `## Features` section to the component `content.mdx` or a short intro paragraph above the hero example until a dedicated block is wired in the docs layout.
