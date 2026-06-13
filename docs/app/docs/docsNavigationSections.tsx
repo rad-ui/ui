@@ -128,6 +128,10 @@ export const docsNavigationSections = [
             {
                 title:"Large Lists & Virtualization",
                 path:"/docs/guides/large-lists-and-virtualization"
+            },
+            {
+                title:"Framework Usage",
+                path:"/docs/guides/framework-usage"
             }
         ]
     },
@@ -152,12 +156,20 @@ export const docsNavigationSections = [
                 path:"/docs/contributing/naming-conventions"
             },
             {
+                title:"Barrel Export Policy",
+                path:"/docs/contributing/barrel-export-policy"
+            },
+            {
                 title:"Security & Dependency SLA",
                 path:"/docs/contributing/security-dependency-sla"
             },
             {
                 title:"Contributor Checklist",
                 path:"/docs/contributing/contributor-checklist"
+            },
+            {
+                title:"API Review Checklist",
+                path:"/docs/contributing/api-review-checklist"
             },
             {
                 title:"Flaky Test Quarantine",
@@ -178,6 +190,10 @@ export const docsNavigationSections = [
             {
                 title:"Changeset Quality",
                 path:"/docs/contributing/changeset-quality"
+            },
+            {
+                title:"Side Effects & Tree-shaking",
+                path:"/docs/contributing/side-effects-and-tree-shaking"
             }
         ]
     }

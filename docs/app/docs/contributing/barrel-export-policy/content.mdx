@@ -1,0 +1,44 @@
+# Barrel export policy
+
+Rad UI avoids a single mega-barrel that re-exports every component. Consumers should import the components they need from dedicated entrypoints.
+
+## Policy
+
+**Preferred**
+
+```tsx
+import Button from '@radui/ui/Button'
+import Dialog from '@radui/ui/Dialog'
+```
+
+**Avoid in application code**
+
+```tsx
+import { Button, Dialog, Select } from '@radui/ui'
+```
+
+The root `@radui/ui` entry exists for compatibility, but per-component paths are the supported default because they:
+
+- reduce accidental bundle bloat in apps that only use a few primitives
+- avoid import waterfalls in some bundlers and test runners
+- keep public API growth visible in dependency graphs
+
+## When a barrel is acceptable
+
+- short-lived prototypes where bundle size is not a concern
+- internal storybook or docs fixtures that intentionally exercise many components
+- codemods or migration scripts that rewrite imports in bulk
+
+Even in those cases, migrate to per-component imports before shipping production UI.
+
+## Maintainer guidance
+
+- Add new components to `scripts/RELEASED_COMPONENTS.cjs` and generated per-component exports.
+- Do not add new symbols to the root barrel unless they are core utilities with broad reuse.
+- Document new components on their own docs page with `@radui/ui/ComponentName` import examples.
+- Run `npm run check:exports` and `npm run check:api-surface` before merging export changes.
+
+## Related docs
+
+- [Contributor checklist](/docs/contributing/contributor-checklist) before opening export changes
+- [Usage](/docs/first-steps/usage) for recommended import patterns
