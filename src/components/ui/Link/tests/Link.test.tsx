@@ -29,7 +29,7 @@ describe('Link component', () => {
     });
 
     test('forwards ref to underlying anchor element', () => {
-        const ref = React.createRef();
+        const ref = React.createRef<HTMLAnchorElement>();
         render(<Link ref={ref}>Test Link</Link>);
         expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
     });
