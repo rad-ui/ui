@@ -194,6 +194,10 @@ export const docsNavigationSections = [
             {
                 title:"Side Effects & Tree-shaking",
                 path:"/docs/contributing/side-effects-and-tree-shaking"
+            },
+            {
+                title:"Component Docs",
+                path:"/docs/contributing/component-docs-styling"
             }
         ]
     }
