@@ -3,5 +3,6 @@ export {
     isDocumentBodyScrollLocked,
     isDocumentOverlayOpen,
     registerDocumentOverlayOpen,
+    resetDocumentOverlayOpenForTests,
     subscribeDocumentOverlayOpen
 } from './documentOverlayOpen';

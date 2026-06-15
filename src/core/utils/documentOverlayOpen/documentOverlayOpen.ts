@@ -67,3 +67,10 @@ export function subscribeDocumentOverlayOpen(listener: () => void) {
         listeners.delete(listener);
     };
 }
+
+/** Resets overlay bookkeeping between tests. */
+export function resetDocumentOverlayOpenForTests() {
+    overlayOpenCount = 0;
+    syncDocumentOverlayAttribute();
+    notifyListeners();
+}
