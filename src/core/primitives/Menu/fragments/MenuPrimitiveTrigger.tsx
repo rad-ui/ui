@@ -27,9 +27,8 @@ const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerP
                 className={className}
                 tabIndex={!isNested ? undefined : activeIndex === index ? 0 : -1}
                 ref={mergedRef}
-                {...getReferenceProps()}
                 asChild={asChild}
-                {...props}
+                {...getReferenceProps(props)}
             >
                 {children}
             </ButtonPrimitive>

@@ -5,9 +5,9 @@ type DialogPrimitiveContextType = {
   isOpen: boolean;
   handleOpenChange: (open: boolean) => void;
   handleOverlayClick: () => void;
-  getItemProps: () => any;
-  getReferenceProps: () => any;
-  getFloatingProps: () => any;
+  getItemProps: (userProps?: Record<string, unknown>) => any;
+  getReferenceProps: (userProps?: Record<string, unknown>) => any;
+  getFloatingProps: (userProps?: Record<string, unknown>) => any;
   refs: {
     setReference: React.RefCallback<any> | (() => void);
     setFloating: React.RefCallback<any> | (() => void);
@@ -22,9 +22,9 @@ export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>(
     isOpen: false,
     handleOpenChange: () => {},
     handleOverlayClick: () => {},
-    getItemProps: () => {},
-    getReferenceProps: () => {},
-    getFloatingProps: () => {},
+    getItemProps: (userProps = {}) => userProps,
+    getReferenceProps: (userProps = {}) => userProps,
+    getFloatingProps: (userProps = {}) => userProps,
     refs: {
         setReference: () => {},
         setFloating: () => {},

@@ -9,13 +9,15 @@ export type DialogPrimitiveTriggerProps = {
     asChild?: boolean;
     className?: string;
     disabled?: boolean;
-}
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+} & Omit<React.ComponentPropsWithoutRef<'button'>, 'onClick'>;
 
 const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTriggerProps>(({
     children,
     asChild,
     className = '',
     disabled = false,
+    onClick,
     ...props
 }, ref) => {
     const { handleOpenChange, getReferenceProps, refs } = useContext(DialogPrimitiveContext);
@@ -28,9 +30,15 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
             asChild={asChild}
             className={className}
             disabled={disabled}
-            onClick={disabled ? undefined : () => handleOpenChange(true)}
-            {...getReferenceProps()}
-            {...props}
+            {...getReferenceProps({
+                ...props,
+                onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+                    onClick?.(event);
+                    if (!disabled) {
+                        handleOpenChange(true);
+                    }
+                }
+            })}
         >
             {children}
         </ButtonPrimitive>
