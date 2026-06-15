@@ -2,6 +2,7 @@ import React, { useState, useRef, forwardRef, ElementRef, ComponentPropsWithoutR
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -37,6 +38,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         defaultOpen,
         onOpenChange
     );
+    useRegisterDocumentOverlayOpen(isOpen);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
