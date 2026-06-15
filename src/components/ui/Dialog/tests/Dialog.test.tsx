@@ -1,8 +1,27 @@
 import React, { createRef } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithPortal, assertFocusTrap, assertFocusReturn, assertScrollLock, assertScrollUnlock } from '~/test-utils/portal';
+import { assertFocusTrap, assertFocusReturn, assertScrollLock, assertScrollUnlock } from '~/test-utils/portal';
 import Dialog from '../Dialog';
+import Theme from '~/components/ui/Theme/Theme';
+
+const mockMatchMedia = () => {
+    if ('matchMedia' in window && typeof window.matchMedia === 'function') {
+        return;
+    }
+
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: jest.fn().mockImplementation(query => ({
+            matches: false,
+            media: query,
+            onchange: null,
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        }))
+    });
+};
 
 describe('Dialog', () => {
     test('forwards refs to subcomponents', () => {
@@ -89,18 +108,23 @@ describe('Dialog', () => {
     });
 
     test('mounts in portal, traps focus, returns focus and locks scroll', async() => {
+        mockMatchMedia();
         const user = userEvent.setup();
-        const { getByText, portalRoot, cleanup } = renderWithPortal(
-            <Dialog.Root>
-                <Dialog.Trigger>Trigger</Dialog.Trigger>
-                <Dialog.Portal>
-                    <Dialog.Overlay />
-                    <Dialog.Content>
-                        <Dialog.Close>Close</Dialog.Close>
-                    </Dialog.Content>
-                </Dialog.Portal>
-            </Dialog.Root>
+        const { getByText, unmount } = render(
+            <Theme id="rad-ui-theme-container">
+                <Dialog.Root>
+                    <Dialog.Trigger>Trigger</Dialog.Trigger>
+                    <Dialog.Portal>
+                        <Dialog.Overlay />
+                        <Dialog.Content>
+                            <Dialog.Close>Close</Dialog.Close>
+                        </Dialog.Content>
+                    </Dialog.Portal>
+                </Dialog.Root>
+            </Theme>
         );
+
+        const portalRoot = document.querySelector('[data-rad-ui-portal-root]') as HTMLElement;
 
         await user.click(getByText('Trigger'));
         await waitFor(() => assertScrollLock());
@@ -108,7 +132,7 @@ describe('Dialog', () => {
         await user.click(getByText('Close'));
         assertFocusReturn(getByText('Trigger'));
         await waitFor(() => assertScrollUnlock());
-        cleanup();
+        unmount();
     });
 
     test('renders under StrictMode without console errors', () => {
