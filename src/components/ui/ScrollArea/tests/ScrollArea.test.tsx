@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import ScrollArea from '../ScrollArea';
 
@@ -175,5 +175,38 @@ describe('ScrollArea', () => {
         fireEvent.mouseEnter(screen.getByTestId('root'));
 
         expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('resets scroll position when viewport children change', async() => {
+        const scrollArea = (content: React.ReactNode) => (
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    {content}
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        const { rerender } = render(scrollArea(<div key="tab-a" style={{ height: 400 }}>tab a</div>));
+
+        const viewport = screen.getByTestId('viewport');
+        Object.defineProperty(viewport, 'scrollHeight', { configurable: true, value: 400 });
+        Object.defineProperty(viewport, 'clientHeight', { configurable: true, value: 100 });
+
+        act(() => {
+            viewport.scrollTop = 300;
+            fireEvent.scroll(viewport);
+        });
+
+        expect(viewport.scrollTop).toBe(300);
+
+        rerender(scrollArea(<div key="tab-b">tab b</div>));
+
+        await waitFor(() => {
+            expect(viewport.scrollTop).toBe(0);
+            expect(viewport.scrollLeft).toBe(0);
+        });
     });
 });
