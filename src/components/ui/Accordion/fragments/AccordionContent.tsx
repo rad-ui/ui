@@ -31,6 +31,10 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                         'var(--radix-collapsible-content-height)',
                     ['--radix-accordion-content-width' as string]:
                         'var(--radix-collapsible-content-width)',
+                    ['--rad-accordion-content-height' as string]:
+                        'var(--radix-collapsible-content-height)',
+                    ['--rad-accordion-content-width' as string]:
+                        'var(--radix-collapsible-content-width)',
                     ...style
                 }}
                 {...props}
