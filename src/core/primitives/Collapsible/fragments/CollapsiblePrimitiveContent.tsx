@@ -1,7 +1,10 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import Primitive from '~/core/primitives/Primitive';
-import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
-import { composeRefs } from '~/core/utils/mergeProps';
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import Primitive from "~/core/primitives/Primitive";
+import { useCollapsiblePrimitiveContext } from "../contexts/CollapsiblePrimitiveContext";
+import { composeRefs } from "~/core/utils/mergeProps";
+import { usePrefersReducedMotion } from "~/core/hooks/usePrefersReducedMotion";
+
+const DEFAULT_TRANSITION_DURATION = 300;
 
 type CollapsiblePrimitiveContentElement = React.ElementRef<typeof Primitive.div>;
 export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
@@ -20,6 +23,14 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         transitionDuration,
         transitionTimingFunction
     } = useCollapsiblePrimitiveContext();
+
+    const prefersReducedMotion = usePrefersReducedMotion();
+    const resolvedTransitionDuration =
+        transitionDuration !== undefined
+            ? transitionDuration
+            : prefersReducedMotion
+                ? 0
+                : DEFAULT_TRANSITION_DURATION;
 
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const [isPresent, setIsPresent] = useState(open || forceMount);
@@ -62,9 +73,8 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             transitionTimingFunction: node.style.transitionTimingFunction
         };
 
-        // Measure the content at its natural size before the browser paints.
-        node.style.transitionDuration = '0s';
-        node.style.transitionProperty = 'none';
+        node.style.transitionDuration = "0s";
+        node.style.transitionProperty = "none";
 
         const rect = node.getBoundingClientRect();
         const measuredHeight = rect.height || node.scrollHeight;
@@ -79,7 +89,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             node.style.transitionTimingFunction = originalStylesRef.current.transitionTimingFunction;
         }
 
-        if (transitionDuration === 0) {
+        if (resolvedTransitionDuration === 0) {
             setHeight(open ? undefined : 0);
 
             if (!open && !forceMount) {
@@ -112,7 +122,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
             animationTimeoutRef.current = setTimeout(() => {
                 setHeight(undefined);
-            }, transitionDuration);
+            }, resolvedTransitionDuration);
         } else {
             setHeight(heightRef.current ?? node.scrollHeight);
 
@@ -128,7 +138,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 if (!forceMount) {
                     setIsPresent(false);
                 }
-            }, transitionDuration);
+            }, resolvedTransitionDuration);
         }
 
         return () => {
@@ -139,7 +149,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, transitionDuration, forceMount, children]);
+    }, [open, resolvedTransitionDuration, forceMount, children]);
 
     const shouldRender = open || isPresent || forceMount;
 
@@ -149,14 +159,14 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
     const dynamicStyle: React.CSSProperties = {
         ...style,
-        overflow: 'hidden',
+        overflow: "hidden",
         height: height !== undefined ? `${height}px` : undefined,
-        ['--radix-collapsible-content-height' as string]:
+        ["--radix-collapsible-content-height" as string]:
             heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
-        ['--radix-collapsible-content-width' as string]:
+        ["--radix-collapsible-content-width" as string]:
             widthRef.current !== undefined ? `${widthRef.current}px` : undefined,
-        ...(transitionDuration > 0
-            ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
+        ...(resolvedTransitionDuration > 0
+            ? { transition: `height ${resolvedTransitionDuration}ms ${transitionTimingFunction}` }
             : {})
     };
 
@@ -167,7 +177,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             id={contentId}
             ref={composeRefs(forwardedRef, ref)}
             aria-hidden={!open}
-            data-state={open ? 'open' : 'closed'}
+            data-state={open ? "open" : "closed"}
             className={className}
             style={dynamicStyle}
             asChild={shouldUseAsChild}
@@ -178,6 +188,6 @@ const CollapsiblePrimitiveContent = React.forwardRef<
     );
 });
 
-CollapsiblePrimitiveContent.displayName = 'CollapsiblePrimitiveContent';
+CollapsiblePrimitiveContent.displayName = "CollapsiblePrimitiveContent";
 
 export default CollapsiblePrimitiveContent;

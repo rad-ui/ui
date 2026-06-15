@@ -142,3 +142,57 @@ describe('CollapsiblePrimitive', () => {
         expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('320px');
     });
 });
+
+describe('prefers-reduced-motion', () => {
+    const originalMatchMedia = window.matchMedia;
+
+    afterEach(() => {
+        window.matchMedia = originalMatchMedia;
+    });
+
+    test('disables transitions when reduced motion is preferred and duration is not set', () => {
+        window.matchMedia = jest.fn().mockReturnValue({
+            matches: true,
+            media: '(prefers-reduced-motion: reduce)',
+            onchange: null,
+            addListener: jest.fn(),
+            removeListener: jest.fn(),
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        } as unknown as MediaQueryList);
+
+        render(
+            <CollapsiblePrimitive.Root defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(screen.getByTestId('content')).not.toHaveStyle({ transition: expect.stringContaining('ms') });
+    });
+
+    test('keeps explicit transition duration when reduced motion is preferred', () => {
+        window.matchMedia = jest.fn().mockReturnValue({
+            matches: true,
+            media: '(prefers-reduced-motion: reduce)',
+            onchange: null,
+            addListener: jest.fn(),
+            removeListener: jest.fn(),
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        } as unknown as MediaQueryList);
+
+        render(
+            <CollapsiblePrimitive.Root defaultOpen transitionDuration={200}>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(screen.getByTestId('content')).toHaveStyle({ transition: 'height 200ms linear' });
+    });
+});
