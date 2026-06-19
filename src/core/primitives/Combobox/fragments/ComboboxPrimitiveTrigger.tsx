@@ -17,15 +17,9 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
     ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(({ children, className, disabled, asChild, onClick, renderValue, ...props }, forwardedRef) => {
-    const { isOpen, setIsOpen, selectedLabel, selectedValue, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
+    const { isOpen, selectedLabel, selectedValue, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
 
-    const { onClick: _refOnClick, ...refProps } = getReferenceProps();
-
-    const handleClick = composeEventHandlers(onClick, () => {
-        if (!disabled) {
-            setIsOpen(prev => !prev);
-        }
-    });
+    const handleClick = composeEventHandlers(onClick);
     const hasSelectedValue = Boolean(selectedLabel || selectedValue);
     const renderedValue = hasSelectedValue
         ? renderValue?.(selectedValue, selectedLabel || selectedValue)
@@ -42,9 +36,11 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             ref={Floater.useMergeRefs([refs.setReference, forwardedRef])}
             role='combobox'
             asChild={asChild}
-            onClick={handleClick}
-            {...refProps}
-            {...props}
+            {...getReferenceProps({
+                ...props,
+                onClick: handleClick,
+                disabled
+            })}
         >
             {renderedValue ?? (selectedLabel || selectedValue || children)}
         </Primitive.button>

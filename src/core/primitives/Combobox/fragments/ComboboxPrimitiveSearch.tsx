@@ -39,8 +39,13 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         };
     }, [setHasSearch, setActiveIndex, setSearch]);
 
-    // Get the reference props from Floating UI
-    const referenceProps = getReferenceProps();
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (activeIndex !== null && event.key === KEYBOARD_KEYS.ENTER) {
+            event.preventDefault();
+            handleSelect(activeIndex);
+        }
+        props.onKeyDown?.(event);
+    };
 
     return (
         <Primitive.input
@@ -49,20 +54,13 @@ const ComboboxPrimitiveSearch = React.forwardRef<
             className={className}
             placeholder="Search..."
             ref={Floater.useMergeRefs([inputRef, forwardedRef])}
-            value={search}
             aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
-            // @ts-ignore
-            onChange={(e) => setSearch(e.target.value)}
-            {...referenceProps}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                if (activeIndex !== null) {
-                    if (event.key === KEYBOARD_KEYS.ENTER) {
-                        event.preventDefault();
-                        handleSelect(activeIndex);
-                    }
-                }
-            }}
-            {...props}
+            {...getReferenceProps({
+                ...props,
+                value: search,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
+                onKeyDown: handleKeyDown
+            })}
         />
     );
 });
