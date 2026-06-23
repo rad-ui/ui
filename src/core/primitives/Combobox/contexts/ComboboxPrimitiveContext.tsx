@@ -17,7 +17,7 @@ export type ComboboxPrimitiveContextType = {
     floatingStyles: React.CSSProperties;
     floatingContext: any;
     getReferenceProps: () => any;
-    getFloatingProps: () => any;
+    getFloatingProps: (userProps?: any) => any;
     getItemProps: (userProps?: any) => any;
     activeIndex: number | null;
     setActiveIndex: React.Dispatch<React.SetStateAction<number | null>>;

@@ -56,26 +56,27 @@ const ComboboxPrimitiveContent = React.forwardRef<
                     <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
                         <div
                             ref={mergedRef}
-                            style={{
-                                ...floatingStyles,
-                                ...style,
-                                '--rad-ui-floating-transform-origin': placementState.transformOrigin,
-                                visibility: !isPositioned && shouldHideUntilPositioned
-                                    ? 'hidden'
-                                    : middlewareData.hide?.referenceHidden
+                            {...getFloatingProps({
+                                ...props,
+                                className,
+                                'data-state': isOpen ? 'open' : 'closed',
+                                'data-side': placementState.side,
+                                'data-align': placementState.align,
+                                'data-positioned': isPositioned ? '' : undefined,
+                                style: {
+                                    ...floatingStyles,
+                                    ...style,
+                                    '--rad-ui-floating-transform-origin': placementState.transformOrigin,
+                                    visibility: !isPositioned && shouldHideUntilPositioned
                                         ? 'hidden'
-                                        : (style?.visibility || floatingStyles.visibility),
-                                pointerEvents: middlewareData.hide?.referenceHidden
-                                    ? 'none'
-                                    : style?.pointerEvents
-                            }}
-                            className={className}
-                            data-state={isOpen ? 'open' : 'closed'}
-                            data-side={placementState.side}
-                            data-align={placementState.align}
-                            data-positioned={isPositioned ? '' : undefined}
-                            {...getFloatingProps()}
-                            {...props}
+                                        : middlewareData.hide?.referenceHidden
+                                            ? 'hidden'
+                                            : (style?.visibility || floatingStyles.visibility),
+                                    pointerEvents: middlewareData.hide?.referenceHidden
+                                        ? 'none'
+                                        : style?.pointerEvents
+                                }
+                            })}
                         >
 
                             {children}
