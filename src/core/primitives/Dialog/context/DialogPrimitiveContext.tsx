@@ -7,7 +7,7 @@ type DialogPrimitiveContextType = {
   handleOverlayClick: () => void;
   getItemProps: () => any;
   getReferenceProps: () => any;
-  getFloatingProps: () => any;
+  getFloatingProps: (userProps?: any) => any;
   refs: {
     setReference: React.RefCallback<any> | (() => void);
     setFloating: React.RefCallback<any> | (() => void);

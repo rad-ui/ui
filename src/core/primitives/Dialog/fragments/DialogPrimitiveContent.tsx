@@ -105,15 +105,16 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
         <Primitive.div
             ref={mergedRef}
             asChild={asChild}
-            {...getFloatingProps()}
-            style={{ outline: 'none', ...styleProp }}
-            role={role}
-            aria-hidden={!isOpen ? 'true' : undefined}
-            aria-labelledby={isOpen ? ariaLabelledBy : undefined}
-            aria-describedby={isOpen ? ariaDescribedBy : undefined}
-            data-state={dataState}
-            aria-modal={ariaModal}
-            {...props}
+            {...getFloatingProps({
+                ...props,
+                style: { outline: 'none', ...styleProp },
+                role,
+                'aria-hidden': !isOpen ? 'true' : undefined,
+                'aria-labelledby': isOpen ? ariaLabelledBy : undefined,
+                'aria-describedby': isOpen ? ariaDescribedBy : undefined,
+                'data-state': dataState,
+                'aria-modal': ariaModal
+            })}
         >
             {children}
         </Primitive.div>
