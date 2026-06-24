@@ -19,6 +19,7 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
     ...props
 }, ref) => {
     const { handleOpenChange, getReferenceProps, refs } = useContext(DialogPrimitiveContext);
+    const { onClick, ...restProps } = props as React.ComponentPropsWithoutRef<'button'>;
 
     const mergedRef = Floater.useMergeRefs([refs.setReference, ref]);
 
@@ -27,10 +28,17 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
             ref={mergedRef}
             asChild={asChild}
             className={className}
-            disabled={disabled}
-            onClick={disabled ? undefined : () => handleOpenChange(true)}
-            {...getReferenceProps()}
-            {...props}
+            {...(getReferenceProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                ...restProps,
+                disabled,
+                onClick(event: React.MouseEvent<HTMLButtonElement>) {
+                    if (disabled) return;
+                    onClick?.(event);
+                    if (!event.defaultPrevented) {
+                        handleOpenChange(true);
+                    }
+                }
+            })}
         >
             {children}
         </ButtonPrimitive>
