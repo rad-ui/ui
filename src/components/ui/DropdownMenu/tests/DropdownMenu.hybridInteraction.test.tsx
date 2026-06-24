@@ -25,7 +25,7 @@ describe('DropdownMenu hybrid interaction', () => {
         await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
 
         await waitFor(() => expect(screen.queryByText('One')).not.toBeInTheDocument());
-        expect(screen.getByText('Open')).toHaveFocus();
+        await waitFor(() => expect(screen.getByText('Open')).toHaveFocus());
     });
 
     test('keyboard open then pointer click selects item', async() => {
@@ -40,6 +40,6 @@ describe('DropdownMenu hybrid interaction', () => {
 
         await user.click(screen.getByText('Three'));
         await waitFor(() => expect(screen.queryByText('Three')).not.toBeInTheDocument());
-        expect(trigger).toHaveFocus();
+        await waitFor(() => expect(trigger).toHaveFocus());
     });
 });
