@@ -21,9 +21,6 @@ const HoverCardPortal = forwardRef<HoverCardPortalElement, HoverCardPortalProps>
         const resolvedRoot = explicitRoot
             || themeContext?.portalRootRef.current
             || themeContext?.containerRef.current
-            || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
-            || document.querySelector('#rad-ui-theme-container') as HTMLElement | null
-            || document.getElementsByClassName(rootTriggerClass)[0] as HTMLElement | undefined
             || document.body;
 
         setRootElem(resolvedRoot);
