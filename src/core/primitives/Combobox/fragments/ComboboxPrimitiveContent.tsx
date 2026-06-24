@@ -2,11 +2,13 @@
 import React, { useContext } from 'react';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
+import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     position?: string;
+    forceMount?: boolean;
     [key: string]: any;
 }
 
@@ -32,7 +34,8 @@ function getPlacementState(placement: string) {
 const ComboboxPrimitiveContent = React.forwardRef<
     React.ElementRef<'div'>,
     ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
->(({ children, className, style, ...props }, forwardedRef) => {
+>(({ children, className, forceMount = false, style, ...props }, forwardedRef) => {
+    const { forceMount: portalForceMount } = useContext(ComboboxPrimitivePortalContext);
     const {
         isOpen,
         elementsRef,
@@ -48,44 +51,59 @@ const ComboboxPrimitiveContent = React.forwardRef<
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
     const placementState = getPlacementState(placedPlacement);
+    const shouldRender = isOpen || forceMount || portalForceMount;
+
+    if (!shouldRender) {
+        return null;
+    }
+
+    const content = (
+        <div
+            ref={mergedRef}
+            style={{
+                ...floatingStyles,
+                ...style,
+                '--rad-ui-floating-transform-origin': placementState.transformOrigin,
+                visibility: !isOpen
+                    ? 'hidden'
+                    : !isPositioned && shouldHideUntilPositioned
+                        ? 'hidden'
+                        : middlewareData.hide?.referenceHidden
+                            ? 'hidden'
+                            : (style?.visibility || floatingStyles.visibility),
+                pointerEvents: !isOpen
+                    ? 'none'
+                    : middlewareData.hide?.referenceHidden
+                        ? 'none'
+                        : style?.pointerEvents
+            }}
+            className={className}
+            data-state={isOpen ? 'open' : 'closed'}
+            data-side={placementState.side}
+            data-align={placementState.align}
+            data-positioned={isPositioned ? '' : undefined}
+            aria-hidden={!isOpen ? 'true' : undefined}
+            {...getFloatingProps()}
+            {...props}
+        >
+            {children}
+        </div>
+    );
+
+    if (!isOpen) {
+        return (
+            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+                {content}
+            </Floater.FloatingList>
+        );
+    }
 
     return (
-        <>
-            {isOpen && (
-                <Floater.FocusManager context={floatingContext}>
-                    <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
-                        <div
-                            ref={mergedRef}
-                            style={{
-                                ...floatingStyles,
-                                ...style,
-                                '--rad-ui-floating-transform-origin': placementState.transformOrigin,
-                                visibility: !isPositioned && shouldHideUntilPositioned
-                                    ? 'hidden'
-                                    : middlewareData.hide?.referenceHidden
-                                        ? 'hidden'
-                                        : (style?.visibility || floatingStyles.visibility),
-                                pointerEvents: middlewareData.hide?.referenceHidden
-                                    ? 'none'
-                                    : style?.pointerEvents
-                            }}
-                            className={className}
-                            data-state={isOpen ? 'open' : 'closed'}
-                            data-side={placementState.side}
-                            data-align={placementState.align}
-                            data-positioned={isPositioned ? '' : undefined}
-                            {...getFloatingProps()}
-                            {...props}
-                        >
-
-                            {children}
-
-                        </div>
-                    </Floater.FloatingList>
-                </Floater.FocusManager>
-            )}
-        </>
-
+        <Floater.FocusManager context={floatingContext}>
+            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
+                {content}
+            </Floater.FloatingList>
+        </Floater.FocusManager>
     );
 });
 

@@ -107,6 +107,25 @@ describe('HoverCard', () => {
         expect(content.closest('[data-rad-ui-portal-root]')).toBeInTheDocument();
     });
 
+    test('supports a custom portal container and portal forceMount', async() => {
+        mockMatchMedia();
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+
+        render(
+            <HoverCard.Root open={false} onOpenChange={() => {}} customRootClass="rad-ui">
+                <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                <HoverCard.Portal container={container} forceMount>
+                    <HoverCard.Content>Content</HoverCard.Content>
+                </HoverCard.Portal>
+            </HoverCard.Root>
+        );
+
+        const content = await screen.findByRole('dialog', { hidden: true });
+        expect(container).toContainElement(content);
+        expect(content).toHaveAttribute('data-state', 'closed');
+    });
+
     test('renders without warnings and toggles on hover', async() => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const unexpectedErrors: unknown[][] = [];
