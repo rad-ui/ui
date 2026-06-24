@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Menubar from '../Menubar';
 import Theme from '~/components/ui/Theme/Theme';
@@ -53,7 +53,7 @@ describe('Menubar keyboard paths', () => {
         expect(edit).toHaveFocus();
 
         await user.keyboard('{ArrowDown}');
-        expect(screen.getByText('Cut')).toBeInTheDocument();
+        await waitFor(() => expect(screen.getByText('Cut')).toBeInTheDocument());
 
         await user.keyboard('{ArrowLeft}');
         expect(file).toHaveFocus();
