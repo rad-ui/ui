@@ -46,15 +46,19 @@ function renderToast(toast: ToastData) {
 }
 
 describe('Toast announcement semantics', () => {
-    test('uses polite aria-live by default and assertive for high priority', () => {
+    test('uses polite aria-live by default', () => {
         renderToast({ id: '1', title: 'Saved', priority: 'low', duration: 5000 });
 
         const polite = screen.getByRole('status');
         expect(polite).toHaveAttribute('aria-live', 'polite');
         expect(polite).toHaveAttribute('aria-atomic', 'true');
+    });
 
+    test('uses assertive aria-live for high priority', () => {
         renderToast({ id: '2', title: 'Error', priority: 'high', duration: 5000 });
 
-        expect(screen.getByText('Error').closest('[role="status"]')).toHaveAttribute('aria-live', 'assertive');
+        const assertive = screen.getByText('Error').closest('[role="status"]');
+        expect(assertive).toHaveAttribute('aria-live', 'assertive');
+        expect(assertive).toHaveAttribute('aria-atomic', 'true');
     });
 });
