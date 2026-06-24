@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Tooltip from '../Tooltip';
 
@@ -25,7 +25,11 @@ describe('Tooltip lazy mount', () => {
             </Tooltip.Root>
         );
 
-        await user.hover(screen.getByText('Hover me'));
-        expect(screen.getByText('Tooltip label')).toBeInTheDocument();
+        await act(async() => {
+            await user.hover(screen.getByText('Hover me'));
+        });
+        await waitFor(() => {
+            expect(screen.getByText('Tooltip label')).toBeInTheDocument();
+        });
     });
 });
