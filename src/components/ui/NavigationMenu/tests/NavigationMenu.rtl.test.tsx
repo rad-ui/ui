@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import NavigationMenu from '../NavigationMenu';
 import Theme from '~/components/ui/Theme/Theme';
 
@@ -18,7 +19,9 @@ const mockMatchMedia = () => {
 describe('NavigationMenu RTL', () => {
     beforeEach(() => mockMatchMedia());
 
-    test('opens panel content in rtl layout', () => {
+    test('opens panel content in rtl layout', async() => {
+        const user = userEvent.setup({ skipHover: true });
+
         render(
             <div dir="rtl">
                 <Theme>
@@ -37,7 +40,7 @@ describe('NavigationMenu RTL', () => {
         const trigger = screen.getByText('Open');
         expect(trigger.closest('[dir="rtl"]')).not.toBeNull();
 
-        fireEvent.click(trigger);
+        await user.click(trigger);
         expect(screen.getByText('Item 1 Content')).toBeInTheDocument();
     });
 });
