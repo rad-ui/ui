@@ -122,17 +122,16 @@ const ComboboxPrimitiveItem = React.forwardRef<
             ref={Floater.useMergeRefs([ref, itemRef, setSelectedItemNode, forwardedRef])}
             id={itemId}
             role="option"
+            className={className}
+            style={{ display: isHidden ? 'none' : undefined, ...props.style }}
             data-value={value}
             data-label={itemLabel}
             data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
             aria-selected={isSelected}
+            aria-disabled={disabled ? true : undefined}
+            data-disabled={disabled ? '' : undefined}
             {...getItemProps({
-                ...props,
-                className,
-                style: { display: isHidden ? 'none' : undefined, ...props.style },
                 tabIndex: disabled ? -1 : isActive ? 0 : -1,
-                'aria-disabled': disabled ? true : undefined,
-                'data-disabled': disabled ? '' : undefined,
                 onClick: () => !disabled && handleSelect(index),
                 onKeyDown: (event: React.KeyboardEvent) => {
                     if (disabled) return;
@@ -147,6 +146,8 @@ const ComboboxPrimitiveItem = React.forwardRef<
                     }
                 }
             })}
+            {...props}
+            tabIndex={disabled ? -1 : isActive ? 0 : -1}
         >
             {children}
         </Primitive.div>
