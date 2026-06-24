@@ -27,12 +27,17 @@ describe('NumberField controlled switch', () => {
     });
 
     test('switches from controlled value to uncontrolled defaultValue', () => {
-        const { rerender } = render(numberField({ defaultValue: 7 }));
+        const { rerender } = render(numberField({ value: 3, onValueChange: () => {} }));
 
-        rerender(numberField({ value: 3 }));
         expect(screen.getByRole('spinbutton')).toHaveValue(3);
 
-        rerender(numberField({ defaultValue: 7 }));
+        rerender(numberField({ value: 7, onValueChange: () => {} }));
         expect(screen.getByRole('spinbutton')).toHaveValue(7);
+
+        rerender(numberField({ defaultValue: 7 }));
+
+        const input = screen.getByRole('spinbutton');
+        fireEvent.change(input, { target: { value: '7' } });
+        expect(input).toHaveValue(7);
     });
 });
