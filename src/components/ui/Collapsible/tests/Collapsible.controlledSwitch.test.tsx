@@ -27,15 +27,18 @@ describe('Collapsible controlled switch', () => {
         expect(onOpenChange).toHaveBeenCalledWith(true);
     });
 
-    test('switches from controlled open to uncontrolled defaultOpen', () => {
-        const { rerender } = render(collapsible({ defaultOpen: true }));
+    test('switches from controlled open to uncontrolled defaultOpen', async() => {
+        const user = userEvent.setup();
+
+        const { rerender } = render(collapsible({ open: true, onOpenChange: () => {} }));
 
         expect(screen.getByText('Panel')).toBeVisible();
 
-        rerender(collapsible({ open: false }));
+        rerender(collapsible({ open: false, onOpenChange: () => {} }));
         expect(screen.queryByText('Panel')).not.toBeInTheDocument();
 
         rerender(collapsible({ defaultOpen: true }));
+        await user.click(screen.getByText('Toggle'));
         expect(screen.getByText('Panel')).toBeVisible();
     });
 });
