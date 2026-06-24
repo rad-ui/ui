@@ -36,10 +36,11 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 >         
                     <div
                         ref={mergedRef}
-                        style={floatingStyles}
-                        {...getFloatingProps()}
-                        className={className}
-                        {...props}
+                        {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                            ...props,
+                            className,
+                            style: floatingStyles
+                        })}
                     >
                         <div style={{overflowY:"auto", overflowX:"hidden"}}>
                         {children}
