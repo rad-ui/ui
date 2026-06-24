@@ -47,8 +47,8 @@ describe('Select controlled/uncontrolled mode switching', () => {
     test('switches from controlled to uncontrolled', async() => {
         const user = userEvent.setup();
 
-        const { unmount } = render(
-            <Select.Root value="banana" onValueChange={() => {}}>
+        const selectTree = (rootProps: Partial<React.ComponentProps<typeof Select.Root>>) => (
+            <Select.Root {...rootProps}>
                 <Select.Trigger />
                 <Select.Portal>
                     <Select.Content>
@@ -61,22 +61,12 @@ describe('Select controlled/uncontrolled mode switching', () => {
             </Select.Root>
         );
 
+        const { rerender } = render(selectTree({ defaultValue: 'apple' }));
+
+        rerender(selectTree({ value: 'banana', onValueChange: () => {} }));
         expect(screen.getByRole('combobox')).toHaveTextContent('banana');
-        unmount();
 
-        render(
-            <Select.Root defaultValue="apple">
-                <Select.Trigger />
-                <Select.Portal>
-                    <Select.Content>
-                        <Select.Group>
-                            <Select.Item value="apple">Apple</Select.Item>
-                            <Select.Item value="banana">Banana</Select.Item>
-                        </Select.Group>
-                    </Select.Content>
-                </Select.Portal>
-            </Select.Root>
-        );
+        rerender(selectTree({ defaultValue: 'apple' }));
 
         const trigger = screen.getByRole('combobox');
         expect(trigger).toHaveTextContent('apple');
