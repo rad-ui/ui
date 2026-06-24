@@ -25,6 +25,10 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             floatingContext
         } = context;
 
+        const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
+        const restProps = { ...props } as Record<string, unknown>;
+        delete restProps.style;
+
         return (
             <>
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
@@ -37,9 +41,9 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                     <div
                         ref={mergedRef}
                         {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
-                            ...props,
+                            ...restProps,
                             className,
-                            style: floatingStyles
+                            style: { ...consumerStyle, ...floatingStyles }
                         })}
                     >
                         <div style={{overflowY:"auto", overflowX:"hidden"}}>
