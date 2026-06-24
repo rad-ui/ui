@@ -13,7 +13,7 @@ describe('RadioGroup controlled switch', () => {
     test('switches from uncontrolled defaultValue to controlled value', () => {
         const onValueChange = jest.fn();
 
-        const { rerender } = render(radioGroup({ defaultValue: 'one' }));
+        const { rerender } = render(radioGroup({ value: 'one', onValueChange: () => {} }));
 
         expect(screen.getByTestId('one')).toHaveAttribute('aria-checked', 'true');
 
@@ -26,12 +26,12 @@ describe('RadioGroup controlled switch', () => {
     });
 
     test('switches from controlled value to uncontrolled defaultValue', () => {
-        const { rerender } = render(radioGroup({ defaultValue: 'one' }));
+        const { rerender } = render(radioGroup({ value: 'one', onValueChange: () => {} }));
 
         rerender(radioGroup({ value: 'two' }));
         expect(screen.getByTestId('two')).toHaveAttribute('aria-checked', 'true');
 
-        rerender(radioGroup({ defaultValue: 'one' }));
+        rerender(radioGroup({ value: 'one', onValueChange: () => {} }));
         expect(screen.getByTestId('one')).toHaveAttribute('aria-checked', 'true');
     });
 });
