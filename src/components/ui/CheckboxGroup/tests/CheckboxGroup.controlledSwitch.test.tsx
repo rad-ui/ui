@@ -37,12 +37,12 @@ describe('CheckboxGroup controlled/uncontrolled mode switching', () => {
     });
 
     test('switches from controlled to uncontrolled', () => {
-        const { unmount } = render(fruitGroup({ value: ['banana'], onValueChange: () => {} }));
+        const { rerender } = render(fruitGroup({ defaultValue: ['apple'] }));
 
+        rerender(fruitGroup({ value: ['banana'], onValueChange: () => {} }));
         expect(screen.getByRole('checkbox', { name: 'Banana' })).toHaveAttribute('aria-checked', 'true');
-        unmount();
 
-        render(fruitGroup({ defaultValue: ['apple'] }));
+        rerender(fruitGroup({ defaultValue: ['apple'] }));
 
         expect(screen.getByRole('checkbox', { name: 'Apple' })).toHaveAttribute('aria-checked', 'true');
         fireEvent.click(screen.getByRole('checkbox', { name: 'Banana' }));
