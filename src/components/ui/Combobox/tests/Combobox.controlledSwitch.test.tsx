@@ -43,8 +43,8 @@ describe('Combobox controlled/uncontrolled mode switching', () => {
     test('switches from controlled to uncontrolled', async() => {
         const user = userEvent.setup();
 
-        const { unmount } = render(
-            <Combobox.Root value="banana" onValueChange={() => {}}>
+        const comboboxTree = (rootProps: Partial<React.ComponentProps<typeof Combobox.Root>>) => (
+            <Combobox.Root {...rootProps}>
                 <Combobox.Trigger />
                 <Combobox.Portal>
                     <Combobox.Content>
@@ -55,20 +55,12 @@ describe('Combobox controlled/uncontrolled mode switching', () => {
             </Combobox.Root>
         );
 
+        const { rerender } = render(comboboxTree({ defaultValue: 'apple' }));
+
+        rerender(comboboxTree({ value: 'banana', onValueChange: () => {} }));
         expect(screen.getByRole('combobox')).toHaveTextContent('banana');
-        unmount();
 
-        render(
-            <Combobox.Root defaultValue="apple">
-                <Combobox.Trigger />
-                <Combobox.Portal>
-                    <Combobox.Content>
-                        <Combobox.Item value="apple">Apple</Combobox.Item>
-                        <Combobox.Item value="banana">Banana</Combobox.Item>
-                    </Combobox.Content>
-                </Combobox.Portal>
-            </Combobox.Root>
-        );
+        rerender(comboboxTree({ defaultValue: 'apple' }));
 
         const trigger = screen.getByRole('combobox');
         expect(trigger).toHaveTextContent('apple');
