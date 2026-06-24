@@ -40,7 +40,7 @@ describe('Popover hybrid interaction', () => {
 
         await user.keyboard('{Escape}');
         await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
-        expect(trigger).toHaveFocus();
+        await waitFor(() => expect(trigger).toHaveFocus());
     });
 
     test('keyboard open via Space then pointer click on close dismisses', async() => {
