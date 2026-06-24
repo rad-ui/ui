@@ -53,8 +53,17 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         };
 
         const resizeObserver = new ResizeObserver(() => handleResize());
-        resizeObserver.observe(viewport);
-        Array.from(viewport.children).forEach(child => resizeObserver.observe(child));
+        const syncResizeObservers = () => {
+            resizeObserver.disconnect();
+            resizeObserver.observe(viewport);
+            Array.from(viewport.children).forEach(child => {
+                if (child instanceof Element) {
+                    resizeObserver.observe(child);
+                }
+            });
+        };
+
+        syncResizeObservers();
 
         const mutationObserver = new MutationObserver((mutations) => {
             const directChildSwap = mutations.some(
@@ -67,6 +76,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             if (directChildSwap) {
                 viewport.scrollTop = 0;
                 viewport.scrollLeft = 0;
+                syncResizeObservers();
             }
 
             handleResize();
