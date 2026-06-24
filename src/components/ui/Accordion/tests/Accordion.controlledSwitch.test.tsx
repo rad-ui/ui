@@ -54,7 +54,7 @@ describe('Accordion controlled/uncontrolled mode switching', () => {
     test('switches from controlled to uncontrolled', async() => {
         const user = userEvent.setup();
 
-        const { unmount } = render(
+        const { rerender } = render(
             accordionItems({
                 type: 'single',
                 collapsible: true,
@@ -66,9 +66,19 @@ describe('Accordion controlled/uncontrolled mode switching', () => {
         await waitFor(() => {
             expect(screen.getByText('Panel two')).toBeVisible();
         });
-        unmount();
+        rerender(
+            accordionItems({
+                type: 'single',
+                collapsible: true,
+                value: 'one',
+                onValueChange: () => {}
+            })
+        );
+        await waitFor(() => {
+            expect(screen.getByText('Panel one')).toBeVisible();
+        });
 
-        render(accordionItems({ type: 'single', collapsible: true, defaultValue: 'one' }));
+        rerender(accordionItems({ type: 'single', collapsible: true, defaultValue: 'one' }));
 
         await waitFor(() => {
             expect(screen.getByText('Panel one')).toBeVisible();
