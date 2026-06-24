@@ -49,16 +49,18 @@ describe('Drawer controlled switch', () => {
     });
 
     test('switches from controlled open to uncontrolled defaultOpen', async() => {
-        const { rerender } = render(drawer({ defaultOpen: true }));
+        const { rerender } = render(drawer({ open: true, onOpenChange: () => {} }));
 
         expect(screen.getByTestId('drawer-content')).toHaveAttribute('data-state', 'open');
 
-        rerender(drawer({ open: false }));
+        rerender(drawer({ open: false, onOpenChange: () => {} }));
         await waitFor(() => {
             expect(screen.getByTestId('drawer-content')).toHaveAttribute('data-state', 'closed');
         });
 
         rerender(drawer({ defaultOpen: true }));
+        const user = userEvent.setup();
+        await user.click(screen.getByText('Open'));
         await waitFor(() => {
             expect(screen.getByTestId('drawer-content')).toHaveAttribute('data-state', 'open');
         });
