@@ -51,10 +51,10 @@ const data = {
        {
         prop : {
             name : "defaultOpen",
-            info_tooltips : "Not supported on this wrapper; control initial state by managing open in your own state."
+            info_tooltips : "The initial open state for uncontrolled usage."
         },
-        type : "n/a",
-        default : "--",
+        type : "boolean",
+        default : "false",
        },
        {
         prop : {
