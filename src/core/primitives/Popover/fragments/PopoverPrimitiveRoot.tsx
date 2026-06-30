@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import {
     defaultPopoverPositioning,
     PopoverPrimitiveContext
@@ -57,6 +58,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     ...props
 }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
+    useRegisterDocumentOverlayOpen(isOpen);
     const [triggerNode, setTriggerNode] = React.useState<HTMLElement | null>(null);
     const [anchorNode, setAnchorNode] = React.useState<HTMLElement | null>(null);
     const [arrowNode, setArrowNode] = React.useState<SVGSVGElement | null>(null);
