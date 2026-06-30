@@ -5,7 +5,6 @@ const alias = require('@rollup/plugin-alias');
 const path = require('path');
 const fs = require('fs');
 const banner2 = require('rollup-plugin-banner2');
-const { dts } = require('rollup-plugin-dts');
 
 // Function to dynamically get all component directories in the 'src/components' folder
 function getComponentDirectories() {
@@ -74,18 +73,4 @@ const jsBundles = {
     ]
 };
 
-// Type declarations builds (keep separate for dts plugin)
-const dtsBundles = components.map((component) => {
-    const entry = `src/components/ui/${component}/${component}.tsx`;
-    return {
-        input: entry,
-        output: {
-            file: `dist/temp-cleanup/${component}.d.ts`,
-            format: 'es'
-        },
-        plugins: [dts()],
-        external: ['react', 'react-dom']
-    };
-});
-
-module.exports = [jsBundles, ...dtsBundles];
+module.exports = [jsBundles];

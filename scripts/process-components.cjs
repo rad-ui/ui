@@ -28,8 +28,8 @@ if (!fs.existsSync(componentsPath)) {
 
 // Check if temp-cleanup exists
 if (!fs.existsSync(tempCleanupPath)) {
-    console.log('⚠️  No temp-cleanup directory found. Skipping component processing.');
-    process.exit(0);
+    console.error('❌ dist/temp-cleanup not found. Component compilation did not produce output.');
+    process.exit(1);
 }
 
 // Get all files in temp-cleanup
