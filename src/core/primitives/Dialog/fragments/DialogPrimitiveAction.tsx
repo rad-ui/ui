@@ -15,9 +15,10 @@ const DialogPrimitiveAction = forwardRef<HTMLButtonElement, DialogPrimitiveActio
         <ButtonPrimitive
             ref={ref}
             asChild={asChild}
-            onClick={() => handleOpenChange(false)}
-            {...getItemProps()}
-            {...props}
+            {...getItemProps({
+                ...props,
+                onClick: () => handleOpenChange(false)
+            })}
         >
             {children}
         </ButtonPrimitive>
