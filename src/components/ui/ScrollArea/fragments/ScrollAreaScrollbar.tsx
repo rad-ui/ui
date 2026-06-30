@@ -3,9 +3,10 @@
 import React, { useContext, useRef, useCallback, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
+import Primitive from '~/core/primitives/Primitive';
 
-type ScrollAreaScrollbarElement = ElementRef<'div'>;
-export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
+type ScrollAreaScrollbarElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     orientation?: 'horizontal' | 'vertical';
 };
 
@@ -114,7 +115,7 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
     const shouldKeepInDOM = isOverflowing || type === 'always';
 
     return (
-        <div
+        <Primitive.div
             ref={ref}
             className={clsx(rootClass && `${rootClass}-scrollbar`, className)}
             data-orientation={orientation}
@@ -129,7 +130,7 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
             {...props}
         >
             {children}
-        </div>
+        </Primitive.div>
     );
 });
 

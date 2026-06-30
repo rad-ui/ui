@@ -8,7 +8,8 @@ const data = {
     ],
     data: [
         { prop: { name: "orientation", info_tooltips: "The axis the scrollbar controls." }, type: "enum", enum_values: ["horizontal", "vertical"], default: "vertical" },
-        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
+        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' },
+        { prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." }, type: "boolean", default: "false" }
     ]
 }
 

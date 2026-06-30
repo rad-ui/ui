@@ -46,7 +46,7 @@ const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({
                 asChild={asChild}
                 aria-disabled={disabled}
                 aria-selected={isActive}
-                disabled={disabled}
+                data-disabled={disabled ? '' : undefined}
                 {...disabled ? {} : { href }}
                 {...props}
             >

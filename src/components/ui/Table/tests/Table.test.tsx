@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, RenderResult, within } from '@testing-library/react';
+import { render, RenderResult, screen, within } from '@testing-library/react';
 
 import Table from '../Table';
 
@@ -118,5 +118,46 @@ describe('Table Component', () => {
         expect(rowRef.current).toBeInstanceOf(HTMLTableRowElement);
         expect(columnHeaderRef.current).toBeInstanceOf(HTMLTableCellElement);
         expect(cellRef.current).toBeInstanceOf(HTMLTableCellElement);
+    });
+
+    it('supports asChild on table sections and cells', () => {
+        const headRef = React.createRef<HTMLTableSectionElement>();
+        const bodyRef = React.createRef<HTMLTableSectionElement>();
+        const rowRef = React.createRef<HTMLTableRowElement>();
+        const headerRef = React.createRef<HTMLTableCellElement>();
+        const cellRef = React.createRef<HTMLTableCellElement>();
+
+        render(
+            <Table.Root>
+                <Table.Head asChild ref={headRef}>
+                    <thead data-testid="head">
+                        <Table.Row asChild ref={rowRef}>
+                            <tr data-testid="row">
+                                <Table.ColumnCellHeader asChild ref={headerRef} scope="col">
+                                    <th data-testid="header">Header</th>
+                                </Table.ColumnCellHeader>
+                            </tr>
+                        </Table.Row>
+                    </thead>
+                </Table.Head>
+                <Table.Body asChild ref={bodyRef}>
+                    <tbody data-testid="body">
+                        <Table.Row>
+                            <Table.Cell asChild ref={cellRef}>
+                                <td data-testid="cell">Cell</td>
+                            </Table.Cell>
+                        </Table.Row>
+                    </tbody>
+                </Table.Body>
+            </Table.Root>
+        );
+
+        expect(headRef.current?.tagName).toBe('THEAD');
+        expect(bodyRef.current?.tagName).toBe('TBODY');
+        expect(rowRef.current?.tagName).toBe('TR');
+        expect(headerRef.current?.getAttribute('scope')).toBe('col');
+        expect(cellRef.current?.tagName).toBe('TD');
+        expect(within(screen.getByTestId('head')).getByRole('row')).toBeInTheDocument();
+        expect(within(screen.getByTestId('body')).getByRole('cell')).toHaveTextContent('Cell');
     });
 });
