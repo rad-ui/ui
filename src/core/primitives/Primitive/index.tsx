@@ -5,12 +5,18 @@ import { composeRefs, mergeProps } from '../../utils/mergeProps';
 const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input', 'a', 'img', 'p', 'h2', 'label'] as const;
 type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 
-// Update type definitions to be more specific
 type PrimitiveProps =
   | (React.InputHTMLAttributes<HTMLInputElement> & { asChild?: boolean })
-  | (React.HTMLAttributes<HTMLElement> & { asChild?: boolean, children?: React.ReactNode });
+  | (React.HTMLAttributes<HTMLElement> & { asChild?: boolean; children?: React.ReactNode });
 
-// Update component creation with proper typing
+type AnchorPrimitiveProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { asChild?: boolean };
+
+type PrimitiveComponent = React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>;
+
+type PrimitiveMap = Record<SupportedElement, PrimitiveComponent> & {
+    a: React.ForwardRefExoticComponent<AnchorPrimitiveProps & React.RefAttributes<HTMLAnchorElement>>;
+};
+
 const createPrimitiveComponent = (elementType: SupportedElement) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
@@ -23,7 +29,6 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
                 return React.createElement(elementType, { ...elementProps, ref }, children);
             }
 
-            // Check if there's exactly one child and it's a valid element
             const childrenArray = React.Children.toArray(children);
             if (childrenArray.length !== 1 || !React.isValidElement(childrenArray[0])) {
                 console.warn(
@@ -51,13 +56,12 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
     return PrimitiveComponent;
 };
 
-// Update the type of the final Primitive object
-const Primitive = SUPPORTED_HTML_ELEMENTS.reduce<Record<SupportedElement, React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>>>(
+const Primitive = SUPPORTED_HTML_ELEMENTS.reduce(
     (components, elementType) => {
         components[elementType] = createPrimitiveComponent(elementType);
         return components;
     },
-    {} as Record<SupportedElement, React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>>
-);
+    {} as Record<SupportedElement, PrimitiveComponent>
+) as PrimitiveMap;
 
 export default Primitive;
