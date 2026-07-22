@@ -31,6 +31,11 @@ const data = {
             prop: { name: "size", info_tooltips: "Size token used by the card theme." },
             type: "string",
             default: "''",
+        },
+        {
+            prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." },
+            type: "boolean",
+            default: "false",
         }
     ]
 };

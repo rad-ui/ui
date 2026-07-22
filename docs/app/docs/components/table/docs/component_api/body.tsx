@@ -32,6 +32,14 @@ const data = {
         type : "ReactNode",
         default : "--",
        },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Merges props onto the immediate child element instead of rendering the default tbody."
+        },
+        type : "boolean",
+        default : "false",
+       },
     ]
 }
 
