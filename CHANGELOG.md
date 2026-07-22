@@ -1,6 +1,25 @@
 # @radui/ui
 
+## 0.5.1
+
+### Patch Changes
+
+- Fix the release build pipeline so theme CSS and component bundles are always included in published npm tarballs. Builds now run sequentially (components, then CSS), emit types with per-component `tsc` instead of memory-heavy Rollup d.ts bundling, and validate artifacts with `npm pack` before publish.
+
+### Breaking Changes
+
+- **Removed `require` / `.cjs` export conditions** from per-component `package.json` exports. These files were never built or shipped; `require('@radui/ui/Button')` and similar paths did not work in `0.5.0` or earlier. Use ESM imports (`import Button from '@radui/ui/Button'`) or upgrade consumers that assumed CJS support.
+
 ## 0.5.0
+
+> **⚠️ Defective publish — do not use for theme CSS or CommonJS imports**
+>
+> `@radui/ui@0.5.0` shipped with an incomplete `dist/` artifact due to a flaky parallel release build:
+>
+> - **Theme CSS missing from npm** — `dist/themes/default.css` and `dist/themes/baremetal.css` are **not in the published tarball**, but `package.json` still exports `@radui/ui/themes/default.css` and `@radui/ui/themes/baremetal.css`. Those import paths fail for consumers.
+> - **CommonJS exports broken** — per-component `require` conditions point at `*.cjs` files that were **never included** in the package. Only ESM `.js` bundles were shipped.
+>
+> If you need theme styles, use **`0.4.0`** (includes `default.css`) or upgrade to **`0.5.1+`**. Component ESM imports from `0.5.0` may work, but theme and CJS paths do not.
 
 ### Minor Changes
 

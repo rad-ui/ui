@@ -81,7 +81,6 @@ files.forEach(file => {
 
         exportsMap[`./${name}`] = {
             import: `./dist/components/${name}.js`,
-            require: `./dist/components/${name}.cjs`,
             types: `./dist/components/${name}.d.ts`
         };
     }
