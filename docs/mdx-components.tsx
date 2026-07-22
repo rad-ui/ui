@@ -7,6 +7,7 @@ import Strong from "@radui/ui/Strong"
 import { TableRoot, TableHead, TableBody, TableRow, TableHeader, TableCell } from '@/components/mdx/TableComponents'
 
 import Documentation from '@/components/layout/Documentation/Documentation';
+import { MultipleTabs } from '@/components/mdx/MultipleTabs';
 
 
 const headingColorClasses = "text-gray-1000"
@@ -102,6 +103,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     //     {...(props as ImageProps)}
     //   />
     // ),
+    MultipleTabs,
     ...components,
   }
 }
