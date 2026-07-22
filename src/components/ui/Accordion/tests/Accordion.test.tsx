@@ -118,6 +118,12 @@ describe('Accordion Component', () => {
         expect(content.style.getPropertyValue('--radix-accordion-content-width')).toBe(
             'var(--radix-collapsible-content-width)'
         );
+        expect(content.style.getPropertyValue('--rad-accordion-content-height')).toBe(
+            'var(--rad-collapsible-content-height)'
+        );
+        expect(content.style.getPropertyValue('--rad-accordion-content-width')).toBe(
+            'var(--rad-collapsible-content-width)'
+        );
     });
 
     test('focus-visible styles use centralized focus ring aliases', () => {
