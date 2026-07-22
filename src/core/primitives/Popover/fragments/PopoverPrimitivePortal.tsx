@@ -21,12 +21,10 @@ const PopoverPrimitivePortal = ({
     const [isMounted, setIsMounted] = React.useState(false);
 
     React.useEffect(() => {
-        rootElementRef.current = (container as HTMLElement | null) ||
-            themeContext?.portalRootRef.current ||
-            document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null ||
-            themeContext?.containerRef.current ||
-            document.querySelector('#rad-ui-theme-container') as HTMLElement | null ||
-            document.body;
+        rootElementRef.current = (container as HTMLElement | null)
+            ?? themeContext?.portalRootRef.current
+            ?? themeContext?.containerRef.current
+            ?? document.body;
         setIsMounted(true);
     }, [container, themeContext]);
 
