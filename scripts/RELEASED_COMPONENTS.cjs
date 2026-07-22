@@ -16,6 +16,7 @@ const RELEASED_COMPONENTS = [
     'Heading',
     'Text',
     'Kbd',
+    'Label',
     'Progress',
     'Separator',
     'Strong',
