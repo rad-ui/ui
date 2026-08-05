@@ -1,11 +1,13 @@
 'use client';
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
+import { useControllableState } from '~/core/hooks/useControllableState';
 
 export type DialogPrimitiveRootProps = {
     children: React.ReactNode;
     open?: boolean;
+    defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
     onClickOutside?: () => void;
     className?:string;
@@ -15,18 +17,12 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open = false, onOpenChange = () => {}, onClickOutside = () => {}, className, disablePointerDismissal = false, ...props }, ref) => {
-    const [isOpen, setIsOpen] = useState(open);
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, ...props }, ref) => {
+    const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const nodeId = Floater.useFloatingNodeId();
-
-    // Sync internal state with the open prop
-    useEffect(() => {
-        setIsOpen(open);
-    }, [open]);
 
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
-        onOpenChange(open);
     };
     const handleOverlayClick = () => {
         if (disablePointerDismissal) return;
