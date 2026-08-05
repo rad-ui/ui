@@ -141,4 +141,94 @@ describe('CollapsiblePrimitive', () => {
         expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('120px');
         expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('320px');
     });
+    test('does not set inline height in steady open state when transitionDuration is 0', () => {
+        HTMLElement.prototype.getBoundingClientRect = jest.fn(function(this: HTMLElement) {
+            if (this.dataset.testid === 'content') {
+                return {
+                    width: 320,
+                    height: 120,
+                    top: 0,
+                    left: 0,
+                    right: 320,
+                    bottom: 120,
+                    x: 0,
+                    y: 0,
+                    toJSON: () => ({})
+                } as DOMRect;
+            }
+
+            return {
+                width: 0,
+                height: 0,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                x: 0,
+                y: 0,
+                toJSON: () => ({})
+            } as DOMRect;
+        });
+
+        render(
+            <CollapsiblePrimitive.Root transitionDuration={0} defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    <div>Measured Content</div>
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        const content = screen.getByTestId('content');
+
+        expect(content.style.height).toBe('');
+        expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('120px');
+        expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('320px');
+    });
+
+    test('clears inline height after opening with transitionDuration 0', () => {
+        HTMLElement.prototype.getBoundingClientRect = jest.fn(function(this: HTMLElement) {
+            if (this.dataset.testid === 'content') {
+                return {
+                    width: 200,
+                    height: 80,
+                    top: 0,
+                    left: 0,
+                    right: 200,
+                    bottom: 80,
+                    x: 0,
+                    y: 0,
+                    toJSON: () => ({})
+                } as DOMRect;
+            }
+
+            return {
+                width: 0,
+                height: 0,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                x: 0,
+                y: 0,
+                toJSON: () => ({})
+            } as DOMRect;
+        });
+
+        render(
+            <CollapsiblePrimitive.Root transitionDuration={0}>
+                <CollapsiblePrimitive.Trigger data-testid="trigger">Toggle</CollapsiblePrimitive.Trigger>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    <div>Measured Content</div>
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        fireEvent.click(screen.getByTestId('trigger'));
+
+        const content = screen.getByTestId('content');
+
+        expect(content).toHaveAttribute('data-state', 'open');
+        expect(content.style.height).toBe('');
+        expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('80px');
+    });
 });

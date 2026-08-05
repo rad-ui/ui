@@ -23,6 +23,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const [isPresent, setIsPresent] = useState(open || forceMount);
+    const [, setCssVarRevision] = useState(0);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -87,6 +88,11 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             } else {
                 setIsPresent(true);
             }
+
+            if (open) {
+                setCssVarRevision((revision) => revision + 1);
+            }
+
             return;
         }
 
@@ -147,10 +153,14 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         return null;
     }
 
+    const omitInlineHeightForCssAnimation = transitionDuration === 0 && open;
+
     const dynamicStyle: React.CSSProperties = {
         ...style,
         overflow: 'hidden',
-        height: height !== undefined ? `${height}px` : undefined,
+        ...(!omitInlineHeightForCssAnimation && height !== undefined
+            ? { height: `${height}px` }
+            : {}),
         ['--radix-collapsible-content-height' as string]:
             heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
         ['--radix-collapsible-content-width' as string]:
