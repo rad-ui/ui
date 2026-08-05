@@ -8,6 +8,7 @@ const RELEASED_COMPONENTS = [
     'Badge',
     'Button',
     'BlockQuote',
+    'Breadcrumb',
     'Callout',
     'Card',
     'Code',
