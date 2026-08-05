@@ -26,9 +26,10 @@ export type CollapsiblePrimitiveContextValue = {
    */
   contentId: string;
   /**
-   * Duration of the height transition animation in milliseconds
+   * Duration of the height transition animation in milliseconds.
+   * When omitted, primitives apply defaults (including prefers-reduced-motion).
    */
-  transitionDuration: number;
+  transitionDuration?: number;
   /**
    * CSS timing function for the transition
    */
