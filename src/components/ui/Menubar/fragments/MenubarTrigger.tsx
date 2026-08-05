@@ -19,19 +19,28 @@ const MenubarTrigger = forwardRef<MenubarTriggerElement, MenubarTriggerProps>(({
         console.warn('MenubarTrigger should be used in the MenubarRoot');
         return null;
     }
-    const { rootClass } = context;
+    const { rootClass, updateItemTrigger } = context;
 
     if (!menuContext) {
         console.warn('MenubarTrigger should be used in the MenubarMenu');
         return null;
     }
-    const { isOpen } = menuContext;
+    const { id, isOpen } = menuContext;
+
+    const setTriggerRef = React.useCallback((node: HTMLButtonElement | null) => {
+        updateItemTrigger(id, node);
+        if (typeof ref === 'function') {
+            ref(node);
+        } else if (ref) {
+            (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+        }
+    }, [id, ref, updateItemTrigger]);
 
     return (
         <Floater.CompositeItem
             render={() => (
                 <MenuPrimitive.Trigger
-                    ref={ref}
+                    ref={setTriggerRef}
                     className={clsx(rootClass && `${rootClass}-trigger`, className)}
                     data-active={isOpen}
                     {...props}
