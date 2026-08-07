@@ -52,11 +52,16 @@ describe('TextField', () => {
         );
 
         expect(screen.getByTestId('root')).toHaveClass('rad-ui-text-field');
+        expect(screen.getByTestId('root')).toHaveAttribute('data-slot', 'text-field-root');
         expect(screen.getByLabelText('Compound field')).toHaveClass('rad-ui-text-field-input');
+        expect(screen.getByLabelText('Compound field')).toHaveAttribute('data-slot', 'text-field-input');
         expect(screen.getByTestId('start-slot')).toHaveClass('rad-ui-text-field-slot');
+        expect(screen.getByTestId('start-slot')).toHaveAttribute('data-slot', 'text-field-slot');
         expect(screen.getByTestId('start-slot')).toHaveAttribute('data-text-field-slot', 'start');
         expect(screen.getByTestId('reset')).toHaveClass('rad-ui-text-field-reset');
+        expect(screen.getByTestId('reset')).toHaveAttribute('data-slot', 'text-field-reset');
         expect(screen.getByTestId('end-slot')).toHaveClass('rad-ui-text-field-slot');
+        expect(screen.getByTestId('end-slot')).toHaveAttribute('data-slot', 'text-field-slot');
         expect(screen.getByTestId('end-slot')).toHaveAttribute('data-text-field-slot', 'end');
     });
 

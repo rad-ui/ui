@@ -1,0 +1,43 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import Breadcrumb from "@radui/ui/Breadcrumb"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+
+<Documentation
+  title="Breadcrumb"
+  description="Breadcrumbs show the user's location within a hierarchy and provide links back to parent pages."
+>
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <Breadcrumb.Root>
+      <Breadcrumb.List>
+        <Breadcrumb.Item>
+          <Breadcrumb.Link href="/docs">Docs</Breadcrumb.Link>
+          <Breadcrumb.Separator />
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Breadcrumb.Link href="/docs/components">Components</Breadcrumb.Link>
+          <Breadcrumb.Separator />
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Breadcrumb.Page>Breadcrumb</Breadcrumb.Page>
+        </Breadcrumb.Item>
+      </Breadcrumb.List>
+    </Breadcrumb.Root>
+  </Documentation.ComponentHero>
+
+  <Documentation.ComponentFeatures features={features} />
+
+  <Documentation.Section title="API Documentation" as="h2">
+    <Documentation.Table
+      title="Root"
+      description={api_documentation.root.description}
+      columns={api_documentation.root.columns}
+      data={api_documentation.root.data}
+    />
+    <Documentation.Table
+      title="Parts"
+      description={api_documentation.parts.description}
+      columns={api_documentation.parts.columns}
+      data={api_documentation.parts.data}
+    />
+  </Documentation.Section>
+</Documentation>
