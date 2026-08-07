@@ -33,7 +33,7 @@
     "motion": "^12.40.0",
     "next": "16.2.7",
     "node-fetch": "^3.3.2",
-    "postcss": "8.5.13",
+    "postcss": "8.5.23",
     "posthog-js": "^1.379.3",
     "posthog-node": "^5.35.15",
     "react": "19.0.0",
