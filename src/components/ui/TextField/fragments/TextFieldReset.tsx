@@ -26,6 +26,7 @@ const TextFieldReset = React.forwardRef<HTMLButtonElement, TextFieldResetProps>(
             ref={ref}
             type={type}
             className={clsx(rootClass && `${rootClass}-reset`, className)}
+            data-slot="text-field-reset"
             onClick={handleClick}
             {...props}
         >

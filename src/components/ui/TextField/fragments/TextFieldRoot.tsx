@@ -31,7 +31,7 @@ const TextFieldRoot = React.forwardRef<HTMLDivElement, TextFieldRootProps>(({ cl
 
     return (
         <TextFieldContext.Provider value={{ rootClass, inputRef, clearInput, hasValue, setHasValue }}>
-            <div ref={ref} className={clsx(rootClass, className)} {...props}>
+            <div ref={ref} className={clsx(rootClass, className)} data-slot="text-field-root" {...props}>
                 {children}
             </div>
         </TextFieldContext.Provider>
