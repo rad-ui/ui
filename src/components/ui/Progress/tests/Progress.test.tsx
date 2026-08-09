@@ -6,7 +6,7 @@ import Progress from '../Progress';
 const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0 }: { value?: number | null, maxValue?: number, minValue?: number }) => {
     return (
         <Progress.Root value={value} maxValue={maxValue} minValue={minValue}>
-            <Progress.Indicator />
+            <Progress.Indicator data-testid="progress-indicator" />
         </Progress.Root>
     );
 };
@@ -16,6 +16,7 @@ describe('Progress', () => {
         render(<ProgressComp />);
         const progressBars = screen.getAllByRole('progressbar');
         expect(progressBars[0]).toBeInTheDocument();
+        expect(progressBars).toHaveLength(1);
     });
 
     test('forwards ref to root element', () => {
@@ -190,64 +191,55 @@ describe('Progress', () => {
         describe('ProgressIndicator data attributes', () => {
             test('indicator renders with correct data-state when loading', () => {
                 render(<ProgressComp value={50} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1]; // Second progressbar is the indicator
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'loading');
             });
 
             test('indicator renders with correct data-state when complete', () => {
                 render(<ProgressComp value={100} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'complete'); // Indicator now shows actual state
             });
 
             test('indicator renders with correct data-state when indeterminate', () => {
                 render(<ProgressComp value={null} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'indeterminate'); // Indicator now shows actual state
             });
 
             test('indicator renders with correct data-value (bounded)', () => {
                 render(<ProgressComp value={75} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-value', '75');
             });
 
             test('indicator renders with bounded data-value when value exceeds max', () => {
                 render(<ProgressComp value={150} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-value', '100'); // Bounded to maxValue
             });
 
             test('indicator renders with bounded data-value when value below min', () => {
                 render(<ProgressComp value={-10} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-value', '0'); // Bounded to minValue
             });
 
             test('indicator renders with correct data-max', () => {
                 render(<ProgressComp value={50} maxValue={200} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-max', '200');
             });
 
             test('indicator renders with correct data-min', () => {
                 render(<ProgressComp value={50} maxValue={100} minValue={10} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-min', '10');
             });
 
             test('indicator renders with all correct data attributes', () => {
                 render(<ProgressComp value={30} maxValue={60} minValue={10} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'loading');
                 expect(indicator).toHaveAttribute('data-value', '30');
                 expect(indicator).toHaveAttribute('data-max', '60');
