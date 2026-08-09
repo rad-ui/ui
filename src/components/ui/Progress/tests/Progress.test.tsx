@@ -39,10 +39,10 @@ describe('Progress', () => {
         expect(ref.current).not.toBeNull();
     });
 
-    test('renders progress bar with clamped value', () => {
+    test('renders progress bar with raw determinate value', () => {
         const { rerender } = render(<ProgressComp value={110} maxValue={100} minValue={0} />);
         const progressBars = screen.getAllByRole('progressbar');
-        expect(progressBars[0]).toHaveAttribute('aria-valuenow', '110'); // Root doesn't clamp, indicator does
+        expect(progressBars[0]).toHaveAttribute('aria-valuenow', '110');
 
         rerender(<ProgressComp value={100} maxValue={100} minValue={0} />);
         const updatedProgressBars = screen.getAllByRole('progressbar');
@@ -53,6 +53,12 @@ describe('Progress', () => {
         render(<ProgressComp minValue={100} maxValue={0} />);
         const progressBars = screen.getAllByRole('progressbar');
         expect(progressBars[0]).toHaveAttribute('aria-valuenow', '0');
+    });
+
+    test('omits aria-valuenow when progress is indeterminate', () => {
+        render(<ProgressComp value={null} maxValue={100} minValue={0} />);
+        const progressBars = screen.getAllByRole('progressbar');
+        expect(progressBars[0]).not.toHaveAttribute('aria-valuenow');
     });
 
     test('binds value to progress bar', () => {
@@ -86,6 +92,7 @@ describe('Progress', () => {
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
                 expect(root).toHaveAttribute('data-state', 'indeterminate');
+                expect(root).not.toHaveAttribute('data-value');
             });
 
             test('renders with correct data-value', () => {
@@ -205,6 +212,7 @@ describe('Progress', () => {
                 render(<ProgressComp value={null} maxValue={100} minValue={0} />);
                 const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'indeterminate'); // Indicator now shows actual state
+                expect(indicator).not.toHaveAttribute('data-value');
             });
 
             test('indicator renders with correct data-value (bounded)', () => {
