@@ -1,0 +1,69 @@
+# Hidden input strategies
+
+How to submit Rad UI composite controls with native HTML forms and server handlers.
+
+## When you need hidden inputs
+
+Use hidden inputs when:
+
+- the server expects classic `application/x-www-form-urlencoded` or `multipart/form-data`
+- JavaScript may be disabled after first paint
+- you want progressive enhancement alongside Rad UI visuals
+
+Headless Rad UI primitives often render buttons, divs, or custom roles — they are not always native `<input>` elements.
+
+## Pattern: mirror state in a hidden input
+
+Keep the Rad UI control as the interactive surface; sync its value into a hidden native input on change.
+
+```tsx
+import Select from '@radui/ui/Select'
+
+export function CountryField({ name = 'country' }: { name?: string }) {
+  const [value, setValue] = useState('')
+
+  return (
+    <>
+      <input type="hidden" name={name} value={value} />
+      <Select.Root value={value} onValueChange={setValue}>
+        <Select.Trigger aria-label="Country" />
+        <Select.Content>
+          <Select.Item value="us">United States</Select.Item>
+          <Select.Item value="ca">Canada</Select.Item>
+        </Select.Content>
+      </Select.Root>
+    </>
+  )
+}
+```
+
+## Multi-select and array fields
+
+For multiple values, use indexed names or a single JSON hidden field — match what your server parser expects.
+
+```tsx
+<input type="hidden" name="tags" value={selected.join(',')} />
+```
+
+Document the serialization format in your API or form handler.
+
+## Checkbox and switch booleans
+
+Mirror checked state:
+
+```tsx
+<input type="hidden" name="notifications" value={checked ? 'on' : 'off'} />
+```
+
+Or use a native checkbox visually hidden for no-JS fallback while Rad UI handles the styled control when JS is available.
+
+## Composite controls checklist
+
+- [ ] Hidden `name` matches server contract
+- [ ] Controlled Rad UI state and hidden value stay in sync on every change
+- [ ] Default/unselected states serialize predictably (empty string vs omitted field)
+- [ ] Server-side validation does not rely on client-only ARIA state
+
+## Related guidance
+
+See [Controlled vs uncontrolled forms](/docs/guides/controlled-uncontrolled-forms) for state ownership patterns.

@@ -1,0 +1,121 @@
+# Composition recipes
+
+Practical patterns for combining Rad UI primitives into common product UI. Each recipe names **who owns state** and the **minimum anatomy** required for accessible behavior.
+
+## Confirm destructive action
+
+**Components:** `AlertDialog`  
+**State owner:** parent (`open` / `onOpenChange` or uncontrolled trigger)
+
+```tsx
+import AlertDialog from '@radui/ui/AlertDialog'
+
+export function DeleteAccountButton({ onConfirm }: { onConfirm: () => void }) {
+  return (
+    <AlertDialog.Root>
+      <AlertDialog.Trigger>Delete account</AlertDialog.Trigger>
+      <AlertDialog.Content>
+        <AlertDialog.Title>Delete account?</AlertDialog.Title>
+        <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
+        <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+        <AlertDialog.Action onClick={onConfirm}>Delete</AlertDialog.Action>
+      </AlertDialog.Content>
+    </AlertDialog.Root>
+  )
+}
+```
+
+Keep title and description in the content layer so screen readers announce purpose before action buttons.
+
+## Settings panel with sections
+
+**Components:** `Tabs` + form controls  
+**State owner:** `Tabs` for active section; each field manages its own value
+
+```tsx
+import Tabs from '@radui/ui/Tabs'
+import Switch from '@radui/ui/Switch'
+
+export function SettingsPanel() {
+  return (
+    <Tabs.Root defaultValue="general">
+      <Tabs.List>
+        <Tabs.Trigger value="general">General</Tabs.Trigger>
+        <Tabs.Trigger value="notifications">Notifications</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="general">{/* general fields */}</Tabs.Content>
+      <Tabs.Content value="notifications">
+        <Switch.Root>
+          <Switch.Thumb />
+        </Switch.Root>
+      </Tabs.Content>
+    </Tabs.Root>
+  )
+}
+```
+
+Mount heavy panel content inside the active `Tabs.Content` only when panels are large.
+
+## Command palette
+
+**Components:** `Dialog` + `Command`  
+**State owner:** dialog `open`; command value for selection
+
+```tsx
+import Dialog from '@radui/ui/Dialog'
+import Command from '@radui/ui/Command'
+
+export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Content>
+        <Command.Root>
+          <Command.Input placeholder="Search…" />
+          <Command.List>
+            <Command.Item onSelect={() => onOpenChange(false)}>Profile</Command.Item>
+          </Command.List>
+        </Command.Root>
+      </Dialog.Content>
+    </Dialog.Root>
+  )
+}
+```
+
+Trap focus inside the dialog; return focus to the opener when the palette closes.
+
+## Form field with label and error
+
+**Components:** `TextArea` or `NumberField` + your field wrapper  
+**State owner:** parent form / field component
+
+```tsx
+import TextArea from '@radui/ui/TextArea'
+
+export function DescriptionField({ error, ...props }: DescriptionFieldProps) {
+  return (
+    <div>
+      <label htmlFor="description">Description</label>
+      <TextArea.Root>
+        <TextArea.Input id="description" aria-invalid={Boolean(error)} {...props} />
+      </TextArea.Root>
+      {error ? <p role="alert">{error}</p> : null}
+    </div>
+  )
+}
+```
+
+Wire `htmlFor` / `id` and `aria-invalid` in your wrapper — Rad UI exposes the primitives, not your validation messaging.
+
+## Nested disclosure
+
+**Components:** `Accordion` inside `Card`  
+**State owner:** `Accordion` (`type`, `value`, `onValueChange`)
+
+Use accordion for FAQ-style content inside a card shell. Avoid nesting multiple roving-focus containers (menus inside accordion headers) without testing keyboard order.
+
+## Recipe checklist
+
+- [ ] Named which component owns open/selected/value state
+- [ ] Included required title/description parts for modal patterns
+- [ ] Verified keyboard and focus behavior manually
+- [ ] Used per-component imports (`@radui/ui/Component`)

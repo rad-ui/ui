@@ -148,6 +148,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     // Imperative dismiss — same exit as Close / timer
     useEffect(() => {
+        if (!toastManager) return;
         const unsub = toastManager.subscribeDismiss((id) => {
             if (id === '__all__') return;
             if (id === toast.id) dismissRef.current();

@@ -41,6 +41,7 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
         if (!context) return null;
         const { activeIndex, getItemProps } = context;
         const isActive = activeIndex === index;
+        const { onClick: consumerOnClick, onKeyDown: consumerOnKeyDown, ...restProps } = props as React.ComponentPropsWithoutRef<'button'>;
 
         return (
             <Primitive.button
@@ -48,19 +49,23 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
                 tabIndex={isActive ? 0 : -1}
                 className={className}
                 {...getItemProps({
+                    ...restProps,
+                    disabled,
                     onClick(event: React.MouseEvent<HTMLButtonElement>) {
                         if (disabled) return;
+                        consumerOnClick?.(event);
+                        if (event.defaultPrevented) return;
                         if (onSelect) {
                             onSelect(event);
                         } else {
                             tree?.events.emit('click');
                         }
+                    },
+                    onKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+                        consumerOnKeyDown?.(event);
                     }
-
                 })}
-                disabled={disabled}
                 asChild={asChild}
-                {...props}
             >
                 {children}
             </Primitive.button>

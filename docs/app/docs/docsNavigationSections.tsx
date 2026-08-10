@@ -32,6 +32,7 @@ export const docsNavigationSections = [
             { title:"AvatarGroup", path:"/docs/components/avatar-group" },
             { title:"Badge", path:"/docs/components/badge" },
             { title:"BlockQuote", path:"/docs/components/blockquote" },
+            { title:"Breadcrumb", path:"/docs/components/breadcrumb", is_new:true },
             { title:"Button", path:"/docs/components/button" },
             { title:"Callout", path:"/docs/components/callout" },
             { title:"Card", path:"/docs/components/card" },
@@ -140,6 +141,30 @@ export const docsNavigationSections = [
             {
                 title:"Screen Reader Testing",
                 path:"/docs/guides/screen-reader-testing"
+            },
+            {
+                title:"Keyboard Interaction Spec",
+                path:"/docs/guides/keyboard-interaction-spec"
+            },
+            {
+                title:"Controlled & Uncontrolled Forms",
+                path:"/docs/guides/controlled-uncontrolled-forms"
+            },
+            {
+                title:"Hidden Input Strategies",
+                path:"/docs/guides/hidden-input-strategies"
+            },
+            {
+                title:"Composition Recipes",
+                path:"/docs/guides/composition-recipes"
+            },
+            {
+                title:"Design System Integration",
+                path:"/docs/guides/design-system-integration"
+            },
+            {
+                title:"Migration Guides",
+                path:"/docs/guides/migration-guides"
             }
         ]
     },

@@ -1,0 +1,122 @@
+# Design system integration cookbook
+
+Recipes for using Rad UI as the **behavior layer** inside a consumer-owned design system.
+
+Rad UI is headless at its core. Your team owns tokens, typography, spacing, and component visuals unless you explicitly import Rad UI theme CSS.
+
+## Integration models
+
+| Model | When to use | Rad UI role |
+| --- | --- | --- |
+| Headless wrappers | You have an existing design system | behavior, a11y, anatomy |
+| Rad UI default theme | You want Rad UI visuals with minimal setup | behavior + optional `themes/default.css` |
+| Hybrid | Gradual adoption in a large app | headless in new surfaces; themed islands elsewhere |
+
+## Recipe: headless primitive wrapper
+
+Wrap a Rad UI part once, map props to your tokens, and export the wrapper as your design-system API.
+
+```tsx
+// design-system/Button.tsx
+import RadButton from '@radui/ui/Button'
+import styles from './Button.module.css'
+
+type ButtonProps = React.ComponentProps<typeof RadButton> & {
+  variant?: 'primary' | 'secondary'
+}
+
+export function Button({ variant = 'primary', className, ...props }: ButtonProps) {
+  return (
+    <RadButton
+      {...props}
+      className={[styles.root, styles[variant], className].filter(Boolean).join(' ')}
+    />
+  )
+}
+```
+
+**Tips**
+
+- style with `className` and documented `data-*` attributes, not internal selectors
+- keep keyboard and focus behavior inside the Rad UI primitive
+- re-export a narrow prop surface from your design system
+
+## Recipe: token bridge with `Theme`
+
+Map product theme settings to Rad UI `Theme` once at the app shell.
+
+```tsx
+import Theme from '@radui/ui/Theme'
+
+export function AppThemeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <Theme appearance="system" accentColor="indigo" classNamespace="acme">
+      {children}
+    </Theme>
+  )
+}
+```
+
+Pair with your global CSS:
+
+```css
+[data-rad-ui-accent-color='indigo'] {
+  --acme-focus-ring: var(--brand-focus, #4f46e5);
+}
+```
+
+## Recipe: overlay stack in a design system
+
+Dialogs, menus, and popovers share focus and portal behavior. Standardize on one wrapper per pattern:
+
+```tsx
+import Dialog from '@radui/ui/Dialog'
+
+export function ConfirmDialog({ title, description, onConfirm }: ConfirmDialogProps) {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>Open</Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title>{title}</Dialog.Title>
+        <Dialog.Description>{description}</Dialog.Description>
+        <Dialog.Close onClick={onConfirm}>Confirm</Dialog.Close>
+      </Dialog.Content>
+    </Dialog.Root>
+  )
+}
+```
+
+Document focus return and nested dialog rules in your design-system docs so product teams do not reimplement overlay logic.
+
+## Recipe: form field composition
+
+Combine labels, descriptions, and validation messaging in your layer; keep Rad UI inputs headless.
+
+```tsx
+import TextArea from '@radui/ui/TextArea'
+
+export function Field({ label, error, ...inputProps }: FieldProps) {
+  return (
+    <label>
+      <span>{label}</span>
+      <TextArea.Root>
+        <TextArea.Input aria-invalid={Boolean(error)} {...inputProps} />
+      </TextArea.Root>
+      {error ? <span role="alert">{error}</span> : null}
+    </label>
+  )
+}
+```
+
+## Boundaries to respect
+
+- Do not fork Rad UI markup to change behavior — extend via public parts and props.
+- Do not depend on undocumented classes without `classNamespace`.
+- Prefer per-component imports in app code; export curated wrappers from your design system package.
+
+## Verification checklist
+
+- [ ] Keyboard paths match your design-system docs for each wrapper
+- [ ] Focus visible in your theme for all interactive states
+- [ ] SSR/hydration smoke test for themed shell + client overlays
+- [ ] Visual review in light and dark `Theme` appearances
