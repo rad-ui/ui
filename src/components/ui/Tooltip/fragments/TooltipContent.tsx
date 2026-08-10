@@ -44,12 +44,13 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
                 <Primitive.div
                     className="rad-ui-tooltip-floating-element"
                     ref={mergedRef}
+                    data-slot="tooltip-content"
                     data-state={isOpen ? 'open' : 'closed'}
                     style={{ ...data.floatingStyles }}
                     {...getFloatingProps(props)}
                 >
                     <div className="rad-ui-tooltip-content-inner">
-                        {showArrow && <FloatingArrow className={clsx('rad-ui-arrow')} ref={arrowRef} context={context} />}
+                        {showArrow && <FloatingArrow className={clsx('rad-ui-arrow')} ref={arrowRef} context={context} data-slot="tooltip-arrow" />}
                         {children}
                     </div>
                 </Primitive.div>
