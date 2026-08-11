@@ -30,6 +30,7 @@ const ALLOWED_SUBPATHS = new Set([
   'themes/baremetal.css',
   'themes/tailwind-presets/default.js'
 ]);
+const PLACEHOLDER_SUBPATHS = new Set(['Component', 'ComponentName']);
 
 const SCANNED_EXTENSIONS = new Set(['.mdx', '.md', '.tsx', '.ts', '.js', '.jsx']);
 const IGNORED_DIRS = new Set(['node_modules', '.next', 'dist', '.git']);
@@ -70,18 +71,21 @@ function validateImport(file, lineNumber, subpath) {
     return;
   }
 
-  if (ALLOWED_SUBPATHS.has(subpath)) {
+  const normalized = subpath.replace(/^[`([{]+/, '').replace(/[`)\]},.;:]+$/g, '');
+  const exportPath = normalized.split('?')[0];
+
+  if (ALLOWED_SUBPATHS.has(exportPath) || PLACEHOLDER_SUBPATHS.has(normalized)) {
     return;
   }
 
-  if (RELEASED_COMPONENTS.has(subpath) || SOURCE_COMPONENTS.has(subpath)) {
+  if (RELEASED_COMPONENTS.has(normalized) || SOURCE_COMPONENTS.has(normalized)) {
     return;
   }
 
   recordError(
     file,
     lineNumber,
-    `unknown @radui/ui subpath "${subpath}" — use a released component or documented theme export`
+    `unknown @radui/ui subpath "${normalized}" — use a released component or documented theme export`
   );
 }
 

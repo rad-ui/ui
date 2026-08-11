@@ -25,7 +25,7 @@ export const AspectRatioTable = {
     ],
 
      data :[
-        {prop: 'ratio', type: 'string', default: '1', description: 'Used to set desired ratio', id: 'ratio'},
+        {prop: 'ratio', type: 'string | number', default: '1', description: 'Used to set desired ratio', id: 'ratio'},
 
     ]
 }
