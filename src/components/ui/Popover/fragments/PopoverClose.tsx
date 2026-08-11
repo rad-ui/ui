@@ -15,6 +15,7 @@ const PopoverClose = forwardRef<PopoverCloseElement, PopoverCloseProps>(({ class
         <PopoverPrimitive.Close
             ref={ref}
             className={clsx(rootClass && `${rootClass}-close`, className)}
+            data-slot="popover-close"
             {...props}
         />
     );
