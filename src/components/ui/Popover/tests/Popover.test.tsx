@@ -39,6 +39,7 @@ describe('Popover', () => {
 
         render(
             <Popover.Root ref={rootRef}>
+                <Popover.Anchor data-testid="anchor">Anchor</Popover.Anchor>
                 <Popover.Trigger ref={triggerRef}>Open</Popover.Trigger>
                 <Popover.Content ref={contentRef}>
                     Body
@@ -55,6 +56,12 @@ describe('Popover', () => {
         expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
         expect(closeRef.current).toBeInstanceOf(HTMLButtonElement);
         expect(arrowRef.current).toBeInstanceOf(SVGSVGElement);
+        expect(rootRef.current).toHaveAttribute('data-slot', 'popover-root');
+        expect(screen.getByTestId('anchor')).toHaveAttribute('data-slot', 'popover-anchor');
+        expect(screen.getByRole('button', { name: 'Open' })).toHaveAttribute('data-slot', 'popover-trigger');
+        expect(screen.getByRole('dialog')).toHaveAttribute('data-slot', 'popover-content');
+        expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute('data-slot', 'popover-close');
+        expect(arrowRef.current).toHaveAttribute('data-slot', 'popover-arrow');
     });
 
     test('toggles open state and dismisses on outside interaction', async() => {
