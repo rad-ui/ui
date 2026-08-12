@@ -98,6 +98,28 @@ describe('Accordion Component', () => {
         expect(content.firstElementChild).toHaveClass('acme-accordion-content-inner');
     });
 
+    test('exposes stable anatomy data slots', () => {
+        render(
+            <Accordion.Root data-testid="accordion-root" defaultValue="0">
+                <Accordion.Item data-testid="accordion-item" value="0">
+                    <Accordion.Header data-testid="accordion-header">
+                        <Accordion.Trigger data-testid="accordion-trigger">Item 1</Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content data-testid="accordion-content">Content 1</Accordion.Content>
+                </Accordion.Item>
+            </Accordion.Root>
+        );
+
+        const content = screen.getByTestId('accordion-content');
+
+        expect(screen.getByTestId('accordion-root')).toHaveAttribute('data-slot', 'accordion-root');
+        expect(screen.getByTestId('accordion-item')).toHaveAttribute('data-slot', 'accordion-item');
+        expect(screen.getByTestId('accordion-header')).toHaveAttribute('data-slot', 'accordion-header');
+        expect(screen.getByTestId('accordion-trigger')).toHaveAttribute('data-slot', 'accordion-trigger');
+        expect(content).toHaveAttribute('data-slot', 'accordion-content');
+        expect(content.firstElementChild).toHaveAttribute('data-slot', 'accordion-content-inner');
+    });
+
     test('maps collapsible measurement variables to radix accordion variables', () => {
         render(
             <Accordion.Root defaultValue="0">

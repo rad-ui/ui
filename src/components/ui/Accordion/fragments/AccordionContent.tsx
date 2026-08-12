@@ -26,6 +26,7 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 role="region"
                 aria-labelledby={headerId}
                 data-orientation={orientation}
+                data-slot="accordion-content"
                 style={{
                     ['--radix-accordion-content-height' as string]:
                         'var(--radix-collapsible-content-height)',
@@ -42,7 +43,10 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 {asChild ? (
                     children
                 ) : (
-                    <div className={rootClass ? `${rootClass}-content-inner` : undefined}>
+                    <div
+                        className={rootClass ? `${rootClass}-content-inner` : undefined}
+                        data-slot="accordion-content-inner"
+                    >
                         {children}
                     </div>
                 )}
