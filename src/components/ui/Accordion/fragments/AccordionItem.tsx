@@ -79,6 +79,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                     data-state={isOpen ? 'open' : 'closed'}
                     data-disabled={effectiveDisabled ? '' : undefined}
                     data-orientation={orientation}
+                    data-slot="accordion-item"
                     asChild={asChild}
                     {...props}
                 >
