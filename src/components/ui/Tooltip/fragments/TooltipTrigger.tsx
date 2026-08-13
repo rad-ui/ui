@@ -31,6 +31,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
             <ButtonPrimitive
                 asChild={asChild}
                 ref={mergedRef}
+                data-slot="tooltip-trigger"
                 data-state={isOpen ? 'open' : 'closed'}
                 {...getReferenceProps(props)}
             >

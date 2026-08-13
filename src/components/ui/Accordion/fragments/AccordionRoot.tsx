@@ -124,6 +124,7 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
                         className={clsx(rootClass, className)}
                         dir={dir}
                         data-orientation={orientation}
+                        data-slot="accordion-root"
                         ref={(node) => {
                             const element = node as HTMLDivElement | null;
                             accordionRef.current = element;

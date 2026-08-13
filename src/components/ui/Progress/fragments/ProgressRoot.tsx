@@ -1,7 +1,5 @@
 'use client';
 import React, {
-    useEffect,
-    useState,
     forwardRef,
     ElementRef,
     ComponentPropsWithoutRef
@@ -27,8 +25,16 @@ export type ProgressRootProps = {
 const STATE_ENUMS = {
     LOADING: 'loading', // a progress is loading when the value is not null and not equal to the maxValue
     COMPLETE: 'complete', // a progress is complete when the value is equal to the maxValue
-    INDETERMINATE: 'indeterminate' // a progress is indeterminate when the value is null, by default it's 0
+    INDETERMINATE: 'indeterminate' // a progress is indeterminate when the value is null
 } as const;
+
+const getProgressState = (value: number | null, maxValue: number) => {
+    if (value === null) {
+        return STATE_ENUMS.INDETERMINATE;
+    }
+
+    return value === maxValue ? STATE_ENUMS.COMPLETE : STATE_ENUMS.LOADING;
+};
 
 const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
     (
@@ -44,22 +50,10 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
         },
         ref
     ) => {
-        const [state, setState] = useState<
-            (typeof STATE_ENUMS)[keyof typeof STATE_ENUMS]
-                >(STATE_ENUMS.LOADING);
-
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? '';
-
-        useEffect(() => {
-            setState(
-                value === null
-                    ? STATE_ENUMS.INDETERMINATE
-                    : value === maxValue
-                        ? STATE_ENUMS.COMPLETE
-                        : STATE_ENUMS.LOADING
-            );
-        }, [value, maxValue]);
+        const state = getProgressState(value, maxValue);
+        const isIndeterminate = value === null;
 
         const sendValues = {
             value,
@@ -79,11 +73,11 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
                     role="progressbar"
                     aria-label={ariaLabel}
                     aria-valuetext={ariaLabel}
-                    aria-valuenow={value ?? 0}
+                    aria-valuenow={isIndeterminate ? undefined : value}
                     aria-valuemin={minValue}
                     aria-valuemax={maxValue}
                     data-state={state}
-                    data-value={value ?? 0}
+                    data-value={isIndeterminate ? undefined : value}
                     data-max={maxValue}
                     data-min={minValue}
                     className={clsx(rootClass, className)}

@@ -16,7 +16,7 @@ const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProp
         if (asChild && isValidElement(children)) {
             const child = children as React.ReactElement;
             const merged = mergeProps(
-                { className: mergedClass, 'data-orientation': orientation },
+                { className: mergedClass, 'data-orientation': orientation, 'data-slot': 'accordion-header' },
                 child.props as Record<string, unknown>
             );
             return cloneElement(child, {
@@ -26,7 +26,13 @@ const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProp
         }
 
         return (
-            <h3 ref={ref} className={mergedClass} data-orientation={orientation} {...props}>
+            <h3
+                ref={ref}
+                className={mergedClass}
+                data-orientation={orientation}
+                data-slot="accordion-header"
+                {...props}
+            >
                 {children}
             </h3>
         );

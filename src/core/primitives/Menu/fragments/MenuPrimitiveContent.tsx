@@ -6,10 +6,12 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
-};
+    initialFocus?: number;
+    focusManagerDisabled?: boolean;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(
-    ({ children, className, ...props }, propRef) => {
+    ({ children, className, initialFocus, focusManagerDisabled = false, ...props }, propRef) => {
         const context = useContext(MenuPrimitiveRootContext);
         const mergedRef = Floater.useMergeRefs([
             context?.refs.setFloating,
@@ -30,16 +32,22 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 <Floater.FocusManager
                     context={floatingContext}
+                    disabled={focusManagerDisabled}
                     modal={false}
-                    initialFocus={isNested ? -1 : 0}
+                    initialFocus={initialFocus ?? (isNested ? -1 : 0)}
                     returnFocus={!isNested}
                 >         
                     <div
                         ref={mergedRef}
-                        style={floatingStyles}
-                        {...getFloatingProps()}
-                        className={className}
+                        {...getFloatingProps({
+                            className
+                        })}
                         {...props}
+                        style={{
+                            ...floatingStyles,
+                            ...props.style
+                        }}
+                        className={className}
                     >
                         <div style={{overflowY:"auto", overflowX:"hidden"}}>
                         {children}

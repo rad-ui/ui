@@ -24,7 +24,12 @@ const PopoverRoot = forwardRef<PopoverRootElement, PopoverRootProps>(({
 
     return (
         <PopoverContext.Provider value={{ rootClass }}>
-            <PopoverPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...props}>
+            <PopoverPrimitive.Root
+                ref={ref}
+                className={clsx(rootClass, className)}
+                data-slot="popover-root"
+                {...props}
+            >
                 {children}
             </PopoverPrimitive.Root>
         </PopoverContext.Provider>

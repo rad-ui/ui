@@ -15,6 +15,7 @@ const PopoverTrigger = forwardRef<PopoverTriggerElement, PopoverTriggerProps>(({
         <PopoverPrimitive.Trigger
             ref={ref}
             className={clsx(rootClass && `${rootClass}-trigger`, className)}
+            data-slot="popover-trigger"
             {...props}
         />
     );

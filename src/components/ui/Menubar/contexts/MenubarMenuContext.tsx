@@ -3,6 +3,7 @@
 import React from 'react';
 
 export interface MenubarMenuContextProps {
+    id: string;
     isOpen: boolean
 }
 
