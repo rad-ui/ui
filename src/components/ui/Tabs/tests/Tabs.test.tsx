@@ -431,7 +431,7 @@ describe('Tabs Component', () => {
 
         test('data attributes are set correctly', () => {
             render(
-                <Tabs.Root defaultValue="tab1" orientation="horizontal">
+                <Tabs.Root defaultValue="tab1" orientation="horizontal" data-testid="tabs-root">
                     <Tabs.List>
                         <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
                         <Tabs.Trigger value="tab2" disabled>Tab 2</Tabs.Trigger>
@@ -444,21 +444,26 @@ describe('Tabs Component', () => {
             // Check root data-orientation
             const root = screen.getByRole('tablist').closest('[data-orientation]');
             expect(root).toHaveAttribute('data-orientation', 'horizontal');
+            expect(screen.getByTestId('tabs-root')).toHaveAttribute('data-slot', 'tabs-root');
+            expect(screen.getByRole('tablist')).toHaveAttribute('data-slot', 'tabs-list');
 
             // Check trigger data attributes
             const tab1 = screen.getByText('Tab 1');
             const tab2 = screen.getByText('Tab 2');
 
+            expect(tab1).toHaveAttribute('data-slot', 'tabs-trigger');
             expect(tab1).toHaveAttribute('data-state', 'active');
             expect(tab1).toHaveAttribute('data-orientation', 'horizontal');
             expect(tab1).not.toHaveAttribute('data-disabled');
 
+            expect(tab2).toHaveAttribute('data-slot', 'tabs-trigger');
             expect(tab2).toHaveAttribute('data-state', 'inactive');
             expect(tab2).toHaveAttribute('data-orientation', 'horizontal');
             expect(tab2).toHaveAttribute('data-disabled', '');
 
             // Check content data attributes
             const content1 = screen.getByText('Content 1');
+            expect(content1).toHaveAttribute('data-slot', 'tabs-content');
             expect(content1).toHaveAttribute('data-state', 'active');
             expect(content1).toHaveAttribute('data-orientation', 'horizontal');
         });

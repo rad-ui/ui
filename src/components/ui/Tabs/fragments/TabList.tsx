@@ -27,6 +27,7 @@ const TabList = React.forwardRef<React.ElementRef<'div'>, TabListProps>(
                     aria-orientation={orientation}
                     aria-label="todo"
                     className={clsx(rootClass && `${rootClass}-list`, className)}
+                    data-slot="tabs-list"
                     asChild={asChild}
                     {...props}
                 >

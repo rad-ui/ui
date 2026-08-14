@@ -72,6 +72,7 @@ const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>
                     aria-selected={isActive}
                     aria-disabled={disabled}
                     disabled={disabled}
+                    data-slot="tabs-trigger"
                     asChild={asChild}
                     {...dataAttributes}
                     {...props}
