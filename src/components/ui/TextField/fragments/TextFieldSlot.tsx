@@ -20,7 +20,7 @@ const TextFieldSlot = React.forwardRef<HTMLDivElement, TextFieldSlotProps>(({ ch
         inputRef.current?.focus();
     };
 
-    return <div ref={ref} role="presentation" className={clsx(rootClass && `${rootClass}-slot`, className)} data-text-field-slot={side} {...props} onMouseDown={handleMouseDown}>{children}</div>;
+    return <div ref={ref} role="presentation" className={clsx(rootClass && `${rootClass}-slot`, className)} data-slot="text-field-slot" data-text-field-slot={side} {...props} onMouseDown={handleMouseDown}>{children}</div>;
 });
 
 TextFieldSlot.displayName = 'TextFieldSlot';

@@ -32,6 +32,7 @@ export const docsNavigationSections = [
             { title:"AvatarGroup", path:"/docs/components/avatar-group" },
             { title:"Badge", path:"/docs/components/badge" },
             { title:"BlockQuote", path:"/docs/components/blockquote" },
+            { title:"Breadcrumb", path:"/docs/components/breadcrumb", is_new:true },
             { title:"Button", path:"/docs/components/button" },
             { title:"Callout", path:"/docs/components/callout" },
             { title:"Card", path:"/docs/components/card" },

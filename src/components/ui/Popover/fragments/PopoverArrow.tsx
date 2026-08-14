@@ -15,6 +15,7 @@ const PopoverArrow = forwardRef<PopoverArrowElement, PopoverArrowProps>(({ class
         <PopoverPrimitive.Arrow
             ref={ref}
             className={clsx(rootClass && `${rootClass}-arrow`, className)}
+            data-slot="popover-arrow"
             {...props}
         />
     );

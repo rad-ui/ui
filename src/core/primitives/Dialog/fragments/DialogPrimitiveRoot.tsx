@@ -26,7 +26,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
 
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
-        onOpenChange(open);
+        onOpenChange?.(open);
     };
     const handleOverlayClick = () => {
         if (disablePointerDismissal) return;

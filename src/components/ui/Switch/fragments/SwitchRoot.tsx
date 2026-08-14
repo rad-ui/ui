@@ -72,6 +72,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
 
     const switchAttributes: Record<string, any> = {
         ...composedAttributes,
+        'data-slot': 'switch-root',
         'data-state': isChecked ? 'checked' : 'unchecked',
         'data-disabled': disabled ? '' : undefined,
         role: 'switch',
