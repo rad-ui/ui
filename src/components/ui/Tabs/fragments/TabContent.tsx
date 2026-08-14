@@ -38,6 +38,7 @@ const TabContent = React.forwardRef<React.ElementRef<'div'>, TabContentProps>(
                 className={clsx(rootClass, className)}
                 role="tabpanel"
                 aria-hidden={!isActive}
+                data-slot="tabs-content"
                 asChild={asChild}
                 {...dataAttributes}
                 {...props}
