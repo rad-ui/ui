@@ -51,6 +51,25 @@ describe('HoverCard', () => {
         expect(arrowRef.current).toBeInstanceOf(SVGSVGElement);
     });
 
+    test('exposes stable anatomy data slots', () => {
+        const arrowRef = createRef<SVGSVGElement>();
+
+        render(
+            <HoverCard.Root open onOpenChange={() => {}} data-testid="hover-card-root">
+                <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                <HoverCard.Content>
+                    Content
+                    <HoverCard.Arrow ref={arrowRef} />
+                </HoverCard.Content>
+            </HoverCard.Root>
+        );
+
+        expect(screen.getByTestId('hover-card-root')).toHaveAttribute('data-slot', 'hover-card-root');
+        expect(screen.getByText('Trigger')).toHaveAttribute('data-slot', 'hover-card-trigger');
+        expect(screen.getByRole('dialog')).toHaveAttribute('data-slot', 'hover-card-content');
+        expect(arrowRef.current).toHaveAttribute('data-slot', 'hover-card-arrow');
+    });
+
     test('does not hijack child refs', () => {
         const triggerRef = createRef<HTMLSpanElement>();
         const buttonRef = createRef<HTMLButtonElement>();
