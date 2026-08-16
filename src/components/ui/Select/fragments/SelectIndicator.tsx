@@ -9,7 +9,7 @@ export type SelectIndicatorProps = React.ComponentPropsWithoutRef<'div'>;
 const SelectIndicator = React.forwardRef<SelectIndicatorElement, SelectIndicatorProps>((props, forwardedRef) => {
     const { rootClass } = useContext(SelectRootContext);
     return (
-        <div className={rootClass ? `${rootClass}-item-indicator` : undefined} ref={forwardedRef} {...props}>
+        <div className={rootClass ? `${rootClass}-item-indicator` : undefined} data-slot="select-item-indicator" ref={forwardedRef} {...props}>
             <Check width={16} height={16} />
         </div>
     );

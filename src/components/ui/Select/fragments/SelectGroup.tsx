@@ -16,6 +16,7 @@ const SelectGroup = React.forwardRef<SelectGroupElement, SelectGroupComponentPro
     return (
         <ComboboxPrimitive.Group
             className={mergedClassName}
+            data-slot="select-group"
             ref={forwardedRef}
             {...props}
         >

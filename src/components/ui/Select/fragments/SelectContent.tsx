@@ -16,6 +16,7 @@ const SelectContent = React.forwardRef<SelectContentElement, SelectContentProps>
             className={rootClass ? `${rootClass}-content` : undefined}
             position={position}
             data-position={position}
+            data-slot="select-content"
             ref={forwardedRef}
             {...props}
         >
