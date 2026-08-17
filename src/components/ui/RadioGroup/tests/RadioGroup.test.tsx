@@ -89,6 +89,15 @@ describe('RadioGroup (fragments)', () => {
         expect(group.getAttribute('data-color')).toBe('primary');
     });
 
+    it('exposes stable anatomy data slots', () => {
+        render(<StoryRadioGroup defaultValue="html" data-testid="radio-group" />);
+
+        expect(screen.getByTestId('radio-group')).toHaveAttribute('data-slot', 'radio-group-root');
+        expect(screen.getByTestId('label-html')).toHaveAttribute('data-slot', 'radio-group-label');
+        expect(screen.getByTestId('item-html')).toHaveAttribute('data-slot', 'radio-group-item');
+        expect(screen.getByTestId('indicator-html')).toHaveAttribute('data-slot', 'radio-group-indicator');
+    });
+
     it('warns on direct usage of RadioGroup', () => {
         const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
         render(<RadioGroup />);
