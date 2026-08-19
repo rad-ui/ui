@@ -10,7 +10,7 @@ export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
 };
 
 const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScrollbarProps>(({ children, className = '', orientation = 'vertical', ...props }, ref) => {
-    const { rootClass, handleScrollbarClick, scrollXThumbRef, scrollYThumbRef, type, scrollbarVisible, overflow } = useContext(ScrollAreaContext);
+    const { rootClass, handleScrollbarClick, scrollXThumbRef, scrollYThumbRef, type, scrollbarVisible, overflow, overlaySuppressesScrollbar } = useContext(ScrollAreaContext);
 
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const isScrollingRef = useRef(false);
@@ -107,10 +107,11 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
         };
     }, [isScrollingState, stopContinuousScroll]);
 
-    const isVisible =
+    const isVisible = !overlaySuppressesScrollbar && (
         type === 'always'
         || (type === 'auto' && isOverflowing)
-        || (isOverflowing && (type === 'scroll' || type === 'hover') && scrollbarVisible);
+        || (isOverflowing && (type === 'scroll' || type === 'hover') && scrollbarVisible)
+    );
     const shouldKeepInDOM = isOverflowing || type === 'always';
 
     return (
