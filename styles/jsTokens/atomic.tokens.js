@@ -8,27 +8,27 @@ export default {
         full: 'var(--rad-ui-radius-full)'
     },
     spacing: {
-        '0': 'var(--rad-ui-spacing-0)',
-        '1': 'var(--rad-ui-spacing-1)',
-        '2': 'var(--rad-ui-spacing-2)',
-        '3': 'var(--rad-ui-spacing-3)',
-        '4': 'var(--rad-ui-spacing-4)',
-        '5': 'var(--rad-ui-spacing-5)',
-        '6': 'var(--rad-ui-spacing-6)',
-        '8': 'var(--rad-ui-spacing-8)',
-        '10': 'var(--rad-ui-spacing-10)',
-        '12': 'var(--rad-ui-spacing-12)'
+        0: 'var(--rad-ui-spacing-0)',
+        1: 'var(--rad-ui-spacing-1)',
+        2: 'var(--rad-ui-spacing-2)',
+        3: 'var(--rad-ui-spacing-3)',
+        4: 'var(--rad-ui-spacing-4)',
+        5: 'var(--rad-ui-spacing-5)',
+        6: 'var(--rad-ui-spacing-6)',
+        8: 'var(--rad-ui-spacing-8)',
+        10: 'var(--rad-ui-spacing-10)',
+        12: 'var(--rad-ui-spacing-12)'
     },
     fontFamily: {
         sans: 'var(--rad-ui-font-sans)',
         mono: 'var(--rad-ui-font-mono)'
     },
     fontSize: {
-        '1': 'var(--rad-ui-font-size-1)',
-        '2': 'var(--rad-ui-font-size-2)',
-        '3': 'var(--rad-ui-font-size-3)',
-        '4': 'var(--rad-ui-font-size-4)',
-        '5': 'var(--rad-ui-font-size-5)'
+        1: 'var(--rad-ui-font-size-1)',
+        2: 'var(--rad-ui-font-size-2)',
+        3: 'var(--rad-ui-font-size-3)',
+        4: 'var(--rad-ui-font-size-4)',
+        5: 'var(--rad-ui-font-size-5)'
     },
     fontWeight: {
         regular: 'var(--rad-ui-font-weight-regular)',
@@ -37,10 +37,10 @@ export default {
         bold: 'var(--rad-ui-font-weight-bold)'
     },
     lineHeight: {
-        '1': 'var(--rad-ui-line-height-1)',
-        '2': 'var(--rad-ui-line-height-2)',
-        '3': 'var(--rad-ui-line-height-3)',
-        '4': 'var(--rad-ui-line-height-4)'
+        1: 'var(--rad-ui-line-height-1)',
+        2: 'var(--rad-ui-line-height-2)',
+        3: 'var(--rad-ui-line-height-3)',
+        4: 'var(--rad-ui-line-height-4)'
     },
     letterSpacing: {
         tight: 'var(--rad-ui-letter-spacing-tight)',
@@ -79,27 +79,27 @@ export default {
         spring: 'var(--rad-ui-motion-easing-spring)'
     },
     borderWidth: {
-        '0': 'var(--rad-ui-border-width-0)',
-        '1': 'var(--rad-ui-border-width-1)',
-        '2': 'var(--rad-ui-border-width-2)'
+        0: 'var(--rad-ui-border-width-0)',
+        1: 'var(--rad-ui-border-width-1)',
+        2: 'var(--rad-ui-border-width-2)'
     },
     opacity: {
-        '0': 'var(--rad-ui-opacity-0)',
-        '10': 'var(--rad-ui-opacity-10)',
-        '20': 'var(--rad-ui-opacity-20)',
-        '25': 'var(--rad-ui-opacity-25)',
-        '50': 'var(--rad-ui-opacity-50)',
-        '75': 'var(--rad-ui-opacity-75)',
-        '100': 'var(--rad-ui-opacity-100)'
+        0: 'var(--rad-ui-opacity-0)',
+        10: 'var(--rad-ui-opacity-10)',
+        20: 'var(--rad-ui-opacity-20)',
+        25: 'var(--rad-ui-opacity-25)',
+        50: 'var(--rad-ui-opacity-50)',
+        75: 'var(--rad-ui-opacity-75)',
+        100: 'var(--rad-ui-opacity-100)'
     },
     size: {
-        '4': 'var(--rad-ui-size-4)',
-        '5': 'var(--rad-ui-size-5)',
-        '6': 'var(--rad-ui-size-6)',
-        '8': 'var(--rad-ui-size-8)',
-        '10': 'var(--rad-ui-size-10)',
-        '12': 'var(--rad-ui-size-12)',
-        '16': 'var(--rad-ui-size-16)'
+        4: 'var(--rad-ui-size-4)',
+        5: 'var(--rad-ui-size-5)',
+        6: 'var(--rad-ui-size-6)',
+        8: 'var(--rad-ui-size-8)',
+        10: 'var(--rad-ui-size-10)',
+        12: 'var(--rad-ui-size-12)',
+        16: 'var(--rad-ui-size-16)'
     },
     breakpoints: {
         sm: 'var(--rad-ui-breakpoint-sm)',
@@ -117,16 +117,16 @@ export default {
         xl: 'var(--rad-ui-blur-xl)'
     },
     outlineOffset: {
-        '0': 'var(--rad-ui-outline-offset-0)',
-        '1': 'var(--rad-ui-outline-offset-1)',
-        '2': 'var(--rad-ui-outline-offset-2)',
-        '4': 'var(--rad-ui-outline-offset-4)'
+        0: 'var(--rad-ui-outline-offset-0)',
+        1: 'var(--rad-ui-outline-offset-1)',
+        2: 'var(--rad-ui-outline-offset-2)',
+        4: 'var(--rad-ui-outline-offset-4)'
     },
     strokeWidth: {
-        '1': 'var(--rad-ui-stroke-width-1)',
-        '2': 'var(--rad-ui-stroke-width-2)',
-        '1.5': 'var(--rad-ui-stroke-width-1-5)',
-        '2.5': 'var(--rad-ui-stroke-width-2-5)'
+        1: 'var(--rad-ui-stroke-width-1)',
+        2: 'var(--rad-ui-stroke-width-2)',
+        1.5: 'var(--rad-ui-stroke-width-1-5)',
+        2.5: 'var(--rad-ui-stroke-width-2-5)'
     },
     aspectRatio: {
         square: 'var(--rad-ui-aspect-ratio-square)',
@@ -164,10 +164,10 @@ export default {
             lg: 'var(--rad-ui-focus-ring-width-lg)'
         },
         ringOffset: {
-            '0': 'var(--rad-ui-focus-ring-offset-0)',
-            '1': 'var(--rad-ui-focus-ring-offset-1)',
-            '2': 'var(--rad-ui-focus-ring-offset-2)',
-            '4': 'var(--rad-ui-focus-ring-offset-4)'
+            0: 'var(--rad-ui-focus-ring-offset-0)',
+            1: 'var(--rad-ui-focus-ring-offset-1)',
+            2: 'var(--rad-ui-focus-ring-offset-2)',
+            4: 'var(--rad-ui-focus-ring-offset-4)'
         },
         ringStyle: {
             solid: 'var(--rad-ui-focus-ring-style-solid)',
@@ -177,13 +177,13 @@ export default {
     },
     grid: {
         columns: {
-            '1': 'var(--rad-ui-grid-columns-1)',
-            '2': 'var(--rad-ui-grid-columns-2)',
-            '3': 'var(--rad-ui-grid-columns-3)',
-            '4': 'var(--rad-ui-grid-columns-4)',
-            '6': 'var(--rad-ui-grid-columns-6)',
-            '12': 'var(--rad-ui-grid-columns-12)',
-            '24': 'var(--rad-ui-grid-columns-24)'
+            1: 'var(--rad-ui-grid-columns-1)',
+            2: 'var(--rad-ui-grid-columns-2)',
+            3: 'var(--rad-ui-grid-columns-3)',
+            4: 'var(--rad-ui-grid-columns-4)',
+            6: 'var(--rad-ui-grid-columns-6)',
+            12: 'var(--rad-ui-grid-columns-12)',
+            24: 'var(--rad-ui-grid-columns-24)'
         },
         gutter: {
             none: 'var(--rad-ui-grid-gutter-none)',
