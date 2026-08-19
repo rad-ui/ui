@@ -20,7 +20,9 @@ const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>(({ child
 
     const dataAttributes = createDataAttributes('checkbox', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);
-    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes, {
+        'data-slot': 'checkbox-root'
+    });
 
     return <CheckboxContext.Provider value={{ rootClass }}>
         <CheckboxPrimitiveRoot ref={ref} className={clsx(rootClass, className)} {...props} {...composedAttributes}>
