@@ -3,16 +3,16 @@
 %rad-ui-alert-dialog-action-skin {
   @extend .rad-ui-button-root;
 
-  min-height: 2.25rem;
-  padding: 0 0.875rem;
-  border-radius: 0.7rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  min-height: var(--rad-ui-control-height-md);
+  padding-inline: calc(var(--rad-ui-control-padding-x-md) + var(--rad-ui-density-gap-xs));
+  border-radius: var(--rad-ui-control-radius-lg);
+  font-size: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+  font-weight: var(--rad-ui-component-font-weight-medium);
   letter-spacing: -0.03em;
   background-color: var(--rad-ui-surface-inverse);
   color: var(--rad-ui-text-inverse);
-  border: 1px solid var(--rad-ui-surface-inverse);
-  box-shadow: var(--rad-ui-shadow-none);
+  border: var(--rad-ui-border-width-default) solid var(--rad-ui-surface-inverse);
+  box-shadow: var(--rad-ui-control-shadow);
 
   &:hover {
     background-color: var(--rad-ui-text-primary);
@@ -23,16 +23,16 @@
 %rad-ui-alert-dialog-cancel-skin {
   @extend .rad-ui-button-root;
 
-  min-height: 2.25rem;
-  padding: 0 0.875rem;
-  border-radius: 0.7rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  min-height: var(--rad-ui-control-height-md);
+  padding-inline: calc(var(--rad-ui-control-padding-x-md) + var(--rad-ui-density-gap-xs));
+  border-radius: var(--rad-ui-control-radius-lg);
+  font-size: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+  font-weight: var(--rad-ui-component-font-weight-medium);
   letter-spacing: -0.03em;
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
-  border: 1px solid var(--rad-ui-border-soft);
-  box-shadow: var(--rad-ui-shadow-xs);
+  border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);
+  box-shadow: var(--rad-ui-control-shadow);
 
   &:hover {
     background-color: var(--rad-ui-surface-subtle);
@@ -70,18 +70,23 @@
 }
 
 .rad-ui-alert-dialog-content {
+  --rad-ui-alert-dialog-body-font-size: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+  --rad-ui-alert-dialog-title-font-size-mobile: calc(var(--rad-ui-font-size-3) - (var(--rad-ui-spacing-1) / 4));
+  --rad-ui-alert-dialog-inline-padding: var(--rad-ui-spacing-4);
+  --rad-ui-alert-dialog-inline-padding-mobile: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
+
   position: fixed;
   left: 50%;
   top: 50%;
   z-index: var(--rad-ui-z-index-portal);
   width: 100%;
-  max-width: 30rem;
+  max-width: var(--rad-ui-overlay-width-lg);
   transform: translate(-50%, -50%);
-  padding: 1rem 1rem 0;
-  border-radius: var(--rad-ui-radius-xl);
+  padding: var(--rad-ui-spacing-4) var(--rad-ui-alert-dialog-inline-padding) 0;
+  border-radius: var(--rad-ui-panel-radius-lg);
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
-  border: 1px solid var(--rad-ui-border-default);
+  border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-default);
   box-shadow: var(--rad-ui-elevation-lg-shadow);
   display: flex;
   flex-direction: column;
@@ -111,21 +116,21 @@
   // Nested child components
   .rad-ui-alert-dialog-title {
     font-size: var(--rad-ui-font-size-3);
-    font-weight: 500;
-    line-height: 1.15;
+    font-weight: var(--rad-ui-component-font-weight-medium);
+    line-height: calc(var(--rad-ui-component-line-height-tight) + 0.15);
     margin: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--rad-ui-spacing-2);
     color: var(--rad-ui-text-primary);
     letter-spacing: -0.05em;
   }
-  
+
   .rad-ui-alert-dialog-description {
-    max-width: 23rem;
-    font-size: 0.8125rem;
-    font-weight: 400;
-    line-height: 1.45;
+    max-width: calc(var(--rad-ui-overlay-width-lg) - var(--rad-ui-spacing-12) - var(--rad-ui-size-4));
+    font-size: var(--rad-ui-alert-dialog-body-font-size);
+    font-weight: var(--rad-ui-component-font-weight-regular);
+    line-height: calc(var(--rad-ui-component-line-height-normal) + 0.2);
     margin: 0;
-    margin-bottom: 0.875rem;
+    margin-bottom: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
     color: var(--rad-ui-text-muted);
     letter-spacing: -0.025em;
   }
@@ -134,9 +139,9 @@
     display: flex;
     flex-direction: column-reverse;
     gap: var(--rad-ui-spacing-2);
-    margin: 0 -1rem;
-    padding: 0.875rem 1rem 1rem;
-    border-top: 1px solid var(--rad-ui-border-soft);
+    margin: 0 calc(var(--rad-ui-alert-dialog-inline-padding) * -1);
+    padding: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs)) var(--rad-ui-alert-dialog-inline-padding) var(--rad-ui-spacing-4);
+    border-top: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);
     background-color: var(--rad-ui-surface-subtle);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -158,23 +163,23 @@
 
   @media (width <= 640px) {
     max-width: calc(100% - 2rem);
-    margin: 1rem;
-    padding: 0.875rem 0.875rem 0;
-    border-radius: 0.875rem;
+    margin: var(--rad-ui-spacing-4);
+    padding: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs)) var(--rad-ui-alert-dialog-inline-padding-mobile) 0;
+    border-radius: calc(var(--rad-ui-panel-radius-md) + var(--rad-ui-density-gap-xs));
 
     .rad-ui-alert-dialog-title {
-      font-size: 0.9375rem;
-      margin-bottom: 0.5rem;
+      font-size: var(--rad-ui-alert-dialog-title-font-size-mobile);
+      margin-bottom: var(--rad-ui-spacing-2);
     }
 
     .rad-ui-alert-dialog-description {
-      font-size: 0.8125rem;
-      margin-bottom: 0.875rem;
+      font-size: var(--rad-ui-alert-dialog-body-font-size);
+      margin-bottom: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
     }
 
     .rad-ui-alert-dialog-footer {
-      margin: 0 -0.875rem;
-      padding: 0.75rem 0.875rem 0.875rem;
+      margin: 0 calc(var(--rad-ui-alert-dialog-inline-padding-mobile) * -1);
+      padding: var(--rad-ui-spacing-3) var(--rad-ui-alert-dialog-inline-padding-mobile) var(--rad-ui-alert-dialog-inline-padding-mobile);
     }
 
     .rad-ui-alert-dialog-action,

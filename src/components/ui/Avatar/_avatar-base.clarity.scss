@@ -65,7 +65,7 @@
     .rad-ui-avatar-fallback {
       color: var(--rad-ui-text-inverse);
       background-color: var(--rad-ui-color-accent-800);
-      box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
+      box-shadow: inset 0 0 0 var(--rad-ui-border-width-default) var(--rad-ui-color-accent-600);
     }
   }
 

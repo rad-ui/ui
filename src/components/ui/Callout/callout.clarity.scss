@@ -1,14 +1,18 @@
 .rad-ui-callout {
   --rad-ui-callout-emphasis-color: var(--rad-ui-text-primary);
+  --rad-ui-callout-body-font-size: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+  --rad-ui-callout-gap-md: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
+  --rad-ui-callout-gap-sm: calc(var(--rad-ui-spacing-2) + var(--rad-ui-density-gap-xs));
+  --rad-ui-callout-padding-y-lg: calc(var(--rad-ui-spacing-4) + var(--rad-ui-density-gap-xs));
 
   position: relative;
   width: 100%;
   display: flex;
   align-items: flex-start;
-  gap: 0.875rem;
-  border: 1px solid var(--rad-ui-border-soft);
-  border-radius: var(--rad-ui-radius-xl);
-  padding: 1rem 1.125rem;
+  gap: var(--rad-ui-callout-gap-md);
+  border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);
+  border-radius: var(--rad-ui-panel-radius-lg);
+  padding: var(--rad-ui-spacing-4) calc(var(--rad-ui-spacing-4) + var(--rad-ui-density-gap-xs));
   background-color: var(--rad-ui-surface-panel);
   color: var(--rad-ui-text-primary);
   box-sizing: border-box;
@@ -21,7 +25,7 @@
     flex: 0 0 auto;
     width: var(--rad-ui-size-6);
     height: var(--rad-ui-size-6);
-    margin-top: 0.0625rem;
+    margin-top: calc(var(--rad-ui-spacing-1) / 4);
     color: var(--rad-ui-callout-emphasis-color);
 
     svg {
@@ -35,14 +39,14 @@
   .rad-ui-callout-text {
     margin: 0;
     color: inherit;
-    font-size: 0.8125rem;
+    font-size: var(--rad-ui-callout-body-font-size);
     line-height: var(--rad-ui-line-height-3);
 
     strong,
     b {
       display: block;
-      margin: 0 0 0.25rem;
-      font-size: 0.8125rem;
+      margin: 0 0 var(--rad-ui-spacing-1);
+      font-size: var(--rad-ui-callout-body-font-size);
       line-height: var(--rad-ui-line-height-2);
       font-weight: 600;
       color: var(--rad-ui-callout-emphasis-color);
@@ -51,8 +55,8 @@
     span {
       display: block;
       color: var(--rad-ui-text-secondary);
-      font-size: 0.8125rem;
-      line-height: 1.4;
+      font-size: var(--rad-ui-callout-body-font-size);
+      line-height: calc(var(--rad-ui-line-height-2) + 0.15);
     }
   }
 
@@ -99,9 +103,9 @@
   }
 
   &[data-size="small"] {
-    gap: 0.625rem;
-    padding: 0.75rem 0.875rem;
-    border-radius: 0.875rem;
+    gap: var(--rad-ui-callout-gap-sm);
+    padding: var(--rad-ui-spacing-3) calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
+    border-radius: calc(var(--rad-ui-panel-radius-md) + var(--rad-ui-density-gap-xs));
 
     .rad-ui-callout-icon {
       width: var(--rad-ui-size-5);
@@ -111,7 +115,7 @@
     .rad-ui-callout-text {
       strong,
       b {
-        margin-bottom: 0.1875rem;
+        margin-bottom: calc(var(--rad-ui-spacing-1) - (var(--rad-ui-spacing-1) / 4));
         font-size: var(--rad-ui-font-size-1);
       }
 
@@ -122,8 +126,8 @@
   }
 
   &[data-size="medium"] {
-    gap: 0.875rem;
-    padding: 1rem 1.125rem;
+    gap: var(--rad-ui-callout-gap-md);
+    padding: var(--rad-ui-spacing-4) calc(var(--rad-ui-spacing-4) + var(--rad-ui-density-gap-xs));
 
     .rad-ui-callout-icon {
       width: var(--rad-ui-size-6);
@@ -133,12 +137,12 @@
 
   &[data-size="large"] {
     gap: var(--rad-ui-spacing-4);
-    padding: 1.125rem 1.25rem;
-    border-radius: 1.125rem;
+    padding: var(--rad-ui-callout-padding-y-lg) var(--rad-ui-spacing-5);
+    border-radius: calc(var(--rad-ui-panel-radius-lg) + var(--rad-ui-density-gap-xs));
 
     .rad-ui-callout-icon {
-      width: 1.625rem;
-      height: 1.625rem;
+      width: calc(var(--rad-ui-size-6) + (var(--rad-ui-spacing-1) / 2));
+      height: calc(var(--rad-ui-size-6) + (var(--rad-ui-spacing-1) / 2));
     }
 
     .rad-ui-callout-text {
@@ -155,22 +159,22 @@
 
   &[data-size="x-large"] {
     gap: var(--rad-ui-spacing-4);
-    padding: 1.25rem 1.375rem;
-    border-radius: 1.25rem;
+    padding: var(--rad-ui-spacing-5) calc(var(--rad-ui-spacing-5) + var(--rad-ui-density-gap-xs));
+    border-radius: calc(var(--rad-ui-panel-radius-lg) + var(--rad-ui-spacing-1));
 
     .rad-ui-callout-icon {
-      width: 1.75rem;
-      height: 1.75rem;
+      width: calc(var(--rad-ui-size-6) + var(--rad-ui-spacing-1));
+      height: calc(var(--rad-ui-size-6) + var(--rad-ui-spacing-1));
     }
 
     .rad-ui-callout-text {
       strong,
       b {
-        font-size: 0.9375rem;
+        font-size: calc(var(--rad-ui-font-size-3) - (var(--rad-ui-spacing-1) / 4));
       }
 
       span {
-        font-size: 0.9375rem;
+        font-size: calc(var(--rad-ui-font-size-3) - (var(--rad-ui-spacing-1) / 4));
       }
     }
   }
