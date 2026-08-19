@@ -48,6 +48,19 @@ describe('Radio', () => {
         expect(handleChange).toHaveBeenCalled();
     });
 
+    it('syncs controlled checked prop changes', () => {
+        const { rerender } = render(<Radio {...baseProps} checked={false} onChange={jest.fn()} />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).not.toBeChecked();
+        expect(radio).toHaveAttribute('data-state', 'unchecked');
+
+        rerender(<Radio {...baseProps} checked onChange={jest.fn()} />);
+
+        expect(radio).toBeChecked();
+        expect(radio).toHaveAttribute('data-state', 'checked');
+    });
+
     it('applies custom class names', () => {
         render(
             <Radio {...baseProps} className="custom-class" customRootClass="root-class" />
@@ -65,6 +78,38 @@ describe('Radio', () => {
         expect(radio).toHaveAttribute('data-variant', 'filled');
         expect(radio).toHaveAttribute('data-size', 'lg');
         expect(radio).toHaveAttribute('data-color', 'red');
+    });
+
+    it('exposes stable state and anatomy data attributes', () => {
+        render(<Radio {...baseProps} />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).toHaveAttribute('data-slot', 'radio-root');
+        expect(radio).toHaveAttribute('data-state', 'unchecked');
+
+        fireEvent.click(radio);
+
+        expect(radio).toHaveAttribute('data-state', 'checked');
+    });
+
+    it('exposes disabled state as a data attribute', () => {
+        const { rerender } = render(<Radio {...baseProps} />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).not.toHaveAttribute('data-disabled');
+
+        rerender(<Radio {...baseProps} disabled />);
+
+        expect(radio).toHaveAttribute('data-disabled');
+    });
+
+    it('preserves component-owned data attributes', () => {
+        render(<Radio {...baseProps} data-slot="custom-radio" data-state="custom" data-disabled="custom" />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).toHaveAttribute('data-slot', 'radio-root');
+        expect(radio).toHaveAttribute('data-state', 'unchecked');
+        expect(radio).not.toHaveAttribute('data-disabled');
     });
 
     it('forwards refs', () => {

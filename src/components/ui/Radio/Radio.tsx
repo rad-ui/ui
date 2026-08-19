@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Radio';
 
@@ -20,20 +21,23 @@ export type RadioProps = Omit<RadioPrimitiveProps, 'size'> & {
 };
 
 const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
-    { name, value, id, checked = false, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props },
+    { name, value, id, checked, required, onChange, disabled, asChild, className, customRootClass, variant = '', size = '', color = '', ...props },
     ref
 ) {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
-    const [isChecked, setIsChecked] = React.useState(checked);
+    const [isChecked, setIsChecked] = useControllableState(checked, false, () => {
+        onChange?.();
+    });
 
     const dataAttributes = createDataAttributes('button', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);
-    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes, {
+        'data-slot': 'radio-root',
+        'data-state': isChecked ? 'checked' : 'unchecked',
+        'data-disabled': disabled ? '' : undefined
+    });
 
     const handleChange = () => {
-        if (onChange) {
-            onChange();
-        }
         setIsChecked(!isChecked);
     };
     return (
@@ -48,9 +52,9 @@ const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
             disabled={disabled}
             asChild={asChild}
             className={clsx(rootClass, className)}
+            {...props}
             data-checked={isChecked}
             {...composedAttributes}
-            {...props}
         />
 
     );
