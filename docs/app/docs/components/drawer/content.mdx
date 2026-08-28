@@ -1,0 +1,36 @@
+import Documentation from '@/components/layout/Documentation/Documentation'
+import DrawerExample from './docs/examples/DrawerExample'
+import DrawerModesExample from './docs/examples/DrawerModesExample'
+import DrawerDirectionsExample from './docs/examples/DrawerDirectionsExample'
+import {
+    code,
+    anatomy,
+    api_documentation,
+    modesCodeUsage,
+    directionsCodeUsage,
+} from './docs/codeUsage'
+
+<Documentation
+    title="Drawer"
+    description="A headless drawer primitive for React with modal and non-modal modes, side-aware placement, focus management, portaling, and drag-to-close handles."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <DrawerExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'trigger', 'portal', 'overlay', 'content', 'title', 'description', 'close', 'handle']}
+    />
+
+    ## Examples
+
+    <Documentation.ComponentHero title="Modal modes" codeUsage={modesCodeUsage}>
+        <DrawerModesExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentHero title="Directions" codeUsage={directionsCodeUsage}>
+        <DrawerDirectionsExample />
+    </Documentation.ComponentHero>
+</Documentation>
