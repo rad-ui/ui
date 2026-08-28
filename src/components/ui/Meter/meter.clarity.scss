@@ -1,0 +1,29 @@
+.rad-ui-meter {
+    background: var(--rad-ui-color-gray-200);
+    border: none;
+    overflow: hidden;
+    height: 0.25rem;
+    border-radius: var(--rad-ui-radius-full);
+    width: 100%;
+    max-width: 25.25rem;
+
+    .rad-ui-meter-indicator {
+        background: var(--rad-ui-color-accent-800);
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        transition: transform 0.2s ease;
+    }
+
+    .rad-ui-meter-indicator[data-state="low"] {
+        background: var(--rad-ui-warning-solid);
+    }
+
+    .rad-ui-meter-indicator[data-state="high"] {
+        background: var(--rad-ui-info-solid);
+    }
+
+    .rad-ui-meter-indicator[data-state="optimum"] {
+        background: var(--rad-ui-success-solid);
+    }
+}

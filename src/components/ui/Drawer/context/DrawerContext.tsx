@@ -9,6 +9,8 @@ export type DrawerRootActions = {
 
 export type DrawerContextType = {
     rootClass: string;
+    isOpen: boolean;
+    onOpen: () => void;
     swipeDirection: 'left' | 'right' | 'top' | 'bottom';
     // Snap point state
     snapPoints: DrawerSnapPoint[];
@@ -30,6 +32,8 @@ export type DrawerContextType = {
 
 export const DrawerContext = createContext<DrawerContextType>({
     rootClass: '',
+    isOpen: false,
+    onOpen: () => {},
     swipeDirection: 'right',
     snapPoints: [],
     activeSnapPoint: null,

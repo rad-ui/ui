@@ -54,6 +54,7 @@ export const docsNavigationSections = [
             { title:"Kbd", path:"/docs/components/kbd" },
             { title:"Link", path:"/docs/components/link", is_preview:true },
             { title:"Menubar", path:"/docs/components/menubar", is_preview:true },
+            { title:"Meter", path:"/docs/components/meter", is_preview:true },
             { title:"Minimap", path:"/docs/components/minimap", is_preview:true },
             { title:"NavigationMenu", path:"/docs/components/navigation-menu", is_preview:true },
             { title:"NumberField", path:"/docs/components/number-field", is_preview:true },

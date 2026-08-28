@@ -46,6 +46,7 @@ const RELEASED_COMPONENTS = [
     'DropdownMenu',
     'HoverCard',
     'Menubar',
+    'Meter',
     'Minimap',
     'NavigationMenu',
     'NumberField',
