@@ -12,7 +12,7 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
     const { activeItem, rootClass } = useContext(DisclosureContext);
 
     const [itemValue, setItemValue] = useState<number>(value);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(activeItem === value);
 
     useEffect(() => {
         setIsOpen(activeItem === itemValue);
