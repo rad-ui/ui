@@ -37,6 +37,7 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
                     className={clsx(rootClass && `${rootClass}-item`, className)}
                     ref={forwardedRef}
                     data-state={isOpen ? 'open' : 'closed'}
+                    data-slot="disclosure-item"
                     id={`disclosure-data-item-${id}`}
                     role="region"
                     aria-labelledby={`disclosure-trigger-${id}`}
