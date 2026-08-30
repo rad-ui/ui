@@ -47,6 +47,7 @@ export const docsNavigationSections = [
             { title:"DataList", path:"/docs/components/data-list", is_preview:true },
             { title:"Dialog", path:"/docs/components/dialog", is_new:true },
             { title:"Disclosure", path:"/docs/components/disclosure", is_preview:true },
+            { title:"Drawer", path:"/docs/components/drawer", is_preview:true },
             { title:"DropdownMenu", path:"/docs/components/dropdown-menu", is_preview:true },
             { title:"Em", path:"/docs/components/em" },
             { title:"Heading", path:"/docs/components/heading" },
