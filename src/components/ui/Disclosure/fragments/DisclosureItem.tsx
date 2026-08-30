@@ -12,7 +12,7 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
     const { activeItem, rootClass } = useContext(DisclosureContext);
 
     const [itemValue, setItemValue] = useState<number>(value);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(activeItem === value);
 
     useEffect(() => {
         setIsOpen(activeItem === itemValue);
@@ -37,6 +37,7 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
                     className={clsx(rootClass && `${rootClass}-item`, className)}
                     ref={forwardedRef}
                     data-state={isOpen ? 'open' : 'closed'}
+                    data-slot="disclosure-item"
                     id={`disclosure-data-item-${id}`}
                     role="region"
                     aria-labelledby={`disclosure-trigger-${id}`}

@@ -17,6 +17,8 @@ const DisclosureContent = React.forwardRef<React.ElementRef<'div'>, DisclosureCo
                 ref={forwardedRef}
                 className={clsx(rootClass && `${rootClass}-content`, className)}
 
+                data-state="open"
+                data-slot="disclosure-content"
                 role="region"
                 aria-hidden={activeItem !== itemValue}
             >
