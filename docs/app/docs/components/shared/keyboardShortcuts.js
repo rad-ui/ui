@@ -14,6 +14,8 @@ export const keyboardShortcutColumns = [
 
 export const DOCS_KEYBOARD_SHORTCUTS = Object.freeze({
     ARROW_DOWN: { id: 'arrow-down', label: 'ArrowDown' },
+    ARROW_LEFT: { id: 'arrow-left', label: 'ArrowLeft' },
+    ARROW_RIGHT: { id: 'arrow-right', label: 'ArrowRight' },
     ARROW_UP: { id: 'arrow-up', label: 'ArrowUp' },
     END: { id: 'end', label: 'End' },
     ENTER: { id: 'enter', label: 'Enter' },
