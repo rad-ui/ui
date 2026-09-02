@@ -17,10 +17,25 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Accordion pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/accordion/'
     },
+    COMBOBOX: {
+        id: 'combobox',
+        label: 'Combobox pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/'
+    },
     DIALOG_MODAL: {
         id: 'dialog-modal',
         label: 'Dialog modal pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/'
+    },
+    LISTBOX: {
+        id: 'listbox',
+        label: 'Listbox pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/listbox/'
+    },
+    MENU_BUTTON: {
+        id: 'menu-button',
+        label: 'Menu button pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/'
     },
     RADIO_GROUP: {
         id: 'radio-group',
