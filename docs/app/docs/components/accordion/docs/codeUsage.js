@@ -4,6 +4,11 @@ import {
     createKeyboardShortcutTable,
     DOCS_KEYBOARD_SHORTCUTS
 } from '../../shared/keyboardShortcuts';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/accordion/docs/example_1.tsx');
 
@@ -71,6 +76,13 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.END,
         'When focus is on an Accordion.Trigger, focuses the last Accordion.Trigger.'
+    )
+]);
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.ACCORDION,
+        'Uses button triggers with expanded state and associated content regions for collapsible sections.'
     )
 ]);
 
