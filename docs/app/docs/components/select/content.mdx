@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import SelectExample from "./docs/example_1"
-import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
+import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
 
 <Documentation
     title="Select"
@@ -9,6 +9,14 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
     <Documentation.ComponentHero codeUsage={code}>
         <SelectExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Section title="Large Lists">
+        Use a controlled value and keep each option's `value` and `label` stable when a Select has hundreds of options.
+        This incremental pattern keeps keyboard navigation intact by mounting more rows before focus reaches the boundary.
+        <Documentation.CodeBlock language="tsx">
+            {largeListCode.javascript.code}
+        </Documentation.CodeBlock>
+    </Documentation.Section>
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
