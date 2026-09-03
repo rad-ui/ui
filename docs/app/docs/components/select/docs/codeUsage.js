@@ -13,12 +13,17 @@ import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/example_1.tsx');
+const largeList_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/large-list.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/select.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/anatomy.tsx');
 
 export const code = {
     javascript: { code: example_1_SourceCode },
     scss: { code: scss_SourceCode }
+};
+
+export const largeListCode = {
+    javascript: { code: largeList_SourceCode }
 };
 
 export const anatomy = { code: anatomy_SourceCode };
