@@ -17,6 +17,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Accordion pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/accordion/'
     },
+    ALERT_DIALOG: {
+        id: 'alert-dialog',
+        label: 'Alert dialog pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
+    },
     COMBOBOX: {
         id: 'combobox',
         label: 'Combobox pattern',
@@ -31,6 +36,16 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         id: 'listbox',
         label: 'Listbox pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/listbox/'
+    },
+    MENU: {
+        id: 'menu',
+        label: 'Menu pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menubar/'
+    },
+    MENUBAR: {
+        id: 'menubar',
+        label: 'Menubar pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menubar/'
     },
     MENU_BUTTON: {
         id: 'menu-button',
