@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import MenubarExample from "./docs/example_1"
-import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
 
 <Documentation
     title="Menubar"
@@ -15,4 +15,8 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         tables={api_documentation}
         order={['root']}
     />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 </Documentation>
