@@ -1,5 +1,14 @@
 import '@testing-library/jest-dom';
 import { act } from '@testing-library/react';
+import { DOCUMENT_OVERLAY_OPEN_ATTRIBUTE, resetDocumentOverlayOpenForTests } from '~/core/utils/documentOverlayOpen';
+
+afterEach(() => {
+    resetDocumentOverlayOpenForTests();
+    document.documentElement.removeAttribute(DOCUMENT_OVERLAY_OPEN_ATTRIBUTE);
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+});
+
 
 // Prevent Floating UI's autoUpdate from triggering state updates outside of React
 // "act" by calling the update callback synchronously inside an act wrapper.

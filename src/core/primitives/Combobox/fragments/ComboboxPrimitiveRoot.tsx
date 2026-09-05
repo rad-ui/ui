@@ -4,6 +4,7 @@ import Primitive from '../../Primitive';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
 import { useIsInsideForm } from '~/core/hooks/useIsInsideForm';
 
@@ -76,6 +77,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     ...props
 }, forwardedRef) => {
     const [isOpen, setIsOpen] = React.useState(false);
+    useRegisterDocumentOverlayOpen(isOpen);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
         defaultValue,

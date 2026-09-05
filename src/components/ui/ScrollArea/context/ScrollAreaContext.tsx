@@ -14,6 +14,7 @@ interface ScrollAreaContextType {
     type: ScrollAreaScrollbarType;
     scrollbarVisible: boolean;
     overflow: { x: boolean; y: boolean };
+    overlaySuppressesScrollbar: boolean;
     rootRef?: RefObject<HTMLDivElement>;
 }
 
@@ -21,5 +22,6 @@ export const ScrollAreaContext = createContext<ScrollAreaContextType>({
     rootClass: '',
     type: 'hover',
     scrollbarVisible: false,
-    overflow: { x: false, y: false }
+    overflow: { x: false, y: false },
+    overlaySuppressesScrollbar: false
 });
