@@ -3,12 +3,13 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 export type CheckboxPrimitiveTriggerElement = ElementRef<typeof ButtonPrimitive>;
 export type CheckboxPrimitiveTriggerProps = ComponentPropsWithoutRef<typeof ButtonPrimitive>;
 
 const CheckboxPrimitiveTrigger = forwardRef<CheckboxPrimitiveTriggerElement, CheckboxPrimitiveTriggerProps>(
-    ({ children, className = '', ...props }, ref) => {
+    ({ children, className = '', onClick, ...props }, ref) => {
         const { isChecked, setIsChecked, id, required, disabled } = React.useContext(CheckboxPrimitiveContext);
         const toggleChecked = () => {
             const next = isChecked === 'indeterminate' || isChecked === null ? true : !isChecked;
@@ -21,7 +22,8 @@ const CheckboxPrimitiveTrigger = forwardRef<CheckboxPrimitiveTriggerElement, Che
             isChecked === 'indeterminate' || isChecked === null ? 'mixed' : isChecked;
         return <ButtonPrimitive
             ref={ref}
-            onClick={toggleChecked}
+            {...props}
+            onClick={composeEventHandlers(onClick, toggleChecked)}
             role="checkbox"
             id={id}
             aria-checked={ariaChecked}
@@ -29,9 +31,8 @@ const CheckboxPrimitiveTrigger = forwardRef<CheckboxPrimitiveTriggerElement, Che
             data-checked={isChecked as any}
             data-state={dataState}
             disabled={disabled}
-            data-disabled={disabled}
+            data-disabled={disabled ? '' : undefined}
             className={className}
-            {...props}
         >{children}</ButtonPrimitive>;
     }
 );

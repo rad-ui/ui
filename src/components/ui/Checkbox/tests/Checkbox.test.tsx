@@ -52,6 +52,32 @@ describe('Checkbox', () => {
         expect(queryByText('Checked')).toBeInTheDocument();
     });
 
+    it('updates state attributes when controlled checked changes', () => {
+        const { container, rerender } = render(
+            <Checkbox.Root checked={false} onCheckedChange={jest.fn()}>
+                <Checkbox.Indicator>
+                    <span>Checked</span>
+                </Checkbox.Indicator>
+            </Checkbox.Root>
+        );
+        const button = container.querySelector('button');
+        expect(button).toHaveAttribute('data-slot', 'checkbox-root');
+        expect(button).toHaveAttribute('data-state', 'unchecked');
+        expect(container.querySelector('[data-slot="checkbox-indicator"]')).toBeNull();
+
+        rerender(
+            <Checkbox.Root checked={true} onCheckedChange={jest.fn()}>
+                <Checkbox.Indicator>
+                    <span>Checked</span>
+                </Checkbox.Indicator>
+            </Checkbox.Root>
+        );
+
+        const indicator = container.querySelector('[data-slot="checkbox-indicator"]');
+        expect(button).toHaveAttribute('data-state', 'checked');
+        expect(indicator).toHaveAttribute('data-state', 'checked');
+    });
+
     it('applies disabled and required props', () => {
         const { container } = render(
             <Checkbox.Root disabled required>
@@ -63,6 +89,60 @@ describe('Checkbox', () => {
         const button = container.querySelector('button');
         expect(button).toBeDisabled();
         expect(button).toHaveAttribute('aria-required', 'true');
+        expect(button).toHaveAttribute('data-disabled');
+    });
+
+    it('omits data-disabled when enabled', () => {
+        const { container } = render(
+            <Checkbox.Root>
+                <Checkbox.Indicator>
+                    <span>Checked</span>
+                </Checkbox.Indicator>
+            </Checkbox.Root>
+        );
+        const button = container.querySelector('button');
+        expect(button).not.toHaveAttribute('data-disabled');
+    });
+
+    it('protects component-owned data attributes from consumer props', () => {
+        const { container } = render(
+            <Checkbox.Root
+                defaultChecked
+                data-slot="custom-root"
+                data-state="custom-state"
+                data-disabled="custom-disabled"
+            >
+                <Checkbox.Indicator
+                    data-slot="custom-indicator"
+                    data-state="custom-indicator-state"
+                    data-disabled="custom-indicator-disabled"
+                >
+                    <span>Checked</span>
+                </Checkbox.Indicator>
+            </Checkbox.Root>
+        );
+        const button = container.querySelector('button');
+        const indicator = container.querySelector('[data-slot="checkbox-indicator"]');
+        expect(button).toHaveAttribute('data-slot', 'checkbox-root');
+        expect(button).toHaveAttribute('data-state', 'checked');
+        expect(button).not.toHaveAttribute('data-disabled');
+        expect(indicator).toHaveAttribute('data-state', 'checked');
+        expect(indicator).not.toHaveAttribute('data-disabled');
+    });
+
+    it('composes consumer click handlers with internal toggling', () => {
+        const onClick = jest.fn();
+        const { container } = render(
+            <Checkbox.Root onClick={onClick}>
+                <Checkbox.Indicator>
+                    <span>Checked</span>
+                </Checkbox.Indicator>
+            </Checkbox.Root>
+        );
+        const button = container.querySelector('button');
+        fireEvent.click(button!);
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(button).toHaveAttribute('data-state', 'checked');
     });
 
     it('passes name and value to the hidden input for form usage', () => {
