@@ -1,0 +1,34 @@
+# Component docs: Accessibility section
+
+Template for **Accessibility** sections with keyboard tables and ARIA notes.
+
+## Required content
+
+### Keyboard table
+
+| Key | Action |
+| --- | --- |
+| `Tab` | … |
+| `Enter` / `Space` | … |
+| `Escape` | … (if applicable) |
+| Arrow keys | … (if applicable) |
+
+Follow the [Keyboard interaction spec](/docs/guides/keyboard-interaction-spec).
+
+### ARIA and roles
+
+Document stable roles and attributes consumers may rely on:
+
+- default role on the primary interactive element
+- required labelling (`aria-labelledby`, `aria-label`, visible `Title`)
+- state attributes (`aria-expanded`, `aria-selected`, `aria-checked`)
+
+### References
+
+Link the matching [WAI-ARIA APG pattern](https://www.w3.org/WAI/ARIA/apg/patterns/) when applicable.
+
+## Checklist
+
+- [ ] Keyboard table matches interaction tests
+- [ ] Focus management behavior described for overlays
+- [ ] Screen reader notes for non-obvious announcements ([Screen reader testing](/docs/guides/screen-reader-testing))
