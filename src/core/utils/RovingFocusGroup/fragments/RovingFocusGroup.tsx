@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useId, useRef, useContext } from 'react';
+import React, { useEffect, useState, useId, useRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
-import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
 
 /**
  * Props for the RovingFocusGroup component
@@ -35,7 +34,6 @@ const RovingFocusGroup = ({
     'aria-labelledby': ariaLabelledBy,
     ...props
 }: RovingFocusGroupProps) => {
-    const { mode } = useContext(RovingFocusRootContext);
     const groupRef = useRef<HTMLDivElement>(null);
     const [focusItems, setFocusItems] = useState<string[]>([]);
     const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -50,8 +48,6 @@ const RovingFocusGroup = ({
             return itemRef?.current?.getAttribute('data-child-disabled') !== 'true';
         }) ?? null;
     }, []);
-
-    const SHOULD_RECOMPUTE_FOCUS_ITEMS = mode === 'tree';
     
     /**
      * Registers an item's ref in the registry
@@ -70,18 +66,16 @@ const RovingFocusGroup = ({
         itemRefsMap.current.delete(id);
         
         // Remove from focusItems to avoid stale IDs
-        if (SHOULD_RECOMPUTE_FOCUS_ITEMS) {
-            setFocusItems((prev) => prev.filter((itemId) => itemId !== id));
-        }
-    }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
+        setFocusItems((prev) => prev.filter((itemId) => itemId !== id));
+    }, []);
 
     /**
      * Adds a new focusable item to the group
      * @param id - Unique identifier for the item
      */
     const addFocusItem = React.useCallback((id: string) => {
-        // For tree mode, recompute items from registered refs in DOM order
-        if (SHOULD_RECOMPUTE_FOCUS_ITEMS && typeof window !== 'undefined') {
+        // Recompute items from registered refs in DOM order
+        if (typeof window !== 'undefined') {
             setFocusItems((prevItems) => {
                 // Only recompute if the item isn't already in the list
                 if (prevItems.includes(id)) {
@@ -132,7 +126,7 @@ const RovingFocusGroup = ({
             if (prev.includes(id)) return prev;
             return [...prev, id];
         });
-    }, [SHOULD_RECOMPUTE_FOCUS_ITEMS]);
+    }, []);
 
     // Keep the roving entry point on an enabled item so the group remains tabbable.
     useEffect(() => {
