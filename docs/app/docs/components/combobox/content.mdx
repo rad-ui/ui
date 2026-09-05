@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import ComboboxExample from "./docs/example_1"
-import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
+import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
 
 <Documentation
     title="Combobox"
@@ -9,6 +9,14 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
     <Documentation.ComponentHero codeUsage={code}>
         <ComboboxExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Section title="Large Lists">
+        Keep option `value` and `label` stable when a Combobox has hundreds of options.
+        This incremental pattern keeps keyboard navigation responsive by mounting more matching rows before focus reaches the list boundary.
+        <Documentation.CodeBlock language="tsx">
+            {largeListCode.javascript.code}
+        </Documentation.CodeBlock>
+    </Documentation.Section>
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
