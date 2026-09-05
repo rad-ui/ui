@@ -166,6 +166,10 @@ export const docsNavigationSections = [
             {
                 title:"Migration Guides",
                 path:"/docs/guides/migration-guides"
+            },
+            {
+                title:"CSS Variable Fallbacks",
+                path:"/docs/guides/css-variable-fallbacks"
             }
         ]
     },
