@@ -1,0 +1,16 @@
+.rad-ui-meter {
+    background: var(--rad-ui-color-gray-200);
+    border-radius: var(--rad-ui-radius-full);
+    height: 0.25rem;
+    max-width: 25.25rem;
+    overflow: hidden;
+    width: 100%;
+}
+
+.rad-ui-meter-indicator {
+    background: var(--rad-ui-color-accent-800);
+    border-radius: inherit;
+    height: 100%;
+    transition: transform 0.2s ease;
+    width: 100%;
+}

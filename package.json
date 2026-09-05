@@ -167,6 +167,11 @@
       "require": "./dist/components/Menubar.cjs",
       "types": "./dist/components/Menubar.d.ts"
     },
+    "./Meter": {
+      "import": "./dist/components/Meter.js",
+      "require": "./dist/components/Meter.cjs",
+      "types": "./dist/components/Meter.d.ts"
+    },
     "./Minimap": {
       "import": "./dist/components/Minimap.js",
       "require": "./dist/components/Minimap.cjs",

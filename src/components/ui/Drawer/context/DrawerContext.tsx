@@ -9,6 +9,8 @@ export type DrawerRootActions = {
 
 export type DrawerContextType = {
     rootClass: string;
+    isOpen: boolean;
+    onOpen: () => void;
     swipeDirection: 'left' | 'right' | 'top' | 'bottom';
     isOpen: boolean;
     onOpen: () => void;
@@ -32,6 +34,8 @@ export type DrawerContextType = {
 
 export const DrawerContext = createContext<DrawerContextType>({
     rootClass: '',
+    isOpen: false,
+    onOpen: () => {},
     swipeDirection: 'right',
     isOpen: false,
     onOpen: () => {},
