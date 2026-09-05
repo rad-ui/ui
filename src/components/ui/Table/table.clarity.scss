@@ -3,6 +3,24 @@
     border-radius: 12px;
     overflow: hidden;
 
+    &[data-resizable] {
+        overflow-x: auto;
+    }
+
+    &[data-resizing] .rad-ui-table .header .rad-ui-table-column-resize-handle.active::before {
+        opacity: 1;
+        width: 2px;
+        background: var(--rad-ui-focus-ring-color);
+    }
+
+    &[data-resize-handle-visibility="always"] .rad-ui-table .header .rad-ui-table-column-resize-handle::before {
+        opacity: 1;
+    }
+
+    &[data-resize-handle-visibility="hover"] .rad-ui-table .header .cell-header.resizable:hover .rad-ui-table-column-resize-handle::before {
+        opacity: 1;
+    }
+
     .rad-ui-table{
         width: 100%;
         text-align: left;
@@ -11,6 +29,10 @@
         border-spacing: 0;
         box-sizing: border-box;
         color: var(--rad-ui-color-gray-1000);
+
+        &[data-resizable] {
+            min-width: 100%;
+        }
 
         .header{
             padding: 12px;
@@ -24,6 +46,55 @@
                 vertical-align: inherit;
                 font-weight: 500;
                 background-color: var(--rad-ui-color-accent-200);
+
+                &.resizable {
+                    position: relative;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    padding-right: 0.75rem;
+                }
+            }
+
+            .rad-ui-table-column-resize-handle:hover::before,
+            .rad-ui-table-column-resize-handle:focus-visible::before,
+            .rad-ui-table-column-resize-handle.active::before,
+            .rad-ui-table-column-resize-handle:active::before {
+                opacity: 1;
+                width: 2px;
+                background: var(--rad-ui-focus-ring-color);
+            }
+
+            .rad-ui-table-column-resize-handle {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 11px;
+                cursor: col-resize;
+                touch-action: none;
+                user-select: none;
+                z-index: 1;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 1px;
+                    background: var(--rad-ui-color-gray-500);
+                    opacity: 0;
+                    transition: opacity 0.15s ease, background-color 0.15s ease, width 0.15s ease;
+                }
+
+                &[data-resize-handle-visibility="always"]::before {
+                    opacity: 1;
+                }
+
+                &:focus-visible {
+                    outline: none;
+                }
             }
         }
     
@@ -43,6 +114,12 @@
             color: var(--rad-ui-color-gray-1000);
             font-weight: 300;
             font-size: 14px;
+
+            &.resizable {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     }
 
