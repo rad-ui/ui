@@ -2,15 +2,16 @@
     --rad-ui-button-solid-background: var(--rad-ui-color-accent-950);
     --rad-ui-button-solid-hover: var(--rad-ui-color-accent-1000);
     --rad-ui-button-solid-foreground: var(--rad-ui-color-accent-50);
+    --rad-ui-button-font-size-lg: calc(var(--rad-ui-font-size-3) - (var(--rad-ui-spacing-1) / 4));
 
-    min-height: 2.25rem;
+    min-height: var(--rad-ui-control-height-md);
     gap: var(--rad-ui-spacing-2);
-    border: 1px solid var(--rad-ui-button-solid-background);
-    border-radius: var(--rad-ui-radius-md);
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-button-solid-background);
+    border-radius: var(--rad-ui-control-radius-md);
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    padding:0 1rem;
+    padding-inline: var(--rad-ui-control-padding-x-md);
     white-space: nowrap;
     font-family: var(--rad-ui-font-sans);
     font-size: var(--rad-ui-font-size-2);
@@ -19,7 +20,7 @@
     background-color: var(--rad-ui-button-solid-background);
     color: var(--rad-ui-button-solid-foreground);
     box-sizing: border-box;
-    box-shadow: var(--rad-ui-shadow-sm);
+    box-shadow: var(--rad-ui-control-shadow-hover);
 
     &:hover{
         background-color: var(--rad-ui-button-solid-hover);
@@ -42,7 +43,7 @@
         background-color: var(--rad-ui-surface-panel);
         color: var(--rad-ui-color-accent-1000);
         border-color: var(--rad-ui-color-accent-600);
-        box-shadow: var(--rad-ui-shadow-xs);
+        box-shadow: var(--rad-ui-control-shadow);
 
         &:hover{
             background-color: var(--rad-ui-color-accent-200);
@@ -55,7 +56,7 @@
         border-color: transparent;
         color: var(--rad-ui-color-accent-1000);
         background-color:  var(--rad-ui-color-accent-200);
-        box-shadow: var(--rad-ui-shadow-xs);
+        box-shadow: var(--rad-ui-control-shadow);
 
         &:hover{
             background-color: var(--rad-ui-color-accent-300);
@@ -94,29 +95,29 @@
 
     &[data-size="small"]{
         min-height: var(--rad-ui-size-8);
-        padding: 0 0.75rem;
+        padding-inline: var(--rad-ui-control-padding-x-sm);
         font-size: var(--rad-ui-font-size-1);
     }
 
     &[data-size="medium"]{
-        min-height: 2.25rem;
-        padding: 0 1rem;
+        min-height: var(--rad-ui-control-height-md);
+        padding-inline: var(--rad-ui-control-padding-x-md);
     }
 
     &[data-size="large"]{
-        min-height: var(--rad-ui-size-10);
-        padding: 0 1.25rem;
-        font-size: 0.9375rem;
+        min-height: var(--rad-ui-control-height-lg);
+        padding-inline: var(--rad-ui-control-padding-x-lg);
+        font-size: var(--rad-ui-button-font-size-lg);
     }
 
     &[data-size="x-large"]{
-        min-height: 2.75rem;
-        padding: 0 1.5rem;
+        min-height: calc(var(--rad-ui-control-height-lg) + var(--rad-ui-spacing-1));
+        padding-inline: var(--rad-ui-spacing-6);
         font-size: var(--rad-ui-font-size-3);
     }
 
     &:focus-visible{
         outline: none;
-        box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-shadow-sm);
+        box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-control-shadow-hover);
     }
 }
