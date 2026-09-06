@@ -1,6 +1,27 @@
 // custom.d.ts
 declare module '@radui/ui';
 
+declare module '@radui/ui/LiveRegion' {
+    import * as React from 'react';
+
+    type LiveRegionProps = React.ComponentPropsWithoutRef<'div'> & {
+        politeness?: 'polite' | 'assertive' | 'off';
+        role?: 'status' | 'alert' | 'log';
+        atomic?: boolean;
+        relevant?: 'additions' | 'removals' | 'text' | 'all' | 'additions text';
+        busy?: boolean;
+        visuallyHidden?: boolean;
+        customRootClass?: string;
+        children?: React.ReactNode;
+    };
+
+    const LiveRegion: React.ForwardRefExoticComponent<
+        LiveRegionProps & React.RefAttributes<HTMLDivElement>
+    >;
+
+    export default LiveRegion;
+}
+
 declare module '@radui/ui/ToggleGroup' {
     import * as React from 'react';
 

@@ -162,6 +162,11 @@
       "require": "./dist/components/Link.cjs",
       "types": "./dist/components/Link.d.ts"
     },
+    "./LiveRegion": {
+      "import": "./dist/components/LiveRegion.js",
+      "require": "./dist/components/LiveRegion.cjs",
+      "types": "./dist/components/LiveRegion.d.ts"
+    },
     "./Menubar": {
       "import": "./dist/components/Menubar.js",
       "require": "./dist/components/Menubar.cjs",
