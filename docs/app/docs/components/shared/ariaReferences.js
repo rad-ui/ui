@@ -57,6 +57,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Radio group pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/radio/'
     },
+    SWITCH: {
+        id: 'switch',
+        label: 'Switch pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/switch/'
+    },
     TABS: {
         id: 'tabs',
         label: 'Tabs pattern',
