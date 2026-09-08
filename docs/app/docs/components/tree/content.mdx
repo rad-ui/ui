@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import TreeExample from "./docs/example_1"
-import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code, largeDataCode, anatomy, api_documentation } from "./docs/codeUsage"
 
 <Documentation
     title="Tree"
@@ -9,6 +9,14 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
     <Documentation.ComponentHero codeUsage={code}>
         <TreeExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Section title="Large Data">
+        Model large trees as collapsed branches and keep each node's `label` stable.
+        Tree only mounts a branch group while its parent item is expanded, so deep file trees can defer most child nodes until users open that branch.
+        <Documentation.CodeBlock language="tsx">
+            {largeDataCode.javascript.code}
+        </Documentation.CodeBlock>
+    </Documentation.Section>
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
