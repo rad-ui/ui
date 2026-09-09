@@ -52,6 +52,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Menu button pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/'
     },
+    PROGRESSBAR: {
+        id: 'progressbar',
+        label: 'Progressbar role',
+        href: 'https://www.w3.org/WAI/ARIA/apg/practices/range-related-properties/#using-aria-valuetext'
+    },
     RADIO_GROUP: {
         id: 'radio-group',
         label: 'Radio group pattern',
