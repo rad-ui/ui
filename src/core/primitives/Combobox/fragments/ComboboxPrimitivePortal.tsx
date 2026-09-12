@@ -1,6 +1,7 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Floater from '~/core/primitives/Floater';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 
 const ComboboxPrimitivePortal = React.forwardRef<
@@ -8,19 +9,22 @@ const ComboboxPrimitivePortal = React.forwardRef<
     { children: React.ReactNode; container?: HTMLElement | null } & React.ComponentPropsWithoutRef<typeof Floater.Portal>
 >(({ children, container, ...props }, _forwardedRef) => {
     const { isOpen } = useContext(ComboboxPrimitiveContext);
-    const [rootElementFound, setRootElementFound] = useState(false);
-    const rootElement = (container || document.querySelector('#rad-ui-theme-container') || document.body) as HTMLElement | null;
+    const themeContext = useContext(ThemeContext);
+    const rootElementRef = useRef<HTMLElement | null>(null);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        if (rootElement) {
-            setRootElementFound(true);
-        }
-    }, [rootElement]);
+        rootElementRef.current = container
+            ?? themeContext?.portalRootRef.current
+            ?? themeContext?.containerRef.current
+            ?? document.body;
+        setIsMounted(true);
+    }, [container, themeContext]);
 
-    if (!isOpen || !rootElementFound) return null;
+    if (!isOpen || !isMounted) return null;
 
     return (
-        <Floater.Portal root={rootElement} {...props}>
+        <Floater.Portal root={rootElementRef.current} {...props}>
             {children}
         </Floater.Portal>
     );
