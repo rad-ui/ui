@@ -391,6 +391,25 @@ describe('MenuPrimitive', () => {
             expect(contentElement).toHaveClass('flex', 'flex-col', 'mt-2', 'bg-gray-1000', 'border', 'border-gray-200', 'rounded', 'shadow-lg', 'min-w-[180px]');
         });
 
+        it('should apply scroll styles to the inner content container for overflow menus', () => {
+            act(() => {
+                render(
+                    <MenuPrimitive.Root defaultOpen={true}>
+                        <MenuPrimitive.Content>
+                            <div>Menu Content</div>
+                        </MenuPrimitive.Content>
+                    </MenuPrimitive.Root>
+                );
+            });
+
+            const scrollContainer = screen.getByText('Menu Content').parentElement;
+            expect(scrollContainer).toHaveStyle({
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                overscrollBehavior: 'contain'
+            });
+        });
+
         it('should return null when used outside MenuPrimitive.Root context', () => {
             const { container } = render(
                 <MenuPrimitive.Content>
