@@ -176,4 +176,47 @@ describe('ScrollArea', () => {
 
         expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
     });
+
+    test('hides scrollbar while document overlay is open', () => {
+        document.documentElement.setAttribute('data-rad-ui-overlay-open', '');
+        try {
+            render(
+                <ScrollArea.Root type="always">
+                    <ScrollArea.Viewport>
+                        <div>content</div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                        <ScrollArea.Thumb data-testid="thumb" />
+                    </ScrollArea.Scrollbar>
+                </ScrollArea.Root>
+            );
+
+            expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+            expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'hidden');
+        } finally {
+            document.documentElement.removeAttribute('data-rad-ui-overlay-open');
+        }
+    });
+
+    test('hides scrollbar while body scroll is locked', () => {
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        try {
+            render(
+                <ScrollArea.Root type="always">
+                    <ScrollArea.Viewport>
+                        <div>content</div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                        <ScrollArea.Thumb data-testid="thumb" />
+                    </ScrollArea.Scrollbar>
+                </ScrollArea.Root>
+            );
+
+            expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+            expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'hidden');
+        } finally {
+            document.body.style.overflow = previousOverflow;
+        }
+    });
 });
