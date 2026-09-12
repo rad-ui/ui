@@ -1,10 +1,13 @@
 .rad-ui-code {
+  --rad-ui-code-padding-y: calc(var(--rad-ui-spacing-1) / 2.5);
+  --rad-ui-code-padding-x: calc(var(--rad-ui-spacing-1) + (var(--rad-ui-spacing-1) * 0.6));
+
   color: var(--rad-ui-color-accent-1000);
   background-color: var(--rad-ui-color-accent-300);
-  padding: 0.1rem 0.4rem;
-  border-radius: var(--rad-ui-radius-md);
-  font-size: 0.8125rem;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  padding: var(--rad-ui-code-padding-y) var(--rad-ui-code-padding-x);
+  border-radius: var(--rad-ui-control-radius-md);
+  font-size: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+  font-family: var(--rad-ui-font-mono);
   font-weight: 300;
   line-height: var(--rad-ui-line-height-2);
   display: inline-block;
@@ -13,27 +16,27 @@
   &[data-variant="outline"] {
     background-color: transparent;
     color: var(--rad-ui-color-accent-900);
-    border: 1px solid var(--rad-ui-color-accent-500);
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-500);
   }
   
   // Code Sizes
   &[data-size="small"] {
     font-size: var(--rad-ui-font-size-1);
-    padding: 0.0625rem 0.3125rem;
+    padding: calc(var(--rad-ui-spacing-1) / 4) calc(var(--rad-ui-spacing-1) + (var(--rad-ui-spacing-1) / 4));
   }
   
   &[data-size="medium"] {
-    font-size: 0.8125rem;
-    padding: 0.1rem 0.4rem;
+    font-size: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+    padding: var(--rad-ui-code-padding-y) var(--rad-ui-code-padding-x);
   }
   
   &[data-size="large"] {
     font-size: var(--rad-ui-font-size-2);
-    padding: 0.125rem 0.4375rem;
+    padding: calc(var(--rad-ui-spacing-1) / 2) calc(var(--rad-ui-spacing-1) + var(--rad-ui-density-gap-xs) + (var(--rad-ui-spacing-1) / 2));
   }
   
   &[data-size="x-large"] {
-    font-size: 0.9375rem;
-    padding: 0.1875rem 0.5rem;
+    font-size: calc(var(--rad-ui-font-size-3) - (var(--rad-ui-spacing-1) / 4));
+    padding: calc(var(--rad-ui-spacing-1) - (var(--rad-ui-spacing-1) / 4)) var(--rad-ui-spacing-2);
   }
 }
