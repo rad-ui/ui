@@ -53,16 +53,42 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         };
 
         const resizeObserver = new ResizeObserver(() => handleResize());
-        resizeObserver.observe(viewport);
-        Array.from(viewport.children).forEach(child => resizeObserver.observe(child));
+        const syncResizeObservers = () => {
+            resizeObserver.disconnect();
+            resizeObserver.observe(viewport);
+            Array.from(viewport.children).forEach(child => {
+                if (child instanceof Element) {
+                    resizeObserver.observe(child);
+                }
+            });
+        };
 
-        const mutationObserver = new MutationObserver(() => {
+        syncResizeObservers();
+
+        const mutationObserver = new MutationObserver((mutations) => {
+            const directChildSwap = mutations.some(
+                (mutation) =>
+                    mutation.type === 'childList'
+                    && mutation.target === viewport
+                    && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)
+            );
+
+            if (directChildSwap) {
+                viewport.scrollTop = 0;
+                viewport.scrollLeft = 0;
+                syncResizeObservers();
+            }
+
             handleResize();
+
+            if (directChildSwap) {
+                handleScroll();
+            }
         });
 
         mutationObserver.observe(viewport, {
             childList: true,
-            subtree: true
+            subtree: false
         });
 
         window.addEventListener('resize', handleResize);

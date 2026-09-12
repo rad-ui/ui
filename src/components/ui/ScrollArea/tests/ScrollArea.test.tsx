@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import ScrollArea from '../ScrollArea';
 
@@ -175,5 +175,43 @@ describe('ScrollArea', () => {
         fireEvent.mouseEnter(screen.getByTestId('root'));
 
         expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('resets scroll when direct viewport child is swapped, not on nested mutations', async() => {
+        const { rerender } = render(
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div key="panel-a" data-testid="panel-a" style={{ height: 400 }}>Panel A</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
+        viewport.scrollTop = 120;
+
+        act(() => {
+            const nested = document.createElement('span');
+            nested.textContent = 'nested';
+            screen.getByTestId('panel-a').appendChild(nested);
+        });
+
+        expect(viewport.scrollTop).toBe(120);
+
+        rerender(
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div key="panel-b" data-testid="panel-b" style={{ height: 400 }}>Panel B</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        await act(async() => {
+            await Promise.resolve();
+        });
+
+        const nextViewport = screen.getByTestId('viewport') as HTMLDivElement;
+        await waitFor(() => {
+            expect(nextViewport.scrollTop).toBe(0);
+        });
     });
 });
