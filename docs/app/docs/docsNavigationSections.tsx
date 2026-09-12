@@ -237,6 +237,10 @@ export const docsNavigationSections = [
             {
                 title:"Component Docs",
                 path:"/docs/contributing/component-docs-anatomy"
+            },
+            {
+                title:"Component Docs",
+                path:"/docs/contributing/component-docs-features"
             }
         ]
     }
