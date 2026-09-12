@@ -1,0 +1,86 @@
+# CSS variable fallbacks
+
+How Rad UI uses CSS custom properties in tokenized theme layers, and what consumers can rely on when building custom styles.
+
+Rad UI is **headless by default**. The core component library does not require CSS variables. Variables matter when you use Rad UI's **default theme CSS**, **token outputs**, or your own design-system layer on top of documented `data-*` hooks.
+
+## Where variables come from
+
+When you import `@radui/ui/themes/default.css`, token values are defined as `--rad-ui-*` custom properties (see `styles/cssTokens/` in the repository).
+
+`Theme` also exposes public metadata on its container:
+
+- `data-rad-ui-theme` — resolved appearance (`light` / `dark`)
+- `data-rad-ui-accent-color` — active accent palette name
+- `data-rad-ui-radius` — radius scale selection
+- `data-rad-ui-scaling` — density / scale selection
+
+Default theme selectors use these attributes to scope accent palettes and semantic colors.
+
+## Supported consumer contract
+
+Consumers may rely on:
+
+- documented `data-*` attributes listed in component docs and [Usage](/docs/first-steps/usage)
+- `--rad-ui-*` variables **after** importing a Rad UI theme stylesheet or defining equivalent variables themselves
+- `Theme` attribute values when styling subtrees with your own CSS
+
+Consumers should **not** rely on:
+
+- undocumented internal class names when `classNamespace` is not set
+- private DOM structure beyond public anatomy parts
+- variables that only exist incidentally in generated CSS without being part of the token contract
+
+## Fallback strategy
+
+Use standard CSS fallback syntax when a variable might be missing during incremental adoption:
+
+```css
+.my-surface {
+  background: var(--rad-ui-color-gray-100, #f5f5f5);
+  border-radius: var(--rad-ui-radius-md, 8px);
+}
+```
+
+Guidelines:
+
+1. **Import theme CSS** for the subtree that should use Rad UI tokens, or define the same `--rad-ui-*` names yourself.
+2. **Scope overrides** under `Theme` so accent and appearance selectors stay predictable.
+3. **Provide fallbacks** in app-level CSS when mixing Rad UI tokens with legacy styles during migration.
+4. **Prefer semantic tokens** (`--rad-ui-color-gray-100`) over hard-coded component internals.
+
+## Partial theme adoption
+
+You can use Rad UI headlessly and define only the variables your app needs:
+
+```css
+:root {
+  --rad-ui-radius-md: 10px;
+  --rad-ui-font-sans: 'Inter', system-ui, sans-serif;
+}
+```
+
+Components without the default stylesheet will not auto-apply these values. Your CSS must reference the variables explicitly.
+
+## Nested `Theme` providers
+
+Each `Theme` subtree can set its own accent, radius, and scaling attributes. CSS that keys off `data-rad-ui-accent-color` applies within the matching subtree only.
+
+When overriding variables for a nested section, set them on the inner theme container:
+
+```css
+[data-rad-ui-accent-color='tomato'] {
+  --rad-ui-color-accent-9: var(--brand-primary, tomato);
+}
+```
+
+## Component-level animation variables
+
+Some components expose measured dimensions as CSS variables for consumer-driven animation (for example accordion content height). Treat those variables as part of the component's documented styling surface when listed on the component page.
+
+## Checklist for custom design systems
+
+- [ ] Decide whether you import Rad UI theme CSS or mirror the `--rad-ui-*` contract yourself.
+- [ ] Style through `data-*` attributes and documented variables, not internal selectors.
+- [ ] Add fallbacks for any variable your app uses before theme CSS loads.
+- [ ] Test light/dark and nested `Theme` scopes when overriding accent tokens.
