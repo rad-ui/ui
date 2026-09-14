@@ -125,9 +125,9 @@ const SplitterRoot = React.forwardRef<
         const { leftPanelIndex, min, max } = getHandleBounds(handleIndex, currentSizes);
 
         return {
-            'aria-valuemin': Math.round(min),
-            'aria-valuemax': Math.round(max),
-            'aria-valuenow': Math.round(currentSizes[leftPanelIndex] || 0)
+            'aria-valuemin': min,
+            'aria-valuemax': max,
+            'aria-valuenow': currentSizes[leftPanelIndex] || 0
         };
     }, [getHandleBounds]);
 
