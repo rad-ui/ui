@@ -100,6 +100,44 @@ describe('Splitter Component', () => {
         expect(handle).toHaveAttribute('tabIndex', '0');
     });
 
+    it('exposes separator range attributes for the current panel size', () => {
+        renderSplitter({
+            defaultSizes: [30, 70],
+            minSizes: [20, 10],
+            maxSizes: [80, 90]
+        });
+
+        const handle = screen.getByRole('separator');
+
+        expect(handle).toHaveAttribute('aria-valuemin', '20');
+        expect(handle).toHaveAttribute('aria-valuemax', '80');
+        expect(handle).toHaveAttribute('aria-valuenow', '30');
+    });
+
+    it('resizes to min and max constraints with Home and End', () => {
+        renderSplitter({
+            defaultSizes: [30, 70],
+            minSizes: [20, 10],
+            maxSizes: [80, 90]
+        });
+
+        const handle = screen.getByRole('separator');
+        const panel0 = screen.getByTestId('panel-0').parentElement;
+        const panel1 = screen.getByTestId('panel-1').parentElement;
+
+        fireEvent.keyDown(handle, { key: 'Home' });
+
+        expect(panel0).toHaveStyle({ flexBasis: '20%' });
+        expect(panel1).toHaveStyle({ flexBasis: '80%' });
+        expect(handle).toHaveAttribute('aria-valuenow', '20');
+
+        fireEvent.keyDown(handle, { key: 'End' });
+
+        expect(panel0).toHaveStyle({ flexBasis: '80%' });
+        expect(panel1).toHaveStyle({ flexBasis: '20%' });
+        expect(handle).toHaveAttribute('aria-valuenow', '80');
+    });
+
     it('applies custom aria-label to handle', () => {
         render(
             <div style={{ width: '400px', height: '300px' }}>

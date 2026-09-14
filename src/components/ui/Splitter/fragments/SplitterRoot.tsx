@@ -25,6 +25,8 @@ export const useSplitter = () => {
 
 const COMPONENT_NAME = 'Splitter';
 
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
 const SplitterRoot = React.forwardRef<
     React.ElementRef<'div'>,
     SplitterRootProps
@@ -83,6 +85,51 @@ const SplitterRoot = React.forwardRef<
     constraintsRef.current = constraints;
 
     const isHorizontal = orientation === 'horizontal';
+
+    const getHandleBounds = useCallback((handleIndex: number, currentSizes = sizesRef.current) => {
+        const leftPanelIndex = handleIndex;
+        const rightPanelIndex = handleIndex + 1;
+        const { minSizes, maxSizes } = constraintsRef.current;
+
+        const leftPanelCurrentSize = currentSizes[leftPanelIndex] || 0;
+        const rightPanelCurrentSize = currentSizes[rightPanelIndex] || 0;
+        const totalAdjacentSize = leftPanelCurrentSize + rightPanelCurrentSize;
+
+        const leftMin = minSizes[leftPanelIndex] ?? 0;
+        const leftMax = maxSizes[leftPanelIndex] ?? 100;
+        const rightMin = minSizes[rightPanelIndex] ?? 0;
+        const rightMax = maxSizes[rightPanelIndex] ?? 100;
+
+        return {
+            leftPanelIndex,
+            rightPanelIndex,
+            min: Math.max(leftMin, totalAdjacentSize - rightMax),
+            max: Math.min(leftMax, totalAdjacentSize - rightMin),
+            totalAdjacentSize
+        };
+    }, []);
+
+    const resizeAdjacentPanels = useCallback((handleIndex: number, desiredLeftPanelSize: number, baseSizes = sizesRef.current) => {
+        const newSizes = [...baseSizes];
+        const { leftPanelIndex, rightPanelIndex, min, max, totalAdjacentSize } = getHandleBounds(handleIndex, newSizes);
+        const leftPanelSize = clamp(desiredLeftPanelSize, min, max);
+
+        newSizes[leftPanelIndex] = leftPanelSize;
+        newSizes[rightPanelIndex] = totalAdjacentSize - leftPanelSize;
+
+        return newSizes;
+    }, [getHandleBounds]);
+
+    const getHandleValueAttributes = useCallback((handleIndex: number) => {
+        const currentSizes = sizesRef.current;
+        const { leftPanelIndex, min, max } = getHandleBounds(handleIndex, currentSizes);
+
+        return {
+            'aria-valuemin': Math.round(min),
+            'aria-valuemax': Math.round(max),
+            'aria-valuenow': Math.round(currentSizes[leftPanelIndex] || 0)
+        };
+    }, [getHandleBounds]);
 
     // Performance optimized update sizes with debouncing
     const updateSizes = useCallback((newSizes: number[], immediate = false) => {
@@ -144,57 +191,13 @@ const SplitterRoot = React.forwardRef<
 
                 const deltaPercent = (delta / containerSize) * 100;
 
-                const newSizes = [...currentSizes];
-                const { minSizes, maxSizes } = constraintsRef.current;
-
-                // Intuitive resizing algorithm
-                // When dragging a handle, only affect the two adjacent panels
-                const leftPanelIndex = handleIndex;
-                const rightPanelIndex = handleIndex + 1;
-                const totalPanels = newSizes.length;
-
-                // Calculate new sizes for the two adjacent panels
-                const leftPanelCurrentSize = newSizes[leftPanelIndex];
-                const rightPanelCurrentSize = newSizes[rightPanelIndex];
-
-                // Calculate target sizes with constraints
-                const leftPanelTargetSize = Math.max(
-                    minSizes[leftPanelIndex] || 0,
-                    Math.min(maxSizes[leftPanelIndex] || 100, leftPanelCurrentSize + deltaPercent)
-                );
-
-                const rightPanelTargetSize = Math.max(
-                    minSizes[rightPanelIndex] || 0,
-                    Math.min(maxSizes[rightPanelIndex] || 100, rightPanelCurrentSize - deltaPercent)
-                );
-
-                // Check if we can make the change
-                const totalAdjacentSize = leftPanelTargetSize + rightPanelTargetSize;
-                const spaceAvailable = 100 - (leftPanelCurrentSize + rightPanelCurrentSize);
-
                 if (Math.abs(deltaPercent) > 0.1) { // Only update if there's meaningful change
-                    // If the adjacent panels can accommodate the change, apply it directly
-                    if (totalAdjacentSize <= 100) {
-                        newSizes[leftPanelIndex] = leftPanelTargetSize;
-                        newSizes[rightPanelIndex] = rightPanelTargetSize;
-                    } else {
-                        // If we can't fit both panels, try to maintain the ratio
-                        const ratio = leftPanelCurrentSize / (leftPanelCurrentSize + rightPanelCurrentSize);
-                        const availableSpace = 100 - spaceAvailable;
+                    const leftPanelCurrentSize = currentSizes[handleIndex] || 0;
+                    const newSizes = resizeAdjacentPanels(handleIndex, leftPanelCurrentSize + deltaPercent, currentSizes);
 
-                        newSizes[leftPanelIndex] = Math.max(
-                            minSizes[leftPanelIndex] || 0,
-                            Math.min(maxSizes[leftPanelIndex] || 100, availableSpace * ratio)
-                        );
-                        newSizes[rightPanelIndex] = Math.max(
-                            minSizes[rightPanelIndex] || 0,
-                            Math.min(maxSizes[rightPanelIndex] || 100, availableSpace * (1 - ratio))
-                        );
-                    }
+                    // Update sizes without triggering callback during drag
+                    setSizes(newSizes);
                 }
-
-                // Update sizes without triggering callback during drag
-                setSizes(newSizes);
                 lastUpdateTime = now;
             });
         };
@@ -224,13 +227,12 @@ const SplitterRoot = React.forwardRef<
         document.addEventListener('mouseup', handleEnd);
         document.addEventListener('touchmove', handleMove);
         document.addEventListener('touchend', handleEnd);
-    }, [isHorizontal, onSizesChange]);
+    }, [isHorizontal, onSizesChange, resizeAdjacentPanels]);
 
     // Performance optimized keyboard navigation with multi-panel support
     const handleKeyDown = useCallback((handleIndex: number, event: React.KeyboardEvent) => {
         const step = event.shiftKey ? 10 : 1;
-        const newSizes = [...sizesRef.current];
-        const { minSizes, maxSizes } = constraintsRef.current;
+        const currentSizes = sizesRef.current;
 
         let delta = 0;
         if (isHorizontal) {
@@ -243,59 +245,23 @@ const SplitterRoot = React.forwardRef<
 
         if (delta !== 0) {
             event.preventDefault();
-
-            // Use the same intuitive algorithm as drag
-            const leftPanelIndex = handleIndex;
-            const rightPanelIndex = handleIndex + 1;
-
-            // Calculate new sizes for the two adjacent panels
-            const leftPanelCurrentSize = newSizes[leftPanelIndex];
-            const rightPanelCurrentSize = newSizes[rightPanelIndex];
-
-            // Calculate target sizes with constraints
-            const leftPanelTargetSize = Math.max(
-                minSizes[leftPanelIndex] || 0,
-                Math.min(maxSizes[leftPanelIndex] || 100, leftPanelCurrentSize + delta)
-            );
-
-            const rightPanelTargetSize = Math.max(
-                minSizes[rightPanelIndex] || 0,
-                Math.min(maxSizes[rightPanelIndex] || 100, rightPanelCurrentSize - delta)
-            );
-
-            // Check if we can make the change
-            const totalAdjacentSize = leftPanelTargetSize + rightPanelTargetSize;
-            const spaceAvailable = 100 - (leftPanelCurrentSize + rightPanelCurrentSize);
-
-            if (Math.abs(delta) > 0.1) {
-                // If the adjacent panels can accommodate the change, apply it directly
-                if (totalAdjacentSize <= 100) {
-                    newSizes[leftPanelIndex] = leftPanelTargetSize;
-                    newSizes[rightPanelIndex] = rightPanelTargetSize;
-                } else {
-                    // If we can't fit both panels, try to maintain the ratio
-                    const ratio = leftPanelCurrentSize / (leftPanelCurrentSize + rightPanelCurrentSize);
-                    const availableSpace = 100 - spaceAvailable;
-
-                    newSizes[leftPanelIndex] = Math.max(
-                        minSizes[leftPanelIndex] || 0,
-                        Math.min(maxSizes[leftPanelIndex] || 100, availableSpace * ratio)
-                    );
-                    newSizes[rightPanelIndex] = Math.max(
-                        minSizes[rightPanelIndex] || 0,
-                        Math.min(maxSizes[rightPanelIndex] || 100, availableSpace * (1 - ratio))
-                    );
-                }
-            }
-
-            updateSizes(newSizes, true); // Immediate update for keyboard
+            const leftPanelSize = currentSizes[handleIndex] || 0;
+            updateSizes(resizeAdjacentPanels(handleIndex, leftPanelSize + delta), true);
+            return;
         }
-    }, [isHorizontal, updateSizes]);
+
+        if (event.key === KEYBOARD_KEYS.HOME || event.key === KEYBOARD_KEYS.END) {
+            event.preventDefault();
+            const { min, max } = getHandleBounds(handleIndex, currentSizes);
+            updateSizes(resizeAdjacentPanels(handleIndex, event.key === KEYBOARD_KEYS.HOME ? min : max), true);
+        }
+    }, [getHandleBounds, isHorizontal, resizeAdjacentPanels, updateSizes]);
 
     const contextValue: SplitterContextValue = {
         orientation,
         sizes,
         setSizes: updateSizes,
+        getHandleValueAttributes,
         startDrag,
         handleKeyDown,
         isDragging,
