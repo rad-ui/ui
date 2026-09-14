@@ -32,6 +32,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Combobox pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/'
     },
+    DISCLOSURE: {
+        id: 'disclosure',
+        label: 'Disclosure pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/'
+    },
     DIALOG_MODAL: {
         id: 'dialog-modal',
         label: 'Dialog modal pattern',
