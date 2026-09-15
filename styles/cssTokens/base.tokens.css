@@ -420,6 +420,7 @@
 --rad-ui-z-index-sticky: 200;
 --rad-ui-z-index-overlay: 900;
 --rad-ui-z-index-portal: 1000;
+--rad-ui-motion-duration-reduced: 0.01ms;
 --rad-ui-motion-duration-instant: 80ms;
 --rad-ui-motion-duration-fast: 120ms;
 --rad-ui-motion-duration-normal: 180ms;
@@ -434,6 +435,10 @@
 --rad-ui-border-width-0: 0;
 --rad-ui-border-width-1: 1px;
 --rad-ui-border-width-2: 2px;
+--rad-ui-border-width-3: 3px;
+--rad-ui-border-width-4: 4px;
+--rad-ui-border-width-5: 5px;
+--rad-ui-border-width-6: 6px;
 --rad-ui-opacity-0: 0;
 --rad-ui-opacity-10: 0.1;
 --rad-ui-opacity-20: 0.2;

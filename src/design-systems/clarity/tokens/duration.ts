@@ -1,4 +1,5 @@
 const duration = {
+    reduced: '0.01ms',
     instant: '80ms',
     fast: '120ms',
     normal: '180ms',
