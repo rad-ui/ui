@@ -22,10 +22,20 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Alert dialog pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
     },
+    CHECKBOX: {
+        id: 'checkbox',
+        label: 'Checkbox pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/'
+    },
     COMBOBOX: {
         id: 'combobox',
         label: 'Combobox pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/'
+    },
+    DISCLOSURE: {
+        id: 'disclosure',
+        label: 'Disclosure pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/'
     },
     DIALOG_MODAL: {
         id: 'dialog-modal',
@@ -76,6 +86,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         id: 'tooltip',
         label: 'Tooltip pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/'
+    },
+    WINDOW_SPLITTER: {
+        id: 'window-splitter',
+        label: 'Window Splitter pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/'
     }
 });
 
