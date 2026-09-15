@@ -3,6 +3,7 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axe from 'axe-core';
 import Dialog from '../Dialog';
+import Theme from '~/components/ui/Theme/Theme';
 import { TextEncoder, TextDecoder } from 'util';
 (global as any).TextEncoder = TextEncoder;
 (global as any).TextDecoder = TextDecoder;
@@ -15,6 +16,24 @@ const { act } = require('react-dom/test-utils');
 
 // Helper to flush microtasks
 const flush = () => new Promise(resolve => setTimeout(resolve, 0));
+
+const mockMatchMedia = () => {
+    if ('matchMedia' in window && typeof window.matchMedia === 'function') {
+        return;
+    }
+
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: jest.fn().mockImplementation(query => ({
+            matches: false,
+            media: query,
+            onchange: null,
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        }))
+    });
+};
 
 describe('Dialog portal and accessibility', () => {
     test('manages focus and data-state, closes on escape and overlay click', async() => {
@@ -206,5 +225,25 @@ describe('Dialog portal and accessibility', () => {
 
         expect(triggerRef.current?.tagName).toBe('A');
         expect(contentRef.current?.tagName).toBe('FORM');
+    });
+
+    test('portals content inside the active theme scope', async() => {
+        mockMatchMedia();
+
+        render(
+            <Theme appearance="dark" classNamespace="rad-ui">
+                <Dialog.Root open>
+                    <Dialog.Trigger>Open</Dialog.Trigger>
+                    <Dialog.Portal>
+                        <Dialog.Overlay />
+                        <Dialog.Content data-testid="dialog-content">Portaled</Dialog.Content>
+                    </Dialog.Portal>
+                </Dialog.Root>
+            </Theme>
+        );
+
+        const content = await screen.findByTestId('dialog-content');
+        expect(content.closest('[data-rad-ui-theme="dark"]')).toBeInTheDocument();
+        expect(content.closest('[data-rad-ui-portal-root]')).toBeInTheDocument();
     });
 });
