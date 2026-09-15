@@ -1,17 +1,29 @@
+import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Theme from '~/components/ui/Theme/Theme';
+
+const mockMatchMedia = () => {
+    if ('matchMedia' in window && typeof window.matchMedia === 'function') return;
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: jest.fn().mockImplementation(() => ({
+            matches: false,
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn()
+        }))
+    });
+};
 
 export function renderWithPortal(ui: React.ReactElement) {
-    const portalRoot = document.createElement('div');
-    portalRoot.setAttribute('id', 'rad-ui-theme-container');
-    document.body.appendChild(portalRoot);
-    const result = render(ui);
+    mockMatchMedia();
+    const result = render(React.createElement(Theme, null, ui));
+    const portalRoot = document.querySelector('[data-rad-ui-portal-root]') as HTMLElement;
     return {
         ...result,
         portalRoot,
         cleanup: () => {
             result.unmount();
-            portalRoot.remove();
         }
     };
 }
