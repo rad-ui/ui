@@ -1,6 +1,16 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import root_api_SourceCode from './component_api/root.tsx';
 import parts_api_SourceCode from './component_api/parts.tsx';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS
+} from '../../shared/keyboardShortcuts';
 
 const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Breadcrumb/breadcrumb.clarity.scss');
 
@@ -43,5 +53,23 @@ export const features = [
     "Exposes stable classes for each part",
     "Allows custom separator content"
 ];
+
+export const keyboardShortcuts = createKeyboardShortcutTable([
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.TAB,
+        'Moves focus between breadcrumb links in document order.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ENTER,
+        'Activates the focused breadcrumb link.'
+    )
+]);
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.BREADCRUMB,
+        'Uses navigation landmark semantics, list structure, and aria-current on the current page link or item.'
+    )
+]);
 
 export default code;

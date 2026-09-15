@@ -22,6 +22,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Alert dialog pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
     },
+    BREADCRUMB: {
+        id: 'breadcrumb',
+        label: 'Breadcrumb pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/'
+    },
     CHECKBOX: {
         id: 'checkbox',
         label: 'Checkbox pattern',
