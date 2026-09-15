@@ -61,7 +61,8 @@ exportsMap['.'] = {
     types: './dist/index.d.ts'
 };
 
-// Add theme exports
+// Add theme exports. When adding a new published design system, add its package
+// export here so build:generate-exports preserves the surface.
 exportsMap['./themes/default.css'] = './dist/themes/default.css';
 exportsMap['./themes/baremetal.css'] = './dist/themes/baremetal.css';
 exportsMap['./themes/tailwind-presets/default.js'] = './dist/themes/tailwind-presets/default.js';
