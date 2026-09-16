@@ -27,6 +27,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Breadcrumb pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/'
     },
+    BUTTON: {
+        id: 'button',
+        label: 'Button pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/'
+    },
     CHECKBOX: {
         id: 'checkbox',
         label: 'Checkbox pattern',
