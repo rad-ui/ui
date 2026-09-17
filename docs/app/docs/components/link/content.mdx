@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import LinkExample from "./docs/example_1"
-import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } from "./docs/codeUsage"
 
 <Documentation
     title="Link"
@@ -9,6 +9,10 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
     <Documentation.ComponentHero codeUsage={code}>
         <LinkExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}

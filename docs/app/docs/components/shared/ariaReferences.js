@@ -57,6 +57,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Listbox pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/listbox/'
     },
+    LINK: {
+        id: 'link',
+        label: 'Link pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/'
+    },
     MENU: {
         id: 'menu',
         label: 'Menu pattern',
