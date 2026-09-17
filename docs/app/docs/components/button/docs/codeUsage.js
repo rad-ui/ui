@@ -53,7 +53,7 @@ export const features = [
 export const keyboardShortcuts = createKeyboardShortcutTable([
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.TAB,
-        'Moves focus to enabled buttons in document order.'
+        'Moves focus to the next focusable element in document focus order.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.SPACE,

@@ -29,7 +29,7 @@ export const api_documentation = {
 export const keyboardShortcuts = createKeyboardShortcutTable([
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.TAB,
-        'Moves focus to links in document order.'
+        'Moves focus to the next focusable element in document focus order.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ENTER,
