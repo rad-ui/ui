@@ -8,6 +8,8 @@ import {
     api_documentation,
     modesCodeUsage,
     directionsCodeUsage,
+    ariaReferences,
+    keyboardShortcuts,
 } from './docs/codeUsage'
 
 <Documentation
@@ -23,6 +25,10 @@ import {
         tables={api_documentation}
         order={['root', 'trigger', 'portal', 'overlay', 'content', 'title', 'description', 'close', 'handle']}
     />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
     ## Examples
 

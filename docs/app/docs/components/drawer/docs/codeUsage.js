@@ -9,6 +9,16 @@ import title_api from './component_api/title.tsx'
 import description_api from './component_api/description.tsx'
 import close_api from './component_api/close.tsx'
 import handle_api from './component_api/handle.tsx'
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS,
+} from '../../shared/ariaReferences'
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS,
+} from '../../shared/keyboardShortcuts'
 
 const example_1_SourceCode = await getSourceCodeFromPath(
     'docs/app/docs/components/drawer/docs/examples/DrawerExample.tsx',
@@ -50,5 +60,39 @@ export const api_documentation = {
     close: close_api,
     handle: handle_api,
 }
+
+export const keyboardShortcuts = createKeyboardShortcutTable([
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.TAB,
+        'Moves focus through tabbable controls inside the drawer. Modal drawers keep focus contained until closed.',
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SHIFT_TAB,
+        'Moves focus backward through tabbable controls inside the drawer. Modal drawers keep focus contained until closed.',
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ENTER,
+        'Activates Drawer.Trigger or Drawer.Close when either control has focus.',
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SPACE,
+        'Activates Drawer.Trigger or Drawer.Close when either control has focus.',
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ESCAPE,
+        'Closes the drawer unless outside dismissal is disabled by the root configuration.',
+    ),
+])
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.DIALOG_MODAL,
+        'Drawer.Content uses dialog semantics and sets aria-modal from the Drawer.Root modal behavior.',
+    ),
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.DIALOG_LABELING,
+        'Label Drawer.Content with Drawer.Title and describe it with Drawer.Description using aria-labelledby and aria-describedby.',
+    ),
+])
 
 export default code
