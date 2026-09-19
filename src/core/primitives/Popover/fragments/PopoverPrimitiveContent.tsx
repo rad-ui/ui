@@ -172,27 +172,28 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         return null;
     }
 
-    const floatingProps = getFloatingProps();
+    const floatingProps = getFloatingProps({
+        ...props,
+        id: contentId,
+        role,
+        'data-state': isOpen ? 'open' : 'closed',
+        'data-side': side,
+        'data-align': align,
+        'aria-hidden': !isOpen ? 'true' : undefined,
+        style: {
+            ...floatingStyles,
+            outline: 'none',
+            visibility: isOpen && !isPositioned ? 'hidden' : undefined,
+            pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
+            ...style
+        }
+    });
 
     const content = (
         <Primitive.div
             ref={mergedRef}
             asChild={asChild}
-            id={contentId}
-            role={role}
-            data-state={isOpen ? 'open' : 'closed'}
-            data-side={side}
-            data-align={align}
-            aria-hidden={!isOpen ? 'true' : undefined}
-            style={{
-                ...floatingStyles,
-                outline: 'none',
-                visibility: isOpen && !isPositioned ? 'hidden' : undefined,
-                pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
-                ...style
-            }}
             {...floatingProps}
-            {...props}
         >
             {children}
         </Primitive.div>
