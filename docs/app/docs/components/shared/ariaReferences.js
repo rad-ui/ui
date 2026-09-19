@@ -27,6 +27,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Breadcrumb pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/'
     },
+    BUTTON: {
+        id: 'button',
+        label: 'Button pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/'
+    },
     CHECKBOX: {
         id: 'checkbox',
         label: 'Checkbox pattern',
@@ -47,10 +52,20 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Dialog modal pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/'
     },
+    DIALOG_LABELING: {
+        id: 'dialog-labeling',
+        label: 'Dialog labeling',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/#wai-aria-roles-states-and-properties'
+    },
     LISTBOX: {
         id: 'listbox',
         label: 'Listbox pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/listbox/'
+    },
+    LINK: {
+        id: 'link',
+        label: 'Link pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/'
     },
     MENU: {
         id: 'menu',
