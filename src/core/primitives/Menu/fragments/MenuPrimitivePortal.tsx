@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
 export type MenuPrimitivePortalElement = HTMLDivElement;
 export type MenuPrimitivePortalProps = { children: React.ReactNode } & ComponentPropsWithoutRef<typeof Floater.Portal>;
@@ -9,9 +10,12 @@ export type MenuPrimitivePortalProps = { children: React.ReactNode } & Component
 const MenuPrimitivePortal = forwardRef<MenuPrimitivePortalElement, MenuPrimitivePortalProps>(
     ({ children, ...props }, ref) => {
         const context = useContext(MenuPrimitiveRootContext);
+        const themeContext = useContext(ThemeContext);
         const [rootElementFound, setRootElementFound] = useState(false);
         const rootElement = (
-            document.querySelector('#rad-ui-theme-container') || document.body
+            themeContext?.portalRootRef.current
+            ?? themeContext?.containerRef.current
+            ?? document.body
         ) as HTMLElement | null;
 
         useEffect(() => {
