@@ -1,12 +1,20 @@
 .rad-ui-badge-root {
+  --rad-ui-badge-gap: var(--rad-ui-spacing-1);
+  --rad-ui-badge-padding-x-sm: calc(var(--rad-ui-spacing-1) + var(--rad-ui-density-gap-xs));
+  --rad-ui-badge-padding-x-md: calc(var(--rad-ui-spacing-2) + var(--rad-ui-density-gap-xs));
+  --rad-ui-badge-padding-x-lg: var(--rad-ui-spacing-3);
+  --rad-ui-badge-padding-x-xl: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
+  --rad-ui-badge-font-size-sm: calc(var(--rad-ui-font-size-1) - (var(--rad-ui-spacing-1) / 4));
+  --rad-ui-badge-font-size-lg: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: var(--rad-ui-badge-gap);
   min-height: var(--rad-ui-size-5);
-  padding: 0 0.625rem;
-  border: 1px solid transparent;
-  border-radius: var(--rad-ui-radius-full);
+  padding-inline: var(--rad-ui-badge-padding-x-md);
+  border: var(--rad-ui-border-width-default) solid transparent;
+  border-radius: var(--rad-ui-control-radius-pill);
   box-sizing: border-box;
   box-shadow: var(--rad-ui-shadow-none);
   font-family: var(--rad-ui-font-sans);
@@ -75,25 +83,25 @@
 
   &[data-size="small"] {
     min-height: var(--rad-ui-size-4);
-    padding: 0 0.4375rem;
-    font-size: 0.6875rem;
+    padding-inline: var(--rad-ui-badge-padding-x-sm);
+    font-size: var(--rad-ui-badge-font-size-sm);
   }
 
   &[data-size="medium"] {
     min-height: var(--rad-ui-size-5);
-    padding: 0 0.625rem;
+    padding-inline: var(--rad-ui-badge-padding-x-md);
     font-size: var(--rad-ui-font-size-1);
   }
 
   &[data-size="large"] {
     min-height: var(--rad-ui-size-6);
-    padding: 0 0.75rem;
-    font-size: 0.8125rem;
+    padding-inline: var(--rad-ui-badge-padding-x-lg);
+    font-size: var(--rad-ui-badge-font-size-lg);
   }
 
   &[data-size="x-large"] {
-    min-height: 1.75rem;
-    padding: 0 0.875rem;
+    min-height: calc(var(--rad-ui-size-6) + var(--rad-ui-spacing-1));
+    padding-inline: var(--rad-ui-badge-padding-x-xl);
     font-size: var(--rad-ui-font-size-2);
   }
 }
