@@ -152,6 +152,51 @@ describe('RovingFocusGroup behavior', () => {
         expect(itemA).toHaveFocus();
     });
 
+    test('supports dynamic item add and remove in default mode', async() => {
+        const user = userEvent.setup();
+        const DynamicGroup = () => {
+            const [items, setItems] = React.useState(['A', 'B']);
+            return (
+                <>
+                    <button onClick={() => setItems([...items, `Item${items.length + 1}`])} data-testid="add">Add</button>
+                    <button onClick={() => setItems(items.slice(0, -1))} data-testid="remove">Remove</button>
+                    <RovingFocusGroup.Root orientation="horizontal" loop>
+                        <RovingFocusGroup.Group>
+                            {items.map((label) => (
+                                <RovingFocusGroup.Item key={label}>
+                                    <button>{label}</button>
+                                </RovingFocusGroup.Item>
+                            ))}
+                        </RovingFocusGroup.Group>
+                    </RovingFocusGroup.Root>
+                </>
+            );
+        };
+        render(<DynamicGroup />);
+
+        const itemA = screen.getByText('A');
+        const addBtn = screen.getByTestId('add');
+        const removeBtn = screen.getByTestId('remove');
+
+        await user.tab();
+        await user.tab();
+        await user.tab();
+        expect(itemA).toHaveFocus();
+
+        await user.click(addBtn);
+        const item3 = screen.getByText('Item3');
+        itemA.focus();
+        await user.keyboard('{ArrowRight}');
+        await user.keyboard('{ArrowRight}');
+        expect(item3).toHaveFocus();
+
+        await user.click(removeBtn);
+        const itemB = screen.getByText('B');
+        itemB.focus();
+        await user.keyboard('{ArrowRight}');
+        expect(itemA).toHaveFocus();
+    });
+
     test('handles multiple groups independently', async() => {
         const user = userEvent.setup();
         render(
