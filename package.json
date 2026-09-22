@@ -142,6 +142,11 @@
       "require": "./dist/components/Em.cjs",
       "types": "./dist/components/Em.d.ts"
     },
+    "./Fieldset": {
+      "import": "./dist/components/Fieldset.js",
+      "require": "./dist/components/Fieldset.cjs",
+      "types": "./dist/components/Fieldset.d.ts"
+    },
     "./Heading": {
       "import": "./dist/components/Heading.js",
       "require": "./dist/components/Heading.cjs",

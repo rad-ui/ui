@@ -32,6 +32,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Button pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/'
     },
+    FIELDSET: {
+        id: 'fieldset',
+        label: 'Fieldset semantics',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset'
+    },
     CHECKBOX: {
         id: 'checkbox',
         label: 'Checkbox pattern',
