@@ -57,11 +57,11 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_UP,
-        'Increases the value by the configured page step.'
+        'Increases the value by step multiplied by pageStepMultiplier.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_DOWN,
-        'Decreases the value by the configured page step.'
+        'Decreases the value by step multiplied by pageStepMultiplier.'
     )
 ]);
 
