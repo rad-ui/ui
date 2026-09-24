@@ -56,7 +56,7 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
 export const ariaReferences = createAriaReferenceTable([
     createAriaReferenceRow(
         DOCS_ARIA_PATTERNS.RADIO_GROUP,
-        'Uses radio group semantics for at most one selected card in a related set, with each card exposed as a radio item.'
+        'Uses radio group semantics for at most one selected card when each card has a unique value, with each card exposed as a radio item.'
     )
 ]);
 
