@@ -12,6 +12,7 @@ const data = {
         { prop: { name: "min", info_tooltips: "Minimum value." }, type: "number", default: "0" },
         { prop: { name: "max", info_tooltips: "Maximum value." }, type: "number", default: "100" },
         { prop: { name: "step", info_tooltips: "Step increment." }, type: "number", default: "1" },
+        { prop: { name: "pageStepMultiplier", info_tooltips: "Multiplier used for PageUp and PageDown keyboard increments." }, type: "number", default: "10" },
         { prop: { name: "orientation", info_tooltips: "Slider orientation." }, type: "enum", enum_values: ["horizontal", "vertical"], default: "horizontal" },
         { prop: { name: "disabled", info_tooltips: "Disables the slider." }, type: "boolean", default: "false" },
         { prop: { name: "showStepMarks", info_tooltips: "Shows tick marks at each step." }, type: "boolean", default: "false" },
