@@ -57,11 +57,11 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_UP,
-        'Increases the value by step multiplied by pageStepMultiplier.'
+        'For a single-thumb Slider, increases the value by step multiplied by pageStepMultiplier.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_DOWN,
-        'Decreases the value by step multiplied by pageStepMultiplier.'
+        'For a single-thumb Slider, decreases the value by step multiplied by pageStepMultiplier.'
     )
 ]);
 
