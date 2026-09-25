@@ -10,12 +10,13 @@ export type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
 };
 
 const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>(({ children, className = '', orientation = 'vertical', ...props }, ref) => {
-    const { rootClass, scrollXThumbRef, scrollYThumbRef, scrollAreaViewportRef, type, scrollbarVisible, overflow } = useContext(ScrollAreaContext);
+    const { rootClass, scrollXThumbRef, scrollYThumbRef, scrollAreaViewportRef, type, scrollbarVisible, overflow, overlaySuppressesScrollbar } = useContext(ScrollAreaContext);
     const isOverflowing = orientation === 'vertical' ? overflow.y : overflow.x;
-    const isVisible =
+    const isVisible = !overlaySuppressesScrollbar && (
         type === 'always'
         || (type === 'auto' && isOverflowing)
-        || (isOverflowing && (type === 'scroll' || type === 'hover') && scrollbarVisible);
+        || (isOverflowing && (type === 'scroll' || type === 'hover') && scrollbarVisible)
+    );
     const isDraggingRef = useRef(false);
     const dragStartRef = useRef({ x: 0, y: 0, scrollTop: 0, scrollLeft: 0 });
 

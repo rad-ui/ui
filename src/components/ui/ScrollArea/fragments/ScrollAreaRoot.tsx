@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ScrollAreaContext, type ScrollAreaScrollbarType } from '../context/ScrollAreaContext';
 import { useScrollbarVisibility } from '../hooks/useScrollbarVisibility';
+import { useDocumentOverlayOpenState } from '~/core/hooks/useDocumentOverlayOpenState';
 
 const COMPONENT_NAME = 'ScrollArea';
 
@@ -31,6 +32,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
 
     const [overflow, setOverflow] = React.useState({ x: false, y: false });
     const scrollbarVisible = useScrollbarVisibility(type, scrollAreaViewportRef, internalRootRef);
+    const overlaySuppressesScrollbar = useDocumentOverlayOpenState();
 
     const mergedRootRef = (node: HTMLDivElement | null) => {
         (internalRootRef as any).current = node;
@@ -222,6 +224,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 type,
                 scrollbarVisible,
                 overflow,
+                overlaySuppressesScrollbar,
                 rootRef: internalRootRef
             }}>
             <div
