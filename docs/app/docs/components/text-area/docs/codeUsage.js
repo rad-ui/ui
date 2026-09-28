@@ -46,7 +46,7 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
 export const ariaReferences = createAriaReferenceTable([
     createAriaReferenceRow(
         DOCS_ARIA_PATTERNS.TEXTBOX,
-        'Uses the native textarea element, which exposes a multiline textbox to assistive technology. disabled, readOnly, required, name, and placeholder are forwarded to the input element.'
+        'Uses the native textarea element, which exposes a multiline textbox to assistive technology. The TextArea wrapper forwards disabled and placeholder, and maps readonly to readOnly; pass required, name, and other native form props to TextArea.Input when composing.'
     )
 ]);
 
