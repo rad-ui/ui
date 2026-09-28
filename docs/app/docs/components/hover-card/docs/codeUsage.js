@@ -31,7 +31,7 @@ export const api_documentation = {
 export const keyboardShortcuts = createKeyboardShortcutTable([
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.TAB,
-        'Moves focus to the trigger or the next focusable element in the page.'
+        'Preserves the browser\'s normal tab order; HoverCard does not move focus when the trigger receives or loses focus.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ESCAPE,
