@@ -1,5 +1,4 @@
 import Kbd from '@radui/ui/Kbd';
-import Text from '@radui/ui/Text';
 
 export const keyboardShortcutColumns = [
     {
@@ -35,7 +34,7 @@ export const createKeyboardShortcutRow = (shortcut, description) => {
 
     return {
         shortcut: <Kbd>{shortcut.label}</Kbd>,
-        description: <Text>{description}</Text>,
+        description,
         id: shortcut.id
     };
 };

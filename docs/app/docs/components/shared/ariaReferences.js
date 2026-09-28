@@ -1,5 +1,3 @@
-import Text from '@radui/ui/Text';
-
 export const ariaReferenceColumns = [
     {
         name: 'Reference',
@@ -156,7 +154,7 @@ export const createAriaReferenceRow = (pattern, description) => {
                 {pattern.label}
             </a>
         ),
-        description: <Text>{description}</Text>
+        description
     };
 };
 
