@@ -102,6 +102,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Slider pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/slider/'
     },
+    SPINBUTTON: {
+        id: 'spinbutton',
+        label: 'Spinbutton pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/'
+    },
     RADIO_GROUP: {
         id: 'radio-group',
         label: 'Radio group pattern',
