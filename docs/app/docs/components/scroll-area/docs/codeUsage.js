@@ -35,19 +35,19 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_UP,
-        'Scrolls vertically when focus is inside the scrollable viewport.'
+        'Scrolls vertically when focus is inside the viewport and the focused element does not handle the key.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_DOWN,
-        'Scrolls vertically when focus is inside the scrollable viewport.'
+        'Scrolls vertically when focus is inside the viewport and the focused element does not handle the key.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_LEFT,
-        'Scrolls horizontally when focus is inside the scrollable viewport.'
+        'Scrolls horizontally when focus is inside the viewport and the focused element does not handle the key.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_RIGHT,
-        'Scrolls horizontally when focus is inside the scrollable viewport.'
+        'Scrolls horizontally when focus is inside the viewport and the focused element does not handle the key.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_UP,
