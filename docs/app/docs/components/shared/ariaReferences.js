@@ -125,6 +125,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Tabs pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/tabs/'
     },
+    TEXTBOX: {
+        id: 'textbox',
+        label: 'Textbox role',
+        href: 'https://www.w3.org/TR/wai-aria-1.3/#textbox'
+    },
     TOOLTIP: {
         id: 'tooltip',
         label: 'Tooltip pattern',
