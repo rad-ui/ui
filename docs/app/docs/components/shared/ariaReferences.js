@@ -97,6 +97,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Progressbar role',
         href: 'https://www.w3.org/WAI/ARIA/apg/practices/range-related-properties/#using-aria-valuetext'
     },
+    REGION: {
+        id: 'region',
+        label: 'Region role',
+        href: 'https://www.w3.org/TR/wai-aria-1.3/#region'
+    },
     SLIDER: {
         id: 'slider',
         label: 'Slider pattern',
