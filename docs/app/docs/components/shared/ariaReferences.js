@@ -32,6 +32,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Button pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/'
     },
+    FIELDSET: {
+        id: 'fieldset',
+        label: 'Fieldset semantics',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset'
+    },
     CHECKBOX: {
         id: 'checkbox',
         label: 'Checkbox pattern',
@@ -67,6 +72,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Link pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/'
     },
+    LIVE_REGION: {
+        id: 'live-region',
+        label: 'Live region properties',
+        href: 'https://www.w3.org/TR/wai-aria-1.3/#attrs_liveregions'
+    },
     MENU: {
         id: 'menu',
         label: 'Menu pattern',
@@ -86,6 +96,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         id: 'progressbar',
         label: 'Progressbar role',
         href: 'https://www.w3.org/WAI/ARIA/apg/practices/range-related-properties/#using-aria-valuetext'
+    },
+    SLIDER: {
+        id: 'slider',
+        label: 'Slider pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/slider/'
     },
     RADIO_GROUP: {
         id: 'radio-group',

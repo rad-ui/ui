@@ -1,22 +1,23 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
-import SliderExample from "./docs/example_1"
-import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
+import FieldsetExample from "./docs/examples/FieldsetExample"
+import code, { anatomy, api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
 
 <Documentation
-    title="Slider"
-    description="A range input for selecting numeric values. Supports single value, range selection, step marks, and both horizontal and vertical orientations."
+    title="Fieldset"
+    description="A semantic form grouping primitive for related controls, legends, descriptions, and validation messages."
 >
     <Documentation.ComponentHero codeUsage={code}>
-        <SliderExample />
+        <FieldsetExample />
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
-        order={['root']}
+        order={['root', 'legend', 'description', 'message']}
     />
 
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
-
     <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 </Documentation>

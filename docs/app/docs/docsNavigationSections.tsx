@@ -50,6 +50,7 @@ export const docsNavigationSections = [
             { title:"Drawer", path:"/docs/components/drawer", is_preview:true },
             { title:"DropdownMenu", path:"/docs/components/dropdown-menu", is_preview:true },
             { title:"Em", path:"/docs/components/em" },
+            { title:"Fieldset", path:"/docs/components/fieldset", is_preview:true },
             { title:"Heading", path:"/docs/components/heading" },
             { title:"HoverCard", path:"/docs/components/hover-card", is_preview:true },
             { title:"Kbd", path:"/docs/components/kbd" },

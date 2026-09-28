@@ -22,6 +22,41 @@ declare module '@radui/ui/LiveRegion' {
     export default LiveRegion;
 }
 
+declare module '@radui/ui/Fieldset' {
+    import * as React from 'react';
+
+    type FieldsetRootProps = React.ComponentPropsWithoutRef<'fieldset'> & {
+        customRootClass?: string;
+        color?: string;
+        size?: string;
+        variant?: string;
+        invalid?: boolean;
+    };
+
+    type FieldsetMessageProps = React.ComponentPropsWithoutRef<'p'> & {
+        invalid?: boolean;
+    };
+
+    const Fieldset: React.ForwardRefExoticComponent<
+        FieldsetRootProps & React.RefAttributes<HTMLFieldSetElement>
+    > & {
+        Root: React.ForwardRefExoticComponent<
+            FieldsetRootProps & React.RefAttributes<HTMLFieldSetElement>
+        >;
+        Legend: React.ForwardRefExoticComponent<
+            React.ComponentPropsWithoutRef<'legend'> & React.RefAttributes<HTMLLegendElement>
+        >;
+        Description: React.ForwardRefExoticComponent<
+            React.ComponentPropsWithoutRef<'p'> & React.RefAttributes<HTMLParagraphElement>
+        >;
+        Message: React.ForwardRefExoticComponent<
+            FieldsetMessageProps & React.RefAttributes<HTMLParagraphElement>
+        >;
+    };
+
+    export default Fieldset;
+}
+
 declare module '@radui/ui/ToggleGroup' {
     import * as React from 'react';
 

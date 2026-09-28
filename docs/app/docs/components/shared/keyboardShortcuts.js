@@ -21,6 +21,8 @@ export const DOCS_KEYBOARD_SHORTCUTS = Object.freeze({
     ENTER: { id: 'enter', label: 'Enter' },
     ESCAPE: { id: 'escape', label: 'Escape' },
     HOME: { id: 'home', label: 'Home' },
+    PAGE_DOWN: { id: 'page-down', label: 'PageDown' },
+    PAGE_UP: { id: 'page-up', label: 'PageUp' },
     SHIFT_TAB: { id: 'shift-tab', label: 'Shift + Tab' },
     SPACE: { id: 'space', label: 'Space' },
     TAB: { id: 'tab', label: 'Tab' }

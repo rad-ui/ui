@@ -45,6 +45,7 @@ const RELEASED_COMPONENTS = [
     'Drawer',
     'Disclosure',
     'DropdownMenu',
+    'Fieldset',
     'HoverCard',
     'Menubar',
     'Minimap',
