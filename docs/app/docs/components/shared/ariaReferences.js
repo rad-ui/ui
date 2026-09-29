@@ -130,6 +130,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Textbox role',
         href: 'https://www.w3.org/TR/wai-aria-1.3/#textbox'
     },
+    TREE_VIEW: {
+        id: 'tree-view',
+        label: 'Tree View pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/treeview/'
+    },
     TOOLTIP: {
         id: 'tooltip',
         label: 'Tooltip pattern',
