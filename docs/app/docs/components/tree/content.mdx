@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import TreeExample from "./docs/example_1"
-import { code, largeDataCode, anatomy, api_documentation } from "./docs/codeUsage"
+import { code, largeDataCode, anatomy, api_documentation, ariaReferences, keyboardShortcuts } from "./docs/codeUsage"
 
 <Documentation
     title="Tree"
@@ -17,6 +17,10 @@ import { code, largeDataCode, anatomy, api_documentation } from "./docs/codeUsag
             {largeDataCode.javascript.code}
         </Documentation.CodeBlock>
     </Documentation.Section>
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
