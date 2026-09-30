@@ -17,6 +17,9 @@ build-storybook.log
 
 test-results/
 
+# Git worktrees
+.worktrees/
+
 
 LLM.md
 internal/

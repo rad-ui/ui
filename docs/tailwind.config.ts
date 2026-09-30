@@ -1,8 +1,10 @@
 import type { Config } from "tailwindcss";
+import path from "node:path";
 
 const config: Config = {
   presets:[
-    require("@radui/ui/themes/tailwind-presets/default.js")
+    // Prefer local preset so monorepo token changes (e.g. alpha ramps) apply without publishing.
+    require(path.resolve(__dirname, "../styles/tailwind-presets/default.js"))
   ],
   safelist: [
     {

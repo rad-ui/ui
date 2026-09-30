@@ -9,19 +9,17 @@ const ComponentFeatures = ({ features }) => {
   return (
     <section className={docsSectionBlockClassName}>
       <BookMarkLink id="features">
-        <Heading as="h2" className={`${docsSectionHeadingClassName} text-gray-1000 font-bold`}>
+        <Heading as="h2" className={docsSectionHeadingClassName}>
           Features
         </Heading>
       </BookMarkLink>
-      <ul className="list-disc list-inside space-y-2">
+      <ul className="space-y-3">
         {features.map((feature, index) => (
-          <li className="flex items-center space-x-2" key={index}>
-            <span className="text-green-950 w-[24px] h-[24px] bg-green-500 rounded-full flex items-center justify-center p-1">
-              <Check size={14} strokeWidth={2.5} />
+          <li className="flex items-start gap-3 text-[0.98rem] leading-7 text-gray-900" key={index}>
+            <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-green-100 text-green-1000">
+              <Check size={13} strokeWidth={2.5} />
             </span>
-            <span>
-            {feature}
-            </span>
+            <span>{feature}</span>
           </li>
         ))}
       </ul>

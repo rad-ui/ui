@@ -2,7 +2,7 @@ import MessagingDemo from "../helpers/MessagingDemo"
 
 export const metadata = {
     title: "Showcase Messaging",
-    description: "A chat and messaging interface showcase demo built with Rad UI components.",
+    description: "A messaging workspace built with Rad UI Badge, Button, Heading, and Text.",
 }
 
 const MessagingPage = () => {

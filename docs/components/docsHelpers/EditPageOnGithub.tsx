@@ -13,9 +13,14 @@ const EditPageOnGithub = () => {
 
     if (page === "first-steps/changelog") {
         return (
-            <div className="mx-auto mt-2 w-full max-w-screen-lg py-[20px]">
-                <Link href={CHANGELOG_EDIT_HREF} target="_blank" rel="noreferrer">
-                    Edit changelog on GitHub
+            <div className="mt-10 border-t border-gray-300 pt-6">
+                <Link
+                    href={CHANGELOG_EDIT_HREF}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-800 hover:text-green-1000"
+                >
+                    Edit changelog on GitHub →
                 </Link>
             </div>
         );
@@ -24,13 +29,14 @@ const EditPageOnGithub = () => {
     const currentDocsPath = "docs/app/docs/" + page;
 
     return (
-        <div className="mx-auto mt-2 w-full max-w-screen-lg py-[20px]">
+        <div className="mt-10 border-t border-gray-300 pt-6">
             <Link
                 href={`${GITHUB_REPO_EDIT_BASE}/${currentDocsPath}/content.mdx`}
                 target="_blank"
                 rel="noreferrer"
+                className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-800 hover:text-green-1000"
             >
-                Edit this page on GitHub
+                Edit this page on GitHub →
             </Link>
         </div>
     );

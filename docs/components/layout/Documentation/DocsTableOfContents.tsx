@@ -103,9 +103,11 @@ const DocsTableOfContents = () => {
     return (
         <aside className="hidden xl:block">
             <div className="sticky top-7 pt-1">
-                <p className="mb-4 text-[0.9rem] font-bold text-gray-950">On this page</p>
+                <p className="mb-4 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gray-800">
+                    On this page
+                </p>
                 <nav aria-label="Table of contents">
-                    <ul className="flex list-none flex-col gap-1 pl-0">
+                    <ul className="flex list-none flex-col gap-0.5 pl-0">
                         {items.map((item) => (
                             <li key={item.id}>
                                 <a
@@ -114,12 +116,14 @@ const DocsTableOfContents = () => {
                                         e.preventDefault();
                                         scrollToDocsAnchor(item.id);
                                     }}
-                                    className={`relative block border-l pl-4 ${
-                                        item.level === 3 ? "ml-3 py-1 text-[0.92rem]" : "py-1.5 text-[0.98rem]"
+                                    className={`relative block border-l pl-3.5 transition-colors ${
+                                        item.level === 3
+                                            ? "ml-2 py-1 text-[0.84rem]"
+                                            : "py-1.5 text-[0.9rem]"
                                     } ${
                                         activeId === item.id
-                                            ? "border-red-700 font-semibold text-gray-950"
-                                            : "border-gray-300 text-gray-800 hover:text-gray-950"
+                                            ? "border-green-800 font-semibold text-gray-1000"
+                                            : "border-gray-300 text-gray-800 hover:border-gray-500 hover:text-gray-1000"
                                     }`}
                                 >
                                     {item.text}
