@@ -6,8 +6,10 @@ import { useEffect, useRef, type ElementType, type ReactNode } from 'react'
  * Opts an element into scroll reveal once it enters the viewport.
  *
  * The hidden state lives behind `[data-landing-reveal]`, which is only
- * written from an effect. Until then — and forever, if JavaScript or
- * IntersectionObserver is unavailable — the content renders normally.
+ * written from an effect, after we have confirmed this browser can undo
+ * it. Rendering the attribute server-side would leave the content stuck
+ * at `opacity: 0` whenever JavaScript or IntersectionObserver is
+ * unavailable, so we opt in only once the reveal is actually wired up.
  */
 export default function Reveal({
     as: Tag = 'div',
@@ -30,6 +32,10 @@ export default function Reveal({
 
         if (typeof IntersectionObserver === 'undefined') return
 
+        // Opt in to the hidden state only now, so a browser without
+        // IntersectionObserver keeps the content visible.
+        node.dataset.landingReveal = ''
+
         const observer = new IntersectionObserver(
             (entries) => {
                 for (const entry of entries) {
@@ -48,7 +54,6 @@ export default function Reveal({
     return (
         <Tag
             ref={ref}
-            data-landing-reveal=""
             style={delay ? { transitionDelay: `${delay}ms` } : undefined}
             className={className}
             {...props}

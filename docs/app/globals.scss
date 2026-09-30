@@ -173,48 +173,71 @@ body {
 /* --- Brand studio -------------------------------------------------
    The whole point of the section: the consumer owns the tokens. Each
    swatch ships its own brand / foreground pair per appearance so the
-   live controls keep WCAG AA contrast in both themes. */
+   live controls keep WCAG AA contrast in both themes.
+
+   The ramp is held as one property per brand so that a swatch can
+   preview *its own* accent instead of inheriting the selected one from
+   the studio root. --landing-brand is just the currently selected entry
+   of that ramp. */
 
 .landing-studio {
-  --landing-brand: oklch(47% 0.16 152deg);
+  --landing-brand-green: oklch(47% 0.16 152deg);
+  --landing-brand-violet: oklch(47% 0.19 296deg);
+  --landing-brand-blue: oklch(45% 0.17 258deg);
+  --landing-brand-amber: oklch(46% 0.13 58deg);
+  --landing-brand-rose: oklch(48% 0.18 14deg);
+  --landing-brand: var(--landing-brand-green);
   --landing-brand-fg: oklch(99% 0 0deg);
 }
 
+.landing-studio[data-brand="green"] {
+  --landing-brand: var(--landing-brand-green);
+}
+
 .landing-studio[data-brand="violet"] {
-  --landing-brand: oklch(47% 0.19 296deg);
+  --landing-brand: var(--landing-brand-violet);
 }
 
 .landing-studio[data-brand="blue"] {
-  --landing-brand: oklch(45% 0.17 258deg);
+  --landing-brand: var(--landing-brand-blue);
 }
 
 .landing-studio[data-brand="amber"] {
-  --landing-brand: oklch(46% 0.13 58deg);
+  --landing-brand: var(--landing-brand-amber);
 }
 
 .landing-studio[data-brand="rose"] {
-  --landing-brand: oklch(48% 0.18 14deg);
+  --landing-brand: var(--landing-brand-rose);
+}
+
+/* Each brand chip shows the accent it selects, not the active one. */
+.landing-swatch[data-brand="green"] {
+  --landing-brand: var(--landing-brand-green);
+}
+
+.landing-swatch[data-brand="violet"] {
+  --landing-brand: var(--landing-brand-violet);
+}
+
+.landing-swatch[data-brand="blue"] {
+  --landing-brand: var(--landing-brand-blue);
+}
+
+.landing-swatch[data-brand="amber"] {
+  --landing-brand: var(--landing-brand-amber);
+}
+
+.landing-swatch[data-brand="rose"] {
+  --landing-brand: var(--landing-brand-rose);
 }
 
 [data-rad-ui-theme="dark"] .landing-studio {
-  --landing-brand: oklch(74% 0.16 152deg);
+  --landing-brand-green: oklch(74% 0.16 152deg);
+  --landing-brand-violet: oklch(72% 0.17 296deg);
+  --landing-brand-blue: oklch(70% 0.15 258deg);
+  --landing-brand-amber: oklch(76% 0.14 58deg);
+  --landing-brand-rose: oklch(73% 0.16 14deg);
   --landing-brand-fg: oklch(16% 0 0deg);
-}
-
-[data-rad-ui-theme="dark"] .landing-studio[data-brand="violet"] {
-  --landing-brand: oklch(72% 0.17 296deg);
-}
-
-[data-rad-ui-theme="dark"] .landing-studio[data-brand="blue"] {
-  --landing-brand: oklch(70% 0.15 258deg);
-}
-
-[data-rad-ui-theme="dark"] .landing-studio[data-brand="amber"] {
-  --landing-brand: oklch(76% 0.14 58deg);
-}
-
-[data-rad-ui-theme="dark"] .landing-studio[data-brand="rose"] {
-  --landing-brand: oklch(73% 0.16 14deg);
 }
 
 /* --- Landing type scale --------------------------------------------
@@ -293,6 +316,26 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .landing-fade-up,
+  .landing-ticker-track,
+  .landing-scan,
+  .landing-glow,
+  .landing-pop,
+  .landing-caret {
+    animation: none;
+  }
+
+  [data-landing-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* The behaviour demo lets a visitor flip reduced motion on by hand, so the
+   OS preference and the demo switch both have to reach these rules. Keeping
+   the targets in one list means the two entry points can never drift. */
+:root[data-reduced-motion] {
   .landing-fade-up,
   .landing-ticker-track,
   .landing-scan,

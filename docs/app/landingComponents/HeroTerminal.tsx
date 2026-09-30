@@ -20,6 +20,17 @@ const TRANSCRIPT: Line[] = [
 const TRANSCRIPT_TEXT = TRANSCRIPT.map((line) => line.text).join('\n')
 
 /**
+ * Motion is off when the OS asks for it, or when the visitor flips the
+ * reduced-motion switch in the behaviour demo. The demo writes
+ * `data-reduced-motion` onto <html> for the CSS entry points, so the JS
+ * animation has to read the same flag to stay consistent with them.
+ */
+const prefersReducedMotion = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        document.documentElement.dataset.reducedMotion === 'on')
+
+/**
  * The hero object: a terminal transcript that types itself in once.
  *
  * The full transcript always exists in the DOM — the reveal is opacity
@@ -31,17 +42,30 @@ export default function HeroTerminal() {
     const [reduced, setReduced] = useState(false)
 
     useEffect(() => {
-        const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-        if (media.matches) {
+        const showAll = () => {
             setReduced(true)
             setVisible(TRANSCRIPT.length)
+        }
+
+        if (prefersReducedMotion()) {
+            showAll()
             return
         }
 
         let cancelled = false
-        const timers: ReturnType<typeof setTimeout>[] = []
+        // Reassigned each cycle rather than pushed to, so the array only ever
+        // holds the current cycle's timers instead of growing for as long as
+        // the page stays open.
+        let timers: Array<ReturnType<typeof setTimeout>> = []
 
         const run = () => {
+            // Drop the previous cycle's pending timers and rewind the
+            // transcript, otherwise `visible` stays at full and the next
+            // cycle's first tick snaps the whole block back to one line.
+            timers.forEach(clearTimeout)
+            timers = []
+            setVisible(1)
+
             TRANSCRIPT.forEach((_line, index) => {
                 timers.push(
                     setTimeout(() => {
@@ -55,14 +79,26 @@ export default function HeroTerminal() {
         run()
 
         const cycle = setInterval(run, 9000)
-        timers.push(cycle as unknown as ReturnType<typeof setTimeout>)
+
+        // The switch can be flipped after this hero has already started
+        // typing, so watch the flag rather than only reading it on mount.
+        const observer = new MutationObserver(() => {
+            if (!prefersReducedMotion()) return
+            cancelled = true
+            clearInterval(cycle)
+            timers.forEach(clearTimeout)
+            showAll()
+        })
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-reduced-motion']
+        })
 
         return () => {
             cancelled = true
-            timers.forEach((timer) => {
-                clearTimeout(timer)
-                clearInterval(timer)
-            })
+            observer.disconnect()
+            clearInterval(cycle)
+            timers.forEach(clearTimeout)
         }
     }, [])
 

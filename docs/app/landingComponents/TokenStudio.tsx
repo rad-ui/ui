@@ -81,7 +81,8 @@ export default function TokenStudio() {
                                         />
                                         <span
                                             aria-hidden
-                                            className="h-3 w-3 rounded-full border border-black/20"
+                                            data-brand={option.id}
+                                            className="landing-swatch h-3 w-3 rounded-full border border-black/20"
                                             style={{ background: 'var(--landing-brand)' }}
                                         />
                                         {option.label}

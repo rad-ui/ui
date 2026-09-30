@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type FocusEvent } from 'react'
+import { useEffect, useState, type FocusEvent } from 'react'
 import Accordion from '@radui/ui/Accordion'
 import Switch from '@radui/ui/Switch'
 import Kbd from '@radui/ui/Kbd'
@@ -37,6 +37,25 @@ const GUARANTEES = [
 
 export default function BehaviorDemo() {
     const [focus, setFocus] = useState<string>('nothing focused')
+    const [reducedMotion, setReducedMotion] = useState(false)
+
+    // Reflect the OS preference so the switch starts out honest, then keep
+    // the document flag in sync with it. The landing CSS reads this same
+    // attribute, which is what makes the claim below demonstrable.
+    useEffect(() => {
+        const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+        setReducedMotion(media.matches)
+
+        const onChange = () => setReducedMotion(media.matches)
+        media.addEventListener('change', onChange)
+        return () => media.removeEventListener('change', onChange)
+    }, [])
+
+    useEffect(() => {
+        const root = document.documentElement
+        if (reducedMotion) root.dataset.reducedMotion = 'on'
+        else delete root.dataset.reducedMotion
+    }, [reducedMotion])
 
     const track = (label: string) => (event: FocusEvent) => {
         if (event.currentTarget === event.target) setFocus(label)
@@ -84,6 +103,8 @@ export default function BehaviorDemo() {
                         </label>
                         <Switch.Root
                             id="landing-behaviour-switch"
+                            checked={reducedMotion}
+                            onCheckedChange={setReducedMotion}
                             onFocus={track('switch')}
                             className="shrink-0"
                         >
