@@ -34,6 +34,36 @@ export const composeRefs = <T>(...refs: Array<React.Ref<T> | undefined>) => {
 };
 
 /**
+ * Which of the two places a ref lives on is version dependent, and reading the wrong one
+ * logs a warning on either major:
+ * - React 18 keeps `ref` off `props` (reading `props.ref` warns) and exposes it as `element.ref`.
+ * - React 19 moved `ref` onto `props` and left `element.ref` behind as a deprecation getter
+ *   (reading it warns with "Accessing element.ref was removed in React 19").
+ * So branch on the major version before touching either one.
+ */
+const REF_IS_A_PROP = (() => {
+    const major = parseInt(React.version, 10);
+    return Number.isNaN(major) ? false : major >= 19;
+})();
+
+/**
+ * getElementRef
+ * Safely reads the ref a consumer attached to an element on both React 18 and React 19,
+ * without triggering either version's warning. Returns undefined for anything that isn't
+ * a React element (e.g. a string or an array child), since `asChild` may receive either.
+ */
+export const getElementRef = (element: unknown): React.Ref<unknown> | undefined => {
+    if (!React.isValidElement(element)) return undefined;
+
+    const ref = REF_IS_A_PROP
+        ? (element.props as { ref?: React.Ref<unknown> }).ref
+        : (element as unknown as { ref?: React.Ref<unknown> }).ref;
+
+    // React 18 stores "no ref" as null, so normalise it away to keep the return type honest.
+    return ref ?? undefined;
+};
+
+/**
  * mergeProps
  * Used in Slot / asChild patterns where a wrapper component injects props into a child element.
  * A naive {...slotProps, ...childProps} overwrites handlers/styles/classes, so we merge “smartly”.

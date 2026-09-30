@@ -1,10 +1,9 @@
 "use client"
 import CodeBlock from '../CodeBlock';
-import { useState, useEffect, useMemo } from 'react'
-import Tabs from "@radui/ui/Tabs"
+import { useMemo } from 'react'
 import Heading from "@radui/ui/Heading"
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
-import { docsSectionBlockClassName } from '../../shared';
+import { docsSectionBlockClassName, docsSectionHeadingClassName, docsSurfaceClassName } from '../../shared';
 
 import CodeTabs from './CodeTabs';
 
@@ -18,7 +17,6 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
                 if(key === 'javascript') {
                     language = 'tsx'
                 }
-                const element = codeUsage[key];
                 tabs.push({
                     label: key,
                     value: key,
@@ -29,16 +27,27 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
         return tabs
     }
 
-    // Use useMemo to avoid recalculating tabs unnecessarily
     const data = useMemo(() => initializeTabs(codeUsage), [codeUsage]);
 
     return <section className={docsSectionBlockClassName}>
-        {title && <BookMarkLink id={title}> <Heading as="h2">{title}</Heading> </BookMarkLink>}
-        <div className="overflow-hidden rounded-[18px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)]">
-            <div className='flex items-center justify-center overflow-x-auto bg-gradient-to-b from-[var(--rad-ui-surface-subtle)] to-[var(--rad-ui-surface-canvas)] p-8'>
+        {title && (
+            <BookMarkLink id={title}>
+                <Heading as="h2" className={docsSectionHeadingClassName}>{title}</Heading>
+            </BookMarkLink>
+        )}
+        <div className={docsSurfaceClassName}>
+            <div className="flex items-center gap-2 border-b border-gray-300 bg-gray-100 px-4 py-2.5">
+                <span className="h-2 w-2 rounded-full bg-gray-500" />
+                <span className="h-2 w-2 rounded-full bg-gray-500" />
+                <span className="h-2 w-2 rounded-full bg-gray-500" />
+                <span className="ml-2 font-mono text-[11px] tracking-wide text-gray-800">
+                    preview
+                </span>
+            </div>
+            <div className='flex items-center justify-center overflow-x-auto bg-[linear-gradient(180deg,var(--rad-ui-surface-subtle)_0%,var(--rad-ui-surface-canvas)_100%)] p-8 sm:p-10'>
                 {children}
             </div>
-            <div className="border-t border-[var(--rad-ui-border-soft)] px-5 pb-5 pt-4">
+            <div className="border-t border-gray-300 px-4 pb-4 pt-3 sm:px-5">
                 <CodeTabs data={data} />
             </div>
         </div>

@@ -4,6 +4,309 @@
 
 body {
   font-family: var(--font-sans), sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------------
+   Landing — motion, atmosphere, texture
+
+   The landing page owns its own visual language and deliberately does
+   not borrow Clarity component recipes. Color intent still follows the
+   scale: 50 canvas, 100/200 surfaces, 500–700 borders, 950 supporting
+   text, 1000 primary text.
+   ------------------------------------------------------------------ */
+
+@keyframes rad-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rad-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rad-ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes rad-caret {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rad-scan {
+  from {
+    transform: translateY(-120px);
+  }
+
+  to {
+    transform: translateY(520px);
+  }
+}
+
+@keyframes rad-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes rad-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.landing-fade-up {
+  animation: rad-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing-fade-up-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.landing-fade-up-delay-2 {
+  animation-delay: 0.16s;
+}
+
+.landing-fade-up-delay-3 {
+  animation-delay: 0.24s;
+}
+
+.landing-fade-up-delay-4 {
+  animation-delay: 0.32s;
+}
+
+.landing-ticker-track {
+  animation: rad-ticker 64s linear infinite;
+}
+
+.landing-ticker-mask {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+}
+
+.landing-caret {
+  animation: rad-caret 1.05s steps(1) infinite;
+}
+
+.landing-scan {
+  animation: rad-scan 9s linear infinite;
+}
+
+.landing-glow {
+  animation: rad-glow 9s ease-in-out infinite;
+}
+
+.landing-pop {
+  animation: rad-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Blueprint grid for the hero plane. `currentColor` keeps it on-token. */
+.landing-grid {
+  background-image: linear-gradient(
+      to right,
+      currentcolor 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, currentcolor 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(115% 78% at 50% 0%, black 12%, transparent 76%);
+}
+
+/* Scroll reveal. Content is visible until JS opts an element in, so a
+   failed observer or disabled JS never hides the page. */
+[data-landing-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-landing-reveal="in"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Brand studio -------------------------------------------------
+   The whole point of the section: the consumer owns the tokens. Each
+   swatch ships its own brand / foreground pair per appearance so the
+   live controls keep WCAG AA contrast in both themes. */
+
+.landing-studio {
+  --landing-brand: oklch(47% 0.16 152deg);
+  --landing-brand-fg: oklch(99% 0 0deg);
+}
+
+.landing-studio[data-brand="violet"] {
+  --landing-brand: oklch(47% 0.19 296deg);
+}
+
+.landing-studio[data-brand="blue"] {
+  --landing-brand: oklch(45% 0.17 258deg);
+}
+
+.landing-studio[data-brand="amber"] {
+  --landing-brand: oklch(46% 0.13 58deg);
+}
+
+.landing-studio[data-brand="rose"] {
+  --landing-brand: oklch(48% 0.18 14deg);
+}
+
+[data-rad-ui-theme="dark"] .landing-studio {
+  --landing-brand: oklch(74% 0.16 152deg);
+  --landing-brand-fg: oklch(16% 0 0deg);
+}
+
+[data-rad-ui-theme="dark"] .landing-studio[data-brand="violet"] {
+  --landing-brand: oklch(72% 0.17 296deg);
+}
+
+[data-rad-ui-theme="dark"] .landing-studio[data-brand="blue"] {
+  --landing-brand: oklch(70% 0.15 258deg);
+}
+
+[data-rad-ui-theme="dark"] .landing-studio[data-brand="amber"] {
+  --landing-brand: oklch(76% 0.14 58deg);
+}
+
+[data-rad-ui-theme="dark"] .landing-studio[data-brand="rose"] {
+  --landing-brand: oklch(73% 0.16 14deg);
+}
+
+/* --- Landing type scale --------------------------------------------
+   Clarity pins `.rad-ui-h1`, `.rad-ui-h2` and `.rad-ui-text` with
+   single-class rules that load *after* Tailwind, so any text utility
+   passed to Heading or Text is silently dropped. The landing page
+   therefore owns its type scale explicitly, scoped one level deeper so
+   it wins on specificity rather than on load order. */
+
+.landing-page .landing-display {
+  font-weight: 600;
+  font-size: clamp(2.5rem, 6.2vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.landing-page .landing-title {
+  font-weight: 600;
+  font-size: clamp(1.65rem, 2.9vw, 2.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.landing-page .landing-closing {
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4.3vw, 3.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.landing-page .landing-lede {
+  font-size: 1rem;
+  line-height: 1.75rem;
+}
+
+.landing-page .landing-body {
+  font-size: 0.9375rem;
+  line-height: 1.7rem;
+}
+
+@media (width >= 640px) {
+  .landing-page .landing-lede {
+    font-size: 1.0625rem;
+    line-height: 2rem;
+  }
+}
+
+/* --- Token studio --------------------------------------------------
+   These two selectors outrank Clarity's class-plus-attribute rules by
+   specificity alone — no `!important` needed. The colors themselves stay
+   in CSS so they can differ per appearance. */
+
+.landing-studio .rad-ui-switch[data-state="checked"] {
+  background-color: var(--landing-brand);
+  border-color: var(--landing-brand);
+}
+
+.landing-studio .rad-ui-switch .rad-ui-switch-indicator[data-state="checked"] {
+  background-color: var(--landing-brand-fg);
+}
+
+/* --- Anatomy demo --------------------------------------------------
+   Outranks the single-class Clarity rules below without `!important`,
+   because the landing page loads after the theme stylesheet. */
+
+.landing-demo [data-part-active],
+.landing-part-active {
+  box-shadow:
+    0 0 0 2px var(--rad-ui-surface-panel),
+    0 0 0 4px var(--rad-ui-solid-background);
+  border-radius: var(--rad-ui-control-radius-md);
+}
+
+.landing-demo .landing-demo-tabs {
+  gap: var(--rad-ui-density-gap-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-fade-up,
+  .landing-ticker-track,
+  .landing-scan,
+  .landing-glow,
+  .landing-pop,
+  .landing-caret {
+    animation: none;
+  }
+
+  [data-landing-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 pre,
@@ -15,11 +318,19 @@ samp {
 
 .docs-inline-code {
   border: 1px solid color-mix(in oklab, var(--rad-ui-border-soft) 70%, transparent);
-  border-radius: 0.6rem;
+  border-radius: 0.375rem;
   background: color-mix(in oklab, var(--rad-ui-surface-subtle) 70%, transparent);
   color: var(--rad-ui-text-primary);
-  font-size: 0.92em;
-  padding: 0.14rem 0.42rem;
+  font-size: 0.86em;
+  padding: 0.12rem 0.38rem;
+}
+
+.docs-article :where(h1, h2, h3) {
+  scroll-margin-top: 5rem;
+}
+
+#docs-article :where(h1, h2, h3) {
+  scroll-margin-top: 5rem;
 }
 
 .docs-code-block {
@@ -196,6 +507,7 @@ pre.docs-syntax-pre code.docs-code-block {
 }
 
 .docs-syntax-toolbar-label {
+  font-family: var(--font-mono), monospace;
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -321,22 +633,22 @@ pre.docs-syntax-pre code.docs-code-block {
 }
 
 .layout-image {
-  inset: -11 0 0 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
   position: fixed;
+  z-index: 0;
+  opacity: 0.35;
 
-  --color: var(--rad-ui-color-gray-200);
+  --color: color-mix(in oklab, var(--rad-ui-color-gray-400) 55%, transparent);
 
-  background-color: var(--rad-ui-color-gray-50);
-
-  [data-rad-ui-theme="dark"] & {
-    background-image:
-      linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
-      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
-    background-size: 55px 55px;
-  }
+  background-color: transparent;
+  background-image:
+    linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black, transparent 75%);
 }
 
 .playground-static,

@@ -8,6 +8,8 @@ import ComponentHero from '@/components/layout/Documentation/helpers/ComponentHe
 import ComponentFeatures from '@/components/layout/Documentation/helpers/ComponentFeatures/ComponentFeatures';
 import { BookMarkLink } from '@/components/layout/Documentation/utils';
 import {
+    docsBodyClassName,
+    docsEyebrowClassName,
     docsSectionBlockClassName,
     docsSectionDividerClassName,
     docsSectionHeadingClassName,
@@ -15,13 +17,22 @@ import {
     docsSectionStackClassName
 } from './shared';
 
-const Documentation = ({ title = '', description = '', currentPage = undefined, children }) => {
-    return <div className="text-gray-1000">
+const Documentation = ({ title = '', description = '', eyebrow = 'Component', currentPage = undefined, children }) => {
+    return <div className="docs-article text-gray-1000">
         <div className={docsSectionIntroClassName}>
-            <div className='relative top-[1px]'>
-                <BookMarkLink id={title}> <Heading>{title}</Heading> </BookMarkLink>
+            {eyebrow ? <p className={docsEyebrowClassName}>{eyebrow}</p> : null}
+            <div>
+                <BookMarkLink id={title}>
+                    <Heading className="!text-[clamp(2rem,4vw,2.75rem)] !font-semibold !leading-[1.05] !tracking-[-0.04em] text-[var(--rad-ui-text-strong)]">
+                        {title}
+                    </Heading>
+                </BookMarkLink>
             </div>
-            {description && <Text className="relative top-[-4px] text-gray-800">{description}</Text>}
+            {description && (
+                <Text className={`${docsBodyClassName} max-w-2xl text-base leading-8`}>
+                    {description}
+                </Text>
+            )}
         </div>
         <div className={docsSectionStackClassName}>
             {children}
@@ -33,7 +44,7 @@ const Documentation = ({ title = '', description = '', currentPage = undefined, 
 const Anatomy = ({ code, as = "h3", language = 'jsx' }) => {
     return <section className={docsSectionBlockClassName}>
         <BookMarkLink id="anatomy"> <Heading as={as} className={docsSectionHeadingClassName}>Anatomy</Heading> </BookMarkLink>
-        <Text className="text-gray-800">Import all parts of the component and piece them together</Text>
+        <Text className="text-[0.98rem] leading-7 text-gray-900">Import all parts of the component and piece them together</Text>
         <CodeBlock language={language}>
             {code}
         </CodeBlock>
@@ -48,12 +59,12 @@ const Section = ({ title = '', as = "h2", children }) => {
 };
 
 const UnderConstruction = ({ children }) => {
-    return <div className='rounded-xl border border-gray-300 bg-gray-100 p-5'>
-        <Text className="mb-2 text-gray-1000 font-bold">
-            Docs Under Construction
+    return <div className='rounded-xl border border-gray-400 bg-gray-100 p-5'>
+        <Text className="mb-2 font-semibold tracking-tight text-gray-1000">
+            Docs under construction
         </Text>
-        <Text className="mb-2 text-gray-1000 font-light !text-sm">
-            Check Back soon!
+        <Text className="!text-sm leading-6 text-gray-900">
+            Check back soon.
         </Text>
     </div>;
 };

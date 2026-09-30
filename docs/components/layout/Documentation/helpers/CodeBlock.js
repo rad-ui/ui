@@ -96,7 +96,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
 
     return (
         <pre className={clsx(
-            "docs-syntax-pre relative my-5 overflow-hidden rounded-[18px] border",
+            "docs-syntax-pre relative my-5 overflow-hidden rounded-xl border",
             className,
         )}>
             <div className="docs-syntax-toolbar flex items-center justify-between px-3.5 py-2">
@@ -106,7 +106,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
                 <TooltipWrapper label="Copy" placement="bottom">
                     <Copy
                         content={copyContent}
-                        className="docs-syntax-copy h-8 w-8 rounded-[11px] border hover:opacity-90"
+                        className="docs-syntax-copy h-8 w-8 rounded-md border hover:opacity-90"
                         iconSize={15}
                     />
                 </TooltipWrapper>
@@ -139,7 +139,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
                     {hasOverflow && <>
                     {!expanded && <div className="code-block-blur"></div>}
                     <div className="docs-syntax-footer flex w-full justify-center px-4 py-1.5">
-                        <Button size="small" variant="ghost" className="docs-syntax-expand min-h-0 rounded-full border px-3 py-1 text-[0.78rem]" onClick={() => setExpanded(!expanded)}>
+                        <Button size="small" variant="ghost" className="docs-syntax-expand min-h-0 rounded-md border px-3 py-1 text-[0.78rem]" onClick={() => setExpanded(!expanded)}>
                             Show {expanded ? 'less' : 'more'}
                         </Button>
                     </div>

@@ -2,7 +2,7 @@ import PreferencesDemo from "../helpers/PreferencesDemo"
 
 export const metadata = {
     title: "Showcase Preferences",
-    description: "A settings and preferences UI showcase demo built with Rad UI components.",
+    description: "A dense preferences panel built with Rad UI Switch, Progress, Badge, Button, Heading, and Text.",
 }
 
 const PreferencesPage = () => {
