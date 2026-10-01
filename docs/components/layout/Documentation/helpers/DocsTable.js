@@ -84,7 +84,7 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (columnType === "description") {
-        return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-900">{value}</Text>;
     }
 
     if (value === "boolean" || value === "false" || value === "true") {
@@ -92,7 +92,7 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (typeof value === 'string') {
-        return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-900">{value}</Text>;
     }
 
     return value;

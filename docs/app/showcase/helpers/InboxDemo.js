@@ -97,19 +97,19 @@ const InboxDemo = () => {
                 <div className="rounded-2xl border border-gray-600 bg-gray-50 px-3 py-3">
                     <div className="flex items-center justify-between gap-3">
                         <div>
-                            <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Mail</Text>
-                            <Heading as="h5" className="mt-1 !text-gray-1000">Relay Inbox</Heading>
+                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Mail</Text>
+                            <Heading as="h5" className="mt-1 text-gray-1000!">Relay Inbox</Heading>
                         </div>
                         <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
                             Live
                         </Badge>
                     </div>
-                    <Text className="mt-3 !text-sm text-gray-1000/70">
+                    <Text className="mt-3 text-sm! text-gray-1000/70">
                         A compact inbox surface for heavier triage, closer to real email clients than a generic communications mockup.
                     </Text>
                 </div>
 
-                <Button variant="solid" className="mt-4 w-full rounded-xl border-0 !bg-gray-1000 px-4 py-2.5 !text-gray-50">
+                <Button variant="solid" className="mt-4 w-full rounded-xl border-0 bg-gray-1000! px-4 py-2.5 text-gray-50!">
                     <span className="flex items-center justify-center gap-2">
                         <Pencil className="h-4 w-4" />
                         Compose
@@ -143,12 +143,12 @@ const InboxDemo = () => {
                 </div>
 
                 <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50 p-3">
-                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Labels</Text>
+                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Labels</Text>
                     <div className="mt-3 space-y-2">
                         {categoryItems.map((item) => (
                             <div key={item.label} className="flex items-center gap-2 rounded-lg border border-gray-600 bg-gray-1000/[0.03] px-3 py-2">
                                 <span className={`h-2.5 w-2.5 rounded-full ${item.tone}`} />
-                                <Text className="!text-sm text-gray-1000">{item.label}</Text>
+                                <Text className="text-sm! text-gray-1000">{item.label}</Text>
                             </div>
                         ))}
                     </div>
@@ -159,15 +159,15 @@ const InboxDemo = () => {
                 <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
                     <div className="flex items-center gap-2.5 text-gray-1000/60">
                         <Search className="h-4 w-4" />
-                        <Text className="!text-sm text-gray-1000/60">Search mail</Text>
+                        <Text className="text-sm! text-gray-1000/60">Search mail</Text>
                     </div>
                 </div>
 
                 <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50">
                     <div className="flex items-center justify-between gap-3 border-b border-gray-600 px-3 py-3">
                         <div>
-                            <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Primary</Text>
-                            <Heading as="h5" className="mt-1 !text-gray-1000">Inbox</Heading>
+                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Primary</Text>
+                            <Heading as="h5" className="mt-1 text-gray-1000!">Inbox</Heading>
                         </div>
                         <Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/60">
                             18 unread
@@ -182,7 +182,7 @@ const InboxDemo = () => {
                                 <div
                                     key={mail.subject}
                                     className={`flex items-start gap-1 px-2 py-1 ${
-                                        mail.active ? "bg-gradient-to-r from-green-900/10 to-green-800/10" : ""
+                                        mail.active ? "bg-linear-to-r from-green-900/10 to-green-800/10" : ""
                                     }`}
                                 >
                                     <Toggle
@@ -209,15 +209,15 @@ const InboxDemo = () => {
                                     >
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-center justify-between gap-3">
-                                                <Text className={`truncate !text-sm ${mail.unread ? "font-semibold !text-gray-1000" : "font-medium !text-gray-1000/75"}`}>
+                                                <Text className={`truncate text-sm! ${mail.unread ? "font-semibold text-gray-1000!" : "font-medium text-gray-1000/75!"}`}>
                                                     {mail.sender}
                                                 </Text>
-                                                <Text className="shrink-0 !text-[11px] text-gray-1000/60">{mail.time}</Text>
+                                                <Text className="shrink-0 text-[11px]! text-gray-1000/60">{mail.time}</Text>
                                             </div>
-                                            <Text className={`mt-1 truncate !text-sm ${mail.unread ? "font-medium !text-gray-1000" : "!text-gray-1000/70"}`}>
+                                            <Text className={`mt-1 truncate text-sm! ${mail.unread ? "font-medium text-gray-1000!" : "!text-gray-1000/70"}`}>
                                                 {mail.subject}
                                             </Text>
-                                            <Text className="mt-1 line-clamp-2 !text-[11px] text-gray-1000/60">
+                                            <Text className="mt-1 line-clamp-2 text-[11px]! text-gray-1000/60">
                                                 {mail.preview}
                                             </Text>
                                         </div>
@@ -234,11 +234,11 @@ const InboxDemo = () => {
                     <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                             <div className="max-w-3xl">
-                                <Text className="!text-[10px] uppercase tracking-[0.34em] text-green-900">Inbox Showcase</Text>
-                                <Heading as="h2" className="mt-2 !text-gray-1000">
+                                <Text className="text-[10px]! uppercase tracking-[0.34em] text-green-900">Inbox Showcase</Text>
+                                <Heading as="h2" className="mt-2 text-gray-1000!">
                                     Email UI with real triage rhythm.
                                 </Heading>
-                                <Text className="mt-2 max-w-3xl !text-sm text-gray-1000/70">
+                                <Text className="mt-2 max-w-3xl text-sm! text-gray-1000/70">
                                     Dense mailbox chrome, clearer sender hierarchy, and a practical reading pane push this closer to Gmail or Outlook behavior than a generic list-and-card layout.
                                 </Text>
                             </div>
@@ -271,12 +271,12 @@ const InboxDemo = () => {
                         <div className="flex items-center justify-between gap-3 border-b border-gray-600 px-4 py-3">
                             <div className="min-w-0">
                                 <div className="flex items-center gap-2">
-                                    <Text className="truncate !text-sm font-semibold !text-gray-1000">Q2 budget approval and revised vendor totals</Text>
+                                    <Text className="truncate text-sm! font-semibold text-gray-1000!">Q2 budget approval and revised vendor totals</Text>
                                     <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
                                         Needs reply
                                     </Badge>
                                 </div>
-                                <Text className="mt-1 !text-[11px] text-gray-1000/60">
+                                <Text className="mt-1 text-[11px]! text-gray-1000/60">
                                     Acme Finance · to leadership@acme.dev · 8:42 AM
                                 </Text>
                             </div>
@@ -299,42 +299,42 @@ const InboxDemo = () => {
                             <article className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
-                                        <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Reading pane</Text>
-                                        <Text className="mt-2 !text-sm font-semibold !text-gray-1000">From: Acme Finance</Text>
-                                        <Text className="mt-1 !text-[11px] text-gray-1000/60">
+                                        <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Reading pane</Text>
+                                        <Text className="mt-2 text-sm! font-semibold text-gray-1000!">From: Acme Finance</Text>
+                                        <Text className="mt-1 text-[11px]! text-gray-1000/60">
                                             Mara Jensen · VP Finance · finance@acme.dev
                                         </Text>
                                     </div>
                                     <div className="flex items-center gap-2 rounded-full border border-gray-600 bg-gray-1000/[0.03] px-3 py-1.5">
                                         <CheckCheck className="h-4 w-4 text-green-800" />
-                                        <Text className="!text-[11px] text-gray-1000/60">AI triaged</Text>
+                                        <Text className="text-[11px]! text-gray-1000/60">AI triaged</Text>
                                     </div>
                                 </div>
 
                                 <div className="mt-4 space-y-4">
-                                    <Text className="!text-sm leading-7 text-gray-1000/80">
+                                    <Text className="text-sm! leading-7 text-gray-1000/80">
                                         We closed the vendor reconciliation pass and the numbers are ready for final sign-off. If the revised totals look correct, we can push the approved packet to the board workflow this afternoon.
                                     </Text>
 
                                     <div className="rounded-xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                        <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Executive summary</Text>
+                                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Executive summary</Text>
                                         <div className="mt-3 space-y-2.5">
                                             {messageBullets.map((item) => (
                                                 <div key={item} className="flex items-start gap-2">
                                                     <span className="mt-1.5 h-2 w-2 rounded-full bg-green-800" />
-                                                    <Text className="!text-[11px] text-gray-1000/60">{item}</Text>
+                                                    <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <Text className="!text-sm leading-7 text-gray-1000/80">
+                                    <Text className="text-sm! leading-7 text-gray-1000/80">
                                         Please reply with approval or any changes before 5 PM so the final export stays on schedule. I also attached the condensed variance sheet to make the review pass faster.
                                     </Text>
                                 </div>
 
                                 <div className="mt-4 flex flex-wrap gap-2.5">
-                                    <Button variant="solid" className="rounded-full border-0 !bg-gray-1000 px-4 py-2.5 !text-gray-50">
+                                    <Button variant="solid" className="rounded-full border-0 bg-gray-1000! px-4 py-2.5 text-gray-50!">
                                         Reply
                                     </Button>
                                     <Button variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-4 py-2.5 text-gray-1000 hover:bg-gray-1000/[0.06]">
@@ -345,17 +345,17 @@ const InboxDemo = () => {
 
                             <aside className="space-y-3">
                                 <section className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Thread state</Text>
+                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Thread state</Text>
                                     <div className="mt-3 space-y-2.5">
                                         <div className="rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
                                             <div className="flex items-center justify-between gap-2">
-                                                <Text className="!text-sm font-medium !text-gray-1000">Priority</Text>
-                                                <Text className="!text-[11px] text-green-800">High</Text>
+                                                <Text className="text-sm! font-medium text-gray-1000!">Priority</Text>
+                                                <Text className="text-[11px]! text-green-800">High</Text>
                                             </div>
                                         </div>
                                         <div className="rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
                                             <div className="flex items-center justify-between gap-2">
-                                                <Text className="!text-sm font-medium !text-gray-1000">Stakeholders</Text>
+                                                <Text className="text-sm! font-medium text-gray-1000!">Stakeholders</Text>
                                                 <span className="flex items-center gap-1 text-gray-1000/70">
                                                     <Users className="h-4 w-4" />
                                                     <span className="text-[11px]">5</span>
@@ -364,7 +364,7 @@ const InboxDemo = () => {
                                         </div>
                                         <div className="rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
                                             <div className="flex items-center justify-between gap-2">
-                                                <Text className="!text-sm font-medium !text-gray-1000">Protection</Text>
+                                                <Text className="text-sm! font-medium text-gray-1000!">Protection</Text>
                                                 <span className="flex items-center gap-1 text-green-800">
                                                     <ShieldCheck className="h-4 w-4" />
                                                     <span className="text-[11px]">Verified</span>
@@ -375,13 +375,13 @@ const InboxDemo = () => {
                                 </section>
 
                                 <section className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
-                                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Triage notes</Text>
-                                    <Heading as="h5" className="mt-2 !text-gray-1000">Inbox health</Heading>
+                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Triage notes</Text>
+                                    <Heading as="h5" className="mt-2 text-gray-1000!">Inbox health</Heading>
                                     <div className="mt-3 space-y-2.5">
                                         {sidebarNotes.map((item) => (
                                             <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
                                                 <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                                <Text className="!text-[11px] text-gray-1000/60">{item}</Text>
+                                                <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
                                             </div>
                                         ))}
                                     </div>

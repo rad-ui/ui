@@ -133,7 +133,7 @@ export default function Home() {
                     />
                     <div
                         aria-hidden
-                        className="landing-scan pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-green-1000/45 to-transparent"
+                        className="landing-scan pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-green-1000/45 to-transparent"
                     />
 
                     <div className="relative mx-auto grid max-w-[1240px] items-center gap-14 px-6 py-16 sm:px-8 lg:min-h-[calc(100svh-3.25rem)] lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-16 lg:px-10 lg:py-20">

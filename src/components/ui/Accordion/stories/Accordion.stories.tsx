@@ -100,6 +100,36 @@ const AccordionExample = ({ ...args }) => {
     );
 };
 
+/* Restores the `WithAnimation` story dropped in 798f9c8f. The animation styles
+ * now live in `accordion.clarity.scss` under
+ * `.rad-ui-accordion-content-animated`, shared with the docs example, instead of
+ * a local <style> block. `forceMount` keeps the panel mounted so the collapse
+ * tween can finish — the class discards the primitive's inline height. */
+const AnimatedAccordionExample = ({ ...args }) => {
+    return (
+        <div className="w-[600px] mx-auto mt-10">
+            <Accordion.Root collapsible {...args}>
+                {items.map((item, index) => (
+                    <Accordion.Item value={`${index}`} key={index}>
+                        <Accordion.Header>
+                            <Accordion.Trigger>
+                                {item.title}
+                                <ChevronDown />
+                            </Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content
+                            className="rad-ui-accordion-content-animated"
+                            forceMount
+                        >
+                            {item.content}
+                        </Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        </div>
+    );
+};
+
 const LongAccordionExample = ({ ...args }) => {
     return (
         <div className="w-[600px] mx-auto mt-10">
@@ -133,6 +163,10 @@ export const OpenMultiple: Story = {
 
 export const LongListWithDisabledItems: Story = {
     render: () => <LongAccordionExample />
+};
+
+export const WithAnimation: Story = {
+    render: () => <AnimatedAccordionExample />
 };
 
 export const WithDeafultValue: Story = {

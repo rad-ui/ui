@@ -16,7 +16,7 @@
     },
     "./themes/default.css": "./dist/themes/default.css",
     "./themes/baremetal.css": "./dist/themes/baremetal.css",
-    "./themes/tailwind-presets/default.js": "./dist/themes/tailwind-presets/default.js",
+    "./themes/tailwind-presets/default.css": "./dist/themes/tailwind-presets/default.css",
     "./Accordion": {
       "import": "./dist/components/Accordion.js",
       "require": "./dist/components/Accordion.cjs",
@@ -297,6 +297,11 @@
       "require": "./dist/components/TextArea.cjs",
       "types": "./dist/components/TextArea.d.ts"
     },
+    "./TextField": {
+      "import": "./dist/components/TextField.js",
+      "require": "./dist/components/TextField.cjs",
+      "types": "./dist/components/TextField.d.ts"
+    },
     "./Theme": {
       "import": "./dist/components/Theme.js",
       "require": "./dist/components/Theme.cjs",
@@ -363,7 +368,7 @@
     "build-css": "rollup -c rollup-css.config.js",
     "generate-tokens": "tsx ./src/tokenGen/index.js",
     "generate-tokens:watch": "tsx watch ./src/tokenGen/index.js",
-    "bundle-tokens": "rollup --config rollup-tokens.config.js",
+    "bundle-tokens": "tsx ./scripts/generate-tailwind-preset.ts --out dist/themes/tailwind-presets",
     "compile-components": "rollup -c rollup.config.cjs",
     "process-components": "node scripts/process-components.cjs",
     "prebuild": "npm run test && npm run clean",
@@ -388,7 +393,8 @@
     "setup:dependencies": "npm install --force",
     "setup": "npm run setup:dependencies",
     "prepare": "husky install",
-    "check:docs-examples": "pnpm --dir docs check:examples"
+    "check:docs-examples": "pnpm --dir docs check:examples",
+    "generate-tailwind-preset": "tsx ./scripts/generate-tailwind-preset.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -429,12 +435,12 @@
     "@storybook/addon-links": "10.3.6",
     "@storybook/react-webpack5": "10.3.6",
     "@storybook/testing-library": "0.2.2",
+    "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.0.0",
     "@types/jest": "^30.0.0",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.7",
-    "autoprefixer": "10.4.15",
     "axe-core": "^4.10.3",
     "babel-plugin-module-resolver": "5.0.2",
     "esbuild": "^0.28.0",
@@ -470,7 +476,7 @@
     "stylelint-config-standard": "^40.0.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "stylelint-config-tailwindcss": "^0.0.7",
-    "tailwindcss": "3.4.1",
+    "tailwindcss": "^4.1.11",
     "ts-jest": "29.4.9",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",

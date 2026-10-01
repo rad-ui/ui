@@ -8,7 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { PostHogProvider } from "../components/PostHogProvider"
 
 /** Don't change the order or all hell breaks loose */
-import './globals.scss';
+import './globals.css';
 import "@radui/ui/themes/default.css";
 
 const instrumentSans = Instrument_Sans({

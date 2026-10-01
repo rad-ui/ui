@@ -70,7 +70,16 @@ const AccordionExample = ({ ...args }: AccordionExampleProps) => {
                 <ChevronDown />
               </Accordion.Trigger>
             </Accordion.Header>
-            <Accordion.Content>{item.content}</Accordion.Content>
+            {/* `rad-ui-accordion-content-animated` opts into the grid-rows
+             * expand/collapse animation defined in the Clarity theme SCSS. It
+             * replaces the primitive's inline height tween, so `forceMount`
+             * keeps the panel mounted for the collapse to finish. */}
+            <Accordion.Content
+              className="rad-ui-accordion-content-animated"
+              forceMount
+            >
+              {item.content}
+            </Accordion.Content>
           </Accordion.Item>
         ))}
       </Accordion.Root>

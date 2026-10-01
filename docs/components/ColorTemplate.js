@@ -52,7 +52,7 @@ const ColorSwatch = ({ colorClass }) => (
 const ColorTemplate = () => {
   return (
     <div className="min-h-full bg-gray-50 text-gray-1000">
-      <section className="relative overflow-hidden border-b border-gray-300 bg-gradient-to-b from-sky-100 via-blue-200 to-gray-50">
+      <section className="relative overflow-hidden border-b border-gray-300 bg-linear-to-b from-sky-100 via-blue-200 to-gray-50">
         <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-8 py-14 md:px-12 md:py-20 lg:px-16">
           <div className="max-w-5xl space-y-6">
             <div className="inline-flex items-center rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-sm text-gray-900">
