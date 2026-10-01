@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import Toolbar from "@radui/ui/Toolbar";
 import { Bold, Italic, Underline } from "lucide-react";

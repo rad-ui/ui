@@ -1,3 +1,5 @@
+"use client";
+
 import TextField from "@radui/ui/TextField";
 
 const TextFieldExample = () => {

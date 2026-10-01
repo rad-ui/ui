@@ -1,3 +1,5 @@
+"use client";
+
 import Popover from "@radui/ui/Popover";
 import Button from "@radui/ui/Button";
 
