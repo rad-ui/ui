@@ -1,0 +1,7 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+// TextField is an input, so it uses the same recipe as TextArea. The root is a
+// plain wrapper (border belongs on the input), and the slots are decorative, so
+// neither takes the input recipe — only the input itself does.
+#{baremetal.$theme-root} :where(.rad-ui-text-field-input) { @include baremetal.input-like; }

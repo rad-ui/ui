@@ -84,14 +84,14 @@ const MessagingDemo = () => {
                 <div className="rounded-2xl border border-gray-600 bg-gray-50 px-3 py-3">
                     <div className="flex items-center justify-between gap-3">
                         <div>
-                            <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Messaging</Text>
-                            <Heading as="h5" className="mt-1 !text-gray-1000">Team Relay</Heading>
+                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Messaging</Text>
+                            <Heading as="h5" className="mt-1 text-gray-1000!">Team Relay</Heading>
                         </div>
                         <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
                             Live
                         </Badge>
                     </div>
-                    <Text className="mt-3 !text-sm text-gray-1000/70">
+                    <Text className="mt-3 text-sm! text-gray-1000/70">
                         A compact multi-pane chat surface with a clearer reading column and lighter secondary chrome.
                     </Text>
                 </div>
@@ -99,13 +99,13 @@ const MessagingDemo = () => {
                 <div className="mt-4 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
                     <div className="flex items-center gap-2.5 text-gray-1000/60">
                         <Search className="h-4 w-4" />
-                        <Text className="!text-sm text-gray-1000/60">Search conversations</Text>
+                        <Text className="text-sm! text-gray-1000/60">Search conversations</Text>
                     </div>
                 </div>
 
                 <div className="mt-4">
                     <div className="mb-2 flex items-center justify-between gap-3">
-                        <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Channels</Text>
+                        <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Channels</Text>
                         <button
                             type="button"
                             aria-label="Create a channel"
@@ -139,15 +139,15 @@ const MessagingDemo = () => {
                 </div>
 
                 <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50 p-3">
-                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Signal Layer</Text>
+                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Signal Layer</Text>
                     <div className="mt-3 space-y-2.5">
                         <div className="flex items-center gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
                             <Bell className="h-4 w-4 text-green-800" />
-                            <Text className="!text-sm text-gray-1000">Focus notifications only</Text>
+                            <Text className="text-sm! text-gray-1000">Focus notifications only</Text>
                         </div>
                         <div className="flex items-center gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
                             <Command className="h-4 w-4 text-green-1000" />
-                            <Text className="!text-sm text-gray-1000">Quick command palette</Text>
+                            <Text className="text-sm! text-gray-1000">Quick command palette</Text>
                         </div>
                     </div>
                 </div>
@@ -158,11 +158,11 @@ const MessagingDemo = () => {
                     <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                             <div className="max-w-2xl">
-                                <Text className="!text-[10px] uppercase tracking-[0.34em] text-green-900">Messaging Showcase</Text>
-                                <Heading as="h2" className="mt-2 !text-gray-1000">
+                                <Text className="text-[10px]! uppercase tracking-[0.34em] text-green-900">Messaging Showcase</Text>
+                                <Heading as="h2" className="mt-2 text-gray-1000!">
                                     Chat UI built for real throughput.
                                 </Heading>
-                                <Text className="mt-2 max-w-2xl !text-sm text-gray-1000/70">
+                                <Text className="mt-2 max-w-2xl text-sm! text-gray-1000/70">
                                     Smaller bubbles, stronger column balance, and practical side context make the interface feel usable instead of decorative.
                                 </Text>
                             </div>
@@ -191,9 +191,9 @@ const MessagingDemo = () => {
                             <div className="min-w-0">
                                 <div className="flex items-center gap-2">
                                     <div className="h-2.5 w-2.5 rounded-full bg-green-800" />
-                                    <Text className="truncate !text-sm font-medium !text-gray-1000">Product launch</Text>
+                                    <Text className="truncate text-sm! font-medium text-gray-1000!">Product launch</Text>
                                 </div>
-                                <Text className="mt-1 !text-[11px] text-gray-1000/60">Nina and 6 others active in this room</Text>
+                                <Text className="mt-1 text-[11px]! text-gray-1000/60">Nina and 6 others active in this room</Text>
                             </div>
 
                             <div className="flex items-center gap-2">
@@ -212,7 +212,7 @@ const MessagingDemo = () => {
 
                         <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)]">
                             <div className="border-b border-gray-600 bg-gray-50/40 p-3 xl:border-b-0 xl:border-r">
-                                <Text className="mb-2 !text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Inbox</Text>
+                                <Text className="mb-2 text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Inbox</Text>
                                 <div className="space-y-1.5">
                                     {threads.map((thread) => (
                                         <button
@@ -226,16 +226,16 @@ const MessagingDemo = () => {
                                         >
                                             <div className="min-w-0">
                                                 <div className="flex items-center gap-2">
-                                                    <Text className={`truncate !text-sm font-medium ${"!text-gray-1000"}`}>
+                                                    <Text className={`truncate text-sm! font-medium ${"!text-gray-1000"}`}>
                                                         {thread.name}
                                                     </Text>
                                                     {thread.online ? <span className="h-2 w-2 rounded-full bg-green-800" /> : null}
                                                 </div>
-                                                <Text className={`mt-1 truncate !text-[11px] ${"text-gray-1000/60"}`}>
+                                                <Text className={`mt-1 truncate text-[11px]! ${"text-gray-1000/60"}`}>
                                                     {thread.preview}
                                                 </Text>
                                             </div>
-                                            <Text className={`shrink-0 !text-[11px] ${"text-gray-1000/60"}`}>
+                                            <Text className={`shrink-0 text-[11px]! ${"text-gray-1000/60"}`}>
                                                 {thread.time}
                                             </Text>
                                         </button>
@@ -288,7 +288,7 @@ const MessagingDemo = () => {
                                             <Paperclip className="h-4 w-4" />
                                         </button>
                                         <div className="min-h-[44px] flex-1">
-                                            <Text className="!text-sm text-gray-1000/60">
+                                            <Text className="text-sm! text-gray-1000/60">
                                                 Drop a note for the launch room. Keep it short, actionable, and easy to scan.
                                             </Text>
                                         </div>
@@ -299,7 +299,7 @@ const MessagingDemo = () => {
                                         >
                                             <Smile className="h-4 w-4" />
                                         </button>
-                                        <Button variant="solid" className="rounded-full border-0 !bg-gray-1000 px-3 py-2 !text-gray-50">
+                                        <Button variant="solid" className="rounded-full border-0 bg-gray-1000! px-3 py-2 text-gray-50!">
                                             <span className="flex items-center gap-2">
                                                 <Send className="h-4 w-4" />
                                                 Send
@@ -316,20 +316,20 @@ const MessagingDemo = () => {
             <aside className="bg-gray-200 p-3 sm:p-4">
                 <div className="space-y-3">
                     <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Room Context</Text>
-                        <Heading as="h5" className="mt-2 !text-gray-1000">Launch notes</Heading>
-                        <Text className="mt-2 !text-sm text-gray-1000/70">
+                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Room Context</Text>
+                        <Heading as="h5" className="mt-2 text-gray-1000!">Launch notes</Heading>
+                        <Text className="mt-2 text-sm! text-gray-1000/70">
                             Side context stays visible without overwhelming the chat stream: pinned updates, room status, and compact task breadcrumbs.
                         </Text>
                     </section>
 
                     <section className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                        <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Pinned activity</Text>
+                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Pinned activity</Text>
                         <div className="mt-3 space-y-2.5">
                             {activityItems.map((item) => (
                                 <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
                                     <CircleDot className="mt-0.5 h-4 w-4 text-green-800" />
-                                    <Text className="!text-[11px] text-gray-1000/60">{item}</Text>
+                                    <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
                                 </div>
                             ))}
                         </div>
@@ -338,16 +338,16 @@ const MessagingDemo = () => {
                     <section className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
                         <div className="flex items-center justify-between gap-3">
                             <div>
-                                <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Team pulse</Text>
-                                <Heading as="h5" className="mt-2 !text-gray-1000">Response health</Heading>
+                                <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Team pulse</Text>
+                                <Heading as="h5" className="mt-2 text-gray-1000!">Response health</Heading>
                             </div>
                             <Star className="h-4 w-4 text-green-800" />
                         </div>
 
                         <div className="mt-4 rounded-xl border border-gray-600 bg-gray-1000/[0.03] p-3">
                             <div className="flex items-center justify-between gap-2">
-                                <Text className="!text-sm font-medium !text-gray-1000">Median response time</Text>
-                                <Text className="!text-[11px] text-green-800">4m</Text>
+                                <Text className="text-sm! font-medium text-gray-1000!">Median response time</Text>
+                                <Text className="text-[11px]! text-green-800">4m</Text>
                             </div>
                             <div className="mt-3 flex h-2 gap-1 rounded-full bg-gray-1000/[0.06] p-0.5">
                                 <span className="h-full w-[72%] rounded-full bg-gray-1000" />

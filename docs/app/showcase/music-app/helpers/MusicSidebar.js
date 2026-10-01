@@ -32,8 +32,8 @@ const MenuItem = ({children, label="", active=false, meta=""}) => {
                 <span className='flex-none' style={{width:DIMENSIONS, height:DIMENSIONS}}>{children}</span>
             </span>
             <span>
-                <Text className={`${active ? 'font-semibold !text-[13px] !text-gray-50' : 'font-medium !text-[13px] text-current'}`}>{label}</Text>
-                {meta ? <Text className={`${active ? 'text-gray-50/60' : 'text-gray-1000/60'} !text-[10px]`}>{meta}</Text> : null}
+                <Text className={`${active ? 'font-semibold text-[13px]! text-gray-50!' : 'font-medium text-[13px]! text-current'}`}>{label}</Text>
+                {meta ? <Text className={`${active ? 'text-gray-50/60' : 'text-gray-1000/60'} text-[10px]!`}>{meta}</Text> : null}
             </span>
         </span>
         <span className={`h-2 w-2 rounded-full ${active ? 'bg-green-800' : 'bg-gray-500'}`} />
@@ -47,7 +47,7 @@ const MusicSidebar = () => {
                         <SoundWaveSampleLogo/>
                     </div>
                     <div className='rounded-full border border-gray-600 bg-gray-1000/5 px-2 py-0.5'>
-                        <Text className='!text-xs uppercase tracking-[0.25em] text-gray-1000/70'>Beta</Text>
+                        <Text className='text-xs! uppercase tracking-[0.25em] text-gray-1000/70'>Beta</Text>
                     </div>
                 </div>
 
@@ -60,7 +60,7 @@ const MusicSidebar = () => {
                 </div>
 
                 <div className='mt-4'>
-                    <Text className='mb-1.5 uppercase tracking-[0.3em] text-gray-1000/70 !text-[9px]'>Your Playlists</Text>
+                    <Text className='mb-1.5 uppercase tracking-[0.3em] text-gray-1000/70 text-[9px]!'>Your Playlists</Text>
                     <div className='space-y-1'>
                         {playlists.map((playlist) => (
                             <MenuItem key={playlist.label} label={playlist.label} meta={playlist.tracks}>
@@ -70,10 +70,10 @@ const MusicSidebar = () => {
                     </div>
                 </div>
 
-                <div className='mt-5 rounded-xl border border-green-600/25 bg-gradient-to-b from-green-500/20 via-gray-1000/[0.03] to-gray-1000/[0.02] p-2.5'>
-                    <Text className='!text-[10px] uppercase tracking-[0.3em] text-gray-1000/70'>Mood Capsule</Text>
-                    <Text className='mt-2.5 !text-sm font-semibold !text-gray-1000'>Cinematic Rock</Text>
-                    <Text className='mt-1.5 !text-xs text-gray-1000/70'>
+                <div className='mt-5 rounded-xl border border-green-600/25 bg-linear-to-b from-green-500/20 via-gray-1000/[0.03] to-gray-1000/[0.02] p-2.5'>
+                    <Text className='text-[10px]! uppercase tracking-[0.3em] text-gray-1000/70'>Mood Capsule</Text>
+                    <Text className='mt-2.5 text-sm! font-semibold text-gray-1000!'>Cinematic Rock</Text>
+                    <Text className='mt-1.5 text-xs! text-gray-1000/70'>
                         Distorted guitars and glowing synth pads, tuned for late-night focus.
                     </Text>
                     <div className='mt-2.5 flex flex-wrap gap-1.5'>
@@ -86,10 +86,10 @@ const MusicSidebar = () => {
                 </div>
 
                 <div className='mt-auto pt-5'>
-                    <div className='rounded-lg border border-gray-600 bg-gradient-to-b from-gray-1000/[0.04] to-gray-1000/[0.02] p-2.5'>
-                        <Text className='!text-[10px] uppercase tracking-[0.3em] text-gray-1000/70'>For Tonight</Text>
-                        <Text className='mt-2.5 !text-sm font-semibold !text-gray-1000'>17 new tracks</Text>
-                        <Text className='mt-1 !text-xs text-gray-1000/70'>Fresh releases matched to your evening rotation.</Text>
+                    <div className='rounded-lg border border-gray-600 bg-linear-to-b from-gray-1000/[0.04] to-gray-1000/[0.02] p-2.5'>
+                        <Text className='text-[10px]! uppercase tracking-[0.3em] text-gray-1000/70'>For Tonight</Text>
+                        <Text className='mt-2.5 text-sm! font-semibold text-gray-1000!'>17 new tracks</Text>
+                        <Text className='mt-1 text-xs! text-gray-1000/70'>Fresh releases matched to your evening rotation.</Text>
                     </div>
                 </div>
             </aside>

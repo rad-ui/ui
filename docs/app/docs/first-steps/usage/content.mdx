@@ -122,27 +122,34 @@ For the full `Theme` API, see the dedicated Theme component docs.
 ## Tailwind presets
 Rad UI provides first-class support for Tailwind CSS, allowing you to easily integrate Rad UI's design system tokens into your Tailwind setup. By importing the appropriate preset, you gain access to a wide range of design tokens, making it seamless to build and customize your UI.
 
-### For Tailwind CSS v3
-To use Rad UI with Tailwind CSS v3, simply import the preset in your <strong>tailwind.config.js</strong> file:
-```tsx
- // tailwind.config.js
+### For Tailwind CSS v4
+Import the preset as CSS, after Tailwind itself, in your global stylesheet:
 
-const config = {
-  presets:[
-    require("@radui/ui/themes/tailwind-presets/default.js") // import this
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
-
-export default config;
+```css
+/* globals.css */
+@import "tailwindcss";
+@import "@radui/ui/themes/tailwind-presets/default.css";
 ```
 
-### For Tailwind CSS v4
+That exposes the Rad UI colour ramps as Tailwind utilities:
 
-We are actively working on a Tailwind CSS v4 preset to ensure you can leverage the latest features from Tailwind with minimal configuration. Stay tuned for updates!
+```tsx
+<div className="bg-gray-100 text-gray-1000 border-gray-300" />
+```
+
+Every value resolves through a `--rad-ui-*` custom property defined by the Rad UI
+theme CSS, so switching themes — including dark mode — re-resolves the utilities
+without a rebuild. Opacity modifiers such as `bg-gray-500/90` are composed by
+Tailwind itself and work as usual.
+
+Note that the preset covers colours only. Spacing, radius, shadow, blur and
+typography utilities keep Tailwind's own defaults, so your existing utilities are
+unchanged.
+
+### Prior versions
+The v4 preset replaces the JavaScript preset that shipped for Tailwind CSS v3,
+which was imported through `presets` in `tailwind.config.js`. If you are still on
+v3, upgrade Tailwind before upgrading Rad UI — the v3 preset has been removed.
 
 
 

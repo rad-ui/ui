@@ -80,5 +80,55 @@
         }
       }
     }
+
+    /* Opt-in expand/collapse animation.
+     *
+     * The default panel animates via the inline `height` the Collapsible
+     * primitive sets, which works but is limited to a height tween. This
+     * variant uses the `grid-template-rows: 0fr -> 1fr` technique instead,
+     * which also fades and slides the panel in.
+     *
+     * `height: auto !important` is required, not stylistic: it overrides the
+     * inline height the primitive writes during its own tween. Without it the
+     * two animations fight and the panel snaps. Because the inline height is
+     * discarded, callers using this variant should pass `forceMount` so the
+     * panel stays mounted and the collapse can finish.
+     *
+     * Removed in 798f9c8f along with the `WithAnimation` story and left
+     * unreplaced; restored here so the story and the docs example share one
+     * definition. */
+    .rad-ui-accordion-content-animated {
+      height: auto !important;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 200ms ease;
+
+      .rad-ui-accordion-content-inner {
+        min-height: 0;
+        transform-origin: top;
+        opacity: 0;
+        transform: translateY(-8px) scaleY(0.96);
+        transition: opacity 200ms ease, transform 200ms ease;
+      }
+
+      &[data-state="open"] {
+        grid-template-rows: 1fr;
+
+        .rad-ui-accordion-content-inner {
+          opacity: 1;
+          transform: translateY(0) scaleY(1);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+
+        .rad-ui-accordion-content-inner {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    }
   }
 }

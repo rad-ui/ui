@@ -40,7 +40,7 @@ const TabsExample = () => {
         <div className="w-full my-4">
 
             {/* Using the actual Tabs composable API */}
-            <div className="border  shadow rounded-md p-4">
+            <div className="border  shadow-sm rounded-md p-4">
                 <Tabs.Root
                     defaultValue={activeTab}
                     onValueChange={handleTabChange}
@@ -104,7 +104,7 @@ const DynamicUncontrolledTabsExample = () => {
 
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <Tabs.Root
                     defaultValue={activeTab}
                 >
@@ -146,7 +146,7 @@ const ControlledTabsExample = () => {
 
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <div className="mb-4">
                     <strong>Controlled Tabs</strong> - Current tab: {value}
                 </div>
@@ -207,7 +207,7 @@ const ControlledTabsExample = () => {
 const UncontrolledTabsExample = () => {
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <div className="mb-4">
                     <strong>Uncontrolled Tabs</strong> - Using defaultValue
                 </div>
@@ -254,7 +254,7 @@ export const UncontrolledTabs: Story = {
 const DisabledTabsExample = () => {
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <div className="mb-4">
                     <strong>Disabled Tabs Test</strong>
                     <p className="text-sm text-[var(--rad-ui-text-secondary)]">
@@ -294,7 +294,7 @@ const DisabledTabsExample = () => {
 const ManyTabsExample = () => {
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <div className="mb-4">
                     <strong>Many Tabs Test</strong>
                     <p className="text-sm text-[var(--rad-ui-text-secondary)]">
@@ -326,7 +326,7 @@ const ManyTabsExample = () => {
 const NestedTabsExample = () => {
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <div className="mb-4">
                     <strong>Nested Tabs Test</strong>
                     <p className="text-sm text-[var(--rad-ui-text-secondary)]">
@@ -412,7 +412,7 @@ const ProgrammaticTabsExample = () => {
 
     return (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <div className="mb-4">
                     <strong>Programmatic Tabs Test</strong>
                     <p className="text-sm text-[var(--rad-ui-text-secondary)]">
@@ -468,7 +468,7 @@ export const ProgrammaticTabs: Story = {
 export const VerticalOrientation: Story = {
     render: () => (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Vertical Tabs</h3>
                 <Tabs.Root defaultValue="tab1" orientation="vertical">
                     <Tabs.List className="flex flex-col gap-2">
@@ -503,7 +503,7 @@ export const VerticalOrientation: Story = {
 export const ManualActivationMode: Story = {
     render: () => (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Manual Activation Mode</h3>
                 <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     In manual mode, tabs only activate when clicked, not when focused with keyboard.
@@ -541,7 +541,7 @@ export const ManualActivationMode: Story = {
 export const ForceMount: Story = {
     render: () => (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Force Mount</h3>
                 <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     The second tab content is force-mounted, so it stays in the DOM even when inactive.
@@ -579,7 +579,7 @@ export const ForceMount: Story = {
 export const RTLDirection: Story = {
     render: () => (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">RTL Direction</h3>
                 <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     Tabs with right-to-left text direction support.
@@ -617,7 +617,7 @@ export const RTLDirection: Story = {
 export const DataAttributes: Story = {
     render: () => (
         <div className="w-full my-4">
-            <div className="border shadow rounded-md p-4">
+            <div className="border shadow-sm rounded-md p-4">
                 <h3 className="text-lg font-semibold mb-4">Data Attributes</h3>
                 <p className="text-sm text-[var(--rad-ui-text-secondary)] mb-4">
                     This example shows the data attributes that are automatically added to tabs.

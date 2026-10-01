@@ -94,11 +94,11 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
 
   return (
     <div
-      className={`sticky top-0 z-20 flex items-center justify-between border-b border-gray-300 bg-gray-50 px-4 py-2.5 ${
+      className={`sticky top-0 z-20 grid grid-cols-[1fr_auto_1fr] items-center border-b border-gray-300 bg-gray-50 px-4 py-2.5 ${
         isDocsPage ? "" : "backdrop-blur-xl backdrop-saturate-150"
       }`}
     >
-      <div className="mr-3 flex items-center gap-8">
+      <div className="flex items-center">
         <a
           className="flex items-center pl-0.5 text-gray-1000"
           href="/"
@@ -106,27 +106,30 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         >
           <RadUILogo />
         </a>
-        <div className="hidden lg:block">
-          <ul className="flex items-center gap-1 text-[0.84rem] font-medium">
-            {[
-              { href: "/docs/first-steps/introduction", label: "Docs" },
-              { href: "/playground", label: "Playground" },
-              { href: "/colors", label: "Colors" },
-              { href: "/showcase/music-app", label: "Showcase" },
-            ].map((item) => (
-              <li key={item.href}>
-                <Link
-                  className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
-                  href={item.href}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-      <div className="flex items-center">
+      {/* The centre cell stays in the grid at every breakpoint. Hiding it below
+          `lg` would leave two children in a `1fr auto 1fr` track, pulling the
+          action buttons into the centre column on mobile. */}
+      <div>
+        <ul className="hidden items-center gap-1 text-[0.84rem] font-medium lg:flex">
+          {[
+            { href: "/docs/first-steps/introduction", label: "Docs" },
+            { href: "/playground", label: "Playground" },
+            { href: "/colors", label: "Colors" },
+            { href: "/showcase/music-app", label: "Showcase" },
+          ].map((item) => (
+            <li key={item.href}>
+              <Link
+                className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="flex items-center justify-end">
         <div className="hidden lg:flex lg:items-center lg:gap-1">
           <Button
             color="gray"

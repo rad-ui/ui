@@ -76,16 +76,16 @@ const ProductPageDemo = () => {
                                     <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
                                         New Arrival
                                     </Badge>
-                                    <Text className="!text-[11px] uppercase tracking-[0.28em] text-gray-1000/60">
+                                    <Text className="text-[11px]! uppercase tracking-[0.28em] text-gray-1000/60">
                                         Product Showcase
                                     </Text>
                                 </div>
 
                                 <div>
-                                    <Heading as="h2" className="max-w-xl !text-gray-1000">
+                                    <Heading as="h2" className="max-w-xl text-gray-1000!">
                                         Waveform One
                                     </Heading>
-                                    <Text className="mt-2 max-w-2xl !text-sm text-gray-1000/70">
+                                    <Text className="mt-2 max-w-2xl text-sm! text-gray-1000/70">
                                         A premium over-ear headphone page built for stronger product hierarchy, denser buying controls, and cleaner accessory merchandising.
                                     </Text>
                                 </div>
@@ -97,9 +97,9 @@ const ProductPageDemo = () => {
                                                 <Star key={index} className="h-3.5 w-3.5 fill-current" />
                                             ))}
                                         </div>
-                                        <Text className="!text-xs text-gray-1000/70">4.9 · 1,284 reviews</Text>
+                                        <Text className="text-xs! text-gray-1000/70">4.9 · 1,284 reviews</Text>
                                     </div>
-                                    <Text className="!text-sm text-gray-1000/60">Designed for late-night listening and compact travel setups.</Text>
+                                    <Text className="text-sm! text-gray-1000/60">Designed for late-night listening and compact travel setups.</Text>
                                 </div>
 
                                 <div className="grid gap-3 sm:grid-cols-[92px_minmax(0,1fr)]">
@@ -110,7 +110,7 @@ const ProductPageDemo = () => {
                                                 type="button"
                                                 className={`overflow-hidden rounded-xl border p-1 ${
                                                     index === 0
-                                                        ? "border-green-800/30 bg-gradient-to-br from-green-900/10 to-green-800/10"
+                                                        ? "border-green-800/30 bg-linear-to-br from-green-900/10 to-green-800/10"
                                                         : "border-gray-600 bg-gray-1000/[0.03]"
                                                 }`}
                                             >
@@ -134,8 +134,8 @@ const ProductPageDemo = () => {
                                             />
                                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-gray-600 bg-gray-50/60 px-3 py-2.5 text-gray-1000 backdrop-blur-md">
                                                 <div>
-                                                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Featured Finish</Text>
-                                                    <Text className="mt-1 !text-sm font-medium !text-gray-1000">Carbon Black</Text>
+                                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Featured Finish</Text>
+                                                    <Text className="mt-1 text-sm! font-medium text-gray-1000!">Carbon Black</Text>
                                                 </div>
                                                 <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
                                                     Best Seller
@@ -149,9 +149,9 @@ const ProductPageDemo = () => {
                             <aside className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
-                                        <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Starter Bundle</Text>
-                                        <Heading as="h4" className="mt-2 !text-gray-1000">$329</Heading>
-                                        <Text className="mt-1 !text-sm text-gray-1000/70">Includes carrying case and analog cable.</Text>
+                                        <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Starter Bundle</Text>
+                                        <Heading as="h4" className="mt-2 text-gray-1000!">$329</Heading>
+                                        <Text className="mt-1 text-sm! text-gray-1000/70">Includes carrying case and analog cable.</Text>
                                     </div>
                                     <Toggle
                                         color="green"
@@ -163,7 +163,7 @@ const ProductPageDemo = () => {
                                 </div>
 
                                 <div className="mt-4 space-y-2">
-                                    <Text className="!text-[11px] uppercase tracking-[0.28em] text-gray-1000/60">Choose finish</Text>
+                                    <Text className="text-[11px]! uppercase tracking-[0.28em] text-gray-1000/60">Choose finish</Text>
                                     <ToggleGroup.Root
                                         type="single"
                                         defaultValue="carbon"
@@ -185,14 +185,14 @@ const ProductPageDemo = () => {
 
                                 <div className="mt-4 rounded-xl border border-gray-600 bg-gray-50/70 p-3">
                                     <div className="flex items-center justify-between gap-3">
-                                        <Text className="!text-sm font-medium !text-gray-1000">Delivery</Text>
-                                        <Text className="!text-[11px] text-green-700">In stock</Text>
+                                        <Text className="text-sm! font-medium text-gray-1000!">Delivery</Text>
+                                        <Text className="text-[11px]! text-green-700">In stock</Text>
                                     </div>
-                                    <Text className="mt-1 !text-[11px] text-gray-1000/60">Arrives between Apr 10 and Apr 12 with free express shipping.</Text>
+                                    <Text className="mt-1 text-[11px]! text-gray-1000/60">Arrives between Apr 10 and Apr 12 with free express shipping.</Text>
                                 </div>
 
                                 <div className="mt-4 flex gap-2.5">
-                                    <Button variant="solid" className="flex-1 rounded-full border-0 !bg-gray-1000 px-4 py-2.5 !text-gray-50">
+                                    <Button variant="solid" className="flex-1 rounded-full border-0 bg-gray-1000! px-4 py-2.5 text-gray-50!">
                                         <span className="flex items-center justify-center gap-2">
                                             <ShoppingBag className="h-4 w-4" />
                                             Add to Cart
@@ -212,7 +212,7 @@ const ProductPageDemo = () => {
                                                 <div className="rounded-lg border border-gray-600 bg-gray-50 p-2 text-green-800">
                                                     <Icon className="h-4 w-4" />
                                                 </div>
-                                                <Text className="!text-sm text-gray-1000/80">{item.label}</Text>
+                                                <Text className="text-sm! text-gray-1000/80">{item.label}</Text>
                                             </div>
                                         )
                                     })}
@@ -225,9 +225,9 @@ const ProductPageDemo = () => {
                         <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
-                                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Why it lands</Text>
-                                    <Heading as="h5" className="mt-2 !text-gray-1000">Premium details, not filler</Heading>
-                                    <Text className="mt-1 max-w-2xl !text-sm text-gray-1000/70">
+                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Why it lands</Text>
+                                    <Heading as="h5" className="mt-2 text-gray-1000!">Premium details, not filler</Heading>
+                                    <Text className="mt-1 max-w-2xl text-sm! text-gray-1000/70">
                                         The page keeps the buying path obvious while still making room for texture, trust, and supporting information.
                                     </Text>
                                 </div>
@@ -245,7 +245,7 @@ const ProductPageDemo = () => {
                                     <div key={item} className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
                                         <div className="flex items-start gap-2">
                                             <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                            <Text className="!text-[11px] text-gray-1000/70">{item}</Text>
+                                            <Text className="text-[11px]! text-gray-1000/70">{item}</Text>
                                         </div>
                                     </div>
                                 ))}
@@ -253,26 +253,26 @@ const ProductPageDemo = () => {
 
                             <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
                                 <div className="rounded-xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                    <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Included in the box</Text>
+                                    <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Included in the box</Text>
                                     <div className="mt-3 space-y-2">
                                         {includedItems.map((item) => (
                                             <div key={item} className="flex items-center gap-2.5">
                                                 <div className="rounded-full bg-green-800/20 p-1 text-green-800">
                                                     <Check className="h-3.5 w-3.5" />
                                                 </div>
-                                                <Text className="!text-sm text-gray-1000/75">{item}</Text>
+                                                <Text className="text-sm! text-gray-1000/75">{item}</Text>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
                                 <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-4 py-4">
-                                    <Text className="!text-[10px] uppercase tracking-[0.28em] text-gray-1000/60">Core specs</Text>
+                                    <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Core specs</Text>
                                     <div className="mt-3 space-y-2.5">
                                         {specRows.map(([label, value]) => (
                                             <div key={label} className="flex items-center justify-between gap-3 border-b border-gray-600 pb-2 last:border-b-0 last:pb-0">
-                                                <Text className="!text-[11px] text-gray-1000/60">{label}</Text>
-                                                <Text className="!text-sm font-medium !text-gray-1000">{value}</Text>
+                                                <Text className="text-[11px]! text-gray-1000/60">{label}</Text>
+                                                <Text className="text-sm! font-medium text-gray-1000!">{value}</Text>
                                             </div>
                                         ))}
                                     </div>
@@ -283,8 +283,8 @@ const ProductPageDemo = () => {
                         <aside className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
                             <div className="flex items-center justify-between gap-3">
                                 <div>
-                                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Also works with</Text>
-                                    <Heading as="h5" className="mt-2 !text-gray-1000">Recommended add-ons</Heading>
+                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Also works with</Text>
+                                    <Heading as="h5" className="mt-2 text-gray-1000!">Recommended add-ons</Heading>
                                 </div>
                                 <ChevronRight className="h-4 w-4 text-gray-1000/60" />
                             </div>
@@ -296,10 +296,10 @@ const ProductPageDemo = () => {
                                         <div className="p-3">
                                             <div className="flex items-center justify-between gap-3">
                                                 <div>
-                                                    <Text className="!text-sm font-medium !text-gray-1000">{item.name}</Text>
-                                                    <Text className="mt-1 !text-[11px] text-gray-1000/60">{item.tag}</Text>
+                                                    <Text className="text-sm! font-medium text-gray-1000!">{item.name}</Text>
+                                                    <Text className="mt-1 text-[11px]! text-gray-1000/60">{item.tag}</Text>
                                                 </div>
-                                                <Text className="!text-sm font-semibold !text-gray-1000">{item.price}</Text>
+                                                <Text className="text-sm! font-semibold text-gray-1000!">{item.price}</Text>
                                             </div>
                                         </div>
                                     </div>
@@ -313,19 +313,19 @@ const ProductPageDemo = () => {
             <aside className="bg-gray-200 p-3 sm:p-4">
                 <div className="space-y-3">
                     <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Merchandising Notes</Text>
-                        <Heading as="h5" className="mt-2 !text-gray-1000">Designed for conversion</Heading>
-                        <Text className="mt-2 !text-sm text-gray-1000/70">
+                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Merchandising Notes</Text>
+                        <Heading as="h5" className="mt-2 text-gray-1000!">Designed for conversion</Heading>
+                        <Text className="mt-2 text-sm! text-gray-1000/70">
                             The right rail acts like a compact merchant brief: trust, shipping, add-ons, and why this page structure sells.
                         </Text>
                     </section>
 
                     <section className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                        <Text className="!text-[10px] uppercase tracking-[0.3em] text-gray-1000/60">Checkout pulse</Text>
+                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Checkout pulse</Text>
                         <div className="mt-3 rounded-xl border border-gray-600 bg-gray-50/70 p-3">
                             <div className="flex items-center justify-between gap-2">
-                                <Text className="!text-sm font-medium !text-gray-1000">Cart confidence</Text>
-                                <Text className="!text-[11px] text-green-700">High</Text>
+                                <Text className="text-sm! font-medium text-gray-1000!">Cart confidence</Text>
+                                <Text className="text-[11px]! text-green-700">High</Text>
                             </div>
                             <div className="mt-3 flex h-2 gap-1 rounded-full bg-gray-1000/[0.08] p-0.5">
                                 <span className="h-full w-[78%] rounded-full bg-gray-1000" />
@@ -340,7 +340,7 @@ const ProductPageDemo = () => {
                             ].map((item) => (
                                 <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
                                     <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                    <Text className="!text-[11px] text-gray-1000/60">{item}</Text>
+                                    <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
                                 </div>
                             ))}
                         </div>

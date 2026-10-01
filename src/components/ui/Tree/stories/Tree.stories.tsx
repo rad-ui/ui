@@ -221,12 +221,12 @@ const CardAnatomyTree = () => (
                                 hover:bg-transparent
                                 data-[selected=true]:border-transparent data-[selected=true]:bg-transparent
                                 data-[toggled=true]:bg-transparent
-                                focus:!bg-[var(--rad-ui-surface-subtle)]
-                                focus:!outline-none
-                                focus:!shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]
-                                focus-visible:!bg-[var(--rad-ui-surface-subtle)]
-                                focus-visible:!outline-none
-                                focus-visible:!shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]
+                                focus:bg-[var(--rad-ui-surface-subtle)]!
+                                focus:outline-hidden!
+                                focus:shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]!
+                                focus-visible:bg-[var(--rad-ui-surface-subtle)]!
+                                focus-visible:outline-hidden!
+                                focus-visible:shadow-[var(--rad-ui-focus-ring-shadow-inset),var(--rad-ui-focus-ring-shadow-sm)]!
                                 [tabindex='0']:relative [tabindex='0']:z-[1]
                                 [tabindex='0']:rounded-[0.35rem]
                                 [tabindex='0']:!bg-[var(--rad-ui-surface-subtle)]

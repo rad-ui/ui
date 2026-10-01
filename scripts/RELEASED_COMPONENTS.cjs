@@ -63,6 +63,7 @@ const RELEASED_COMPONENTS = [
     'Steps',
     'TabNav',
     'TextArea',
+    'TextField',
     'Tree'
 ];
 
