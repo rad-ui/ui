@@ -104,7 +104,7 @@ declare module '@radui/ui/Popover' {
     };
 
     const Popover: React.ForwardRefExoticComponent<
-        PopoverRootProps & RefAttributes<HTMLDivElement>
+        PopoverRootProps & React.RefAttributes<HTMLDivElement>
     > & {
         Root: React.ForwardRefExoticComponent<
             PopoverRootProps & React.RefAttributes<HTMLDivElement>
@@ -130,41 +130,51 @@ declare module '@radui/ui/Popover' {
     export default Popover;
 }
 
+// The docs site resolves `@radui/ui` from the published package, so a
+// component added in the same PR as its docs page has no types until that
+// release ships. These blocks stand in until then and must mirror the real
+// fragments in `src/components/ui/<Name>`.
+//
+// Note: `docs/tsconfig.json` sets `skipLibCheck: true`, so tsc does NOT check
+// the bodies of these declarations. A wrong prop type or a bad ref here fails
+// silently. To check just this file, filter the unskipped run down to it —
+// turning skipLibCheck off surfaces ~59 unrelated pre-existing errors from
+// node_modules and @types/mdx:
+//
+//   cd docs && npx tsc -p tsconfig.examples.json --noEmit \
+//     --skipLibCheck false 2>&1 | grep 'types/custom.d.ts'
 declare module '@radui/ui/TextField' {
     import * as React from 'react';
 
-    type TextFieldRootProps = Omit<React.ComponentPropsWithoutRef<'div'>, 'children'> & {
-        children?: React.ReactNode;
-        customRootClass?: string;
-        size?: string;
-        color?: string;
-        variant?: string;
-        invalid?: boolean;
-        disabled?: boolean;
-        required?: boolean;
-    };
-
-    type TextFieldInputProps = Omit<
-        React.ComponentPropsWithoutRef<'input'>,
-        'size' | 'color'
-    > & {
-        customRootClass?: string;
-        startAdornment?: React.ReactNode;
-        endAdornment?: React.ReactNode;
-        plain?: boolean;
-    };
-
-    type TextFieldResetProps = React.ComponentPropsWithoutRef<'button'> & {
+    // src/components/ui/TextField/fragments/TextFieldRoot.tsx
+    type TextFieldRootProps = React.ComponentPropsWithoutRef<'div'> & {
+        className?: string;
         customRootClass?: string;
     };
 
-    type TextFieldSlotProps = React.ComponentPropsWithoutRef<'span'> & {
-        customRootClass?: string;
+    // src/components/ui/TextField/fragments/TextFieldInput.tsx
+    type TextFieldInputProps = React.ComponentPropsWithoutRef<'input'>;
+
+    // src/components/ui/TextField/fragments/TextFieldReset.tsx
+    type TextFieldResetProps = React.ComponentPropsWithoutRef<'button'>;
+
+    // src/components/ui/TextField/fragments/TextFieldSlot.tsx
+    type TextFieldSlotProps = React.ComponentPropsWithoutRef<'div'> & {
         side?: 'start' | 'end';
     };
 
+    // The default export is a convenience wrapper: it renders a Root with an
+    // Input inside and forwards the ref to that input, not to a div.
+    type TextFieldProps = React.ComponentPropsWithoutRef<'input'> & {
+        className?: string;
+        customRootClass?: string;
+        inputClassName?: string;
+        startSlot?: React.ReactNode;
+        endSlot?: React.ReactNode;
+    };
+
     const TextField: React.ForwardRefExoticComponent<
-        TextFieldRootProps & React.RefAttributes<HTMLDivElement>
+        TextFieldProps & React.RefAttributes<HTMLInputElement>
     > & {
         Root: React.ForwardRefExoticComponent<
             TextFieldRootProps & React.RefAttributes<HTMLDivElement>
@@ -176,7 +186,7 @@ declare module '@radui/ui/TextField' {
             TextFieldResetProps & React.RefAttributes<HTMLButtonElement>
         >;
         Slot: React.ForwardRefExoticComponent<
-            TextFieldSlotProps & React.RefAttributes<HTMLSpanElement>
+            TextFieldSlotProps & React.RefAttributes<HTMLDivElement>
         >;
     };
 

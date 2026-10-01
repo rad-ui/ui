@@ -48,6 +48,10 @@ describe('Drawer accessibility', () => {
         const { container } = renderDrawer();
         await user.click(screen.getByText('Open drawer'));
         await waitFor(() => expect(screen.getByText('Slides in from the right.')).toBeInTheDocument());
+        // Wrapped in Theme, so the portal root lands inside RTL's container and
+        // `container` is the right scan boundary here. Asserted so a future
+        // portal-target change cannot silently reduce this scan to nothing.
+        expect(container).toContainElement(screen.getByText('Slides in from the right.'));
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

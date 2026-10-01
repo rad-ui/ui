@@ -14,12 +14,20 @@ on:
       - 'styles/**'
       - '.storybook/**'
 
+permissions:
+  contents: read
+
 jobs:
   chromatic-deployment:
     # Runs on every PR touching components, styles or Storybook config. Gating on
     # a `deploy-storybook` label meant visual changes reached main unchecked
     # whenever the label was forgotten, which is most of the time.
-    if: github.repository == 'rad-ui/ui'
+    #
+    # Fork PRs are excluded: `github.repository` resolves to the BASE repo for
+    # them, so the check below would pass, but GitHub withholds
+    # CHROMATIC_PROJECT_TOKEN from fork PRs. The step would then run without a
+    # token and fail. Same-repo PRs and pushes to main are still checked.
+    if: github.repository == 'rad-ui/ui' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

@@ -45,9 +45,12 @@ describe('Spinner accessibility', () => {
     });
 
     // A spinner with no accessible name is announced as nothing, so consumers
-    // must be able to label it. Assert the mechanism rather than a default.
+    // must be able to label it. The role is the consumer's call rather than a
+    // Spinner default, so the fixture supplies `status` and asserts the name
+    // actually resolves — `aria-label` on a roleless generic span would not.
     test('axe: no violations when labelled', async() => {
-        const { container } = render(<Spinner aria-label="Loading results" />);
+        const { container } = render(<Spinner role="status" aria-label="Loading results" />);
+        expect(screen.getByRole('status', { name: 'Loading results' })).toBeInTheDocument();
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

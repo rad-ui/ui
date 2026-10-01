@@ -62,17 +62,24 @@ describe('Toast accessibility', () => {
     // would otherwise be announced as part of the next one.
     afterEach(() => ToastState.dismissAll());
 
+    // Toast.Portal mounts into the Theme portal root, falling back to
+    // document.body, so the rendered toast is outside RTL's `container`.
+    // Scanning `container` would assert against an empty subtree; the
+    // scan boundary has to be `baseElement`.
     test('axe: no violations with an empty viewport', async() => {
-        const { container } = renderToasts();
-        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        const { baseElement } = renderToasts();
+        const results = await axe.run(baseElement, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });
 
     test('axe: no violations with a rendered toast', async() => {
-        const { container } = renderToasts();
+        const { baseElement } = renderToasts();
         emit({ title: 'Saved', description: 'Your changes were saved.' });
         await waitFor(() => expect(screen.getByText('Saved')).toBeInTheDocument());
-        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        // Guards the scan boundary: if the toast were outside `baseElement`
+        // the run below would pass over an empty subtree again.
+        expect(baseElement).toContainElement(screen.getByText('Saved'));
+        const results = await axe.run(baseElement, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });
 
