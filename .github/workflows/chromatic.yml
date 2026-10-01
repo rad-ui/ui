@@ -26,8 +26,17 @@ jobs:
     # Fork PRs are excluded: `github.repository` resolves to the BASE repo for
     # them, so the check below would pass, but GitHub withholds
     # CHROMATIC_PROJECT_TOKEN from fork PRs. The step would then run without a
-    # token and fail. Same-repo PRs and pushes to main are still checked.
-    if: github.repository == 'rad-ui/ui' && github.event.pull_request.head.repo.full_name == github.repository
+    # token and fail.
+    #
+    # The event_name guard is load-bearing. This workflow also runs on pushes to
+    # main, where `github.event.pull_request` is null, so reading
+    # `pull_request.head.repo.full_name` unguarded evaluates `null == 'rad-ui/ui'`
+    # as false and skips the main deployment too. Short-circuit on the event
+    # first: pushes pass, then only same-repo PRs get the fork comparison.
+    if: >-
+      github.repository == 'rad-ui/ui' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
