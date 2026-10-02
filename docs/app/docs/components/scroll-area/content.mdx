@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import ScrollAreaExample from "./docs/example_1"
-import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } from "./docs/codeUsage"
+import { code, anatomy, api_documentation, ariaReferences, fullPageRestoration, keyboardShortcuts } from "./docs/codeUsage"
 
 <Documentation
     title="ScrollArea"
@@ -9,6 +9,16 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
     <Documentation.ComponentHero codeUsage={code}>
         <ScrollAreaExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Section title="Full-page scroll containers">
+        Use `scrollRestoration="manual"` when ScrollArea is the page-level scroller and the viewport should reset after navigation.
+        Keep the default `auto` behavior for nested scroll regions, code blocks, chat panes, virtualized lists, and other areas that should preserve their current scroll offset across rerenders.
+        Pass a stable `restoreKey`, such as the current pathname, to choose when the reset happens.
+
+        <Documentation.CodeBlock language="tsx">
+            {fullPageRestoration.javascript.code}
+        </Documentation.CodeBlock>
+    </Documentation.Section>
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
