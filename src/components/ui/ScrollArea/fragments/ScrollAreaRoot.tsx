@@ -197,6 +197,16 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         if (scrollRestoration !== 'manual') return;
 
         resetViewportScroll();
+
+        const frame = requestAnimationFrame(resetViewportScroll);
+        const timeouts = [0, 50, 150, 300, 600].map((delay) =>
+            window.setTimeout(resetViewportScroll, delay)
+        );
+
+        return () => {
+            cancelAnimationFrame(frame);
+            timeouts.forEach((timeout) => window.clearTimeout(timeout));
+        };
     }, [scrollRestoration, restoreKey]);
 
     const fastScrollTo = (target: { top?: number; left?: number }) => {

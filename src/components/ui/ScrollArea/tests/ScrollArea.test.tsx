@@ -265,6 +265,54 @@ describe('ScrollArea', () => {
         expect(viewport.scrollLeft).toBe(0);
     });
 
+    test('manual scroll restoration wins over late browser restoration', () => {
+        const originalRequestAnimationFrame = window.requestAnimationFrame;
+        const originalCancelAnimationFrame = window.cancelAnimationFrame;
+        const callbacks: FrameRequestCallback[] = [];
+
+        jest.useFakeTimers();
+        window.requestAnimationFrame = jest.fn((callback: FrameRequestCallback) => {
+            callbacks.push(callback);
+            return callbacks.length;
+        }) as unknown as typeof window.requestAnimationFrame;
+        window.cancelAnimationFrame = jest.fn() as unknown as typeof window.cancelAnimationFrame;
+
+        try {
+            render(
+                <ScrollArea.Root scrollRestoration="manual" restoreKey="home" style={{ height: 100 }}>
+                    <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                        <div style={{ height: 400, width: 400 }}>content</div>
+                    </ScrollArea.Viewport>
+                </ScrollArea.Root>
+            );
+
+            const viewport = screen.getByTestId('viewport') as HTMLDivElement;
+            viewport.scrollTop = 120;
+            viewport.scrollLeft = 16;
+
+            act(() => {
+                callbacks.forEach((callback) => callback(performance.now()));
+            });
+
+            expect(viewport.scrollTop).toBe(0);
+            expect(viewport.scrollLeft).toBe(0);
+
+            viewport.scrollTop = 240;
+            viewport.scrollLeft = 32;
+
+            act(() => {
+                jest.advanceTimersByTime(600);
+            });
+
+            expect(viewport.scrollTop).toBe(0);
+            expect(viewport.scrollLeft).toBe(0);
+        } finally {
+            window.requestAnimationFrame = originalRequestAnimationFrame;
+            window.cancelAnimationFrame = originalCancelAnimationFrame;
+            jest.useRealTimers();
+        }
+    });
+
     test('hides scrollbar while document overlay is open', () => {
         document.documentElement.setAttribute('data-rad-ui-overlay-open', '');
         try {
