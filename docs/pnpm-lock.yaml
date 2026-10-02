@@ -21,8 +21,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radui/ui':
-        specifier: ^0.5.0
-        version: 0.5.0(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^0.6.0
+        version: 0.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@tailwindcss/postcss':
         specifier: ^4.1.11
         version: 4.3.3
@@ -664,11 +664,11 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@radui/ui@0.5.0':
-    resolution: {integrity: sha512-tQ9OdQJfTbHNUOmrEmCLhE5gKKkjpsMTZMoKFLcFTgJGIpLD4rznie/xSx95sFOjbOhsHj/cK94o2m6zJSRmqA==}
+  '@radui/ui@0.6.0':
+    resolution: {integrity: sha512-QAkLuc2ViVpCSnl3kZCLusvrWLuI+sMxOpA271yy91MW4jypyGvvhdlQGCSAYpcsCQVAicCMyURQ/i0Y3UpbNg==}
     peerDependencies:
-      react: ^18.2.0
-      react-dom: ^18.2.0
+      react: ^18.2.0 || ^19.0.0
+      react-dom: ^18.2.0 || ^19.0.0
 
   '@resvg/resvg-wasm@2.4.0':
     resolution: {integrity: sha512-C7c51Nn4yTxXFKvgh2txJFNweaVcfUPQxwEUFw4aWsCmfiBDJsTSwviIF8EcwjQ6k8bPyMWCl1vw4BdxE569Cg==}
@@ -3542,15 +3542,12 @@ snapshots:
     transitivePeerDependencies:
       - '@emotion/is-prop-valid'
 
-  '@radui/ui@0.5.0(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@radui/ui@0.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@floating-ui/react': 0.27.19(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       clsx: 2.1.1
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-      react-remove-scroll: 2.7.2(@types/react@19.0.2)(react@19.0.0)
-    transitivePeerDependencies:
-      - '@types/react'
 
   '@resvg/resvg-wasm@2.4.0': {}
 
