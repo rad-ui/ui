@@ -171,6 +171,10 @@ export const docsNavigationSections = [
             {
                 title:"Migration Guides",
                 path:"/docs/guides/migration-guides"
+            },
+            {
+                title:"CSS Variable Fallbacks",
+                path:"/docs/guides/css-variable-fallbacks"
             }
         ]
     },
@@ -241,6 +245,14 @@ export const docsNavigationSections = [
             {
                 title:"Component Docs: Styling",
                 path:"/docs/contributing/component-docs-styling"
+            },
+            {
+                title:"Component Docs: Accessibility",
+                path:"/docs/contributing/component-docs-accessibility"
+            },
+            {
+                title:"Component Docs: Features",
+                path:"/docs/contributing/component-docs-features"
             }
         ]
     }

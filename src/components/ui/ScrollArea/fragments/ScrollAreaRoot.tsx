@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ScrollAreaContext, type ScrollAreaScrollbarType } from '../context/ScrollAreaContext';
 import { useScrollbarVisibility } from '../hooks/useScrollbarVisibility';
+import { useDocumentOverlayOpenState } from '~/core/hooks/useDocumentOverlayOpenState';
 
 const COMPONENT_NAME = 'ScrollArea';
 
@@ -31,6 +32,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
 
     const [overflow, setOverflow] = React.useState({ x: false, y: false });
     const scrollbarVisible = useScrollbarVisibility(type, scrollAreaViewportRef, internalRootRef);
+    const overlaySuppressesScrollbar = useDocumentOverlayOpenState();
 
     const mergedRootRef = (node: HTMLDivElement | null) => {
         (internalRootRef as any).current = node;
@@ -53,16 +55,42 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         };
 
         const resizeObserver = new ResizeObserver(() => handleResize());
-        resizeObserver.observe(viewport);
-        Array.from(viewport.children).forEach(child => resizeObserver.observe(child));
+        const syncResizeObservers = () => {
+            resizeObserver.disconnect();
+            resizeObserver.observe(viewport);
+            Array.from(viewport.children).forEach(child => {
+                if (child instanceof Element) {
+                    resizeObserver.observe(child);
+                }
+            });
+        };
 
-        const mutationObserver = new MutationObserver(() => {
+        syncResizeObservers();
+
+        const mutationObserver = new MutationObserver((mutations) => {
+            const directChildSwap = mutations.some(
+                (mutation) =>
+                    mutation.type === 'childList'
+                    && mutation.target === viewport
+                    && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)
+            );
+
+            if (directChildSwap) {
+                viewport.scrollTop = 0;
+                viewport.scrollLeft = 0;
+                syncResizeObservers();
+            }
+
             handleResize();
+
+            if (directChildSwap) {
+                handleScroll();
+            }
         });
 
         mutationObserver.observe(viewport, {
             childList: true,
-            subtree: true
+            subtree: false
         });
 
         window.addEventListener('resize', handleResize);
@@ -222,6 +250,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 type,
                 scrollbarVisible,
                 overflow,
+                overlaySuppressesScrollbar,
                 rootRef: internalRootRef
             }}>
             <div

@@ -1,6 +1,7 @@
 'use client';
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import {
     DrawerChangeReason,
@@ -130,6 +131,7 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     const isControlled = controlledOpen !== undefined;
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const isOpen = isControlled ? controlledOpen! : uncontrolledOpen;
+    useRegisterDocumentOverlayOpen(isOpen);
 
     // Read through a ref so callbacks registered once (imperative actions,
     // animation completion) always observe the current value.

@@ -2,4 +2,4 @@
 "@radui/ui": minor
 ---
 
-new toast component
+table resizable columns

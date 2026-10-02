@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 import { composeRefs } from '~/core/utils/mergeProps';
+import { usePrefersReducedMotion } from '~/core/hooks/usePrefersReducedMotion';
+
+const DEFAULT_TRANSITION_DURATION = 300;
 
 type CollapsiblePrimitiveContentElement = React.ElementRef<typeof Primitive.div>;
 export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
@@ -21,8 +24,19 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         transitionTimingFunction
     } = useCollapsiblePrimitiveContext();
 
+    const prefersReducedMotion = usePrefersReducedMotion();
+    // An explicit `transitionDuration` always wins, so a consumer can opt back
+    // into animation. Only the default is reduced away.
+    const resolvedTransitionDuration =
+        transitionDuration !== undefined
+            ? transitionDuration
+            : prefersReducedMotion
+                ? 0
+                : DEFAULT_TRANSITION_DURATION;
+
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const [isPresent, setIsPresent] = useState(open || forceMount);
+    const [, setCssVarRevision] = useState(0);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -79,7 +93,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             node.style.transitionTimingFunction = originalStylesRef.current.transitionTimingFunction;
         }
 
-        if (transitionDuration === 0) {
+        if (resolvedTransitionDuration === 0) {
             setHeight(open ? undefined : 0);
 
             if (!open && !forceMount) {
@@ -87,6 +101,16 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             } else {
                 setIsPresent(true);
             }
+
+            // With forceMount the content is already present, so `setHeight` and
+            // `setIsPresent` both bail out as no-ops and no re-render is
+            // scheduled. The measurement above only lives in refs, so without
+            // this the measured dimensions would never reach the CSS variables
+            // and `--*-collapsible-content-height` would stay at its initial 0.
+            if (open) {
+                setCssVarRevision((revision) => revision + 1);
+            }
+
             return;
         }
 
@@ -112,7 +136,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
             animationTimeoutRef.current = setTimeout(() => {
                 setHeight(undefined);
-            }, transitionDuration);
+            }, resolvedTransitionDuration);
         } else {
             setHeight(heightRef.current ?? node.scrollHeight);
 
@@ -128,7 +152,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 if (!forceMount) {
                     setIsPresent(false);
                 }
-            }, transitionDuration);
+            }, resolvedTransitionDuration);
         }
 
         return () => {
@@ -139,7 +163,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, transitionDuration, forceMount, children]);
+    }, [open, resolvedTransitionDuration, forceMount, children]);
 
     const shouldRender = open || isPresent || forceMount;
 
@@ -159,8 +183,8 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
         ['--rad-collapsible-content-width' as string]:
             widthRef.current !== undefined ? `${widthRef.current}px` : undefined,
-        ...(transitionDuration > 0
-            ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
+        ...(resolvedTransitionDuration > 0
+            ? { transition: `height ${resolvedTransitionDuration}ms ${transitionTimingFunction}` }
             : {})
     };
 

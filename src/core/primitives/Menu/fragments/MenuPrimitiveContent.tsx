@@ -24,8 +24,20 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             elementsRef,
             labelsRef,
             isNested,
-            floatingContext
+            floatingContext,
+            maxHeight
         } = context;
+
+        const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
+        const restProps = { ...props } as Record<string, unknown>;
+        delete restProps.style;
+        const scrollContainerStyle: React.CSSProperties = {
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            maxHeight: maxHeight !== undefined ? `${maxHeight}px` : undefined,
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+        };
 
         return (
             <>
@@ -39,17 +51,13 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 >         
                     <div
                         ref={mergedRef}
-                        {...getFloatingProps({
-                            className
+                        {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                            ...restProps,
+                            className,
+                            style: { ...consumerStyle, ...floatingStyles }
                         })}
-                        {...props}
-                        style={{
-                            ...floatingStyles,
-                            ...props.style
-                        }}
-                        className={className}
                     >
-                        <div style={{overflowY:"auto", overflowX:"hidden"}}>
+                        <div style={scrollContainerStyle}>
                         {children}
                         </div>
                     </div>
