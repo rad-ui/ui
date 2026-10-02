@@ -3,7 +3,7 @@ import React, { forwardRef, useContext, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 import { DrawerContext } from '../context/DrawerContext';
 
-export type DrawerSwipeZoneProps = {
+export type DrawerSwipeZoneProps = React.ComponentPropsWithoutRef<'div'> & {
     className?: string;
     /**
      * How far (px) the user must drag in the open direction before the drawer opens.
@@ -15,8 +15,10 @@ export type DrawerSwipeZoneProps = {
      * @default 20
      */
     size?: number;
-    children?: React.ReactNode;
-    style?: React.CSSProperties;
+    /**
+     * Disables the swipe zone. The hit area is removed when disabled.
+     */
+    disabled?: boolean;
 };
 
 type DragState = {
@@ -30,8 +32,10 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
     size = 20,
     children,
     style,
+    disabled = false,
+    ...props
 }, ref) => {
-    const { rootClass, swipeDirection, isOpen, onOpen } = useContext(DrawerContext);
+    const { rootClass, side: swipeDirection, isOpen, onOpen } = useContext(DrawerContext);
 
     const dragRef = useRef<DragState | null>(null);
     const progressRef = useRef(0);
@@ -133,7 +137,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
         }
     })();
 
-    if (isOpen) return null;
+    if (disabled || isOpen) return null;
 
     return (
         <div
@@ -150,6 +154,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
             onPointerCancel={onPointerCancel}
             style={{ ...edgeStyle, ...style }}
             className={clsx(rootClass && `${rootClass}-swipe-zone`, className)}
+            {...props}
         >
             {children}
         </div>

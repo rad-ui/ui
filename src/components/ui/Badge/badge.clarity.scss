@@ -88,7 +88,7 @@
   &[data-size="large"] {
     min-height: var(--rad-ui-size-6);
     padding: 0 0.75rem;
-    font-size: 0.8125rem;
+    font-size: var(--rad-ui-component-font-size-dense);
   }
 
   &[data-size="x-large"] {

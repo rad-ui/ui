@@ -37,7 +37,7 @@
         scale(var(--scale, 1));
 
     /* Sonner [data-sonner-toast]: transform/opacity 400ms (+ height in Sonner; omitted here). */
-    transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
+    transition: transform var(--rad-ui-motion-duration-slow) ease, opacity var(--rad-ui-motion-duration-slow) ease, box-shadow var(--rad-ui-motion-duration-normal) ease;
 
     /* Exit: same full slide for front and behind (Sonner front path) — avoids 40% / mismatched timing flicker */
     &[data-leaving] {
@@ -47,7 +47,7 @@
             translateY(calc(var(--toast-lift, -1) * -100%))
             translateY(var(--swipe-y, 0px))
             scale(var(--scale, 1));
-        transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease;
+        transition: transform var(--rad-ui-motion-duration-slow) ease, opacity var(--rad-ui-motion-duration-slow) ease, box-shadow var(--rad-ui-motion-duration-normal) ease;
     }
 
     &:not([data-mounted]) {
@@ -102,7 +102,7 @@
     position: relative;
     background-color: var(--rad-ui-surface-panel);
     border: 1px solid var(--rad-ui-border-soft);
-    box-shadow: var(--rad-ui-elevation-md-shadow, 0 4px 16px rgb(0, 0, 0, 0.12));
+    box-shadow: var(--rad-ui-shadow-md);
     color: var(--rad-ui-text-primary);
 }
 
@@ -112,7 +112,7 @@
 .rad-ui-toast-item[data-behind] .rad-ui-toast-action,
 .rad-ui-toast-item[data-behind] .rad-ui-toast-close {
     opacity: 0;
-    transition: opacity 400ms ease;
+    transition: opacity var(--rad-ui-motion-duration-slow) ease;
 }
 
 .rad-ui-toast-item:not([data-behind]) .rad-ui-toast-title,
@@ -120,7 +120,7 @@
 .rad-ui-toast-item:not([data-behind]) .rad-ui-toast-action,
 .rad-ui-toast-item:not([data-behind]) .rad-ui-toast-close {
     opacity: 1;
-    transition: opacity 400ms ease;
+    transition: opacity var(--rad-ui-motion-duration-slow) ease;
 }
 
 /* ── Title ───────────────────────────────────────────────────────────────── */
@@ -158,7 +158,7 @@
     color: var(--rad-ui-text-primary);
     cursor: pointer;
     line-height: 1.5;
-    transition: background-color 150ms ease;
+    transition: background-color var(--rad-ui-motion-duration-fast) ease;
     &:hover { background-color: var(--rad-ui-surface-hover); }
     &:focus-visible { outline: none; box-shadow: var(--rad-ui-ring-shadow-sm); }
 }
@@ -182,22 +182,22 @@
     font-size: 0.875rem;
     line-height: 1;
     padding: 0;
-    transition: background-color 150ms ease;
+    transition: background-color var(--rad-ui-motion-duration-fast) ease;
     &:hover { background-color: var(--rad-ui-surface-hover); }
     &:focus-visible { outline: none; box-shadow: var(--rad-ui-ring-shadow-sm); }
 }
 
 /* ── Variants ────────────────────────────────────────────────────────────── */
 
-.rad-ui-toast-item[data-variant="success"] .rad-ui-toast-content { border-color: var(--rad-ui-color-green-400, #4ade80); }
-.rad-ui-toast-item[data-variant="error"]   .rad-ui-toast-content { border-color: var(--rad-ui-color-red-400,   #f87171); }
-.rad-ui-toast-item[data-variant="warning"] .rad-ui-toast-content { border-color: var(--rad-ui-color-amber-400, #fbbf24); }
-.rad-ui-toast-item[data-variant="info"]    .rad-ui-toast-content { border-color: var(--rad-ui-color-blue-400,  #60a5fa); }
+.rad-ui-toast-item[data-variant="success"] .rad-ui-toast-content { border-color: var(--rad-ui-success-border); }
+.rad-ui-toast-item[data-variant="error"]   .rad-ui-toast-content { border-color: var(--rad-ui-danger-border); }
+.rad-ui-toast-item[data-variant="warning"] .rad-ui-toast-content { border-color: var(--rad-ui-warning-border); }
+.rad-ui-toast-item[data-variant="info"]    .rad-ui-toast-content { border-color: var(--rad-ui-info-border); }
 
 /* ── Reduced motion ──────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-    .rad-ui-toast-item { transition: opacity 150ms ease; }
+    .rad-ui-toast-item { transition: opacity var(--rad-ui-motion-duration-fast) ease; }
     .rad-ui-toast-item:not([data-mounted]) { opacity: 0; transition: none; }
     .rad-ui-toast-item[data-leaving] { opacity: 0; }
 }

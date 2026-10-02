@@ -35,14 +35,14 @@
   .rad-ui-callout-text {
     margin: 0;
     color: inherit;
-    font-size: 0.8125rem;
+    font-size: var(--rad-ui-component-font-size-dense);
     line-height: var(--rad-ui-line-height-3);
 
     strong,
     b {
       display: block;
       margin: 0 0 0.25rem;
-      font-size: 0.8125rem;
+      font-size: var(--rad-ui-component-font-size-dense);
       line-height: var(--rad-ui-line-height-2);
       font-weight: 600;
       color: var(--rad-ui-callout-emphasis-color);
@@ -51,7 +51,7 @@
     span {
       display: block;
       color: var(--rad-ui-text-secondary);
-      font-size: 0.8125rem;
+      font-size: var(--rad-ui-component-font-size-dense);
       line-height: 1.4;
     }
   }
@@ -166,11 +166,11 @@
     .rad-ui-callout-text {
       strong,
       b {
-        font-size: 0.9375rem;
+        font-size: var(--rad-ui-component-font-size-comfortable);
       }
 
       span {
-        font-size: 0.9375rem;
+        font-size: var(--rad-ui-component-font-size-comfortable);
       }
     }
   }

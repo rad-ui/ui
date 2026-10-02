@@ -37,6 +37,20 @@ export interface ToastData {
     actionProps?: React.ButtonHTMLAttributes<HTMLButtonElement> & { children?: React.ReactNode };
     /** Base UI — custom payload for render logic. */
     data?: unknown;
+    /** Headless custom render function (Sonner-like). Receives render props. */
+    render?: (props: {
+        id: string;
+        toast: ToastData;
+        onDismiss: () => void;
+    }) => React.ReactNode;
+    /** Optional icon node. */
+    icon?: React.ReactNode;
+    /** Optional className for the toast item/content (headless). */
+    className?: string;
+    /** Optional inline styles. */
+    style?: React.CSSProperties;
+    /** Unstyled mode hint (headless - styling left to consumer). */
+    unstyled?: boolean;
 }
 
 /** Options for `toast()` / `manager.add()` — optional stable `id` for upsert. */
@@ -90,7 +104,7 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     expand: false,
     gap: 14,
     maxToasts: 3,
-    defaultToastTimeout: 5000,
+    defaultToastTimeout: 4000,
     toastManager: undefined,
     isHovered: false,
     setIsHovered: () => {},

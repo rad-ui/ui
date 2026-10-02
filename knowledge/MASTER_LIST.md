@@ -20,6 +20,8 @@ Rad UI is a React component library focused on headless behavior, accessibility,
 - Build library: `npm run build:rollup`
 - Run root tests: `npm test`
 - Run lint: `npm run lint`
+- Audit Clarity component styles: `npm run check:clarity`
+- Report theme recipe coverage: `npm run check:theme-coverage`
 
 Docs app workflow:
 
@@ -58,7 +60,7 @@ Open these as needed based on the task:
 - `knowledge/design_system/clarity_design_system.md`
   Use for design-system thinking and perceptual consistency decisions.
 - `knowledge/design_system/clarity_audit_spec.md`
-  Use before adding or changing Clarity component styles; defines component recipes, token usage, audit categories, and enforcement rules.
+  Use before adding or changing Clarity component styles; defines component recipes, token usage, audit categories, and enforcement rules. `npm run check:clarity` enforces the mechanically checkable subset in CI.
 - `knowledge/releases/how-rad-ui-releases-are-made.md`
   Use for release-stage terminology and release documentation.
 

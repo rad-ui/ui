@@ -1,15 +1,15 @@
 @use '../Button/button.clarity';
 
-$open-duration: 500ms;
-$close-duration: 400ms;
-$open-easing: cubic-bezier(0.16, 1, 0.3, 1);
-$close-easing: cubic-bezier(0.4, 0, 1, 1);
+$open-duration: var(--rad-ui-drawer-open-duration, var(--rad-ui-motion-duration-slower));
+$close-duration: var(--rad-ui-drawer-close-duration, var(--rad-ui-motion-duration-slow));
+$open-easing: var(--rad-ui-motion-easing-entrance);
+$close-easing: var(--rad-ui-motion-easing-standard);
 
 .rad-ui-drawer-overlay {
   position: fixed;
   inset: 0;
   z-index: var(--rad-ui-z-index-overlay);
-  background-color: rgb(0, 0, 0, 0.56);
+  background-color: var(--rad-ui-overlay-scrim);
   backdrop-filter: blur(var(--rad-ui-blur-lg));
   overflow: hidden;
   transition:
@@ -40,7 +40,7 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
     outline: none;
     box-shadow:
       var(--rad-ui-focus-ring-shadow-offset-panel),
-      0 16px 32px -22px rgb(0, 0, 0, 0.72);
+      var(--rad-ui-shadow-md);
   }
 }
 
@@ -55,12 +55,25 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
   flex-direction: column;
   gap: 0;
   overflow: visible;
+
+  // Prevent the browser from intercepting a vertical swipe as page scroll while the
+  // drawer is being dragged.
+  overscroll-behavior: contain;
   transition:
     opacity    $close-duration $close-easing,
     visibility $close-duration $close-easing,
     transform  $close-duration $close-easing;
 
-  &:focus { outline: none; }
+  // While a swipe is in progress, we disable transitions so the transform tracks
+  // the finger without lag, then restore the authored easing for the release.
+  &[data-swiping="true"] {
+    transition-duration: 0ms !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0ms !important;
+    &[data-swiping="true"] { transition-duration: 0ms !important; }
+  }
 
   // ── Side drawers ──────────────────────────────────────────────────────────
 
@@ -78,7 +91,8 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
     }
 
     &[data-state="open"] {
-      opacity: 1; visibility: visible; transform: translateX(0);
+      opacity: 1; visibility: visible;
+      transform: translateX(calc(-1 * var(--rad-ui-drawer-snap-point-offset, 0px) + var(--rad-ui-drawer-swipe-movement-x, 0px)));
       transition:
         opacity    $open-duration $open-easing,
         visibility $open-duration $open-easing,
@@ -102,7 +116,8 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
     }
 
     &[data-state="open"] {
-      opacity: 1; visibility: visible; transform: translateX(0);
+      opacity: 1; visibility: visible;
+      transform: translateX(calc(var(--rad-ui-drawer-snap-point-offset, 0px) + var(--rad-ui-drawer-swipe-movement-x, 0px)));
       transition:
         opacity    $open-duration $open-easing,
         visibility $open-duration $open-easing,
@@ -128,7 +143,8 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
     }
 
     &[data-state="open"] {
-      opacity: 1; visibility: visible; transform: translateY(0);
+      opacity: 1; visibility: visible;
+      transform: translateY(calc(-1 * var(--rad-ui-drawer-snap-point-offset, 0px) + var(--rad-ui-drawer-swipe-movement-y, 0px)));
       transition:
         opacity    $open-duration $open-easing,
         visibility $open-duration $open-easing,
@@ -149,7 +165,8 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
     }
 
     &[data-state="open"] {
-      opacity: 1; visibility: visible; transform: translateY(0);
+      opacity: 1; visibility: visible;
+      transform: translateY(calc(var(--rad-ui-drawer-snap-point-offset, 0px) + var(--rad-ui-drawer-swipe-movement-y, 0px)));
       transition:
         opacity    $open-duration $open-easing,
         visibility $open-duration $open-easing,
@@ -224,11 +241,11 @@ $close-easing: cubic-bezier(0.4, 0, 1, 1);
   .rad-ui-drawer-handle-grip {
     display: block;
     border-radius: 9999px;
-    background-color: var(--rad-ui-border-strong, #cad1db);
+    background-color: var(--rad-ui-border-strong);
     flex-shrink: 0;
     transition:
-      background-color 150ms ease,
-      transform        200ms ease;
+      background-color var(--rad-ui-motion-duration-fast) ease,
+      transform var(--rad-ui-motion-duration-normal) ease;
   }
 
   // Inner content wrapper — fills remaining space in a column

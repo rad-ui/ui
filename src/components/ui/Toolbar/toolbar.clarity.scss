@@ -19,8 +19,8 @@
         position: relative;
         border-radius: var(--rad-ui-radius-sm);
         transition:
-            background-color 0.12s ease,
-            color 0.12s ease;
+            background-color var(--rad-ui-motion-duration-fast) ease,
+            color var(--rad-ui-motion-duration-fast) ease;
 
         &:focus-visible {
             outline: none;
@@ -141,8 +141,8 @@
         color: var(--rad-ui-color-gray-1000);
         cursor: pointer;
         transition:
-            background-color 0.12s ease,
-            color 0.12s ease;
+            background-color var(--rad-ui-motion-duration-fast) ease,
+            color var(--rad-ui-motion-duration-fast) ease;
 
         &:hover:not([data-disabled], :disabled, [data-state='on']) {
             background-color: var(--rad-ui-color-gray-100);

@@ -71,7 +71,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--rad-ui-spacing-2);
-    font-size: 0.8125rem;
+    font-size: var(--rad-ui-component-font-size-dense);
     font-weight: 600;
     color: var(--rad-ui-text-strong);
   }
@@ -81,7 +81,7 @@
     flex-direction: column;
     gap: var(--rad-ui-spacing-4);
     padding-top: 1.25rem;
-    font-size: 0.9375rem;
+    font-size: var(--rad-ui-component-font-size-comfortable);
     line-height: 1.55;
   }
 

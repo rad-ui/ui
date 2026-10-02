@@ -56,9 +56,6 @@ describe('Drawer accessibility', () => {
         expect(results.violations).toHaveLength(0);
     });
 
-    // Known gap: unlike AlertDialog, Drawer does not auto-wire aria-labelledby from
-    // Drawer.Title, so the dialog has no accessible name here. Asserted as-is so
-    // the current contract is explicit; fix the component and this test flips.
     test('content exposes the dialog role', async() => {
         const user = userEvent.setup();
         renderDrawer();
@@ -67,12 +64,12 @@ describe('Drawer accessibility', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    test('drawer title is not auto-wired to aria-labelledby (known gap)', async() => {
+    test('drawer title is auto-wired to aria-labelledby', async() => {
         const user = userEvent.setup();
         renderDrawer();
         await user.click(screen.getByText('Open drawer'));
         await waitFor(() => expect(screen.getByText('Drawer')).toBeInTheDocument());
-        expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-labelledby');
+        expect(screen.getByRole('dialog')).toHaveAttribute('aria-labelledby');
     });
 
     test('consumer-supplied aria-labelledby names the dialog', async() => {

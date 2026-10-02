@@ -1,6 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-export default generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Fieldset - Rad UI",
-    description: "A headless React Fieldset component for grouping related form controls with legend and validation semantics."
-})
+    description: "Accessible, headless React Fieldset component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Fieldset","headless fieldset","accessible fieldset","fieldset component","React fieldset component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/fieldset"
+});
+
+
+export default metadata

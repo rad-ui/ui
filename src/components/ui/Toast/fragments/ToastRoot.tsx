@@ -286,13 +286,14 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
                 data-behind={isBehind ? '' : undefined}
                 data-pulse={pulsePhase}
                 data-update-key={toast.updateKey ?? 0}
-                className={clsx(rootClass && `${rootClass}-item`, className)}
-                style={style}
+                data-toast-id={toast.id}
+                className={clsx(rootClass && `${rootClass}-item`, toast.className, className)}
+                style={{ ...style, ...toast.style }}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
             >
-                {children}
+                {toast.render ? toast.render({ id: toast.id, toast, onDismiss: dismiss }) : children}
             </li>
         </ToastItemContext.Provider>
     );

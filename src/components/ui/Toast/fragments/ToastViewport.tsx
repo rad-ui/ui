@@ -6,6 +6,7 @@ import { ToastProviderContext } from '../contexts/ToastContext';
 export type ToastViewportProps = {
     children: React.ReactNode;
     className?: string;
+    style?: React.CSSProperties;
 };
 
 const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) => {

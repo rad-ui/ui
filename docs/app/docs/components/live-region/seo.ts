@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const liveRegionMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Live Region - Rad UI",
-    description: "A headless React Live Region component for announcing dynamic status, validation, and background updates to assistive technologies."
+    description: "Accessible, headless React Live Region component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Live Region","headless live region","accessible live region","live region component","React live region component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/live-region"
 });
 
-export default liveRegionMetadata
+
+export default metadata

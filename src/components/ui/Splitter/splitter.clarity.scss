@@ -63,7 +63,7 @@
         width: 1px;
         transform: translateX(-50%);
         background: var(--rad-ui-color-gray-500); // step 6 — separator line
-        transition: background-color 0.15s ease, width 0.15s ease;
+        transition: background-color var(--rad-ui-motion-duration-fast) ease, width var(--rad-ui-motion-duration-fast) ease;
       }
 
       &::after {
@@ -107,7 +107,7 @@
         height: 1px;
         transform: translateY(-50%);
         background: var(--rad-ui-color-gray-500); // step 6 — separator line
-        transition: background-color 0.15s ease, height 0.15s ease;
+        transition: background-color var(--rad-ui-motion-duration-fast) ease, height var(--rad-ui-motion-duration-fast) ease;
       }
 
       &::after {

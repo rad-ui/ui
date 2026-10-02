@@ -39,8 +39,8 @@
         background-color: var(--rad-ui-color-gray-50);
         border-radius: 0;
         transition:
-            background-color 0.12s ease,
-            color 0.12s ease;
+            background-color var(--rad-ui-motion-duration-fast) ease,
+            color var(--rad-ui-motion-duration-fast) ease;
 
         &:hover:not([data-disabled], :disabled, [aria-pressed="true"]) {
             background-color: var(--rad-ui-color-gray-100);

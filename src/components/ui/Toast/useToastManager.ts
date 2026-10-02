@@ -16,9 +16,15 @@ export interface ToastManagerReturn {
     update: <TData = unknown>(toastId: string, options: ToastManagerUpdateOptions<TData>) => void;
     promise: <T>(p: Promise<T>, messages: ToastPromiseMessages<T>, options?: ToastOptions) => Promise<T>;
     /** @deprecated Use `close(id)`. */
-    dismiss: (id: string) => void;
+    dismiss: (id?: string) => void;
     /** @deprecated Use `close()` with no args. */
     dismissAll: () => void;
+    /** Sonner-like helpers */
+    success?: (data: CreateToastInput | string, options?: CreateToastInput) => string;
+    error?: (data: CreateToastInput | string, options?: CreateToastInput) => string;
+    warning?: (data: CreateToastInput | string, options?: CreateToastInput) => string;
+    info?: (data: CreateToastInput | string, options?: CreateToastInput) => string;
+    loading?: (data: CreateToastInput | string, options?: CreateToastInput) => string;
 }
 
 /**
@@ -29,13 +35,31 @@ export function useToastManager(): ToastManagerReturn {
     const ctx = useContext(ToastProviderContext);
     const manager = ctx.toastManager ?? ToastState;
 
+    const add = (data: CreateToastInput | string, options?: CreateToastInput) => {
+        if (typeof data === 'string') {
+            return manager.create({ title: data, ...options });
+        }
+        return manager.create(data);
+    };
+    const variant = (v: string) => (data: CreateToastInput | string, options?: CreateToastInput) => {
+        if (typeof data === 'string') {
+            return manager.create({ title: data, variant: v, ...options });
+        }
+        return manager.create({ variant: v, ...data });
+    };
+
     return {
         toasts: [...ctx.toasts].reverse(),
-        add: (data) => manager.create(data),
+        add,
         close: (id) => manager.close(id),
         update: (id, opts) => manager.update(id, opts),
         promise: (p, messages, options) => promiseToast(p, messages, options, manager),
-        dismiss: (id) => manager.dismiss(id),
+        dismiss: (id?: string) => (id === undefined ? manager.dismissAll() : manager.dismiss(id)),
         dismissAll: () => manager.dismissAll(),
+        success: variant('success'),
+        error: variant('error'),
+        warning: variant('warning'),
+        info: variant('info'),
+        loading: variant('loading'),
     };
 }

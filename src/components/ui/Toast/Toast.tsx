@@ -67,11 +67,12 @@ export type {
     IToastManager,
 } from './contexts/ToastContext';
 export type { ToastManagerReturn } from './useToastManager';
-export type { ToastPromiseMessages } from './ToastState';
+export type { ToastPromiseMessages, ToastPromiseState } from './ToastState';
 
 // Named exports for tree-shaking
 export { useToastManager };
 export { ToastState, toast, promiseToast, createToastManager, ToastManager } from './ToastState';
+export { Toaster } from './Toaster';
 
 interface ToastNamespace {
     Provider: typeof ToastProvider;
@@ -84,6 +85,7 @@ interface ToastNamespace {
     Action: typeof ToastAction;
     Close: typeof ToastClose;
     useToastManager: typeof useToastManager;
+    Toaster?: any;
 }
 
 const Toast: ToastNamespace = {

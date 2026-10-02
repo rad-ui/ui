@@ -3,7 +3,7 @@
   background-color: var(--rad-ui-color-accent-300);
   padding: 0.1rem 0.4rem;
   border-radius: var(--rad-ui-radius-md);
-  font-size: 0.8125rem;
+  font-size: var(--rad-ui-component-font-size-dense);
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   font-weight: 300;
   line-height: var(--rad-ui-line-height-2);
@@ -23,7 +23,7 @@
   }
   
   &[data-size="medium"] {
-    font-size: 0.8125rem;
+    font-size: var(--rad-ui-component-font-size-dense);
     padding: 0.1rem 0.4rem;
   }
   
@@ -33,7 +33,7 @@
   }
   
   &[data-size="x-large"] {
-    font-size: 0.9375rem;
+    font-size: var(--rad-ui-component-font-size-comfortable);
     padding: 0.1875rem 0.5rem;
   }
 }

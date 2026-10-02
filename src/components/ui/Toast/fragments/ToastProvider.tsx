@@ -19,8 +19,31 @@ export type ToastProviderProps = {
     limit?: number;
     /** Base UI — default auto-dismiss ms (default `5000`). */
     timeout?: number;
+    /** Sonner alias */
+    duration?: number;
     /** Base UI — isolate queue / use outside React tree (pair with `createToastManager()`). */
     toastManager?: ToastManager;
+    /** Optional className passthrough for viewport region if needed (headless) */
+    className?: string;
+    /** Sonner-like props (headless passthroughs where applicable) */
+    richColors?: boolean;
+    closeButton?: boolean;
+    offset?: number | string;
+    mobileOffset?: number | string | { top?: number | string; bottom?: number | string; left?: number | string; right?: number | string };
+    theme?: 'light' | 'dark' | 'system';
+    dir?: 'ltr' | 'rtl' | 'auto';
+    swipeDirections?: string[];
+    visibleToasts?: number;
+    toastOptions?: Record<string, any>;
+    /** Sonner prop aliases/completeness */
+    invert?: boolean;
+    pauseWhenPageIsHidden?: boolean;
+    icons?: Record<string, React.ReactNode>;
+    loadingIcon?: React.ReactNode;
+    rtl?: boolean;
+    hotkey?: string[];
+    containerAriaLabel?: string;
+    dragThreshold?: number;
 };
 
 const ToastProvider: React.FC<ToastProviderProps> = ({
@@ -31,18 +54,39 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     gap = 14,
     maxToasts: maxToastsProp,
     limit,
-    timeout = 5000,
+    timeout,
+    duration,
     toastManager: toastManagerProp,
+    className,
+    richColors,
+    closeButton,
+    offset,
+    mobileOffset,
+    theme,
+    dir,
+    swipeDirections,
+    visibleToasts: visibleToastsProp,
+    toastOptions,
+    invert,
+    pauseWhenPageIsHidden,
+    icons,
+    loadingIcon,
+    rtl,
+    hotkey,
+    containerAriaLabel,
+    dragThreshold,
 }) => {
-    const maxToasts = limit ?? maxToastsProp ?? 3;
+    const maxToasts = limit ?? maxToastsProp ?? visibleToastsProp ?? 3;
     const manager = useMemo(
         () => toastManagerProp ?? ToastState,
         [toastManagerProp],
     );
 
+    const defaultTimeout = timeout ?? duration ?? 4000;
+
     useEffect(() => {
-        manager.defaultTimeout = timeout;
-    }, [manager, timeout]);
+        manager.defaultTimeout = defaultTimeout;
+    }, [manager, defaultTimeout]);
 
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [toasts, setToasts] = useState<ToastData[]>([]);
@@ -120,7 +164,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             expand,
             gap,
             maxToasts,
-            defaultToastTimeout: timeout,
+            defaultToastTimeout: defaultTimeout,
             toastManager: manager,
             isHovered,
             setIsHovered,

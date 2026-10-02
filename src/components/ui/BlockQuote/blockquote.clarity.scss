@@ -21,7 +21,7 @@
   // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
   // Variants should NOT override these sizing properties unless explicitly combined
   &[data-size="small"] {
-    font-size: 0.9375rem;
+    font-size: var(--rad-ui-component-font-size-comfortable);
     padding-inline-start: 1rem;
     border-inline-start-width: 3px;
     line-height: var(--rad-ui-line-height-3);

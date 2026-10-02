@@ -106,6 +106,10 @@
     --rad-ui-info-solid: var(--rad-ui-color-blue-800);
     --rad-ui-info-solid-hover: var(--rad-ui-color-blue-900);
     --rad-ui-overlay-scrim: rgb(0, 0, 0, 0.56);
+
+    // Overlay arrows read as part of the floating surface, so their shadow is
+    // a `filter` rather than a `box-shadow` and cannot reuse an elevation token.
+    --rad-ui-overlay-arrow-shadow: drop-shadow(0 6px 10px rgb(0, 0, 0, 0.08));
     --rad-ui-item-selected-background: var(--rad-ui-surface-muted);
     --rad-ui-item-selected-border: var(--rad-ui-border-default);
     --rad-ui-item-selected-text: var(--rad-ui-text-primary);
@@ -126,6 +130,16 @@
     --rad-ui-control-height-sm: var(--rad-ui-size-8);
     --rad-ui-control-height-md: calc(var(--rad-ui-size-8) + var(--rad-ui-spacing-1));
     --rad-ui-control-height-lg: var(--rad-ui-size-10);
+    --rad-ui-control-height-xl: calc(var(--rad-ui-size-10) + var(--rad-ui-spacing-1));
+
+    // Button horizontal padding runs one step wider than the generic control
+    // padding scale, because a button is a standalone target rather than a field.
+    // These are deliberately separate from `--rad-ui-control-padding-x-*`,
+    // which Tabs and Combobox already read.
+    --rad-ui-button-padding-x-sm: var(--rad-ui-spacing-3);
+    --rad-ui-button-padding-x-md: var(--rad-ui-spacing-4);
+    --rad-ui-button-padding-x-lg: var(--rad-ui-spacing-5);
+    --rad-ui-button-padding-x-xl: var(--rad-ui-spacing-6);
     --rad-ui-control-padding-x-sm: var(--rad-ui-spacing-2);
     --rad-ui-control-padding-x-md: var(--rad-ui-spacing-3);
     --rad-ui-control-padding-x-lg: var(--rad-ui-spacing-4);
@@ -142,6 +156,8 @@
     --rad-ui-component-font-size-xs: var(--rad-ui-font-size-1);
     --rad-ui-component-font-size-sm: var(--rad-ui-font-size-2);
     --rad-ui-component-font-size-md: var(--rad-ui-font-size-3);
+    --rad-ui-component-font-size-dense: var(--rad-ui-font-size-1-5);
+    --rad-ui-component-font-size-comfortable: var(--rad-ui-font-size-2-5);
     --rad-ui-component-line-height-tight: var(--rad-ui-line-height-1);
     --rad-ui-component-line-height-normal: var(--rad-ui-line-height-2);
     --rad-ui-component-line-height-relaxed: var(--rad-ui-line-height-3);
