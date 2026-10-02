@@ -33,6 +33,7 @@ export function PageScroller({ children }) {
 
     return (
         <ScrollArea.Root
+            customRootClass="rad-ui"
             scrollRestoration="manual"
             restoreKey={pathname}
             style={{ height: '100%', width: '100%' }}
