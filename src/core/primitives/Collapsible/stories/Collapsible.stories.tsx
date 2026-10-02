@@ -6,7 +6,13 @@ const meta: Meta<typeof CollapsiblePrimitive> = {
     title: 'Primitives/Collapsible',
     component: CollapsiblePrimitive,
     parameters: {
-        layout: 'centered'
+        layout: 'centered',
+        docs: {
+            description: {
+                component:
+                    'Collapsible content animates height over 300ms by default. When transitionDuration is omitted and the user has prefers-reduced-motion enabled, transitions are disabled automatically. Set transitionDuration explicitly to keep a custom duration.'
+            }
+        }
     }
 };
 

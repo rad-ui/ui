@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CollapsiblePrimitive from '../';
 
@@ -140,5 +140,110 @@ describe('CollapsiblePrimitive', () => {
 
         expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('120px');
         expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('320px');
+    });
+});
+
+describe('prefers-reduced-motion', () => {
+    const originalMatchMedia = window.matchMedia;
+
+    afterEach(() => {
+        window.matchMedia = originalMatchMedia;
+    });
+
+    const mockReducedMotion = (matches: boolean) => {
+        window.matchMedia = jest.fn().mockReturnValue({
+            matches,
+            media: '(prefers-reduced-motion: reduce)',
+            onchange: null,
+            addListener: jest.fn(),
+            removeListener: jest.fn(),
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        } as unknown as MediaQueryList);
+    };
+
+    test('disables transitions when reduced motion is preferred and duration is not set', () => {
+        mockReducedMotion(true);
+
+        render(
+            <CollapsiblePrimitive.Root defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        // No inline transition at all, rather than a transition that merely
+        // happens to be short.
+        expect(screen.getByTestId('content').style.transition).toBe('');
+    });
+
+    test('keeps the default duration when reduced motion is not preferred', () => {
+        mockReducedMotion(false);
+
+        render(
+            <CollapsiblePrimitive.Root defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(screen.getByTestId('content').style.transition).toBe('height 300ms linear');
+    });
+
+    test('keeps explicit transition duration when reduced motion is preferred', () => {
+        mockReducedMotion(true);
+
+        render(
+            <CollapsiblePrimitive.Root defaultOpen transitionDuration={200}>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(screen.getByTestId('content').style.transition).toBe('height 200ms linear');
+    });
+
+    test('responds to the preference changing after mount', () => {
+        const listeners: Array<(event: MediaQueryListEvent) => void> = [];
+        window.matchMedia = jest.fn().mockReturnValue({
+            matches: false,
+            media: '(prefers-reduced-motion: reduce)',
+            onchange: null,
+            addListener: jest.fn(),
+            removeListener: jest.fn(),
+            addEventListener: (_: string, handler: (event: MediaQueryListEvent) => void) => {
+                listeners.push(handler);
+            },
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn()
+        } as unknown as MediaQueryList);
+
+        const { rerender } = render(
+            <CollapsiblePrimitive.Root defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(screen.getByTestId('content').style.transition).toBe('height 300ms linear');
+
+        act(() => {
+            listeners.forEach((listener) => listener({ matches: true } as MediaQueryListEvent));
+        });
+
+        rerender(
+            <CollapsiblePrimitive.Root defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content">
+                    Content
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        expect(screen.getByTestId('content').style.transition).toBe('');
     });
 });
