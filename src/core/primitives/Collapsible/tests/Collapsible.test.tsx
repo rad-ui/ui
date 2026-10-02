@@ -141,6 +141,58 @@ describe('CollapsiblePrimitive', () => {
         expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('120px');
         expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('320px');
     });
+
+    test('publishes measured dimensions for a forceMounted open content with no transition duration', () => {
+        HTMLElement.prototype.getBoundingClientRect = jest.fn(function(this: HTMLElement) {
+            if (this.dataset.testid === 'content') {
+                return {
+                    width: 320,
+                    height: 120,
+                    top: 0,
+                    left: 0,
+                    right: 320,
+                    bottom: 120,
+                    x: 0,
+                    y: 0,
+                    toJSON: () => ({})
+                } as DOMRect;
+            }
+
+            return {
+                width: 0,
+                height: 0,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                x: 0,
+                y: 0,
+                toJSON: () => ({})
+            } as DOMRect;
+        });
+
+        render(
+            <CollapsiblePrimitive.Root transitionDuration={0} defaultOpen>
+                <CollapsiblePrimitive.Content data-testid="content" forceMount>
+                    <div>Measured Content</div>
+                </CollapsiblePrimitive.Content>
+            </CollapsiblePrimitive.Root>
+        );
+
+        const content = screen.getByTestId('content');
+
+        // forceMount keeps the node mounted, so setHeight/setIsPresent are both
+        // no-ops and nothing else schedules a render. The measurement only lives
+        // in refs until the re-render below, so without it these stay at 0.
+        expect(content.style.getPropertyValue('--radix-collapsible-content-height')).toBe('120px');
+        expect(content.style.getPropertyValue('--radix-collapsible-content-width')).toBe('320px');
+        expect(content.style.getPropertyValue('--rad-collapsible-content-height')).toBe('120px');
+        expect(content.style.getPropertyValue('--rad-collapsible-content-width')).toBe('320px');
+
+        // A zero duration means there is no JS animation to drive, so no inline
+        // height is written and CSS owns the transition.
+        expect(content.style.height).toBe('');
+    });
 });
 
 describe('prefers-reduced-motion', () => {

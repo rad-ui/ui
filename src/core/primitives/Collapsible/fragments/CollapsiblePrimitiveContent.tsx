@@ -36,6 +36,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
 
     const [height, setHeight] = useState<number | undefined>(open ? undefined : 0);
     const [isPresent, setIsPresent] = useState(open || forceMount);
+    const [, setCssVarRevision] = useState(0);
     const animationTimeoutRef = useRef<NodeJS.Timeout>();
     const rafRef = useRef<number>();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -100,6 +101,16 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             } else {
                 setIsPresent(true);
             }
+
+            // With forceMount the content is already present, so `setHeight` and
+            // `setIsPresent` both bail out as no-ops and no re-render is
+            // scheduled. The measurement above only lives in refs, so without
+            // this the measured dimensions would never reach the CSS variables
+            // and `--*-collapsible-content-height` would stay at its initial 0.
+            if (open) {
+                setCssVarRevision((revision) => revision + 1);
+            }
+
             return;
         }
 
