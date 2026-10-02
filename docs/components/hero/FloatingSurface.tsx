@@ -14,7 +14,7 @@ export default function FloatingSurface({
   return (
     <div className={className}>
       <div
-        className={`w-fit rounded-[28px] border border-gray-300 bg-gray-50 shadow-xl backdrop-blur ${surfaceClassName}`}
+        className={`w-fit rounded-[28px] border border-gray-300 bg-gray-50 shadow-xl backdrop-blur-sm ${surfaceClassName}`}
       >
         {children}
       </div>

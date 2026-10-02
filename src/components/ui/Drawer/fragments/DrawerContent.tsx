@@ -72,21 +72,33 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
 
-    // Strip floating-ui's style injection — drawer positioning is owned by CSS
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { style: _ignored = undefined, ...floatingProps } = (getFloatingProps() ?? {}) as any;
-
-    if (!isVisible && !forceMount) return null;
-
-    // modal=false: no focus trap; modal=true or 'trap-focus': trap focus
-    const trapFocus = modal !== false;
-
     // When child drawers are open, expand this drawer's width so it peeks out
     // behind the child. We use a CSS variable so the SCSS can also reference it.
     const peekOffset = childOpenCount * PEEK_WIDTH_PX;
     const peekStyle: React.CSSProperties = peekOffset > 0
         ? { '--drawer-peek-offset': `${peekOffset}px` } as React.CSSProperties
         : {};
+
+    // Strip floating-ui's style injection — drawer positioning is owned by CSS
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { style: _ignored = undefined, ...floatingProps } = ((getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+        ...props,
+        style: { outline: 'none', ...peekStyle, ...styleProp },
+        role,
+        'aria-modal': resolvedAriaModal,
+        'aria-hidden': !isOpen ? 'true' : undefined,
+        'aria-labelledby': isOpen ? ariaLabelledBy : undefined,
+        'aria-describedby': isOpen ? ariaDescribedBy : undefined,
+        'data-state': dataState,
+        'data-swipe-direction': swipeDirection,
+        'data-child-open': childOpenCount > 0 ? 'true' : undefined,
+        className: clsx(rootClass && `${rootClass}-content`, className)
+    }) ?? {}) as Record<string, unknown>;
+
+    if (!isVisible && !forceMount) return null;
+
+    // modal=false: no focus trap; modal=true or 'trap-focus': trap focus
+    const trapFocus = modal !== false;
 
     return (
         <Floater.FocusManager
@@ -99,17 +111,6 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 ref={mergedRef}
                 asChild={asChild}
                 {...floatingProps}
-                style={{ outline: 'none', ...peekStyle, ...styleProp }}
-                role={role}
-                aria-modal={resolvedAriaModal}
-                aria-hidden={!isOpen ? 'true' : undefined}
-                aria-labelledby={isOpen ? ariaLabelledBy : undefined}
-                aria-describedby={isOpen ? ariaDescribedBy : undefined}
-                data-state={dataState}
-                data-swipe-direction={swipeDirection}
-                data-child-open={childOpenCount > 0 ? 'true' : undefined}
-                className={clsx(rootClass && `${rootClass}-content`, className)}
-                {...props}
             >
                 {/* Separate handle children from the rest so CSS can position
                     them on the correct edge regardless of flex-direction */}

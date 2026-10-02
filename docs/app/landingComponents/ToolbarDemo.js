@@ -51,7 +51,7 @@ const IconContainer = ({ children }) => {
 
 const ToolbarDemo = () => (
     <div>
-        <div className='border border-gray-700 shadow rounded px-4 py-2 w-full text-xs flex space-x-4 bg-gray-1000'>
+        <div className='border border-gray-700 shadow-sm rounded px-4 py-2 w-full text-xs flex space-x-4 bg-gray-1000'>
             <div className='flex items-center space-x-2'>
                 <IconContainer >
                     <FontItalic />

@@ -14,21 +14,21 @@ const ShowcaseHeader = () => {
 
     return (
         <div className="min-w-0">
-            <Text className="mb-2 uppercase tracking-[0.35em] !text-[11px] text-gray-1000/60">
+            <Text className="mb-2 uppercase tracking-[0.35em] text-[11px]! text-gray-1000/60">
                 Showcase
                 {index >= 0 ? ` · ${String(index + 1).padStart(2, "0")}/${String(showcaseDemos.length).padStart(2, "0")}` : ""}
             </Text>
             <Heading as="h4" className="!text-gray-1000">
                 {demo ? demo.title : "Demo Gallery"}
             </Heading>
-            <Text className="mt-1 max-w-2xl !text-base text-gray-1000/60">
+            <Text className="mt-1 max-w-2xl text-base! text-gray-1000/60">
                 {demo
                     ? demo.summary
                     : "Switch between multi-surface demos to preview how Rad UI handles very different product shapes from the same component foundation."}
             </Text>
             {demo ? (
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                    <Text className="!text-[11px] uppercase tracking-[0.2em] text-gray-1000/60">
+                    <Text className="text-[11px]! uppercase tracking-[0.2em] text-gray-1000/60">
                         Uses
                     </Text>
                     {demo.components.map((component) => (

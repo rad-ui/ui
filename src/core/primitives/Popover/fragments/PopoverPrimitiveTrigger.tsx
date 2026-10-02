@@ -37,11 +37,12 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
             data-state={isOpen ? 'open' : 'closed'}
             data-disabled={disabled ? '' : undefined}
             {...getReferenceProps({
+                ...props,
+                disabled,
                 onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
                     onClick?.(event);
                 }
             })}
-            {...props}
         >
             {children}
         </ButtonPrimitive>

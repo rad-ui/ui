@@ -24,7 +24,7 @@ const STATIC_EXPORTS = [
   '.',
   './themes/default.css',
   './themes/baremetal.css',
-  './themes/tailwind-presets/default.js'
+  './themes/tailwind-presets/default.css'
 ];
 
 const isCheck = process.argv.includes('--check');

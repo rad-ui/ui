@@ -35,7 +35,7 @@ const Playground = () => {
         <FullHeightScroll>
             <div className='playground-static min-h-full bg-gray-50 text-gray-900'>
                 <div className='mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-10 md:px-8'>
-                    <section className='rounded-3xl bg-gray-50 p-8 shadow-sm'>
+                    <section className='rounded-3xl bg-gray-50 p-8 shadow-xs'>
                         <div className='max-w-5xl space-y-3'>
                             <Badge variant="soft">Interactive Playground</Badge>
                             <Heading className="text-gray-950">

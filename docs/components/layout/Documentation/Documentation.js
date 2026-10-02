@@ -23,7 +23,7 @@ const Documentation = ({ title = '', description = '', eyebrow = 'Component', cu
             {eyebrow ? <p className={docsEyebrowClassName}>{eyebrow}</p> : null}
             <div>
                 <BookMarkLink id={title}>
-                    <Heading className="!text-[clamp(2rem,4vw,2.75rem)] !font-semibold !leading-[1.05] !tracking-[-0.04em] text-[var(--rad-ui-text-strong)]">
+                    <Heading className="text-[clamp(2rem,4vw,2.75rem)]! font-semibold! leading-[1.05]! tracking-[-0.04em]! text-[var(--rad-ui-text-strong)]">
                         {title}
                     </Heading>
                 </BookMarkLink>
@@ -63,7 +63,7 @@ const UnderConstruction = ({ children }) => {
         <Text className="mb-2 font-semibold tracking-tight text-gray-1000">
             Docs under construction
         </Text>
-        <Text className="!text-sm leading-6 text-gray-900">
+        <Text className="text-sm! leading-6 text-gray-900">
             Check back soon.
         </Text>
     </div>;

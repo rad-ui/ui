@@ -196,12 +196,12 @@ const MetricCard = ({ metric }) => {
 
     return (
         <div className="rounded-xl border border-gray-600 bg-gray-50 p-4">
-            <Text className="!text-xs uppercase tracking-[0.18em] text-gray-1000/60">{metric.label}</Text>
+            <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">{metric.label}</Text>
 
             <div className="mt-3 flex items-end justify-between gap-3">
                 <Heading
                     as="h3"
-                    className="!text-2xl !font-semibold !leading-none !tracking-[-0.02em] text-gray-1000"
+                    className="text-2xl! font-semibold! leading-none! tracking-[-0.02em]! text-gray-1000"
                 >
                     {metric.value}
                 </Heading>
@@ -214,7 +214,7 @@ const MetricCard = ({ metric }) => {
                 <Sparkline series={metric.series} trend={metric.trend} />
             </div>
 
-            <Text className="mt-2 block !text-xs text-gray-1000/60">vs. previous 30 days</Text>
+            <Text className="mt-2 block text-xs! text-gray-1000/60">vs. previous 30 days</Text>
         </div>
     )
 }
@@ -236,8 +236,8 @@ const DashboardSidebar = () => (
                 <Avatar.Fallback>AC</Avatar.Fallback>
             </Avatar.Root>
             <div className="min-w-0 flex-1">
-                <Text className="block truncate !text-sm !font-medium text-gray-1000">Acme Inc.</Text>
-                <Text className="block truncate !text-xs text-gray-1000/60">Series B proposal</Text>
+                <Text className="block truncate text-sm! font-medium! text-gray-1000">Acme Inc.</Text>
+                <Text className="block truncate text-xs! text-gray-1000/60">Series B proposal</Text>
             </div>
             <Badge variant="soft" color="green" className="rounded-full">
                 Live
@@ -251,13 +251,13 @@ const DashboardSidebar = () => (
         >
             <Search className="h-4 w-4 shrink-0" />
             <span className="flex-1 truncate">Search</span>
-            <Kbd className="!border-gray-600 !bg-gray-1000/[0.04] !text-gray-1000/60 !shadow-none">⌘K</Kbd>
+            <Kbd className="border-gray-600! bg-gray-1000/[0.04]! text-gray-1000/60! shadow-none!">⌘K</Kbd>
         </button>
 
         <nav className="flex flex-1 flex-col gap-6">
             {navGroups.map((group) => (
                 <div key={group.label}>
-                    <Text className="mb-2 block !text-[11px] uppercase tracking-[0.2em] text-gray-1000/50">
+                    <Text className="mb-2 block text-[11px]! uppercase tracking-[0.2em] text-gray-1000/50">
                         {group.label}
                     </Text>
                     <div className="space-y-0.5">
@@ -299,8 +299,8 @@ const DashboardSidebar = () => (
 
 const SummaryStat = ({ label, value }) => (
     <div>
-        <Text className="block !text-[11px] uppercase tracking-[0.18em] text-gray-1000/50">{label}</Text>
-        <Text className="mt-1 block !text-sm !font-medium tabular-nums text-gray-1000">{value}</Text>
+        <Text className="block text-[11px]! uppercase tracking-[0.18em] text-gray-1000/50">{label}</Text>
+        <Text className="mt-1 block text-sm! font-medium! tabular-nums text-gray-1000">{value}</Text>
     </div>
 )
 
@@ -312,17 +312,17 @@ const RevenueChart = ({ range, onRangeChange }) => {
     const peak = series.points.reduce((best, point) => (point.value > best.value ? point : best), series.points[0])
 
     return (
-        <Card variant="outline" className="!border-gray-600 !bg-gray-50">
+        <Card variant="outline" className="border-gray-600! bg-gray-50!">
             <Card.Header>
                 <div>
-                    <Text className="!text-xs uppercase tracking-[0.18em] text-gray-1000/60">Revenue</Text>
+                    <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">Revenue</Text>
                     <Heading
                         as="h3"
-                        className="mt-2 !text-xl !font-semibold !tracking-[-0.02em] text-gray-1000"
+                        className="mt-2 text-xl! font-semibold! tracking-[-0.02em]! text-gray-1000"
                     >
                         ${total.toFixed(1)}k closed-won
                     </Heading>
-                    <Text className="mt-1 block !text-sm text-gray-1000/60">{series.caption}</Text>
+                    <Text className="mt-1 block text-sm! text-gray-1000/60">{series.caption}</Text>
                 </div>
 
                 <ToggleGroup.Root
@@ -334,14 +334,14 @@ const RevenueChart = ({ range, onRangeChange }) => {
                         if (picked) onRangeChange(picked)
                     }}
                     aria-label="Chart time range"
-                    className="!border-gray-600 !max-w-full !flex-wrap"
+                    className="border-gray-600! max-w-full! flex-wrap!"
                 >
                     {rangeOptions.map((option) => (
                         <ToggleGroup.Item
                             key={option.value}
                             value={option.value}
                             aria-label={option.label}
-                            className="!text-xs !font-medium"
+                            className="text-xs! font-medium!"
                         >
                             {option.label}
                         </ToggleGroup.Item>
@@ -354,7 +354,7 @@ const RevenueChart = ({ range, onRangeChange }) => {
                     {series.points.map((point) => (
                         <div key={point.label} className="group relative flex h-full flex-1 items-end">
                             <span
-                                className="w-full rounded-t-md bg-gradient-to-t from-green-1000 via-green-800 to-green-500"
+                                className="w-full rounded-t-md bg-linear-to-t from-green-1000 via-green-800 to-green-500"
                                 style={{ height: `${(point.value / axisMax) * 100}%` }}
                             />
                             <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-gray-600 bg-gray-50 px-2 py-0.5 text-[10px] font-medium tabular-nums text-gray-1000 opacity-0 transition-opacity group-hover:opacity-100">
@@ -407,10 +407,10 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
         <section>
             <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                    <Text className="!text-xs uppercase tracking-[0.18em] text-gray-1000/60">Delivery board</Text>
+                    <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">Delivery board</Text>
                     <Heading
                         as="h3"
-                        className="mt-2 !text-xl !font-semibold !tracking-[-0.02em] text-gray-1000"
+                        className="mt-2 text-xl! font-semibold! tracking-[-0.02em]! text-gray-1000"
                     >
                         Proposal sections
                     </Heading>
@@ -422,14 +422,14 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                         value={filters}
                         onValueChange={(next) => onFiltersChange(Array.isArray(next) ? next : [])}
                         aria-label="Filter sections by status"
-                        className="!border-gray-600 !max-w-full !flex-wrap"
+                        className="border-gray-600! max-w-full! flex-wrap!"
                     >
                         {statuses.map((status) => (
                             <ToggleGroup.Item
                                 key={status}
                                 value={status}
                                 aria-label={status}
-                                className="!text-xs !font-medium"
+                                className="text-xs! font-medium!"
                             >
                                 {status}
                             </ToggleGroup.Item>
@@ -438,7 +438,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
 
                     <Button
                         variant="outline"
-                        className="!rounded-lg !border-gray-600 !bg-gray-50 text-gray-1000"
+                        className="rounded-lg! border-gray-600! bg-gray-50! text-gray-1000"
                     >
                         <SlidersHorizontal className="mr-2 h-4 w-4" />
                         Columns
@@ -446,7 +446,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
 
                     <Button
                         variant="solid"
-                        className="!rounded-lg !border-0 !bg-gray-1000 px-4 !text-gray-50"
+                        className="rounded-lg! border-0! bg-gray-1000! px-4 text-gray-50!"
                     >
                         <Plus className="mr-2 h-4 w-4" />
                         Add section
@@ -455,7 +455,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
             </div>
 
             <Table.Root
-                className="mt-4 !border-gray-600 [&_.cell]:!font-normal [&_.cell-header]:!text-[11px] [&_.cell-header]:!font-semibold [&_.cell-header]:!uppercase [&_.cell-header]:!tracking-[0.14em] [&_.cell-header]:!text-gray-1000/60 [&_.row:hover_.cell]:!bg-gray-1000/[0.03]"
+                className="mt-4 border-gray-600! [&_.cell]:!font-normal [&_.cell-header]:!text-[11px] [&_.cell-header]:!font-semibold [&_.cell-header]:!uppercase [&_.cell-header]:!tracking-[0.14em] [&_.cell-header]:!text-gray-1000/60 [&_.row:hover_.cell]:!bg-gray-1000/[0.03]"
             >
                 <Table.Head>
                     <Table.Row>
@@ -529,11 +529,11 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
             </Table.Root>
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-sm text-gray-1000/60">
-                <Text className="!text-sm text-gray-1000/60">
+                <Text className="text-sm! text-gray-1000/60">
                     Showing {visible.length} of {documents.length} sections
                 </Text>
                 {filters.length === 0 ? (
-                    <Text className="!text-sm text-gray-1000/60">All statuses are filtered out.</Text>
+                    <Text className="text-sm! text-gray-1000/60">All statuses are filtered out.</Text>
                 ) : null}
             </div>
         </section>
@@ -564,11 +564,11 @@ const DashboardDemo = () => {
                             <div>
                                 <Heading
                                     as="h2"
-                                    className="!text-2xl !font-semibold !tracking-[-0.02em] text-gray-1000"
+                                    className="text-2xl! font-semibold! tracking-[-0.02em]! text-gray-1000"
                                 >
                                     Proposal workspace
                                 </Heading>
-                                <Text className="mt-2 block max-w-2xl !text-sm !leading-6 text-gray-1000/60">
+                                <Text className="mt-2 block max-w-2xl text-sm! leading-6! text-gray-1000/60">
                                     Revenue reporting and section-level delivery tracking for the Acme Inc.
                                     Series B proposal.
                                 </Text>
@@ -577,13 +577,13 @@ const DashboardDemo = () => {
                             <div className="flex flex-wrap items-center gap-2">
                                 <Button
                                     variant="outline"
-                                    className="!rounded-lg !border-gray-600 !bg-gray-50 text-gray-1000"
+                                    className="rounded-lg! border-gray-600! bg-gray-50! text-gray-1000"
                                 >
                                     Share report
                                 </Button>
                                 <Button
                                     variant="solid"
-                                    className="!rounded-lg !border-0 !bg-gray-1000 px-4 !text-gray-50"
+                                    className="rounded-lg! border-0! bg-gray-1000! px-4 text-gray-50!"
                                 >
                                     <Plus className="mr-2 h-4 w-4" />
                                     New project
