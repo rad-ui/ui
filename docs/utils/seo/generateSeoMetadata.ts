@@ -26,15 +26,19 @@ const generateSeoMetadata = ({
     const imageUrl = generateOgTitleUrl(title, description)
     const defaultKeywords = [
         "React UI library",
-        "headless components", 
+        "headless components",
+        "headless UI React",
         "accessible components",
+        "React accessibility",
         "TypeScript UI",
         "React components",
         "UI library",
         "design system",
         "web components",
         "frontend development",
-        "React development"
+        "React development",
+        "uncontrolled controlled components",
+        "TypeScript component library"
     ]
     
     const allKeywords = Array.from(new Set([...defaultKeywords, ...keywords]))

@@ -26,7 +26,7 @@
         line-height: var(--rad-ui-line-height-1);
         cursor: pointer;
         border-radius: calc(var(--rad-ui-radius-md) - 0.125rem);
-        transition: color 0.15s ease, background-color 0.15s ease;
+        transition: color var(--rad-ui-motion-duration-fast) ease, background-color var(--rad-ui-motion-duration-fast) ease;
 
         &:focus-visible,
         &:focus {

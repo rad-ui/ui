@@ -2,14 +2,14 @@ import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 
 import FullHeightScroll from "@/components/layout/ScrollContainers/FullHeightScroll"
+import Badge from "@radui/ui/Badge"
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
 
 import baseSeoMetadata from "./baseSeo"
 import AnatomyDemo from "./landingComponents/AnatomyDemo"
 import BehaviorDemo from "./landingComponents/BehaviorDemo"
-import ComponentTicker from "./landingComponents/ComponentTicker"
-import HeroTerminal from "./landingComponents/HeroTerminal"
+import HeroShowcase from "./landingComponents/HeroShowcase"
 import InstallCommand from "./landingComponents/InstallCommand"
 import Reveal from "./landingComponents/Reveal"
 import TokenStudio from "./landingComponents/TokenStudio"
@@ -18,7 +18,7 @@ import showcaseDemos from "./showcase/showcaseDemos"
 export const metadata = baseSeoMetadata
 
 const SPEC = [
-    { key: "primitives", value: "59 published entry points" },
+    { key: "primitives", value: "every part published" },
     { key: "styling", value: "nothing attached — you style it" },
     { key: "accessibility", value: "keyboard, focus and ARIA included" },
     { key: "license", value: "MIT — fork it" },
@@ -136,80 +136,90 @@ export default function Home() {
                         className="landing-scan pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-green-1000/45 to-transparent"
                     />
 
-                    <div className="relative mx-auto grid max-w-[1240px] items-center gap-14 px-6 py-16 sm:px-8 lg:min-h-[calc(100svh-3.25rem)] lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-16 lg:px-10 lg:py-20">
-                        <div>
-                            <p className="landing-fade-up flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[0.7rem] font-medium uppercase tracking-[0.24em] text-gray-950">
-                                <span className="inline-flex items-center gap-2 text-green-1000">
-                                    <span
-                                        aria-hidden
-                                        className="h-1.5 w-1.5 rounded-full bg-green-1000"
-                                    />
-                                    Rad UI
-                                </span>
-                                <span aria-hidden className="h-3 w-px bg-gray-500" />
-                                <span>React 19</span>
-                                <span aria-hidden className="h-3 w-px bg-gray-500" />
-                                <span>TypeScript</span>
-                                <span aria-hidden className="h-3 w-px bg-gray-500" />
-                                <span>MIT</span>
-                            </p>
+                    <div className="relative mx-auto max-w-[1240px] px-6 py-16 sm:px-8 lg:min-h-[calc(100svh-3.25rem)] lg:px-10 lg:py-20">
+                        {/* Headline left, supporting copy right — a two-column
+                            masthead rather than one tall ragged column. */}
+                        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.42fr)_minmax(0,1fr)] lg:gap-16">
+                            {/* `@container` lets the display type size off this
+                                column rather than the viewport, so the two authored
+                                lines below stay two lines at every width. */}
+                            <div className="@container">
+                                <div className="landing-fade-up flex flex-wrap items-center gap-2">
+                                    <Badge variant="soft" color="green">
+                                        Rad UI
+                                    </Badge>
+                                    <Badge variant="outline">React 19</Badge>
+                                    <Badge variant="outline">TypeScript</Badge>
+                                    <Badge variant="outline">MIT</Badge>
+                                </div>
 
-                            <Heading className="landing-display landing-fade-up landing-fade-up-delay-1 mt-6 text-gray-1000">
-                                The behavior layer
-                                <br />
-                                <span className="text-gray-950">
-                                    for your design system.
-                                </span>
-                            </Heading>
+                                <Heading className="landing-display landing-fade-up landing-fade-up-delay-1 mt-6 text-gray-1000">
+                                    The behavior layer
+                                    <br />
+                                    <span className="text-gray-950">
+                                        for your design system.
+                                    </span>
+                                </Heading>
 
-                            <Text className="landing-lede landing-fade-up landing-fade-up-delay-2 mt-6 max-w-[46ch] text-gray-950">
-                                Fifty-nine accessible, unstyled React primitives.
-                                Keyboard handling, focus management and ARIA ship
-                                with the component. You keep the pixels.
-                            </Text>
-
-                            <div className="landing-fade-up landing-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-3">
-                                <PrimaryLink href="/docs/first-steps/installation">
-                                    Start building
-                                    <ArrowRight className="h-4 w-4" aria-hidden />
-                                </PrimaryLink>
-                                <SecondaryLink href="https://github.com/rad-ui/ui">
-                                    <GithubIcon className="h-4 w-4" />
-                                    GitHub
-                                </SecondaryLink>
+                                <InstallCommand
+                                    command="pnpm add @radui/ui"
+                                    label="install"
+                                    tone="canvas"
+                                    className="mt-8 max-w-md"
+                                />
                             </div>
 
-                            <InstallCommand
-                                command="pnpm add @radui/ui"
-                                label="install"
-                                tone="canvas"
-                                className="landing-fade-up landing-fade-up-delay-4 mt-6 max-w-md"
-                            />
+                            <div className="landing-fade-up landing-fade-up-delay-2">
+                                <Text className="landing-lede max-w-[46ch] text-gray-950">
+                                    Accessible, unstyled React primitives.
+                                    Keyboard handling, focus management and ARIA ship
+                                    with the component. You keep the pixels.
+                                </Text>
+
+                                <div className="mt-8 flex flex-wrap items-center gap-3">
+                                    <PrimaryLink href="/docs/first-steps/installation">
+                                        Start building
+                                        <ArrowRight className="h-4 w-4" aria-hidden />
+                                    </PrimaryLink>
+                                    <SecondaryLink href="https://github.com/rad-ui/ui">
+                                        <GithubIcon className="h-4 w-4" />
+                                        GitHub
+                                    </SecondaryLink>
+                                </div>
+
+                                <Link
+                                    href="/playground"
+                                    className="mt-4 inline-flex items-center gap-1.5 text-[0.85rem] font-medium text-gray-1000 underline-offset-4 transition-colors hover:underline"
+                                >
+                                    Try it in the playground
+                                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+                                </Link>
+                            </div>
                         </div>
 
-                        <div className="landing-fade-up landing-fade-up-delay-3">
-                            <HeroTerminal />
-
-                            <dl className="mt-6 border-t border-gray-400">
-                                {SPEC.map((row) => (
-                                    <div
-                                        key={row.key}
-                                        className="flex items-baseline justify-between gap-6 border-b border-gray-400 py-2.5"
-                                    >
-                                        <dt className="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-gray-950">
-                                            {row.key}
-                                        </dt>
-                                        <dd className="text-right text-[0.82rem] text-gray-1000">
-                                            {row.value}
-                                        </dd>
-                                    </div>
-                                ))}
-                            </dl>
+                        {/* Every window below is a real Rad UI primitive. */}
+                        <div className="landing-fade-up landing-fade-up-delay-3 mt-14 lg:mt-16">
+                            <HeroShowcase />
                         </div>
+
+                        {/* Spec bar: four even columns closing the hero. */}
+                        <dl className="landing-fade-up landing-fade-up-delay-4 mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
+                            {SPEC.map((row) => (
+                                <div
+                                    key={row.key}
+                                    className="border-t border-gray-400 pt-3"
+                                >
+                                    <dt className="text-[0.8rem] font-medium text-gray-1000">
+                                        {row.key}
+                                    </dt>
+                                    <dd className="mt-1 text-[0.78rem] leading-relaxed text-gray-950">
+                                        {row.value}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
                     </div>
                 </section>
-
-                <ComponentTicker />
 
                 {/* ── Numbered sections ───────────────────────────── */}
                 {SECTIONS.map((section, index) => {

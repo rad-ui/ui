@@ -2,7 +2,9 @@ import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
 const accordionMetadata = generateSeoMetadata({
     title: "Accordion - Rad UI",
-    description: "A headless, customizable Accordion component for React. Manage content visibility, declutter your UI, and enhance user experience, with full WCAG compliance."
+    description: "Accessible, headless React Accordion component. Create collapsible sections with keyboard navigation, ARIA, and full WCAG compliance.",
+    keywords: ["React Accordion", "headless accordion", "collapsible component", "expandable sections", "accessible accordion"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/accordion"
 });
 
 

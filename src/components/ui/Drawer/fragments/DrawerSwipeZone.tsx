@@ -2,8 +2,14 @@
 import React, { forwardRef, useContext, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 import { DrawerContext } from '../context/DrawerContext';
+import {
+    SWIPE_ZONE_OPEN_THRESHOLD,
+    SWIPE_ZONE_PEEK_PX,
+    SWIPE_ZONE_RESET_TRANSITION,
+    SWIPE_ZONE_SIZE,
+} from '../constants';
 
-export type DrawerSwipeZoneProps = {
+export type DrawerSwipeZoneProps = React.ComponentPropsWithoutRef<'div'> & {
     className?: string;
     /**
      * How far (px) the user must drag in the open direction before the drawer opens.
@@ -15,8 +21,10 @@ export type DrawerSwipeZoneProps = {
      * @default 20
      */
     size?: number;
-    children?: React.ReactNode;
-    style?: React.CSSProperties;
+    /**
+     * Disables the swipe zone. The hit area is removed when disabled.
+     */
+    disabled?: boolean;
 };
 
 type DragState = {
@@ -26,12 +34,14 @@ type DragState = {
 
 const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
     className = '',
-    openThreshold = 48,
-    size = 20,
+    openThreshold = SWIPE_ZONE_OPEN_THRESHOLD,
+    size = SWIPE_ZONE_SIZE,
     children,
     style,
+    disabled = false,
+    ...props
 }, ref) => {
-    const { rootClass, swipeDirection, isOpen, onOpen } = useContext(DrawerContext);
+    const { rootClass, side: swipeDirection, isOpen, onOpen } = useContext(DrawerContext);
 
     const dragRef = useRef<DragState | null>(null);
     const progressRef = useRef(0);
@@ -50,7 +60,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
     const updateZoneStyle = useCallback((progress: number) => {
         const el = zoneRef.current;
         if (!el) return;
-        const peekPx = progress * 8;
+        const peekPx = progress * SWIPE_ZONE_PEEK_PX;
         switch (swipeDirection) {
             case 'right':  el.style.transform = `translateX(${-peekPx}px)`; break;
             case 'left':   el.style.transform = `translateX(${peekPx}px)`;  break;
@@ -64,7 +74,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
         const el = zoneRef.current;
         if (!el) return;
         if (animate) {
-            el.style.transition = 'transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+            el.style.transition = SWIPE_ZONE_RESET_TRANSITION;
         }
         el.style.transform = '';
         el.style.removeProperty('--swipe-progress');
@@ -133,7 +143,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
         }
     })();
 
-    if (isOpen) return null;
+    if (disabled || isOpen) return null;
 
     return (
         <div
@@ -150,6 +160,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
             onPointerCancel={onPointerCancel}
             style={{ ...edgeStyle, ...style }}
             className={clsx(rootClass && `${rootClass}-swipe-zone`, className)}
+            {...props}
         >
             {children}
         </div>

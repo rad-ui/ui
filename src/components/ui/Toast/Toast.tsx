@@ -49,6 +49,7 @@ import ToastDescription from './fragments/ToastDescription';
 import ToastClose from './fragments/ToastClose';
 import ToastAction from './fragments/ToastAction';
 import { useToastManager } from './useToastManager';
+import { Toaster } from './Toaster';
 
 export type { ToastProviderProps } from './fragments/ToastProvider';
 export type { ToastPortalProps } from './fragments/ToastPortal';
@@ -67,11 +68,12 @@ export type {
     IToastManager,
 } from './contexts/ToastContext';
 export type { ToastManagerReturn } from './useToastManager';
-export type { ToastPromiseMessages } from './ToastState';
+export type { ToastPromiseMessages, ToastPromiseState } from './ToastState';
 
 // Named exports for tree-shaking
 export { useToastManager };
 export { ToastState, toast, promiseToast, createToastManager, ToastManager } from './ToastState';
+export { Toaster };
 
 interface ToastNamespace {
     Provider: typeof ToastProvider;
@@ -84,6 +86,7 @@ interface ToastNamespace {
     Action: typeof ToastAction;
     Close: typeof ToastClose;
     useToastManager: typeof useToastManager;
+    Toaster: typeof Toaster;
 }
 
 const Toast: ToastNamespace = {
@@ -97,6 +100,7 @@ const Toast: ToastNamespace = {
     Action: ToastAction,
     Close: ToastClose,
     useToastManager,
+    Toaster,
 };
 
 export default Toast;

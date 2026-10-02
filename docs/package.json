@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "rimraf .next && next dev --webpack",
+    "prebuild": "npx tsx scripts/generate-llms.ts",
     "build": "next build --webpack",
     "start": "next start",
     "check:examples": "tsc -p tsconfig.examples.json --noEmit",

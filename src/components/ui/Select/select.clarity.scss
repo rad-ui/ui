@@ -40,7 +40,7 @@
     width: 100%;
     box-sizing: border-box;
     box-shadow: none;
-    transition: border-color 0.15s ease;
+    transition: border-color var(--rad-ui-motion-duration-fast) ease;
 
     &::after {
         content: '';
@@ -139,7 +139,7 @@
     box-sizing: border-box;
     text-align: left;
     gap: var(--rad-ui-spacing-2);
-    transition: background-color 0.1s ease;
+    transition: background-color var(--rad-ui-motion-duration-instant) ease;
 
     &-indicator {
         display: inline-flex;

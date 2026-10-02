@@ -33,9 +33,9 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color 160ms ease,
-    color 160ms ease,
-    box-shadow 160ms ease;
+    background-color var(--rad-ui-motion-duration-fast) ease,
+    color var(--rad-ui-motion-duration-fast) ease,
+    box-shadow var(--rad-ui-motion-duration-fast) ease;
 
   &:hover {
     background-color: var(--rad-ui-surface-subtle);
@@ -62,7 +62,7 @@
     transform: rotate(45deg) translateY(-1px);
     transform-origin: center;
     opacity: 0.75;
-    transition: transform 160ms ease;
+    transition: transform var(--rad-ui-motion-duration-fast) ease;
   }
 
   &[data-state="open"] {

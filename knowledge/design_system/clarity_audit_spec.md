@@ -132,9 +132,20 @@ Use component-level aliases from `default.scss`:
 | `--rad-ui-control-height-sm` | Small controls |
 | `--rad-ui-control-height-md` | Default controls |
 | `--rad-ui-control-height-lg` | Large controls |
+| `--rad-ui-control-height-xl` | Extra-large controls |
 | `--rad-ui-control-padding-x-sm` | Small horizontal control padding |
 | `--rad-ui-control-padding-x-md` | Default horizontal control padding |
 | `--rad-ui-control-padding-x-lg` | Large horizontal control padding |
+| `--rad-ui-button-padding-x-sm` | Small button horizontal padding |
+| `--rad-ui-button-padding-x-md` | Default button horizontal padding |
+| `--rad-ui-button-padding-x-lg` | Large button horizontal padding |
+| `--rad-ui-button-padding-x-xl` | Extra-large button horizontal padding |
+
+`--rad-ui-button-padding-x-*` is deliberately separate from
+`--rad-ui-control-padding-x-*`. The generic control scale is sized for fields
+that sit inside a form; a button is a standalone target and reads one step
+wider. Tabs and Combobox already depend on the control scale, so redefining it
+to suit Button would have moved those two.
 | `--rad-ui-control-padding-y-sm` | Small vertical control padding |
 | `--rad-ui-control-padding-y-md` | Default vertical control padding |
 | `--rad-ui-control-padding-y-lg` | Large vertical control padding |
@@ -230,25 +241,37 @@ existing shadow or elevation level fits.
 
 ### Motion Model
 
-Raw durations currently available:
+Durations are published as `--rad-ui-motion-duration-*` in
+`styles/cssTokens/base.tokens.css`:
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `instant` | `80ms` | Micro feedback where delay would feel wrong |
-| `fast` | `120ms` | Hover, press, focus, color transitions |
-| `normal` | `180ms` | Small enter/exit and common state changes |
-| `slow` | `240ms` | Overlay and panel enter/exit |
-| `slower` | `320ms` | Large surfaces or complex motion |
+| `--rad-ui-motion-duration-instant` | `80ms` | Micro feedback where delay would feel wrong |
+| `--rad-ui-motion-duration-fast` | `120ms` | Hover, press, focus, color transitions |
+| `--rad-ui-motion-duration-normal` | `180ms` | Small enter/exit and common state changes |
+| `--rad-ui-motion-duration-slow` | `240ms` | Overlay and panel enter/exit |
+| `--rad-ui-motion-duration-slower` | `320ms` | Large surfaces or complex motion |
+
+Easings:
+
+| Token | Usage |
+|-------|-------|
+| `--rad-ui-motion-easing-entrance` | Decelerating curve for entering motion |
+| `--rad-ui-motion-easing-standard` | Standard curve for exiting and general transitions |
 
 Rules:
 
-- Use `--rad-ui-motion-*`, `--rad-ui-duration-*`, or transition aliases when
-  available.
+- Use the duration and easing tokens rather than typed-in values.
 - Hover and press transitions should be fast.
 - Overlay enter/exit motion should use normal or slow durations.
 - Large drawer or modal movement may use slow or slower durations.
 - Respect reduced-motion behavior where animations move, scale, or transform
   meaningful UI.
+
+A looping animation's cycle time is not an interaction duration and is not
+governed by this scale. Neither is the near-zero duration used inside a
+`prefers-reduced-motion: reduce` block. Both are excluded from the automated
+`literal-duration` rule.
 
 Audit rule: literal animation durations such as `200ms` are findings unless
 they map to a documented recipe or should be promoted to a token.
@@ -262,12 +285,20 @@ Component typography aliases:
 | `--rad-ui-component-font-size-xs` | Extra-small labels and dense metadata |
 | `--rad-ui-component-font-size-sm` | Small controls and support text |
 | `--rad-ui-component-font-size-md` | Default controls and component body text |
+| `--rad-ui-component-font-size-dense` | Dense table, tree, and command rows |
+| `--rad-ui-component-font-size-comfortable` | Comfortable panel and dialog body text |
 | `--rad-ui-component-line-height-tight` | Compact labels |
 | `--rad-ui-component-line-height-normal` | Default controls |
 | `--rad-ui-component-line-height-relaxed` | Multi-line descriptions |
 | `--rad-ui-component-font-weight-regular` | Default readable text |
 | `--rad-ui-component-font-weight-medium` | Controls and labels |
 | `--rad-ui-component-font-weight-semibold` | Strong labels and titles |
+
+The raw font-size scale includes two dense UI steps that predate the scale
+itself, `1.5` (`0.8125rem`) and `2.5` (`0.9375rem`). Both were previously
+typed in as literals across many components; they are now generated tokens
+(`--rad-ui-font-size-1-5`, `--rad-ui-font-size-2-5`) behind the `dense` and
+`comfortable` aliases above.
 
 Audit rule: component styles should not introduce arbitrary font sizes,
 line-heights, or weights when component aliases exist.
@@ -675,6 +706,9 @@ Elevation:
 - Popovers, menus, and hover cards use floating elevation.
 - Dialogs and drawers use modal elevation.
 - Tooltips may use compact floating elevation.
+- An overlay arrow reads as part of the floating surface, so its shadow is a
+  `filter` rather than a `box-shadow` and cannot reuse an elevation token. Use
+  `--rad-ui-overlay-arrow-shadow`.
 
 Motion:
 
@@ -886,7 +920,6 @@ Use these categories when reviewing existing `*.clarity.scss` files:
 ## Enforcement Rules
 
 These are hard review rules for Clarity styling:
-
 - No raw hex, HSL, RGB, or RGBA in component `.clarity.scss` when a token or
   semantic alias exists.
 - No one-off control heights, padding, gaps, radius, font sizes, line-heights,
@@ -906,25 +939,87 @@ These are hard review rules for Clarity styling:
 - No high elevation on in-flow static surfaces.
 - No accidental generated part classes in headless/classless mode.
 
+## Automated Enforcement
+
+The mechanically checkable subset of these rules is enforced by
+`scripts/clarity-audit.cjs`, run in CI via `npm run check:clarity`.
+
+Checked automatically:
+
+| Rule id | Meaning |
+|---------|---------|
+| `raw-color` | A hex, `rgb()`, `hsl()` value with no Clarity token reference |
+| `token-fallback-literal` | A literal used as a `var()` fallback, which still ships a fixed value to consumers without the token file |
+| `hand-coded-shadow` | A `box-shadow` built from literals instead of an elevation token |
+| `filter-drop-shadow` | A `filter: drop-shadow(...)` built from literals |
+| `literal-duration` | A transition or animation duration that is not a `--rad-ui-motion-duration-*` token |
+| `literal-spacing` | `padding`/`margin`/`gap` with a dimension literal |
+| `literal-radius` | `border-radius` with a dimension literal |
+| `literal-typography` | `font-size`/`line-height` with a dimension literal |
+| `literal-sizing` | `height`/`min-height` with a dimension literal |
+
+Deliberately not automated, because they need a human or a rendered contrast
+check: WCAG contrast ratios, whether a variant contradicts its recipe, whether
+elevation is justified, whether state is perceivable without color, and whether
+the public anatomy and attribute contracts are correct.
+
+### Baseline Budget
+
+The component styles predate the alias layer, so the audit cannot start from
+zero findings. Each rule carries a budget in the script's `BASELINE` map
+recording the count when the gate was introduced. CI fails only when a rule goes
+above its budget.
+
+This is a ratchet, not a waiver. Lower a budget whenever you fix findings in
+that rule so the reduction sticks. Rules with no `BASELINE` entry have a budget
+of zero, so adding a new rule fails on its first finding — which is the point,
+since adding a rule should be deliberate.
+
+Use `npm run check:clarity -- --update-baseline` to print current counts after
+triaging, and `--json` for machine-readable output.
+
+Paying down a family's budget is worth doing a component family at a time. Two
+patterns have worked so far:
+
+- When a literal matches an existing token's value exactly, swap the literal for
+  that token. Verify the resolved value in compiled CSS before committing;
+  nearest-value matching is how a type or size silently shifts.
+- When several components repeat the same literal, that literal is a missing
+  token, not a bug in each component. Add the step to the scale, regenerate, then
+  swap the usages. Regeneration must be idempotent, so confirm it produces no
+  diff before you rely on it.
+
+Redefining a shared alias to suit one component is not an option when other
+components already read it. Add a component-scoped alias alongside it instead.
+
+### Allow List
+
+Genuinely correct exceptions go in the script's `ALLOW_LIST`, keyed by path and
+rule, each with a reason. The script fails on an allow-list entry that no longer
+matches a real finding, so an exception cannot outlive the problem it described.
+Prefer fixing the token or alias over adding an entry.
+
 ## Audit Procedure
 
 Run the audit in this order:
 
 1. Identify the component and all `*.clarity.scss` files involved.
-2. List public anatomy classes used by the styles.
-3. Check whether the anatomy follows `{namespace}-{component}-{part}`.
-4. List public `data-*` attributes used by selectors.
-5. Check whether styling attributes are shared and unprefixed.
-6. Map each variant to a canonical recipe.
-7. Map each size to control, density, spacing, typography, and icon aliases.
-8. Map each radius to control or panel radius aliases.
-9. Map each background, border, text, and solid fill to color intent.
-10. Check focus treatment against focus aliases.
-11. Check elevation against the elevation model.
-12. Check motion duration, easing, and reduced-motion behavior.
-13. Check contrast for text, icons, borders, state indicators, and focus rings.
-14. Classify findings using the audit categories.
-15. Only restyle after the recipe and token mapping are clear.
+2. Run `npm run check:clarity` to clear the automated rules first, so the
+   manual review below starts from a stylesheet that has no token drift.
+3. List public anatomy classes used by the styles.
+4. Check whether the anatomy follows `{namespace}-{component}-{part}`.
+5. List public `data-*` attributes used by selectors.
+6. Check whether styling attributes are shared and unprefixed.
+7. Map each variant to a canonical recipe.
+8. Map each size to control, density, spacing, typography, and icon aliases.
+9. Map each radius to control or panel radius aliases.
+10. Map each background, border, text, and solid fill to color intent.
+11. Check focus treatment against focus aliases.
+12. Check elevation against the elevation model.
+13. Check motion duration, easing, and reduced-motion behavior.
+14. Check contrast for text, icons, borders, state indicators, and focus rings.
+15. Classify findings using the audit categories.
+16. Only restyle after the recipe and token mapping are clear.
 
 ## Review Checklist
 

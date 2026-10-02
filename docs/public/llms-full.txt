@@ -1,0 +1,42 @@
+# Rad UI - Complete Documentation
+
+> Rad UI is a modern, headless React component library focused on accessibility, TypeScript, and unstyled primitives for building custom design systems.
+
+This file contains key documentation for LLM consumption. For the most up-to-date information, visit https://www.rad-ui.com.
+
+## Introduction
+
+Rad UI is an open-source, headless React component library designed for building accessible, customizable user interfaces. It provides unstyled primitives with built-in accessibility, keyboard navigation, and focus management.
+
+Visit: https://www.rad-ui.com/docs/first-steps/introduction
+
+## Installation
+
+Install Rad UI via npm, yarn, or pnpm. See the full installation guide for framework-specific setup.
+
+Visit: https://www.rad-ui.com/docs/first-steps/installation
+
+## Usage
+
+Learn how to use Rad UI components in your React applications with proper styling integration.
+
+Visit: https://www.rad-ui.com/docs/first-steps/usage
+
+## Key Principles
+
+- **Headless**: Components provide behavior and accessibility without imposing styles
+- **Accessible**: Built with WCAG compliance and proper ARIA attributes
+- **TypeScript-first**: Full type safety with excellent developer experience
+- **Composable**: Flexible API that works with any styling solution
+- **Uncontrolled by default**: Supports both controlled and uncontrolled patterns
+
+## Resources
+
+- GitHub: https://github.com/rad-ui/ui
+- Playground: https://www.rad-ui.com/playground
+- Colors: https://www.rad-ui.com/colors
+
+## Components
+
+Rad UI offers 50+ accessible, headless components. For complete API documentation and examples, visit https://www.rad-ui.com/docs/components.
+

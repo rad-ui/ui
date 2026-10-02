@@ -31,7 +31,12 @@ function renderToast(toast: ToastData) {
         unlinkStackHeight: () => {},
         removeToast: () => {},
         toasts: [toast],
-        visibleToasts: [toast]
+        visibleToasts: [toast],
+        containerAriaLabel: 'Notifications',
+        richColors: false,
+        invert: false,
+        pauseWhenPageIsHidden: true,
+        closeButton: false
     };
 
     return render(

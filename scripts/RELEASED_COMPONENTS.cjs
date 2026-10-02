@@ -64,6 +64,7 @@ const RELEASED_COMPONENTS = [
     'TabNav',
     'TextArea',
     'TextField',
+    'Toast',
     'Tree'
 ];
 

@@ -76,28 +76,6 @@ body {
   }
 }
 
-@keyframes rad-ticker {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-@keyframes rad-caret {
-  0%,
-  48% {
-    opacity: 1;
-  }
-
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
 @keyframes rad-scan {
   from {
     transform: translateY(-120px);
@@ -149,24 +127,6 @@ body {
 
 .landing-fade-up-delay-4 {
   animation-delay: 0.32s;
-}
-
-.landing-ticker-track {
-  animation: rad-ticker 64s linear infinite;
-}
-
-.landing-ticker-mask {
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 6%,
-    black 94%,
-    transparent
-  );
-}
-
-.landing-caret {
-  animation: rad-caret 1.05s steps(1) infinite;
 }
 
 .landing-scan {
@@ -285,9 +245,15 @@ body {
    therefore owns its type scale explicitly, scoped one level deeper so
    it wins on specificity rather than on load order. */
 
+/* The display is authored as two hard-broken lines, so its size is capped by
+   the width of the longest one: `for your design system.` measures 10.07em at
+   600 weight with this tracking, `The behavior layer` measures 8em. Sized off
+   the container (not the viewport) at 9.5cqi, a line needs ~10.27em of column
+   to clear, so both authored lines hold from a 360px phone to the widest
+   desktop instead of folding into four ragged lines. */
 .landing-page .landing-display {
   font-weight: 600;
-  font-size: clamp(2.5rem, 6.2vw, 4.75rem);
+  font-size: clamp(1.5rem, 9.5cqi, 4.75rem);
   line-height: 0.95;
   letter-spacing: -0.045em;
 }
@@ -306,9 +272,12 @@ body {
   letter-spacing: -0.04em;
 }
 
+/* Balanced rather than left-ragged: this lede runs to three lines, and the
+   default wrap leaves the last one holding a single word. */
 .landing-page .landing-lede {
   font-size: 1rem;
   line-height: 1.75rem;
+  text-wrap: balance;
 }
 
 .landing-page .landing-body {
@@ -355,11 +324,9 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .landing-fade-up,
-  .landing-ticker-track,
   .landing-scan,
   .landing-glow,
-  .landing-pop,
-  .landing-caret {
+  .landing-pop {
     animation: none;
   }
 
@@ -379,11 +346,9 @@ body {
  * modern browsers, but implicit descendant nesting still needs a newer floor
  * than Tailwind's own (Chrome 120 vs 111), so these stay flattened. */
 :root[data-reduced-motion] .landing-fade-up,
-:root[data-reduced-motion] .landing-ticker-track,
 :root[data-reduced-motion] .landing-scan,
 :root[data-reduced-motion] .landing-glow,
-:root[data-reduced-motion] .landing-pop,
-:root[data-reduced-motion] .landing-caret {
+:root[data-reduced-motion] .landing-pop {
   animation: none;
 }
 

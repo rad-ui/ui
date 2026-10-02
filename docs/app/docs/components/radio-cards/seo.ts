@@ -1,2 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
-export default generateSeoMetadata({ title: "RadioCards - Rad UI", description: "A headless React RadioCards component for card-style single-selection interfaces." })
+
+const metadata = generateSeoMetadata({
+    title: "Radio Cards - Rad UI",
+    description: "Accessible, headless React Radio Cards component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Radio Cards","headless radio cards","accessible radio cards","radio cards component","React radio cards component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/radio-cards"
+});
+
+
+export default metadata

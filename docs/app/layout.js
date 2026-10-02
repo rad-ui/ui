@@ -92,8 +92,6 @@ export const metadata = {
     yahoo: process.env.YAHOO_VERIFICATION,
   },
   other: {
-    'theme-color': '#000000',
-    'color-scheme': 'dark light',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': 'Rad UI',
@@ -142,7 +140,25 @@ export default async function RootLayout({ children, ...props }) {
               },
               "license": "https://github.com/rad-ui/ui/blob/main/LICENSE",
               "codeRepository": "https://github.com/rad-ui/ui",
-              "keywords": "React, UI Library, TypeScript, Accessibility, Design System"
+              "applicationSubCategory": "Component Library",
+              "featureList": [
+                "Headless, unstyled React components",
+                "WCAG-compliant accessible primitives",
+                "TypeScript-first API",
+                "Composable and tree-shakeable"
+              ],
+              "keywords": "React, Headless UI, UI Library, TypeScript, Accessibility, Design System, Component Library"
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Rad UI",
+              "url": "https://www.rad-ui.com"
             })
           }}
         />

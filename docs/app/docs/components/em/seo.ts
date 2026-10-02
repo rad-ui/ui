@@ -1,9 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const emMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Em - Rad UI",
-    description: "A headless React component for emphasizing inline text using the <em> element. Fully accessible, easily customizable, and design system friendly."
+    description: "Accessible, headless React Em component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Em","headless em","accessible em","em component","React em component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/em"
 });
 
 
-export default emMetadata
+export default metadata

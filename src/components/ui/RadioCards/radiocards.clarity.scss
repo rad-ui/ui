@@ -33,7 +33,7 @@
   box-shadow: var(--rad-ui-shadow-xs);
   color: var(--rad-ui-color-gray-1000); // step 11 — primary text
   text-align: left;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color var(--rad-ui-motion-duration-fast) ease, box-shadow var(--rad-ui-motion-duration-fast) ease;
 
   &::before {
     content: "";
@@ -45,9 +45,9 @@
     border-radius: var(--rad-ui-radius-full);
     border: 1px solid var(--rad-ui-color-gray-500); // step 6 — light border
     background-color: var(--rad-ui-color-gray-50);  // step 1
-    box-shadow: 0 1px 2px rgb(0, 0, 0, 0.06);
+    box-shadow: var(--rad-ui-control-shadow);
     transform: translateY(-50%);
-    transition: border-color 0.15s ease;
+    transition: border-color var(--rad-ui-motion-duration-fast) ease;
   }
 
   &::after {
@@ -60,7 +60,7 @@
     border-radius: var(--rad-ui-radius-full);
     background-color: var(--rad-ui-color-accent-800); // accent — indicator dot
     transform: translateY(-50%) scale(0);
-    transition: transform 0.15s ease;
+    transition: transform var(--rad-ui-motion-duration-fast) ease;
   }
 
   &:hover {
@@ -97,7 +97,7 @@
     border-color: var(--rad-ui-color-accent-700); // accent — radio circle border
     box-shadow:
       inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-200) 60%, transparent),
-      0 1px 2px rgb(0, 0, 0, 0.06);
+      var(--rad-ui-control-shadow);
   }
 
   &[data-state="checked"]::after {
@@ -127,7 +127,7 @@
   }
 
   .rad-ui-radio-cards-description {
-    font-size: 0.9375rem;
+    font-size: var(--rad-ui-component-font-size-comfortable);
     line-height: var(--rad-ui-line-height-3);
     color: var(--rad-ui-text-secondary);
   }

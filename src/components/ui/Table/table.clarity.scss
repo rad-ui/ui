@@ -85,7 +85,10 @@
                     width: 1px;
                     background: var(--rad-ui-color-gray-500);
                     opacity: 0;
-                    transition: opacity 0.15s ease, background-color 0.15s ease, width 0.15s ease;
+                    transition:
+                        opacity var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard),
+                        background-color var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard),
+                        width var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard);
                 }
 
                 &[data-resize-handle-visibility="always"]::before {

@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const headingMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Heading - Rad UI",
-    description: "A headless React Heading component for rendering semantic headings (h1–h6) with full accessibility and customization. Ideal for consistent typography across your design system."
+    description: "Accessible, headless React Heading component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Heading","headless heading","accessible heading","heading component","React heading component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/heading"
 });
 
-export default headingMetadata
+
+export default metadata

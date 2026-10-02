@@ -2,7 +2,9 @@ import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
 const popoverMetadata = generateSeoMetadata({
     title: "Popover - Rad UI",
-    description: "A headless, customizable Popover component for React. Anchor floating content and controls to a trigger with collision handling and focus management."
+    description: "Accessible, headless React Popover component. Anchor floating content with positioning, collision handling, focus management, and ARIA support.",
+    keywords: ["React Popover", "headless popover", "floating content", "tooltip alternative", "accessible popover"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/popover"
 })
 
 export default popoverMetadata

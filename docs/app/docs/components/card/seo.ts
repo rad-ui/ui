@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const cardMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Card - Rad UI",
-    description: "A headless React Card component for structuring content. Fully accessible, customizable, and easy to integrate into any design system."
+    description: "Accessible, headless React Card component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Card","headless card","accessible card","card component","React card component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/card"
 });
 
-export default cardMetadata
+
+export default metadata
