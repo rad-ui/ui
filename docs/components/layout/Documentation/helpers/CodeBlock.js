@@ -113,6 +113,7 @@ const CodeBlock = ({ children, inline = false, language = 'jsx', className = '' 
             </div>
             <div className="relative">
                 <ScrollArea.Root
+                    customRootClass="rad-ui"
                     className={clsx(
                         expanded ? "max-h-[640px]" : "max-h-[220px]",
                         "docs-syntax-scroll-area overflow-visible",

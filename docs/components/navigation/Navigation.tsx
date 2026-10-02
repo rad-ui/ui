@@ -30,7 +30,7 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const sections = /^\/docs(\/|$)/.test(pathname) ? docsSections : defaultSections;
 
 
-    return <ScrollArea.Root className="h-full">
+    return <ScrollArea.Root customRootClass="rad-ui" className="h-full">
         <ScrollArea.Viewport style={{ height: "100%" }}>
           <div className="min-w-[272px]">
              <div className='w-full flex-none px-3 pb-16 pt-4 lg:w-[272px]'>

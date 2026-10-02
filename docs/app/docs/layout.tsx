@@ -21,7 +21,7 @@ const Layout = ({ children }: Doc) => {
             </div>
 
             <div id="docs-content" className="h-full flex-1 bg-transparent">
-                <ScrollArea.Root>
+                <ScrollArea.Root customRootClass="rad-ui">
                     <ScrollArea.Viewport>
                         <DocsLayoutGridRoot>
                             <div className="grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,860px)_220px]">

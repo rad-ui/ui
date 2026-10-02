@@ -80,6 +80,7 @@ export const MultipleTabs = ({ items = [] }) => {
             </div>
             <div className="relative px-5 py-4">
                 <ScrollArea.Root
+                    customRootClass="rad-ui"
                     className={clsx(
                         expanded ? "max-h-[640px]" : "max-h-[220px]",
                         "docs-syntax-scroll-area overflow-visible",
