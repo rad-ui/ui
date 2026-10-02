@@ -9,6 +9,16 @@ import title_api from './component_api/title.tsx'
 import description_api from './component_api/description.tsx'
 import action_api from './component_api/action.tsx'
 import close_api from './component_api/close.tsx'
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS,
+} from '../../shared/ariaReferences'
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS,
+} from '../../shared/keyboardShortcuts'
 
 const example_1_SourceCode = await getSourceCodeFromPath(
     'docs/app/docs/components/toast/docs/example_1.tsx',
@@ -83,5 +93,39 @@ export const api_documentation = {
     action: action_api,
     close: close_api,
 }
+
+export const keyboardShortcuts = createKeyboardShortcutTable([
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.TAB,
+        'Moves focus through any interactive content inside visible toasts, including action and close buttons. Focusing the viewport expands the stack.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SHIFT_TAB,
+        'Moves focus to the previous focusable control and keeps the stack expanded while focus remains inside the viewport.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ENTER,
+        'Activates the focused Toast.Action or Toast.Close button.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SPACE,
+        'Activates the focused Toast.Action or Toast.Close button.'
+    )
+])
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.LIVE_REGION,
+        'Each Toast.Root uses aria-live with aria-atomic so assistive technologies announce notification updates. High-priority toasts announce assertively; other toasts announce politely.'
+    ),
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.BUTTON,
+        'Toast.Action and Toast.Close render native buttons, so activation follows the standard button keyboard model.'
+    ),
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.REGION,
+        'Toast.Viewport exposes the notifications stack as a labelled region while preserving normal focus movement through interactive toast controls.'
+    )
+])
 
 export default code
