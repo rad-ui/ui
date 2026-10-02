@@ -95,6 +95,7 @@
 - [Composition Recipes](https://www.rad-ui.com/docs/guides/composition-recipes)
 - [Design System Integration](https://www.rad-ui.com/docs/guides/design-system-integration)
 - [Migration Guides](https://www.rad-ui.com/docs/guides/migration-guides)
+- [CSS Variable Fallbacks](https://www.rad-ui.com/docs/guides/css-variable-fallbacks)
 
 ## Contributing
 - [Before You Start](https://www.rad-ui.com/docs/contributing/before-you-start)
@@ -113,6 +114,8 @@
 - [Side Effects & Tree-shaking](https://www.rad-ui.com/docs/contributing/side-effects-and-tree-shaking)
 - [Component Docs: Anatomy](https://www.rad-ui.com/docs/contributing/component-docs-anatomy)
 - [Component Docs: Styling](https://www.rad-ui.com/docs/contributing/component-docs-styling)
+- [Component Docs: Accessibility](https://www.rad-ui.com/docs/contributing/component-docs-accessibility)
+- [Component Docs: Features](https://www.rad-ui.com/docs/contributing/component-docs-features)
 
 ## Resources
 - [GitHub](https://github.com/rad-ui/ui)
