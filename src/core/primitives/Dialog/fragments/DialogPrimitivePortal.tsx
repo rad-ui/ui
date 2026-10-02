@@ -22,22 +22,16 @@ const DialogPrimitivePortal = ({
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        // Only run on client side after component mounts
         if (container) {
             rootElementRef.current = container as HTMLElement;
         } else {
-            const themeContainer = themeContext?.portalRootRef.current
-                || document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
-                || themeContext?.containerRef.current
-                || document.querySelector('#rad-ui-theme-container') as HTMLElement | null;
-            const fallback = document.body;
-            const selectedRoot = themeContainer || fallback;
-            rootElementRef.current = selectedRoot;
+            rootElementRef.current = themeContext?.portalRootRef.current
+                ?? themeContext?.containerRef.current
+                ?? document.body;
         }
         setIsMounted(true);
     }, [container, themeContext]);
 
-    // Don't render anything until mounted (SSR safety)
     if (!isMounted) {
         return null;
     }
