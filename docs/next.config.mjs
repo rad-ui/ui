@@ -115,7 +115,6 @@ const nextConfig = {
             '@radui/ui/Fieldset': path.resolve(__dirname, '../src/components/ui/Fieldset/Fieldset.tsx'),
             '@radui/ui/LiveRegion': path.resolve(__dirname, '../src/components/ui/LiveRegion/LiveRegion.tsx'),
             '@radui/ui/Popover': path.resolve(__dirname, '../src/components/ui/Popover/Popover.tsx'),
-            '@radui/ui/ScrollArea': path.resolve(__dirname, '../src/components/ui/ScrollArea/ScrollArea.tsx'),
             '@radui/ui/TextField': path.resolve(__dirname, '../src/components/ui/TextField/TextField.tsx'),
             '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
             '@radui/ui/themes/default.css': path.resolve(__dirname, '../src/design-systems/clarity/default.scss'),
