@@ -1,4 +1,4 @@
-import { JetBrains_Mono, Manrope } from 'next/font/google'
+import { Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 import Main from "../components/Main/Main"
 
 import { cookies } from 'next/headers'
@@ -8,10 +8,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { PostHogProvider } from "../components/PostHogProvider"
 
 /** Don't change the order or all hell breaks loose */
-import './globals.scss';
+import './globals.css';
 import "@radui/ui/themes/default.css";
 
-const manrope = Manrope({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
 })
@@ -109,7 +109,7 @@ export default async function RootLayout({ children, ...props }) {
   const darkModeSsrValue = cookieStore.get('darkMode')?.value || false
 
   return (
-    <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${instrumentSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

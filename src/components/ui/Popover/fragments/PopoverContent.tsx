@@ -15,6 +15,7 @@ const PopoverContent = forwardRef<PopoverContentElement, PopoverContentProps>(({
         <PopoverPrimitive.Content
             ref={ref}
             className={clsx(rootClass && `${rootClass}-content`, className)}
+            data-slot="popover-content"
             {...props}
         />
     );

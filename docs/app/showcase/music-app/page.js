@@ -4,6 +4,11 @@ import MusicPlayer from './helpers/MusicPlayer'
 import TopArtists from './helpers/sections/TopArtists'
 import PlaylistHero from './helpers/sections/PlaylistHero'
 
+export const metadata = {
+    title: "Showcase Music App",
+    description: "A music streaming workspace built with Rad UI Tooltip, Button, Heading, and Text.",
+}
+
 const MusicAppPage = () => {
     return <div className='relative min-h-[760px]'>
         <div className='grid min-h-[760px] lg:grid-cols-[216px_minmax(0,1fr)]'>

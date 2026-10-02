@@ -154,7 +154,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     };
 
     return <HoverCardContext.Provider value={sendValues}>
-        <div ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...props}>{children}</div>
+        <div ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} data-slot="hover-card-root" {...props}>{children}</div>
     </HoverCardContext.Provider>;
 });
 

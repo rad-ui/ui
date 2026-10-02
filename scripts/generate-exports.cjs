@@ -48,8 +48,11 @@ let files = [];
 try {
     files = fs.readdirSync(distPath);
 } catch (error) {
-    console.warn(`Warning: ${distPath} not found. No components will be exported.`);
-    files = [];
+    // Without a build there is nothing to enumerate, and proceeding would emit
+    // an exports map containing only the theme entries — silently deleting
+    // every component subpath from package.json. Refuse instead.
+    console.error(`Error: ${distPath} not found. Run the build before regenerating exports.`);
+    process.exit(1);
 }
 
 const exportsMap = {};
@@ -64,7 +67,7 @@ exportsMap['.'] = {
 // Add theme exports
 exportsMap['./themes/default.css'] = './dist/themes/default.css';
 exportsMap['./themes/baremetal.css'] = './dist/themes/baremetal.css';
-exportsMap['./themes/tailwind-presets/default.js'] = './dist/themes/tailwind-presets/default.js';
+exportsMap['./themes/tailwind-presets/default.css'] = './dist/themes/tailwind-presets/default.css';
 
 const notReleasedComponents = [];
 

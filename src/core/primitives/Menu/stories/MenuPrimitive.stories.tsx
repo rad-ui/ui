@@ -14,7 +14,7 @@ export const Basic: Story = {
     render: () => (
         <SandboxEditor>
             <MenuPrimitive.Root>
-                <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Trigger</MenuPrimitive.Trigger>
+                <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-hidden focus:ring-2 focus:ring-blue-400">Trigger</MenuPrimitive.Trigger>
                 <MenuPrimitive.Portal>
                     <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow-lg min-w-[180px]">
                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="item 1">item 1</MenuPrimitive.Item>
@@ -22,13 +22,13 @@ export const Basic: Story = {
                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="item 3">item 3</MenuPrimitive.Item>
                         <MenuPrimitive.Sub className="flex flex-col">
                             <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded">Trigger</MenuPrimitive.Trigger>
-                            <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow min-w-[160px]">
+                            <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow-sm min-w-[160px]">
                                 <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="Nested item 1">Nested item 1</MenuPrimitive.Item>
                                 <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="Nested item 2">Nested item 2</MenuPrimitive.Item>
                                 <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded" label="item 3">item 3</MenuPrimitive.Item>
                                 <MenuPrimitive.Sub className="flex flex-col">
                                     <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-[var(--rad-ui-surface-subtle)] cursor-pointer rounded">Trigger</MenuPrimitive.Trigger>
-                                    <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow min-w-[140px]">
+                                    <MenuPrimitive.Content className="flex flex-col mt-2 bg-[var(--rad-ui-surface-inverse)] border border-[var(--rad-ui-border-soft)] rounded shadow-sm min-w-[140px]">
                                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-muted)] cursor-pointer rounded">item 1</MenuPrimitive.Item>
                                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-muted)] cursor-pointer rounded">item 1</MenuPrimitive.Item>
                                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-[var(--rad-ui-surface-muted)] cursor-pointer rounded">item 1</MenuPrimitive.Item>

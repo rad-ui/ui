@@ -54,6 +54,51 @@ When using Rad UI headlessly:
 
 - Tokens are optional; bring your own design tokens and map them in wrappers.
 
+## Complete token sets
+
+Rad UI-provided styled layers assume that the theme CSS supplies a complete token set for the component styles being used.
+
+Supported:
+
+- import a Rad UI theme CSS file and override selected `--rad-ui-*` variables
+- scope overrides to `:root`, a `Theme` container, or another stable application boundary
+- leave all non-overridden variables inherited from the imported theme
+
+Unsupported:
+
+- importing only a small subset of token definitions and expecting every styled component to recover
+- removing required token families used by loaded component CSS
+- relying on browser-invalid CSS declarations caused by missing variables
+
+Partial overrides are supported when they sit on top of a complete theme. Partial token definitions are not a complete theme by themselves.
+
+## Fallback values
+
+Inline CSS fallback values such as `var(--rad-ui-radius-md, 6px)` are not the public customization contract for Rad UI styled layers.
+
+Rad UI may use fallback values where they make a declaration resilient during development, migration, or progressive token rollout. Treat those fallbacks as internal implementation details unless a variable's documentation explicitly says otherwise.
+
+Consumers should provide the documented variables they depend on instead of depending on fallback branches. Missing documented variables are unsupported configuration, not a guaranteed graceful-degradation path.
+
+## Safe override pattern
+
+Prefer additive token overrides:
+
+```css
+@import "@radui/ui/themes/default.css";
+
+:root {
+  --rad-ui-radius-md: 8px;
+  --rad-ui-spacing-4: 1rem;
+}
+
+[data-rad-ui-theme][data-rad-ui-accent-color="brand"] {
+  --rad-ui-color-accent-9: #3157d5;
+}
+```
+
+Avoid replacement strategies that redefine only a handful of variables without importing or generating the rest of the theme contract.
+
 ## Adding or changing tokens
 
 1. Update `styles/cssTokens/` and regenerate via `npm run generate-tokens`.

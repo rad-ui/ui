@@ -80,6 +80,7 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
                     ref={forwardedRef}
                     className={clsx(rootClass, className)}
                     data-color={color}
+                    data-slot="tabs-root"
                     asChild={asChild}
                     {...dataAttributes}
                     {...props}

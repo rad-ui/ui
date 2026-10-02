@@ -26,6 +26,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<'button'>, AccordionT
                         aria-disabled={disabled}
                         aria-expanded={activeItems.includes(itemValue)}
                         data-orientation={orientation}
+                        data-slot="accordion-trigger"
                         asChild={asChild}
                         {...props}
                     >

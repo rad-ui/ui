@@ -76,6 +76,81 @@ describe('Tree', () => {
         expect(item3).toHaveFocus();
     });
 
+    test('ArrowRight expands parent items and moves focus into expanded branches', async() => {
+        const user = userEvent.setup();
+        const item = { label: 'Parent', items: [{ label: 'Child', items: [] }] };
+
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={item}>{item.label}</Tree.Item>
+            </Tree.Root>
+        );
+
+        const parent = screen.getByRole('treeitem', { name: 'Parent' });
+
+        await user.tab();
+        expect(parent).toHaveFocus();
+        expect(parent).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.queryByRole('treeitem', { name: 'Child' })).toBeNull();
+
+        await user.keyboard('{ArrowRight}');
+        expect(parent).toHaveAttribute('aria-expanded', 'true');
+        expect(parent).toHaveFocus();
+
+        const child = screen.getByRole('treeitem', { name: 'Child' });
+        await user.keyboard('{ArrowRight}');
+        expect(child).toHaveFocus();
+    });
+
+    test('ArrowLeft collapses expanded items and moves child focus back to the parent', async() => {
+        const user = userEvent.setup();
+        const item = { label: 'Parent', expanded: true, items: [{ label: 'Child', items: [] }] };
+
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={item}>{item.label}</Tree.Item>
+            </Tree.Root>
+        );
+
+        const parent = screen.getByRole('treeitem', { name: 'Parent' });
+        const child = screen.getByRole('treeitem', { name: 'Child' });
+
+        await user.tab();
+        expect(parent).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}');
+        expect(child).toHaveFocus();
+
+        await user.keyboard('{ArrowLeft}');
+        expect(parent).toHaveFocus();
+
+        await user.keyboard('{ArrowLeft}');
+        expect(parent).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.queryByRole('treeitem', { name: 'Child' })).toBeNull();
+    });
+
+    test('Enter delegates selection without expanding the focused item', async() => {
+        const user = userEvent.setup();
+        const onToggleSelect = jest.fn();
+        const item = { label: 'Parent', items: [{ label: 'Child', items: [] }] };
+
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={item} onToggleSelect={onToggleSelect}>{item.label}</Tree.Item>
+            </Tree.Root>
+        );
+
+        const parent = screen.getByRole('treeitem', { name: 'Parent' });
+
+        await user.tab();
+        await user.keyboard('{Enter}');
+
+        expect(onToggleSelect).toHaveBeenCalledTimes(1);
+        expect(onToggleSelect).toHaveBeenCalledWith(expect.any(String), item);
+        expect(parent).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.queryByRole('treeitem', { name: 'Child' })).toBeNull();
+    });
+
     test('renders without console errors or warnings', () => {
         const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
         const consoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});

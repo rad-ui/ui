@@ -4,6 +4,7 @@
 @use "../../components/ui/AvatarGroup/avatar-group.clarity";
 @use "../../components/ui/Badge/badge.clarity";
 @use "../../components/ui/BlockQuote/blockquote.clarity";
+@use "../../components/ui/Breadcrumb/breadcrumb.clarity";
 @use "../../components/ui/Button/button.clarity";
 @use "../../components/ui/Callout/callout.clarity";
 @use "../../components/ui/Card/card.clarity";
@@ -15,6 +16,7 @@
 @use "../../components/ui/Code/code.clarity";
 @use "../../components/ui/Disclosure/disclosure.clarity";
 @use "../../components/ui/Em/em.clarity";
+@use "../../components/ui/Fieldset/fieldset.clarity";
 @use "../../components/ui/Heading/heading.clarity";
 @use "../../components/ui/HoverCard/hover-card.clarity";
 @use "../../components/ui/Kbd/kbd.clarity";
@@ -75,7 +77,7 @@
     --rad-ui-solid-hover: var(--rad-ui-color-gray-900);
     --rad-ui-text-primary: var(--rad-ui-color-gray-1000);
     --rad-ui-text-secondary: var(--rad-ui-color-gray-950);
-    --rad-ui-text-muted: var(--rad-ui-color-gray-800);
+    --rad-ui-text-muted: var(--rad-ui-color-gray-950);
     --rad-ui-text-strong: var(--rad-ui-color-gray-1000);
     --rad-ui-text-inverse: var(--rad-ui-color-gray-50);
     --rad-ui-surface: var(--rad-ui-surface-panel);
@@ -152,6 +154,7 @@
     --rad-ui-icon-size-lg: var(--rad-ui-size-6);
     --rad-ui-overlay-width-sm: 15rem;
     --rad-ui-overlay-width-md: 22.5rem;
+    --rad-ui-overlay-width-lg: 30rem;
     --rad-ui-overlay-max-height-md: 18.75rem;
     --rad-ui-overlay-viewport-gutter: var(--rad-ui-spacing-4);
     --rad-ui-control-shadow: var(--rad-ui-shadow-xs);

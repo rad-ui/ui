@@ -15,9 +15,65 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
         console.warn('MenubarContent should be used in the MenubarRoot');
         return null;
     }
-    const { rootClass } = context;
+    const { rootClass, navigateMenu, contentInitialFocus } = context;
+    const { onKeyDown, ...restProps } = props;
+
+    const setContentRef = React.useCallback((node: HTMLDivElement | null) => {
+        if (typeof ref === 'function') {
+            ref(node);
+        } else if (ref) {
+            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+    }, [ref]);
+
+    React.useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.defaultPrevented) return;
+
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                navigateMenu(-1);
+                return;
+            }
+
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                navigateMenu(1);
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown, true);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown, true);
+        };
+    }, [navigateMenu]);
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        onKeyDown?.(event);
+        if (event.defaultPrevented) return;
+
+        if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            navigateMenu(-1);
+            return;
+        }
+
+        if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            navigateMenu(1);
+        }
+    };
+
     return (
-        <MenuPrimitive.Content ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>
+        <MenuPrimitive.Content
+            ref={setContentRef}
+            className={clsx(rootClass && `${rootClass}-content`, className)}
+            focusManagerDisabled={contentInitialFocus === -1}
+            initialFocus={contentInitialFocus}
+            onKeyDown={handleKeyDown}
+            {...restProps}
+        >
             {children}
         </MenuPrimitive.Content>
     );

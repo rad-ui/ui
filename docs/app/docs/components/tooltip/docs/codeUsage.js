@@ -4,6 +4,11 @@ import {
     createKeyboardShortcutTable,
     DOCS_KEYBOARD_SHORTCUTS
 } from '../../shared/keyboardShortcuts';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/examples/tooltip_example1.tsx');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/anatomy.tsx');
@@ -63,6 +68,13 @@ export const keyboardShortcuts = {
         )
     ])
 };
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.TOOLTIP,
+        'Uses tooltip semantics for contextual information that appears on hover or focus and dismisses with Escape.'
+    )
+]);
 
 // Legacy table export - keeping for backward compatibility
 export const TooltipTable = {

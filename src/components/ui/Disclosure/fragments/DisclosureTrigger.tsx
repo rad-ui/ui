@@ -29,6 +29,8 @@ const DisclosureTrigger = React.forwardRef<React.ElementRef<'button'>, Disclosur
                     type='button'
                     className={clsx(rootClass && `${rootClass}-trigger`, className)}
                     onClick={onClickHandler}
+                    data-state={activeItem === itemValue ? 'open' : 'closed'}
+                    data-slot="disclosure-trigger"
                     aria-expanded={activeItem === itemValue}
                     aria-haspopup='true'
                 >

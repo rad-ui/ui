@@ -20,7 +20,8 @@ const ProgressIndicator = forwardRef<
     ProgressIndicatorProps
 >(({ className, style, ...props }, ref) => {
     const { value, minValue, maxValue, rootClass, state } = useContext(ProgressContext);
-    // Ensure value stays within bounds in production, use 0 if value is null
+    const isIndeterminate = value === null;
+    // Use 0 internally for the visual transform when the public value is unknown.
     const boundedValue = Math.min(Math.max(value ?? 0, minValue), maxValue);
 
     // Calculate the percentage of completion
@@ -30,14 +31,10 @@ const ProgressIndicator = forwardRef<
 
     return (
         <Primitive.div
-            role="progressbar"
             className={clsx(rootClass && `${rootClass}-indicator`, className)}
             style={{ transform: `translateX(-${100 - percentage}%)`, ...style }}
-            aria-valuenow={boundedValue}
-            aria-valuemax={maxValue}
-            aria-valuemin={minValue}
             data-state={state}
-            data-value={boundedValue}
+            data-value={isIndeterminate ? undefined : boundedValue}
             data-max={maxValue}
             data-min={minValue}
             asChild={asChild}

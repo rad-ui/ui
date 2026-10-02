@@ -1,0 +1,750 @@
+@import 'tailwindcss' source(none);
+
+/* Prefer the local preset so monorepo token changes (e.g. alpha ramps) apply
+ * without waiting for a publish. */
+@import '../../styles/tailwind-presets/default.css';
+
+/* v4 auto-detection would walk the whole repo from here, including the
+ * library source and every docs example. Scope it to what the app renders.
+ *
+ * These paths are relative to this stylesheet (docs/app/), not to the docs
+ * root, so the app router directory is `.` and siblings need `../`. */
+@source './**/*.{js,ts,jsx,tsx,mdx,css}';
+@source '../components/**/*.{js,ts,jsx,tsx,mdx}';
+@source '../utils/**/*.{js,ts,jsx,tsx}';
+@source '../mdx-components.tsx';
+
+/* v3 safelist. Palette steps are addressed across docs, and v4 drops
+ * `safelist` in favour of @source inline(). Kept so a swatch rendered from
+ * data still has its utility emitted. */
+@source inline("{bg-gray,bg-mauve,bg-slate,bg-sage,bg-olive,bg-sand,bg-tomato,bg-red,bg-ruby,bg-crimson,bg-pink,bg-plum,bg-purple,bg-violet,bg-iris,bg-indigo,bg-blue,bg-cyan,bg-teal,bg-jade,bg-green,bg-grass,bg-brown,bg-bronze,bg-gold,bg-sky,bg-mint,bg-lime,bg-yellow,bg-amber,bg-orange}-{50,100,200,300,400,500,600,700,800,900,950,1000}");
+
+body {
+  font-family: var(--font-sans), sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* v3 preflight set a default border colour of `colors.gray.200`, which the
+ * preset overrides with the Rad UI ramp. v4 dropped that default, so bare
+ * `border` would inherit `currentColor` and pick up the text colour instead.
+ * Restoring it keeps the existing bare `border` usages looking the same.
+ *
+ * Reference `--rad-ui-color-gray-200` directly rather than `--color-gray-200`:
+ * the preset uses `@theme inline`, so no `--color-*` property is emitted, and the
+ * theme container re-declares the `--rad-ui-*` properties. `border-color` applies
+ * to every element, so the reference resolves per element and follows the active
+ * theme the way v3 did. This sits in `@layer base`, so an explicit
+ * `border-<color>` utility still wins. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: oklch(from var(--rad-ui-color-gray-200) l c h);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Landing — motion, atmosphere, texture
+
+   The landing page owns its own visual language and deliberately does
+   not borrow Clarity component recipes. Color intent still follows the
+   scale: 50 canvas, 100/200 surfaces, 500–700 borders, 950 supporting
+   text, 1000 primary text.
+   ------------------------------------------------------------------ */
+
+@keyframes rad-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rad-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rad-ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes rad-caret {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rad-scan {
+  from {
+    transform: translateY(-120px);
+  }
+
+  to {
+    transform: translateY(520px);
+  }
+}
+
+@keyframes rad-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes rad-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.landing-fade-up {
+  animation: rad-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing-fade-up-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.landing-fade-up-delay-2 {
+  animation-delay: 0.16s;
+}
+
+.landing-fade-up-delay-3 {
+  animation-delay: 0.24s;
+}
+
+.landing-fade-up-delay-4 {
+  animation-delay: 0.32s;
+}
+
+.landing-ticker-track {
+  animation: rad-ticker 64s linear infinite;
+}
+
+.landing-ticker-mask {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+}
+
+.landing-caret {
+  animation: rad-caret 1.05s steps(1) infinite;
+}
+
+.landing-scan {
+  animation: rad-scan 9s linear infinite;
+}
+
+.landing-glow {
+  animation: rad-glow 9s ease-in-out infinite;
+}
+
+.landing-pop {
+  animation: rad-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Blueprint grid for the hero plane. `currentColor` keeps it on-token. */
+.landing-grid {
+  background-image: linear-gradient(
+      to right,
+      currentcolor 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, currentcolor 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(115% 78% at 50% 0%, black 12%, transparent 76%);
+}
+
+/* Scroll reveal. Content is visible until JS opts an element in, so a
+   failed observer or disabled JS never hides the page. */
+[data-landing-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-landing-reveal="in"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Brand studio -------------------------------------------------
+   The whole point of the section: the consumer owns the tokens. Each
+   swatch ships its own brand / foreground pair per appearance so the
+   live controls keep WCAG AA contrast in both themes.
+
+   The ramp is held as one property per brand so that a swatch can
+   preview *its own* accent instead of inheriting the selected one from
+   the studio root. --landing-brand is just the currently selected entry
+   of that ramp. */
+
+.landing-studio {
+  --landing-brand-green: oklch(47% 0.16 152deg);
+  --landing-brand-violet: oklch(47% 0.19 296deg);
+  --landing-brand-blue: oklch(45% 0.17 258deg);
+  --landing-brand-amber: oklch(46% 0.13 58deg);
+  --landing-brand-rose: oklch(48% 0.18 14deg);
+  --landing-brand: var(--landing-brand-green);
+  --landing-brand-fg: oklch(99% 0 0deg);
+}
+
+.landing-studio[data-brand="green"] {
+  --landing-brand: var(--landing-brand-green);
+}
+
+.landing-studio[data-brand="violet"] {
+  --landing-brand: var(--landing-brand-violet);
+}
+
+.landing-studio[data-brand="blue"] {
+  --landing-brand: var(--landing-brand-blue);
+}
+
+.landing-studio[data-brand="amber"] {
+  --landing-brand: var(--landing-brand-amber);
+}
+
+.landing-studio[data-brand="rose"] {
+  --landing-brand: var(--landing-brand-rose);
+}
+
+/* Each brand chip shows the accent it selects, not the active one. */
+.landing-swatch[data-brand="green"] {
+  --landing-brand: var(--landing-brand-green);
+}
+
+.landing-swatch[data-brand="violet"] {
+  --landing-brand: var(--landing-brand-violet);
+}
+
+.landing-swatch[data-brand="blue"] {
+  --landing-brand: var(--landing-brand-blue);
+}
+
+.landing-swatch[data-brand="amber"] {
+  --landing-brand: var(--landing-brand-amber);
+}
+
+.landing-swatch[data-brand="rose"] {
+  --landing-brand: var(--landing-brand-rose);
+}
+
+[data-rad-ui-theme="dark"] .landing-studio {
+  --landing-brand-green: oklch(74% 0.16 152deg);
+  --landing-brand-violet: oklch(72% 0.17 296deg);
+  --landing-brand-blue: oklch(70% 0.15 258deg);
+  --landing-brand-amber: oklch(76% 0.14 58deg);
+  --landing-brand-rose: oklch(73% 0.16 14deg);
+  --landing-brand-fg: oklch(16% 0 0deg);
+}
+
+/* --- Landing type scale --------------------------------------------
+   Clarity pins `.rad-ui-h1`, `.rad-ui-h2` and `.rad-ui-text` with
+   single-class rules that load *after* Tailwind, so any text utility
+   passed to Heading or Text is silently dropped. The landing page
+   therefore owns its type scale explicitly, scoped one level deeper so
+   it wins on specificity rather than on load order. */
+
+.landing-page .landing-display {
+  font-weight: 600;
+  font-size: clamp(2.5rem, 6.2vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.landing-page .landing-title {
+  font-weight: 600;
+  font-size: clamp(1.65rem, 2.9vw, 2.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.landing-page .landing-closing {
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4.3vw, 3.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.landing-page .landing-lede {
+  font-size: 1rem;
+  line-height: 1.75rem;
+}
+
+.landing-page .landing-body {
+  font-size: 0.9375rem;
+  line-height: 1.7rem;
+}
+
+@media (width >= 640px) {
+  .landing-page .landing-lede {
+    font-size: 1.0625rem;
+    line-height: 2rem;
+  }
+}
+
+/* --- Token studio --------------------------------------------------
+   These two selectors outrank Clarity's class-plus-attribute rules by
+   specificity alone — no `!important` needed. The colors themselves stay
+   in CSS so they can differ per appearance. */
+
+.landing-studio .rad-ui-switch[data-state="checked"] {
+  background-color: var(--landing-brand);
+  border-color: var(--landing-brand);
+}
+
+.landing-studio .rad-ui-switch .rad-ui-switch-indicator[data-state="checked"] {
+  background-color: var(--landing-brand-fg);
+}
+
+/* --- Anatomy demo --------------------------------------------------
+   Outranks the single-class Clarity rules below without `!important`,
+   because the landing page loads after the theme stylesheet. */
+
+.landing-demo [data-part-active],
+.landing-part-active {
+  box-shadow:
+    0 0 0 2px var(--rad-ui-surface-panel),
+    0 0 0 4px var(--rad-ui-solid-background);
+  border-radius: var(--rad-ui-control-radius-md);
+}
+
+.landing-demo .landing-demo-tabs {
+  gap: var(--rad-ui-density-gap-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-fade-up,
+  .landing-ticker-track,
+  .landing-scan,
+  .landing-glow,
+  .landing-pop,
+  .landing-caret {
+    animation: none;
+  }
+
+  [data-landing-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* The behaviour demo lets a visitor flip reduced motion on by hand, so the
+   OS preference and the demo switch both have to reach these rules. Keeping
+   the targets in one list means the two entry points can never drift. */
+
+/* Sass nesting is gone here, so the reduced-motion overrides are written out.
+ * They were previously nested under :root[data-reduced-motion]; v4 requires
+ * modern browsers, but implicit descendant nesting still needs a newer floor
+ * than Tailwind's own (Chrome 120 vs 111), so these stay flattened. */
+:root[data-reduced-motion] .landing-fade-up,
+:root[data-reduced-motion] .landing-ticker-track,
+:root[data-reduced-motion] .landing-scan,
+:root[data-reduced-motion] .landing-glow,
+:root[data-reduced-motion] .landing-pop,
+:root[data-reduced-motion] .landing-caret {
+  animation: none;
+}
+
+:root[data-reduced-motion] [data-landing-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono), monospace;
+}
+
+.docs-inline-code {
+  border: 1px solid color-mix(in oklab, var(--rad-ui-border-soft) 70%, transparent);
+  border-radius: 0.375rem;
+  background: color-mix(in oklab, var(--rad-ui-surface-subtle) 70%, transparent);
+  color: var(--rad-ui-text-primary);
+  font-size: 0.86em;
+  padding: 0.12rem 0.38rem;
+}
+
+.docs-article :where(h1, h2, h3) {
+  scroll-margin-top: 5rem;
+}
+
+#docs-article :where(h1, h2, h3) {
+  scroll-margin-top: 5rem;
+}
+
+.docs-code-block {
+  font-size: 0.84rem;
+  line-height: 1.72;
+}
+
+.docs-code-tab-content {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Fenced code / CodeBlock: panel + tokens follow Theme ([data-rad-ui-theme]) */
+pre.docs-syntax-pre code.docs-code-block {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  display: block;
+  padding: 0.875rem 1rem;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre {
+  background-color: var(--rad-ui-surface-panel);
+  border-color: var(--rad-ui-border-soft);
+  color: var(--rad-ui-text-primary);
+  box-shadow: 0 16px 40px color-mix(in oklab, var(--rad-ui-color-gray-1000) 12%, transparent);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre .docs-code-block {
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .keyword {
+  color: var(--rad-ui-color-red-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .string,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .attr-value,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .template-string,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .inserted {
+  color: var(--rad-ui-color-green-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .number,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .boolean {
+  color: var(--rad-ui-color-green-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .function,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .function-variable,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .class-name,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .tag,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .selector,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .property,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .maybe-class-name,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .builtin,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .constant {
+  color: var(--rad-ui-color-blue-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .attr-name {
+  color: var(--rad-ui-color-red-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .punctuation {
+  color: var(--rad-ui-text-muted);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .operator {
+  color: var(--rad-ui-color-purple-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .comment,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .prolog,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .doctype,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .cdata {
+  color: var(--rad-ui-color-gray-800);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .regex,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .important,
+[data-rad-ui-theme="light"] .docs-syntax-pre code .variable {
+  color: var(--rad-ui-color-blue-900);
+}
+
+[data-rad-ui-theme="light"] .docs-syntax-pre code .char {
+  color: var(--rad-ui-color-green-900);
+}
+
+/* Dark: high-contrast editor palette on black panel */
+[data-rad-ui-theme="dark"] .docs-syntax-pre {
+  background-color: #000;
+  border-color: #27272a;
+  color: #fafafa;
+  box-shadow: 0 16px 48px rgb(0, 0, 0, 0.55);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre .docs-code-block {
+  color: #fafafa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .keyword {
+  color: #f472b6;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .string,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .attr-value,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .template-string,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .inserted {
+  color: #4ade80;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .number,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .boolean {
+  color: #2dd4bf;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .function,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .function-variable,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .class-name,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .tag,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .selector,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .property,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .maybe-class-name,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .builtin,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .constant {
+  color: #93c5fd;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .attr-name {
+  color: #f0abfc;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .punctuation,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .operator {
+  color: #fafafa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .comment,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .prolog,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .doctype,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .cdata {
+  color: #737373;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .regex,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .important,
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .variable {
+  color: #93c5fd;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-pre code .char {
+  color: #4ade80;
+}
+
+.docs-syntax-toolbar {
+  border-bottom: 1px solid var(--rad-ui-border-soft);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--rad-ui-text-primary) 3%, transparent),
+    transparent
+  );
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-toolbar {
+  border-color: #27272a;
+  background: #09090b;
+}
+
+.docs-syntax-toolbar-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--rad-ui-text-muted);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-toolbar-label {
+  color: #a1a1aa;
+}
+
+.docs-syntax-scroll-area {
+  background-color: var(--rad-ui-surface-panel);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-scroll-area {
+  background-color: #000;
+}
+
+.docs-syntax-footer {
+  border-top: 1px solid var(--rad-ui-border-soft);
+  background: color-mix(in oklab, var(--rad-ui-surface-subtle) 55%, transparent);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-footer {
+  border-color: #27272a;
+  background: rgb(9, 9, 11, 0.9);
+}
+
+.docs-syntax-copy {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-subtle);
+  color: var(--rad-ui-text-muted);
+}
+
+.docs-syntax-copy:hover {
+  background: var(--rad-ui-surface-hover);
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-copy {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-copy:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.docs-syntax-expand {
+  border-style: solid;
+  border-color: var(--rad-ui-border-soft);
+  background: var(--rad-ui-surface-subtle);
+  color: var(--rad-ui-text-muted);
+}
+
+.docs-syntax-expand:hover {
+  background: var(--rad-ui-surface-hover);
+  color: var(--rad-ui-text-primary);
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-expand {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+}
+
+[data-rad-ui-theme="dark"] .docs-syntax-expand:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+/* The two rules below were `&::before` nests when this file was Sass. Flattened
+ * here so the stylesheet does not depend on native nesting, which needs a
+ * browser slightly newer than Tailwind v4's own baseline. */
+.code-block-blur {
+  position: relative;
+}
+
+.code-block-blur::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  height: 100px;
+  width: 100%;
+  bottom: 0;
+  opacity: 0.95;
+}
+
+[data-rad-ui-theme="light"] .code-block-blur::before {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--rad-ui-surface-panel) 72%
+  );
+}
+
+[data-rad-ui-theme="dark"] .code-block-blur::before {
+  background: linear-gradient(180deg, transparent, #000 72%);
+}
+
+.top-layout-line {
+  position: relative;
+  height: 1px;
+  margin-top: -5px;
+}
+
+.top-layout-line::before {
+  top: 0;
+  content: "";
+  background-color: var(--rad-ui-color-gray-400);
+  width: 200vw;
+  height: 1px;
+  position: absolute;
+  left: -100vw;
+  z-index: 100;
+}
+
+.bottom-layout-line {
+  background-color: color-mix(in oklab, var(--rad-ui-color-gray-1000) 5%, transparent);
+}
+
+.layout-image {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+  opacity: 0.35;
+
+  --color: color-mix(in oklab, var(--rad-ui-color-gray-400) 55%, transparent);
+
+  background-color: transparent;
+  background-image:
+    linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black, transparent 75%);
+}
+
+.playground-static,
+.playground-static * {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Avoid `transition: none !important` on the whole docs shell: it overrides
+   inline height transitions on Rad UI components (e.g. Accordion) in demos.
+   Prefer `prefers-reduced-motion` in component CSS when reducing motion. */

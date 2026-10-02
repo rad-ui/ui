@@ -56,6 +56,39 @@ describe('Disclosure', () => {
         expect(screen.getByText('Content 1')).toBeInTheDocument();
     });
 
+    test('reflects anatomy and open state through data attributes', () => {
+        render(
+            <Disclosure.Root aria-label="test" defaultOpen={0} className="custom-root">
+                <Disclosure.Item value={0} data-testid="item-one">
+                    <Disclosure.Trigger>Item 1</Disclosure.Trigger>
+                    <Disclosure.Content>Content 1</Disclosure.Content>
+                </Disclosure.Item>
+                <Disclosure.Item value={1} data-testid="item-two">
+                    <Disclosure.Trigger>Item 2</Disclosure.Trigger>
+                    <Disclosure.Content>Content 2</Disclosure.Content>
+                </Disclosure.Item>
+            </Disclosure.Root>
+        );
+
+        const root = screen.getByTestId('disclosure-root');
+        const openItem = screen.getByTestId('item-one');
+        const closedItem = screen.getByTestId('item-two');
+        const openTrigger = screen.getByText('Item 1');
+        const closedTrigger = screen.getByText('Item 2');
+        const content = screen.getByText('Content 1');
+
+        expect(root).toHaveClass('custom-root');
+        expect(root).toHaveAttribute('data-slot', 'disclosure-root');
+        expect(openItem).toHaveAttribute('data-slot', 'disclosure-item');
+        expect(openItem).toHaveAttribute('data-state', 'open');
+        expect(closedItem).toHaveAttribute('data-state', 'closed');
+        expect(openTrigger).toHaveAttribute('data-slot', 'disclosure-trigger');
+        expect(openTrigger).toHaveAttribute('data-state', 'open');
+        expect(closedTrigger).toHaveAttribute('data-state', 'closed');
+        expect(content).toHaveAttribute('data-slot', 'disclosure-content');
+        expect(content).toHaveAttribute('data-state', 'open');
+    });
+
     test('loop={false} stops focus wrap between triggers', async() => {
         const user = userEvent.setup();
 

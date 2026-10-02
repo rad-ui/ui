@@ -26,9 +26,10 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
         <Theme
             appearance={darkMode ? 'dark' : 'light'}
             accentColor="gray"
+            classNamespace="rad-ui"
         >
             <NavBarContext.Provider value={sendValues}>
-                <div className={`flex flex-col flex-1 h-screen ${darkMode ? 'rad-ui-dark-theme bg-black' : 'bg-gray-50'}`} data-accent-color="gray">
+                <div className="flex h-screen flex-1 flex-col bg-gray-50" data-accent-color="gray">
                     {/* Navbar start */}
                     <NavBar darkMode={darkMode} setDarkMode={setDarkMode} setThemeCookie={Cookies.set} />
                     {/* Navbar end */}

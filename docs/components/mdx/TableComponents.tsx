@@ -3,8 +3,8 @@
 import Table from "@radui/ui/Table"
 
 export const TableRoot = ({ children }: { children: React.ReactNode }) => (
-  <div className="w-full overflow-x-auto my-6">
-    <Table.Root>
+  <div className="my-6 w-full overflow-x-auto rounded-xl border border-gray-400 bg-gray-50">
+    <Table.Root className="shadow-none">
       {children}
     </Table.Root>
   </div>
@@ -30,13 +30,16 @@ export const TableRow = ({ children }: { children: React.ReactNode }) => (
 
 export const TableHeader = ({ children }: { children: React.ReactNode }) => (
   <Table.ColumnCellHeader>
-    {children}
+    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-700">
+      {children}
+    </span>
   </Table.ColumnCellHeader>
 )
 
 export const TableCell = ({ children }: { children: React.ReactNode }) => (
   <Table.Cell>
-    {children}
+    <span className="text-[0.92rem] leading-6 text-gray-900">
+      {children}
+    </span>
   </Table.Cell>
 )
-

@@ -16,6 +16,7 @@ const SwitchThumb = forwardRef<SwitchThumbElement, SwitchThumbProps>(({ asChild 
     const { checked, rootClass, disabled } = useContext(SwitchContext);
 
     const dataAttributes: Record<string, string> = {};
+    dataAttributes['data-slot'] = 'switch-thumb';
     dataAttributes['data-state'] = checked ? 'checked' : 'unchecked';
     if (disabled) {
         dataAttributes['data-disabled'] = '';
@@ -24,7 +25,6 @@ const SwitchThumb = forwardRef<SwitchThumbElement, SwitchThumbProps>(({ asChild 
     return (
         <Primitive.span
             ref={ref}
-            role='switch'
             className={clsx(rootClass && `${rootClass}-indicator`, className)}
             asChild={asChild}
             {...dataAttributes}

@@ -28,4 +28,16 @@ describe('Primitive', () => {
         const element = screen.getByText('Content');
         expect(element.tagName).toBe('BUTTON');
     });
+
+    it('renders as anchor with href', () => {
+        render(
+            <Primitive.a href="https://example.com" target="_blank" rel="noreferrer">
+                Link
+            </Primitive.a>
+        );
+        const element = screen.getByRole('link', { name: 'Link' });
+        expect(element).toHaveAttribute('href', 'https://example.com');
+        expect(element).toHaveAttribute('target', '_blank');
+        expect(element.tagName).toBe('A');
+    });
 });

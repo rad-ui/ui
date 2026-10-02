@@ -102,7 +102,7 @@ const StarIcon = () => {
 
 const FeatureCard = ({ title, description, icon }) => {
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-green-200 rounded-lg p-6 min-w-[380px] min-h-[220px] border border-gray-700 space-y-6">
+    <div className="bg-linear-to-b from-gray-50 to-green-200 rounded-lg p-6 min-w-[380px] min-h-[220px] border border-gray-700 space-y-6">
       {icon}
       <Heading as="h3" className="text-gray-1000">{title}</Heading>
       <Text className="text-gray-950">{description}</Text>
@@ -136,7 +136,7 @@ const HeroSection = () => {
 
   return <div className="pt-20 mb-10 relative">
     <div className="relative z-10 lg:block md:w-[768px] mx-auto w-full px-4">
-      <Heading className="text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-1000 to-gray-600">
+      <Heading className="text-center text-transparent bg-clip-text bg-linear-to-r from-gray-1000 to-gray-600">
         Accelerate Your <span className="text-green-900">UI Development</span> with <span className="text-green-900">Prebuilt Components</span>
       </Heading>
       <Text className="text-center text-gray-900 mb-10">
@@ -235,9 +235,9 @@ color="blue" variant="ghost" onClick={() => {
   // return <div>
   //   <div className='py-20 mb-10 relative'>
   //     <div className='relative z-10'>
-  //       <Heading className="text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-1000">
-  //         Build <div className='inline-block text-transparent bg-clip-text bg-gradient-to-t from-green-800 to-green-950'>Effortless, </div> <br />
-  //         No <div className='inline-block text-transparent bg-clip-text bg-gradient-to-t from-crimson-700 to-crimson-950'> Compromise UI</div> Fast.
+  //       <Heading className="text-center text-transparent bg-clip-text bg-linear-to-r from-gray-900 to-gray-1000">
+  //         Build <div className='inline-block text-transparent bg-clip-text bg-linear-to-t from-green-800 to-green-950'>Effortless, </div> <br />
+  //         No <div className='inline-block text-transparent bg-clip-text bg-linear-to-t from-crimson-700 to-crimson-950'> Compromise UI</div> Fast.
   //       </Heading>
   //     </div>
   //   </div>

@@ -21,7 +21,7 @@ const UserItem = ({ name = "", src = null, ...props }) => {
                 <Avatar.Image src={src} />
                 <Avatar.Fallback>{initials}</Avatar.Fallback>
             </Avatar.Root>
-            <Text className="font-light !text-sm hover:underline cursor-pointer text-blue-950">{name}</Text>
+            <Text className="font-light text-sm! hover:underline cursor-pointer text-blue-950">{name}</Text>
         </div>
         <span className='cursor-pointer'>
             <MenuIcon />

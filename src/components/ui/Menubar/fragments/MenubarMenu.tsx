@@ -13,7 +13,9 @@ export type MenubarMenuProps = {
 
 const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children, className, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
-    const id = Floater.useId();
+    const floatingId = Floater.useId();
+    const reactId = React.useId();
+    const id = floatingId ?? reactId;
 
     if (!context) {
         console.warn('MenubarMenu should be used in the MenubarRoot');
@@ -39,7 +41,7 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
             onOpenChange={(open) => id && updateItemState(id, open ? 'open' : 'closed')}
             {...props}
         >
-            <MenubarMenuContext.Provider value={{ isOpen }}>
+            <MenubarMenuContext.Provider value={{ id, isOpen }}>
                 {children}
             </MenubarMenuContext.Provider>
         </MenuPrimitive.Root>

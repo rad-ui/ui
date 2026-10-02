@@ -13,11 +13,11 @@ export type DisclosureRootProps = React.ComponentPropsWithoutRef<'div'> & {
      loop?: boolean;
 };
 
-const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, customRootClass, 'aria-label': ariaLabel, loop = true, ...props }, forwardedRef) => {
+const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, className, customRootClass, defaultOpen = null, 'aria-label': ariaLabel, loop = true, ...props }, forwardedRef) => {
     const disclosureRef = useRef<React.ElementRef<'div'> | null>(null);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const [activeItem, setActiveItem] = useState<number | null>(null);
+    const [activeItem, setActiveItem] = useState<number | null>(defaultOpen);
 
     const setRefs = useCallback((node: React.ElementRef<'div'> | null) => {
         disclosureRef.current = node;
@@ -42,10 +42,11 @@ const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootP
                 <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`)}>
                     <div
                         {...props}
-                        className={clsx(rootClass && `${rootClass}-root`)}
+                        className={clsx(rootClass && `${rootClass}-root`, className)}
                         ref={setRefs}
                         role="region"
                         aria-label={ariaLabel}
+                        data-slot="disclosure-root"
                         data-testid='disclosure-root'
                     >
 

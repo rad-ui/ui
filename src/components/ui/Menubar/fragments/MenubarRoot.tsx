@@ -17,12 +17,15 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [items, setItems] = React.useState<MenubarItem[]>([]);
     const [activeIndex, setActiveIndex] = React.useState(0);
+    const [contentInitialFocus, setContentInitialFocus] = React.useState<number | undefined>();
+    const triggersRef = React.useRef<Record<string, HTMLButtonElement | null>>({});
 
-    const registerItem = (id: string, state: 'open' | 'closed' = 'closed') => {
+    const registerItem = React.useCallback((id: string, state: 'open' | 'closed' = 'closed') => {
         setItems((prev) => {
             // if already exists, just update its state
             const existing = prev.find((item) => item.id === id);
             if (existing) {
+                if (existing.state === state) return prev;
                 return prev.map((item) =>
                     item.id === id ? { ...item, state } : item
                 );
@@ -30,15 +33,26 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
             // else add new item
             return [...prev, { id, state }];
         });
-    };
+    }, []);
 
-    const updateItemState = (id: string, newState: 'open' | 'closed') => {
+    const updateItemState = React.useCallback((id: string, newState: 'open' | 'closed') => {
+        if (newState === 'open') {
+            setContentInitialFocus((current) => current === -1 ? current : undefined);
+        }
         setItems((prev) =>
             prev.map((item) => (item.id === id ? { ...item, state: newState } : item))
         );
-    };
+    }, []);
 
-    const handleOnNavigate = (newIndex: number) => {
+    const updateItemTrigger = React.useCallback((id: string, trigger: HTMLButtonElement | null) => {
+        if (trigger) {
+            triggersRef.current[id] = trigger;
+        } else {
+            delete triggersRef.current[id];
+        }
+    }, []);
+
+    const handleOnNavigate = React.useCallback((newIndex: number) => {
         const prevItem = items[activeIndex];
         const nextItem = items[newIndex];
 
@@ -54,10 +68,39 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
         }
 
         setActiveIndex(newIndex);
-    };
+    }, [activeIndex, items, updateItemState]);
+
+    const navigateMenu = React.useCallback((delta: 1 | -1) => {
+        if (items.length === 0) return;
+
+        const currentIndex = activeIndex >= 0 ? activeIndex : items.findIndex((item) => item.state === 'open');
+        if (currentIndex === -1) return;
+
+        const nextIndex = (currentIndex + delta + items.length) % items.length;
+        const nextItem = items[nextIndex];
+        if (!nextItem) return;
+
+        setContentInitialFocus(-1);
+        setItems((prev) => prev.map((item, index) => ({
+            ...item,
+            state: index === nextIndex ? 'open' : 'closed'
+        })));
+        setActiveIndex(nextIndex);
+        triggersRef.current[nextItem.id]?.focus();
+    }, [activeIndex, items]);
+
+    const contextValue = React.useMemo(() => ({
+        rootClass,
+        registerItem,
+        items,
+        updateItemState,
+        updateItemTrigger,
+        navigateMenu,
+        contentInitialFocus
+    }), [rootClass, registerItem, items, updateItemState, updateItemTrigger, navigateMenu, contentInitialFocus]);
 
     return (
-        <MenubarContext.Provider value={{ rootClass, registerItem, items, updateItemState }} >
+        <MenubarContext.Provider value={contextValue} >
             <Floater.Composite
                 ref={ref}
                 className={clsx(rootClass && `${rootClass}-root`, className)} dir={dir} loop={loop} {...props} activeIndex={activeIndex}

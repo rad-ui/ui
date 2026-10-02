@@ -1,16 +1,19 @@
 .rad-ui-block-quote {
+  --rad-ui-block-quote-font-size-lg: calc(var(--rad-ui-font-size-5) + var(--rad-ui-spacing-1));
+  --rad-ui-block-quote-font-size-xl: calc(var(--rad-ui-font-size-5) + var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
+
   position: relative;
   margin: 0;
-  max-width: 72rem;
-  padding-inline-start: 1.5rem;
-  border-inline-start: 4px solid var(--rad-ui-border-default);
+  max-width: calc(var(--rad-ui-size-16) * 18);
+  padding-inline-start: var(--rad-ui-spacing-6);
+  border-inline-start: var(--rad-ui-border-width-4) solid var(--rad-ui-border-default);
   font-family: Georgia, "Times New Roman", Times, serif;
   font-style: italic;
-  font-weight: 400;
+  font-weight: var(--rad-ui-component-font-weight-regular);
   letter-spacing: -0.02em;
   color: var(--rad-ui-text-primary);
   font-size: var(--rad-ui-font-size-4);
-  line-height: 1.55;
+  line-height: calc(var(--rad-ui-component-line-height-relaxed) + 0.05);
 
   &[data-color] {
     border-inline-start-color: var(--rad-ui-color-accent-400);
@@ -21,31 +24,31 @@
   // Size controls spacing (padding-inline-start), border width (border-inline-start-width), font size, and line height
   // Variants should NOT override these sizing properties unless explicitly combined
   &[data-size="small"] {
-    font-size: 0.9375rem;
-    padding-inline-start: 1rem;
-    border-inline-start-width: 3px;
+    font-size: calc(var(--rad-ui-font-size-3) - (var(--rad-ui-spacing-1) / 4));
+    padding-inline-start: var(--rad-ui-spacing-4);
+    border-inline-start-width: var(--rad-ui-border-width-3);
     line-height: var(--rad-ui-line-height-3);
   }
   
   &[data-size="medium"] {
     font-size: var(--rad-ui-font-size-4);
-    padding-inline-start: 1.5rem;
-    border-inline-start-width: 4px;
-    line-height: 1.55;
+    padding-inline-start: var(--rad-ui-spacing-6);
+    border-inline-start-width: var(--rad-ui-border-width-4);
+    line-height: calc(var(--rad-ui-component-line-height-relaxed) + 0.05);
   }
-  
+
   &[data-size="large"] {
-    font-size: 1.5rem;
-    padding-inline-start: 1.75rem;
-    border-inline-start-width: 5px;
+    font-size: var(--rad-ui-block-quote-font-size-lg);
+    padding-inline-start: calc(var(--rad-ui-spacing-6) + var(--rad-ui-spacing-1));
+    border-inline-start-width: var(--rad-ui-border-width-5);
     line-height: var(--rad-ui-line-height-3);
   }
-  
+
   &[data-size="x-large"] {
-    font-size: 1.875rem;
-    padding-inline-start: 2rem;
-    border-inline-start-width: 6px;
-    line-height: 1.45;
+    font-size: var(--rad-ui-block-quote-font-size-xl);
+    padding-inline-start: var(--rad-ui-spacing-8);
+    border-inline-start-width: var(--rad-ui-border-width-6);
+    line-height: calc(var(--rad-ui-component-line-height-normal) + 0.2);
   }
   
   // Variant styles
@@ -53,25 +56,25 @@
   // If a variant must change sizing, create explicit combined selectors like:
   // &[data-size="large"][data-variant="soft"]
   &[data-variant="outline"] {
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--rad-ui-border-default);
-    border-radius: var(--rad-ui-radius-md);
+    padding: var(--rad-ui-spacing-4) var(--rad-ui-spacing-5);
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-default);
+    border-radius: var(--rad-ui-control-radius-md);
     background-color: var(--rad-ui-surface-panel);
 
     &[data-size="small"] {
-      padding: 0.75rem 0.875rem;
+      padding: var(--rad-ui-spacing-3) calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
     }
 
     &[data-size="medium"] {
-      padding: 1rem 1.25rem;
+      padding: var(--rad-ui-spacing-4) var(--rad-ui-spacing-5);
     }
 
     &[data-size="large"] {
-      padding: 1.125rem 1.375rem;
+      padding: calc(var(--rad-ui-spacing-4) + var(--rad-ui-density-gap-xs)) calc(var(--rad-ui-spacing-5) + var(--rad-ui-density-gap-xs));
     }
 
     &[data-size="x-large"] {
-      padding: 1.25rem 1.5rem;
+      padding: var(--rad-ui-spacing-5) var(--rad-ui-spacing-6);
     }
 
     &[data-color] {
@@ -82,27 +85,27 @@
   
   &[data-variant="soft"] {
     background-color: var(--rad-ui-color-accent-50);
-    border-radius: var(--rad-ui-radius-md);
+    border-radius: var(--rad-ui-control-radius-md);
     border-inline-start-width: 0;
     color: var(--rad-ui-color-accent-1000);
-    padding: 1rem 1.25rem;
+    padding: var(--rad-ui-spacing-4) var(--rad-ui-spacing-5);
     
     // Combined: soft variant with specific sizes that need padding adjustments
     // Only add combined selectors if the variant truly needs different sizing
     &[data-size="small"] {
-      padding: 0.75rem 0.875rem;
+      padding: var(--rad-ui-spacing-3) calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
     }
     
     &[data-size="medium"] {
-      padding: 1rem 1.25rem;
+      padding: var(--rad-ui-spacing-4) var(--rad-ui-spacing-5);
     }
     
     &[data-size="large"] {
-      padding: 1.125rem 1.375rem;
+      padding: calc(var(--rad-ui-spacing-4) + var(--rad-ui-density-gap-xs)) calc(var(--rad-ui-spacing-5) + var(--rad-ui-density-gap-xs));
     }
     
     &[data-size="x-large"] {
-      padding: 1.25rem 1.5rem;
+      padding: var(--rad-ui-spacing-5) var(--rad-ui-spacing-6);
     }
 
     &[data-color] {

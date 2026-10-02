@@ -2,7 +2,7 @@ import ProductPageDemo from "../helpers/ProductPageDemo"
 
 export const metadata = {
     title: "Showcase Product Page",
-    description: "An e-commerce product page showcase demo built with Rad UI components.",
+    description: "A product detail page built with Rad UI Badge, Button, Heading, and Text.",
 }
 
 const ProductPage = () => {

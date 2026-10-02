@@ -25,6 +25,20 @@ describe('Switch behaviour', () => {
         expect(button).toHaveAttribute('data-state', 'unchecked');
     });
 
+    test('exposes stable anatomy slots without duplicating switch semantics', () => {
+        const { container } = render(
+            <Switch.Root>
+                <Switch.Thumb />
+            </Switch.Root>
+        );
+        const switches = screen.getAllByRole('switch');
+        expect(switches).toHaveLength(1);
+        expect(switches[0]).toHaveAttribute('data-slot', 'switch-root');
+        const thumb = container.querySelector('[data-slot="switch-thumb"]');
+        expect(thumb).toBeInTheDocument();
+        expect(thumb).not.toHaveAttribute('role');
+    });
+
     test('controlled and uncontrolled checked states stay in sync', async() => {
         const user = userEvent.setup();
 

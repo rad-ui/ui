@@ -3,7 +3,7 @@
 import React, { forwardRef, useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import { PopoverPrimitiveContext } from '../context/PopoverPrimitiveContext';
-import { composeRefs, mergeProps } from '~/core/utils/mergeProps';
+import { composeRefs, getElementRef, mergeProps } from '~/core/utils/mergeProps';
 
 export type PopoverPrimitiveArrowProps = Omit<React.ComponentPropsWithoutRef<typeof Floater.Arrow>, 'context'> & {
     asChild?: boolean;
@@ -44,7 +44,7 @@ const PopoverPrimitiveArrow = forwardRef<SVGSVGElement, PopoverPrimitiveArrowPro
             />
         );
 
-        const childRef = (child as any).ref;
+        const childRef = getElementRef(child);
         const composedRef = composeRefs(mergedRef, childRef);
         const mergedProps = mergeProps(arrow.props, child.props);
 

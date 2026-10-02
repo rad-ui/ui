@@ -7,13 +7,36 @@ on:
     paths:
       - 'src/**'
       - 'styles/**'
+      - '.storybook/**'
   pull_request:
-    types: [labeled]
+    paths:
+      - 'src/**'
+      - 'styles/**'
+      - '.storybook/**'
+
+permissions:
+  contents: read
 
 jobs:
   chromatic-deployment:
-    # Run on main repo pushes or when PR has "deploy-storybook" label
-    if: github.repository == 'rad-ui/ui' && (github.event_name == 'push' || github.event.label.name == 'deploy-storybook')
+    # Runs on every PR touching components, styles or Storybook config. Gating on
+    # a `deploy-storybook` label meant visual changes reached main unchecked
+    # whenever the label was forgotten, which is most of the time.
+    #
+    # Fork PRs are excluded: `github.repository` resolves to the BASE repo for
+    # them, so the check below would pass, but GitHub withholds
+    # CHROMATIC_PROJECT_TOKEN from fork PRs. The step would then run without a
+    # token and fail.
+    #
+    # The event_name guard is load-bearing. This workflow also runs on pushes to
+    # main, where `github.event.pull_request` is null, so reading
+    # `pull_request.head.repo.full_name` unguarded evaluates `null == 'rad-ui/ui'`
+    # as false and skips the main deployment too. Short-circuit on the event
+    # first: pushes pass, then only same-repo PRs get the fork comparison.
+    if: >-
+      github.repository == 'rad-ui/ui' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -32,5 +55,7 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          # Optional: Add any additional Chromatic CLI flags here
-          # For example: --exit-zero-on-changes
+          # Gating is intentional: a visual regression should fail the PR.
+          # Do not add --exit-zero-on-changes here without also recording why
+          # the snapshot is known to be unstable.
+          maxStoryBuildTraces: 0

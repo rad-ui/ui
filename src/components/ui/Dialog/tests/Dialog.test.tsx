@@ -66,6 +66,40 @@ describe('Dialog', () => {
         expect(opened.queryByText('Description')).toBeInTheDocument();
     });
 
+    test('syncs trigger state attributes with dialog open state', async() => {
+        const user = userEvent.setup();
+        const { getByText } = render(
+            <Dialog.Root>
+                <Dialog.Trigger>Open</Dialog.Trigger>
+                <Dialog.Content>
+                    <Dialog.Close>Close</Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        const trigger = getByText('Open');
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+        expect(trigger).toHaveAttribute('data-state', 'closed');
+
+        await user.click(trigger);
+
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        expect(trigger).toHaveAttribute('data-state', 'open');
+    });
+
+    test('marks disabled triggers with data-disabled', () => {
+        const { getByText } = render(
+            <Dialog.Root>
+                <Dialog.Trigger disabled>Open</Dialog.Trigger>
+                <Dialog.Content>
+                    <Dialog.Close>Close</Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        expect(getByText('Open')).toHaveAttribute('data-disabled');
+    });
+
     test('renders without warnings', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const error = jest.spyOn(console, 'error').mockImplementation(() => {});

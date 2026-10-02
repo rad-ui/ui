@@ -6,6 +6,11 @@ export interface SplitterContextValue {
   orientation: SplitterOrientation;
   sizes: number[];
   setSizes: (sizes: number[]) => void;
+  getHandleValueAttributes: (handleIndex: number) => {
+    'aria-valuemin': number;
+    'aria-valuemax': number;
+    'aria-valuenow': number;
+  };
   startDrag: (handleIndex: number, event: React.MouseEvent | React.TouchEvent) => void;
   handleKeyDown: (handleIndex: number, event: React.KeyboardEvent) => void;
   isDragging: boolean;

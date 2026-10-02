@@ -85,7 +85,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
 
         return (
             <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef }}>
-                <div ref={ref} {...props}>
+                <div ref={ref} data-slot="tooltip-root" {...props}>
                     {children}
                 </div>
             </TooltipContext.Provider>

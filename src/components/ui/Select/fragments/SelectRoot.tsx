@@ -18,6 +18,7 @@ const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
             <SelectRootContext.Provider value={{ rootClass }}>
                 <ComboboxPrimitive.Root
                     className={rootClass ? `${rootClass}-root` : undefined}
+                    data-slot="select-root"
                     defaultValue={defaultValue}
                     value={value}
                     onValueChange={onValueChange}

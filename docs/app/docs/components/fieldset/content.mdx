@@ -1,0 +1,23 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import FieldsetExample from "./docs/examples/FieldsetExample"
+import code, { anatomy, api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
+
+<Documentation
+    title="Fieldset"
+    description="A semantic form grouping primitive for related controls, legends, descriptions, and validation messages."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <FieldsetExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'legend', 'description', 'message']}
+    />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
+</Documentation>

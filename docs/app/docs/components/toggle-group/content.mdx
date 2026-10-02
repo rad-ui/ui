@@ -1,6 +1,6 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
 import codeUsage from "./docs/codeUsage"
-import { api_documentation } from "./docs/codeUsage"
+import { api_documentation, ariaReferences, keyboardShortcuts } from "./docs/codeUsage"
 import ToggleGroupExample from "./docs/examples/ToggleGroupExample"
 
 <Documentation 
@@ -17,5 +17,9 @@ import ToggleGroupExample from "./docs/examples/ToggleGroupExample"
         tables={api_documentation}
         order={['root', 'item']}
     />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
 </Documentation>

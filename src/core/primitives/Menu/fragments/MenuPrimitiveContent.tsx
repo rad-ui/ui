@@ -6,10 +6,12 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
-};
+    initialFocus?: number;
+    focusManagerDisabled?: boolean;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(
-    ({ children, className, ...props }, propRef) => {
+    ({ children, className, initialFocus, focusManagerDisabled = false, ...props }, propRef) => {
         const context = useContext(MenuPrimitiveRootContext);
         const mergedRef = Floater.useMergeRefs([
             context?.refs.setFloating,
@@ -22,20 +24,29 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             elementsRef,
             labelsRef,
             isNested,
-            floatingContext
+            floatingContext,
+            maxHeight
         } = context;
 
         const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
         const restProps = { ...props } as Record<string, unknown>;
         delete restProps.style;
+        const scrollContainerStyle: React.CSSProperties = {
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            maxHeight: maxHeight !== undefined ? `${maxHeight}px` : undefined,
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+        };
 
         return (
             <>
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 <Floater.FocusManager
                     context={floatingContext}
+                    disabled={focusManagerDisabled}
                     modal={false}
-                    initialFocus={isNested ? -1 : 0}
+                    initialFocus={initialFocus ?? (isNested ? -1 : 0)}
                     returnFocus={!isNested}
                 >         
                     <div
@@ -46,7 +57,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                             style: { ...consumerStyle, ...floatingStyles }
                         })}
                     >
-                        <div style={{overflowY:"auto", overflowX:"hidden"}}>
+                        <div style={scrollContainerStyle}>
                         {children}
                         </div>
                     </div>

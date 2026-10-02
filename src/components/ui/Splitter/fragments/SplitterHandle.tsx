@@ -12,8 +12,17 @@ const SplitterHandle = React.forwardRef<
     React.ElementRef<'div'>,
     SplitterHandleProps
 >(({ index, className, 'aria-label': ariaLabel, style, ...props }, forwardedRef) => {
-    const { startDrag, orientation, isDragging, activeHandleIndex, handleKeyDown, rootClass } = useSplitter();
+    const {
+        startDrag,
+        orientation,
+        isDragging,
+        activeHandleIndex,
+        handleKeyDown,
+        getHandleValueAttributes,
+        rootClass
+    } = useSplitter();
     const isActive = isDragging && activeHandleIndex === index;
+    const valueAttributes = getHandleValueAttributes(index);
 
     return (
         <div
@@ -23,6 +32,7 @@ const SplitterHandle = React.forwardRef<
             role="separator"
             aria-orientation={orientation}
             aria-label={ariaLabel || `${orientation} resize handle`}
+            {...valueAttributes}
             tabIndex={0}
             onMouseDown={(e) => startDrag(index, e)}
             onTouchStart={(e) => startDrag(index, e)}

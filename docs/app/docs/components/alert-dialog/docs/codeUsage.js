@@ -1,6 +1,14 @@
-import Kbd from '@radui/ui/Kbd';
-import Text from '@radui/ui/Text';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS
+} from '../../shared/keyboardShortcuts';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/alert-dialog/docs/example_1.tsx');
 
@@ -44,5 +52,31 @@ export const api_documentation = {
     cancel: cancel_api_SourceCode,
     action: action_api_SourceCode
 }
+
+export const keyboardShortcuts = createKeyboardShortcutTable([
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ESCAPE,
+        'Closes the alert dialog when cancel or dismiss behavior is available.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.TAB,
+        'Moves focus to the next focusable control inside the alert dialog.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SHIFT_TAB,
+        'Moves focus to the previous focusable control inside the alert dialog.'
+    )
+]);
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.ALERT_DIALOG,
+        'Uses alert dialog semantics for confirmation flows that interrupt the current task and require a response.'
+    ),
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.DIALOG_MODAL,
+        'Inherits modal dialog focus containment, labelling, description, and focus restoration expectations.'
+    )
+]);
 
 export default code

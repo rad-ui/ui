@@ -12,7 +12,7 @@ export type CheckboxIndicatorProps = {
 
 const CheckboxIndicator = forwardRef<CheckboxIndicatorElement, CheckboxIndicatorProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(CheckboxContext);
-    return <CheckboxPrimitiveIndicator ref={ref} {...props}>
+    return <CheckboxPrimitiveIndicator ref={ref} {...props} data-slot="checkbox-indicator">
         <Check
             width={15}
             height={15}

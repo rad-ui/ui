@@ -85,21 +85,21 @@ const quickQueue = [
 
 const Artist: any = ({ artist, index }: any) => {
     return (
-        <article className='group cursor-pointer overflow-hidden rounded-[18px] border border-slate-500 bg-gradient-to-b from-slate-1000/[0.08] to-slate-1000/[0.03] p-1.5 hover:border-amber-700/20 hover:bg-slate-1000/[0.08]'>
-            <div className='relative overflow-hidden rounded-[16px]'>
+        <article className='group cursor-pointer overflow-hidden rounded-xl border border-gray-600 bg-linear-to-b from-gray-1000/[0.08] to-gray-1000/[0.03] p-1.5 hover:border-green-700/20 hover:bg-gray-1000/[0.08]'>
+            <div className='relative overflow-hidden rounded-lg'>
                 <img className='h-28 w-full object-cover' src={artist.image} alt={`${artist.name} album cover`} />
                 <div className='absolute inset-x-0 top-0 flex items-center justify-between p-2'>
-                    <span className='rounded-full bg-slate-1000/55 px-2.5 py-0.5 text-[11px] font-medium text-slate-1000/85 backdrop-blur-sm'>#{index + 1}</span>
-                    <span className='rounded-full border border-slate-500 bg-slate-1000/10 px-2.5 py-0.5 text-[11px] text-slate-1000/75 backdrop-blur-sm'>{artist.genre}</span>
+                    <span className='rounded-full bg-gray-1000/60 px-2.5 py-0.5 text-[11px] font-medium text-gray-50/90 backdrop-blur-xs'>#{index + 1}</span>
+                    <span className='rounded-full border border-gray-600 bg-gray-1000/25 px-2.5 py-0.5 text-[11px] text-gray-50/90 backdrop-blur-xs'>{artist.genre}</span>
                 </div>
-                <div className='absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-1000/75 to-transparent p-2'>
-                    <Text className='!text-[10px] uppercase tracking-[0.24em] text-slate-1000/75'>Monthly listeners</Text>
-                    <Text className='mt-0.5 !text-[1.05rem] font-semibold !text-slate-1000'>{artist.monthly}</Text>
+                <div className='absolute inset-x-0 bottom-0 bg-linear-to-t from-gray-1000/80 to-transparent p-2'>
+                    <Text className='text-[10px]! uppercase tracking-[0.24em] text-gray-50/80'>Monthly listeners</Text>
+                    <Text className='mt-0.5 text-[1.05rem]! font-semibold text-gray-50!'>{artist.monthly}</Text>
                 </div>
             </div>
             <div className='px-1 pb-0.5 pt-2'>
-                <Text className="!text-[1rem] font-semibold !text-slate-1000">{artist.name}</Text>
-                <Text className="mt-0.5 !text-[11px] text-slate-900/80">{artist.album}</Text>
+                <Text className="text-[1rem]! font-semibold text-gray-1000!">{artist.name}</Text>
+                <Text className="mt-0.5 text-[11px]! text-gray-1000/70">{artist.album}</Text>
             </div>
         </article>
     )
@@ -111,11 +111,11 @@ const TopArtists = () => {
             <div>
                 <div className='mb-3 space-y-1.5'>
                     <div>
-                        <Text className='mb-1.5 uppercase tracking-[0.32em] !text-[10px] text-slate-900/75'>Top Artists</Text>
-                        <Heading as="h5" className="!text-slate-1000">Heavy rotation, redesigned.</Heading>
+                        <Text className='mb-1.5 uppercase tracking-[0.32em] text-[10px]! text-gray-1000/70'>Top Artists</Text>
+                        <Heading as="h5" className="!text-gray-1000">Heavy rotation, redesigned.</Heading>
                     </div>
-                    <Text className='max-w-2xl !text-xs text-slate-1000/70'>
-                        Tighter cards and clearer metadata let the gallery carry more artists per row without feeling cramped.
+                    <Text className='max-w-2xl text-xs! text-gray-1000/70'>
+                        Ten artists driving this month&apos;s rotation, ranked by total monthly listeners.
                     </Text>
                 </div>
                 <div className='grid gap-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
@@ -125,27 +125,27 @@ const TopArtists = () => {
                 </div>
             </div>
 
-            <aside className='rounded-[18px] border border-slate-500 bg-gradient-to-b from-slate-1000/[0.08] to-slate-1000/[0.03] p-2.5'>
-                <Text className='uppercase tracking-[0.32em] !text-[10px] text-slate-900/75'>Tonight's Queue</Text>
-                <Heading as="h6" className='mt-2 !text-slate-1000'>Momentum builders</Heading>
+            <aside className='rounded-xl border border-gray-600 bg-linear-to-b from-gray-1000/[0.08] to-gray-1000/[0.03] p-2.5'>
+                <Text className='uppercase tracking-[0.32em] text-[10px]! text-gray-1000/70'>Tonight's Queue</Text>
+                <Heading as="h6" className='mt-2 text-gray-1000!'>Momentum builders</Heading>
                 <div className='mt-3 space-y-2'>
                     {quickQueue.map((track, index) => (
-                        <div key={track.title} className='flex items-center justify-between rounded-[14px] border border-slate-500 bg-slate-1000/20 px-2.5 py-1.5'>
+                        <div key={track.title} className='flex items-center justify-between rounded-lg border border-gray-600 bg-gray-1000/20 px-2.5 py-1.5'>
                             <div className='min-w-0 pr-3'>
-                                <Text className='!text-[10px] uppercase tracking-[0.24em] text-slate-900/75'>0{index + 1}</Text>
-                                <Text className='mt-0.5 truncate !text-sm font-semibold !text-slate-1000'>{track.title}</Text>
-                                <Text className='!text-xs text-slate-900/70'>{track.artist}</Text>
+                                <Text className='text-[10px]! uppercase tracking-[0.24em] text-gray-1000/70'>0{index + 1}</Text>
+                                <Text className='mt-0.5 truncate text-sm! font-semibold text-gray-1000!'>{track.title}</Text>
+                                <Text className='text-xs! text-gray-1000/70'>{track.artist}</Text>
                             </div>
-                            <Text className='!text-xs text-slate-1000/70'>{track.length}</Text>
+                            <Text className='text-xs! text-gray-1000/70'>{track.length}</Text>
                         </div>
                     ))}
                 </div>
 
-                <div className='mt-3.5 rounded-[16px] border border-bronze-600/25 bg-gradient-to-b from-bronze-500/18 via-amber-900/5 to-slate-1000/10 p-3'>
-                    <Text className='!text-[10px] uppercase tracking-[0.3em] text-slate-900/75'>Session Lift</Text>
-                    <Text className='mt-2.5 !text-[1.65rem] font-semibold !text-slate-1000'>+28%</Text>
-                    <Text className='mt-1.5 !text-xs text-slate-1000/70'>
-                        More visual depth and cleaner grouping make the demo feel like a product, not a placeholder.
+                <div className='mt-3.5 rounded-lg border border-green-600/25 bg-linear-to-b from-green-500/20 via-green-900/5 to-gray-1000/10 p-3'>
+                    <Text className='text-[10px]! uppercase tracking-[0.3em] text-gray-1000/70'>Session Lift</Text>
+                    <Text className='mt-2.5 text-[1.65rem]! font-semibold text-gray-1000!'>+28%</Text>
+                    <Text className='mt-1.5 text-xs! text-gray-1000/70'>
+                        Listener growth across the rotation this week, up sharply after the new album drop.
                     </Text>
                 </div>
             </aside>

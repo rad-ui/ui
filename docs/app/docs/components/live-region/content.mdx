@@ -1,0 +1,23 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import codeUsage, { api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
+import LiveRegionExample from "./docs/examples/LiveRegionExample"
+
+<Documentation
+    title="Live Region"
+    description="Announce dynamic status, validation, and background updates to assistive technologies without adding visual UI."
+>
+    <Documentation.ComponentHero codeUsage={codeUsage}>
+        <LiveRegionExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
+
+    <Documentation.ApiReference
+        tables={api_documentation}
+        order={['root']}
+    />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
+</Documentation>

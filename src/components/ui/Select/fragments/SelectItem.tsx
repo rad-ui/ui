@@ -35,12 +35,13 @@ const SelectItem = React.forwardRef<SelectItemElement, SelectItemProps>(({ custo
             label={itemLabel}
             disabled={disabled}
             data-disabled={disabled ? '' : undefined}
+            data-slot="select-item"
             role="option"
             aria-disabled={disabled ? 'true' : undefined}
             ref={forwardedRef}
             {...props}
         >
-            <span className={rootClass ? `${rootClass}-text` : undefined}>{children}</span>
+            <span className={rootClass ? `${rootClass}-text` : undefined} data-slot="select-item-text">{children}</span>
         </ComboboxPrimitive.Item>
     );
 });

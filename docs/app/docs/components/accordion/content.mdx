@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import AccordionExample from "./docs/example_1"
-import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
+import {code, anatomy, ariaReferences, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
 
 
 
@@ -24,4 +24,6 @@ import {code, anatomy, keyboardShortcuts, api_documentation} from "./docs/codeUs
 
     {/* Keyboard Shortcuts */}
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 </Documentation>

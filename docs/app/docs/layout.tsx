@@ -13,14 +13,14 @@ type Doc = {
 const Layout = ({ children }: Doc) => {
     return (
         <div
-            className="md:flex md:flex-row md:items-stretch text-gray-1000"
+            className="text-gray-1000 md:flex md:flex-row md:items-stretch"
             style={{ height: "calc(100vh - 57px)" }}
         >
             <div className="relative z-10 hidden h-full flex-none flex-col items-stretch border-r border-gray-300 bg-gray-50 md:flex">
                 <Navigation />
             </div>
 
-            <div id="docs-content" className="flex-1 h-full bg-transparent">
+            <div id="docs-content" className="h-full flex-1 bg-transparent">
                 <ScrollArea.Root>
                     <ScrollArea.Viewport>
                         <DocsLayoutGridRoot>
@@ -49,10 +49,8 @@ const Layout = ({ children }: Doc) => {
 
 const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
     return <div className="w-full pt-8 md:pt-10">
-        <div className="layout-image opacity-30">
-        </div>
-        <div className="relative z-10 mx-auto max-w-[1380px] px-5 pb-20 md:px-8 xl:px-10 xl:pl-14">
-            <PageDetails />
+        <div className="layout-image" />
+        <div className="relative z-10 mx-auto max-w-[1380px] px-5 pb-24 md:px-8 xl:px-10 xl:pl-14">
             {children}
         </div>
     </div>

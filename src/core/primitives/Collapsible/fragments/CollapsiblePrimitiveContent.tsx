@@ -155,6 +155,10 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
         ['--radix-collapsible-content-width' as string]:
             widthRef.current !== undefined ? `${widthRef.current}px` : undefined,
+        ['--rad-collapsible-content-height' as string]:
+            heightRef.current !== undefined ? `${heightRef.current}px` : undefined,
+        ['--rad-collapsible-content-width' as string]:
+            widthRef.current !== undefined ? `${widthRef.current}px` : undefined,
         ...(transitionDuration > 0
             ? { transition: `height ${transitionDuration}ms ${transitionTimingFunction}` }
             : {})

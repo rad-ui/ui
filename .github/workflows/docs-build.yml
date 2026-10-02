@@ -32,6 +32,7 @@ jobs:
           node-version: "24"
 
       - name: Check docs snippet consistency
+        working-directory: .
         run: npm run check:docs-snippets
 
       - name: Setup pnpm

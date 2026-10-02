@@ -74,6 +74,11 @@ const jsBundles = {
     ]
 };
 
+// Shared dts plugin instance. Building one `dts()` per component makes the
+// TypeScript program accumulate across all 65 configs until the heap is
+// exhausted, which is the same failure mode the note above describes.
+const dtsPluginInstance = dts();
+
 // Type declarations builds (keep separate for dts plugin)
 const dtsBundles = components.map((component) => {
     const entry = `src/components/ui/${component}/${component}.tsx`;
@@ -83,7 +88,7 @@ const dtsBundles = components.map((component) => {
             file: `dist/temp-cleanup/${component}.d.ts`,
             format: 'es'
         },
-        plugins: [dts()],
+        plugins: [dtsPluginInstance],
         external: ['react', 'react-dom']
     };
 });
