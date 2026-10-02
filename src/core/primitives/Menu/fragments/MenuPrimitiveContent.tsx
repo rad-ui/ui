@@ -28,6 +28,9 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             maxHeight
         } = context;
 
+        const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
+        const restProps = { ...props } as Record<string, unknown>;
+        delete restProps.style;
         const scrollContainerStyle: React.CSSProperties = {
             overflowY: 'auto',
             overflowX: 'hidden',
@@ -48,15 +51,11 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 >         
                     <div
                         ref={mergedRef}
-                        {...getFloatingProps({
-                            className
+                        {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                            ...restProps,
+                            className,
+                            style: { ...consumerStyle, ...floatingStyles }
                         })}
-                        {...props}
-                        style={{
-                            ...floatingStyles,
-                            ...props.style
-                        }}
-                        className={className}
                     >
                         <div style={scrollContainerStyle}>
                         {children}
