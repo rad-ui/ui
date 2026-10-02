@@ -13,7 +13,10 @@ type SelectPortalPrimitiveProps = React.ComponentPropsWithoutRef<typeof Combobox
 
 const SelectPortal = React.forwardRef<SelectPortalElement, SelectPortalPrimitiveProps>(({ children, container, ...props }, forwardedRef) => {
     const themeContext = useContext(ThemeContext);
-    const portalContainer = container ?? themeContext?.portalRootRef.current;
+    const portalContainer = container
+        ?? themeContext?.portalRootRef.current
+        ?? themeContext?.containerRef.current
+        ?? undefined;
 
     return (
         <ComboboxPrimitive.Portal ref={forwardedRef} container={portalContainer} {...props}>
