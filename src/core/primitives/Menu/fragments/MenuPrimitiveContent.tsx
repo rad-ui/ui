@@ -24,8 +24,17 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             elementsRef,
             labelsRef,
             isNested,
-            floatingContext
+            floatingContext,
+            maxHeight
         } = context;
+
+        const scrollContainerStyle: React.CSSProperties = {
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            maxHeight: maxHeight !== undefined ? `${maxHeight}px` : undefined,
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+        };
 
         return (
             <>
@@ -49,7 +58,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                         }}
                         className={className}
                     >
-                        <div style={{overflowY:"auto", overflowX:"hidden"}}>
+                        <div style={scrollContainerStyle}>
                         {children}
                         </div>
                     </div>
