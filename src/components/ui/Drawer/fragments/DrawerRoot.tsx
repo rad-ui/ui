@@ -1,6 +1,7 @@
 'use client';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { DrawerContext, DrawerRootActions, DrawerSnapPoint } from '../context/DrawerContext';
 import { DrawerNestingContext, useDrawerNesting } from '../context/DrawerNestingContext';
@@ -105,6 +106,7 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     const isControlled = controlledOpen !== undefined;
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const isOpen = isControlled ? controlledOpen! : uncontrolledOpen;
+    useRegisterDocumentOverlayOpen(isOpen);
 
     // When disablePointerDismissal is true we need to block the close that
     // floating-ui's useDismiss fires via onOpenChange on outside pointer events.

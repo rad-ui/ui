@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 
 export type DialogPrimitiveRootProps = {
     children: React.ReactNode;
@@ -20,6 +21,7 @@ const COMPONENT_NAME = 'DialogPrimitive';
 const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const nodeId = Floater.useFloatingNodeId();
+    useRegisterDocumentOverlayOpen(isOpen);
 
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
