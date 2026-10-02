@@ -72,9 +72,16 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
 
+    // When child drawers are open, expand this drawer's width so it peeks out
+    // behind the child. We use a CSS variable so the SCSS can also reference it.
+    const peekOffset = childOpenCount * PEEK_WIDTH_PX;
+    const peekStyle: React.CSSProperties = peekOffset > 0
+        ? { '--drawer-peek-offset': `${peekOffset}px` } as React.CSSProperties
+        : {};
+
     // Strip floating-ui's style injection — drawer positioning is owned by CSS
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { style: _ignored = undefined, ...floatingProps } = (getFloatingProps({
+    const { style: _ignored = undefined, ...floatingProps } = ((getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
         ...props,
         style: { outline: 'none', ...peekStyle, ...styleProp },
         role,
@@ -92,13 +99,6 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
 
     // modal=false: no focus trap; modal=true or 'trap-focus': trap focus
     const trapFocus = modal !== false;
-
-    // When child drawers are open, expand this drawer's width so it peeks out
-    // behind the child. We use a CSS variable so the SCSS can also reference it.
-    const peekOffset = childOpenCount * PEEK_WIDTH_PX;
-    const peekStyle: React.CSSProperties = peekOffset > 0
-        ? { '--drawer-peek-offset': `${peekOffset}px` } as React.CSSProperties
-        : {};
 
     return (
         <Floater.FocusManager
