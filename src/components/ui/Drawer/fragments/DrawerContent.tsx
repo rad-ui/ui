@@ -179,6 +179,14 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
         return () => cancelAnimationFrame(raf);
     }, [isOpen, mounted]);
 
+    useEffect(() => {
+        if (isOpen || !finalFocus?.current) return;
+        const frame = requestAnimationFrame(() => {
+            finalFocus.current?.focus();
+        });
+        return () => cancelAnimationFrame(frame);
+    }, [finalFocus, isOpen]);
+
     // ── Derived props ───────────────────────────────────────────────────────
     // `aria-modal` follows the modal prop: `false` opts out of the dialog
     // semantics, `true` and `'trap-focus'` both present it as a modal dialog.
@@ -230,7 +238,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 context={floaterContext}
                 modal={trapFocus}
                 initialFocus={initialFocus as any}
-                returnFocus={true}
+                returnFocus={!finalFocus}
             >
                 <Primitive.div
                     ref={mergedRef}

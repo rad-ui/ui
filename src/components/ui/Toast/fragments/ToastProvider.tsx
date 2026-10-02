@@ -25,6 +25,8 @@ export type ToastProviderProps = {
     toastManager?: ToastManager;
     /** Optional className passthrough for viewport region if needed (headless) */
     className?: string;
+    /** Optional inline styles for the default viewport. */
+    style?: React.CSSProperties;
     /** Sonner-like props (headless passthroughs where applicable) */
     richColors?: boolean;
     closeButton?: boolean;
@@ -58,6 +60,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     duration,
     toastManager: toastManagerProp,
     className,
+    style,
     richColors,
     closeButton,
     offset,
@@ -68,7 +71,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     visibleToasts: visibleToastsProp,
     toastOptions,
     invert,
-    pauseWhenPageIsHidden,
+    pauseWhenPageIsHidden = true,
     icons,
     loadingIcon,
     rtl,
@@ -96,17 +99,21 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
     useEffect(() => {
         const unsubAdd = manager.subscribe((incoming) => {
             setToasts((prev) => {
+                const normalizedIncoming = {
+                    ...toastOptions,
+                    ...incoming,
+                };
                 const idx = prev.findIndex((t) => t.id === incoming.id);
                 if (idx !== -1) {
                     const old = prev[idx];
                     const next = [...prev];
                     next[idx] = {
-                        ...incoming,
+                        ...normalizedIncoming,
                         updateKey: (old.updateKey ?? 0) + 1,
                     };
                     return next;
                 }
-                return [{ ...incoming, updateKey: 0 }, ...prev].slice(0, maxToasts * 2);
+                return [{ ...normalizedIncoming, updateKey: 0 }, ...prev].slice(0, maxToasts * 2);
             });
         });
         const unsubDismiss = manager.subscribeDismiss((id) => {
@@ -122,7 +129,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             unsubDismiss();
             unsubUpdate();
         };
-    }, [manager, maxToasts]);
+    }, [manager, maxToasts, toastOptions]);
 
     const removeToast = useCallback((id: string) => {
         setToasts((prev) => {
@@ -174,6 +181,21 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             removeToast,
             toasts,
             visibleToasts,
+            viewportClassName: className,
+            viewportStyle: style,
+            containerAriaLabel: containerAriaLabel ?? 'Notifications',
+            offset,
+            mobileOffset,
+            theme,
+            dir: rtl ? 'rtl' : dir,
+            richColors: richColors ?? false,
+            invert: invert ?? false,
+            pauseWhenPageIsHidden,
+            closeButton: closeButton ?? false,
+            icons,
+            loadingIcon,
+            swipeDirections,
+            dragThreshold,
         }}>
             {children}
         </ToastProviderContext.Provider>

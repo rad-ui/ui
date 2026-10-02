@@ -9,7 +9,12 @@ export type ToastViewportProps = {
     style?: React.CSSProperties;
 };
 
-const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) => {
+function toCssLength(value: number | string | undefined): string | undefined {
+    if (value === undefined) return undefined;
+    return typeof value === 'number' ? `${value}px` : value;
+}
+
+const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, style }) => {
     const {
         rootClass,
         position,
@@ -19,6 +24,15 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) =>
         heights,
         gap,
         visibleToasts,
+        viewportClassName,
+        viewportStyle,
+        containerAriaLabel,
+        offset,
+        mobileOffset,
+        theme,
+        dir,
+        richColors,
+        invert,
     } = useContext(ToastProviderContext);
 
     const listRef = useRef<HTMLOListElement>(null);
@@ -39,14 +53,26 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className }) =>
         <ol
             ref={listRef}
             role="region"
-            aria-label="Notifications"
+            aria-label={containerAriaLabel}
             tabIndex={-1}
             data-position={position}
             data-expanded={isExpanded ? '' : undefined}
-            className={clsx(rootClass && `${rootClass}-viewport`, className)}
+            data-theme={theme}
+            data-rich-colors={richColors ? '' : undefined}
+            data-invert={invert ? '' : undefined}
+            dir={dir}
+            className={clsx(rootClass && `${rootClass}-viewport`, viewportClassName, className)}
             style={{
+                ...viewportStyle,
                 '--viewport-height': `${viewportHeight}px`,
                 '--toast-frontmost-height': `${frontHeight}px`,
+                '--toast-offset': toCssLength(offset),
+                '--toast-mobile-offset': toCssLength(typeof mobileOffset === 'object' ? undefined : mobileOffset),
+                '--toast-mobile-offset-top': toCssLength(typeof mobileOffset === 'object' ? mobileOffset.top : undefined),
+                '--toast-mobile-offset-bottom': toCssLength(typeof mobileOffset === 'object' ? mobileOffset.bottom : undefined),
+                '--toast-mobile-offset-left': toCssLength(typeof mobileOffset === 'object' ? mobileOffset.left : undefined),
+                '--toast-mobile-offset-right': toCssLength(typeof mobileOffset === 'object' ? mobileOffset.right : undefined),
+                ...style,
             } as React.CSSProperties}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

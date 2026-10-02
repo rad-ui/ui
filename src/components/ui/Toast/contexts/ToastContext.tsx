@@ -96,6 +96,21 @@ export interface ToastProviderContextType {
     removeToast: (id: string) => void;
     toasts: ToastData[];
     visibleToasts: ToastData[];
+    viewportClassName?: string;
+    viewportStyle?: React.CSSProperties;
+    containerAriaLabel: string;
+    offset?: number | string;
+    mobileOffset?: number | string | { top?: number | string; bottom?: number | string; left?: number | string; right?: number | string };
+    theme?: 'light' | 'dark' | 'system';
+    dir?: 'ltr' | 'rtl' | 'auto';
+    richColors: boolean;
+    invert: boolean;
+    pauseWhenPageIsHidden: boolean;
+    closeButton: boolean;
+    icons?: Record<string, React.ReactNode>;
+    loadingIcon?: React.ReactNode;
+    swipeDirections?: string[];
+    dragThreshold?: number;
 }
 
 export const ToastProviderContext = createContext<ToastProviderContextType>({
@@ -114,6 +129,21 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     removeToast: () => {},
     toasts: [],
     visibleToasts: [],
+    viewportClassName: undefined,
+    viewportStyle: undefined,
+    containerAriaLabel: 'Notifications',
+    offset: undefined,
+    mobileOffset: undefined,
+    theme: undefined,
+    dir: undefined,
+    richColors: false,
+    invert: false,
+    pauseWhenPageIsHidden: true,
+    closeButton: false,
+    icons: undefined,
+    loadingIcon: undefined,
+    swipeDirections: undefined,
+    dragThreshold: undefined,
 });
 
 // ── Per-toast context — stacking vars for one toast ──────────────────────────

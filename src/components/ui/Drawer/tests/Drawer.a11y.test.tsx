@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as axe from 'axe-core';
@@ -106,5 +106,37 @@ describe('Drawer accessibility', () => {
         await waitFor(() => expect(screen.getByText('Slides in from the right.')).toBeInTheDocument());
         await user.click(screen.getByRole('button', { name: 'Close' }));
         await waitFor(() => expect(screen.queryByText('Slides in from the right.')).not.toBeInTheDocument());
+    });
+
+    test('finalFocus receives focus when the drawer closes', async() => {
+        const user = userEvent.setup();
+
+        function Example() {
+            const finalFocusRef = useRef<HTMLButtonElement>(null);
+            return (
+                <Theme>
+                    <button ref={finalFocusRef}>After drawer</button>
+                    <Drawer.Root>
+                        <Drawer.Trigger>Open drawer</Drawer.Trigger>
+                        <Drawer.Portal>
+                            <Drawer.Content finalFocus={finalFocusRef}>
+                                <Drawer.Title>Drawer</Drawer.Title>
+                                <Drawer.Close>Close</Drawer.Close>
+                            </Drawer.Content>
+                        </Drawer.Portal>
+                    </Drawer.Root>
+                </Theme>
+            );
+        }
+
+        render(<Example />);
+
+        await user.click(screen.getByText('Open drawer'));
+        await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+        await user.click(screen.getByRole('button', { name: 'Close' }));
+
+        await waitFor(() => {
+            expect(screen.getByRole('button', { name: 'After drawer' })).toHaveFocus();
+        });
     });
 });

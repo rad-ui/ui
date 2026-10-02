@@ -70,6 +70,13 @@ export const SWIPE_ZONE_OPEN_THRESHOLD = 48;
 /** Edge strip width (px) occupied by a `Drawer.SwipeZone`. */
 export const SWIPE_ZONE_SIZE = 20;
 
+/** Maximum visible edge affordance shown while dragging a `Drawer.SwipeZone`. */
+export const SWIPE_ZONE_PEEK_PX = 8;
+
+/** Tokenized transition used when an abandoned edge swipe settles back. */
+export const SWIPE_ZONE_RESET_TRANSITION =
+    'transform var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard)';
+
 // ── Public CSS variables ─────────────────────────────────────────────────────
 // Structural runtime variables: they carry measured geometry and drag offsets
 // so CSS can compose the open/closed transform with the live drag transform.

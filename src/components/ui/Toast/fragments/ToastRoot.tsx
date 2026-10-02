@@ -20,7 +20,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     const {
         rootClass, position, expand, isHovered,
         heights, gap, toasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
-        defaultToastTimeout, toastManager,
+        defaultToastTimeout, toastManager, pauseWhenPageIsHidden, swipeDirections, dragThreshold,
     } = useContext(ToastProviderContext);
 
     const itemRef = useRef<HTMLLIElement>(null);
@@ -178,10 +178,10 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     }, [toast.updateKey, toast.duration, toast.timeout, defaultToastTimeout, pauseTimer]);
 
     useEffect(() => {
-        const shouldRun = !isDocHidden && (isGlobalOldest || isExpanded) && !leaving;
+        const shouldRun = (!pauseWhenPageIsHidden || !isDocHidden) && (isGlobalOldest || isExpanded) && !leaving;
         if (shouldRun) { startTimer(); } else { pauseTimer(); }
         return pauseTimer;
-    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, startTimer, pauseTimer, toast.updateKey]);
+    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, pauseWhenPageIsHidden, startTimer, pauseTimer, toast.updateKey]);
 
     // ── Remove from list after Sonner-style delay (exit motion is CSS-driven) ─
     useEffect(() => {
@@ -216,14 +216,17 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         const elapsed = Date.now() - pointerStartRef.current.time;
         const vel = Math.abs(sy) / elapsed;
         const dir = isTop ? -1 : 1;
-        if (sy * dir > 0 && (Math.abs(sy) >= SWIPE_THRESHOLD || vel > SWIPE_VELOCITY_THRESHOLD)) {
+        const defaultDirection = isTop ? 'up' : 'down';
+        const allowsDirection = !swipeDirections?.length || swipeDirections.includes(defaultDirection);
+        const threshold = dragThreshold ?? SWIPE_THRESHOLD;
+        if (allowsDirection && sy * dir > 0 && (Math.abs(sy) >= threshold || vel > SWIPE_VELOCITY_THRESHOLD)) {
             dismiss();
         } else {
             swipeYRef.current = 0;
             itemRef.current.style.setProperty('--swipe-y', '0px');
             startTimer();
         }
-    }, [isTop, dismiss, startTimer]);
+    }, [dragThreshold, isTop, dismiss, startTimer, swipeDirections]);
 
     // If not in visible list AND not leaving, don't render
     if (index === -1 && !leaving) return null;

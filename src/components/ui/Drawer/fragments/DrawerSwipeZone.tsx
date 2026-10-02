@@ -2,6 +2,12 @@
 import React, { forwardRef, useContext, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 import { DrawerContext } from '../context/DrawerContext';
+import {
+    SWIPE_ZONE_OPEN_THRESHOLD,
+    SWIPE_ZONE_PEEK_PX,
+    SWIPE_ZONE_RESET_TRANSITION,
+    SWIPE_ZONE_SIZE,
+} from '../constants';
 
 export type DrawerSwipeZoneProps = React.ComponentPropsWithoutRef<'div'> & {
     className?: string;
@@ -28,8 +34,8 @@ type DragState = {
 
 const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
     className = '',
-    openThreshold = 48,
-    size = 20,
+    openThreshold = SWIPE_ZONE_OPEN_THRESHOLD,
+    size = SWIPE_ZONE_SIZE,
     children,
     style,
     disabled = false,
@@ -54,7 +60,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
     const updateZoneStyle = useCallback((progress: number) => {
         const el = zoneRef.current;
         if (!el) return;
-        const peekPx = progress * 8;
+        const peekPx = progress * SWIPE_ZONE_PEEK_PX;
         switch (swipeDirection) {
             case 'right':  el.style.transform = `translateX(${-peekPx}px)`; break;
             case 'left':   el.style.transform = `translateX(${peekPx}px)`;  break;
@@ -68,7 +74,7 @@ const DrawerSwipeZone = forwardRef<HTMLDivElement, DrawerSwipeZoneProps>(({
         const el = zoneRef.current;
         if (!el) return;
         if (animate) {
-            el.style.transition = 'transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+            el.style.transition = SWIPE_ZONE_RESET_TRANSITION;
         }
         el.style.transform = '';
         el.style.removeProperty('--swipe-progress');
