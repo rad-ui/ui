@@ -240,31 +240,6 @@ describe('ScrollArea', () => {
         expect(viewport.scrollLeft).toBe(16);
     });
 
-    test('manual scroll restoration resets viewport scroll when restoreKey changes', () => {
-        const { rerender } = render(
-            <ScrollArea.Root scrollRestoration="manual" restoreKey="one" style={{ height: 100 }}>
-                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
-                    <div style={{ height: 400, width: 400 }}>content</div>
-                </ScrollArea.Viewport>
-            </ScrollArea.Root>
-        );
-
-        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
-        viewport.scrollTop = 120;
-        viewport.scrollLeft = 16;
-
-        rerender(
-            <ScrollArea.Root scrollRestoration="manual" restoreKey="two" style={{ height: 100 }}>
-                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
-                    <div style={{ height: 400, width: 400 }}>content</div>
-                </ScrollArea.Viewport>
-            </ScrollArea.Root>
-        );
-
-        expect(viewport.scrollTop).toBe(0);
-        expect(viewport.scrollLeft).toBe(0);
-    });
-
     test('hides scrollbar while document overlay is open', () => {
         document.documentElement.setAttribute('data-rad-ui-overlay-open', '');
         try {

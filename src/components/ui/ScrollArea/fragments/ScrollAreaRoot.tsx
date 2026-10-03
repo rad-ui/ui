@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useLayoutEffect, useRef, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React, { useEffect, useRef, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
@@ -15,10 +15,6 @@ export type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
     /** Controls scrollbar and thumb visibility: always, on scroll (1s fade), on hover + scroll, or when overflowing (auto). */
     type?: ScrollAreaScrollbarType;
-    /** When set to manual, resets the viewport scroll position on mount and whenever restoreKey changes. */
-    scrollRestoration?: 'auto' | 'manual';
-    /** Key used to reset manual scroll restoration, such as a route pathname. */
-    restoreKey?: React.Key;
 };
 
 const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
@@ -26,8 +22,6 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     className = '',
     customRootClass = '',
     type = 'hover',
-    scrollRestoration = 'auto',
-    restoreKey,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
@@ -183,21 +177,6 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             }
         }
     };
-
-    const resetViewportScroll = () => {
-        const viewport = scrollAreaViewportRef.current;
-        if (!viewport) return;
-
-        viewport.scrollTop = 0;
-        viewport.scrollLeft = 0;
-        handleScroll();
-    };
-
-    useLayoutEffect(() => {
-        if (scrollRestoration !== 'manual') return;
-
-        resetViewportScroll();
-    }, [scrollRestoration, restoreKey]);
 
     const fastScrollTo = (target: { top?: number; left?: number }) => {
         if (!scrollAreaViewportRef.current) return;
