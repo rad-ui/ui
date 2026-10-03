@@ -18,9 +18,12 @@ import {
 } from "lucide-react"
 import Accordion from "@radui/ui/Accordion"
 import Badge from "@radui/ui/Badge"
+import Avatar from "@radui/ui/Avatar"
+import AvatarGroup from "@radui/ui/AvatarGroup"
 import Breadcrumb from "@radui/ui/Breadcrumb"
 import Button from "@radui/ui/Button"
 import Callout from "@radui/ui/Callout"
+import Card from "@radui/ui/Card"
 import Checkbox from "@radui/ui/Checkbox"
 import CheckboxCards from "@radui/ui/CheckboxCards"
 import CheckboxGroup from "@radui/ui/CheckboxGroup"
@@ -29,6 +32,8 @@ import Combobox from "@radui/ui/Combobox"
 import Command from "@radui/ui/Command"
 import ContextMenu from "@radui/ui/ContextMenu"
 import DataList from "@radui/ui/DataList"
+import BlockQuote from "@radui/ui/BlockQuote"
+import Code from "@radui/ui/Code"
 import Disclosure from "@radui/ui/Disclosure"
 import Drawer from "@radui/ui/Drawer"
 import DropdownMenu from "@radui/ui/DropdownMenu"
@@ -72,6 +77,7 @@ const colors = ["gray", "blue", "green", "red", "plum", "gold"]
 const badgeVariants = ["solid", "soft", "surface", "outline", "ghost"]
 const buttonVariants = ["solid", "soft", "outline", "ghost"]
 const sizes = ["small", "medium", "large", "x-large"]
+const surfaceVariants = ["soft", "outline"]
 
 const SectionGrid = ({ children }) => (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -626,6 +632,95 @@ const CompleteCoveragePlayground = () => {
                             <Kbd>⌘</Kbd><Kbd>K</Kbd>
                             <Separator orientation="vertical" />
                             <Kbd>Tab</Kbd><Kbd>Enter</Kbd><Kbd>Esc</Kbd>
+                        </div>
+                    </Panel>
+                </SectionGrid>
+            </ColorLooper>
+
+            <ColorLooper
+                title="Variants and sizes"
+                docsLink="/docs/components"
+                description="Every supported visual variant and size is represented here so changes to the component API are easy to spot."
+            >
+                <SectionGrid>
+                    <Panel title="Avatar and avatar group">
+                        <div className="grid gap-5">
+                            <div className="flex flex-wrap items-end gap-4">
+                                {["", "sm", "lg"].map((size) => (
+                                    <div key={size || "default"} className="grid justify-items-center gap-2">
+                                        <Avatar.Root size={size} variant="circle" color="blue">
+                                            <Avatar.Fallback>RU</Avatar.Fallback>
+                                        </Avatar.Root>
+                                        <span className="text-xs text-gray-600">{size || "default"}</span>
+                                    </div>
+                                ))}
+                                <div className="grid justify-items-center gap-2">
+                                    <Avatar.Root variant="square" color="green">
+                                        <Avatar.Fallback>SQ</Avatar.Fallback>
+                                    </Avatar.Root>
+                                    <span className="text-xs text-gray-600">square</span>
+                                </div>
+                            </div>
+                            <AvatarGroup.Root size="large" variant="circle">
+                                <AvatarGroup.Item><AvatarGroup.Avatar src="/images/avatars/nina.jpg" alt="Nina" /><AvatarGroup.Fallback>NI</AvatarGroup.Fallback></AvatarGroup.Item>
+                                <AvatarGroup.Item><AvatarGroup.Avatar src="/images/avatars/omar.jpg" alt="Omar" /><AvatarGroup.Fallback>OM</AvatarGroup.Fallback></AvatarGroup.Item>
+                                <AvatarGroup.Item><AvatarGroup.Avatar src="/images/avatars/maya.jpg" alt="Maya" /><AvatarGroup.Fallback>MA</AvatarGroup.Fallback></AvatarGroup.Item>
+                            </AvatarGroup.Root>
+                        </div>
+                    </Panel>
+
+                    <Panel title="BlockQuote and Code">
+                        <div className="grid gap-4">
+                            {surfaceVariants.map((variant) => (
+                                <BlockQuote key={variant} variant={variant} size="large" color="blue">
+                                    {variant} quote with a large text scale.
+                                </BlockQuote>
+                            ))}
+                            <div className="flex flex-wrap gap-3">
+                                {surfaceVariants.map((variant) => (
+                                    <Code key={variant} variant={variant} size="large" color="blue">
+                                        {variant} code
+                                    </Code>
+                                ))}
+                            </div>
+                        </div>
+                    </Panel>
+
+                    <Panel title="Card sizes and variants">
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            {surfaceVariants.map((variant) => sizes.map((size) => (
+                                <Card key={`${variant}-${size}`} variant={variant} size={size}>
+                                    <Card.Header><Card.Title>{variant}</Card.Title></Card.Header>
+                                    <Card.Content><Card.Description>{size} card</Card.Description></Card.Content>
+                                </Card>
+                            )))}
+                        </div>
+                    </Panel>
+
+                    <Panel title="DataList, Fieldset, Link, and TextArea">
+                        <div className="grid gap-5">
+                            <div className="grid gap-2 sm:grid-cols-3">
+                                {["small", "medium", "large"].map((size) => (
+                                    <DataList.Root key={size} size={size}>
+                                        <DataList.Item>
+                                            <DataList.Label>Size</DataList.Label>
+                                            <DataList.Value>{size}</DataList.Value>
+                                        </DataList.Item>
+                                    </DataList.Root>
+                                ))}
+                            </div>
+                            <Fieldset.Root size="large" variant="soft" color="blue" className="grid gap-2">
+                                <Fieldset.Legend>Fieldset variants</Fieldset.Legend>
+                                <Fieldset.Description>Large, soft, blue.</Fieldset.Description>
+                            </Fieldset.Root>
+                            <div className="flex flex-wrap items-center gap-4">
+                                {sizes.map((size) => <Link key={size} size={size} href="/docs/components/link">{size} link</Link>)}
+                            </div>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                {surfaceVariants.map((variant) => (
+                                    <TextArea key={variant} variant={variant} size="large" color="blue" defaultValue={`${variant} textarea`} />
+                                ))}
+                            </div>
                         </div>
                     </Panel>
                 </SectionGrid>
