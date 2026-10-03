@@ -7,12 +7,6 @@
          margin: 0;
          border-bottom: 1px solid var(--rad-ui-border-soft);
 
-        &:focus{
-            outline: none;
-            border: none;
-            color: var(--rad-ui-text-primary);
-        }
-         
         &:focus-within{
             color: var(--rad-ui-text-primary);
         }
@@ -26,10 +20,10 @@
          color: var(--rad-ui-text-primary);
          background-color: transparent;
 
-         &:focus{
+         &:focus-visible{
             outline: none;
-            box-shadow: var(--rad-ui-focus-ring-shadow-inset);
-        
+            border-radius: var(--rad-ui-radius-sm);
+            box-shadow: var(--rad-ui-focus-ring-shadow-offset);
          }
 
          &:hover {
