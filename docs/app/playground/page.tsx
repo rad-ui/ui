@@ -15,6 +15,7 @@ import HeadingPlayground from "./components/HeadingPlayground"
 import KbdPlayground from "./components/KbdPlayground"
 import LinkPlayground from "./components/LinkPlayground"
 import ProgressPlayground from "./components/ProgressPlayground"
+import QuotePlayground from "./components/QuotePlayground"
 import SeparatorPlayground from "./components/SeparatorPlayground"
 import StrongPlayground from "./components/StrongPlayground"
 import SwitchPlayground from "./components/SwitchPlayground"
@@ -25,6 +26,7 @@ import TogglePlayground from "./components/TogglePlayground"
 import ToggleGroupPlayground from "./components/ToggleGroupPlayground"
 import TooltipPlayground from "./components/TooltipPlayground"
 import VisuallyHiddenPlayground from "./components/VisuallyHiddenPlayground"
+import CompleteCoveragePlayground from "./components/CompleteCoveragePlayground"
 import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScroll'
 import Badge from "@radui/ui/Badge"
 import Heading from "@radui/ui/Heading"
@@ -63,6 +65,7 @@ const Playground = () => {
                         <EmPlayground />
                         <HeadingPlayground />
                         <KbdPlayground />
+                        <QuotePlayground />
                         <SeparatorPlayground />
                         <ProgressPlayground />
                         <StrongPlayground />
@@ -75,6 +78,7 @@ const Playground = () => {
                         <ToggleGroupPlayground />
                         <TooltipPlayground />
                         <VisuallyHiddenPlayground />
+                        <CompleteCoveragePlayground />
                     </div>
                 </div>
             </div>
