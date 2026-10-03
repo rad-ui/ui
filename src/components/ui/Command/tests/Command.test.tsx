@@ -4,6 +4,26 @@ import '@testing-library/jest-dom';
 import Command from '../Command';
 
 describe('Command', () => {
+    it('does not scroll the page to the initial active item', () => {
+        const scrollIntoView = jest.fn();
+        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+            configurable: true,
+            value: scrollIntoView
+        });
+
+        render(
+            <Command>
+                <Command.Input placeholder="Search..." />
+                <Command.List>
+                    <Command.Item value="home">Home</Command.Item>
+                    <Command.Item value="settings">Settings</Command.Item>
+                </Command.List>
+            </Command>
+        );
+
+        expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
     it('filters items, hides empty groups, and renders empty state', () => {
         render(
             <Command>

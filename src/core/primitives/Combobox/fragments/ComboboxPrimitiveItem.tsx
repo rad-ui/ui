@@ -29,6 +29,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
 
     const {
         handleSelect,
+        isOpen,
         isTypingRef,
         getItemProps,
         activeIndex,
@@ -41,6 +42,8 @@ const ComboboxPrimitiveItem = React.forwardRef<
         hiddenIndices,
         disabledIndices,
         setDisabledIndices,
+        setActiveIndex,
+        elementsRef,
         labelsRef,
         displayLabelsRef,
         valuesRef,
@@ -117,6 +120,48 @@ const ComboboxPrimitiveItem = React.forwardRef<
         }
     }, [hasSearch, isSelected, selectedItemRef]);
 
+    React.useLayoutEffect(() => {
+        if (!isOpen || !isSelected || hasSearch) return;
+        setActiveIndex(index);
+        itemRef.current?.focus();
+    }, [hasSearch, index, isOpen, isSelected, setActiveIndex]);
+
+    const handleKeyDownCapture = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        props.onKeyDownCapture?.(event);
+        if (event.defaultPrevented || hasSearch) return;
+
+        const itemCount = elementsRef.current.length;
+        let nextIndex = index;
+
+        if (event.key === KEYBOARD_KEYS.ARROW_DOWN || event.key === KEYBOARD_KEYS.ARROW_UP) {
+            const step = event.key === KEYBOARD_KEYS.ARROW_DOWN ? 1 : -1;
+            for (let offset = 1; offset <= itemCount; offset += 1) {
+                const candidate = (index + (offset * step) + itemCount) % itemCount;
+                if (!disabledIndices.includes(candidate) && elementsRef.current[candidate]) {
+                    nextIndex = candidate;
+                    break;
+                }
+            }
+        } else if (event.key === KEYBOARD_KEYS.HOME || event.key === KEYBOARD_KEYS.END) {
+            const step = event.key === KEYBOARD_KEYS.HOME ? 1 : -1;
+            const start = event.key === KEYBOARD_KEYS.HOME ? 0 : itemCount - 1;
+            for (let offset = 0; offset < itemCount; offset += 1) {
+                const candidate = start + (offset * step);
+                if (!disabledIndices.includes(candidate) && elementsRef.current[candidate]) {
+                    nextIndex = candidate;
+                    break;
+                }
+            }
+        } else {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        setActiveIndex(nextIndex);
+        elementsRef.current[nextIndex]?.focus();
+    };
+
     return (
         <Primitive.div
             ref={Floater.useMergeRefs([ref, itemRef, setSelectedItemNode, forwardedRef])}
@@ -147,6 +192,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
                 }
             })}
             {...props}
+            onKeyDownCapture={handleKeyDownCapture}
             tabIndex={disabled ? -1 : isActive ? 0 : -1}
         >
             {children}

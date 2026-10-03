@@ -49,4 +49,21 @@ describe('Dialog lazy mount behavior', () => {
         expect(screen.getByText('Mounted dialog')).toBeInTheDocument();
         expect(screen.getByText('Mounted dialog')).toHaveAttribute('data-state', 'closed');
     });
+
+    test('forceMount does not focus the trigger on initial closed mount', () => {
+        render(
+            <Theme>
+                <button>Before dialog</button>
+                <Dialog.Root open={false}>
+                    <Dialog.Trigger>Open</Dialog.Trigger>
+                    <Dialog.Portal>
+                        <Dialog.Content forceMount>Mounted dialog</Dialog.Content>
+                    </Dialog.Portal>
+                </Dialog.Root>
+            </Theme>
+        );
+
+        expect(screen.getByText('Open')).not.toHaveFocus();
+        expect(document.body).toHaveFocus();
+    });
 });

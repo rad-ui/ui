@@ -2,25 +2,20 @@
 
 import Heading from "@radui/ui/Heading"
 import Link from "@radui/ui/Link"
-import Separator from "@radui/ui/Separator"
 import Text from "@radui/ui/Text"
 
-const ColorLooper = ({ title = "", docsLink = "", description = "", children }) => {
+const ColorLooper = ({ title = "", docsLink = "", description = "", controls, children }) => {
     return (
-        <section className='rounded-3xl bg-gray-50 p-6 shadow-xs'>
-            <div className='flex flex-wrap items-end justify-between gap-3'>
-                <div className='space-y-1'>
-                    <Heading className="text-gray-950" as="h2">{title}</Heading>
-                    {description ? <Text className="text-gray-700">{description}</Text> : null}
+        <section className='border-t border-gray-300 py-10 first:border-t-0'>
+            <div className='mb-7 flex flex-wrap items-start justify-between gap-4'>
+                <div className='max-w-2xl space-y-1'>
+                    <Heading className="text-gray-950" as="h2" size="large">{title}</Heading>
+                    {description ? <Text className="text-gray-700" size="small">{description}</Text> : null}
                 </div>
-                {docsLink ? <Link href={docsLink}>Open docs</Link> : null}
+                {docsLink ? <Link href={docsLink}>View in docs</Link> : null}
             </div>
-            <Separator className="mt-4" decorative />
-            <div className='pt-4'>
-                <div className='rounded-2xl border border-gray-200 bg-gray-50 p-5'>
-                    {children}
-                </div>
-            </div>
+            {controls ? <div className='mb-6 flex flex-wrap items-center gap-2'>{controls}</div> : null}
+            <div className='min-w-0'>{children}</div>
         </section>
     )
 }

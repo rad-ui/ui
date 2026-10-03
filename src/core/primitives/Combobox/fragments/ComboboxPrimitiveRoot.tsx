@@ -184,6 +184,11 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         sticky
     ]);
 
+    const handleOpenChange = React.useCallback((nextOpen: boolean) => {
+        setIsOpen(nextOpen);
+        setActiveIndex(nextOpen ? selectedIndex : null);
+    }, [selectedIndex]);
+
     const {
         refs,
         floatingStyles,
@@ -195,7 +200,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     } = Floater.useFloating({
         middleware,
         open: isOpen,
-        onOpenChange: setIsOpen,
+        onOpenChange: handleOpenChange,
         placement: resolvedPlacement,
         strategy: positioningStrategy,
         whileElementsMounted: (reference, floating, updatePosition) => Floater.autoUpdate(
@@ -265,6 +270,15 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         displayLabelsByValueRef.current[selectedValue] = label;
         setSelectedLabel(label);
     }, [labelsVersion, selectedValue]);
+
+    useLayoutEffect(() => {
+        if (!isOpen) {
+            setActiveIndex(null);
+            return;
+        }
+
+        setActiveIndex(selectedIndex);
+    }, [isOpen, selectedIndex]);
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,

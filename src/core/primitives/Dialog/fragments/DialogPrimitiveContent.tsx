@@ -29,6 +29,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
 }, ref) => {
     const { isOpen, getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
+    const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
@@ -40,8 +41,15 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
             previousFocusedElementRef.current = document.activeElement instanceof HTMLElement
                 ? document.activeElement
                 : null;
+            wasOpenRef.current = true;
             return;
         }
+
+        if (!wasOpenRef.current) {
+            return;
+        }
+
+        wasOpenRef.current = false;
 
         const resolveFinalFocus = () => {
             if (finalFocus === false) {

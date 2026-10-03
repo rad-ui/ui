@@ -52,6 +52,7 @@ const CommandRoot = React.forwardRef<CommandRootElement, CommandRootProps>(({
     const [separators, setSeparators] = React.useState<CommandSeparatorRecord[]>([]);
     const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
     const orderRef = React.useRef(0);
+    const hasInitializedActiveItemRef = React.useRef(false);
     const listId = React.useId();
     const inputId = React.useId();
 
@@ -149,6 +150,11 @@ const CommandRoot = React.forwardRef<CommandRootElement, CommandRootProps>(({
 
     React.useEffect(() => {
         if (!activeItemId) {
+            return;
+        }
+
+        if (!hasInitializedActiveItemRef.current) {
+            hasInitializedActiveItemRef.current = true;
             return;
         }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import fs from 'node:fs';
+import path from 'node:path';
 import Disclosure from '../Disclosure';
 
 const items = [
@@ -144,5 +146,14 @@ describe('Disclosure', () => {
         render(<Disclosure items={items} aria-label="test" />);
         expect(spy).not.toHaveBeenCalled();
         spy.mockRestore();
+    });
+
+    test('only shows the centralized focus ring for keyboard focus', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../disclosure.clarity.scss'), 'utf8');
+
+        expect(stylesheet).toContain('&:focus-visible{');
+        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset);');
+        expect(stylesheet).not.toContain('&:focus{');
+        expect(stylesheet).not.toContain('box-shadow: var(--rad-ui-focus-ring-shadow-inset);');
     });
 });
