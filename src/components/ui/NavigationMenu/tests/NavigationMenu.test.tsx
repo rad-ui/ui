@@ -186,9 +186,16 @@ describe('NavigationMenu component', () => {
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
         render(
-            <NavigationMenu.Root>
+            <NavigationMenu.Root defaultValue="item1">
                 <NavigationMenu.Item value="item1">
                     <NavigationMenu.Trigger>Open</NavigationMenu.Trigger>
+                    <NavigationMenu.Content>
+                        <NavigationMenu.Link href="#one">One</NavigationMenu.Link>
+                        <NavigationMenu.Link href="#two">Two</NavigationMenu.Link>
+                    </NavigationMenu.Content>
+                </NavigationMenu.Item>
+                <NavigationMenu.Item value="item2">
+                    <NavigationMenu.Link href="#three">Three</NavigationMenu.Link>
                 </NavigationMenu.Item>
             </NavigationMenu.Root>
         );

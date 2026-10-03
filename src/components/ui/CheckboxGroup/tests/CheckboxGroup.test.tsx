@@ -3,6 +3,28 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import CheckboxGroup from '../CheckboxGroup';
 
 describe('CheckboxGroup', () => {
+    it('renders multiple items without invalid asChild warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+        render(
+            <CheckboxGroup.Root>
+                <CheckboxGroup.Label>
+                    <CheckboxGroup.Trigger value="one"><CheckboxGroup.Indicator /></CheckboxGroup.Trigger>
+                    One
+                </CheckboxGroup.Label>
+                <CheckboxGroup.Label>
+                    <CheckboxGroup.Trigger value="two"><CheckboxGroup.Indicator /></CheckboxGroup.Trigger>
+                    Two
+                </CheckboxGroup.Label>
+            </CheckboxGroup.Root>
+        );
+
+        expect(warnSpy).not.toHaveBeenCalledWith(
+            expect.stringContaining('asChild prop requires exactly one valid child element')
+        );
+        warnSpy.mockRestore();
+    });
+
     it('exposes stable anatomy data slots', () => {
         render(
             <CheckboxGroup.Root name="fruits" defaultValue={['apple']} data-testid="checkbox-group">

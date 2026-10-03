@@ -28,7 +28,7 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
             <RovingFocusGroup.Root dir={dir} orientation={orientation ?? 'horizontal'} loop={loop ?? true}>
                 <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled }}>
                     <RovingFocusGroup.Group>
-                        {children}
+                        <div>{children}</div>
                     </RovingFocusGroup.Group>
                 </CheckboxGroupPrimitiveContext.Provider>
             </RovingFocusGroup.Root>

@@ -33,7 +33,9 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
                 {...props}
             >
                 <RovingFocusGroup.Root loop={resolvedLoop}>
-                    <RovingFocusGroup.Group>{children}</RovingFocusGroup.Group>
+                    <RovingFocusGroup.Group>
+                        <div>{children}</div>
+                    </RovingFocusGroup.Group>
                 </RovingFocusGroup.Root>
             </div>
         );

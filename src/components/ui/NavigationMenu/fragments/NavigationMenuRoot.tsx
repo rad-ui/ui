@@ -41,8 +41,10 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
             <div ref={ref} {...props}>
                 <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop }}>
                     <RovingFocusGroup.Root loop={loop}>
-                        <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
-                            {children}
+                        <RovingFocusGroup.Group>
+                            <div className={clsx(rootClass && `${rootClass}-root`, className)}>
+                                {children}
+                            </div>
                         </RovingFocusGroup.Group>
                     </RovingFocusGroup.Root>
                 </NavigationMenuRootContext.Provider>

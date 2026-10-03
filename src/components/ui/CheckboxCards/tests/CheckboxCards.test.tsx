@@ -3,6 +3,22 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import CheckboxCards from '../CheckboxCards';
 
 describe('CheckboxCards', () => {
+    it('renders multiple items without invalid asChild warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+        render(
+            <CheckboxCards.Root>
+                <CheckboxCards.Item value="one">One</CheckboxCards.Item>
+                <CheckboxCards.Item value="two">Two</CheckboxCards.Item>
+            </CheckboxCards.Root>
+        );
+
+        expect(warnSpy).not.toHaveBeenCalledWith(
+            expect.stringContaining('asChild prop requires exactly one valid child element')
+        );
+        warnSpy.mockRestore();
+    });
+
     it('renders items and content, and toggles checked state (uncontrolled)', () => {
         render(
             <CheckboxCards.Root name="fruits" defaultValue={['apple']}>

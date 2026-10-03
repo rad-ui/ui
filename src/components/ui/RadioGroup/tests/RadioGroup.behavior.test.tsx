@@ -8,6 +8,22 @@ import RadioGroup from '../RadioGroup';
 const ACCESSIBILITY_TEST_TAGS = ['wcag2a', 'wcag2aa'];
 
 describe('RadioGroup behavior', () => {
+    test('renders multiple items without invalid asChild warnings', () => {
+        const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+        render(
+            <RadioGroup.Root defaultValue="one">
+                <RadioGroup.Item value="one"><RadioGroup.Indicator /></RadioGroup.Item>
+                <RadioGroup.Item value="two"><RadioGroup.Indicator /></RadioGroup.Item>
+            </RadioGroup.Root>
+        );
+
+        expect(warnSpy).not.toHaveBeenCalledWith(
+            expect.stringContaining('asChild prop requires exactly one valid child element')
+        );
+        warnSpy.mockRestore();
+    });
+
     test('arrow keys move focus/selection and Home/End jump to first/last', async() => {
         render(
             <RadioGroup.Root>
