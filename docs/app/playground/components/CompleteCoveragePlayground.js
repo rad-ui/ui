@@ -132,7 +132,7 @@ const CompleteCoveragePlayground = () => {
 
         <Section name="Hover Card" description="Rich preview content shown after a hover delay."><HoverCard.Root openDelay={100}><HoverCard.Trigger><Link href="#hover-card">@radui</Link></HoverCard.Trigger><HoverCard.Content><div className="w-64"><Text className="font-semibold">Rad UI</Text><Text>Accessible React components for product interfaces.</Text></div></HoverCard.Content></HoverCard.Root></Section>
 
-        <Section name="Drawer" description="A portal-based overlay for longer workflows."><Drawer.Root><Drawer.Trigger><span className="inline-flex bg-gray-950 px-4 py-2 text-sm font-medium text-white">Open drawer</span></Drawer.Trigger><Drawer.Portal><Drawer.Overlay /><Drawer.Content><Drawer.Title>Command center</Drawer.Title><Drawer.Description>Drawer content can host longer workflows.</Drawer.Description><Drawer.Close>Close</Drawer.Close></Drawer.Content></Drawer.Portal></Drawer.Root></Section>
+        <Section name="Drawer" description="A portal-based overlay for longer workflows."><Drawer.Root><Drawer.Trigger>Open drawer</Drawer.Trigger><Drawer.Portal><Drawer.Overlay /><Drawer.Content><Drawer.Title>Command center</Drawer.Title><Drawer.Description>Drawer content can host longer workflows.</Drawer.Description><Drawer.Close>Close</Drawer.Close></Drawer.Content></Drawer.Portal></Drawer.Root></Section>
 
         <Section name="Disclosure" description="A trigger and content pair for optional information."><Disclosure.Root><Disclosure.Item value="keyboard"><Disclosure.Trigger>Keyboard support</Disclosure.Trigger><Disclosure.Content>Focus movement and state are owned by the component.</Disclosure.Content></Disclosure.Item></Disclosure.Root></Section>
 
