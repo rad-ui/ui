@@ -40,7 +40,7 @@ import Text from "@radui/ui/Text"
 import TextArea from "@radui/ui/TextArea"
 import TextField from "@radui/ui/TextField"
 import Theme from "@radui/ui/Theme"
-import Toast from "@radui/ui/Toast"
+import Toast, { createToastManager } from "@radui/ui/Toast"
 import Toolbar from "@radui/ui/Toolbar"
 import Tree from "@radui/ui/Tree"
 import ColorLooper from "../helpers/ColorLooper"
@@ -52,6 +52,7 @@ const Grid = ({ children, two = false }) => <div className={two ? "grid gap-5 md
 const Row = ({ children }) => <div className="flex flex-wrap items-center gap-3">{children}</div>
 const Sample = ({ label, children }) => <div className="min-w-0 border-t border-gray-200 pt-3"><Text className="mb-4 block text-xs font-semibold uppercase text-gray-600">{label}</Text>{children}</div>
 const CommandRow = ({ icon, children }) => <span className="rad-ui-command-item-main">{icon}<span className="rad-ui-command-item-label">{children}</span></span>
+const playgroundToastManager = createToastManager({ timeout: 8000 })
 
 const treeItems = [
     { label: "Components", expanded: true, items: [{ label: "Inputs" }, { label: "Overlays" }] },
@@ -59,8 +60,9 @@ const treeItems = [
 ]
 
 const ToastShelf = () => {
-    const manager = Toast.useToastManager()
-    return <><Toast.Portal><Toast.Viewport>{manager.toasts.map((toast) => <Toast.Root key={toast.id} toast={toast}><Toast.Content><Toast.Title>{toast.title}</Toast.Title><Toast.Close /></Toast.Content></Toast.Root>)}</Toast.Viewport></Toast.Portal><Row><Button onClick={() => manager.add({ title: "Saved changes", variant: "success" })}>Success</Button><Button variant="outline" onClick={() => manager.add({ title: "Build failed", variant: "error" })}>Error</Button><Button variant="soft" onClick={() => manager.add({ title: "Sync queued", variant: "info" })}>Info</Button></Row></>
+    React.useEffect(() => () => playgroundToastManager.close(), [])
+
+    return <><Toast.Toaster toastManager={playgroundToastManager} position="bottom-right" limit={3} timeout={8000} closeButton /><Row><Button type="button" onClick={() => playgroundToastManager.create({ title: "Saved changes", description: "Your playground settings are up to date.", variant: "success" })}>Success</Button><Button type="button" variant="outline" onClick={() => playgroundToastManager.create({ title: "Build failed", description: "Review the latest build output and try again.", variant: "error" })}>Error</Button><Button type="button" variant="soft" onClick={() => playgroundToastManager.create({ title: "Sync queued", description: "The package will sync when the current job completes.", variant: "info" })}>Info</Button></Row></>
 }
 
 const CompleteCoveragePlayground = () => {
@@ -140,7 +142,7 @@ const CompleteCoveragePlayground = () => {
 
         <Section name="Spinner" description="Inline loading indicators in content and buttons."><Row><Spinner /><Text>Syncing package metadata</Text><Button disabled><Spinner /> Saving</Button></Row></Section>
         <Section name="Skeleton" description="Loading placeholders for text and media layouts."><div className="grid max-w-xl gap-4"><div className="flex items-center gap-4"><Skeleton loading height="3rem" width="3rem" radius="50%" /><div className="grid flex-1 gap-3"><Skeleton loading height="1rem" width="66.666%" radius="0.375rem" /><Skeleton loading height="1rem" width="50%" radius="0.375rem" /></div></div><Skeleton loading height="6rem" width="100%" radius="0.5rem" /></div></Section>
-        <Section name="Toast" description="Success, error, and informational notifications."><Toast.Provider position="bottom-right" limit={3}><ToastShelf /></Toast.Provider></Section>
+        <Section name="Toast" description="Success, error, and informational notifications."><ToastShelf /></Section>
         <Section name="Live Region" description="Polite announcements for asynchronous status changes."><Row><Button variant="outline" onClick={() => setMessage(`Saved at ${new Date().toLocaleTimeString()}`)}>Update status</Button><Text>{message}</Text><LiveRegion>{message}</LiveRegion></Row></Section>
     </div>
 }
