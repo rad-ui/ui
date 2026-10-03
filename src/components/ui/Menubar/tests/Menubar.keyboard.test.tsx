@@ -95,4 +95,30 @@ describe('Menubar keyboard paths', () => {
         await user.keyboard('{ArrowLeft}');
         expect(file).toHaveFocus();
     });
+
+    test('returns focus to the trigger after selecting an item', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Theme>
+                <Menubar.Root>
+                    <Menubar.Menu>
+                        <Menubar.Trigger>File</Menubar.Trigger>
+                        <Menubar.Portal>
+                            <Menubar.Content>
+                                <Menubar.Item>New</Menubar.Item>
+                            </Menubar.Content>
+                        </Menubar.Portal>
+                    </Menubar.Menu>
+                </Menubar.Root>
+            </Theme>
+        );
+
+        const trigger = screen.getByText('File');
+        await user.click(trigger);
+        await user.click(screen.getByText('New'));
+
+        await waitFor(() => expect(trigger).toHaveFocus());
+        expect(screen.queryByText('New')).not.toBeInTheDocument();
+    });
 });

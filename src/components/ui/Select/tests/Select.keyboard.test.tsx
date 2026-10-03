@@ -59,4 +59,30 @@ describe('Select keyboard paths', () => {
         await waitFor(() => expect(screen.queryByText('Apple')).not.toBeInTheDocument());
         expect(trigger).toHaveFocus();
     });
+
+    test('arrow navigation starts from the selected option', async() => {
+        const user = userEvent.setup();
+        render(
+            <Theme>
+                <Select.Root defaultValue="apple">
+                    <Select.Trigger>choose</Select.Trigger>
+                    <Select.Portal>
+                        <Select.Content>
+                            <Select.Item value="apple">Apple</Select.Item>
+                            <Select.Item value="banana">Banana</Select.Item>
+                            <Select.Item value="orange">Orange</Select.Item>
+                        </Select.Content>
+                    </Select.Portal>
+                </Select.Root>
+            </Theme>
+        );
+
+        const trigger = screen.getByRole('combobox');
+        await user.click(trigger);
+        await user.keyboard('{ArrowDown}{Enter}');
+
+        await waitFor(() => expect(trigger).toHaveTextContent('Banana'));
+        expect(trigger).toHaveAttribute('data-state', 'closed');
+        expect(trigger).toHaveFocus();
+    });
 });

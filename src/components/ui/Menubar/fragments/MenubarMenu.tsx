@@ -21,7 +21,7 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
         console.warn('MenubarMenu should be used in the MenubarRoot');
         return null;
     }
-    const { rootClass, registerItem, items, updateItemState } = context;
+    const { rootClass, registerItem, items, updateItemState, focusItemTrigger } = context;
 
     React.useEffect(() => {
         if (id) {
@@ -30,6 +30,16 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
     }, [id]);
 
     const isOpen = items.find((item: MenubarItem) => item.id === id)?.state === 'open';
+    const wasOpenRef = React.useRef(false);
+
+    React.useLayoutEffect(() => {
+        const anotherMenuIsOpen = items.some((item) => item.id !== id && item.state === 'open');
+        if (wasOpenRef.current && !isOpen && !anotherMenuIsOpen) {
+            focusItemTrigger(id);
+        }
+        wasOpenRef.current = isOpen;
+    }, [focusItemTrigger, id, isOpen, items]);
+
     return (
 
         <MenuPrimitive.Root

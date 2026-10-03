@@ -13,6 +13,7 @@ export interface MenubarContextProps {
     items: MenubarItem[];
     updateItemState: (id: string, state: 'open' | 'closed') => void;
     updateItemTrigger: (id: string, trigger: HTMLButtonElement | null) => void;
+    focusItemTrigger: (id: string) => void;
     navigateMenu: (delta: 1 | -1) => void;
     contentInitialFocus?: number;
 }

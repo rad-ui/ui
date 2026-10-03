@@ -52,6 +52,10 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
         }
     }, []);
 
+    const focusItemTrigger = React.useCallback((id: string) => {
+        triggersRef.current[id]?.focus();
+    }, []);
+
     const handleOnNavigate = React.useCallback((newIndex: number) => {
         const prevItem = items[activeIndex];
         const nextItem = items[newIndex];
@@ -95,9 +99,10 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
         items,
         updateItemState,
         updateItemTrigger,
+        focusItemTrigger,
         navigateMenu,
         contentInitialFocus
-    }), [rootClass, registerItem, items, updateItemState, updateItemTrigger, navigateMenu, contentInitialFocus]);
+    }), [rootClass, registerItem, items, updateItemState, updateItemTrigger, focusItemTrigger, navigateMenu, contentInitialFocus]);
 
     return (
         <MenubarContext.Provider value={contextValue} >
