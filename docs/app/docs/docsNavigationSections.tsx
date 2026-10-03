@@ -175,6 +175,10 @@ export const docsNavigationSections = [
             {
                 title:"CSS Variable Fallbacks",
                 path:"/docs/guides/css-variable-fallbacks"
+            },
+            {
+                title:"Troubleshooting",
+                path:"/docs/guides/troubleshooting"
             }
         ]
     },
