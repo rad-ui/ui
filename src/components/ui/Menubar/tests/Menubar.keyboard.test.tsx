@@ -19,6 +19,43 @@ const mockMatchMedia = () => {
 describe('Menubar keyboard paths', () => {
     beforeEach(() => mockMatchMedia());
 
+    test('does not react to arrow keys while menus are closed', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Theme>
+                <button>Before menubar</button>
+                <Menubar.Root>
+                    <Menubar.Menu>
+                        <Menubar.Trigger>File</Menubar.Trigger>
+                        <Menubar.Portal>
+                            <Menubar.Content>
+                                <Menubar.Item>New</Menubar.Item>
+                            </Menubar.Content>
+                        </Menubar.Portal>
+                    </Menubar.Menu>
+                    <Menubar.Menu>
+                        <Menubar.Trigger>Edit</Menubar.Trigger>
+                        <Menubar.Portal>
+                            <Menubar.Content>
+                                <Menubar.Item>Cut</Menubar.Item>
+                            </Menubar.Content>
+                        </Menubar.Portal>
+                    </Menubar.Menu>
+                </Menubar.Root>
+            </Theme>
+        );
+
+        const before = screen.getByText('Before menubar');
+        const edit = screen.getByText('Edit');
+
+        before.focus();
+        await user.keyboard('{ArrowRight}');
+
+        expect(before).toHaveFocus();
+        expect(edit).not.toHaveFocus();
+    });
+
     test('arrow keys move between triggers and open menus', async() => {
         const user = userEvent.setup();
 

@@ -1,6 +1,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitive from '~/core/primitives/Menu/MenuPrimitive';
 import MenubarContext from '../contexts/MenubarContext';
+import MenubarMenuContext from '../contexts/MenubarMenuContext';
 import clsx from 'clsx';
 
 export type MenubarContentElement = ElementRef<typeof MenuPrimitive.Content>;
@@ -16,6 +17,7 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
         return null;
     }
     const { rootClass, navigateMenu, contentInitialFocus } = context;
+    const isOpen = React.useContext(MenubarMenuContext)?.isOpen ?? false;
     const { onKeyDown, ...restProps } = props;
 
     const setContentRef = React.useCallback((node: HTMLDivElement | null) => {
@@ -27,6 +29,8 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
     }, [ref]);
 
     React.useEffect(() => {
+        if (!isOpen) return;
+
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.defaultPrevented) return;
 
@@ -47,7 +51,7 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
         return () => {
             document.removeEventListener('keydown', handleKeyDown, true);
         };
-    }, [navigateMenu]);
+    }, [isOpen, navigateMenu]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         onKeyDown?.(event);
