@@ -1,6 +1,6 @@
 // Radio — Clarity design system aligned
-// Unchecked border: step 6 (500) — light border / separator
-// Hover border: step 7 (600) — default border, stronger separator
+// Unchecked border: border-strong (step 8) — same as Checkbox
+// Hover border: step 9 (800)
 // Checked border: accent-700 — solid color, clear selection signal
 // Indicator dot: accent-800 — solid, high contrast fill
 .rad-ui-radio {
@@ -27,7 +27,7 @@
     height: 1.125rem;
     border-radius: 50%;
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
-    border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
+    border: 1px solid var(--rad-ui-border-strong);  // matches Checkbox; step 6 was near-invisible in dark mode
     box-shadow: var(--rad-ui-control-shadow);
     box-sizing: border-box;
     transition: border-color var(--rad-ui-motion-duration-fast) ease;
@@ -46,7 +46,7 @@
   }
 
   &:hover::before {
-    border-color: var(--rad-ui-color-gray-600); // step 7 — default border on hover
+    border-color: var(--rad-ui-color-gray-800); // one step past border-strong on hover
   }
 
   &[data-checked="true"]::before {

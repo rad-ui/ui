@@ -43,7 +43,7 @@
     width: 1.125rem;
     height: 1.125rem;
     border-radius: var(--rad-ui-radius-full);
-    border: 1px solid var(--rad-ui-color-gray-500); // step 6 — light border
+    border: 1px solid var(--rad-ui-border-strong); // matches Radio/Checkbox controls
     background-color: var(--rad-ui-color-gray-50);  // step 1
     box-shadow: var(--rad-ui-control-shadow);
     transform: translateY(-50%);
@@ -68,7 +68,7 @@
     box-shadow: var(--rad-ui-shadow-sm);
 
     &::before {
-      border-color: var(--rad-ui-color-gray-600); // step 7
+      border-color: var(--rad-ui-color-gray-800); // one step past border-strong
     }
   }
 

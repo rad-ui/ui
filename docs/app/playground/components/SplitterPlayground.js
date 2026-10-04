@@ -14,7 +14,7 @@ const SplitterPlayground = () => (
                 <Splitter.Root defaultSizes={[35, 65]}>
                     <Splitter.Panel index={0}><div className="h-full bg-gray-100 p-3">List</div></Splitter.Panel>
                     <Splitter.Handle index={0} />
-                    <Splitter.Panel index={1}><div className="h-full bg-white p-3">Preview</div></Splitter.Panel>
+                    <Splitter.Panel index={1}><div className="h-full bg-gray-50 p-3">Preview</div></Splitter.Panel>
                 </Splitter.Root>
             </div>
         </PlaygroundSection>

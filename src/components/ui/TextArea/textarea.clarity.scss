@@ -32,6 +32,11 @@
       }
     }
 
+    // Disabled tokens are barely distinct from the field surface; dim like Button and Select.
+    &:disabled {
+      opacity: 0.5;
+    }
+
     &:focus {
       outline: none;
       border-color: var(--rad-ui-color-accent-500);

@@ -32,6 +32,11 @@
         border-color: var(--rad-ui-disabled-border);
         box-shadow: none;
     }
+
+    // Disabled tokens are barely distinct from the field surface; dim like Button and Select.
+    &:has(.rad-ui-text-field-input:disabled) {
+        opacity: 0.5;
+    }
 }
 
 .rad-ui-text-field-input{

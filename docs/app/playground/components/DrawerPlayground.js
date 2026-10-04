@@ -12,9 +12,7 @@ const DrawerPlayground = () => (
         >
             <Drawer.Root>
                 <Drawer.Trigger>
-                    <span className="inline-flex rounded-md bg-gray-950 px-3 py-2 text-sm font-medium text-white">
-                        Open drawer
-                    </span>
+                    Open drawer
                 </Drawer.Trigger>
                 <Drawer.Portal>
                     <Drawer.Overlay />
