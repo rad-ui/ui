@@ -16,6 +16,10 @@ export interface SplitterContextValue {
   isDragging: boolean;
   activeHandleIndex: number | null;
   rootClass: string;
+  registerPanelConstraints?: (index: number, minSize?: number, maxSize?: number) => () => void;
+  registerPanelId?: (index: number, id: string) => () => void;
+  getPanelId?: (index: number) => string;
+  disabled?: boolean;
 }
 
 const SplitterContext = createContext<SplitterContextValue | null>(null);

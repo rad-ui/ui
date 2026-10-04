@@ -4,6 +4,8 @@ import { DOCUMENT_OVERLAY_OPEN_ATTRIBUTE, resetDocumentOverlayOpenForTests } fro
 
 afterEach(() => {
     resetDocumentOverlayOpenForTests();
+    // Node-environment tests (e.g. server rendering) have no DOM to reset.
+    if (typeof document === 'undefined') return;
     document.documentElement.removeAttribute(DOCUMENT_OVERLAY_OPEN_ATTRIBUTE);
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';

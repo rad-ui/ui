@@ -103,4 +103,18 @@ const Toast: ToastNamespace = {
     Toaster,
 };
 
+// Named part exports let React Server Components use `import * as Toast from '@radui/ui/Toast'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ToastProvider as Provider,
+    ToastPortal as Portal,
+    ToastViewport as Viewport,
+    ToastRoot as Root,
+    ToastContent as Content,
+    ToastTitle as Title,
+    ToastDescription as Description,
+    ToastAction as Action,
+    ToastClose as Close
+};
+
 export default Toast;

@@ -138,10 +138,11 @@ describe('CheckboxGroupPrimitive', () => {
         const checkbox = container.querySelector('[role="checkbox"]');
         expect(checkbox).toBeDisabled();
         expect(checkbox).toHaveAttribute('aria-required', 'true');
-        // The hidden input should also be disabled and required
+        // The item's form mirror is disabled; group-level required is validated once (at least one checked)
         const input = checkbox?.parentElement?.querySelector('input[type="checkbox"]');
         expect(input).toBeDisabled();
-        expect(input).toBeRequired();
+        expect(input).not.toBeRequired();
+        expect(document.querySelector('input[type="checkbox"][required]')).toBeInTheDocument();
     });
 
     it('works in a form and submits checked values (storybook pattern)', () => {

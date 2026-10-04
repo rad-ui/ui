@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useId, useCallback } from 'react';
+import React, { useContext, useId, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
@@ -7,6 +7,7 @@ import { AccordionItemContext } from '../contexts/AccordionItemContext';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import Primitive from '~/core/primitives/Primitive';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import { usePrefersReducedMotion } from '~/core/hooks/usePrefersReducedMotion';
 
 export type AccordionItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value: string;
@@ -18,7 +19,9 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
     const accordionItemRef = React.useRef<HTMLDivElement | null>(null);
     const autoValue = useId();
     const itemValue = value ?? autoValue;
-    const headerId = useId();
+    const generatedHeaderId = useId();
+    const [triggerIdOverride, setTriggerIdOverride] = useState<string | undefined>(undefined);
+    const headerId = triggerIdOverride ?? generatedHeaderId;
     const {
         rootClass,
         activeItems,
@@ -30,6 +33,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
     } = useContext(AccordionContext);
 
     const effectiveDisabled = disabled || rootDisabled;
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     const isOpen = activeItems.includes(itemValue);
 
@@ -64,12 +68,12 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
     );
 
     return (
-        <AccordionItemContext.Provider value={{ itemValue, disabled: effectiveDisabled, headerId }}>
+        <AccordionItemContext.Provider value={{ itemValue, disabled: effectiveDisabled, headerId, setTriggerIdOverride }}>
             <CollapsiblePrimitive.Root
                 open={isOpen}
                 onOpenChange={handleOpenChange}
                 disabled={effectiveDisabled}
-                transitionDuration={200}
+                transitionDuration={prefersReducedMotion ? 0 : 200}
                 transitionTimingFunction="ease"
                 asChild
             >

@@ -1,7 +1,7 @@
 'use client'
 
 import Table from "@radui/ui/Table"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const rows = [
     { id: "1", name: "Accordion", status: "Ready", coverage: "Docs + playground" },
@@ -10,8 +10,8 @@ const rows = [
 ]
 
 const TablePlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="Table"
             docsLink="/docs/components/table"
             description="Composable table primitives for structured comparisons and dense datasets."
@@ -34,7 +34,7 @@ const TablePlayground = () => (
                     ))}
                 </Table.Body>
             </Table.Root>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

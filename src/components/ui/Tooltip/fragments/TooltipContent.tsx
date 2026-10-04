@@ -15,7 +15,7 @@ export type TooltipContentProps = React.ComponentPropsWithoutRef<typeof Primitiv
 };
 
 const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentProps>(
-    ({ children, showArrow = true, container, ...props }, ref) => {
+    ({ children, showArrow = true, container, className, style, ...props }, ref) => {
         const tooltipContext = useContext(TooltipContext);
         const themeContext = useContext(ThemeContext);
 
@@ -23,7 +23,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
             throw new Error('TooltipContent must be used within a TooltipRoot component');
         }
 
-        const { isOpen, data, interactions, context } = tooltipContext;
+        const { isOpen, data, interactions, context, rootClass } = tooltipContext;
         const arrowRef = tooltipContext.arrowRef;
 
         const mergedRef = useMergeRefs([context.refs.setFloating, ref]);
@@ -40,15 +40,16 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
         return (
             <FloatingPortal root={portalRoot}>
                 <Primitive.div
-                    className="rad-ui-tooltip-floating-element"
                     ref={mergedRef}
                     data-slot="tooltip-content"
                     data-state={isOpen ? 'open' : 'closed'}
-                    style={{ ...data.floatingStyles }}
+                    data-side={String(data.placement ?? '').split('-')[0] || undefined}
                     {...getFloatingProps(props)}
+                    className={clsx(rootClass && `${rootClass}-floating-element`, className)}
+                    style={{ ...style, ...data.floatingStyles }}
                 >
-                    <div className="rad-ui-tooltip-content-inner">
-                        {showArrow && <FloatingArrow className={clsx('rad-ui-arrow')} ref={arrowRef} context={context} data-slot="tooltip-arrow" />}
+                    <div className={clsx(rootClass && `${rootClass}-content-inner`)}>
+                        {showArrow && <FloatingArrow className={clsx(rootClass && `${rootClass}-arrow`)} ref={arrowRef} context={context} data-slot="tooltip-arrow" />}
                         {children}
                     </div>
                 </Primitive.div>

@@ -1,29 +1,26 @@
 'use client'
 
-import ColorLooper from "../helpers/ColorLooper"
 import Code from "@radui/ui/Code"
-import Text from "@radui/ui/Text"
+import Matrix, { toAxis } from "../helpers/Matrix"
+import { usePlayground } from "../helpers/PlaygroundContext"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
-const Playground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            title="Code"
-            docsLink="/docs/components/code"
-            description="Inline code snippets with current variants and sizing."
-            loop={false}
-        >
-            <div className='space-y-3'>
-                <Text className="text-gray-900">
-                    Render your app shell before calling <Code>startTransition()</Code> so the interface stays responsive.
-                </Text>
-                <div className='flex flex-wrap items-center gap-2'>
-                    <Code>npm run build</Code>
-                    <Code variant="outline">pnpm lint</Code>
-                    <Code size="large">useDeferredValue(query)</Code>
-                </div>
-            </div>
-        </ColorLooper>
-    </div>
-)
+const variants = [{ key: "default", label: "default", value: undefined }, ...toAxis(["outline"])]
 
-export default Playground
+const CodePlayground = () => {
+    const { accent } = usePlayground()
+
+    return (
+        <PlaygroundSection title="Code" docsLink="/docs/components/code" description="variant × size.">
+            <Matrix
+                rows={variants}
+                columns={toAxis(["small", "medium", "large", "x-large"])}
+                renderCell={(variant, size) => (
+                    <Code variant={variant.value} size={size.value} color={accent === "gray" ? undefined : accent}>npm run build</Code>
+                )}
+            />
+        </PlaygroundSection>
+    )
+}
+
+export default CodePlayground

@@ -63,7 +63,7 @@
   &[data-color] {
     --rad-ui-callout-emphasis-color: var(--rad-ui-color-accent-1000);
 
-    border-color: var(--rad-ui-color-accent-200);
+    border-color: var(--rad-ui-color-accent-500);
     background-color: var(--rad-ui-color-accent-100);
   }
 
@@ -85,11 +85,13 @@
   }
 
   &[data-variant="outline"][data-color] {
-    border-color: var(--rad-ui-color-accent-300);
+    border-color: var(--rad-ui-color-accent-600);
   }
 
+  // Soft must read stronger than the default colored callout (accent-100), not
+  // weaker: accent-50 is the page background step.
   &[data-variant="soft"][data-color] {
-    background-color: var(--rad-ui-color-accent-50);
+    background-color: var(--rad-ui-color-accent-200);
     border-color: transparent;
   }
 

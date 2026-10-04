@@ -1,13 +1,12 @@
 'use client'
 
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 import Text from "@radui/ui/Text"
 import Em from "@radui/ui/Em"
 
 const Playground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            loop={false}
+    <div>
+        <PlaygroundSection
             title="Em"
             docsLink="/docs/components/em"
             description="Inline emphasis stays lightweight and composable inside text content."
@@ -17,7 +16,7 @@ const Playground = () => (
                     Keep the baseline copy calm, then use <Em>emphasis only where the reader actually needs direction</Em>.
                 </Text>
             </div>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

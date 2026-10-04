@@ -6,36 +6,36 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 0.14em;
 
+    // Hover keeps a readable text step (950); 900 drops below 4.5:1 for most scales.
     &:hover {
-      color: var(--rad-ui-color-accent-900);
+      color: var(--rad-ui-color-accent-950);
       text-decoration-color: currentcolor;
     }
 
     &:focus-visible {
       outline: none;
-      box-shadow: var(--rad-ui-focus-ring-shadow-sm);
+
+      // Outset ring: a 1px contained ring on inline text overlaps the glyphs and
+      // underline and is hard to see.
+      box-shadow: var(--rad-ui-focus-ring-shadow-outset);
       border-radius: 0.2rem;
     }
 
  /** link Sizes */
     &[data-size="small"]{
       font-size: small;
-      padding-bottom: 5px;
     }
 
     &[data-size="medium"]{
       font-size: medium;
-      padding-bottom: 5px;
     }
 
     &[data-size="large"]{
       font-size: large;
-      padding-bottom: 5px;
     }
 
     &[data-size="x-large"]{
       font-size: x-large;
-      padding-bottom: 5px;
     }
 
 }

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useContext } from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
@@ -9,11 +10,11 @@ export type ComboboxGroupProps = {
 type ComboboxGroupElement = React.ElementRef<typeof ComboboxPrimitive.Group>;
 type ComboboxGroupComponentProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Group> & ComboboxGroupProps;
 
-const ComboboxGroup = React.forwardRef<ComboboxGroupElement, ComboboxGroupComponentProps>(({ children, ...props }, forwardedRef) => {
+const ComboboxGroup = React.forwardRef<ComboboxGroupElement, ComboboxGroupComponentProps>(({ children, className, ...props }, forwardedRef) => {
     const { rootClass } = useContext(ComboboxRootContext);
     return (
         <ComboboxPrimitive.Group
-            className={rootClass ? `${rootClass}-group` : undefined}
+            className={clsx(rootClass ? `${rootClass}-group` : undefined, className) || undefined}
             ref={forwardedRef}
             {...props}
         >

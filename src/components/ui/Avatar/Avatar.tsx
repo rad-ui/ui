@@ -22,4 +22,12 @@ Avatar.Fallback = AvatarFallback;
 export type { AvatarRootProps } from './fragments/AvatarRoot';
 export type { AvatarImageProps } from './fragments/AvatarImage';
 export type { AvatarFallbackProps } from './fragments/AvatarFallback';
+// Named part exports let React Server Components use `import * as Avatar from '@radui/ui/Avatar'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    AvatarRoot as Root,
+    AvatarImage as Image,
+    AvatarFallback as Fallback
+};
+
 export default Avatar;

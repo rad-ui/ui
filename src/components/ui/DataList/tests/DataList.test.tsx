@@ -104,10 +104,26 @@ describe('DataList Component', () => {
             </DataList.Root>
         );
 
-        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        // A div-typed ref still compiles (backward compatible typing) and receives the <dl>.
+        expect(rootRef.current?.tagName).toBe('DL');
         expect(itemRef.current).toBeInstanceOf(HTMLDivElement);
         expect(labelRef.current?.tagName).toBe('DT');
         expect(valueRef.current?.tagName).toBe('DD');
+    });
+
+    test('renders valid description-list semantics (dt/dd inside dl)', () => {
+        const { container } = render(
+            <DataList.Root>
+                <DataList.Item>
+                    <DataList.Label>Status</DataList.Label>
+                    <DataList.Value>Live</DataList.Value>
+                </DataList.Item>
+            </DataList.Root>
+        );
+        const root = container.firstElementChild as HTMLElement;
+        expect(root.tagName).toBe('DL');
+        expect(screen.getByText('Status').closest('dl')).toBe(root);
+        expect(screen.getByText('Live').closest('dl')).toBe(root);
     });
 
     test('should render hidden labels for screen readers', () => {

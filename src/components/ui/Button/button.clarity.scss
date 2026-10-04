@@ -120,4 +120,13 @@
         outline: none;
         box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-control-shadow-hover);
     }
+
+    // Solid fills (default, `solid`, `destructive`): the contained ring is drawn in
+    // accent-800 on top of an accent-950 / red-800 fill (about 1.5:1), so it is not
+    // visible. Draw the ring outside the button, against the surrounding surface.
+    &:not([data-variant]):focus-visible,
+    &[data-variant="solid"]:focus-visible,
+    &[data-variant="destructive"]:focus-visible{
+        box-shadow: var(--rad-ui-focus-ring-shadow-outset), var(--rad-ui-control-shadow-hover);
+    }
 }

@@ -18,7 +18,7 @@ const data = {
         { prop: { name: "showStepMarks", info_tooltips: "Shows tick marks at each step." }, type: "boolean", default: "false" },
         { prop: { name: "formatValue", info_tooltips: "Custom formatter for displayed value." }, type: "function", default: "--" },
         { prop: { name: "onValueChange", info_tooltips: "Callback during drag." }, type: "function", default: "--" },
-        { prop: { name: "onValueCommit", info_tooltips: "Callback when drag ends." }, type: "function", default: "--" }
+        { prop: { name: "onValueCommit", info_tooltips: "Callback with the final value when a pointer drag ends or after each keyboard change." }, type: "function", default: "--" }
     ]
 }
 

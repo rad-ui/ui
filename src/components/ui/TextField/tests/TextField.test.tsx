@@ -140,7 +140,7 @@ describe('TextField', () => {
         expect(screen.queryByRole('button', { name: 'Clear resettable search' })).not.toBeInTheDocument();
     });
 
-    test('does not clear disabled input', () => {
+    test('hides reset for a disabled input', () => {
         render(
             <TextField.Root>
                 <TextField.Input aria-label="Disabled search" defaultValue="abc" disabled />
@@ -148,13 +148,12 @@ describe('TextField', () => {
             </TextField.Root>
         );
 
-        const input = screen.getByLabelText('Disabled search');
-        fireEvent.click(screen.getByRole('button', { name: 'Clear disabled search' }));
-
-        expect(input).toHaveValue('abc');
+        // A value that cannot be changed offers no clear button.
+        expect(screen.queryByRole('button', { name: 'Clear disabled search' })).not.toBeInTheDocument();
+        expect(screen.getByLabelText('Disabled search')).toHaveValue('abc');
     });
 
-    test('does not clear read-only input', () => {
+    test('hides reset for a read-only input', () => {
         render(
             <TextField.Root>
                 <TextField.Input aria-label="Readonly search" defaultValue="abc" readOnly />
@@ -162,10 +161,9 @@ describe('TextField', () => {
             </TextField.Root>
         );
 
-        const input = screen.getByLabelText('Readonly search');
-        fireEvent.click(screen.getByRole('button', { name: 'Clear readonly search' }));
-
-        expect(input).toHaveValue('abc');
+        // A value that cannot be changed offers no clear button.
+        expect(screen.queryByRole('button', { name: 'Clear readonly search' })).not.toBeInTheDocument();
+        expect(screen.getByLabelText('Readonly search')).toHaveValue('abc');
     });
 
     test('focuses input when a slot is clicked', () => {
@@ -184,5 +182,23 @@ describe('TextField', () => {
         input.blur();
         fireEvent.mouseDown(screen.getByText('E'));
         expect(input).toHaveFocus();
+    });
+
+    test('reset appears when a disabled input becomes editable', () => {
+        const { rerender } = render(
+            <TextField.Root>
+                <TextField.Input aria-label="Toggle" defaultValue="abc" disabled />
+                <TextField.Reset aria-label="Clear toggle">X</TextField.Reset>
+            </TextField.Root>
+        );
+        expect(screen.queryByRole('button', { name: 'Clear toggle' })).not.toBeInTheDocument();
+        rerender(
+            <TextField.Root>
+                <TextField.Input aria-label="Toggle" defaultValue="abc" />
+                <TextField.Reset aria-label="Clear toggle">X</TextField.Reset>
+            </TextField.Root>
+        );
+        fireEvent.click(screen.getByRole('button', { name: 'Clear toggle' }));
+        expect(screen.getByLabelText('Toggle')).toHaveValue('');
     });
 });

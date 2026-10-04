@@ -58,4 +58,16 @@ export type { TableCellProps } from './fragments/TableCell';
 export type { TableColumnCellHeaderProps } from './fragments/TableColumnCellHeader';
 export type { TableColumnResizeHandleProps } from './fragments/TableColumnResizeHandle';
 export { useTable } from './fragments/TableRoot';
+// Named part exports let React Server Components use `import * as Table from '@radui/ui/Table'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    TableRoot as Root,
+    TableBody as Body,
+    TableHead as Head,
+    TableRow as Row,
+    TableCell as Cell,
+    TableColumnCellHeader as ColumnCellHeader,
+    TableColumnResizeHandle as ColumnResizeHandle
+};
+
 export default Table;

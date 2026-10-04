@@ -28,4 +28,11 @@ Progress.Indicator = ProgressIndicator;
 
 export type { ProgressRootProps } from './fragments/ProgressRoot';
 export type { ProgressIndicatorProps } from './fragments/ProgressIndicator';
+// Named part exports let React Server Components use `import * as Progress from '@radui/ui/Progress'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ProgressRoot as Root,
+    ProgressIndicator as Indicator
+};
+
 export default Progress;

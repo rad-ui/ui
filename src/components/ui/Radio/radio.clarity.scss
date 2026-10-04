@@ -67,7 +67,9 @@
     box-shadow: var(--rad-ui-focus-ring-shadow-sm);
   }
 
-  &[data-disabled="true"] {
+  // Radio emits `data-disabled=""` (presence), so match on presence rather than "true".
+  &[data-disabled],
+  &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }

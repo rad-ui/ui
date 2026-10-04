@@ -1,11 +1,11 @@
 'use client'
 
 import AlertDialog from "@radui/ui/AlertDialog"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const AlertDialogPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="AlertDialog"
             docsLink="/docs/components/alert-dialog"
             description="Confirmation flow for destructive actions with focus trapping and explicit cancel/action controls."
@@ -36,7 +36,7 @@ const AlertDialogPlayground = () => (
                     </AlertDialog.Portal>
                 </AlertDialog.Root>
             </div>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

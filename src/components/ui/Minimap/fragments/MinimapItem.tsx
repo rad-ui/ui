@@ -12,7 +12,7 @@ export type MinimapItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     value: string;
 };
 
-const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemProps) => {
+const MinimapItem = React.forwardRef<HTMLButtonElement, MinimapItemProps>(({ children, className = '', value, ...props }, ref) => {
     const { rootClass } = React.useContext(MinimapContext) || { rootClass: '' };
     const { visibleItems, scrollToItem } = React.useContext(MinimapProviderContext);
     const isVisible = visibleItems.includes(value);
@@ -27,8 +27,9 @@ const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemP
     }, [value, scrollToItem]);
 
     return <MinimapItemContext.Provider value={contextValue}>
-        <RovingFocusGroup.Item value={value}>
+        <RovingFocusGroup.Item>
             <Primitive.button
+                ref={ref}
                 onClick={handleClick}
                 className={clsx(rootClass && `${rootClass}-item`, className)}
                 data-in-view={isVisible ? 'true' : 'false'}
@@ -36,6 +37,8 @@ const MinimapItem = ({ children, className = '', value, ...props }: MinimapItemP
         </RovingFocusGroup.Item>
 
     </MinimapItemContext.Provider>;
-};
+});
+
+MinimapItem.displayName = 'Minimap.Item';
 
 export default MinimapItem;

@@ -18,3 +18,21 @@
         transition: transform var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
     }
 }
+
+// Indeterminate (value={null}): a sliding segment communicates ongoing work.
+.rad-ui-progress[data-state="indeterminate"] .rad-ui-progress-indicator {
+    width: 40%;
+    transition: none;
+    animation: rad-ui-progress-indeterminate calc(var(--rad-ui-motion-duration-normal) * 6) var(--rad-ui-motion-easing-standard) infinite;
+}
+
+@keyframes rad-ui-progress-indeterminate {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-ui-progress[data-state="indeterminate"] .rad-ui-progress-indicator {
+        animation-duration: calc(var(--rad-ui-motion-duration-normal) * 15);
+    }
+}

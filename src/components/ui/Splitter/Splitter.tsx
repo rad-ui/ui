@@ -49,4 +49,12 @@ Splitter.Handle = SplitterHandle;
 export type { SplitterRootProps } from './fragments/SplitterRoot';
 export type { SplitterPanelProps } from './fragments/SplitterPanel';
 export type { SplitterHandleProps } from './fragments/SplitterHandle';
+// Named part exports let React Server Components use `import * as Splitter from '@radui/ui/Splitter'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    SplitterRoot as Root,
+    SplitterPanel as Panel,
+    SplitterHandle as Handle
+};
+
 export default Splitter;

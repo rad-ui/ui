@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { SliderContext } from '../context/SliderContext';
 import useControllableState from '~/core/hooks/useControllableState';
+import { clampValue, getThumbBounds, snapToStep } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'Slider';
 
@@ -45,6 +46,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     pageStepMultiplier = 10,
     showStepMarks = false,
     formatValue,
+    onPointerDown,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
@@ -56,8 +58,6 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     );
     const [isDragging, setDragging] = React.useState(false);
     const activeThumbIndexRef = React.useRef<number | null>(null);
-    const committedValueRef = React.useRef(value);
-    React.useEffect(() => { committedValueRef.current = value; }, [value]);
     const internalRef = React.useRef<HTMLDivElement>(null);
     const thumbRefsArray = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
     
@@ -69,89 +69,120 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         };
     }, [ref]);
 
-    const clamp = (val: number) => Math.min(max, Math.max(min, val));
-    
+    const clamp = (val: number) => clampValue(val, min, max);
+
+    // Latest value, readable synchronously from document-level pointer listeners.
+    const latestValueRef = React.useRef(value);
+    latestValueRef.current = value;
+
+    const updateValue = useCallback((next: number | number[]) => {
+        latestValueRef.current = next;
+        setValue(next);
+    }, [setValue]);
+
+    const commitValue = useCallback((next?: number | number[]) => {
+        onValueCommit?.(next === undefined ? latestValueRef.current : next);
+    }, [onValueCommit]);
+
     // Callback to register thumb refs
     const registerThumbRef = useCallback((index: number, thumbRef: React.RefObject<HTMLDivElement>) => {
         thumbRefsArray.current[index] = thumbRef;
     }, []);
 
-    const setFromPosition = (e: React.PointerEvent<HTMLDivElement> | PointerEvent) => {
+    const getValueFromPointer = (e: React.PointerEvent<HTMLDivElement> | PointerEvent): number | null => {
         const rootElement = internalRef.current;
-        if (!rootElement) return;
+        if (!rootElement) return null;
 
         const rect = rootElement.getBoundingClientRect();
-        let relative: number;
+        const size = orientation === 'vertical' ? rect.height : rect.width;
+        if (!size) return null;
 
-        if (orientation === 'vertical') {
-            relative = (rect.bottom - e.clientY) / rect.height;
-        } else {
-            relative = (e.clientX - rect.left) / rect.width;
-        }
+        const relative = orientation === 'vertical'
+            ? (rect.bottom - e.clientY) / size
+            : (e.clientX - rect.left) / size;
 
-        const rawValue = min + relative * (max - min);
-        // Snap to step
-        const steppedValue = Math.round(rawValue / step) * step;
-        const newValue = clamp(steppedValue);
+        const rawValue = min + clampValue(relative, 0, 1) * (max - min);
+        return clamp(snapToStep(rawValue, step, min));
+    };
 
-        if (Array.isArray(value)) {
+    const setFromPosition = (e: React.PointerEvent<HTMLDivElement> | PointerEvent) => {
+        const newValue = getValueFromPointer(e);
+        if (newValue === null) return;
+        const current = latestValueRef.current;
+
+        if (Array.isArray(current)) {
+            if (current.length === 0) return;
             let indexToUpdate = activeThumbIndexRef.current;
 
-            // If no active thumb (e.g. click on track), find the nearest one
+            // If no active thumb (e.g. click on track), pick the nearest one. When
+            // several thumbs are equally close (stacked), pick by direction so the
+            // thumb can actually move.
             if (indexToUpdate === null) {
-                const distances = value.map(v => Math.abs(v - newValue));
-                indexToUpdate = distances.indexOf(Math.min(...distances));
+                let best = 0;
+                let bestDistance = Infinity;
+                current.forEach((thumbValue, index) => {
+                    const distance = Math.abs(thumbValue - newValue);
+                    if (distance < bestDistance || (distance === bestDistance && newValue > thumbValue)) {
+                        best = index;
+                        bestDistance = distance;
+                    }
+                });
+                // Pointer is exactly on stacked thumbs: wait for movement to pick one.
+                if (bestDistance === 0 && current.filter((thumbValue) => thumbValue === newValue).length > 1) {
+                    return;
+                }
+                indexToUpdate = best;
                 activeThumbIndexRef.current = indexToUpdate;
+                thumbRefsArray.current[indexToUpdate]?.current?.focus();
             }
 
-            const nextValue = value.map((currentValue, origIndex) => ({
-                value: currentValue,
-                origIndex
-            }));
-            nextValue[indexToUpdate].value = newValue;
-            // Keep values sorted for range logic
-            nextValue.sort((a, b) => a.value - b.value);
+            // Thumbs never cross: clamp the dragged thumb between its neighbours.
+            const { lower, upper } = getThumbBounds(current, indexToUpdate, min, max);
+            const bounded = clampValue(newValue, lower, upper);
+            if (bounded === current[indexToUpdate]) return;
 
-            // Update the active thumb ref to the new sorted index
-            activeThumbIndexRef.current = nextValue.findIndex(item => item.origIndex === indexToUpdate);
-
-            setValue(nextValue.map(item => item.value));
-        } else {
-            setValue(newValue);
+            const nextValue = [...current];
+            nextValue[indexToUpdate] = bounded;
+            updateValue(nextValue);
+        } else if (newValue !== current) {
+            updateValue(newValue);
         }
     };
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-        if (disabled) return;
+        onPointerDown?.(e);
+        if (disabled || e.defaultPrevented || e.button > 0) return;
         e.stopPropagation();
 
-        // Check if we clicked a thumb
-        const target = e.target as HTMLElement;
-        const thumbElement = rootClass
-            ? target.closest(`.${rootClass}-thumb`) as HTMLElement | null
-            : target.closest('[role="slider"]') as HTMLElement | null;
+        // Check if we pressed a thumb (thumbs are registered by ref).
+        const target = e.target as Node;
+        const pressedThumbIndex = thumbRefsArray.current.findIndex((thumbRef) => {
+            const node = thumbRef?.current;
+            return !!node && (node === target || node.contains(target));
+        });
 
-        if (thumbElement && Array.isArray(value)) {
-            const index = parseInt(thumbElement.getAttribute('data-index') || '0', 10);
-            activeThumbIndexRef.current = index;
-            thumbElement.focus();
+        const currentValue = latestValueRef.current;
+        const pressedThumbIsStacked = pressedThumbIndex !== -1 && Array.isArray(currentValue) &&
+            currentValue.some((thumbValue, index) => index !== pressedThumbIndex && thumbValue === currentValue[pressedThumbIndex]);
+
+        if (pressedThumbIndex !== -1 && Array.isArray(currentValue) && !pressedThumbIsStacked) {
+            activeThumbIndexRef.current = pressedThumbIndex;
+            thumbRefsArray.current[pressedThumbIndex]?.current?.focus();
         } else {
+            // Track press, or a press on stacked thumbs: the thumb is chosen by
+            // proximity/direction in setFromPosition.
             activeThumbIndexRef.current = null;
-            if (!Array.isArray(value)) {
-                // Focus the single thumb using ref
-                const singleThumb = thumbRefsArray.current[0];
-                singleThumb?.current?.focus();
-            } else {
-                internalRef.current?.focus();
+            if (!Array.isArray(currentValue)) {
+                thumbRefsArray.current[0]?.current?.focus();
             }
         }
 
         setDragging(true);
         setFromPosition(e);
 
-        const handleGlobalPointerMove = (e: PointerEvent) => {
-            e.preventDefault();
-            setFromPosition(e);
+        const handleGlobalPointerMove = (event: PointerEvent) => {
+            event.preventDefault();
+            setFromPosition(event);
         };
 
         const handleGlobalPointerUp = () => {
@@ -159,28 +190,20 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
             activeThumbIndexRef.current = null;
             document.removeEventListener('pointermove', handleGlobalPointerMove);
             document.removeEventListener('pointerup', handleGlobalPointerUp);
-            onValueCommit?.(committedValueRef.current);
+            document.removeEventListener('pointercancel', handleGlobalPointerUp);
+            commitValue();
         };
 
         document.addEventListener('pointermove', handleGlobalPointerMove);
         document.addEventListener('pointerup', handleGlobalPointerUp);
-    };
-
-    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        setFromPosition(e);
-    };
-
-    const handlePointerUp = () => {
-        setDragging(false);
-        activeThumbIndexRef.current = null;
+        document.addEventListener('pointercancel', handleGlobalPointerUp);
     };
 
     const contextValues = {
         rootClass,
         value,
-        setValue,
+        setValue: updateValue,
+        commitValue,
         minValue: min,
         maxValue: max,
         step,
@@ -205,10 +228,8 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
                 data-slider-root={rootClass}
                 data-disabled={disabled}
                 data-orientation={orientation}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
                 {...props}
+                onPointerDown={handlePointerDown}
             >
                 {children}
             </div>

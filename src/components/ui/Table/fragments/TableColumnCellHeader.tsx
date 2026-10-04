@@ -14,7 +14,7 @@ const TableColumnCellHeader = React.forwardRef<
     React.ElementRef<'th'>,
     TableColumnCellHeaderProps
 >(({ children, className = 'cell-header', columnIndex, style, ...props }, ref) => {
-    const { resizable, registerColumnIndex } = useTable();
+    const { resizable, registerColumnIndex, rootClass } = useTable();
     const hasResizeHandle = resizable && columnIndex !== undefined;
 
     React.useLayoutEffect(() => {
@@ -26,7 +26,10 @@ const TableColumnCellHeader = React.forwardRef<
     const header = (
         <th
             ref={ref}
-            className={clsx(className, hasResizeHandle && 'resizable')}
+            // Namespaced class is always applied so styling survives a consumer className.
+            // The unprefixed `cell-header`/`resizable` classes are kept for backward compatibility.
+            className={clsx(rootClass && `${rootClass}-cell-header`, className, hasResizeHandle && 'resizable')}
+            data-resizable={hasResizeHandle ? '' : undefined}
             style={style}
             {...props}
         >

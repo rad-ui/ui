@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
@@ -11,13 +12,13 @@ export type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrim
 };
 
 const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
-    ({ customRootClass, children, defaultValue, value, onValueChange, sideOffset = 4, ...props }, forwardedRef) => {
+    ({ customRootClass, children, className, defaultValue, value, onValueChange, sideOffset = 4, ...props }, forwardedRef) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         return (
             <SelectRootContext.Provider value={{ rootClass }}>
                 <ComboboxPrimitive.Root
-                    className={rootClass ? `${rootClass}-root` : undefined}
+                    className={clsx(rootClass ? `${rootClass}-root` : undefined, className) || undefined}
                     data-slot="select-root"
                     defaultValue={defaultValue}
                     value={value}

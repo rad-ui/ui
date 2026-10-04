@@ -14,7 +14,7 @@ import {
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tree/docs/example_1.tsx');
 const largeData_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tree/docs/large-data.tsx');
-const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/tree.scss');
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Tree/tree.clarity.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tree/docs/anatomy.tsx');
 
 export const code = {

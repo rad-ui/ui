@@ -3,6 +3,13 @@
 .rad-ui-separator {
     background-color: var(--rad-ui-border-soft); // step 6 — light border
     align-self: stretch;
+    flex-shrink: 0;
+    border: 0;
+
+    // `color` is a public prop; tint the divider with the accent border step.
+    &[data-color] {
+        background-color: var(--rad-ui-color-accent-600);
+    }
 }
 
 .rad-ui-separator-vertical {

@@ -5,9 +5,11 @@ import { useStepsContext } from '../context/StepsContext';
 
 export type StepBubbleProps = React.HTMLAttributes<HTMLDivElement>;
 
-const StepBubble = ({ children, className = '', ...props }: StepBubbleProps) => {
+const StepBubble = React.forwardRef<HTMLDivElement, StepBubbleProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(rootClass && `${rootClass}-bubble`, className)} {...props}>{children}</div>;
-};
+    return <div ref={ref} className={clsx(rootClass && `${rootClass}-bubble`, className)} {...props}>{children}</div>;
+});
+
+StepBubble.displayName = 'Steps.Bubble';
 
 export default StepBubble;

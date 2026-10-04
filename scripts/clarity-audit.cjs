@@ -59,10 +59,10 @@ const ALLOW_LIST = {};
  * remaining findings have been triaged, then delete this comment.
  */
 const BASELINE = {
-    'literal-spacing': 210,
-    'literal-sizing': 88,
-    'literal-typography': 45,
-    'literal-radius': 27
+    'literal-spacing': 108,
+    'literal-sizing': 65,
+    'literal-typography': 26,
+    'literal-radius': 16
 };
 
 /**

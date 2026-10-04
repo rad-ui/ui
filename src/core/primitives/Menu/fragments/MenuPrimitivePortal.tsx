@@ -11,22 +11,20 @@ const MenuPrimitivePortal = forwardRef<MenuPrimitivePortalElement, MenuPrimitive
     ({ children, ...props }, ref) => {
         const context = useContext(MenuPrimitiveRootContext);
         const themeContext = useContext(ThemeContext);
-        const [rootElementFound, setRootElementFound] = useState(false);
-        const rootElement = (
-            themeContext?.portalRootRef.current
-            ?? themeContext?.containerRef.current
-            ?? document.body
-        ) as HTMLElement | null;
+        // Resolve the portal root after mount: `document` does not exist during server rendering.
+        const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
 
         useEffect(() => {
-            if (rootElement) {
-                setRootElementFound(true);
-            }
-        }, [rootElement]);
+            setRootElement(
+                (themeContext?.portalRootRef.current
+                ?? themeContext?.containerRef.current
+                ?? document.body) as HTMLElement
+            );
+        }, [themeContext]);
 
         if (!context) return null;
         const { isOpen } = context;
-        if (!isOpen || !rootElementFound) return null;
+        if (!isOpen || !rootElement) return null;
         return (
             <Floater.Portal root={rootElement} {...props}>
                 <div ref={ref}>{children}</div>

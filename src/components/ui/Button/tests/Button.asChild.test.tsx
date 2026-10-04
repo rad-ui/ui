@@ -68,4 +68,73 @@ describe('Button asChild', () => {
         );
         expect(screen.getAllByRole('button')).toHaveLength(1);
     });
+
+    test('disabled asChild blocks the child onClick and link navigation', async() => {
+        const user = userEvent.setup();
+        const childClick = jest.fn();
+        const parentClick = jest.fn();
+        render(
+            <div onClick={parentClick}>
+                <Button asChild disabled>
+                    <a href="/somewhere" onClick={childClick}>disabled link</a>
+                </Button>
+            </div>
+        );
+        const link = screen.getByRole('button');
+        const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+        link.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(true);
+        await user.click(link);
+        expect(childClick).not.toHaveBeenCalled();
+        expect(parentClick).not.toHaveBeenCalled();
+
+        const auxEvent = new MouseEvent('auxclick', { bubbles: true, cancelable: true, button: 1 });
+        link.dispatchEvent(auxEvent);
+        expect(auxEvent.defaultPrevented).toBe(true);
+    });
+
+    test('disabled asChild exposes aria-disabled and leaves the tab order for non-button children', async() => {
+        const user = userEvent.setup();
+        render(
+            <>
+                <Button asChild disabled>
+                    <a href="/somewhere">disabled link</a>
+                </Button>
+                <button>next</button>
+            </>
+        );
+        const link = screen.getByText('disabled link');
+        expect(link).toHaveAttribute('aria-disabled', 'true');
+        expect(link).toHaveAttribute('tabindex', '-1');
+        expect(link).not.toHaveAttribute('aria-description');
+        await user.tab();
+        expect(screen.getByText('next')).toHaveFocus();
+    });
+
+    test('enabled asChild keeps child onClick and default tab order', async() => {
+        const user = userEvent.setup();
+        const childClick = jest.fn();
+        const onClick = jest.fn();
+        render(
+            <Button asChild onClick={onClick}>
+                <a href="#" onClick={childClick}>link</a>
+            </Button>
+        );
+        const link = screen.getByRole('button');
+        expect(link).not.toHaveAttribute('tabindex');
+        await user.click(link);
+        expect(childClick).toHaveBeenCalledTimes(1);
+        expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('disabled asChild with a native button child keeps native disabled semantics', () => {
+        render(
+            <Button asChild disabled>
+                <button>native</button>
+            </Button>
+        );
+        const button = screen.getByRole('button');
+        expect(button).toBeDisabled();
+        expect(button).not.toHaveAttribute('tabindex');
+    });
 });

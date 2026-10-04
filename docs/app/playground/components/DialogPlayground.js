@@ -1,11 +1,11 @@
 'use client'
 
 import Dialog from "@radui/ui/Dialog"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const DialogPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="Dialog"
             docsLink="/docs/components/dialog"
             description="General-purpose modal surface for settings, forms, and detail views."
@@ -31,7 +31,7 @@ const DialogPlayground = () => (
                     </Dialog.Content>
                 </Dialog.Portal>
             </Dialog.Root>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

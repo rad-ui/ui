@@ -90,6 +90,16 @@
   background-color: var(--rad-ui-surface-panel);
   box-shadow: var(--rad-ui-shadow-lg);
   z-index: 100;
+
+  // Invisible hover bridge over the gap above the panel, so moving the pointer from the
+  // trigger into the content never leaves the item.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 100%;
+    height: var(--rad-ui-spacing-2);
+  }
 }
 
 .rad-ui-navigation-menu-content .rad-ui-navigation-menu-link {

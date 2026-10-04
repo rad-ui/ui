@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
-import { DisclosureContext } from '../contexts/DisclosureContext';
+import { DisclosureContext, DisclosureItemValue } from '../contexts/DisclosureContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 
@@ -9,15 +9,15 @@ const COMPONENT_NAME = 'Disclosure';
 
 export type DisclosureRootProps = React.ComponentPropsWithoutRef<'div'> & {
      customRootClass?: string;
-     defaultOpen?: number | null;
+     defaultOpen?: DisclosureItemValue | null;
      loop?: boolean;
 };
 
-const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, className, customRootClass, defaultOpen = null, 'aria-label': ariaLabel, loop = true, ...props }, forwardedRef) => {
+const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootProps>(({ children, className, customRootClass, defaultOpen = null, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, loop = true, ...props }, forwardedRef) => {
     const disclosureRef = useRef<React.ElementRef<'div'> | null>(null);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const [activeItem, setActiveItem] = useState<number | null>(defaultOpen);
+    const [activeItem, setActiveItem] = useState<DisclosureItemValue | null>(defaultOpen);
 
     const setRefs = useCallback((node: React.ElementRef<'div'> | null) => {
         disclosureRef.current = node;
@@ -38,14 +38,17 @@ const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootP
                 disclosureRef
 
             }}>
-            <RovingFocusGroup.Root loop={loop}>
-                <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`)}>
+            {/* Triggers stack vertically; accept both arrow axes. */}
+            <RovingFocusGroup.Root loop={loop} orientation="both">
+                <RovingFocusGroup.Group>
                     <div
                         {...props}
                         className={clsx(rootClass && `${rootClass}-root`, className)}
                         ref={setRefs}
-                        role="region"
+                        // Only expose a landmark when it is labelled; an unlabelled region is noise.
+                        role={ariaLabel || ariaLabelledBy ? 'region' : undefined}
                         aria-label={ariaLabel}
+                        aria-labelledby={ariaLabelledBy}
                         data-slot="disclosure-root"
                         data-testid='disclosure-root'
                     >

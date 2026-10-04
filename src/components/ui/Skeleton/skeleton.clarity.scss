@@ -4,8 +4,7 @@
 // step 6 = light border (high end of shimmer) — perceptually distinct, no harsh jump
 .rad-ui-skeleton {
     color: transparent !important;
-    border-radius: var(--radius-1);
-    animation: skeleton-shimmer 0.75s infinite alternate-reverse !important;
+    animation: rad-ui-skeleton-shimmer 0.75s infinite alternate-reverse !important;
     background-image: none !important;
     background-clip: initial !important;
     border: none !important;
@@ -15,11 +14,13 @@
     pointer-events: none !important;
     user-select: none !important;
     cursor: default !important;
-    height: var(--skeleton-height);
-    width: var(--skeleton-width);
-    border-radius: var(--skeleton-radius);
+    // Fallbacks keep a skeleton visible when no explicit dimensions are passed;
+    // an unset custom property would otherwise collapse the empty element to 0px.
+    height: var(--skeleton-height, 1em);
+    width: var(--skeleton-width, 100%);
+    border-radius: var(--skeleton-radius, var(--rad-ui-radius-sm));
 
-    @keyframes skeleton-shimmer {
+    @keyframes rad-ui-skeleton-shimmer {
         0% {
             background-color: var(--rad-ui-color-gray-200); // step 3 — subtle surface
         }

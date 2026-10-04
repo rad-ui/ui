@@ -14,9 +14,10 @@ const COMPONENT_NAME = 'Progress';
 
 export type ProgressRootElement = ElementRef<typeof Primitive.div>;
 export type ProgressRootProps = {
-    value: number | null;
-    minValue: number;
-    maxValue: number;
+    /** Current value. `null` renders an indeterminate progress bar. */
+    value?: number | null;
+    minValue?: number;
+    maxValue?: number;
     getValueLabel?: (value: number, minValue: number, maxValue: number) => string;
     customRootClass?: string;
     children: React.ReactNode;
@@ -33,7 +34,7 @@ const getProgressState = (value: number | null, maxValue: number) => {
         return STATE_ENUMS.INDETERMINATE;
     }
 
-    return value === maxValue ? STATE_ENUMS.COMPLETE : STATE_ENUMS.LOADING;
+    return value >= maxValue ? STATE_ENUMS.COMPLETE : STATE_ENUMS.LOADING;
 };
 
 const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
@@ -51,9 +52,16 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
         ref
     ) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
-        const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? '';
-        const state = getProgressState(value, maxValue);
         const isIndeterminate = value === null;
+        // Indeterminate progress has no current value, so it exposes neither
+        // aria-valuenow nor value text (WAI-ARIA progressbar).
+        const valueLabel = isIndeterminate ? undefined : getValueLabel?.(value as number, minValue, maxValue);
+        const ariaLabel = valueLabel ?? '';
+        // Values at or beyond maxValue are complete (raw values are still exposed as-is).
+        const state = getProgressState(value, maxValue);
+        // The value label is the accessible value text; it only doubles as the accessible
+        // name when the consumer supplies no aria-label / aria-labelledby.
+        const hasConsumerName = props['aria-label'] !== undefined || props['aria-labelledby'] !== undefined;
 
         const sendValues = {
             value,
@@ -71,8 +79,8 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             <ProgressContext.Provider value={sendValues}>
                 <Primitive.div
                     role="progressbar"
-                    aria-label={ariaLabel}
-                    aria-valuetext={ariaLabel}
+                    aria-label={hasConsumerName ? undefined : valueLabel || undefined}
+                    aria-valuetext={valueLabel || undefined}
                     aria-valuenow={isIndeterminate ? undefined : value}
                     aria-valuemin={minValue}
                     aria-valuemax={maxValue}

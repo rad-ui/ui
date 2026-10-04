@@ -11,12 +11,16 @@ export type TableCellProps = React.ComponentPropsWithoutRef<'td'> & {
 
 const TableCell = React.forwardRef<React.ElementRef<'td'>, TableCellProps>(
     ({ children, className = 'cell', columnIndex, style, ...props }, ref) => {
-        const { resizable } = useTable();
+        const { resizable, rootClass } = useTable();
+        const isResizable = resizable && columnIndex !== undefined;
 
         return (
             <td
                 ref={ref}
-                className={clsx(className, resizable && columnIndex !== undefined && 'resizable')}
+                // Namespaced class is always applied so styling survives a consumer className.
+                // The unprefixed `cell`/`resizable` classes are kept for backward compatibility.
+                className={clsx(rootClass && `${rootClass}-cell`, className, isResizable && 'resizable')}
+                data-resizable={isResizable ? '' : undefined}
                 style={style}
                 {...props}
             >

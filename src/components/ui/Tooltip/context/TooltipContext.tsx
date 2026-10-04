@@ -7,6 +7,7 @@ type TooltipContextType = {
     interactions: any;
     context: any;
     arrowRef: React.RefObject<SVGSVGElement>;
+    rootClass: string;
 };
 const TooltipContext = createContext<null | TooltipContextType>(null);
 

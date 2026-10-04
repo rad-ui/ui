@@ -12,6 +12,10 @@ export interface SplitterRootProps extends React.ComponentPropsWithoutRef<'div'>
   minSizes?: number[];
   maxSizes?: number[];
   onSizesChange?: (sizes: number[]) => void;
+  /** Disables resizing by pointer and keyboard for every handle. */
+  disabled?: boolean;
+  /** Reading direction. In RTL, horizontal arrow keys and drags are mirrored. Inherited from the DOM when omitted. */
+  dir?: 'ltr' | 'rtl';
 }
 
 // Hook to use splitter context
@@ -26,6 +30,8 @@ export const useSplitter = () => {
 const COMPONENT_NAME = 'Splitter';
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+// Screen readers announce raw values; keep them readable (e.g. 55.8 rather than 55.833333333333336).
+const roundForAria = (value: number) => Math.round(value * 10) / 10;
 
 const SplitterRoot = React.forwardRef<
     React.ElementRef<'div'>,
@@ -39,15 +45,21 @@ const SplitterRoot = React.forwardRef<
     minSizes = [0, 0],
     maxSizes = [100, 100],
     onSizesChange,
+    disabled = false,
+    dir,
     style,
     ...props
 }, forwardedRef) => {
+    const baseId = React.useId();
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);
     const [activeHandleIndex, setActiveHandleIndex] = useState<number | null>(null);
-    const [dragStart, setDragStart] = useState<{ position: number; sizes: number[] } | null>(null);
+    // Per-panel minSize/maxSize props registered by Splitter.Panel; root-level arrays win.
+    const [panelConstraints, setPanelConstraints] = useState<Record<number, { minSize?: number; maxSize?: number }>>({});
+    const [panelIds, setPanelIds] = useState<Record<number, string>>({});
+    const endDragRef = useRef<(() => void) | null>(null);
 
     const mergedRef = useCallback((node: HTMLDivElement | null) => {
         containerRef.current = node;
@@ -59,16 +71,57 @@ const SplitterRoot = React.forwardRef<
     }, [forwardedRef]);
 
     // Performance optimization: Memoize constraints to prevent unnecessary recalculations
-    const constraints = useMemo(() => ({
-        minSizes: minSizes || [],
-        maxSizes: maxSizes || []
-    }), [minSizes, maxSizes]);
+    const constraints = useMemo(() => {
+        const mergedMin = [...(minSizes || [])];
+        const mergedMax = [...(maxSizes || [])];
+        Object.entries(panelConstraints).forEach(([key, value]) => {
+            const index = Number(key);
+            if (value.minSize !== undefined) mergedMin[index] = Math.max(mergedMin[index] ?? 0, value.minSize);
+            if (value.maxSize !== undefined) mergedMax[index] = Math.min(mergedMax[index] ?? 100, value.maxSize);
+        });
+        return { minSizes: mergedMin, maxSizes: mergedMax };
+    }, [minSizes, maxSizes, panelConstraints]);
+
+    const getPanelId = useCallback((index: number) => panelIds[index] ?? `${baseId}-panel-${index}`, [panelIds, baseId]);
+
+    const registerPanelId = useCallback((index: number, id: string) => {
+        setPanelIds((previous) => (previous[index] === id ? previous : { ...previous, [index]: id }));
+        return () => {
+            setPanelIds((previous) => {
+                if (previous[index] !== id) return previous;
+                const next = { ...previous };
+                delete next[index];
+                return next;
+            });
+        };
+    }, []);
+
+    const registerPanelConstraints = useCallback((index: number, minSize?: number, maxSize?: number) => {
+        setPanelConstraints((previous) => {
+            const current = previous[index];
+            if (current?.minSize === minSize && current?.maxSize === maxSize) return previous;
+            const next = { ...previous };
+            if (minSize === undefined && maxSize === undefined) delete next[index];
+            else next[index] = { minSize, maxSize };
+            return next;
+        });
+        return () => {
+            setPanelConstraints((previous) => {
+                if (!(index in previous)) return previous;
+                const next = { ...previous };
+                delete next[index];
+                return next;
+            });
+        };
+    }, []);
 
     // Performance optimization: Debounced callback for size changes
     const debouncedOnSizesChange = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         return () => {
+            // Unmounting mid-drag must not leave document listeners behind.
+            endDragRef.current?.();
             if (debouncedOnSizesChange.current) {
                 clearTimeout(debouncedOnSizesChange.current);
                 debouncedOnSizesChange.current = null;
@@ -85,6 +138,15 @@ const SplitterRoot = React.forwardRef<
     constraintsRef.current = constraints;
 
     const isHorizontal = orientation === 'horizontal';
+
+    // Visual direction decides which way a horizontal handle moves. Prefer the prop, else
+    // read the resolved CSS direction (covers dir inherited from an ancestor).
+    const isRtl = useCallback(() => {
+        if (dir) return dir === 'rtl';
+        const container = containerRef.current;
+        if (!container || typeof window === 'undefined' || typeof window.getComputedStyle !== 'function') return false;
+        return window.getComputedStyle(container).direction === 'rtl';
+    }, [dir]);
 
     const getHandleBounds = useCallback((handleIndex: number, currentSizes = sizesRef.current) => {
         const leftPanelIndex = handleIndex;
@@ -125,9 +187,9 @@ const SplitterRoot = React.forwardRef<
         const { leftPanelIndex, min, max } = getHandleBounds(handleIndex, currentSizes);
 
         return {
-            'aria-valuemin': min,
-            'aria-valuemax': max,
-            'aria-valuenow': currentSizes[leftPanelIndex] || 0
+            'aria-valuemin': roundForAria(min),
+            'aria-valuemax': roundForAria(max),
+            'aria-valuenow': roundForAria(currentSizes[leftPanelIndex] || 0)
         };
     }, [getHandleBounds]);
 
@@ -151,93 +213,133 @@ const SplitterRoot = React.forwardRef<
         }
     }, [onSizesChange]);
 
-    // Performance optimized drag operation
+    // Drag: coalesce pointer moves into one update per animation frame, and always apply the
+    // final pointer position on release so the handle ends exactly where the pointer stopped.
     const startDrag = useCallback((handleIndex: number, event: React.MouseEvent | React.TouchEvent) => {
+        if (disabled) return;
+        if ('button' in event && event.button !== 0) return;
         event.preventDefault();
 
-        const position = isHorizontal
-            ? ('clientX' in event ? event.clientX : event.touches[0].clientX)
-            : ('clientY' in event ? event.clientY : event.touches[0].clientY);
+        // preventDefault() on mousedown suppresses native focus; keep keyboard follow-up working.
+        const handleElement = event.currentTarget as HTMLElement | null;
+        if (handleElement && typeof handleElement.focus === 'function' && document.activeElement !== handleElement) {
+            handleElement.focus({ preventScroll: true });
+        }
 
-        const currentSizes = [...sizesRef.current];
-        setDragStart({ position, sizes: currentSizes });
+        endDragRef.current?.();
+
+        const getPosition = (e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent) => {
+            if ('touches' in e) {
+                const touch = e.touches[0] ?? e.changedTouches?.[0];
+                if (!touch) return null;
+                return isHorizontal ? touch.clientX : touch.clientY;
+            }
+            return isHorizontal ? e.clientX : e.clientY;
+        };
+
+        const startPosition = getPosition(event);
+        if (startPosition === null) return;
+
+        const startSizes = [...sizesRef.current];
+        const panelCount = startSizes.length;
+        const direction = isHorizontal && isRtl() ? -1 : 1;
+        // Handles take up real space; percentages are relative to the space left for panels.
+        const handleSize = handleElement
+            ? (isHorizontal ? handleElement.offsetWidth : handleElement.offsetHeight)
+            : 0;
+
         setIsDragging(true);
         setActiveHandleIndex(handleIndex);
 
-        // Performance optimization: Use requestAnimationFrame for smooth updates
         let animationFrameId: number | null = null;
-        let lastUpdateTime = 0;
-        const THROTTLE_MS = 16; // ~60fps
+        let latestPosition = startPosition;
+        let latestSizes = startSizes;
 
-        const handleMove = (moveEvent: MouseEvent | TouchEvent) => {
-            if (!containerRef.current) return;
-
-            const now = Date.now();
-            if (now - lastUpdateTime < THROTTLE_MS) return;
-
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
-
-            animationFrameId = requestAnimationFrame(() => {
-                const currentPosition = isHorizontal
-                    ? ('clientX' in moveEvent ? moveEvent.clientX : moveEvent.touches[0].clientX)
-                    : ('clientY' in moveEvent ? moveEvent.clientY : moveEvent.touches[0].clientY);
-
-                const delta = currentPosition - position;
-                const containerSize = isHorizontal
-                    ? containerRef.current!.offsetWidth
-                    : containerRef.current!.offsetHeight;
-
-                const deltaPercent = (delta / containerSize) * 100;
-
-                if (Math.abs(deltaPercent) > 0.1) { // Only update if there's meaningful change
-                    const leftPanelCurrentSize = currentSizes[handleIndex] || 0;
-                    const newSizes = resizeAdjacentPanels(handleIndex, leftPanelCurrentSize + deltaPercent, currentSizes);
-
-                    // Update sizes without triggering callback during drag
-                    setSizes(newSizes);
-                }
-                lastUpdateTime = now;
-            });
+        const computeSizes = (position: number) => {
+            const container = containerRef.current;
+            if (!container) return latestSizes;
+            const containerSize = isHorizontal ? container.clientWidth : container.clientHeight;
+            const available = containerSize - handleSize * Math.max(0, panelCount - 1);
+            if (available <= 0) return latestSizes;
+            const deltaPercent = ((position - startPosition) * direction / available) * 100;
+            return resizeAdjacentPanels(handleIndex, (startSizes[handleIndex] || 0) + deltaPercent, startSizes);
         };
 
-        const handleEnd = () => {
-            if (animationFrameId) {
+        const applyLatest = () => {
+            animationFrameId = null;
+            const nextSizes = computeSizes(latestPosition);
+            if (nextSizes.some((size, index) => size !== latestSizes[index])) {
+                latestSizes = nextSizes;
+                sizesRef.current = nextSizes;
+                setSizes(nextSizes);
+            }
+        };
+
+        const handleMove = (moveEvent: MouseEvent | TouchEvent) => {
+            const position = getPosition(moveEvent);
+            if (position === null) return;
+            if (moveEvent.cancelable && 'touches' in moveEvent) {
+                // Keep the page from scrolling while a handle is dragged by touch.
+                moveEvent.preventDefault();
+            }
+            latestPosition = position;
+            if (animationFrameId === null) {
+                animationFrameId = requestAnimationFrame(applyLatest);
+            }
+        };
+
+        const removeListeners = () => {
+            if (animationFrameId !== null) {
                 cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
             }
-
-            setIsDragging(false);
-            setActiveHandleIndex(null);
-            setDragStart(null);
-
-            // Trigger final callback with current sizes
-            const finalSizes = sizesRef.current;
-            if (onSizesChange) {
-                onSizesChange(finalSizes);
-            }
-
             document.removeEventListener('mousemove', handleMove);
             document.removeEventListener('mouseup', handleEnd);
             document.removeEventListener('touchmove', handleMove);
             document.removeEventListener('touchend', handleEnd);
+            document.removeEventListener('touchcancel', handleEnd);
+            endDragRef.current = null;
         };
+
+        function handleEnd() {
+            const hadPendingFrame = animationFrameId !== null;
+            removeListeners();
+            if (hadPendingFrame) applyLatest();
+
+            setIsDragging(false);
+            setActiveHandleIndex(null);
+
+            const changed = latestSizes.some((size, index) => size !== startSizes[index]);
+            if (changed && onSizesChange) {
+                if (debouncedOnSizesChange.current) {
+                    clearTimeout(debouncedOnSizesChange.current);
+                    debouncedOnSizesChange.current = null;
+                }
+                onSizesChange(latestSizes);
+            }
+        }
+
+        endDragRef.current = removeListeners;
 
         document.addEventListener('mousemove', handleMove);
         document.addEventListener('mouseup', handleEnd);
-        document.addEventListener('touchmove', handleMove);
+        document.addEventListener('touchmove', handleMove, { passive: false });
         document.addEventListener('touchend', handleEnd);
-    }, [isHorizontal, onSizesChange, resizeAdjacentPanels]);
+        document.addEventListener('touchcancel', handleEnd);
+    }, [disabled, isHorizontal, isRtl, onSizesChange, resizeAdjacentPanels]);
 
     // Performance optimized keyboard navigation with multi-panel support
     const handleKeyDown = useCallback((handleIndex: number, event: React.KeyboardEvent) => {
+        if (disabled) return;
         const step = event.shiftKey ? 10 : 1;
         const currentSizes = sizesRef.current;
 
         let delta = 0;
         if (isHorizontal) {
-            if (event.key === KEYBOARD_KEYS.ARROW_LEFT) delta = -step;
-            if (event.key === KEYBOARD_KEYS.ARROW_RIGHT) delta = step;
+            // In RTL the leading panel sits on the right, so ArrowLeft grows it.
+            const forward = isRtl() ? -step : step;
+            if (event.key === KEYBOARD_KEYS.ARROW_LEFT) delta = -forward;
+            if (event.key === KEYBOARD_KEYS.ARROW_RIGHT) delta = forward;
         } else {
             if (event.key === KEYBOARD_KEYS.ARROW_UP) delta = -step;
             if (event.key === KEYBOARD_KEYS.ARROW_DOWN) delta = step;
@@ -255,7 +357,7 @@ const SplitterRoot = React.forwardRef<
             const { min, max } = getHandleBounds(handleIndex, currentSizes);
             updateSizes(resizeAdjacentPanels(handleIndex, event.key === KEYBOARD_KEYS.HOME ? min : max), true);
         }
-    }, [getHandleBounds, isHorizontal, resizeAdjacentPanels, updateSizes]);
+    }, [disabled, getHandleBounds, isHorizontal, isRtl, resizeAdjacentPanels, updateSizes]);
 
     const contextValue: SplitterContextValue = {
         orientation,
@@ -266,7 +368,11 @@ const SplitterRoot = React.forwardRef<
         handleKeyDown,
         isDragging,
         activeHandleIndex,
-        rootClass
+        rootClass,
+        registerPanelConstraints,
+        registerPanelId,
+        getPanelId,
+        disabled
     };
 
     return (
@@ -275,6 +381,9 @@ const SplitterRoot = React.forwardRef<
                 {...props}
                 ref={mergedRef}
                 className={clsx(rootClass, className)}
+                dir={dir}
+                data-orientation={orientation}
+                data-disabled={disabled ? '' : undefined}
                 style={{
                     display: 'flex',
                     flexDirection: isHorizontal ? 'row' : 'column',

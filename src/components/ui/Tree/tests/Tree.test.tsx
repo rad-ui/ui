@@ -164,4 +164,73 @@ describe('Tree', () => {
         consoleError.mockRestore();
         consoleWarn.mockRestore();
     });
+
+    test('exposes aria-level, aria-posinset and aria-setsize on nested items', () => {
+        const item = { label: 'Parent', expanded: true, items: [{ label: 'A' }, { label: 'B' }] };
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={item}>{item.label}</Tree.Item>
+            </Tree.Root>
+        );
+        expect(screen.getByRole('treeitem', { name: 'Parent' })).toHaveAttribute('aria-level', '1');
+        const b = screen.getByRole('treeitem', { name: 'B' });
+        expect(b).toHaveAttribute('aria-level', '2');
+        expect(b).toHaveAttribute('aria-posinset', '2');
+        expect(b).toHaveAttribute('aria-setsize', '2');
+    });
+
+    test('does not render an empty group for an expanded item without children', () => {
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={{ label: 'Leaf', expanded: true, items: [] }}>Leaf</Tree.Item>
+            </Tree.Root>
+        );
+        expect(screen.queryByRole('group')).toBeNull();
+    });
+
+    test('renders sibling children with duplicate labels without key warnings', () => {
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const item = { label: 'Parent', expanded: true, items: [{ label: 'index.ts' }, { label: 'index.ts' }] };
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={item}>{item.label}</Tree.Item>
+            </Tree.Root>
+        );
+        expect(screen.getAllByRole('treeitem', { name: 'index.ts' })).toHaveLength(2);
+        expect(consoleError).not.toHaveBeenCalled();
+        consoleError.mockRestore();
+    });
+
+    test('typeahead moves focus to the next visible item starting with the typed character', async() => {
+        const user = userEvent.setup();
+        const item = { label: 'src', expanded: true, items: [{ label: 'components' }, { label: 'utils' }] };
+        render(
+            <Tree.Root aria-label='Files'>
+                <Tree.Item item={item}>{item.label}</Tree.Item>
+                <Tree.Item item={{ label: 'package.json' }}>package.json</Tree.Item>
+                <Tree.Item item={{ label: 'scripts' }}>scripts</Tree.Item>
+            </Tree.Root>
+        );
+
+        await user.tab();
+        expect(screen.getByRole('treeitem', { name: 'src' })).toHaveFocus();
+
+        await user.keyboard('u');
+        expect(screen.getByRole('treeitem', { name: 'utils' })).toHaveFocus();
+
+        await user.keyboard('S');
+        expect(screen.getByRole('treeitem', { name: 'scripts' })).toHaveFocus();
+
+        // wraps around to the first match
+        await user.keyboard('s');
+        expect(screen.getByRole('treeitem', { name: 'src' })).toHaveFocus();
+
+        // no match leaves focus unchanged
+        await user.keyboard('z');
+        expect(screen.getByRole('treeitem', { name: 'src' })).toHaveFocus();
+
+        // ArrowDown continues from the typeahead target (roving state stays in sync)
+        await user.keyboard('{ArrowDown}');
+        expect(screen.getByRole('treeitem', { name: 'components' })).toHaveFocus();
+    });
 });

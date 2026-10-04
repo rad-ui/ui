@@ -8,7 +8,7 @@ const data = {
         { name: "Description", id: "description" }
     ],
     data: [
-        { prop: "truncate", type: "boolean", default: "false", description: "Truncates overflowing text with an ellipsis. Sets data-quote-truncate on the element." },
+        { prop: "truncate", type: "boolean", default: "false", description: "Truncates overflowing text with an ellipsis. Sets data-truncate on the element." },
         { prop: "customRootClass", type: "string", default: '""', description: "Overrides the Theme classNamespace for this component only." },
         { prop: "className", type: "string", default: '""', description: "Additional CSS classes applied to the element." }
     ]

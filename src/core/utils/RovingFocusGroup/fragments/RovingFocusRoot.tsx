@@ -38,6 +38,13 @@ type RovingFocusRootProps = React.ComponentPropsWithoutRef<'div'> & {
  *   </RovingFocusGroup>
  * </RovingFocusRoot>
  */
+// Roles whose ARIA definition supports aria-orientation. The root is usually a plain layout
+// wrapper; putting aria-orientation on a role-less element is invalid ARIA (axe aria-allowed-attr).
+const ROLES_SUPPORTING_ORIENTATION = new Set([
+    'listbox', 'menu', 'menubar', 'radiogroup', 'scrollbar', 'select', 'separator',
+    'slider', 'tablist', 'toolbar', 'tree', 'treegrid'
+]);
+
 const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRootProps>(({
     children,
     orientation = 'horizontal',
@@ -50,6 +57,15 @@ const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRoo
     asChild = false,
     ...props
 }, forwardedRef) => {
+    // With asChild the role lives on the slotted child element.
+    const childRole = asChild && React.isValidElement(children)
+        ? (children.props as { role?: unknown }).role
+        : undefined;
+    const effectiveRole = (props.role ?? childRole) as string | undefined;
+    const ariaOrientation = orientation !== 'both' && effectiveRole && ROLES_SUPPORTING_ORIENTATION.has(effectiveRole)
+        ? orientation
+        : undefined;
+
     const sendValues = {
         orientation,
         loop,
@@ -60,7 +76,7 @@ const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRoo
 
     return <RovingFocusRootContext.Provider value={sendValues}>
         <Primitive.div
-            aria-orientation={orientation === 'both' ? undefined : orientation}
+            aria-orientation={ariaOrientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}
             ref={forwardedRef}

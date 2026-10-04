@@ -7,6 +7,8 @@ const data = {
         { name: "Default", id: "default" }
     ],
     data: [
+        { prop: { name: "aria-label", info_tooltips: "Accessible name for the dialog. Takes precedence over Popover.Title." }, type: "string", default: "--" },
+        { prop: { name: "aria-labelledby", info_tooltips: "Id of the element that names the dialog. Defaults to Popover.Title when present." }, type: "string", default: "--" },
         { prop: { name: "side", info_tooltips: "Preferred side of the trigger to render against." }, type: '"top" | "right" | "bottom" | "left"', default: '"bottom"' },
         { prop: { name: "sideOffset", info_tooltips: "Distance in pixels between the trigger and the content." }, type: "number", default: "0" },
         { prop: { name: "align", info_tooltips: "Alignment along the trigger edge." }, type: '"start" | "center" | "end"', default: '"center"' },

@@ -1,26 +1,24 @@
 'use client'
 
-import ColorLooper from "../helpers/ColorLooper"
 import Text from "@radui/ui/Text"
+import Matrix from "../helpers/Matrix"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
-const Playground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            loop={false}
-            title="Text"
-            docsLink="/docs/components/text"
-            description="Plain text remains the default body primitive for paragraphs and support copy."
-        >
-            <div className='space-y-3'>
-                <Text className="text-gray-1000">
-                    Start with readable defaults, then layer visual treatment on top. The playground should explain the components while it demonstrates them.
+const elements = ["p", "span", "div", "label"].map((element) => ({ key: element, label: element, value: element }))
+
+const TextPlayground = () => (
+    <PlaygroundSection title="Text" docsLink="/docs/components/text" description="Body text rendered as each supported element.">
+        <Matrix
+            rows={elements}
+            columns={[{ key: "sample" }]}
+            align="top"
+            renderCell={(element) => (
+                <Text as={element.value} className="max-w-xl">
+                    Start with readable defaults, then layer visual treatment on top.
                 </Text>
-                <Text as="div" className="text-gray-800">
-                    This example also covers the supported <code>as</code> override without dropping into an unsupported element.
-                </Text>
-            </div>
-        </ColorLooper>
-    </div>
+            )}
+        />
+    </PlaygroundSection>
 )
 
-export default Playground
+export default TextPlayground

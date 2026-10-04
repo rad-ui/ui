@@ -44,4 +44,17 @@ export type { StepLineProps } from './fragments/StepLine';
 export type { StepContentProps } from './fragments/StepContent';
 export type { StepTitleProps } from './fragments/StepTitle';
 export type { StepDescriptionProps } from './fragments/StepDescription';
+// Named part exports let React Server Components use `import * as Steps from '@radui/ui/Steps'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    StepRoot as Root,
+    StepItem as Item,
+    StepTrack as Track,
+    StepBubble as Bubble,
+    StepLine as Line,
+    StepContent as Content,
+    StepTitle as Title,
+    StepDescription as Description
+};
+
 export default Steps;

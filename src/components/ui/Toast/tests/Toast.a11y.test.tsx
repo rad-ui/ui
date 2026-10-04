@@ -107,6 +107,23 @@ describe('Toast accessibility', () => {
         expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'assertive');
     });
 
+    // role="region" on <ol> and role="status" on <li> are not allowed ARIA
+    // roles for those elements (axe aria-allowed-role).
+    test('viewport and toast elements carry allowed roles', async() => {
+        const { baseElement } = renderToasts();
+        emit({ title: 'Saved' });
+        await waitFor(() => expect(screen.getByRole('status')).toBeInTheDocument());
+        const results = await axe.run(baseElement, { runOnly: { type: 'rule', values: ['aria-allowed-role'] } });
+        expect(results.violations.map(v => v.id)).toEqual([]);
+    });
+
+    test('toast title is not a heading', async() => {
+        renderToasts();
+        emit({ title: 'Saved' });
+        await waitFor(() => expect(screen.getByText('Saved')).toBeInTheDocument());
+        expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    });
+
     test('renders title and description', async() => {
         renderToasts();
         emit({ title: 'Saved', description: 'Your changes were saved.' });

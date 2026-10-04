@@ -292,6 +292,61 @@ body {
   }
 }
 
+/* --- Hero reply dialog --------------------------------------------
+   The landing hero uses a dense product-surface modal, not the broader docs
+   dialog rhythm. Keep this scoped to the hero composer. */
+
+.landing-reply-overlay.rad-ui-dialog-overlay {
+  background-color: rgb(0 0 0 / 0.62);
+  backdrop-filter: blur(5px);
+}
+
+.landing-reply-dialog.rad-ui-dialog-content {
+  width: min(92vw, 32rem);
+  max-width: min(92vw, 32rem);
+  padding: 1rem;
+  border-color: var(--rad-ui-border-default);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 9%, transparent) inset,
+    0 24px 80px color-mix(in oklab, black 52%, transparent);
+}
+
+.landing-reply-dialog .rad-ui-dialog-title {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.landing-reply-dialog .rad-ui-dialog-description {
+  max-width: none;
+  margin-bottom: 0;
+  font-size: 0.8rem;
+  line-height: 1.35rem;
+}
+
+.landing-reply-textarea textarea {
+  min-height: 7rem;
+  resize: none;
+  font-size: 0.875rem;
+  line-height: 1.45rem;
+}
+
+.landing-reply-dialog .landing-reply-footer.rad-ui-dialog-footer {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem -1rem -1rem;
+  padding: 0.75rem 1rem;
+}
+
+.landing-reply-dialog .landing-reply-footer .rad-ui-dialog-close {
+  position: static;
+  width: auto;
+  height: auto;
+  border: var(--rad-ui-border-width-default) solid transparent;
+}
+
 /* --- Token studio --------------------------------------------------
    These two selectors outrank Clarity's class-plus-attribute rules by
    specificity alone — no `!important` needed. The colors themselves stay
@@ -306,16 +361,73 @@ body {
   background-color: var(--landing-brand-fg);
 }
 
+/* --- Showcase previews ------------------------------------------- */
+
+.landing-showcase-preview {
+  --landing-preview-accent: var(--rad-ui-color-green-1000);
+  box-shadow: 0 18px 42px color-mix(in oklab, var(--rad-ui-color-gray-1000) 10%, transparent);
+}
+
+.landing-showcase-preview[data-preview="prefs"] {
+  --landing-preview-accent: var(--rad-ui-color-violet-900);
+}
+
+.landing-showcase-preview[data-preview="commerce"] {
+  --landing-preview-accent: var(--rad-ui-color-amber-900);
+}
+
+.landing-showcase-preview[data-preview="ops"] {
+  --landing-preview-accent: var(--rad-ui-color-blue-900);
+}
+
+.landing-showcase-preview :where(.bg-green-1000) {
+  background-color: var(--landing-preview-accent);
+}
+
+.landing-showcase-preview:nth-child(even) {
+  transform: translateY(14px);
+}
+
+@media (width < 640px) {
+  .landing-showcase-preview:nth-child(even) {
+    transform: none;
+  }
+}
+
 /* --- Anatomy demo --------------------------------------------------
    Outranks the single-class Clarity rules below without `!important`,
    because the landing page loads after the theme stylesheet. */
 
 .landing-demo [data-part-active],
 .landing-part-active {
-  box-shadow:
-    0 0 0 2px var(--rad-ui-surface-panel),
-    0 0 0 4px var(--rad-ui-solid-background);
+  outline: 2px solid var(--rad-ui-solid-background);
+  outline-offset: 3px;
   border-radius: var(--rad-ui-control-radius-md);
+}
+
+.landing-demo .rad-ui-tabs-trigger.landing-part-active {
+  border-radius: var(--rad-ui-control-radius-pill);
+}
+
+.landing-demo .landing-trigger-parts-active .rad-ui-tabs-trigger {
+  color: var(--rad-ui-text-primary);
+}
+
+.landing-demo .landing-trigger-parts-active .rad-ui-tabs-trigger::after {
+  content: "";
+  position: absolute;
+  inset-inline: 35%;
+  bottom: 0.35rem;
+  height: 2px;
+  border-radius: var(--rad-ui-radius-full);
+  background-color: var(--rad-ui-color-accent-800);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.landing-demo :where(button, [role="tab"]):focus-visible {
+  outline: 2px solid var(--rad-ui-solid-background);
+  outline-offset: 3px;
 }
 
 .landing-demo .landing-demo-tabs {
@@ -539,6 +651,22 @@ pre.docs-syntax-pre code.docs-code-block {
 
 [data-rad-ui-theme="dark"] .docs-syntax-pre code .char {
   color: #4ade80;
+}
+
+.landing-hero-code-pre.docs-syntax-pre,
+[data-rad-ui-theme="light"] .landing-hero-code-pre.docs-syntax-pre,
+[data-rad-ui-theme="dark"] .landing-hero-code-pre.docs-syntax-pre {
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.landing-hero-code-pre.docs-syntax-pre code.docs-code-block {
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .docs-syntax-toolbar {

@@ -4,6 +4,11 @@
     flex-direction: column;
     gap: var(--rad-ui-density-gap-lg);
 
+    &[data-orientation="vertical"] {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
     .rad-ui-tabs-list{
         display: inline-flex;
         flex-direction: row;
@@ -43,7 +48,7 @@
                 box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-selected-control-shadow);
             }
 
-            &.active{
+            &[data-state="active"]{
                 z-index: 1;
                 color: var(--rad-ui-text-primary);
                 font-weight: var(--rad-ui-component-font-weight-semibold);
@@ -51,7 +56,7 @@
                 box-shadow: var(--rad-ui-selected-control-shadow-lg);
             }
 
-            &.active:focus-visible{
+            &[data-state="active"]:focus-visible{
                 box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-selected-control-shadow-lg);
             }
 
@@ -59,7 +64,6 @@
                 color: var(--rad-ui-text-primary);
             }
 
-            &.disabled,
             &[data-disabled] {
                 opacity: 0.5;
                 pointer-events: none;
@@ -68,7 +72,15 @@
     }
 
     .rad-ui-tab-content{
+        flex: 1 1 auto;
+        min-width: 0;
         max-width: 100%;
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--rad-ui-focus-ring-shadow), var(--rad-ui-shadow-lg);
+        }
+
         padding: var(--rad-ui-control-padding-x-lg);
         color: var(--rad-ui-text-primary);
         border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);

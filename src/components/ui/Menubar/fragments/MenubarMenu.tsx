@@ -11,7 +11,7 @@ export type MenubarMenuProps = {
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Root>;
 
-const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children, className, ...props }, ref) => {
+const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children, className, onOpenChange, ...props }, ref) => {
     const context = React.useContext(MenubarContext);
     const floatingId = Floater.useId();
     const reactId = React.useId();
@@ -21,12 +21,13 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
         console.warn('MenubarMenu should be used in the MenubarRoot');
         return null;
     }
-    const { rootClass, registerItem, items, updateItemState } = context;
+    const { rootClass, registerItem, unregisterItem, items, updateItemState } = context;
 
     React.useEffect(() => {
-        if (id) {
-            registerItem(id);
-        }
+        if (!id) return;
+        registerItem(id);
+        // Drop the menu from roving/keyboard navigation when it unmounts.
+        return () => unregisterItem(id);
     }, [id]);
 
     const isOpen = items.find((item: MenubarItem) => item.id === id)?.state === 'open';
@@ -34,11 +35,15 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
 
         <MenuPrimitive.Root
             ref={ref}
+            role="none"
             className={clsx(rootClass && `${rootClass}-menu`, className)}
             data-id={id}
             data-active={isOpen}
             open={isOpen}
-            onOpenChange={(open) => id && updateItemState(id, open ? 'open' : 'closed')}
+            onOpenChange={(open) => {
+                if (id) updateItemState(id, open ? 'open' : 'closed');
+                onOpenChange?.(open);
+            }}
             {...props}
         >
             <MenubarMenuContext.Provider value={{ id, isOpen }}>

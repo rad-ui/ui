@@ -32,4 +32,18 @@ export type { MenubarItemProps } from './fragments/MenubarItem';
 export type { MenubarSubProps } from './fragments/MenubarSub';
 export type { MenubarSubTriggerProps } from './fragments/MenubarSubTrigger';
 export type { MenubarSeparatorProps } from './fragments/MenubarSeparator';
+// Named part exports let React Server Components use `import * as Menubar from '@radui/ui/Menubar'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    MenubarRoot as Root,
+    MenubarMenu as Menu,
+    MenubarTrigger as Trigger,
+    MenubarContent as Content,
+    MenubarPortal as Portal,
+    MenubarItem as Item,
+    MenubarSub as Sub,
+    MenubarSubTrigger as SubTrigger,
+    MenubarSeparator as Separator
+};
+
 export default Menubar;

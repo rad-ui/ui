@@ -1,4 +1,6 @@
 import React, { useContext, forwardRef } from 'react';
+import { flushSync } from 'react-dom';
+import { getNextTabbable } from '@floating-ui/react/utils';
 
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
@@ -13,6 +15,7 @@ export type MenuPrimitiveContentProps = {
 const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(
     ({ children, className, initialFocus, focusManagerDisabled = false, ...props }, propRef) => {
         const context = useContext(MenuPrimitiveRootContext);
+        const tree = Floater.useFloatingTree();
         const mergedRef = Floater.useMergeRefs([
             context?.refs.setFloating,
             propRef
@@ -25,8 +28,33 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             labelsRef,
             isNested,
             floatingContext,
-            maxHeight
+            maxHeight,
+            getRootTrigger
         } = context;
+
+        // Menu button pattern (WAI-ARIA APG): Tab / Shift+Tab close the whole
+        // menu tree. Shift+Tab returns focus to the trigger; Tab moves focus to
+        // the next tabbable element after the trigger. Focus is computed from the
+        // trigger rather than left to the browser, so inline (non-portaled)
+        // content and portaled content behave the same.
+        const handleTabKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+            if (event.key !== 'Tab' || event.defaultPrevented) return;
+            const trigger = getRootTrigger();
+            if (!(trigger instanceof HTMLElement)) return;
+            event.preventDefault();
+            // Close synchronously so the content is gone before focus moves on.
+            flushSync(() => {
+                tree?.events.emit('click');
+            });
+            const moveForward = !event.shiftKey;
+            // Queued after the focus manager's own return-focus microtask so it wins.
+            queueMicrotask(() => {
+                trigger.focus();
+                if (!moveForward) return;
+                const next = getNextTabbable(trigger);
+                if (next instanceof HTMLElement && next !== trigger) next.focus();
+            });
+        };
 
         const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
         const restProps = { ...props } as Record<string, unknown>;
@@ -54,6 +82,11 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                         {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
                             ...restProps,
                             className,
+                            'data-state': 'open',
+                            onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
+                                (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);
+                                handleTabKey(event);
+                            },
                             style: { ...consumerStyle, ...floatingStyles }
                         })}
                     >

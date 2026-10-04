@@ -9,6 +9,11 @@ import SliderMarks from './fragments/SliderMarks';
 import SliderRangeSlider from './fragments/SliderRangeSlider';
 
 export type SliderElement = ElementRef<'div'>;
+
+const getThumbName = (index: number, count: number) => {
+    if (count === 2) return index === 0 ? 'minimum' : 'maximum';
+    return `${index + 1} of ${count}`;
+};
 export type SliderProps = {
     defaultValue?: number | number[];
     value?: number | number[];
@@ -50,6 +55,10 @@ const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
         ...restProps
     } = props;
 
+    // An array value renders one thumb per entry (e.g. `[20, 80]` is a two-thumb range).
+    const initialValue = props.value ?? defaultValue;
+    const thumbCount = Array.isArray(initialValue) ? Math.max(initialValue.length, 1) : 1;
+
     return (
         <Slider.Root
             ref={ref}
@@ -61,14 +70,30 @@ const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
             formatValue={formatValue}
             {...restProps}
         >
-            <Slider.Track>
-                <Slider.Range>
-                    <Slider.Thumb
-                        aria-label={ariaLabel}
-                        aria-labelledby={ariaLabelledby}
-                    />
-                </Slider.Range>
-            </Slider.Track>
+            {thumbCount > 1 ? (
+                <>
+                    <Slider.Track>
+                        <Slider.Range />
+                    </Slider.Track>
+                    {Array.from({ length: thumbCount }, (_, index) => (
+                        <Slider.Thumb
+                            key={index}
+                            index={index}
+                            aria-label={ariaLabel ? `${ariaLabel} ${getThumbName(index, thumbCount)}` : undefined}
+                            aria-labelledby={ariaLabelledby}
+                        />
+                    ))}
+                </>
+            ) : (
+                <Slider.Track>
+                    <Slider.Range>
+                        <Slider.Thumb
+                            aria-label={ariaLabel}
+                            aria-labelledby={ariaLabelledby}
+                        />
+                    </Slider.Range>
+                </Slider.Track>
+            )}
         </Slider.Root>
     );
 }) as SliderComponent;
@@ -88,4 +113,15 @@ export type { SliderRangeProps } from './fragments/SliderRange';
 export type { SliderThumbProps } from './fragments/SliderThumb';
 export type { SliderMarksProps } from './fragments/SliderMarks';
 export type { SliderRangeSliderProps } from './fragments/SliderRangeSlider';
+// Named part exports let React Server Components use `import * as Slider from '@radui/ui/Slider'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    SliderRoot as Root,
+    SliderTrack as Track,
+    SliderRange as Range,
+    SliderThumb as Thumb,
+    SliderMarks as Marks,
+    SliderRangeSlider as RangeSlider
+};
+
 export default Slider;

@@ -56,7 +56,9 @@ const ToolbarToggleGroup = React.forwardRef<HTMLDivElement, ToolbarToggleGroupPr
                 <div
                     ref={ref}
                     {...props}
-                    role="group"
+                    // APG toolbar pattern: a single-select set of toggles is a radio group;
+                    // a multi-select set stays a group of pressed-state toggle buttons.
+                    role={type === 'single' ? 'radiogroup' : 'group'}
                     className={clsx(toolbarContext.rootClass && `${toolbarContext.rootClass}-toggle-group`, className)}
                 >
                     {children}

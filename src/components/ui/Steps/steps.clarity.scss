@@ -106,4 +106,38 @@
             }
         }
     }
+
+    // Horizontal orientation: steps sit in a row; the track runs left-to-right with the
+    // connector line filling the gap to the next step.
+    &[data-orientation="horizontal"] {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+        .rad-ui-steps-item {
+            flex: 1 1 0;
+            flex-direction: column;
+            gap: var(--rad-ui-spacing-2);
+            min-width: 0;
+
+            .rad-ui-steps-track {
+                flex-direction: row;
+                width: 100%;
+
+                .rad-ui-steps-line {
+                    width: auto;
+                    height: var(--rad-ui-border-width-2);
+                    min-height: var(--rad-ui-spacing-0);
+                    min-width: 20px;
+                    margin: 0 var(--rad-ui-spacing-1);
+                }
+            }
+
+            .rad-ui-steps-content {
+                padding-bottom: var(--rad-ui-spacing-0);
+                padding-inline-end: var(--rad-ui-spacing-4);
+                overflow-wrap: anywhere;
+            }
+        }
+    }
 }

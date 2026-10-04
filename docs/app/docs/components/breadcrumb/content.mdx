@@ -1,5 +1,5 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import Breadcrumb from "@radui/ui/Breadcrumb"
+import BreadcrumbExample from "./docs/example_1"
 import codeUsage, { api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
 
 <Documentation
@@ -7,21 +7,7 @@ import codeUsage, { api_documentation, ariaReferences, features, keyboardShortcu
   description="Breadcrumbs show the user's location within a hierarchy and provide links back to parent pages."
 >
   <Documentation.ComponentHero codeUsage={codeUsage}>
-    <Breadcrumb.Root>
-      <Breadcrumb.List>
-        <Breadcrumb.Item>
-          <Breadcrumb.Link href="/docs">Docs</Breadcrumb.Link>
-          <Breadcrumb.Separator />
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Breadcrumb.Link href="/docs/components">Components</Breadcrumb.Link>
-          <Breadcrumb.Separator />
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Breadcrumb.Page>Breadcrumb</Breadcrumb.Page>
-        </Breadcrumb.Item>
-      </Breadcrumb.List>
-    </Breadcrumb.Root>
+    <BreadcrumbExample />
   </Documentation.ComponentHero>
 
   <Documentation.ComponentFeatures features={features} />

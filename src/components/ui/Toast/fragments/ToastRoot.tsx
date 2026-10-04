@@ -23,7 +23,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         defaultToastTimeout, toastManager, pauseWhenPageIsHidden, swipeDirections, dragThreshold,
     } = useContext(ToastProviderContext);
 
-    const itemRef = useRef<HTMLLIElement>(null);
+    const itemRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const durationMs = toast.duration ?? toast.timeout ?? defaultToastTimeout;
     const remainingRef = useRef<number>(durationMs);
@@ -191,14 +191,14 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     }, [leaving, removeToast, toast.id]);
 
     // ── Swipe ───────────────────────────────────────────────────────────────
-    const onPointerDown = useCallback((e: React.PointerEvent<HTMLLIElement>) => {
+    const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
         isDraggingRef.current = true;
         pointerStartRef.current = { y: e.clientY, time: Date.now() };
         itemRef.current?.setPointerCapture(e.pointerId);
         pauseTimer();
     }, [pauseTimer]);
 
-    const onPointerMove = useCallback((e: React.PointerEvent<HTMLLIElement>) => {
+    const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !itemRef.current) return;
         const delta = e.clientY - pointerStartRef.current.y;
         const dir = isTop ? -1 : 1;
@@ -208,7 +208,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         itemRef.current.setAttribute('data-swiping', '');
     }, [isTop]);
 
-    const onPointerUp = useCallback((_e: React.PointerEvent<HTMLLIElement>) => {
+    const onPointerUp = useCallback((_e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !itemRef.current) return;
         isDraggingRef.current = false;
         itemRef.current.removeAttribute('data-swiping');
@@ -272,7 +272,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     return (
         <ToastItemContext.Provider value={{ toast, index, isExpanded, isFront, isBehind, dismiss }}>
-            <li
+            <div
                 ref={itemRef}
                 role="status"
                 aria-live={toast.priority === 'high' ? 'assertive' : 'polite'}
@@ -297,7 +297,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
                 onPointerUp={onPointerUp}
             >
                 {toast.render ? toast.render({ id: toast.id, toast, onDismiss: dismiss }) : children}
-            </li>
+            </div>
         </ToastItemContext.Provider>
     );
 };

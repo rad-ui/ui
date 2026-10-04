@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as axe from 'axe-core';
 import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
@@ -110,5 +110,114 @@ describe('Minimap accessibility', () => {
         const { container } = renderMinimap();
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
+    });
+});
+
+describe('Minimap regressions', () => {
+    test('items do not leak roving aria-selected or a value attribute onto role="button"', () => {
+        renderMinimap();
+        screen.getAllByRole('button').forEach((button) => {
+            expect(button).not.toHaveAttribute('aria-selected');
+            expect(button).not.toHaveAttribute('value');
+        });
+    });
+
+    test('waypoints do not log to the console', () => {
+        const log = jest.spyOn(console, 'log').mockImplementation(() => {});
+        const observers: Array<{ callback: IntersectionObserverCallback; node?: Element }> = [];
+        const original = (window as any).IntersectionObserver;
+        (window as any).IntersectionObserver = class {
+            callback: IntersectionObserverCallback;
+            constructor(callback: IntersectionObserverCallback) {
+                this.callback = callback;
+                observers.push({ callback });
+            }
+
+            observe(node: Element) { observers[observers.length - 1].node = node; }
+            unobserve() {}
+            disconnect() {}
+        };
+
+        render(
+            <Minimap.Provider>
+                <Minimap.Waypoint value="intro" />
+                <Minimap.Root>
+                    <Minimap.Item value="intro">Intro</Minimap.Item>
+                </Minimap.Root>
+            </Minimap.Provider>
+        );
+
+        act(() => {
+            observers.forEach(({ callback, node }) => callback([{ isIntersecting: true, target: node } as any], {} as any));
+        });
+        expect(screen.getByRole('button', { name: 'Intro' })).toHaveAttribute('data-in-view', 'true');
+        expect(log).not.toHaveBeenCalled();
+
+        if (original) (window as any).IntersectionObserver = original;
+        else delete (window as any).IntersectionObserver;
+        log.mockRestore();
+    });
+
+    test('clicking an item scrolls the document to its waypoint when no scroll container exists', async() => {
+        const user = userEvent.setup();
+        const scrollIntoView = jest.fn();
+        const original = Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = scrollIntoView;
+
+        render(
+            <Minimap.Provider>
+                <Minimap.Waypoint value="details" data-testid="waypoint" />
+                <Minimap.Root>
+                    <Minimap.Item value="details">Details</Minimap.Item>
+                </Minimap.Root>
+            </Minimap.Provider>
+        );
+
+        await user.click(screen.getByRole('button', { name: 'Details' }));
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(scrollIntoView.mock.contexts[0]).toBe(screen.getByTestId('waypoint'));
+
+        Element.prototype.scrollIntoView = original;
+    });
+
+    test('forwards refs on root, item and parts', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const itemRef = React.createRef<HTMLButtonElement>();
+        const bubbleRef = React.createRef<HTMLDivElement>();
+        render(
+            <Minimap.Provider>
+                <Minimap.Root ref={rootRef}>
+                    <Minimap.Item ref={itemRef} value="0">
+                        <Minimap.Track><Minimap.Bubble ref={bubbleRef}>1</Minimap.Bubble></Minimap.Track>
+                    </Minimap.Item>
+                </Minimap.Root>
+            </Minimap.Provider>
+        );
+        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(itemRef.current).toBeInstanceOf(HTMLButtonElement);
+        expect(bubbleRef.current).toBeInstanceOf(HTMLSpanElement);
+    });
+});
+
+describe('Minimap content model', () => {
+    test('parts inside the Item button are phrasing content (no div descendants) and keep their classes', () => {
+        render(
+            <Minimap.Provider>
+                <Minimap.Root>
+                    <Minimap.Item value="a" data-testid="item">
+                        <Minimap.Track>
+                            <Minimap.Bubble>1</Minimap.Bubble>
+                            <Minimap.Line />
+                        </Minimap.Track>
+                        <Minimap.Content>Section A</Minimap.Content>
+                    </Minimap.Item>
+                </Minimap.Root>
+            </Minimap.Provider>
+        );
+        const item = screen.getByTestId('item');
+        expect(item.querySelectorAll('div')).toHaveLength(0);
+        const parts = Array.from(item.querySelectorAll('*'));
+        expect(parts).toHaveLength(4); // track, bubble, line, content
+        parts.forEach((part) => expect(part.tagName).toBe('SPAN'));
     });
 });

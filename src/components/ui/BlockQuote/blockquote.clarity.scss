@@ -16,7 +16,7 @@
   line-height: calc(var(--rad-ui-component-line-height-relaxed) + 0.05);
 
   &[data-color] {
-    border-inline-start-color: var(--rad-ui-color-accent-400);
+    border-inline-start-color: var(--rad-ui-color-accent-600);
     color: var(--rad-ui-color-accent-1000);
   }
   
@@ -78,13 +78,15 @@
     }
 
     &[data-color] {
-      border-color: var(--rad-ui-color-accent-300);
+      border-color: var(--rad-ui-color-accent-600);
       color: var(--rad-ui-color-accent-1000);
     }
   }
   
+  // Soft fills with the component-background step. The 50 step is the page
+  // background, so a soft quote was indistinguishable from the default one.
   &[data-variant="soft"] {
-    background-color: var(--rad-ui-color-accent-50);
+    background-color: var(--rad-ui-color-accent-200);
     border-radius: var(--rad-ui-control-radius-md);
     border-inline-start-width: 0;
     color: var(--rad-ui-color-accent-1000);
@@ -109,13 +111,13 @@
     }
 
     &[data-color] {
-      background-color: var(--rad-ui-color-accent-50);
+      background-color: var(--rad-ui-color-accent-200);
       color: var(--rad-ui-color-accent-1000);
     }
   }
 
   &[data-variant="accent"] {
-    border-inline-start-color: var(--rad-ui-color-accent-400);
+    border-inline-start-color: var(--rad-ui-color-accent-600);
     color: var(--rad-ui-color-accent-1000);
   }
 }

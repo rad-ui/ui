@@ -48,4 +48,18 @@ describe('Quote', () => {
         expect(consoleError).not.toHaveBeenCalled();
         consoleError.mockRestore();
     });
+
+    test('truncate emits the data-truncate hook that the Clarity stylesheet targets', () => {
+        const fs = require('node:fs');
+        const path = require('node:path');
+        render(<Quote truncate>Quote</Quote>);
+        expect(screen.getByText('Quote')).toHaveAttribute('data-truncate', '');
+
+        render(<Quote>Plain</Quote>);
+        expect(screen.getByText('Plain')).not.toHaveAttribute('data-truncate');
+
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../quote.clarity.scss'), 'utf8');
+        expect(stylesheet).toContain('&[data-truncate]');
+        expect(stylesheet).not.toContain('data-quote-truncate');
+    });
 });

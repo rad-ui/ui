@@ -43,4 +43,17 @@ export type { ComboboxContentProps } from './fragments/ComboboxContent';
 export type { ComboboxItemProps } from './fragments/ComboboxItem';
 export type { ComboboxTriggerProps } from './fragments/ComboboxTrigger';
 export type { ComboboxSearchProps } from './fragments/ComboboxSearch';
+// Named part exports let React Server Components use `import * as Combobox from '@radui/ui/Combobox'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ComboboxRoot as Root,
+    ComboboxContent as Content,
+    ComboboxItem as Item,
+    ComboboxTrigger as Trigger,
+    ComboboxPortal as Portal,
+    ComboboxGroup as Group,
+    ComboboxIndicator as Indicator,
+    ComboboxSearch as Search
+};
+
 export default Combobox;

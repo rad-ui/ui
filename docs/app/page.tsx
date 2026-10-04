@@ -1,5 +1,8 @@
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight } from "lucide-react"
+import { createElement, type ReactNode } from "react"
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react"
+import { refractor } from "refractor"
+import jsx from "refractor/lang/jsx"
 
 import FullHeightScroll from "@/components/layout/ScrollContainers/FullHeightScroll"
 import Badge from "@radui/ui/Badge"
@@ -17,11 +20,13 @@ import showcaseDemos from "./showcase/showcaseDemos"
 
 export const metadata = baseSeoMetadata
 
+refractor.register(jsx)
+
 const SPEC = [
-    { key: "primitives", value: "every part published" },
-    { key: "styling", value: "nothing attached — you style it" },
-    { key: "accessibility", value: "keyboard, focus and ARIA included" },
-    { key: "license", value: "MIT — fork it" },
+    { key: "unstyled", value: "no mandatory stylesheet, no visual reset" },
+    { key: "accessible", value: "keyboard, focus and ARIA wiring included" },
+    { key: "composable", value: "published parts for every primitive" },
+    { key: "theme-free", value: "stable data-* states for your CSS" },
 ]
 
 const SECTIONS = [
@@ -44,6 +49,98 @@ const SECTIONS = [
         lede: "Rad UI ships behavior and a stable data-* contract, nothing else. Style it with your tokens, your framework, or a stylesheet you wrote by hand. Pick a brand and a radius below and watch the same components change.",
     },
 ]
+
+const COMPARISON_POINTS = [
+    "React 19-first docs and examples",
+    "Stable data-* contracts for design-system styling",
+    "Showcase apps that prove the same primitives across surfaces",
+    "Theme helpers are optional, not a dependency you have to undo",
+]
+
+const HERO_PROOF = [
+    "Dialog focus traps and restores",
+    "Tabs and toolbar keyboarding",
+    "Roving focus, typeahead and ARIA",
+    "Data attributes for every state",
+]
+
+const SHOWCASE_PREVIEWS = [
+    {
+        key: "music",
+        surface: "Music",
+        title: "Library queue",
+        rows: ["New releases", "Daily mix", "Focus room"],
+        metric: "03:42",
+    },
+    {
+        key: "prefs",
+        surface: "Prefs",
+        title: "Workspace controls",
+        rows: ["Notifications", "Theme sync", "Access review"],
+        metric: "92%",
+    },
+    {
+        key: "commerce",
+        surface: "Shop",
+        title: "Checkout panel",
+        rows: ["Finish", "Plan", "Delivery"],
+        metric: "$128",
+    },
+    {
+        key: "ops",
+        surface: "Ops",
+        title: "Delivery board",
+        rows: ["Queued", "Building", "Released"],
+        metric: "18",
+    },
+]
+
+const SHOWCASE_STATS = [
+    { label: "surfaces", value: "6" },
+    { label: "demo cards", value: "24+" },
+    { label: "shared primitives", value: "1 set" },
+]
+
+const HERO_CODE = `<Dialog.Root>
+  <Dialog.Trigger asChild>
+    <Button>Edit profile</Button>
+  </Dialog.Trigger>
+
+  <Dialog.Content>
+    <Dialog.Title>Profile</Dialog.Title>
+    <TextField.Input />
+  </Dialog.Content>
+</Dialog.Root>`
+
+type HastElement = {
+    type: "element"
+    tagName: string
+    properties: { className?: string[] }
+    children: HastChild[]
+}
+
+type HastText = { type: "text"; value: string }
+type HastChild = HastElement | HastText
+
+function renderHighlightedNode(node: HastChild, index: number): ReactNode {
+    if (node.type === "text") return node.value
+
+    return createElement(
+        node.tagName,
+        { className: (node.properties.className ?? []).join(" "), key: index },
+        node.children.map((child, childIndex) => renderHighlightedNode(child, childIndex)),
+    )
+}
+
+function highlightHeroCode(source: string) {
+    try {
+        return refractor
+            .highlight(source, "jsx")
+            .children.map((child, index) => renderHighlightedNode(child as HastChild, index))
+    } catch {
+        return source
+    }
+}
 
 function GithubIcon({ className = "" }: { className?: string }) {
     return (
@@ -99,6 +196,61 @@ function SecondaryLink({
         >
             {children}
         </Link>
+    )
+}
+
+function HeroCodeProof() {
+    return (
+        <div className="grid overflow-hidden rounded-lg border border-gray-500 bg-gray-100 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.86fr)]">
+            <div className="border-b border-gray-400 bg-gray-50 p-4 lg:border-b-0 lg:border-r">
+                <div className="flex items-center justify-between gap-3">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-gray-950">
+                        code
+                    </span>
+                    <span className="rounded-full border border-gray-400 px-2 py-0.5 font-mono text-[10px] text-gray-950">
+                        no CSS import
+                    </span>
+                </div>
+                <pre className="landing-hero-code-pre docs-syntax-pre mt-4 overflow-x-auto font-mono text-[0.76rem] leading-6">
+                    <code className="docs-code-block language-jsx">
+                        {highlightHeroCode(HERO_CODE)}
+                    </code>
+                </pre>
+            </div>
+
+            <div className="bg-gray-100 p-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-gray-950">
+                    result
+                </span>
+                <div className="mt-4 rounded-md border border-gray-500 bg-gray-50 p-4 shadow-[0_18px_40px_-30px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_65%,transparent)]">
+                    <div className="flex items-center justify-between gap-3 border-b border-gray-400 pb-3">
+                        <div>
+                            <p className="text-sm font-semibold text-gray-1000">Profile</p>
+                            <p className="text-[0.78rem] text-gray-950">
+                                Focus stays inside until closed.
+                            </p>
+                        </div>
+                        <span className="h-7 w-7 rounded-full border border-gray-500 bg-gray-100" />
+                    </div>
+                    <label className="mt-4 block">
+                        <span className="text-[0.76rem] font-medium text-gray-950">
+                            Display name
+                        </span>
+                        <span className="mt-1.5 block rounded-md border border-gray-500 bg-gray-100 px-3 py-2 text-sm text-gray-1000">
+                            Ada Lovelace
+                        </span>
+                    </label>
+                    <div className="mt-4 flex justify-end gap-2">
+                        <span className="rounded-md border border-gray-500 px-3 py-1.5 text-[0.78rem] font-medium text-gray-1000">
+                            Cancel
+                        </span>
+                        <span className="rounded-md bg-gray-1000 px-3 py-1.5 text-[0.78rem] font-medium text-gray-50">
+                            Save
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 
@@ -176,6 +328,18 @@ export default function Home() {
                                     with the component. You keep the pixels.
                                 </Text>
 
+                                <ul className="mt-5 grid gap-2 text-[0.84rem] leading-6 text-gray-950 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                                    {HERO_PROOF.map((item) => (
+                                        <li key={item} className="flex items-start gap-2">
+                                            <Check
+                                                className="mt-1 h-3.5 w-3.5 shrink-0 text-green-1000"
+                                                aria-hidden
+                                            />
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
                                 <div className="mt-8 flex flex-wrap items-center gap-3">
                                     <PrimaryLink href="/docs/first-steps/installation">
                                         Start building
@@ -200,6 +364,10 @@ export default function Home() {
                         {/* Every window below is a real Rad UI primitive. */}
                         <div className="landing-fade-up landing-fade-up-delay-3 mt-14 lg:mt-16">
                             <HeroShowcase />
+                        </div>
+
+                        <div className="landing-fade-up landing-fade-up-delay-4 mt-6">
+                            <HeroCodeProof />
                         </div>
 
                         {/* Spec bar: four even columns closing the hero. */}
@@ -256,68 +424,166 @@ export default function Home() {
                     )
                 })}
 
-                {/* ── Surface ─────────────────────────────────────── */}
-                <section className="border-b border-gray-400 bg-gray-100">
+                {/* ── Positioning ────────────────────────────────── */}
+                <section className="border-b border-gray-400 bg-gray-50">
                     <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
                         <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-14">
                             <div>
-                                <SectionLabel index="04" name="surface" />
+                                <SectionLabel index="04" name="positioning" />
                                 <Heading
                                     as="h2"
                                     className="landing-title mt-5 text-gray-1000"
                                 >
-                                    Six real products. One component set.
+                                    Familiar primitives. A sharper contract.
                                 </Heading>
                                 <Text className="landing-body mt-4 text-gray-950">
-                                    Multi-surface demos — streaming, settings,
-                                    commerce, messaging, inbox, analytics — each
-                                    built from the same primitives you install.
+                                    Rad UI lives in the same headless tradition as
+                                    Radix, but the docs, examples and styling
+                                    surface are tuned around modern React apps and
+                                    long-lived design systems.
+                                </Text>
+                            </div>
+
+                            <div className="grid gap-px overflow-hidden rounded-lg border border-gray-500 bg-gray-500 sm:grid-cols-2">
+                                {COMPARISON_POINTS.map((point) => (
+                                    <div
+                                        key={point}
+                                        className="bg-gray-100 p-5 sm:p-6"
+                                    >
+                                        <Check
+                                            className="h-4 w-4 text-green-1000"
+                                            aria-hidden
+                                        />
+                                        <p className="mt-4 text-[0.95rem] font-medium leading-6 text-gray-1000">
+                                            {point}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ── Surface ─────────────────────────────────────── */}
+                <section className="border-b border-gray-400 bg-gray-100">
+                    <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
+                        <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-14">
+                            <div className="self-start lg:sticky lg:top-24">
+                                <SectionLabel index="05" name="surface" />
+                                <Heading
+                                    as="h2"
+                                    className="landing-title mt-5 text-gray-1000"
+                                >
+                                    Six polished demos. One component set.
+                                </Heading>
+                                <Text className="landing-body mt-4 text-gray-950">
+                                    Fictional products, real interface pressure:
+                                    streaming, settings, commerce, messaging, inbox
+                                    and analytics screens built to show the same
+                                    primitives holding up across very different
+                                    surfaces.
                                 </Text>
                                 <SecondaryLink
                                     href="/showcase/music-app"
                                     className="mt-6"
                                 >
-                                    Open the showcase
+                                    Explore the demos
                                     <ArrowUpRight className="h-4 w-4" aria-hidden />
                                 </SecondaryLink>
+
+                                <dl className="mt-8 grid gap-px overflow-hidden rounded-lg border border-gray-500 bg-gray-500 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                                    {SHOWCASE_STATS.map((stat) => (
+                                        <div key={stat.label} className="bg-gray-50 p-4">
+                                            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-950">
+                                                {stat.label}
+                                            </dt>
+                                            <dd className="mt-2 text-lg font-semibold text-gray-1000">
+                                                {stat.value}
+                                            </dd>
+                                        </div>
+                                    ))}
+                                </dl>
                             </div>
 
-                            <ul className="border-t border-gray-400">
-                                {showcaseDemos.map((demo, position) => (
-                                    <li key={demo.href}>
-                                        <Link
-                                            href={demo.href}
-                                            className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 border-b border-gray-400 py-4 transition-colors hover:bg-gray-50 sm:gap-x-6"
+                            <div>
+                                <div className="landing-showcase-previews grid gap-3 sm:grid-cols-2">
+                                    {SHOWCASE_PREVIEWS.map((preview) => (
+                                        <div
+                                            key={preview.key}
+                                            className="landing-showcase-preview overflow-hidden rounded-lg border border-gray-500 bg-gray-50"
+                                            data-preview={preview.key}
                                         >
-                                            <span className="pt-1 font-mono text-[0.72rem] text-gray-950">
-                                                {String(position + 1).padStart(2, "0")}
-                                            </span>
-                                            <span className="min-w-0">
-                                                <span className="block font-medium text-gray-1000">
-                                                    {demo.title}
+                                            <div className="flex items-center justify-between gap-3 border-b border-gray-400 px-3 py-2">
+                                                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-gray-950">
+                                                    {preview.surface}
                                                 </span>
-                                                <span className="mt-1 block text-[0.85rem] leading-6 text-gray-950">
-                                                    {demo.summary}
+                                                <span className="font-mono text-[0.76rem] tabular-nums text-gray-1000">
+                                                    {preview.metric}
                                                 </span>
-                                                <span className="mt-2.5 flex flex-wrap gap-1.5">
-                                                    {demo.components.map((name) => (
-                                                        <span
-                                                            key={name}
-                                                            className="rounded-full border border-gray-400 px-2 py-0.5 font-mono text-[0.62rem] tracking-tight text-gray-950"
+                                            </div>
+                                            <div className="p-3">
+                                                <p className="text-sm font-semibold text-gray-1000">
+                                                    {preview.title}
+                                                </p>
+                                                <div className="mt-3 space-y-2">
+                                                    {preview.rows.map((row, rowIndex) => (
+                                                        <div
+                                                            key={row}
+                                                            className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-md border border-gray-400 bg-gray-100 px-2.5 py-2"
                                                         >
-                                                            {name}
-                                                        </span>
+                                                            <span className="h-2 w-2 rounded-full bg-green-1000" />
+                                                            <span className="truncate text-[0.78rem] text-gray-950">
+                                                                {row}
+                                                            </span>
+                                                            <span
+                                                                className="h-1.5 rounded-full bg-gray-500"
+                                                                style={{ width: `${42 + rowIndex * 18}px` }}
+                                                            />
+                                                        </div>
                                                     ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <ul className="mt-6 border-t border-gray-400">
+                                    {showcaseDemos.map((demo, position) => (
+                                        <li key={demo.href}>
+                                            <Link
+                                                href={demo.href}
+                                                className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 border-b border-gray-400 py-4 transition-colors hover:bg-gray-50 sm:gap-x-6"
+                                            >
+                                                <span className="pt-1 font-mono text-[0.72rem] text-gray-950">
+                                                    {String(position + 1).padStart(2, "0")}
                                                 </span>
-                                            </span>
-                                            <ArrowUpRight
-                                                className="mt-1 h-4 w-4 shrink-0 text-gray-950 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-gray-1000"
-                                                aria-hidden
-                                            />
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+                                                <span className="min-w-0">
+                                                    <span className="block font-medium text-gray-1000">
+                                                        {demo.title}
+                                                    </span>
+                                                    <span className="mt-1 block text-[0.85rem] leading-6 text-gray-950">
+                                                        {demo.summary}
+                                                    </span>
+                                                    <span className="mt-2.5 flex flex-wrap gap-1.5">
+                                                        {demo.components.map((name) => (
+                                                            <span
+                                                                key={name}
+                                                                className="rounded-full border border-gray-400 px-2 py-0.5 font-mono text-[0.62rem] tracking-tight text-gray-950"
+                                                            >
+                                                                {name}
+                                                            </span>
+                                                        ))}
+                                                    </span>
+                                                </span>
+                                                <ArrowUpRight
+                                                    className="mt-1 h-4 w-4 shrink-0 text-gray-950 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-gray-1000"
+                                                    aria-hidden
+                                                />
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </Reveal>
                     </div>
                 </section>
@@ -330,7 +596,7 @@ export default function Home() {
                     />
                     <div className="relative mx-auto max-w-[1240px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
                         <Reveal className="max-w-3xl">
-                            <SectionLabel index="05" name="go" />
+                            <SectionLabel index="06" name="go" />
                             <Heading
                                 as="h2"
                                 className="landing-closing mt-5 text-gray-1000"

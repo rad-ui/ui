@@ -159,4 +159,16 @@ describe('Checkbox states', () => {
         expect(button).toHaveAttribute('data-state', 'indeterminate');
         expect(button).toHaveAttribute('aria-checked', 'mixed');
     });
+    it('renders a visible indicator for the indeterminate state', () => {
+        const { container } = render(
+            <Checkbox.Root defaultChecked="indeterminate" aria-label="Select all">
+                <Checkbox.Indicator />
+            </Checkbox.Root>
+        );
+        const indicator = container.querySelector('[data-slot="checkbox-indicator"]');
+
+        expect(indicator).toBeInTheDocument();
+        expect(indicator).toHaveAttribute('data-state', 'indeterminate');
+        expect(indicator?.querySelector('svg')).toBeInTheDocument();
+    });
 });

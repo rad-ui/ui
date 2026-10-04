@@ -87,3 +87,20 @@
     opacity: 0;
   }
 }
+
+.rad-ui-popover-title {
+  font-size: var(--rad-ui-font-size-2);
+  font-weight: var(--rad-ui-component-font-weight-medium);
+  line-height: var(--rad-ui-component-line-height-tight);
+  color: var(--rad-ui-text-primary);
+  margin: 0;
+  margin-bottom: var(--rad-ui-spacing-1);
+}
+
+.rad-ui-popover-description {
+  font-size: var(--rad-ui-font-size-2);
+  font-weight: var(--rad-ui-component-font-weight-regular);
+  line-height: var(--rad-ui-component-line-height-normal);
+  color: var(--rad-ui-text-secondary);
+  margin: 0;
+}

@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 
 import { DialogContext } from '../context/DialogContext';
 import DialogPrimitive from '~/core/primitives/Dialog';
@@ -19,7 +19,16 @@ export type DialogRootProps = DialogPrimitiveRootProps & {
 const DialogRoot = forwardRef<DialogRootElement, DialogRootProps>(({ children, customRootClass = '', className = '', ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const contextProps = { rootClass };
+    const [titleId, setTitleId] = useState<string | undefined>(undefined);
+    const [descriptionId, setDescriptionId] = useState<string | undefined>(undefined);
+
+    const contextProps = useMemo(() => ({
+        rootClass,
+        titleId,
+        descriptionId,
+        setTitleId,
+        setDescriptionId
+    }), [rootClass, titleId, descriptionId]);
 
     return (
         <DialogPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...props}>

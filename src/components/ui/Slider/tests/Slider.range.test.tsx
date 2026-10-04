@@ -89,4 +89,14 @@ describe('Slider Range Support', () => {
         expect(range.style.marginLeft).toBe('0%');
         expect(range.style.width).toBe('0%');
     });
+    it('renders one thumb per value from the convenience Slider', () => {
+        render(<Slider aria-label="Price" defaultValue={[20, 80]} />);
+
+        const thumbs = screen.getAllByRole('slider');
+        expect(thumbs).toHaveLength(2);
+        expect(thumbs[0]).toHaveAttribute('aria-valuenow', '20');
+        expect(thumbs[0]).toHaveAttribute('aria-label', 'Price minimum');
+        expect(thumbs[1]).toHaveAttribute('aria-valuenow', '80');
+        expect(thumbs[1]).toHaveAttribute('aria-label', 'Price maximum');
+    });
 });

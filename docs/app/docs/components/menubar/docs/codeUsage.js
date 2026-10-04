@@ -29,11 +29,27 @@ export const api_documentation = {
 export const keyboardShortcuts = createKeyboardShortcutTable([
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_RIGHT,
-        'Moves focus to the next top-level menu trigger.'
+        'Moves focus to the next top-level menu trigger. If a menu is open, the next menu opens.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_LEFT,
-        'Moves focus to the previous top-level menu trigger.'
+        'Moves focus to the previous top-level menu trigger. If a menu is open, the previous menu opens.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.HOME,
+        'Moves focus to the first top-level menu trigger.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.END,
+        'Moves focus to the last top-level menu trigger.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ENTER,
+        'Opens or closes the focused menu.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SPACE,
+        'Opens or closes the focused menu.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_DOWN,
@@ -48,7 +64,7 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
 export const ariaReferences = createAriaReferenceTable([
     createAriaReferenceRow(
         DOCS_ARIA_PATTERNS.MENUBAR,
-        'Uses menubar semantics for horizontal application-style menus with roving focus.'
+        'The root uses role="menubar" with horizontal orientation. Triggers are menuitems with aria-haspopup="menu" and aria-expanded, and only the active trigger is in the tab order.'
     ),
     createAriaReferenceRow(
         DOCS_ARIA_PATTERNS.MENU,

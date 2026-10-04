@@ -72,6 +72,8 @@ describe('Splitter Component', () => {
         renderSplitter({ onSizesChange });
 
         const handle = screen.getByRole('separator');
+        // jsdom has no layout; give the root a measurable width.
+        Object.defineProperty(handle.parentElement!, 'clientWidth', { configurable: true, value: 400 });
 
         // Simulate mouse down
         fireEvent.mouseDown(handle, { clientX: 200 });
@@ -83,7 +85,7 @@ describe('Splitter Component', () => {
         fireEvent.mouseUp(document);
 
         await waitFor(() => {
-            expect(onSizesChange).toHaveBeenCalled();
+            expect(onSizesChange).toHaveBeenCalledWith([62.5, 37.5]);
         });
     });
 
@@ -176,6 +178,7 @@ describe('Splitter Component', () => {
         renderSplitter({ onSizesChange });
 
         const handle = screen.getByRole('separator');
+        Object.defineProperty(handle.parentElement!, 'clientWidth', { configurable: true, value: 400 });
 
         // Simulate touch start
         fireEvent.touchStart(handle, {

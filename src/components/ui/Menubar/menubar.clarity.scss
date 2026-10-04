@@ -1,42 +1,70 @@
 @use '../Button/button.clarity';
 
+// Menubar root is a compact in-flow bar: it hugs its triggers instead of
+// stretching to its flex/grid line, and stays flat (no elevation) because it
+// is not a floating surface.
 .rad-ui-menubar-root {
+    // Concentric radius: trigger radius plus the root padding.
+    --rad-ui-menubar-padding: var(--rad-ui-spacing-1);
+    --rad-ui-menubar-trigger-radius: var(--rad-ui-control-radius-sm);
+
     display: inline-flex;
-    min-height: 2.25rem;
     align-items: center;
-    gap: 0.125rem;
-    padding: 0.25rem;
-    border-radius: var(--rad-ui-radius-lg);
+    height: fit-content;
+    gap: var(--rad-ui-density-gap-xs);
+    padding: var(--rad-ui-menubar-padding);
+    border-radius: calc(var(--rad-ui-menubar-trigger-radius) + var(--rad-ui-menubar-padding));
     background-color: var(--rad-ui-surface-panel);
-    border: 1px solid var(--rad-ui-border);
-    box-shadow: var(--rad-ui-elevation-xs-shadow);
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);
+}
+
+.rad-ui-menubar-menu {
+    display: contents;
 }
 
 .rad-ui-menubar-trigger {
-    padding: 0.5rem 0.625rem;
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--rad-ui-control-height-sm);
+    padding: 0 var(--rad-ui-control-padding-x-sm);
     outline: none;
     user-select: none;
-    font-weight: 500;
-    line-height: var(--rad-ui-line-height-1);
-    border-radius: var(--rad-ui-radius-md);
-    font-size: var(--rad-ui-font-size-2);
+    font-family: inherit;
+    font-weight: var(--rad-ui-component-font-weight-medium);
+    line-height: var(--rad-ui-component-line-height-tight);
+    border-radius: var(--rad-ui-menubar-trigger-radius);
+    font-size: var(--rad-ui-component-font-size-sm);
     color: var(--rad-ui-text-primary);
     background: transparent;
     cursor: default;
-    border: none;
+    white-space: nowrap;
+    transition:
+        background-color var(--rad-ui-motion-duration-fast) ease,
+        box-shadow var(--rad-ui-motion-duration-fast) ease;
 
-    &:hover, &[data-state="open"] {
-        background-color: var(--rad-ui-surface-panel);
-        box-shadow: var(--rad-ui-elevation-xs-shadow);
+    &:hover {
+        background-color: var(--rad-ui-surface-hover);
+    }
+
+    &[data-state="open"] {
+        background-color: var(--rad-ui-surface-canvas);
+        box-shadow: var(--rad-ui-selected-control-shadow);
     }
 
     &:focus-visible {
         box-shadow: var(--rad-ui-focus-ring-shadow-sm);
     }
-    
+
+    &[data-state="open"]:focus-visible {
+        box-shadow: var(--rad-ui-selected-control-shadow), var(--rad-ui-focus-ring-shadow-sm);
+    }
+
     &[data-disabled] {
         pointer-events: none;
-        opacity: 0.5;
+        color: var(--rad-ui-disabled-text);
     }
 }
 
