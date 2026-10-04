@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 import Avatar from "@radui/ui/Avatar"
 import Badge from "@radui/ui/Badge"
@@ -225,39 +225,35 @@ const MusicApp = () => {
     const [createOpen, setCreateOpen] = useState(false)
     const [draft, setDraft] = useState({ name: "", description: "", isPublic: true })
 
-    const findPlaylist = (id) => playlists.find((item) => item.id === id)
+    const findPlaylist = useCallback((id) => playlists.find((item) => item.id === id), [playlists])
     const playlist = findPlaylist(playlistId)
     const nowPlaylist = findPlaylist(current.playlistId)
     const track = nowPlaylist.tracks[current.index]
     const totalTime = playlist.tracks.reduce((sum, item) => sum + item.duration, 0)
 
-    const notify = (title, description) => toast.add({ title, description })
+    const notify = useCallback((title, description) => toast.add({ title, description }), [toast])
 
-    const visibleTracks = useMemo(() => {
-        const q = filter.trim().toLowerCase()
-        return playlist.tracks
-            .map((item, index) => ({ ...item, index }))
-            .filter((item) => !q || `${item.title} ${item.artist} ${item.album}`.toLowerCase().includes(q))
-    }, [playlist, filter])
+    const q = filter.trim().toLowerCase()
+    const visibleTracks = playlist.tracks
+        .map((item, index) => ({ ...item, index }))
+        .filter((item) => !q || `${item.title} ${item.artist} ${item.album}`.toLowerCase().includes(q))
 
-    const albums = useMemo(() => {
-        const seen = new Map()
-        playlist.tracks.forEach((item, index) => {
-            if (!seen.has(item.album)) seen.set(item.album, { name: item.album, artist: item.artist, cover: item.cover, firstIndex: index, indexes: [] })
-            seen.get(item.album).indexes.push(index)
-        })
-        return [...seen.values()]
-    }, [playlist])
+    const albumMap = new Map()
+    playlist.tracks.forEach((item, index) => {
+        if (!albumMap.has(item.album)) albumMap.set(item.album, { name: item.album, artist: item.artist, cover: item.cover, firstIndex: index, indexes: [] })
+        albumMap.get(item.album).indexes.push(index)
+    })
+    const albums = [...albumMap.values()]
 
     /* playback */
 
-    const startAt = (target) => {
+    const startAt = useCallback((target) => {
         setCurrent(target)
         setPosition(0)
         setPlaying(true)
-    }
+    }, [])
 
-    const step = (direction) => {
+    const step = useCallback((direction) => {
         if (direction > 0 && queue.length) {
             const [next, ...rest] = queue
             setQueue(rest)
@@ -274,7 +270,7 @@ const MusicApp = () => {
             }
             return { ...now, index: (now.index + direction + count) % count }
         })
-    }
+    }, [findPlaylist, queue, shuffle, startAt])
 
     useEffect(() => {
         if (!playing) return undefined
@@ -293,7 +289,7 @@ const MusicApp = () => {
         }
         if (repeat === "one") setPosition(0)
         else step(1)
-    }, [position, track.duration, repeat, sleep])
+    }, [notify, position, repeat, sleep, step, track.duration])
 
     useEffect(() => {
         if (sleep !== "15" && sleep !== "30") return undefined
@@ -304,7 +300,7 @@ const MusicApp = () => {
             notify("Sleep timer ended", "Playback paused. Sweet dreams.")
         }, Number(sleep) * 1000)
         return () => clearTimeout(timer)
-    }, [sleep])
+    }, [notify, sleep])
 
     // Space toggles playback; ⌘K / Ctrl+K opens search.
     useEffect(() => {

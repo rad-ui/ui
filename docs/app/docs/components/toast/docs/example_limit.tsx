@@ -29,7 +29,7 @@ function LimitInner() {
 
     useEffect(() => () => {
         manager.dismissAll()
-    }, [])
+    }, [manager])
 
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">

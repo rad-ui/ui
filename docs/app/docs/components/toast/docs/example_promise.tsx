@@ -32,7 +32,7 @@ function PromiseInner() {
 
     useEffect(() => () => {
         manager.dismissAll()
-    }, [])
+    }, [manager])
 
     function runPromise() {
         manager.promise(
