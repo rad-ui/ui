@@ -90,7 +90,7 @@ describe('DataList Component', () => {
     });
 
     test('should forward refs to underlying elements', () => {
-        const rootRef = React.createRef<HTMLDivElement>();
+        const rootRef = React.createRef<HTMLDListElement>();
         const itemRef = React.createRef<HTMLDivElement>();
         const labelRef = React.createRef<HTMLElement>();
         const valueRef = React.createRef<HTMLElement>();
@@ -104,7 +104,7 @@ describe('DataList Component', () => {
             </DataList.Root>
         );
 
-        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(rootRef.current).toBeInstanceOf(HTMLDListElement);
         expect(itemRef.current).toBeInstanceOf(HTMLDivElement);
         expect(labelRef.current?.tagName).toBe('DT');
         expect(valueRef.current?.tagName).toBe('DD');

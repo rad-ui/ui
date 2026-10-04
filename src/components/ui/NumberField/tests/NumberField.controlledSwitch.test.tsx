@@ -22,7 +22,7 @@ describe('NumberField controlled switch', () => {
 
         expect(screen.getByRole('spinbutton')).toHaveValue(5);
 
-        fireEvent.click(screen.getByRole('button', { name: '+' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Increase value' }));
         expect(onValueChange).toHaveBeenCalled();
     });
 

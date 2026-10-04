@@ -43,4 +43,29 @@ describe('Command keyboard paths', () => {
         fireEvent.keyDown(input, { key: 'Home' });
         expect(screen.getByText('Apple')).toHaveAttribute('data-selected', '');
     });
+
+    test('keeps focus on the combobox and exposes the active option', () => {
+        render(
+            <Command>
+                <Command.Input placeholder="Search..." />
+                <Command.List>
+                    <Command.Item value="apple">Apple</Command.Item>
+                    <Command.Item value="banana">Banana</Command.Item>
+                </Command.List>
+            </Command>
+        );
+
+        const input = screen.getByRole('combobox');
+        const apple = screen.getByText('Apple');
+        const banana = screen.getByText('Banana');
+
+        input.focus();
+        expect(input).toHaveAttribute('aria-activedescendant', apple.id);
+        expect(apple).toHaveAttribute('tabindex', '-1');
+        expect(banana).toHaveAttribute('tabindex', '-1');
+
+        fireEvent.keyDown(input, { key: 'ArrowDown' });
+        expect(input).toHaveFocus();
+        expect(input).toHaveAttribute('aria-activedescendant', banana.id);
+    });
 });

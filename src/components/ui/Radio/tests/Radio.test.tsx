@@ -16,6 +16,7 @@ describe('Radio', () => {
         expect(radio).toHaveAttribute('name', 'test-radio');
         expect(radio).toHaveAttribute('value', 'option1');
         expect(radio).toHaveAttribute('id', 'radio1');
+        expect((radio as HTMLInputElement).tabIndex).toBe(0);
     });
 
     it('applies checked, required, and disabled props', () => {

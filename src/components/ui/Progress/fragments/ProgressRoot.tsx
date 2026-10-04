@@ -46,12 +46,16 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             customRootClass,
             getValueLabel,
             className,
+            'aria-label': ariaLabelProp,
+            'aria-valuetext': ariaValueTextProp,
             ...props
         },
         ref
     ) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
-        const ariaLabel = getValueLabel?.(value ?? 0, minValue, maxValue) ?? '';
+        const valueLabel = getValueLabel?.(value ?? 0, minValue, maxValue);
+        const ariaLabel = ariaLabelProp ?? valueLabel ?? 'Progress';
+        const ariaValueText = ariaValueTextProp ?? valueLabel;
         const state = getProgressState(value, maxValue);
         const isIndeterminate = value === null;
 
@@ -72,7 +76,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
                 <Primitive.div
                     role="progressbar"
                     aria-label={ariaLabel}
-                    aria-valuetext={ariaLabel}
+                    aria-valuetext={ariaValueText}
                     aria-valuenow={isIndeterminate ? undefined : value}
                     aria-valuemin={minValue}
                     aria-valuemax={maxValue}

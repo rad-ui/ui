@@ -27,9 +27,14 @@ describe('RovingFocusGroup behavior', () => {
 
         await user.tab();
         expect(item1).toHaveFocus();
+        expect(item1).toHaveAttribute('tabindex', '0');
+        expect(item1).not.toHaveAttribute('aria-selected');
 
         await user.keyboard('{ArrowRight}');
         expect(item2).toHaveFocus();
+        expect(item1).toHaveAttribute('tabindex', '-1');
+        expect(item2).toHaveAttribute('tabindex', '0');
+        expect(item2).not.toHaveAttribute('aria-selected');
 
         await user.tab();
         expect(outside).toHaveFocus();

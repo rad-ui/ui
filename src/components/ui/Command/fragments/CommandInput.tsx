@@ -27,6 +27,7 @@ const CommandInput = React.forwardRef<CommandInputElement, CommandInputProps>(({
         inputId,
         search,
         setSearch,
+        activeItemId,
         moveActive,
         moveToBoundary,
         selectActiveItem
@@ -44,6 +45,7 @@ const CommandInput = React.forwardRef<CommandInputElement, CommandInputProps>(({
             role="combobox"
             aria-autocomplete="list"
             aria-controls={listId}
+            aria-activedescendant={activeItemId || undefined}
             aria-expanded="true"
             aria-label={label}
             value={currentValue}

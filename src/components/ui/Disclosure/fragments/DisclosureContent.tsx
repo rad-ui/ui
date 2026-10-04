@@ -8,7 +8,7 @@ export type DisclosureContentProps = React.ComponentPropsWithoutRef<'div'>;
 
 const DisclosureContent = React.forwardRef<React.ElementRef<'div'>, DisclosureContentProps>(({ children, className = '', ...props }, forwardedRef) => {
     const { activeItem, rootClass } = useContext(DisclosureContext);
-    const { itemValue } = useContext(DisclosureItemContext);
+    const { itemValue, triggerId } = useContext(DisclosureItemContext);
     return (
         itemValue !== activeItem
             ? null
@@ -20,6 +20,7 @@ const DisclosureContent = React.forwardRef<React.ElementRef<'div'>, DisclosureCo
                 data-state="open"
                 data-slot="disclosure-content"
                 role="region"
+                aria-labelledby={triggerId}
                 aria-hidden={activeItem !== itemValue}
             >
                 {children}

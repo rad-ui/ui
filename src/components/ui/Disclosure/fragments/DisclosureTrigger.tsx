@@ -9,7 +9,7 @@ export type DisclosureTriggerProps = React.ComponentPropsWithoutRef<'button'>;
 
 const DisclosureTrigger = React.forwardRef<React.ElementRef<'button'>, DisclosureTriggerProps>(({ children, className, onClick, ...props }, forwardedRef) => {
     const { activeItem, setActiveItem, rootClass } = useContext(DisclosureContext);
-    const { itemValue } = useContext(DisclosureItemContext);
+    const { itemValue, triggerId } = useContext(DisclosureItemContext);
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (activeItem === itemValue) {
@@ -21,18 +21,18 @@ const DisclosureTrigger = React.forwardRef<React.ElementRef<'button'>, Disclosur
     };
 
     return (
-        <RovingFocusGroup.Item>
+        <RovingFocusGroup.Item domId={triggerId}>
             <CollapsiblePrimitive.Trigger asChild>
                 <button
                     {...props}
                     ref={forwardedRef}
+                    id={triggerId}
                     type='button'
                     className={clsx(rootClass && `${rootClass}-trigger`, className)}
                     onClick={onClickHandler}
                     data-state={activeItem === itemValue ? 'open' : 'closed'}
                     data-slot="disclosure-trigger"
                     aria-expanded={activeItem === itemValue}
-                    aria-haspopup='true'
                 >
 
                     {children}

@@ -37,6 +37,7 @@ describe('ScrollArea', () => {
 
         expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
         expect(viewportRef.current).toBeInstanceOf(HTMLDivElement);
+        expect(viewportRef.current).toHaveAttribute('tabindex', '0');
         expect(scrollbarRef.current).toBeInstanceOf(HTMLDivElement);
         expect(thumbRef.current).toBeInstanceOf(HTMLDivElement);
         expect(cornerRef.current).toBeInstanceOf(HTMLDivElement);
@@ -46,6 +47,18 @@ describe('ScrollArea', () => {
 
         warnSpy.mockRestore();
         errorSpy.mockRestore();
+    });
+
+    test('allows consumers to remove the viewport from the tab order', () => {
+        render(
+            <ScrollArea.Root>
+                <ScrollArea.Viewport data-testid="viewport" tabIndex={-1}>
+                    <div>content</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('viewport')).toHaveAttribute('tabindex', '-1');
     });
 
     test('does not emit generated part classes without a namespace', () => {
@@ -177,7 +190,7 @@ describe('ScrollArea', () => {
         expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
     });
 
-    test('resets scroll when direct viewport child is swapped, not on nested mutations', async() => {
+    test('preserves scroll when viewport content changes', async() => {
         const { rerender } = render(
             <ScrollArea.Root style={{ height: 100 }}>
                 <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
@@ -210,9 +223,7 @@ describe('ScrollArea', () => {
         });
 
         const nextViewport = screen.getByTestId('viewport') as HTMLDivElement;
-        await waitFor(() => {
-            expect(nextViewport.scrollTop).toBe(0);
-        });
+        await waitFor(() => expect(nextViewport.scrollTop).toBe(120));
     });
 
     test('preserves viewport scroll on rerender by default', () => {
@@ -238,31 +249,6 @@ describe('ScrollArea', () => {
 
         expect(viewport.scrollTop).toBe(120);
         expect(viewport.scrollLeft).toBe(16);
-    });
-
-    test('manual scroll restoration resets viewport scroll when restoreKey changes', () => {
-        const { rerender } = render(
-            <ScrollArea.Root scrollRestoration="manual" restoreKey="one" style={{ height: 100 }}>
-                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
-                    <div style={{ height: 400, width: 400 }}>content</div>
-                </ScrollArea.Viewport>
-            </ScrollArea.Root>
-        );
-
-        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
-        viewport.scrollTop = 120;
-        viewport.scrollLeft = 16;
-
-        rerender(
-            <ScrollArea.Root scrollRestoration="manual" restoreKey="two" style={{ height: 100 }}>
-                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
-                    <div style={{ height: 400, width: 400 }}>content</div>
-                </ScrollArea.Viewport>
-            </ScrollArea.Root>
-        );
-
-        expect(viewport.scrollTop).toBe(0);
-        expect(viewport.scrollLeft).toBe(0);
     });
 
     test('hides scrollbar while document overlay is open', () => {

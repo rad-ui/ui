@@ -83,12 +83,11 @@ describe('Toast accessibility', () => {
         expect(results.violations).toHaveLength(0);
     });
 
-    // The viewport is the landmark that lets a screen reader user skip to
-    // notifications; the individual toasts are the live regions.
-    test('viewport is a named region', async() => {
+    // The viewport is a named list; the individual toasts are live regions.
+    test('viewport is a named list', async() => {
         renderToasts();
         emit({ title: 'Saved' });
-        await waitFor(() => expect(screen.getByRole('region', { name: 'Notifications' })).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByRole('list', { name: 'Notifications' })).toBeInTheDocument());
     });
 
     test('each toast is a polite status region', async() => {

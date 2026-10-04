@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export type NumberFieldIncrementElement = ElementRef<'button'>;
 export type NumberFieldIncrementProps = ComponentPropsWithoutRef<'button'>;
 
-const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberFieldIncrementProps>(({ children, className, onMouseDown, ...props }, ref) => {
+const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberFieldIncrementProps>(({ children, className, onClick, onMouseDown, 'aria-label': ariaLabel = 'Increase value', ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldIncrement must be used within a NumberField');
@@ -16,7 +16,13 @@ const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberField
     return (
         <button
             ref={ref}
-            onClick={() => handleStep({ direction: 'increment', type: 'small' })}
+            aria-label={ariaLabel}
+            onClick={(event) => {
+                onClick?.(event);
+                if (!event.defaultPrevented) {
+                    handleStep({ direction: 'increment', type: 'small' });
+                }
+            }}
             className={clsx(rootClass && `${rootClass}-increment`, className)}
             disabled={disabled || readOnly}
             type="button"

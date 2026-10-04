@@ -93,7 +93,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
   };
 
   return (
-    <div
+    <header
       className={`sticky top-0 z-20 grid grid-cols-[1fr_auto_1fr] items-center border-b border-gray-300 bg-gray-50 px-4 py-2.5 ${
         isDocsPage ? "" : "backdrop-blur-xl backdrop-saturate-150"
       }`}
@@ -110,7 +110,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
       {/* The centre cell stays in the grid at every breakpoint. Hiding it below
           `lg` would leave two children in a `1fr auto 1fr` track, pulling the
           action buttons into the centre column on mobile. */}
-      <div>
+      <nav aria-label="Primary">
         <ul className="hidden items-center gap-1 text-[0.84rem] font-medium lg:flex">
           {[
             { href: "/docs/first-steps/introduction", label: "Docs" },
@@ -128,12 +128,13 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
       <div className="flex items-center justify-end">
         <div className="hidden lg:flex lg:items-center lg:gap-1">
           <Button
             color="gray"
             variant="ghost"
+            aria-label="Join Rad UI on Discord"
             onClick={openLink("https://discord.gg/nMaQfeEPNp")}
           >
             <span className="text-gray-1000"><DiscordLogo size={15} /></span>
@@ -141,12 +142,18 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           <Button
             color="gray"
             variant="ghost"
+            aria-label="View Rad UI on GitHub"
             onClick={openLink("https://github.com/rad-ui/ui")}
           >
             <span className="text-gray-1000"><GithubLogo size={15} /></span>
           </Button>
 
-          <Button color="gray" variant="ghost" onClick={toggleDarkMode}>
+          <Button
+            color="gray"
+            variant="ghost"
+            aria-label={darkMode ? "Use light theme" : "Use dark theme"}
+            onClick={toggleDarkMode}
+          >
             <span className="text-gray-1000">
               {darkMode ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
             </span>
@@ -156,13 +163,14 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           <Button
             color="gray"
             variant={isDocsNavOpen ? "soft" : "ghost"}
+            aria-label={isDocsNavOpen ? "Close navigation" : "Open navigation"}
             onClick={handleDocsNavOpen}
           >
             <Menu size={15} strokeWidth={2} />
           </Button>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

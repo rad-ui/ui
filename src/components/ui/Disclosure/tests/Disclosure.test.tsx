@@ -139,6 +139,10 @@ describe('Disclosure', () => {
         fireEvent.click(trigger);
         const content = screen.getByText('Content 1');
         expect(content).toHaveAttribute('aria-hidden', 'false');
+        expect(content).toHaveAttribute('aria-labelledby', trigger.id);
+        expect(root).toHaveAttribute('role', 'group');
+        expect(root).toHaveAccessibleName('accordion');
+        expect(trigger).not.toHaveAttribute('aria-haspopup');
     });
 
     test('renders without warnings', () => {

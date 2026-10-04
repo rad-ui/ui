@@ -202,6 +202,7 @@ describe('NavigationMenu component', () => {
 
         expect(errorSpy).not.toHaveBeenCalled();
         expect(warnSpy).not.toHaveBeenCalled();
+        expect(document.querySelector('a[href="#three"]')).toHaveAttribute('role', 'link');
 
         errorSpy.mockRestore();
         warnSpy.mockRestore();

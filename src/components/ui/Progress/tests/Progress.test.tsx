@@ -171,8 +171,26 @@ describe('Progress', () => {
 
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
-                expect(root).toHaveAttribute('aria-label', '');
-                expect(root).toHaveAttribute('aria-valuetext', '');
+                expect(root).toHaveAttribute('aria-label', 'Progress');
+                expect(root).not.toHaveAttribute('aria-valuetext');
+            });
+
+            test('preserves consumer accessible name and value text', () => {
+                render(
+                    <Progress.Root
+                        value={50}
+                        maxValue={100}
+                        minValue={0}
+                        aria-label="Upload progress"
+                        aria-valuetext="Half complete"
+                    >
+                        <Progress.Indicator />
+                    </Progress.Root>
+                );
+
+                const root = screen.getAllByRole('progressbar')[0];
+                expect(root).toHaveAttribute('aria-label', 'Upload progress');
+                expect(root).toHaveAttribute('aria-valuetext', 'Half complete');
             });
 
             test('getValueLabel with custom min/max values', () => {

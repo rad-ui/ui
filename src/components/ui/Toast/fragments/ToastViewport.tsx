@@ -52,7 +52,6 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
     return (
         <ol
             ref={listRef}
-            role="region"
             aria-label={containerAriaLabel}
             tabIndex={-1}
             data-position={position}

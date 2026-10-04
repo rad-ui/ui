@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export type NumberFieldDecrementElement = ElementRef<'button'>;
 export type NumberFieldDecrementProps = ComponentPropsWithoutRef<'button'>;
 
-const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberFieldDecrementProps>(({ children, className, onMouseDown, ...props }, ref) => {
+const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberFieldDecrementProps>(({ children, className, onClick, onMouseDown, 'aria-label': ariaLabel = 'Decrease value', ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldDecrement must be used within a NumberField');
@@ -15,7 +15,13 @@ const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberField
     return (
         <button
             ref={ref}
-            onClick={() => handleStep({ direction: 'decrement', type: 'small' })}
+            aria-label={ariaLabel}
+            onClick={(event) => {
+                onClick?.(event);
+                if (!event.defaultPrevented) {
+                    handleStep({ direction: 'decrement', type: 'small' });
+                }
+            }}
             className={clsx(rootClass && `${rootClass}-decrement`, className)}
             disabled={disabled || readOnly}
             type="button"

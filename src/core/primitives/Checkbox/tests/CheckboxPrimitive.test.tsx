@@ -9,6 +9,19 @@ const TickIcon = () => (
 );
 
 describe('CheckboxPrimitive', () => {
+    it('keeps the form input out of the accessibility and tab order', () => {
+        const { container } = render(
+            <CheckboxPrimitive.Root name="updates" value="enabled">
+                <CheckboxPrimitive.Indicator><span /></CheckboxPrimitive.Indicator>
+            </CheckboxPrimitive.Root>
+        );
+
+        expect(container.querySelectorAll('[role="checkbox"]')).toHaveLength(1);
+        const input = container.querySelector('input[type="checkbox"]');
+        expect(input).toHaveAttribute('aria-hidden', 'true');
+        expect(input).toHaveAttribute('tabindex', '-1');
+    });
+
     it('renders and toggles (uncontrolled)', () => {
         const { container, queryByText } = render(
             <CheckboxPrimitive.Root defaultChecked={false} className="test-class">

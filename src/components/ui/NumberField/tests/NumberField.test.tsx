@@ -33,7 +33,8 @@ describe('NumberField', () => {
         );
 
         expect(screen.getByLabelText('Quantity')).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: '+' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Increase value' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Decrease value' })).toBeInTheDocument();
     });
 
     test('keeps stepper buttons out of the tab order while preserving pointer clicks', () => {
@@ -46,8 +47,8 @@ describe('NumberField', () => {
         );
 
         const input = screen.getByLabelText('value') as HTMLInputElement;
-        const increment = screen.getByRole('button', { name: '+' });
-        const decrement = screen.getByRole('button', { name: '-' });
+        const increment = screen.getByRole('button', { name: 'Increase value' });
+        const decrement = screen.getByRole('button', { name: 'Decrease value' });
 
         expect(input).not.toHaveAttribute('tabindex');
         expect(increment).toHaveAttribute('tabindex', '-1');
@@ -57,6 +58,28 @@ describe('NumberField', () => {
         expect(input).toHaveValue(4);
 
         fireEvent.click(decrement);
+        expect(input).toHaveValue(3);
+    });
+
+    test('composes consumer click handlers with stepping', () => {
+        const onIncrement = jest.fn();
+        const onDecrement = jest.fn();
+
+        render(
+            <NumberField.Root defaultValue={3}>
+                <NumberField.Decrement onClick={onDecrement}>-</NumberField.Decrement>
+                <NumberField.Input aria-label="value" />
+                <NumberField.Increment onClick={onIncrement}>+</NumberField.Increment>
+            </NumberField.Root>
+        );
+
+        const input = screen.getByLabelText('value');
+        fireEvent.click(screen.getByRole('button', { name: 'Increase value' }));
+        expect(onIncrement).toHaveBeenCalledTimes(1);
+        expect(input).toHaveValue(4);
+
+        fireEvent.click(screen.getByRole('button', { name: 'Decrease value' }));
+        expect(onDecrement).toHaveBeenCalledTimes(1);
         expect(input).toHaveValue(3);
     });
 

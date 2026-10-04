@@ -8,6 +8,17 @@ import Slider from '../Slider';
 if (typeof window !== 'undefined' && !window.PointerEvent) window.PointerEvent = MouseEvent;
 
 describe('Slider Range Support', () => {
+    it('renders every range thumb through the convenience API', () => {
+        render(<Slider defaultValue={[20, 80]} aria-label="Price range" />);
+
+        const thumbs = screen.getAllByRole('slider');
+        expect(thumbs).toHaveLength(2);
+        expect(thumbs[0]).toHaveAttribute('aria-label', 'Price range minimum');
+        expect(thumbs[0]).toHaveAttribute('aria-valuenow', '20');
+        expect(thumbs[1]).toHaveAttribute('aria-label', 'Price range maximum');
+        expect(thumbs[1]).toHaveAttribute('aria-valuenow', '80');
+    });
+
     it('renders two thumbs when value is an array', () => {
         render(
             <Slider.Root defaultValue={[20, 80]}>

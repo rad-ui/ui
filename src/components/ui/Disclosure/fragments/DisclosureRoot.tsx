@@ -39,13 +39,14 @@ const DisclosureRoot = React.forwardRef<React.ElementRef<'div'>, DisclosureRootP
 
             }}>
             <RovingFocusGroup.Root loop={loop}>
-                <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`)}>
+                <RovingFocusGroup.Group
+                    aria-label={ariaLabel}
+                    className={clsx(rootClass && `${rootClass}-root`)}
+                >
                     <div
                         {...props}
                         className={clsx(rootClass && `${rootClass}-root`, className)}
                         ref={setRefs}
-                        role="region"
-                        aria-label={ariaLabel}
                         data-slot="disclosure-root"
                         data-testid='disclosure-root'
                     >

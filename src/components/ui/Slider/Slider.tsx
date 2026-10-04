@@ -40,6 +40,7 @@ const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
     // Provide a sensible default implementation
     const {
         defaultValue,
+        value,
         min = 0,
         max = 100,
         step = 1,
@@ -49,11 +50,20 @@ const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
         'aria-labelledby': ariaLabelledby,
         ...restProps
     } = props;
+    const resolvedValue = value ?? defaultValue;
+    const thumbCount = Array.isArray(resolvedValue) ? resolvedValue.length : 1;
+
+    const getThumbLabel = (index: number) => {
+        if (!ariaLabel || thumbCount === 1) return ariaLabel;
+        if (thumbCount === 2) return `${ariaLabel} ${index === 0 ? 'minimum' : 'maximum'}`;
+        return `${ariaLabel} ${index + 1}`;
+    };
 
     return (
         <Slider.Root
             ref={ref}
             defaultValue={defaultValue}
+            value={value}
             min={min}
             max={max}
             step={step}
@@ -63,10 +73,14 @@ const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
         >
             <Slider.Track>
                 <Slider.Range>
-                    <Slider.Thumb
-                        aria-label={ariaLabel}
-                        aria-labelledby={ariaLabelledby}
-                    />
+                    {Array.from({ length: thumbCount }, (_, index) => (
+                        <Slider.Thumb
+                            key={index}
+                            index={index}
+                            aria-label={getThumbLabel(index)}
+                            aria-labelledby={ariaLabelledby}
+                        />
+                    ))}
                 </Slider.Range>
             </Slider.Track>
         </Slider.Root>

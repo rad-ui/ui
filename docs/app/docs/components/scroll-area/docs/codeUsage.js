@@ -23,33 +23,6 @@ export const code = {
 
 export const anatomy = { code: anatomy_SourceCode };
 
-export const fullPageRestoration = {
-    javascript: {
-        code: `import { usePathname } from 'next/navigation';
-import ScrollArea from '@radui/ui/ScrollArea';
-
-export function PageScroller({ children }) {
-    const pathname = usePathname();
-
-    return (
-        <ScrollArea.Root
-            customRootClass="rad-ui"
-            scrollRestoration="manual"
-            restoreKey={pathname}
-            style={{ height: '100%', width: '100%' }}
-        >
-            <ScrollArea.Viewport style={{ height: '100%' }}>
-                {children}
-            </ScrollArea.Viewport>
-            <ScrollArea.Scrollbar orientation="vertical">
-                <ScrollArea.Thumb />
-            </ScrollArea.Scrollbar>
-        </ScrollArea.Root>
-    );
-}`
-    }
-};
-
 export const api_documentation = {
     root: root_api,
     scrollbar: scrollbar_api

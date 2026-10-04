@@ -22,7 +22,7 @@ export type NumberFieldRootProps = {
     required?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, id, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep = 10, step = 1, min, max, disabled, readOnly, required, id, className = '', ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,

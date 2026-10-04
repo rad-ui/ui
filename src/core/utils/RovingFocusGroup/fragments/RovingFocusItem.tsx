@@ -64,7 +64,7 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const isDisabled = child?.props?.disabled === true;
     const childElementType = typeof child?.type === 'string' ? child.type.toLowerCase() : '';
     const isLinkLikeChild = childElementType === 'a' || child?.props?.href != null;
-    const resolvedRole = role ?? (isLinkLikeChild ? undefined : 'button');
+    const resolvedRole = role ?? (isLinkLikeChild ? 'link' : 'button');
     const resolvedType = type ?? (isLinkLikeChild ? undefined : 'button');
 
     // Is this item currently selected
@@ -278,7 +278,6 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         data-child-disabled={isDisabled}
         role={resolvedRole}
         type={resolvedType}
-        aria-selected={isSelected}
         aria-disabled={isDisabled}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}

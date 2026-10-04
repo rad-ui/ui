@@ -6,8 +6,8 @@ import clsx from 'clsx';
 
 const COMPONENT_NAME = 'DataList';
 
-type DataListRootElement = ElementRef<'div'>;
-export interface DataListRootProps extends ComponentPropsWithoutRef<'div'> {
+type DataListRootElement = ElementRef<'dl'>;
+export interface DataListRootProps extends ComponentPropsWithoutRef<'dl'> {
     customRootClass?: string;
     size?: string;
 }
@@ -19,7 +19,7 @@ const DataListRoot = forwardRef<DataListRootElement, DataListRootProps>(({ child
         value={{
             rootClass
         }}>
-        <div ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props}>{children}</div>
+        <dl ref={ref} className={clsx(rootClass, className)} {...dataAttributes} {...props}>{children}</dl>
     </DataListContext.Provider>;
 });
 

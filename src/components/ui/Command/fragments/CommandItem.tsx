@@ -75,6 +75,7 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
     return (
         <Primitive.div
             ref={composeRefs(itemRef, forwardedRef)}
+            id={localId}
             className={clsx(rootItemClassName(rootClass), className)}
             data-slot="command-item"
             data-disabled={disabled ? '' : undefined}
@@ -83,7 +84,7 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
             role="option"
             aria-disabled={disabled || undefined}
             aria-selected={selected}
-            tabIndex={disabled ? -1 : 0}
+            tabIndex={-1}
             hidden={!visible}
             onMouseMove={(event: React.MouseEvent<HTMLDivElement>) => {
                 if (!disabled) {

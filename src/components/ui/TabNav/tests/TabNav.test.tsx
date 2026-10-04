@@ -15,6 +15,7 @@ describe('TabNav', () => {
         expect(screen.getByText('Tab 1')).toBeInTheDocument();
         expect(screen.getByText('Tab 2')).toBeInTheDocument();
         expect(screen.getByText('Tab 3')).toBeInTheDocument();
+        expect(screen.getAllByRole('link')).toHaveLength(3);
     });
 
     it('handles tab selection correctly', () => {
@@ -66,10 +67,11 @@ describe('TabNav', () => {
             </TabNav.Root>
         );
 
-        const tab2 = screen.getByText('Tab 2');
-        expect(tab2).toHaveAttribute('aria-selected', 'true');
-
         const tab1 = screen.getByText('Tab 1');
+        const tab2 = screen.getByText('Tab 2');
+        expect(tab2).toHaveAttribute('aria-current', 'page');
+        expect(tab1).not.toHaveAttribute('aria-current');
+
         fireEvent.focus(tab1);
         expect(handleValueChange).toHaveBeenCalledWith('tab1');
     });
@@ -82,7 +84,7 @@ describe('TabNav', () => {
             </TabNav.Root>
         );
 
-        expect(screen.getByText('Tab 2')).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByText('Tab 2')).toHaveAttribute('aria-current', 'page');
     });
 
     it('forwards refs to DOM elements', () => {

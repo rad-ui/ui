@@ -6,7 +6,7 @@ import TextArea from '../TextArea';
 
 describe('TextArea accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<TextArea>Test</TextArea>);
+        const { container } = render(<TextArea aria-label="Message">Test</TextArea>);
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });

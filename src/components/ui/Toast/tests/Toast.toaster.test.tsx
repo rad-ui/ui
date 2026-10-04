@@ -38,7 +38,7 @@ describe('Toaster convenience wrapper', () => {
             />
         );
 
-        const viewport = screen.getByRole('region', { name: 'Alerts' });
+        const viewport = screen.getByRole('list', { name: 'Alerts' });
         expect(viewport).toHaveClass('viewport-class');
         expect(viewport).toHaveStyle({
             outlineOffset: '4px'

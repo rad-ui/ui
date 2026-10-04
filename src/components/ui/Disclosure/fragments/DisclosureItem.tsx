@@ -19,12 +19,14 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
     }, [activeItem, itemValue]);
 
     const id = useId();
+    const triggerId = `disclosure-trigger-${id}`;
 
     return (
         <DisclosureItemContext.Provider
             value={{
                 itemValue,
-                setItemValue
+                setItemValue,
+                triggerId
             }}>
 
             <CollapsiblePrimitive.Root
@@ -39,8 +41,6 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
                     data-state={isOpen ? 'open' : 'closed'}
                     data-slot="disclosure-item"
                     id={`disclosure-data-item-${id}`}
-                    role="region"
-                    aria-labelledby={`disclosure-trigger-${id}`}
                 >
                     {children}
 

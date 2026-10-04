@@ -26,6 +26,28 @@ describe('TextArea', () => {
         expect(screen.getByPlaceholderText('enter text')).toBeInTheDocument();
     });
 
+    it('forwards native textarea props to the control instead of the root', () => {
+        const onChange = jest.fn();
+        const { container } = render(
+            <TextArea
+                id="message"
+                aria-label="Message"
+                readOnly
+                onChange={onChange}
+            >
+                Draft
+            </TextArea>
+        );
+
+        const root = container.firstElementChild as HTMLDivElement;
+        const input = screen.getByRole('textbox', { name: 'Message' });
+        expect(input).toHaveAttribute('id', 'message');
+        expect(input).toHaveAttribute('readonly');
+        expect(root).not.toHaveAttribute('aria-label');
+        expect(root).not.toHaveAttribute('id');
+        expect(root).not.toHaveTextContent('DraftDraft');
+    });
+
     it('renders without console warnings', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const error = jest.spyOn(console, 'error').mockImplementation(() => {});
