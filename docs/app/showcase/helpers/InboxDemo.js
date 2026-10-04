@@ -1,396 +1,343 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
+import Avatar from "@radui/ui/Avatar"
 import Badge from "@radui/ui/Badge"
 import Button from "@radui/ui/Button"
-import Heading from "@radui/ui/Heading"
+import Checkbox from "@radui/ui/Checkbox"
+import Separator from "@radui/ui/Separator"
+import TextField from "@radui/ui/TextField"
 import Toggle from "@radui/ui/Toggle"
-import Text from "@radui/ui/Text"
-import {
-    Archive,
-    CheckCheck,
-    ChevronRight,
-    Clock3,
-    Inbox,
-    Pencil,
-    Search,
-    Send,
-    ShieldCheck,
-    Star,
-    Tag,
-    Trash2,
-    TriangleAlert,
-    Users,
-} from "lucide-react"
+import Tooltip from "@radui/ui/Tooltip"
+import { Archive, ArrowLeft, Clock3, File, Inbox, Pencil, Search, Send, Star, Trash2 } from "lucide-react"
 
-const mailboxItems = [
-    { label: "Inbox", count: 18, active: true, icon: Inbox },
-    { label: "Sent", count: 6, icon: Send },
-    { label: "Archive", count: 142, icon: Archive },
-    { label: "Scheduled", count: 4, icon: Clock3 },
+const folders = [
+    { id: "inbox", label: "Inbox", icon: Inbox },
+    { id: "starred", label: "Starred", icon: Star },
+    { id: "snoozed", label: "Snoozed", icon: Clock3 },
+    { id: "sent", label: "Sent", icon: Send },
+    { id: "drafts", label: "Drafts", icon: File },
 ]
 
-const categoryItems = [
-    { label: "Product", tone: "bg-green-400" },
-    { label: "Finance", tone: "bg-green-600" },
-    { label: "Legal", tone: "bg-green-800" },
-    { label: "Needs reply", tone: "bg-green-1000" },
+const labels = [
+    { label: "Customers", tone: "bg-blue-800" },
+    { label: "Billing", tone: "bg-amber-800" },
+    { label: "Hiring", tone: "bg-green-800" },
 ]
 
-const inboxRows = [
+const initialMail = [
     {
-        sender: "Acme Finance",
-        subject: "Q2 budget approval and revised vendor totals",
-        preview: "Need final sign-off before the board packet is locked.",
-        time: "8:42",
+        id: 1,
+        from: "Priya Raman",
+        email: "priya@lumen.dev",
+        img: 5,
+        subject: "Contract renewal — two quick questions",
+        preview: "Thanks for the updated proposal. Before we sign, could you confirm whether the annual plan includes…",
+        body: [
+            "Hi there,",
+            "Thanks for the updated proposal. Before we sign, could you confirm whether the annual plan includes the SSO add-on, and whether we can move the start date to April 1?",
+            "Happy to jump on a call this week if that's easier.",
+            "Best,\nPriya",
+        ],
+        time: "9:41 AM",
         unread: true,
-        active: true,
-        star: true,
+        starred: true,
+        label: "Customers",
     },
     {
-        sender: "Nina Carter",
-        subject: "Updated launch copy for review",
-        preview: "Tightened the right rail messaging and the hero badge language.",
-        time: "8:19",
+        id: 2,
+        from: "Stripe",
+        email: "receipts@stripe.com",
+        subject: "Your receipt from Northwind #2041-8812",
+        preview: "Amount paid $1,280.00 · Date paid Mar 14 · Payment method Visa ending 4242",
+        body: ["Amount paid: $1,280.00", "Date paid: March 14", "Payment method: Visa ending in 4242", "Questions? Reply to this email or visit the billing portal."],
+        time: "8:15 AM",
         unread: true,
-        star: false,
+        starred: false,
+        label: "Billing",
     },
     {
-        sender: "Ops Digest",
-        subject: "Checkout performance improved 11%",
-        preview: "Compact purchase controls are reducing abandonment in mobile sessions.",
+        id: 3,
+        from: "Marcus Lee",
+        email: "marcus@northwind.io",
+        img: 59,
+        subject: "Interview loop for the design engineer role",
+        preview: "I've put together the panel for Thursday. Can you take the systems design session at 2pm?",
+        body: [
+            "Hey,",
+            "I've put together the panel for Thursday. Can you take the systems design session at 2pm? The candidate's portfolio is linked in the hiring doc.",
+            "Thanks!\nMarcus",
+        ],
         time: "Yesterday",
         unread: false,
-        star: true,
+        starred: false,
+        label: "Hiring",
     },
     {
-        sender: "Legal",
-        subject: "Contract redlines are ready",
-        preview: "Please confirm whether we can circulate the revised language today.",
+        id: 4,
+        from: "Linear",
+        email: "notifications@linear.app",
+        subject: "3 issues assigned to you this week",
+        preview: "NW-412 Keyboard focus lost after closing nested dialog · NW-415 Tooltip delay on touch devices · NW-419…",
+        body: ["NW-412 Keyboard focus lost after closing nested dialog", "NW-415 Tooltip delay on touch devices", "NW-419 Combobox announces stale result count"],
         time: "Yesterday",
         unread: false,
-        star: false,
+        starred: true,
+    },
+    {
+        id: 5,
+        from: "Elena Duarte",
+        email: "elena@fieldnotes.co",
+        img: 26,
+        subject: "Loved the new docs!",
+        preview: "Just wanted to say the new component pages are fantastic — the keyboard tables saved our team hours.",
+        body: ["Just wanted to say the new component pages are fantastic — the keyboard tables saved our team hours.", "Keep it up,\nElena"],
+        time: "Mar 12",
+        unread: false,
+        starred: false,
+        label: "Customers",
     },
 ]
 
-const messageBullets = [
-    "Vendor consolidation moved annual spend down by 6.4%.",
-    "Two line items still need approval before Thursday 5 PM.",
-    "Board packet export is scheduled immediately after sign-off.",
-]
+const IconAction = ({ label, onClick, children }) => (
+    <Tooltip.Root>
+        <Tooltip.Trigger
+            aria-label={label}
+            onClick={onClick}
+            className="grid h-8 w-8 place-items-center rounded-md text-gray-900 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+        >
+            {children}
+        </Tooltip.Trigger>
+        <Tooltip.Content>{label}</Tooltip.Content>
+    </Tooltip.Root>
+)
 
-const sidebarNotes = [
-    "18 unread messages remain across Product and Finance.",
-    "Three threads are waiting on your reply today.",
-    "Automated triage tagged four high-priority messages correctly.",
-]
+const Sender = ({ mail, size }) => (
+    <Avatar.Root size={size}>
+        {mail.img ? <Avatar.Image src={`https://i.pravatar.cc/96?img=${mail.img}`} alt={mail.from} /> : null}
+        <Avatar.Fallback>{mail.from.split(" ").map((part) => part[0]).join("").slice(0, 2)}</Avatar.Fallback>
+    </Avatar.Root>
+)
 
 const InboxDemo = () => {
-    const [starred, setStarred] = useState(
-        () => new Set(inboxRows.filter((mail) => mail.star).map((mail) => mail.subject))
-    )
+    const [mail, setMail] = useState(initialMail)
+    const [folder, setFolder] = useState("inbox")
+    const [query, setQuery] = useState("")
+    const [selected, setSelected] = useState(() => new Set())
+    const [openId, setOpenId] = useState(1)
+    const [reply, setReply] = useState("")
+    const [sentReplies, setSentReplies] = useState({})
+
+    const visible = useMemo(() => {
+        const q = query.trim().toLowerCase()
+        return mail
+            .filter((item) => (folder === "starred" ? item.starred : folder === "inbox"))
+            .filter((item) => !q || `${item.from} ${item.subject} ${item.preview}`.toLowerCase().includes(q))
+    }, [mail, folder, query])
+
+    const open = mail.find((item) => item.id === openId)
+    const unreadCount = mail.filter((item) => item.unread).length
+    const allSelected = visible.length > 0 && visible.every((item) => selected.has(item.id))
+
+    const update = (id, patch) => setMail((all) => all.map((item) => (item.id === id ? { ...item, ...patch } : item)))
+
+    const openMail = (id) => {
+        setOpenId(id)
+        update(id, { unread: false })
+        setReply("")
+    }
+
+    const toggleSelected = (id, checked) => setSelected((current) => {
+        const next = new Set(current)
+        if (checked) next.add(id)
+        else next.delete(id)
+        return next
+    })
+
+    const removeSelected = () => {
+        setMail((all) => all.filter((item) => !selected.has(item.id)))
+        if (selected.has(openId)) setOpenId(null)
+        setSelected(new Set())
+    }
+
+    const removeOpen = () => {
+        setMail((all) => all.filter((item) => item.id !== openId))
+        setOpenId(null)
+    }
+
+    const sendReply = (event) => {
+        event.preventDefault()
+        if (!reply.trim()) return
+        setSentReplies((all) => ({ ...all, [openId]: [...(all[openId] ?? []), reply.trim()] }))
+        setReply("")
+    }
 
     return (
-        <div className="grid min-h-[780px] lg:grid-cols-[216px_320px_minmax(0,1fr)]">
-            <aside className="border-b border-gray-600 bg-gray-200 px-3 py-3 lg:border-b-0 lg:border-r">
-                <div className="rounded-2xl border border-gray-600 bg-gray-50 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                        <div>
-                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Mail</Text>
-                            <Heading as="h5" className="mt-1 text-gray-1000!">Relay Inbox</Heading>
-                        </div>
-                        <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
-                            Live
-                        </Badge>
-                    </div>
-                    <Text className="mt-3 text-sm! text-gray-1000/70">
-                        A compact inbox surface for heavier triage, closer to real email clients than a generic communications mockup.
-                    </Text>
-                </div>
-
-                <Button variant="solid" className="mt-4 w-full rounded-xl border-0 bg-gray-1000! px-4 py-2.5 text-gray-50!">
-                    <span className="flex items-center justify-center gap-2">
-                        <Pencil className="h-4 w-4" />
-                        Compose
-                    </span>
+        <div className="grid h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,380px)_minmax(0,1fr)]">
+            {/* Folders */}
+            <aside className="hidden flex-col gap-1 border-r border-gray-400 bg-gray-100 p-3 md:flex">
+                <Button className="mb-3 w-full justify-center">
+                    <Pencil className="h-4 w-4" />
+                    Compose
                 </Button>
+                <nav aria-label="Folders">
+                    <ul className="space-y-0.5">
+                        {folders.map(({ id, label, icon: Icon }) => (
+                            <li key={id}>
+                                <button
+                                    type="button"
+                                    aria-current={folder === id ? "page" : undefined}
+                                    onClick={() => { setFolder(id); setSelected(new Set()) }}
+                                    className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                                        folder === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
+                                    }`}
+                                >
+                                    <Icon className="h-4 w-4 text-gray-900" />
+                                    {label}
+                                    {id === "inbox" && unreadCount ? <span className="ml-auto text-xs font-semibold tabular-nums">{unreadCount}</span> : null}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+                <p className="px-2.5 pb-1 pt-5 text-xs font-medium text-gray-900">Labels</p>
+                <ul className="space-y-0.5">
+                    {labels.map(({ label, tone }) => (
+                        <li key={label} className="flex items-center gap-2.5 px-2.5 py-1.5 text-sm text-gray-950">
+                            <span className={`h-2 w-2 rounded-full ${tone}`} />
+                            {label}
+                        </li>
+                    ))}
+                </ul>
+            </aside>
 
-                <div className="mt-4 space-y-1.5">
-                    {mailboxItems.map((item) => {
-                        const Icon = item.icon
-
-                        return (
-                            <button
-                                key={item.label}
-                                type="button"
-                                className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left ${
-                                    item.active
-                                        ? "bg-gray-200 text-gray-1000"
-                                        : "text-gray-1000/70 hover:bg-gray-1000/[0.04] hover:text-gray-1000"
-                                }`}
-                            >
-                                <span className="flex items-center gap-2.5">
-                                    <Icon className="h-4 w-4" />
-                                    <span className="text-sm font-medium">{item.label}</span>
-                                </span>
-                                <span className={`rounded-full px-2 py-0.5 text-[11px] ${item.active ? "bg-green-800 text-gray-50" : "bg-gray-1000/[0.05] text-gray-1000/60"}`}>
-                                    {item.count}
-                                </span>
-                            </button>
-                        )
-                    })}
+            {/* List */}
+            <section aria-label="Messages" className={`min-h-0 flex-col border-r border-gray-400 bg-gray-50 ${open ? "hidden xl:flex" : "flex"}`}>
+                <div className="border-b border-gray-400 p-3">
+                    <TextField
+                        aria-label="Search mail"
+                        placeholder="Search mail"
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        startSlot={<Search className="h-4 w-4" />}
+                    />
                 </div>
+                <div className="flex h-11 items-center gap-2 border-b border-gray-400 px-4">
+                    <Checkbox.Root
+                        aria-label="Select all"
+                        checked={allSelected}
+                        onCheckedChange={(checked) => setSelected(checked ? new Set(visible.map((item) => item.id)) : new Set())}
+                    >
+                        <Checkbox.Indicator />
+                    </Checkbox.Root>
+                    {selected.size ? (
+                        <>
+                            <span className="ml-1 text-sm font-medium">{selected.size} selected</span>
+                            <div className="ml-auto flex">
+                                <IconAction label="Archive" onClick={removeSelected}><Archive className="h-4 w-4" /></IconAction>
+                                <IconAction label="Delete" onClick={removeSelected}><Trash2 className="h-4 w-4" /></IconAction>
+                            </div>
+                        </>
+                    ) : (
+                        <span className="ml-1 text-sm text-gray-900">{visible.length} conversations</span>
+                    )}
+                </div>
+                <ul className="min-h-0 flex-1 divide-y divide-gray-300 overflow-y-auto">
+                    {visible.length === 0 ? (
+                        <li className="px-6 py-16 text-center text-sm text-gray-900">
+                            {query ? `No messages match “${query}”.` : "You're all caught up."}
+                        </li>
+                    ) : null}
+                    {visible.map((item) => (
+                        <li
+                            key={item.id}
+                            className={`relative flex gap-3 px-4 py-3 transition-colors ${item.id === openId ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                        >
+                            <div className="flex flex-col items-center gap-2 pt-0.5">
+                                <Checkbox.Root
+                                    aria-label={`Select message from ${item.from}`}
+                                    checked={selected.has(item.id)}
+                                    onCheckedChange={(checked) => toggleSelected(item.id, checked === true)}
+                                >
+                                    <Checkbox.Indicator />
+                                </Checkbox.Root>
+                                <Toggle
+                                    aria-label={item.starred ? "Unstar" : "Star"}
+                                    pressed={item.starred}
+                                    onPressedChange={(starred) => update(item.id, { starred })}
+                                    className="h-6! w-6! min-h-0! rounded-md! border-0! bg-transparent! p-0! shadow-none! hover:bg-gray-200!"
+                                >
+                                    <Star className={`h-4 w-4 ${item.starred ? "fill-amber-800 text-amber-800" : "text-gray-800"}`} />
+                                </Toggle>
+                            </div>
+                            <button type="button" onClick={() => openMail(item.id)} className="min-w-0 flex-1 text-left">
+                                <span className="flex items-baseline gap-2">
+                                    {item.unread ? <span className="h-2 w-2 shrink-0 self-center rounded-full bg-blue-800" aria-label="Unread" /> : null}
+                                    <span className={`truncate text-sm ${item.unread ? "font-semibold" : "font-medium"}`}>{item.from}</span>
+                                    <span className="ml-auto shrink-0 text-xs text-gray-900">{item.time}</span>
+                                </span>
+                                <span className={`mt-0.5 block truncate text-sm ${item.unread ? "font-medium text-gray-1000" : "text-gray-1000"}`}>{item.subject}</span>
+                                <span className="mt-0.5 line-clamp-2 block text-[13px] leading-snug text-gray-900">{item.preview}</span>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </section>
 
-                <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50 p-3">
-                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Labels</Text>
-                    <div className="mt-3 space-y-2">
-                        {categoryItems.map((item) => (
-                            <div key={item.label} className="flex items-center gap-2 rounded-lg border border-gray-600 bg-gray-1000/[0.03] px-3 py-2">
-                                <span className={`h-2.5 w-2.5 rounded-full ${item.tone}`} />
-                                <Text className="text-sm! text-gray-1000">{item.label}</Text>
+            {/* Reading pane */}
+            {open ? (
+                <article aria-label={open.subject} className="flex min-h-0 flex-col bg-gray-50">
+                    <div className="flex h-12 items-center gap-1 border-b border-gray-400 px-3">
+                        <span className="xl:hidden">
+                            <IconAction label="Back to list" onClick={() => setOpenId(null)}><ArrowLeft className="h-4 w-4" /></IconAction>
+                        </span>
+                        <IconAction label="Archive" onClick={removeOpen}><Archive className="h-4 w-4" /></IconAction>
+                        <IconAction label="Delete" onClick={removeOpen}><Trash2 className="h-4 w-4" /></IconAction>
+                        <IconAction label="Snooze"><Clock3 className="h-4 w-4" /></IconAction>
+                        <span className="ml-auto text-xs text-gray-900">{open.time}</span>
+                    </div>
+                    <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
+                        <div className="flex flex-wrap items-center gap-2">
+                            <h2 className="text-xl font-semibold tracking-tight">{open.subject}</h2>
+                            {open.label ? <Badge variant="soft" size="small">{open.label}</Badge> : null}
+                        </div>
+                        <div className="mt-5 flex items-center gap-3">
+                            <Sender mail={open} />
+                            <div className="min-w-0">
+                                <p className="text-sm font-semibold">{open.from}</p>
+                                <p className="truncate text-xs text-gray-900">{open.email}</p>
+                            </div>
+                        </div>
+                        <div className="mt-6 max-w-[62ch] space-y-4 whitespace-pre-line text-[15px] leading-relaxed">
+                            {open.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                        </div>
+                        {(sentReplies[open.id] ?? []).map((text, index) => (
+                            <div key={index} className="mt-6 max-w-[62ch] rounded-lg bg-gray-200 px-4 py-3">
+                                <p className="text-xs font-medium text-gray-900">You replied · just now</p>
+                                <p className="mt-1 whitespace-pre-line text-[15px] leading-relaxed">{text}</p>
                             </div>
                         ))}
                     </div>
-                </div>
-            </aside>
-
-            <section className="border-b border-gray-600 bg-gray-50 px-3 py-3 lg:border-b-0 lg:border-r">
-                <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                    <div className="flex items-center gap-2.5 text-gray-1000/60">
-                        <Search className="h-4 w-4" />
-                        <Text className="text-sm! text-gray-1000/60">Search mail</Text>
-                    </div>
-                </div>
-
-                <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50">
-                    <div className="flex items-center justify-between gap-3 border-b border-gray-600 px-3 py-3">
-                        <div>
-                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Primary</Text>
-                            <Heading as="h5" className="mt-1 text-gray-1000!">Inbox</Heading>
+                    <Separator />
+                    <form onSubmit={sendReply} className="flex items-center gap-2 px-4 py-3">
+                        <div className="min-w-0 flex-1">
+                            <TextField
+                                aria-label={`Reply to ${open.from}`}
+                                placeholder={`Reply to ${open.from.split(" ")[0]}…`}
+                                value={reply}
+                                onChange={(event) => setReply(event.target.value)}
+                            />
                         </div>
-                        <Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/60">
-                            18 unread
-                        </Badge>
-                    </div>
-
-                    <div className="divide-y divide-gray-500">
-                        {inboxRows.map((mail) => {
-                            const isStarred = starred.has(mail.subject)
-
-                            return (
-                                <div
-                                    key={mail.subject}
-                                    className={`flex items-start gap-1 px-2 py-1 ${
-                                        mail.active ? "bg-linear-to-r from-green-900/10 to-green-800/10" : ""
-                                    }`}
-                                >
-                                    <Toggle
-                                        color="green"
-                                        pressed={isStarred}
-                                        onPressedChange={(next) =>
-                                            setStarred((prev) => {
-                                                const updated = new Set(prev)
-
-                                                if (next) updated.add(mail.subject)
-                                                else updated.delete(mail.subject)
-
-                                                return updated
-                                            })
-                                        }
-                                        aria-label={isStarred ? `Unstar email from ${mail.sender}` : `Star email from ${mail.sender}`}
-                                        className="mt-2 shrink-0"
-                                    >
-                                        <Star className={`h-4 w-4 ${isStarred ? "fill-green-800 text-green-800" : ""}`} />
-                                    </Toggle>
-                                    <button
-                                        type="button"
-                                        className="flex min-w-0 flex-1 items-start rounded-lg px-2 py-2 text-left hover:bg-gray-1000/[0.03]"
-                                    >
-                                        <div className="min-w-0 flex-1">
-                                            <div className="flex items-center justify-between gap-3">
-                                                <Text className={`truncate text-sm! ${mail.unread ? "font-semibold text-gray-1000!" : "font-medium text-gray-1000/75!"}`}>
-                                                    {mail.sender}
-                                                </Text>
-                                                <Text className="shrink-0 text-[11px]! text-gray-1000/60">{mail.time}</Text>
-                                            </div>
-                                            <Text className={`mt-1 truncate text-sm! ${mail.unread ? "font-medium text-gray-1000!" : "!text-gray-1000/70"}`}>
-                                                {mail.subject}
-                                            </Text>
-                                            <Text className="mt-1 line-clamp-2 text-[11px]! text-gray-1000/60">
-                                                {mail.preview}
-                                            </Text>
-                                        </div>
-                                    </button>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-            </section>
-
-            <main className="min-w-0 bg-gray-50 p-3 sm:p-4">
-                <div className="space-y-3">
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                            <div className="max-w-3xl">
-                                <Text className="text-[10px]! uppercase tracking-[0.34em] text-green-900">Inbox Showcase</Text>
-                                <Heading as="h2" className="mt-2 text-gray-1000!">
-                                    Email UI with real triage rhythm.
-                                </Heading>
-                                <Text className="mt-2 max-w-3xl text-sm! text-gray-1000/70">
-                                    Dense mailbox chrome, clearer sender hierarchy, and a practical reading pane push this closer to Gmail or Outlook behavior than a generic list-and-card layout.
-                                </Text>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2">
-                                {[
-                                    { label: "Archive", icon: Archive },
-                                    { label: "Label", icon: Tag },
-                                    { label: "Spam", icon: TriangleAlert },
-                                    { label: "Delete", icon: Trash2 },
-                                ].map((item) => {
-                                    const Icon = item.icon
-
-                                    return (
-                                        <button
-                                            key={item.label}
-                                            type="button"
-                                            className="flex items-center gap-2 rounded-full border border-gray-600 bg-gray-1000/[0.03] px-3 py-2 text-gray-1000/70 hover:bg-gray-1000/[0.06] hover:text-gray-1000"
-                                        >
-                                            <Icon className="h-4 w-4" />
-                                            <span className="text-sm font-medium">{item.label}</span>
-                                        </button>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50">
-                        <div className="flex items-center justify-between gap-3 border-b border-gray-600 px-4 py-3">
-                            <div className="min-w-0">
-                                <div className="flex items-center gap-2">
-                                    <Text className="truncate text-sm! font-semibold text-gray-1000!">Q2 budget approval and revised vendor totals</Text>
-                                    <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
-                                        Needs reply
-                                    </Badge>
-                                </div>
-                                <Text className="mt-1 text-[11px]! text-gray-1000/60">
-                                    Acme Finance · to leadership@acme.dev · 8:42 AM
-                                </Text>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/60">
-                                    Threaded
-                                </Badge>
-                                <button
-                                    type="button"
-                                    aria-label="Open thread with Acme Finance"
-                                    className="rounded-full border border-gray-600 bg-gray-1000/[0.03] p-2 text-gray-1000/60 hover:bg-gray-1000/[0.06] hover:text-gray-1000"
-                                >
-                                    <ChevronRight className="h-4 w-4" />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-3 p-4 xl:grid-cols-[minmax(0,1fr)_280px]">
-                            <article className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div>
-                                        <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Reading pane</Text>
-                                        <Text className="mt-2 text-sm! font-semibold text-gray-1000!">From: Acme Finance</Text>
-                                        <Text className="mt-1 text-[11px]! text-gray-1000/60">
-                                            Mara Jensen · VP Finance · finance@acme.dev
-                                        </Text>
-                                    </div>
-                                    <div className="flex items-center gap-2 rounded-full border border-gray-600 bg-gray-1000/[0.03] px-3 py-1.5">
-                                        <CheckCheck className="h-4 w-4 text-green-800" />
-                                        <Text className="text-[11px]! text-gray-1000/60">AI triaged</Text>
-                                    </div>
-                                </div>
-
-                                <div className="mt-4 space-y-4">
-                                    <Text className="text-sm! leading-7 text-gray-1000/80">
-                                        We closed the vendor reconciliation pass and the numbers are ready for final sign-off. If the revised totals look correct, we can push the approved packet to the board workflow this afternoon.
-                                    </Text>
-
-                                    <div className="rounded-xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Executive summary</Text>
-                                        <div className="mt-3 space-y-2.5">
-                                            {messageBullets.map((item) => (
-                                                <div key={item} className="flex items-start gap-2">
-                                                    <span className="mt-1.5 h-2 w-2 rounded-full bg-green-800" />
-                                                    <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <Text className="text-sm! leading-7 text-gray-1000/80">
-                                        Please reply with approval or any changes before 5 PM so the final export stays on schedule. I also attached the condensed variance sheet to make the review pass faster.
-                                    </Text>
-                                </div>
-
-                                <div className="mt-4 flex flex-wrap gap-2.5">
-                                    <Button variant="solid" className="rounded-full border-0 bg-gray-1000! px-4 py-2.5 text-gray-50!">
-                                        Reply
-                                    </Button>
-                                    <Button variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-4 py-2.5 text-gray-1000 hover:bg-gray-1000/[0.06]">
-                                        Forward
-                                    </Button>
-                                </div>
-                            </article>
-
-                            <aside className="space-y-3">
-                                <section className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Thread state</Text>
-                                    <div className="mt-3 space-y-2.5">
-                                        <div className="rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <Text className="text-sm! font-medium text-gray-1000!">Priority</Text>
-                                                <Text className="text-[11px]! text-green-800">High</Text>
-                                            </div>
-                                        </div>
-                                        <div className="rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <Text className="text-sm! font-medium text-gray-1000!">Stakeholders</Text>
-                                                <span className="flex items-center gap-1 text-gray-1000/70">
-                                                    <Users className="h-4 w-4" />
-                                                    <span className="text-[11px]">5</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <Text className="text-sm! font-medium text-gray-1000!">Protection</Text>
-                                                <span className="flex items-center gap-1 text-green-800">
-                                                    <ShieldCheck className="h-4 w-4" />
-                                                    <span className="text-[11px]">Verified</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-
-                                <section className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
-                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Triage notes</Text>
-                                    <Heading as="h5" className="mt-2 text-gray-1000!">Inbox health</Heading>
-                                    <div className="mt-3 space-y-2.5">
-                                        {sidebarNotes.map((item) => (
-                                            <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                                                <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                                <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            </aside>
-                        </div>
-                    </section>
-                </div>
-            </main>
+                        <Button type="submit" disabled={!reply.trim()}>
+                            <Send className="h-4 w-4" />
+                            Send
+                        </Button>
+                    </form>
+                </article>
+            ) : (
+                <div className="hidden place-items-center bg-gray-50 text-sm text-gray-900 xl:grid">Select a message to read it.</div>
+            )}
         </div>
     )
 }

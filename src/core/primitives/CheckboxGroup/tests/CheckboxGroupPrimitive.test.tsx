@@ -11,28 +11,28 @@ describe('CheckboxGroupPrimitive', () => {
         const { container } = render(
             <CheckboxGroupPrimitive.Root name="fruits" defaultValue={['apple']}>
                 <div>
-                    <CheckboxGroupPrimitive.Trigger value="apple">
+                    <CheckboxGroupPrimitive.Trigger value="apple" aria-label="Apple">
                         <CheckboxGroupPrimitive.Content>
                             <TickIcon />
                         </CheckboxGroupPrimitive.Content>
                     </CheckboxGroupPrimitive.Trigger>
-                    <label>Apple</label>
+                    <span>Apple</span>
                 </div>
                 <div>
-                    <CheckboxGroupPrimitive.Trigger value="banana">
+                    <CheckboxGroupPrimitive.Trigger value="banana" aria-label="Banana">
                         <CheckboxGroupPrimitive.Content>
                             <TickIcon />
                         </CheckboxGroupPrimitive.Content>
                     </CheckboxGroupPrimitive.Trigger>
-                    <label>Banana</label>
+                    <span>Banana</span>
                 </div>
                 <div>
-                    <CheckboxGroupPrimitive.Trigger value="cherry">
+                    <CheckboxGroupPrimitive.Trigger value="cherry" aria-label="Cherry">
                         <CheckboxGroupPrimitive.Content>
                             <TickIcon />
                         </CheckboxGroupPrimitive.Content>
                     </CheckboxGroupPrimitive.Trigger>
-                    <label>Cherry</label>
+                    <span>Cherry</span>
                 </div>
             </CheckboxGroupPrimitive.Root>
         );
@@ -73,28 +73,28 @@ describe('CheckboxGroupPrimitive', () => {
             return (
                 <CheckboxGroupPrimitive.Root name="fruits" value={checked} onValueChange={setChecked}>
                     <div>
-                        <CheckboxGroupPrimitive.Trigger value="apple">
+                        <CheckboxGroupPrimitive.Trigger value="apple" aria-label="Apple">
                             <CheckboxGroupPrimitive.Content>
                                 <TickIcon />
                             </CheckboxGroupPrimitive.Content>
                         </CheckboxGroupPrimitive.Trigger>
-                        <label>Apple</label>
+                        <span>Apple</span>
                     </div>
                     <div>
-                        <CheckboxGroupPrimitive.Trigger value="banana">
+                        <CheckboxGroupPrimitive.Trigger value="banana" aria-label="Banana">
                             <CheckboxGroupPrimitive.Content>
                                 <TickIcon />
                             </CheckboxGroupPrimitive.Content>
                         </CheckboxGroupPrimitive.Trigger>
-                        <label>Banana</label>
+                        <span>Banana</span>
                     </div>
                     <div>
-                        <CheckboxGroupPrimitive.Trigger value="cherry">
+                        <CheckboxGroupPrimitive.Trigger value="cherry" aria-label="Cherry">
                             <CheckboxGroupPrimitive.Content>
                                 <TickIcon />
                             </CheckboxGroupPrimitive.Content>
                         </CheckboxGroupPrimitive.Trigger>
-                        <label>Cherry</label>
+                        <span>Cherry</span>
                     </div>
                 </CheckboxGroupPrimitive.Root>
             );
@@ -126,12 +126,12 @@ describe('CheckboxGroupPrimitive', () => {
         const { container } = render(
             <CheckboxGroupPrimitive.Root name="fruits" required disabled>
                 <div>
-                    <CheckboxGroupPrimitive.Trigger value="apple">
+                    <CheckboxGroupPrimitive.Trigger value="apple" aria-label="Apple">
                         <CheckboxGroupPrimitive.Content>
                             <TickIcon />
                         </CheckboxGroupPrimitive.Content>
                     </CheckboxGroupPrimitive.Trigger>
-                    <label>Apple</label>
+                    <span>Apple</span>
                 </div>
             </CheckboxGroupPrimitive.Root>
         );
@@ -157,28 +157,28 @@ describe('CheckboxGroupPrimitive', () => {
             <form onSubmit={handleSubmit}>
                 <CheckboxGroupPrimitive.Root name="fruits" defaultValue={['apple']}>
                     <div>
-                        <CheckboxGroupPrimitive.Trigger value="apple">
+                        <CheckboxGroupPrimitive.Trigger value="apple" aria-label="Apple">
                             <CheckboxGroupPrimitive.Content>
                                 <TickIcon />
                             </CheckboxGroupPrimitive.Content>
                         </CheckboxGroupPrimitive.Trigger>
-                        <label>Apple</label>
+                        <span>Apple</span>
                     </div>
                     <div>
-                        <CheckboxGroupPrimitive.Trigger value="banana">
+                        <CheckboxGroupPrimitive.Trigger value="banana" aria-label="Banana">
                             <CheckboxGroupPrimitive.Content>
                                 <TickIcon />
                             </CheckboxGroupPrimitive.Content>
                         </CheckboxGroupPrimitive.Trigger>
-                        <label>Banana</label>
+                        <span>Banana</span>
                     </div>
                     <div>
-                        <CheckboxGroupPrimitive.Trigger value="cherry">
+                        <CheckboxGroupPrimitive.Trigger value="cherry" aria-label="Cherry">
                             <CheckboxGroupPrimitive.Content>
                                 <TickIcon />
                             </CheckboxGroupPrimitive.Content>
                         </CheckboxGroupPrimitive.Trigger>
-                        <label>Cherry</label>
+                        <span>Cherry</span>
                     </div>
                 </CheckboxGroupPrimitive.Root>
                 <button type="submit">Submit</button>

@@ -10,7 +10,9 @@ const Matrix = ({ rows, columns, renderCell, align = "center" }) => (
             {columns.some((column) => column.label) ? (
                 <thead>
                     <tr>
-                        <th scope="col" className="w-0 pb-2" />
+                        <th scope="col" className="w-0 pb-2">
+                            <span className="sr-only">Variant</span>
+                        </th>
                         {columns.map((column) => (
                             <th key={column.key} scope="col" className="whitespace-nowrap pb-2 pr-6 text-left font-mono text-xs font-normal text-gray-950">
                                 {column.label}

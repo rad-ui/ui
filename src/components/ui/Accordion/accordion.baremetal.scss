@@ -3,6 +3,7 @@
 
 #{baremetal.$theme-root} :where(.rad-ui-accordion-root) {
   @include baremetal.surface;
+
   width: 100%;
 }
 
@@ -22,6 +23,7 @@
 
 #{baremetal.$theme-root} :where(.rad-ui-accordion-trigger) {
   @include baremetal.option-item;
+
   justify-content: space-between;
   gap: var(--rad-ui-spacing-4);
   padding: 1rem 4px;

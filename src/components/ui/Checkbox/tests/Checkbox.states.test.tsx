@@ -116,22 +116,22 @@ describe('Checkbox states', () => {
         expect(checkbox).toHaveAttribute('aria-checked', 'false');
     });
 
-    test('asChild label preserves semantics and refs', async() => {
+    test('asChild element preserves semantics and refs', async() => {
         const user = userEvent.setup();
-        const ref = React.createRef<HTMLLabelElement>();
+        const ref = React.createRef<HTMLSpanElement>();
         render(
             <Checkbox.Root asChild ref={ref as any}>
-                <label data-testid="label">
+                <span data-testid="checkbox">
                     <Checkbox.Indicator />
                     Label
-                </label>
+                </span>
             </Checkbox.Root>
         );
-        const label = screen.getByTestId('label');
-        expect(label).toHaveAttribute('role', 'checkbox');
-        expect(ref.current).toBe(label);
-        await user.click(label);
-        expect(label).toHaveAttribute('data-state', 'checked');
+        const checkbox = screen.getByTestId('checkbox');
+        expect(checkbox).toHaveAttribute('role', 'checkbox');
+        expect(ref.current).toBe(checkbox);
+        await user.click(checkbox);
+        expect(checkbox).toHaveAttribute('data-state', 'checked');
     });
 
     test('rtl dir works correctly', async() => {

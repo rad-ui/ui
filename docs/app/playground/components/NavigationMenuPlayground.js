@@ -10,7 +10,7 @@ const NavigationMenuPlayground = () => (
             docsLink="/docs/components/navigation-menu"
             description="Site navigation with dropdown panels, Escape and outside-click dismissal."
         >
-            <NavigationMenu.Root>
+            <NavigationMenu.Root aria-label="Demo navigation menu">
                 <NavigationMenu.Item value="components">
                     <NavigationMenu.Trigger>Components</NavigationMenu.Trigger>
                     <NavigationMenu.Content>

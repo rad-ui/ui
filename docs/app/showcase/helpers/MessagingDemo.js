@@ -1,361 +1,343 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
+import Avatar from "@radui/ui/Avatar"
 import Badge from "@radui/ui/Badge"
 import Button from "@radui/ui/Button"
-import Heading from "@radui/ui/Heading"
-import Text from "@radui/ui/Text"
-import {
-    Bell,
-    CheckCheck,
-    ChevronRight,
-    CircleDot,
-    Command,
-    Paperclip,
-    Phone,
-    Plus,
-    Search,
-    Send,
-    Smile,
-    Star,
-    Video,
-} from "lucide-react"
+import Separator from "@radui/ui/Separator"
+import TextField from "@radui/ui/TextField"
+import Tooltip from "@radui/ui/Tooltip"
+import { FileText, Hash, Image as ImageIcon, Phone, Pin, Plus, Search, SendHorizontal, Video } from "lucide-react"
 
-const channels = [
-    { label: "Product launch", unread: 3, active: true },
-    { label: "Design crit" },
-    { label: "Growth sync", unread: 1 },
-    { label: "Support ops" },
-]
+const people = {
+    nina: { name: "Nina Patel", role: "Design lead", initials: "NP", img: 47, online: true },
+    leo: { name: "Leo Martins", role: "Frontend", initials: "LM", img: 12, online: true },
+    amara: { name: "Amara Okafor", role: "Product", initials: "AO", img: 45 },
+    jun: { name: "Jun Park", role: "Support", initials: "JP", img: 33, online: true },
+    you: { name: "You", role: "Engineering", initials: "YO" },
+}
 
-const threads = [
-    { name: "Nina", preview: "Tightened the CTA spacing and notes rail.", time: "2m", active: true, online: true },
-    { name: "Leo", preview: "Can you review the latest commerce pass?", time: "11m", online: true },
-    { name: "Amara", preview: "Pushed a cleaner compact header option.", time: "23m" },
-    { name: "Ops feed", preview: "Checkout confidence spiked after the copy refresh.", time: "1h" },
-]
-
-const messages = [
+const initialChannels = [
     {
-        author: "Nina",
-        role: "Product Design",
-        side: "left",
-        time: "09:14",
-        text: "The new product page is landing. I think the right rail can get denser without hurting scan speed.",
+        id: "launch",
+        name: "launch-week",
+        topic: "Everything shipping in the 2.0 release, Mar 18–22",
+        members: ["nina", "leo", "amara", "jun"],
+        unread: 3,
+        pinned: [
+            { icon: FileText, label: "Launch checklist", meta: "Updated today" },
+            { icon: ImageIcon, label: "Hero artwork v4.png", meta: "2.4 MB" },
+        ],
+        messages: [
+            { id: 1, author: "amara", time: "9:02", text: "Morning! Changelog draft is up — can everyone skim their section before noon?" },
+            { id: 2, author: "nina", time: "9:14", text: "Looked through the new docs screenshots. Dark mode versions are in the launch folder too.", reactions: { "🎉": 3, "👀": 1 } },
+            { id: 3, author: "leo", time: "9:20", text: "Bundle size check passed: the Dialog refactor saved about 4 kB gzipped." },
+            { id: 4, author: "leo", time: "9:21", text: "Running the full a11y suite again after lunch, just to be safe." },
+            { id: 5, author: "you", time: "9:26", text: "Nice. I'll merge the release branch once the visual regression run is green.", reactions: { "👍": 2 } },
+        ],
     },
     {
-        author: "You",
-        role: "Workspace",
-        side: "right",
-        time: "09:16",
-        text: "Agreed. I’m compressing the trust stack and making the recommendations feel more intentional.",
+        id: "design",
+        name: "design-crit",
+        topic: "Weekly critique — post work in progress, any fidelity",
+        members: ["nina", "amara", "you"],
+        unread: 0,
+        pinned: [{ icon: FileText, label: "Critique guidelines", meta: "Pinned by Nina" }],
+        messages: [
+            { id: 1, author: "nina", time: "Mon", text: "Uploaded two directions for the pricing page. Option B uses the new card density." },
+            { id: 2, author: "amara", time: "Mon", text: "B reads faster for me. The plan comparison is much easier to scan.", reactions: { "💯": 2 } },
+        ],
     },
     {
-        author: "Nina",
-        role: "Product Design",
-        side: "left",
-        time: "09:18",
-        text: "Perfect. Also, can we keep the chat demo compact? The current showcase feels strongest when the chrome stays tight.",
-    },
-    {
-        author: "You",
-        role: "Workspace",
-        side: "right",
-        time: "09:20",
-        text: "Yes. I’m building this page around denser rows, smaller bubbles, and clearer side context instead of oversized cards.",
+        id: "support",
+        name: "support",
+        topic: "Customer escalations and docs gaps",
+        members: ["jun", "leo", "you"],
+        unread: 1,
+        pinned: [],
+        messages: [
+            { id: 1, author: "jun", time: "8:40", text: "Two tickets this week asking how to keep a Popover open while focus moves into a Combobox." },
+            { id: 2, author: "jun", time: "8:41", text: "Might be worth a docs example?" },
+        ],
     },
 ]
 
-const activityItems = [
-    "Pinned specs summary to the launch room.",
-    "Muted low-priority release notifications.",
-    "Shared product-page preview with the team.",
-]
+const PersonAvatar = ({ id, size }) => {
+    const person = people[id]
+    return (
+        <Avatar.Root size={size}>
+            {person.img ? <Avatar.Image src={`https://i.pravatar.cc/96?img=${person.img}`} alt={person.name} /> : null}
+            <Avatar.Fallback>{person.initials}</Avatar.Fallback>
+        </Avatar.Root>
+    )
+}
 
-const quickActions = [
-    { label: "Search", icon: Search },
-    { label: "Call", icon: Phone },
-    { label: "Video", icon: Video },
-]
+const IconButton = ({ label, children }) => (
+    <Tooltip.Root>
+        <Tooltip.Trigger
+            aria-label={label}
+            className="grid h-8 w-8 place-items-center rounded-md text-gray-900 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+        >
+            {children}
+        </Tooltip.Trigger>
+        <Tooltip.Content>{label}</Tooltip.Content>
+    </Tooltip.Root>
+)
+
+const nowLabel = () => new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }).replace(/\s?[AP]M$/i, "")
 
 const MessagingDemo = () => {
+    const [channels, setChannels] = useState(initialChannels)
+    const [activeId, setActiveId] = useState("launch")
+    const [draft, setDraft] = useState("")
+    const listRef = useRef(null)
+
+    const active = channels.find((channel) => channel.id === activeId)
+
+    useEffect(() => {
+        const list = listRef.current
+        if (list) list.scrollTop = list.scrollHeight
+    }, [activeId, active.messages.length])
+
+    const openChannel = (id) => {
+        setActiveId(id)
+        setChannels((all) => all.map((channel) => (channel.id === id ? { ...channel, unread: 0 } : channel)))
+    }
+
+    const send = (event) => {
+        event.preventDefault()
+        const text = draft.trim()
+        if (!text) return
+        setChannels((all) => all.map((channel) => (
+            channel.id === activeId
+                ? { ...channel, messages: [...channel.messages, { id: Date.now(), author: "you", time: nowLabel(), text }] }
+                : channel
+        )))
+        setDraft("")
+    }
+
+    const toggleReaction = (messageId, emoji) => {
+        setChannels((all) => all.map((channel) => {
+            if (channel.id !== activeId) return channel
+            return {
+                ...channel,
+                messages: channel.messages.map((message) => {
+                    if (message.id !== messageId) return message
+                    const mine = new Set(message.mine ?? [])
+                    const reactions = { ...(message.reactions ?? {}) }
+                    if (mine.has(emoji)) {
+                        mine.delete(emoji)
+                        reactions[emoji] -= 1
+                        if (reactions[emoji] <= 0) delete reactions[emoji]
+                    } else {
+                        mine.add(emoji)
+                        reactions[emoji] = (reactions[emoji] ?? 0) + 1
+                    }
+                    return { ...message, reactions, mine: [...mine] }
+                }),
+            }
+        }))
+    }
+
     return (
-        <div className="grid min-h-[780px] lg:grid-cols-[220px_minmax(0,1fr)_300px]">
-            <aside className="border-b border-gray-600 bg-gray-200 px-3 py-3 lg:border-b-0 lg:border-r">
-                <div className="rounded-2xl border border-gray-600 bg-gray-50 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                        <div>
-                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Messaging</Text>
-                            <Heading as="h5" className="mt-1 text-gray-1000!">Team Relay</Heading>
-                        </div>
-                        <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
-                            Live
-                        </Badge>
+        <div className="grid h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_280px]">
+            {/* Sidebar */}
+            <aside className="hidden min-h-0 flex-col border-r border-gray-400 bg-gray-100 md:flex">
+                <div className="flex items-center justify-between px-4 pb-3 pt-4">
+                    <div className="flex items-center gap-2.5">
+                        <span className="grid h-7 w-7 place-items-center rounded-md bg-gray-1000 text-xs font-semibold text-gray-50">N</span>
+                        <span className="text-sm font-semibold">Northwind</span>
                     </div>
-                    <Text className="mt-3 text-sm! text-gray-1000/70">
-                        A compact multi-pane chat surface with a clearer reading column and lighter secondary chrome.
-                    </Text>
+                    <IconButton label="New message"><Plus className="h-4 w-4" /></IconButton>
+                </div>
+                <div className="px-3">
+                    <TextField aria-label="Search messages" placeholder="Search" startSlot={<Search className="h-4 w-4" />} />
                 </div>
 
-                <div className="mt-4 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                    <div className="flex items-center gap-2.5 text-gray-1000/60">
-                        <Search className="h-4 w-4" />
-                        <Text className="text-sm! text-gray-1000/60">Search conversations</Text>
-                    </div>
-                </div>
+                <nav aria-label="Channels" className="mt-5 min-h-0 flex-1 overflow-y-auto px-2">
+                    <p className="px-2 pb-1.5 text-xs font-medium text-gray-900">Channels</p>
+                    <ul className="space-y-0.5">
+                        {channels.map((channel) => {
+                            const isActive = channel.id === activeId
+                            return (
+                                <li key={channel.id}>
+                                    <button
+                                        type="button"
+                                        onClick={() => openChannel(channel.id)}
+                                        aria-current={isActive ? "page" : undefined}
+                                        className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
+                                            isActive ? "bg-gray-300 font-medium text-gray-1000" : "text-gray-950 hover:bg-gray-200"
+                                        }`}
+                                    >
+                                        <Hash className="h-4 w-4 shrink-0 text-gray-800" />
+                                        <span className={`truncate ${channel.unread ? "font-semibold text-gray-1000" : ""}`}>{channel.name}</span>
+                                        {channel.unread ? (
+                                            <span className="ml-auto rounded-full bg-gray-1000 px-1.5 text-[11px] font-semibold leading-5 text-gray-50">{channel.unread}</span>
+                                        ) : null}
+                                    </button>
+                                </li>
+                            )
+                        })}
+                    </ul>
 
-                <div className="mt-4">
-                    <div className="mb-2 flex items-center justify-between gap-3">
-                        <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Channels</Text>
-                        <button
-                            type="button"
-                            aria-label="Create a channel"
-                            className="rounded-full border border-gray-600 bg-gray-1000/[0.03] p-1.5 text-gray-1000/60 hover:bg-gray-1000/[0.06] hover:text-gray-1000"
-                        >
-                            <Plus className="h-3.5 w-3.5" />
-                        </button>
-                    </div>
-                    <div className="space-y-1.5">
-                        {channels.map((channel) => (
-                            <button
-                                key={channel.label}
-                                type="button"
-                                className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left ${
-                                    channel.active
-                                        ? "bg-gray-200 text-gray-1000"
-                                        : "text-gray-1000/70 hover:bg-gray-1000/[0.04] hover:text-gray-1000"
-                                }`}
-                            >
-                                <span className="truncate text-sm font-medium">{channel.label}</span>
-                                {channel.unread ? (
-                                    <span className={`rounded-full px-2 py-0.5 text-[11px] ${channel.active ? "bg-green-800 text-gray-50" : "bg-gray-1000/[0.06] text-gray-1000/70"}`}>
-                                        {channel.unread}
-                                    </span>
-                                ) : (
-                                    <ChevronRight className="h-4 w-4 opacity-50" />
-                                )}
-                            </button>
+                    <p className="px-2 pb-1.5 pt-5 text-xs font-medium text-gray-900">Direct messages</p>
+                    <ul className="space-y-0.5">
+                        {["nina", "leo", "jun"].map((id) => (
+                            <li key={id} className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-gray-950">
+                                <span className="relative">
+                                    <PersonAvatar id={id} size="small" />
+                                    {people[id].online ? (
+                                        <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-gray-100 bg-green-800" />
+                                    ) : null}
+                                </span>
+                                <span className="truncate">{people[id].name}</span>
+                            </li>
                         ))}
-                    </div>
-                </div>
-
-                <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50 p-3">
-                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Signal Layer</Text>
-                    <div className="mt-3 space-y-2.5">
-                        <div className="flex items-center gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                            <Bell className="h-4 w-4 text-green-800" />
-                            <Text className="text-sm! text-gray-1000">Focus notifications only</Text>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                            <Command className="h-4 w-4 text-green-1000" />
-                            <Text className="text-sm! text-gray-1000">Quick command palette</Text>
-                        </div>
-                    </div>
-                </div>
+                    </ul>
+                </nav>
             </aside>
 
-            <main className="min-w-0 border-b border-gray-600 bg-gray-50 p-3 sm:p-4 lg:border-b-0 lg:border-r">
-                <div className="space-y-3">
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                            <div className="max-w-2xl">
-                                <Text className="text-[10px]! uppercase tracking-[0.34em] text-green-900">Messaging Showcase</Text>
-                                <Heading as="h2" className="mt-2 text-gray-1000!">
-                                    Chat UI built for real throughput.
-                                </Heading>
-                                <Text className="mt-2 max-w-2xl text-sm! text-gray-1000/70">
-                                    Smaller bubbles, stronger column balance, and practical side context make the interface feel usable instead of decorative.
-                                </Text>
-                            </div>
+            {/* Conversation */}
+            <section aria-label={`#${active.name}`} className="flex min-h-0 min-w-0 flex-col bg-gray-50">
+                <header className="flex items-center gap-3 border-b border-gray-400 px-4 py-3 sm:px-5">
+                    <div className="min-w-0 flex-1">
+                        <h2 className="flex items-center gap-1 text-[15px] font-semibold">
+                            <Hash className="h-4 w-4 text-gray-800" />
+                            {active.name}
+                        </h2>
+                        <p className="truncate text-[13px] text-gray-900">{active.topic}</p>
+                    </div>
+                    <div className="hidden -space-x-1.5 sm:flex">
+                        {active.members.slice(0, 3).map((id) => (
+                            <span key={id} className="rounded-full ring-2 ring-gray-50"><PersonAvatar id={id} size="small" /></span>
+                        ))}
+                    </div>
+                    <div className="flex items-center">
+                        <IconButton label="Start a call"><Phone className="h-4 w-4" /></IconButton>
+                        <IconButton label="Start a video call"><Video className="h-4 w-4" /></IconButton>
+                    </div>
+                </header>
 
-                            <div className="flex flex-wrap gap-2">
-                                {quickActions.map((item) => {
-                                    const Icon = item.icon
+                {/* Mobile channel switcher */}
+                <div className="flex gap-1.5 overflow-x-auto border-b border-gray-400 px-4 py-2 md:hidden [scrollbar-width:none]">
+                    {channels.map((channel) => (
+                        <Button
+                            key={channel.id}
+                            size="small"
+                            variant={channel.id === activeId ? "solid" : "soft"}
+                            onClick={() => openChannel(channel.id)}
+                        >
+                            #{channel.name}
+                        </Button>
+                    ))}
+                </div>
 
-                                    return (
-                                        <button
-                                            key={item.label}
-                                            type="button"
-                                            className="flex items-center gap-2 rounded-full border border-gray-600 bg-gray-1000/[0.03] px-3 py-2 text-gray-1000/70 hover:bg-gray-1000/[0.06] hover:text-gray-1000"
-                                        >
-                                            <Icon className="h-4 w-4" />
-                                            <span className="text-sm font-medium">{item.label}</span>
-                                        </button>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </section>
+                <ol ref={listRef} className="min-h-0 flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5" aria-live="polite">
+                    <li className="flex items-center gap-3 text-xs font-medium text-gray-900" aria-hidden="true">
+                        <Separator className="flex-1" />
+                        Today
+                        <Separator className="flex-1" />
+                    </li>
+                    {active.messages.map((message, index) => {
+                        const person = people[message.author]
+                        const grouped = index > 0 && active.messages[index - 1].author === message.author
+                        return (
+                            <li key={message.id} className={`group flex gap-3 ${grouped ? "-mt-3.5" : ""}`}>
+                                <div className="w-8 shrink-0">{grouped ? null : <PersonAvatar id={message.author} />}</div>
+                                <div className="min-w-0 flex-1">
+                                    {grouped ? null : (
+                                        <div className="flex items-baseline gap-2">
+                                            <span className="text-sm font-semibold">{person.name}</span>
+                                            <span className="text-xs text-gray-900">{message.time}</span>
+                                        </div>
+                                    )}
+                                    <p className="mt-0.5 text-[15px] leading-relaxed text-gray-1000">{message.text}</p>
+                                    {message.reactions && Object.keys(message.reactions).length ? (
+                                        <div className="mt-1.5 flex flex-wrap gap-1.5">
+                                            {Object.entries(message.reactions).map(([emoji, count]) => {
+                                                const pressed = message.mine?.includes(emoji)
+                                                return (
+                                                    <button
+                                                        key={emoji}
+                                                        type="button"
+                                                        aria-pressed={pressed}
+                                                        aria-label={`${emoji} ${count}, ${pressed ? "remove" : "add"} reaction`}
+                                                        onClick={() => toggleReaction(message.id, emoji)}
+                                                        className={`flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors ${
+                                                            pressed ? "border-gray-800 bg-gray-200 font-semibold" : "border-gray-400 hover:border-gray-700"
+                                                        }`}
+                                                    >
+                                                        <span>{emoji}</span>
+                                                        <span className="tabular-nums">{count}</span>
+                                                    </button>
+                                                )
+                                            })}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ol>
 
-                    <section className="overflow-hidden rounded-2xl border border-gray-600 bg-gray-100">
-                        <div className="flex items-center justify-between gap-3 border-b border-gray-600 px-4 py-3 text-gray-1000">
+                <form onSubmit={send} className="flex items-center gap-2 border-t border-gray-400 px-4 py-3 sm:px-5">
+                    <div className="min-w-0 flex-1">
+                        <TextField
+                            aria-label={`Message #${active.name}`}
+                            placeholder={`Message #${active.name}`}
+                            value={draft}
+                            onChange={(event) => setDraft(event.target.value)}
+                        />
+                    </div>
+                    <Button type="submit" disabled={!draft.trim()} aria-label="Send message">
+                        <SendHorizontal className="h-4 w-4" />
+                        <span className="hidden sm:inline">Send</span>
+                    </Button>
+                </form>
+            </section>
+
+            {/* Details */}
+            <aside aria-label="Channel details" className="hidden min-h-0 flex-col overflow-y-auto border-l border-gray-400 bg-gray-100 px-5 py-4 xl:flex">
+                <h3 className="text-sm font-semibold">About</h3>
+                <p className="mt-1 text-sm leading-relaxed text-gray-950">{active.topic}</p>
+
+                <div className="py-5"><Separator /></div>
+
+                <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold">Members</h3>
+                    <Badge variant="soft" size="small">{active.members.length}</Badge>
+                </div>
+                <ul className="mt-3 space-y-3">
+                    {active.members.map((id) => (
+                        <li key={id} className="flex items-center gap-3">
+                            <PersonAvatar id={id} size="small" />
                             <div className="min-w-0">
-                                <div className="flex items-center gap-2">
-                                    <div className="h-2.5 w-2.5 rounded-full bg-green-800" />
-                                    <Text className="truncate text-sm! font-medium text-gray-1000!">Product launch</Text>
+                                <p className="truncate text-sm font-medium">{people[id].name}</p>
+                                <p className="truncate text-xs text-gray-900">{people[id].role}</p>
+                            </div>
+                            {people[id].online ? <span className="ml-auto h-2 w-2 rounded-full bg-green-800" aria-label="Online" /> : null}
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="py-5"><Separator /></div>
+
+                <h3 className="flex items-center gap-1.5 text-sm font-semibold"><Pin className="h-3.5 w-3.5" /> Pinned</h3>
+                {active.pinned.length ? (
+                    <ul className="mt-3 space-y-2">
+                        {active.pinned.map(({ icon: Icon, label, meta }) => (
+                            <li key={label} className="flex items-center gap-3 rounded-lg px-1 py-1">
+                                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-gray-200 text-gray-950"><Icon className="h-4 w-4" /></span>
+                                <div className="min-w-0">
+                                    <p className="truncate text-sm font-medium">{label}</p>
+                                    <p className="text-xs text-gray-900">{meta}</p>
                                 </div>
-                                <Text className="mt-1 text-[11px]! text-gray-1000/60">Nina and 6 others active in this room</Text>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
-                                    Syncing
-                                </Badge>
-                                <button
-                                    type="button"
-                                    aria-label="Start a voice call"
-                                    className="rounded-full border border-gray-600 bg-gray-50/70 p-2 text-gray-1000/60 hover:bg-gray-50 hover:text-gray-1000"
-                                >
-                                    <Phone className="h-4 w-4" />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)]">
-                            <div className="border-b border-gray-600 bg-gray-50/40 p-3 xl:border-b-0 xl:border-r">
-                                <Text className="mb-2 text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Inbox</Text>
-                                <div className="space-y-1.5">
-                                    {threads.map((thread) => (
-                                        <button
-                                            key={thread.name}
-                                            type="button"
-                                            className={`flex w-full items-start justify-between gap-3 rounded-xl px-3 py-2.5 text-left ${
-                                                thread.active
-                                                    ? "bg-gray-200 text-gray-1000"
-                                                    : "text-gray-1000/70 hover:bg-gray-1000/[0.04] hover:text-gray-1000"
-                                            }`}
-                                        >
-                                            <div className="min-w-0">
-                                                <div className="flex items-center gap-2">
-                                                    <Text className={`truncate text-sm! font-medium ${"!text-gray-1000"}`}>
-                                                        {thread.name}
-                                                    </Text>
-                                                    {thread.online ? <span className="h-2 w-2 rounded-full bg-green-800" /> : null}
-                                                </div>
-                                                <Text className={`mt-1 truncate text-[11px]! ${"text-gray-1000/60"}`}>
-                                                    {thread.preview}
-                                                </Text>
-                                            </div>
-                                            <Text className={`shrink-0 text-[11px]! ${"text-gray-1000/60"}`}>
-                                                {thread.time}
-                                            </Text>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="flex min-h-[520px] flex-col bg-gray-50 text-gray-1000">
-                                <div className="flex-1 space-y-3 px-4 py-4">
-                                    {messages.map((message) => (
-                                        <div
-                                            key={`${message.author}-${message.time}`}
-                                            className={`flex ${message.side === "right" ? "justify-end" : "justify-start"}`}
-                                        >
-                                            <div className={`max-w-[78%] ${message.side === "right" ? "items-end" : "items-start"} flex flex-col`}>
-                                                <div className="mb-1 flex items-center gap-2 text-[11px] text-gray-1000/60">
-                                                    <span>{message.author}</span>
-                                                    <span>•</span>
-                                                    <span>{message.role}</span>
-                                                    <span>•</span>
-                                                    <span>{message.time}</span>
-                                                </div>
-                                                <div
-                                                    className={`rounded-xl px-3.5 py-3 text-sm leading-6 ${
-                                                        message.side === "right"
-                                                            ? "bg-gray-1000 text-gray-50"
-                                                            : "border border-gray-600 bg-gray-50/80 text-gray-1000"
-                                                    }`}
-                                                >
-                                                    {message.text}
-                                                </div>
-                                                {message.side === "right" ? (
-                                                    <div className="mt-1 flex items-center gap-1 text-[11px] text-gray-1000/60">
-                                                        <CheckCheck className="h-3.5 w-3.5" />
-                                                        <span>Read</span>
-                                                    </div>
-                                                ) : null}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="border-t border-gray-600 px-4 py-3">
-                                    <div className="flex items-end gap-2 rounded-xl border border-gray-600 bg-gray-50/75 px-3 py-2.5">
-                                        <button
-                                            type="button"
-                                            aria-label="Attach a file"
-                                            className="rounded-full border border-gray-600 bg-gray-50 p-2 text-gray-1000/60 hover:bg-gray-100 hover:text-gray-1000"
-                                        >
-                                            <Paperclip className="h-4 w-4" />
-                                        </button>
-                                        <div className="min-h-[44px] flex-1">
-                                            <Text className="text-sm! text-gray-1000/60">
-                                                Drop a note for the launch room. Keep it short, actionable, and easy to scan.
-                                            </Text>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            aria-label="Add an emoji"
-                                            className="rounded-full border border-gray-600 bg-gray-50 p-2 text-gray-1000/60 hover:bg-gray-100 hover:text-gray-1000"
-                                        >
-                                            <Smile className="h-4 w-4" />
-                                        </button>
-                                        <Button variant="solid" className="rounded-full border-0 bg-gray-1000! px-3 py-2 text-gray-50!">
-                                            <span className="flex items-center gap-2">
-                                                <Send className="h-4 w-4" />
-                                                Send
-                                            </span>
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </main>
-
-            <aside className="bg-gray-200 p-3 sm:p-4">
-                <div className="space-y-3">
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Room Context</Text>
-                        <Heading as="h5" className="mt-2 text-gray-1000!">Launch notes</Heading>
-                        <Text className="mt-2 text-sm! text-gray-1000/70">
-                            Side context stays visible without overwhelming the chat stream: pinned updates, room status, and compact task breadcrumbs.
-                        </Text>
-                    </section>
-
-                    <section className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Pinned activity</Text>
-                        <div className="mt-3 space-y-2.5">
-                            {activityItems.map((item) => (
-                                <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
-                                    <CircleDot className="mt-0.5 h-4 w-4 text-green-800" />
-                                    <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
-                        <div className="flex items-center justify-between gap-3">
-                            <div>
-                                <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Team pulse</Text>
-                                <Heading as="h5" className="mt-2 text-gray-1000!">Response health</Heading>
-                            </div>
-                            <Star className="h-4 w-4 text-green-800" />
-                        </div>
-
-                        <div className="mt-4 rounded-xl border border-gray-600 bg-gray-1000/[0.03] p-3">
-                            <div className="flex items-center justify-between gap-2">
-                                <Text className="text-sm! font-medium text-gray-1000!">Median response time</Text>
-                                <Text className="text-[11px]! text-green-800">4m</Text>
-                            </div>
-                            <div className="mt-3 flex h-2 gap-1 rounded-full bg-gray-1000/[0.06] p-0.5">
-                                <span className="h-full w-[72%] rounded-full bg-gray-1000" />
-                                <span className="h-full flex-1 rounded-full bg-gray-1000/[0.08]" />
-                            </div>
-                        </div>
-                    </section>
-                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="mt-2 text-sm text-gray-900">Nothing pinned yet.</p>
+                )}
             </aside>
         </div>
     )

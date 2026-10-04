@@ -14,6 +14,7 @@
     pointer-events: none !important;
     user-select: none !important;
     cursor: default !important;
+
     // Fallbacks keep a skeleton visible when no explicit dimensions are passed;
     // an unset custom property would otherwise collapse the empty element to 0px.
     height: var(--skeleton-height, 1em);

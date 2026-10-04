@@ -8,6 +8,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
@@ -32,6 +33,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         onClick,
         onClickCapture,
         onAuxClickCapture,
+        onKeyDown,
         asChild = false,
         tabIndex,
         ...props
@@ -78,10 +80,43 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
             onAuxClickCapture?.(event);
         };
 
-        // Non-button children cannot use the native `disabled` attribute, so they would
-        // stay in the tab order. Remove them, as a native disabled button would be.
-        const childIsNativeButton = asChild && React.isValidElement(children) && children.type === 'button';
-        const resolvedTabIndex = disabled && asChild && !childIsNativeButton ? -1 : tabIndex;
+        const childType = asChild && React.isValidElement(children) ? children.type : null;
+        const childIsNativeButton = childType === 'button';
+        const childIsNativeAnchor = childType === 'a';
+        // `asChild` can turn Button into a span, div, or custom component. Those elements
+        // do not get native button focus/keyboard behavior, so add only the missing pieces.
+        const childNeedsButtonKeyboardSupport = asChild && !childIsNativeButton;
+        // Anchors are already tabbable when they have href; spans/custom elements are not.
+        const childNeedsTabIndex = childNeedsButtonKeyboardSupport && !childIsNativeAnchor;
+        const resolvedTabIndex = disabled && childNeedsButtonKeyboardSupport
+            ? -1
+            : childNeedsTabIndex && tabIndex === undefined
+                ? 0
+                : tabIndex;
+
+        const handleKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (event) => {
+            if (disabled) {
+                return;
+            }
+
+            onKeyDown?.(event);
+
+            if (event.defaultPrevented || !childNeedsButtonKeyboardSupport) {
+                return;
+            }
+
+            // Native anchors already activate on Enter. Space does not activate anchors,
+            // but ARIA buttons are expected to respond to both Enter and Space.
+            const shouldActivate = event.key === KEYBOARD_KEYS.SPACE ||
+                (!childIsNativeAnchor && event.key === KEYBOARD_KEYS.ENTER);
+
+            if (!shouldActivate) {
+                return;
+            }
+
+            event.preventDefault();
+            event.currentTarget.click();
+        };
 
         return (
             <ButtonPrimitive
@@ -96,6 +131,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 onClick={handleClick}
                 onClickCapture={handleClickCapture}
                 onAuxClickCapture={handleAuxClickCapture}
+                onKeyDown={handleKeyDown}
                 {...props}
             >
                 {children}

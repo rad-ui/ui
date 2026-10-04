@@ -7,7 +7,7 @@ import { ACCESSIBILITY_TEST_TAGS } from '~/setupTests';
 
 // Helper custom component for asChild tests
 const CustomLink = React.forwardRef<HTMLAnchorElement, React.ComponentProps<'a'>>(
-    (props, ref) => <a ref={ref} {...props} />
+    ({ children = 'Custom link', ...props }, ref) => <a ref={ref} {...props}>{children}</a>
 );
 CustomLink.displayName = 'CustomLink';
 

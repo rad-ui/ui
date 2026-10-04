@@ -190,7 +190,7 @@ describe('Select full behavior', () => {
     test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>
-                <label id="label">Label</label>
+                <span id="label">Label</span>
                 <Select.Root>
                     <Select.Trigger aria-labelledby="label">choose</Select.Trigger>
                     <Select.Portal>

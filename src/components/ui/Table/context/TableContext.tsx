@@ -8,6 +8,7 @@ export interface TableContextValue {
     resizable: boolean;
     resizeHandleVisibility: TableResizeHandleVisibility;
     columnCount: number;
+    minColumnWidth: number;
     registerColumnIndex: (columnIndex: number) => void;
     columnWidths: ColumnWidths;
     getColumnStyle: (columnIndex: number) => CSSProperties | undefined;

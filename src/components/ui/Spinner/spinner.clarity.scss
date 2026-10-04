@@ -15,6 +15,7 @@
     vertical-align: middle;
     align-items: center;
     justify-content: center;
+
     // The rotating square's bounding box grows past the circle mid-rotation, which creates
     // transient scrollable overflow in the parent; the circle itself never leaves this box.
     overflow: hidden;

@@ -26,7 +26,7 @@ export default {
                         <Button>Button 2 Group 1</Button>
                     </RovingFocusGroup.Item>
                     <RovingFocusGroup.Item>
-                        <a href="#" className="border border-green-500">Link 1 Group 1</a>
+                        <a href="/docs" className="border border-green-500">Link 1 Group 1</a>
                     </RovingFocusGroup.Item>
                 </RovingFocusGroup.Group>
                 <RovingFocusGroup.Group className="flex gap-2 border border-red-500 p-2" >
@@ -400,10 +400,10 @@ export const DisableTabIndexing = {
                                     <Button tabIndex={0}>Tab 0</Button>
                                 </RovingFocusGroup.Item>
                                 <RovingFocusGroup.Item>
-                                    <Button tabIndex={1}>Tab 1</Button>
+                                    <Button tabIndex={0}>Tab 1</Button>
                                 </RovingFocusGroup.Item>
                                 <RovingFocusGroup.Item>
-                                    <Button tabIndex={2}>Tab 2</Button>
+                                    <Button tabIndex={0}>Tab 2</Button>
                                 </RovingFocusGroup.Item>
                                 <RovingFocusGroup.Item>
                                     <Button tabIndex={-1}>Tab -1</Button>

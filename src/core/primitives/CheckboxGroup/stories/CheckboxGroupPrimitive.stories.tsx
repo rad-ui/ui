@@ -21,32 +21,32 @@ export const Basic: Story = {
         <SandboxEditor>
             <CheckboxGroupPrimitive.Root className="flex gap-4" name="fruits" defaultValue={['apple', 'banana']}>
 
-                <CheckboxGroupPrimitive.Trigger value="apple" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                <CheckboxGroupPrimitive.Trigger value="apple" aria-label="Apple" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                     <CheckboxGroupPrimitive.Content >
                         <TickIcon />
                     </CheckboxGroupPrimitive.Content>
                 </CheckboxGroupPrimitive.Trigger>
-                <label className="flex items-center gap-2">
+                <span className="flex items-center gap-2">
                     Apple
-                </label>
+                </span>
 
-                <CheckboxGroupPrimitive.Trigger value="banana" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                <CheckboxGroupPrimitive.Trigger value="banana" aria-label="Banana" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                     <CheckboxGroupPrimitive.Content >
                         <TickIcon />
                     </CheckboxGroupPrimitive.Content>
                 </CheckboxGroupPrimitive.Trigger >
-                <label className="flex items-center gap-2">
+                <span className="flex items-center gap-2">
                     Banana
-                </label>
+                </span>
 
-                <CheckboxGroupPrimitive.Trigger value="cherry" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
+                <CheckboxGroupPrimitive.Trigger value="cherry" aria-label="Cherry" className='bg-[var(--rad-ui-surface-muted)] border border-blue-800 w-6 h-6 rounded-md flex items-center justify-center'>
                     <CheckboxGroupPrimitive.Content >
                         <TickIcon />
                     </CheckboxGroupPrimitive.Content>
                 </CheckboxGroupPrimitive.Trigger >
-                <label className="flex items-center gap-2">
+                <span className="flex items-center gap-2">
                     Cherry
-                </label>
+                </span>
             </CheckboxGroupPrimitive.Root>
         </SandboxEditor>
     )
@@ -76,30 +76,30 @@ export const FormWithCheckboxGroupPrimitive: Story = {
             <SandboxEditor>
                 <form onSubmit={handleSubmit}>
                     <CheckboxGroupPrimitive.Root className="flex gap-4" name="fruits">
-                        <label className="flex items-center gap-2">
-                            <CheckboxGroupPrimitive.Trigger value="apple">
+                        <div className="flex items-center gap-2">
+                            <CheckboxGroupPrimitive.Trigger value="apple" aria-label="Apple">
                                 <CheckboxGroupPrimitive.Content >
                                     <TickIcon />
                                 </CheckboxGroupPrimitive.Content>
                             </CheckboxGroupPrimitive.Trigger>
                             Apple
-                        </label>
-                        <label className="flex items-center gap-2">
-                            <CheckboxGroupPrimitive.Trigger value="banana">
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <CheckboxGroupPrimitive.Trigger value="banana" aria-label="Banana">
                                 <CheckboxGroupPrimitive.Content >
                                     <TickIcon />
                                 </CheckboxGroupPrimitive.Content>
                             </CheckboxGroupPrimitive.Trigger>
                             Banana
-                        </label>
-                        <label className="flex items-center gap-2">
-                            <CheckboxGroupPrimitive.Trigger value="cherry">
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <CheckboxGroupPrimitive.Trigger value="cherry" aria-label="Cherry">
                                 <CheckboxGroupPrimitive.Content >
                                     <TickIcon />
                                 </CheckboxGroupPrimitive.Content>
                             </CheckboxGroupPrimitive.Trigger>
                             Cherry
-                        </label>
+                        </div>
                     </CheckboxGroupPrimitive.Root>
                     <button type="submit" style={{ marginTop: 16 }}>
                         Submit
