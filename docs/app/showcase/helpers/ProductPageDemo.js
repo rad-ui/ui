@@ -30,7 +30,7 @@ const details = [
         body: (
             <ul className="space-y-2">
                 {["Adaptive noise cancelling that tunes itself 200× per second", "40 hours of playback, 10 minutes of charge for 5 hours", "Multipoint pairing with two devices at once", "Memory-foam ear cushions in vegan leather"].map((item) => (
-                    <li key={item} className="flex gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-green-900" />{item}</li>
+                    <li key={item} className="flex gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-green-950" />{item}</li>
                 ))}
             </ul>
         ),

@@ -154,7 +154,7 @@ const IconButton = ({ label, onClick, active, shortcut, className = "", children
             aria-label={label}
             aria-pressed={active}
             onClick={onClick}
-            className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${active ? "text-green-900" : "text-gray-950 hover:text-gray-1000"} ${className}`}
+            className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${active ? "text-green-950" : "text-gray-950 hover:text-gray-1000"} ${className}`}
         >
             {children}
         </Tooltip.Trigger>
@@ -438,10 +438,10 @@ const MusicApp = () => {
                                 >
                                     <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
                                     <span className="min-w-0 flex-1">
-                                        <span className={`block truncate text-sm font-medium ${current.playlistId === item.id && playing ? "text-green-900" : ""}`}>{item.name}</span>
+                                        <span className={`block truncate text-sm font-medium ${current.playlistId === item.id && playing ? "text-green-950" : ""}`}>{item.name}</span>
                                         <span className="block truncate text-xs text-gray-950">Playlist · {item.owner}</span>
                                     </span>
-                                    {current.playlistId === item.id && playing ? <Volume2 className="h-3.5 w-3.5 shrink-0 text-green-900" aria-label="Playing" /> : null}
+                                    {current.playlistId === item.id && playing ? <Volume2 className="h-3.5 w-3.5 shrink-0 text-green-950" aria-label="Playing" /> : null}
                                 </button>
                             </li>
                         ))}
@@ -553,7 +553,7 @@ const MusicApp = () => {
                                 aria-label={savedPlaylists.has(playlistId) ? "Remove from library" : "Save to library"}
                                 className="rounded-full!"
                             >
-                                <Heart className={`h-4 w-4 ${savedPlaylists.has(playlistId) ? "fill-green-900 text-green-900" : ""}`} />
+                                <Heart className={`h-4 w-4 ${savedPlaylists.has(playlistId) ? "fill-green-900 text-green-950" : ""}`} />
                             </Toggle>
                         </div>
 
@@ -618,7 +618,7 @@ const MusicApp = () => {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <span className={`group-hover:hidden ${isCurrent ? "text-green-900" : ""}`}>{item.index + 1}</span>
+                                                                    <span className={`group-hover:hidden ${isCurrent ? "text-green-950" : ""}`}>{item.index + 1}</span>
                                                                     <Play className="hidden h-4 w-4 fill-current text-gray-1000 group-hover:block" />
                                                                 </>
                                                             )}
@@ -627,7 +627,7 @@ const MusicApp = () => {
                                                     <span role="cell" className="flex min-w-0 items-center gap-3">
                                                         <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
                                                         <span className="min-w-0">
-                                                            <span className={`block truncate text-[15px] font-medium ${isCurrent ? "text-green-900" : ""}`}>{item.title}</span>
+                                                            <span className={`block truncate text-[15px] font-medium ${isCurrent ? "text-green-950" : ""}`}>{item.title}</span>
                                                             <div className="truncate text-sm text-gray-950">
                                                                 <ArtistHoverCard name={item.artist} following={following.has(item.artist)} onToggleFollow={() => toggleFollow(item.artist)} />
                                                             </div>
@@ -640,7 +640,7 @@ const MusicApp = () => {
                                                             aria-pressed={liked.has(item.id)}
                                                             aria-label={liked.has(item.id) ? `Unlike ${item.title}` : `Like ${item.title}`}
                                                             onClick={() => toggleLike(item)}
-                                                            className={`grid h-7 w-7 place-items-center rounded transition-opacity ${liked.has(item.id) ? "text-green-900" : "text-gray-950 opacity-0 hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100"}`}
+                                                            className={`grid h-7 w-7 place-items-center rounded transition-opacity ${liked.has(item.id) ? "text-green-950" : "text-gray-950 opacity-0 hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100"}`}
                                                         >
                                                             <Heart className={`h-4 w-4 ${liked.has(item.id) ? "fill-current" : ""}`} />
                                                         </button>
@@ -872,7 +872,7 @@ const MusicApp = () => {
                 <div className="hidden items-center justify-end gap-1 md:flex">
                     <Popover.Root>
                         <Popover.Trigger asChild>
-                            <button type="button" aria-label="Sleep timer" className={`flex h-8 items-center gap-1.5 rounded-full px-2 text-xs font-medium transition-colors ${sleep !== "off" ? "text-green-900" : "text-gray-950 hover:text-gray-1000"}`}>
+                            <button type="button" aria-label="Sleep timer" className={`flex h-8 items-center gap-1.5 rounded-full px-2 text-xs font-medium transition-colors ${sleep !== "off" ? "text-green-950" : "text-gray-950 hover:text-gray-1000"}`}>
                                 <Moon className="h-4 w-4" />
                                 {sleep !== "off" ? (sleep === "end" ? "End" : `${sleep}m`) : null}
                             </button>

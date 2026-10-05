@@ -137,7 +137,7 @@ const HeroSection = () => {
   return <div className="pt-20 mb-10 relative">
     <div className="relative z-10 lg:block md:w-[768px] mx-auto w-full px-4">
       <Heading className="text-center text-transparent bg-clip-text bg-linear-to-r from-gray-1000 to-gray-600">
-        Accelerate Your <span className="text-green-900">UI Development</span> with <span className="text-green-900">Prebuilt Components</span>
+        Accelerate Your <span className="text-green-950">UI Development</span> with <span className="text-green-950">Prebuilt Components</span>
       </Heading>
       <Text className="text-center text-gray-950 mb-10">
         Empowering developers with the tools to design and build modern UI effortlessly.
@@ -219,7 +219,7 @@ color="blue" variant="ghost" onClick={() => {
        </div>
         <div className="px-20 space-y-10">
           <Heading as="h2" className="text-gray-1000">
-            Integrate RadUI effortlessly into your <span className="text-green-900">React</span> and <span className="text-green-900">Next.js</span> projects today
+            Integrate RadUI effortlessly into your <span className="text-green-950">React</span> and <span className="text-green-950">Next.js</span> projects today
           </Heading>
           <div className="grid lg:grid-cols-2 gap-8">
             <IntegrationCard ctaLink="/docs/first-steps/installation" cta="Install" icon={<BookIcon />} title="Follow these simple steps to enhance your UI development experience" description="Start by installing RadUI via npm, ensuring you have the latest version." />

@@ -31,6 +31,7 @@ Docs app workflow:
 - Docs against local library build (live mode): `npm run docs:live`
 - Docs against pinned published library (fixed mode): `npm run docs:fixed`
 - Release sanity check (isolated docs builds, like Vercel): `npm run docs:verify:fixed && npm run docs:verify:live`
+- Docs text contrast (WCAG AA, both themes; also runs in CI): `npm run docs:verify:fixed -- --contrast`
 
 ## Codebase Landmarks
 

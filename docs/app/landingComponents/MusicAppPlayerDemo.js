@@ -42,7 +42,7 @@ const MusicAppPlayerDemo = () => {
                     <LeftArrow />
                 </div>
                 <div>
-                    <div className='text-green-900 flex items-center space-x-2'>
+                    <div className='text-green-950 flex items-center space-x-2'>
                         <ShuffleIcon />
                         <ThreeDots />
                     </div>

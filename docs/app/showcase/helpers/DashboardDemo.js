@@ -196,7 +196,7 @@ const MetricCard = ({ metric }) => {
 
     return (
         <div className="rounded-xl border border-gray-600 bg-gray-50 p-4">
-            <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">{metric.label}</Text>
+            <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/70">{metric.label}</Text>
 
             <div className="mt-3 flex items-end justify-between gap-3">
                 <Heading
@@ -214,7 +214,7 @@ const MetricCard = ({ metric }) => {
                 <Sparkline series={metric.series} trend={metric.trend} />
             </div>
 
-            <Text className="mt-2 block text-xs! text-gray-1000/60">vs. previous 30 days</Text>
+            <Text className="mt-2 block text-xs! text-gray-1000/70">vs. previous 30 days</Text>
         </div>
     )
 }
@@ -237,7 +237,7 @@ const DashboardSidebar = () => (
             </Avatar.Root>
             <div className="min-w-0 flex-1">
                 <Text className="block truncate text-sm! font-medium! text-gray-1000">Acme Inc.</Text>
-                <Text className="block truncate text-xs! text-gray-1000/60">Series B proposal</Text>
+                <Text className="block truncate text-xs! text-gray-1000/70">Series B proposal</Text>
             </div>
             <Badge variant="soft" color="green" className="rounded-full">
                 Live
@@ -247,17 +247,17 @@ const DashboardSidebar = () => (
         <button
             type="button"
             aria-label="Search workspace"
-            className="flex items-center sm:flex-1 lg:flex-none gap-2 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2 text-left text-sm text-gray-1000/60 transition-colors hover:border-gray-700 hover:text-gray-1000"
+            className="flex items-center sm:flex-1 lg:flex-none gap-2 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2 text-left text-sm text-gray-1000/70 transition-colors hover:border-gray-700 hover:text-gray-1000"
         >
             <Search className="h-4 w-4 shrink-0" />
             <span className="flex-1 truncate">Search</span>
-            <Kbd className="border-gray-600! bg-gray-1000/[0.04]! text-gray-1000/60! shadow-none!">⌘K</Kbd>
+            <Kbd className="border-gray-600! bg-gray-1000/[0.04]! text-gray-1000/70! shadow-none!">⌘K</Kbd>
         </button>
 
         <nav className="hidden flex-1 flex-col gap-6 lg:flex">
             {navGroups.map((group) => (
                 <div key={group.label}>
-                    <Text className="mb-2 block text-[11px]! uppercase tracking-[0.2em] text-gray-1000/50">
+                    <Text className="mb-2 block text-[11px]! uppercase tracking-[0.2em] text-gray-1000/70">
                         {group.label}
                     </Text>
                     <div className="space-y-0.5">
@@ -278,7 +278,7 @@ const DashboardSidebar = () => (
                                     <Icon className="h-4 w-4 shrink-0" />
                                     <span className="flex-1 truncate">{item.label}</span>
                                     {item.count ? (
-                                        <span className="rounded-full border border-gray-600 bg-gray-50 px-1.5 py-0.5 text-[10px] tabular-nums text-gray-1000/60">
+                                        <span className="rounded-full border border-gray-600 bg-gray-50 px-1.5 py-0.5 text-[10px] tabular-nums text-gray-1000/70">
                                             {item.count}
                                         </span>
                                     ) : null}
@@ -299,7 +299,7 @@ const DashboardSidebar = () => (
 
 const SummaryStat = ({ label, value }) => (
     <div>
-        <Text className="block text-[11px]! uppercase tracking-[0.18em] text-gray-1000/50">{label}</Text>
+        <Text className="block text-[11px]! uppercase tracking-[0.18em] text-gray-1000/70">{label}</Text>
         <Text className="mt-1 block text-sm! font-medium! tabular-nums text-gray-1000">{value}</Text>
     </div>
 )
@@ -316,14 +316,14 @@ const RevenueChart = ({ range, onRangeChange }) => {
             <Card.Header>
                 <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">Revenue</Text>
+                    <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/70">Revenue</Text>
                     <Heading
                         as="h3"
                         className="mt-2 text-xl! font-semibold! tracking-[-0.02em]! text-gray-1000"
                     >
                         ${total.toFixed(1)}k closed-won
                     </Heading>
-                    <Text className="mt-1 block text-sm! text-gray-1000/60">{series.caption}</Text>
+                    <Text className="mt-1 block text-sm! text-gray-1000/70">{series.caption}</Text>
                 </div>
 
                 <ToggleGroup.Root
@@ -370,7 +370,7 @@ const RevenueChart = ({ range, onRangeChange }) => {
                     {series.points.map((point) => (
                         <span
                             key={point.label}
-                            className="flex-1 truncate text-center text-[10px] uppercase tracking-[0.1em] text-gray-1000/50"
+                            className="flex-1 truncate text-center text-[10px] uppercase tracking-[0.1em] text-gray-1000/70"
                         >
                             {point.label}
                         </span>
@@ -409,7 +409,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
         <section>
             <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                    <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">Delivery board</Text>
+                    <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/70">Delivery board</Text>
                     <Heading
                         as="h3"
                         className="mt-2 text-xl! font-semibold! tracking-[-0.02em]! text-gray-1000"
@@ -457,7 +457,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
             </div>
 
             <Table.Root
-                className="mt-4 border-gray-600! [&_.cell]:!font-normal [&_.cell-header]:!text-[11px] [&_.cell-header]:!font-semibold [&_.cell-header]:!uppercase [&_.cell-header]:!tracking-[0.14em] [&_.cell-header]:!text-gray-1000/60 [&_.row:hover_.cell]:!bg-gray-1000/[0.03]"
+                className="mt-4 border-gray-600! [&_.cell]:!font-normal [&_.cell-header]:!text-[11px] [&_.cell-header]:!font-semibold [&_.cell-header]:!uppercase [&_.cell-header]:!tracking-[0.14em] [&_.cell-header]:!text-gray-1000/70 [&_.row:hover_.cell]:!bg-gray-1000/[0.03]"
             >
                 <Table.Head>
                     <Table.Row>
@@ -477,7 +477,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                             <Table.Cell>
                                 <div className="flex flex-col">
                                     <span className="whitespace-nowrap font-medium text-gray-1000">{document.name}</span>
-                                    <span className="mt-1 text-xs text-gray-1000/60">
+                                    <span className="mt-1 text-xs text-gray-1000/70">
                                         Updated {document.updated}
                                     </span>
                                 </div>
@@ -507,7 +507,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                                             <Progress.Indicator />
                                         </Progress.Root>
                                     </div>
-                                    <span className="w-9 shrink-0 text-right text-xs tabular-nums text-gray-1000/60">
+                                    <span className="w-9 shrink-0 text-right text-xs tabular-nums text-gray-1000/70">
                                         {document.done}/{document.total}
                                     </span>
                                 </div>
@@ -520,7 +520,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                                 <button
                                     type="button"
                                     aria-label={`More actions for ${document.name}`}
-                                    className="rounded-full p-1.5 text-gray-1000/60 transition-colors hover:bg-gray-1000/[0.06] hover:text-gray-1000"
+                                    className="rounded-full p-1.5 text-gray-1000/70 transition-colors hover:bg-gray-1000/[0.06] hover:text-gray-1000"
                                 >
                                     <MoreHorizontal className="h-4 w-4" />
                                 </button>
@@ -530,12 +530,12 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                 </Table.Body>
             </Table.Root>
 
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-sm text-gray-1000/60">
-                <Text className="text-sm! text-gray-1000/60">
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-sm text-gray-1000/70">
+                <Text className="text-sm! text-gray-1000/70">
                     Showing {visible.length} of {documents.length} sections
                 </Text>
                 {filters.length === 0 ? (
-                    <Text className="text-sm! text-gray-1000/60">All statuses are filtered out.</Text>
+                    <Text className="text-sm! text-gray-1000/70">All statuses are filtered out.</Text>
                 ) : null}
             </div>
         </section>
@@ -570,7 +570,7 @@ const DashboardDemo = () => {
                                 >
                                     Proposal workspace
                                 </Heading>
-                                <Text className="mt-2 block max-w-2xl text-sm! leading-6! text-gray-1000/60">
+                                <Text className="mt-2 block max-w-2xl text-sm! leading-6! text-gray-1000/70">
                                     Revenue reporting and section-level delivery tracking for the Acme Inc.
                                     Series B proposal.
                                 </Text>

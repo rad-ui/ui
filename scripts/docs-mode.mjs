@@ -13,13 +13,16 @@
 //                                                   isolated prod build, packed local library
 //   node scripts/docs-mode.mjs status               show which library docs/ resolves
 //
+// Add --contrast to a verify command to also serve the isolated build and run
+// the WCAG AA contrast check on every page in both themes (same as CI).
+//
 // Live mode only swaps the docs/node_modules/@radui/ui symlink. It never edits
 // docs/package.json or docs/pnpm-lock.yaml, so it can't be committed or reach
 // Vercel. `fixed` (or any `pnpm install` in docs/) restores the pinned version.
 //
 // The verify commands copy docs/ to a temp directory before building, because
 // Vercel builds docs/ without the rest of the monorepo (see docs/AGENTS.md).
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
@@ -31,6 +34,7 @@ const linkPath = path.join(docsDir, 'node_modules', '@radui', 'ui')
 
 const [command, ...flags] = process.argv.slice(2)
 const skipBuild = flags.includes('--no-build')
+const checkContrast = flags.includes('--contrast')
 
 // `npm run -s` sets npm_config_loglevel=silent, which pnpm also honors and
 // would hide install/build errors. Drop it for child commands.
@@ -84,6 +88,23 @@ const isolatedDocsCopy = () => {
     return target
 }
 
+// Serve an isolated production build and run the contrast check against it.
+const runContrastCheck = async (target) => {
+    const port = 3200 + Math.floor(Math.random() * 500)
+    // Run next directly in its own process group: killing a pnpm wrapper
+    // would leave the server running.
+    const server = spawn(path.join(target, 'node_modules', '.bin', 'next'), ['start', '-p', String(port)], { cwd: target, env: childEnv, stdio: 'ignore', detached: true })
+    try {
+        for (let i = 0; i < 60; i++) {
+            try { if ((await fetch(`http://127.0.0.1:${port}/`)).ok) break } catch {}
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+        }
+        run('node', ['scripts/check-docs-contrast.mjs', '--base', `http://127.0.0.1:${port}`, '--next-dir', path.join(target, '.next')])
+    } finally {
+        try { process.kill(-server.pid) } catch {}
+    }
+}
+
 const commands = {
     status () {
         const library = resolvedLibrary()
@@ -121,15 +142,16 @@ const commands = {
         run('pnpm', ['dev'], { cwd: docsDir })
     },
 
-    'verify:fixed' () {
+    async 'verify:fixed' () {
         const target = isolatedDocsCopy()
         installPinned(target)
         run('pnpm', ['build'], { cwd: target })
         const { version } = readJson(path.join(target, 'node_modules', '@radui', 'ui', 'package.json'))
+        if (checkContrast) await runContrastCheck(target)
         banner([`OK: docs build with published @radui/ui ${version} (isolated: ${target})`])
     },
 
-    'verify:live' () {
+    async 'verify:live' () {
         buildLibrary()
 
         // Pack exactly what `npm publish` would ship (files, exports, dist).
@@ -145,6 +167,7 @@ const commands = {
         run('pnpm', ['build'], { cwd: target })
 
         const { version } = readJson(path.join(repoRoot, 'package.json'))
+        if (checkContrast) await runContrastCheck(target)
         banner([`OK: docs build with the local @radui/ui ${version} package (isolated: ${target})`])
     }
 }
@@ -155,7 +178,7 @@ if (!commands[command]) {
 }
 
 try {
-    commands[command]()
+    await commands[command]()
 } catch (error) {
     console.error(`\ndocs-mode ${command} failed: ${error.message}`)
     process.exit(1)

@@ -11,7 +11,7 @@ const HeartIcon = () => {
 };
 
 const IconContainer = ({ children }) => {
-    return <span className='p-2 border border-green-400 hover:bg-green-200 cursor-pointer text-green-900 rounded-md bg-green-200 inline-block'>
+    return <span className='p-2 border border-green-400 hover:bg-green-200 cursor-pointer text-green-950 rounded-md bg-green-200 inline-block'>
         {children}
     </span>;
 };

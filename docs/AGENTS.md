@@ -30,3 +30,12 @@ Instead:
 - Need a shared file in docs? Copy or generate it into `docs/`.
 
 Enforced by `pnpm check:boundary` (`scripts/check-docs-boundary.mjs`). It runs in `prebuild`, so Vercel and CI fail fast. CI also builds an isolated copy of `docs/`, the same way Vercel does.
+
+# Text contrast (dev note)
+
+All docs text must meet WCAG AA (4.5:1, or 3:1 for large text) in **both** dark and light themes. CI enforces this with `scripts/check-docs-contrast.mjs`: it runs axe's contrast rule on every prerendered page in both themes and fails the build.
+
+- For secondary or muted text, use `text-gray-950` (the `--rad-ui-text-secondary` step) or `text-gray-1000` with at least 70% opacity.
+- Gray steps `50`–`900` are for fills, borders and decoration. As text they fail in at least one theme (for example, `text-gray-900` is 3.8:1 in light mode).
+- Colored text (syntax highlighting, accents) uses the `950` step.
+- Run it locally with `npm run docs:verify:fixed -- --contrast` from the repo root.
