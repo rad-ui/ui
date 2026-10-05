@@ -27,6 +27,10 @@ Docs app workflow:
 
 - Install docs dependencies: `cd docs && pnpm install`
 - Run docs app: `cd docs && pnpm dev`
+- Check docs boundary: `cd docs && pnpm check:boundary`
+- Docs against local library build (live mode): `npm run docs:live`
+- Docs against pinned published library (fixed mode): `npm run docs:fixed`
+- Release sanity check (isolated docs builds, like Vercel): `npm run docs:verify:fixed && npm run docs:verify:live`
 
 ## Codebase Landmarks
 
@@ -42,6 +46,7 @@ Docs app workflow:
 - Avoid `querySelector` in components; use refs for instance-safe DOM access.
 - Do not introduce library-owned styling classes unless they are generated through `Theme classNamespace`.
 - Match existing architecture and naming conventions before adding new patterns.
+- The docs app (`docs/`) must never reference files outside `docs/` (no aliases, relative imports, CSS `@import`s, or `fs` reads into `../src`, `../styles`, etc.). Vercel builds `docs/` in isolation, so such references break production. Consume the library through the published `@radui/ui` package. See `docs/AGENTS.md` → "Docs app boundary".
 
 ## Knowledge Docs
 
