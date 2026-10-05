@@ -25,7 +25,8 @@ Instead:
 - Import library code and CSS from the installed package: `@radui/ui`, per-component entries like `@radui/ui/Button`, and theme CSS like `@radui/ui/themes/default.css`.
 - Need an unreleased library change in docs? Run `npm run docs:live` from the repo root. It builds the library and points `docs/node_modules/@radui/ui` at it, local only. Ship it by releasing and bumping `@radui/ui`. Never alias to source. See "Docs modes" in `docs/README.md`.
 - Before a release, run `npm run docs:verify:fixed` and `npm run docs:verify:live` from the repo root (isolated production builds against the pinned and the about-to-ship library).
-- Showing library source (e.g. `*.clarity.scss`) on a page? Use `getSourceCodeFromPath` in `utils/parseSourceCode.tsx`. It reads `docs/...` paths from disk and fetches everything else from GitHub.
+- Showing source on a page? Use `getSourceCodeFromPath` in `utils/parseSourceCode.tsx`. `docs/...` paths are read from this app's files. Clarity styles (`src/components/ui/*/*.clarity.scss`) are read from the installed `@radui/ui` (`styles/clarity/*`), so they match the version the docs render. Anything else is fetched from GitHub at the deployed commit.
+- Docs pages must stay prerendered (static). Those source reads happen while rendering, which is only safe at build time. Never call `cookies()`, `headers()` or other dynamic APIs in a shared layout; the theme is applied client-side (see `components/Main/Main.js`). `pnpm build` runs `check:static` afterwards and fails if a page becomes dynamic.
 - Need a shared file in docs? Copy or generate it into `docs/`.
 
 Enforced by `pnpm check:boundary` (`scripts/check-docs-boundary.mjs`). It runs in `prebuild`, so Vercel and CI fail fast. CI also builds an isolated copy of `docs/`, the same way Vercel does.
