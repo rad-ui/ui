@@ -20,7 +20,7 @@ export type BadgeProps = React.ComponentPropsWithoutRef<'span'> & {
 // <p>, <label>, <button> or headings, where a <div> is invalid HTML (and a
 // hydration error in React). The ref stays HTMLElement-typed so existing
 // `useRef<HTMLDivElement>()` consumers keep compiling.
-const Badge = React.forwardRef<HTMLElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = 'solid', size = 'medium', ...props }, ref) => {
+const Badge = React.forwardRef<HTMLElement, BadgeProps>(({ children, customRootClass = '', className = '', color = '', variant = 'soft', size = 'medium', ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
 
     const dataAttributes = createDataAttributes('badge', { variant, size });

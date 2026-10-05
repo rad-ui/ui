@@ -45,10 +45,10 @@ describe('Badge', () => {
         expect(badgeElement).toHaveAttribute('data-size', 'large');
     });
 
-    test('uses solid and medium defaults', () => {
+    test('uses soft and medium defaults', () => {
         render(<Badge>Badge</Badge>);
         const badgeElement = screen.getByText('Badge');
-        expect(badgeElement).toHaveAttribute('data-variant', 'solid');
+        expect(badgeElement).toHaveAttribute('data-variant', 'soft');
         expect(badgeElement).toHaveAttribute('data-size', 'medium');
     });
 

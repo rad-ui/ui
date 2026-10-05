@@ -117,6 +117,10 @@
     --rad-ui-tooltip-background: var(--rad-ui-surface-inverse);
     --rad-ui-tooltip-text: var(--rad-ui-text-inverse);
     --rad-ui-tooltip-border: var(--rad-ui-surface-inverse);
+
+    // Share of the 950 step in soft badge text (the rest is 1000). Set per
+    // appearance so a light Theme nested in a dark one still resolves right.
+    --rad-ui-badge-soft-text-weight: 70%;
     --rad-ui-item-selected-background: var(--rad-ui-surface-muted);
     --rad-ui-item-selected-border: var(--rad-ui-border-default);
     --rad-ui-item-selected-text: var(--rad-ui-text-primary);
@@ -215,6 +219,7 @@
     --rad-ui-tooltip-background: var(--rad-ui-surface-muted);
     --rad-ui-tooltip-text: var(--rad-ui-text-primary);
     --rad-ui-tooltip-border: var(--rad-ui-border-soft);
+    --rad-ui-badge-soft-text-weight: 100%;
 }
 
 :where([data-rad-ui-theme] :is(button, [role="button"], a[href], input:not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"]))):focus-visible {
