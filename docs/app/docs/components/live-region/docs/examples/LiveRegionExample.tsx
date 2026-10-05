@@ -17,7 +17,7 @@ export default function LiveRegionExample() {
                     <Heading as="h3" className="mb-1 text-base">
                         Sync status
                     </Heading>
-                    <Text className="text-sm text-gray-800">
+                    <Text className="text-sm text-gray-950">
                         {message}
                     </Text>
                 </div>

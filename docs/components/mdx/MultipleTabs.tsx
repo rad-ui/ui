@@ -50,7 +50,7 @@ export const MultipleTabs = ({ items = [] }) => {
         <pre className="docs-syntax-pre relative my-5 overflow-hidden rounded-xl border">
             <div className="docs-syntax-toolbar flex items-center justify-between border-b border-gray-300 px-3.5 py-2">
                 <div className="flex items-center gap-3">
-                    <span className="font-mono text-[11px] font-semibold tracking-wide text-gray-700">
+                    <span className="font-mono text-[11px] font-semibold tracking-wide text-gray-950">
                         install
                     </span>
                     <div className="flex items-center gap-0.5 rounded-md border border-gray-400 bg-gray-100 p-0.5">
@@ -62,7 +62,7 @@ export const MultipleTabs = ({ items = [] }) => {
                                     "rounded-[5px] px-2.5 py-1 font-mono text-[0.75rem] font-medium tracking-wide transition-colors",
                                     activeTab === item.manager
                                         ? "bg-gray-50 text-gray-1000"
-                                        : "text-gray-700 hover:text-gray-1000"
+                                        : "text-gray-950 hover:text-gray-1000"
                                 )}
                             >
                                 {item.manager}

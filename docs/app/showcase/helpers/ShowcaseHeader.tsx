@@ -22,7 +22,7 @@ const ShowcaseHeader = () => {
                     : "Real product surfaces built entirely from Rad UI components."}
             </Text>
             {demo ? (
-                <p className="mt-3 text-[13px] text-gray-900">
+                <p className="mt-3 text-[13px] text-gray-950">
                     <span className="font-medium text-gray-950">Built with </span>
                     {demo.components.join(" · ")}
                 </p>

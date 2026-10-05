@@ -105,7 +105,7 @@ const IconAction = ({ label, onClick, children }) => (
         <Tooltip.Trigger
             aria-label={label}
             onClick={onClick}
-            className="grid h-8 w-8 place-items-center rounded-md text-gray-900 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+            className="grid h-8 w-8 place-items-center rounded-md text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
         >
             {children}
         </Tooltip.Trigger>
@@ -193,7 +193,7 @@ const InboxDemo = () => {
                                         folder === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
                                     }`}
                                 >
-                                    <Icon className="h-4 w-4 text-gray-900" />
+                                    <Icon className="h-4 w-4 text-gray-950" />
                                     {label}
                                     {id === "inbox" && unreadCount ? <span className="ml-auto text-xs font-semibold tabular-nums">{unreadCount}</span> : null}
                                 </button>
@@ -201,7 +201,7 @@ const InboxDemo = () => {
                         ))}
                     </ul>
                 </nav>
-                <p className="px-2.5 pb-1 pt-5 text-xs font-medium text-gray-900">Labels</p>
+                <p className="px-2.5 pb-1 pt-5 text-xs font-medium text-gray-950">Labels</p>
                 <ul className="space-y-0.5">
                     {labels.map(({ label, tone }) => (
                         <li key={label} className="flex items-center gap-2.5 px-2.5 py-1.5 text-sm text-gray-950">
@@ -240,12 +240,12 @@ const InboxDemo = () => {
                             </div>
                         </>
                     ) : (
-                        <span className="ml-1 text-sm text-gray-900">{visible.length} conversations</span>
+                        <span className="ml-1 text-sm text-gray-950">{visible.length} conversations</span>
                     )}
                 </div>
                 <ul className="min-h-0 flex-1 divide-y divide-gray-300 overflow-y-auto">
                     {visible.length === 0 ? (
-                        <li className="px-6 py-16 text-center text-sm text-gray-900">
+                        <li className="px-6 py-16 text-center text-sm text-gray-950">
                             {query ? `No messages match “${query}”.` : "You're all caught up."}
                         </li>
                     ) : null}
@@ -268,17 +268,17 @@ const InboxDemo = () => {
                                     onPressedChange={(starred) => update(item.id, { starred })}
                                     className="h-6! w-6! min-h-0! rounded-md! border-0! bg-transparent! p-0! shadow-none! hover:bg-gray-200!"
                                 >
-                                    <Star className={`h-4 w-4 ${item.starred ? "fill-amber-800 text-amber-800" : "text-gray-800"}`} />
+                                    <Star className={`h-4 w-4 ${item.starred ? "fill-amber-800 text-amber-800" : "text-gray-950"}`} />
                                 </Toggle>
                             </div>
                             <button type="button" onClick={() => openMail(item.id)} className="min-w-0 flex-1 text-left">
                                 <span className="flex items-baseline gap-2">
                                     {item.unread ? <span className="h-2 w-2 shrink-0 self-center rounded-full bg-blue-800" aria-label="Unread" /> : null}
                                     <span className={`truncate text-sm ${item.unread ? "font-semibold" : "font-medium"}`}>{item.from}</span>
-                                    <span className="ml-auto shrink-0 text-xs text-gray-900">{item.time}</span>
+                                    <span className="ml-auto shrink-0 text-xs text-gray-950">{item.time}</span>
                                 </span>
                                 <span className={`mt-0.5 block truncate text-sm ${item.unread ? "font-medium text-gray-1000" : "text-gray-1000"}`}>{item.subject}</span>
-                                <span className="mt-0.5 line-clamp-2 block text-[13px] leading-snug text-gray-900">{item.preview}</span>
+                                <span className="mt-0.5 line-clamp-2 block text-[13px] leading-snug text-gray-950">{item.preview}</span>
                             </button>
                         </li>
                     ))}
@@ -295,7 +295,7 @@ const InboxDemo = () => {
                         <IconAction label="Archive" onClick={removeOpen}><Archive className="h-4 w-4" /></IconAction>
                         <IconAction label="Delete" onClick={removeOpen}><Trash2 className="h-4 w-4" /></IconAction>
                         <IconAction label="Snooze"><Clock3 className="h-4 w-4" /></IconAction>
-                        <span className="ml-auto text-xs text-gray-900">{open.time}</span>
+                        <span className="ml-auto text-xs text-gray-950">{open.time}</span>
                     </div>
                     <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
                         <div className="flex flex-wrap items-center gap-2">
@@ -306,7 +306,7 @@ const InboxDemo = () => {
                             <Sender mail={open} />
                             <div className="min-w-0">
                                 <p className="text-sm font-semibold">{open.from}</p>
-                                <p className="truncate text-xs text-gray-900">{open.email}</p>
+                                <p className="truncate text-xs text-gray-950">{open.email}</p>
                             </div>
                         </div>
                         <div className="mt-6 max-w-[62ch] space-y-4 whitespace-pre-line text-[15px] leading-relaxed">
@@ -314,7 +314,7 @@ const InboxDemo = () => {
                         </div>
                         {(sentReplies[open.id] ?? []).map((text, index) => (
                             <div key={index} className="mt-6 max-w-[62ch] rounded-lg bg-gray-200 px-4 py-3">
-                                <p className="text-xs font-medium text-gray-900">You replied · just now</p>
+                                <p className="text-xs font-medium text-gray-950">You replied · just now</p>
                                 <p className="mt-1 whitespace-pre-line text-[15px] leading-relaxed">{text}</p>
                             </div>
                         ))}
@@ -336,7 +336,7 @@ const InboxDemo = () => {
                     </form>
                 </article>
             ) : (
-                <div className="hidden place-items-center bg-gray-50 text-sm text-gray-900 xl:grid">Select a message to read it.</div>
+                <div className="hidden place-items-center bg-gray-50 text-sm text-gray-950 xl:grid">Select a message to read it.</div>
             )}
         </div>
     )

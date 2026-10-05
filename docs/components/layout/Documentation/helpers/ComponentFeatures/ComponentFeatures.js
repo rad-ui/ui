@@ -15,7 +15,7 @@ const ComponentFeatures = ({ features }) => {
       </BookMarkLink>
       <ul className="space-y-3">
         {features.map((feature, index) => (
-          <li className="flex items-start gap-3 text-[0.98rem] leading-7 text-gray-900" key={index}>
+          <li className="flex items-start gap-3 text-[0.98rem] leading-7 text-gray-950" key={index}>
             <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-green-100 text-green-1000">
               <Check size={13} strokeWidth={2.5} />
             </span>

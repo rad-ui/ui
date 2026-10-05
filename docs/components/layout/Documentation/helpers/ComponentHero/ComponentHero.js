@@ -40,7 +40,7 @@ const ComponentHero = ({ children, title='', codeUsage = {} }) => {
                 <span className="h-2 w-2 rounded-full bg-gray-500" />
                 <span className="h-2 w-2 rounded-full bg-gray-500" />
                 <span className="h-2 w-2 rounded-full bg-gray-500" />
-                <span className="ml-2 font-mono text-[11px] tracking-wide text-gray-800">
+                <span className="ml-2 font-mono text-[11px] tracking-wide text-gray-950">
                     preview
                 </span>
             </div>

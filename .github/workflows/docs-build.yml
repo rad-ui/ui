@@ -69,3 +69,19 @@ jobs:
       - name: Build docs
         working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm build
+
+      # Fail on any text below WCAG AA, in dark and light, on every prerendered
+      # page. It measures what actually renders, so it catches low palette
+      # steps, inline colors and syntax-highlighting colors alike.
+      - name: Install contrast check tools
+        working-directory: .
+        run: |
+          npm ci --ignore-scripts
+          npx playwright install --with-deps chromium
+
+      - name: Check docs contrast (WCAG AA, both themes)
+        working-directory: .
+        run: |
+          (cd "$RUNNER_TEMP/isolated/docs" && pnpm exec next start -p 3000 > "$RUNNER_TEMP/next-start.log" 2>&1 &)
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/ > /dev/null && break; sleep 1; done
+          node scripts/check-docs-contrast.mjs --base http://127.0.0.1:3000 --next-dir "$RUNNER_TEMP/isolated/docs/.next"

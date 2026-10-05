@@ -34,7 +34,7 @@ function LimitInner() {
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
             <Toaster />
-            <p className="text-sm text-gray-800">
+            <p className="text-sm text-gray-950">
                 <code className="text-xs">limit</code> caps the visible stack. Extra toasts queue until a slot
                 opens.
             </p>

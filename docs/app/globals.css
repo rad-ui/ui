@@ -527,24 +527,25 @@ pre.docs-syntax-pre code.docs-code-block {
   box-shadow: 0 16px 40px color-mix(in oklab, var(--rad-ui-color-gray-1000) 12%, transparent);
 }
 
+/* Light: 950 steps keep every token at WCAG AA on the light code panel (900 measured ~3.3:1). */
 [data-rad-ui-theme="light"] .docs-syntax-pre .docs-code-block {
   color: var(--rad-ui-text-primary);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .keyword {
-  color: var(--rad-ui-color-red-900);
+  color: var(--rad-ui-color-red-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .string,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .attr-value,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .template-string,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .inserted {
-  color: var(--rad-ui-color-green-900);
+  color: var(--rad-ui-color-green-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .number,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .boolean {
-  color: var(--rad-ui-color-green-900);
+  color: var(--rad-ui-color-green-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .function,
@@ -556,11 +557,11 @@ pre.docs-syntax-pre code.docs-code-block {
 [data-rad-ui-theme="light"] .docs-syntax-pre code .maybe-class-name,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .builtin,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .constant {
-  color: var(--rad-ui-color-blue-900);
+  color: var(--rad-ui-color-blue-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .attr-name {
-  color: var(--rad-ui-color-red-900);
+  color: var(--rad-ui-color-red-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .punctuation {
@@ -568,24 +569,24 @@ pre.docs-syntax-pre code.docs-code-block {
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .operator {
-  color: var(--rad-ui-color-purple-900);
+  color: var(--rad-ui-color-purple-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .comment,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .prolog,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .doctype,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .cdata {
-  color: var(--rad-ui-color-gray-800);
+  color: var(--rad-ui-color-gray-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .regex,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .important,
 [data-rad-ui-theme="light"] .docs-syntax-pre code .variable {
-  color: var(--rad-ui-color-blue-900);
+  color: var(--rad-ui-color-blue-950);
 }
 
 [data-rad-ui-theme="light"] .docs-syntax-pre code .char {
-  color: var(--rad-ui-color-green-900);
+  color: var(--rad-ui-color-green-950);
 }
 
 /* Dark: high-contrast editor palette on black panel */
@@ -641,7 +642,7 @@ pre.docs-syntax-pre code.docs-code-block {
 [data-rad-ui-theme="dark"] .docs-syntax-pre code .prolog,
 [data-rad-ui-theme="dark"] .docs-syntax-pre code .doctype,
 [data-rad-ui-theme="dark"] .docs-syntax-pre code .cdata {
-  color: #737373;
+  color: #8a8a8a; /* 6.1:1 on the black panel (was #737373, 4.4:1) */
 }
 
 [data-rad-ui-theme="dark"] .docs-syntax-pre code .regex,

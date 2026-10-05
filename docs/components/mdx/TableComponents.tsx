@@ -30,7 +30,7 @@ export const TableRow = ({ children }: { children: React.ReactNode }) => (
 
 export const TableHeader = ({ children }: { children: React.ReactNode }) => (
   <Table.ColumnCellHeader>
-    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-700">
+    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-950">
       {children}
     </span>
   </Table.ColumnCellHeader>
@@ -38,7 +38,7 @@ export const TableHeader = ({ children }: { children: React.ReactNode }) => (
 
 export const TableCell = ({ children }: { children: React.ReactNode }) => (
   <Table.Cell>
-    <span className="text-[0.92rem] leading-6 text-gray-900">
+    <span className="text-[0.92rem] leading-6 text-gray-950">
       {children}
     </span>
   </Table.Cell>

@@ -408,6 +408,7 @@
     "docs:mode": "node scripts/docs-mode.mjs status",
     "docs:verify:fixed": "node scripts/docs-mode.mjs verify:fixed",
     "docs:verify:live": "node scripts/docs-mode.mjs verify:live",
+    "docs:check:contrast": "node scripts/check-docs-contrast.mjs",
     "generate-tailwind-preset": "tsx ./scripts/generate-tailwind-preset.ts"
   },
   "lint-staged": {

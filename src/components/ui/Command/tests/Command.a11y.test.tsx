@@ -24,6 +24,30 @@ const renderCommand = () => render(
 );
 
 describe('Command accessibility', () => {
+    // role="separator" is not an allowed child of role="listbox"
+    // (axe: aria-required-children), so separators are hidden from the a11y tree.
+    test('axe: no violations with a separator between groups', async() => {
+        const { container } = render(
+            <Command>
+                <Command.Input aria-label="Search commands" />
+                <Command.List>
+                    <Command.Group heading="Navigation">
+                        <Command.Item value="home">Home</Command.Item>
+                    </Command.Group>
+                    <Command.Separator />
+                    <Command.Group heading="Settings">
+                        <Command.Item value="profile">Profile</Command.Item>
+                    </Command.Group>
+                </Command.List>
+            </Command>
+        );
+        const separator = container.querySelector('[data-slot="command-separator"]');
+        expect(separator).toHaveAttribute('aria-hidden', 'true');
+        expect(separator).not.toHaveAttribute('role', 'separator');
+        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        expect(results.violations).toHaveLength(0);
+    });
+
     test('axe: no violations', async() => {
         const { container } = renderCommand();
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });

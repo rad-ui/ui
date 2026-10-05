@@ -30,7 +30,7 @@ const InfoButton = ({ infoText }) => {
                 <button
                     type="button"
                     aria-label="Show prop details"
-                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-300 bg-gray-50 text-gray-700 transition-colors hover:border-gray-400 hover:text-gray-950"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-300 bg-gray-50 text-gray-950 transition-colors hover:border-gray-400 hover:text-gray-950"
                 >
                     <Info size={12} strokeWidth={2.2} />
                 </button>
@@ -86,7 +86,7 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (columnType === "description") {
-        return <Text className="text-sm! leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
     }
 
     if (value === "boolean" || value === "false" || value === "true") {
@@ -94,7 +94,7 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (typeof value === 'string') {
-        return <Text className="text-sm! leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
     }
 
     return value;
@@ -107,14 +107,14 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
                 <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}>
                     <Heading as={as} className={docsSectionHeadingClassName}>{title}</Heading>
                 </BookMarkLink>
-                {description ? <Text className="text-[0.98rem] leading-7 text-gray-900">{description}</Text> : null}
+                {description ? <Text className="text-[0.98rem] leading-7 text-gray-950">{description}</Text> : null}
             </div>
             <Table.Root className={`${docsSurfaceClassName} bg-gray-50 shadow-none`}>
                 <Table.Head>
                     <Table.Row>
                         {columns.map((column, idx) => (
                             <Table.ColumnCellHeader key={idx}>
-                                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-700">
+                                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-950">
                                     {column.name}
                                 </span>
                             </Table.ColumnCellHeader>

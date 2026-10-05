@@ -48,7 +48,7 @@ const Row = ({ title, description, children }) => (
     <div className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <div className="min-w-0">
             <p className="text-sm font-medium">{title}</p>
-            {description ? <p className="mt-0.5 text-sm text-gray-900">{description}</p> : null}
+            {description ? <p className="mt-0.5 text-sm text-gray-950">{description}</p> : null}
         </div>
         <div className="shrink-0">{children}</div>
     </div>
@@ -57,7 +57,7 @@ const Row = ({ title, description, children }) => (
 const SectionHeader = ({ title, description }) => (
     <div className="pb-2">
         <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
-        <p className="mt-1 text-sm text-gray-900">{description}</p>
+        <p className="mt-1 text-sm text-gray-950">{description}</p>
     </div>
 )
 
@@ -90,7 +90,7 @@ const PreferencesDemo = () => {
                                     section === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
                                 }`}
                             >
-                                <Icon className="h-4 w-4 text-gray-900" />
+                                <Icon className="h-4 w-4 text-gray-950" />
                                 {label}
                             </button>
                         </li>
@@ -134,7 +134,7 @@ const PreferencesDemo = () => {
                             <div className="py-5">
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="font-medium">Profile completeness</span>
-                                    <span className="tabular-nums text-gray-900">{Math.round(completeness)}%</span>
+                                    <span className="tabular-nums text-gray-950">{Math.round(completeness)}%</span>
                                 </div>
                                 <div className="mt-2"><Progress.Root value={completeness} minValue={0} maxValue={100} aria-label="Profile completeness" className="w-full! max-w-none!"><Progress.Indicator /></Progress.Root></div>
                             </div>
@@ -161,7 +161,7 @@ const PreferencesDemo = () => {
                             <Separator />
                             <div className="py-5">
                                 <p className="text-sm font-medium">Accent color</p>
-                                <p className="mt-0.5 text-sm text-gray-900">Changes every Rad UI component below — no extra CSS.</p>
+                                <p className="mt-0.5 text-sm text-gray-950">Changes every Rad UI component below — no extra CSS.</p>
                                 <div role="radiogroup" aria-label="Accent color" className="mt-3 flex flex-wrap gap-2.5">
                                     {accents.map(([color, swatch]) => (
                                         <button
@@ -206,7 +206,7 @@ const PreferencesDemo = () => {
                                     </Row>
                                 ))}
                             </div>
-                            <p className="pt-3 text-sm text-gray-900">
+                            <p className="pt-3 text-sm text-gray-950">
                                 {notifications.filter((item) => item.on).length} of {notifications.length} enabled
                             </p>
                         </>
@@ -236,7 +236,7 @@ const PreferencesDemo = () => {
                                         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gray-200 text-gray-950"><Icon className="h-5 w-5" /></span>
                                         <div className="min-w-0 flex-1">
                                             <p className="truncate text-sm font-medium">{device}</p>
-                                            <p className="truncate text-sm text-gray-900">{place} · {time}</p>
+                                            <p className="truncate text-sm text-gray-950">{place} · {time}</p>
                                         </div>
                                         {current ? (
                                             <Badge variant="soft" color="green">This device</Badge>

@@ -16,7 +16,7 @@ export const IconButton = ({ label, onClick, active, shortcut, className = "", c
             aria-label={label}
             aria-pressed={active}
             onClick={onClick}
-            className={`grid h-8 w-8 place-items-center rounded-md transition-colors ${active ? "text-green-900" : "text-gray-900 hover:bg-gray-200 hover:text-gray-1000"} ${className}`}
+            className={`grid h-8 w-8 place-items-center rounded-md transition-colors ${active ? "text-green-950" : "text-gray-950 hover:bg-gray-200 hover:text-gray-1000"} ${className}`}
         >
             {children}
         </Tooltip.Trigger>

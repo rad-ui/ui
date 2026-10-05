@@ -41,6 +41,8 @@ npm run docs:verify:fixed   # what's deployed today still builds
 npm run docs:verify:live    # docs build against the version you're about to publish
 ```
 
+Add `-- --contrast` to either verify command to also check every page for WCAG AA text contrast in dark and light, the same check CI runs.
+
 ## Dev note: the docs app must stay inside `docs/`
 
 Vercel builds this app with `docs/` as the root, so nothing outside this folder exists at build time. Never import, alias, `@import`, or `fs`-read files from `../src`, `../styles`, or anywhere else outside `docs/`. Use the published `@radui/ui` package, or `npm run docs:live` (above) to test local library changes. `pnpm check:boundary` enforces this and runs automatically before `pnpm build`. Full rules: [`AGENTS.md`](./AGENTS.md#docs-app-boundary-dev-note--read-before-touching-docs).

@@ -27,7 +27,9 @@ const CommandSeparator = React.forwardRef<CommandSeparatorElement, CommandSepara
             ref={forwardedRef}
             className={clsx(rootClass && `${rootClass}-separator`, className)}
             data-slot="command-separator"
-            role="separator"
+            // Purely visual: role="separator" is not an allowed child of the
+            // listbox this renders inside, so keep it out of the a11y tree.
+            aria-hidden="true"
             {...props}
         />
     );

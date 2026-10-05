@@ -30,7 +30,7 @@ const details = [
         body: (
             <ul className="space-y-2">
                 {["Adaptive noise cancelling that tunes itself 200× per second", "40 hours of playback, 10 minutes of charge for 5 hours", "Multipoint pairing with two devices at once", "Memory-foam ear cushions in vegan leather"].map((item) => (
-                    <li key={item} className="flex gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-green-900" />{item}</li>
+                    <li key={item} className="flex gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-green-950" />{item}</li>
                 ))}
             </ul>
         ),
@@ -41,7 +41,7 @@ const details = [
         body: (
             <dl className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2">
                 {[["Drivers", "40 mm custom dynamic"], ["Frequency", "4 Hz – 40 kHz"], ["Weight", "268 g"], ["Connectivity", "Bluetooth 5.3, USB-C audio"]].map(([term, value]) => (
-                    <div key={term} className="contents"><dt className="text-gray-900">{term}</dt><dd>{value}</dd></div>
+                    <div key={term} className="contents"><dt className="text-gray-950">{term}</dt><dd>{value}</dd></div>
                 ))}
             </dl>
         ),
@@ -86,7 +86,7 @@ const ProductPageDemo = () => {
             <div className="flex items-center justify-between border-b border-gray-400 px-5 py-3 sm:px-8">
                 <span className="text-[15px] font-semibold tracking-tight">Waveform</span>
                 <div className="flex items-center gap-2 text-sm" role="status" aria-live="polite">
-                    {bagCount ? <span className="hidden text-gray-900 sm:inline">{money(bagTotal)}</span> : null}
+                    {bagCount ? <span className="hidden text-gray-950 sm:inline">{money(bagTotal)}</span> : null}
                     <span className="relative inline-flex items-center gap-1.5 rounded-md px-2 py-1">
                         <ShoppingBag className="h-5 w-5" aria-hidden="true" />
                         <span className="sr-only">Bag:</span>
@@ -152,13 +152,13 @@ const ProductPageDemo = () => {
                                 {Array.from({ length: 5 }, (_, i) => <Star key={i} className="h-4 w-4 fill-amber-800 text-amber-800" aria-hidden="true" />)}
                             </span>
                             <span className="font-medium">4.8</span>
-                            <span className="text-gray-900">· 1,284 reviews</span>
+                            <span className="text-gray-950">· 1,284 reviews</span>
                         </div>
 
                         <p className="mt-5 text-3xl font-semibold tabular-nums">{money(329)}</p>
 
                         <div className="mt-6">
-                            <p className="mb-2.5 text-sm"><span className="font-medium">Finish</span> <span className="text-gray-900">— {active.label}</span></p>
+                            <p className="mb-2.5 text-sm"><span className="font-medium">Finish</span> <span className="text-gray-950">— {active.label}</span></p>
                             <ToggleGroup.Root
                                 type="single"
                                 value={[finish]}
@@ -189,9 +189,9 @@ const ProductPageDemo = () => {
                         </div>
 
                         <ul className="mt-6 space-y-2.5 text-sm text-gray-950">
-                            <li className="flex items-center gap-2.5"><Truck className="h-4 w-4 text-gray-900" /> Free 2-day shipping — arrives by Thursday</li>
-                            <li className="flex items-center gap-2.5"><RotateCcw className="h-4 w-4 text-gray-900" /> 30-day returns, no questions asked</li>
-                            <li className="flex items-center gap-2.5"><ShieldCheck className="h-4 w-4 text-gray-900" /> 2-year warranty included</li>
+                            <li className="flex items-center gap-2.5"><Truck className="h-4 w-4 text-gray-950" /> Free 2-day shipping — arrives by Thursday</li>
+                            <li className="flex items-center gap-2.5"><RotateCcw className="h-4 w-4 text-gray-950" /> 30-day returns, no questions asked</li>
+                            <li className="flex items-center gap-2.5"><ShieldCheck className="h-4 w-4 text-gray-950" /> 2-year warranty included</li>
                         </ul>
 
                         <Separator className="mt-6" />
@@ -225,7 +225,7 @@ const ProductPageDemo = () => {
                                     <img src={item.image} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
                                     <div className="min-w-0 flex-1">
                                         <p className="text-sm font-medium">{item.name}</p>
-                                        <p className="text-sm tabular-nums text-gray-900">{money(item.price)}</p>
+                                        <p className="text-sm tabular-nums text-gray-950">{money(item.price)}</p>
                                     </div>
                                     <Button
                                         variant={inBag ? "soft" : "outline"}

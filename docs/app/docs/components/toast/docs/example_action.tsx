@@ -38,7 +38,7 @@ function ActionInner() {
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
             <Toaster />
-            <p className="text-sm text-gray-800">
+            <p className="text-sm text-gray-950">
                 Set <code className="text-xs">actionProps</code> on <code className="text-xs">add()</code>; they
                 merge into <code className="text-xs">Toast.Action</code>.
             </p>

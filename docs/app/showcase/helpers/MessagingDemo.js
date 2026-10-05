@@ -76,7 +76,7 @@ const IconButton = ({ label, children }) => (
     <Tooltip.Root>
         <Tooltip.Trigger
             aria-label={label}
-            className="grid h-8 w-8 place-items-center rounded-md text-gray-900 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+            className="grid h-8 w-8 place-items-center rounded-md text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
         >
             {children}
         </Tooltip.Trigger>
@@ -155,7 +155,7 @@ const MessagingDemo = () => {
                 </div>
 
                 <nav aria-label="Channels" className="mt-5 min-h-0 flex-1 overflow-y-auto px-2">
-                    <p className="px-2 pb-1.5 text-xs font-medium text-gray-900">Channels</p>
+                    <p className="px-2 pb-1.5 text-xs font-medium text-gray-950">Channels</p>
                     <ul className="space-y-0.5">
                         {channels.map((channel) => {
                             const isActive = channel.id === activeId
@@ -169,7 +169,7 @@ const MessagingDemo = () => {
                                             isActive ? "bg-gray-300 font-medium text-gray-1000" : "text-gray-950 hover:bg-gray-200"
                                         }`}
                                     >
-                                        <Hash className="h-4 w-4 shrink-0 text-gray-800" />
+                                        <Hash className="h-4 w-4 shrink-0 text-gray-950" />
                                         <span className={`truncate ${channel.unread ? "font-semibold text-gray-1000" : ""}`}>{channel.name}</span>
                                         {channel.unread ? (
                                             <span className="ml-auto rounded-full bg-gray-1000 px-1.5 text-[11px] font-semibold leading-5 text-gray-50">{channel.unread}</span>
@@ -180,7 +180,7 @@ const MessagingDemo = () => {
                         })}
                     </ul>
 
-                    <p className="px-2 pb-1.5 pt-5 text-xs font-medium text-gray-900">Direct messages</p>
+                    <p className="px-2 pb-1.5 pt-5 text-xs font-medium text-gray-950">Direct messages</p>
                     <ul className="space-y-0.5">
                         {["nina", "leo", "jun"].map((id) => (
                             <li key={id} className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-gray-950">
@@ -202,10 +202,10 @@ const MessagingDemo = () => {
                 <header className="flex items-center gap-3 border-b border-gray-400 px-4 py-3 sm:px-5">
                     <div className="min-w-0 flex-1">
                         <h2 className="flex items-center gap-1 text-[15px] font-semibold">
-                            <Hash className="h-4 w-4 text-gray-800" />
+                            <Hash className="h-4 w-4 text-gray-950" />
                             {active.name}
                         </h2>
-                        <p className="truncate text-[13px] text-gray-900">{active.topic}</p>
+                        <p className="truncate text-[13px] text-gray-950">{active.topic}</p>
                     </div>
                     <div className="hidden -space-x-1.5 sm:flex">
                         {active.members.slice(0, 3).map((id) => (
@@ -233,7 +233,7 @@ const MessagingDemo = () => {
                 </div>
 
                 <ol ref={listRef} className="min-h-0 flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5" aria-live="polite">
-                    <li className="flex items-center gap-3 text-xs font-medium text-gray-900" aria-hidden="true">
+                    <li className="flex items-center gap-3 text-xs font-medium text-gray-950" aria-hidden="true">
                         <Separator className="flex-1" />
                         Today
                         <Separator className="flex-1" />
@@ -248,7 +248,7 @@ const MessagingDemo = () => {
                                     {grouped ? null : (
                                         <div className="flex items-baseline gap-2">
                                             <span className="text-sm font-semibold">{person.name}</span>
-                                            <span className="text-xs text-gray-900">{message.time}</span>
+                                            <span className="text-xs text-gray-950">{message.time}</span>
                                         </div>
                                     )}
                                     <p className="mt-0.5 text-[15px] leading-relaxed text-gray-1000">{message.text}</p>
@@ -313,7 +313,7 @@ const MessagingDemo = () => {
                             <PersonAvatar id={id} size="small" />
                             <div className="min-w-0">
                                 <p className="truncate text-sm font-medium">{people[id].name}</p>
-                                <p className="truncate text-xs text-gray-900">{people[id].role}</p>
+                                <p className="truncate text-xs text-gray-950">{people[id].role}</p>
                             </div>
                             {people[id].online ? <span className="ml-auto h-2 w-2 rounded-full bg-green-800" aria-label="Online" /> : null}
                         </li>
@@ -330,13 +330,13 @@ const MessagingDemo = () => {
                                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-gray-200 text-gray-950"><Icon className="h-4 w-4" /></span>
                                 <div className="min-w-0">
                                     <p className="truncate text-sm font-medium">{label}</p>
-                                    <p className="text-xs text-gray-900">{meta}</p>
+                                    <p className="text-xs text-gray-950">{meta}</p>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p className="mt-2 text-sm text-gray-900">Nothing pinned yet.</p>
+                    <p className="mt-2 text-sm text-gray-950">Nothing pinned yet.</p>
                 )}
             </aside>
         </div>

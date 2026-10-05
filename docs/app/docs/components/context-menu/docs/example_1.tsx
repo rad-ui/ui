@@ -6,7 +6,7 @@ const ContextMenuExample = () => {
     return (
         <ContextMenu.Root>
             <ContextMenu.Trigger>
-                <div className="flex items-center justify-center w-[280px] h-[100px] border-2 border-dashed rounded-lg text-gray-500 cursor-context-menu select-none">
+                <div className="flex items-center justify-center w-[280px] h-[100px] border-2 border-dashed rounded-lg text-gray-950 cursor-context-menu select-none">
                     Right-click here
                 </div>
             </ContextMenu.Trigger>

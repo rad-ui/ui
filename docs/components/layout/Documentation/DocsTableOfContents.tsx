@@ -110,7 +110,7 @@ const DocsTableOfContents = () => {
     return (
         <aside className="hidden xl:block">
             <div className="sticky top-7 pt-1">
-                <p className="mb-4 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gray-800">
+                <p className="mb-4 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gray-950">
                     On this page
                 </p>
                 <nav aria-label="Table of contents">
@@ -130,7 +130,7 @@ const DocsTableOfContents = () => {
                                     } ${
                                         activeId === item.id
                                             ? "border-green-800 font-semibold text-gray-1000"
-                                            : "border-gray-300 text-gray-800 hover:border-gray-500 hover:text-gray-1000"
+                                            : "border-gray-300 text-gray-950 hover:border-gray-500 hover:text-gray-1000"
                                     }`}
                                 >
                                     {item.text}

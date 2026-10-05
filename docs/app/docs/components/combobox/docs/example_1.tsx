@@ -5,7 +5,7 @@ import Combobox from "@radui/ui/Combobox"
 const ComboboxExample = () => {
     return (
         <Combobox.Root>
-            <Combobox.Trigger>
+            <Combobox.Trigger aria-label="Fruit">
                 Select an option
             </Combobox.Trigger>
             <Combobox.Portal>
