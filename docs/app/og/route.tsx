@@ -14,6 +14,7 @@ const MUTED = '#a1a1aa';
 const SUBTLE = '#52525b';
 const SURFACE = '#141417';
 const BORDER = '#27272a';
+const INSTALL_COMMAND = 'pnpm add @radui/ui';
 
 const fontsDir = path.join(process.cwd(), 'app/og/fonts');
 const fontsPromise = Promise.all([
@@ -217,7 +218,7 @@ export async function GET(request: Request) {
                                 }}
                             >
                                 <span style={{ color: '#ff4d8d' }}>$</span>
-                                <span>pnpm add @radui/ui</span>
+                                <span>{INSTALL_COMMAND}</span>
                             </div>
                             <span style={{ fontSize: 22, color: MUTED }}>rad-ui.com</span>
                         </div>
