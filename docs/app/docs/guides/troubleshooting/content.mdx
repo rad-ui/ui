@@ -45,12 +45,14 @@ For baseline SSR and no-JS guidance, see [SSR & No-JS Fallback](/docs/guides/ssr
 - The trigger element unmounted while the overlay was open.
 - Multiple layered overlays closing in the wrong order.
 - Custom `onOpenChange` handlers preventing the default close path before focus restoration runs.
+- Custom cleanup code calls `focus()` synchronously while the focused element is being removed, leaving focus on `document.body`.
 
 **What to try**
 
 - Keep the trigger mounted while the overlay is open, or move focus explicitly in `onOpenChange`.
 - Close nested overlays from the top layer down.
 - Avoid calling `preventDefault` on dismiss events unless you also manage focus manually.
+- Defer manual focus restoration with `requestAnimationFrame` so it runs after DOM removal.
 
 ## Focus trapped incorrectly
 
@@ -60,12 +62,14 @@ For baseline SSR and no-JS guidance, see [SSR & No-JS Fallback](/docs/guides/ssr
 
 - Multiple focus scopes active at once.
 - Portals rendering outside the modal subtree.
+- `Dialog.Content` uses `initialFocus={false}`, so focus can remain on `Dialog.Trigger` when the dialog opens.
 - Browser extensions or third-party widgets inserting focusable nodes into the trap.
 
 **What to try**
 
 - Ensure only one modal `Dialog` is marked open at a time unless using a documented nested pattern.
 - Verify portaled content belongs to the same overlay instance.
+- Confirm that initial focus is enabled and that focus moves into the dialog when it opens.
 - Test with extensions disabled when diagnosing focus order.
 
 ## Overlays flash or fail on first paint
