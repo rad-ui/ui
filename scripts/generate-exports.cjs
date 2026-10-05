@@ -69,6 +69,9 @@ exportsMap['./themes/default.css'] = './dist/themes/default.css';
 exportsMap['./themes/baremetal.css'] = './dist/themes/baremetal.css';
 exportsMap['./themes/tailwind-presets/default.css'] = './dist/themes/tailwind-presets/default.css';
 
+// Per-component Clarity style sources (see scripts/copy-clarity-styles.cjs)
+exportsMap['./styles/clarity/*'] = './dist/styles/clarity/*';
+
 const notReleasedComponents = [];
 
 // Add component exports
@@ -101,6 +104,15 @@ function verifyExportTargets(exportsMap) {
 
     Object.entries(exportsMap).forEach(([exportPath, target]) => {
         if (typeof target === 'string') {
+            // Subpath patterns ("./dist/styles/clarity/*") must point at a non-empty directory.
+            if (target.endsWith('/*')) {
+                const dirPath = path.resolve(__dirname, '..', target.slice(0, -2));
+                if (!fs.existsSync(dirPath) || fs.readdirSync(dirPath).length === 0) {
+                    missing.push(`${exportPath} -> ${target}`);
+                }
+                return;
+            }
+
             const filePath = path.resolve(__dirname, '..', target);
             if (!fs.existsSync(filePath)) {
                 missing.push(`${exportPath} -> ${target}`);
