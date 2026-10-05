@@ -47,11 +47,25 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: docs/pnpm-lock.yaml
 
+      - name: Check docs boundary
+        run: node scripts/check-docs-boundary.mjs
+
+      # Vercel builds docs/ as the project root, without the rest of the
+      # monorepo. Build an isolated copy so CI fails the same way Vercel would
+      # if the docs app reaches outside docs/ (../src, ../styles, ...).
+      - name: Copy docs outside the monorepo
+        run: |
+          mkdir -p "$RUNNER_TEMP/isolated"
+          rsync -a --exclude node_modules --exclude .next ./ "$RUNNER_TEMP/isolated/docs/"
+
       - name: Install docs dependencies
+        working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck docs examples
+        working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm check:examples
 
       - name: Build docs
+        working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm build
