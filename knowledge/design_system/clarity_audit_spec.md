@@ -118,6 +118,13 @@ raw scale tokens:
 | `--rad-ui-text-muted` | `gray-950` | Muted readable text |
 | `--rad-ui-text-strong` | `gray-1000` | Strong foreground |
 | `--rad-ui-text-inverse` | `gray-50` | Text on inverse/solid fills |
+| `--rad-ui-tooltip-background` | `surface-inverse` (dark: `surface-muted`) | Tooltip surface and arrow |
+| `--rad-ui-tooltip-text` | `text-inverse` (dark: `text-primary`) | Tooltip text |
+| `--rad-ui-tooltip-border` | `surface-inverse` (dark: `border-soft`) | Tooltip edge |
+
+Tooltips stay a dark chip in both appearances. The inverse surface flips to
+near-white in dark mode, so the tooltip aliases are re-declared under
+`[data-rad-ui-theme="dark"]` instead of reusing `--rad-ui-surface-inverse`.
 
 Audit rule: if a component uses `--rad-ui-color-gray-*` directly, confirm there
 is no suitable semantic alias. If an alias exists, prefer the alias.
@@ -686,8 +693,8 @@ Variants:
 
 - Floating surface: panel background, default border, floating elevation.
 - Modal surface: panel background, default or strong border, modal elevation.
-- Tooltip surface: inverse or high-contrast surface only when contrast is
-  verified.
+- Tooltip surface: the `--rad-ui-tooltip-*` aliases (inverse in light mode,
+  a raised dark surface in dark mode), never a raw inverse surface.
 
 Sizing:
 

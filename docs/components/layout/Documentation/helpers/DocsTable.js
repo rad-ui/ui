@@ -35,7 +35,9 @@ const InfoButton = ({ infoText }) => {
                     <Info size={12} strokeWidth={2.2} />
                 </button>
             </Tooltip.Trigger>
-            <Tooltip.Content className="z-50 max-w-xs rounded-lg border border-gray-700 bg-[var(--rad-ui-surface-inverse)] px-3 py-2 text-sm text-[var(--rad-ui-text-inverse)] shadow-xl">
+            {/* className lands on the positioning wrapper; the library's inner surface owns
+                background, border, padding and radius, so only constrain width here. */}
+            <Tooltip.Content className="max-w-xs">
                 <span className="flex flex-col gap-2">
                     {infoText}
                 </span>
