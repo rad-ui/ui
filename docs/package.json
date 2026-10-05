@@ -8,10 +8,11 @@
   },
   "scripts": {
     "dev": "rimraf .next && next dev --webpack",
-    "prebuild": "npx tsx scripts/generate-llms.ts",
+    "prebuild": "node scripts/check-docs-boundary.mjs && npx tsx scripts/generate-llms.ts",
     "build": "next build --webpack",
     "start": "next start",
     "check:examples": "tsc -p tsconfig.examples.json --noEmit",
+    "check:boundary": "node scripts/check-docs-boundary.mjs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "update-rad": "pnpm i @radui/ui@latest",
     "preinstall": "npx only-allow pnpm"

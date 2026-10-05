@@ -109,18 +109,6 @@ const nextConfig = {
     },
 
     webpack: (config) => {
-        config.resolve.alias = {
-            ...config.resolve.alias,
-            '@radui/ui/Breadcrumb': path.resolve(__dirname, '../src/components/ui/Breadcrumb/Breadcrumb.tsx'),
-            '@radui/ui/Fieldset': path.resolve(__dirname, '../src/components/ui/Fieldset/Fieldset.tsx'),
-            '@radui/ui/LiveRegion': path.resolve(__dirname, '../src/components/ui/LiveRegion/LiveRegion.tsx'),
-            '@radui/ui/Popover': path.resolve(__dirname, '../src/components/ui/Popover/Popover.tsx'),
-            '@radui/ui/TextField': path.resolve(__dirname, '../src/components/ui/TextField/TextField.tsx'),
-            '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
-            '@radui/ui/themes/default.css': path.resolve(__dirname, '../src/design-systems/clarity/default.scss'),
-            '@radui/ui/themes/baremetal.css': path.resolve(__dirname, '../src/design-systems/baremetal/default.scss'),
-            '~': path.resolve(__dirname, '../src'),
-        }
         config.resolve.modules = [
             path.resolve(__dirname, 'node_modules'),
             ...(config.resolve.modules ?? ['node_modules']),

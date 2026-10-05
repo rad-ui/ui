@@ -1,8 +1,8 @@
 @import 'tailwindcss' source(none);
 
-/* Prefer the local preset so monorepo token changes (e.g. alpha ramps) apply
- * without waiting for a publish. */
-@import '../../styles/tailwind-presets/default.css';
+/* Use the published preset: Vercel builds docs/ in isolation, so paths
+ * outside this directory are not available. */
+@import '@radui/ui/themes/tailwind-presets/default.css';
 
 /* v4 auto-detection would walk the whole repo from here, including the
  * library source and every docs example. Scope it to what the app renders.
