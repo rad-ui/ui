@@ -81,13 +81,13 @@ describe('Command regressions', () => {
             );
         };
         render(<Palette />);
-        expect(screen.getByRole('separator')).toBeInTheDocument();
+        expect(document.querySelector('[data-slot="command-separator"]')).toBeInTheDocument();
 
         await user.click(screen.getByRole('option', { name: 'One' }));
         await user.click(screen.getByRole('option', { name: /Two/ }));
 
         expect(screen.getByRole('option', { name: 'Two 2' })).toBeInTheDocument();
-        expect(screen.getByRole('separator')).toBeInTheDocument();
+        expect(document.querySelector('[data-slot="command-separator"]')).toBeInTheDocument();
     });
 
     test('items without a value filter by their rendered text', async() => {

@@ -89,7 +89,7 @@ export default async function ChangelogPage({
                 <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-950">
                     Changelog
                 </h1>
-                <p className="max-w-2xl text-sm leading-relaxed text-gray-900">
+                <p className="max-w-2xl text-sm leading-relaxed text-gray-950">
                     Published versions of{" "}
                     <code className="rounded bg-gray-200 px-1.5 py-0.5 font-mono text-[0.9em] text-gray-950">
                         @radui/ui

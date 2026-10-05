@@ -18,7 +18,7 @@ const EditPageOnGithub = () => {
                     href={CHANGELOG_EDIT_HREF}
                     target="_blank"
                     rel="noreferrer"
-                    className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-800 hover:text-green-1000"
+                    className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-950 hover:text-green-1000"
                 >
                     Edit changelog on GitHub →
                 </Link>
@@ -34,7 +34,7 @@ const EditPageOnGithub = () => {
                 href={`${GITHUB_REPO_EDIT_BASE}/${currentDocsPath}/content.mdx`}
                 target="_blank"
                 rel="noreferrer"
-                className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-800 hover:text-green-1000"
+                className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-950 hover:text-green-1000"
             >
                 Edit this page on GitHub →
             </Link>

@@ -44,7 +44,7 @@ const Documentation = ({ title = '', description = '', eyebrow = 'Component', cu
 const Anatomy = ({ code, as = "h3", language = 'jsx' }) => {
     return <section className={docsSectionBlockClassName}>
         <BookMarkLink id="anatomy"> <Heading as={as} className={docsSectionHeadingClassName}>Anatomy</Heading> </BookMarkLink>
-        <Text className="text-[0.98rem] leading-7 text-gray-900">Import all parts of the component and piece them together</Text>
+        <Text className="text-[0.98rem] leading-7 text-gray-950">Import all parts of the component and piece them together</Text>
         <CodeBlock language={language}>
             {code}
         </CodeBlock>
@@ -63,7 +63,7 @@ const UnderConstruction = ({ children }) => {
         <Text className="mb-2 font-semibold tracking-tight text-gray-1000">
             Docs under construction
         </Text>
-        <Text className="text-sm! leading-6 text-gray-900">
+        <Text className="text-sm! leading-6 text-gray-950">
             Check back soon.
         </Text>
     </div>;

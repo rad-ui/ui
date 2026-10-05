@@ -121,7 +121,7 @@ const RoleBand = ({ band, family }) => (
     <div className="flex items-start justify-between gap-3">
       <div>
         <h2 className="text-lg font-semibold text-gray-1000">{band.label}</h2>
-        <p className="mt-1 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-gray-900">
+        <p className="mt-1 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-gray-950">
           {band.range}
         </p>
       </div>
@@ -136,7 +136,7 @@ const RoleBand = ({ band, family }) => (
       {band.steps.map((step) => (
         <div key={`${band.label}-${step}`} className="min-w-0">
           <Swatch family={family} step={step} className="h-11 rounded-[5px] border border-black/5" />
-          <div className="mt-1.5 font-mono text-[0.68rem] text-gray-900">{step}</div>
+          <div className="mt-1.5 font-mono text-[0.68rem] text-gray-950">{step}</div>
         </div>
       ))}
     </div>
@@ -148,7 +148,7 @@ const FamilySpecimen = ({ family }) => (
     <div className="p-4">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-lg font-semibold text-gray-1000">{formatFamilyName(family)}</h3>
-        <span className="font-mono text-[0.7rem] text-gray-900">{family}</span>
+        <span className="font-mono text-[0.7rem] text-gray-950">{family}</span>
       </div>
       <div className="mt-4">
         <SpectrumStrip family={family} compact />
@@ -222,7 +222,7 @@ const FamilyGroup = ({ group }) => (
           <div key={family} className="grid items-center gap-3 sm:grid-cols-[7.5rem_minmax(0,1fr)]">
             <div className="flex items-center justify-between gap-3 sm:block">
               <div className="text-sm font-medium text-gray-1000">{formatFamilyName(family)}</div>
-              <div className="font-mono text-[0.68rem] text-gray-800 sm:mt-1">{family}</div>
+              <div className="font-mono text-[0.68rem] text-gray-950 sm:mt-1">{family}</div>
             </div>
             <SpectrumStrip family={family} compact />
           </div>
@@ -237,7 +237,7 @@ const StepMap = () => (
     <div className="grid grid-cols-2 border-b border-gray-400 sm:grid-cols-4 lg:grid-cols-6">
       {scaleSteps.map((step) => (
         <div key={step} className="border-b border-r border-gray-300 p-4 last:border-r-0 sm:[&:nth-child(4n)]:border-r-0 lg:[&:nth-child(4n)]:border-r lg:[&:nth-child(6n)]:border-r-0">
-          <div className="font-mono text-[0.72rem] text-gray-900">{step}</div>
+          <div className="font-mono text-[0.72rem] text-gray-950">{step}</div>
           <Swatch family="blue" step={step} className="mt-3 h-16 rounded-[6px] border border-black/5" />
         </div>
       ))}
@@ -281,7 +281,7 @@ const ColorTemplate = () => {
               {stats.map(([label, value]) => (
                 <div key={label} className="border-r border-gray-300 p-4 last:border-r-0">
                   <div className="text-3xl font-semibold text-gray-1000">{value}</div>
-                  <div className="mt-1 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-gray-900">
+                  <div className="mt-1 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-gray-950">
                     {label}
                   </div>
                 </div>
@@ -302,7 +302,7 @@ const ColorTemplate = () => {
         <div className="mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-8 lg:px-10 lg:py-16">
           <div className="mb-7 grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-end">
             <div>
-              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-900">
+              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-950">
                 Scale roles
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-gray-1000 md:text-4xl">
@@ -327,7 +327,7 @@ const ColorTemplate = () => {
         <div className="mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-8 lg:px-10 lg:py-16">
           <div className="grid gap-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
             <div>
-              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-900">
+              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-950">
                 Specimens
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-gray-1000">
@@ -352,7 +352,7 @@ const ColorTemplate = () => {
         <div className="mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-8 lg:px-10 lg:py-16">
           <div className="grid gap-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
             <div>
-              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-900">
+              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-950">
                 Step map
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-gray-1000">
@@ -368,7 +368,7 @@ const ColorTemplate = () => {
         <div className="mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-8 lg:px-10 lg:py-16">
           <div className="mb-2 grid gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
             <div>
-              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-900">
+              <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-gray-950">
                 Complete atlas
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-gray-1000">

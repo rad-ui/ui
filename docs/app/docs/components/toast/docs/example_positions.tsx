@@ -51,7 +51,7 @@ function PositionsInner({
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
             <Toaster />
-            <p className="text-sm text-gray-800">
+            <p className="text-sm text-gray-950">
                 <code className="text-xs">position</code> on{' '}
                 <code className="text-xs">Toast.Provider</code> moves the viewport to each corner or edge.
             </p>

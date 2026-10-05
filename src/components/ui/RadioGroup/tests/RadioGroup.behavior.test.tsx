@@ -8,6 +8,30 @@ import RadioGroup from '../RadioGroup';
 const ACCESSIBILITY_TEST_TAGS = ['wcag2a', 'wcag2aa'];
 
 describe('RadioGroup behavior', () => {
+    // WAI-ARIA APG radio pattern: all four arrows move (and select) whatever
+    // the visual orientation; aria-orientation still reflects the prop.
+    test.each(['horizontal', 'vertical'] as const)('%s group responds to all four arrow keys', async(orientation) => {
+        const user = userEvent.setup();
+        render(
+            <RadioGroup.Root defaultValue="one" orientation={orientation} aria-label="Plan">
+                <RadioGroup.Item value="one" data-testid="one">one</RadioGroup.Item>
+                <RadioGroup.Item value="two" data-testid="two">two</RadioGroup.Item>
+                <RadioGroup.Item value="three" data-testid="three">three</RadioGroup.Item>
+            </RadioGroup.Root>
+        );
+        expect(screen.getByRole('radiogroup')).toHaveAttribute('aria-orientation', orientation);
+        await user.tab();
+        expect(screen.getByTestId('one')).toHaveFocus();
+        await user.keyboard('{ArrowDown}');
+        expect(screen.getByTestId('two')).toHaveFocus();
+        await user.keyboard('{ArrowRight}');
+        expect(screen.getByTestId('three')).toHaveFocus();
+        await user.keyboard('{ArrowUp}');
+        expect(screen.getByTestId('two')).toHaveFocus();
+        await user.keyboard('{ArrowLeft}');
+        expect(screen.getByTestId('one')).toHaveFocus();
+    });
+
     test('arrow keys move focus/selection and Home/End jump to first/last', async() => {
         render(
             <RadioGroup.Root>

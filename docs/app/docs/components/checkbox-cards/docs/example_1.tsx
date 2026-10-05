@@ -25,7 +25,7 @@ const CheckboxCardsExample = () => {
                     </CheckboxCards.Content>
                     <div>
                         <div className="font-semibold text-sm">{option.title}</div>
-                        <div className="text-xs text-gray-500">{option.description}</div>
+                        <div className="text-xs text-gray-950">{option.description}</div>
                     </div>
                 </CheckboxCards.Item>
             ))}

@@ -86,7 +86,7 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (columnType === "description") {
-        return <Text className="text-sm! leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
     }
 
     if (value === "boolean" || value === "false" || value === "true") {
@@ -94,7 +94,7 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (typeof value === 'string') {
-        return <Text className="text-sm! leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
     }
 
     return value;
@@ -107,7 +107,7 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
                 <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}>
                     <Heading as={as} className={docsSectionHeadingClassName}>{title}</Heading>
                 </BookMarkLink>
-                {description ? <Text className="text-[0.98rem] leading-7 text-gray-900">{description}</Text> : null}
+                {description ? <Text className="text-[0.98rem] leading-7 text-gray-950">{description}</Text> : null}
             </div>
             <Table.Root className={`${docsSurfaceClassName} bg-gray-50 shadow-none`}>
                 <Table.Head>

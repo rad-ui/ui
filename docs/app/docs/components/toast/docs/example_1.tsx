@@ -38,7 +38,7 @@ function StackingInner() {
     return (
         <div className="mx-auto flex w-full max-w-xl flex-col gap-3">
             <Toaster />
-            <p className="text-sm text-gray-800">
+            <p className="text-sm text-gray-950">
                 Click repeatedly to stack. Hover the stack to expand every toast.
             </p>
             <div className="flex flex-wrap gap-2">

@@ -154,7 +154,7 @@ const IconButton = ({ label, onClick, active, shortcut, className = "", children
             aria-label={label}
             aria-pressed={active}
             onClick={onClick}
-            className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${active ? "text-green-900" : "text-gray-900 hover:text-gray-1000"} ${className}`}
+            className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${active ? "text-green-900" : "text-gray-950 hover:text-gray-1000"} ${className}`}
         >
             {children}
         </Tooltip.Trigger>
@@ -186,7 +186,7 @@ const ArtistHoverCard = ({ name, following, onToggleFollow }) => {
                         </Avatar.Root>
                         <div className="min-w-0">
                             <p className="truncate text-[15px] font-semibold text-gray-1000">{name}</p>
-                            <p className="text-xs text-gray-900">{artist.listeners} monthly listeners</p>
+                            <p className="text-xs text-gray-950">{artist.listeners} monthly listeners</p>
                         </div>
                     </div>
                     <p className="mt-3 text-sm leading-snug text-gray-950">{artist.bio}</p>
@@ -424,7 +424,7 @@ const MusicApp = () => {
                     </nav>
 
                     <div className="mt-5 flex items-center justify-between pl-5 pr-3">
-                        <p className="text-xs font-medium text-gray-900">Playlists</p>
+                        <p className="text-xs font-medium text-gray-950">Playlists</p>
                         <IconButton label="Create playlist" onClick={() => setCreateOpen(true)}><Plus className="h-4 w-4" /></IconButton>
                     </div>
                     <ul className="mt-1 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-3">
@@ -439,7 +439,7 @@ const MusicApp = () => {
                                     <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
                                     <span className="min-w-0 flex-1">
                                         <span className={`block truncate text-sm font-medium ${current.playlistId === item.id && playing ? "text-green-900" : ""}`}>{item.name}</span>
-                                        <span className="block truncate text-xs text-gray-900">Playlist · {item.owner}</span>
+                                        <span className="block truncate text-xs text-gray-950">Playlist · {item.owner}</span>
                                     </span>
                                     {current.playlistId === item.id && playing ? <Volume2 className="h-3.5 w-3.5 shrink-0 text-green-900" aria-label="Playing" /> : null}
                                 </button>
@@ -448,7 +448,7 @@ const MusicApp = () => {
                     </ul>
 
                     <div className="border-t border-gray-400 px-5 py-4">
-                        <p className="text-xs font-medium text-gray-900">Friend activity</p>
+                        <p className="text-xs font-medium text-gray-950">Friend activity</p>
                         <ul className="mt-3 space-y-3">
                             {friends.map((friend) => (
                                 <li key={friend.name} className="flex items-center gap-2.5">
@@ -462,9 +462,9 @@ const MusicApp = () => {
                                     <span className="min-w-0 flex-1">
                                         <span className="flex items-baseline justify-between gap-2">
                                             <span className="truncate text-sm font-medium">{friend.name}</span>
-                                            <span className="shrink-0 text-[11px] text-gray-900">{friend.when}</span>
+                                            <span className="shrink-0 text-[11px] text-gray-950">{friend.when}</span>
                                         </span>
-                                        <span className="block truncate text-xs text-gray-900">{friend.track} · {friend.artist}</span>
+                                        <span className="block truncate text-xs text-gray-950">{friend.track} · {friend.artist}</span>
                                     </span>
                                 </li>
                             ))}
@@ -479,7 +479,7 @@ const MusicApp = () => {
                         <button
                             type="button"
                             onClick={() => setPaletteOpen(true)}
-                            className="flex h-9 min-w-0 flex-1 items-center gap-2.5 rounded-full bg-gray-200 px-3.5 text-sm text-gray-900 transition-colors hover:bg-gray-300 sm:max-w-sm"
+                            className="flex h-9 min-w-0 flex-1 items-center gap-2.5 rounded-full bg-gray-200 px-3.5 text-sm text-gray-950 transition-colors hover:bg-gray-300 sm:max-w-sm"
                         >
                             <Search className="h-4 w-4 shrink-0" />
                             <span className="truncate">What do you want to play?</span>
@@ -515,10 +515,10 @@ const MusicApp = () => {
                         <header className="flex flex-col gap-5 px-5 pb-5 pt-6 sm:flex-row sm:items-end sm:px-8">
                             <img src={playlist.cover} alt={`${playlist.name} cover`} className="h-36 w-36 shrink-0 rounded-lg object-cover shadow-xl sm:h-44 sm:w-44" />
                             <div className="min-w-0">
-                                <p className="text-sm font-medium text-gray-900">Playlist</p>
+                                <p className="text-sm font-medium text-gray-950">Playlist</p>
                                 <h2 className="mt-1 truncate text-3xl font-bold tracking-tight sm:text-5xl">{playlist.name}</h2>
                                 <p className="mt-2 text-[15px] text-gray-950">{playlist.description}</p>
-                                <p className="mt-1.5 text-sm text-gray-900">
+                                <p className="mt-1.5 text-sm text-gray-950">
                                     <span className="font-medium text-gray-1000">{playlist.owner}</span> · {playlist.tracks.length} songs{totalTime ? ` · ${Math.round(totalTime / 60)} min` : ""}
                                 </p>
                             </div>
@@ -575,7 +575,7 @@ const MusicApp = () => {
                             {/* Songs */}
                             <Tabs.Content value="songs" className="border-0! bg-transparent! p-0! shadow-none!">
                                 <div role="table" aria-label={`${playlist.name} songs`}>
-                                    <div role="row" className="grid grid-cols-[2rem_minmax(0,1fr)_4.5rem_2.5rem] items-center gap-3 border-b border-gray-400 px-3 pb-2 text-xs font-medium text-gray-900 lg:grid-cols-[2rem_minmax(0,1.4fr)_minmax(0,1fr)_4.5rem_2.5rem]">
+                                    <div role="row" className="grid grid-cols-[2rem_minmax(0,1fr)_4.5rem_2.5rem] items-center gap-3 border-b border-gray-400 px-3 pb-2 text-xs font-medium text-gray-950 lg:grid-cols-[2rem_minmax(0,1.4fr)_minmax(0,1fr)_4.5rem_2.5rem]">
                                         <span role="columnheader" className="text-center">#</span>
                                         <span role="columnheader">Title</span>
                                         <span role="columnheader" className="hidden lg:block">Album</span>
@@ -585,14 +585,14 @@ const MusicApp = () => {
                                     <div role="rowgroup" className="py-2">
                                         {playlist.tracks.length === 0 ? (
                                             <div className="flex flex-col items-center px-3 py-14 text-center">
-                                                <span className="grid h-12 w-12 place-items-center rounded-full bg-gray-200"><ListMusic className="h-5 w-5 text-gray-900" /></span>
+                                                <span className="grid h-12 w-12 place-items-center rounded-full bg-gray-200"><ListMusic className="h-5 w-5 text-gray-950" /></span>
                                                 <p className="mt-3 text-[15px] font-medium">Let's find something for your playlist</p>
-                                                <p className="mt-1 text-sm text-gray-900">Search for songs, then use “Add to playlist” from any track's menu.</p>
+                                                <p className="mt-1 text-sm text-gray-950">Search for songs, then use “Add to playlist” from any track's menu.</p>
                                                 <Button variant="soft" className="mt-4" onClick={() => setPaletteOpen(true)}><Search className="h-4 w-4" /> Find songs</Button>
                                             </div>
                                         ) : null}
                                         {playlist.tracks.length > 0 && visibleTracks.length === 0 ? (
-                                            <p className="px-3 py-10 text-center text-sm text-gray-900">No songs match “{filter}”.</p>
+                                            <p className="px-3 py-10 text-center text-sm text-gray-950">No songs match “{filter}”.</p>
                                         ) : null}
                                         {visibleTracks.map((item) => {
                                             const isCurrent = current.playlistId === playlistId && current.index === item.index
@@ -609,7 +609,7 @@ const MusicApp = () => {
                                                             type="button"
                                                             onClick={() => playTrack(item.index)}
                                                             aria-label={isCurrent && playing ? `Pause ${item.title}` : `Play ${item.title}`}
-                                                            className="grid h-7 w-7 place-items-center rounded text-sm tabular-nums text-gray-900"
+                                                            className="grid h-7 w-7 place-items-center rounded text-sm tabular-nums text-gray-950"
                                                         >
                                                             {isCurrent && playing ? (
                                                                 <>
@@ -628,27 +628,27 @@ const MusicApp = () => {
                                                         <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
                                                         <span className="min-w-0">
                                                             <span className={`block truncate text-[15px] font-medium ${isCurrent ? "text-green-900" : ""}`}>{item.title}</span>
-                                                            <div className="truncate text-sm text-gray-900">
+                                                            <div className="truncate text-sm text-gray-950">
                                                                 <ArtistHoverCard name={item.artist} following={following.has(item.artist)} onToggleFollow={() => toggleFollow(item.artist)} />
                                                             </div>
                                                         </span>
                                                     </span>
-                                                    <span role="cell" className="hidden truncate text-sm text-gray-900 lg:block">{item.album}</span>
+                                                    <span role="cell" className="hidden truncate text-sm text-gray-950 lg:block">{item.album}</span>
                                                     <span role="cell" className="flex items-center justify-end gap-1">
                                                         <button
                                                             type="button"
                                                             aria-pressed={liked.has(item.id)}
                                                             aria-label={liked.has(item.id) ? `Unlike ${item.title}` : `Like ${item.title}`}
                                                             onClick={() => toggleLike(item)}
-                                                            className={`grid h-7 w-7 place-items-center rounded transition-opacity ${liked.has(item.id) ? "text-green-900" : "text-gray-900 opacity-0 hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100"}`}
+                                                            className={`grid h-7 w-7 place-items-center rounded transition-opacity ${liked.has(item.id) ? "text-green-900" : "text-gray-950 opacity-0 hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100"}`}
                                                         >
                                                             <Heart className={`h-4 w-4 ${liked.has(item.id) ? "fill-current" : ""}`} />
                                                         </button>
-                                                        <span className="w-9 text-right text-sm tabular-nums text-gray-900">{formatTime(item.duration)}</span>
+                                                        <span className="w-9 text-right text-sm tabular-nums text-gray-950">{formatTime(item.duration)}</span>
                                                     </span>
                                                     <span role="cell" className="grid place-items-center">
                                                         <DropdownMenu.Root>
-                                                            <DropdownMenu.Trigger aria-label={`More options for ${item.title}`} className="min-h-0! border-0! bg-transparent! p-0! shadow-none! grid h-7 w-7 place-items-center rounded text-gray-900 opacity-0 transition-opacity hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100 data-[state=open]:opacity-100">
+                                                            <DropdownMenu.Trigger aria-label={`More options for ${item.title}`} className="min-h-0! border-0! bg-transparent! p-0! shadow-none! grid h-7 w-7 place-items-center rounded text-gray-950 opacity-0 transition-opacity hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100 data-[state=open]:opacity-100">
                                                                 <MoreHorizontal className="h-4 w-4" />
                                                             </DropdownMenu.Trigger>
                                                             <DropdownMenu.Content>
@@ -681,7 +681,7 @@ const MusicApp = () => {
                             <Tabs.Content value="albums" className="border-0! bg-transparent! p-0! shadow-none!">
                                 {albums.length ? (
                                     <>
-                                        <p className="px-3 pb-3 text-sm text-gray-900">Right-click an album for more options.</p>
+                                        <p className="px-3 pb-3 text-sm text-gray-950">Right-click an album for more options.</p>
                                         <ul className="grid grid-cols-2 gap-5 px-3 pb-8 sm:grid-cols-3 lg:grid-cols-4">
                                             {albums.map((album) => (
                                                 <li key={album.name}>
@@ -691,7 +691,7 @@ const MusicApp = () => {
                                                                 <img src={album.cover} alt="" className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                                                             </span>
                                                             <span className="mt-2 block truncate text-sm font-medium">{album.name}</span>
-                                                            <span className="block truncate text-xs text-gray-900">{album.artist} · {album.indexes.length} {album.indexes.length === 1 ? "song" : "songs"}</span>
+                                                            <span className="block truncate text-xs text-gray-950">{album.artist} · {album.indexes.length} {album.indexes.length === 1 ? "song" : "songs"}</span>
                                                         </ContextMenu.Trigger>
                                                         <ContextMenu.Content>
                                                             <ContextMenu.Item label="Play album" onSelect={() => { startAt({ playlistId, index: album.firstIndex }); addToQueue(album.indexes.slice(1).map((index) => ({ playlistId, index }))) }}>
@@ -710,7 +710,7 @@ const MusicApp = () => {
                                         </ul>
                                     </>
                                 ) : (
-                                    <p className="px-3 py-10 text-center text-sm text-gray-900">No albums yet.</p>
+                                    <p className="px-3 py-10 text-center text-sm text-gray-950">No albums yet.</p>
                                 )}
                             </Tabs.Content>
 
@@ -726,7 +726,7 @@ const MusicApp = () => {
                                     <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
                                         {[["Songs", playlist.tracks.length], ["Runtime", `${Math.round(totalTime / 60)} min`], ["Followers", playlist.followers]].map(([label, value]) => (
                                             <div key={label} className="rounded-lg bg-gray-100 p-4">
-                                                <dt className="text-xs text-gray-900">{label}</dt>
+                                                <dt className="text-xs text-gray-950">{label}</dt>
                                                 <dd className="mt-1 text-xl font-semibold tabular-nums">{value}</dd>
                                             </div>
                                         ))}
@@ -764,7 +764,7 @@ const MusicApp = () => {
                         <div className="mt-4 flex items-start justify-between gap-3">
                             <div className="min-w-0">
                                 <p className="truncate text-xl font-bold tracking-tight">{track.title}</p>
-                                <div className="truncate text-sm text-gray-900">
+                                <div className="truncate text-sm text-gray-950">
                                     <ArtistHoverCard name={track.artist} following={following.has(track.artist)} onToggleFollow={() => toggleFollow(track.artist)} /> · {track.album}
                                 </div>
                             </div>
@@ -785,7 +785,7 @@ const MusicApp = () => {
                                             <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
                                             <span className="min-w-0 flex-1">
                                                 <span className="block truncate text-sm font-medium">{item.title}</span>
-                                                <span className="block truncate text-xs text-gray-900">{item.artist}</span>
+                                                <span className="block truncate text-xs text-gray-950">{item.artist}</span>
                                             </span>
                                             <IconButton label="Remove from queue" onClick={() => setQueue((list) => list.filter((entry) => entry.key !== item.key))}><X className="h-3.5 w-3.5" /></IconButton>
                                         </li>
@@ -807,9 +807,9 @@ const MusicApp = () => {
                                         <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
                                         <span className="min-w-0 flex-1">
                                             <span className="block truncate text-sm font-medium">{item.title}</span>
-                                            <span className="block truncate text-xs text-gray-900">{item.artist}</span>
+                                            <span className="block truncate text-xs text-gray-950">{item.artist}</span>
                                         </span>
-                                        <span className="text-xs tabular-nums text-gray-900">{formatTime(item.duration)}</span>
+                                        <span className="text-xs tabular-nums text-gray-950">{formatTime(item.duration)}</span>
                                     </button>
                                 </li>
                             ))}
@@ -828,7 +828,7 @@ const MusicApp = () => {
                     <img src={track.cover} alt="" className="h-12 w-12 shrink-0 rounded object-cover shadow-sm" />
                     <div className="min-w-0">
                         <p className="truncate text-sm font-medium">{track.title}</p>
-                        <p className="truncate text-xs text-gray-900">{track.artist}</p>
+                        <p className="truncate text-xs text-gray-950">{track.artist}</p>
                     </div>
                     <IconButton label={liked.has(track.id) ? "Remove from Liked Songs" : "Save to Liked Songs"} active={liked.has(track.id)} onClick={() => toggleLike(track)}>
                         <Heart className={`h-4 w-4 ${liked.has(track.id) ? "fill-current" : ""}`} />
@@ -861,18 +861,18 @@ const MusicApp = () => {
                         </span>
                     </div>
                     <div className="hidden w-full items-center gap-3 md:flex">
-                        <span className="w-9 text-right text-xs tabular-nums text-gray-900">{formatTime(position)}</span>
+                        <span className="w-9 text-right text-xs tabular-nums text-gray-950">{formatTime(position)}</span>
                         <div className="sw-media-slider flex-1">
                             <Slider aria-label="Seek" min={0} max={track.duration} value={position} onValueChange={(value) => setPosition(Array.isArray(value) ? value[0] : value)} />
                         </div>
-                        <span className="w-9 text-xs tabular-nums text-gray-900">{formatTime(track.duration)}</span>
+                        <span className="w-9 text-xs tabular-nums text-gray-950">{formatTime(track.duration)}</span>
                     </div>
                 </div>
 
                 <div className="hidden items-center justify-end gap-1 md:flex">
                     <Popover.Root>
                         <Popover.Trigger asChild>
-                            <button type="button" aria-label="Sleep timer" className={`flex h-8 items-center gap-1.5 rounded-full px-2 text-xs font-medium transition-colors ${sleep !== "off" ? "text-green-900" : "text-gray-900 hover:text-gray-1000"}`}>
+                            <button type="button" aria-label="Sleep timer" className={`flex h-8 items-center gap-1.5 rounded-full px-2 text-xs font-medium transition-colors ${sleep !== "off" ? "text-green-900" : "text-gray-950 hover:text-gray-1000"}`}>
                                 <Moon className="h-4 w-4" />
                                 {sleep !== "off" ? (sleep === "end" ? "End" : `${sleep}m`) : null}
                             </button>
@@ -880,7 +880,7 @@ const MusicApp = () => {
                         <Popover.Content sideOffset={10}>
                             <div className="w-56">
                                 <p className="text-sm font-semibold text-gray-1000">Sleep timer</p>
-                                <p className="mt-0.5 text-xs text-gray-900">Pause playback automatically.</p>
+                                <p className="mt-0.5 text-xs text-gray-950">Pause playback automatically.</p>
                                 <RadioGroup.Root value={sleep} onValueChange={(value) => { setSleep(value); if (value !== "off") notify("Sleep timer set", sleepOptions.find((option) => option.value === value).label) }} aria-label="Sleep timer" className="mt-3 flex flex-col gap-2.5">
                                     {sleepOptions.map((option) => (
                                         <RadioGroup.Label key={option.value} className="flex items-center gap-2.5 text-sm text-gray-1000">
@@ -952,7 +952,7 @@ const MusicApp = () => {
                             <Dialog.Title>Create playlist</Dialog.Title>
                             <Dialog.Description>Give it a name — you can add songs from search or any track's menu.</Dialog.Description>
                             <div className="mt-5 flex gap-4">
-                                <span className="grid h-24 w-24 shrink-0 place-items-center rounded-lg bg-gray-200 text-gray-900"><Disc3 className="h-8 w-8" /></span>
+                                <span className="grid h-24 w-24 shrink-0 place-items-center rounded-lg bg-gray-200 text-gray-950"><Disc3 className="h-8 w-8" /></span>
                                 <div className="min-w-0 flex-1 space-y-3">
                                     <label className="block">
                                         <span className="mb-1.5 block text-sm font-medium">Name</span>
@@ -967,7 +967,7 @@ const MusicApp = () => {
                             <label className="mt-5 flex items-center justify-between gap-4 rounded-lg bg-gray-100 px-4 py-3">
                                 <span>
                                     <span className="block text-sm font-medium">Public playlist</span>
-                                    <span className="block text-xs text-gray-900">Show it on your profile and in search.</span>
+                                    <span className="block text-xs text-gray-950">Show it on your profile and in search.</span>
                                 </span>
                                 <Switch.Root checked={draft.isPublic} onCheckedChange={(isPublic) => setDraft((value) => ({ ...value, isPublic }))} aria-label="Public playlist"><Switch.Thumb /></Switch.Root>
                             </label>
