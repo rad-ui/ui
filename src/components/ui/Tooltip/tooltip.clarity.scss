@@ -6,21 +6,21 @@
 }
 
 .rad-ui-tooltip-content-inner {
-  background-color: var(--rad-ui-surface-inverse);
-  color: var(--rad-ui-text-inverse);
+  background-color: var(--rad-ui-tooltip-background);
+  color: var(--rad-ui-tooltip-text);
   font-size: var(--rad-ui-font-size-2);
   line-height: var(--rad-ui-size-5);
   font-weight: 500;
   padding: 0.625rem 1rem;
   border-radius: var(--rad-ui-radius-lg);
   box-shadow: var(--rad-ui-shadow-sm);
-  border: 0;
+  border: var(--rad-ui-border-width-default) solid var(--rad-ui-tooltip-border);
   animation: rad-ui-tooltip-slide-in 200ms var(--rad-ui-motion-easing-entrance);
   will-change: transform, opacity;
   position: relative;
 
   .rad-ui-tooltip-arrow {
-    fill: var(--rad-ui-surface-inverse);
+    fill: var(--rad-ui-tooltip-background);
   }
 }
 

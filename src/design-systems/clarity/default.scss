@@ -110,6 +110,13 @@
     // Overlay arrows read as part of the floating surface, so their shadow is
     // a `filter` rather than a `box-shadow` and cannot reuse an elevation token.
     --rad-ui-overlay-arrow-shadow: drop-shadow(0 6px 10px rgb(0, 0, 0, 0.08));
+
+    // Tooltips are a dark, high-contrast chip. In light mode that is the inverse
+    // surface; dark mode overrides these below, because the inverse surface flips
+    // to near-white there and would read as a light box on a dark page.
+    --rad-ui-tooltip-background: var(--rad-ui-surface-inverse);
+    --rad-ui-tooltip-text: var(--rad-ui-text-inverse);
+    --rad-ui-tooltip-border: var(--rad-ui-surface-inverse);
     --rad-ui-item-selected-background: var(--rad-ui-surface-muted);
     --rad-ui-item-selected-border: var(--rad-ui-border-default);
     --rad-ui-item-selected-text: var(--rad-ui-text-primary);
@@ -200,6 +207,14 @@
 
     color: var(--rad-ui-text-primary);
     background-color: var(--rad-ui-surface-canvas);
+}
+
+// Same specificity as the block above, so a nested light Theme inside a dark
+// one re-declares the light values on its own container.
+[data-rad-ui-theme="dark"] {
+    --rad-ui-tooltip-background: var(--rad-ui-surface-muted);
+    --rad-ui-tooltip-text: var(--rad-ui-text-primary);
+    --rad-ui-tooltip-border: var(--rad-ui-border-soft);
 }
 
 :where([data-rad-ui-theme] :is(button, [role="button"], a[href], input:not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"]))):focus-visible {
