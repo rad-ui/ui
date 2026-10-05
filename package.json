@@ -230,7 +230,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@changesets/cli": "^2.29.7",
     "@playwright/test": "^1.45.0",
-    "@rollup/plugin-alias": "5.1.0",
+    "@rollup/plugin-alias": "6.0.0",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
