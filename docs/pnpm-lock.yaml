@@ -21,8 +21,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radui/ui':
-        specifier: ^1.0.0
-        version: 1.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^1.0.1
+        version: 1.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@tailwindcss/postcss':
         specifier: ^4.1.11
         version: 4.3.3
@@ -638,8 +638,8 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@radui/ui@1.0.0':
-    resolution: {integrity: sha512-BodeBlGw1hFrWdDhK+UJ6kpkmbXFNfm048B1njWmvQGNaQao5G+TBCfnoS0KKtpouBJyDQyb0svl9sgK6pArZw==}
+  '@radui/ui@1.0.1':
+    resolution: {integrity: sha512-qvtOHfG5g8iLQ32nSKi+6KOaxHvS92/V2PLHVIeb+HCKmhl5hTfdVM47KXRTtIeUPkq3Auni95X9E2FrHxHP9Q==}
     peerDependencies:
       react: ^18.2.0 || ^19.0.0
       react-dom: ^18.2.0 || ^19.0.0
@@ -3441,7 +3441,7 @@ snapshots:
     transitivePeerDependencies:
       - '@emotion/is-prop-valid'
 
-  '@radui/ui@1.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@radui/ui@1.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@floating-ui/react': 0.27.20(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       clsx: 2.1.1
