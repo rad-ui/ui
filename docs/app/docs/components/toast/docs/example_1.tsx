@@ -31,10 +31,6 @@ function Toaster() {
 function StackingInner() {
     const manager = Toast.useToastManager()
 
-    useEffect(() => () => {
-        manager.dismissAll()
-    }, [manager])
-
     return (
         <div className="mx-auto flex w-full max-w-xl flex-col gap-3">
             <Toaster />
@@ -63,6 +59,10 @@ function StackingInner() {
 export default function ToastStackingExample() {
     // Each example owns its queue; the default singleton would show every toast in every example on the page.
     const toastManager = useMemo(() => createToastManager(), [])
+    // Clear this example's toasts when it unmounts. Key the effect on the
+    // stable manager instance, not on the useToastManager() return value,
+    // which changes every time the toast list does.
+    useEffect(() => () => toastManager.dismissAll(), [toastManager])
     return (
         <Toast.Provider toastManager={toastManager} position="bottom-right" gap={14} limit={3}>
             <StackingInner />

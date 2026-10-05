@@ -12,6 +12,9 @@ import { DialogPrimitiveContext } from '~/core/primitives/Dialog/context/DialogP
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
 
+// ~0.5s at 60fps: upper bound on waiting for the popup to become visible.
+const FOCUS_READY_MAX_FRAMES = 30;
+
 type DrawerContentElement = React.ElementRef<typeof Primitive.div>;
 
 export type DrawerContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
@@ -179,6 +182,32 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
         return () => cancelAnimationFrame(raf);
     }, [isOpen, mounted]);
 
+    // Focus can only land on a visible popup. The themes keep it
+    // `visibility: hidden` until the entrance transition starts, which can be a
+    // frame or more after data-state flips to "open". If the focus manager
+    // engages in that window it finds nothing focusable, initial focus silently
+    // fails, and Tab walks the page behind the modal. Wait until the popup is
+    // really visible (capped so a theme that never shows it can't stall focus).
+    const [focusReady, setFocusReady] = useState(false);
+    useEffect(() => {
+        if (!isOpen || dataState !== 'open' || !element) {
+            setFocusReady(false);
+            return;
+        }
+        let frame = 0;
+        let attempts = 0;
+        const check = () => {
+            if (getComputedStyle(element).visibility !== 'hidden' || attempts >= FOCUS_READY_MAX_FRAMES) {
+                setFocusReady(true);
+                return;
+            }
+            attempts += 1;
+            frame = requestAnimationFrame(check);
+        };
+        check();
+        return () => cancelAnimationFrame(frame);
+    }, [dataState, element, isOpen]);
+
     useEffect(() => {
         if (isOpen || !finalFocus?.current) return;
         const frame = requestAnimationFrame(() => {
@@ -236,12 +265,10 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
         <DrawerPopupContext.Provider value={popupContextValue}>
             <Floater.FocusManager
                 context={floaterContext}
-                // The popup mounts with data-state="closed" (visibility: hidden in
-                // the themes) and flips to "open" a frame later for the entrance
-                // transition. Hidden elements cannot take focus, so the focus
-                // manager only engages once the popup is actually open; otherwise
-                // initial focus silently fails and Tab escapes the modal.
-                disabled={!isOpen || dataState !== 'open'}
+                // Engage only once the popup is open *and* visible (see
+                // focusReady above); otherwise initial focus silently fails and
+                // Tab escapes the modal.
+                disabled={!isOpen || !focusReady}
                 modal={trapFocus}
                 initialFocus={initialFocus as any}
                 returnFocus={!finalFocus}
