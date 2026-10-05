@@ -8,6 +8,7 @@ import FullHeightScroll from "@/components/layout/ScrollContainers/FullHeightScr
 
 import baseSeoMetadata from "./baseSeo"
 import ComponentGallery from "./landingComponents/ComponentGallery"
+import DocsShowcase from "./landingComponents/DocsShowcase"
 import HeadlessDemo from "./landingComponents/HeadlessDemo"
 import InstallCommand from "./landingComponents/InstallCommand"
 import KeyboardDemo from "./landingComponents/KeyboardDemo"
@@ -267,6 +268,22 @@ export default function Home() {
                         </Reveal>
                         <Reveal delay={80} className="min-w-0">
                             <QuickStart steps={steps} />
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ── Docs ─────────────────────────────────────────── */}
+                <section className="bg-gray-100">
+                    <div className="mx-auto max-w-[1240px] px-4 py-20 sm:px-8 lg:px-10 lg:py-28">
+                        <Reveal>
+                            <SectionIntro kicker="Documentation" title="Built for humans. Your agents will love it too.">
+                                Component pages are written by hand: props and defaults for each part, keyboard maps,
+                                the ARIA pattern it follows, and live examples with their source. Turns out that is exactly
+                                what an AI agent needs to get it right the first time.
+                            </SectionIntro>
+                            <div className="mt-10 lg:mt-12">
+                                <DocsShowcase />
+                            </div>
                         </Reveal>
                     </div>
                 </section>
