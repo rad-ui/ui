@@ -32,7 +32,29 @@ const RadUILogo = ({ height }: { height: number }) => (
 );
 
 // Page titles arrive as "Tabs - Rad UI" or "Naming conventions | Rad UI"; the logo already says Rad UI.
-const cleanTitle = (title: string) => title.replace(/\s*[-|–—]\s*Rad UI\s*$/i, '').trim();
+const TITLE_SEPARATOR_CHARS = ['-', '|', '–', '—'];
+const BRAND_TITLE = 'Rad UI';
+
+const cleanTitle = (title: string) => {
+    const trimmedTitle = title.trim();
+    const withoutBrand = trimmedTitle.slice(0, -BRAND_TITLE.length).trimEnd();
+
+    if (trimmedTitle.toLowerCase() === BRAND_TITLE.toLowerCase()) {
+        return '';
+    }
+
+    if (!trimmedTitle.toLowerCase().endsWith(BRAND_TITLE.toLowerCase()) || !withoutBrand) {
+        return trimmedTitle;
+    }
+
+    const lastChar = withoutBrand.charAt(withoutBrand.length - 1);
+
+    if (!TITLE_SEPARATOR_CHARS.includes(lastChar)) {
+        return trimmedTitle;
+    }
+
+    return withoutBrand.slice(0, -1).trimEnd();
+};
 
 const truncate = (text: string, max: number) => {
     if (text.length <= max) return text;
