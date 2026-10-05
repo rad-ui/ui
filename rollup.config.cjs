@@ -58,12 +58,23 @@ const jsBundles = {
         if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
         warn(warning);
     },
-    output: {
-        dir: 'dist/temp-cleanup',
-        format: 'es',
-        entryFileNames: '[name].js',
-        preserveModules: false
-    },
+    output: [
+        {
+            dir: 'dist/temp-cleanup',
+            format: 'es',
+            entryFileNames: '[name].js',
+            chunkFileNames: '[name]-[hash].js',
+            preserveModules: false
+        },
+        {
+            dir: 'dist/temp-cleanup',
+            format: 'cjs',
+            entryFileNames: '[name].cjs',
+            chunkFileNames: '[name]-[hash].cjs',
+            exports: 'named',
+            preserveModules: false
+        }
+    ],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
     plugins: [
         aliasPluginInstance,

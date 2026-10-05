@@ -96,6 +96,36 @@ if (notReleasedComponents.length > 0) {
 
 const pkgPath = path.resolve(__dirname, '../package.json');
 
+function verifyExportTargets(exportsMap) {
+    const missing = [];
+
+    Object.entries(exportsMap).forEach(([exportPath, target]) => {
+        if (typeof target === 'string') {
+            const filePath = path.resolve(__dirname, '..', target);
+            if (!fs.existsSync(filePath)) {
+                missing.push(`${exportPath} -> ${target}`);
+            }
+            return;
+        }
+
+        ['import', 'require', 'types'].forEach((condition) => {
+            const targetPath = target[condition];
+            if (!targetPath) return;
+
+            const filePath = path.resolve(__dirname, '..', targetPath);
+            if (!fs.existsSync(filePath)) {
+                missing.push(`${exportPath}.${condition} -> ${targetPath}`);
+            }
+        });
+    });
+
+    if (missing.length > 0) {
+        console.error('❌ package.json exports point at missing build files:');
+        missing.forEach((entry) => console.error(`  - ${entry}`));
+        process.exit(1);
+    }
+}
+
 try {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
@@ -106,10 +136,12 @@ try {
             console.error('❌ package.json exports are out of date. Run npm run build:generate-exports to update.');
             process.exit(1);
         }
+        verifyExportTargets(exportsMap);
         console.log('✅ package.json exports are up to date.');
     } else {
         pkg.exports = exportsMap;
         fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+        verifyExportTargets(exportsMap);
         console.log('✅ package.json exports updated!');
     }
 } catch (error) {
