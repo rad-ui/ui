@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 1.0.1
+
+### Patch Changes
+
+- 0257be0: Emit CommonJS component bundles and root index files so every `package.json` export target exists in the published package.
+
 ## 1.0.0
 
 ### Major Changes
