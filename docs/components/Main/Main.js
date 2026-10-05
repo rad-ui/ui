@@ -12,7 +12,7 @@ import Theme from '@radui/ui/Theme';
 
 
 const MainLayout = ({ darkModeSsrValue, children }) => {
-    const [darkMode, setDarkMode] = useState(darkModeSsrValue === 'true');
+    const [darkMode, setDarkMode] = useState(darkModeSsrValue);
     const [isDocsNavOpen, setIsDocsNavOpen] = useState(false);
 
     const sendValues = {

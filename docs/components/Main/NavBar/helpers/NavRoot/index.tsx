@@ -129,7 +129,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           ))}
         </ul>
       </div>
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-end gap-1">
         <div className="hidden lg:flex lg:items-center lg:gap-1">
           <Button
             color="gray"
@@ -147,18 +147,17 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           >
             <span className="text-gray-1000"><GithubLogo size={15} /></span>
           </Button>
-
-          <Button
-            color="gray"
-            variant="ghost"
-            onClick={toggleDarkMode}
-            aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
-          >
-            <span className="text-gray-1000">
-              {darkMode ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
-            </span>
-          </Button>
         </div>
+        <Button
+          color="gray"
+          variant="ghost"
+          onClick={toggleDarkMode}
+          aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
+        >
+          <span className="text-gray-1000">
+            {darkMode ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
+          </span>
+        </Button>
         <div className="lg:hidden">
           <Button
             color="gray"

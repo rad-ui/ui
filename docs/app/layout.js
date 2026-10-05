@@ -104,7 +104,8 @@ export const metadata = {
 export default async function RootLayout({ children, ...props }) {
 
   const cookieStore = await cookies()
-  const darkModeSsrValue = cookieStore.get('darkMode')?.value || false
+  // Dark by default; only an explicit light choice (cookie "false") opts out.
+  const darkModeSsrValue = cookieStore.get('darkMode')?.value !== 'false'
 
   return (
     <html lang="en" className={`${instrumentSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
