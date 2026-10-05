@@ -1,7 +1,6 @@
 import { Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 import Main from "../components/Main/Main"
 
-import { cookies } from 'next/headers'
 import { Analytics } from '@vercel/analytics/react';
 import GoogleAnalytics from '../components/Analytics/GoogleAnalytics'
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -103,10 +102,6 @@ export const metadata = {
 
 export default async function RootLayout({ children, ...props }) {
 
-  const cookieStore = await cookies()
-  // Dark by default; only an explicit light choice (cookie "false") opts out.
-  const darkModeSsrValue = cookieStore.get('darkMode')?.value !== 'false'
-
   return (
     <html lang="en" className={`${instrumentSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
@@ -166,7 +161,7 @@ export default async function RootLayout({ children, ...props }) {
       </head>
       <body className="h-screen overflow-hidden" suppressHydrationWarning>
         <PostHogProvider>
-          <Main darkModeSsrValue={darkModeSsrValue}>
+          <Main>
             {children}
           </Main>
           <Analytics />
