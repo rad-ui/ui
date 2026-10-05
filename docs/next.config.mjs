@@ -104,6 +104,15 @@ const nextConfig = {
     // This is required to support PostHog trailing slash API requests
     skipTrailingSlashRedirect: true,
 
+    // Docs pages render per request (the root layout reads cookies), and
+    // getSourceCodeFromPath reads example sources from disk at that time.
+    // Those reads use runtime paths that file tracing can't follow, so ship
+    // the sources with the serverless functions explicitly. Without this,
+    // every page with a code example 500s on Vercel (ENOENT).
+    outputFileTracingIncludes: {
+        '/docs/**': ['./app/docs/**/*.{ts,tsx,js,jsx}'],
+    },
+
     turbopack: {
         root: __dirname,
     },
