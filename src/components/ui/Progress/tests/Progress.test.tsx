@@ -158,12 +158,14 @@ describe('Progress', () => {
                     </Progress.Root>
                 );
 
-                expect(mockGetValueLabel).toHaveBeenCalledWith(0, 0, 100); // null value becomes 0
+                // Indeterminate progress has no value to describe.
+                expect(mockGetValueLabel).not.toHaveBeenCalled();
 
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
-                expect(root).toHaveAttribute('aria-label', 'Progress: 0 of 100');
-                expect(root).toHaveAttribute('aria-valuetext', 'Progress: 0 of 100');
+                expect(root).not.toHaveAttribute('aria-valuenow');
+                expect(root).not.toHaveAttribute('aria-valuetext');
+                expect(root).not.toHaveAttribute('aria-label');
             });
 
             test('works without getValueLabel function', () => {
@@ -171,8 +173,9 @@ describe('Progress', () => {
 
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
-                expect(root).toHaveAttribute('aria-label', '');
-                expect(root).toHaveAttribute('aria-valuetext', '');
+                // No empty aria-valuetext: it would replace the announced value with nothing.
+                expect(root).not.toHaveAttribute('aria-label');
+                expect(root).not.toHaveAttribute('aria-valuetext');
             });
 
             test('getValueLabel with custom min/max values', () => {
@@ -299,4 +302,58 @@ describe('Progress', () => {
     //     render(<ProgressComp color='blue' />);
     //     expect(screen.getByRole('progressbar')).toHaveAttribute('data-color', 'blue');
     // });
+
+    describe('audit fixes', () => {
+        test('consumer aria-label is the accessible name; getValueLabel only supplies value text', () => {
+            render(
+                <Progress.Root value={40} minValue={0} maxValue={100} aria-label="Uploading" getValueLabel={(v) => `${v} percent`}>
+                    <Progress.Indicator />
+                </Progress.Root>
+            );
+            const bar = screen.getByRole('progressbar', { name: 'Uploading' });
+            expect(bar).toHaveAttribute('aria-valuetext', '40 percent');
+        });
+
+        test('aria-labelledby is not overridden by the value label', () => {
+            render(
+                <>
+                    <span id="lbl">Export</span>
+                    <Progress.Root value={40} minValue={0} maxValue={100} aria-labelledby="lbl" getValueLabel={(v) => `${v}%`}>
+                        <Progress.Indicator />
+                    </Progress.Root>
+                </>
+            );
+            const bar = screen.getByRole('progressbar', { name: 'Export' });
+            expect(bar).not.toHaveAttribute('aria-label');
+        });
+
+        test('values beyond maxValue are complete and the indicator is clamped', () => {
+            render(
+                <Progress.Root value={150} aria-label="Over">
+                    <Progress.Indicator data-testid="ind" />
+                </Progress.Root>
+            );
+            expect(screen.getByRole('progressbar')).toHaveAttribute('data-state', 'complete');
+            expect(screen.getByTestId('ind').style.transform).toBe('translateX(-0%)');
+        });
+
+        test('indeterminate indicator leaves transform to the theme animation', () => {
+            render(
+                <Progress.Root value={null} aria-label="Loading">
+                    <Progress.Indicator data-testid="ind" />
+                </Progress.Root>
+            );
+            expect(screen.getByTestId('ind').style.transform).toBe('');
+            expect(screen.getByTestId('ind')).toHaveAttribute('data-state', 'indeterminate');
+        });
+
+        test('minValue/maxValue are optional and equal bounds do not produce NaN', () => {
+            render(
+                <Progress.Root value={5} minValue={5} maxValue={5} aria-label="Eq">
+                    <Progress.Indicator data-testid="ind" />
+                </Progress.Root>
+            );
+            expect(screen.getByTestId('ind').style.transform).not.toContain('NaN');
+        });
+    });
 });

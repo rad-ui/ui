@@ -8,7 +8,7 @@ const data = {
     ],
     data: [
         { prop: { name: "disabled", info_tooltips: "Disables the item." }, type: "boolean", default: "false" },
-        { prop: { name: "onSelect", info_tooltips: "Callback when the item is selected." }, type: "function", default: "--" },
+        { prop: { name: "onSelect", info_tooltips: "Called when the item is selected. The menu then closes; call event.preventDefault() to keep it open." }, type: "function", default: "--" },
         { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
     ]
 }

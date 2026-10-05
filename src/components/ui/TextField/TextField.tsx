@@ -41,4 +41,13 @@ export type { TextFieldRootProps } from './fragments/TextFieldRoot';
 export type { TextFieldInputProps } from './fragments/TextFieldInput';
 export type { TextFieldSlotProps } from './fragments/TextFieldSlot';
 export type { TextFieldResetProps } from './fragments/TextFieldReset';
+// Named part exports let React Server Components use `import * as TextField from '@radui/ui/TextField'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    TextFieldRoot as Root,
+    TextFieldInput as Input,
+    TextFieldSlot as Slot,
+    TextFieldReset as Reset
+};
+
 export default TextField;

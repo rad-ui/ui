@@ -106,7 +106,7 @@
     user-select: none;
     outline: none;
 
-    &[data-highlighted], &:hover {
+    &[data-highlighted], &[data-active="true"], &:hover {
         background-color: var(--rad-ui-surface-hover);
         color: var(--rad-ui-text-primary);
     }
@@ -129,6 +129,10 @@
 
     &[aria-selected="true"] .rad-ui-combobox-item-indicator {
         opacity: 1;
+    }
+
+    &[aria-selected="true"] {
+        color: var(--rad-ui-item-selected-text);
     }
 }
 

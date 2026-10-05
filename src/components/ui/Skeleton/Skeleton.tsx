@@ -6,10 +6,13 @@ import clsx from 'clsx';
 const COMPONENT_NAME = 'Skeleton';
 
 export type SkeletonProps = React.ComponentPropsWithoutRef<'div'> & {
-    loading: boolean;
+    /** Shows the placeholder while true (default) and the children once false. */
+    loading?: boolean;
     customRootClass?: string;
-    height: string;
-    width: string;
+    /** Placeholder height; falls back to the theme default (1em in Clarity). */
+    height?: string;
+    /** Placeholder width; falls back to the theme default (100% in Clarity). */
+    width?: string;
     radius?: string;
 };
 

@@ -3,6 +3,8 @@
 // Thumb default: step 9 (800) — solid UI element
 // Thumb hover: step 10 (900) — solid hover state
 .rad-ui-scroll-area {
+    --rad-ui-scroll-area-scrollbar-size: 10px;
+
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -18,6 +20,12 @@
 
         &::-webkit-scrollbar {
             display: none;
+        }
+
+        // The viewport is a tab stop when it scrolls and has no focusable content.
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--rad-ui-focus-ring-shadow-inset);
         }
     }
 
@@ -40,7 +48,7 @@
         }
 
         &[data-orientation="vertical"] {
-            width: 10px;
+            width: var(--rad-ui-scroll-area-scrollbar-size);
             right: 0;
             top: 0;
             bottom: 0;
@@ -48,10 +56,19 @@
 
         &[data-orientation="horizontal"] {
             flex-direction: column;
-            height: 10px;
+            height: var(--rad-ui-scroll-area-scrollbar-size);
             bottom: 0;
             left: 0;
             right: 0;
+        }
+
+        // Both tracks rendered: leave the corner square free so the tracks never overlap.
+        &[data-orientation="vertical"][data-corner] {
+            bottom: var(--rad-ui-scroll-area-scrollbar-size);
+        }
+
+        &[data-orientation="horizontal"][data-corner] {
+            right: var(--rad-ui-scroll-area-scrollbar-size);
         }
 
         &[data-state="visible"]:hover {
@@ -70,21 +87,26 @@
                 opacity: 0;
             }
 
+            // Grab area spans the full track thickness (padding included) without
+            // extending over the viewport content next to the scrollbar.
             &::before {
                 content: "";
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 100%;
-                height: 100%;
-                min-width: 44px;
-                min-height: 44px;
+                inset: -2px;
             }
         }
 
         &[data-state="visible"]:hover .rad-ui-scroll-area-thumb[data-state="visible"] {
             background: var(--rad-ui-solid-hover);
         }
+    }
+
+    .rad-ui-scroll-area-corner {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: var(--rad-ui-scroll-area-scrollbar-size);
+        height: var(--rad-ui-scroll-area-scrollbar-size);
+        background: transparent;
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Disclosure from '../Disclosure';
 
@@ -121,12 +121,14 @@ describe('Disclosure', () => {
         expect(item2).toHaveFocus();
     });
 
-    test('hides content when the same item is clicked again', () => {
+    test('hides content when the same item is clicked again', async() => {
         render(<Disclosure items={items} aria-label="test" />);
         const button = screen.getByText('Item 1');
         fireEvent.click(button);
         fireEvent.click(button);
-        expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+        expect(button).toHaveAttribute('aria-expanded', 'false');
+        // Content stays mounted for the close animation, then unmounts.
+        await waitFor(() => expect(screen.queryByText('Content 1')).not.toBeInTheDocument());
     });
 
     test('has proper accessibility attributes', () => {

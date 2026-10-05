@@ -12,29 +12,12 @@ import {
     DOCS_KEYBOARD_SHORTCUTS
 } from '../../shared/keyboardShortcuts';
 
+const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/breadcrumb/docs/example_1.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Breadcrumb/breadcrumb.clarity.scss');
 
 const code = {
     javascript: {
-        code: `import Breadcrumb from "@radui/ui/Breadcrumb"
-
-const BreadcrumbExample = () => (
-    <Breadcrumb.Root>
-        <Breadcrumb.List>
-            <Breadcrumb.Item>
-                <Breadcrumb.Link href="/docs">Docs</Breadcrumb.Link>
-                <Breadcrumb.Separator />
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-                <Breadcrumb.Link href="/docs/components">Components</Breadcrumb.Link>
-                <Breadcrumb.Separator />
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-                <Breadcrumb.Page>Breadcrumb</Breadcrumb.Page>
-            </Breadcrumb.Item>
-        </Breadcrumb.List>
-    </Breadcrumb.Root>
-)`
+        code: example_1_SourceCode
     },
     scss: {
         code: scss_SourceCode

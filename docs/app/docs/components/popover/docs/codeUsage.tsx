@@ -6,6 +6,8 @@ import content_api from './component_api/content';
 import close_api from './component_api/close';
 import arrow_api from './component_api/arrow';
 import anchor_api from './component_api/anchor';
+import title_api from './component_api/title';
+import description_api from './component_api/description';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -35,7 +37,9 @@ export const api_documentation = {
     content: content_api,
     close: close_api,
     arrow: arrow_api,
-    anchor: anchor_api
+    anchor: anchor_api,
+    title: title_api,
+    description: description_api
 };
 
 export const features = [

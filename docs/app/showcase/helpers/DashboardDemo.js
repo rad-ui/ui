@@ -230,8 +230,8 @@ const SidebarLink = ({ icon: Icon, label }) => (
 )
 
 const DashboardSidebar = () => (
-    <aside className="flex flex-col gap-6 border-b border-gray-600 bg-gray-100 p-4 text-gray-1000 lg:border-b-0 lg:border-r">
-        <div className="flex items-center gap-3 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2.5">
+    <aside className="flex flex-col gap-3 border-b border-gray-600 bg-gray-100 p-4 sm:flex-row lg:flex-col lg:gap-6 text-gray-1000 lg:border-b-0 lg:border-r">
+        <div className="flex items-center gap-3 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2.5 sm:flex-1 lg:flex-none">
             <Avatar.Root size="sm" color="green">
                 <Avatar.Fallback>AC</Avatar.Fallback>
             </Avatar.Root>
@@ -247,14 +247,14 @@ const DashboardSidebar = () => (
         <button
             type="button"
             aria-label="Search workspace"
-            className="flex items-center gap-2 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2 text-left text-sm text-gray-1000/60 transition-colors hover:border-gray-700 hover:text-gray-1000"
+            className="flex items-center sm:flex-1 lg:flex-none gap-2 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2 text-left text-sm text-gray-1000/60 transition-colors hover:border-gray-700 hover:text-gray-1000"
         >
             <Search className="h-4 w-4 shrink-0" />
             <span className="flex-1 truncate">Search</span>
             <Kbd className="border-gray-600! bg-gray-1000/[0.04]! text-gray-1000/60! shadow-none!">⌘K</Kbd>
         </button>
 
-        <nav className="flex flex-1 flex-col gap-6">
+        <nav className="hidden flex-1 flex-col gap-6 lg:flex">
             {navGroups.map((group) => (
                 <div key={group.label}>
                     <Text className="mb-2 block text-[11px]! uppercase tracking-[0.2em] text-gray-1000/50">
@@ -290,7 +290,7 @@ const DashboardSidebar = () => (
             ))}
         </nav>
 
-        <div className="space-y-0.5 border-t border-gray-600 pt-4">
+        <div className="hidden space-y-0.5 border-t border-gray-600 pt-4 lg:block">
             <SidebarLink icon={Settings} label="Settings" />
             <SidebarLink icon={HelpCircle} label="Help center" />
         </div>
@@ -314,6 +314,7 @@ const RevenueChart = ({ range, onRangeChange }) => {
     return (
         <Card variant="outline" className="border-gray-600! bg-gray-50!">
             <Card.Header>
+                <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <Text className="text-xs! uppercase tracking-[0.18em] text-gray-1000/60">Revenue</Text>
                     <Heading
@@ -334,19 +335,20 @@ const RevenueChart = ({ range, onRangeChange }) => {
                         if (picked) onRangeChange(picked)
                     }}
                     aria-label="Chart time range"
-                    className="border-gray-600! max-w-full! flex-wrap!"
+                    className="shrink-0 border-gray-600!"
                 >
                     {rangeOptions.map((option) => (
                         <ToggleGroup.Item
                             key={option.value}
                             value={option.value}
                             aria-label={option.label}
-                            className="text-xs! font-medium!"
+                            className="flex-auto! whitespace-nowrap text-xs! font-medium!"
                         >
                             {option.label}
                         </ToggleGroup.Item>
                     ))}
                 </ToggleGroup.Root>
+                </div>
             </Card.Header>
 
             <Card.Content>
@@ -354,7 +356,7 @@ const RevenueChart = ({ range, onRangeChange }) => {
                     {series.points.map((point) => (
                         <div key={point.label} className="group relative flex h-full flex-1 items-end">
                             <span
-                                className="w-full rounded-t-md bg-linear-to-t from-green-1000 via-green-800 to-green-500"
+                                className="w-full rounded-t-md bg-green-800/75 transition-colors group-hover:bg-green-800"
                                 style={{ height: `${(point.value / axisMax) * 100}%` }}
                             />
                             <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-gray-600 bg-gray-50 px-2 py-0.5 text-[10px] font-medium tabular-nums text-gray-1000 opacity-0 transition-opacity group-hover:opacity-100">
@@ -422,14 +424,14 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                         value={filters}
                         onValueChange={(next) => onFiltersChange(Array.isArray(next) ? next : [])}
                         aria-label="Filter sections by status"
-                        className="border-gray-600! max-w-full! flex-wrap!"
+                        className="shrink-0 border-gray-600!"
                     >
                         {statuses.map((status) => (
                             <ToggleGroup.Item
                                 key={status}
                                 value={status}
                                 aria-label={status}
-                                className="text-xs! font-medium!"
+                                className="flex-auto! whitespace-nowrap text-xs! font-medium!"
                             >
                                 {status}
                             </ToggleGroup.Item>
@@ -474,7 +476,7 @@ const DeliveryBoard = ({ filters, onFiltersChange }) => {
                         <Table.Row key={document.name}>
                             <Table.Cell>
                                 <div className="flex flex-col">
-                                    <span className="font-medium text-gray-1000">{document.name}</span>
+                                    <span className="whitespace-nowrap font-medium text-gray-1000">{document.name}</span>
                                     <span className="mt-1 text-xs text-gray-1000/60">
                                         Updated {document.updated}
                                     </span>
@@ -545,7 +547,7 @@ const DashboardDemo = () => {
     const [filters, setFilters] = useState(statuses)
 
     return (
-        <div className="overflow-hidden rounded-2xl border border-gray-600 bg-gray-50">
+        <div className="bg-gray-50">
             <div className="grid lg:grid-cols-[248px_minmax(0,1fr)]">
                 <DashboardSidebar />
 

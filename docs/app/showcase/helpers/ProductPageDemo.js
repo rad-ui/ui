@@ -1,352 +1,245 @@
 "use client"
 
+import { useState } from "react"
+
+import Accordion from "@radui/ui/Accordion"
 import Badge from "@radui/ui/Badge"
+import Breadcrumb from "@radui/ui/Breadcrumb"
 import Button from "@radui/ui/Button"
-import Heading from "@radui/ui/Heading"
+import NumberField from "@radui/ui/NumberField"
+import Separator from "@radui/ui/Separator"
 import Toggle from "@radui/ui/Toggle"
 import ToggleGroup from "@radui/ui/ToggleGroup"
-import Text from "@radui/ui/Text"
-import {
-    Check,
-    ChevronRight,
-    Heart,
-    ShieldCheck,
-    ShoppingBag,
-    Sparkles,
-    Star,
-    Truck,
-} from "lucide-react"
-
-const galleryImages = [
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=1200&q=80",
-]
+import { Check, ChevronDown, Heart, RotateCcw, ShieldCheck, ShoppingBag, Star, Truck } from "lucide-react"
 
 const finishes = [
-    { value: "carbon", label: "Carbon" },
-    { value: "stone", label: "Stone" },
-    { value: "sand", label: "Sand" },
+    { value: "carbon", label: "Carbon", swatch: "bg-gray-1000", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80" },
+    { value: "stone", label: "Stone", swatch: "bg-gray-500", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=80" },
+    { value: "midnight", label: "Midnight", swatch: "bg-indigo-900", image: "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=1200&q=80" },
 ]
 
-const highlights = [
-    { label: "Adaptive noise control", icon: Sparkles },
-    { label: "40-hour battery", icon: ShieldCheck },
-    { label: "Free 2-day shipping", icon: Truck },
+const addOns = [
+    { id: "case", name: "Travel case", price: 39, image: "https://images.unsplash.com/photo-1577174881658-0f30ed549adc?auto=format&fit=crop&w=400&q=80" },
+    { id: "stand", name: "Walnut stand", price: 59, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=400&q=80" },
 ]
 
-const specRows = [
-    ["Drivers", "40 mm custom-tuned"],
-    ["Weight", "268 g"],
-    ["Connectivity", "Bluetooth 5.3 / USB-C"],
-    ["Playback", "40 hrs wireless"],
-]
-
-const includedItems = [
-    "Travel case",
-    "Braided USB-C cable",
-    "3.5 mm analog cable",
-    "Quick start card",
-]
-
-const relatedProducts = [
+const details = [
     {
-        name: "Wave Mini",
-        price: "$149",
-        tag: "Portable",
-        image: "https://images.unsplash.com/photo-1577174881658-0f30ed549adc?auto=format&fit=crop&w=900&q=80",
+        id: "features",
+        title: "Features",
+        body: (
+            <ul className="space-y-2">
+                {["Adaptive noise cancelling that tunes itself 200× per second", "40 hours of playback, 10 minutes of charge for 5 hours", "Multipoint pairing with two devices at once", "Memory-foam ear cushions in vegan leather"].map((item) => (
+                    <li key={item} className="flex gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-green-900" />{item}</li>
+                ))}
+            </ul>
+        ),
     },
     {
-        name: "Studio Dock",
-        price: "$79",
-        tag: "Accessory",
-        image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=900&q=80",
+        id: "specs",
+        title: "Specifications",
+        body: (
+            <dl className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2">
+                {[["Drivers", "40 mm custom dynamic"], ["Frequency", "4 Hz – 40 kHz"], ["Weight", "268 g"], ["Connectivity", "Bluetooth 5.3, USB-C audio"]].map(([term, value]) => (
+                    <div key={term} className="contents"><dt className="text-gray-900">{term}</dt><dd>{value}</dd></div>
+                ))}
+            </dl>
+        ),
+    },
+    {
+        id: "shipping",
+        title: "Shipping & returns",
+        body: <p>Free 2-day shipping on orders over $100. Return within 30 days for a full refund — we cover the label.</p>,
     },
 ]
+
+const money = (value) => `$${value.toLocaleString("en-US")}`
 
 const ProductPageDemo = () => {
+    const [finish, setFinish] = useState("carbon")
+    const [quantity, setQuantity] = useState(1)
+    const [saved, setSaved] = useState(false)
+    const [bag, setBag] = useState([])
+    const [justAdded, setJustAdded] = useState(false)
+
+    const active = finishes.find((item) => item.value === finish)
+    const bagCount = bag.reduce((sum, item) => sum + item.qty, 0)
+    const bagTotal = bag.reduce((sum, item) => sum + item.qty * item.price, 0)
+
+    const addToBag = (item) => {
+        setBag((current) => {
+            const existing = current.find((entry) => entry.id === item.id)
+            if (existing) return current.map((entry) => (entry.id === item.id ? { ...entry, qty: entry.qty + item.qty } : entry))
+            return [...current, item]
+        })
+    }
+
+    const addHeadphones = () => {
+        addToBag({ id: `waveform-${finish}`, name: `Waveform One — ${active.label}`, price: 329, qty: Number(quantity) || 1 })
+        setJustAdded(true)
+        setTimeout(() => setJustAdded(false), 1800)
+    }
+
     return (
-        <div className="grid min-h-[780px] lg:grid-cols-[minmax(0,1.15fr)_360px]">
-            <main className="min-w-0 border-b border-gray-600 bg-gray-50 p-3 sm:p-4 lg:border-b-0 lg:border-r">
-                <div className="space-y-4">
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.9fr)]">
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
-                                        New Arrival
-                                    </Badge>
-                                    <Text className="text-[11px]! uppercase tracking-[0.28em] text-gray-1000/60">
-                                        Product Showcase
-                                    </Text>
-                                </div>
-
-                                <div>
-                                    <Heading as="h2" className="max-w-xl text-gray-1000!">
-                                        Waveform One
-                                    </Heading>
-                                    <Text className="mt-2 max-w-2xl text-sm! text-gray-1000/70">
-                                        A premium over-ear headphone page built for stronger product hierarchy, denser buying controls, and cleaner accessory merchandising.
-                                    </Text>
-                                </div>
-
-                                <div className="flex flex-wrap items-center gap-3">
-                                    <div className="flex items-center gap-1.5 rounded-full border border-gray-600 bg-gray-1000/[0.03] px-3 py-1.5">
-                                        <div className="flex items-center gap-0.5 text-green-800">
-                                            {Array.from({ length: 5 }).map((_, index) => (
-                                                <Star key={index} className="h-3.5 w-3.5 fill-current" />
-                                            ))}
-                                        </div>
-                                        <Text className="text-xs! text-gray-1000/70">4.9 · 1,284 reviews</Text>
-                                    </div>
-                                    <Text className="text-sm! text-gray-1000/60">Designed for late-night listening and compact travel setups.</Text>
-                                </div>
-
-                                <div className="grid gap-3 sm:grid-cols-[92px_minmax(0,1fr)]">
-                                    <div className="order-2 grid grid-cols-3 gap-2 sm:order-1 sm:grid-cols-1">
-                                        {galleryImages.map((src, index) => (
-                                            <button
-                                                key={src}
-                                                type="button"
-                                                className={`overflow-hidden rounded-xl border p-1 ${
-                                                    index === 0
-                                                        ? "border-green-800/30 bg-linear-to-br from-green-900/10 to-green-800/10"
-                                                        : "border-gray-600 bg-gray-1000/[0.03]"
-                                                }`}
-                                            >
-                                                <img
-                                                    src={src}
-                                                    alt={`Waveform One gallery ${index + 1}`}
-                                                    className="h-20 w-full rounded-lg object-cover sm:h-[88px]"
-                                                />
-                                            </button>
-                                        ))}
-                                    </div>
-
-                                    <div className="order-1 overflow-hidden rounded-2xl border border-gray-600 bg-gray-100 sm:order-2">
-                                        <div className="relative h-[360px] w-full bg-gray-100">
-                                            <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-green-500/10 blur-3xl" />
-                                            <div className="pointer-events-none absolute -bottom-16 -right-12 h-72 w-72 rounded-full bg-green-300/10 blur-3xl" />
-                                            <img
-                                                src={galleryImages[0]}
-                                                alt="Waveform One hero product"
-                                                className="absolute inset-0 h-full w-full object-cover opacity-90 mix-blend-screen"
-                                            />
-                                            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-gray-600 bg-gray-50/60 px-3 py-2.5 text-gray-1000 backdrop-blur-md">
-                                                <div>
-                                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Featured Finish</Text>
-                                                    <Text className="mt-1 text-sm! font-medium text-gray-1000!">Carbon Black</Text>
-                                                </div>
-                                                <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
-                                                    Best Seller
-                                                </Badge>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <aside className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div>
-                                        <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Starter Bundle</Text>
-                                        <Heading as="h4" className="mt-2 text-gray-1000!">$329</Heading>
-                                        <Text className="mt-1 text-sm! text-gray-1000/70">Includes carrying case and analog cable.</Text>
-                                    </div>
-                                    <Toggle
-                                        color="green"
-                                        aria-label="Save Starter Bundle to wishlist"
-                                        className="!rounded-full"
-                                    >
-                                        <Heart className="h-4 w-4" />
-                                    </Toggle>
-                                </div>
-
-                                <div className="mt-4 space-y-2">
-                                    <Text className="text-[11px]! uppercase tracking-[0.28em] text-gray-1000/60">Choose finish</Text>
-                                    <ToggleGroup.Root
-                                        type="single"
-                                        defaultValue="carbon"
-                                        aria-label="Choose finish"
-                                        className="w-full"
-                                    >
-                                        {finishes.map((finish) => (
-                                            <ToggleGroup.Item
-                                                key={finish.value}
-                                                value={finish.value}
-                                                aria-label={finish.label}
-                                                className="!text-sm"
-                                            >
-                                                {finish.label}
-                                            </ToggleGroup.Item>
-                                        ))}
-                                    </ToggleGroup.Root>
-                                </div>
-
-                                <div className="mt-4 rounded-xl border border-gray-600 bg-gray-50/70 p-3">
-                                    <div className="flex items-center justify-between gap-3">
-                                        <Text className="text-sm! font-medium text-gray-1000!">Delivery</Text>
-                                        <Text className="text-[11px]! text-green-700">In stock</Text>
-                                    </div>
-                                    <Text className="mt-1 text-[11px]! text-gray-1000/60">Arrives between Apr 10 and Apr 12 with free express shipping.</Text>
-                                </div>
-
-                                <div className="mt-4 flex gap-2.5">
-                                    <Button variant="solid" className="flex-1 rounded-full border-0 bg-gray-1000! px-4 py-2.5 text-gray-50!">
-                                        <span className="flex items-center justify-center gap-2">
-                                            <ShoppingBag className="h-4 w-4" />
-                                            Add to Cart
-                                        </span>
-                                    </Button>
-                                    <Button variant="outline" className="rounded-full border-gray-600 bg-gray-50 px-4 py-2.5 text-gray-1000 hover:bg-gray-100">
-                                        Buy Now
-                                    </Button>
-                                </div>
-
-                                <div className="mt-4 space-y-2.5">
-                                    {highlights.map((item) => {
-                                        const Icon = item.icon
-
-                                        return (
-                                            <div key={item.label} className="flex items-center gap-3 rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
-                                                <div className="rounded-lg border border-gray-600 bg-gray-50 p-2 text-green-800">
-                                                    <Icon className="h-4 w-4" />
-                                                </div>
-                                                <Text className="text-sm! text-gray-1000/80">{item.label}</Text>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </aside>
-                        </div>
-                    </section>
-
-                    <div className="grid gap-3 xl:grid-cols-[minmax(0,1.05fr)_320px]">
-                        <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                            <div className="flex items-start justify-between gap-3">
-                                <div>
-                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Why it lands</Text>
-                                    <Heading as="h5" className="mt-2 text-gray-1000!">Premium details, not filler</Heading>
-                                    <Text className="mt-1 max-w-2xl text-sm! text-gray-1000/70">
-                                        The page keeps the buying path obvious while still making room for texture, trust, and supporting information.
-                                    </Text>
-                                </div>
-                                <Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/60">
-                                    3 modules
-                                </Badge>
-                            </div>
-
-                            <div className="mt-4 grid gap-2.5 sm:grid-cols-3">
-                                {[
-                                    "Lighter visual chrome around supporting controls.",
-                                    "Dense product gallery with immediate focus state.",
-                                    "Purchase box stays compact without feeling cramped.",
-                                ].map((item) => (
-                                    <div key={item} className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
-                                        <div className="flex items-start gap-2">
-                                            <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                            <Text className="text-[11px]! text-gray-1000/70">{item}</Text>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                                <div className="rounded-xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                    <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Included in the box</Text>
-                                    <div className="mt-3 space-y-2">
-                                        {includedItems.map((item) => (
-                                            <div key={item} className="flex items-center gap-2.5">
-                                                <div className="rounded-full bg-green-800/20 p-1 text-green-800">
-                                                    <Check className="h-3.5 w-3.5" />
-                                                </div>
-                                                <Text className="text-sm! text-gray-1000/75">{item}</Text>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-4 py-4">
-                                    <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Core specs</Text>
-                                    <div className="mt-3 space-y-2.5">
-                                        {specRows.map(([label, value]) => (
-                                            <div key={label} className="flex items-center justify-between gap-3 border-b border-gray-600 pb-2 last:border-b-0 last:pb-0">
-                                                <Text className="text-[11px]! text-gray-1000/60">{label}</Text>
-                                                <Text className="text-sm! font-medium text-gray-1000!">{value}</Text>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <aside className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
-                            <div className="flex items-center justify-between gap-3">
-                                <div>
-                                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Also works with</Text>
-                                    <Heading as="h5" className="mt-2 text-gray-1000!">Recommended add-ons</Heading>
-                                </div>
-                                <ChevronRight className="h-4 w-4 text-gray-1000/60" />
-                            </div>
-
-                            <div className="mt-4 space-y-2.5">
-                                {relatedProducts.map((item) => (
-                                    <div key={item.name} className="overflow-hidden rounded-xl border border-gray-600 bg-gray-50">
-                                        <img src={item.image} alt={item.name} className="h-28 w-full object-cover" />
-                                        <div className="p-3">
-                                            <div className="flex items-center justify-between gap-3">
-                                                <div>
-                                                    <Text className="text-sm! font-medium text-gray-1000!">{item.name}</Text>
-                                                    <Text className="mt-1 text-[11px]! text-gray-1000/60">{item.tag}</Text>
-                                                </div>
-                                                <Text className="text-sm! font-semibold text-gray-1000!">{item.price}</Text>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </aside>
-                    </div>
+        <div className="bg-gray-50 text-gray-1000">
+            {/* Store bar */}
+            <div className="flex items-center justify-between border-b border-gray-400 px-5 py-3 sm:px-8">
+                <span className="text-[15px] font-semibold tracking-tight">Waveform</span>
+                <div className="flex items-center gap-2 text-sm" role="status" aria-live="polite">
+                    {bagCount ? <span className="hidden text-gray-900 sm:inline">{money(bagTotal)}</span> : null}
+                    <span className="relative inline-flex items-center gap-1.5 rounded-md px-2 py-1">
+                        <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+                        <span className="sr-only">Bag:</span>
+                        <Badge size="small">{bagCount}</Badge>
+                        <span className="sr-only">items</span>
+                    </span>
                 </div>
-            </main>
+            </div>
 
-            <aside className="bg-gray-200 p-3 sm:p-4">
-                <div className="space-y-3">
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Merchandising Notes</Text>
-                        <Heading as="h5" className="mt-2 text-gray-1000!">Designed for conversion</Heading>
-                        <Text className="mt-2 text-sm! text-gray-1000/70">
-                            The right rail acts like a compact merchant brief: trust, shipping, add-ons, and why this page structure sells.
-                        </Text>
-                    </section>
+            <div className="px-5 py-6 sm:px-8 sm:py-8">
+                <Breadcrumb.Root>
+                    <Breadcrumb.List>
+                        <Breadcrumb.Item><Breadcrumb.Link href="#">Shop</Breadcrumb.Link><Breadcrumb.Separator /></Breadcrumb.Item>
+                        <Breadcrumb.Item><Breadcrumb.Link href="#">Audio</Breadcrumb.Link><Breadcrumb.Separator /></Breadcrumb.Item>
+                        <Breadcrumb.Item><Breadcrumb.Page>Waveform One</Breadcrumb.Page></Breadcrumb.Item>
+                    </Breadcrumb.List>
+                </Breadcrumb.Root>
 
-                    <section className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                        <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Checkout pulse</Text>
-                        <div className="mt-3 rounded-xl border border-gray-600 bg-gray-50/70 p-3">
-                            <div className="flex items-center justify-between gap-2">
-                                <Text className="text-sm! font-medium text-gray-1000!">Cart confidence</Text>
-                                <Text className="text-[11px]! text-green-700">High</Text>
-                            </div>
-                            <div className="mt-3 flex h-2 gap-1 rounded-full bg-gray-1000/[0.08] p-0.5">
-                                <span className="h-full w-[78%] rounded-full bg-gray-1000" />
-                                <span className="h-full flex-1 rounded-full bg-gray-1000/[0.08]" />
-                            </div>
+                <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-12">
+                    {/* Gallery */}
+                    <div className="min-w-0">
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gray-200">
+                            <img src={active.image} alt={`Waveform One in ${active.label}`} className="h-full w-full object-cover" />
+                            <span className="absolute left-4 top-4"><Badge color="green">New</Badge></span>
                         </div>
-                        <div className="mt-3 space-y-2">
-                            {[
-                                "Prominent pricing and stock state above the fold.",
-                                "Accessory recommendations are supportive, not distracting.",
-                                "Gallery and specs stay legible in compact layouts.",
-                            ].map((item) => (
-                                <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-50/70 px-3 py-2.5">
-                                    <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                    <Text className="text-[11px]! text-gray-1000/60">{item}</Text>
-                                </div>
+                        <div className="mt-3 grid grid-cols-3 gap-3">
+                            {finishes.map((item) => (
+                                <button
+                                    key={item.value}
+                                    type="button"
+                                    aria-label={`Show ${item.label}`}
+                                    aria-pressed={finish === item.value}
+                                    onClick={() => setFinish(item.value)}
+                                    className={`aspect-[4/3] overflow-hidden rounded-lg ring-offset-2 ring-offset-gray-50 transition ${
+                                        finish === item.value ? "ring-2 ring-gray-1000" : "opacity-70 hover:opacity-100"
+                                    }`}
+                                >
+                                    <img src={item.image} alt="" className="h-full w-full object-cover" />
+                                </button>
                             ))}
                         </div>
-                    </section>
+                    </div>
+
+                    {/* Buy box */}
+                    <div className="min-w-0">
+                        <div className="flex items-start justify-between gap-4">
+                            <div>
+                                <h2 className="text-3xl font-semibold tracking-tight">Waveform One</h2>
+                                <p className="mt-1 text-[15px] text-gray-950">Wireless noise-cancelling headphones</p>
+                            </div>
+                            <Toggle
+                                pressed={saved}
+                                onPressedChange={setSaved}
+                                aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
+                                className="shrink-0 rounded-full!"
+                            >
+                                <Heart className={`h-4 w-4 ${saved ? "fill-crimson-900 text-crimson-900" : ""}`} />
+                            </Toggle>
+                        </div>
+
+                        <div className="mt-3 flex items-center gap-2 text-sm">
+                            <span className="flex" aria-label="Rated 4.8 out of 5">
+                                {Array.from({ length: 5 }, (_, i) => <Star key={i} className="h-4 w-4 fill-amber-800 text-amber-800" aria-hidden="true" />)}
+                            </span>
+                            <span className="font-medium">4.8</span>
+                            <span className="text-gray-900">· 1,284 reviews</span>
+                        </div>
+
+                        <p className="mt-5 text-3xl font-semibold tabular-nums">{money(329)}</p>
+
+                        <div className="mt-6">
+                            <p className="mb-2.5 text-sm"><span className="font-medium">Finish</span> <span className="text-gray-900">— {active.label}</span></p>
+                            <ToggleGroup.Root
+                                type="single"
+                                value={[finish]}
+                                onValueChange={(next) => {
+                                    const value = Array.isArray(next) ? next[0] : next
+                                    if (value) setFinish(value)
+                                }}
+                                aria-label="Finish"
+                            >
+                                {finishes.map((item) => (
+                                    <ToggleGroup.Item key={item.value} value={item.value} className="gap-2">
+                                        <span className={`h-3 w-3 shrink-0 rounded-full border border-gray-600 ${item.swatch}`} aria-hidden="true" />
+                                        {item.label}
+                                    </ToggleGroup.Item>
+                                ))}
+                            </ToggleGroup.Root>
+                        </div>
+
+                        <div className="mt-6 flex flex-wrap items-center gap-3">
+                            <NumberField.Root value={quantity} onValueChange={setQuantity} min={1} max={5} step={1}>
+                                <NumberField.Decrement aria-label="Decrease quantity">−</NumberField.Decrement>
+                                <NumberField.Input aria-label="Quantity" className="w-12! text-center" />
+                                <NumberField.Increment aria-label="Increase quantity">+</NumberField.Increment>
+                            </NumberField.Root>
+                            <Button size="large" className="flex-1 justify-center" onClick={addHeadphones}>
+                                {justAdded ? <><Check className="h-4 w-4" /> Added to bag</> : <><ShoppingBag className="h-4 w-4" /> Add to bag</>}
+                            </Button>
+                        </div>
+
+                        <ul className="mt-6 space-y-2.5 text-sm text-gray-950">
+                            <li className="flex items-center gap-2.5"><Truck className="h-4 w-4 text-gray-900" /> Free 2-day shipping — arrives by Thursday</li>
+                            <li className="flex items-center gap-2.5"><RotateCcw className="h-4 w-4 text-gray-900" /> 30-day returns, no questions asked</li>
+                            <li className="flex items-center gap-2.5"><ShieldCheck className="h-4 w-4 text-gray-900" /> 2-year warranty included</li>
+                        </ul>
+
+                        <Separator className="mt-6" />
+
+                        <Accordion.Root collapsible defaultValue={["features"]}>
+                            {details.map((item) => (
+                                <Accordion.Item key={item.id} value={item.id}>
+                                    <Accordion.Header>
+                                        <Accordion.Trigger>
+                                            <span>{item.title}</span>
+                                            <ChevronDown className="rad-ui-accordion-chevron" aria-hidden="true" />
+                                        </Accordion.Trigger>
+                                    </Accordion.Header>
+                                    <Accordion.Content>
+                                        <div className="text-sm leading-relaxed text-gray-1000">{item.body}</div>
+                                    </Accordion.Content>
+                                </Accordion.Item>
+                            ))}
+                        </Accordion.Root>
+                    </div>
                 </div>
-            </aside>
+
+                {/* Add-ons */}
+                <section aria-labelledby="pairs-heading" className="mt-12">
+                    <h3 id="pairs-heading" className="text-lg font-semibold tracking-tight">Pairs well with</h3>
+                    <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+                        {addOns.map((item) => {
+                            const inBag = bag.some((entry) => entry.id === item.id)
+                            return (
+                                <li key={item.id} className="flex items-center gap-4 rounded-xl border border-gray-400 p-3">
+                                    <img src={item.image} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-medium">{item.name}</p>
+                                        <p className="text-sm tabular-nums text-gray-900">{money(item.price)}</p>
+                                    </div>
+                                    <Button
+                                        variant={inBag ? "soft" : "outline"}
+                                        size="small"
+                                        onClick={() => addToBag({ id: item.id, name: item.name, price: item.price, qty: 1 })}
+                                    >
+                                        {inBag ? <><Check className="h-3.5 w-3.5" /> Added</> : "Add"}
+                                    </Button>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </section>
+            </div>
         </div>
     )
 }

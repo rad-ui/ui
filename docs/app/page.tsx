@@ -1,48 +1,101 @@
 import Link from "next/link"
+import { createElement, type ReactNode } from "react"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
+import { refractor } from "refractor"
+import tsx from "refractor/lang/tsx"
 
 import FullHeightScroll from "@/components/layout/ScrollContainers/FullHeightScroll"
-import Badge from "@radui/ui/Badge"
-import Heading from "@radui/ui/Heading"
-import Text from "@radui/ui/Text"
 
 import baseSeoMetadata from "./baseSeo"
-import AnatomyDemo from "./landingComponents/AnatomyDemo"
-import BehaviorDemo from "./landingComponents/BehaviorDemo"
-import HeroShowcase from "./landingComponents/HeroShowcase"
+import ComponentGallery from "./landingComponents/ComponentGallery"
+import HeadlessDemo from "./landingComponents/HeadlessDemo"
 import InstallCommand from "./landingComponents/InstallCommand"
+import KeyboardDemo from "./landingComponents/KeyboardDemo"
+import QuickStart, { type QuickStartStep } from "./landingComponents/QuickStart"
 import Reveal from "./landingComponents/Reveal"
-import TokenStudio from "./landingComponents/TokenStudio"
-import showcaseDemos from "./showcase/showcaseDemos"
+import ThemePlayground from "./landingComponents/ThemePlayground"
 
 export const metadata = baseSeoMetadata
 
-const SPEC = [
-    { key: "primitives", value: "every part published" },
-    { key: "styling", value: "nothing attached — you style it" },
-    { key: "accessibility", value: "keyboard, focus and ARIA included" },
-    { key: "license", value: "MIT — fork it" },
+refractor.register(tsx)
+
+type HastElement = {
+    type: "element"
+    tagName: string
+    properties: { className?: string[] }
+    children: HastChild[]
+}
+type HastText = { type: "text"; value: string }
+type HastChild = HastElement | HastText
+
+function renderNode(node: HastChild, index: number): ReactNode {
+    if (node.type === "text") return node.value
+    return createElement(
+        node.tagName,
+        { className: (node.properties.className ?? []).join(" "), key: index },
+        node.children.map((child, childIndex) => renderNode(child, childIndex)),
+    )
+}
+
+function highlight(source: string, lang: "tsx" | "none" = "tsx"): ReactNode {
+    if (lang === "none") return source
+    try {
+        return refractor.highlight(source, lang).children.map((child, index) => renderNode(child as HastChild, index))
+    } catch {
+        return source
+    }
+}
+
+const STEPS: Omit<QuickStartStep, "highlighted">[] = [
+    {
+        id: "compose",
+        label: "Compose",
+        file: "components/EditProfile.tsx",
+        code: `import Button from "@radui/ui/Button"
+import Dialog from "@radui/ui/Dialog"
+
+export function EditProfile() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <Button>Edit profile</Button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Edit profile</Dialog.Title>
+          <Dialog.Close asChild>
+            <Button>Done</Button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}`,
+    },
+    {
+        id: "theme",
+        label: "Theme",
+        file: "app/layout.tsx",
+        code: `// Optional: skip both lines to stay fully headless
+import "@radui/ui/themes/default.css"
+import Theme from "@radui/ui/Theme"
+
+export default function RootLayout({ children }) {
+  return (
+    <Theme classNamespace="rad-ui" accentColor="blue">
+      {children}
+    </Theme>
+  )
+}`,
+    },
 ]
 
-const SECTIONS = [
-    {
-        index: "01",
-        name: "anatomy",
-        title: "Compose the parts. Keep the behavior.",
-        lede: "Every primitive is a set of published parts — root, trigger, content, indicator. You assemble the parts your product needs and leave the rest out. The wiring between them never becomes your problem.",
-    },
-    {
-        index: "02",
-        name: "behavior",
-        title: "The invisible work is already done.",
-        lede: "Focus trapping, focus restore, roving tabindex, typeahead, portalling, scrim stacking, reduced motion. It is the part of an interface nobody demos and everybody has to build. It ships with the primitive.",
-    },
-    {
-        index: "03",
-        name: "ownership",
-        title: "No theme to fight.",
-        lede: "Rad UI ships behavior and a stable data-* contract, nothing else. Style it with your tokens, your framework, or a stylesheet you wrote by hand. Pick a brand and a radius below and watch the same components change.",
-    },
+const FACTS = [
+    { title: "One import per component", body: "Pull in Dialog without paying for Table." },
+    { title: "Server-rendering safe", body: "Deterministic markup and data attributes for hydration." },
+    { title: "Typed end to end", body: "Every part and prop ships with TypeScript types." },
+    { title: "React 18 and 19", body: "Works with Next.js, Remix, Vite and friends." },
 ]
 
 function GithubIcon({ className = "" }: { className?: string }) {
@@ -64,326 +117,216 @@ function GithubIcon({ className = "" }: { className?: string }) {
     )
 }
 
-function PrimaryLink({
-    href,
-    children,
-    className = "",
-}: {
-    href: string
-    children: React.ReactNode
-    className?: string
-}) {
-    return (
-        <Link
-            href={href}
-            className={`inline-flex items-center gap-2 rounded-md bg-gray-1000 px-4 py-2.5 text-sm font-medium text-gray-50 transition-colors hover:bg-gray-900 ${className}`}
-        >
-            {children}
-        </Link>
-    )
-}
+const primaryLink =
+    "inline-flex items-center gap-2 rounded-lg bg-gray-1000 px-4 py-2.5 text-[0.9375rem] font-medium text-gray-50 transition-colors hover:bg-gray-900"
+const secondaryLink =
+    "inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[0.9375rem] font-medium text-gray-1000 ring-1 ring-gray-500 transition-colors ring-inset hover:bg-gray-100 hover:ring-gray-700"
 
-function SecondaryLink({
-    href,
-    children,
-    className = "",
-}: {
-    href: string
-    children: React.ReactNode
-    className?: string
-}) {
+function SectionIntro({ kicker, title, children }: { kicker: string; title: string; children: ReactNode }) {
     return (
-        <Link
-            href={href}
-            className={`inline-flex items-center gap-2 rounded-md border border-gray-500 px-4 py-2.5 text-sm font-medium text-gray-1000 transition-colors hover:border-gray-700 hover:bg-gray-100 ${className}`}
-        >
-            {children}
-        </Link>
-    )
-}
-
-/** Mono section marker, e.g. `01 / anatomy`. */
-function SectionLabel({ index, name }: { index: string; name: string }) {
-    return (
-        <p className="flex items-center gap-2.5 font-mono text-[0.7rem] font-medium uppercase tracking-[0.24em] text-gray-950">
-            <span className="text-green-1000">{index}</span>
-            <span aria-hidden className="h-px w-6 bg-gray-500" />
-            <span>{name}</span>
-        </p>
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+            <div>
+                <p className="text-sm font-medium text-gray-950">{kicker}</p>
+                <h2 className="mt-3 text-[1.875rem] font-semibold leading-[1.1] tracking-[-0.03em] text-gray-1000 text-balance sm:text-[2.5rem]">
+                    {title}
+                </h2>
+            </div>
+            <p className="max-w-[54ch] text-base leading-7 text-gray-950 lg:pb-1">{children}</p>
+        </div>
     )
 }
 
 export default function Home() {
+    const steps: QuickStartStep[] = STEPS.map((step) => ({
+        ...step,
+        highlighted: highlight(step.code),
+    }))
+
     return (
         <FullHeightScroll fullWidth>
-            <div className="landing-page bg-gray-50 text-gray-1000">
+            <div className="landing-page overflow-x-clip bg-gray-50 text-gray-1000">
                 {/* ── Hero ─────────────────────────────────────────── */}
-                <section className="relative overflow-hidden border-b border-gray-400">
-                    <div
-                        aria-hidden
-                        className="landing-grid pointer-events-none absolute inset-0 text-gray-1000 opacity-[0.07]"
-                    />
-                    <div
-                        aria-hidden
-                        className="landing-glow pointer-events-none absolute -left-[18%] -top-[28%] h-[620px] w-[620px] rounded-full bg-green-600/20 blur-[110px]"
-                    />
-                    <div
-                        aria-hidden
-                        className="pointer-events-none absolute right-[-14%] top-[26%] h-[440px] w-[440px] rounded-full bg-gray-1000/10 blur-[110px]"
-                    />
-                    <div
-                        aria-hidden
-                        className="landing-scan pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-green-1000/45 to-transparent"
-                    />
-
-                    <div className="relative mx-auto max-w-[1240px] px-6 py-16 sm:px-8 lg:min-h-[calc(100svh-3.25rem)] lg:px-10 lg:py-20">
-                        {/* Headline left, supporting copy right — a two-column
-                            masthead rather than one tall ragged column. */}
-                        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.42fr)_minmax(0,1fr)] lg:gap-16">
-                            {/* `@container` lets the display type size off this
-                                column rather than the viewport, so the two authored
-                                lines below stay two lines at every width. */}
-                            <div className="@container">
-                                <div className="landing-fade-up flex flex-wrap items-center gap-2">
-                                    <Badge variant="soft" color="green">
-                                        Rad UI
-                                    </Badge>
-                                    <Badge variant="outline">React 19</Badge>
-                                    <Badge variant="outline">TypeScript</Badge>
-                                    <Badge variant="outline">MIT</Badge>
-                                </div>
-
-                                <Heading className="landing-display landing-fade-up landing-fade-up-delay-1 mt-6 text-gray-1000">
-                                    The behavior layer
-                                    <br />
-                                    <span className="text-gray-950">
-                                        for your design system.
-                                    </span>
-                                </Heading>
-
-                                <InstallCommand
-                                    command="pnpm add @radui/ui"
-                                    label="install"
-                                    tone="canvas"
-                                    className="mt-8 max-w-md"
-                                />
-                            </div>
-
-                            <div className="landing-fade-up landing-fade-up-delay-2">
-                                <Text className="landing-lede max-w-[46ch] text-gray-950">
-                                    Accessible, unstyled React primitives.
-                                    Keyboard handling, focus management and ARIA ship
-                                    with the component. You keep the pixels.
-                                </Text>
-
-                                <div className="mt-8 flex flex-wrap items-center gap-3">
-                                    <PrimaryLink href="/docs/first-steps/installation">
-                                        Start building
-                                        <ArrowRight className="h-4 w-4" aria-hidden />
-                                    </PrimaryLink>
-                                    <SecondaryLink href="https://github.com/rad-ui/ui">
-                                        <GithubIcon className="h-4 w-4" />
-                                        GitHub
-                                    </SecondaryLink>
-                                </div>
-
-                                <Link
-                                    href="/playground"
-                                    className="mt-4 inline-flex items-center gap-1.5 text-[0.85rem] font-medium text-gray-1000 underline-offset-4 transition-colors hover:underline"
-                                >
-                                    Try it in the playground
-                                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Every window below is a real Rad UI primitive. */}
-                        <div className="landing-fade-up landing-fade-up-delay-3 mt-14 lg:mt-16">
-                            <HeroShowcase />
-                        </div>
-
-                        {/* Spec bar: four even columns closing the hero. */}
-                        <dl className="landing-fade-up landing-fade-up-delay-4 mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
-                            {SPEC.map((row) => (
-                                <div
-                                    key={row.key}
-                                    className="border-t border-gray-400 pt-3"
-                                >
-                                    <dt className="text-[0.8rem] font-medium text-gray-1000">
-                                        {row.key}
-                                    </dt>
-                                    <dd className="mt-1 text-[0.78rem] leading-relaxed text-gray-950">
-                                        {row.value}
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-                </section>
-
-                {/* ── Numbered sections ───────────────────────────── */}
-                {SECTIONS.map((section, index) => {
-                    const Demo = [AnatomyDemo, BehaviorDemo, TokenStudio][index]
-
-                    return (
-                        <section
-                            key={section.index}
-                            className={
-                                index % 2 === 1 ? "border-b border-gray-400 bg-gray-100" : "border-b border-gray-400"
-                            }
-                        >
-                            <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
-                                <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-14">
-                                    <div>
-                                        <SectionLabel
-                                            index={section.index}
-                                            name={section.name}
-                                        />
-                                        <Heading
-                                            as="h2"
-                                            className="landing-title mt-5 text-gray-1000"
-                                        >
-                                            {section.title}
-                                        </Heading>
-                                        <Text className="landing-body mt-4 text-gray-950">
-                                            {section.lede}
-                                        </Text>
-                                    </div>
-                                    <Demo />
-                                </Reveal>
-                            </div>
-                        </section>
-                    )
-                })}
-
-                {/* ── Surface ─────────────────────────────────────── */}
-                <section className="border-b border-gray-400 bg-gray-100">
-                    <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
-                        <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-14">
-                            <div>
-                                <SectionLabel index="04" name="surface" />
-                                <Heading
-                                    as="h2"
-                                    className="landing-title mt-5 text-gray-1000"
-                                >
-                                    Six real products. One component set.
-                                </Heading>
-                                <Text className="landing-body mt-4 text-gray-950">
-                                    Multi-surface demos — streaming, settings,
-                                    commerce, messaging, inbox, analytics — each
-                                    built from the same primitives you install.
-                                </Text>
-                                <SecondaryLink
-                                    href="/showcase/music-app"
-                                    className="mt-6"
-                                >
-                                    Open the showcase
-                                    <ArrowUpRight className="h-4 w-4" aria-hidden />
-                                </SecondaryLink>
-                            </div>
-
-                            <ul className="border-t border-gray-400">
-                                {showcaseDemos.map((demo, position) => (
-                                    <li key={demo.href}>
-                                        <Link
-                                            href={demo.href}
-                                            className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 border-b border-gray-400 py-4 transition-colors hover:bg-gray-50 sm:gap-x-6"
-                                        >
-                                            <span className="pt-1 font-mono text-[0.72rem] text-gray-950">
-                                                {String(position + 1).padStart(2, "0")}
-                                            </span>
-                                            <span className="min-w-0">
-                                                <span className="block font-medium text-gray-1000">
-                                                    {demo.title}
-                                                </span>
-                                                <span className="mt-1 block text-[0.85rem] leading-6 text-gray-950">
-                                                    {demo.summary}
-                                                </span>
-                                                <span className="mt-2.5 flex flex-wrap gap-1.5">
-                                                    {demo.components.map((name) => (
-                                                        <span
-                                                            key={name}
-                                                            className="rounded-full border border-gray-400 px-2 py-0.5 font-mono text-[0.62rem] tracking-tight text-gray-950"
-                                                        >
-                                                            {name}
-                                                        </span>
-                                                    ))}
-                                                </span>
-                                            </span>
-                                            <ArrowUpRight
-                                                className="mt-1 h-4 w-4 shrink-0 text-gray-950 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-gray-1000"
-                                                aria-hidden
-                                            />
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Reveal>
-                    </div>
-                </section>
-
-                {/* ── Closing ─────────────────────────────────────── */}
-                <section className="relative overflow-hidden">
+                <section className="relative">
                     <div
                         aria-hidden
                         className="landing-grid pointer-events-none absolute inset-0 text-gray-1000 opacity-[0.05]"
                     />
-                    <div className="relative mx-auto max-w-[1240px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
-                        <Reveal className="max-w-3xl">
-                            <SectionLabel index="05" name="go" />
-                            <Heading
-                                as="h2"
-                                className="landing-closing mt-5 text-gray-1000"
-                            >
-                                Ship the behavior.
-                                <br />
-                                <span className="text-gray-950">Keep the design.</span>
-                            </Heading>
-                            <Text className="landing-body mt-5 max-w-xl text-gray-950">
-                                One package, composable imports, no theme to
-                                remove. Start with a button, grow into a
-                                system.
-                            </Text>
+                    <div className="relative mx-auto grid max-w-[1280px] items-center gap-12 px-4 pb-20 pt-12 sm:px-8 sm:pt-16 xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] xl:gap-14 lg:px-10 lg:pb-28 lg:pt-20">
+                        <div className="landing-fade-up min-w-0">
+                            <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-950">
+                                <span className="font-medium text-gray-1000">Rad UI</span>
+                                <span aria-hidden>·</span>
+                                <span>Open source React components</span>
+                            </p>
+                            <h1 className="mt-5 text-[2.5rem] font-semibold leading-[1.02] tracking-[-0.045em] text-gray-1000 text-balance sm:text-[3.5rem] lg:text-[4rem]">
+                                Accessible by default. Styled your way.
+                            </h1>
+                            <p className="mt-6 max-w-[46ch] text-[1.0625rem] leading-8 text-gray-950 text-pretty">
+                                60+ React components with keyboard support, focus management and ARIA built in. Use the
+                                Clarity theme, retheme it with tokens, or drop it and style every state yourself.
+                            </p>
 
-                            <InstallCommand
-                                command="pnpm add @radui/ui"
-                                label="install"
-                                className="mt-8 max-w-md"
-                            />
+                            <div className="mt-8 flex flex-wrap items-center gap-3">
+                                <Link href="/docs/first-steps/installation" className={primaryLink}>
+                                    Get started
+                                    <ArrowRight className="h-4 w-4" aria-hidden />
+                                </Link>
+                                <Link href="/playground" className={secondaryLink}>
+                                    Browse components
+                                </Link>
+                                <Link
+                                    href="https://github.com/rad-ui/ui"
+                                    className="inline-flex items-center gap-2 rounded-lg px-3 py-2.5 text-[0.9375rem] font-medium text-gray-950 transition-colors hover:text-gray-1000"
+                                >
+                                    <GithubIcon className="h-4 w-4" />
+                                    GitHub
+                                </Link>
+                            </div>
 
-                            <div className="mt-6 flex flex-wrap items-center gap-3">
-                                <PrimaryLink href="/docs/first-steps/installation">
+                            <InstallCommand command="pnpm add @radui/ui" tone="canvas" className="mt-8 max-w-sm" />
+                        </div>
+
+                        <div className="min-w-0" style={{ animation: "rad-fade-in 0.8s 0.15s both" }}>
+                            <ThemePlayground />
+                            <p className="mt-4 text-center text-sm text-gray-950">
+                                Change the accent, radius or appearance. Every control here is a Rad UI component.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── Headless ─────────────────────────────────────── */}
+                <section className="bg-gray-100">
+                    <div className="mx-auto max-w-[1240px] px-4 py-20 sm:px-8 lg:px-10 lg:py-28">
+                        <Reveal>
+                            <SectionIntro kicker="Headless at the core" title="Keep the behavior. Swap the look.">
+                                Rad UI owns roles, ARIA, focus and keyboard handling. Styling is opt-in: the Clarity
+                                theme hooks into generated classes, and every state is a stable data-* attribute you can
+                                target from any CSS.
+                            </SectionIntro>
+                            <div className="mt-10 lg:mt-12">
+                                <HeadlessDemo />
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ── Accessibility ────────────────────────────────── */}
+                <section>
+                    <div className="mx-auto max-w-[1240px] px-4 py-20 sm:px-8 lg:px-10 lg:py-28">
+                        <Reveal>
+                            <SectionIntro kicker="Accessibility" title="Keyboard and screen readers, handled.">
+                                Composite widgets follow WAI-ARIA patterns: one tab stop per group, arrow keys inside
+                                it, Home and End to jump. Roles and states stay in sync as you move.
+                            </SectionIntro>
+                            <div className="mt-10 lg:mt-12">
+                                <KeyboardDemo />
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ── Gallery ──────────────────────────────────────── */}
+                <section className="bg-gray-100">
+                    <div className="mx-auto max-w-[1240px] px-4 py-20 sm:px-8 lg:px-10 lg:py-28">
+                        <Reveal>
+                            <SectionIntro kicker="Components" title="The hard ones, already done.">
+                                Focus trapping, outside-click dismissal, collision-aware positioning and live-region
+                                announcements ship with the component. Open a few.
+                            </SectionIntro>
+                            <div className="mt-10 lg:mt-12">
+                                <ComponentGallery />
+                            </div>
+                            <div className="mt-8 flex justify-center">
+                                <Link href="/playground" className={secondaryLink}>
+                                    See all 60+ components
+                                    <ArrowRight className="h-4 w-4" aria-hidden />
+                                </Link>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ── Quick start ──────────────────────────────────── */}
+                <section>
+                    <div className="mx-auto grid max-w-[1240px] gap-12 px-4 py-20 sm:px-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 lg:px-10 lg:py-28">
+                        <Reveal className="min-w-0">
+                            <p className="text-sm font-medium text-gray-950">Quick start</p>
+                            <h2 className="mt-3 text-[1.875rem] font-semibold leading-[1.1] tracking-[-0.03em] text-gray-1000 text-balance sm:text-[2.5rem]">
+                                Install, import, compose.
+                            </h2>
+                            <InstallCommand command="pnpm add @radui/ui" tone="canvas" className="mt-8 max-w-sm" />
+                            <dl className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                                {FACTS.map((fact) => (
+                                    <div key={fact.title}>
+                                        <dt className="text-[0.9375rem] font-medium text-gray-1000">{fact.title}</dt>
+                                        <dd className="mt-1 text-[0.9375rem] leading-6 text-gray-950">{fact.body}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        </Reveal>
+                        <Reveal delay={80} className="min-w-0">
+                            <QuickStart steps={steps} />
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ── Closing ──────────────────────────────────────── */}
+                <section className="relative">
+                    <div
+                        aria-hidden
+                        className="landing-grid pointer-events-none absolute inset-0 rotate-180 text-gray-1000 opacity-[0.05]"
+                    />
+                    <div className="relative mx-auto max-w-[1240px] px-4 pb-10 pt-20 sm:px-8 lg:px-10 lg:pt-28">
+                        <Reveal className="mx-auto max-w-2xl text-center">
+                            <h2 className="text-[2rem] font-semibold leading-[1.08] tracking-[-0.04em] text-gray-1000 text-balance sm:text-[3rem]">
+                                Ship the behavior. Keep your design.
+                            </h2>
+                            <p className="mx-auto mt-5 max-w-[46ch] text-[1.0625rem] leading-8 text-gray-950">
+                                Start with one component and grow into a design system, without a theme to fight along
+                                the way.
+                            </p>
+                            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                                <Link href="/docs/first-steps/installation" className={primaryLink}>
                                     Read the docs
                                     <ArrowRight className="h-4 w-4" aria-hidden />
-                                </PrimaryLink>
-                                <SecondaryLink href="/colors">
-                                    Explore the scale
-                                </SecondaryLink>
+                                </Link>
+                                <Link href="/showcase/music-app" className={secondaryLink}>
+                                    See it in real apps
+                                    <ArrowUpRight className="h-4 w-4" aria-hidden />
+                                </Link>
                             </div>
                         </Reveal>
 
-                        <div className="mt-14 border-t border-gray-400 pt-6">
-                            <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-gray-950">
-                                <span>Rad UI · MIT licensed</span>
-                                <span className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                                    <Link href="/docs/first-steps/introduction" className="transition-colors hover:text-gray-1000">
-                                        Introduction
-                                    </Link>
-                                    <Link href="/docs/first-steps/installation" className="transition-colors hover:text-gray-1000">
-                                        Installation
-                                    </Link>
-                                    <Link href="/playground" className="transition-colors hover:text-gray-1000">
-                                        Playground
-                                    </Link>
-                                    <Link href="/showcase/music-app" className="transition-colors hover:text-gray-1000">
-                                        Showcase
-                                    </Link>
-                                    <Link href="/sponsors" className="transition-colors hover:text-gray-1000">
-                                        Sponsors
-                                    </Link>
-                                </span>
-                            </div>
-                        </div>
+                        <footer className="mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-gray-400 pt-6 text-sm text-gray-950">
+                            <span>Rad UI · MIT licensed</span>
+                            <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                                <Link
+                                    href="/docs/first-steps/introduction"
+                                    className="transition-colors hover:text-gray-1000"
+                                >
+                                    Introduction
+                                </Link>
+                                <Link href="/playground" className="transition-colors hover:text-gray-1000">
+                                    Playground
+                                </Link>
+                                <Link href="/showcase/music-app" className="transition-colors hover:text-gray-1000">
+                                    Showcase
+                                </Link>
+                                <Link href="/colors" className="transition-colors hover:text-gray-1000">
+                                    Colors
+                                </Link>
+                                <Link href="/sponsors" className="transition-colors hover:text-gray-1000">
+                                    Sponsors
+                                </Link>
+                                <Link
+                                    href="https://github.com/rad-ui/ui"
+                                    className="transition-colors hover:text-gray-1000"
+                                >
+                                    GitHub
+                                </Link>
+                            </nav>
+                        </footer>
                     </div>
                 </section>
             </div>

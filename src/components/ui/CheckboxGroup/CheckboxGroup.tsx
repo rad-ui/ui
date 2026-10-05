@@ -19,4 +19,13 @@ export type { CheckboxGroupRootProps } from './fragments/CheckboxGroupRoot';
 export type { CheckboxGroupTriggerProps } from './fragments/CheckboxGroupTrigger';
 export type { CheckboxGroupLabelProps } from './fragments/CheckboxGroupLabel';
 export type { CheckboxGroupIndicatorProps } from './fragments/CheckboxGroupIndicator';
+// Named part exports let React Server Components use `import * as CheckboxGroup from '@radui/ui/CheckboxGroup'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    CheckboxGroupRoot as Root,
+    CheckboxGroupTrigger as Trigger,
+    CheckboxGroupLabel as Label,
+    CheckboxGroupIndicator as Indicator
+};
+
 export default CheckboxGroup;

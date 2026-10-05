@@ -12,7 +12,8 @@ export type AspectRatioProps = ComponentPropsWithoutRef<'div'> & {
 
 const getValidRatio = (ratio: string | number) => {
     const ratioValue = String(ratio).trim();
-    const fractionMatch = ratioValue.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+    // Accepts both "16/9" and the CSS-style "16 / 9".
+    const fractionMatch = ratioValue.match(/^(\d*\.?\d+)\s*\/\s*(\d*\.?\d+)$/);
 
     if (fractionMatch) {
         const [, width, height] = fractionMatch;

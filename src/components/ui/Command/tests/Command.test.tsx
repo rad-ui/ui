@@ -32,7 +32,7 @@ describe('Command', () => {
 
         fireEvent.change(input, { target: { value: 'zzz' } });
 
-        expect(screen.getByText('No results.')).toBeInTheDocument();
+        expect(screen.getByText('No results.', { selector: '[data-slot="command-empty"]' })).toBeInTheDocument();
     });
 
     it('supports keyboard navigation and selection', () => {
@@ -69,5 +69,26 @@ describe('Command', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
         expect(screen.getByRole('combobox')).toBeInTheDocument();
         expect(screen.getByText('Apple')).toBeInTheDocument();
+    });
+    test('does not scroll the page or any ancestor when highlighting items', () => {
+        const scrollIntoView = jest.fn();
+        const original = Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = scrollIntoView;
+        try {
+            render(
+                <Command>
+                    <Command.Input aria-label="Command" />
+                    <Command.List>
+                        <Command.Item value="one">One</Command.Item>
+                        <Command.Item value="two">Two</Command.Item>
+                    </Command.List>
+                </Command>
+            );
+
+            fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+            expect(scrollIntoView).not.toHaveBeenCalled();
+        } finally {
+            Element.prototype.scrollIntoView = original;
+        }
     });
 });

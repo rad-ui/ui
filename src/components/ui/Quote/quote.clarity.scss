@@ -13,8 +13,12 @@
     content: close-quote;
   }
 
-  &[data-quote-truncate] {
-    display: block;
+  // Quote is phrasing content: truncate in place (inline-block) instead of
+  // forcing a line break before and after the quote.
+  &[data-truncate] {
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: bottom;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -163,7 +163,28 @@ const CollapsiblePrimitiveContent = React.forwardRef<
                 cancelAnimationFrame(rafRef.current);
             }
         };
-    }, [open, resolvedTransitionDuration, forceMount, children]);
+        // `children` is intentionally not a dependency: re-running this effect restarts the
+        // open animation from 0, so every parent re-render (e.g. a sibling accordion item
+        // toggling) would collapse and re-expand already-open content. Content changes are
+        // handled by the re-measure effect below instead.
+    }, [open, resolvedTransitionDuration, forceMount]);
+
+    // Keep the measured size CSS variables in sync when the content changes while open and
+    // settled (no inline height animation in flight).
+    useLayoutEffect(() => {
+        const node = ref.current;
+        if (!node || !open || height !== undefined) return;
+
+        const rect = node.getBoundingClientRect();
+        const measuredHeight = rect.height || node.scrollHeight;
+        const measuredWidth = rect.width || node.scrollWidth;
+
+        if (measuredHeight !== heightRef.current || measuredWidth !== widthRef.current) {
+            heightRef.current = measuredHeight;
+            widthRef.current = measuredWidth;
+            setCssVarRevision((revision) => revision + 1);
+        }
+    }, [children, open, height]);
 
     const shouldRender = open || isPresent || forceMount;
 

@@ -16,7 +16,9 @@ export type TextProps = {
     customRootClass?: string;
     className?: string;
     as?: string;
-} & ComponentPropsWithoutRef<'p'>;
+} & ComponentPropsWithoutRef<'p'>
+    // `as="label"` is supported, so label-only attributes are accepted too.
+    & Pick<ComponentPropsWithoutRef<'label'>, 'htmlFor'>;
 
 type TextElement = ElementRef<'p'>;
 

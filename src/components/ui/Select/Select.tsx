@@ -42,4 +42,16 @@ export type { SelectTriggerProps } from './fragments/SelectTrigger';
 export type { SelectPortalProps } from './fragments/SelectPortal';
 export type { SelectGroupProps } from './fragments/SelectGroup';
 export type { SelectIndicatorProps } from './fragments/SelectIndicator';
+// Named part exports let React Server Components use `import * as Select from '@radui/ui/Select'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    SelectRoot as Root,
+    SelectContent as Content,
+    SelectItem as Item,
+    SelectTrigger as Trigger,
+    SelectPortal as Portal,
+    SelectGroup as Group,
+    SelectIndicator as Indicator
+};
+
 export default Select;

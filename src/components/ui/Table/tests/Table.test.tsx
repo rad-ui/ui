@@ -430,3 +430,58 @@ describe('Table resizable columns', () => {
         expect(headers[1].querySelector('[data-slot="table-column-resize-handle"]')).toBeNull();
     });
 });
+
+describe('Table styling hooks', () => {
+    const renderTable = (extra: { className?: string } = {}) => render(
+        <Table.Root customRootClass="rad-ui" resizable>
+            <Table.Head className={extra.className}>
+                <Table.Row className={extra.className}>
+                    <Table.ColumnCellHeader columnIndex={0} className={extra.className}>Name</Table.ColumnCellHeader>
+                    <Table.ColumnCellHeader columnIndex={1}>Age</Table.ColumnCellHeader>
+                </Table.Row>
+            </Table.Head>
+            <Table.Body className={extra.className}>
+                <Table.Row className={extra.className}>
+                    <Table.Cell columnIndex={0} className={extra.className}>Ann</Table.Cell>
+                    <Table.Cell columnIndex={1}>30</Table.Cell>
+                </Table.Row>
+            </Table.Body>
+        </Table.Root>
+    );
+
+    it('keeps namespaced part classes when consumers pass className', () => {
+        renderTable({ className: 'consumer' });
+        const table = screen.getByRole('table');
+        const [head, body] = within(table).getAllByRole('rowgroup');
+        expect(head).toHaveClass('rad-ui-table-head', 'consumer');
+        expect(body).toHaveClass('rad-ui-table-body', 'consumer');
+        expect(within(head).getByRole('row')).toHaveClass('rad-ui-table-row', 'consumer');
+        expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveClass('rad-ui-table-cell-header', 'consumer');
+        expect(screen.getByRole('cell', { name: 'Ann' })).toHaveClass('rad-ui-table-cell', 'consumer');
+    });
+
+    it('keeps the legacy unprefixed default classes when no className is passed', () => {
+        renderTable();
+        const [head] = within(screen.getByRole('table')).getAllByRole('rowgroup');
+        expect(head).toHaveClass('header');
+        expect(within(head).getByRole('row')).toHaveClass('row');
+        expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveClass('cell-header', 'resizable');
+        expect(screen.getByRole('cell', { name: 'Ann' })).toHaveClass('cell', 'resizable');
+    });
+
+    it('exposes data-resizable on resizable header and body cells', () => {
+        renderTable();
+        expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveAttribute('data-resizable', '');
+        expect(screen.getByRole('cell', { name: 'Ann' })).toHaveAttribute('data-resizable', '');
+    });
+
+    it('Clarity styles target namespaced parts, not the collision-prone legacy classes', () => {
+        const fs = require('node:fs');
+        const path = require('node:path');
+        const stylesheet: string = fs.readFileSync(path.resolve(__dirname, '../table.clarity.scss'), 'utf8');
+        const rules = stylesheet.replace(/\/\/.*$/gm, '');
+        expect(rules).toContain('.rad-ui-table-cell-header');
+        expect(rules).toContain('.rad-ui-table-cell ');
+        expect(rules).not.toMatch(/(^|\s)\.(row|cell|header|cell-header|resizable)\b/m);
+    });
+});

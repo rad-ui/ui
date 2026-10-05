@@ -17,7 +17,7 @@
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.7",
     "@radui/fx": "^0.2.0",
-    "@radui/ui": "^0.5.0",
+    "@radui/ui": "^0.6.0",
     "@types/mdx": "^2.0.13",
     "@types/node": "20.5.9",
     "@types/react": "19.0.2",

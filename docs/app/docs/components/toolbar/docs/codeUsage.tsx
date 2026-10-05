@@ -65,7 +65,7 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
 export const ariaReferences = createAriaReferenceTable([
     createAriaReferenceRow(
         DOCS_ARIA_PATTERNS.BUTTON,
-        'Buttons and toggle items are native buttons. Toggle items expose their pressed state, and the toolbar carries an accessible name via aria-label.'
+        'Buttons and toggle items are native buttons. In a multiple ToggleGroup (role="group") items expose aria-pressed; in a single ToggleGroup (role="radiogroup") items are role="radio" with aria-checked. The toolbar carries an accessible name via aria-label.'
     )
 ]);
 

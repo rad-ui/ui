@@ -21,11 +21,21 @@
             0 6px 18px -18px color-mix(in oklab, var(--rad-ui-color-gray-900) 16%, transparent);
     }
 
+    // The whole field (not the bare input inside it) shows the focus ring.
+    &:has(.rad-ui-text-field-input:focus-visible) {
+        box-shadow: var(--rad-ui-focus-ring-shadow);
+    }
+
     &:has(.rad-ui-text-field-input:disabled),
     &:has(.rad-ui-text-field-input:read-only) {
         background-color: var(--rad-ui-disabled-background);
         border-color: var(--rad-ui-disabled-border);
         box-shadow: none;
+    }
+
+    // Disabled tokens are barely distinct from the field surface; dim like Button and Select.
+    &:has(.rad-ui-text-field-input:disabled) {
+        opacity: 0.5;
     }
 }
 
@@ -102,4 +112,9 @@
 
 .rad-ui-text-field-slot[data-text-field-slot="end"] {
     margin-left: auto;
+}
+
+// The root draws the focus ring; suppress the theme's per-input ring.
+.rad-ui-text-field-input:focus-visible {
+    box-shadow: none;
 }

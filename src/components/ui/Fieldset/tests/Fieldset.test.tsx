@@ -108,4 +108,63 @@ describe('Fieldset', () => {
         });
         expect(results.violations).toHaveLength(0);
     });
+    it('gives every part its theme class so Clarity part styles apply', () => {
+        render(
+            <Theme classNamespace="acme">
+                <Fieldset.Root>
+                    <Fieldset.Legend>Profile</Fieldset.Legend>
+                    <Fieldset.Description>Details</Fieldset.Description>
+                    <Fieldset.Message>Message</Fieldset.Message>
+                </Fieldset.Root>
+            </Theme>
+        );
+
+        expect(screen.getByText('Profile')).toHaveClass('acme-fieldset-legend');
+        expect(screen.getByText('Details')).toHaveClass('acme-fieldset-description');
+        expect(screen.getByText('Message')).toHaveClass('acme-fieldset-message');
+    });
+
+    it('marks the message invalid when the fieldset is invalid', () => {
+        render(
+            <Fieldset.Root invalid>
+                <Fieldset.Legend>Profile</Fieldset.Legend>
+                <Fieldset.Message>Name is required</Fieldset.Message>
+            </Fieldset.Root>
+        );
+
+        const message = screen.getByText('Name is required');
+        expect(message).toHaveAttribute('data-invalid');
+        expect(message).toHaveAttribute('role', 'alert');
+    });
+
+    test('description and message describe the fieldset group', () => {
+        render(
+            <Fieldset.Root aria-describedby="external" invalid>
+                <Fieldset.Legend>Contact</Fieldset.Legend>
+                <Fieldset.Description>How to reach you</Fieldset.Description>
+                <Fieldset.Message id="msg">Required</Fieldset.Message>
+            </Fieldset.Root>
+        );
+        const group = screen.getByRole('group', { name: 'Contact' });
+        const description = screen.getByText('How to reach you');
+        const ids = group.getAttribute('aria-describedby')!.split(' ');
+        expect(ids).toEqual(['external', description.id, 'msg']);
+        expect(description.id).toBeTruthy();
+    });
+
+    test('unmounted messages are removed from aria-describedby', () => {
+        const { rerender } = render(
+            <Fieldset.Root>
+                <Fieldset.Legend>Contact</Fieldset.Legend>
+                <Fieldset.Message id="msg">Required</Fieldset.Message>
+            </Fieldset.Root>
+        );
+        expect(screen.getByRole('group')).toHaveAttribute('aria-describedby', 'msg');
+        rerender(
+            <Fieldset.Root>
+                <Fieldset.Legend>Contact</Fieldset.Legend>
+            </Fieldset.Root>
+        );
+        expect(screen.getByRole('group')).not.toHaveAttribute('aria-describedby');
+    });
 });

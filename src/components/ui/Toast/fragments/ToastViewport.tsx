@@ -35,7 +35,7 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
         invert,
     } = useContext(ToastProviderContext);
 
-    const listRef = useRef<HTMLOListElement>(null);
+    const listRef = useRef<HTMLElement>(null);
     const isExpanded = expand || isHovered;
 
     // Front toast height — match ToastRoot fallback so viewport height doesn’t jump when the new front isn’t measured yet
@@ -49,8 +49,10 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
           + Math.max(0, visibleToasts.length - 1) * gap
         : frontHeight + gap * Math.max(0, visibleToasts.length - 1);
 
+    // A <section> rather than <ol>: role="region" is not an allowed role on a
+    // list element, and each toast is its own status live region.
     return (
-        <ol
+        <section
             ref={listRef}
             role="region"
             aria-label={containerAriaLabel}
@@ -84,7 +86,7 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
             }}
         >
             {children}
-        </ol>
+        </section>
     );
 };
 

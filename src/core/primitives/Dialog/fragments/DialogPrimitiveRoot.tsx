@@ -14,11 +14,16 @@ export type DialogPrimitiveRootProps = {
     className?:string;
     /** When true, outside pointer events and escape key will not close the dialog. */
     disablePointerDismissal?: boolean;
+    /**
+     * When false, pressing outside the content (including the overlay) does not
+     * close the dialog, while Escape still does. Used by AlertDialog.
+     */
+    dismissOnOutsidePress?: boolean;
 }
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const nodeId = Floater.useFloatingNodeId();
     useRegisterDocumentOverlayOpen(isOpen);
@@ -27,7 +32,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         setIsOpen(open);
     };
     const handleOverlayClick = () => {
-        if (disablePointerDismissal) return;
+        if (disablePointerDismissal || !dismissOnOutsidePress) return;
         onClickOutside();
         handleOpenChange(false);
     };
@@ -41,7 +46,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     const dismiss = Floater.useDismiss(floaterContext, {
         bubbles: false,
         escapeKey: !disablePointerDismissal,
-        outsidePress: !disablePointerDismissal,
+        outsidePress: !disablePointerDismissal && dismissOnOutsidePress,
     });
     const role = Floater.useRole(floaterContext, { role: 'dialog' });
 

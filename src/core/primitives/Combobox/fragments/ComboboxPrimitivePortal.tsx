@@ -15,7 +15,8 @@ const ComboboxPrimitivePortal = React.forwardRef<
         container
         ?? themeContext?.portalRootRef.current
         ?? themeContext?.containerRef.current
-        ?? document.body
+        // Guarded so server rendering (no `document`) does not throw.
+        ?? (typeof document !== 'undefined' ? document.body : null)
     ) as HTMLElement | null;
 
     useEffect(() => {

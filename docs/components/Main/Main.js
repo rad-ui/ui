@@ -8,6 +8,7 @@ import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 import NavBar from './NavBar';
 
 import Theme from '@radui/ui/Theme';
+import { SourceClassNamespaceProvider } from '@/components/SourceClassNamespaceProvider';
 
 
 
@@ -28,16 +29,20 @@ const MainLayout = ({ darkModeSsrValue, children }) => {
             accentColor="gray"
             classNamespace="rad-ui"
         >
-            <NavBarContext.Provider value={sendValues}>
-                <div className="flex h-screen flex-1 flex-col bg-gray-50" data-accent-color="gray">
-                    {/* Navbar start */}
-                    <NavBar darkMode={darkMode} setDarkMode={setDarkMode} setThemeCookie={Cookies.set} />
-                    {/* Navbar end */}
-                    <>
-                        {children}
-                    </>
-                </div>
-            </NavBarContext.Provider>
+            <SourceClassNamespaceProvider>
+                <NavBarContext.Provider value={sendValues}>
+                    <div className="flex h-screen flex-1 flex-col bg-gray-50" data-accent-color="gray">
+                        {/* Navbar start */}
+                        <header>
+                            <NavBar darkMode={darkMode} setDarkMode={setDarkMode} setThemeCookie={Cookies.set} />
+                        </header>
+                        {/* Navbar end */}
+                        <main className="min-h-0 flex-1">
+                            {children}
+                        </main>
+                    </div>
+                </NavBarContext.Provider>
+            </SourceClassNamespaceProvider>
 
 
         </Theme>

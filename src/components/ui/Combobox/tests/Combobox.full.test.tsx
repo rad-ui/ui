@@ -35,7 +35,7 @@ describe('Combobox full behavior', () => {
 
         await userEvent.keyboard('{Enter}');
         await waitFor(() => expect(trigger).toHaveAttribute('data-state', 'closed'));
-        expect(trigger).toHaveTextContent('banana');
+        expect(trigger).toHaveTextContent('Banana');
     });
 
     test('form submit includes value and disabled options not selectable', async() => {
@@ -68,7 +68,7 @@ describe('Combobox full behavior', () => {
         await userEvent.click(screen.getByText('Banana'));
         expect(trigger).toHaveTextContent('trigger');
         await userEvent.click(screen.getByText('Apple'));
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
         await userEvent.click(screen.getByText('submit'));
         expect(submittedValue).toBe('apple');
     });
@@ -93,10 +93,10 @@ describe('Combobox full behavior', () => {
 
         const { unmount } = render(<Controlled />);
         const trigger = screen.getByRole('combobox');
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
         await userEvent.click(trigger);
         await userEvent.click(screen.getByText('Orange'));
-        expect(trigger).toHaveTextContent('orange');
+        expect(trigger).toHaveTextContent('Orange');
         unmount();
         render(
             <Combobox.Root defaultValue="apple">
@@ -112,10 +112,10 @@ describe('Combobox full behavior', () => {
             </Combobox.Root>
         );
         const trigger2 = screen.getByRole('combobox');
-        expect(trigger2).toHaveTextContent('apple');
+        expect(trigger2).toHaveTextContent('Apple');
         await userEvent.click(trigger2);
         await userEvent.click(screen.getByText('Grape'));
-        expect(trigger2).toHaveTextContent('grape');
+        expect(trigger2).toHaveTextContent('Grape');
     });
 
     test('portal container renders and focus returns to trigger', async() => {
@@ -144,7 +144,7 @@ describe('Combobox full behavior', () => {
     test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>
-                <label id="label">Label</label>
+                <span id="label">Label</span>
                 <Combobox.Root>
                     <Combobox.Trigger aria-labelledby="label">choose</Combobox.Trigger>
                     <Combobox.Portal>

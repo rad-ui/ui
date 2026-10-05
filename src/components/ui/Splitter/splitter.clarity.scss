@@ -20,7 +20,7 @@
   .rad-ui-splitter-panel {
     position: relative;
     background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
-    flex-shrink: 0;
+    flex-shrink: 1;
     flex-grow: 0;
     min-width: 0;
     min-height: 0;
@@ -136,6 +136,11 @@
         background: var(--rad-ui-color-gray-500);
       }
     }
+  }
+
+  // Declared after the orientation blocks so it overrides their resize cursors.
+  .rad-ui-splitter-handle[data-disabled] {
+    cursor: not-allowed;
   }
 
   @media (prefers-reduced-motion: reduce) {

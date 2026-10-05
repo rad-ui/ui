@@ -38,11 +38,11 @@
 
 // The root carries `invalid`; the message is the part that reads as an error,
 // so it takes the red only when the fieldset is invalid.
-.rad-ui-fieldset[data-invalid="true"] .rad-ui-fieldset-message {
-  color: var(--rad-ui-color-red-600);
+.rad-ui-fieldset-message[data-invalid] {
+  color: var(--rad-ui-danger-text);
 }
 
-.rad-ui-fieldset[data-disabled="true"],
+.rad-ui-fieldset[data-disabled],
 .rad-ui-fieldset:disabled {
   opacity: 0.45;
   cursor: not-allowed;

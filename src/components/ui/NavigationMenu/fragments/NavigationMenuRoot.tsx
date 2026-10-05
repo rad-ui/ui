@@ -7,9 +7,11 @@ import clsx from 'clsx';
 
 const COMPONENT_NAME = 'NavigationMenu';
 
-export type NavigationMenuRootElement = React.ElementRef<'div'>;
+// Renders a <nav> landmark. Typed as HTMLElement (the nav element type); RefObject<HTMLDivElement>
+// refs from earlier versions remain assignable.
+export type NavigationMenuRootElement = React.ElementRef<'nav'>;
 
-export interface NavigationMenuRootProps extends React.ComponentPropsWithoutRef<'div'> {
+export interface NavigationMenuRootProps extends React.ComponentPropsWithoutRef<'nav'> {
     children: React.ReactNode;
     value?: string;
     defaultValue?: string;
@@ -38,7 +40,7 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
 
         return (
-            <div ref={ref} {...props}>
+            <nav ref={ref} {...props}>
                 <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop }}>
                     <RovingFocusGroup.Root loop={loop}>
                         <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
@@ -46,7 +48,7 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
                         </RovingFocusGroup.Group>
                     </RovingFocusGroup.Root>
                 </NavigationMenuRootContext.Provider>
-            </div>
+            </nav>
         );
     }
 );

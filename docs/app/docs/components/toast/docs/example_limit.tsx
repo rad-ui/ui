@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
-import Toast, { ToastState } from '@radui/ui/Toast'
+import { useEffect, useMemo } from 'react'
+import Toast, { createToastManager } from '@radui/ui/Toast'
 import type { ToastData } from '@radui/ui/Toast'
 import Button from '@radui/ui/Button'
 
@@ -28,8 +28,8 @@ function LimitInner() {
     const manager = Toast.useToastManager()
 
     useEffect(() => () => {
-        ToastState.dismissAll()
-    }, [])
+        manager.dismissAll()
+    }, [manager])
 
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
@@ -51,8 +51,10 @@ function LimitInner() {
 }
 
 export default function ToastLimitExample() {
+    // Each example owns its queue; the default singleton would show every toast in every example on the page.
+    const toastManager = useMemo(() => createToastManager(), [])
     return (
-        <Toast.Provider position="bottom-right" gap={14} limit={2}>
+        <Toast.Provider toastManager={toastManager} position="bottom-right" gap={14} limit={2}>
             <LimitInner />
         </Toast.Provider>
     )

@@ -31,6 +31,14 @@ describe('Spinner', () => {
         expect(screen.getByTestId('spinner').parentElement).toBeInTheDocument();
     });
 
+    test('container is a span so Spinner is valid inside phrasing content', () => {
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<p>Loading <Spinner data-testid="spinner" /></p>);
+        expect(screen.getByTestId('spinner').parentElement?.tagName).toBe('SPAN');
+        expect(error).not.toHaveBeenCalled();
+        error.mockRestore();
+    });
+
     test('forwards arbitrary span props', () => {
         render(<Spinner aria-label="Loading" data-testid="spinner" />);
         expect(screen.getByTestId('spinner')).toHaveAttribute('aria-label', 'Loading');
@@ -44,14 +52,31 @@ describe('Spinner accessibility', () => {
         expect(results.violations).toHaveLength(0);
     });
 
-    // A spinner with no accessible name is announced as nothing, so consumers
-    // must be able to label it. The role is the consumer's call rather than a
-    // Spinner default, so the fixture supplies `status` and asserts the name
-    // actually resolves — `aria-label` on a roleless generic span would not.
-    test('axe: no violations when labelled', async() => {
-        const { container } = render(<Spinner role="status" aria-label="Loading results" />);
+    test('is a status named "Loading" by default', () => {
+        render(<Spinner />);
+        expect(screen.getByRole('status', { name: 'Loading' })).toBeInTheDocument();
+    });
+
+    test('aria-label overrides the default name', async() => {
+        const { container } = render(<Spinner aria-label="Loading results" />);
         expect(screen.getByRole('status', { name: 'Loading results' })).toBeInTheDocument();
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
+    });
+
+    test('aria-labelledby replaces the default aria-label', () => {
+        render(<><span id="l">Fetching rows</span><Spinner aria-labelledby="l" data-testid="spinner" /></>);
+        expect(screen.getByRole('status', { name: 'Fetching rows' })).toBeInTheDocument();
+        expect(screen.getByTestId('spinner')).not.toHaveAttribute('aria-label');
+    });
+
+    test('aria-hidden makes it decorative: no role and no name', () => {
+        render(<button type="button">Saving <Spinner aria-hidden data-testid="spinner" /></button>);
+        const spinner = screen.getByTestId('spinner');
+        expect(spinner).toHaveAttribute('aria-hidden', 'true');
+        expect(spinner).not.toHaveAttribute('role');
+        expect(spinner).not.toHaveAttribute('aria-label');
+        expect(screen.queryByRole('status')).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Saving' })).toBeInTheDocument();
     });
 });

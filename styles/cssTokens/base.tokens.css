@@ -202,7 +202,7 @@
 --rad-ui-color-blue-700: oklch(0.73 0.119 225);
 --rad-ui-color-blue-800: oklch(0.63 0.165 224);
 --rad-ui-color-blue-900: oklch(0.61 0.157 224);
---rad-ui-color-blue-950: oklch(0.54 0.142 225);
+--rad-ui-color-blue-950: oklch(0.515 0.096 225);
 --rad-ui-color-blue-1000: oklch(0.28 0.057 240);
 --rad-ui-color-cyan-50: #fafdfe;
 --rad-ui-color-cyan-100: #f2fafb;
@@ -214,7 +214,7 @@
 --rad-ui-color-cyan-700: #3db9cf;
 --rad-ui-color-cyan-800: #00a2c7;
 --rad-ui-color-cyan-900: #0797b9;
---rad-ui-color-cyan-950: #107d98;
+--rad-ui-color-cyan-950: #047590;
 --rad-ui-color-cyan-1000: #0d3c48;
 --rad-ui-color-teal-50: #fbfefd;
 --rad-ui-color-teal-100: #f4fbf7;
@@ -226,7 +226,7 @@
 --rad-ui-color-teal-700: #56ba9f;
 --rad-ui-color-teal-800: #29a383;
 --rad-ui-color-teal-900: #26997b;
---rad-ui-color-teal-950: #208368;
+--rad-ui-color-teal-950: #107a5f;
 --rad-ui-color-teal-1000: #1d3b31;
 --rad-ui-color-jade-50: #fbfefd;
 --rad-ui-color-jade-100: #f4fbf7;
@@ -238,7 +238,7 @@
 --rad-ui-color-jade-700: #56ba9f;
 --rad-ui-color-jade-800: #29a383;
 --rad-ui-color-jade-900: #26997b;
---rad-ui-color-jade-950: #208368;
+--rad-ui-color-jade-950: #107a5f;
 --rad-ui-color-jade-1000: #1d3b31;
 --rad-ui-color-green-50: oklch(0.99 0.005 150);
 --rad-ui-color-green-100: oklch(0.97 0.01 150);
@@ -250,7 +250,7 @@
 --rad-ui-color-green-700: oklch(0.74 0.095 160);
 --rad-ui-color-green-800: oklch(0.64 0.12 155);
 --rad-ui-color-green-900: oklch(0.6 0.11 153);
---rad-ui-color-green-950: oklch(0.53 0.1 152);
+--rad-ui-color-green-950: oklch(0.51 0.1 152);
 --rad-ui-color-green-1000: oklch(0.28 0.042 150);
 --rad-ui-color-grass-50: #fbfefb;
 --rad-ui-color-grass-100: #f5fbf5;
@@ -334,7 +334,7 @@
 --rad-ui-color-lime-700: #8db654;
 --rad-ui-color-lime-800: #bdee63;
 --rad-ui-color-lime-900: #b0e64c;
---rad-ui-color-lime-950: #5c7c2f;
+--rad-ui-color-lime-950: #557527;
 --rad-ui-color-lime-1000: #37401c;
 --rad-ui-color-yellow-50: oklch(0.99 0.01 100);
 --rad-ui-color-yellow-100: oklch(0.98 0.045 100);
@@ -358,7 +358,7 @@
 --rad-ui-color-amber-700: oklch(0.76 0.138 77.36);
 --rad-ui-color-amber-800: oklch(0.86 0.19 78.75);
 --rad-ui-color-amber-900: oklch(0.82 0.188 78.33);
---rad-ui-color-amber-950: oklch(0.55 0.143 68.83);
+--rad-ui-color-amber-950: oklch(0.535 0.115 68.83);
 --rad-ui-color-amber-1000: oklch(0.33 0.063 59.12);
 --rad-ui-color-orange-50: #fefcfb;
 --rad-ui-color-orange-100: #fff7ed;
@@ -370,7 +370,7 @@
 --rad-ui-color-orange-700: #ec9455;
 --rad-ui-color-orange-800: #f76b15;
 --rad-ui-color-orange-900: #ef5f00;
---rad-ui-color-orange-950: #cc4e00;
+--rad-ui-color-orange-950: #b74601;
 --rad-ui-color-orange-1000: #582d1d;
 --rad-ui-color-black: #0A0A0A;
 --rad-ui-color-white: #FFFFFF;

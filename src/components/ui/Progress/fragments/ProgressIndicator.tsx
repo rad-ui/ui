@@ -25,14 +25,16 @@ const ProgressIndicator = forwardRef<
     const boundedValue = Math.min(Math.max(value ?? 0, minValue), maxValue);
 
     // Calculate the percentage of completion
-    const percentage = ((boundedValue - minValue) / (maxValue - minValue)) * 100;
+    const range = maxValue - minValue;
+    const percentage = range > 0 ? ((boundedValue - minValue) / range) * 100 : 0;
 
     const { asChild, ...rest } = props;
 
     return (
         <Primitive.div
             className={clsx(rootClass && `${rootClass}-indicator`, className)}
-            style={{ transform: `translateX(-${100 - percentage}%)`, ...style }}
+            // Indeterminate bars are animated by the theme via [data-state="indeterminate"].
+            style={isIndeterminate ? style : { transform: `translateX(-${100 - percentage}%)`, ...style }}
             data-state={state}
             data-value={isIndeterminate ? undefined : boundedValue}
             data-max={maxValue}

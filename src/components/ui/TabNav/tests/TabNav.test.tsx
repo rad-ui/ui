@@ -27,7 +27,7 @@ describe('TabNav', () => {
         );
 
         const tab2 = screen.getByText('Tab 2');
-        fireEvent.focus(tab2);
+        fireEvent.click(tab2);
         expect(handleValueChange).toHaveBeenCalledWith('tab2');
     });
 
@@ -67,10 +67,10 @@ describe('TabNav', () => {
         );
 
         const tab2 = screen.getByText('Tab 2');
-        expect(tab2).toHaveAttribute('aria-selected', 'true');
+        expect(tab2).toHaveAttribute('aria-current', 'page');
 
         const tab1 = screen.getByText('Tab 1');
-        fireEvent.focus(tab1);
+        fireEvent.click(tab1);
         expect(handleValueChange).toHaveBeenCalledWith('tab1');
     });
 
@@ -82,7 +82,7 @@ describe('TabNav', () => {
             </TabNav.Root>
         );
 
-        expect(screen.getByText('Tab 2')).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByText('Tab 2')).toHaveAttribute('aria-current', 'page');
     });
 
     it('forwards refs to DOM elements', () => {
@@ -95,7 +95,9 @@ describe('TabNav', () => {
             </TabNav.Root>
         );
 
-        expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
+        // The root is a <nav> landmark.
+        expect(rootRef.current).toBeInstanceOf(HTMLElement);
+        expect(rootRef.current?.tagName).toBe('NAV');
         expect(linkRef.current).toBeInstanceOf(HTMLAnchorElement);
     });
 

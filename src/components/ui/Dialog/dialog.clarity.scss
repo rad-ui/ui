@@ -110,35 +110,73 @@
     }
   }
   
+  // Close renders as a ghost control so text children ("Close") get real
+  // padding and icon-only children stay square. By default it sits in the
+  // header corner, with its label edge aligned to the content inline padding.
   .rad-ui-dialog-close {
     position: absolute;
-    right: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
-    top: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs));
-    border-radius: var(--rad-ui-control-radius-md);
-    opacity: 1;
-    color: var(--rad-ui-text-muted);
-    background-color: transparent;
-    width: calc(var(--rad-ui-size-6) + var(--rad-ui-spacing-1));
-    height: calc(var(--rad-ui-size-6) + var(--rad-ui-spacing-1));
-    display: flex;
+    right: calc(var(--rad-ui-dialog-inline-padding) - var(--rad-ui-control-padding-x-sm));
+    top: calc(var(--rad-ui-spacing-2) + var(--rad-ui-density-gap-xs));
+    box-sizing: border-box;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: var(--rad-ui-density-gap-sm);
+    min-width: var(--rad-ui-control-height-sm);
+    min-height: var(--rad-ui-control-height-sm);
+    padding: 0 var(--rad-ui-control-padding-x-sm);
+    border: var(--rad-ui-border-width-default) solid transparent;
+    border-radius: var(--rad-ui-control-radius-md);
+    background-color: transparent;
+    color: var(--rad-ui-text-secondary);
+    font-family: inherit;
+    font-size: var(--rad-ui-component-font-size-sm);
+    font-weight: var(--rad-ui-component-font-weight-medium);
+    line-height: var(--rad-ui-component-line-height-tight);
+    white-space: nowrap;
+    opacity: 1;
     cursor: pointer;
-    border: none;
-    
+    transition:
+      background-color var(--rad-ui-motion-duration-fast) ease,
+      border-color var(--rad-ui-motion-duration-fast) ease,
+      color var(--rad-ui-motion-duration-fast) ease;
+
+    svg {
+      width: var(--rad-ui-icon-size-sm);
+      height: var(--rad-ui-icon-size-sm);
+      flex-shrink: 0;
+    }
+
     &:hover {
       color: var(--rad-ui-text-primary);
-      background-color: var(--rad-ui-surface-subtle);
+      background-color: var(--rad-ui-surface-hover);
     }
-    
+
     &:focus-visible {
       outline: none;
-      box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel);
+      box-shadow: var(--rad-ui-focus-ring-shadow);
     }
-    
+
     &:disabled {
       pointer-events: none;
       opacity: 0.5;
+    }
+  }
+
+  // Inside the footer the close is an in-flow secondary action, not a corner
+  // control, so the footer keeps its content instead of rendering empty.
+  .rad-ui-dialog-footer .rad-ui-dialog-close {
+    position: static;
+    min-height: var(--rad-ui-control-height-md);
+    padding: 0 var(--rad-ui-control-padding-x-md);
+    border-color: var(--rad-ui-border-default);
+    background-color: var(--rad-ui-surface-panel);
+    color: var(--rad-ui-text-primary);
+    box-shadow: var(--rad-ui-control-shadow);
+
+    &:hover {
+      background-color: var(--rad-ui-surface-hover);
+      border-color: var(--rad-ui-border-strong);
     }
   }
   

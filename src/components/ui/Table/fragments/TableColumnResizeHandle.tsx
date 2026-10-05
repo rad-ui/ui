@@ -29,6 +29,8 @@ const TableColumnResizeHandle = React.forwardRef<
         resizable,
         resizeHandleVisibility,
         columnCount,
+        minColumnWidth,
+        columnWidths,
         startColumnResize,
         handleColumnResizeKeyDown,
         isResizing,
@@ -53,7 +55,13 @@ const TableColumnResizeHandle = React.forwardRef<
         return null;
     }
 
+    // Expose the current width to assistive tech for the keyboard-resizable separator.
+    const currentWidth = Math.round(columnWidths[columnIndex] ?? headerRef.current?.offsetWidth ?? minColumnWidth);
+
     return (
+        // Focusable ARIA separators are interactive widgets, but jsx-a11y does not classify
+        // role="separator" that way.
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <div
             {...props}
             ref={mergedRef}
@@ -68,6 +76,10 @@ const TableColumnResizeHandle = React.forwardRef<
             role="separator"
             aria-orientation="vertical"
             aria-label={ariaLabel || `Resize column ${columnIndex + 1}`}
+            aria-valuemin={minColumnWidth}
+            aria-valuenow={currentWidth}
+            // This is intentionally focusable: arrow keys resize the adjacent columns.
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
             onMouseDown={(event) => {
                 if (!headerRef.current) {

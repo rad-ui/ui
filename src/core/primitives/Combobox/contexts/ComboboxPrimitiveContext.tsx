@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 export type ComboboxPrimitiveContextType = {
     isOpen: boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsOpen: (open: boolean | ((previous: boolean) => boolean)) => void,
     handleSelect: (index: number | null) => void,
     refs: {
         reference: React.RefObject<any>;
@@ -40,6 +40,9 @@ export type ComboboxPrimitiveContextType = {
     hiddenIndices: number[];
     labelsVersion: number;
     bumpLabelsVersion: () => void;
+    /** Per-root prefix that keeps option ids unique across instances. */
+    idPrefix: string;
+    disabled: boolean;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

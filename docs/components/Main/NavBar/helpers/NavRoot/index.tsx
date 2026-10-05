@@ -135,6 +135,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             color="gray"
             variant="ghost"
             onClick={openLink("https://discord.gg/nMaQfeEPNp")}
+            aria-label="Rad UI on Discord"
           >
             <span className="text-gray-1000"><DiscordLogo size={15} /></span>
           </Button>
@@ -142,11 +143,17 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             color="gray"
             variant="ghost"
             onClick={openLink("https://github.com/rad-ui/ui")}
+            aria-label="Rad UI on GitHub"
           >
             <span className="text-gray-1000"><GithubLogo size={15} /></span>
           </Button>
 
-          <Button color="gray" variant="ghost" onClick={toggleDarkMode}>
+          <Button
+            color="gray"
+            variant="ghost"
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
+          >
             <span className="text-gray-1000">
               {darkMode ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
             </span>
@@ -157,6 +164,8 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
             color="gray"
             variant={isDocsNavOpen ? "soft" : "ghost"}
             onClick={handleDocsNavOpen}
+            aria-label="Toggle docs navigation"
+            aria-expanded={isDocsNavOpen}
           >
             <Menu size={15} strokeWidth={2} />
           </Button>

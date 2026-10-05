@@ -103,6 +103,28 @@ describe('ScrollArea', () => {
         expect(screen.getByTestId('root')).toHaveAttribute('data-scrollbar-type', 'scroll');
     });
 
+    test('a thumb inherits its scrollbar orientation when both axes are rendered', () => {
+        render(
+            <ScrollArea.Root type="always">
+                <ScrollArea.Viewport>
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb-y" />
+                </ScrollArea.Scrollbar>
+                <ScrollArea.Scrollbar orientation="horizontal">
+                    <ScrollArea.Thumb data-testid="thumb-x" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        // Vertical sizing writes `height` and horizontal sizing writes `width`; a horizontal thumb
+        // that wrongly registered as vertical would receive a height and leave the real one unsized.
+        expect(screen.getByTestId('thumb-y').style.height).not.toBe('');
+        expect(screen.getByTestId('thumb-x').style.height).toBe('');
+        expect(screen.getByTestId('thumb-x').style.width).not.toBe('');
+    });
+
     test('type always keeps scrollbar and thumb visible', () => {
         render(
             <ScrollArea.Root type="always">

@@ -157,11 +157,11 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
 
     useLayoutEffect(() => {
         if (
-            !resizable
-            || isControlled
-            || !tableRef.current
-            || columnCount === 0
-            || hasInitializedWidthsRef.current
+            !resizable ||
+            isControlled ||
+            !tableRef.current ||
+            columnCount === 0 ||
+            hasInitializedWidthsRef.current
         ) {
             return;
         }
@@ -315,6 +315,7 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
         resizable,
         resizeHandleVisibility,
         columnCount,
+        minColumnWidth,
         registerColumnIndex,
         columnWidths,
         getColumnStyle,
@@ -329,6 +330,7 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
         getColumnStyle,
         handleColumnResizeKeyDown,
         isResizing,
+        minColumnWidth,
         registerColumnIndex,
         resizeHandleVisibility,
         resizable,

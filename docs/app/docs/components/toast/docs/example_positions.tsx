@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Toast, { ToastState } from '@radui/ui/Toast'
+import { useEffect, useMemo, useState } from 'react'
+import Toast, { createToastManager } from '@radui/ui/Toast'
 import type { ToastData } from '@radui/ui/Toast'
 import Button from '@radui/ui/Button'
 
@@ -45,8 +45,8 @@ function PositionsInner({
     const manager = Toast.useToastManager()
 
     useEffect(() => () => {
-        ToastState.dismissAll()
-    }, [])
+        manager.dismissAll()
+    }, [manager])
 
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
@@ -74,10 +74,12 @@ function PositionsInner({
 }
 
 export default function ToastPositionsExample() {
+    // Each example owns its queue; the default singleton would show every toast in every example on the page.
+    const toastManager = useMemo(() => createToastManager(), [])
     const [position, setPosition] = useState<Corner>('bottom-right')
 
     return (
-        <Toast.Provider key={position} position={position} gap={12} limit={2}>
+        <Toast.Provider toastManager={toastManager} key={position} position={position} gap={12} limit={2}>
             <PositionsInner position={position} setPosition={setPosition} />
         </Toast.Provider>
     )

@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
@@ -47,27 +47,50 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
         onValueChange
     );
 
-    const handleTabChange = (value: string) => {
-        setTabValue(value);
+    const baseId = useId();
+
+    const [customTriggerIds, setCustomTriggerIds] = useState<Record<string, string>>({});
+    const registerTriggerId = useCallback((triggerValue: string, id: string | undefined) => {
+        setCustomTriggerIds((previous) => {
+            if (previous[triggerValue] === id) return previous;
+            const next = { ...previous };
+            if (id === undefined) delete next[triggerValue];
+            else next[triggerValue] = id;
+            return next;
+        });
+    }, []);
+
+    const handleTabChange = (nextValue: string) => {
+        // Re-selecting the active tab is not a change; don't notify consumers.
+        if (nextValue === tabValue) return;
+        setTabValue(nextValue);
     };
 
-    // Apply the default tab only when the component is uncontrolled. This
-    // prevents overwriting a controlled state while still allowing the effect
-    // to run if the consumer switches between controlled and uncontrolled
-    // modes.
+    // Re-apply `defaultValue` when the component switches from controlled to
+    // uncontrolled (or `defaultValue` itself changes). Skipped on mount: the
+    // initial state already equals `defaultValue`, and applying it again would
+    // fire a spurious `onValueChange` before the user has interacted.
+    const isFirstRenderRef = useRef(true);
     useEffect(() => {
+        if (isFirstRenderRef.current) {
+            isFirstRenderRef.current = false;
+            return;
+        }
         if (value === undefined && defaultValue) {
             handleTabChange(defaultValue);
         }
-        // Include `value` so the effect re-evaluates when the control state changes.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [defaultValue, value]);
 
     const contextValues = {
         rootClass,
+        baseId,
         tabValue,
         handleTabChange,
         orientation,
-        activationMode
+        activationMode,
+        customTriggerIds,
+        registerTriggerId
     };
 
     const dataAttributes: Record<string, string> = {};
@@ -75,12 +98,18 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
 
     return (
         <TabsRootContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root orientation={orientation} loop={loop} dir={dir} asChild>
+            <RovingFocusGroup.Root
+                orientation={orientation}
+                loop={loop}
+                dir={dir}
+                asChild
+            >
                 <Primitive.div
                     ref={forwardedRef}
                     className={clsx(rootClass, className)}
                     data-color={color}
                     data-slot="tabs-root"
+                    dir={dir}
                     asChild={asChild}
                     {...dataAttributes}
                     {...props}

@@ -31,6 +31,7 @@ const DocsTableOfContents = () => {
             const viewport = getDocsViewport();
             if (!article) return;
 
+            const seenIds = new Map<string, number>();
             const headings = Array.from(
                 article.querySelectorAll<HTMLHeadingElement>("h2, h3")
             )
@@ -38,9 +39,15 @@ const DocsTableOfContents = () => {
                 .map((heading) => {
                     const text = heading.textContent?.trim() || "";
                     const anchorRoot = heading.closest<HTMLElement>(".docs-anchor");
-                    const id = anchorRoot?.id || heading.id || makeId(text);
-                    if (!anchorRoot && !heading.id) {
-                        heading.id = id;
+                    const baseId = anchorRoot?.id || heading.id || makeId(text);
+                    // Sections can share a title (e.g. an "Action" API table and an "Action" example);
+                    // suffix repeats so anchors and list keys stay unique.
+                    const count = seenIds.get(baseId) ?? 0;
+                    seenIds.set(baseId, count + 1);
+                    const id = count === 0 ? baseId : `${baseId}-${count + 1}`;
+                    const target = anchorRoot ?? heading;
+                    if (target.id !== id) {
+                        target.id = id;
                     }
 
                     return {

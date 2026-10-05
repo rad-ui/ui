@@ -21,7 +21,7 @@ describe('Combobox controlled/uncontrolled mode switching', () => {
         );
 
         const trigger = screen.getByRole('combobox');
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
 
         rerender(
             <Combobox.Root value="apple" onValueChange={onValueChange}>
@@ -58,14 +58,14 @@ describe('Combobox controlled/uncontrolled mode switching', () => {
         const { rerender } = render(comboboxTree({ defaultValue: 'apple' }));
 
         rerender(comboboxTree({ value: 'banana', onValueChange: () => {} }));
-        expect(screen.getByRole('combobox')).toHaveTextContent('banana');
+        expect(screen.getByRole('combobox')).toHaveTextContent('Banana');
 
         rerender(comboboxTree({ defaultValue: 'apple' }));
 
         const trigger = screen.getByRole('combobox');
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
         await user.click(trigger);
         await user.click(screen.getByText('Banana'));
-        expect(trigger).toHaveTextContent('banana');
+        expect(trigger).toHaveTextContent('Banana');
     });
 });

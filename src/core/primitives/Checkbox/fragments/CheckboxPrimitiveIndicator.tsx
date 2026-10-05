@@ -11,13 +11,14 @@ export type CheckboxPrimitiveIndicatorProps = ComponentPropsWithoutRef<'span'> &
 const CheckboxPrimitiveIndicator = forwardRef<CheckboxPrimitiveIndicatorElement, CheckboxPrimitiveIndicatorProps>(({ children, className = '', ...props }, ref) => {
     const { isChecked, disabled } = React.useContext(CheckboxPrimitiveContext);
 
-    if (isChecked !== true) return null;
+    const isIndeterminate = isChecked === 'indeterminate' || isChecked === null;
+    if (isChecked !== true && !isIndeterminate) return null;
 
     return <span
         ref={ref}
         {...props}
         className={className}
-        data-state="checked"
+        data-state={isIndeterminate ? 'indeterminate' : 'checked'}
         data-disabled={disabled ? '' : undefined}
     >{children}</span>;
 });

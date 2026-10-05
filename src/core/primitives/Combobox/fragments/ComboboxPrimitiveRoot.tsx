@@ -4,9 +4,9 @@ import Primitive from '../../Primitive';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
+import { findItemLabel } from '../utils/itemLabels';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
-import { useIsInsideForm } from '~/core/hooks/useIsInsideForm';
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'start' | 'center' | 'end';
@@ -39,6 +39,16 @@ export type ComboboxPrimitiveRootProps = {
     onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
+    /** Controlled open state. */
+    open?: boolean;
+    /** Initial open state (uncontrolled). */
+    defaultOpen?: boolean;
+    /** Called when the listbox opens or closes. */
+    onOpenChange?: (open: boolean) => void;
+    /** Disables the trigger so the listbox cannot be opened. */
+    disabled?: boolean;
+    /** Marks the field as required for native form validation. */
+    required?: boolean;
 }
 
 function getPlacement(side: Side, align: Align): Placement {
@@ -74,16 +84,26 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     sideOffset,
     sticky = 'partial',
     updatePositionStrategy = 'optimized',
+    open,
+    defaultOpen = false,
+    onOpenChange,
+    disabled = false,
+    required = false,
     ...props
 }, forwardedRef) => {
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpenState, setIsOpen] = useControllableState<boolean>(open, defaultOpen, onOpenChange);
+    const isOpen = Boolean(isOpenState) && !disabled;
+    const idPrefix = React.useId();
     useRegisterDocumentOverlayOpen(isOpen);
     const [selectedValue, setSelectedValue] = useControllableState(
         value,
         defaultValue,
         onValueChange
     );
-    const [selectedLabel, setSelectedLabel] = React.useState(defaultValue);
+    // Resolve the label from the element tree so the trigger shows it before the list ever mounts.
+    const [selectedLabel, setSelectedLabel] = React.useState(() => (
+        selectedValue ? findItemLabel(children, selectedValue) ?? selectedValue : selectedValue
+    ));
 
     const selectedItemRef = React.useRef<any>(null);
     const elementsRef = React.useRef<(HTMLElement | null)[]>([]);
@@ -118,7 +138,21 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         return Array.from(set).sort((a, b) => a - b);
     }, [disabledIndices, hiddenIndices]);
 
-    const isFormChild = useIsInsideForm(rootRef.current);
+    // Detect a parent <form> after mount; reading `rootRef.current` during render is always null on
+    // the first pass and would leave the hidden form control unrendered until some unrelated update.
+    const [isFormChild, setIsFormChild] = React.useState(false);
+    React.useEffect(() => {
+        setIsFormChild(Boolean(rootRef.current?.closest('form')));
+    }, []);
+    const nativeSelectRef = React.useRef<HTMLSelectElement>(null);
+    const defaultValueRef = React.useRef(defaultValue);
+    React.useEffect(() => {
+        const form = nativeSelectRef.current?.form;
+        if (!form) return;
+        const handleReset = () => setSelectedValue(defaultValueRef.current);
+        form.addEventListener('reset', handleReset);
+        return () => form.removeEventListener('reset', handleReset);
+    }, [isFormChild, name, setSelectedValue]);
 
     const resolvedPlacement = placement ?? getPlacement(side, align);
     const mainAxisOffset = sideOffset ?? offsetValue ?? 0;
@@ -195,7 +229,10 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     } = Floater.useFloating({
         middleware,
         open: isOpen,
-        onOpenChange: setIsOpen,
+        onOpenChange: (nextOpen: boolean) => {
+            if (disabled && nextOpen) return;
+            setIsOpen(nextOpen);
+        },
         placement: resolvedPlacement,
         strategy: positioningStrategy,
         whileElementsMounted: (reference, floating, updatePosition) => Floater.autoUpdate(
@@ -248,7 +285,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 }
             }
         },
-        [totalDisabledIndices, refs, setSelectedValue]
+        [totalDisabledIndices, refs, setSelectedValue, setIsOpen]
     );
 
     useLayoutEffect(() => {
@@ -256,7 +293,11 @@ const ComboboxPrimitiveRoot = React.forwardRef<
 
         if (valueIndex === -1) {
             setSelectedIndex(null);
-            setSelectedLabel(displayLabelsByValueRef.current[selectedValue] || selectedValue);
+            setSelectedLabel(
+                displayLabelsByValueRef.current[selectedValue]
+                || (selectedValue ? findItemLabel(children, selectedValue) : null)
+                || selectedValue
+            );
             return;
         }
 
@@ -264,7 +305,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         const label = elementsRef.current[valueIndex]?.getAttribute('data-label') || displayLabelsRef.current[valueIndex] || labelsRef.current[valueIndex] || selectedValue;
         displayLabelsByValueRef.current[selectedValue] = label;
         setSelectedLabel(label);
-    }, [labelsVersion, selectedValue]);
+    }, [labelsVersion, selectedValue, children]);
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
@@ -330,7 +371,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         hiddenIndices,
         selectedItemRef,
         labelsVersion,
-        bumpLabelsVersion
+        bumpLabelsVersion,
+        idPrefix,
+        disabled
     }), [
         isOpen,
         handleSelect,
@@ -352,24 +395,48 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         hasSearch,
         search,
         hiddenIndices,
-        labelsVersion
+        labelsVersion,
+        idPrefix,
+        disabled,
+        setIsOpen
     ]);
 
     return (
         <ComboboxPrimitiveContext.Provider value={values}>
-            <Primitive.div {...props} className={className} ref={Floater.useMergeRefs([rootRef, forwardedRef])} data-state={isOpen ? 'open' : 'closed'}>
+            <Primitive.div
+                {...props}
+                className={className}
+                ref={Floater.useMergeRefs([rootRef, forwardedRef])}
+                data-state={isOpen ? 'open' : 'closed'}
+                data-disabled={disabled ? '' : undefined}
+            >
 
                 {children}
-                {/* Add hidden native select for form control */}
+                {/* Native select mirrors the value for form submission, validation, and reset. */}
                 {
-                    isFormChild && (
+                    (isFormChild || Boolean(name)) && (
                         <select
+                            ref={nativeSelectRef}
                             name={name}
                             value={selectedValue}
-                            hidden
+                            required={required}
+                            disabled={disabled}
                             aria-hidden="true"
                             tabIndex={-1}
                             onChange={() => {}}
+                            // When native validation focuses this control, hand focus to the trigger.
+                            onFocus={() => (refs.reference.current as HTMLElement | null)?.focus()}
+                            style={{
+                                position: 'absolute',
+                                width: 1,
+                                height: 1,
+                                margin: 0,
+                                padding: 0,
+                                border: 0,
+                                opacity: 0,
+                                pointerEvents: 'none',
+                                overflow: 'hidden'
+                            }}
                         >
                             <option value={selectedValue}>{selectedValue}</option>
                         </select>

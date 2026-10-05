@@ -2,7 +2,7 @@
 
 import Button from "@radui/ui/Button"
 import VisuallyHidden from "@radui/ui/VisuallyHidden"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const SearchIcon = () => (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -16,8 +16,8 @@ const SearchIcon = () => (
 )
 
 const VisuallyHiddenPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="VisuallyHidden"
             docsLink="/docs/components/visually-hidden"
             description="Hide text visually while keeping it available to screen readers."
@@ -29,11 +29,11 @@ const VisuallyHiddenPlayground = () => (
                         <SearchIcon />
                     </span>
                 </Button>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-950">
                     Icon-only controls can still expose a complete label to assistive technology.
                 </p>
             </div>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

@@ -117,4 +117,49 @@ describe('Radio', () => {
         render(<Radio {...baseProps} ref={ref} />);
         expect(ref.current).toBeInstanceOf(HTMLInputElement);
     });
+    it('honors defaultChecked without mixing controlled and uncontrolled input props', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<Radio {...baseProps} defaultChecked />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).toBeChecked();
+        expect(radio).toHaveAttribute('data-state', 'checked');
+        expect(errorSpy).not.toHaveBeenCalledWith(
+            expect.stringContaining('both checked and defaultChecked'),
+            expect.anything(),
+            expect.anything()
+        );
+        errorSpy.mockRestore();
+    });
+
+    it('stays checked when a checked radio is clicked again', () => {
+        render(<Radio {...baseProps} defaultChecked />);
+        const radio = screen.getByRole('radio');
+
+        fireEvent.click(radio);
+
+        expect(radio).toBeChecked();
+        expect(radio).toHaveAttribute('data-state', 'checked');
+    });
+
+    it('unchecks uncontrolled siblings that share a name', () => {
+        render(
+            <>
+                <Radio name="plan" value="free" id="plan-free" defaultChecked />
+                <Radio name="plan" value="pro" id="plan-pro" />
+            </>
+        );
+        const [free, pro] = screen.getAllByRole('radio');
+
+        fireEvent.click(pro);
+
+        expect(pro).toHaveAttribute('data-state', 'checked');
+        expect(free).not.toBeChecked();
+        expect(free).toHaveAttribute('data-state', 'unchecked');
+    });
+
+    it('is reachable with the keyboard', () => {
+        render(<Radio {...baseProps} />);
+        expect(screen.getByRole('radio')).not.toHaveAttribute('tabindex', '-1');
+    });
 });

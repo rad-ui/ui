@@ -5,43 +5,29 @@ import { usePathname } from "next/navigation"
 import Heading from "@radui/ui/Heading"
 import Text from "@radui/ui/Text"
 
-import showcaseDemos, { getShowcaseDemo } from "../showcaseDemos"
+import { getShowcaseDemo } from "../showcaseDemos"
 
 const ShowcaseHeader = () => {
     const pathname = usePathname()
     const demo = getShowcaseDemo(pathname)
-    const index = showcaseDemos.findIndex((item) => item.href === pathname)
 
     return (
-        <div className="min-w-0">
-            <Text className="mb-2 uppercase tracking-[0.35em] text-[11px]! text-gray-1000/60">
-                Showcase
-                {index >= 0 ? ` · ${String(index + 1).padStart(2, "0")}/${String(showcaseDemos.length).padStart(2, "0")}` : ""}
-            </Text>
-            <Heading as="h4" className="!text-gray-1000">
-                {demo ? demo.title : "Demo Gallery"}
+        <header className="max-w-3xl">
+            <Heading as="h1" className="text-[1.75rem]! leading-tight! tracking-[-0.02em]! text-gray-1000! sm:text-[2rem]!">
+                {demo ? demo.title : "Showcase"}
             </Heading>
-            <Text className="mt-1 max-w-2xl text-base! text-gray-1000/60">
+            <Text className="mt-2 text-[15px]! leading-relaxed! text-gray-950">
                 {demo
                     ? demo.summary
-                    : "Switch between multi-surface demos to preview how Rad UI handles very different product shapes from the same component foundation."}
+                    : "Real product surfaces built entirely from Rad UI components."}
             </Text>
             {demo ? (
-                <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                    <Text className="text-[11px]! uppercase tracking-[0.2em] text-gray-1000/60">
-                        Uses
-                    </Text>
-                    {demo.components.map((component) => (
-                        <span
-                            key={component}
-                            className="rounded-full border border-gray-600 bg-gray-1000/[0.04] px-2 py-0.5 text-[11px] font-medium text-gray-1000/70"
-                        >
-                            {component}
-                        </span>
-                    ))}
-                </div>
+                <p className="mt-3 text-[13px] text-gray-900">
+                    <span className="font-medium text-gray-950">Built with </span>
+                    {demo.components.join(" · ")}
+                </p>
             ) : null}
-        </div>
+        </header>
     )
 }
 

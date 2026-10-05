@@ -6,7 +6,12 @@ import TextFieldContext from '../contexts/TextFieldContext';
 export type TextFieldInputProps = React.ComponentPropsWithoutRef<'input'>;
 
 const TextFieldInput = React.forwardRef<HTMLInputElement, TextFieldInputProps>(({ className = '', type = 'text', onChange, onInput, value, defaultValue, ...props }, ref) => {
-    const { rootClass, inputRef, setHasValue } = React.useContext(TextFieldContext);
+    const { rootClass, inputRef, setHasValue, setIsLocked } = React.useContext(TextFieldContext);
+    const isLocked = Boolean(props.disabled || props.readOnly);
+
+    React.useEffect(() => {
+        setIsLocked(isLocked);
+    }, [isLocked, setIsLocked]);
 
     React.useEffect(() => {
         if (value !== undefined) {

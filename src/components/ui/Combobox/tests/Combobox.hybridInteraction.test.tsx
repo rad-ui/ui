@@ -28,7 +28,7 @@ describe('Combobox hybrid interaction', () => {
 
         await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
 
-        await waitFor(() => expect(trigger).toHaveTextContent('banana'));
+        await waitFor(() => expect(trigger).toHaveTextContent('Banana'));
         expect(trigger).toHaveAttribute('data-state', 'closed');
     });
 
@@ -42,7 +42,7 @@ describe('Combobox hybrid interaction', () => {
 
         await user.click(screen.getByText('Orange'));
 
-        await waitFor(() => expect(trigger).toHaveTextContent('orange'));
+        await waitFor(() => expect(trigger).toHaveTextContent('Orange'));
         expect(trigger).toHaveAttribute('data-state', 'closed');
     });
 });

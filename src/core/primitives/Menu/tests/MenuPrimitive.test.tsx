@@ -302,7 +302,7 @@ describe('MenuPrimitive', () => {
             expect(screen.getByText('Disabled Item')).toBeInTheDocument();
         });
 
-        it('should call onSelect and keep menu open when onSelect is provided', async() => {
+        it('should call onSelect and close the menu', async() => {
             const onSelect = jest.fn();
 
             render(
@@ -316,14 +316,35 @@ describe('MenuPrimitive', () => {
                 </MenuPrimitive.Root>
             );
 
-            const item = screen.getByText('Selectable Item');
-
             await act(async() => {
-                fireEvent.click(item);
+                fireEvent.click(screen.getByText('Selectable Item'));
             });
 
-            expect(onSelect).toHaveBeenCalled();
-            // Since onSelect is handled by user, default close should not occur
+            expect(onSelect).toHaveBeenCalledTimes(1);
+            await waitFor(() => {
+                expect(screen.queryByText('Menu Content')).not.toBeInTheDocument();
+            });
+        });
+
+        it('should keep the menu open when onSelect calls event.preventDefault()', async() => {
+            const onSelect = jest.fn((event: React.MouseEvent) => event.preventDefault());
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                        <MenuPrimitive.Item onSelect={onSelect}>
+                            <span>Selectable Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            await act(async() => {
+                fireEvent.click(screen.getByText('Selectable Item'));
+            });
+
+            expect(onSelect).toHaveBeenCalledTimes(1);
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
         });
 

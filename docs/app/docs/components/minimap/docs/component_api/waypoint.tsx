@@ -7,8 +7,7 @@ const data = {
         { name: "Default", id: "default" }
     ],
     data: [
-        { prop: { name: "id*", info_tooltips: "Unique identifier linking the waypoint to a Minimap.Item." }, type: "string", default: "--" },
-        { prop: { name: "label", info_tooltips: "Accessible label for the waypoint." }, type: "string", default: "--" }
+        { prop: { name: "value*", info_tooltips: "Unique identifier linking the waypoint to the Minimap.Item with the same value. Must be rendered inside Minimap.Provider." }, type: "string", default: "--" }
     ]
 }
 

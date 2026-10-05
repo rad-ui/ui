@@ -1,4 +1,5 @@
 'use client';
+import clsx from 'clsx';
 import React, { useContext } from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
@@ -8,12 +9,12 @@ export type ComboboxContentProps = React.ComponentPropsWithoutRef<typeof Combobo
     customRootClass?: string;
 };
 
-const ComboboxContent = React.forwardRef<ComboboxContentElement, ComboboxContentProps>(({ customRootClass, children, position = 'popper', ...props }, forwardedRef) => {
+const ComboboxContent = React.forwardRef<ComboboxContentElement, ComboboxContentProps>(({ customRootClass, children, className, position = 'popper', ...props }, forwardedRef) => {
     const { rootClass } = useContext(ComboboxRootContext);
 
     return (
         <ComboboxPrimitive.Content
-            className={rootClass ? `${rootClass}-content` : undefined}
+            className={clsx(rootClass ? `${rootClass}-content` : undefined, className) || undefined}
             position={position}
             data-position={position}
             ref={forwardedRef}

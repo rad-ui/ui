@@ -236,6 +236,12 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
         <DrawerPopupContext.Provider value={popupContextValue}>
             <Floater.FocusManager
                 context={floaterContext}
+                // The popup mounts with data-state="closed" (visibility: hidden in
+                // the themes) and flips to "open" a frame later for the entrance
+                // transition. Hidden elements cannot take focus, so the focus
+                // manager only engages once the popup is actually open; otherwise
+                // initial focus silently fails and Tab escapes the modal.
+                disabled={!isOpen || dataState !== 'open'}
                 modal={trapFocus}
                 initialFocus={initialFocus as any}
                 returnFocus={!finalFocus}

@@ -69,3 +69,52 @@ describe('ContextMenu keyboard paths', () => {
         expect(trigger).toHaveFocus();
     });
 });
+
+describe('ContextMenu keyboard open', () => {
+    beforeEach(() => mockMatchMedia());
+
+    test('Shift+F10 opens the menu and focuses the first item', async() => {
+        const user = userEvent.setup();
+        render(
+            <ContextMenu.Root>
+                <ContextMenu.Trigger>Area</ContextMenu.Trigger>
+                <ContextMenu.Portal>
+                    <ContextMenu.Content>
+                        <ContextMenu.Item label="One">One</ContextMenu.Item>
+                        <ContextMenu.Item label="Two">Two</ContextMenu.Item>
+                    </ContextMenu.Content>
+                </ContextMenu.Portal>
+            </ContextMenu.Root>
+        );
+
+        const trigger = screen.getByText('Area');
+        trigger.focus();
+        await user.keyboard('{Shift>}{F10}{/Shift}');
+
+        await waitFor(() => expect(screen.getByText('One')).toHaveFocus());
+        expect(screen.getByRole('menu')).toBeInTheDocument();
+
+        await user.keyboard('{ArrowDown}');
+        expect(screen.getByText('Two')).toHaveFocus();
+
+        await user.keyboard('{Enter}');
+        await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
+    });
+});
+
+describe('ContextMenu trigger markup', () => {
+    test('span trigger carries no button-only attributes', () => {
+        render(
+            <ContextMenu.Root>
+                <ContextMenu.Trigger>Area</ContextMenu.Trigger>
+                <ContextMenu.Content>
+                    <ContextMenu.Item label="One">One</ContextMenu.Item>
+                </ContextMenu.Content>
+            </ContextMenu.Root>
+        );
+        const trigger = screen.getByText('Area');
+        expect(trigger.tagName).toBe('SPAN');
+        expect(trigger).not.toHaveAttribute('type');
+        expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
+    });
+});

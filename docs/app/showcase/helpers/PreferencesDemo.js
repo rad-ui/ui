@@ -1,397 +1,267 @@
 "use client"
 
+import { useState } from "react"
+
+import Avatar from "@radui/ui/Avatar"
 import Badge from "@radui/ui/Badge"
 import Button from "@radui/ui/Button"
-import Heading from "@radui/ui/Heading"
 import Progress from "@radui/ui/Progress"
 import RadioCards from "@radui/ui/RadioCards"
+import Separator from "@radui/ui/Separator"
 import Switch from "@radui/ui/Switch"
-import Text from "@radui/ui/Text"
-import {
-    BellRing,
-    ChevronRight,
-    Globe,
-    Lock,
-    Monitor,
-    MoonStar,
-    Palette,
-    ShieldCheck,
-    SlidersHorizontal,
-    Smartphone,
-    Sparkles,
-    Volume2,
-    WandSparkles,
-} from "lucide-react"
+import TextField from "@radui/ui/TextField"
+import { Bell, KeyRound, Laptop, Monitor, Moon, Palette, Smartphone, Sun, User } from "lucide-react"
 
-const settingsNav = [
-    { label: "General", active: true },
-    { label: "Appearance" },
-    { label: "Notifications" },
-    { label: "Privacy" },
-    { label: "Playback" },
+const sections = [
+    { id: "profile", label: "Profile", icon: User },
+    { id: "appearance", label: "Appearance", icon: Palette },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "security", label: "Security", icon: KeyRound },
 ]
 
-const themeModes = [
-    {
-        value: "dark",
-        label: "Dark",
-        description: "High-contrast workspace",
-        icon: MoonStar,
-    },
-    {
-        value: "system",
-        label: "System",
-        description: "Follow the active OS mode",
-        icon: Monitor,
-    },
-    {
-        value: "mobile",
-        label: "Mobile",
-        description: "Compact device preview",
-        icon: Smartphone,
-    },
+// Static class names so Tailwind generates them.
+const accents = [
+    ["blue", "bg-blue-900"],
+    ["violet", "bg-violet-900"],
+    ["crimson", "bg-crimson-900"],
+    ["orange", "bg-orange-900"],
+    ["green", "bg-green-900"],
+    ["gray", "bg-gray-900"],
 ]
 
-const notificationRows = [
-    { label: "Product updates", detail: "Releases, changelogs, and roadmap nudges.", enabled: true },
-    { label: "Mentions", detail: "Ping me when collaborators leave context.", enabled: true },
-    { label: "Weekly summary", detail: "A compact digest every Friday evening.", enabled: false },
+const initialProfile = { name: "Ada Lovelace", email: "ada@northwind.io", title: "Staff engineer" }
+
+const initialNotifications = [
+    { id: "mentions", label: "Mentions", detail: "When someone @mentions you or replies to your thread.", on: true },
+    { id: "reviews", label: "Review requests", detail: "When you're added as a reviewer on a change.", on: true },
+    { id: "digest", label: "Weekly digest", detail: "A summary of activity in your projects every Friday.", on: false },
+    { id: "product", label: "Product updates", detail: "New features and release notes, about once a month.", on: false },
 ]
 
-const automationRows = [
-    { label: "Auto-archive stale threads", status: "Enabled", tone: "bg-green-800" },
-    { label: "Smart focus after 11 PM", status: "Enabled", tone: "bg-green-800" },
-    { label: "Reduce motion on battery saver", status: "Suggested", tone: "bg-green-400" },
+const initialSessions = [
+    { id: 1, device: "MacBook Pro · Chrome", place: "Lisbon, Portugal", time: "Active now", icon: Laptop, current: true },
+    { id: 2, device: "iPhone 15 · Safari", place: "Lisbon, Portugal", time: "2 hours ago", icon: Smartphone },
+    { id: 3, device: "Windows · Edge", place: "Porto, Portugal", time: "Mar 9", icon: Monitor },
 ]
 
-const PreferenceSwitch = ({ enabled, label }) => {
-    return (
-        <Switch.Root color="green" defaultChecked={enabled} aria-label={label}>
-            <Switch.Thumb />
-        </Switch.Root>
-    )
-}
+const Row = ({ title, description, children }) => (
+    <div className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <div className="min-w-0">
+            <p className="text-sm font-medium">{title}</p>
+            {description ? <p className="mt-0.5 text-sm text-gray-900">{description}</p> : null}
+        </div>
+        <div className="shrink-0">{children}</div>
+    </div>
+)
 
-const densityLevels = [
-    { label: "Interface density", value: 62, readout: "Compact" },
-    { label: "Accent intensity", value: 48, readout: "Balanced" },
-]
-
-const SectionCard = ({ eyebrow, title, description, action, children, accent = false }) => {
-    return (
-        <section
-            className={`rounded-2xl border p-4 ${
-                accent
-                    ? "border-gray-600 bg-gray-100"
-                    : "border-gray-600 bg-gray-50"
-            }`}
-        >
-            <div className="flex items-start justify-between gap-3">
-                <div>
-                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">{eyebrow}</Text>
-                    <Heading as="h5" className="mt-2 text-gray-1000!">{title}</Heading>
-                    <Text className="mt-1 max-w-xl text-sm! text-gray-1000/70">{description}</Text>
-                </div>
-                {action}
-            </div>
-            <div className="mt-4">{children}</div>
-        </section>
-    )
-}
+const SectionHeader = ({ title, description }) => (
+    <div className="pb-2">
+        <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+        <p className="mt-1 text-sm text-gray-900">{description}</p>
+    </div>
+)
 
 const PreferencesDemo = () => {
+    const [section, setSection] = useState("profile")
+    const [saved, setSaved] = useState(initialProfile)
+    const [profile, setProfile] = useState(initialProfile)
+    const [theme, setTheme] = useState("system")
+    const [accent, setAccent] = useState("blue")
+    const [compact, setCompact] = useState(false)
+    const [notifications, setNotifications] = useState(initialNotifications)
+    const [twoFactor, setTwoFactor] = useState(true)
+    const [sessions, setSessions] = useState(initialSessions)
+
+    const dirty = JSON.stringify(profile) !== JSON.stringify(saved)
+    const completeness = Object.values(profile).filter((value) => value.trim()).length / 3 * 100
+
     return (
-        <div className="grid min-h-[780px] lg:grid-cols-[220px_minmax(0,1fr)]">
-            <aside className="border-b border-gray-600 bg-gray-200 px-3 py-3 lg:border-b-0 lg:border-r">
-                <div className="rounded-2xl border border-gray-600 bg-gray-50 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                        <div>
-                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Preferences</Text>
-                            <Heading as="h5" className="mt-1 text-gray-1000!">Control Center</Heading>
-                        </div>
-                        <Badge variant="soft" color="green" className="rounded-full px-2.5 py-1">
-                            Live
-                        </Badge>
-                    </div>
-                    <Text className="mt-3 text-sm! text-gray-1000/70">
-                        A denser settings surface with compact controls, adaptive states, and polished grouping.
-                    </Text>
-                </div>
-
-                <div className="mt-4 space-y-1.5">
-                    {settingsNav.map((item) => (
-                        <button
-                            key={item.label}
-                            type="button"
-                            className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left ${
-                                item.active
-                                    ? "bg-gray-200 text-gray-1000"
-                                    : "text-gray-1000/70 hover:bg-gray-1000/[0.04] hover:text-gray-1000"
-                            }`}
-                        >
-                            <span className="text-sm font-medium">{item.label}</span>
-                            <ChevronRight className="h-4 w-4 opacity-60" />
-                        </button>
-                    ))}
-                </div>
-
-                <div className="mt-4 rounded-2xl border border-gray-600 bg-gray-50 p-3">
-                    <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Preset Stack</Text>
-                    <div className="mt-3 space-y-2">
-                        {["Studio contrast", "Quiet hours", "Dense tables"].map((item, index) => (
-                            <div
-                                key={item}
-                                className={`rounded-xl border px-3 py-2 ${
-                                    index === 0
-                                        ? "border-green-800/25 bg-linear-to-r from-green-900/20 to-green-800/20"
-                                        : "border-gray-600 bg-gray-1000/[0.03]"
+        <div className="grid min-h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[220px_minmax(0,1fr)]">
+            <nav aria-label="Settings" className="border-b border-gray-400 bg-gray-100 p-3 md:border-b-0 md:border-r">
+                <p className="hidden px-2.5 pb-2 pt-1 text-sm font-semibold md:block">Settings</p>
+                <ul className="flex gap-1 overflow-x-auto [scrollbar-width:none] md:block md:space-y-0.5">
+                    {sections.map(({ id, label, icon: Icon }) => (
+                        <li key={id} className="shrink-0">
+                            <button
+                                type="button"
+                                aria-current={section === id ? "page" : undefined}
+                                onClick={() => setSection(id)}
+                                className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                                    section === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
                                 }`}
                             >
-                                <div className="flex items-center justify-between gap-2">
-                                    <Text className="text-sm! font-medium text-gray-1000!">{item}</Text>
-                                    <span className={`h-2.5 w-2.5 rounded-full ${index === 0 ? "bg-green-800" : "bg-gray-600"}`} />
+                                <Icon className="h-4 w-4 text-gray-900" />
+                                {label}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+
+            <div className="relative min-w-0 bg-gray-50 px-5 py-6 sm:px-10 sm:py-8">
+                <div className="max-w-2xl">
+                    {section === "profile" ? (
+                        <>
+                            <SectionHeader title="Profile" description="How you appear to teammates across Northwind." />
+                            <div className="flex items-center gap-4 py-5">
+                                <Avatar.Root size="large">
+                                    <Avatar.Image src="https://i.pravatar.cc/160?img=44" alt={profile.name} />
+                                    <Avatar.Fallback>AL</Avatar.Fallback>
+                                </Avatar.Root>
+                                <div className="flex gap-2">
+                                    <Button variant="soft" size="small">Change photo</Button>
+                                    <Button variant="ghost" size="small">Remove</Button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </aside>
-
-            <main className="min-w-0 bg-gray-50 p-3 sm:p-4">
-                <div className="space-y-4">
-                    <section className="rounded-2xl border border-gray-600 bg-gray-50 p-4">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                            <div className="max-w-2xl">
-                                <Text className="text-[10px]! uppercase tracking-[0.34em] text-green-900">Settings Showcase</Text>
-                                <Heading as="h2" className="mt-2 max-w-2xl text-gray-1000!">
-                                    Preferences panel, tuned for density.
-                                </Heading>
-                                <Text className="mt-2 max-w-2xl text-sm! text-gray-1000/70">
-                                    Compact controls, clear section rhythm, and richer defaults make the settings surface feel deliberate instead of purely utilitarian.
-                                </Text>
+                            <Separator />
+                            <div className="grid gap-5 py-5 sm:grid-cols-2">
+                                {[
+                                    ["name", "Full name"],
+                                    ["title", "Job title"],
+                                    ["email", "Email"],
+                                ].map(([key, label]) => (
+                                    <label key={key} className={`block ${key === "email" ? "sm:col-span-2" : ""}`}>
+                                        <span className="mb-1.5 block text-sm font-medium">{label}</span>
+                                        <TextField
+                                            value={profile[key]}
+                                            type={key === "email" ? "email" : "text"}
+                                            onChange={(event) => setProfile((current) => ({ ...current, [key]: event.target.value }))}
+                                        />
+                                    </label>
+                                ))}
                             </div>
-
-                            <div className="flex flex-wrap gap-2">
-                                <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
-                                    Compact UI
-                                </Badge>
-                                <Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/70">
-                                    Personalization
-                                </Badge>
-                                <Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/70">
-                                    Workspace defaults
-                                </Badge>
-                            </div>
-                        </div>
-
-                        <div className="mt-4 grid gap-3 xl:grid-cols-[minmax(0,1.05fr)_280px]">
-                            <div className="rounded-2xl border border-gray-600 bg-gray-100 px-4 py-4 text-gray-1000">
-                                <div className="flex items-center justify-between gap-3">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="rounded-lg border border-gray-600 bg-gray-50/10 p-2 text-green-800">
-                                            <Palette className="h-4 w-4" />
-                                        </div>
-                                        <div>
-                                            <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Appearance</Text>
-                                            <Heading as="h5" className="mt-1 text-gray-1000!">Theme and density</Heading>
-                                        </div>
-                                    </div>
-                                    <Badge variant="soft" color="green" className="rounded-full px-3 py-1">
-                                        Recommended
-                                    </Badge>
+                            <Separator />
+                            <div className="py-5">
+                                <div className="flex items-center justify-between text-sm">
+                                    <span className="font-medium">Profile completeness</span>
+                                    <span className="tabular-nums text-gray-900">{Math.round(completeness)}%</span>
                                 </div>
+                                <div className="mt-2"><Progress.Root value={completeness} minValue={0} maxValue={100} aria-label="Profile completeness" className="w-full! max-w-none!"><Progress.Indicator /></Progress.Root></div>
+                            </div>
+                        </>
+                    ) : null}
 
-                                <RadioCards.Root
-                                    color="green"
-                                    defaultValue="dark"
-                                    aria-label="Theme"
-                                    className="mt-4 max-w-none! [&_[role=group]]:!grid [&_[role=group]]:!grid-cols-1 [&_[role=group]]:!gap-2 sm:[&_[role=group]]:!grid-cols-3"
-                                >
-                                    {themeModes.map((mode) => {
-                                        const Icon = mode.icon
-
-                                        return (
-                                            <RadioCards.Item
-                                                key={mode.value}
-                                                value={mode.value}
-                                                className="py-3! pl-3! pr-10!"
-                                            >
-                                                <Icon className="h-4 w-4" />
-                                                <Text className="mt-3 text-sm! font-medium">{mode.label}</Text>
-                                                <Text className="mt-1 text-[11px]!">{mode.description}</Text>
-                                            </RadioCards.Item>
-                                        )
-                                    })}
+                    {section === "appearance" ? (
+                        <>
+                            <SectionHeader title="Appearance" description="Theme, accent color, and density for this device." />
+                            <div className="py-5">
+                                <p className="mb-3 text-sm font-medium">Theme</p>
+                                <RadioCards.Root value={theme} onValueChange={setTheme} aria-label="Theme" className="max-w-none! [&_[role=group]]:grid! [&_[role=group]]:gap-3! sm:[&_[role=group]]:grid-cols-3 [&_.rad-ui-radio-cards-item]:min-h-0!">
+                                    {[
+                                        ["light", "Light", Sun],
+                                        ["dark", "Dark", Moon],
+                                        ["system", "System", Monitor],
+                                    ].map(([value, label, Icon]) => (
+                                        <RadioCards.Item key={value} value={value}>
+                                            <span className="flex items-center gap-2 font-medium"><Icon className="h-4 w-4" />{label}</span>
+                                        </RadioCards.Item>
+                                    ))}
                                 </RadioCards.Root>
-
-                                <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                                    {densityLevels.map((level) => (
-                                        <div key={level.label} className="rounded-xl border border-gray-600 bg-gray-50/70 p-3">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <Text className="text-sm! font-medium text-gray-1000!">{level.label}</Text>
-                                                <Text className="text-xs! text-gray-1000/60">{level.readout}</Text>
-                                            </div>
-                                            <Progress.Root
-                                                data-color="green"
-                                                value={level.value}
-                                                minValue={0}
-                                                maxValue={100}
-                                                getValueLabel={(value) => `${level.label}: ${value}%`}
-                                                className="mt-3 max-w-none"
-                                            >
-                                                <Progress.Indicator />
-                                            </Progress.Root>
-                                        </div>
+                            </div>
+                            <Separator />
+                            <div className="py-5">
+                                <p className="text-sm font-medium">Accent color</p>
+                                <p className="mt-0.5 text-sm text-gray-900">Changes every Rad UI component below — no extra CSS.</p>
+                                <div role="radiogroup" aria-label="Accent color" className="mt-3 flex flex-wrap gap-2.5">
+                                    {accents.map(([color, swatch]) => (
+                                        <button
+                                            key={color}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={accent === color}
+                                            aria-label={color}
+                                            onClick={() => setAccent(color)}
+                                            className={`h-8 w-8 rounded-full ring-offset-2 ring-offset-gray-50 transition-shadow ${swatch} ${accent === color ? "ring-2 ring-gray-1000" : "hover:ring-2 hover:ring-gray-600"}`}
+                                        />
                                     ))}
                                 </div>
-                            </div>
-
-                            <div className="rounded-2xl border border-gray-600 bg-gray-100 p-4">
-                                <Text className="text-[10px]! uppercase tracking-[0.3em] text-gray-1000/60">Smart Defaults</Text>
-                                <Heading as="h5" className="mt-2 text-gray-1000!">Session profile</Heading>
-
-                                <div className="mt-4 space-y-3">
-                                    {automationRows.map((item) => (
-                                        <div key={item.label} className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                                            <div className="flex items-center justify-between gap-3">
-                                                <div>
-                                                    <Text className="text-sm! font-medium text-gray-1000!">{item.label}</Text>
-                                                    <Text className="mt-1 text-[11px]! text-gray-1000/60">{item.status}</Text>
-                                                </div>
-                                                <span className={`h-2.5 w-2.5 rounded-full ${item.tone}`} />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="mt-4 rounded-xl border border-gray-600 bg-gray-50/75 px-3 py-3 text-gray-1000">
-                                    <Text className="text-[10px]! uppercase tracking-[0.28em] text-gray-1000/60">Focus Mode</Text>
-                                    <Text className="mt-2 text-sm! text-gray-1000/70">
-                                        Noise reduced after 11 PM, motion softened, and tertiary chrome collapsed.
-                                    </Text>
+                                <div data-rad-ui-accent-color={accent} className="mt-5 flex flex-wrap items-center gap-4 rounded-lg border border-gray-400 p-4">
+                                    <Button color={accent}>Save changes</Button>
+                                    <Button color={accent} variant="soft">Cancel</Button>
+                                    <Badge color={accent}>New</Badge>
+                                    <Switch.Root defaultChecked color={accent} aria-label="Preview switch"><Switch.Thumb /></Switch.Root>
+                                    <div className="w-40"><Progress.Root value={64} minValue={0} maxValue={100} color={accent} aria-label="Preview progress"><Progress.Indicator /></Progress.Root></div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                            <Separator />
+                            <Row title="Compact mode" description="Tighter spacing in lists and tables.">
+                                <Switch.Root checked={compact} onCheckedChange={setCompact} aria-label="Compact mode"><Switch.Thumb /></Switch.Root>
+                            </Row>
+                        </>
+                    ) : null}
 
-                    <div className="grid gap-3 xl:grid-cols-2">
-                        <SectionCard
-                            eyebrow="Notifications"
-                            title="Signal over noise"
-                            description="Trim routine chatter and keep the alerts that change what you do next."
-                            action={<div className="rounded-full border border-gray-600 bg-gray-1000/[0.04] px-3 py-1.5"><Text className="text-[11px]! text-gray-1000/60">4 channels active</Text></div>}
-                        >
-                            <div className="space-y-2.5">
-                                {notificationRows.map((row) => (
-                                    <div key={row.label} className="flex items-center justify-between gap-3 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
-                                        <div className="min-w-0">
-                                            <div className="flex items-center gap-2">
-                                                <BellRing className="h-4 w-4 text-green-800" />
-                                                <Text className="truncate text-sm! font-medium text-gray-1000!">{row.label}</Text>
-                                            </div>
-                                            <Text className="mt-1 text-[11px]! text-gray-1000/60">{row.detail}</Text>
-                                        </div>
-                                        <PreferenceSwitch enabled={row.enabled} label={row.label} />
-                                    </div>
+                    {section === "notifications" ? (
+                        <>
+                            <SectionHeader title="Notifications" description="Choose what Northwind emails you about." />
+                            <div className="divide-y divide-gray-300">
+                                {notifications.map((item) => (
+                                    <Row key={item.id} title={item.label} description={item.detail}>
+                                        <Switch.Root
+                                            checked={item.on}
+                                            onCheckedChange={(on) => setNotifications((all) => all.map((row) => (row.id === item.id ? { ...row, on } : row)))}
+                                            aria-label={item.label}
+                                        >
+                                            <Switch.Thumb />
+                                        </Switch.Root>
+                                    </Row>
                                 ))}
                             </div>
-                        </SectionCard>
+                            <p className="pt-3 text-sm text-gray-900">
+                                {notifications.filter((item) => item.on).length} of {notifications.length} enabled
+                            </p>
+                        </>
+                    ) : null}
 
-                        <SectionCard
-                            eyebrow="Privacy"
-                            title="Share only what matters"
-                            description="Workspace visibility, link permissions, and local protections grouped into one compact review block."
-                            action={<Button variant="solid" className="rounded-full border-0 bg-gray-1000! px-3 py-2 text-gray-50!">Apply</Button>}
-                            accent
-                        >
-                            <div className="grid gap-2.5 sm:grid-cols-2">
-                                <div className="rounded-xl border border-gray-600 bg-gray-50/75 px-3 py-3 text-gray-1000">
-                                    <div className="flex items-center gap-2">
-                                        <ShieldCheck className="h-4 w-4 text-green-800" />
-                                        <Text className="text-sm! font-medium text-gray-1000!">Trusted workspace</Text>
-                                    </div>
-                                    <Text className="mt-2 text-[11px]! text-gray-1000/60">Single-team access, signed exports, and strict previews.</Text>
+                    {section === "security" ? (
+                        <>
+                            <SectionHeader title="Security" description="Protect your account and review where you're signed in." />
+                            <Row title="Two-factor authentication" description="Require a code from your authenticator app at sign-in.">
+                                <div className="flex items-center gap-3">
+                                    <Badge variant="soft" color={twoFactor ? "green" : "gray"}>{twoFactor ? "On" : "Off"}</Badge>
+                                    <Switch.Root checked={twoFactor} onCheckedChange={setTwoFactor} aria-label="Two-factor authentication"><Switch.Thumb /></Switch.Root>
                                 </div>
-                                <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
-                                    <div className="flex items-center gap-2">
-                                        <Globe className="h-4 w-4 text-green-1000" />
-                                        <Text className="text-sm! font-medium text-gray-1000!">Link scope</Text>
-                                    </div>
-                                    <Text className="mt-2 text-[11px]! text-gray-1000/60">Restricted to teammates with comment access.</Text>
-                                </div>
-                                <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
-                                    <div className="flex items-center gap-2">
-                                        <Lock className="h-4 w-4 text-green-800" />
-                                        <Text className="text-sm! font-medium text-gray-1000!">Auto-lock</Text>
-                                    </div>
-                                    <Text className="mt-2 text-[11px]! text-gray-1000/60">Relock sensitive panels after 5 minutes of inactivity.</Text>
-                                </div>
-                                <div className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
-                                    <div className="flex items-center gap-2">
-                                        <Sparkles className="h-4 w-4 text-green-800" />
-                                        <Text className="text-sm! font-medium text-gray-1000!">Redaction assist</Text>
-                                    </div>
-                                    <Text className="mt-2 text-[11px]! text-gray-1000/60">Suggests scrubbed fields before screenshots or export.</Text>
-                                </div>
+                            </Row>
+                            <Separator />
+                            <div className="flex items-center justify-between pb-2 pt-5">
+                                <p className="text-sm font-medium">Active sessions</p>
+                                {sessions.length > 1 ? (
+                                    <Button variant="ghost" size="small" onClick={() => setSessions((all) => all.filter((item) => item.current))}>
+                                        Sign out all others
+                                    </Button>
+                                ) : null}
                             </div>
-                        </SectionCard>
-                    </div>
-
-                    <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_320px]">
-                        <SectionCard
-                            eyebrow="Playback and Behavior"
-                            title="Micro-preferences, handled cleanly"
-                            description="The lower-granularity controls are still readable when the layout is compact."
-                            action={<Badge variant="outline" className="rounded-full border-gray-600 bg-gray-1000/[0.03] px-3 py-1 text-gray-1000/60">6 active rules</Badge>}
-                        >
-                            <div className="grid gap-2.5 sm:grid-cols-2">
-                                {[
-                                    { icon: Volume2, title: "Preview audio", detail: "Let system sounds confirm completed actions.", enabled: true },
-                                    { icon: WandSparkles, title: "Smart suggestions", detail: "Promote commonly used presets near the top.", enabled: true },
-                                    { icon: SlidersHorizontal, title: "Dense tables", detail: "Reduce row height across workspace views.", enabled: true },
-                                    { icon: Monitor, title: "Remember layout", detail: "Restore panel widths and section expansion.", enabled: false },
-                                ].map((item) => {
-                                    const Icon = item.icon
-
-                                    return (
-                                        <div key={item.title} className="rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-3">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="rounded-lg border border-gray-600 bg-gray-1000/[0.05] p-2 text-green-800">
-                                                        <Icon className="h-4 w-4" />
-                                                    </div>
-                                                    <Text className="text-sm! font-medium text-gray-1000!">{item.title}</Text>
-                                                </div>
-                                                <PreferenceSwitch enabled={item.enabled} label={item.title} />
-                                            </div>
-                                            <Text className="mt-2 text-[11px]! text-gray-1000/60">{item.detail}</Text>
+                            <ul className="divide-y divide-gray-300">
+                                {sessions.map(({ id, device, place, time, icon: Icon, current }) => (
+                                    <li key={id} className="flex items-center gap-4 py-3.5">
+                                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gray-200 text-gray-950"><Icon className="h-5 w-5" /></span>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="truncate text-sm font-medium">{device}</p>
+                                            <p className="truncate text-sm text-gray-900">{place} · {time}</p>
                                         </div>
-                                    )
-                                })}
-                            </div>
-                        </SectionCard>
-
-                        <SectionCard
-                            eyebrow="Review Snapshot"
-                            title="Before you leave"
-                            description="A compact right-rail summary helps confirm that the panel is doing real work."
-                        >
-                            <div className="space-y-2.5">
-                                {[
-                                    "Dark mode and compact density are active.",
-                                    "Mentions and product updates are enabled.",
-                                    "Workspace links are team-restricted.",
-                                ].map((item) => (
-                                    <div key={item} className="flex items-start gap-2 rounded-xl border border-gray-600 bg-gray-1000/[0.03] px-3 py-2.5">
-                                        <span className="mt-1 h-2 w-2 rounded-full bg-green-800" />
-                                        <Text className="text-[11px]! text-gray-1000/70">{item}</Text>
-                                    </div>
+                                        {current ? (
+                                            <Badge variant="soft" color="green">This device</Badge>
+                                        ) : (
+                                            <Button variant="outline" size="small" onClick={() => setSessions((all) => all.filter((item) => item.id !== id))}>
+                                                Sign out
+                                            </Button>
+                                        )}
+                                    </li>
                                 ))}
-                            </div>
-                        </SectionCard>
-                    </div>
+                            </ul>
+                        </>
+                    ) : null}
                 </div>
-            </main>
+
+                {dirty && section === "profile" ? (
+                    <div role="status" className="sticky bottom-4 mt-8 flex max-w-2xl items-center justify-between gap-4 rounded-lg border border-gray-500 bg-gray-100 px-4 py-3 shadow-lg">
+                        <span className="text-sm font-medium">You have unsaved changes</span>
+                        <div className="flex gap-2">
+                            <Button variant="ghost" size="small" onClick={() => setProfile(saved)}>Discard</Button>
+                            <Button size="small" onClick={() => setSaved(profile)}>Save</Button>
+                        </div>
+                    </div>
+                ) : null}
+            </div>
         </div>
     )
 }

@@ -60,4 +60,19 @@ export type { DrawerHandleProps } from './fragments/DrawerHandle';
 export type { DrawerSwipeZoneProps } from './fragments/DrawerSwipeZone';
 export type { DrawerSnapPoint, DrawerRootActions } from './context/DrawerContext';
 
+// Named part exports let React Server Components use `import * as Drawer from '@radui/ui/Drawer'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    DrawerRoot as Root,
+    DrawerTrigger as Trigger,
+    DrawerPortal as Portal,
+    DrawerOverlay as Overlay,
+    DrawerContent as Content,
+    DrawerTitle as Title,
+    DrawerDescription as Description,
+    DrawerClose as Close,
+    DrawerHandle as Handle,
+    DrawerSwipeZone as SwipeZone
+};
+
 export default Drawer;

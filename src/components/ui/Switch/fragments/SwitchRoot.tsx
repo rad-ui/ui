@@ -10,6 +10,9 @@ import {
     createDataAccentColorAttribute
 } from '~/core/hooks/createDataAttribute';
 import useControllableState from '~/core/hooks/useControllableState';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
+import { mergeRefs } from '~/core/utils/mergeRefs';
+import clsx from 'clsx';
 
 const COMPONENT_NAME = 'Switch';
 
@@ -44,6 +47,8 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
     name,
     value,
     asChild = false,
+    className,
+    onClick,
     ...props
 }, ref) => {
     const [isChecked, setIsChecked] = useControllableState(
@@ -62,6 +67,19 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
         if (disabled) return;
         setIsChecked(!isChecked);
     };
+
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+    const defaultCheckedRef = React.useRef(defaultChecked);
+    const rendersFormInput = Boolean(name) || required;
+
+    // Return to the initial state when the owning form resets, like a native checkbox.
+    React.useEffect(() => {
+        const form = buttonRef.current?.closest('form');
+        if (!form || !rendersFormInput) return;
+        const handleReset = () => setIsChecked(Boolean(defaultCheckedRef.current));
+        form.addEventListener('reset', handleReset);
+        return () => form.removeEventListener('reset', handleReset);
+    }, [rendersFormInput, setIsChecked]);
 
     const contextValues = {
         checked: isChecked,
@@ -89,14 +107,37 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
     return (
         <SwitchContext.Provider value={contextValues}>
             <ButtonPrimitive
-                ref={ref}
-                onClick={handleCheckedChange}
-                className={rootClass}
+                ref={mergeRefs(ref, buttonRef)}
                 asChild={asChild}
                 {...switchAttributes}
+                className={clsx(rootClass, className)}
+                onClick={composeEventHandlers(onClick, handleCheckedChange)}
             >
                 {children}
             </ButtonPrimitive>
+            {rendersFormInput && (
+                // A button only submits its name/value when it is the submitter, so mirror the
+                // state into a checkbox the form can read (FormData, required validation).
+                <input
+                    type="checkbox"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    name={name}
+                    value={value ?? 'on'}
+                    checked={isChecked}
+                    required={required}
+                    disabled={disabled}
+                    onChange={() => {}}
+                    style={{
+                        position: 'absolute',
+                        width: 1,
+                        height: 1,
+                        margin: 0,
+                        opacity: 0,
+                        pointerEvents: 'none'
+                    }}
+                />
+            )}
         </SwitchContext.Provider>
     );
 });
