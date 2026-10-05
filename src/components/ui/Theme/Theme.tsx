@@ -4,6 +4,7 @@ import ThemeContext from './ThemeContext';
 
 type ThemeElement = ElementRef<'div'>;
 export type ThemeProps = ComponentPropsWithoutRef<'div'> & {
+    /** Color scheme. Defaults to `'dark'`; pass `'system'` to follow the OS preference. */
     appearance?: 'light' | 'dark' | 'system';
     accentColor?: string;
     radius?: string;
@@ -23,7 +24,7 @@ const assignRef = <T,>(ref: React.ForwardedRef<T>, value: T) => {
 };
 
 const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
-    appearance = 'system',
+    appearance = 'dark',
     id = 'rad-ui-theme-container',
     accentColor = '',
     radius = '',

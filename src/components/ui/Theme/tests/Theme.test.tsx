@@ -29,6 +29,17 @@ describe('Theme', () => {
         window.matchMedia = originalMatchMedia;
     });
 
+    test('defaults to dark appearance and ignores system preference', () => {
+        const { mediaQueryList } = createMediaQueryList(false);
+        window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+
+        const { container } = render(<Theme>content</Theme>);
+        const themeDiv = container.firstChild as HTMLElement;
+
+        expect(themeDiv).toHaveAttribute('data-rad-ui-theme', 'dark');
+        expect(mediaQueryList.addEventListener).not.toHaveBeenCalled();
+    });
+
     test('applies light appearance regardless of system preference', () => {
         const { mediaQueryList } = createMediaQueryList(true);
         window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
