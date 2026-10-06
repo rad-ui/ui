@@ -48,6 +48,7 @@ const RELEASED_COMPONENTS = [
     'Fieldset',
     'HoverCard',
     'Menubar',
+    'Meter',
     'Minimap',
     'NavigationMenu',
     'NumberField',
