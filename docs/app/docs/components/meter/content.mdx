@@ -1,0 +1,20 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import codeUsage, { api_documentation, anatomy, features } from "./docs/codeUsage"
+import MeterExample from "./docs/examples/MeterExample"
+
+<Documentation
+  title="Meter"
+  description="Meter represents a bounded scalar measurement, such as storage usage, health, quota, or score."
+>
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <MeterExample />
+  </Documentation.ComponentHero>
+
+  <Documentation.ComponentFeatures features={features} />
+
+  <Documentation.ApiReference
+    anatomy={anatomy.code}
+    tables={api_documentation}
+    order={['root', 'indicator']}
+  />
+</Documentation>
