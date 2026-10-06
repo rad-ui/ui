@@ -124,4 +124,5 @@
 - [Playground](https://www.rad-ui.com/playground)
 - [Colors](https://www.rad-ui.com/colors)
 - [Full AI reference](https://www.rad-ui.com/llms-full.txt)
+- [Package facts](https://www.rad-ui.com/package-facts.json)
 

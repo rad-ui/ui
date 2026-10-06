@@ -38,6 +38,7 @@ function generateLlmsTxt() {
 - [Playground](${BASE_URL}/playground)
 - [Colors](${BASE_URL}/colors)
 - [Full AI reference](${BASE_URL}/llms-full.txt)
+- [Package facts](${BASE_URL}/package-facts.json)
 
 `;
 
