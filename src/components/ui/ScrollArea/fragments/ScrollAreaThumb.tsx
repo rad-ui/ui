@@ -4,9 +4,10 @@ import React, { useContext, useRef, useCallback, forwardRef, ElementRef, Compone
 import { ScrollAreaContext, ScrollAreaScrollbarOrientationContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 import { getTrackLength, clampScrollLeft } from '../utils/track';
+import Primitive from '~/core/primitives/Primitive';
 
-type ScrollAreaThumbElement = ElementRef<'div'>;
-export type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
+type ScrollAreaThumbElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaThumbProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     orientation?: 'horizontal' | 'vertical';
 };
 
@@ -130,7 +131,7 @@ const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>
     };
 
     return (
-        <div
+        <Primitive.div
             {...props}
             ref={setRef}
             className={clsx(rootClass && `${rootClass}-thumb`, className)}
@@ -150,7 +151,7 @@ const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>
             }}
         >
             {children}
-        </div>
+        </Primitive.div>
     );
 });
 

@@ -8,12 +8,13 @@ import { ScrollAreaContext, type ScrollAreaScrollbarType } from '../context/Scro
 import { useScrollbarVisibility } from '../hooks/useScrollbarVisibility';
 import { useDocumentOverlayOpenState } from '~/core/hooks/useDocumentOverlayOpenState';
 import { getTrackLength, getHorizontalScrollRange, clampScrollLeft } from '../utils/track';
+import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'ScrollArea';
 const MIN_THUMB_SIZE = 24;
 
-type ScrollAreaRootElement = ElementRef<'div'>;
-export type ScrollAreaRootProps = ComponentPropsWithoutRef<'div'> & {
+type ScrollAreaRootElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaRootProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
     /** Controls scrollbar and thumb visibility: always, on scroll (1s fade), on hover + scroll, or when overflowing (auto). */
     type?: ScrollAreaScrollbarType;
@@ -323,7 +324,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 scrollbarsMounted,
                 setInteracting
             }}>
-            <div
+            <Primitive.div
                 ref={mergedRootRef}
                 className={clsx(rootClass, className)}
                 data-scrollbar-type={type}
@@ -332,7 +333,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 {...props}
             >
                 {children}
-            </div>
+            </Primitive.div>
         </ScrollAreaContext.Provider>
     );
 });

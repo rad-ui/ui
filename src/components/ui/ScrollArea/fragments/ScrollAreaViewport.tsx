@@ -3,9 +3,10 @@ import React, { useContext, useEffect, useState, forwardRef, ElementRef, Compone
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 import { hasFocusableDescendant } from '../utils/track';
+import Primitive from '~/core/primitives/Primitive';
 
-type ScrollAreaViewportElement = ElementRef<'div'>;
-export type ScrollAreaViewportProps = ComponentPropsWithoutRef<'div'>;
+type ScrollAreaViewportElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaViewportProps = ComponentPropsWithoutRef<typeof Primitive.div>;
 
 const ScrollAreaViewport = forwardRef<ScrollAreaViewportElement, ScrollAreaViewportProps>(({ children, className = '', onScroll, ...props }, ref) => {
     const { rootClass, scrollAreaViewportRef, handleScroll, overflow } = useContext(ScrollAreaContext);
@@ -46,7 +47,7 @@ const ScrollAreaViewport = forwardRef<ScrollAreaViewportElement, ScrollAreaViewp
     };
 
     return (
-        <div
+        <Primitive.div
             tabIndex={autoTabIndex}
             {...props}
             ref={setRef}
@@ -57,7 +58,7 @@ const ScrollAreaViewport = forwardRef<ScrollAreaViewportElement, ScrollAreaViewp
             }}
         >
             {children}
-        </div>
+        </Primitive.div>
     );
 });
 

@@ -31,6 +31,14 @@ const data = {
         },
         type : "string",
         default : "--",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Merges avatar image props onto the immediate child element."
+        },
+        type : "boolean",
+        default : "false",
        }
     ]
 }

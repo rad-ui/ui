@@ -11,7 +11,8 @@ const data = {
         { prop: { name: "defaultValue", info_tooltips: "Initial active step index when uncontrolled." }, type: "number", default: "0" },
         { prop: { name: "onValueChange", info_tooltips: "Called when the active step changes." }, type: "(value: number) => void", default: "--" },
         { prop: { name: "orientation", info_tooltips: "Layout direction of the steps. Exposed as data-orientation on the root." }, type: "enum", enum_values: ["horizontal", "vertical"], default: "vertical" },
-        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
+        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' },
+        { prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." }, type: "boolean", default: "false" }
     ]
 }
 
