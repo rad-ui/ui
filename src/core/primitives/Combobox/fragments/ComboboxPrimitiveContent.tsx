@@ -9,7 +9,7 @@ export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     position?: string;
-    /** Keep the content mounted while closed (e.g. for exit animations). Also inherited from `Portal forceMount`. */
+    /** Keep the content mounted while closed (e.g. for exit animations). Inside a `Portal`, set `forceMount` on the Portal (it passes down): a closed Portal renders nothing, as in Radix. */
     forceMount?: boolean;
     [key: string]: any;
 }
@@ -128,7 +128,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
     if (!isOpen && !forceMount && !portalForceMount) return null;
 
     // Force-mounted while closed: keep the DOM (for exit animations) but hide
-    // it from users and assistive tech, outside the focus manager.
+    // it from users and assistive tech.
     const shownProps = isOpen
         ? popupProps
         : { ...popupProps, style: { ...popupProps.style, visibility: 'hidden', pointerEvents: 'none' } };
@@ -158,15 +158,12 @@ const ComboboxPrimitiveContent = React.forwardRef<
         </div>
     );
 
-    if (!isOpen) {
-        return <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>{popup}</Floater.FloatingList>;
-    }
-
     return (
         // Tabbable detection ignores `visibility: hidden` content, so wait until the list is
         // positioned (and visible) before moving focus into it; otherwise focus lands on the
-        // container instead of the search field or the selected option.
-        <Floater.FocusManager context={floatingContext} disabled={isHiddenUntilPositioned}>
+        // container instead of the search field or the selected option. Force-mounted closed
+        // content keeps the same tree (so React keeps the node) with focus management off.
+        <Floater.FocusManager context={floatingContext} disabled={!isOpen || isHiddenUntilPositioned}>
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 {popup}
             </Floater.FloatingList>

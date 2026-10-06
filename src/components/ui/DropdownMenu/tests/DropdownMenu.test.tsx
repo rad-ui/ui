@@ -108,5 +108,6 @@ describe('DropdownMenu', () => {
 
         await user.click(screen.getByText('Menu'));
         expect(container).toContainElement(screen.getByText('Profile'));
+        container.remove();
     });
 });

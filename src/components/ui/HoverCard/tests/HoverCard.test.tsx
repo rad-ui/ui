@@ -143,6 +143,7 @@ describe('HoverCard', () => {
         const content = await screen.findByRole('dialog', { hidden: true });
         expect(container).toContainElement(content);
         expect(content).toHaveAttribute('data-state', 'closed');
+        container.remove();
     });
 
     test('renders without warnings and toggles on hover', async() => {

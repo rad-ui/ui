@@ -537,6 +537,29 @@ describe('MenuPrimitive', () => {
             );
 
             expect(container).toContainElement(screen.getByText('Portal Content'));
+            container.remove();
+        });
+
+        it('keeps the same force-mounted node across open and close', () => {
+            const renderMenu = (open: boolean) => (
+                <MenuPrimitive.Root open={open} onOpenChange={() => {}}>
+                    <MenuPrimitive.Trigger>Trigger</MenuPrimitive.Trigger>
+                    <MenuPrimitive.Portal forceMount>
+                        <MenuPrimitive.Content>Portal Content</MenuPrimitive.Content>
+                    </MenuPrimitive.Portal>
+                </MenuPrimitive.Root>
+            );
+            const { rerender } = render(renderMenu(false));
+            const closed = screen.getByText('Portal Content').closest('[data-state]');
+            expect(closed).toHaveAttribute('data-state', 'closed');
+
+            rerender(renderMenu(true));
+            expect(screen.getByText('Portal Content').closest('[data-state]')).toBe(closed);
+            expect(closed).toHaveAttribute('data-state', 'open');
+
+            rerender(renderMenu(false));
+            expect(screen.getByText('Portal Content').closest('[data-state]')).toBe(closed);
+            expect(closed).toHaveAttribute('data-state', 'closed');
         });
 
         it('should keep content mounted when forceMount is enabled', () => {
