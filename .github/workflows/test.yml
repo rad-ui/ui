@@ -87,3 +87,6 @@ jobs:
 
       - name: Check public API surface
         run: npm run check:api-surface
+
+      - name: Validate publish tarball
+        run: npm run validate:publish
