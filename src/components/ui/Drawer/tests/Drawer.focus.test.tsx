@@ -53,4 +53,36 @@ describe('Drawer focus management', () => {
         await user.keyboard('{Escape}');
         await waitFor(() => expect(trigger).toHaveFocus());
     });
+
+    // The real themes keep the popup hidden for a moment *after* data-state
+    // flips to "open" (the visibility transition). If the focus manager engages
+    // then, nothing is focusable: in browsers initial focus silently fails and
+    // Tab walks the page behind the modal. Focus must wait until it is visible.
+    test('waits until the popup is visible before moving focus in', async() => {
+        const user = userEvent.setup();
+        const lag = document.createElement('style');
+        lag.textContent = '[role="dialog"] { visibility: hidden; }';
+        document.head.appendChild(lag);
+
+        render(
+            <Drawer.Root>
+                <Drawer.Trigger>Open drawer</Drawer.Trigger>
+                <Drawer.Portal>
+                    <Drawer.Content>
+                        <Drawer.Title>Drawer</Drawer.Title>
+                        <button>First action</button>
+                        <Drawer.Close>Close</Drawer.Close>
+                    </Drawer.Content>
+                </Drawer.Portal>
+            </Drawer.Root>
+        );
+
+        await user.click(screen.getByText('Open drawer'));
+        await waitFor(() => expect(screen.getByRole('dialog', { hidden: true })).toHaveAttribute('data-state', 'open'));
+        // Become visible a few frames after opening, like a theme transition.
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        lag.remove();
+
+        await waitFor(() => expect(screen.getByText('First action')).toHaveFocus());
+    });
 });
