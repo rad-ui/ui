@@ -17,6 +17,7 @@ const RELEASED_COMPONENTS = [
     'Heading',
     'Text',
     'Kbd',
+    'Label',
     'LiveRegion',
     'Progress',
     'Separator',

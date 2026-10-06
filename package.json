@@ -163,6 +163,11 @@
       "require": "./dist/components/Kbd.cjs",
       "types": "./dist/components/Kbd.d.ts"
     },
+    "./Label": {
+      "import": "./dist/components/Label.js",
+      "require": "./dist/components/Label.cjs",
+      "types": "./dist/components/Label.d.ts"
+    },
     "./Link": {
       "import": "./dist/components/Link.js",
       "require": "./dist/components/Link.cjs",
