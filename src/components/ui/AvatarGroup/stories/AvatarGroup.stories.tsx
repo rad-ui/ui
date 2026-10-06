@@ -38,7 +38,7 @@ export const Default = {
     }
 };
 
-export const withBrokenSrcFallback = {
+export const WithBrokenSrcFallback = {
     args: {
         avatars: [
             { src: '', fallback: 'RU' },

@@ -37,7 +37,7 @@ describe('Button', () => {
         const stylesheet = fs.readFileSync(path.resolve(__dirname, '../button.clarity.scss'), 'utf8');
         expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-variant="ghost"]'));
         expect(stylesheet.lastIndexOf('&:focus-visible')).toBeGreaterThan(stylesheet.lastIndexOf('&[data-variant="outline"]'));
-        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-shadow-sm);');
+        expect(stylesheet).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-offset-panel), var(--rad-ui-control-shadow-hover);');
     });
 
     test('renders button with the given size', () => {
@@ -129,5 +129,44 @@ describe('Button', () => {
     test('defaults type to button when undefined', () => {
         render(<Button type={undefined as unknown as any}>default</Button>);
         expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+    });
+
+    test('solid variants draw the focus ring outside the fill so it stays visible', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../button.clarity.scss'), 'utf8');
+        const solidFocus = stylesheet.slice(stylesheet.indexOf('&:not([data-variant]):focus-visible'));
+        expect(solidFocus).toContain('&[data-variant="solid"]:focus-visible');
+        expect(solidFocus).toContain('&[data-variant="destructive"]:focus-visible');
+        expect(solidFocus).toContain('box-shadow: var(--rad-ui-focus-ring-shadow-outset)');
+        // Declared after the generic focus rule so it wins at equal or higher specificity.
+        expect(stylesheet.lastIndexOf('focus-ring-shadow-outset')).toBeGreaterThan(stylesheet.lastIndexOf('focus-ring-shadow-offset-panel'));
+    });
+
+    test('disabled button is not given a redundant aria-description', () => {
+        render(<Button disabled>Save</Button>);
+        const button = screen.getByRole('button');
+        expect(button).toBeDisabled();
+        expect(button).toHaveAttribute('aria-disabled', 'true');
+        expect(button).not.toHaveAttribute('aria-description');
+    });
+
+    test('an explicit description is still applied when disabled', () => {
+        render(<Button disabled description="Saving is unavailable offline">Save</Button>);
+        expect(screen.getByRole('button')).toHaveAttribute('aria-description', 'Saving is unavailable offline');
+    });
+
+    test('disabled native button does not call onClick or onClickCapture', async() => {
+        const onClick = jest.fn();
+        const onClickCapture = jest.fn();
+        render(<Button disabled onClick={onClick} onClickCapture={onClickCapture}>Save</Button>);
+        screen.getByRole('button').dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        expect(onClick).not.toHaveBeenCalled();
+        expect(onClickCapture).not.toHaveBeenCalled();
+    });
+
+    test('enabled button forwards onClickCapture', async() => {
+        const onClickCapture = jest.fn();
+        render(<Button onClickCapture={onClickCapture}>Save</Button>);
+        await userEvent.click(screen.getByRole('button'));
+        expect(onClickCapture).toHaveBeenCalledTimes(1);
     });
 });

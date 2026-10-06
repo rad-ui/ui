@@ -20,7 +20,9 @@ const CheckboxGroupRoot = forwardRef<CheckboxGroupRootElement, CheckboxGroupRoot
 
     const dataAttributes = createDataAttributes('checkbox-group', { variant, size });
     const accentAttributes = createDataAccentColorAttribute(color);
-    const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
+    const composedAttributes = composeAttributes(dataAttributes, accentAttributes, {
+        'data-slot': 'checkbox-group-root'
+    });
 
     return (
         <CheckboxGroupRootContext.Provider value={{ rootClass }}>

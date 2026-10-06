@@ -172,27 +172,35 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         return null;
     }
 
-    const floatingProps = getFloatingProps();
+    // Reflect the resolved placement (after flip/shift), not the requested one,
+    // so styles keyed off data-side/data-align follow collision handling.
+    const resolvedPlacement: string | undefined = floatingContext?.placement;
+    const [resolvedSide, resolvedAlign] = resolvedPlacement
+        ? resolvedPlacement.split('-')
+        : [side, align];
+
+    const floatingProps = getFloatingProps({
+        ...props,
+        id: contentId,
+        role,
+        'data-state': isOpen ? 'open' : 'closed',
+        'data-side': resolvedSide ?? side,
+        'data-align': resolvedPlacement ? (resolvedAlign ?? 'center') : align,
+        'aria-hidden': !isOpen ? 'true' : undefined,
+        style: {
+            ...floatingStyles,
+            outline: 'none',
+            visibility: isOpen && !isPositioned ? 'hidden' : undefined,
+            pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
+            ...style
+        }
+    });
 
     const content = (
         <Primitive.div
             ref={mergedRef}
             asChild={asChild}
-            id={contentId}
-            role={role}
-            data-state={isOpen ? 'open' : 'closed'}
-            data-side={side}
-            data-align={align}
-            aria-hidden={!isOpen ? 'true' : undefined}
-            style={{
-                ...floatingStyles,
-                outline: 'none',
-                visibility: isOpen && !isPositioned ? 'hidden' : undefined,
-                pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
-                ...style
-            }}
             {...floatingProps}
-            {...props}
         >
             {children}
         </Primitive.div>

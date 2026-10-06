@@ -58,12 +58,23 @@ const jsBundles = {
         if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
         warn(warning);
     },
-    output: {
-        dir: 'dist/temp-cleanup',
-        format: 'es',
-        entryFileNames: '[name].js',
-        preserveModules: false
-    },
+    output: [
+        {
+            dir: 'dist/temp-cleanup',
+            format: 'es',
+            entryFileNames: '[name].js',
+            chunkFileNames: '[name]-[hash].js',
+            preserveModules: false
+        },
+        {
+            dir: 'dist/temp-cleanup',
+            format: 'cjs',
+            entryFileNames: '[name].cjs',
+            chunkFileNames: '[name]-[hash].cjs',
+            exports: 'named',
+            preserveModules: false
+        }
+    ],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
     plugins: [
         aliasPluginInstance,
@@ -74,6 +85,11 @@ const jsBundles = {
     ]
 };
 
+// Shared dts plugin instance. Building one `dts()` per component makes the
+// TypeScript program accumulate across all 65 configs until the heap is
+// exhausted, which is the same failure mode the note above describes.
+const dtsPluginInstance = dts();
+
 // Type declarations builds (keep separate for dts plugin)
 const dtsBundles = components.map((component) => {
     const entry = `src/components/ui/${component}/${component}.tsx`;
@@ -83,7 +99,7 @@ const dtsBundles = components.map((component) => {
             file: `dist/temp-cleanup/${component}.d.ts`,
             format: 'es'
         },
-        plugins: [dts()],
+        plugins: [dtsPluginInstance],
         external: ['react', 'react-dom']
     };
 });

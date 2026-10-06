@@ -1,13 +1,17 @@
 # Usage
 
+For framework-specific setup (Vite, Next.js App Router, Remix), see [Framework usage](/docs/guides/framework-usage).
+
 ## Importing components
 Integrating Rad UI into your project is straightforward. Whether you're looking for a headless library with full flexibility or a quick way to prototype with a default theme, Rad UI has you covered. Here’s how you can get started.
 
-To use Rad UI components, you need to import them from the "@radui/ui" package.
+To use Rad UI components, import them from per-component entrypoints:
 
 ```tsx
 import Button from "@radui/ui/Button";
 ```
+
+See [Barrel export policy](/docs/contributing/barrel-export-policy) for why root barrel imports are discouraged in application code.
 
 ## Using components
 Once you've imported the components you need, you can start using them right away. Here's an example of how to integrate Rad UI’s Button component into your app:
@@ -20,11 +24,13 @@ const ComponentDemo = () => {
 }
 ```
 
-We recommend wrapping Rad UI components with your own abstractions to streamline usage, customize behavior, and remove unnecessary features. This approach offers the flexibility to ensure consistency and maintainability across your project, while still taking full advantage of Rad UI’s powerful APIs. By abstracting components in this way, you can tailor them to fit your specific needs and provide your team with a consistent, centralized API. If your project already has a design system in place, you don't have to follow Rad UI's default API; you’re free to adapt it to align with your own system's requirements.
+We recommend wrapping Rad UI components with your own abstractions to streamline usage, customize behavior, and remove unnecessary features. See the [Design system integration](/docs/guides/design-system-integration) cookbook for recipes. This approach offers the flexibility to ensure consistency and maintainability across your project, while still taking full advantage of Rad UI’s powerful APIs. By abstracting components in this way, you can tailor them to fit your specific needs and provide your team with a consistent, centralized API. If your project already has a design system in place, you don't have to follow Rad UI's default API; you’re free to adapt it to align with your own system's requirements.
 
 
 ## Importing base styles
 Rad UI is headless by default. Components work without built-in visual styles, so you can bring your own design system, utility classes, CSS Modules, SCSS, or any other styling approach. Read [Styling and customization](/docs/guides/styling-and-customization) for supported hooks and what to avoid overriding.
+
+For how theme tokens and fallback values work, see [CSS variable fallbacks](/docs/guides/css-variable-fallbacks).
 
 If you want Rad UI's default design system styles, import the default theme stylesheet explicitly:
 
@@ -118,27 +124,34 @@ For the full `Theme` API, see the dedicated Theme component docs.
 ## Tailwind presets
 Rad UI provides first-class support for Tailwind CSS, allowing you to easily integrate Rad UI's design system tokens into your Tailwind setup. By importing the appropriate preset, you gain access to a wide range of design tokens, making it seamless to build and customize your UI.
 
-### For Tailwind CSS v3
-To use Rad UI with Tailwind CSS v3, simply import the preset in your <strong>tailwind.config.js</strong> file:
-```tsx
- // tailwind.config.js
+### For Tailwind CSS v4
+Import the preset as CSS, after Tailwind itself, in your global stylesheet:
 
-const config = {
-  presets:[
-    require("@radui/ui/themes/tailwind-presets/default.js") // import this
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
-
-export default config;
+```css
+/* globals.css */
+@import "tailwindcss";
+@import "@radui/ui/themes/tailwind-presets/default.css";
 ```
 
-### For Tailwind CSS v4
+That exposes the Rad UI colour ramps as Tailwind utilities:
 
-We are actively working on a Tailwind CSS v4 preset to ensure you can leverage the latest features from Tailwind with minimal configuration. Stay tuned for updates!
+```tsx
+<div className="bg-gray-100 text-gray-1000 border-gray-300" />
+```
+
+Every value resolves through a `--rad-ui-*` custom property defined by the Rad UI
+theme CSS, so switching themes — including dark mode — re-resolves the utilities
+without a rebuild. Opacity modifiers such as `bg-gray-500/90` are composed by
+Tailwind itself and work as usual.
+
+Note that the preset covers colours only. Spacing, radius, shadow, blur and
+typography utilities keep Tailwind's own defaults, so your existing utilities are
+unchanged.
+
+### Prior versions
+The v4 preset replaces the JavaScript preset that shipped for Tailwind CSS v3,
+which was imported through `presets` in `tailwind.config.js`. If you are still on
+v3, upgrade Tailwind before upgrading Rad UI — the v3 preset has been removed.
 
 
 

@@ -51,7 +51,7 @@ export const AsChildSupport = () => {
             <div>
                 <p className='text-sm text-[var(--rad-ui-text-secondary)] mb-2'>Using custom div element:</p>
                 <Separator asChild>
-                    <div className='h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent' />
+                    <div className='h-px bg-linear-to-r from-transparent via-gray-400 to-transparent' />
                 </Separator>
             </div>
 

@@ -11,13 +11,15 @@ export type CollapsibleTriggerProps = React.ComponentPropsWithoutRef<
 const CollapsibleTrigger = React.forwardRef<
     CollapsibleTriggerElement,
     CollapsibleTriggerProps
->(({ children, className, ...props }, forwardedRef) => {
-    const { rootClass } = useContext(CollapsibleContext);
+>(({ children, className, disabled, ...props }, forwardedRef) => {
+    const { rootClass, disabled: rootDisabled } = useContext(CollapsibleContext);
     const triggerClass = rootClass ? `${rootClass}-trigger` : '';
     return (
         <CollapsiblePrimitive.Trigger
             ref={forwardedRef}
             className={clsx(triggerClass, className)}
+            // Reflect the root's disabled state on the button so it is announced and not activatable.
+            disabled={disabled ?? rootDisabled}
             {...props}
         >
             {children}

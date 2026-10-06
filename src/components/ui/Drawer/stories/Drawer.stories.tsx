@@ -158,7 +158,7 @@ export const DisablePointerDismissal: Story = {
                 <Drawer.Content>
                     <Drawer.Title>Pointer Dismissal Disabled</Drawer.Title>
                     <Drawer.Description>
-                        Clicking outside or on the overlay does nothing , Even escape doesnt do anything. Use the close btn.
+                        Clicking outside or on the overlay does nothing. Even Escape doesn't do anything. Use the close button.
                     </Drawer.Description>
                     <Drawer.Close><X width={15} height={15} /></Drawer.Close>
                 </Drawer.Content>

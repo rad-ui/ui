@@ -46,3 +46,23 @@ export const Default = {
         actionButton: <button>Delete</button>
     }
 };
+
+export const DefaultOpen = {
+    render: () => (
+        <SandboxEditor>
+            <DialogPrimitive.Root defaultOpen>
+                <DialogPrimitive.Overlay className="w-screen h-screen opacity-50 bg-[rgba(0,0,0,0.9)]" />
+                <DialogPrimitive.Trigger>
+                    Open Dialog
+                </DialogPrimitive.Trigger>
+                <DialogPrimitive.Portal>
+                    <DialogPrimitive.Content className="p-4 z-50 fixed mx-auto bg-[var(--rad-ui-surface-muted)] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md ">
+                        <DialogPrimitive.Cancel>
+                            Cancel
+                        </DialogPrimitive.Cancel>
+                    </DialogPrimitive.Content>
+                </DialogPrimitive.Portal>
+            </DialogPrimitive.Root>
+        </SandboxEditor>
+    )
+};

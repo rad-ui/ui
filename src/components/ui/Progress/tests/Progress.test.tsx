@@ -6,7 +6,7 @@ import Progress from '../Progress';
 const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0 }: { value?: number | null, maxValue?: number, minValue?: number }) => {
     return (
         <Progress.Root value={value} maxValue={maxValue} minValue={minValue}>
-            <Progress.Indicator />
+            <Progress.Indicator data-testid="progress-indicator" />
         </Progress.Root>
     );
 };
@@ -16,6 +16,7 @@ describe('Progress', () => {
         render(<ProgressComp />);
         const progressBars = screen.getAllByRole('progressbar');
         expect(progressBars[0]).toBeInTheDocument();
+        expect(progressBars).toHaveLength(1);
     });
 
     test('forwards ref to root element', () => {
@@ -38,10 +39,10 @@ describe('Progress', () => {
         expect(ref.current).not.toBeNull();
     });
 
-    test('renders progress bar with clamped value', () => {
+    test('renders progress bar with raw determinate value', () => {
         const { rerender } = render(<ProgressComp value={110} maxValue={100} minValue={0} />);
         const progressBars = screen.getAllByRole('progressbar');
-        expect(progressBars[0]).toHaveAttribute('aria-valuenow', '110'); // Root doesn't clamp, indicator does
+        expect(progressBars[0]).toHaveAttribute('aria-valuenow', '110');
 
         rerender(<ProgressComp value={100} maxValue={100} minValue={0} />);
         const updatedProgressBars = screen.getAllByRole('progressbar');
@@ -52,6 +53,12 @@ describe('Progress', () => {
         render(<ProgressComp minValue={100} maxValue={0} />);
         const progressBars = screen.getAllByRole('progressbar');
         expect(progressBars[0]).toHaveAttribute('aria-valuenow', '0');
+    });
+
+    test('omits aria-valuenow when progress is indeterminate', () => {
+        render(<ProgressComp value={null} maxValue={100} minValue={0} />);
+        const progressBars = screen.getAllByRole('progressbar');
+        expect(progressBars[0]).not.toHaveAttribute('aria-valuenow');
     });
 
     test('binds value to progress bar', () => {
@@ -85,6 +92,7 @@ describe('Progress', () => {
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
                 expect(root).toHaveAttribute('data-state', 'indeterminate');
+                expect(root).not.toHaveAttribute('data-value');
             });
 
             test('renders with correct data-value', () => {
@@ -150,12 +158,14 @@ describe('Progress', () => {
                     </Progress.Root>
                 );
 
-                expect(mockGetValueLabel).toHaveBeenCalledWith(0, 0, 100); // null value becomes 0
+                // Indeterminate progress has no value to describe.
+                expect(mockGetValueLabel).not.toHaveBeenCalled();
 
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
-                expect(root).toHaveAttribute('aria-label', 'Progress: 0 of 100');
-                expect(root).toHaveAttribute('aria-valuetext', 'Progress: 0 of 100');
+                expect(root).not.toHaveAttribute('aria-valuenow');
+                expect(root).not.toHaveAttribute('aria-valuetext');
+                expect(root).not.toHaveAttribute('aria-label');
             });
 
             test('works without getValueLabel function', () => {
@@ -163,8 +173,9 @@ describe('Progress', () => {
 
                 const progressBars = screen.getAllByRole('progressbar');
                 const root = progressBars[0];
-                expect(root).toHaveAttribute('aria-label', '');
-                expect(root).toHaveAttribute('aria-valuetext', '');
+                // No empty aria-valuetext: it would replace the announced value with nothing.
+                expect(root).not.toHaveAttribute('aria-label');
+                expect(root).not.toHaveAttribute('aria-valuetext');
             });
 
             test('getValueLabel with custom min/max values', () => {
@@ -190,64 +201,56 @@ describe('Progress', () => {
         describe('ProgressIndicator data attributes', () => {
             test('indicator renders with correct data-state when loading', () => {
                 render(<ProgressComp value={50} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1]; // Second progressbar is the indicator
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'loading');
             });
 
             test('indicator renders with correct data-state when complete', () => {
                 render(<ProgressComp value={100} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'complete'); // Indicator now shows actual state
             });
 
             test('indicator renders with correct data-state when indeterminate', () => {
                 render(<ProgressComp value={null} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'indeterminate'); // Indicator now shows actual state
+                expect(indicator).not.toHaveAttribute('data-value');
             });
 
             test('indicator renders with correct data-value (bounded)', () => {
                 render(<ProgressComp value={75} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-value', '75');
             });
 
             test('indicator renders with bounded data-value when value exceeds max', () => {
                 render(<ProgressComp value={150} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-value', '100'); // Bounded to maxValue
             });
 
             test('indicator renders with bounded data-value when value below min', () => {
                 render(<ProgressComp value={-10} maxValue={100} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-value', '0'); // Bounded to minValue
             });
 
             test('indicator renders with correct data-max', () => {
                 render(<ProgressComp value={50} maxValue={200} minValue={0} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-max', '200');
             });
 
             test('indicator renders with correct data-min', () => {
                 render(<ProgressComp value={50} maxValue={100} minValue={10} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-min', '10');
             });
 
             test('indicator renders with all correct data attributes', () => {
                 render(<ProgressComp value={30} maxValue={60} minValue={10} />);
-                const progressBars = screen.getAllByRole('progressbar');
-                const indicator = progressBars[1];
+                const indicator = screen.getByTestId('progress-indicator');
                 expect(indicator).toHaveAttribute('data-state', 'loading');
                 expect(indicator).toHaveAttribute('data-value', '30');
                 expect(indicator).toHaveAttribute('data-max', '60');
@@ -299,4 +302,58 @@ describe('Progress', () => {
     //     render(<ProgressComp color='blue' />);
     //     expect(screen.getByRole('progressbar')).toHaveAttribute('data-color', 'blue');
     // });
+
+    describe('audit fixes', () => {
+        test('consumer aria-label is the accessible name; getValueLabel only supplies value text', () => {
+            render(
+                <Progress.Root value={40} minValue={0} maxValue={100} aria-label="Uploading" getValueLabel={(v) => `${v} percent`}>
+                    <Progress.Indicator />
+                </Progress.Root>
+            );
+            const bar = screen.getByRole('progressbar', { name: 'Uploading' });
+            expect(bar).toHaveAttribute('aria-valuetext', '40 percent');
+        });
+
+        test('aria-labelledby is not overridden by the value label', () => {
+            render(
+                <>
+                    <span id="lbl">Export</span>
+                    <Progress.Root value={40} minValue={0} maxValue={100} aria-labelledby="lbl" getValueLabel={(v) => `${v}%`}>
+                        <Progress.Indicator />
+                    </Progress.Root>
+                </>
+            );
+            const bar = screen.getByRole('progressbar', { name: 'Export' });
+            expect(bar).not.toHaveAttribute('aria-label');
+        });
+
+        test('values beyond maxValue are complete and the indicator is clamped', () => {
+            render(
+                <Progress.Root value={150} aria-label="Over">
+                    <Progress.Indicator data-testid="ind" />
+                </Progress.Root>
+            );
+            expect(screen.getByRole('progressbar')).toHaveAttribute('data-state', 'complete');
+            expect(screen.getByTestId('ind').style.transform).toBe('translateX(-0%)');
+        });
+
+        test('indeterminate indicator leaves transform to the theme animation', () => {
+            render(
+                <Progress.Root value={null} aria-label="Loading">
+                    <Progress.Indicator data-testid="ind" />
+                </Progress.Root>
+            );
+            expect(screen.getByTestId('ind').style.transform).toBe('');
+            expect(screen.getByTestId('ind')).toHaveAttribute('data-state', 'indeterminate');
+        });
+
+        test('minValue/maxValue are optional and equal bounds do not produce NaN', () => {
+            render(
+                <Progress.Root value={5} minValue={5} maxValue={5} aria-label="Eq">
+                    <Progress.Indicator data-testid="ind" />
+                </Progress.Root>
+            );
+            expect(screen.getByTestId('ind').style.transform).not.toContain('NaN');
+        });
+    });
 });

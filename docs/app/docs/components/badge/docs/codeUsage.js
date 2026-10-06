@@ -26,9 +26,9 @@ export const BadgeTable ={
     ],
 
      data : [
-        {prop: 'color', type: 'string', default: 'null', description: 'Accent color of the component', id: 'color'},
-        {prop: 'size', type: 'string', default: 'null', description: 'Size of the component', id: 'size'},
-        {prop: 'variant', type: 'string', default: 'null', description: 'Variant of the component', id: 'variant'},
+        {prop: 'color', type: 'string', default: '—', description: 'Accent color scale, e.g. "green". Without it the badge uses the neutral gray scale.', id: 'color'},
+        {prop: 'size', type: "'small' | 'medium' | 'large' | 'x-large'", default: "'medium'", description: 'Height, padding and font size.', id: 'size'},
+        {prop: 'variant', type: "'soft' | 'solid' | 'surface' | 'outline' | 'ghost'", default: "'soft'", description: 'Visual treatment. Soft is a translucent tint with vivid text.', id: 'variant'},
 
     ]
 }

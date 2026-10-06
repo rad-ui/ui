@@ -17,8 +17,12 @@ const HoverCardTrigger = forwardRef<HoverCardTriggerElement, HoverCardTriggerPro
         ref={mergedRef}
         className={clsx(rootTriggerClass, className)}
         {...getReferenceProps({
+            'data-slot': 'hover-card-trigger',
             onMouseEnter: openWithDelay,
             onMouseLeave: closeWithDelay,
+            // Keyboard users get the card when focus lands on (or inside) the trigger.
+            onFocus: openWithDelay,
+            onBlur: closeWithDelay,
             ...props
         })}
     >{children}</Primitive.span>;

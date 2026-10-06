@@ -1,5 +1,5 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+import codeUsage, { api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
 import ProgressExample from "./docs/examples/ProgressExample"
 
 <Documentation 
@@ -20,5 +20,9 @@ import ProgressExample from "./docs/examples/ProgressExample"
     tables={api_documentation}
     order={['root', 'indicator']}
   />
+
+  <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+  <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
 </Documentation>

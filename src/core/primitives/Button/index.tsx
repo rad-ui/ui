@@ -48,10 +48,10 @@ const ButtonPrimitive = forwardRef<
     }
     if (disabled) {
         // If the button is disabled, we should set the aria-disabled attribute
+        // Native `disabled` (and aria-disabled for non-button asChild children) is the
+        // semantic. No default aria-description: it made screen readers announce the
+        // disabled state twice ("dimmed ... Disabled Button").
         props['aria-disabled'] = 'true';
-        if (!description) { // If description isn't set, we set a default description
-            props['aria-description'] = 'Disabled Button';
-        }
     }
 
     return <Primitive.button

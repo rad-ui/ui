@@ -6,11 +6,11 @@ import Primitive from '~/core/primitives/Primitive';
 
 export type StepBubbleProps = React.ComponentPropsWithoutRef<typeof Primitive.div>;
 
-const StepBubble = React.forwardRef<React.ElementRef<typeof Primitive.div>, StepBubbleProps>(({ children, className = '', ...props }, ref) => {
+const StepBubble = React.forwardRef<HTMLDivElement, StepBubbleProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useStepsContext();
     return <Primitive.div ref={ref} className={clsx(rootClass && `${rootClass}-bubble`, className)} {...props}>{children}</Primitive.div>;
 });
 
-StepBubble.displayName = 'StepBubble';
+StepBubble.displayName = 'Steps.Bubble';
 
 export default StepBubble;

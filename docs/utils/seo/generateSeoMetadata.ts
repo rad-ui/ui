@@ -1,5 +1,20 @@
 import generateOgTitleUrl from "./helpers/generateOgTitle"
 
+// The small label above the title on the OG card, picked from the page's URL.
+const KICKERS: [prefix: string, kicker: string][] = [
+    ["/docs/components", "Components"],
+    ["/docs/contributing", "Contributing"],
+    ["/docs", "Docs"],
+    ["/showcase", "Showcase · Built with Rad UI"],
+    ["/playground", "Playground"],
+]
+
+const kickerFor = (canonicalUrl?: string) => {
+    if (!canonicalUrl) return undefined
+    const pathname = new URL(canonicalUrl, "https://www.rad-ui.com").pathname
+    return KICKERS.find(([prefix]) => pathname.startsWith(prefix))?.[1]
+}
+
 const generateSeoMetadata = ({
     title, 
     description, 
@@ -10,7 +25,8 @@ const generateSeoMetadata = ({
     modifiedTime,
     authors = ["Rad UI Team"],
     section,
-    tags = []
+    tags = [],
+    kicker,
 }: {
     title: string
     description: string
@@ -22,19 +38,26 @@ const generateSeoMetadata = ({
     authors?: string[]
     section?: string
     tags?: string[]
+    kicker?: string
 }) => {
-    const imageUrl = generateOgTitleUrl(title, description)
+    const imageUrl = generateOgTitleUrl(title, description, kicker ?? kickerFor(canonicalUrl))
+    // Link previews show this title on its own, so make sure the brand is in it.
+    const socialTitle = /rad ui/i.test(title) ? title : `${title} | Rad UI`
     const defaultKeywords = [
         "React UI library",
-        "headless components", 
+        "headless components",
+        "headless UI React",
         "accessible components",
+        "React accessibility",
         "TypeScript UI",
         "React components",
         "UI library",
         "design system",
         "web components",
         "frontend development",
-        "React development"
+        "React development",
+        "uncontrolled controlled components",
+        "TypeScript component library"
     ]
     
     const allKeywords = Array.from(new Set([...defaultKeywords, ...keywords]))
@@ -61,7 +84,7 @@ const generateSeoMetadata = ({
             canonical: canonicalUrl,
         },
         openGraph: {
-            title,
+            title: socialTitle,
             description,
             url: canonicalUrl,
             siteName: "Rad UI",
@@ -70,7 +93,7 @@ const generateSeoMetadata = ({
                     url: imageUrl,
                     width: 1200,
                     height: 630,
-                    alt: title
+                    alt: socialTitle
                 },
             ],
             locale: "en_US",
@@ -83,7 +106,7 @@ const generateSeoMetadata = ({
         },
         twitter: {
             card: "summary_large_image",
-            title,
+            title: socialTitle,
             description,
             images: [imageUrl],
             creator: "@rad_ui",

@@ -1,2 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
-export default generateSeoMetadata({ title: "Collapsible - Rad UI", description: "A headless React Collapsible component for toggling the visibility of content sections." })
+
+const metadata = generateSeoMetadata({
+    title: "Collapsible - Rad UI",
+    description: "Accessible, headless React Collapsible component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Collapsible","headless collapsible","accessible collapsible","collapsible component","React collapsible component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/collapsible"
+});
+
+
+export default metadata

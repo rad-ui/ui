@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import TextArea from './TextArea';
 
 describe('TextArea', () => {
@@ -39,5 +39,48 @@ describe('TextArea', () => {
     it('matches snapshot', () => {
         const { container } = render(<TextArea>content</TextArea>);
         expect(container.firstChild).toMatchSnapshot();
+    });
+    it('renders string children once, as the initial value', () => {
+        const { container } = render(<TextArea>content</TextArea>);
+        expect(screen.getByRole('textbox')).toHaveValue('content');
+        expect(container.textContent).toBe('content');
+    });
+
+    it('forwards field attributes to the textarea so labels and controlled usage work', () => {
+        const handleChange = jest.fn();
+        render(
+            <>
+                <label htmlFor="bio">Bio</label>
+                <TextArea id="bio" name="bio" rows={3} value="" onChange={handleChange} required />
+            </>
+        );
+
+        const textarea = screen.getByLabelText('Bio');
+        expect(textarea.tagName).toBe('TEXTAREA');
+        expect(textarea).toHaveAttribute('name', 'bio');
+        expect(textarea).toHaveAttribute('rows', '3');
+        expect(textarea).toBeRequired();
+
+        fireEvent.change(textarea, { target: { value: 'Hello' } });
+        expect(handleChange).toHaveBeenCalled();
+    });
+
+    it('keeps styling props and data attributes on the root', () => {
+        const { container } = render(<TextArea variant="soft" size="large" data-testid="area" aria-label="Notes" disabled />);
+        const root = container.firstChild as HTMLElement;
+
+        expect(root).toHaveAttribute('data-variant', 'soft');
+        expect(root).toHaveAttribute('data-size', 'large');
+        expect(root).toHaveAttribute('data-testid', 'area');
+        expect(root).toHaveAttribute('data-disabled');
+        expect(screen.getByRole('textbox', { name: 'Notes' })).toBeDisabled();
+    });
+
+    test('controlled value with string children does not warn about value + defaultValue', () => {
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<TextArea aria-label="ctrl" value="controlled" onChange={() => {}}>legacy</TextArea>);
+        expect(screen.getByLabelText('ctrl')).toHaveValue('controlled');
+        expect(error).not.toHaveBeenCalled();
+        error.mockRestore();
     });
 });

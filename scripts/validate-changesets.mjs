@@ -3,7 +3,9 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const packageJsonPath = path.join(__dirname, '..', 'package.json')
 const changesetDir = path.join(__dirname, '..', '.changeset')
+const packageName = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')).name
 
 function readChangesetFiles () {
   if (!fs.existsSync(changesetDir)) {
@@ -28,6 +30,10 @@ function hasMajorBump (frontmatter) {
   return /"@radui\/ui"\s*:\s*major\b/m.test(frontmatter)
 }
 
+function packageNames (frontmatter) {
+  return Array.from(frontmatter.matchAll(/^"([^"]+)"\s*:/gm), (match) => match[1])
+}
+
 function documentsBreakingChange (body) {
   return /BREAKING|Breaking change|breaking change/m.test(body)
 }
@@ -42,6 +48,12 @@ for (const file of readChangesetFiles()) {
     console.error(`[changeset] Invalid frontmatter in ${file}`)
     failed = true
     continue
+  }
+  for (const name of packageNames(parsed.frontmatter)) {
+    if (name !== packageName) {
+      console.error(`[changeset] ${file}: unknown package "${name}". Expected "${packageName}".`)
+      failed = true
+    }
   }
   if (hasMajorBump(parsed.frontmatter) && !documentsBreakingChange(parsed.body)) {
     console.error(

@@ -116,22 +116,22 @@ describe('Checkbox states', () => {
         expect(checkbox).toHaveAttribute('aria-checked', 'false');
     });
 
-    test('asChild label preserves semantics and refs', async() => {
+    test('asChild element preserves semantics and refs', async() => {
         const user = userEvent.setup();
-        const ref = React.createRef<HTMLLabelElement>();
+        const ref = React.createRef<HTMLSpanElement>();
         render(
             <Checkbox.Root asChild ref={ref as any}>
-                <label data-testid="label">
+                <span data-testid="checkbox">
                     <Checkbox.Indicator />
                     Label
-                </label>
+                </span>
             </Checkbox.Root>
         );
-        const label = screen.getByTestId('label');
-        expect(label).toHaveAttribute('role', 'checkbox');
-        expect(ref.current).toBe(label);
-        await user.click(label);
-        expect(label).toHaveAttribute('data-state', 'checked');
+        const checkbox = screen.getByTestId('checkbox');
+        expect(checkbox).toHaveAttribute('role', 'checkbox');
+        expect(ref.current).toBe(checkbox);
+        await user.click(checkbox);
+        expect(checkbox).toHaveAttribute('data-state', 'checked');
     });
 
     test('rtl dir works correctly', async() => {
@@ -158,5 +158,17 @@ describe('Checkbox states', () => {
         const button = container.querySelector('button')!;
         expect(button).toHaveAttribute('data-state', 'indeterminate');
         expect(button).toHaveAttribute('aria-checked', 'mixed');
+    });
+    it('renders a visible indicator for the indeterminate state', () => {
+        const { container } = render(
+            <Checkbox.Root defaultChecked="indeterminate" aria-label="Select all">
+                <Checkbox.Indicator />
+            </Checkbox.Root>
+        );
+        const indicator = container.querySelector('[data-slot="checkbox-indicator"]');
+
+        expect(indicator).toBeInTheDocument();
+        expect(indicator).toHaveAttribute('data-state', 'indeterminate');
+        expect(indicator?.querySelector('svg')).toBeInTheDocument();
     });
 });

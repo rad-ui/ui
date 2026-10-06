@@ -37,4 +37,14 @@ export type { ScrollAreaViewportProps } from './fragments/ScrollAreaViewport';
 export type { ScrollAreaScrollbarProps } from './fragments/ScrollAreaScrollbar';
 export type { ScrollAreaThumbProps } from './fragments/ScrollAreaThumb';
 export type { ScrollAreaCornerProps } from './fragments/ScrollAreaCorner';
+// Named part exports let React Server Components use `import * as ScrollArea from '@radui/ui/ScrollArea'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ScrollAreaRoot as Root,
+    ScrollAreaViewport as Viewport,
+    ScrollAreaScrollbar as Scrollbar,
+    ScrollAreaThumb as Thumb,
+    ScrollAreaCorner as Corner
+};
+
 export default ScrollArea;

@@ -2,7 +2,8 @@ import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } f
 import CheckboxPrimitiveIndicator from '~/core/primitives/Checkbox/fragments/CheckboxPrimitiveIndicator';
 import CheckboxContext from '../context/CheckboxContext';
 import clsx from 'clsx';
-import { Check } from 'lucide-react';
+import { Check, Minus } from 'lucide-react';
+import CheckboxPrimitiveContext from '~/core/primitives/Checkbox/context/CheckboxPrimitiveContext';
 
 export type CheckboxIndicatorElement = ElementRef<typeof CheckboxPrimitiveIndicator>;
 export type CheckboxIndicatorProps = {
@@ -12,8 +13,10 @@ export type CheckboxIndicatorProps = {
 
 const CheckboxIndicator = forwardRef<CheckboxIndicatorElement, CheckboxIndicatorProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useContext(CheckboxContext);
-    return <CheckboxPrimitiveIndicator ref={ref} {...props}>
-        <Check
+    const { isChecked } = useContext(CheckboxPrimitiveContext);
+    const Icon = isChecked === 'indeterminate' || isChecked === null ? Minus : Check;
+    return <CheckboxPrimitiveIndicator ref={ref} {...props} data-slot="checkbox-indicator">
+        <Icon
             width={15}
             height={15}
             className={clsx(rootClass && `${rootClass}-indicator`, className)}

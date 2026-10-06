@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import AlertDialogExample from "./docs/example_1"
-import {code, anatomy, api_documentation} from "./docs/codeUsage"
+import {code, anatomy, ariaReferences, keyboardShortcuts, api_documentation} from "./docs/codeUsage"
 
 <Documentation
     title={`AlertDialog`}
@@ -17,5 +17,9 @@ import {code, anatomy, api_documentation} from "./docs/codeUsage"
         tables={api_documentation}
         order={['root', 'trigger', 'portal', 'overlay', 'content', 'title', 'description', 'footer', 'action', 'cancel']}
     />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
 </Documentation>

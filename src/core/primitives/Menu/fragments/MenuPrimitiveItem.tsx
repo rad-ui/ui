@@ -10,7 +10,7 @@ export type MenuPrimitiveItemProps = {
     disabled?: boolean
     asChild?: boolean
     onSelect?: (event :React.MouseEvent<HTMLButtonElement>) => void
-}
+} & Omit<React.ComponentPropsWithoutRef<'button'>, 'children' | 'className' | 'disabled' | 'onSelect'>
 
 const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
     ({ children, className, label, disabled, asChild = false, onSelect, ...props }, propRef) => {
@@ -41,26 +41,35 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
         if (!context) return null;
         const { activeIndex, getItemProps } = context;
         const isActive = activeIndex === index;
+        const { onClick: consumerOnClick, onKeyDown: consumerOnKeyDown, ...restProps } = props as React.ComponentPropsWithoutRef<'button'>;
 
         return (
             <Primitive.button
                 ref={mergedRef}
                 tabIndex={isActive ? 0 : -1}
                 className={className}
+                role="menuitem"
+                aria-disabled={disabled ? true : undefined}
+                data-disabled={disabled ? '' : undefined}
+                data-highlighted={isActive && !disabled ? '' : undefined}
                 {...getItemProps({
+                    ...restProps,
+                    disabled,
                     onClick(event: React.MouseEvent<HTMLButtonElement>) {
                         if (disabled) return;
-                        if (onSelect) {
-                            onSelect(event);
-                        } else {
-                            tree?.events.emit('click');
-                        }
+                        consumerOnClick?.(event);
+                        if (event.defaultPrevented) return;
+                        onSelect?.(event);
+                        // Selecting an item closes the whole menu tree unless the
+                        // consumer called event.preventDefault() to keep it open.
+                        if (event.defaultPrevented) return;
+                        tree?.events.emit('click');
+                    },
+                    onKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+                        consumerOnKeyDown?.(event);
                     }
-
                 })}
-                disabled={disabled}
                 asChild={asChild}
-                {...props}
             >
                 {children}
             </Primitive.button>

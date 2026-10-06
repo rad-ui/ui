@@ -7,17 +7,22 @@ export type DialogPrimitiveActionProps = {
     children: React.ReactNode;
     className?: string;
     asChild?: boolean;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const DialogPrimitiveAction = forwardRef<HTMLButtonElement, DialogPrimitiveActionProps>(({ children, asChild, ...props }, ref) => {
+const DialogPrimitiveAction = forwardRef<HTMLButtonElement, DialogPrimitiveActionProps>(({ children, asChild, onClick, ...props }, ref) => {
     const { handleOpenChange, getItemProps } = useContext(DialogPrimitiveContext);
     return (
         <ButtonPrimitive
             ref={ref}
             asChild={asChild}
-            onClick={() => handleOpenChange(false)}
-            {...getItemProps()}
-            {...props}
+            {...getItemProps({
+                ...props,
+                onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+                    onClick?.(e);
+                    handleOpenChange(false);
+                }
+            })}
         >
             {children}
         </ButtonPrimitive>

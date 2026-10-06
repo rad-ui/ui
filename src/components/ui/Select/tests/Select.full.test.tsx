@@ -94,7 +94,7 @@ describe('Select full behavior', () => {
 
         const { unmount } = render(<Controlled />);
         const trigger = screen.getByRole('combobox');
-        expect(trigger).toHaveTextContent('apple');
+        expect(trigger).toHaveTextContent('Apple');
         await userEvent.click(trigger);
         await userEvent.click(screen.getByText('Orange'));
         expect(trigger).toHaveTextContent('Orange');
@@ -113,7 +113,7 @@ describe('Select full behavior', () => {
             </Select.Root>
         );
         const trigger2 = screen.getByRole('combobox');
-        expect(trigger2).toHaveTextContent('apple');
+        expect(trigger2).toHaveTextContent('Apple');
         await userEvent.click(trigger2);
         await userEvent.click(screen.getByText('Grape'));
         expect(trigger2).toHaveTextContent('Grape');
@@ -190,7 +190,7 @@ describe('Select full behavior', () => {
     test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>
-                <label id="label">Label</label>
+                <span id="label">Label</span>
                 <Select.Root>
                     <Select.Trigger aria-labelledby="label">choose</Select.Trigger>
                     <Select.Portal>

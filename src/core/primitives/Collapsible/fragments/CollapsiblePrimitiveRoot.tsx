@@ -41,7 +41,7 @@ const CollapsiblePrimitiveRoot = React.forwardRef<
     open,
     onOpenChange,
     disabled = false,
-    transitionDuration = 300,
+    transitionDuration,
     transitionTimingFunction = 'linear',
     ...props
 }, forwardedRef) => {

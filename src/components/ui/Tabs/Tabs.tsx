@@ -36,4 +36,13 @@ export type { TabRootProps } from './fragments/TabRoot';
 export type { TabListProps } from './fragments/TabList';
 export type { TabContentProps } from './fragments/TabContent';
 export type { TabTriggerProps } from './fragments/TabTrigger';
+// Named part exports let React Server Components use `import * as Tabs from '@radui/ui/Tabs'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    TabList as List,
+    TabContent as Content,
+    TabRoot as Root,
+    TabTrigger as Trigger
+};
+
 export default Tabs;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { composeRefs, mergeProps } from '../../utils/mergeProps';
+import { composeRefs, getElementRef, mergeProps } from '../../utils/mergeProps';
 
 const SUPPORTED_HTML_ELEMENTS = [
     'div',
@@ -51,7 +51,8 @@ const createPrimitiveComponent = <TTag extends SupportedElement>(elementType: TT
             }
 
             const child = childrenArray[0] as React.ReactElement;
-            const childRef = (child as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref;
+            // React 19 exposes refs as props (element.ref is deprecated); getElementRef handles both.
+            const childRef = getElementRef(child);
             const mergedRef = composeRefs(ref, childRef);
             const mergedProps = mergeProps(elementProps, child.props as Record<string, unknown>);
 

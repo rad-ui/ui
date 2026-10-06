@@ -8,6 +8,7 @@ const RELEASED_COMPONENTS = [
     'Badge',
     'Button',
     'BlockQuote',
+    'Breadcrumb',
     'Callout',
     'Card',
     'Code',
@@ -16,6 +17,7 @@ const RELEASED_COMPONENTS = [
     'Heading',
     'Text',
     'Kbd',
+    'LiveRegion',
     'Progress',
     'Separator',
     'Strong',
@@ -25,7 +27,6 @@ const RELEASED_COMPONENTS = [
     'Toggle',
     'ToggleGroup',
     'Toolbar',
-    'Toast',
     'Tooltip',
     'VisuallyHidden',
     // Released but not documented officially
@@ -44,6 +45,7 @@ const RELEASED_COMPONENTS = [
     'Drawer',
     'Disclosure',
     'DropdownMenu',
+    'Fieldset',
     'HoverCard',
     'Menubar',
     'Minimap',
@@ -61,6 +63,8 @@ const RELEASED_COMPONENTS = [
     'Steps',
     'TabNav',
     'TextArea',
+    'TextField',
+    'Toast',
     'Tree'
 ];
 

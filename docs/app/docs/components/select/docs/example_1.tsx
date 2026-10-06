@@ -6,7 +6,7 @@ const SelectExample = () => {
     return (
         <div className="w-[240px]">
             <Select.Root>
-                <Select.Trigger>
+                <Select.Trigger aria-label="Fruit">
                     <span>Select a fruit...</span>
                 </Select.Trigger>
                 <Select.Portal>

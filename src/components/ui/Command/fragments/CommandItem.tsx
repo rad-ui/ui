@@ -28,10 +28,12 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
     forceMount = false,
     onMouseMove,
     onClick,
+    onKeyDown,
     ...props
 }, forwardedRef) => {
     const {
         registerItem,
+        updateItem,
         setActiveItemId,
         getItemState,
         rootClass
@@ -46,25 +48,45 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
             return value;
         }
 
-        if (typeof children === 'string' || typeof children === 'number') {
-            return String(children);
-        }
-
-        return localId;
+        // Fall back to the rendered text so items with icons or markup still filter by what users see.
+        const text = getNodeText(children).trim();
+        return text.length > 0 ? text : localId;
     }, [children, localId, value]);
 
+    // Keep the latest onSelect without re-registering: re-registration on every parent render would
+    // move the item to the end of the registration order and break separator visibility.
+    const onSelectRef = React.useRef(onSelect);
+    onSelectRef.current = onSelect;
+    const handleSelect = React.useCallback((selectedValue: string) => {
+        onSelectRef.current?.(selectedValue);
+    }, []);
+
+    const itemRecord = React.useMemo(() => ({
+        id: localId,
+        value: inferredValue,
+        keywords: normalizedKeywords,
+        disabled,
+        forceMount,
+        groupId,
+        ref: itemRef,
+        onSelect: handleSelect
+    }), [disabled, forceMount, groupId, handleSelect, inferredValue, localId, normalizedKeywords]);
+
+    const itemRecordRef = React.useRef(itemRecord);
+    itemRecordRef.current = itemRecord;
+
     React.useEffect(() => {
-        return registerItem({
-            id: localId,
-            value: inferredValue,
-            keywords: normalizedKeywords,
-            disabled,
-            forceMount,
-            groupId,
-            ref: itemRef,
-            onSelect
-        });
-    }, [disabled, forceMount, groupId, inferredValue, localId, normalizedKeywords, onSelect, registerItem]);
+        return registerItem(itemRecordRef.current);
+    }, [localId, registerItem]);
+
+    const isFirstRecordRef = React.useRef(true);
+    React.useEffect(() => {
+        if (isFirstRecordRef.current) {
+            isFirstRecordRef.current = false;
+            return;
+        }
+        updateItem(localId, itemRecord);
+    }, [itemRecord, localId, updateItem]);
 
     const { active, visible, selected } = getItemState(localId);
 
@@ -75,6 +97,7 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
     return (
         <Primitive.div
             ref={composeRefs(itemRef, forwardedRef)}
+            id={localId}
             className={clsx(rootItemClassName(rootClass), className)}
             data-slot="command-item"
             data-disabled={disabled ? '' : undefined}
@@ -83,7 +106,8 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
             role="option"
             aria-disabled={disabled || undefined}
             aria-selected={selected}
-            tabIndex={disabled ? -1 : 0}
+            // Focus stays in Command.Input (aria-activedescendant), so options are not tab stops.
+            tabIndex={-1}
             hidden={!visible}
             onMouseMove={(event: React.MouseEvent<HTMLDivElement>) => {
                 if (!disabled) {
@@ -107,6 +131,7 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
                     event.preventDefault();
                     onSelect?.(inferredValue);
                 }
+                onKeyDown?.(event);
             }}
             {...props}
         >
@@ -114,6 +139,22 @@ const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(({
         </Primitive.div>
     );
 });
+
+function getNodeText(node: React.ReactNode): string {
+    if (typeof node === 'string' || typeof node === 'number') {
+        return String(node);
+    }
+
+    if (Array.isArray(node)) {
+        return node.map(getNodeText).join(' ');
+    }
+
+    if (React.isValidElement(node)) {
+        return getNodeText((node.props as { children?: React.ReactNode }).children);
+    }
+
+    return '';
+}
 
 const rootItemClassName = (rootClass: string) => rootClass ? `${rootClass}-item` : undefined;
 

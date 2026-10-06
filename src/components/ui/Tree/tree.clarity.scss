@@ -44,7 +44,7 @@
         background-color: var(--rad-ui-surface-panel);
         border-radius: var(--rad-ui-radius-sm);
         border: 1px solid transparent;
-        font-size: 0.9375rem;
+        font-size: var(--rad-ui-component-font-size-comfortable);
         font-weight: 500;
         color: var(--rad-ui-text-primary);
         cursor: pointer;
@@ -88,7 +88,7 @@
 
     .rad-ui-tree-item-chevron svg {
         flex-shrink: 0;
-        transition: transform 0.15s ease;
+        transition: transform var(--rad-ui-motion-duration-fast) ease;
         transform: rotate(0deg);
     }
 

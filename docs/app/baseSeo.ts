@@ -1,4 +1,5 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
+import { siteOpenGraph, siteTwitter } from "@/utils/seo/siteSocial"
 
 const baseSeoMetadata = generateSeoMetadata({
     title: "Rad UI - Modern React UI Library for Accessible Web Applications",
@@ -24,5 +25,9 @@ const baseSeoMetadata = generateSeoMetadata({
     authors: ["Rad UI Team"],
     tags: ["React", "UI Library", "TypeScript", "Accessibility", "Design System"]
 })
+
+// The home page shares the site-wide card instead of a generated title card.
+baseSeoMetadata.openGraph = { ...baseSeoMetadata.openGraph, ...siteOpenGraph }
+baseSeoMetadata.twitter = siteTwitter
 
 export default baseSeoMetadata

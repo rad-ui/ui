@@ -20,7 +20,7 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const withSrc = {
+export const WithSrc = {
     args: {
         src: avatarImage1,
         fallback: 'PK',
@@ -30,7 +30,7 @@ export const withSrc = {
     }
 };
 
-export const withCustomRootClass = {
+export const WithCustomRootClass = {
     args: {
         customRootClass: 'acme-corp',
         src: avatarImage1,
@@ -38,20 +38,20 @@ export const withCustomRootClass = {
     }
 };
 
-export const withFallback = {
+export const WithFallback = {
     args: {
         fallback: 'RU'
     }
 };
 
-export const withBrokenSrc = {
+export const WithBrokenSrc = {
     args: {
         src: 'https://i.pravatar.cc/abc/image-that-does-not-exist',
         fallback: 'PK'
     }
 };
 
-export const withAlt = {
+export const WithAlt = {
     args: {
         src: avatarImage2,
         alt: 'alternative text',
@@ -59,7 +59,7 @@ export const withAlt = {
     }
 };
 
-export const withColor = {
+export const WithColor = {
     args: {
         fallback: 'RU',
         color: 'blue'
@@ -104,6 +104,6 @@ const WithoutImgTemplate = () => {
     </SandboxEditor>;
 };
 
-export const withoutImg = {
+export const WithoutImg = {
     render: (args: JSX.IntrinsicAttributes & AvatarProps.Root & AvatarProps.Image) => <WithoutImgTemplate />
 };

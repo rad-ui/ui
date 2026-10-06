@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 export type ComboboxPrimitiveContextType = {
     isOpen: boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsOpen: (open: boolean | ((previous: boolean) => boolean)) => void,
     handleSelect: (index: number | null) => void,
     refs: {
         reference: React.RefObject<any>;
@@ -16,7 +16,7 @@ export type ComboboxPrimitiveContextType = {
     placedPlacement: string;
     floatingStyles: React.CSSProperties;
     floatingContext: any;
-    getReferenceProps: () => any;
+    getReferenceProps: (userProps?: any) => any;
     getFloatingProps: () => any;
     getItemProps: (userProps?: any) => any;
     activeIndex: number | null;
@@ -40,6 +40,11 @@ export type ComboboxPrimitiveContextType = {
     hiddenIndices: number[];
     labelsVersion: number;
     bumpLabelsVersion: () => void;
+    /** Per-root prefix that keeps option ids unique across instances. */
+    idPrefix: string;
+    disabled: boolean;
+    /** Reading direction, applied to the (portaled) listbox content. */
+    dir?: string;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

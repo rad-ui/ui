@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
-import Toast, { ToastState } from '@radui/ui/Toast'
+import { useEffect, useMemo } from 'react'
+import Toast, { createToastManager } from '@radui/ui/Toast'
 import type { ToastData } from '@radui/ui/Toast'
 import Button from '@radui/ui/Button'
 
@@ -27,14 +27,10 @@ function Toaster() {
 function ExpandInner() {
     const manager = Toast.useToastManager()
 
-    useEffect(() => () => {
-        ToastState.dismissAll()
-    }, [])
-
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
             <Toaster />
-            <p className="text-sm text-gray-800">
+            <p className="text-sm text-gray-950">
                 <code className="text-xs">expand</code> keeps every toast fully visible — no stacked peek
                 layout.
             </p>
@@ -46,8 +42,14 @@ function ExpandInner() {
 }
 
 export default function ToastExpandExample() {
+    // Each example owns its queue; the default singleton would show every toast in every example on the page.
+    const toastManager = useMemo(() => createToastManager(), [])
+    // Clear this example's toasts when it unmounts. Key the effect on the
+    // stable manager instance, not on the useToastManager() return value,
+    // which changes every time the toast list does.
+    useEffect(() => () => toastManager.dismissAll(), [toastManager])
     return (
-        <Toast.Provider position="bottom-right" expand maxToasts={5}>
+        <Toast.Provider toastManager={toastManager} position="bottom-right" expand maxToasts={5}>
             <ExpandInner />
         </Toast.Provider>
     )

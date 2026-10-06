@@ -1,0 +1,49 @@
+/* Fieldset had no recipe in either theme: the component emits `data-slot`,
+   `data-invalid` and `data-disabled`, but nothing consumed them, so it rendered
+   with the UA default border and `invalid` did nothing visually. Styling is kept
+   to the reset plus typography so a bare <Fieldset> no longer looks like a
+   browser-default form group. */
+
+.rad-ui-fieldset {
+  min-width: 0; // UA sets min-inline-size: min-content, which breaks flex/grid parents
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rad-ui-spacing-2);
+}
+
+.rad-ui-fieldset-legend {
+  padding: 0;
+  font-size: var(--rad-ui-font-size-3);
+  font-weight: 600;
+  line-height: var(--rad-ui-line-height-2);
+  color: var(--rad-ui-text-primary);
+}
+
+.rad-ui-fieldset-description {
+  margin: 0;
+  font-size: var(--rad-ui-font-size-2);
+  line-height: var(--rad-ui-line-height-3);
+  color: var(--rad-ui-text-secondary);
+}
+
+.rad-ui-fieldset-message {
+  margin: 0;
+  font-size: var(--rad-ui-font-size-2);
+  line-height: var(--rad-ui-line-height-3);
+  color: var(--rad-ui-text-secondary);
+}
+
+// The root carries `invalid`; the message is the part that reads as an error,
+// so it takes the red only when the fieldset is invalid.
+.rad-ui-fieldset-message[data-invalid] {
+  color: var(--rad-ui-danger-text);
+}
+
+.rad-ui-fieldset[data-disabled],
+.rad-ui-fieldset:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

@@ -1,5 +1,4 @@
 import Kbd from '@radui/ui/Kbd';
-import Text from '@radui/ui/Text';
 
 export const keyboardShortcutColumns = [
     {
@@ -14,11 +13,15 @@ export const keyboardShortcutColumns = [
 
 export const DOCS_KEYBOARD_SHORTCUTS = Object.freeze({
     ARROW_DOWN: { id: 'arrow-down', label: 'ArrowDown' },
+    ARROW_LEFT: { id: 'arrow-left', label: 'ArrowLeft' },
+    ARROW_RIGHT: { id: 'arrow-right', label: 'ArrowRight' },
     ARROW_UP: { id: 'arrow-up', label: 'ArrowUp' },
     END: { id: 'end', label: 'End' },
     ENTER: { id: 'enter', label: 'Enter' },
     ESCAPE: { id: 'escape', label: 'Escape' },
     HOME: { id: 'home', label: 'Home' },
+    PAGE_DOWN: { id: 'page-down', label: 'PageDown' },
+    PAGE_UP: { id: 'page-up', label: 'PageUp' },
     SHIFT_TAB: { id: 'shift-tab', label: 'Shift + Tab' },
     SPACE: { id: 'space', label: 'Space' },
     TAB: { id: 'tab', label: 'Tab' }
@@ -31,7 +34,7 @@ export const createKeyboardShortcutRow = (shortcut, description) => {
 
     return {
         shortcut: <Kbd>{shortcut.label}</Kbd>,
-        description: <Text>{description}</Text>,
+        description,
         id: shortcut.id
     };
 };

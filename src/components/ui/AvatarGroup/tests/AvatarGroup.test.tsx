@@ -83,10 +83,10 @@ describe('AvatarGroup', () => {
     });
 
     test('supports asChild across avatar group parts', () => {
-        const rootRef = React.createRef();
-        const itemRef = React.createRef();
-        const avatarRef = React.createRef();
-        const fallbackRef = React.createRef();
+        const rootRef = React.createRef<HTMLElement>();
+        const itemRef = React.createRef<HTMLElement>();
+        const avatarRef = React.createRef<HTMLElement>();
+        const fallbackRef = React.createRef<HTMLElement>();
 
         render(
             <AvatarGroup.Root asChild customRootClass="acme" ref={rootRef}>
@@ -108,10 +108,10 @@ describe('AvatarGroup', () => {
         expect(screen.getByTestId('root')).toHaveClass('acme-avatar-group');
         expect(screen.getByTestId('item')).toHaveClass('acme-avatar-group-item');
         expect(screen.getByTestId('fallback')).toHaveClass('acme-avatar-group-fallback');
-        expect(rootRef.current.tagName).toBe('SECTION');
-        expect(itemRef.current.tagName).toBe('BUTTON');
-        expect(avatarRef.current.tagName).toBe('IMG');
-        expect(fallbackRef.current.tagName).toBe('SPAN');
+        expect(rootRef.current?.tagName).toBe('SECTION');
+        expect(itemRef.current?.tagName).toBe('BUTTON');
+        expect(avatarRef.current?.tagName).toBe('IMG');
+        expect(fallbackRef.current?.tagName).toBe('SPAN');
     });
 
     // test('renders color for fallback when src is not provided', async() => {
@@ -119,4 +119,50 @@ describe('AvatarGroup', () => {
     //     expect(screen.getByText('A')).toHaveAttribute('data-color', 'blue');
     //     expect(screen.getByText('B')).toHaveAttribute('data-color', 'blue');
     // });
+});
+
+describe('AvatarGroup styling hooks', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const stylesheet = fs.readFileSync(path.resolve(__dirname, '../avatar-group.clarity.scss'), 'utf8');
+
+    test('Avatar part gets a namespaced class that the stylesheet sizes and crops', () => {
+        render(
+            <AvatarGroup.Root customRootClass="rad-ui">
+                <AvatarGroup.Item>
+                    <AvatarGroup.Avatar src="a.png" alt="A" className="extra" />
+                    <AvatarGroup.Fallback>A</AvatarGroup.Fallback>
+                </AvatarGroup.Item>
+            </AvatarGroup.Root>
+        );
+        const image = screen.getByAltText('A');
+        expect(image).toHaveClass('rad-ui-avatar-group-avatar', 'extra');
+        expect(stylesheet).toMatch(/\.rad-ui-avatar-group-avatar\s*\{[^}]*object-fit: cover/);
+    });
+
+    test('Item color is reflected and has accent fallback styles', () => {
+        render(
+            <AvatarGroup.Root customRootClass="rad-ui">
+                <AvatarGroup.Item color="blue" data-testid="item">
+                    <AvatarGroup.Fallback>B</AvatarGroup.Fallback>
+                </AvatarGroup.Item>
+            </AvatarGroup.Root>
+        );
+        expect(screen.getByTestId('item')).toHaveAttribute('data-color', 'blue');
+        expect(stylesheet).toContain('&[data-color]:not([data-rad-ui-has-image])');
+    });
+
+    test('a broken image falls back to the item fallback', () => {
+        render(
+            <AvatarGroup.Root>
+                <AvatarGroup.Item data-testid="item">
+                    <AvatarGroup.Avatar src="broken.png" alt="Broken" />
+                    <AvatarGroup.Fallback>C</AvatarGroup.Fallback>
+                </AvatarGroup.Item>
+            </AvatarGroup.Root>
+        );
+        fireEvent.error(screen.getByAltText('Broken'));
+        expect(screen.queryByAltText('Broken')).not.toBeInTheDocument();
+        expect(screen.getByText('C')).toBeInTheDocument();
+    });
 });

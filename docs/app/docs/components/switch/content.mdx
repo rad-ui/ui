@@ -1,5 +1,5 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import codeUsage, { api_documentation } from "./docs/codeUsage"
+import codeUsage, { api_documentation, ariaReferences, keyboardShortcuts } from "./docs/codeUsage"
 import SwitchExample from "./docs/examples/SwitchExample"
 
 <Documentation  title='Switch' description={`
@@ -14,5 +14,9 @@ import SwitchExample from "./docs/examples/SwitchExample"
         tables={api_documentation}
         order={['root', 'thumb']}
     />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
         </Documentation>

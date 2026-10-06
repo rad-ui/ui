@@ -1,6 +1,6 @@
 const data = {
     name: 'Title',
-    description: 'Primary line of the toast; rendered as a heading for landmark semantics.',
+    description: 'Primary line of the toast; rendered as a <div> (not a heading) so transient notifications do not add to the page outline.',
     columns: [
         { name: 'Prop', id: 'prop' },
         { name: 'Type', id: 'type' },
@@ -18,7 +18,7 @@ const data = {
             default: '--',
         },
         {
-            prop: { name: '…props', info_tooltips: 'Other HTML h2 attributes.' },
+            prop: { name: '…props', info_tooltips: 'Other HTML attributes.' },
             type: 'HTMLAttributes<HTMLHeadingElement>',
             default: '--',
         },

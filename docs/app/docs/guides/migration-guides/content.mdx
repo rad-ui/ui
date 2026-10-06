@@ -1,0 +1,68 @@
+# Migration guides
+
+Step-by-step notes for major `@radui/ui` upgrades. Patch and minor releases should be drop-in when the changelog reports no breaking changes.
+
+For day-to-day upgrades, start with [Upgrade & codemods](/docs/contributing/upgrade-and-codemods) and the [GitHub Releases](https://github.com/rad-ui/ui/releases) page.
+
+## How to use these guides
+
+Each major guide lists:
+
+1. **Breaking changes** — APIs or behavior you must update
+2. **Recommended updates** — non-breaking improvements worth adopting
+3. **Verification** — tests and manual checks before shipping
+
+When a guide references imports, use per-component entrypoints (`@radui/ui/Button`) unless the migration note says otherwise.
+
+## Available guides
+
+| Release | Guide | Status |
+| --- | --- | --- |
+| `1.x` | *Not published yet* | Planned when the first major breaking release ships |
+
+There is no `1.x` migration guide yet because `@radui/ui` `0.x` releases have not shipped a documented major breaking bump requiring a standalone guide. This page will link to version-specific guides as they are added.
+
+## Before every major upgrade
+
+1. Read the release changelog and changeset notes for `"@radui/ui": major`.
+2. Search your app for deprecated props or renamed exports called out in the release.
+3. Run your unit, integration, and accessibility tests.
+4. Smoke-test overlays (Dialog, Popover, Select), forms, and theme appearance in both light and dark modes.
+5. If you import `@radui/ui/themes/default.css`, confirm `Theme classNamespace="rad-ui"` still matches your selectors.
+
+## Contributing a migration guide
+
+When you ship a major release:
+
+1. Add `docs/app/docs/guides/migration-guides/v<major>-migration.mdx` (or a dedicated route) with before/after examples.
+2. Link it from this index table.
+3. Reference the guide from the major changeset body ([Changeset quality](/docs/contributing/changeset-quality)).
+4. Add codemod instructions to [Upgrade & codemods](/docs/contributing/upgrade-and-codemods) when automation exists.
+
+## Template for future major guides
+
+```md
+# Migrating to @radui/ui <version>
+
+## Breaking changes
+
+### <Area>
+
+**Before**
+\`\`\`tsx
+// old API
+\`\`\`
+
+**After**
+\`\`\`tsx
+// new API
+\`\`\`
+
+## Recommended updates
+
+- ...
+
+## Verification checklist
+
+- [ ] ...
+```

@@ -1,49 +1,128 @@
-.rad-ui-table-wrapper{
-    border: 1px solid var(--rad-ui-color-accent-500);
-    border-radius: 12px;
+// Parts are styled through their namespaced classes (`-head`, `-row`,
+// `-cell-header`, `-cell`). The legacy unprefixed defaults (`header`, `row`,
+// `cell-header`, `cell`) disappear as soon as a consumer passes `className`,
+// so they must not carry the design-system styles.
+.rad-ui-table-wrapper {
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-500);
+    border-radius: var(--rad-ui-panel-radius-lg);
     overflow: hidden;
 
-    .rad-ui-table{
+    &[data-resizable] {
+        overflow-x: auto;
+    }
+
+    &[data-resizing] .rad-ui-table-column-resize-handle[data-state="active"]::before {
+        opacity: 1;
+        width: var(--rad-ui-border-width-2);
+        background: var(--rad-ui-focus-ring-color);
+    }
+
+    &[data-resize-handle-visibility="always"] .rad-ui-table-column-resize-handle::before {
+        opacity: 1;
+    }
+
+    &[data-resize-handle-visibility="hover"] .rad-ui-table-cell-header[data-resizable]:hover .rad-ui-table-column-resize-handle::before {
+        opacity: 1;
+    }
+
+    .rad-ui-table {
         width: 100%;
-        text-align: left;
+        text-align: start;
         vertical-align: top;
-        border-radius: calc(10px);
         border-spacing: 0;
         box-sizing: border-box;
-        color: var(--rad-ui-color-gray-1000);
+        color: var(--rad-ui-text-primary);
 
-        .header{
-            padding: 12px;
-            vertical-align: inherit;
-            font-weight: 700;
-            font-size:14px;
-            border-bottom: 1px solid var(--rad-ui-color-accent-500);
-
-            .cell-header{
-                padding: 12px;
-                vertical-align: inherit;
-                font-weight: 500;
-                background-color: var(--rad-ui-color-accent-200);
-            }
-        }
-    
-        .row{
-            vertical-align: inherit;
-            border-bottom: 1px solid var(--rad-ui-color-accent-300);
-            background-color: var(--rad-ui-color-accent-50);
-
-            &:last-child{
-                border-bottom: none;
-            }
-        }
-    
-        .cell{
-            padding: 0.75rem 1rem;
-            vertical-align: inherit;
-            color: var(--rad-ui-color-gray-1000);
-            font-weight: 300;
-            font-size: 14px;
+        &[data-resizable] {
+            min-width: 100%;
         }
     }
 
+    .rad-ui-table-head {
+        vertical-align: inherit;
+        font-size: var(--rad-ui-font-size-2);
+    }
+
+    .rad-ui-table-cell-header {
+        // Same inline padding as body cells so header text aligns with its column.
+        padding: var(--rad-ui-spacing-3) var(--rad-ui-spacing-4);
+        vertical-align: inherit;
+        text-align: start;
+        font-weight: 500;
+        background-color: var(--rad-ui-color-accent-200);
+        border-bottom: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-500);
+
+        &[data-resizable] {
+            position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: var(--rad-ui-spacing-3);
+        }
+    }
+
+    .rad-ui-table-column-resize-handle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: var(--rad-ui-spacing-3);
+        cursor: col-resize;
+        touch-action: none;
+        user-select: none;
+        z-index: 1;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: var(--rad-ui-border-width-default);
+            background: var(--rad-ui-border-soft);
+            opacity: 0;
+            transition:
+                opacity var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard),
+                background-color var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard),
+                width var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard);
+        }
+
+        &:hover::before,
+        &:focus-visible::before,
+        &:active::before,
+        &[data-state="active"]::before {
+            opacity: 1;
+            width: var(--rad-ui-border-width-2);
+            background: var(--rad-ui-focus-ring-color);
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    .rad-ui-table-row {
+        vertical-align: inherit;
+        background-color: var(--rad-ui-color-accent-50);
+    }
+
+    // Row dividers live on the cells: borders on <tr> are not rendered with
+    // `border-collapse: separate` (the table uses border-spacing: 0).
+    .rad-ui-table-body .rad-ui-table-row:not(:last-child) > .rad-ui-table-cell {
+        border-bottom: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-300);
+    }
+
+    .rad-ui-table-cell {
+        padding: var(--rad-ui-spacing-3) var(--rad-ui-spacing-4);
+        vertical-align: inherit;
+        color: var(--rad-ui-text-primary);
+        font-weight: 400;
+        font-size: var(--rad-ui-font-size-2);
+
+        &[data-resizable] {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
 }

@@ -50,4 +50,19 @@ export type { CommandLoadingProps } from './fragments/CommandLoading';
 export type { CommandSeparatorProps } from './fragments/CommandSeparator';
 export type { CommandShortcutProps } from './fragments/CommandShortcut';
 
+// Named part exports let React Server Components use `import * as Command from '@radui/ui/Command'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    CommandRoot as Root,
+    CommandDialog as Dialog,
+    CommandInput as Input,
+    CommandList as List,
+    CommandItem as Item,
+    CommandGroup as Group,
+    CommandEmpty as Empty,
+    CommandLoading as Loading,
+    CommandSeparator as Separator,
+    CommandShortcut as Shortcut
+};
+
 export default Command;

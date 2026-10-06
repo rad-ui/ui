@@ -1,15 +1,15 @@
 "use client"
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Tabs from "@radui/ui/Tabs"
 
 const CodeTabs = ({ data }) => {
     const [activeTab, setActiveTab] = useState(data[0]?.value)
 
     return <Tabs.Root defaultValue={activeTab} className="gap-2">
-        <Tabs.List className="inline-flex gap-1 self-start rounded-[16px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-panel)] p-1">
+        <Tabs.List className="inline-flex gap-0.5 self-start rounded-md border border-gray-400 bg-gray-100 p-0.5">
             {data.map((tab, index) => (
                 <Tabs.Trigger
-                    className="rounded-[12px] px-3 py-1.5 text-[0.88rem] font-medium capitalize text-[var(--rad-ui-text-muted)] data-[state=active]:bg-[var(--rad-ui-surface-canvas)] data-[state=active]:text-[var(--rad-ui-text-primary)]"
+                    className="rounded-[5px] px-2.5 py-1 font-mono text-[0.75rem] font-medium capitalize tracking-wide text-gray-950 transition-colors data-[state=active]:bg-gray-50 data-[state=active]:text-gray-1000"
                     key={index}
                     value={tab.value}
                 >
@@ -20,7 +20,7 @@ const CodeTabs = ({ data }) => {
         {data.map((tab, index) => (
                 <Tabs.Content
                     customRootClass="docs-code"
-                    className="bg-transparent p-0 pb-0 shadow-none border-0"
+                    className="border-0 bg-transparent p-0 pb-0 shadow-none"
                     key={index}
                     value={tab.value}
                 >

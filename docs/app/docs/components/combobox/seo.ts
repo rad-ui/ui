@@ -1,2 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
-export default generateSeoMetadata({ title: "Combobox - Rad UI", description: "A headless React Combobox component combining a text input with a dropdown list for searchable selection." })
+
+const metadata = generateSeoMetadata({
+    title: "Combobox - Rad UI",
+    description: "Accessible, headless React Combobox component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Combobox","headless combobox","accessible combobox","combobox component","React combobox component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/combobox"
+});
+
+
+export default metadata

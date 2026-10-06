@@ -46,4 +46,17 @@ export type { DropdownMenuItemProps } from './fragments/DropdownMenuItem';
 export type { DropdownMenuSubProps } from './fragments/DropdownMenuSub';
 export type { DropdownMenuSubTriggerProps } from './fragments/DropdownMenuSubTrigger';
 export type { DropdownMenuSeparatorProps } from './fragments/DropdownMenuSeparator';
+// Named part exports let React Server Components use `import * as DropdownMenu from '@radui/ui/DropdownMenu'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    DropdownMenuRoot as Root,
+    DropdownMenuTrigger as Trigger,
+    DropdownMenuContent as Content,
+    DropdownMenuPortal as Portal,
+    DropdownMenuItem as Item,
+    DropdownMenuSub as Sub,
+    DropdownMenuSubTrigger as SubTrigger,
+    DropdownMenuSeparator as Separator
+};
+
 export default DropdownMenu;

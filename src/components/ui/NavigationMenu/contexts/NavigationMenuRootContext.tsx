@@ -5,6 +5,7 @@ export interface NavigationMenuRootContextProps {
     setIsOpen: React.Dispatch<React.SetStateAction<string>>;
     rootClass: string;
     contentLoop: boolean;
+    dir?: 'ltr' | 'rtl';
 }
 
 const NavigationMenuRootContext = React.createContext<NavigationMenuRootContextProps>({

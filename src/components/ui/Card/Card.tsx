@@ -47,4 +47,16 @@ export type { CardDescriptionProps } from './fragments/CardDescription';
 export type { CardFooterProps } from './fragments/CardFooter';
 export type { CardHeaderProps } from './fragments/CardHeader';
 export type { CardTitleProps } from './fragments/CardTitle';
+// Named part exports let React Server Components use `import * as Card from '@radui/ui/Card'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    CardRoot as Root,
+    CardAction as Action,
+    CardContent as Content,
+    CardDescription as Description,
+    CardFooter as Footer,
+    CardHeader as Header,
+    CardTitle as Title
+};
+
 export default Card;

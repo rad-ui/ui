@@ -117,6 +117,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                     data-id={id}
                     data-parent-id={parentId}
                     data-level={level}
+                    aria-level={level + 1}
                     {...props}
                 >
                     <span className={rootClass ? `${rootClass}-item-chevron` : undefined} aria-hidden>
@@ -143,7 +144,7 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                 </ButtonPrimitive>
             </RovingFocusGroup.Item>
 
-            {isToggled && item.items && (
+            {isToggled && hasChildren && (
                 <div className={rootClass ? `${rootClass}-branch` : undefined} role="group">
                     {item.items.map((subItem: any, index: number) => {
                         const nextLevel = level + 1;
@@ -153,12 +154,14 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
                             <TreeItem
                                 parentId={id}
                                 level={nextLevel}
-                                key={subItem.label}
+                                key={subItem?.id ?? subItem?.value ?? `${index}-${subItem?.label}`}
                                 item={subItem}
                                 isSelected={childIsSelected}
                                 onToggleSelect={onToggleSelect}
                                 getIsSelected={getIsSelected}
                                 onChildRefReady={index === 0 ? handleFirstChildRef : undefined}
+                                aria-posinset={index + 1}
+                                aria-setsize={item.items.length}
                             >
                                 {subItem.label}
                             </TreeItem>

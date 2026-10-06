@@ -7,6 +7,10 @@ export interface StepsContextValue {
   currentStep: number;
   rootClass: string;
   setCurrentStep: (step: number) => void;
+  /** Registers an item element so items without `value` can derive their index from DOM order. */
+  registerItem?: (element: HTMLElement) => () => void;
+  /** Item elements in document order. */
+  itemElements?: HTMLElement[];
 }
 
 const StepsContext = createContext<StepsContextValue | null>(null);

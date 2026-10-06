@@ -78,7 +78,7 @@ describe('AlertDialog a11y and behaviors', () => {
         }
     });
 
-    test('Esc and overlay click close dialog; focus returns to trigger; data-state="closed"', async() => {
+    test('Esc closes dialog and returns focus; overlay click does not close it; data-state="closed"', async() => {
         const user = userEvent.setup();
         render(
             <AlertDialog.Root>
@@ -102,15 +102,15 @@ describe('AlertDialog a11y and behaviors', () => {
         await user.keyboard('{Escape}');
         await waitFor(() => expect(trigger).toHaveFocus());
 
-        // Re-open and close via overlay click
+        // Re-open; an overlay (outside) click must not dismiss an alert dialog
         await user.click(trigger);
-        const openContent = await screen.findByRole('alertdialog');
-        const openOverlay = document.querySelector('[data-floating-ui-portal] [data-state="open"]') as HTMLElement | null;
-        if (openOverlay) {
-            await user.click(openOverlay);
-        }
-        // FIXME: Focus restoration after overlay click is flaky in jsdom
-        // await waitFor(() => expect(trigger).toHaveFocus());
+        await screen.findByRole('alertdialog');
+        const openOverlay = document.querySelector('.rad-ui-alert-dialog-overlay, [data-floating-ui-portal] > [data-state="open"]:not([role])') as HTMLElement | null;
+        expect(openOverlay).not.toBeNull();
+        await user.click(openOverlay!);
+        expect(screen.getByRole('alertdialog')).toHaveAttribute('data-state', 'open');
+        await user.click(screen.getByText('Close'));
+        await waitFor(() => expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument());
 
         // content/overlay should reflect closed state when mounted with forceMount
         render(

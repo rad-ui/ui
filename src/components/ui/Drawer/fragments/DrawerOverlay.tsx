@@ -20,7 +20,7 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
     forceMount = false,
     ...props
 }, ref) => {
-    const { rootClass, modal, disablePointerDismissal, onOpenChangeComplete, markIntentionalClose } = useContext(DrawerContext);
+    const { rootClass, modal, disablePointerDismissal, markIntentionalClose } = useContext(DrawerContext);
     const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
 
     const [isVisible, setIsVisible] = useState(isOpen);
@@ -39,14 +39,13 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
             setDataState('closed');
             exitTimerRef.current = setTimeout(() => {
                 setIsVisible(false);
-                onOpenChangeComplete?.(false);
             }, EXIT_DURATION_MS);
         }
 
         return () => {
             if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
         };
-    }, [isOpen, onOpenChangeComplete]);
+    }, [isOpen]);
 
     if (!isVisible && !forceMount) return null;
 

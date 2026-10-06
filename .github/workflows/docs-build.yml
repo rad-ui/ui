@@ -26,20 +26,62 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Setup Node.js (root)
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Check docs snippet consistency
+        working-directory: .
+        run: npm run check:docs-snippets
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 9.15.9
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: "22"
           cache: "pnpm"
           cache-dependency-path: docs/pnpm-lock.yaml
 
+      - name: Check docs boundary
+        run: node scripts/check-docs-boundary.mjs
+
+      # Vercel builds docs/ as the project root, without the rest of the
+      # monorepo. Build an isolated copy so CI fails the same way Vercel would
+      # if the docs app reaches outside docs/ (../src, ../styles, ...).
+      - name: Copy docs outside the monorepo
+        run: |
+          mkdir -p "$RUNNER_TEMP/isolated"
+          rsync -a --exclude node_modules --exclude .next ./ "$RUNNER_TEMP/isolated/docs/"
+
       - name: Install docs dependencies
+        working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck docs examples
+        working-directory: ${{ runner.temp }}/isolated/docs
+        run: pnpm check:examples
+
       - name: Build docs
+        working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm build
+
+      # Fail on any text below WCAG AA, in dark and light, on every prerendered
+      # page. It measures what actually renders, so it catches low palette
+      # steps, inline colors and syntax-highlighting colors alike.
+      - name: Install contrast check tools
+        working-directory: .
+        run: |
+          npm ci --ignore-scripts
+          npx playwright install --with-deps chromium
+
+      - name: Check docs contrast (WCAG AA, both themes)
+        working-directory: .
+        run: |
+          (cd "$RUNNER_TEMP/isolated/docs" && pnpm exec next start -p 3000 > "$RUNNER_TEMP/next-start.log" 2>&1 &)
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/ > /dev/null && break; sleep 1; done
+          node scripts/check-docs-contrast.mjs --base http://127.0.0.1:3000 --next-dir "$RUNNER_TEMP/isolated/docs/.next"

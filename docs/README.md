@@ -20,22 +20,29 @@ pnpm dev
 
 The app starts a local Next.js server for docs and showcase work.
 
-## Test local library changes in the docs app
+## Docs modes: live vs fixed
 
-Build and link the library from the repository root:
+Run these from the **repository root**. They decide which `@radui/ui` the docs app uses:
+
+| Command | `@radui/ui` source | Use it to |
+|---|---|---|
+| `npm run docs:live` | Your local build (`dist/` in the repo root) | Develop or debug components against the real docs |
+| `npm run docs:fixed` | Published version pinned in `docs/pnpm-lock.yaml` | See exactly what production shows |
+| `npm run docs:mode` | — | Print which mode `docs/` is in right now |
+| `npm run docs:verify:fixed` | Pinned published version, isolated copy of `docs/` | Reproduce the Vercel build |
+| `npm run docs:verify:live` | `npm pack` of your local build, isolated copy of `docs/` | Release sanity check: will docs still build once this version ships? |
+
+**Live mode** builds the library (`npm run build:rollup`; pass `-- --no-build` to reuse `dist/`). It points `docs/node_modules/@radui/ui` at the repo root, then starts `pnpm dev`. To pick up later library changes, rebuild in another terminal. Live mode only swaps that one `node_modules` symlink, never `docs/package.json` or the lockfile, so it can't be committed or reach Vercel. Run `npm run docs:fixed`, or any `pnpm install` in `docs/`, to go back.
+
+**Verify commands** copy `docs/` to a temp directory with no monorepo around it and run a production build there, the same way Vercel does. Before a release, run both:
 
 ```bash
-npm install
-npm run build:rollup
-npm link
+npm run docs:verify:fixed   # what's deployed today still builds
+npm run docs:verify:live    # docs build against the version you're about to publish
 ```
 
-Then link that local package into the docs app:
+Add `-- --contrast` to either verify command to also check every page for WCAG AA text contrast in dark and light, the same check CI runs.
 
-```bash
-cd docs
-pnpm link @radui/ui
-pnpm dev
-```
+## Dev note: the docs app must stay inside `docs/`
 
-If the docs app is already using the published package, re-run `pnpm link @radui/ui` after rebuilding the library.
+Vercel builds this app with `docs/` as the root, so nothing outside this folder exists at build time. Never import, alias, `@import`, or `fs`-read files from `../src`, `../styles`, or anywhere else outside `docs/`. Use the published `@radui/ui` package, or `npm run docs:live` (above) to test local library changes. `pnpm check:boundary` enforces this and runs automatically before `pnpm build`. Full rules: [`AGENTS.md`](./AGENTS.md#docs-app-boundary-dev-note--read-before-touching-docs).
