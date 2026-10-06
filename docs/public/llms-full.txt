@@ -1,42 +1,132 @@
-# Rad UI - Complete Documentation
+# Rad UI Full Reference
 
-> Rad UI is a modern, headless React component library focused on accessibility, TypeScript, and unstyled primitives for building custom design systems.
+Rad UI is an open-source React component library for teams building custom design systems. It focuses on headless behavior, accessibility, composition, TypeScript types, and optional theme styling.
 
-This file contains key documentation for LLM consumption. For the most up-to-date information, visit https://www.rad-ui.com.
+## Package
+- npm package: `@radui/ui`
+- repository: https://github.com/rad-ui/ui
+- docs: https://www.rad-ui.com/docs/first-steps/introduction
+- install: `npm install @radui/ui`
+- primary import style: `import Button from "@radui/ui/Button"`
+- optional theme CSS: `import "@radui/ui/themes/default.css"`
+- optional theme wrapper: `import Theme from "@radui/ui/Theme"`
 
-## Introduction
+## Positioning
+Use Rad UI when you want React components with accessibility and interaction behavior handled for you, while keeping control over visual design. Components expose semantic markup, TypeScript props, composition patterns, and stable styling hooks.
 
-Rad UI is an open-source, headless React component library designed for building accessible, customizable user interfaces. It provides unstyled primitives with built-in accessibility, keyboard navigation, and focus management.
+## Quick Start
+```tsx
+import "@radui/ui/themes/default.css"
+import Theme from "@radui/ui/Theme"
+import Button from "@radui/ui/Button"
 
-Visit: https://www.rad-ui.com/docs/first-steps/introduction
+export default function App() {
+  return (
+    <Theme classNamespace="rad-ui" accentColor="blue">
+      <Button>Save changes</Button>
+    </Theme>
+  )
+}
+```
 
-## Installation
+## Styling Model
+- Components can be consumed headlessly and styled by the application.
+- The optional default theme provides ready-to-use CSS variables, color scales, and component recipes.
+- Per-component imports keep bundles focused.
+- Theme color families use a shared numeric scale so surfaces, borders, accents, and text map predictably.
 
-Install Rad UI via npm, yarn, or pnpm. See the full installation guide for framework-specific setup.
+## Component Docs
+- Accordion: https://www.rad-ui.com/docs/components/accordion
+- AlertDialog: https://www.rad-ui.com/docs/components/alert-dialog
+- AspectRatio: https://www.rad-ui.com/docs/components/aspect-ratio
+- Avatar: https://www.rad-ui.com/docs/components/avatar
+- AvatarGroup: https://www.rad-ui.com/docs/components/avatar-group
+- Badge: https://www.rad-ui.com/docs/components/badge
+- BlockQuote: https://www.rad-ui.com/docs/components/blockquote
+- Breadcrumb: https://www.rad-ui.com/docs/components/breadcrumb
+- Button: https://www.rad-ui.com/docs/components/button
+- Callout: https://www.rad-ui.com/docs/components/callout
+- Card: https://www.rad-ui.com/docs/components/card
+- Checkbox: https://www.rad-ui.com/docs/components/checkbox
+- CheckboxCards: https://www.rad-ui.com/docs/components/checkbox-cards
+- CheckboxGroup: https://www.rad-ui.com/docs/components/checkbox-group
+- Code: https://www.rad-ui.com/docs/components/code
+- Collapsible: https://www.rad-ui.com/docs/components/collapsible
+- Combobox: https://www.rad-ui.com/docs/components/combobox
+- Command: https://www.rad-ui.com/docs/components/command
+- ContextMenu: https://www.rad-ui.com/docs/components/context-menu
+- DataList: https://www.rad-ui.com/docs/components/data-list
+- Dialog: https://www.rad-ui.com/docs/components/dialog
+- Disclosure: https://www.rad-ui.com/docs/components/disclosure
+- Drawer: https://www.rad-ui.com/docs/components/drawer
+- DropdownMenu: https://www.rad-ui.com/docs/components/dropdown-menu
+- Em: https://www.rad-ui.com/docs/components/em
+- Fieldset: https://www.rad-ui.com/docs/components/fieldset
+- Heading: https://www.rad-ui.com/docs/components/heading
+- HoverCard: https://www.rad-ui.com/docs/components/hover-card
+- Kbd: https://www.rad-ui.com/docs/components/kbd
+- Link: https://www.rad-ui.com/docs/components/link
+- LiveRegion: https://www.rad-ui.com/docs/components/live-region
+- Menubar: https://www.rad-ui.com/docs/components/menubar
+- Minimap: https://www.rad-ui.com/docs/components/minimap
+- NavigationMenu: https://www.rad-ui.com/docs/components/navigation-menu
+- NumberField: https://www.rad-ui.com/docs/components/number-field
+- Popover: https://www.rad-ui.com/docs/components/popover
+- Progress: https://www.rad-ui.com/docs/components/progress
+- Quote: https://www.rad-ui.com/docs/components/quote
+- Radio: https://www.rad-ui.com/docs/components/radio
+- RadioCards: https://www.rad-ui.com/docs/components/radio-cards
+- RadioGroup: https://www.rad-ui.com/docs/components/radio-group
+- ScrollArea: https://www.rad-ui.com/docs/components/scroll-area
+- Select: https://www.rad-ui.com/docs/components/select
+- Separator: https://www.rad-ui.com/docs/components/separator
+- Skeleton: https://www.rad-ui.com/docs/components/skeleton
+- Slider: https://www.rad-ui.com/docs/components/slider
+- Spinner: https://www.rad-ui.com/docs/components/spinner
+- Splitter: https://www.rad-ui.com/docs/components/splitter
+- Steps: https://www.rad-ui.com/docs/components/steps
+- Strong: https://www.rad-ui.com/docs/components/strong
+- Switch: https://www.rad-ui.com/docs/components/switch
+- TabNav: https://www.rad-ui.com/docs/components/tab-nav
+- Table: https://www.rad-ui.com/docs/components/table
+- Tabs: https://www.rad-ui.com/docs/components/tabs
+- Text: https://www.rad-ui.com/docs/components/text
+- TextArea: https://www.rad-ui.com/docs/components/text-area
+- TextField: https://www.rad-ui.com/docs/components/text-field
+- Theme: https://www.rad-ui.com/docs/components/theme
+- Toast: https://www.rad-ui.com/docs/components/toast
+- Toggle: https://www.rad-ui.com/docs/components/toggle
+- Toolbar: https://www.rad-ui.com/docs/components/toolbar
+- ToggleGroup: https://www.rad-ui.com/docs/components/toggle-group
+- Tooltip: https://www.rad-ui.com/docs/components/tooltip
+- Tree: https://www.rad-ui.com/docs/components/tree
+- VisuallyHidden: https://www.rad-ui.com/docs/components/visually-hidden
 
-Visit: https://www.rad-ui.com/docs/first-steps/installation
+## Implementation Guides
+- Accessibility: https://www.rad-ui.com/docs/guides/accessibility
+- Styling & Customization: https://www.rad-ui.com/docs/guides/styling-and-customization
+- Browser Support: https://www.rad-ui.com/docs/guides/browser-support
+- Design Token Contract: https://www.rad-ui.com/docs/guides/design-token-contract
+- Date, Time & Timezones: https://www.rad-ui.com/docs/guides/date-time-and-timezones
+- Internationalization: https://www.rad-ui.com/docs/guides/internationalization
+- IME / Input Method QA: https://www.rad-ui.com/docs/guides/ime-input-method-qa
+- Mobile & Touch QA: https://www.rad-ui.com/docs/guides/mobile-touch-qa
+- SSR & No-JS Fallback: https://www.rad-ui.com/docs/guides/ssr-and-no-js-fallback
+- Performance: https://www.rad-ui.com/docs/guides/performance
+- Large Lists & Virtualization: https://www.rad-ui.com/docs/guides/large-lists-and-virtualization
+- Framework Usage: https://www.rad-ui.com/docs/guides/framework-usage
+- Screen Reader Testing: https://www.rad-ui.com/docs/guides/screen-reader-testing
+- Keyboard Interaction Spec: https://www.rad-ui.com/docs/guides/keyboard-interaction-spec
+- Controlled & Uncontrolled Forms: https://www.rad-ui.com/docs/guides/controlled-uncontrolled-forms
+- Hidden Input Strategies: https://www.rad-ui.com/docs/guides/hidden-input-strategies
+- Composition Recipes: https://www.rad-ui.com/docs/guides/composition-recipes
+- Design System Integration: https://www.rad-ui.com/docs/guides/design-system-integration
+- Migration Guides: https://www.rad-ui.com/docs/guides/migration-guides
+- CSS Variable Fallbacks: https://www.rad-ui.com/docs/guides/css-variable-fallbacks
+- Troubleshooting: https://www.rad-ui.com/docs/guides/troubleshooting
 
-## Usage
-
-Learn how to use Rad UI components in your React applications with proper styling integration.
-
-Visit: https://www.rad-ui.com/docs/first-steps/usage
-
-## Key Principles
-
-- **Headless**: Components provide behavior and accessibility without imposing styles
-- **Accessible**: Built with WCAG compliance and proper ARIA attributes
-- **TypeScript-first**: Full type safety with excellent developer experience
-- **Composable**: Flexible API that works with any styling solution
-- **Uncontrolled by default**: Supports both controlled and uncontrolled patterns
-
-## Resources
-
-- GitHub: https://github.com/rad-ui/ui
-- Playground: https://www.rad-ui.com/playground
-- Colors: https://www.rad-ui.com/colors
-
-## Components
-
-Rad UI offers 50+ accessible, headless components. For complete API documentation and examples, visit https://www.rad-ui.com/docs/components.
-
+## Useful Agent Notes
+- Prefer per-component imports such as `@radui/ui/Dialog`, `@radui/ui/Select`, and `@radui/ui/Button`.
+- Use the docs component pages for anatomy, examples, and accessibility behavior.
+- Use the styling and design token guides when integrating with an existing design system.
+- Use the accessibility, keyboard interaction, screen reader testing, and mobile touch QA guides for high-confidence implementation checks.
