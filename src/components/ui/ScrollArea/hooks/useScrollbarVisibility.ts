@@ -13,6 +13,8 @@ export function useScrollbarVisibility(
 ) {
     const [scrollbarVisible, setScrollbarVisible] = useState(type === 'always');
     const isHoveringRef = useRef(false);
+    // True while the user drags a thumb; the scrollbar must not fade mid-drag.
+    const isInteractingRef = useRef(false);
     const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const clearHideTimeout = useCallback(() => {
@@ -25,7 +27,7 @@ export function useScrollbarVisibility(
     const scheduleHide = useCallback(() => {
         clearHideTimeout();
         hideTimeoutRef.current = setTimeout(() => {
-            if (!isHoveringRef.current) {
+            if (!isHoveringRef.current && !isInteractingRef.current) {
                 setScrollbarVisible(false);
             }
         }, SCROLLBAR_HIDE_DELAY_MS);
@@ -98,5 +100,16 @@ export function useScrollbarVisibility(
 
     useEffect(() => () => clearHideTimeout(), [clearHideTimeout]);
 
-    return scrollbarVisible;
+    const setInteracting = useCallback((interacting: boolean) => {
+        isInteractingRef.current = interacting;
+        if (type !== 'scroll' && type !== 'hover') return;
+        if (interacting) {
+            clearHideTimeout();
+            setScrollbarVisible(true);
+        } else if (!isHoveringRef.current || type === 'scroll') {
+            scheduleHide();
+        }
+    }, [type, clearHideTimeout, scheduleHide]);
+
+    return { scrollbarVisible, setInteracting };
 }

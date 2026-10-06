@@ -1,11 +1,11 @@
 'use client'
 
 import Tooltip from "@radui/ui/Tooltip"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const TooltipPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="Tooltip"
             docsLink="/docs/components/tooltip"
             description="Compact hover and focus hint for labels, shortcuts, and secondary detail."
@@ -20,7 +20,7 @@ const TooltipPlayground = () => (
                     </Tooltip.Content>
                 </Tooltip.Root>
             </div>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

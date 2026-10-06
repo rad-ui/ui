@@ -8,11 +8,17 @@ export type CheckboxGroupPrimitiveTriggerProps = {
     value: string;
     required?: boolean;
     disabled?: boolean;
+    /**
+     * @deprecated Ignored. The group's `value`/`defaultValue` is the single source of truth for
+     * which items are checked (Radix-style); control the group instead. Kept only so existing
+     * code keeps type-checking.
+     */
     checked?: boolean;
+    /** Called with this item's new checked state, in addition to the group's `onValueChange`. */
     onCheckedChange?: (checked: boolean) => void;
 } & ComponentPropsWithoutRef<'button'>;
 
-const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerElement, CheckboxGroupPrimitiveTriggerProps>(({ children, className = '', value, required, disabled, checked, onCheckedChange, onClick, ...props }, ref) => {
+const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerElement, CheckboxGroupPrimitiveTriggerProps>(({ children, className = '', value, required, disabled, checked: _ignoredChecked, onCheckedChange, onClick, ...props }, ref) => {
     const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled } = React.useContext(CheckboxGroupPrimitiveContext);
 
     const isChecked = checkedValues.includes(value);
@@ -36,7 +42,8 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
     const { role: _roleProp, ...triggerProps } = props;
 
     return (
-        <div>
+        // Phrasing content: items are commonly wrapped in <label>, which only permits inline children.
+        <span>
             <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
                 <RovingFocusGroup.Item
                     ref={ref}
@@ -44,7 +51,8 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                     className={className}
                     role={role}
                     aria-checked={isChecked}
-                    aria-required={ariaRequired}
+                    aria-selected={undefined}
+                    aria-required={ariaRequired || undefined}
                     aria-disabled={isDisabled || undefined}
                     disabled={isDisabled}
                     {...triggerProps}
@@ -62,13 +70,15 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                 name={name}
                 value={value}
                 style={{ display: 'none' }}
-                required={ariaRequired}
+                // Group-level `required` is validated once by the root (at least one checked);
+                // marking every mirror input required would demand that all items be checked.
+                required={required}
                 disabled={isDisabled}
                 aria-hidden="true"
                 readOnly
             />
 
-        </div>
+        </span>
     );
 });
 

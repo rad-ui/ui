@@ -4,6 +4,7 @@ type SliderContextType = {
     rootClass: string;
     value: number | number[];
     setValue: (value: number | number[]) => void;
+    commitValue: (value?: number | number[]) => void;
     minValue: number;
     maxValue: number;
     step: number;
@@ -24,6 +25,7 @@ export const SliderContext = createContext<SliderContextType>({
     rootClass: '',
     value: 0,
     setValue: () => {},
+    commitValue: () => {},
     minValue: 0,
     maxValue: 100,
     step: 1,

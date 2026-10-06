@@ -103,8 +103,8 @@ describe('AlertDialog', () => {
         it('should call onOpenChange when state changes', async() => {
             const user = userEvent.setup();
             const onOpenChange = jest.fn();
-            render(
-                <AlertDialog.Root open={false} onOpenChange={onOpenChange}>
+            const dialog = (open: boolean) => (
+                <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
                     <AlertDialog.Trigger>Open Dialog</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                         <AlertDialog.Content>
@@ -116,16 +116,23 @@ describe('AlertDialog', () => {
                     </AlertDialog.Portal>
                 </AlertDialog.Root>
             );
+            const { rerender } = render(dialog(false));
 
             // Initially no calls
             expect(onOpenChange).not.toHaveBeenCalled();
 
-            // Click trigger to open dialog
+            // Click trigger to request open. `open` is controlled and still false,
+            // so the dialog reports the request but stays closed.
             await user.click(screen.getByText('Open Dialog'));
             expect(onOpenChange).toHaveBeenCalledWith(true);
             expect(onOpenChange).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('alertdialog')).toBeNull();
 
-            // Click cancel to close dialog
+            // The parent honours the request
+            rerender(dialog(true));
+            expect(screen.getByText('Cancel')).toBeInTheDocument();
+
+            // Click cancel to request close
             await user.click(screen.getByText('Cancel'));
             expect(onOpenChange).toHaveBeenCalledWith(false);
             expect(onOpenChange).toHaveBeenCalledTimes(2);

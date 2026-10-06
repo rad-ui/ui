@@ -1,0 +1,174 @@
+export const ariaReferenceColumns = [
+    {
+        name: 'Reference',
+        id: 'reference'
+    },
+    {
+        name: 'What Rad UI follows',
+        id: 'description'
+    }
+];
+
+export const DOCS_ARIA_PATTERNS = Object.freeze({
+    ACCORDION: {
+        id: 'accordion',
+        label: 'Accordion pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/accordion/'
+    },
+    ALERT_DIALOG: {
+        id: 'alert-dialog',
+        label: 'Alert dialog pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
+    },
+    BREADCRUMB: {
+        id: 'breadcrumb',
+        label: 'Breadcrumb pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/'
+    },
+    BUTTON: {
+        id: 'button',
+        label: 'Button pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/'
+    },
+    FIELDSET: {
+        id: 'fieldset',
+        label: 'Fieldset semantics',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset'
+    },
+    CHECKBOX: {
+        id: 'checkbox',
+        label: 'Checkbox pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/'
+    },
+    COMBOBOX: {
+        id: 'combobox',
+        label: 'Combobox pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/'
+    },
+    DISCLOSURE: {
+        id: 'disclosure',
+        label: 'Disclosure pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/'
+    },
+    DIALOG_MODAL: {
+        id: 'dialog-modal',
+        label: 'Dialog modal pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/'
+    },
+    DIALOG_LABELING: {
+        id: 'dialog-labeling',
+        label: 'Dialog labeling',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/#wai-aria-roles-states-and-properties'
+    },
+    LISTBOX: {
+        id: 'listbox',
+        label: 'Listbox pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/listbox/'
+    },
+    LINK: {
+        id: 'link',
+        label: 'Link pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/'
+    },
+    LIVE_REGION: {
+        id: 'live-region',
+        label: 'Live region properties',
+        href: 'https://www.w3.org/TR/wai-aria-1.3/#attrs_liveregions'
+    },
+    MENU: {
+        id: 'menu',
+        label: 'Menu pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menubar/'
+    },
+    MENUBAR: {
+        id: 'menubar',
+        label: 'Menubar pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menubar/'
+    },
+    MENU_BUTTON: {
+        id: 'menu-button',
+        label: 'Menu button pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/'
+    },
+    PROGRESSBAR: {
+        id: 'progressbar',
+        label: 'Progressbar role',
+        href: 'https://www.w3.org/WAI/ARIA/apg/practices/range-related-properties/#using-aria-valuetext'
+    },
+    REGION: {
+        id: 'region',
+        label: 'Region role',
+        href: 'https://www.w3.org/TR/wai-aria-1.3/#region'
+    },
+    SLIDER: {
+        id: 'slider',
+        label: 'Slider pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/slider/'
+    },
+    SPINBUTTON: {
+        id: 'spinbutton',
+        label: 'Spinbutton pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/'
+    },
+    RADIO_GROUP: {
+        id: 'radio-group',
+        label: 'Radio group pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/radio/'
+    },
+    SWITCH: {
+        id: 'switch',
+        label: 'Switch pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/switch/'
+    },
+    TABS: {
+        id: 'tabs',
+        label: 'Tabs pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/tabs/'
+    },
+    TEXTBOX: {
+        id: 'textbox',
+        label: 'Textbox role',
+        href: 'https://www.w3.org/TR/wai-aria-1.3/#textbox'
+    },
+    TREE_VIEW: {
+        id: 'tree-view',
+        label: 'Tree View pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/treeview/'
+    },
+    TOOLTIP: {
+        id: 'tooltip',
+        label: 'Tooltip pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/'
+    },
+    WINDOW_SPLITTER: {
+        id: 'window-splitter',
+        label: 'Window Splitter pattern',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/'
+    }
+});
+
+export const createAriaReferenceRow = (pattern, description) => {
+    if (!pattern || typeof pattern !== 'object' || !pattern.id || !pattern.label || !pattern.href) {
+        throw new Error('createAriaReferenceRow: invalid pattern; use a DOCS_ARIA_PATTERNS value.');
+    }
+
+    return {
+        id: pattern.id,
+        reference: (
+            <a
+                className="font-medium text-blue-900 underline underline-offset-4 hover:text-blue-700"
+                href={pattern.href}
+                rel="noreferrer"
+                target="_blank"
+            >
+                {pattern.label}
+            </a>
+        ),
+        description
+    };
+};
+
+export const createAriaReferenceTable = (rows = []) => ({
+    columns: ariaReferenceColumns,
+    data: rows
+});

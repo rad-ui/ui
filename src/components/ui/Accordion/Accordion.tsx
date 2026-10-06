@@ -30,4 +30,14 @@ const Accordion = Object.assign(AccordionRoot, {
     Content: AccordionContent
 }) as AccordionCompound;
 
+// Named part exports let React Server Components use `import * as Accordion from '@radui/ui/Accordion'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    AccordionRoot as Root,
+    AccordionItem as Item,
+    AccordionHeader as Header,
+    AccordionTrigger as Trigger,
+    AccordionContent as Content
+};
+
 export default Accordion;

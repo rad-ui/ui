@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React, { useRef, useEffect, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 
 import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
@@ -11,6 +11,7 @@ const COMPONENT_NAME = 'HoverCard';
 export type HoverCardRootElement = ElementRef<'div'>;
 export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
     open?: boolean;
+    defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
     customRootClass?: string;
     openDelay?: number;
@@ -19,7 +20,7 @@ export type HoverCardRootProps = ComponentPropsWithoutRef<'div'> & {
     collisionPadding?: number;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, ...props }, ref) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
@@ -33,9 +34,16 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         altBoundary: filteredBoundary.length > 0
     };
 
-    const [open, setOpen] = useControllableState(controlledOpen, false, onOpenChange);
+    const [open, setOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
+
+    // Timers capture stale closures, so read the latest open state from a ref
+    // and skip no-op transitions (onOpenChange only fires on real changes).
+    const openRef = useRef(open);
+    openRef.current = open;
 
     const handleOpenChange = (newOpen: boolean) => {
+        if (openRef.current === newOpen) return;
+        openRef.current = newOpen;
         setOpen(newOpen);
     };
 
@@ -62,34 +70,33 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
 
     // When the pointer leaves the trigger/content, delay closing and confirm
     // the pointer has not re-entered before committing the state change.
-    const [mouseIsExiting, setMouseIsExiting] = useState(false);
+    const mouseIsExitingRef = useRef(false);
     const openTimeoutRef = useRef<number | null>(null);
     const closeTimeoutRef = useRef<number | null>(null);
 
     const role = Floater.useRole(floatingContext, { role: 'dialog' });
     const dismiss = Floater.useDismiss(floatingContext);
 
-    const { getReferenceProps, getFloatingProps } = Floater.useInteractions([
-        role,
-        dismiss
-    ]);
+    // The trigger is a non-interactive wrapper (usually around a link), so it
+    // only receives the dismiss handlers; aria-expanded/aria-haspopup are not
+    // valid on it. The content keeps its dialog role.
+    const { getReferenceProps } = Floater.useInteractions([dismiss]);
+    const { getFloatingProps } = Floater.useInteractions([role, dismiss]);
 
-    const markMouseIsExiting = () => {
-        setMouseIsExiting(true);
-    };
-
-    const markMouseIsEntering = () => {
-        setMouseIsExiting(false);
+    const clearTimers = () => {
+        if (openTimeoutRef.current) {
+            clearTimeout(openTimeoutRef.current);
+            openTimeoutRef.current = null;
+        }
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+            closeTimeoutRef.current = null;
+        }
     };
 
     const openWithDelay = () => {
-        markMouseIsEntering();
-        if (closeTimeoutRef.current) {
-            clearTimeout(closeTimeoutRef.current);
-        }
-        if (openTimeoutRef.current) {
-            clearTimeout(openTimeoutRef.current);
-        }
+        mouseIsExitingRef.current = false;
+        clearTimers();
 
         if (openDelay <= 0) {
             handleOpenChange(true);
@@ -97,15 +104,15 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         }
 
         openTimeoutRef.current = setTimeout(() => {
+            openTimeoutRef.current = null;
             handleOpenChange(true);
         }, openDelay) as unknown as number;
     };
 
     const closeWithDelay = () => {
-        markMouseIsExiting();
-        if (closeTimeoutRef.current) {
-            clearTimeout(closeTimeoutRef.current);
-        }
+        mouseIsExitingRef.current = true;
+        // A pending open must not fire after the pointer/focus has already left.
+        clearTimers();
 
         if (closeDelay <= 0) {
             handleOpenChange(false);
@@ -113,29 +120,19 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         }
 
         closeTimeoutRef.current = setTimeout(() => {
-            setMouseIsExiting(prevState => {
-                if (prevState) {
-                    handleOpenChange(false);
-                }
-                return prevState;
-            });
+            closeTimeoutRef.current = null;
+            if (mouseIsExitingRef.current) {
+                handleOpenChange(false);
+            }
         }, closeDelay) as unknown as number;
     };
 
     const closeWithoutDelay = () => {
+        clearTimers();
         handleOpenChange(false);
     };
 
-    useEffect(() => {
-        return () => {
-            if (openTimeoutRef.current) {
-                clearTimeout(openTimeoutRef.current);
-            }
-            if (closeTimeoutRef.current) {
-                clearTimeout(closeTimeoutRef.current);
-            }
-        };
-    }, []);
+    useEffect(() => clearTimers, []);
 
     const sendValues = {
         isOpen: open,
@@ -154,7 +151,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     };
 
     return <HoverCardContext.Provider value={sendValues}>
-        <div ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...props}>{children}</div>
+        <div ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} data-slot="hover-card-root" {...props}>{children}</div>
     </HoverCardContext.Provider>;
 });
 

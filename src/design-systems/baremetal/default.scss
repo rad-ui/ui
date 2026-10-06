@@ -5,6 +5,7 @@
 @use "../../components/ui/AvatarGroup/avatar-group.baremetal";
 @use "../../components/ui/Badge/badge.baremetal";
 @use "../../components/ui/BlockQuote/blockquote.baremetal";
+@use "../../components/ui/Breadcrumb/breadcrumb.baremetal";
 @use "../../components/ui/Button/button.baremetal";
 @use "../../components/ui/Callout/callout.baremetal";
 @use "../../components/ui/Card/card.baremetal";
@@ -12,17 +13,20 @@
 @use "../../components/ui/DataList/data-list.baremetal";
 @use "../../components/ui/Dialog/dialog.baremetal";
 @use "../../components/ui/Drawer/drawer.baremetal";
+@use "../../components/ui/Em/em.baremetal";
 @use "../../components/ui/Table/table.baremetal";
 @use "../../components/ui/Code/code.baremetal";
 @use "../../components/ui/Disclosure/disclosure.baremetal";
 @use "../../components/ui/Heading/heading.baremetal";
 @use "../../components/ui/HoverCard/hover-card.baremetal";
 @use "../../components/ui/Kbd/kbd.baremetal";
+@use "../../components/ui/Label/label.baremetal";
 @use "../../components/ui/Link/link.baremetal";
 @use "../../components/ui/Separator/separator.baremetal";
 @use "../../components/ui/Tabs/tabs.baremetal";
 @use "../../components/ui/Text/text.baremetal";
 @use "../../components/ui/TextArea/textarea.baremetal";
+@use "../../components/ui/TextField/text-field.baremetal";
 @use "../../components/ui/Progress/progress.baremetal";
 @use "../../components/ui/Toggle/toggle.baremetal";
 @use "../../components/ui/ToggleGroup/toggle-group.baremetal";
@@ -55,6 +59,7 @@
 @use "../../components/ui/Tooltip/tooltip.baremetal";
 @use "../../components/ui/Spinner/spinner.baremetal";
 @use "../../components/ui/Toast/toast.baremetal";
+@use "../../components/ui/Fieldset/fieldset.baremetal";
 @use "scope";
 
 #{scope.$theme-root} {

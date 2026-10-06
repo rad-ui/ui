@@ -1,50 +1,38 @@
 'use client'
 
-import ColorLooper from "../helpers/ColorLooper"
 import Avatar from "@radui/ui/Avatar"
+import Matrix, { toAxis } from "../helpers/Matrix"
+import { usePlayground } from "../helpers/PlaygroundContext"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
-const Playground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            title="Avatar"
-            docsLink="/docs/components/avatar"
-            description="Compound avatars with image fallback, variant, and size coverage."
-        >
-            <div className='flex flex-wrap items-center gap-4'>
-                <Avatar.Root>
-                    <Avatar.Fallback>RU</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root>
-                    <Avatar.Image src="https://i.pravatar.cc/64?img=12" alt="Riya" />
-                    <Avatar.Fallback>RI</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root size="lg" variant="square">
-                    <Avatar.Image src="https://i.pravatar.cc/64?img=32" alt="Sam" />
-                    <Avatar.Fallback>SM</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root size="sm">
-                    <Avatar.Fallback>PK</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root size="lg">
-                    <Avatar.Fallback>AN</Avatar.Fallback>
-                </Avatar.Root>
-            </div>
-            <div className='mt-4 flex flex-wrap items-center gap-4'>
-                <Avatar.Root size="sm">
-                    <Avatar.Fallback>SM</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root>
-                    <Avatar.Fallback>MD</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root size="lg">
-                    <Avatar.Fallback>LG</Avatar.Fallback>
-                </Avatar.Root>
-                <Avatar.Root variant="square">
-                    <Avatar.Fallback>SQ</Avatar.Fallback>
-                </Avatar.Root>
-            </div>
-        </ColorLooper>
-    </div>
-)
+const rows = [
+    { key: "image", label: "image" },
+    { key: "fallback", label: "fallback" },
+    { key: "square", label: "square" },
+    { key: "color", label: "accent fallback" }
+]
 
-export default Playground
+const AvatarPlayground = () => {
+    const { accent } = usePlayground()
+
+    return (
+        <PlaygroundSection title="Avatar" docsLink="/docs/components/avatar" description="content × size, with square and accent variants.">
+            <Matrix
+                rows={rows}
+                columns={toAxis(["small", "medium", "large"])}
+                renderCell={(row, size) => (
+                    <Avatar.Root
+                        size={size.value === "medium" ? undefined : size.value}
+                        variant={row.key === "square" ? "square" : undefined}
+                        color={row.key === "color" ? accent : undefined}
+                    >
+                        {row.key === "image" || row.key === "square" ? <Avatar.Image src="https://i.pravatar.cc/96?img=32" alt="Sam" /> : null}
+                        <Avatar.Fallback>SM</Avatar.Fallback>
+                    </Avatar.Root>
+                )}
+            />
+        </PlaygroundSection>
+    )
+}
+
+export default AvatarPlayground

@@ -26,4 +26,11 @@ ToggleGroup.Item = ToggleItem;
 
 export type { ToggleGroupRootProps } from './fragments/ToggleGroupRoot';
 export type { ToggleItemProps } from './fragments/ToggleItem';
+// Named part exports let React Server Components use `import * as ToggleGroup from '@radui/ui/ToggleGroup'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ToggleGroupRoot as Root,
+    ToggleItem as Item
+};
+
 export default ToggleGroup;

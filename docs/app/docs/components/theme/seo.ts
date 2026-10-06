@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const themeMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Theme - Rad UI",
-    description: "A React Theme provider component for Rad UI. Controls appearance (light/dark/system), accent color, border radius, and scaling across all child components."
+    description: "Accessible, headless React Theme component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Theme","headless theme","accessible theme","theme component","React theme component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/theme"
 });
 
-export default themeMetadata
+
+export default metadata

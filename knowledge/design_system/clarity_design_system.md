@@ -70,6 +70,22 @@ Notes:
 - Use `1000` for primary foreground content.
 - Do not introduce `1` through `12` public tokens. Rad UI uses `50` through `1000`.
 
+### 2b. Tailwind opacity (`/90`, `/50`, …)
+
+CSS color vars stay full colors for Clarity (`--rad-ui-color-gray-50: hsl(...)`).
+
+The Tailwind preset maps each step with `<alpha-value>` so standard Tailwind opacity modifiers work:
+
+```js
+'50': 'oklch(from var(--rad-ui-color-gray-50) l c h / <alpha-value>)'
+```
+
+Usage: `bg-gray-50`, `bg-gray-50/90`, `border-green-600/40`.
+
+Do not introduce Radix-style `a50` / `a100` public token names. Follow Tailwind’s `/opacity` convention.
+
+Prefer semantic aliases (`--rad-ui-overlay-scrim`, borders, surfaces) inside Clarity components when one exists.
+
 ### 3. Semantic Alias Mapping
 
 Prefer semantic aliases in component APIs, docs, and examples. The raw scale
@@ -111,6 +127,7 @@ These rules protect the scale from drifting into one-off styling decisions.
 - Do not use raw hex values in components when a scale token or semantic alias exists.
 - Do not introduce extra neutral steps such as `25`, `75`, `150`, or `1100`.
 - Do not introduce `1` through `12` public tokens. Rad UI uses `50` through `1000`.
+- Do not invent Radix-style `a*` public color steps; use Tailwind `/opacity` on the solid scale.
 - Do not append part suffixes to an empty generated root class. Headless mode must not emit accidental classes like `-viewport`; only generate part classes when a namespace-backed root class exists.
 - Do not use a token outside its intended role just because it looks close in one context.
 - Do not use `900` for text; use `950` for supporting text or `1000` for primary text.

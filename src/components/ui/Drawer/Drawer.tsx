@@ -10,6 +10,7 @@ import DrawerTitle from './fragments/DrawerTitle';
 import DrawerDescription from './fragments/DrawerDescription';
 import DrawerClose from './fragments/DrawerClose';
 import DrawerHandle from './fragments/DrawerHandle';
+import DrawerSwipeZone from './fragments/DrawerSwipeZone';
 
 type DrawerElement = React.ElementRef<'div'>;
 type DrawerProps = React.ComponentPropsWithoutRef<'div'>;
@@ -31,6 +32,7 @@ interface DrawerComponent extends React.ForwardRefExoticComponent<DrawerProps & 
     Description: typeof DrawerDescription;
     Close: typeof DrawerClose;
     Handle: typeof DrawerHandle;
+    SwipeZone: typeof DrawerSwipeZone;
 }
 
 const Drawer = DrawerBase as DrawerComponent;
@@ -44,6 +46,7 @@ Drawer.Title = DrawerTitle;
 Drawer.Description = DrawerDescription;
 Drawer.Close = DrawerClose;
 Drawer.Handle = DrawerHandle;
+Drawer.SwipeZone = DrawerSwipeZone;
 
 export type { DrawerRootProps } from './fragments/DrawerRoot';
 export type { DrawerTriggerProps } from './fragments/DrawerTrigger';
@@ -54,6 +57,22 @@ export type { DrawerTitleProps } from './fragments/DrawerTitle';
 export type { DrawerDescriptionProps } from './fragments/DrawerDescription';
 export type { DrawerCloseProps } from './fragments/DrawerClose';
 export type { DrawerHandleProps } from './fragments/DrawerHandle';
+export type { DrawerSwipeZoneProps } from './fragments/DrawerSwipeZone';
 export type { DrawerSnapPoint, DrawerRootActions } from './context/DrawerContext';
+
+// Named part exports let React Server Components use `import * as Drawer from '@radui/ui/Drawer'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    DrawerRoot as Root,
+    DrawerTrigger as Trigger,
+    DrawerPortal as Portal,
+    DrawerOverlay as Overlay,
+    DrawerContent as Content,
+    DrawerTitle as Title,
+    DrawerDescription as Description,
+    DrawerClose as Close,
+    DrawerHandle as Handle,
+    DrawerSwipeZone as SwipeZone
+};
 
 export default Drawer;

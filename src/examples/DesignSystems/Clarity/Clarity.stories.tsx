@@ -141,7 +141,7 @@ const sectionDescriptionStyle: React.CSSProperties = {
     color: 'var(--rad-ui-text-muted)'
 };
 
-const toEntries = <T extends Record<string, string>>(value: T) => Object.entries(value);
+const toEntries = <T extends Record<string, unknown>>(value: T) => Object.entries(value) as [keyof T & string, T[keyof T]][];
 
 const RUNTIME_SHADOWS = {
     none: 'var(--rad-ui-shadow-none)',

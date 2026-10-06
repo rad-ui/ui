@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const scrollAreaMetadata = generateSeoMetadata({
-    title: "ScrollArea - Rad UI",
-    description: "A headless React ScrollArea component for creating custom scrollable containers with styled scrollbars. Fully composable and accessible."
+const metadata = generateSeoMetadata({
+    title: "Scroll Area - Rad UI",
+    description: "Accessible, headless React Scroll Area component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Scroll Area","headless scroll area","accessible scroll area","scroll area component","React scroll area component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/scroll-area"
 });
 
-export default scrollAreaMetadata
+
+export default metadata

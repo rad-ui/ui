@@ -1,2 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
-export default generateSeoMetadata({ title: "Tree - Rad UI", description: "A headless React Tree component for rendering hierarchical data structures with nested items." })
+
+const metadata = generateSeoMetadata({
+    title: "Tree - Rad UI",
+    description: "Accessible, headless React Tree component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Tree","headless tree","accessible tree","tree component","React tree component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/tree"
+});
+
+
+export default metadata

@@ -34,6 +34,24 @@ describe('Tooltip interactions', () => {
         await waitFor(() => expect(screen.queryByRole('tooltip')).toBeNull());
     });
 
+    test('exposes stable anatomy data slots', async() => {
+        render(
+            <Tooltip.Root data-testid="tooltip-root">
+                <Tooltip.Trigger>Trigger</Tooltip.Trigger>
+                <Tooltip.Content>Content</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        expect(screen.getByTestId('tooltip-root')).toHaveAttribute('data-slot', 'tooltip-root');
+        expect(screen.getByText('Trigger')).toHaveAttribute('data-slot', 'tooltip-trigger');
+
+        await userEvent.hover(screen.getByText('Trigger'));
+
+        const tooltip = await screen.findByRole('tooltip');
+        expect(tooltip).toHaveAttribute('data-slot', 'tooltip-content');
+        expect(tooltip.querySelector('[data-slot="tooltip-arrow"]')).toBeInTheDocument();
+    });
+
     test('asChild trigger preserves element and forwards refs', async() => {
         const childRef = React.createRef<HTMLAnchorElement>();
         const triggerRef = React.createRef<HTMLAnchorElement>();

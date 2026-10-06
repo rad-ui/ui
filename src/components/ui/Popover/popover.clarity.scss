@@ -3,25 +3,23 @@
   min-width: min(20rem, calc(100vw - 2rem));
   padding: 1rem;
   border: 1px solid var(--rad-ui-border-soft);
-  border-radius: 1rem;
+  border-radius: var(--rad-ui-panel-radius-md);
   background: var(--rad-ui-color-gray-50);
   color: var(--rad-ui-text-primary);
-  box-shadow:
-    0 28px 60px -28px rgb(10, 13, 30, 0.32),
-    0 12px 24px -18px rgb(10, 13, 30, 0.18);
+  box-shadow: var(--rad-ui-shadow-lg);
   outline: none;
 
   &[data-state="open"] {
-    animation: rad-ui-popover-enter 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    animation: rad-ui-popover-enter var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-entrance);
   }
 
   &[data-state="closed"] {
-    animation: rad-ui-popover-exit 120ms cubic-bezier(0.4, 0, 1, 1);
+    animation: rad-ui-popover-exit var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard);
   }
 
   @media (width <= 640px) {
     min-width: calc(100vw - 1.5rem);
-    border-radius: 0.875rem;
+    border-radius: var(--rad-ui-panel-radius-sm);
   }
 }
 
@@ -40,9 +38,9 @@
   color: var(--rad-ui-text-muted);
   cursor: pointer;
   transition:
-    background-color 140ms ease,
-    color 140ms ease,
-    transform 140ms ease;
+    background-color var(--rad-ui-motion-duration-fast) ease,
+    color var(--rad-ui-motion-duration-fast) ease,
+    transform var(--rad-ui-motion-duration-fast) ease;
 
   &:hover {
     background-color: var(--rad-ui-surface-subtle);
@@ -60,7 +58,7 @@
   fill: var(--rad-ui-color-gray-50);
   stroke: var(--rad-ui-border-soft);
   stroke-width: 1px;
-  filter: drop-shadow(0 6px 10px rgb(10, 13, 30, 0.08));
+  filter: var(--rad-ui-overlay-arrow-shadow);
   vector-effect: non-scaling-stroke;
 
   path {
@@ -88,4 +86,21 @@
   to {
     opacity: 0;
   }
+}
+
+.rad-ui-popover-title {
+  font-size: var(--rad-ui-font-size-2);
+  font-weight: var(--rad-ui-component-font-weight-medium);
+  line-height: var(--rad-ui-component-line-height-tight);
+  color: var(--rad-ui-text-primary);
+  margin: 0;
+  margin-bottom: var(--rad-ui-spacing-1);
+}
+
+.rad-ui-popover-description {
+  font-size: var(--rad-ui-font-size-2);
+  font-weight: var(--rad-ui-component-font-weight-regular);
+  line-height: var(--rad-ui-component-line-height-normal);
+  color: var(--rad-ui-text-secondary);
+  margin: 0;
 }

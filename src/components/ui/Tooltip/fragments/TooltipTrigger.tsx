@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import TooltipContext from '../context/TooltipContext';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { useMergeRefs } from '@floating-ui/react';
+import { getElementRef } from '~/core/utils/mergeProps';
 
 export type TooltipTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
 
@@ -23,7 +24,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
 
         const { getReferenceProps } = interactions;
 
-        const childrenRef = (children as any).ref;
+        const childrenRef = getElementRef(children);
 
         const mergedRef = useMergeRefs([context.refs.setReference, ref, childrenRef]);
 
@@ -31,6 +32,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
             <ButtonPrimitive
                 asChild={asChild}
                 ref={mergedRef}
+                data-slot="tooltip-trigger"
                 data-state={isOpen ? 'open' : 'closed'}
                 {...getReferenceProps(props)}
             >

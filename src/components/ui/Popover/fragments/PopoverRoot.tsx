@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import PopoverPrimitive from '~/core/primitives/Popover';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
@@ -21,10 +21,24 @@ const PopoverRoot = forwardRef<PopoverRootElement, PopoverRootProps>(({
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const [titleId, setTitleId] = useState<string | undefined>(undefined);
+    const [descriptionId, setDescriptionId] = useState<string | undefined>(undefined);
+    const contextValue = useMemo(() => ({
+        rootClass,
+        titleId,
+        descriptionId,
+        setTitleId,
+        setDescriptionId
+    }), [rootClass, titleId, descriptionId]);
 
     return (
-        <PopoverContext.Provider value={{ rootClass }}>
-            <PopoverPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...props}>
+        <PopoverContext.Provider value={contextValue}>
+            <PopoverPrimitive.Root
+                ref={ref}
+                className={clsx(rootClass, className)}
+                data-slot="popover-root"
+                {...props}
+            >
                 {children}
             </PopoverPrimitive.Root>
         </PopoverContext.Provider>

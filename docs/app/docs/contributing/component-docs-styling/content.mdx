@@ -1,0 +1,37 @@
+# Component docs: Styling section
+
+Template for **Styling** sections covering public state hooks and CSS variables.
+
+## Document these surfaces
+
+| Surface | Example |
+| --- | --- |
+| `data-state` | `data-state="open"` |
+| `data-disabled` | presence/absence |
+| `data-orientation` | `horizontal` / `vertical` |
+| variant props reflected to DOM | `data-variant`, `data-size` |
+| CSS variables | `--rad-*` animation hooks when public |
+
+Do **not** document internal class names unless they are generated through `Theme classNamespace`.
+
+## Example section outline
+
+```md
+## Styling
+
+### Data attributes
+- `data-state` — `open` | `closed`
+- `data-disabled` — present when interaction is blocked
+
+### CSS variables
+- `--rad-accordion-content-height` — measured height for CSS animations (if applicable)
+
+### Customization
+Use `className` on parts and target `data-*` selectors in your CSS.
+```
+
+## Checklist
+
+- [ ] Listed attributes match [data attribute conventions](https://github.com/rad-ui/ui/blob/main/knowledge/features/data-attributes.md)
+- [ ] Theme / `classNamespace` requirements noted when default CSS applies
+- [ ] No encouragement to override private DOM structure

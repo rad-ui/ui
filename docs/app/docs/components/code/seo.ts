@@ -1,9 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const codeMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Code - Rad UI",
-    description: "A headless and accessible React Code component for rendering code snippets with full customization and seamless design system integration."
+    description: "Accessible, headless React Code component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Code","headless code","accessible code","code component","React code component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/code"
 });
 
 
-export default codeMetadata
+export default metadata

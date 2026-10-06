@@ -1,0 +1,11 @@
+// Label — Clarity design system aligned. Text that names a form control.
+.rad-ui-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--rad-ui-spacing-2);
+    color: var(--rad-ui-text-primary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-weight: 500;
+    line-height: var(--rad-ui-line-height-2);
+}

@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      release: ${{ steps.bump.outputs.release }}
+      release: ${{ steps.publishable.outputs.release }}
 
     steps:
       - name: Checkout (pinned SHA, minimal history)
@@ -33,15 +33,18 @@ jobs:
           fetch-depth: 2
           persist-credentials: false
 
-      - name: Check for version bump
-        id: bump
+      - name: Check whether current version needs publishing
+        id: publishable
         run: |
-          prev=$(git show HEAD^:package.json | jq -r .version)
+          name=$(jq -r .name package.json)
           curr=$(jq -r .version package.json)
-          if [ "$prev" != "$curr" ]; then
-            echo "release=true" >> $GITHUB_OUTPUT
-          else
+
+          if npm view "$name@$curr" version >/dev/null 2>&1; then
             echo "release=false" >> $GITHUB_OUTPUT
+            echo "$name@$curr is already published"
+          else
+            echo "release=true" >> $GITHUB_OUTPUT
+            echo "$name@$curr is not published yet"
           fi
 
   publish:

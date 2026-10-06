@@ -57,6 +57,38 @@ Accessibility is a shared responsibility between the component library and the d
 
 ---
 
+## Focus visible and non-color affordances
+
+Keyboard users must be able to see **which element is focused**. Color alone must never be the only indicator of state, selection, or errors.
+
+### `:focus-visible` guidance
+
+- Style **keyboard focus** with `:focus-visible`, not bare `:focus`, so pointer clicks do not leave a persistent ring on mouse users.
+- Ensure the focus indicator has **sufficient contrast** against adjacent backgrounds (WCAG 2.2 focus appearance guidance).
+- Preserve Rad UI's default focus behavior when wrapping components; do not remove outlines without providing an equivalent visible indicator.
+
+```css
+/* Example app-level focus ring */
+:where(button, [role='menuitem'], [role='tab']):focus-visible {
+  outline: 2px solid var(--focus-ring, #005fcc);
+  outline-offset: 2px;
+}
+```
+
+### Non-color requirements
+
+Pair color with at least one additional cue:
+
+| State | Avoid | Prefer |
+| --- | --- | --- |
+| Error | red border only | red border + `aria-invalid` + text message |
+| Selected | hue change only | selected icon, weight, or `data-state="on"` styling |
+| Disabled | faded color only | `data-disabled` + `aria-disabled` + non-interactive cursor |
+
+When customizing Rad UI themes, test with Windows **High Contrast** mode and forced-colors media queries where possible.
+
+---
+
 ## Focus Management
 
 Correct focus behavior is essential for accessible interfaces.

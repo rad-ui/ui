@@ -72,6 +72,8 @@ describe('Splitter Component', () => {
         renderSplitter({ onSizesChange });
 
         const handle = screen.getByRole('separator');
+        // jsdom has no layout; give the root a measurable width.
+        Object.defineProperty(handle.parentElement!, 'clientWidth', { configurable: true, value: 400 });
 
         // Simulate mouse down
         fireEvent.mouseDown(handle, { clientX: 200 });
@@ -83,7 +85,7 @@ describe('Splitter Component', () => {
         fireEvent.mouseUp(document);
 
         await waitFor(() => {
-            expect(onSizesChange).toHaveBeenCalled();
+            expect(onSizesChange).toHaveBeenCalledWith([62.5, 37.5]);
         });
     });
 
@@ -98,6 +100,44 @@ describe('Splitter Component', () => {
 
         // Verify the handle is focusable
         expect(handle).toHaveAttribute('tabIndex', '0');
+    });
+
+    it('exposes separator range attributes for the current panel size', () => {
+        renderSplitter({
+            defaultSizes: [30, 70],
+            minSizes: [20, 10],
+            maxSizes: [80, 90]
+        });
+
+        const handle = screen.getByRole('separator');
+
+        expect(handle).toHaveAttribute('aria-valuemin', '20');
+        expect(handle).toHaveAttribute('aria-valuemax', '80');
+        expect(handle).toHaveAttribute('aria-valuenow', '30');
+    });
+
+    it('resizes to min and max constraints with Home and End', () => {
+        renderSplitter({
+            defaultSizes: [30, 70],
+            minSizes: [20, 10],
+            maxSizes: [80, 90]
+        });
+
+        const handle = screen.getByRole('separator');
+        const panel0 = screen.getByTestId('panel-0').parentElement;
+        const panel1 = screen.getByTestId('panel-1').parentElement;
+
+        fireEvent.keyDown(handle, { key: 'Home' });
+
+        expect(panel0).toHaveStyle({ flexBasis: '20%' });
+        expect(panel1).toHaveStyle({ flexBasis: '80%' });
+        expect(handle).toHaveAttribute('aria-valuenow', '20');
+
+        fireEvent.keyDown(handle, { key: 'End' });
+
+        expect(panel0).toHaveStyle({ flexBasis: '80%' });
+        expect(panel1).toHaveStyle({ flexBasis: '20%' });
+        expect(handle).toHaveAttribute('aria-valuenow', '80');
     });
 
     it('applies custom aria-label to handle', () => {
@@ -138,6 +178,7 @@ describe('Splitter Component', () => {
         renderSplitter({ onSizesChange });
 
         const handle = screen.getByRole('separator');
+        Object.defineProperty(handle.parentElement!, 'clientWidth', { configurable: true, value: 400 });
 
         // Simulate touch start
         fireEvent.touchStart(handle, {

@@ -33,9 +33,9 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color 160ms ease,
-    color 160ms ease,
-    box-shadow 160ms ease;
+    background-color var(--rad-ui-motion-duration-fast) ease,
+    color var(--rad-ui-motion-duration-fast) ease,
+    box-shadow var(--rad-ui-motion-duration-fast) ease;
 
   &:hover {
     background-color: var(--rad-ui-surface-subtle);
@@ -62,7 +62,7 @@
     transform: rotate(45deg) translateY(-1px);
     transform-origin: center;
     opacity: 0.75;
-    transition: transform 160ms ease;
+    transition: transform var(--rad-ui-motion-duration-fast) ease;
   }
 
   &[data-state="open"] {
@@ -90,6 +90,16 @@
   background-color: var(--rad-ui-surface-panel);
   box-shadow: var(--rad-ui-shadow-lg);
   z-index: 100;
+
+  // Invisible hover bridge over the gap above the panel, so moving the pointer from the
+  // trigger into the content never leaves the item.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 100%;
+    height: var(--rad-ui-spacing-2);
+  }
 }
 
 .rad-ui-navigation-menu-content .rad-ui-navigation-menu-link {

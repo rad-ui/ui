@@ -6,7 +6,7 @@
     box-sizing: border-box;
     resize: vertical;
     font-family: var(--rad-ui-font-sans);
-    font-size: 0.9375rem;
+    font-size: var(--rad-ui-component-font-size-comfortable);
     line-height: var(--rad-ui-line-height-3);
     padding: 0.875rem 1rem;
     border-radius: var(--rad-ui-radius-lg);
@@ -30,6 +30,11 @@
       &::placeholder {
         color: var(--rad-ui-field-placeholder);
       }
+    }
+
+    // Disabled tokens are barely distinct from the field surface; dim like Button and Select.
+    &:disabled {
+      opacity: 0.5;
     }
 
     &:focus {

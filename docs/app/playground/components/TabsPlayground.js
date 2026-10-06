@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Tabs from "@radui/ui/Tabs"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const items = [
     {
@@ -38,8 +38,8 @@ const TabsPlayground = () => {
     const [activeTab, setActiveTab] = useState("overview")
 
     return (
-        <div className='mt-4 space-y-2'>
-            <ColorLooper
+        <div>
+            <PlaygroundSection
                 title="Tabs"
                 docsLink="/docs/components/tabs"
                 description="Switch between related content panels without leaving the current view."
@@ -62,7 +62,7 @@ const TabsPlayground = () => {
                         </Tabs.Content>
                     ))}
                 </Tabs.Root>
-            </ColorLooper>
+            </PlaygroundSection>
         </div>
     )
 }

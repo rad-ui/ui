@@ -29,6 +29,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
 }, ref) => {
     const { isOpen, getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
+    const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
@@ -40,8 +41,15 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
             previousFocusedElementRef.current = document.activeElement instanceof HTMLElement
                 ? document.activeElement
                 : null;
+            wasOpenRef.current = true;
             return;
         }
+
+        if (!wasOpenRef.current) {
+            return;
+        }
+
+        wasOpenRef.current = false;
 
         const resolveFinalFocus = () => {
             if (finalFocus === false) {
@@ -101,19 +109,23 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
 
         return result;
     }, [initialFocus]);
+    const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
+    const restProps = { ...props } as Record<string, unknown>;
+    delete restProps.style;
     const content = (
         <Primitive.div
             ref={mergedRef}
             asChild={asChild}
-            {...getFloatingProps()}
-            style={{ outline: 'none', ...styleProp }}
-            role={role}
-            aria-hidden={!isOpen ? 'true' : undefined}
-            aria-labelledby={isOpen ? ariaLabelledBy : undefined}
-            aria-describedby={isOpen ? ariaDescribedBy : undefined}
-            data-state={dataState}
-            aria-modal={ariaModal}
-            {...props}
+            {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                ...restProps,
+                style: { outline: 'none', ...styleProp, ...consumerStyle },
+                role,
+                'aria-hidden': !isOpen ? 'true' : undefined,
+                'aria-labelledby': isOpen ? ariaLabelledBy : undefined,
+                'aria-describedby': isOpen ? ariaDescribedBy : undefined,
+                'data-state': dataState,
+                'aria-modal': ariaModal
+            })}
         >
             {children}
         </Primitive.div>

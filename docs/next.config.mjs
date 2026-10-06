@@ -104,8 +104,18 @@ const nextConfig = {
     // This is required to support PostHog trailing slash API requests
     skipTrailingSlashRedirect: true,
 
+
     turbopack: {
         root: __dirname,
+    },
+
+    webpack: (config) => {
+        config.resolve.modules = [
+            path.resolve(__dirname, 'node_modules'),
+            ...(config.resolve.modules ?? ['node_modules']),
+        ]
+
+        return config
     },
 
     // Environment variables for SEO

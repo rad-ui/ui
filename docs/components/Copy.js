@@ -23,9 +23,11 @@ function Copy({ content, className = '', iconSize = 15 }) {
     return (
         <span className = "flex items-center">
             <button
+                type="button"
                 onClick={handleCopy}
+                aria-label={isCopied ? 'Copied' : 'Copy code'}
                 className={`inline-flex h-[34px] w-[34px] items-center justify-center rounded-[10px] border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-subtle)] text-[var(--rad-ui-text-secondary)] hover:bg-[var(--rad-ui-surface-hover)] hover:text-[var(--rad-ui-text-primary)] ${className}`}>
-                {isCopied ? <Check size={iconSize} strokeWidth={2.25} /> : <CopyIcon size={iconSize} strokeWidth={2} />}
+                {isCopied ? <Check size={iconSize} strokeWidth={2.25} aria-hidden="true" /> : <CopyIcon size={iconSize} strokeWidth={2} aria-hidden="true" />}
             </button>
         </span>
 

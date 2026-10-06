@@ -20,10 +20,10 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     const {
         rootClass, position, expand, isHovered,
         heights, gap, toasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
-        defaultToastTimeout, toastManager,
+        defaultToastTimeout, toastManager, pauseWhenPageIsHidden, swipeDirections, dragThreshold,
     } = useContext(ToastProviderContext);
 
-    const itemRef = useRef<HTMLLIElement>(null);
+    const itemRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const durationMs = toast.duration ?? toast.timeout ?? defaultToastTimeout;
     const remainingRef = useRef<number>(durationMs);
@@ -148,6 +148,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     // Imperative dismiss — same exit as Close / timer
     useEffect(() => {
+        if (!toastManager) return;
         const unsub = toastManager.subscribeDismiss((id) => {
             if (id === '__all__') return;
             if (id === toast.id) dismissRef.current();
@@ -177,10 +178,10 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     }, [toast.updateKey, toast.duration, toast.timeout, defaultToastTimeout, pauseTimer]);
 
     useEffect(() => {
-        const shouldRun = !isDocHidden && (isGlobalOldest || isExpanded) && !leaving;
+        const shouldRun = (!pauseWhenPageIsHidden || !isDocHidden) && (isGlobalOldest || isExpanded) && !leaving;
         if (shouldRun) { startTimer(); } else { pauseTimer(); }
         return pauseTimer;
-    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, startTimer, pauseTimer, toast.updateKey]);
+    }, [isExpanded, isDocHidden, isGlobalOldest, leaving, pauseWhenPageIsHidden, startTimer, pauseTimer, toast.updateKey]);
 
     // ── Remove from list after Sonner-style delay (exit motion is CSS-driven) ─
     useEffect(() => {
@@ -190,14 +191,14 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     }, [leaving, removeToast, toast.id]);
 
     // ── Swipe ───────────────────────────────────────────────────────────────
-    const onPointerDown = useCallback((e: React.PointerEvent<HTMLLIElement>) => {
+    const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
         isDraggingRef.current = true;
         pointerStartRef.current = { y: e.clientY, time: Date.now() };
         itemRef.current?.setPointerCapture(e.pointerId);
         pauseTimer();
     }, [pauseTimer]);
 
-    const onPointerMove = useCallback((e: React.PointerEvent<HTMLLIElement>) => {
+    const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !itemRef.current) return;
         const delta = e.clientY - pointerStartRef.current.y;
         const dir = isTop ? -1 : 1;
@@ -207,7 +208,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         itemRef.current.setAttribute('data-swiping', '');
     }, [isTop]);
 
-    const onPointerUp = useCallback((_e: React.PointerEvent<HTMLLIElement>) => {
+    const onPointerUp = useCallback((_e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !itemRef.current) return;
         isDraggingRef.current = false;
         itemRef.current.removeAttribute('data-swiping');
@@ -215,14 +216,17 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
         const elapsed = Date.now() - pointerStartRef.current.time;
         const vel = Math.abs(sy) / elapsed;
         const dir = isTop ? -1 : 1;
-        if (sy * dir > 0 && (Math.abs(sy) >= SWIPE_THRESHOLD || vel > SWIPE_VELOCITY_THRESHOLD)) {
+        const defaultDirection = isTop ? 'up' : 'down';
+        const allowsDirection = !swipeDirections?.length || swipeDirections.includes(defaultDirection);
+        const threshold = dragThreshold ?? SWIPE_THRESHOLD;
+        if (allowsDirection && sy * dir > 0 && (Math.abs(sy) >= threshold || vel > SWIPE_VELOCITY_THRESHOLD)) {
             dismiss();
         } else {
             swipeYRef.current = 0;
             itemRef.current.style.setProperty('--swipe-y', '0px');
             startTimer();
         }
-    }, [isTop, dismiss, startTimer]);
+    }, [dragThreshold, isTop, dismiss, startTimer, swipeDirections]);
 
     // If not in visible list AND not leaving, don't render
     if (index === -1 && !leaving) return null;
@@ -268,7 +272,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     return (
         <ToastItemContext.Provider value={{ toast, index, isExpanded, isFront, isBehind, dismiss }}>
-            <li
+            <div
                 ref={itemRef}
                 role="status"
                 aria-live={toast.priority === 'high' ? 'assertive' : 'polite'}
@@ -285,14 +289,15 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
                 data-behind={isBehind ? '' : undefined}
                 data-pulse={pulsePhase}
                 data-update-key={toast.updateKey ?? 0}
-                className={clsx(rootClass && `${rootClass}-item`, className)}
-                style={style}
+                data-toast-id={toast.id}
+                className={clsx(rootClass && `${rootClass}-item`, toast.className, className)}
+                style={{ ...style, ...toast.style }}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
             >
-                {children}
-            </li>
+                {toast.render ? toast.render({ id: toast.id, toast, onDismiss: dismiss }) : children}
+            </div>
         </ToastItemContext.Provider>
     );
 };

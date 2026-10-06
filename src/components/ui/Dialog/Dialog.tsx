@@ -54,4 +54,18 @@ export type { DialogTitleProps } from './fragments/DialogTitle';
 export type { DialogDescriptionProps } from './fragments/DialogDescription';
 export type { DialogFooterProps } from './fragments/DialogFooter';
 export type { DialogCloseProps } from './fragments/DialogClose';
+// Named part exports let React Server Components use `import * as Dialog from '@radui/ui/Dialog'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    DialogRoot as Root,
+    DialogTrigger as Trigger,
+    DialogPortal as Portal,
+    DialogOverlay as Overlay,
+    DialogContent as Content,
+    DialogTitle as Title,
+    DialogDescription as Description,
+    DialogFooter as Footer,
+    DialogClose as Close
+};
+
 export default Dialog;

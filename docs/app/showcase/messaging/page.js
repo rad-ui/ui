@@ -1,9 +1,7 @@
+import showcaseMetadata from "../helpers/showcaseMetadata"
 import MessagingDemo from "../helpers/MessagingDemo"
 
-export const metadata = {
-    title: "Showcase Messaging",
-    description: "A chat and messaging interface showcase demo built with Rad UI components.",
-}
+export const metadata = showcaseMetadata("/showcase/messaging")
 
 const MessagingPage = () => {
     return <MessagingDemo />

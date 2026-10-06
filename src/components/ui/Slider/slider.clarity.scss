@@ -66,7 +66,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     z-index: 2;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color var(--rad-ui-motion-duration-fast) ease, box-shadow var(--rad-ui-motion-duration-fast) ease;
 
     &:hover {
       border-color: var(--rad-ui-color-accent-600); // accent — hover signal

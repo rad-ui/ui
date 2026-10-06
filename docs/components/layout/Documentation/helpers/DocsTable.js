@@ -5,15 +5,15 @@ import Heading from '@radui/ui/Heading';
 import Text from '@radui/ui/Text';
 import Tooltip from '@radui/ui/Tooltip';
 import { Info } from 'lucide-react';
-import { docsSectionBlockClassName } from '../shared';
+import { docsSectionBlockClassName, docsSectionHeadingClassName, docsSurfaceClassName } from '../shared';
 
 const InlineCode = ({ children, tone = 'neutral' }) => {
     const toneClassName = tone === 'accent'
-        ? 'border-blue-200 bg-blue-50 text-blue-950'
-        : 'border-gray-300 bg-white text-gray-950';
+        ? 'border-green-500 bg-green-50 text-green-1000'
+        : 'border-gray-300 bg-gray-50 text-gray-950';
 
     return (
-        <span className={`inline-flex min-h-7 items-center rounded-lg border px-2.5 py-1 font-mono text-[12px] leading-none ${toneClassName}`}>
+        <span className={`inline-flex min-h-7 items-center rounded-md border px-2 py-1 font-mono text-[12px] leading-none ${toneClassName}`}>
             {children}
         </span>
     );
@@ -30,12 +30,14 @@ const InfoButton = ({ infoText }) => {
                 <button
                     type="button"
                     aria-label="Show prop details"
-                    className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 transition-colors hover:border-gray-400 hover:text-gray-950"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-300 bg-gray-50 text-gray-950 transition-colors hover:border-gray-400 hover:text-gray-950"
                 >
                     <Info size={12} strokeWidth={2.2} />
                 </button>
             </Tooltip.Trigger>
-            <Tooltip.Content className="z-50 max-w-xs rounded-xl border border-gray-800 bg-gray-950 px-3 py-2 text-sm text-white shadow-xl">
+            {/* className lands on the positioning wrapper; the library's inner surface owns
+                background, border, padding and radius, so only constrain width here. */}
+            <Tooltip.Content className="max-w-xs">
                 <span className="flex flex-col gap-2">
                     {infoText}
                 </span>
@@ -84,16 +86,15 @@ const renderCellValue = (row, columnType, value) => {
     }
 
     if (columnType === "description") {
-        return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
     }
 
-    // API table metadata stores these as strings, not runtime boolean values.
     if (value === "boolean" || value === "false" || value === "true") {
         return <InlineCode tone="accent">{value}</InlineCode>;
     }
 
     if (typeof value === 'string') {
-        return <Text className="!text-sm leading-6 text-gray-900">{value}</Text>;
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
     }
 
     return value;
@@ -103,15 +104,17 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
     return (
         <section className={docsSectionBlockClassName}>
             <div className="mb-4 space-y-2">
-                <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}> <Heading as={as}>{title}</Heading> </BookMarkLink>
-                <Text className="text-gray-800">{description}</Text>
+                <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}>
+                    <Heading as={as} className={docsSectionHeadingClassName}>{title}</Heading>
+                </BookMarkLink>
+                {description ? <Text className="text-[0.98rem] leading-7 text-gray-950">{description}</Text> : null}
             </div>
-            <Table.Root className="overflow-hidden rounded-[28px] border border-gray-300 bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)]">
+            <Table.Root className={`${docsSurfaceClassName} bg-gray-50 shadow-none`}>
                 <Table.Head>
                     <Table.Row>
                         {columns.map((column, idx) => (
                             <Table.ColumnCellHeader key={idx}>
-                                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-700">
+                                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-950">
                                     {column.name}
                                 </span>
                             </Table.ColumnCellHeader>

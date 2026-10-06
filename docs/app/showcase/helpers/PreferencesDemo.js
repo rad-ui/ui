@@ -1,390 +1,267 @@
 "use client"
 
+import { useState } from "react"
+
+import Avatar from "@radui/ui/Avatar"
 import Badge from "@radui/ui/Badge"
 import Button from "@radui/ui/Button"
-import Heading from "@radui/ui/Heading"
-import Text from "@radui/ui/Text"
-import {
-    BellRing,
-    ChevronRight,
-    Globe,
-    Lock,
-    Monitor,
-    MoonStar,
-    Palette,
-    ShieldCheck,
-    SlidersHorizontal,
-    Smartphone,
-    Sparkles,
-    Volume2,
-    WandSparkles,
-} from "lucide-react"
+import Progress from "@radui/ui/Progress"
+import RadioCards from "@radui/ui/RadioCards"
+import Separator from "@radui/ui/Separator"
+import Switch from "@radui/ui/Switch"
+import TextField from "@radui/ui/TextField"
+import { Bell, KeyRound, Laptop, Monitor, Moon, Palette, Smartphone, Sun, User } from "lucide-react"
 
-const settingsNav = [
-    { label: "General", active: true },
-    { label: "Appearance" },
-    { label: "Notifications" },
-    { label: "Privacy" },
-    { label: "Playback" },
+const sections = [
+    { id: "profile", label: "Profile", icon: User },
+    { id: "appearance", label: "Appearance", icon: Palette },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "security", label: "Security", icon: KeyRound },
 ]
 
-const themeModes = [
-    { label: "Dark", icon: MoonStar, active: true },
-    { label: "System", icon: Monitor },
-    { label: "Mobile", icon: Smartphone },
+// Static class names so Tailwind generates them.
+const accents = [
+    ["blue", "bg-blue-900"],
+    ["violet", "bg-violet-900"],
+    ["crimson", "bg-crimson-900"],
+    ["orange", "bg-orange-900"],
+    ["green", "bg-green-900"],
+    ["gray", "bg-gray-900"],
 ]
 
-const notificationRows = [
-    { label: "Product updates", detail: "Releases, changelogs, and roadmap nudges.", enabled: true },
-    { label: "Mentions", detail: "Ping me when collaborators leave context.", enabled: true },
-    { label: "Weekly summary", detail: "A compact digest every Friday evening.", enabled: false },
+const initialProfile = { name: "Ada Lovelace", email: "ada@northwind.io", title: "Staff engineer" }
+
+const initialNotifications = [
+    { id: "mentions", label: "Mentions", detail: "When someone @mentions you or replies to your thread.", on: true },
+    { id: "reviews", label: "Review requests", detail: "When you're added as a reviewer on a change.", on: true },
+    { id: "digest", label: "Weekly digest", detail: "A summary of activity in your projects every Friday.", on: false },
+    { id: "product", label: "Product updates", detail: "New features and release notes, about once a month.", on: false },
 ]
 
-const automationRows = [
-    { label: "Auto-archive stale threads", status: "Enabled" },
-    { label: "Smart focus after 11 PM", status: "Enabled" },
-    { label: "Reduce motion on battery saver", status: "Suggested" },
+const initialSessions = [
+    { id: 1, device: "MacBook Pro · Chrome", place: "Lisbon, Portugal", time: "Active now", icon: Laptop, current: true },
+    { id: 2, device: "iPhone 15 · Safari", place: "Lisbon, Portugal", time: "2 hours ago", icon: Smartphone },
+    { id: 3, device: "Windows · Edge", place: "Porto, Portugal", time: "Mar 9", icon: Monitor },
 ]
 
-const Toggle = ({ enabled }) => {
-    return (
-        <button
-            type="button"
-            className={`relative h-6 w-11 rounded-full border ${
-                enabled
-                    ? "border-orange-800/30 bg-gradient-to-r from-amber-900 to-orange-800"
-                    : "border-slate-500 bg-slate-1000/[0.05]"
-            }`}
-        >
-            <span
-                className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full ${
-                    enabled ? "left-[22px] bg-slate-50" : "left-1 bg-slate-700"
-                }`}
-            />
-        </button>
-    )
-}
+const Row = ({ title, description, children }) => (
+    <div className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <div className="min-w-0">
+            <p className="text-sm font-medium">{title}</p>
+            {description ? <p className="mt-0.5 text-sm text-gray-950">{description}</p> : null}
+        </div>
+        <div className="shrink-0">{children}</div>
+    </div>
+)
 
-const SectionCard = ({ eyebrow, title, description, action, children, accent = false }) => {
-    return (
-        <section
-            className={`rounded-[24px] border p-4 ${
-                accent
-                    ? "border-slate-500 bg-gradient-to-br from-slate-100 via-mauve-100 to-slate-50"
-                    : "border-slate-500 bg-gradient-to-br from-slate-50 via-mauve-50 to-slate-100"
-            }`}
-        >
-            <div className="flex items-start justify-between gap-3">
-                <div>
-                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-slate-1000/45">{eyebrow}</Text>
-                    <Heading as="h5" className="mt-2 !text-slate-1000">{title}</Heading>
-                    <Text className="mt-1 max-w-xl !text-sm text-slate-1000/65">{description}</Text>
-                </div>
-                {action}
-            </div>
-            <div className="mt-4">{children}</div>
-        </section>
-    )
-}
+const SectionHeader = ({ title, description }) => (
+    <div className="pb-2">
+        <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+        <p className="mt-1 text-sm text-gray-950">{description}</p>
+    </div>
+)
 
 const PreferencesDemo = () => {
+    const [section, setSection] = useState("profile")
+    const [saved, setSaved] = useState(initialProfile)
+    const [profile, setProfile] = useState(initialProfile)
+    const [theme, setTheme] = useState("system")
+    const [accent, setAccent] = useState("blue")
+    const [compact, setCompact] = useState(false)
+    const [notifications, setNotifications] = useState(initialNotifications)
+    const [twoFactor, setTwoFactor] = useState(true)
+    const [sessions, setSessions] = useState(initialSessions)
+
+    const dirty = JSON.stringify(profile) !== JSON.stringify(saved)
+    const completeness = Object.values(profile).filter((value) => value.trim()).length / 3 * 100
+
     return (
-        <div className="grid min-h-[780px] lg:grid-cols-[220px_minmax(0,1fr)]">
-            <aside className="border-b border-slate-500 bg-gradient-to-b from-slate-200 via-mauve-100 to-slate-100 px-3 py-3 lg:border-b-0 lg:border-r">
-                <div className="rounded-[24px] border border-slate-500 bg-slate-50 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                        <div>
-                            <Text className="!text-[10px] uppercase tracking-[0.28em] text-slate-1000/45">Preferences</Text>
-                            <Heading as="h5" className="mt-1 !text-slate-1000">Control Center</Heading>
-                        </div>
-                        <Badge variant="soft" color="orange" className="rounded-full px-2.5 py-1">
-                            Live
-                        </Badge>
-                    </div>
-                    <Text className="mt-3 !text-sm text-slate-1000/65">
-                        A denser settings surface with compact controls, adaptive states, and polished grouping.
-                    </Text>
-                </div>
-
-                <div className="mt-4 space-y-1.5">
-                    {settingsNav.map((item) => (
-                        <button
-                            key={item.label}
-                            type="button"
-                            className={`flex w-full items-center justify-between rounded-[18px] px-3 py-2.5 text-left ${
-                                item.active
-                                    ? "bg-slate-200 text-slate-1000"
-                                    : "text-slate-1000/65 hover:bg-slate-1000/[0.04] hover:text-slate-1000"
-                            }`}
-                        >
-                            <span className="text-sm font-medium">{item.label}</span>
-                            <ChevronRight className="h-4 w-4 opacity-60" />
-                        </button>
-                    ))}
-                </div>
-
-                <div className="mt-4 rounded-[24px] border border-slate-500 bg-slate-50 p-3">
-                    <Text className="!text-[10px] uppercase tracking-[0.3em] text-slate-1000/45">Preset Stack</Text>
-                    <div className="mt-3 space-y-2">
-                        {["Studio contrast", "Quiet hours", "Dense tables"].map((item, index) => (
-                            <div
-                                key={item}
-                                className={`rounded-[18px] border px-3 py-2 ${
-                                    index === 0
-                                        ? "border-orange-800/25 bg-gradient-to-r from-amber-900/15 to-orange-800/15"
-                                        : "border-slate-500 bg-slate-1000/[0.03]"
+        <div className="grid min-h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[220px_minmax(0,1fr)]">
+            <nav aria-label="Settings" className="border-b border-gray-400 bg-gray-100 p-3 md:border-b-0 md:border-r">
+                <p className="hidden px-2.5 pb-2 pt-1 text-sm font-semibold md:block">Settings</p>
+                <ul className="flex gap-1 overflow-x-auto [scrollbar-width:none] md:block md:space-y-0.5">
+                    {sections.map(({ id, label, icon: Icon }) => (
+                        <li key={id} className="shrink-0">
+                            <button
+                                type="button"
+                                aria-current={section === id ? "page" : undefined}
+                                onClick={() => setSection(id)}
+                                className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                                    section === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
                                 }`}
                             >
-                                <div className="flex items-center justify-between gap-2">
-                                    <Text className="!text-sm font-medium !text-slate-1000">{item}</Text>
-                                    <span className={`h-2.5 w-2.5 rounded-full ${index === 0 ? "bg-orange-800" : "bg-slate-600"}`} />
+                                <Icon className="h-4 w-4 text-gray-950" />
+                                {label}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+
+            <div className="relative min-w-0 bg-gray-50 px-5 py-6 sm:px-10 sm:py-8">
+                <div className="max-w-2xl">
+                    {section === "profile" ? (
+                        <>
+                            <SectionHeader title="Profile" description="How you appear to teammates across Northwind." />
+                            <div className="flex items-center gap-4 py-5">
+                                <Avatar.Root size="large">
+                                    <Avatar.Image src="https://i.pravatar.cc/160?img=44" alt={profile.name} />
+                                    <Avatar.Fallback>AL</Avatar.Fallback>
+                                </Avatar.Root>
+                                <div className="flex gap-2">
+                                    <Button variant="soft" size="small">Change photo</Button>
+                                    <Button variant="ghost" size="small">Remove</Button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </aside>
-
-            <main className="min-w-0 bg-gradient-to-br from-slate-50 via-mauve-50 to-slate-100 p-3 sm:p-4">
-                <div className="space-y-4">
-                    <section className="rounded-[28px] border border-slate-500 bg-gradient-to-br from-slate-50 via-mauve-50 to-slate-100 p-4">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                            <div className="max-w-2xl">
-                                <Text className="!text-[10px] uppercase tracking-[0.34em] text-orange-900">Settings Showcase</Text>
-                                <Heading as="h2" className="mt-2 max-w-2xl !text-slate-1000">
-                                    Preferences panel, tuned for density.
-                                </Heading>
-                                <Text className="mt-2 max-w-2xl !text-sm text-slate-1000/68">
-                                    Compact controls, clear section rhythm, and richer defaults make the settings surface feel deliberate instead of purely utilitarian.
-                                </Text>
+                            <Separator />
+                            <div className="grid gap-5 py-5 sm:grid-cols-2">
+                                {[
+                                    ["name", "Full name"],
+                                    ["title", "Job title"],
+                                    ["email", "Email"],
+                                ].map(([key, label]) => (
+                                    <label key={key} className={`block ${key === "email" ? "sm:col-span-2" : ""}`}>
+                                        <span className="mb-1.5 block text-sm font-medium">{label}</span>
+                                        <TextField
+                                            value={profile[key]}
+                                            type={key === "email" ? "email" : "text"}
+                                            onChange={(event) => setProfile((current) => ({ ...current, [key]: event.target.value }))}
+                                        />
+                                    </label>
+                                ))}
                             </div>
-
-                            <div className="flex flex-wrap gap-2">
-                                <Badge variant="soft" color="orange" className="rounded-full px-3 py-1">
-                                    Compact UI
-                                </Badge>
-                                <Badge variant="outline" className="rounded-full border-slate-500 bg-slate-1000/[0.03] px-3 py-1 text-slate-1000/70">
-                                    Personalization
-                                </Badge>
-                                <Badge variant="outline" className="rounded-full border-slate-500 bg-slate-1000/[0.03] px-3 py-1 text-slate-1000/70">
-                                    Workspace defaults
-                                </Badge>
+                            <Separator />
+                            <div className="py-5">
+                                <div className="flex items-center justify-between text-sm">
+                                    <span className="font-medium">Profile completeness</span>
+                                    <span className="tabular-nums text-gray-950">{Math.round(completeness)}%</span>
+                                </div>
+                                <div className="mt-2"><Progress.Root value={completeness} minValue={0} maxValue={100} aria-label="Profile completeness" className="w-full! max-w-none!"><Progress.Indicator /></Progress.Root></div>
                             </div>
-                        </div>
+                        </>
+                    ) : null}
 
-                        <div className="mt-4 grid gap-3 xl:grid-cols-[minmax(0,1.05fr)_280px]">
-                            <div className="rounded-[24px] border border-slate-400 bg-gradient-to-br from-slate-100 to-slate-50 px-4 py-4 text-slate-1000">
-                                <div className="flex items-center justify-between gap-3">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="rounded-[16px] border border-slate-500 bg-slate-50/10 p-2 text-orange-800">
-                                            <Palette className="h-4 w-4" />
-                                        </div>
-                                        <div>
-                                            <Text className="!text-[10px] uppercase tracking-[0.28em] text-slate-1000/45">Appearance</Text>
-                                            <Heading as="h5" className="mt-1 !text-slate-1000">Theme and density</Heading>
-                                        </div>
-                                    </div>
-                                    <Badge variant="soft" color="orange" className="rounded-full px-3 py-1">
-                                        Recommended
-                                    </Badge>
-                                </div>
-
-                                <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                                    {themeModes.map((mode) => {
-                                        const Icon = mode.icon
-
-                                        return (
-                                            <button
-                                                key={mode.label}
-                                                type="button"
-                                                className={`rounded-[20px] border px-3 py-3 text-left ${
-                                                    mode.active
-                                                        ? "border-orange-800/25 bg-gradient-to-br from-amber-900/18 to-orange-800/20 text-slate-1000"
-                                                        : "border-slate-400 bg-slate-50/70 text-slate-1000/72 hover:bg-slate-50"
-                                                }`}
-                                            >
-                                                <Icon className={`h-4 w-4 ${mode.active ? "text-orange-800" : "text-slate-700"}`} />
-                                                <Text className={`mt-3 !text-sm font-medium ${mode.active ? "!text-slate-1000" : "!text-slate-1000"}`}>
-                                                    {mode.label}
-                                                </Text>
-                                                <Text className={`mt-1 !text-[11px] ${mode.active ? "text-slate-1000/62" : "text-slate-1000/58"}`}>
-                                                    {mode.label === "Dark" ? "High-contrast workspace" : mode.label === "System" ? "Follow active OS mode" : "Compact device preview"}
-                                                </Text>
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-
-                                <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                                    <div className="rounded-[20px] border border-slate-400 bg-slate-50/70 p-3">
-                                        <div className="flex items-center justify-between gap-2">
-                                            <Text className="!text-sm font-medium !text-slate-1000">Interface density</Text>
-                                            <Text className="!text-xs text-slate-1000/52">Compact</Text>
-                                        </div>
-                                        <div className="mt-3 flex h-2 gap-1 rounded-full bg-slate-1000/[0.08] p-0.5">
-                                            <span className="h-full w-[62%] rounded-full bg-gradient-to-r from-amber-900 to-orange-800" />
-                                            <span className="h-full flex-1 rounded-full bg-slate-1000/[0.08]" />
-                                        </div>
-                                    </div>
-                                    <div className="rounded-[20px] border border-slate-400 bg-slate-50/70 p-3">
-                                        <div className="flex items-center justify-between gap-2">
-                                            <Text className="!text-sm font-medium !text-slate-1000">Accent intensity</Text>
-                                            <Text className="!text-xs text-slate-1000/52">Balanced</Text>
-                                        </div>
-                                        <div className="mt-3 flex h-2 gap-1 rounded-full bg-slate-1000/[0.08] p-0.5">
-                                            <span className="h-full w-[48%] rounded-full bg-gradient-to-r from-bronze-900 to-orange-800" />
-                                            <span className="h-full flex-1 rounded-full bg-slate-1000/[0.08]" />
-                                        </div>
-                                    </div>
-                                </div>
+                    {section === "appearance" ? (
+                        <>
+                            <SectionHeader title="Appearance" description="Theme, accent color, and density for this device." />
+                            <div className="py-5">
+                                <p className="mb-3 text-sm font-medium">Theme</p>
+                                <RadioCards.Root value={theme} onValueChange={setTheme} aria-label="Theme" className="max-w-none! [&_[role=group]]:grid! [&_[role=group]]:gap-3! sm:[&_[role=group]]:grid-cols-3 [&_.rad-ui-radio-cards-item]:min-h-0!">
+                                    {[
+                                        ["light", "Light", Sun],
+                                        ["dark", "Dark", Moon],
+                                        ["system", "System", Monitor],
+                                    ].map(([value, label, Icon]) => (
+                                        <RadioCards.Item key={value} value={value}>
+                                            <span className="flex items-center gap-2 font-medium"><Icon className="h-4 w-4" />{label}</span>
+                                        </RadioCards.Item>
+                                    ))}
+                                </RadioCards.Root>
                             </div>
-
-                            <div className="rounded-[24px] border border-slate-500 bg-gradient-to-br from-slate-100 via-mauve-100 to-slate-50 p-4">
-                                <Text className="!text-[10px] uppercase tracking-[0.3em] text-slate-1000/45">Smart Defaults</Text>
-                                <Heading as="h5" className="mt-2 !text-slate-1000">Session profile</Heading>
-
-                                <div className="mt-4 space-y-3">
-                                    {automationRows.map((item, index) => (
-                                        <div key={item.label} className="rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-2.5">
-                                            <div className="flex items-center justify-between gap-3">
-                                                <div>
-                                                    <Text className="!text-sm font-medium !text-slate-1000">{item.label}</Text>
-                                                    <Text className="mt-1 !text-[11px] text-slate-1000/58">{item.status}</Text>
-                                                </div>
-                                                <span className={`h-2.5 w-2.5 rounded-full ${index < 2 ? "bg-green-800" : "bg-orange-800"}`} />
-                                            </div>
-                                        </div>
+                            <Separator />
+                            <div className="py-5">
+                                <p className="text-sm font-medium">Accent color</p>
+                                <p className="mt-0.5 text-sm text-gray-950">Changes every Rad UI component below — no extra CSS.</p>
+                                <div role="radiogroup" aria-label="Accent color" className="mt-3 flex flex-wrap gap-2.5">
+                                    {accents.map(([color, swatch]) => (
+                                        <button
+                                            key={color}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={accent === color}
+                                            aria-label={color}
+                                            onClick={() => setAccent(color)}
+                                            className={`h-8 w-8 rounded-full ring-offset-2 ring-offset-gray-50 transition-shadow ${swatch} ${accent === color ? "ring-2 ring-gray-1000" : "hover:ring-2 hover:ring-gray-600"}`}
+                                        />
                                     ))}
                                 </div>
-
-                                <div className="mt-4 rounded-[20px] border border-slate-400 bg-slate-50/75 px-3 py-3 text-slate-1000">
-                                    <Text className="!text-[10px] uppercase tracking-[0.28em] text-slate-1000/45">Focus Mode</Text>
-                                    <Text className="mt-2 !text-sm text-slate-1000/68">
-                                        Noise reduced after 11 PM, motion softened, and tertiary chrome collapsed.
-                                    </Text>
+                                <div data-rad-ui-accent-color={accent} className="mt-5 flex flex-wrap items-center gap-4 rounded-lg border border-gray-400 p-4">
+                                    <Button color={accent}>Save changes</Button>
+                                    <Button color={accent} variant="soft">Cancel</Button>
+                                    <Badge color={accent}>New</Badge>
+                                    <Switch.Root defaultChecked color={accent} aria-label="Preview switch"><Switch.Thumb /></Switch.Root>
+                                    <div className="w-40"><Progress.Root value={64} minValue={0} maxValue={100} color={accent} aria-label="Preview progress"><Progress.Indicator /></Progress.Root></div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                            <Separator />
+                            <Row title="Compact mode" description="Tighter spacing in lists and tables.">
+                                <Switch.Root checked={compact} onCheckedChange={setCompact} aria-label="Compact mode"><Switch.Thumb /></Switch.Root>
+                            </Row>
+                        </>
+                    ) : null}
 
-                    <div className="grid gap-3 xl:grid-cols-2">
-                        <SectionCard
-                            eyebrow="Notifications"
-                            title="Signal over noise"
-                            description="Trim routine chatter and keep the alerts that change what you do next."
-                            action={<div className="rounded-full border border-slate-500 bg-slate-1000/[0.04] px-3 py-1.5"><Text className="!text-[11px] text-slate-1000/62">4 channels active</Text></div>}
-                        >
-                            <div className="space-y-2.5">
-                                {notificationRows.map((row) => (
-                                    <div key={row.label} className="flex items-center justify-between gap-3 rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-3">
-                                        <div className="min-w-0">
-                                            <div className="flex items-center gap-2">
-                                                <BellRing className="h-4 w-4 text-orange-800" />
-                                                <Text className="truncate !text-sm font-medium !text-slate-1000">{row.label}</Text>
-                                            </div>
-                                            <Text className="mt-1 !text-[11px] text-slate-1000/58">{row.detail}</Text>
-                                        </div>
-                                        <Toggle enabled={row.enabled} />
-                                    </div>
+                    {section === "notifications" ? (
+                        <>
+                            <SectionHeader title="Notifications" description="Choose what Northwind emails you about." />
+                            <div className="divide-y divide-gray-300">
+                                {notifications.map((item) => (
+                                    <Row key={item.id} title={item.label} description={item.detail}>
+                                        <Switch.Root
+                                            checked={item.on}
+                                            onCheckedChange={(on) => setNotifications((all) => all.map((row) => (row.id === item.id ? { ...row, on } : row)))}
+                                            aria-label={item.label}
+                                        >
+                                            <Switch.Thumb />
+                                        </Switch.Root>
+                                    </Row>
                                 ))}
                             </div>
-                        </SectionCard>
+                            <p className="pt-3 text-sm text-gray-950">
+                                {notifications.filter((item) => item.on).length} of {notifications.length} enabled
+                            </p>
+                        </>
+                    ) : null}
 
-                        <SectionCard
-                            eyebrow="Privacy"
-                            title="Share only what matters"
-                            description="Workspace visibility, link permissions, and local protections grouped into one compact review block."
-                            action={<Button variant="solid" className="rounded-full border-0 bg-gradient-to-r from-amber-900 to-orange-800 px-3 py-2 !text-slate-1000">Apply</Button>}
-                            accent
-                        >
-                            <div className="grid gap-2.5 sm:grid-cols-2">
-                                <div className="rounded-[18px] border border-slate-400 bg-slate-50/75 px-3 py-3 text-slate-1000">
-                                    <div className="flex items-center gap-2">
-                                        <ShieldCheck className="h-4 w-4 text-green-800" />
-                                        <Text className="!text-sm font-medium !text-slate-1000">Trusted workspace</Text>
-                                    </div>
-                                    <Text className="mt-2 !text-[11px] text-slate-1000/58">Single-team access, signed exports, and strict previews.</Text>
+                    {section === "security" ? (
+                        <>
+                            <SectionHeader title="Security" description="Protect your account and review where you're signed in." />
+                            <Row title="Two-factor authentication" description="Require a code from your authenticator app at sign-in.">
+                                <div className="flex items-center gap-3">
+                                    <Badge variant="soft" color={twoFactor ? "green" : "gray"}>{twoFactor ? "On" : "Off"}</Badge>
+                                    <Switch.Root checked={twoFactor} onCheckedChange={setTwoFactor} aria-label="Two-factor authentication"><Switch.Thumb /></Switch.Root>
                                 </div>
-                                <div className="rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-3">
-                                    <div className="flex items-center gap-2">
-                                        <Globe className="h-4 w-4 text-blue-800" />
-                                        <Text className="!text-sm font-medium !text-slate-1000">Link scope</Text>
-                                    </div>
-                                    <Text className="mt-2 !text-[11px] text-slate-1000/58">Restricted to teammates with comment access.</Text>
-                                </div>
-                                <div className="rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-3">
-                                    <div className="flex items-center gap-2">
-                                        <Lock className="h-4 w-4 text-bronze-800" />
-                                        <Text className="!text-sm font-medium !text-slate-1000">Auto-lock</Text>
-                                    </div>
-                                    <Text className="mt-2 !text-[11px] text-slate-1000/58">Relock sensitive panels after 5 minutes of inactivity.</Text>
-                                </div>
-                                <div className="rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-3">
-                                    <div className="flex items-center gap-2">
-                                        <Sparkles className="h-4 w-4 text-orange-800" />
-                                        <Text className="!text-sm font-medium !text-slate-1000">Redaction assist</Text>
-                                    </div>
-                                    <Text className="mt-2 !text-[11px] text-slate-1000/58">Suggests scrubbed fields before screenshots or export.</Text>
-                                </div>
+                            </Row>
+                            <Separator />
+                            <div className="flex items-center justify-between pb-2 pt-5">
+                                <p className="text-sm font-medium">Active sessions</p>
+                                {sessions.length > 1 ? (
+                                    <Button variant="ghost" size="small" onClick={() => setSessions((all) => all.filter((item) => item.current))}>
+                                        Sign out all others
+                                    </Button>
+                                ) : null}
                             </div>
-                        </SectionCard>
-                    </div>
-
-                    <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_320px]">
-                        <SectionCard
-                            eyebrow="Playback and Behavior"
-                            title="Micro-preferences, handled cleanly"
-                            description="The lower-granularity controls are still readable when the layout is compact."
-                            action={<Badge variant="outline" className="rounded-full border-slate-500 bg-slate-1000/[0.03] px-3 py-1 text-slate-1000/62">6 active rules</Badge>}
-                        >
-                            <div className="grid gap-2.5 sm:grid-cols-2">
-                                {[
-                                    { icon: Volume2, title: "Preview audio", detail: "Let system sounds confirm completed actions.", enabled: true },
-                                    { icon: WandSparkles, title: "Smart suggestions", detail: "Promote commonly used presets near the top.", enabled: true },
-                                    { icon: SlidersHorizontal, title: "Dense tables", detail: "Reduce row height across workspace views.", enabled: true },
-                                    { icon: Monitor, title: "Remember layout", detail: "Restore panel widths and section expansion.", enabled: false },
-                                ].map((item) => {
-                                    const Icon = item.icon
-
-                                    return (
-                                        <div key={item.title} className="rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-3">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="rounded-[14px] border border-slate-500 bg-slate-1000/[0.05] p-2 text-orange-800">
-                                                        <Icon className="h-4 w-4" />
-                                                    </div>
-                                                    <Text className="!text-sm font-medium !text-slate-1000">{item.title}</Text>
-                                                </div>
-                                                <Toggle enabled={item.enabled} />
-                                            </div>
-                                            <Text className="mt-2 !text-[11px] text-slate-1000/58">{item.detail}</Text>
+                            <ul className="divide-y divide-gray-300">
+                                {sessions.map(({ id, device, place, time, icon: Icon, current }) => (
+                                    <li key={id} className="flex items-center gap-4 py-3.5">
+                                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gray-200 text-gray-950"><Icon className="h-5 w-5" /></span>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="truncate text-sm font-medium">{device}</p>
+                                            <p className="truncate text-sm text-gray-950">{place} · {time}</p>
                                         </div>
-                                    )
-                                })}
-                            </div>
-                        </SectionCard>
-
-                        <SectionCard
-                            eyebrow="Review Snapshot"
-                            title="Before you leave"
-                            description="A compact right-rail summary helps confirm that the panel is doing real work."
-                        >
-                            <div className="space-y-2.5">
-                                {[
-                                    "Dark mode and compact density are active.",
-                                    "Mentions and product updates are enabled.",
-                                    "Workspace links are team-restricted.",
-                                ].map((item) => (
-                                    <div key={item} className="flex items-start gap-2 rounded-[18px] border border-slate-500 bg-slate-1000/[0.03] px-3 py-2.5">
-                                        <span className="mt-1 h-2 w-2 rounded-full bg-orange-800" />
-                                        <Text className="!text-[11px] text-slate-1000/68">{item}</Text>
-                                    </div>
+                                        {current ? (
+                                            <Badge variant="soft" color="green">This device</Badge>
+                                        ) : (
+                                            <Button variant="outline" size="small" onClick={() => setSessions((all) => all.filter((item) => item.id !== id))}>
+                                                Sign out
+                                            </Button>
+                                        )}
+                                    </li>
                                 ))}
-                            </div>
-                        </SectionCard>
-                    </div>
+                            </ul>
+                        </>
+                    ) : null}
                 </div>
-            </main>
+
+                {dirty && section === "profile" ? (
+                    <div role="status" className="sticky bottom-4 mt-8 flex max-w-2xl items-center justify-between gap-4 rounded-lg border border-gray-500 bg-gray-100 px-4 py-3 shadow-lg">
+                        <span className="text-sm font-medium">You have unsaved changes</span>
+                        <div className="flex gap-2">
+                            <Button variant="ghost" size="small" onClick={() => setProfile(saved)}>Discard</Button>
+                            <Button size="small" onClick={() => setSaved(profile)}>Save</Button>
+                        </div>
+                    </div>
+                ) : null}
+            </div>
         </div>
     )
 }

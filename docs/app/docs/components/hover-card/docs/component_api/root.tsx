@@ -9,8 +9,8 @@ const data = {
     data: [
         { prop: { name: "open", info_tooltips: "Controlled open state." }, type: "boolean", default: "--" },
         { prop: { name: "defaultOpen", info_tooltips: "Initial open state (uncontrolled)." }, type: "boolean", default: "false" },
-        { prop: { name: "openDelay", info_tooltips: "Delay in ms before opening." }, type: "number", default: "700" },
-        { prop: { name: "closeDelay", info_tooltips: "Delay in ms before closing." }, type: "number", default: "300" },
+        { prop: { name: "openDelay", info_tooltips: "Delay in ms before opening." }, type: "number", default: "100" },
+        { prop: { name: "closeDelay", info_tooltips: "Delay in ms before closing." }, type: "number", default: "200" },
         { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" }
     ]
 }

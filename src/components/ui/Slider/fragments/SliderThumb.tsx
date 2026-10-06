@@ -5,6 +5,8 @@ import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import clsx from 'clsx';
+import { clampValue, getThumbBounds, roundToStepPrecision } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'SliderThumb';
 
@@ -17,8 +19,8 @@ export type SliderThumbProps = {
     'aria-labelledby'?: string;
 } & ComponentPropsWithoutRef<'div'>;
 
-const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
+    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
     // Register this thumb ref with the slider root
@@ -39,10 +41,9 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
     const percent = maxValue === minValue ? 0 : ((currentValue - minValue) / (maxValue - minValue)) * 100;
     const [focused, setFocused] = React.useState(false);
 
-    const clamp = (val: number) => Math.min(maxValue, Math.max(minValue, val));
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (disabled) return;
+        onKeyDown?.(e);
+        if (disabled || e.defaultPrevented) return;
         let newValue = currentValue;
         const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
         switch (e.key) {
@@ -74,26 +75,39 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             return;
         }
         e.preventDefault();
-        const clampedValue = clamp(newValue);
 
+        // In multi-thumb sliders a thumb cannot move past its neighbours.
+        const bounds = Array.isArray(value)
+            ? getThumbBounds(value, index, minValue, maxValue)
+            : { lower: minValue, upper: maxValue };
+        const nextThumbValue = clampValue(
+            roundToStepPrecision(newValue, step, minValue),
+            bounds.lower,
+            bounds.upper
+        );
+        if (nextThumbValue === currentValue) return;
+
+        let nextValue: number | number[];
         if (Array.isArray(value)) {
-            const nextValue = [...value];
-            nextValue[index] = clampedValue;
-            // Note: We don't sort here on keyboard to avoid thumb hopping,
-            // but we might want to prevent crossing depending on design.
-            setValue(nextValue);
+            const next = [...value];
+            next[index] = nextThumbValue;
+            nextValue = next;
         } else {
-            setValue(clampedValue);
+            nextValue = nextThumbValue;
         }
+        setValue(nextValue);
+        commitValue(nextValue);
     };
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-        if (disabled) return;
+        onPointerDown?.(e);
+        if (disabled || e.defaultPrevented) return;
         e.currentTarget.focus();
         setDragging(true);
     };
 
-    const handlePointerUp = () => {
+    const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+        onPointerUp?.(e);
         setDragging(false);
     };
 
@@ -103,7 +117,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         <Primitive.div
             ref={mergeRefs(thumbRef, ref)}
             asChild={asChild}
-            className={rootClass ? `${rootClass}-thumb` : undefined}
+            className={clsx(rootClass ? `${rootClass}-thumb` : undefined, className) || undefined}
             role="slider"
             tabIndex={disabled ? -1 : 0}
             aria-valuemin={minValue}
@@ -113,18 +127,21 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             aria-orientation={orientation}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}
+            aria-disabled={disabled || undefined}
             data-state={state}
             data-disabled={disabled}
             data-index={index}
             onKeyDown={handleKeyDown}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            style={orientation === 'vertical'
-                ? { top: `calc(${percent}% - 10px)` }
-                : { left: `calc(${percent}% - 10px)` }
-            }
+            onFocus={(e: React.FocusEvent<HTMLDivElement>) => { onFocus?.(e); setFocused(true); }}
+            onBlur={(e: React.FocusEvent<HTMLDivElement>) => { onBlur?.(e); setFocused(false); }}
+            style={{
+                ...style,
+                ...(orientation === 'vertical'
+                    ? { top: `calc(${percent}% - 10px)` }
+                    : { left: `calc(${percent}% - 10px)` })
+            }}
             {...props}
         >
             {children}
@@ -134,7 +151,9 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
     return (
         <>
             {thumbNode}
-            <input type="hidden" value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} />
+            {name !== undefined && (
+                <input type="hidden" value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} disabled={disabled} />
+            )}
         </>
     );
 }));

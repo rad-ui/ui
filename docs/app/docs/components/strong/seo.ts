@@ -1,10 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const strongMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Strong - Rad UI",
-    description: "A headless React Strong component for semantically emphasizing important text. Fully accessible, customizable, and ideal for highlighting key information in interfaces."
+    description: "Accessible, headless React Strong component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Strong","headless strong","accessible strong","strong component","React strong component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/strong"
 });
 
 
-
-export default strongMetadata
+export default metadata

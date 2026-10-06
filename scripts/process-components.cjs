@@ -16,6 +16,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const RELEASED_COMPONENTS = require('./RELEASED_COMPONENTS.cjs');
 
 const tempCleanupPath = path.resolve(__dirname, '../dist/temp-cleanup');
 const componentsPath = path.resolve(__dirname, '../dist/components');
@@ -36,9 +37,9 @@ if (!fs.existsSync(tempCleanupPath)) {
 const files = fs.readdirSync(tempCleanupPath);
 let copiedFiles = 0;
 
-// Copy .js files
+// Copy JS runtime files
 files.forEach(file => {
-    if (file.endsWith('.js')) {
+    if (file.endsWith('.js') || file.endsWith('.cjs')) {
         const sourcePath = path.join(tempCleanupPath, file);
         const destPath = path.join(componentsPath, file);
         fs.copyFileSync(sourcePath, destPath);
@@ -57,6 +58,47 @@ files.forEach(file => {
         console.log(`📄 Copied: ${file}`);
     }
 });
+
+function writeRootIndexFiles() {
+    const distPath = path.resolve(__dirname, '../dist');
+    const exportableComponents = RELEASED_COMPONENTS.filter((name) => (
+        fs.existsSync(path.join(componentsPath, `${name}.js`)) &&
+        fs.existsSync(path.join(componentsPath, `${name}.cjs`)) &&
+        fs.existsSync(path.join(componentsPath, `${name}.d.ts`))
+    ));
+
+    const missing = RELEASED_COMPONENTS.filter((name) => !exportableComponents.includes(name));
+    if (missing.length > 0) {
+        console.error('Missing built files for released components:');
+        missing.forEach((name) => console.error(`  - ${name}`));
+        process.exit(1);
+    }
+
+    const esm = [
+        '\'use client\';',
+        '',
+        ...exportableComponents.map((name) => `export { default as ${name} } from './components/${name}.js';`)
+    ].join('\n') + '\n';
+
+    const cjs = [
+        '\'use strict\';',
+        '',
+        'Object.defineProperty(exports, "__esModule", { value: true });',
+        ...exportableComponents.map((name) => `exports.${name} = require('./components/${name}.cjs').default;`)
+    ].join('\n') + '\n';
+
+    const dts = exportableComponents
+        .map((name) => `export { default as ${name} } from './components/${name}.js';`)
+        .join('\n') + '\n';
+
+    fs.writeFileSync(path.join(distPath, 'index.js'), esm);
+    fs.writeFileSync(path.join(distPath, 'index.cjs'), cjs);
+    fs.writeFileSync(path.join(distPath, 'index.d.ts'), dts);
+    copiedFiles += 3;
+    console.log('📄 Wrote root index exports');
+}
+
+writeRootIndexFiles();
 
 // Clean up temp-cleanup directory
 if (fs.existsSync(tempCleanupPath)) {

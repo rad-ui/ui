@@ -14,7 +14,12 @@ const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGr
     ({ className = '', children, ...props }, ref) => {
         const { rootClass } = React.useContext(RadioGroupContext);
         return (
-            <RadioGroupPrimitive.Indicator ref={ref} className={clsx(rootClass && `${rootClass}-indicator`, className)} {...props} >
+            <RadioGroupPrimitive.Indicator
+                ref={ref}
+                className={clsx(rootClass && `${rootClass}-indicator`, className)}
+                data-slot="radio-group-indicator"
+                {...props}
+            >
                 {children}
             </RadioGroupPrimitive.Indicator>
         );

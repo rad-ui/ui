@@ -11,8 +11,8 @@ const ToggleExampleBasic = () => {
     const handleChange = (newPressed) => {
         setPressed(newPressed);
     };
-    return <Toggle defaultPressed={false} onPressedChange={handleChange} >
-        <ArrowUp size={15} strokeWidth={2} />
+    return <Toggle aria-label="Sort ascending" defaultPressed={false} onPressedChange={handleChange} >
+        <ArrowUp size={15} strokeWidth={2} aria-hidden="true" />
     </Toggle>;
 };
 

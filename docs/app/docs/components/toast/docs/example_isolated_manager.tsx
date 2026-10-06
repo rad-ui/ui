@@ -48,7 +48,7 @@ export default function ToastIsolatedManagerExample() {
 
     return (
         <div className="flex w-full max-w-xl flex-col gap-3">
-            <p className="text-sm text-gray-800">
+            <p className="text-sm text-gray-950">
                 Pass <code className="text-xs">toastManager=&#123;createToastManager()&#125;</code> to keep
                 notifications separate from the default singleton.
             </p>

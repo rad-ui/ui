@@ -1,36 +1,43 @@
 'use client'
 
-import { Info, TriangleAlert } from "lucide-react"
+import { Info } from "lucide-react"
 import Callout from "@radui/ui/Callout"
-import ColorLooper from "../helpers/ColorLooper"
+import Matrix, { toAxis } from "../helpers/Matrix"
+import { ACCENT_COLORS, usePlayground } from "../helpers/PlaygroundContext"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
-const CalloutPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            title="Callout"
-            docsLink="/docs/components/callout"
-            description="Structured messaging blocks for status, guidance, and warnings."
-        >
-            <div className='space-y-4'>
-                <Callout.Root>
-                    <Callout.Icon>
-                        <Info size={18} strokeWidth={2} />
-                    </Callout.Icon>
-                    <Callout.Text>
-                        Playground examples are intentionally minimal so the component behavior stays obvious.
-                    </Callout.Text>
-                </Callout.Root>
-                <Callout.Root variant="outline">
-                    <Callout.Icon>
-                        <TriangleAlert size={18} strokeWidth={2} />
-                    </Callout.Icon>
-                    <Callout.Text>
-                        Keep dense copy short inside callouts or the page turns into documentation inside documentation.
-                    </Callout.Text>
-                </Callout.Root>
-            </div>
-        </ColorLooper>
-    </div>
+const variants = [{ key: "default", label: "default", value: undefined }, ...toAxis(["soft", "outline"])]
+
+const Sample = ({ variant, color, size }) => (
+    <Callout.Root variant={variant} color={color} size={size}>
+        <Callout.Icon><Info size={16} /></Callout.Icon>
+        <Callout.Text>Keep callout copy short and actionable.</Callout.Text>
+    </Callout.Root>
 )
+
+const CalloutPlayground = () => {
+    const { accent, showAllColors } = usePlayground()
+
+    return (
+        <PlaygroundSection title="Callout" docsLink="/docs/components/callout" description="variant × size, plus every accent color.">
+            <Matrix
+                align="top"
+                rows={variants}
+                columns={toAxis(["small", "medium", "large"])}
+                renderCell={(variant, size) => <Sample variant={variant.value} size={size.value} color={accent === "gray" ? undefined : accent} />}
+            />
+            {showAllColors ? (
+                <div className="mt-6 border-t border-gray-300 pt-5">
+                    <Matrix
+                        align="top"
+                        rows={toAxis(ACCENT_COLORS)}
+                        columns={variants}
+                        renderCell={(color, variant) => <Sample variant={variant.value} color={color.value} />}
+                    />
+                </div>
+            ) : null}
+        </PlaygroundSection>
+    )
+}
 
 export default CalloutPlayground

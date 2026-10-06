@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { ComboboxRootContext } from '../contexts/ComboboxRootContext';
 import clsx from 'clsx';
+import { markAsComboboxSearchPart } from '~/core/primitives/Combobox/contexts/ComboboxSearchPart';
 
 type ComboboxSearchElement = React.ElementRef<typeof ComboboxPrimitive.Search>;
 export type ComboboxSearchProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Search>;
@@ -20,5 +21,6 @@ const ComboboxSearch = React.forwardRef<ComboboxSearchElement, ComboboxSearchPro
 });
 
 ComboboxSearch.displayName = 'ComboboxSearch';
+markAsComboboxSearchPart(ComboboxSearch);
 
 export default ComboboxSearch;

@@ -5,9 +5,11 @@ import { useStepsContext } from '../context/StepsContext';
 
 export type StepLineProps = React.HTMLAttributes<HTMLDivElement>;
 
-const StepLine = ({ children, className = '', ...props }: StepLineProps) => {
+const StepLine = React.forwardRef<HTMLDivElement, StepLineProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(rootClass && `${rootClass}-line`, className)} {...props}>{children}</div>;
-};
+    return <div ref={ref} className={clsx(rootClass && `${rootClass}-line`, className)} {...props}>{children}</div>;
+});
+
+StepLine.displayName = 'Steps.Line';
 
 export default StepLine;

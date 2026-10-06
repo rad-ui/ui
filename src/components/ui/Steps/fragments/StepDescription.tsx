@@ -5,9 +5,11 @@ import { useStepsContext } from '../context/StepsContext';
 
 export type StepDescriptionProps = React.HTMLAttributes<HTMLDivElement>;
 
-const StepDescription = ({ children, className = '', ...props }: StepDescriptionProps) => {
+const StepDescription = React.forwardRef<HTMLDivElement, StepDescriptionProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useStepsContext();
-    return <div className={clsx(rootClass && `${rootClass}-description`, className)} {...props}>{children}</div>;
-};
+    return <div ref={ref} className={clsx(rootClass && `${rootClass}-description`, className)} {...props}>{children}</div>;
+});
+
+StepDescription.displayName = 'Steps.Description';
 
 export default StepDescription;

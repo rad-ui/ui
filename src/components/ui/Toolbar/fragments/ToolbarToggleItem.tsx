@@ -18,6 +18,11 @@ const ToolbarToggleItem = React.forwardRef<React.ElementRef<typeof TogglePrimiti
 
         const isPressed = context.value.includes(value);
         const isDisabled = disabled || context.disabled;
+        const isRadio = context.type === 'single';
+        // Single-select items are radios (aria-checked); multi-select items are toggle buttons (aria-pressed).
+        const selectionAttributes = isRadio
+            ? { role: 'radio', 'aria-checked': isPressed, 'aria-pressed': undefined }
+            : {};
 
         const handlePressedChange = (pressed: boolean) => {
             if (isDisabled) return;
@@ -42,6 +47,7 @@ const ToolbarToggleItem = React.forwardRef<React.ElementRef<typeof TogglePrimiti
                     disabled={isDisabled}
                     onPressedChange={handlePressedChange}
                     className={clsx(context.rootClass && `${context.rootClass}-toggle-item`, className)}
+                    {...selectionAttributes}
                     {...props}
                 />
             </RovingFocusGroup.Item>

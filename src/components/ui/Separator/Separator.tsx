@@ -39,16 +39,23 @@ const Separator = React.forwardRef<SeparatorElement, SeparatorProps>(
             data_attributes['data-color'] = color;
         }
 
-        // Add decorative role if specified
-        if (decorative) {
-            data_attributes.role = 'separator';
-            data_attributes['aria-hidden'] = 'true';
-        }
+        // WAI-ARIA separator semantics:
+        // - A semantic separator exposes role="separator". Its implicit
+        //   aria-orientation is horizontal, so only vertical is announced.
+        // - A decorative separator is purely visual and is removed from the
+        //   accessibility tree with role="none".
+        const semanticAttributes: Record<string, string> = decorative
+            ? { role: 'none' }
+            : {
+                role: 'separator',
+                ...(orientation === 'vertical' ? { 'aria-orientation': 'vertical' } : {})
+            };
 
         return (
             <Primitive.div
                 ref={ref}
                 className={clsx(rootClass, orientationClass, className)}
+                {...semanticAttributes}
                 {...data_attributes}
                 {...props}
             />

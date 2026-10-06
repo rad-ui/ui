@@ -28,7 +28,9 @@ const RadioGroupRoot = React.forwardRef<RadioGroupRootElement, RadioGroupRootPro
         const dataAttributes = createDataAttributes('radio-group', { variant, size });
 
         const accentAttributes = createDataAccentColorAttribute(color);
-        const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
+        const composedAttributes = composeAttributes(dataAttributes, accentAttributes, {
+            'data-slot': 'radio-group-root'
+        });
 
         return <RadioGroupContext.Provider value={{ rootClass }}>
             <RadioGroupPrimitive.Root ref={ref} className={clsx(rootClass && `${rootClass}-root`, className)} {...composedAttributes} {...props}> {children} </RadioGroupPrimitive.Root>

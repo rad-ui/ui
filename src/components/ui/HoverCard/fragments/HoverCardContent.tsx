@@ -43,8 +43,11 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         style={floatingStyles}
         {...dataAttributes}
         {...getFloatingProps({
+            'data-slot': 'hover-card-content',
             onPointerEnter: openWithDelay,
             onPointerLeave: closeWithDelay,
+            onFocus: openWithDelay,
+            onBlur: closeWithDelay,
             ...props
         })}>{children}</div>;
 });

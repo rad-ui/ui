@@ -9,10 +9,10 @@ const NavItem = ({ item, path, setIsDocsNavOpen }) => {
 
 
     const isCurrentPath = path === item?.path;
-    const baseItemClasses = "mb-0.5 block rounded-lg border px-3 py-2 text-[0.84rem] font-medium"
+    const baseItemClasses = "mb-0.5 block rounded-md border px-3 py-1.5 text-[0.84rem] font-medium transition-colors"
     const activeClasses = isCurrentPath
-        ? 'border-gray-400 bg-gray-200 text-gray-1000'
-        : 'border-transparent text-gray-900 hover:border-gray-300 hover:bg-gray-100 hover:text-gray-1000'
+        ? 'border-green-500 bg-green-100 text-green-1000'
+        : 'border-transparent text-gray-950 hover:bg-gray-100 hover:text-gray-1000'
 
     return <Link className={`${baseItemClasses} ${activeClasses}`} href={item?.path} prefetch={true}>
         <div className='flex items-center space-x-2'>

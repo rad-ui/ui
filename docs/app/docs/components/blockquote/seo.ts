@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const blockquoteMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Blockquote - Rad UI",
-    description: "A headless React Blockquote component for rendering quotations with semantic HTML. Fully accessible, customizable, and easy to integrate into any design system."
+    description: "Accessible, headless React Blockquote component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Blockquote","headless blockquote","accessible blockquote","blockquote component","React blockquote component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/blockquote"
 });
 
-export default blockquoteMetadata
+
+export default metadata

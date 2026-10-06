@@ -28,4 +28,12 @@ Tooltip.Content = TooltipContent;
 export type { TooltipRootProps } from './fragments/TooltipRoot';
 export type { TooltipTriggerProps } from './fragments/TooltipTrigger';
 export type { TooltipContentProps } from './fragments/TooltipContent';
+// Named part exports let React Server Components use `import * as Tooltip from '@radui/ui/Tooltip'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    TooltipRoot as Root,
+    TooltipTrigger as Trigger,
+    TooltipContent as Content
+};
+
 export default Tooltip;

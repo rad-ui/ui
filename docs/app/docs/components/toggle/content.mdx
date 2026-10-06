@@ -1,6 +1,6 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
 import Toggle from "@radui/ui/Toggle"
-import codeUsage, { ToggleTable } from "./docs/codeUsage"
+import codeUsage, { ToggleTable, ariaReferences, keyboardShortcuts } from "./docs/codeUsage"
 import ToggleExampleBasic from "./docs/toggle-example-basic"
 
 <Documentation 
@@ -17,4 +17,8 @@ import ToggleExampleBasic from "./docs/toggle-example-basic"
         columns={ToggleTable.columns} 
         data={ToggleTable.data} 
     />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 </Documentation>

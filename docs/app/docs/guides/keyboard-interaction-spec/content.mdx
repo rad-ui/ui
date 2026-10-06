@@ -1,0 +1,47 @@
+# Keyboard interaction spec
+
+Framework for documenting keyboard behavior per Rad UI component. Use this when adding or reviewing component docs and tests.
+
+## Spec template
+
+Each interactive component page should document:
+
+| Key | Action | Scope |
+| --- | --- | --- |
+| `Tab` | moves focus to/from the control | page |
+| `Space` / `Enter` | activates or toggles | control |
+| `Escape` | dismisses overlay (if applicable) | overlay |
+| Arrow keys | moves within collection (if applicable) | list/menu |
+
+Link the relevant [WAI-ARIA APG pattern](https://www.w3.org/WAI/ARIA/apg/patterns/) when the component implements a known pattern (Dialog, Menu, Tabs, Combobox, etc.).
+
+## Pattern mapping (starter)
+
+| Component family | APG pattern | Notes |
+| --- | --- | --- |
+| `Dialog`, `AlertDialog` | Modal dialog | focus trap, `Escape` closes |
+| `DropdownMenu`, `ContextMenu`, `Menubar` | Menu / menubar | roving `aria-activedescendant` or roving tabindex |
+| `Select`, `Combobox` | Select / combobox | typeahead, open/close, item activation |
+| `Tabs`, `TabNav` | Tabs | horizontal/vertical arrows between triggers |
+| `Accordion`, `Collapsible` | Disclosure | `Enter`/`Space` on trigger |
+| `RadioGroup`, `ToggleGroup` | Radio group | arrow keys within group |
+| `Tree` | Tree view | expand/collapse, vertical navigation |
+
+Expand this table as components ship keyboard tables on their docs pages.
+
+## Authoring checklist
+
+- [ ] Document keys for **closed** and **open** states separately when behavior differs
+- [ ] Note `loop` / `wrap` behavior for menus and tabs when supported
+- [ ] Call out disabled items and how focus skips them
+- [ ] Add interaction tests that mirror the documented table ([Contributor checklist](/docs/contributing/contributor-checklist))
+
+## Example entry (Dialog)
+
+| Key | Action |
+| --- | --- |
+| `Tab` | cycles focus within the dialog |
+| `Shift+Tab` | cycles focus backward within the dialog |
+| `Escape` | closes the dialog and returns focus to the trigger |
+
+Reference: [Dialog Modal pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)

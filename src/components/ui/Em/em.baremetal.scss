@@ -1,0 +1,9 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+// Em is typography-only, and the only thing that distinguishes it in Clarity is
+// the italic. Anchoring to `title-text` (as Strong does) would additionally make
+// it bold, which changes what the component means rather than just how baremetal
+// looks. `body-text` supplies the baremetal ink colour and leaves the italic
+// from the base style intact.
+#{baremetal.$theme-root} :where(.rad-ui-em) { @include baremetal.body-text; }

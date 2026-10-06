@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const calloutMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Callout - Rad UI",
-    description: "A headless and accessible React Callout component for highlighting important messages. Fully customizable with flexible styling to match your design system."
+    description: "Accessible, headless React Callout component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Callout","headless callout","accessible callout","callout component","React callout component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/callout"
 });
 
-export default calloutMetadata
+
+export default metadata

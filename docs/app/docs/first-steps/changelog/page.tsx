@@ -89,7 +89,7 @@ export default async function ChangelogPage({
                 <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-950">
                     Changelog
                 </h1>
-                <p className="max-w-2xl text-sm leading-relaxed text-gray-900">
+                <p className="max-w-2xl text-sm leading-relaxed text-gray-950">
                     Published versions of{" "}
                     <code className="rounded bg-gray-200 px-1.5 py-0.5 font-mono text-[0.9em] text-gray-950">
                         @radui/ui
@@ -117,7 +117,7 @@ export default async function ChangelogPage({
             </header>
 
             {releases.length === 0 ? (
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-950">
                     No releases found in CHANGELOG.md.
                 </p>
             ) : null}
@@ -130,7 +130,7 @@ export default async function ChangelogPage({
                     >
                         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
                             <div className="flex min-w-0 flex-col gap-0.5">
-                                <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-gray-700">
+                                <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-gray-950">
                                     Release
                                 </p>
                                 <h2 className="font-mono text-2xl font-semibold tracking-tight text-gray-950">
@@ -161,7 +161,7 @@ export default async function ChangelogPage({
                     aria-label="Changelog pagination"
                     className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-gray-300 pt-8"
                 >
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm text-gray-950">
                         Page {safePage} of {totalPages}
                         {releases.length > 0 ? (
                             <span className="text-gray-600">

@@ -9,12 +9,12 @@ export default {
 
 const SwitchRow = ({ defaultChecked = false }: { defaultChecked?: boolean }) => {
     return (
-        <label className="inline-flex items-center gap-3 text-base font-medium leading-none text-[var(--rad-ui-text-primary)]">
-            <Switch.Root defaultChecked={defaultChecked} aria-label="Airplane Mode">
+        <div className="inline-flex items-center gap-3 text-base font-medium leading-none text-[var(--rad-ui-text-primary)]">
+            <Switch.Root defaultChecked={defaultChecked} aria-labelledby="switch-airplane-mode-label">
                 <Switch.Thumb />
             </Switch.Root>
-            <span>Airplane Mode</span>
-        </label>
+            <span id="switch-airplane-mode-label">Airplane Mode</span>
+        </div>
     );
 };
 

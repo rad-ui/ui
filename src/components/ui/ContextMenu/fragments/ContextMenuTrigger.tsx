@@ -57,6 +57,8 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
                 if (!contextTriggerRef.current) return;
                 const rect = contextTriggerRef.current.getBoundingClientRect();
                 openAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                // Keyboard users land on the first item, matching the menu button pattern.
+                menuContext?.setActiveIndex(0);
             }
         };
 
@@ -77,6 +79,9 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
                     role="button"
                     tabIndex={0}
                     aria-haspopup="menu"
+                    // The trigger renders a <span>; drop the button-only `type`
+                    // attribute the underlying button primitive adds.
+                    {...({ type: undefined } as Record<string, unknown>)}
                 >
                     {children}
                 </span>

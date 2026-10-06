@@ -17,4 +17,13 @@ export type { NumberFieldRootProps } from './fragments/NumberFieldRoot';
 export type { NumberFieldInputProps } from './fragments/NumberFieldInput';
 export type { NumberFieldIncrementProps } from './fragments/NumberFieldIncrement';
 export type { NumberFieldDecrementProps } from './fragments/NumberFieldDecrement';
+// Named part exports let React Server Components use `import * as NumberField from '@radui/ui/NumberField'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    NumberFieldRoot as Root,
+    NumberFieldInput as Input,
+    NumberFieldIncrement as Increment,
+    NumberFieldDecrement as Decrement
+};
+
 export default NumberField;

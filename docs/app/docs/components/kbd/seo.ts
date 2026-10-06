@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const kbdMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Kbd - Rad UI",
-    description: "A headless React Kbd component for rendering keyboard input hints using semantic HTML. Fully accessible, customizable, and ideal for enhancing UX in shortcuts and command palettes."
+    description: "Accessible, headless React Kbd component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Kbd","headless kbd","accessible kbd","kbd component","React kbd component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/kbd"
 });
 
-export default kbdMetadata
+
+export default metadata

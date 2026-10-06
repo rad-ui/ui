@@ -8,6 +8,7 @@ const RELEASED_COMPONENTS = [
     'Badge',
     'Button',
     'BlockQuote',
+    'Breadcrumb',
     'Callout',
     'Card',
     'Code',
@@ -17,6 +18,7 @@ const RELEASED_COMPONENTS = [
     'Text',
     'Kbd',
     'Label',
+    'LiveRegion',
     'Progress',
     'Separator',
     'Strong',
@@ -44,6 +46,7 @@ const RELEASED_COMPONENTS = [
     'Drawer',
     'Disclosure',
     'DropdownMenu',
+    'Fieldset',
     'HoverCard',
     'Menubar',
     'Minimap',
@@ -61,6 +64,8 @@ const RELEASED_COMPONENTS = [
     'Steps',
     'TabNav',
     'TextArea',
+    'TextField',
+    'Toast',
     'Tree'
 ];
 

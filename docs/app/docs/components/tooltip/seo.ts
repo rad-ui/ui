@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const tooltipMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Tooltip - Rad UI",
-    description: "A headless React Tooltip component for accessible and customizable tooltips. Perfect for enhancing UX with informative, non-intrusive hover interactions."
+    description: "Accessible, headless React Tooltip component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Tooltip","headless tooltip","accessible tooltip","tooltip component","React tooltip component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/tooltip"
 });
 
-export default tooltipMetadata
+
+export default metadata

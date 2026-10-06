@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { ToggleContext } from '../contexts/toggleContext';
 import TogglePrimitive from '~/core/primitives/Toggle';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 /**
  * Props for the ToggleItem component
@@ -38,10 +39,16 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
     disabled = false,
     asChild = false,
     iconOnly = false,
+    onClick,
     ...props
 }, ref) => {
-    const { type, activeToggles, setActiveToggles, rootClass, disabled: groupDisabled } = useContext(ToggleContext);
-    const isActive = activeToggles?.includes(value);
+    const { type, activeToggles: rawActiveToggles, setActiveToggles, rootClass, disabled: groupDisabled } = useContext(ToggleContext);
+    // Accept a bare value (e.g. `defaultValue="bold"` in single mode) as well as an array.
+    // `String.prototype.includes` would otherwise do substring matching against item values.
+    const activeToggles: any[] = Array.isArray(rawActiveToggles)
+        ? rawActiveToggles
+        : rawActiveToggles == null || rawActiveToggles === '' ? [] : [rawActiveToggles];
+    const isActive = activeToggles.includes(value);
 
     // Item is disabled if either the item itself is disabled or the group is disabled
     const isDisabled = disabled || groupDisabled;
@@ -57,7 +64,7 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
             return;
         }
 
-        let activeToggleArray = activeToggles || [];
+        let activeToggleArray = activeToggles;
 
         // For Single Case
         if (type === 'single') {
@@ -99,7 +106,8 @@ const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(({
     return <RovingFocusGroup.Item>
         <TogglePrimitive
             ref={ref}
-            onClick={handleToggleSelect}
+            onClick={composeEventHandlers(onClick, handleToggleSelect)}
+            aria-selected={undefined}
             className={clsx(rootClass && `${rootClass}-item`, className)}
             disabled={isDisabled}
             asChild={asChild}

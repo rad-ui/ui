@@ -49,6 +49,7 @@ import ToastDescription from './fragments/ToastDescription';
 import ToastClose from './fragments/ToastClose';
 import ToastAction from './fragments/ToastAction';
 import { useToastManager } from './useToastManager';
+import { Toaster } from './Toaster';
 
 export type { ToastProviderProps } from './fragments/ToastProvider';
 export type { ToastPortalProps } from './fragments/ToastPortal';
@@ -67,11 +68,12 @@ export type {
     IToastManager,
 } from './contexts/ToastContext';
 export type { ToastManagerReturn } from './useToastManager';
-export type { ToastPromiseMessages } from './ToastState';
+export type { ToastPromiseMessages, ToastPromiseState } from './ToastState';
 
 // Named exports for tree-shaking
 export { useToastManager };
 export { ToastState, toast, promiseToast, createToastManager, ToastManager } from './ToastState';
+export { Toaster };
 
 interface ToastNamespace {
     Provider: typeof ToastProvider;
@@ -84,6 +86,7 @@ interface ToastNamespace {
     Action: typeof ToastAction;
     Close: typeof ToastClose;
     useToastManager: typeof useToastManager;
+    Toaster: typeof Toaster;
 }
 
 const Toast: ToastNamespace = {
@@ -97,6 +100,21 @@ const Toast: ToastNamespace = {
     Action: ToastAction,
     Close: ToastClose,
     useToastManager,
+    Toaster,
+};
+
+// Named part exports let React Server Components use `import * as Toast from '@radui/ui/Toast'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ToastProvider as Provider,
+    ToastPortal as Portal,
+    ToastViewport as Viewport,
+    ToastRoot as Root,
+    ToastContent as Content,
+    ToastTitle as Title,
+    ToastDescription as Description,
+    ToastAction as Action,
+    ToastClose as Close
 };
 
 export default Toast;

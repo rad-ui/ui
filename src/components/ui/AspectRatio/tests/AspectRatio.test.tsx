@@ -19,6 +19,19 @@ describe('AspectRatio', () => {
         expect(screen.getByText('Content').style.aspectRatio).toBe('16/9');
     });
 
+    test('applies numeric aspect ratio', () => {
+        render(<AspectRatio ratio={1.5}>Content</AspectRatio>);
+        expect(screen.getByText('Content').style.aspectRatio).toBe('1.5');
+    });
+
+    test('preserves inline styles while applying the aspect ratio', () => {
+        render(<AspectRatio ratio="4/3" style={{ width: 320, backgroundColor: 'red' }}>Content</AspectRatio>);
+        const divElement = screen.getByText('Content');
+        expect(divElement.style.aspectRatio).toBe('4/3');
+        expect(divElement.style.width).toBe('320px');
+        expect(divElement.style.backgroundColor).toBe('red');
+    });
+
     test('applies correct aspect ratio when ratio is not provided', () => {
         render(<AspectRatio >Content</AspectRatio>);
         expect(screen.getByText('Content').style.aspectRatio).toBe('1');
@@ -39,6 +52,11 @@ describe('AspectRatio', () => {
         expect(screen.getByText('Content').style.aspectRatio).toBe('1');
     });
 
+    test('applies fallback aspect ratio when fraction dimensions are zero', () => {
+        render(<AspectRatio ratio="0/9">Content</AspectRatio>);
+        expect(screen.getByText('Content').style.aspectRatio).toBe('1');
+    });
+
     test('forwards ref to underlying div', () => {
         const ref = React.createRef<HTMLDivElement>();
         render(<AspectRatio ref={ref}>Content</AspectRatio>);
@@ -53,5 +71,15 @@ describe('AspectRatio', () => {
         expect(warnSpy).not.toHaveBeenCalled();
         errorSpy.mockRestore();
         warnSpy.mockRestore();
+    });
+
+    test('accepts CSS-style ratios with spaces around the slash', () => {
+        render(<AspectRatio ratio="16 / 9">Spaced</AspectRatio>);
+        expect(screen.getByText('Spaced').style.aspectRatio).toBe('16 / 9');
+    });
+
+    test('accepts decimal fractions like ".5/1"', () => {
+        render(<AspectRatio ratio="1.5/1">Decimal</AspectRatio>);
+        expect(screen.getByText('Decimal').style.aspectRatio).toBe('1.5/1');
     });
 });

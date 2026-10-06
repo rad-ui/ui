@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Command from '@radui/ui/Command';
 import {

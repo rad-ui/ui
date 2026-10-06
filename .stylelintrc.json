@@ -10,13 +10,13 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["use", "tailwind", "apply", "variants", "responsive", "screen","extend"]
+        "ignoreAtRules": ["use", "tailwind", "apply", "variants", "responsive", "screen", "extend", "source", "theme", "config", "utility", "variant", "custom-variant", "reference"]
       }
     ],
     "scss/at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "extend"]
+        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "extend", "source", "theme", "config", "utility", "variant", "custom-variant", "reference"]
       }
     ],
     "scss/at-extend-no-missing-placeholder": null,

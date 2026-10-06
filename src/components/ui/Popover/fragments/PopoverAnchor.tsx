@@ -15,6 +15,7 @@ const PopoverAnchor = forwardRef<PopoverAnchorElement, PopoverAnchorProps>(({ cl
         <PopoverPrimitive.Anchor
             ref={ref}
             className={clsx(rootClass && `${rootClass}-anchor`, className)}
+            data-slot="popover-anchor"
             {...props}
         />
     );

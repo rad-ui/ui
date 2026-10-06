@@ -14,6 +14,7 @@ const TextFieldRoot = React.forwardRef<HTMLDivElement, TextFieldRootProps>(({ cl
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const [hasValue, setHasValue] = React.useState(false);
+    const [isLocked, setIsLocked] = React.useState(false);
 
     const clearInput = React.useCallback(() => {
         const input = inputRef.current;
@@ -30,8 +31,8 @@ const TextFieldRoot = React.forwardRef<HTMLDivElement, TextFieldRootProps>(({ cl
     }, []);
 
     return (
-        <TextFieldContext.Provider value={{ rootClass, inputRef, clearInput, hasValue, setHasValue }}>
-            <div ref={ref} className={clsx(rootClass, className)} {...props}>
+        <TextFieldContext.Provider value={{ rootClass, inputRef, clearInput, hasValue, setHasValue, isLocked, setIsLocked }}>
+            <div ref={ref} className={clsx(rootClass, className)} data-slot="text-field-root" {...props}>
                 {children}
             </div>
         </TextFieldContext.Provider>

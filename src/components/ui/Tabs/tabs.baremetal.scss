@@ -3,5 +3,5 @@
 
 #{baremetal.$theme-root} :where(.rad-ui-tabs-list) { @include baremetal.surface(false); gap: 0; padding: 0; }
 #{baremetal.$theme-root} :where(.rad-ui-tabs-trigger) { @include baremetal.option-item; }
-#{baremetal.$theme-root} :where(.rad-ui-tabs-trigger.active) { @include baremetal.checked-item; }
+#{baremetal.$theme-root} :where(.rad-ui-tabs-trigger[data-state="active"]) { @include baremetal.checked-item; }
 #{baremetal.$theme-root} :where(.rad-ui-tab-content) { @include baremetal.surface; }

@@ -40,4 +40,15 @@ export type { ToolbarSeparatorProps } from './fragments/ToolbarSeparator';
 export type { ToolbarLinkProps } from './fragments/ToolbarLink';
 export type { ToolbarToggleGroupProps } from './fragments/ToolbarToggleGroup';
 export type { ToolbarToggleItemProps } from './fragments/ToolbarToggleItem';
+// Named part exports let React Server Components use `import * as Toolbar from '@radui/ui/Toolbar'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ToolbarRoot as Root,
+    ToolbarButton as Button,
+    ToolbarSeparator as Separator,
+    ToolbarLink as Link,
+    ToolbarToggleGroup as ToggleGroup,
+    ToolbarToggleItem as ToggleItem
+};
+
 export default Toolbar;
