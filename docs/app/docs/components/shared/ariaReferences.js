@@ -100,6 +100,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Region role',
         href: 'https://www.w3.org/TR/wai-aria-1.3/#region'
     },
+    SEPARATOR: {
+        id: 'separator',
+        label: 'Separator role',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/separator_role'
+    },
     SLIDER: {
         id: 'slider',
         label: 'Slider pattern',

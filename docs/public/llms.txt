@@ -96,6 +96,7 @@
 - [Design System Integration](https://www.rad-ui.com/docs/guides/design-system-integration)
 - [Migration Guides](https://www.rad-ui.com/docs/guides/migration-guides)
 - [CSS Variable Fallbacks](https://www.rad-ui.com/docs/guides/css-variable-fallbacks)
+- [Troubleshooting](https://www.rad-ui.com/docs/guides/troubleshooting)
 
 ## Contributing
 - [Before You Start](https://www.rad-ui.com/docs/contributing/before-you-start)

@@ -48,8 +48,16 @@ const data = {
             },
             type: "string",
             default: "''",
+        },
+        {
+            prop: {
+                name: "decorative",
+                info_tooltips: "Removes the separator from assistive technology when it is only a visual divider."
+            },
+            type: "boolean",
+            default: "false",
         }
     ]
 };
 
-export default data; 
+export default data;
