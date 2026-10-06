@@ -21,6 +21,89 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 })
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.rad-ui.com/#organization",
+      "name": "Rad UI",
+      "url": "https://www.rad-ui.com",
+      "sameAs": [
+        "https://github.com/rad-ui/ui",
+        "https://www.npmjs.com/package/@radui/ui"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.rad-ui.com/#website",
+      "name": "Rad UI",
+      "url": "https://www.rad-ui.com",
+      "publisher": {
+        "@id": "https://www.rad-ui.com/#organization"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://www.rad-ui.com/#software",
+      "name": "Rad UI",
+      "alternateName": "@radui/ui",
+      "description": "Modern React UI Library for Accessible Web Applications",
+      "url": "https://www.rad-ui.com",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Component Library",
+      "operatingSystem": "Web",
+      "programmingLanguage": "TypeScript",
+      "author": {
+        "@id": "https://www.rad-ui.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://www.rad-ui.com/#organization"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "license": "https://github.com/rad-ui/ui/blob/main/LICENSE",
+      "codeRepository": "https://github.com/rad-ui/ui",
+      "softwareRequirements": "React",
+      "featureList": [
+        "Headless, unstyled React components",
+        "WCAG-compliant accessible primitives",
+        "TypeScript-first API",
+        "Composable and tree-shakeable",
+        "Optional theme CSS and design-token scales"
+      ],
+      "keywords": "React, Headless UI, UI Library, TypeScript, Accessibility, Design System, Component Library"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://github.com/rad-ui/ui#source",
+      "name": "Rad UI source code",
+      "codeRepository": "https://github.com/rad-ui/ui",
+      "programmingLanguage": "TypeScript",
+      "runtimePlatform": "React",
+      "license": "https://github.com/rad-ui/ui/blob/main/LICENSE",
+      "targetProduct": {
+        "@id": "https://www.rad-ui.com/#software"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.rad-ui.com/docs/first-steps/introduction#docs",
+      "name": "Rad UI Documentation",
+      "url": "https://www.rad-ui.com/docs/first-steps/introduction",
+      "isPartOf": {
+        "@id": "https://www.rad-ui.com/#website"
+      },
+      "about": {
+        "@id": "https://www.rad-ui.com/#software"
+      }
+    }
+  ]
+}
+
 export const metadata = {
   metadataBase: new URL('https://www.rad-ui.com'),
   title: {
@@ -95,46 +178,7 @@ export default async function RootLayout({ children, ...props }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Rad UI",
-              "description": "Modern React UI Library for Accessible Web Applications",
-              "url": "https://www.rad-ui.com",
-              "applicationCategory": "DeveloperApplication",
-              "operatingSystem": "Web",
-              "programmingLanguage": "TypeScript",
-              "author": {
-                "@type": "Organization",
-                "name": "Rad UI Team"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "license": "https://github.com/rad-ui/ui/blob/main/LICENSE",
-              "codeRepository": "https://github.com/rad-ui/ui",
-              "applicationSubCategory": "Component Library",
-              "featureList": [
-                "Headless, unstyled React components",
-                "WCAG-compliant accessible primitives",
-                "TypeScript-first API",
-                "Composable and tree-shakeable"
-              ],
-              "keywords": "React, Headless UI, UI Library, TypeScript, Accessibility, Design System, Component Library"
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Rad UI",
-              "url": "https://www.rad-ui.com"
-            })
+            __html: JSON.stringify(structuredData)
           }}
         />
       </head>
