@@ -72,6 +72,15 @@ describe('Meter', () => {
         expect(screen.getByTestId('meter-indicator')).toHaveAttribute('data-value', '100');
     });
 
+    test('collapses a reversed range instead of exposing min above max', () => {
+        render(<MeterComp value={50} minValue={100} maxValue={0} />);
+        const meter = screen.getByRole('meter');
+        expect(meter).toHaveAttribute('aria-valuemin', '100');
+        expect(meter).toHaveAttribute('aria-valuemax', '100');
+        expect(meter).toHaveAttribute('aria-valuenow', '100');
+        expect(screen.getByTestId('meter-indicator')).toHaveAttribute('data-max', '100');
+    });
+
     test('exposes threshold data attributes', () => {
         render(<MeterComp value={50} lowValue={25} highValue={75} optimumValue={60} />);
         const meter = screen.getByRole('meter');

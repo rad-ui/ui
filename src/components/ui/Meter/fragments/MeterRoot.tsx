@@ -60,9 +60,12 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
         ref
     ) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
-        const boundedValue = clamp(value, minValue, maxValue);
+        // A reversed range (max below min) collapses to an empty one at minValue,
+        // so assistive tech never sees aria-valuemin above aria-valuemax.
+        const rangeMax = Math.max(minValue, maxValue);
+        const boundedValue = clamp(value, minValue, rangeMax);
         const state = getMeterState(boundedValue, lowValue, highValue, optimumValue);
-        const valueLabel = getValueLabel?.(boundedValue, minValue, maxValue);
+        const valueLabel = getValueLabel?.(boundedValue, minValue, rangeMax);
 
         const { asChild, ...rest } = props;
 
@@ -71,7 +74,7 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
                 value={{
                     value: boundedValue,
                     minValue,
-                    maxValue,
+                    maxValue: rangeMax,
                     lowValue,
                     highValue,
                     optimumValue,
@@ -83,12 +86,12 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
                     role="meter"
                     aria-valuenow={boundedValue}
                     aria-valuemin={minValue}
-                    aria-valuemax={maxValue}
+                    aria-valuemax={rangeMax}
                     aria-valuetext={valueLabel}
                     data-state={state}
                     data-value={boundedValue}
                     data-min={minValue}
-                    data-max={maxValue}
+                    data-max={rangeMax}
                     data-low={lowValue}
                     data-high={highValue}
                     data-optimum={optimumValue}
