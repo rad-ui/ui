@@ -163,6 +163,11 @@
       "require": "./dist/components/Kbd.cjs",
       "types": "./dist/components/Kbd.d.ts"
     },
+    "./Label": {
+      "import": "./dist/components/Label.js",
+      "require": "./dist/components/Label.cjs",
+      "types": "./dist/components/Label.d.ts"
+    },
     "./Link": {
       "import": "./dist/components/Link.js",
       "require": "./dist/components/Link.cjs",
@@ -177,6 +182,11 @@
       "import": "./dist/components/Menubar.js",
       "require": "./dist/components/Menubar.cjs",
       "types": "./dist/components/Menubar.d.ts"
+    },
+    "./Meter": {
+      "import": "./dist/components/Meter.js",
+      "require": "./dist/components/Meter.cjs",
+      "types": "./dist/components/Meter.d.ts"
     },
     "./Minimap": {
       "import": "./dist/components/Minimap.js",

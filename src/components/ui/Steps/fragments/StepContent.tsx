@@ -2,12 +2,13 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useStepsContext } from '../context/StepsContext';
+import Primitive from '~/core/primitives/Primitive';
 
-export type StepContentProps = React.HTMLAttributes<HTMLDivElement>;
+export type StepContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div>;
 
 const StepContent = React.forwardRef<HTMLDivElement, StepContentProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useStepsContext();
-    return <div ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>{children}</div>;
+    return <Primitive.div ref={ref} className={clsx(rootClass && `${rootClass}-content`, className)} {...props}>{children}</Primitive.div>;
 });
 
 StepContent.displayName = 'Steps.Content';

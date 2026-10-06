@@ -20,6 +20,7 @@
 @use "../../components/ui/Heading/heading.baremetal";
 @use "../../components/ui/HoverCard/hover-card.baremetal";
 @use "../../components/ui/Kbd/kbd.baremetal";
+@use "../../components/ui/Label/label.baremetal";
 @use "../../components/ui/Link/link.baremetal";
 @use "../../components/ui/Separator/separator.baremetal";
 @use "../../components/ui/Tabs/tabs.baremetal";
@@ -49,6 +50,7 @@
 @use "../../components/ui/NumberField/number-field.baremetal";
 @use "../../components/ui/ContextMenu/context-menu.baremetal";
 @use "../../components/ui/Menubar/menubar.baremetal";
+@use "../../components/ui/Meter/meter.baremetal";
 @use "../../components/ui/Splitter/splitter.baremetal";
 @use "../../components/ui/Toolbar/toolbar.baremetal";
 @use "../../components/ui/Steps/steps.baremetal";
