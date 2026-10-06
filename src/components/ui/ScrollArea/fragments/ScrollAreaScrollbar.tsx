@@ -1,5 +1,6 @@
 'use client';
 
+import { getHorizontalScrollRange } from '../utils/track';
 import React, { useContext, useRef, useCallback, useEffect, useLayoutEffect, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext, ScrollAreaScrollbarOrientationContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
@@ -162,12 +163,14 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
                 event.preventDefault();
                 viewport.scrollTop = Math.min(max, Math.max(0, viewport.scrollTop + delta));
             } else {
-                const delta = (event.deltaX || event.deltaY) * multiplier;
-                const max = viewport.scrollWidth - viewport.clientWidth;
-                const canScroll = (delta < 0 && viewport.scrollLeft > 0) || (delta > 0 && viewport.scrollLeft < max);
+                const { min, max, rtl } = getHorizontalScrollRange(viewport);
+                // A vertical wheel over the horizontal bar moves toward the inline
+                // end, which is leftward (decreasing scrollLeft) in RTL.
+                const delta = (event.deltaX || (rtl ? -event.deltaY : event.deltaY)) * multiplier;
+                const canScroll = (delta < 0 && viewport.scrollLeft > min) || (delta > 0 && viewport.scrollLeft < max);
                 if (!canScroll) return;
                 event.preventDefault();
-                viewport.scrollLeft = Math.min(max, Math.max(0, viewport.scrollLeft + delta));
+                viewport.scrollLeft = Math.min(max, Math.max(min, viewport.scrollLeft + delta));
             }
         };
 
@@ -193,6 +196,11 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
             data-state={isVisible ? 'visible' : 'hidden'}
             data-corner={hasCorner ? '' : undefined}
             style={{
+                // The horizontal thumb is positioned with a physical `left` offset
+                // (see ScrollAreaRoot), so its track always lays out left-to-right.
+                // In RTL a flex track would start the thumb at the right edge and
+                // the offset would push it off the track.
+                ...(orientation === 'horizontal' ? { direction: 'ltr' as const } : null),
                 ...style,
                 ...(shouldKeepInDOM ? null : { display: 'none' })
             }}

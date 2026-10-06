@@ -82,6 +82,8 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                         {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
                             ...restProps,
                             className,
+                            // Portaled content does not inherit direction from the trigger's tree.
+                            dir: context.dir,
                             'data-state': 'open',
                             onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
                                 (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);

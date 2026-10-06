@@ -10,6 +10,8 @@ const COMPONENT_NAME = 'TabNav';
 export type TabNavRootProps = React.ComponentPropsWithoutRef<'nav'> & {
     loop?: boolean,
     orientation?: 'horizontal' | 'vertical',
+    /** Reading direction. In `rtl`, ArrowLeft moves to the next link. */
+    dir?: 'ltr' | 'rtl',
     customRootClass?: string,
     color?: string;
     value?: string,
@@ -18,7 +20,7 @@ export type TabNavRootProps = React.ComponentPropsWithoutRef<'nav'> & {
 }
 
 const TabNavRoot = forwardRef<HTMLElement, TabNavRootProps>(({
-    className, loop = true, orientation = 'horizontal', children, color, customRootClass = '', defaultValue = '',
+    className, loop = true, orientation = 'horizontal', dir, children, color, customRootClass = '', defaultValue = '',
     onValueChange = () => {},
     value, ...props
 }, ref) => {
@@ -60,13 +62,14 @@ const TabNavRoot = forwardRef<HTMLElement, TabNavRootProps>(({
 
     return (
         <TabNavContext.Provider value={contextValues}>
-            <RovingFocusGroup.Root loop={loop} orientation={orientation}>
+            <RovingFocusGroup.Root loop={loop} orientation={orientation} dir={dir}>
                 <RovingFocusGroup.Group {...({ asChild: true } as any)}>
                     {/* A navigation landmark (label it with aria-label / aria-labelledby). The roving
                         group's role="group" is dropped so the <nav> keeps its landmark role. */}
                     <nav
                         ref={ref}
                         className={clsx(rootClass, className)}
+                        dir={dir}
                         data-orientation={orientation}
                         data-slot="tab-nav-root"
                         role={undefined}

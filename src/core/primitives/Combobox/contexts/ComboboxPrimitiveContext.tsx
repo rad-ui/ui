@@ -43,6 +43,8 @@ export type ComboboxPrimitiveContextType = {
     /** Per-root prefix that keeps option ids unique across instances. */
     idPrefix: string;
     disabled: boolean;
+    /** Reading direction, applied to the (portaled) listbox content. */
+    dir?: string;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

@@ -48,7 +48,8 @@ const ComboboxPrimitiveContent = React.forwardRef<
         activeIndex,
         hasSearch,
         handleSelect,
-        isTypingRef
+        isTypingRef,
+        dir
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
@@ -107,6 +108,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 ? 'none'
                 : style?.pointerEvents
         },
+        dir,
         'data-state': isOpen ? 'open' : 'closed',
         'data-side': placementState.side,
         'data-align': placementState.align,

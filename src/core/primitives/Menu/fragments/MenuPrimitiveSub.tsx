@@ -13,7 +13,7 @@ export type MenuPrimitiveSubProps = {
 const MenuPrimitiveSub = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveSubProps>(({ children, className, open, onOpenChange, defaultOpen = false, ...props }, ref) => {
     const context = useContext(MenuPrimitiveRootContext);
     return (
-        <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} rtl={(context && context.rtl) || false} {...props} isSubmenu>
+        <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} rtl={(context && context.rtl) || false} dir={context?.dir} {...props} isSubmenu>
             {children}
         </MenuComponentRoot>
     );
