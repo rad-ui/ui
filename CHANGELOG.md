@@ -1,5 +1,94 @@
 # @radui/ui
 
+## 1.1.0
+
+### Minor Changes
+
+- d955028: feat(badge): soft label style by default
+
+  Badges get a new look:
+
+  - **Default variant is now `soft`** (was `solid`): a translucent tint of the badge's color with vivid text. Pass `variant="solid"` to keep the previous default.
+  - **Small rounded corners** (`--rad-ui-control-radius-sm`) instead of a pill, and the **mono font** at weight 600, for every variant.
+  - **Without `color`**, the soft badge uses the neutral gray scale.
+
+  Every color scale clears WCAG AA (4.5:1 or better) in both light and dark. A new theme variable, `--rad-ui-badge-soft-text-weight`, tunes the soft text mix per appearance.
+
+- dc6aaa7: feat(build): publish per-component Clarity style sources
+
+  Each component's Clarity styles now ship in the package and can be imported from `@radui/ui/styles/clarity/<Component>/<file>.clarity.scss`. For example, `@radui/ui/styles/clarity/Button/button.clarity.scss`.
+
+  - The folder structure matches the source, so relative `@use` imports between components still resolve when you compile a single file with Sass.
+  - `@radui/ui/themes/default.css` is unchanged and remains the recommended way to load the full Clarity theme.
+  - The docs site uses these files to show the exact styles that ship in each released version.
+
+- 0bcb1ef: feat(theme): default `Theme` appearance to dark
+
+  `<Theme>` now renders `data-rad-ui-theme="dark"` when no `appearance` is passed. Previously it defaulted to `'system'` and followed the OS color scheme.
+
+  To keep the old behavior, pass it explicitly:
+
+  ```tsx
+  <Theme appearance="system">...</Theme>
+  ```
+
+  `appearance="light"` and `appearance="dark"` are unchanged.
+
+- 944003e: feat(meter): add headless Meter primitive
+- 3aabdde: feat(label): add Label component
+
+  `@radui/ui/Label` renders a native `<label>` that names a form control (`htmlFor`, or by wrapping it).
+
+  - Matches Radix Label: double-clicking the label doesn't select its text, while controls nested inside it still get their own clicks.
+  - Supports `asChild`, `customRootClass` and ref forwarding.
+  - Clarity and baremetal styles included.
+
+- 8d5c556: feat: right-to-left support for menus, Select, Combobox, NavigationMenu, TabNav and ScrollArea
+
+  - **DropdownMenu, ContextMenu:** new `dir` prop. In RTL, ArrowLeft/ArrowRight open and close submenus, submenus open on the left, and the portaled content (and submenus) carries `dir`. `rtl` is deprecated in favor of `dir="rtl"`.
+  - **NavigationMenu, TabNav:** new `dir` prop; arrow keys follow reading direction.
+  - **Select, Combobox:** `dir` on the root now also applies to the portaled listbox.
+  - **ScrollArea:** horizontal scroll math and scrollbar placement use the computed direction (logical CSS insets, RTL scroll range).
+
+### Patch Changes
+
+- 9ff88bf: fix(a11y): Command separators and RadioGroup arrow keys
+
+  - **Command:** `Command.Separator` is now hidden from assistive technology (`aria-hidden`, no `role="separator"`). A separator isn't an allowed child of the `listbox` it renders inside, so axe reported a critical `aria-required-children` violation.
+  - **RadioGroup / RadioCards:** all four arrow keys move between options, whatever the `orientation`, as the WAI-ARIA radio pattern specifies. Radix and Base UI do the same. `orientation` still sets `aria-orientation`.
+
+- 76087cc: standardize asChild support across remaining compound card, steps, avatar group, scroll area, and table parts
+- 0221f95: standardize overlay portal `container` and `forceMount` APIs across menu, combobox, and hover card primitives
+- 0af1268: fix: Drawer focus management and stable Toast manager functions
+
+  - **Drawer:** focus now moves into the drawer when it opens, and Tab stays trapped inside. The focus manager used to engage as soon as `data-state` flipped to `open`, but the themes keep the popup `visibility: hidden` until the entrance transition starts. Initial focus found nothing focusable and silently failed, so keyboard and screen-reader users were left on the page behind the modal. It now waits until the popup is actually visible (capped at about 0.5s).
+  - **Toast:** the functions from `useToastManager()` (`add`, `close`, `update`, `promise`, `dismiss`, `dismissAll` and the variant helpers) are stable for a given manager, as in Base UI. They used to be recreated on every render. An effect keyed on one of them, such as an unmount cleanup calling `dismissAll`, then re-ran on every render and dismissed each toast as soon as it was added.
+
+- 6ae9df7: fix(tooltip): keep the Clarity tooltip dark in dark mode
+
+  The Clarity tooltip used `--rad-ui-surface-inverse`, which flips to near-white
+  under `data-rad-ui-theme="dark"`, so tooltips rendered as a light box on dark
+  pages. Tooltip content and arrow now read new `--rad-ui-tooltip-background`,
+  `--rad-ui-tooltip-text`, and `--rad-ui-tooltip-border` aliases: inverse in light
+  mode (unchanged), and a raised dark surface with a soft border in dark mode.
+  Override those aliases on a Theme container to customise tooltip colors.
+
+- 5a38eef: docs(guides): add a troubleshooting guide for SSR, portals, and focus
+
+  New `docs/app/docs/guides/troubleshooting` page covering the integration
+  failures that are otherwise spread across guides, organised as
+  symptom / likely causes / what to try:
+
+  - hydration mismatches on overlay and theme components
+  - portal containers rendering in the wrong place or missing theme tokens
+  - focus not restoring after a dialog, popover, or menu closes
+  - focus traps that are too narrow or too wide
+  - overlays flashing or never opening on first paint
+  - scroll lock leaking after an overlay unmounts
+
+  Registered in `docsNavigationSections` and cross-linked from the existing
+  SSR & No-JS Fallback guide.
+
 ## 1.0.1
 
 ### Patch Changes
