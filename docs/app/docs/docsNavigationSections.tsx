@@ -169,6 +169,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/design-system-integration"
             },
             {
+                title:"Headless React Components",
+                path:"/docs/guides/headless-react-components"
+            },
+            {
                 title:"Migration Guides",
                 path:"/docs/guides/migration-guides"
             },

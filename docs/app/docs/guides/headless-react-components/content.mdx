@@ -1,0 +1,89 @@
+# Headless React components
+
+Headless React components give you behavior, accessibility, and state without forcing a visual design system on your product. They are a good fit when your team wants custom UI but does not want to rebuild keyboard interaction, focus management, ARIA semantics, or controlled and uncontrolled state patterns from scratch.
+
+Rad UI sits in that space: it provides accessible React components with TypeScript types, composition APIs, stable styling hooks, and optional theme styles.
+
+## When headless components help
+
+Use headless components when:
+
+- your product has an existing brand or design system
+- you need accessible interactions but want to own the CSS
+- you want predictable React APIs across forms, overlays, menus, navigation, and feedback components
+- you need to compose primitives into app-specific UI without fighting a preset visual language
+
+For a fully custom design system, start with per-component imports and style the exposed parts directly:
+
+```tsx
+import Dialog from '@radui/ui/Dialog'
+import Button from '@radui/ui/Button'
+
+export function ConfirmAction() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <Button>Delete project</Button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Delete project?</Dialog.Title>
+          <Dialog.Description>
+            This action cannot be undone.
+          </Dialog.Description>
+          <Dialog.Close asChild>
+            <Button>Cancel</Button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+## When a styled UI kit is better
+
+A styled kit can be faster when your app can adopt its visual language as-is. If the design system is not a product requirement, a fully styled library may reduce decisions and ship screens sooner.
+
+Choose Rad UI when the component behavior matters but the final look belongs to your team.
+
+## Rad UI's approach
+
+Rad UI components are designed around:
+
+- **Behavior first:** components own interaction and accessibility contracts.
+- **Design-system control:** consumers own layout, recipes, and brand expression.
+- **Per-component imports:** import only the components you use.
+- **Optional theme CSS:** use the default theme for a ready baseline, or stay headless.
+- **Stable styling hooks:** use documented parts, CSS variables, and data attributes.
+
+## Styling options
+
+You can use Rad UI in three common ways:
+
+- **Headless:** import components and bring your own CSS.
+- **Themed:** import `@radui/ui/themes/default.css` and wrap UI in `Theme`.
+- **Design-system integrated:** map Rad UI parts and state attributes to your tokens and component recipes.
+
+```tsx
+import '@radui/ui/themes/default.css'
+import Theme from '@radui/ui/Theme'
+import Button from '@radui/ui/Button'
+
+export function ThemedExample() {
+  return (
+    <Theme classNamespace="rad-ui" accentColor="blue">
+      <Button>Save changes</Button>
+    </Theme>
+  )
+}
+```
+
+## Good next pages
+
+- [Installation](/docs/first-steps/installation)
+- [Usage](/docs/first-steps/usage)
+- [Styling and customization](/docs/guides/styling-and-customization)
+- [Design system integration](/docs/guides/design-system-integration)
+- [Accessibility](/docs/guides/accessibility)
