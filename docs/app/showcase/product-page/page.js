@@ -1,9 +1,7 @@
+import showcaseMetadata from "../helpers/showcaseMetadata"
 import ProductPageDemo from "../helpers/ProductPageDemo"
 
-export const metadata = {
-    title: "Showcase Product Page",
-    description: "A product detail page built with Rad UI Badge, Button, Heading, and Text.",
-}
+export const metadata = showcaseMetadata("/showcase/product-page")
 
 const ProductPage = () => {
     return <ProductPageDemo />

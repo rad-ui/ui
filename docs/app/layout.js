@@ -1,5 +1,6 @@
 import { Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 import Main from "../components/Main/Main"
+import { siteOpenGraph, siteTwitter } from "@/utils/seo/siteSocial"
 
 import { Analytics } from '@vercel/analytics/react';
 import GoogleAnalytics from '../components/Analytics/GoogleAnalytics'
@@ -61,30 +62,8 @@ export const metadata = {
   alternates: {
     canonical: 'https://www.rad-ui.com',
   },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://www.rad-ui.com',
-    siteName: 'Rad UI',
-    title: 'Rad UI | Modern React UI Library for Accessible Web Applications',
-    description: 'Rad UI is a modern React UI Library for accessible and fast web applications. Built with TypeScript, offering headless and unstyled components for maximum flexibility.',
-    images: [
-      {
-        url: 'https://www.rad-ui.com/og?title=Rad%20UI&description=Modern%20React%20UI%20Library%20for%20Accessible%20Web%20Applications',
-        width: 1200,
-        height: 630,
-        alt: 'Rad UI - Modern React UI Library',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Rad UI | Modern React UI Library for Accessible Web Applications',
-    description: 'Rad UI is a modern React UI Library for accessible and fast web applications. Built with TypeScript, offering headless and unstyled components for maximum flexibility.',
-    images: ['https://www.rad-ui.com/og?title=Rad%20UI&description=Modern%20React%20UI%20Library%20for%20Accessible%20Web%20Applications'],
-    creator: '@rad_ui',
-    site: '@rad_ui',
-  },
+  openGraph: siteOpenGraph,
+  twitter: siteTwitter,
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
     yandex: process.env.YANDEX_VERIFICATION,
