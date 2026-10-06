@@ -121,6 +121,7 @@ raw scale tokens:
 | `--rad-ui-tooltip-background` | `surface-inverse` (dark: `surface-muted`) | Tooltip surface and arrow |
 | `--rad-ui-tooltip-text` | `text-inverse` (dark: `text-primary`) | Tooltip text |
 | `--rad-ui-tooltip-border` | `surface-inverse` (dark: `border-soft`) | Tooltip edge |
+| `--rad-ui-badge-soft-text-weight` | `70%` (dark: `100%`) | Share of the `950` step in soft badge text |
 
 Tooltips stay a dark chip in both appearances. The inverse surface flips to
 near-white in dark mode, so the tooltip aliases are re-declared under
@@ -514,8 +515,10 @@ Public attributes:
 
 Variants:
 
+- `soft` (default): translucent tint of the tone (`800` at 14%) with vivid text
+  (`950` in dark; light mixes in `1000` via `--rad-ui-badge-soft-text-weight`,
+  70%). Clears WCAG AA on every scale in both appearances.
 - `solid`: solid background with inverse foreground.
-- `soft`: subtle component background with readable foreground.
 - `surface`: panel or muted surface with subtle border.
 - `outline`: transparent or panel background with default border.
 - `ghost`: transparent background, readable foreground.
@@ -529,7 +532,12 @@ Sizing:
 
 Radius:
 
-- Badges default to pill radius unless component API says square/rounded.
+- Badges use `--rad-ui-control-radius-sm` (a small rounded rectangle, not a pill).
+
+Typography:
+
+- Badges use `--rad-ui-font-mono` at weight 600: they read as labels, not prose.
+- Without `color`, the tone is the neutral gray scale; with `color`, the accent scale.
 
 Elevation:
 

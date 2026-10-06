@@ -10,7 +10,7 @@ const BadgeVariants = () => {
   type BadgeVariant = typeof badgeVariants[number];
   const badgestyleDescription: Record<BadgeVariant, string> = {
     solid: 'Solid badge uses the strongest fill for high-emphasis status.',
-    soft: 'Soft badge uses a muted fill with no visible border.',
+    soft: 'Soft (default) badge uses a translucent tint of its color with vivid text.',
     surface: 'Surface badge sits on a panel with a subtle stroke and shadow.',
     outline: 'Outline badge keeps the fill transparent and emphasizes the border.',
     ghost: 'Ghost badge removes both fill and border for the lightest treatment.',

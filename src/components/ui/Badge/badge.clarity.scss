@@ -7,6 +7,12 @@
   --rad-ui-badge-font-size-sm: calc(var(--rad-ui-font-size-1) - (var(--rad-ui-spacing-1) / 4));
   --rad-ui-badge-font-size-lg: calc(var(--rad-ui-font-size-2) - (var(--rad-ui-spacing-1) / 4));
 
+  // Tone scale the soft variant is built from: neutral gray by default,
+  // the chosen accent when `color` is set.
+  --rad-ui-badge-tone-800: var(--rad-ui-color-gray-800);
+  --rad-ui-badge-tone-950: var(--rad-ui-color-gray-950);
+  --rad-ui-badge-tone-1000: var(--rad-ui-color-gray-1000);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -14,16 +20,20 @@
   min-height: var(--rad-ui-size-5);
   padding-inline: var(--rad-ui-badge-padding-x-md);
   border: var(--rad-ui-border-width-default) solid transparent;
-  border-radius: var(--rad-ui-control-radius-pill);
+  border-radius: var(--rad-ui-control-radius-sm);
   box-sizing: border-box;
   box-shadow: var(--rad-ui-shadow-none);
-  font-family: var(--rad-ui-font-sans);
+  font-family: var(--rad-ui-font-mono);
   font-size: var(--rad-ui-font-size-1);
   font-weight: 600;
   line-height: var(--rad-ui-line-height-1);
   white-space: nowrap;
-  background-color: var(--rad-ui-text-primary);
-  color: var(--rad-ui-surface-panel);
+
+  &[data-color] {
+    --rad-ui-badge-tone-800: var(--rad-ui-color-accent-800);
+    --rad-ui-badge-tone-950: var(--rad-ui-color-accent-950);
+    --rad-ui-badge-tone-1000: var(--rad-ui-color-accent-1000);
+  }
 
   &[data-variant="solid"] {
     background-color: var(--rad-ui-text-primary);
@@ -38,15 +48,14 @@
     }
   }
 
+  // Translucent tint of the tone with vivid text. The tint composites over
+  // whatever surface the badge sits on. Text is 950 in dark; light mixes in
+  // 1000 (--rad-ui-badge-soft-text-weight) because 950 alone falls just under
+  // WCAG AA on some scales. Every scale clears 4.5:1 in both appearances.
   &[data-variant="soft"] {
-    background-color: var(--rad-ui-surface-subtle);
+    background-color: color-mix(in srgb, var(--rad-ui-badge-tone-800) 14%, transparent);
     border-color: transparent;
-    color: var(--rad-ui-text-primary);
-
-    &[data-color] {
-      background-color: var(--rad-ui-color-accent-200);
-      color: var(--rad-ui-color-accent-1000);
-    }
+    color: color-mix(in srgb, var(--rad-ui-badge-tone-950) var(--rad-ui-badge-soft-text-weight, 70%), var(--rad-ui-badge-tone-1000));
   }
 
   &[data-variant="surface"] {
