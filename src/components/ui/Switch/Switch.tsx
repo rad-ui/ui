@@ -34,4 +34,11 @@ Switch.Thumb = SwitchThumb;
 
 export type { SwitchRootProps } from './fragments/SwitchRoot';
 export type { SwitchThumbProps } from './fragments/SwitchThumb';
+// Named part exports let React Server Components use `import * as Switch from '@radui/ui/Switch'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    SwitchRoot as Root,
+    SwitchThumb as Thumb
+};
+
 export default Switch;

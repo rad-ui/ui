@@ -2,19 +2,19 @@
 
 import Strong from "@radui/ui/Strong"
 import Text from "@radui/ui/Text"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const StrongPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="Strong"
             docsLink="/docs/components/strong"
             description="Semantic emphasis for meaningfully important words inside regular copy."
         >
-            <Text className="text-gray-900">
+            <Text className="text-gray-950">
                 The important part is not that the playground exists, but that it remains <Strong>accurate</Strong> as the component APIs evolve.
             </Text>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

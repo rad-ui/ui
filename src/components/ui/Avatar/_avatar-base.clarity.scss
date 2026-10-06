@@ -14,6 +14,14 @@
     width: 100%;
     object-fit: cover;
     border-radius: inherit;
+
+    // Keep a loading/undecoded image out of the layout so the fallback is the only
+    // visible content until the image is ready (it still loads while hidden).
+    &[data-state="loading"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
   }
   
   // Default styles (no color prop) — semantic tokens so dark theme keeps contrast vs canvas
@@ -33,7 +41,8 @@
   }
   
   // Size variants - must come before more specific selectors
-  &[data-size="sm"] {
+  &[data-size="sm"],
+  &[data-size="small"] {
     height: var(--rad-ui-size-8); // h-8
     width: var(--rad-ui-size-8); // w-8
     
@@ -42,7 +51,8 @@
     }
   }
   
-  &[data-size="lg"] {
+  &[data-size="lg"],
+  &[data-size="large"] {
     height: var(--rad-ui-size-12); // h-12
     width: var(--rad-ui-size-12); // w-12
     
@@ -59,19 +69,14 @@
     }
   }
 
-  // Match solid accent surfaces (e.g. checkbox checked): high-contrast label on accent-800.
-  // Use a semantic inverse foreground so the initials stay readable across themes/scales.
+  // Solid accent fallback: light initials on the 950 step (as Button/Badge solid).
+  // The 800 step cannot carry light or dark text at WCAG AA for most scales
+  // (gray 3.2:1 light / 3.6:1 dark, sky 1.5:1), so it is not used for text surfaces.
   &[data-color]:not([data-rad-ui-has-image]) {
     .rad-ui-avatar-fallback {
-      color: var(--rad-ui-text-inverse);
-      background-color: var(--rad-ui-color-accent-800);
-      box-shadow: inset 0 0 0 1px var(--rad-ui-color-accent-600);
-    }
-  }
-
-  &[data-color="gray"]:not([data-rad-ui-has-image]) {
-    .rad-ui-avatar-fallback {
-      color: var(--rad-ui-text-primary);
+      color: var(--rad-ui-color-accent-50);
+      background-color: var(--rad-ui-color-accent-950);
+      box-shadow: var(--rad-ui-shadow-none);
     }
   }
   

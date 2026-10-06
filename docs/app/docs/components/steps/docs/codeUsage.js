@@ -2,7 +2,7 @@ import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import root_api from './component_api/root.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/steps/docs/example_1.tsx');
-const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/steps.scss');
+const scss_SourceCode = await getSourceCodeFromPath('src/components/ui/Steps/steps.clarity.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/steps/docs/anatomy.tsx');
 
 export const code = {

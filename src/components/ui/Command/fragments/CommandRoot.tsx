@@ -6,8 +6,46 @@ import Primitive from '~/core/primitives/Primitive';
 import useControllableState from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { CommandContext, CommandFilter, CommandItemRecord, CommandSeparatorRecord } from '../context/CommandContext';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 const COMPONENT_NAME = 'Command';
+
+const visuallyHiddenStyle: React.CSSProperties = {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: 'hidden',
+    clip: 'rect(0, 0, 0, 0)',
+    whiteSpace: 'nowrap',
+    border: 0
+};
+
+const isScrollable = (element: HTMLElement) => {
+    const { overflowY } = getComputedStyle(element);
+    return (overflowY === 'auto' || overflowY === 'scroll') && element.scrollHeight > element.clientHeight;
+};
+
+// Keeps the active item visible by scrolling only a scroll container *inside* the command.
+// `scrollIntoView` would also scroll every ancestor (including the page), so a command
+// rendered anywhere on a page would yank the page to itself on mount and on every move.
+const scrollItemIntoView = (item: HTMLElement, boundary: HTMLElement | null) => {
+    if (!boundary) return;
+    let container = item.parentElement;
+    while (container && container !== boundary && !isScrollable(container)) {
+        container = container.parentElement;
+    }
+    if (!container || (container === boundary && !isScrollable(boundary))) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    if (itemRect.top < containerRect.top) {
+        container.scrollTop -= containerRect.top - itemRect.top;
+    } else if (itemRect.bottom > containerRect.bottom) {
+        container.scrollTop += itemRect.bottom - containerRect.bottom;
+    }
+};
 
 const defaultFilter: CommandFilter = (value, search, keywords) => {
     const query = search.trim().toLowerCase();
@@ -52,6 +90,10 @@ const CommandRoot = React.forwardRef<CommandRootElement, CommandRootProps>(({
     const [separators, setSeparators] = React.useState<CommandSeparatorRecord[]>([]);
     const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
     const orderRef = React.useRef(0);
+    const rootRef = React.useRef<HTMLDivElement | null>(null);
+    // Text of Command.Empty, announced from a live region that lives outside the listbox
+    // (a role="status" element is not an allowed child of role="listbox").
+    const [emptyAnnouncement, setEmptyAnnouncement] = React.useState('');
     const listId = React.useId();
     const inputId = React.useId();
 
@@ -155,14 +197,11 @@ const CommandRoot = React.forwardRef<CommandRootElement, CommandRootProps>(({
         const activeItem = items.find((item) => item.id === activeItemId);
         const element = activeItem?.ref.current;
 
-        if (!element || typeof element.scrollIntoView !== 'function') {
+        if (!element) {
             return;
         }
 
-        element.scrollIntoView({
-            block: 'nearest',
-            inline: 'nearest'
-        });
+        scrollItemIntoView(element, rootRef.current);
     }, [activeItemId, items]);
 
     const moveActive = React.useCallback((direction: 1 | -1) => {
@@ -264,7 +303,8 @@ const CommandRoot = React.forwardRef<CommandRootElement, CommandRootProps>(({
         getItemState,
         visibleItemCount: itemMetadata.filter((item) => item.visible).length,
         getVisibleGroupItemCount,
-        getSeparatorVisible
+        getSeparatorVisible,
+        setEmptyAnnouncement
     }), [
         activeItemId,
         getItemState,
@@ -291,13 +331,22 @@ const CommandRoot = React.forwardRef<CommandRootElement, CommandRootProps>(({
     return (
         <CommandContext.Provider value={contextValue}>
             <Primitive.div
-                ref={forwardedRef}
+                ref={mergeRefs(forwardedRef, rootRef)}
                 className={clsx(rootClass, className)}
                 data-slot="command-root"
                 data-value={normalizedSearch || undefined}
                 {...props}
             >
                 {children}
+                <span
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    data-slot="command-announcer"
+                    style={visuallyHiddenStyle}
+                >
+                    {emptyAnnouncement}
+                </span>
             </Primitive.div>
         </CommandContext.Provider>
     );

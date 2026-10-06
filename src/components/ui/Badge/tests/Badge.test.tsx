@@ -45,10 +45,20 @@ describe('Badge', () => {
         expect(badgeElement).toHaveAttribute('data-size', 'large');
     });
 
-    test('uses solid and medium defaults', () => {
+    test('uses soft and medium defaults', () => {
         render(<Badge>Badge</Badge>);
         const badgeElement = screen.getByText('Badge');
-        expect(badgeElement).toHaveAttribute('data-variant', 'solid');
+        expect(badgeElement).toHaveAttribute('data-variant', 'soft');
         expect(badgeElement).toHaveAttribute('data-size', 'medium');
+    });
+
+    test('renders phrasing content so it can sit inside paragraphs and buttons', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        render(<p>Status <Badge>New</Badge></p>);
+        const badge = screen.getByText('New');
+        expect(badge.tagName).toBe('SPAN');
+        // React reports invalid DOM nesting (e.g. <div> in <p>) through console.error.
+        expect(errorSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
     });
 });

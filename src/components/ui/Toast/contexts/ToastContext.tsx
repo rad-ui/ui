@@ -37,6 +37,20 @@ export interface ToastData {
     actionProps?: React.ButtonHTMLAttributes<HTMLButtonElement> & { children?: React.ReactNode };
     /** Base UI — custom payload for render logic. */
     data?: unknown;
+    /** Headless custom render function (Sonner-like). Receives render props. */
+    render?: (props: {
+        id: string;
+        toast: ToastData;
+        onDismiss: () => void;
+    }) => React.ReactNode;
+    /** Optional icon node. */
+    icon?: React.ReactNode;
+    /** Optional className for the toast item/content (headless). */
+    className?: string;
+    /** Optional inline styles. */
+    style?: React.CSSProperties;
+    /** Unstyled mode hint (headless - styling left to consumer). */
+    unstyled?: boolean;
 }
 
 /** Options for `toast()` / `manager.add()` — optional stable `id` for upsert. */
@@ -82,6 +96,21 @@ export interface ToastProviderContextType {
     removeToast: (id: string) => void;
     toasts: ToastData[];
     visibleToasts: ToastData[];
+    viewportClassName?: string;
+    viewportStyle?: React.CSSProperties;
+    containerAriaLabel: string;
+    offset?: number | string;
+    mobileOffset?: number | string | { top?: number | string; bottom?: number | string; left?: number | string; right?: number | string };
+    theme?: 'light' | 'dark' | 'system';
+    dir?: 'ltr' | 'rtl' | 'auto';
+    richColors: boolean;
+    invert: boolean;
+    pauseWhenPageIsHidden: boolean;
+    closeButton: boolean;
+    icons?: Record<string, React.ReactNode>;
+    loadingIcon?: React.ReactNode;
+    swipeDirections?: string[];
+    dragThreshold?: number;
 }
 
 export const ToastProviderContext = createContext<ToastProviderContextType>({
@@ -90,7 +119,7 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     expand: false,
     gap: 14,
     maxToasts: 3,
-    defaultToastTimeout: 5000,
+    defaultToastTimeout: 4000,
     toastManager: undefined,
     isHovered: false,
     setIsHovered: () => {},
@@ -100,6 +129,21 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     removeToast: () => {},
     toasts: [],
     visibleToasts: [],
+    viewportClassName: undefined,
+    viewportStyle: undefined,
+    containerAriaLabel: 'Notifications',
+    offset: undefined,
+    mobileOffset: undefined,
+    theme: undefined,
+    dir: undefined,
+    richColors: false,
+    invert: false,
+    pauseWhenPageIsHidden: true,
+    closeButton: false,
+    icons: undefined,
+    loadingIcon: undefined,
+    swipeDirections: undefined,
+    dragThreshold: undefined,
 });
 
 // ── Per-toast context — stacking vars for one toast ──────────────────────────

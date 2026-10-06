@@ -1,8 +1,14 @@
 import React, { createRef } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HoverCard from '../HoverCard';
 import Theme from '~/components/ui/Theme/Theme';
+import {
+    expectNoUnexpectedHydrationWarnings,
+    flush,
+    hydrateRoot,
+    renderToString
+} from '../../tests/ssrHydration';
 
 const mockMatchMedia = () => {
     if ('matchMedia' in window && typeof window.matchMedia === 'function') {
@@ -43,6 +49,25 @@ describe('HoverCard', () => {
         expect(triggerRef.current).toBeInstanceOf(HTMLSpanElement);
         expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
         expect(arrowRef.current).toBeInstanceOf(SVGSVGElement);
+    });
+
+    test('exposes stable anatomy data slots', () => {
+        const arrowRef = createRef<SVGSVGElement>();
+
+        render(
+            <HoverCard.Root open onOpenChange={() => {}} data-testid="hover-card-root">
+                <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                <HoverCard.Content>
+                    Content
+                    <HoverCard.Arrow ref={arrowRef} />
+                </HoverCard.Content>
+            </HoverCard.Root>
+        );
+
+        expect(screen.getByTestId('hover-card-root')).toHaveAttribute('data-slot', 'hover-card-root');
+        expect(screen.getByText('Trigger')).toHaveAttribute('data-slot', 'hover-card-trigger');
+        expect(screen.getByRole('dialog')).toHaveAttribute('data-slot', 'hover-card-content');
+        expect(arrowRef.current).toHaveAttribute('data-slot', 'hover-card-arrow');
     });
 
     test('does not hijack child refs', () => {
@@ -152,6 +177,40 @@ describe('HoverCard', () => {
 
         expect(warn).not.toHaveBeenCalled();
         expect(unexpectedErrors).toHaveLength(0);
+        warn.mockRestore();
+        error.mockRestore();
+    });
+
+    test('hydrates SSR markup without warnings when open', async() => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        const html = renderToString(
+            <HoverCard.Root open onOpenChange={() => {}}>
+                <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                <HoverCard.Content>Content</HoverCard.Content>
+            </HoverCard.Root>
+        );
+
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+        let root!: ReturnType<typeof hydrateRoot>;
+        await act(async() => {
+            root = hydrateRoot(container, (
+                <HoverCard.Root open onOpenChange={() => {}}>
+                    <HoverCard.Trigger>Trigger</HoverCard.Trigger>
+                    <HoverCard.Content>Content</HoverCard.Content>
+                </HoverCard.Root>
+            ));
+            await flush();
+        });
+
+        expectNoUnexpectedHydrationWarnings(warn, error);
+
+        await act(() => root.unmount());
+        container.remove();
         warn.mockRestore();
         error.mockRestore();
     });

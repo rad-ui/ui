@@ -2,7 +2,7 @@ import ScrollArea from "@radui/ui/ScrollArea"
 
 export default () => {
     return (
-        <ScrollArea.Root>
+        <ScrollArea.Root customRootClass="rad-ui">
             <ScrollArea.Viewport />
             <ScrollArea.Scrollbar orientation="vertical">
                 <ScrollArea.Thumb />

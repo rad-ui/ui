@@ -2,12 +2,14 @@
 import React, { useContext } from 'react';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
+import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
 import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     position?: string;
+    /** Keep the content mounted while closed (e.g. for exit animations). Also inherited from `Portal forceMount`. */
     forceMount?: boolean;
     [key: string]: any;
 }
@@ -34,7 +36,7 @@ function getPlacementState(placement: string) {
 const ComboboxPrimitiveContent = React.forwardRef<
     React.ElementRef<'div'>,
     ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
->(({ children, className, forceMount = false, style, ...props }, forwardedRef) => {
+>(({ children, className, style, onKeyDownCapture, forceMount = false, ...props }, forwardedRef) => {
     const { forceMount: portalForceMount } = useContext(ComboboxPrimitivePortalContext);
     const {
         isOpen,
@@ -46,62 +48,127 @@ const ComboboxPrimitiveContent = React.forwardRef<
         placedPlacement,
         getFloatingProps,
         floatingStyles,
-        isPositioned
+        isPositioned,
+        activeIndex,
+        hasSearch,
+        handleSelect,
+        isTypingRef,
+        dir
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
     const placementState = getPlacementState(placedPlacement);
-    const shouldRender = isOpen || forceMount || portalForceMount;
+    const isHiddenUntilPositioned = !isPositioned && shouldHideUntilPositioned;
 
-    if (!shouldRender) {
-        return null;
-    }
+    // Pointer-opening a list with a selection highlights that option but leaves focus on the list
+    // container. Floating UI then treats Arrow keys as "nothing focused" and keeps resetting to the
+    // same index, so move real focus onto the highlighted option before navigation runs (capture
+    // phase, ahead of Floating UI's handler), and let Enter/Space select it directly.
+    const handleContainerKeyDownCapture = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        onKeyDownCapture?.(event);
+        if (event.defaultPrevented || hasSearch || event.target !== event.currentTarget || activeIndex === null) return;
+        const activeElement = elementsRef.current[activeIndex];
+        if (!activeElement) return;
 
-    const content = (
+        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+            activeElement.focus({ preventScroll: true });
+        } else if (event.key === 'Enter' || (event.key === ' ' && !isTypingRef.current)) {
+            event.preventDefault();
+            handleSelect(activeIndex);
+        }
+    };
+
+    // APG combobox: the search input must not live inside role="listbox" (a listbox may only own
+    // options/groups). When a search part is present the floating element becomes a plain popup and
+    // the remaining children are wrapped in the listbox that the input controls. Leading search parts
+    // render before the listbox, any later ones after it.
+    const childArray = React.Children.toArray(children);
+    const isSearchPart = (child: React.ReactNode) => React.isValidElement(child)
+        && Boolean((child.type as { [COMBOBOX_SEARCH_PART]?: boolean })?.[COMBOBOX_SEARCH_PART]);
+    const hasSearchPart = childArray.some(isSearchPart);
+    const firstListIndex = childArray.findIndex((child) => !isSearchPart(child));
+    const leadingSearch = hasSearchPart
+        ? childArray.filter((child, index) => isSearchPart(child) && (firstListIndex === -1 || index < firstListIndex))
+        : [];
+    const trailingSearch = hasSearchPart
+        ? childArray.filter((child, index) => isSearchPart(child) && firstListIndex !== -1 && index > firstListIndex)
+        : [];
+    const listChildren = hasSearchPart ? childArray.filter((child) => !isSearchPart(child)) : [];
+
+    const floatingProps = (getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+        ...props,
+        onKeyDownCapture: handleContainerKeyDownCapture,
+        className,
+        style: {
+            ...floatingStyles,
+            ...style,
+            '--rad-ui-floating-transform-origin': placementState.transformOrigin,
+            visibility: isHiddenUntilPositioned
+                ? 'hidden'
+                : middlewareData.hide?.referenceHidden
+                    ? 'hidden'
+                    : (style?.visibility || floatingStyles.visibility),
+            pointerEvents: middlewareData.hide?.referenceHidden
+                ? 'none'
+                : style?.pointerEvents
+        },
+        dir,
+        'data-state': isOpen ? 'open' : 'closed',
+        'data-side': placementState.side,
+        'data-align': placementState.align,
+        'data-positioned': isPositioned ? '' : undefined
+    });
+    const {
+        id: listboxId,
+        role: listboxRole,
+        'aria-orientation': listboxOrientation,
+        ...popupProps
+    } = floatingProps as Record<string, any>;
+
+    if (!isOpen && !forceMount && !portalForceMount) return null;
+
+    // Force-mounted while closed: keep the DOM (for exit animations) but hide
+    // it from users and assistive tech, outside the focus manager.
+    const shownProps = isOpen
+        ? popupProps
+        : { ...popupProps, style: { ...popupProps.style, visibility: 'hidden', pointerEvents: 'none' } };
+
+    const popup = hasSearchPart ? (
+        <div ref={mergedRef} {...shownProps} id={`${listboxId}-popup`}>
+            {leadingSearch}
+            <div
+                id={listboxId}
+                role={listboxRole}
+                aria-orientation={listboxOrientation}
+                data-slot="combobox-listbox"
+            >
+                {listChildren}
+            </div>
+            {trailingSearch}
+        </div>
+    ) : (
         <div
             ref={mergedRef}
-            style={{
-                ...floatingStyles,
-                ...style,
-                '--rad-ui-floating-transform-origin': placementState.transformOrigin,
-                visibility: !isOpen
-                    ? 'hidden'
-                    : !isPositioned && shouldHideUntilPositioned
-                        ? 'hidden'
-                        : middlewareData.hide?.referenceHidden
-                            ? 'hidden'
-                            : (style?.visibility || floatingStyles.visibility),
-                pointerEvents: !isOpen
-                    ? 'none'
-                    : middlewareData.hide?.referenceHidden
-                        ? 'none'
-                        : style?.pointerEvents
-            }}
-            className={className}
-            data-state={isOpen ? 'open' : 'closed'}
-            data-side={placementState.side}
-            data-align={placementState.align}
-            data-positioned={isPositioned ? '' : undefined}
-            aria-hidden={!isOpen ? 'true' : undefined}
-            {...getFloatingProps()}
-            {...props}
+            {...shownProps}
+            id={listboxId}
+            role={listboxRole}
+            aria-orientation={listboxOrientation}
         >
             {children}
         </div>
     );
 
     if (!isOpen) {
-        return (
-            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-                {content}
-            </Floater.FloatingList>
-        );
+        return <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>{popup}</Floater.FloatingList>;
     }
 
     return (
-        <Floater.FocusManager context={floatingContext}>
-            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
-                {content}
+        // Tabbable detection ignores `visibility: hidden` content, so wait until the list is
+        // positioned (and visible) before moving focus into it; otherwise focus lands on the
+        // container instead of the search field or the selected option.
+        <Floater.FocusManager context={floatingContext} disabled={isHiddenUntilPositioned}>
+            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+                {popup}
             </Floater.FloatingList>
         </Floater.FocusManager>
     );

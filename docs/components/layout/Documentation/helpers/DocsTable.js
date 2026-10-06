@@ -4,76 +4,119 @@ import { BookMarkLink } from '@/components/layout/Documentation/utils';
 import Heading from '@radui/ui/Heading';
 import Text from '@radui/ui/Text';
 import Tooltip from '@radui/ui/Tooltip';
-import Button from '@radui/ui/Button';
 import { Info } from 'lucide-react';
-import { docsSectionBlockClassName } from '../shared';
+import { docsSectionBlockClassName, docsSectionHeadingClassName, docsSurfaceClassName } from '../shared';
+
+const InlineCode = ({ children, tone = 'neutral' }) => {
+    const toneClassName = tone === 'accent'
+        ? 'border-green-500 bg-green-50 text-green-1000'
+        : 'border-gray-300 bg-gray-50 text-gray-950';
+
+    return (
+        <span className={`inline-flex min-h-7 items-center rounded-md border px-2 py-1 font-mono text-[12px] leading-none ${toneClassName}`}>
+            {children}
+        </span>
+    );
+};
+
+const InfoButton = ({ infoText }) => {
+    if (!infoText) {
+        return null;
+    }
+
+    return (
+        <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+                <button
+                    type="button"
+                    aria-label="Show prop details"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-300 bg-gray-50 text-gray-950 transition-colors hover:border-gray-400 hover:text-gray-950"
+                >
+                    <Info size={12} strokeWidth={2.2} />
+                </button>
+            </Tooltip.Trigger>
+            {/* className lands on the positioning wrapper; the library's inner surface owns
+                background, border, padding and radius, so only constrain width here. */}
+            <Tooltip.Content className="max-w-xs">
+                <span className="flex flex-col gap-2">
+                    {infoText}
+                </span>
+            </Tooltip.Content>
+        </Tooltip.Root>
+    );
+};
 
 const InfoRenderer = ({ row }) => {
     const prop = row.prop.name || row.prop;
     const infoText = row.prop.info_tooltips;
     return (
-        <span className="text-gray-950 !text-sm">
-            <div className="flex items-center gap-2 text-gray-950">
-                <Text className="text-gray-950 !text-sm">{prop}</Text>
-                {infoText && (
-                    <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                            <Button size="small" variant="ghost">
-                                <Info size={14} strokeWidth={2} />
-                            </Button>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                            className="z-[9999] bg-black rounded shadow-lg"
-                        >
-                            <span className="flex flex-col gap-2">
-                                {infoText}
-                            </span>
-                        </Tooltip.Content>
-                    </Tooltip.Root>
-                )}
-            </div>
-        </span>
-    );
-}
-
-const EnumRenderer = ({ enumValues=[] }) => {
-    const enumValuesString = enumValues.map(value => `'${value}'`).join(" | ")
-    return (
-        <div className="text-gray-950 !text-sm">
-            <div className="flex items-center gap-2 text-gray-950">
-                <Text className="text-gray-950 !text-sm">enum</Text>
-                {enumValuesString && (
-                    <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                            <Button size="small" variant="ghost">
-                                <Info size={14} strokeWidth={2} />
-                            </Button>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content>
-                            <span className="flex flex-col gap-2">
-                                {enumValuesString}
-                            </span>
-                        </Tooltip.Content>
-                    </Tooltip.Root>
-                )}
-            </div>
+        <div className="flex items-start gap-2 text-gray-950">
+            <InlineCode tone="accent">{prop}</InlineCode>
+            <InfoButton infoText={infoText} />
         </div>
     );
 }
+
+const EnumRenderer = ({ enumValues = [] }) => {
+    const enumValuesString = enumValues.map(value => `'${value}'`).join(" | ")
+    return (
+        <div className="flex items-start gap-2 text-gray-950">
+            <InlineCode tone="accent">enum</InlineCode>
+            <InfoButton infoText={enumValuesString} />
+        </div>
+    );
+}
+
+const renderCellValue = (row, columnType, value) => {
+    if (columnType === "prop") {
+        return <InfoRenderer row={row} />;
+    }
+
+    if (columnType === "type" && value === "enum") {
+        return <EnumRenderer enumValues={row.enum_values} />;
+    }
+
+    if (columnType === "type") {
+        return <InlineCode tone="accent">{value}</InlineCode>;
+    }
+
+    if (columnType === "default") {
+        const tone = value === "--" ? 'neutral' : 'accent';
+        return <InlineCode tone={tone}>{value}</InlineCode>;
+    }
+
+    if (columnType === "description") {
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
+    }
+
+    if (value === "boolean" || value === "false" || value === "true") {
+        return <InlineCode tone="accent">{value}</InlineCode>;
+    }
+
+    if (typeof value === 'string') {
+        return <Text className="text-sm! leading-6 text-gray-950">{value}</Text>;
+    }
+
+    return value;
+};
 
 const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', columns = [], data = [] }) => {
     return (
         <section className={docsSectionBlockClassName}>
             <div className="mb-4 space-y-2">
-                <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}> <Heading as={as}>{title}</Heading> </BookMarkLink>
-                <Text className="text-gray-800">{description}</Text>
+                <BookMarkLink id={title.toLowerCase().replace(/ /g, '-')}>
+                    <Heading as={as} className={docsSectionHeadingClassName}>{title}</Heading>
+                </BookMarkLink>
+                {description ? <Text className="text-[0.98rem] leading-7 text-gray-950">{description}</Text> : null}
             </div>
-            <Table.Root className="overflow-hidden rounded-2xl border border-gray-300 bg-gray-50">
+            <Table.Root className={`${docsSurfaceClassName} bg-gray-50 shadow-none`}>
                 <Table.Head>
                     <Table.Row>
                         {columns.map((column, idx) => (
                             <Table.ColumnCellHeader key={idx}>
-                                {column.name}
+                                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-950">
+                                    {column.name}
+                                </span>
                             </Table.ColumnCellHeader>
                         ))}
                     </Table.Row>
@@ -83,24 +126,15 @@ const DocsTable = ({ title = 'API Documentation', as = "h3", description = '', c
                         <Table.Row key={idx}>
                             {columns.map((column, idx) => {
                                 const value = row[column.id];
-                                const columnType = column.id;
+                                const itemToRender = renderCellValue(row, column.id, value);
 
-                                let itemToRender = value;
-                                if (value === "boolean" || value === "false" || value === "true") {
-                                    itemToRender = <Text className="text-blue-950 !text-sm">{value}</Text>;
-                                }
-                                if (value === "string" || value === "enum") {
-                                    if (value === "enum") {
-                                        const enumValues = row.enum_values;
-                                        itemToRender = <EnumRenderer enumValues={enumValues} />;
-                                    }
-                                }
-
-                                if (columnType === "prop") {
-                                    itemToRender = <InfoRenderer row={row} />;
-                                }
-
-                                return <Table.Cell key={idx}>{itemToRender}</Table.Cell>;
+                                return (
+                                    <Table.Cell key={idx}>
+                                        <div className="py-1">
+                                            {itemToRender}
+                                        </div>
+                                    </Table.Cell>
+                                );
                             })}
                         </Table.Row>
                     ))}

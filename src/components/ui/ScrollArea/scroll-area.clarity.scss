@@ -3,6 +3,8 @@
 // Thumb default: step 9 (800) — solid UI element
 // Thumb hover: step 10 (900) — solid hover state
 .rad-ui-scroll-area {
+    --rad-ui-scroll-area-scrollbar-size: 10px;
+
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -19,6 +21,12 @@
         &::-webkit-scrollbar {
             display: none;
         }
+
+        // The viewport is a tab stop when it scrolls and has no focusable content.
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--rad-ui-focus-ring-shadow-inset);
+        }
     }
 
     .rad-ui-scroll-area-scrollbar {
@@ -29,24 +37,41 @@
         padding: 2px;
         background: transparent;
         z-index: 10;
-        transition: background 0.15s ease;
+        opacity: 1;
+        pointer-events: auto;
+        transition: opacity var(--rad-ui-motion-duration-normal) ease, background var(--rad-ui-motion-duration-fast) ease;
 
+        &[data-state="hidden"] {
+            opacity: 0;
+            pointer-events: none;
+            background: transparent !important;
+        }
+
+        // Logical insets so the scrollbars sit at the inline end (left in RTL).
         &[data-orientation="vertical"] {
-            width: 10px;
-            right: 0;
+            width: var(--rad-ui-scroll-area-scrollbar-size);
+            inset-inline-end: 0;
             top: 0;
             bottom: 0;
         }
 
         &[data-orientation="horizontal"] {
             flex-direction: column;
-            height: 10px;
+            height: var(--rad-ui-scroll-area-scrollbar-size);
             bottom: 0;
-            left: 0;
-            right: 0;
+            inset-inline: 0;
         }
 
-        &:hover {
+        // Both tracks rendered: leave the corner square free so the tracks never overlap.
+        &[data-orientation="vertical"][data-corner] {
+            bottom: var(--rad-ui-scroll-area-scrollbar-size);
+        }
+
+        &[data-orientation="horizontal"][data-corner] {
+            inset-inline-end: var(--rad-ui-scroll-area-scrollbar-size);
+        }
+
+        &[data-state="visible"]:hover {
             background: var(--rad-ui-color-gray-200); // step 3 — interactive hover surface
         }
 
@@ -55,23 +80,33 @@
             background: var(--rad-ui-solid-background);
             border-radius: var(--rad-ui-radius-full);
             position: relative;
-            transition: background 0.15s ease;
+            opacity: 1;
+            transition: opacity var(--rad-ui-motion-duration-normal) ease, background var(--rad-ui-motion-duration-fast) ease;
 
+            &[data-state="hidden"] {
+                opacity: 0;
+            }
+
+            // Grab area spans the full track thickness (padding included) without
+            // extending over the viewport content next to the scrollbar.
             &::before {
                 content: "";
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 100%;
-                height: 100%;
-                min-width: 44px;
-                min-height: 44px;
+                inset: -2px;
             }
         }
 
-        &:hover .rad-ui-scroll-area-thumb {
+        &[data-state="visible"]:hover .rad-ui-scroll-area-thumb[data-state="visible"] {
             background: var(--rad-ui-solid-hover);
         }
+    }
+
+    .rad-ui-scroll-area-corner {
+        position: absolute;
+        inset-inline-end: 0;
+        bottom: 0;
+        width: var(--rad-ui-scroll-area-scrollbar-size);
+        height: var(--rad-ui-scroll-area-scrollbar-size);
+        background: transparent;
     }
 }

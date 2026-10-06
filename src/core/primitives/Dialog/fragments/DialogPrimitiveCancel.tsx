@@ -16,12 +16,13 @@ const DialogPrimitiveCancel = forwardRef<HTMLButtonElement, DialogPrimitiveCance
         <ButtonPrimitive
             ref={ref}
             asChild={asChild}
-            {...getItemProps()}
-            {...props}
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                onClick?.(e);
-                handleOpenChange(false);
-            }}
+            {...getItemProps({
+                ...props,
+                onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+                    onClick?.(e);
+                    handleOpenChange(false);
+                }
+            })}
         >
             {children}
         </ButtonPrimitive>

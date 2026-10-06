@@ -1,6 +1,14 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
-import Kbd from '@radui/ui/Kbd';
-import Text from '@radui/ui/Text';
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS
+} from '../../shared/keyboardShortcuts';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/examples/tooltip_example1.tsx');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/tooltip/docs/anatomy.tsx');
@@ -41,47 +49,32 @@ export const api_documentation = {
 
 // Keyboard shortcuts
 export const keyboardShortcuts = {
-    columns: [
-        {
-            name: 'Shortcut',
-            id: 'shortcut'
-        },
-        {
-            name: 'Description',
-            id: 'description'
-        }
-    ],
-    data: [
-        {
-            shortcut: <Kbd>Tab</Kbd>,
-            description: <Text>
-                Moves focus to the trigger element.
-            </Text>,
-            id: "tab"
-        },
-        {
-            shortcut: <Kbd>Space</Kbd>,
-            description: <Text>
-                When focus is on the trigger, toggles the tooltip.
-            </Text>,
-            id: "space"
-        },
-        {
-            shortcut: <Kbd>Enter</Kbd>,
-            description: <Text>
-                When focus is on the trigger, toggles the tooltip.
-            </Text>,
-            id: "enter"
-        },
-        {
-            shortcut: <Kbd>Escape</Kbd>,
-            description: <Text>
-                Dismisses an open tooltip.
-            </Text>,
-            id: "escape"
-        }
-    ]
+    ...createKeyboardShortcutTable([
+        createKeyboardShortcutRow(
+            DOCS_KEYBOARD_SHORTCUTS.TAB,
+            'Moves focus to the trigger element.'
+        ),
+        createKeyboardShortcutRow(
+            DOCS_KEYBOARD_SHORTCUTS.SPACE,
+            'When focus is on the trigger, toggles the tooltip.'
+        ),
+        createKeyboardShortcutRow(
+            DOCS_KEYBOARD_SHORTCUTS.ENTER,
+            'When focus is on the trigger, toggles the tooltip.'
+        ),
+        createKeyboardShortcutRow(
+            DOCS_KEYBOARD_SHORTCUTS.ESCAPE,
+            'Dismisses an open tooltip.'
+        )
+    ])
 };
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.TOOLTIP,
+        'Uses tooltip semantics for contextual information that appears on hover or focus and dismisses with Escape.'
+    )
+]);
 
 // Legacy table export - keeping for backward compatibility
 export const TooltipTable = {

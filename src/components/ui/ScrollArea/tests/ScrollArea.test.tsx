@@ -1,11 +1,13 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import ScrollArea from '../ScrollArea';
 
-// Mock ResizeObserver for jsdom
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
+// Mock ResizeObserver for jsdom — invoke callback when observe runs so overflow is detected
+global.ResizeObserver = jest.fn().mockImplementation((callback: ResizeObserverCallback) => ({
+    observe: jest.fn((target: Element) => {
+        callback([{ target } as ResizeObserverEntry], {} as ResizeObserver);
+    }),
     unobserve: jest.fn(),
     disconnect: jest.fn()
 })) as unknown as typeof ResizeObserver;
@@ -84,5 +86,222 @@ describe('ScrollArea', () => {
         expect(screen.getByTestId('scrollbar')).toHaveClass('acme-scroll-area-scrollbar');
         expect(screen.getByTestId('thumb')).toHaveClass('acme-scroll-area-thumb');
         expect(screen.getByTestId('corner')).toHaveClass('acme-scroll-area-corner');
+    });
+
+    test('exposes scrollbar type on root', () => {
+        render(
+            <ScrollArea.Root data-testid="root" type="scroll">
+                <ScrollArea.Viewport data-testid="viewport">
+                    <div style={{ height: 2000 }}>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('root')).toHaveAttribute('data-scrollbar-type', 'scroll');
+    });
+
+    test('a thumb inherits its scrollbar orientation when both axes are rendered', () => {
+        render(
+            <ScrollArea.Root type="always">
+                <ScrollArea.Viewport>
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb-y" />
+                </ScrollArea.Scrollbar>
+                <ScrollArea.Scrollbar orientation="horizontal">
+                    <ScrollArea.Thumb data-testid="thumb-x" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        // Vertical sizing writes `height` and horizontal sizing writes `width`; a horizontal thumb
+        // that wrongly registered as vertical would receive a height and leave the real one unsized.
+        expect(screen.getByTestId('thumb-y').style.height).not.toBe('');
+        expect(screen.getByTestId('thumb-x').style.height).toBe('');
+        expect(screen.getByTestId('thumb-x').style.width).not.toBe('');
+    });
+
+    test('type always keeps scrollbar and thumb visible', () => {
+        render(
+            <ScrollArea.Root type="always">
+                <ScrollArea.Viewport>
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+        expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('type scroll hides scrollbar until viewport scrolls', () => {
+        render(
+            <ScrollArea.Root type="scroll" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport');
+        Object.defineProperty(viewport, 'scrollHeight', { configurable: true, value: 400 });
+        Object.defineProperty(viewport, 'clientHeight', { configurable: true, value: 100 });
+
+        act(() => {
+            window.dispatchEvent(new Event('resize'));
+        });
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+
+        act(() => {
+            viewport.scrollTop = 20;
+            fireEvent.scroll(viewport);
+        });
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+        expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('type hover shows scrollbar on root hover', () => {
+        render(
+            <ScrollArea.Root data-testid="root" type="hover" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport">
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport');
+        Object.defineProperty(viewport, 'scrollHeight', { configurable: true, value: 400 });
+        Object.defineProperty(viewport, 'clientHeight', { configurable: true, value: 100 });
+
+        act(() => {
+            window.dispatchEvent(new Event('resize'));
+        });
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+
+        fireEvent.mouseEnter(screen.getByTestId('root'));
+
+        expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('resets scroll when direct viewport child is swapped, not on nested mutations', async() => {
+        const { rerender } = render(
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div key="panel-a" data-testid="panel-a" style={{ height: 400 }}>Panel A</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
+        viewport.scrollTop = 120;
+
+        act(() => {
+            const nested = document.createElement('span');
+            nested.textContent = 'nested';
+            screen.getByTestId('panel-a').appendChild(nested);
+        });
+
+        expect(viewport.scrollTop).toBe(120);
+
+        rerender(
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div key="panel-b" data-testid="panel-b" style={{ height: 400 }}>Panel B</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        await act(async() => {
+            await Promise.resolve();
+        });
+
+        const nextViewport = screen.getByTestId('viewport') as HTMLDivElement;
+        await waitFor(() => {
+            expect(nextViewport.scrollTop).toBe(0);
+        });
+    });
+
+    test('preserves viewport scroll on rerender by default', () => {
+        const { rerender } = render(
+            <ScrollArea.Root data-testid="root" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
+        viewport.scrollTop = 120;
+        viewport.scrollLeft = 16;
+
+        rerender(
+            <ScrollArea.Root data-testid="root" className="rerendered" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        expect(viewport.scrollTop).toBe(120);
+        expect(viewport.scrollLeft).toBe(16);
+    });
+
+    test('hides scrollbar while document overlay is open', () => {
+        document.documentElement.setAttribute('data-rad-ui-overlay-open', '');
+        try {
+            render(
+                <ScrollArea.Root type="always">
+                    <ScrollArea.Viewport>
+                        <div>content</div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                        <ScrollArea.Thumb data-testid="thumb" />
+                    </ScrollArea.Scrollbar>
+                </ScrollArea.Root>
+            );
+
+            expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+            expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'hidden');
+        } finally {
+            document.documentElement.removeAttribute('data-rad-ui-overlay-open');
+        }
+    });
+
+    test('hides scrollbar while body scroll is locked', () => {
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        try {
+            render(
+                <ScrollArea.Root type="always">
+                    <ScrollArea.Viewport>
+                        <div>content</div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                        <ScrollArea.Thumb data-testid="thumb" />
+                    </ScrollArea.Scrollbar>
+                </ScrollArea.Root>
+            );
+
+            expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+            expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'hidden');
+        } finally {
+            document.body.style.overflow = previousOverflow;
+        }
     });
 });

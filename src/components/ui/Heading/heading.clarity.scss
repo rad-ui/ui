@@ -25,22 +25,22 @@
 .rad-ui-h4{
     font-weight: bold;
     font-size: 24px;
-    line-height:24px;
+    line-height: var(--rad-ui-line-height-1); // 24px at 24px
     color: var(--rad-ui-text-strong);
 }
 
 .rad-ui-h5{
     font-weight: bold;
-    font-size: 20px;
+    font-size: var(--rad-ui-font-size-5); // 20px
     letter-spacing: 1px;
-    line-height:24px;
+    line-height: calc(var(--rad-ui-font-size-3) * var(--rad-ui-line-height-3)); // 24px
     color: var(--rad-ui-text-strong);
 }
 
 .rad-ui-h6{
     font-weight: bold;
-    font-size: 18px;
-    line-height:24px;
+    font-size: var(--rad-ui-font-size-4); // 18px
+    line-height: calc(var(--rad-ui-font-size-3) * var(--rad-ui-line-height-3)); // 24px
     letter-spacing: 1px;
     color: var(--rad-ui-text-strong);
 }

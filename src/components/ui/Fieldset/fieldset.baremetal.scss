@@ -1,0 +1,10 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+// Fieldset is a text-and-layout group, not a bordered surface: the browser's
+// default fieldset border would contradict baremetal's flat aesthetic. Keep the
+// reset and let the legend carry the emphasis, matching the Strong recipe.
+#{baremetal.$theme-root} :where(.rad-ui-fieldset-legend) { @include baremetal.title-text; }
+
+#{baremetal.$theme-root} :where(.rad-ui-fieldset-description),
+#{baremetal.$theme-root} :where(.rad-ui-fieldset-message) { @include baremetal.body-text; }

@@ -1,7 +1,7 @@
 // RadioGroup — Clarity design system aligned
 // Label: step 11 (1000) — primary text, max contrast
-// Item border: step 6 (500) — light border
-// Item hover border: step 7 (600) — default border
+// Unchecked border: border-strong (step 8) — same as Checkbox
+// Hover border: step 9 (800)
 // Checked border: accent-700 — solid selected state
 // Indicator dot: accent-800 — solid fill
 .rad-ui-radio-group-root {
@@ -47,15 +47,15 @@
     justify-content: center;
     border-radius: var(--rad-ui-radius-full);
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
-    border: 1px solid var(--rad-ui-color-gray-500);  // step 6 — light border
-    box-shadow: 0 1px 2px rgb(0, 0, 0, 0.06);
+    border: 1px solid var(--rad-ui-border-strong);  // matches Checkbox; step 6 was near-invisible in dark mode
+    box-shadow: var(--rad-ui-control-shadow);
     cursor: pointer;
     position: relative;
     flex-shrink: 0;
-    transition: border-color 0.15s ease;
+    transition: border-color var(--rad-ui-motion-duration-fast) ease;
 
     &:not([data-disabled]):hover {
-      border-color: var(--rad-ui-color-gray-600); // step 7 — default border on hover
+      border-color: var(--rad-ui-color-gray-800); // one step past border-strong on hover
     }
 
     &:focus-visible {
@@ -68,14 +68,14 @@
       background-color: var(--rad-ui-color-gray-100); // step 2 — subtle surface
       box-shadow:
         inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-200) 60%, transparent),
-        0 1px 2px rgb(0, 0, 0, 0.06);
+        var(--rad-ui-control-shadow);
     }
 
     &[data-state="checked"]:focus-visible {
       outline: none;
       box-shadow:
         inset 0 0 0 1px color-mix(in oklab, var(--rad-ui-color-accent-200) 60%, transparent),
-        0 1px 2px rgb(0, 0, 0, 0.06),
+        var(--rad-ui-control-shadow),
         var(--rad-ui-focus-ring-shadow-sm);
     }
 

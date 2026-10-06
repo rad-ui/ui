@@ -1,9 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const badgeMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Badge - Rad UI",
-    description: "A headless React Badge component for highlighting status, notifications, or counts. Fully customizable and easy to integrate with any design system."
+    description: "Accessible, headless React Badge component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Badge","headless badge","accessible badge","badge component","React badge component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/badge"
 });
 
 
-export default badgeMetadata
+export default metadata

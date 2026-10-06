@@ -59,6 +59,37 @@ describe('Tabs interactions', () => {
         expect(tab1).toHaveAttribute('data-state', 'inactive');
     });
 
+    test('loop={false} stops arrow navigation at the ends', async() => {
+        const user = userEvent.setup();
+        render(
+            <Tabs.Root defaultValue="t1" activationMode="manual" loop={false}>
+                <Tabs.List>
+                    <Tabs.Trigger value="t1">Tab 1</Tabs.Trigger>
+                    <Tabs.Trigger value="t2">Tab 2</Tabs.Trigger>
+                    <Tabs.Trigger value="t3">Tab 3</Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content value="t1">Panel 1</Tabs.Content>
+                <Tabs.Content value="t2">Panel 2</Tabs.Content>
+                <Tabs.Content value="t3">Panel 3</Tabs.Content>
+            </Tabs.Root>
+        );
+
+        const tab1 = screen.getByText('Tab 1');
+        const tab3 = screen.getByText('Tab 3');
+
+        await user.tab();
+        expect(tab1).toHaveFocus();
+
+        await user.keyboard('{ArrowLeft}');
+        expect(tab1).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}{ArrowRight}');
+        expect(tab3).toHaveFocus();
+
+        await user.keyboard('{ArrowRight}');
+        expect(tab3).toHaveFocus();
+    });
+
     test('data-state attributes sync between trigger and content', async() => {
         const user = userEvent.setup();
         render(

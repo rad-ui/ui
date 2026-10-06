@@ -30,79 +30,78 @@ const normalizeSourcePath = (sourcePath: string) => {
     return `src/components/ui/${componentFolder}/${componentFileName}.clarity.scss`;
 };
 
-const getProjectRoot = () => {
-    // For local development
-    if(process.env.ENVIRONMENT === 'VERCEL') {
-        return "https://raw.githubusercontent.com/rad-ui/ui/refs/heads/main/";
-    }
-    const localRootPath = process.cwd()+'/../';
-    return localRootPath;
-}
+// Docs pages are prerendered, so everything below runs at build time (or in
+// `next dev`), never per request. Paths are repo-root-relative.
+const DOCS_PREFIX = 'docs/';
+const CLARITY_STYLE_PATH = /^src\/components\/ui\/(.+\.clarity\.scss)$/;
 
+// The installed library, resolved from the docs app itself (never ../, see
+// docs/AGENTS.md). Resolved by hand rather than with require.resolve: webpack
+// rewrites require/createRequire in the server bundle and returns module ids.
+const RADUI_PACKAGE_DIR = path.join(process.cwd(), 'node_modules', '@radui', 'ui');
+const CLARITY_STYLES_EXPORT = './styles/clarity/*';
 
-
+/**
+ * Returns the source of a file, given its path relative to the repo root.
+ *
+ * - `docs/...`: read from this app's own files.
+ * - `src/components/ui/<Component>/<file>.clarity.scss`: read from the
+ *   installed `@radui/ui` (`styles/clarity/*`), so the styles shown always
+ *   match the version the docs render. `npm run docs:live` shows local edits.
+ * - Anything else, or a `@radui/ui` too old to ship its styles: fetched from
+ *   GitHub at the commit being built (falls back to `main` outside Vercel).
+ */
 export const getSourceCodeFromPath = async (sourcePath: string) => {
-    // This is used for development purposes
-    // If you're rendering, say for example, ROOT + docs/app/docs/components/accordion/docs/example_1.tsx, the path should be
-    // docs/app/docs/components/accordion/docs/example_1.tsx 
-    // ** Where ROOT is the root of the repo
-
-
-    // Check if its local DEV server or on ENVIRONMENT = "VERCEL"
-    // If its local DEV server, then the path is automatically set here in this function
-    // If vercel, this returns an response made from an API call to github
-    // We just need to be consistent with the path
-
     const normalizedSourcePath = normalizeSourcePath(sourcePath);
 
-    if(process.env.ENVIRONMENT === 'VERCEL') {
-        // Return the response from github
-        return readGithubSourceCode(normalizedSourcePath);
-    }
-
-    // If its local DEV server, then the path is automatically set here in this function
-    const projectRoot = await getProjectRoot();
-    const finalSourcePath = path.join(
-        projectRoot,
-        normalizedSourcePath
-    );
-    // console.log('PATH: ', finalSourcePath);
-
-    const LOG = false;
-
-    if(LOG) {
-        // if(process.env.ENVIRONMENT === 'VERCEL') {
-        //     console.log('VERCEL ENV PATH DETECTED: WILL RETURN GITHUB SOURCE CODE PATH');
-        // } else {
-        //     console.log('LOCAL ENV PATH DETECTED: WILL RETURN LOCAL SOURCE CODE PATH');
-        // }
-
-        console.log('PROJECT ROOT: ', projectRoot);
-        console.log('SOURCE PATH: ', normalizedSourcePath);
-        console.log('PATH TO JSX: ', finalSourcePath);
-    }
-
-    const sourceCode = fs.readFileSync(
-        finalSourcePath,
-        'utf8'
-    );
-
-
-    return sourceCode;
-}
-
-
-const readGithubSourceCode = async (componentPath: string) => {
-    const root_Path = getProjectRoot(); 
-    const fullPath = `${root_Path}${componentPath}`;
-    const response = await fetch(fullPath);
-
-    if (!response.ok) {
-        throw new Error(
-            `Failed to load GitHub source (${response.status}) for ${componentPath}`
+    if (normalizedSourcePath.startsWith(DOCS_PREFIX)) {
+        return fs.readFileSync(
+            path.join(process.cwd(), normalizedSourcePath.slice(DOCS_PREFIX.length)),
+            'utf8'
         );
     }
 
-    const sourceCode = await response.text();
-    return sourceCode;
+    const clarityStyle = normalizedSourcePath.match(CLARITY_STYLE_PATH);
+    if (clarityStyle) {
+        const packagedSource = readPackagedClarityStyle(clarityStyle[1]);
+        if (packagedSource !== null) return packagedSource;
+    }
+
+    return readGithubSourceCode(normalizedSourcePath);
+}
+
+const readPackagedClarityStyle = (componentStylePath: string) => {
+    const packageJsonPath = path.join(RADUI_PACKAGE_DIR, 'package.json');
+    if (!fs.existsSync(packageJsonPath)) return null;
+
+    const target = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')).exports?.[CLARITY_STYLES_EXPORT];
+    // Installed @radui/ui predates `styles/clarity/*`.
+    if (typeof target !== 'string') return null;
+
+    // Export targets are package-relative ("./dist/styles/clarity/*").
+    const filePath = path.join(RADUI_PACKAGE_DIR, target.replace('*', componentStylePath));
+    return fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
+}
+
+// On Vercel, read the exact commit being deployed (from the repo Vercel built).
+const githubRawRoot = () => {
+    const { VERCEL_GIT_REPO_OWNER, VERCEL_GIT_REPO_SLUG, VERCEL_GIT_COMMIT_SHA } = process.env;
+
+    if (VERCEL_GIT_REPO_OWNER && VERCEL_GIT_REPO_SLUG && VERCEL_GIT_COMMIT_SHA) {
+        return `https://raw.githubusercontent.com/${VERCEL_GIT_REPO_OWNER}/${VERCEL_GIT_REPO_SLUG}/${VERCEL_GIT_COMMIT_SHA}/`;
+    }
+
+    return 'https://raw.githubusercontent.com/rad-ui/ui/refs/heads/main/';
+}
+
+const readGithubSourceCode = async (sourcePath: string) => {
+    const response = await fetch(`${githubRawRoot()}${sourcePath}`);
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load GitHub source (${response.status}) for ${sourcePath}`
+        );
+    }
+
+    return response.text();
 }

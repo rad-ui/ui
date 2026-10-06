@@ -54,25 +54,25 @@ const data = {
         {
             prop: {
                 name: "value",
-                info_tooltips: "Controlled active value or values."
+                info_tooltips: "Controlled active values. Always an array, in both single and multiple mode (single mode holds at most one entry, e.g. ['bold']). A bare string is accepted and treated as a one-item array."
             },
-            type: "any",
+            type: "string[]",
             default: "--",
         },
         {
             prop: {
                 name: "defaultValue",
-                info_tooltips: "Initial active value or values for uncontrolled usage."
+                info_tooltips: "Initial active values for uncontrolled usage. Always an array, in both modes (e.g. ['bold']). A bare string is accepted and treated as a one-item array."
             },
-            type: "any",
+            type: "string[]",
             default: "[]",
         },
         {
             prop: {
                 name: "onValueChange",
-                info_tooltips: "Called when the active value set changes."
+                info_tooltips: "Called with the new array of active values, in both single and multiple mode. In single mode the array has one entry, or is empty when the pressed item is toggled off."
             },
-            type: "function",
+            type: "(value: string[]) => void",
             default: "--",
         },
         {
@@ -119,7 +119,7 @@ const data = {
         {
             prop: {
                 name: "asChild",
-                info_tooltips: "Render the root as the child element."
+                info_tooltips: "Merge the root's props and behavior onto its single child element instead of rendering a wrapper div."
             },
             type: "boolean",
             default: "false",

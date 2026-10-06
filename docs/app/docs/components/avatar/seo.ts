@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const avatarMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Avatar - Rad UI",
-    description: "A headless React Avatar component for displaying user images, profile pictures, or media with flexible styling options and full customization."
+    description: "Accessible, headless React Avatar component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Avatar","headless avatar","accessible avatar","avatar component","React avatar component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/avatar"
 });
 
-export default avatarMetadata
+
+export default metadata

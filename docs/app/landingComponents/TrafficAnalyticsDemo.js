@@ -31,15 +31,15 @@ const TrafficAnalyticsDemo = () => {
         <Separator />
         <div className='flex justify-between'>
             <div className='text-center'>
-                <Text className="!text-2xl font-bold">1.2k</Text>
+                <Text className="text-2xl! font-bold">1.2k</Text>
                 <Text className="!text-sm">Total visitors</Text>
             </div>
             <div className='text-center'>
-                <Text className="!text-2xl font-bold">220$</Text>
+                <Text className="text-2xl! font-bold">220$</Text>
                 <Text className="!text-sm">Total revenue</Text>
             </div>
             <div className='text-center'>
-                <Text className="!text-2xl font-bold">200</Text>
+                <Text className="text-2xl! font-bold">200</Text>
                 <Text className="!text-sm">Bounce rate</Text>
             </div>
         </div>

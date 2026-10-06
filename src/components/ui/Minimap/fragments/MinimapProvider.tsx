@@ -87,12 +87,9 @@ const MinimapProvider = ({ children, className = '', scrollable, ...props }: Min
             // Calculate the element's offset from the top of the scrollable content
             const elementOffsetTop = elementRect.top - containerRect.top + container.scrollTop;
 
-            // Align the top of the element with the top of the container
-            const targetScrollTop = elementOffsetTop;
-
             // Ensure we don't scroll beyond bounds
             const maxScrollTop = container.scrollHeight - container.clientHeight;
-            const finalScrollTop = Math.max(0, Math.min(targetScrollTop, maxScrollTop));
+            const finalScrollTop = Math.max(0, Math.min(elementOffsetTop, maxScrollTop));
 
             // Only scroll if there's a meaningful difference
             if (Math.abs(finalScrollTop - container.scrollTop) > 1) {
@@ -101,9 +98,15 @@ const MinimapProvider = ({ children, className = '', scrollable, ...props }: Min
                     behavior: 'smooth'
                 });
             }
+            return;
         }
-        // If no container found, do nothing (don't scroll the window)
-    }, []);
+
+        // No scrollable ancestor: the document itself scrolls, so let the browser bring the
+        // waypoint into view (previously this case silently did nothing).
+        if (typeof element.scrollIntoView === 'function') {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [scrollable]);
 
     const contextValue = React.useMemo(() => ({
         visibleItems,

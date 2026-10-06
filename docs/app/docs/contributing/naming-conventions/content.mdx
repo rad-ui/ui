@@ -1,0 +1,97 @@
+# Naming conventions
+
+This page documents the naming patterns already used across the Rad UI repo.
+
+Use these conventions for new work unless you are extending an older area that already has a different local pattern. In that case, prefer consistency inside that component or package over doing a partial rename in an unrelated PR.
+
+## General rules
+
+- Prefer descriptive names over short names.
+- Use `PascalCase` for component folders, component files, context files, providers, and exported React types.
+- Use `camelCase` for hooks, helper functions, and utility folders that are not React components.
+- Use `kebab-case` for docs route folders under `docs/app/docs`.
+- Keep related files together inside the component or primitive folder instead of scattering them across the repo.
+
+## UI component folders
+
+Most components under `src/components/ui` follow this shape:
+
+```text
+src/components/ui/Accordion/
+  Accordion.tsx
+  contexts/
+  fragments/
+  stories/
+  tests/
+```
+
+Follow these naming rules for new UI components:
+
+- Name the folder after the exported component: `Accordion`, `Combobox`, `NumberField`.
+- Name the top-level entry file after the component: `Accordion.tsx`, `Combobox.tsx`, `NumberField.tsx`.
+- Put compound parts in `fragments/` with names like `AccordionRoot.tsx`, `AccordionItem.tsx`, `AccordionTrigger.tsx`.
+- Put tests in `tests/` and stories in `stories/`.
+- Use lowercase stylesheet filenames when they represent style packages, for example `accordion.clarity.scss` and `accordion.baremetal.scss`.
+
+## Contexts, providers, and hooks
+
+Context-related files should make their role obvious from the filename.
+
+- Use `*Context.tsx` for React context modules, for example `AccordionContext.tsx` or `NumberFieldContext.tsx`.
+- Use more specific names when there is more than one context, for example `AccordionItemContext.tsx` or `ComboboxRootContext.tsx`.
+- Use `*Provider` in the symbol name when a standalone provider component exists.
+- Use `use*` for hooks, for example `useComponentClass.ts` or `useControllableState/index.tsx`.
+
+For new work, prefer a `contexts/` directory name. The repo still has older `context/` folders, so do not rename those as drive-by cleanup in an unrelated issue.
+
+## Primitives vs UI components
+
+The repo distinguishes between headless primitives in `src/core/primitives` and composed components in `src/components/ui`.
+
+- Primitive folders still use `PascalCase`: `Button`, `Dialog`, `Combobox`.
+- Primitive implementation files may be explicit, such as `ComboboxPrimitive.tsx`, or use `index.tsx` in older folders.
+- UI component entry files should stay explicit: `Button.tsx`, `Dialog.tsx`, `Theme.tsx`.
+- When naming primitive parts, keep the `Primitive` suffix in the symbol or file when it clarifies the layer, such as `ButtonPrimitive`, `ComboboxPrimitiveRoot`, or `MenuPrimitive.tsx`.
+
+For new files, prefer explicit filenames when the file represents a concrete exported component or context. Keep `index.ts` or `index.tsx` for small entrypoints and for folders that already use that pattern.
+
+## Tests and stories
+
+Use the component or primitive name as the base filename.
+
+- Stories: `Accordion.stories.tsx`, `Badge.stories.tsx`
+- Visual-story variants: `AccordionItemVisualTests.stories.tsx`
+- Main test file: `Accordion.test.tsx`
+- Focused test files: `Accordion.a11y.test.tsx`, `Accordion.focus.test.tsx`, `Combobox.full.test.tsx`, `Combobox.simple.test.tsx`
+
+When adding a specialized test, keep the qualifier before `.test.tsx`. That keeps related files grouped together in editors and search.
+
+## Docs and examples
+
+Docs pages under `docs/app/docs` use route-oriented naming.
+
+- Route folders use `kebab-case`, for example `before-you-start`, `setting-up-dev-environment`, `radio-group`.
+- A docs page folder usually contains `page.tsx`, `seo.ts`, and `content.mdx`.
+- Supporting docs assets usually live in a local `docs/` folder with descriptive names such as `anatomy.tsx`, `component_api/root.tsx`, `codeUsage.js`, or `example_1.tsx`.
+- Standalone example components use `PascalCase`, for example `AvatarExample.tsx` or `SwitchExample.tsx`.
+
+## When to keep the local pattern
+
+Some areas are not perfectly uniform yet. Follow these rules when the repo already differs:
+
+- Match the surrounding folder if you are making a small change inside an existing component.
+- Prefer the newer convention only when creating a new area or when a full rename is already in scope.
+- Do not mix `context/` and `contexts/` inside the same component folder.
+- Do not introduce a second naming style for the same kind of file in the same directory.
+
+## Quick reference
+
+- UI component folder: `PascalCase`
+- UI component entry file: `PascalCase.tsx`
+- Fragment file: `PascalCasePart.tsx`
+- Context file: `PascalCaseContext.tsx`
+- Hook file: `useSomething.ts`
+- Stories file: `PascalCase.stories.tsx`
+- Test file: `PascalCase.test.tsx`
+- Docs route folder: `kebab-case`
+- Docs page support files: descriptive names, usually `page.tsx`, `seo.ts`, `content.mdx`

@@ -5,6 +5,8 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
 export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
+const HEADING_TAGS: readonly HeadingTag[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
 /**
  * Heading component that renders HTML heading elements (h1-h6)
  * with customizable styling.
@@ -26,8 +28,10 @@ const Heading = React.forwardRef<React.ElementRef<'h1'>, HeadingProps>(({
     className = '',
     ...props
 }, ref) => {
-    const rootClass = useComponentClass(customRootClass, as);
-    const Tag: HeadingTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as) ? as : 'h1';
+    // Resolve the tag first so an invalid `as` falls back to h1 for both the
+    // element and its generated class (otherwise it would get e.g. `rad-ui-h7`).
+    const Tag: HeadingTag = HEADING_TAGS.includes(as) ? as : 'h1';
+    const rootClass = useComponentClass(customRootClass, Tag);
 
     return React.createElement(Tag, {
         className: clsx(rootClass, className),

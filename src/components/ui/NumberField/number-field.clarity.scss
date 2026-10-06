@@ -56,6 +56,12 @@
         cursor: text;
     }
 
+    // The root draws the focus ring; suppress the theme's per-input ring so the
+    // field does not show a second rectangle inside the rounded border.
+    &:focus-visible {
+        box-shadow: none;
+    }
+
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
         appearance: none;

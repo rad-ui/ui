@@ -1,0 +1,78 @@
+# Controlled vs uncontrolled forms
+
+How to choose and combine controlled and uncontrolled patterns with Rad UI form primitives.
+
+## Definitions
+
+| Pattern | Who owns state | Typical props |
+| --- | --- | --- |
+| Uncontrolled | the component | `defaultValue`, `defaultChecked`, `defaultOpen` |
+| Controlled | your app | `value`, `checked`, `open`, `onValueChange`, `onOpenChange` |
+
+Rad UI primitives support both. Pick one model per field and stay consistent through a form subtree.
+
+## When to use uncontrolled
+
+- simple demos and low-risk settings screens
+- native form submission with `name` attributes
+- fields that do not drive other UI on every keystroke
+
+```tsx
+import Switch from '@radui/ui/Switch'
+
+<Switch.Root defaultChecked>
+  <Switch.Thumb />
+</Switch.Root>
+```
+
+## When to use controlled
+
+- validation that depends on current value
+- syncing multiple inputs (for example Select + TextArea)
+- serializing state to URL, server, or global store
+- imperative reset after submit
+
+```tsx
+import Select from '@radui/ui/Select'
+
+const [value, setValue] = useState('')
+
+<Select.Root value={value} onValueChange={setValue}>
+  <Select.Trigger />
+  <Select.Content>
+    <Select.Item value="a">A</Select.Item>
+  </Select.Content>
+</Select.Root>
+```
+
+## Switching modes
+
+Do not flip between controlled and uncontrolled on the same instance. Mount a new component or keep `value` defined for the component's lifetime.
+
+**Avoid**
+
+```tsx
+<Select.Root value={maybeUndefined ? undefined : value} />
+```
+
+**Prefer**
+
+```tsx
+<Select.Root value={value ?? ''} onValueChange={setValue} />
+// or stay uncontrolled with defaultValue only
+```
+
+## Composite controls
+
+For `CheckboxGroup`, `RadioGroup`, `Tabs`, and `ToggleGroup`:
+
+- `type="single"` / single selection → scalar `value`
+- `type="multiple"` → array `value`
+- document whether empty string or `undefined` means "no selection" in your app layer
+
+## Forms checklist
+
+- [ ] Each field is either controlled or uncontrolled for its full lifetime
+- [ ] Submit handlers read the latest controlled state or native form data
+- [ ] Labels are associated with inputs (`htmlFor` / `id` or wrapping `label`)
+- [ ] Validation messages use `aria-invalid` and `role="alert"` where appropriate

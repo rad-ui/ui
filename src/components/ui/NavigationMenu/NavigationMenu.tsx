@@ -17,4 +17,14 @@ export type { NavigationMenuItemProps } from './fragments/NavigationMenuItem';
 export type { NavigationMenuTriggerProps } from './fragments/NavigationMenuTrigger';
 export type { NavigationMenuContentProps } from './fragments/NavigationMenuContent';
 export type { NavigationMenuLinkProps } from './fragments/NavigationMenuLink';
+// Named part exports let React Server Components use `import * as NavigationMenu from '@radui/ui/NavigationMenu'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    NavigationMenuRoot as Root,
+    NavigationMenuItem as Item,
+    NavigationMenuTrigger as Trigger,
+    NavigationMenuContent as Content,
+    NavigationMenuLink as Link
+};
+
 export default NavigationMenu;

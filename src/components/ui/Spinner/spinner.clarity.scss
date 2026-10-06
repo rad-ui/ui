@@ -1,7 +1,7 @@
 // Spinner — Clarity design system aligned
 // Track ring: accent-300 — light, low-weight accent surface (step 4 equivalent)
 // Active arc: accent-800 — solid, high contrast accent (step 9 equivalent)
-@keyframes spin {
+@keyframes rad-ui-spinner-spin {
     0%   { transform: rotate(0deg);   opacity: 0.3; }
     25%  { opacity: 0.6; }
     50%  { opacity: 0.8; }
@@ -10,13 +10,20 @@
 }
 
 .rad-ui-spinner-container {
-    display: flex;
+    // Inline so a spinner can sit next to text, e.g. inside a button.
+    display: inline-flex;
+    vertical-align: middle;
     align-items: center;
     justify-content: center;
+
+    // The rotating square's bounding box grows past the circle mid-rotation, which creates
+    // transient scrollable overflow in the parent; the circle itself never leaves this box.
+    overflow: hidden;
+    border-radius: 100%;
 }
 
 .rad-ui-spinner {
-    animation: spin 1.3s linear infinite;
+    animation: rad-ui-spinner-spin 1.3s linear infinite;
     border-style: solid;
     border-color: var(--rad-ui-color-accent-300); // accent step 4 — light track ring
     border-top-color: var(--rad-ui-color-accent-800); // accent step 9 — solid active arc

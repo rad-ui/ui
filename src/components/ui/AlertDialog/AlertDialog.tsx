@@ -32,4 +32,19 @@ AlertDialog.Footer = AlertDialogFooter;
 AlertDialog.Cancel = AlertDialogCancel;
 AlertDialog.Action = AlertDialogAction;
 
+// Named part exports let React Server Components use `import * as AlertDialog from '@radui/ui/AlertDialog'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    AlertDialogRoot as Root,
+    AlertDialogTrigger as Trigger,
+    AlertDialogOverlay as Overlay,
+    AlertDialogPortal as Portal,
+    AlertDialogContent as Content,
+    AlertDialogTitle as Title,
+    AlertDialogDescription as Description,
+    AlertDialogFooter as Footer,
+    AlertDialogCancel as Cancel,
+    AlertDialogAction as Action
+};
+
 export default AlertDialog;

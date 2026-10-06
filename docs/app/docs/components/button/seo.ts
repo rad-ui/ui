@@ -2,7 +2,9 @@ import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
 const buttonMetadata = generateSeoMetadata({
     title: "Button - Rad UI",
-    description: "A headless and accessible React Button component, built for customization and seamless integration with any design system."
+    description: "Accessible, headless React Button component. Unstyled primitives for building custom, WCAG-compliant button UIs with TypeScript.",
+    keywords: ["React button", "headless button", "accessible button", "button component", "WCAG compliant button", "Radix alternative"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/button"
 });
 
 export default buttonMetadata

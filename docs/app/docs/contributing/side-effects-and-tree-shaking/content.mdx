@@ -1,0 +1,38 @@
+# Side effects and tree-shaking
+
+Rad UI marks stylesheet modules as side-effectful so bundlers can tree-shake unused JavaScript while still loading CSS when imported.
+
+## Package annotation
+
+`package.json` includes:
+
+```json
+"sideEffects": [
+  "**/*.css",
+  "**/*.scss"
+]
+```
+
+This tells bundlers such as webpack, Rollup, and esbuild that:
+
+- plain component modules are safe to drop when unused
+- theme and component CSS/SCSS files must be retained when imported
+
+## Consumer guidance
+
+- Prefer per-component imports (`@radui/ui/Button`) so unused components are not bundled.
+- Import theme CSS explicitly when you rely on Rad UI styles:
+
+```tsx
+import '@radui/ui/themes/default.css'
+```
+
+- Do not re-export the entire library from a single app barrel if you only need a few components.
+
+## Maintainer checklist
+
+When adding a module with runtime side effects (global registration, polyfills, imperative setup):
+
+1. Confirm it is truly required at import time.
+2. Add a targeted `sideEffects` glob or file path if the module must not be tree-shaken.
+3. Avoid widening `sideEffects` to `true` for the whole package.

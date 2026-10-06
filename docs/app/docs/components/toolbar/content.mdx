@@ -1,0 +1,23 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import ToolbarExample from "./docs/examples/ToolbarExample"
+import code, { anatomy, api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
+
+<Documentation
+    title="Toolbar"
+    description="A container for a set of controls, such as text formatting options. The toolbar is one tab stop and arrow keys move between its items."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <ToolbarExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'toggleGroup', 'toggleItem', 'button', 'link', 'separator']}
+    />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
+</Documentation>

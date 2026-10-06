@@ -26,7 +26,7 @@ function mapUpdateToPartial(u: ToastManagerUpdateOptions): Partial<ToastData> {
 }
 
 export class ToastManager implements IToastManager {
-    defaultTimeout = 5000;
+    defaultTimeout = 4000;
 
     private subscribers: Set<Subscriber> = new Set();
     private dismissSubscribers: Set<DismissSubscriber> = new Set();
@@ -100,6 +100,8 @@ export type ToastPromiseMessages<T> = {
     loading: ToastPromiseState;
     success: ToastPromiseState | ((data: T) => ToastPromiseState);
     error: ToastPromiseState | ((err: unknown) => ToastPromiseState);
+    /** Optional Sonner-style description fields */
+    description?: ToastPromiseState | ((data: T) => ToastPromiseState);
 };
 
 function resolvePromiseState(s: ToastPromiseState): CreateToastInput {
@@ -177,8 +179,14 @@ export const toast = Object.assign(createToast, {
     error: createVariantToast('error'),
     warning: createVariantToast('warning'),
     info: createVariantToast('info'),
-    dismiss: (id: string) => ToastState.dismiss(id),
+    loading: createVariantToast('loading'),
+    dismiss: (id?: string) => (id === undefined ? ToastState.dismissAll() : ToastState.dismiss(id)),
     dismissAll: () => ToastState.dismissAll(),
     close: (id?: string) => ToastState.close(id),
     promise: promiseToast,
+    // Sonner-like aliases
+    message: createToast,
+    custom: (renderFn: (id: string) => React.ReactNode, options?: Omit<CreateToastInput, 'render'>) => {
+        return ToastState.create({ ...options, render: ({ id }: { id: string }) => renderFn(id) } as any);
+    },
 });

@@ -14,7 +14,7 @@ export type CheckboxPrimitiveRootProps = {
     name?: string;
     value?: string;
     id?: string;
-} & ComponentPropsWithoutRef<typeof CheckboxPrimitiveTrigger>;
+} & Omit<ComponentPropsWithoutRef<typeof CheckboxPrimitiveTrigger>, 'checked' | 'defaultChecked'>;
 
 const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxPrimitiveRootProps>(
     ({ children, className = '', checked, defaultChecked = false, onCheckedChange, disabled, required, name, value, id, ...props }, ref) => {
@@ -31,6 +31,16 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
             }
         }, [isChecked]);
 
+        // Return to the initial state when the owning form resets, like a native checkbox.
+        const defaultCheckedRef = useRef(defaultChecked);
+        useEffect(() => {
+            const form = inputRef.current?.form;
+            if (!form) return;
+            const handleReset = () => setIsChecked(defaultCheckedRef.current);
+            form.addEventListener('reset', handleReset);
+            return () => form.removeEventListener('reset', handleReset);
+        }, [setIsChecked]);
+
         const contextValues = {
             isChecked,
             setIsChecked,
@@ -43,17 +53,20 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
             <CheckboxPrimitiveTrigger ref={ref} className={className} disabled={disabled} required={required} {...props}>
                 {children}
             </CheckboxPrimitiveTrigger>
+            {/* Form mirror only: the button above is the focusable, labelled control, so this
+                input stays out of the tab order and the accessibility tree and has no id. */}
             <input
                 ref={inputRef}
                 type="checkbox"
-                id={id}
+                aria-hidden="true"
+                tabIndex={-1}
                 style={{
                     position: 'absolute',
                     pointerEvents: 'none',
                     opacity: 0,
                     margin: 0,
                     transform: 'translateX(-100%)'
-                }} name={name} value={value} checked={isChecked === true} disabled={disabled} required={required} readOnly />
+                }} name={name} value={value ?? 'on'} checked={isChecked === true} disabled={disabled} required={required} onChange={() => {}} />
         </CheckboxPrimitiveContext.Provider>;
     }
 );

@@ -1,8 +1,14 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Popover from '../Popover';
 import Theme from '~/components/ui/Theme/Theme';
+import {
+    expectNoUnexpectedHydrationWarnings,
+    flush,
+    hydrateRoot,
+    renderToString
+} from '../../tests/ssrHydration';
 
 const mockMatchMedia = () => {
     if ('matchMedia' in window && typeof window.matchMedia === 'function') {
@@ -33,6 +39,7 @@ describe('Popover', () => {
 
         render(
             <Popover.Root ref={rootRef}>
+                <Popover.Anchor data-testid="anchor">Anchor</Popover.Anchor>
                 <Popover.Trigger ref={triggerRef}>Open</Popover.Trigger>
                 <Popover.Content ref={contentRef}>
                     Body
@@ -49,6 +56,12 @@ describe('Popover', () => {
         expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
         expect(closeRef.current).toBeInstanceOf(HTMLButtonElement);
         expect(arrowRef.current).toBeInstanceOf(SVGSVGElement);
+        expect(rootRef.current).toHaveAttribute('data-slot', 'popover-root');
+        expect(screen.getByTestId('anchor')).toHaveAttribute('data-slot', 'popover-anchor');
+        expect(screen.getByRole('button', { name: 'Open' })).toHaveAttribute('data-slot', 'popover-trigger');
+        expect(screen.getByRole('dialog')).toHaveAttribute('data-slot', 'popover-content');
+        expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute('data-slot', 'popover-close');
+        expect(arrowRef.current).toHaveAttribute('data-slot', 'popover-arrow');
     });
 
     test('toggles open state and dismisses on outside interaction', async() => {
@@ -161,6 +174,40 @@ describe('Popover', () => {
         expect(content).toBeInTheDocument();
         expect(content).toHaveAttribute('data-state', 'closed');
         expect(content).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    test('hydrates SSR markup without warnings when open', async() => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        const html = renderToString(
+            <Popover.Root open>
+                <Popover.Trigger>Open</Popover.Trigger>
+                <Popover.Content>Popover body</Popover.Content>
+            </Popover.Root>
+        );
+
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+        let root!: ReturnType<typeof hydrateRoot>;
+        await act(async() => {
+            root = hydrateRoot(container, (
+                <Popover.Root open>
+                    <Popover.Trigger>Open</Popover.Trigger>
+                    <Popover.Content>Popover body</Popover.Content>
+                </Popover.Root>
+            ));
+            await flush();
+        });
+
+        expectNoUnexpectedHydrationWarnings(warn, error);
+
+        await act(() => root.unmount());
+        container.remove();
+        warn.mockRestore();
+        error.mockRestore();
     });
 
     test('supports Arrow asChild parity', async() => {

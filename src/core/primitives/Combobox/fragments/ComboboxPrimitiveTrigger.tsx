@@ -16,16 +16,11 @@ export type ComboboxPrimitiveTriggerProps = {
 const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
     ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
->(({ children, className, disabled, asChild, onClick, renderValue, ...props }, forwardedRef) => {
-    const { isOpen, setIsOpen, selectedLabel, selectedValue, refs, getReferenceProps } = useContext(ComboboxPrimitiveContext);
+>(({ children, className, disabled, asChild, onClick, renderValue, 'aria-disabled': ariaDisabled, 'data-placeholder': dataPlaceholder, ...props }, forwardedRef) => {
+    const { isOpen, selectedLabel, selectedValue, refs, getReferenceProps, disabled: rootDisabled } = useContext(ComboboxPrimitiveContext);
+    const isDisabled = Boolean(disabled || rootDisabled);
 
-    const { onClick: _refOnClick, ...refProps } = getReferenceProps();
-
-    const handleClick = composeEventHandlers(onClick, () => {
-        if (!disabled) {
-            setIsOpen(prev => !prev);
-        }
-    });
+    const handleClick = composeEventHandlers(onClick);
     const hasSelectedValue = Boolean(selectedLabel || selectedValue);
     const renderedValue = hasSelectedValue
         ? renderValue?.(selectedValue, selectedLabel || selectedValue)
@@ -37,14 +32,19 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             className={className}
             aria-expanded={isOpen}
             data-state={isOpen ? 'open' : 'closed'}
-            aria-disabled={disabled ? true : undefined}
-            disabled={disabled ? true : undefined}
+            aria-disabled={isDisabled ? true : ariaDisabled}
+            disabled={isDisabled ? true : undefined}
+            data-disabled={isDisabled ? '' : undefined}
+            // Placeholder styling applies whenever no value is selected unless the consumer says otherwise.
+            data-placeholder={dataPlaceholder ?? (hasSelectedValue ? undefined : '')}
             ref={Floater.useMergeRefs([refs.setReference, forwardedRef])}
             role='combobox'
             asChild={asChild}
-            onClick={handleClick}
-            {...refProps}
-            {...props}
+            {...getReferenceProps({
+                ...props,
+                onClick: handleClick,
+                disabled: isDisabled
+            })}
         >
             {renderedValue ?? (selectedLabel || selectedValue || children)}
         </Primitive.button>

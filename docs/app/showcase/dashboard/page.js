@@ -1,9 +1,7 @@
+import showcaseMetadata from "../helpers/showcaseMetadata"
 import DashboardDemo from "../helpers/DashboardDemo"
 
-export const metadata = {
-    title: "Showcase Dashboard",
-    description: "A dashboard UI showcase demo built with Rad UI components.",
-}
+export const metadata = showcaseMetadata("/showcase/dashboard")
 
 const DashboardPage = () => {
     return <DashboardDemo />

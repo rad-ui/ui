@@ -29,10 +29,18 @@ const CommandInput = React.forwardRef<CommandInputElement, CommandInputProps>(({
         setSearch,
         moveActive,
         moveToBoundary,
-        selectActiveItem
+        selectActiveItem,
+        activeItemId
     } = useCommandContext();
 
     const currentValue = value ?? search;
+
+    // A controlled input value still has to drive filtering, which reads the root search state.
+    React.useEffect(() => {
+        if (value !== undefined && value !== search) {
+            setSearch(value);
+        }
+    }, [value, search, setSearch]);
 
     return (
         <Primitive.input
@@ -45,6 +53,7 @@ const CommandInput = React.forwardRef<CommandInputElement, CommandInputProps>(({
             aria-autocomplete="list"
             aria-controls={listId}
             aria-expanded="true"
+            aria-activedescendant={activeItemId ?? undefined}
             aria-label={label}
             value={currentValue}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

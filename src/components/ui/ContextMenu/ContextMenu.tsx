@@ -46,4 +46,17 @@ export type { ContextMenuItemProps } from './fragments/ContextMenuItem';
 export type { ContextMenuSubProps } from './fragments/ContextMenuSub';
 export type { ContextMenuSubTriggerProps } from './fragments/ContextMenuSubTrigger';
 export type { ContextMenuSeparatorProps } from './fragments/ContextMenuSeparator';
+// Named part exports let React Server Components use `import * as ContextMenu from '@radui/ui/ContextMenu'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    ContextMenuRoot as Root,
+    ContextMenuTrigger as Trigger,
+    ContextMenuContent as Content,
+    ContextMenuPortal as Portal,
+    ContextMenuItem as Item,
+    ContextMenuSub as Sub,
+    ContextMenuSubTrigger as SubTrigger,
+    ContextMenuSeparator as Separator
+};
+
 export default ContextMenu;

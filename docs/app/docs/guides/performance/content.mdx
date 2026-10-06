@@ -1,0 +1,73 @@
+# Performance and memoization
+
+Consumer-facing guidance for keeping Rad UI fast in larger applications. Rad UI intentionally does not wrap every internal component in `React.memo`; your app structure and render patterns matter.
+
+## Start with measurement
+
+Optimize after you see a real problem:
+
+- React DevTools Profiler for render counts and duration
+- browser Performance panel for long tasks during keyboard navigation
+- bundle analyzer output if initial load is the concern
+
+Rad UI primitives are designed to be composable. A slow screen is often caused by expensive **parent** renders or large child lists, not a single unmemoized library part.
+
+## When memoization helps
+
+Consider `React.memo`, `useMemo`, and `useCallback` when **all** of the following are true:
+
+1. Profiler shows avoidable rerenders of a stable subtree.
+2. The subtree is expensive to reconcile (large item lists, heavy charts, complex form trees).
+3. Props passed into Rad UI wrappers are referentially stable or cheap to compare.
+
+**Good candidates**
+
+- table rows or list items inside `Select`, `Combobox`, `Menu`, or `Tree`
+- dashboard cards that host multiple Rad UI controls
+- app-level wrappers around Rad UI that pass large objects as props
+
+**Low-value cases**
+
+- memoizing every leaf button or label
+- `useCallback` on handlers that still change every render because of unstable dependencies
+- optimizing components that render once on mount
+
+## Stable props and context
+
+Rad UI compound components use React context. Broad context updates can rerender many descendants.
+
+Patterns that help:
+
+- split state so open/selected values do not live in a parent that also owns unrelated UI
+- pass primitive props (`value`, `open`, `disabled`) instead of recreating config objects inline
+- colocate heavy UI inside the panel that actually needs it (`Tabs.Content`, `Accordion.Content`)
+
+```tsx
+// Prefer stable config outside render when it is reused
+const menuItems = useMemo(
+  () => [
+    { label: 'Edit', onSelect: onEdit },
+    { label: 'Delete', onSelect: onDelete }
+  ],
+  [onEdit, onDelete]
+)
+```
+
+## Large collections
+
+If a list has hundreds of items, rendering every row inside `Menu` or `Select` may be slow regardless of memoization. Virtualize the collection, paginate results, or filter before render. Keep the Rad UI trigger and popover mounted, but feed them a bounded item set so keyboard navigation stays responsive.
+
+## Rad UI-specific notes
+
+- Prefer per-component imports (`@radui/ui/Select`) to keep bundles small.
+- Defer mounting heavy panel content until it is visible when your UX allows it.
+- For overlays, avoid keeping many dialogs mounted as `open` at once.
+- Respect `prefers-reduced-motion` in app-level animation; several primitives expose duration props for reduced motion paths.
+
+## What we do not recommend
+
+- blanket `memo` inside consumer design-system wrappers without profiling evidence
+- reaching for concurrent features solely to mask unstable props
+- replacing Rad UI primitives with unstyled duplicates solely to shave microsecond renders
+
+Profile first, then apply the smallest change that fixes the measured hotspot.

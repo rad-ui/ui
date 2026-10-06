@@ -1,10 +1,11 @@
 'use client';
-import React, { useContext, useRef, useCallback } from 'react';
+import React, { useContext, useEffect } from 'react';
 import clsx from 'clsx';
 
-import TabsRootContext from '../context/TabsRootContext';
+import TabsRootContext, { makeContentId, makeTriggerId } from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import { RovingFocusGroupContext } from '~/core/utils/RovingFocusGroup/context/RovingFocusGroupContext';
 import Primitive from '~/core/primitives/Primitive';
 
 export type TabTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
@@ -13,41 +14,44 @@ export type TabTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
 };
 
 const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>(
-    ({ value, children, className = '', disabled, asChild = false, ...props }, forwardedRef) => {
-        // use context
+    ({ value, children, className = '', disabled, asChild = false, id, onClick, onFocus, ...props }, forwardedRef) => {
         const context = useContext(TabsRootContext);
         if (!context) throw new Error('TabTrigger must be used within a TabRoot');
-        const { tabValue: activeValue, handleTabChange, rootClass, orientation, activationMode } = context;
+        const { tabValue: activeValue, handleTabChange, rootClass, orientation, activationMode, baseId, registerTriggerId } = context;
+        const { setFocusedItemId } = useContext(RovingFocusGroupContext);
 
-        const ref = useRef<HTMLButtonElement | null>(null);
-        const composedRef = useCallback((node: HTMLButtonElement | null) => {
-            (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-            if (typeof forwardedRef === 'function') forwardedRef(node);
-            else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-        }, [forwardedRef]);
+        const isActive = value !== undefined && value === activeValue;
+        const triggerId = id ?? (value !== undefined ? makeTriggerId(baseId, value) : undefined);
+        const contentId = value !== undefined ? makeContentId(baseId, value) : undefined;
 
-        const isActive = value === activeValue;
+        // A consumer id replaces the generated one; tell the panel so its aria-labelledby follows.
+        useEffect(() => {
+            if (value === undefined || id === undefined || !registerTriggerId) return;
+            registerTriggerId(value, id);
+            return () => registerTriggerId(value, undefined);
+        }, [value, id, registerTriggerId]);
 
-        const handleFocus = (tabValue: string) => {
-            if (disabled) return; // Don't handle focus events when disabled
-
-            if (ref.current) {
-                ref.current?.focus();
+        // The selected tab is the tablist's tab stop, so Tab returns focus to it rather than to the
+        // first tab (which, with automatic activation, would silently change the selection).
+        useEffect(() => {
+            if (isActive && !disabled && triggerId) {
+                setFocusedItemId(triggerId);
             }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [isActive, disabled, triggerId]);
 
-            // Only change tab on focus if activation mode is automatic
-            if (activationMode === 'automatic') {
-                handleTabChange(tabValue);
+        const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
+            onFocus?.(event);
+            if (event.defaultPrevented || disabled || value === undefined) return;
+            if (activationMode !== 'manual') {
+                handleTabChange(value);
             }
         };
 
-        // Add explicit click handler
-        const handleClick = (e: React.MouseEvent) => {
-            if (disabled) return; // Don't handle click events when disabled
-
-            if (value) {
-                handleTabChange(value);
-            }
+        const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+            onClick?.(event);
+            if (event.defaultPrevented || disabled || value === undefined) return;
+            handleTabChange(value);
         };
 
         const dataAttributes: Record<string, string> = {};
@@ -58,20 +62,26 @@ const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>
         }
 
         return (
-            <RovingFocusGroup.Item onFocus={() => value && !disabled && handleFocus(value)}>
+            <RovingFocusGroup.Item domId={triggerId}>
                 <Primitive.button
-                    ref={composedRef}
+                    ref={forwardedRef}
+                    id={triggerId}
                     onClick={handleClick}
+                    onFocus={handleFocus}
                     className={clsx(
                         rootClass && `${rootClass}-trigger`,
+                        // Legacy state classes, kept for backwards compatibility. Prefer `data-state` / `data-disabled`.
                         isActive ? 'active' : '',
                         disabled ? 'disabled' : '',
                         className
                     )}
                     role="tab"
+                    type="button"
                     aria-selected={isActive}
+                    aria-controls={isActive ? contentId : undefined}
                     aria-disabled={disabled}
                     disabled={disabled}
+                    data-slot="tabs-trigger"
                     asChild={asChild}
                     {...dataAttributes}
                     {...props}

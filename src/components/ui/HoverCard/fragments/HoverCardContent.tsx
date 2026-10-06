@@ -25,13 +25,15 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     const { forceMount: portalForceMount } = useContext(HoverCardPortalContext);
 
     useEffect(() => {
+        if (!isOpen) return;
+
         const handleScroll = () => closeWithoutDelay();
         window.addEventListener('scroll', handleScroll);
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [closeWithoutDelay]);
+    }, [closeWithoutDelay, isOpen]);
 
     const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, ref]);
     const dataAttributes = createDataAttributes('hover-card', { size });
@@ -50,8 +52,11 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         }}
         {...dataAttributes}
         {...getFloatingProps({
+            'data-slot': 'hover-card-content',
             onPointerEnter: openWithDelay,
             onPointerLeave: closeWithDelay,
+            onFocus: openWithDelay,
+            onBlur: closeWithDelay,
             ...props
         })}>{children}</div>;
 });

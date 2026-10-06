@@ -10,10 +10,10 @@ on:
       - 'package-lock.json'
       - 'scripts/**'
       - 'rollup.config.cjs'
-      - 'rollup-css.config.cjs'
-      - 'rollup-tokens.config.cjs'
+      - 'rollup-css.config.js'
       - 'tsconfig.json'
-      - 'postcss.config.js'
+      - 'main.tailwind.css'
+      - '.storybook/**'
       - '.changeset/**'
       - '.github/workflows/**'
   push:
@@ -25,10 +25,10 @@ on:
       - 'package-lock.json'
       - 'scripts/**'
       - 'rollup.config.cjs'
-      - 'rollup-css.config.cjs'
-      - 'rollup-tokens.config.cjs'
+      - 'rollup-css.config.js'
       - 'tsconfig.json'
-      - 'postcss.config.js'
+      - 'main.tailwind.css'
+      - '.storybook/**'
       - '.changeset/**'
       - '.github/workflows/**'
 
@@ -84,3 +84,6 @@ jobs:
 
       - name: Build package
         run: npm run build:rollup
+
+      - name: Check public API surface
+        run: npm run check:api-surface

@@ -1,8 +1,10 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
 const usageMetadata = generateSeoMetadata({
-    title: "Usage Steps for Rad UI",
-    description: "Usage steps for Rad UI - an Open Source React Headless UI Library. Learn how to use Rad UI in your project.",
+    title: "Usage - Rad UI",
+    description: "Learn how to use Rad UI components in your React application. See examples and best practices for our headless, accessible component library.",
+    keywords: ["Rad UI usage", "using React components", "Rad UI examples", "headless components guide"],
+    canonicalUrl: "https://www.rad-ui.com/docs/first-steps/usage"
 })
 
 export default usageMetadata

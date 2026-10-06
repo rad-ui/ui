@@ -26,10 +26,6 @@ exports[`Slider Component matches snapshot 1`] = `
           style="left: calc(25% - 10px);"
           tabindex="0"
         />
-        <input
-          type="hidden"
-          value="25"
-        />
       </div>
     </div>
   </div>

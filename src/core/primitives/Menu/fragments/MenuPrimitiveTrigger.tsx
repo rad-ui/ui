@@ -7,7 +7,7 @@ export type MenuPrimitiveTriggerProps = {
     children: React.ReactNode
     className?: string
     asChild?: boolean
-}
+} & Omit<React.ComponentPropsWithoutRef<'button'>, 'children' | 'className'>
 
 const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerProps>(
     ({ children, className, asChild, ...props }, propRef) => {
@@ -20,16 +20,21 @@ const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerP
         ]);
 
         if (!context) return null;
-        const { activeIndex, getReferenceProps, isNested } = context;
+        const { activeIndex, getReferenceProps, isNested, isOpen } = context;
 
         return (
             <ButtonPrimitive
-                className={className}
-                tabIndex={!isNested ? undefined : activeIndex === index ? 0 : -1}
                 ref={mergedRef}
-                {...getReferenceProps()}
+                {...(getReferenceProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                    ...props,
+                    className,
+                    'data-state': isOpen ? 'open' : 'closed',
+                    // useRole marks any trigger with a floating parent as a menuitem;
+                    // only submenu triggers should be menuitems.
+                    role: props.role ?? (isNested ? 'menuitem' : undefined),
+                    tabIndex: !isNested ? props.tabIndex : activeIndex === index ? 0 : -1
+                })}
                 asChild={asChild}
-                {...props}
             >
                 {children}
             </ButtonPrimitive>

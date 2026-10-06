@@ -2,51 +2,30 @@
 
 import Button from "@radui/ui/Button"
 import Card from "@radui/ui/Card"
-import ColorLooper from "../helpers/ColorLooper"
+import Matrix, { toAxis } from "../helpers/Matrix"
+import PlaygroundSection from "../helpers/PlaygroundSection"
+
+const variants = [{ key: "default", label: "default", value: undefined }, ...toAxis(["outline", "soft"])]
 
 const CardPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            title="Card"
-            docsLink="/docs/components/card"
-            description="Structured surface with header, content, action, and footer regions."
-        >
-            <div className='grid gap-4 md:grid-cols-2'>
-                <Card variant="outline">
+    <PlaygroundSection title="Card" docsLink="/docs/components/card" description="variant × size with header, content, and footer.">
+        <Matrix
+            align="top"
+            rows={variants}
+            columns={toAxis(["small", "medium", "large"])}
+            renderCell={(variant, size) => (
+                <Card variant={variant.value} size={size.value} className="w-60">
                     <Card.Header>
                         <Card.Title>Release status</Card.Title>
-                        <Card.Description>Snapshot of the current docs refresh work.</Card.Description>
+                        <Card.Description>Docs refresh in progress.</Card.Description>
                     </Card.Header>
-                    <Card.Content>
-                        <p className="text-sm text-gray-700">
-                            Playground coverage now mirrors the documented component set instead of a small hand-picked subset.
-                        </p>
-                    </Card.Content>
                     <Card.Footer>
-                        <Button size="small">View changelog</Button>
+                        <Button size="small" variant="soft">View</Button>
                     </Card.Footer>
                 </Card>
-                <Card size="small">
-                    <Card.Header>
-                        <Card.Title>Team</Card.Title>
-                        <Card.Description>Two editors currently active in docs.</Card.Description>
-                    </Card.Header>
-                    <Card.Content>
-                        <div className="space-y-2 text-sm text-gray-700">
-                            <div className="flex items-center justify-between">
-                                <span>Documentation</span>
-                                <span>Ready</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span>Playground</span>
-                                <span>Updated</span>
-                            </div>
-                        </div>
-                    </Card.Content>
-                </Card>
-            </div>
-        </ColorLooper>
-    </div>
+            )}
+        />
+    </PlaygroundSection>
 )
 
 export default CardPlayground

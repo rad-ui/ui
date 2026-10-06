@@ -10,6 +10,5 @@ exports[`TextArea matches snapshot 1`] = `
   >
     content
   </textarea>
-  content
 </div>
 `;

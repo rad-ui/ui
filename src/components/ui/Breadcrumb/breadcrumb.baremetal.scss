@@ -1,0 +1,23 @@
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-breadcrumb-root) {
+    color: var(--rad-ui-baremetal-black);
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-breadcrumb-list) {
+    gap: var(--rad-ui-spacing-2);
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-breadcrumb-link) {
+    color: var(--rad-ui-baremetal-black);
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-breadcrumb-page) {
+    font-weight: var(--rad-ui-font-weight-semibold);
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-breadcrumb-separator) {
+    color: var(--rad-ui-baremetal-black);
+}

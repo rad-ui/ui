@@ -48,8 +48,11 @@ let files = [];
 try {
     files = fs.readdirSync(distPath);
 } catch (error) {
-    console.warn(`Warning: ${distPath} not found. No components will be exported.`);
-    files = [];
+    // Without a build there is nothing to enumerate, and proceeding would emit
+    // an exports map containing only the theme entries — silently deleting
+    // every component subpath from package.json. Refuse instead.
+    console.error(`Error: ${distPath} not found. Run the build before regenerating exports.`);
+    process.exit(1);
 }
 
 const exportsMap = {};
@@ -64,7 +67,10 @@ exportsMap['.'] = {
 // Add theme exports
 exportsMap['./themes/default.css'] = './dist/themes/default.css';
 exportsMap['./themes/baremetal.css'] = './dist/themes/baremetal.css';
-exportsMap['./themes/tailwind-presets/default.js'] = './dist/themes/tailwind-presets/default.js';
+exportsMap['./themes/tailwind-presets/default.css'] = './dist/themes/tailwind-presets/default.css';
+
+// Per-component Clarity style sources (see scripts/copy-clarity-styles.cjs)
+exportsMap['./styles/clarity/*'] = './dist/styles/clarity/*';
 
 const notReleasedComponents = [];
 
@@ -93,6 +99,45 @@ if (notReleasedComponents.length > 0) {
 
 const pkgPath = path.resolve(__dirname, '../package.json');
 
+function verifyExportTargets(exportsMap) {
+    const missing = [];
+
+    Object.entries(exportsMap).forEach(([exportPath, target]) => {
+        if (typeof target === 'string') {
+            // Subpath patterns ("./dist/styles/clarity/*") must point at a non-empty directory.
+            if (target.endsWith('/*')) {
+                const dirPath = path.resolve(__dirname, '..', target.slice(0, -2));
+                if (!fs.existsSync(dirPath) || fs.readdirSync(dirPath).length === 0) {
+                    missing.push(`${exportPath} -> ${target}`);
+                }
+                return;
+            }
+
+            const filePath = path.resolve(__dirname, '..', target);
+            if (!fs.existsSync(filePath)) {
+                missing.push(`${exportPath} -> ${target}`);
+            }
+            return;
+        }
+
+        ['import', 'require', 'types'].forEach((condition) => {
+            const targetPath = target[condition];
+            if (!targetPath) return;
+
+            const filePath = path.resolve(__dirname, '..', targetPath);
+            if (!fs.existsSync(filePath)) {
+                missing.push(`${exportPath}.${condition} -> ${targetPath}`);
+            }
+        });
+    });
+
+    if (missing.length > 0) {
+        console.error('❌ package.json exports point at missing build files:');
+        missing.forEach((entry) => console.error(`  - ${entry}`));
+        process.exit(1);
+    }
+}
+
 try {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
@@ -103,10 +148,12 @@ try {
             console.error('❌ package.json exports are out of date. Run npm run build:generate-exports to update.');
             process.exit(1);
         }
+        verifyExportTargets(exportsMap);
         console.log('✅ package.json exports are up to date.');
     } else {
         pkg.exports = exportsMap;
         fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+        verifyExportTargets(exportsMap);
         console.log('✅ package.json exports updated!');
     }
 } catch (error) {

@@ -31,4 +31,11 @@ Tree.Item = TreeItem;
 
 export type { TreeRootProps } from './fragments/TreeRoot';
 export type { TreeItemProps } from './fragments/TreeItem';
+// Named part exports let React Server Components use `import * as Tree from '@radui/ui/Tree'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    TreeRoot as Root,
+    TreeItem as Item
+};
+
 export default Tree;

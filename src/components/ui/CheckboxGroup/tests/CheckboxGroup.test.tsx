@@ -3,6 +3,24 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import CheckboxGroup from '../CheckboxGroup';
 
 describe('CheckboxGroup', () => {
+    it('exposes stable anatomy data slots', () => {
+        render(
+            <CheckboxGroup.Root name="fruits" defaultValue={['apple']} data-testid="checkbox-group">
+                <CheckboxGroup.Label data-testid="label-html">
+                    <CheckboxGroup.Trigger value="apple" data-testid="trigger-html">
+                        <CheckboxGroup.Indicator data-testid="indicator-html" />
+                    </CheckboxGroup.Trigger>
+                    Apple
+                </CheckboxGroup.Label>
+            </CheckboxGroup.Root>
+        );
+
+        expect(screen.getByTestId('checkbox-group')).toHaveAttribute('data-slot', 'checkbox-group-root');
+        expect(screen.getByTestId('label-html')).toHaveAttribute('data-slot', 'checkbox-group-label');
+        expect(screen.getByTestId('trigger-html')).toHaveAttribute('data-slot', 'checkbox-group-trigger');
+        expect(screen.getByTestId('indicator-html')).toHaveAttribute('data-slot', 'checkbox-group-indicator');
+    });
+
     it('renders triggers and content, and toggles checked state (uncontrolled)', () => {
         render(
             <CheckboxGroup.Root name="fruits" defaultValue={['apple']}>
@@ -84,10 +102,11 @@ describe('CheckboxGroup', () => {
         const checkbox = screen.getByRole('checkbox', { name: 'Apple' });
         expect(checkbox).toBeDisabled();
         expect(checkbox).toHaveAttribute('aria-required', 'true');
-        // The hidden input should also be disabled and required
+        // The item's form mirror is disabled; group-level required is validated once (at least one checked)
         const input = checkbox.parentElement?.parentElement?.querySelector('input[type="checkbox"]');
         expect(input).toBeDisabled();
-        expect(input).toBeRequired();
+        expect(input).not.toBeRequired();
+        expect(document.querySelector('input[type="checkbox"][required]')).toBeInTheDocument();
     });
 
     it('works in a form and submits checked values', () => {

@@ -45,12 +45,20 @@ const AlertDialogRoot = forwardRef<AlertDialogRootElement, AlertDialogRootProps>
         setDescriptionId
     };
 
+    // Per the WAI-ARIA APG alertdialog pattern, pressing outside (including the
+    // overlay) does not dismiss an alert dialog; Escape, Cancel and Action do.
+    // Pass `dismissOnOutsidePress` to opt back in.
     return (
-        <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen} className={clsx(rootClass, className)} {...props}>
+        <DialogPrimitive.Root
+            ref={ref}
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            className={clsx(rootClass, className)}
+            dismissOnOutsidePress={false}
+            {...props}
+        >
             <AlertDialogContext.Provider value={contextProps}>
-                <div ref={ref} className={clsx(rootClass, className)}>
-                    {children}
-                </div>
+                {children}
             </AlertDialogContext.Provider>
         </DialogPrimitive.Root>
     );

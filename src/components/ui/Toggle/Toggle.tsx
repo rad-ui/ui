@@ -17,7 +17,7 @@ export interface ToggleProps extends Omit<React.ComponentPropsWithoutRef<typeof 
     /** Accent color for the toggle */
     color?: string;
     /** Callback fired when toggle state changes */
-    onPressedChange: (isPressed: boolean) => void;
+    onPressedChange?: (isPressed: boolean) => void;
 }
 
 /**

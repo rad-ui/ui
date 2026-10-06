@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import HoverCardExample from "./docs/example_1"
-import { code, anatomy, api_documentation } from "./docs/codeUsage"
+import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import HoverCardSizes from './examples/HoverCardSizes';
 
@@ -11,6 +11,10 @@ import HoverCardSizes from './examples/HoverCardSizes';
     <Documentation.ComponentHero codeUsage={code}>
         <HoverCardExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}

@@ -1,0 +1,45 @@
+import Kbd from '@radui/ui/Kbd';
+
+export const keyboardShortcutColumns = [
+    {
+        name: 'Shortcut',
+        id: 'shortcut'
+    },
+    {
+        name: 'Description',
+        id: 'description'
+    }
+];
+
+export const DOCS_KEYBOARD_SHORTCUTS = Object.freeze({
+    ARROW_DOWN: { id: 'arrow-down', label: 'ArrowDown' },
+    ARROW_LEFT: { id: 'arrow-left', label: 'ArrowLeft' },
+    ARROW_RIGHT: { id: 'arrow-right', label: 'ArrowRight' },
+    ARROW_UP: { id: 'arrow-up', label: 'ArrowUp' },
+    END: { id: 'end', label: 'End' },
+    ENTER: { id: 'enter', label: 'Enter' },
+    ESCAPE: { id: 'escape', label: 'Escape' },
+    HOME: { id: 'home', label: 'Home' },
+    PAGE_DOWN: { id: 'page-down', label: 'PageDown' },
+    PAGE_UP: { id: 'page-up', label: 'PageUp' },
+    SHIFT_TAB: { id: 'shift-tab', label: 'Shift + Tab' },
+    SPACE: { id: 'space', label: 'Space' },
+    TAB: { id: 'tab', label: 'Tab' }
+});
+
+export const createKeyboardShortcutRow = (shortcut, description) => {
+    if (!shortcut || typeof shortcut !== 'object' || !shortcut.id || !shortcut.label) {
+        throw new Error('createKeyboardShortcutRow: invalid shortcut; use a DOCS_KEYBOARD_SHORTCUTS value.');
+    }
+
+    return {
+        shortcut: <Kbd>{shortcut.label}</Kbd>,
+        description,
+        id: shortcut.id
+    };
+};
+
+export const createKeyboardShortcutTable = (rows = []) => ({
+    columns: keyboardShortcutColumns,
+    data: rows
+});

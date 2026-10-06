@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithPortal, assertFocusTrap, assertFocusReturn, assertScrollLock, assertScrollUnlock } from '~/test-utils/portal';
 import Dialog from '../Dialog';
@@ -66,6 +66,84 @@ describe('Dialog', () => {
         expect(opened.queryByText('Description')).toBeInTheDocument();
     });
 
+    test('syncs trigger state attributes with dialog open state', async() => {
+        const user = userEvent.setup();
+        const { getByText } = render(
+            <Dialog.Root>
+                <Dialog.Trigger>Open</Dialog.Trigger>
+                <Dialog.Content>
+                    <Dialog.Close>Close</Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        const trigger = getByText('Open');
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+        expect(trigger).toHaveAttribute('data-state', 'closed');
+
+        await user.click(trigger);
+
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        expect(trigger).toHaveAttribute('data-state', 'open');
+    });
+
+    test('marks disabled triggers with data-disabled', () => {
+        const { getByText } = render(
+            <Dialog.Root>
+                <Dialog.Trigger disabled>Open</Dialog.Trigger>
+                <Dialog.Content>
+                    <Dialog.Close>Close</Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        expect(getByText('Open')).toHaveAttribute('data-disabled');
+    });
+
+    test('supports uncontrolled defaultOpen and controlled rerenders', async() => {
+        const user = userEvent.setup();
+
+        render(
+            <Dialog.Root defaultOpen>
+                <Dialog.Trigger>Open</Dialog.Trigger>
+                <Dialog.Overlay />
+                <Dialog.Content>
+                    <Dialog.Description>Default open content</Dialog.Description>
+                    <Dialog.Close>Close</Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        expect(screen.getByText('Default open content')).toBeInTheDocument();
+
+        await user.click(screen.getByText('Close'));
+        await waitFor(() => expect(screen.queryByText('Default open content')).toBeNull());
+
+        const controlled = render(
+            <Dialog.Root open={false}>
+                <Dialog.Trigger>Open</Dialog.Trigger>
+                <Dialog.Overlay />
+                <Dialog.Content>
+                    <Dialog.Description>Controlled content</Dialog.Description>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        expect(controlled.queryByText('Controlled content')).toBeNull();
+
+        controlled.rerender(
+            <Dialog.Root open>
+                <Dialog.Trigger>Open</Dialog.Trigger>
+                <Dialog.Overlay />
+                <Dialog.Content>
+                    <Dialog.Description>Controlled content</Dialog.Description>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        expect(controlled.queryByText('Controlled content')).toBeInTheDocument();
+    });
+
     test('renders without warnings', () => {
         const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
         const error = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -109,5 +187,25 @@ describe('Dialog', () => {
         assertFocusReturn(getByText('Trigger'));
         await waitFor(() => assertScrollUnlock());
         cleanup();
+    });
+
+    test('renders under StrictMode without console errors', () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { getByText, unmount } = render(
+            <React.StrictMode>
+                <Dialog.Root open>
+                    <Dialog.Trigger>Open</Dialog.Trigger>
+                    <Dialog.Content>
+                        <Dialog.Title>Title</Dialog.Title>
+                        <Dialog.Close>Close</Dialog.Close>
+                    </Dialog.Content>
+                </Dialog.Root>
+            </React.StrictMode>
+        );
+
+        expect(getByText('Title')).toBeInTheDocument();
+        unmount();
+        expect(errorSpy).not.toHaveBeenCalled();
+        errorSpy.mockRestore();
     });
 });

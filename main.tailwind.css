@@ -1,12 +1,37 @@
+/* Keep the remote font first. v4 inlines local `@import`s in place, so a remote
+ * one written after `@import "tailwindcss"` ends up thousands of lines into the
+ * output, where browsers discard it. */
 @import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source(none);
+@import './styles/tailwind-presets/default.css';
+@import './styles/cssTokens/base.tokens.css';
 
-body{
+/* v4 auto-detects sources by walking from the project root, which here would
+ * include the docs app and every example. Storybook only renders src/, so
+ * detection is disabled above and scoped explicitly instead. */
+@source './src/**/*.{html,js,jsx,ts,tsx,vue}';
+
+body {
   font-family: Inter, sans-serif;
 }
 
-@layer base{
-  @import "./styles/cssTokens/base.tokens.css";
+/* v3 preflight set a default border colour of `colors.gray.200`, which this
+ * preset overrides with the Rad UI ramp. v4 dropped that default, so bare
+ * `border` would inherit `currentColor` and pick up the text colour instead.
+ * Restoring it keeps the 200-odd bare `border` usages looking the same.
+ *
+ * Reference `--rad-ui-color-gray-200` directly rather than `--color-gray-200`:
+ * the preset uses `@theme inline`, so no `--color-*` property is emitted, and the
+ * theme container re-declares the `--rad-ui-*` properties. `border-color` applies
+ * to every element, so the reference resolves per element and follows the active
+ * theme the way v3 did. This sits in `@layer base`, so an explicit
+ * `border-<color>` utility still wins. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: oklch(from var(--rad-ui-color-gray-200) l c h);
+  }
 }

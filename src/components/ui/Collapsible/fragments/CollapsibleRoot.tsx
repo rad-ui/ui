@@ -19,7 +19,7 @@ const CollapsibleRoot = React.forwardRef<
 >(({ children, className = '', transitionDuration = 0, disabled, customRootClass, ...props }, forwardedRef) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     return (
-        <CollapsibleContext.Provider value={{ rootClass }}>
+        <CollapsibleContext.Provider value={{ rootClass, disabled }}>
             <CollapsiblePrimitive.Root
                 ref={forwardedRef}
                 className={clsx(rootClass, className)}

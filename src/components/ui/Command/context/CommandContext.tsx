@@ -45,6 +45,7 @@ export type CommandContextValue = {
         selected: boolean;
     };
     visibleItemCount: number;
+    setEmptyAnnouncement: (message: string) => void;
     getVisibleGroupItemCount: (groupId: string) => number;
     getSeparatorVisible: (id: string) => boolean;
 };

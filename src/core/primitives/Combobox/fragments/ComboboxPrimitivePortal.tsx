@@ -1,44 +1,40 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import Floater from '~/core/primitives/Floater';
-import ThemeContext from '~/components/ui/Theme/ThemeContext';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
-export type ComboboxPrimitivePortalProps = Omit<React.ComponentPropsWithoutRef<typeof Floater.Portal>, 'root'> & {
+export type ComboboxPrimitivePortalProps = {
     children: React.ReactNode;
+    /** Element to portal into. Defaults to the Theme's portal root, then the Theme container, then `document.body`. */
     container?: HTMLElement | null;
+    /** Keep the portal (and content) mounted while closed, e.g. for exit animations. */
     forceMount?: boolean;
-    /** @deprecated Use `container` instead. */
-    root?: HTMLElement | null;
-};
+} & React.ComponentPropsWithoutRef<typeof Floater.Portal>;
 
 const ComboboxPrimitivePortal = React.forwardRef<
     React.ElementRef<typeof Floater.Portal>,
     ComboboxPrimitivePortalProps
->(({ children, container, forceMount = false, root, ...props }, _forwardedRef) => {
+>(({ children, container, forceMount = false, ...props }, _forwardedRef) => {
     const { isOpen } = useContext(ComboboxPrimitiveContext);
     const themeContext = useContext(ThemeContext);
     const [rootElementFound, setRootElementFound] = useState(false);
-    const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+    const rootElement = (
+        container
+        ?? themeContext?.portalRootRef.current
+        ?? themeContext?.containerRef.current
+        // Guarded so server rendering (no `document`) does not throw.
+        ?? (typeof document !== 'undefined' ? document.body : null)
+    ) as HTMLElement | null;
 
     useEffect(() => {
-        const resolvedRoot = container
-            ?? root
-            ?? themeContext?.portalRootRef.current
-            ?? document.querySelector('[data-rad-ui-portal-root]') as HTMLElement | null
-            ?? themeContext?.containerRef.current
-            ?? document.querySelector('#rad-ui-theme-container') as HTMLElement | null
-            ?? document.body;
-
-        setRootElement(resolvedRoot);
-
-        if (resolvedRoot) {
+        if (rootElement) {
             setRootElementFound(true);
         }
-    }, [container, root, themeContext]);
+    }, [rootElement]);
 
-    if ((!isOpen && !forceMount) || !rootElementFound || !rootElement) return null;
+    if ((!isOpen && !forceMount) || !rootElementFound) return null;
 
     return (
         <ComboboxPrimitivePortalContext.Provider value={{ forceMount }}>

@@ -124,12 +124,12 @@ const SandboxEditor = ({ children, className }: SandboxProps) => {
             appearance={isDarkMode ? 'dark' : 'light'}
             accentColor={colorName}
             classNamespace="rad-ui">
-            <div className='min-h-screen border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)] p-3 shadow-sm text-[var(--rad-ui-text-secondary)] sm:p-4'>
+            <div className='min-h-screen border border-[var(--rad-ui-border-soft)] bg-[var(--rad-ui-surface-canvas)] p-3 shadow-xs text-[var(--rad-ui-text-secondary)] sm:p-4'>
                 <div
                     className={`sticky top-0 z-20 mb-2 ${isCondensed ? 'pb-2' : ''}`.trim()}
                 >
                     <div
-                        className={`rounded-xl border border-transparent bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_82%,transparent)] backdrop-blur supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_72%,transparent)] ${isCondensed ? 'px-3 py-2 shadow-sm' : 'px-0 py-0 shadow-none'}`.trim()}
+                        className={`rounded-xl border border-transparent bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_82%,transparent)] backdrop-blur-sm supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--rad-ui-surface-canvas)_72%,transparent)] ${isCondensed ? 'px-3 py-2 shadow-xs' : 'px-0 py-0 shadow-none'}`.trim()}
                     >
                         <div className='flex items-start justify-between gap-2'>
                             <div className='flex min-w-0 items-center space-x-3'>

@@ -16,6 +16,8 @@ import {
     actionCodeUsage,
     limitCodeUsage,
     expandCodeUsage,
+    ariaReferences,
+    keyboardShortcuts,
 } from './docs/codeUsage'
 
 <Documentation
@@ -31,6 +33,12 @@ import {
         tables={api_documentation}
         order={['provider', 'portal', 'viewport', 'root', 'content', 'title', 'description', 'action', 'close']}
     />
+
+    ## Accessibility
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
     ## Examples
 

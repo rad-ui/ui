@@ -8,7 +8,8 @@ const data = {
     ],
     data: [
         { prop: { name: "items", info_tooltips: "Array of { title, content } for the convenience wrapper." }, type: "{ title: string, content: ReactNode }[]", default: "--" },
-        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
+        { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' },
+        { prop: { name: "loop", info_tooltips: "Whether arrow key navigation wraps between disclosure triggers." }, type: "boolean", default: "true" }
     ]
 }
 

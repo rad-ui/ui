@@ -1,17 +1,17 @@
-import { JetBrains_Mono, Manrope } from 'next/font/google'
+import { Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 import Main from "../components/Main/Main"
+import { siteOpenGraph, siteTwitter } from "@/utils/seo/siteSocial"
 
-import { cookies } from 'next/headers'
 import { Analytics } from '@vercel/analytics/react';
 import GoogleAnalytics from '../components/Analytics/GoogleAnalytics'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { PostHogProvider } from "../components/PostHogProvider"
 
 /** Don't change the order or all hell breaks loose */
-import './globals.scss';
+import './globals.css';
 import "@radui/ui/themes/default.css";
 
-const manrope = Manrope({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
 })
@@ -62,38 +62,14 @@ export const metadata = {
   alternates: {
     canonical: 'https://www.rad-ui.com',
   },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://www.rad-ui.com',
-    siteName: 'Rad UI',
-    title: 'Rad UI | Modern React UI Library for Accessible Web Applications',
-    description: 'Rad UI is a modern React UI Library for accessible and fast web applications. Built with TypeScript, offering headless and unstyled components for maximum flexibility.',
-    images: [
-      {
-        url: 'https://www.rad-ui.com/og?title=Rad%20UI&description=Modern%20React%20UI%20Library%20for%20Accessible%20Web%20Applications',
-        width: 1200,
-        height: 630,
-        alt: 'Rad UI - Modern React UI Library',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Rad UI | Modern React UI Library for Accessible Web Applications',
-    description: 'Rad UI is a modern React UI Library for accessible and fast web applications. Built with TypeScript, offering headless and unstyled components for maximum flexibility.',
-    images: ['https://www.rad-ui.com/og?title=Rad%20UI&description=Modern%20React%20UI%20Library%20for%20Accessible%20Web%20Applications'],
-    creator: '@rad_ui',
-    site: '@rad_ui',
-  },
+  openGraph: siteOpenGraph,
+  twitter: siteTwitter,
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
     yandex: process.env.YANDEX_VERIFICATION,
     yahoo: process.env.YAHOO_VERIFICATION,
   },
   other: {
-    'theme-color': '#000000',
-    'color-scheme': 'dark light',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': 'Rad UI',
@@ -105,11 +81,8 @@ export const metadata = {
 
 export default async function RootLayout({ children, ...props }) {
 
-  const cookieStore = await cookies()
-  const darkModeSsrValue = cookieStore.get('darkMode')?.value || false
-
   return (
-    <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${instrumentSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -142,14 +115,32 @@ export default async function RootLayout({ children, ...props }) {
               },
               "license": "https://github.com/rad-ui/ui/blob/main/LICENSE",
               "codeRepository": "https://github.com/rad-ui/ui",
-              "keywords": "React, UI Library, TypeScript, Accessibility, Design System"
+              "applicationSubCategory": "Component Library",
+              "featureList": [
+                "Headless, unstyled React components",
+                "WCAG-compliant accessible primitives",
+                "TypeScript-first API",
+                "Composable and tree-shakeable"
+              ],
+              "keywords": "React, Headless UI, UI Library, TypeScript, Accessibility, Design System, Component Library"
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Rad UI",
+              "url": "https://www.rad-ui.com"
             })
           }}
         />
       </head>
       <body className="h-screen overflow-hidden" suppressHydrationWarning>
         <PostHogProvider>
-          <Main darkModeSsrValue={darkModeSsrValue}>
+          <Main>
             {children}
           </Main>
           <Analytics />

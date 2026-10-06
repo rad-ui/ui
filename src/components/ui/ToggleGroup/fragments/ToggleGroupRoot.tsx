@@ -4,6 +4,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import useControllableState from '~/core/hooks/useControllableState';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
+import Primitive from '~/core/primitives/Primitive';
 
 import { ToggleContext } from '../contexts/toggleContext';
 
@@ -92,15 +93,16 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     if (!rovingFocus) {
         return (
             <ToggleContext.Provider value={sendValues}>
-                <div
+                <Primitive.div
                     ref={ref}
                     className={clsx(rootClass, className)}
                     {...data_attributes}
                     dir={dir}
+                    asChild={asChild}
                     {...props}
                 >
                     {children}
-                </div>
+                </Primitive.div>
             </ToggleContext.Provider>
         );
     }
@@ -116,9 +118,10 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
                     {...data_attributes}
                     {...props}
                 >
-                    <div ref={ref} className={clsx(rootClass, className)}>
+                    {/* With asChild the consumer's single child element becomes the group container. */}
+                    <Primitive.div ref={ref} className={clsx(rootClass, className)} asChild={asChild}>
                         {children}
-                    </div>
+                    </Primitive.div>
                 </RovingFocusGroup.Group>
             </RovingFocusGroup.Root>
         </ToggleContext.Provider>
