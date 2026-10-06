@@ -149,7 +149,7 @@ export const ScrollCollisionVisualTest = () => {
                         Hover card anchor
                     </button>
                 </HoverCard.Trigger>
-                <HoverCard.Portal rootElement={container ?? undefined}>
+                <HoverCard.Portal container={container}>
                     <HoverCard.Content>
                         <div className="w-[18rem]">
                             <CardBody />
