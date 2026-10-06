@@ -47,9 +47,10 @@
             background: transparent !important;
         }
 
+        // Logical insets so the scrollbars sit at the inline end (left in RTL).
         &[data-orientation="vertical"] {
             width: var(--rad-ui-scroll-area-scrollbar-size);
-            right: 0;
+            inset-inline-end: 0;
             top: 0;
             bottom: 0;
         }
@@ -58,8 +59,7 @@
             flex-direction: column;
             height: var(--rad-ui-scroll-area-scrollbar-size);
             bottom: 0;
-            left: 0;
-            right: 0;
+            inset-inline: 0;
         }
 
         // Both tracks rendered: leave the corner square free so the tracks never overlap.
@@ -68,7 +68,7 @@
         }
 
         &[data-orientation="horizontal"][data-corner] {
-            right: var(--rad-ui-scroll-area-scrollbar-size);
+            inset-inline-end: var(--rad-ui-scroll-area-scrollbar-size);
         }
 
         &[data-state="visible"]:hover {
@@ -103,7 +103,7 @@
 
     .rad-ui-scroll-area-corner {
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         bottom: 0;
         width: var(--rad-ui-scroll-area-scrollbar-size);
         height: var(--rad-ui-scroll-area-scrollbar-size);

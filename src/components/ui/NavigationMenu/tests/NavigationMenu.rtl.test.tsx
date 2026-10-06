@@ -43,4 +43,31 @@ describe('NavigationMenu RTL', () => {
         await user.click(trigger);
         expect(screen.getByText('Item 1 Content')).toBeInTheDocument();
     });
+
+    // Three items, so a wrong direction (which wraps to the last item) can't pass by accident.
+    test('arrow keys between top-level items follow reading direction with dir="rtl"', async() => {
+        const user = userEvent.setup();
+        render(
+            <NavigationMenu.Root dir="rtl" aria-label="Main">
+                <NavigationMenu.Item value="products">
+                    <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+                    <NavigationMenu.Content><NavigationMenu.Link href="#a">Analytics</NavigationMenu.Link></NavigationMenu.Content>
+                </NavigationMenu.Item>
+                <NavigationMenu.Item value="pricing">
+                    <NavigationMenu.Trigger>Pricing</NavigationMenu.Trigger>
+                    <NavigationMenu.Content><NavigationMenu.Link href="#b">Plans</NavigationMenu.Link></NavigationMenu.Content>
+                </NavigationMenu.Item>
+                <NavigationMenu.Item value="docs">
+                    <NavigationMenu.Trigger>Docs</NavigationMenu.Trigger>
+                    <NavigationMenu.Content><NavigationMenu.Link href="#c">Guides</NavigationMenu.Link></NavigationMenu.Content>
+                </NavigationMenu.Item>
+            </NavigationMenu.Root>
+        );
+        expect(screen.getByRole('navigation')).toHaveAttribute('dir', 'rtl');
+        screen.getByText('Products').focus();
+        await user.keyboard('{ArrowLeft}');
+        expect(screen.getByText('Pricing')).toHaveFocus();
+        await user.keyboard('{ArrowRight}');
+        expect(screen.getByText('Products')).toHaveFocus();
+    });
 });

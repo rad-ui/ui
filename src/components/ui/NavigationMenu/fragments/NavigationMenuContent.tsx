@@ -14,7 +14,7 @@ export interface NavigationMenuContentProps extends React.ComponentPropsWithoutR
 const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, NavigationMenuContentProps>(
     ({ children, className, loop, ...props }, ref) => {
         const { itemOpen, contentId, flushPendingFocus } = React.useContext(NavigationMenuItemContext);
-        const { rootClass, contentLoop } = React.useContext(NavigationMenuRootContext);
+        const { rootClass, contentLoop, dir } = React.useContext(NavigationMenuRootContext);
         const contentRef = React.useRef<HTMLDivElement>(null);
         const resolvedLoop = loop ?? contentLoop;
 
@@ -37,7 +37,7 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
                 {...props}
             >
                 {/* Panels lay links out in rows, columns or grids, so every arrow key moves between them. */}
-                <RovingFocusGroup.Root loop={resolvedLoop} orientation="both">
+                <RovingFocusGroup.Root loop={resolvedLoop} orientation="both" dir={dir}>
                     {/* Always render a wrapper group: slotting onto a lone Link would put role="group" on the anchor. */}
                     <RovingFocusGroup.Group asChild={false}>{children}</RovingFocusGroup.Group>
                 </RovingFocusGroup.Root>

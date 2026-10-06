@@ -28,6 +28,8 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   isNested: boolean;
   floatingContext: any;
   rtl: boolean;
+  /** Reading direction, applied to the (portaled) menu content. */
+  dir?: 'ltr' | 'rtl';
   /** Returns the top-level trigger of this menu tree (the sub trigger's root, for submenus). */
   getRootTrigger: () => Element | null;
 }

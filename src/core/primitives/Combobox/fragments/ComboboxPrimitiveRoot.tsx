@@ -91,6 +91,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     required = false,
     ...props
 }, forwardedRef) => {
+    // `dir` stays on the root element (it's in props) and is also passed to the
+    // portaled content, which does not inherit direction from this tree.
+    const dir = props.dir;
     const [isOpenState, setIsOpen] = useControllableState<boolean>(open, defaultOpen, onOpenChange);
     const isOpen = Boolean(isOpenState) && !disabled;
     const idPrefix = React.useId();
@@ -373,7 +376,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         labelsVersion,
         bumpLabelsVersion,
         idPrefix,
-        disabled
+        disabled,
+        dir
     }), [
         isOpen,
         handleSelect,
@@ -398,7 +402,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         labelsVersion,
         idPrefix,
         disabled,
-        setIsOpen
+        setIsOpen,
+        dir
     ]);
 
     return (

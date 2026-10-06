@@ -19,6 +19,8 @@ export interface NavigationMenuRootProps extends React.ComponentPropsWithoutRef<
     customRootClass?: string;
     loop?: boolean;
     contentLoop?: boolean;
+    /** Reading direction. In `rtl`, ArrowLeft moves to the next item. Content inherits it. */
+    dir?: 'ltr' | 'rtl';
 }
 
 const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, NavigationMenuRootProps>(
@@ -31,6 +33,7 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
             customRootClass,
             loop = true,
             contentLoop = true,
+            dir,
             className,
             ...props
         },
@@ -40,9 +43,9 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
 
         return (
-            <nav ref={ref} {...props}>
-                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop }}>
-                    <RovingFocusGroup.Root loop={loop}>
+            <nav ref={ref} dir={dir} {...props}>
+                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop, dir }}>
+                    <RovingFocusGroup.Root loop={loop} dir={dir}>
                         <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
                             {children}
                         </RovingFocusGroup.Group>

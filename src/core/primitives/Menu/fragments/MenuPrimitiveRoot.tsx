@@ -29,15 +29,20 @@ export type MenuPrimitiveRootProps = {
   | 'left-start'
   | 'left-end';
   avoidCollision?: boolean
+  /** @deprecated Use `dir="rtl"`. */
   rtl?: boolean
-} & ComponentPropsWithoutRef<'div'>;
+  /** Reading direction. In `rtl`, ArrowLeft/ArrowRight open and close submenus and submenus open on the left. Submenus inherit it. */
+  dir?: 'ltr' | 'rtl'
+} & Omit<ComponentPropsWithoutRef<'div'>, 'dir'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
     /** Internal: set by MenuPrimitive.Sub so the menu behaves as a submenu. */
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, isSubmenu = false, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, ...props }, ref) => {
+    const isRtl = rtl || dir === 'rtl';
+    const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : dir;
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
@@ -93,7 +98,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         onOpenChange: setIsOpen,
         strategy: 'fixed',
         transform: false,
-        placement: isNested ? 'right-start' : placement,
+        // Submenus open toward the inline end: right in LTR, left in RTL.
+        placement: isNested ? (isRtl ? 'left-start' : 'right-start') : placement,
         middleware: [
             Floater.offset({
                 mainAxis: effectiveMainAxisOffset,
@@ -118,7 +124,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         listRef: elementsRef,
         activeIndex,
         nested: isNested,
-        rtl,
+        rtl: isRtl,
         loop,
         onNavigate: setActiveIndex
     });
@@ -176,7 +182,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         nodeId,
         isNested,
         floatingContext,
-        rtl,
+        rtl: isRtl,
+        dir: direction,
         getRootTrigger
     };
     const tree = Floater.useFloatingTree();
@@ -197,7 +204,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
 
     return (
 
-        <div ref={ref} className={className} data-tree="true" {...props}>
+        <div ref={ref} className={className} data-tree="true" dir={direction} {...props}>
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>

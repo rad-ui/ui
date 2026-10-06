@@ -7,7 +7,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ScrollAreaContext, type ScrollAreaScrollbarType } from '../context/ScrollAreaContext';
 import { useScrollbarVisibility } from '../hooks/useScrollbarVisibility';
 import { useDocumentOverlayOpenState } from '~/core/hooks/useDocumentOverlayOpenState';
-import { getTrackLength } from '../utils/track';
+import { getTrackLength, getHorizontalScrollRange, clampScrollLeft } from '../utils/track';
 
 const COMPONENT_NAME = 'ScrollArea';
 const MIN_THUMB_SIZE = 24;
@@ -178,11 +178,16 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
             const thumbWidth = scrollXThumbRef.current.clientWidth;
             const trackWidth = getTrackLength(scrollbarXRef.current, 'horizontal', viewportWidth);
 
+            const { rtl } = getHorizontalScrollRange(viewport);
+            const travel = Math.max(0, trackWidth - thumbWidth);
             if (viewportWidth <= 0 || contentWidth <= viewportWidth) {
-                scrollXThumbRef.current.style.left = '0px';
+                // At the inline start: the left end in LTR, the right end in RTL.
+                scrollXThumbRef.current.style.left = `${rtl ? travel : 0}px`;
             } else {
-                const ratio = Math.min(1, Math.max(0, scrollLeft / (contentWidth - viewportWidth)));
-                const thumbPosition = ratio * Math.max(0, trackWidth - thumbWidth);
+                // Progress from the inline start; RTL scrollLeft runs 0 → negative.
+                const progress = Math.abs(scrollLeft) / (contentWidth - viewportWidth);
+                const ratio = Math.min(1, Math.max(0, progress));
+                const thumbPosition = rtl ? travel - (ratio * travel) : ratio * travel;
                 scrollXThumbRef.current.style.left = `${thumbPosition}px`;
             }
         }
@@ -210,9 +215,8 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         cancelScrollAnimation();
 
         const maxTop = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
-        const maxLeft = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
         const targetTop = target.top !== undefined ? Math.min(maxTop, Math.max(0, target.top)) : undefined;
-        const targetLeft = target.left !== undefined ? Math.min(maxLeft, Math.max(0, target.left)) : undefined;
+        const targetLeft = target.left !== undefined ? clampScrollLeft(viewport, target.left) : undefined;
 
         const prefersReducedMotion = typeof window !== 'undefined'
             && typeof window.matchMedia === 'function'

@@ -59,3 +59,20 @@ export function hasFocusableDescendant(container: HTMLElement): boolean {
     }
     return false;
 }
+
+/**
+ * Horizontal scroll range of a viewport. Browsers report `scrollLeft` from 0
+ * at the inline start: in RTL it runs from 0 (start, right edge) down to
+ * -(scrollWidth - clientWidth). Uses the computed direction, so `dir="rtl"` on
+ * the ScrollArea, any ancestor, or the document all work.
+ */
+export function getHorizontalScrollRange(viewport: HTMLElement): { min: number; max: number; rtl: boolean } {
+    const extent = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+    const rtl = typeof window !== 'undefined' && window.getComputedStyle(viewport).direction === 'rtl';
+    return rtl ? { min: -extent, max: 0, rtl } : { min: 0, max: extent, rtl };
+}
+
+export function clampScrollLeft(viewport: HTMLElement, value: number): number {
+    const { min, max } = getHorizontalScrollRange(viewport);
+    return Math.min(max, Math.max(min, value));
+}

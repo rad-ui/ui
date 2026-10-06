@@ -3,7 +3,7 @@
 import React, { useContext, useRef, useCallback, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext, ScrollAreaScrollbarOrientationContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
-import { getTrackLength } from '../utils/track';
+import { getTrackLength, clampScrollLeft } from '../utils/track';
 
 type ScrollAreaThumbElement = ElementRef<'div'>;
 export type ScrollAreaThumbProps = ComponentPropsWithoutRef<'div'> & {
@@ -47,8 +47,10 @@ const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>
             const scrollableTrackWidth = getTrackLength(track, 'horizontal', viewport.clientWidth) - thumb.clientWidth;
             if (scrollableTrackWidth <= 0) return;
             const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+            // Dragging right always moves content toward the right edge: in LTR
+            // that's toward the end, in RTL toward the start (scrollLeft -> 0).
             const newScrollLeft = dragStartRef.current.scrollLeft + ((deltaX / scrollableTrackWidth) * maxScroll);
-            viewport.scrollLeft = Math.max(0, Math.min(newScrollLeft, maxScroll));
+            viewport.scrollLeft = clampScrollLeft(viewport, newScrollLeft);
         }
     }, [orientation, scrollAreaViewportRef, scrollXThumbRef, scrollYThumbRef, scrollbarXRef, scrollbarYRef]);
 
