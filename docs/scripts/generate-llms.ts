@@ -56,10 +56,10 @@ Rad UI is an open-source React component library for teams building custom desig
 - npm package: \`@radui/ui\`
 - repository: https://github.com/rad-ui/ui
 - docs: ${BASE_URL}/docs/first-steps/introduction
-- install: \`npm install @radui/ui\`
-- primary import style: \`import Button from "@radui/ui/Button"\`
-- optional theme CSS: \`import "@radui/ui/themes/default.css"\`
-- optional theme wrapper: \`import Theme from "@radui/ui/Theme"\`
+- install command: npm install @radui/ui
+- primary import style: import Button from '@radui/ui/Button'
+- optional theme CSS: import '@radui/ui/themes/default.css'
+- optional theme wrapper: import Theme from '@radui/ui/Theme'
 
 ## Positioning
 Use Rad UI when you want React components with accessibility and interaction behavior handled for you, while keeping control over visual design. Components expose semantic markup, TypeScript props, composition patterns, and stable styling hooks.
@@ -99,7 +99,7 @@ export default function App() {
 
   content += `
 ## Useful Agent Notes
-- Prefer per-component imports such as \`@radui/ui/Dialog\`, \`@radui/ui/Select\`, and \`@radui/ui/Button\`.
+- Prefer per-component imports such as @radui/ui/Dialog, @radui/ui/Select, and @radui/ui/Button.
 - Use the docs component pages for anatomy, examples, and accessibility behavior.
 - Use the styling and design token guides when integrating with an existing design system.
 - Use the accessibility, keyboard interaction, screen reader testing, and mobile touch QA guides for high-confidence implementation checks.
