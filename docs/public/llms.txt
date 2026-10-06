@@ -122,4 +122,5 @@
 - [GitHub](https://github.com/rad-ui/ui)
 - [Playground](https://www.rad-ui.com/playground)
 - [Colors](https://www.rad-ui.com/colors)
+- [Full AI reference](https://www.rad-ui.com/llms-full.txt)
 
