@@ -1,13 +1,21 @@
-// Toolbar — Clarity-aligned chrome; toggle groups match segmented control pattern
+// Toolbar — Clarity-aligned chrome.
+// The root is a compact in-flow bar that hugs its controls. Every interactive
+// child (button, link, toggle item) shares one control recipe so heights,
+// radius, hover, pressed and focus treatments line up across the bar.
 .rad-ui-toolbar {
+    // Concentric radius: the child control radius plus the root padding.
+    --rad-ui-toolbar-padding: var(--rad-ui-spacing-1);
+    --rad-ui-toolbar-control-height: var(--rad-ui-control-height-sm);
+    --rad-ui-toolbar-control-radius: var(--rad-ui-control-radius-sm);
+
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 0.625rem;
-    border-radius: 0.625rem;
-    border: 1px solid var(--rad-ui-color-gray-500);
-    background-color: var(--rad-ui-color-gray-50);
-    box-shadow: var(--rad-ui-shadow-xs);
+    height: fit-content;
+    gap: var(--rad-ui-density-gap-xs);
+    padding: var(--rad-ui-toolbar-padding);
+    border-radius: calc(var(--rad-ui-toolbar-control-radius) + var(--rad-ui-toolbar-padding));
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);
+    background-color: var(--rad-ui-surface-panel);
 
     &[data-orientation='vertical'] {
         flex-direction: column;
@@ -15,188 +23,117 @@
     }
 
     .rad-ui-toolbar-button,
-    .rad-ui-toolbar-link {
-        position: relative;
-        border-radius: var(--rad-ui-radius-sm);
-        transition:
-            background-color 0.12s ease,
-            color 0.12s ease;
-
-        &:focus-visible {
-            outline: none;
-            box-shadow: var(--rad-ui-focus-ring-shadow-inset);
-            z-index: 1;
-        }
-    }
-
-    .rad-ui-toolbar-button {
-        all: unset;
-        box-sizing: border-box;
-        cursor: pointer;
-        min-width: 2.375rem;
-        min-height: 2.375rem;
-        padding: 0 0.625rem;
-        font-size: 0.9rem;
-        font-weight: 500;
-        line-height: var(--rad-ui-line-height-1);
-        background-color: transparent;
-        color: var(--rad-ui-color-gray-1000);
-        align-self: stretch;
-        display: inline-flex;
-        flex-flow: row nowrap;
-        align-items: center;
-        justify-content: center;
-        gap: 0.375rem;
-
-        &:hover {
-            background-color: var(--rad-ui-color-gray-100);
-        }
-
-        &:active {
-            transform: translateY(1px);
-        }
-
-        svg {
-            width: var(--rad-ui-size-4);
-            height: var(--rad-ui-size-4);
-            flex-shrink: 0;
-        }
-    }
-
-    .rad-ui-toolbar-link {
-        all: unset;
-        box-sizing: border-box;
-        cursor: pointer;
-        width: auto;
-        height: auto;
-        min-height: 2.375rem;
-        padding: 0 0.5rem;
-        color: var(--rad-ui-color-accent-900);
-        font-size: 0.92rem;
-        font-weight: 500;
-        line-height: var(--rad-ui-line-height-2);
-        white-space: nowrap;
-
-        // override .rad-ui-link: underline label only, not the icon
-        text-decoration: none;
-        align-self: stretch;
-        display: inline-flex;
-        flex-flow: row nowrap;
-        align-items: center;
-        justify-content: center;
-        gap: 0.375rem;
-
-        > span {
-            text-decoration: underline;
-            text-decoration-color: currentcolor;
-            text-underline-offset: 0.18em;
-            text-decoration-thickness: 1px;
-        }
-
-        &:hover {
-            background-color: var(--rad-ui-color-gray-100);
-            color: var(--rad-ui-color-accent-1000);
-        }
-
-        &:hover > span {
-            text-decoration-thickness: 2px;
-        }
-
-        &:active {
-            transform: none;
-        }
-
-        svg {
-            width: var(--rad-ui-size-4);
-            height: var(--rad-ui-size-4);
-            flex-shrink: 0;
-        }
-    }
-
-    .rad-ui-toolbar-toggle-group {
-        display: inline-flex;
-        align-items: stretch;
-        align-self: center;
-        gap: 0;
-        padding: 0;
-        overflow: hidden;
-        border-radius: 0.625rem;
-        border: 1px solid var(--rad-ui-color-gray-500);
-        background-color: var(--rad-ui-color-gray-50);
-    }
-
+    .rad-ui-toolbar-link,
     .rad-ui-toolbar-toggle-item {
         all: unset;
         box-sizing: border-box;
         position: relative;
         display: inline-flex;
+        flex-flow: row nowrap;
         align-items: center;
         justify-content: center;
-        flex: 1 1 0;
-        min-width: 2.375rem;
-        min-height: 2.375rem;
-        padding: 0;
-        border-radius: 0;
-        background-color: var(--rad-ui-color-gray-50);
-        color: var(--rad-ui-color-gray-1000);
+        gap: var(--rad-ui-density-gap-sm);
+        min-width: var(--rad-ui-toolbar-control-height);
+        min-height: var(--rad-ui-toolbar-control-height);
+        padding: 0 var(--rad-ui-control-padding-x-sm);
+        border-radius: var(--rad-ui-toolbar-control-radius);
+        background-color: transparent;
+        color: var(--rad-ui-text-primary);
+        font-family: inherit;
+        font-size: var(--rad-ui-component-font-size-sm);
+        font-weight: var(--rad-ui-component-font-weight-medium);
+        line-height: var(--rad-ui-component-line-height-tight);
+        white-space: nowrap;
         cursor: pointer;
+        user-select: none;
         transition:
-            background-color 0.12s ease,
-            color 0.12s ease;
+            background-color var(--rad-ui-motion-duration-fast) ease,
+            box-shadow var(--rad-ui-motion-duration-fast) ease,
+            color var(--rad-ui-motion-duration-fast) ease;
 
-        &:hover:not([data-disabled], :disabled, [data-state='on']) {
-            background-color: var(--rad-ui-color-gray-100);
-        }
-
-        &[data-state='on'] {
-            background-color: var(--rad-ui-color-gray-200);
-            color: var(--rad-ui-color-gray-1000);
+        &:hover:not([data-disabled], :disabled, [aria-disabled='true'], [data-state='on']) {
+            background-color: var(--rad-ui-surface-hover);
         }
 
         &:focus-visible {
             outline: none;
-            box-shadow: var(--rad-ui-focus-ring-shadow-inset);
+            box-shadow: var(--rad-ui-focus-ring-shadow-sm);
             z-index: 1;
         }
 
         &[data-disabled],
-        &:disabled {
-            opacity: 0.5;
+        &:disabled,
+        &[aria-disabled='true'] {
+            color: var(--rad-ui-disabled-text);
             cursor: not-allowed;
         }
 
         svg {
-            width: var(--rad-ui-size-4);
-            height: var(--rad-ui-size-4);
+            width: var(--rad-ui-icon-size-sm);
+            height: var(--rad-ui-icon-size-sm);
             flex-shrink: 0;
         }
     }
 
-    .rad-ui-toolbar-toggle-group .rad-ui-toolbar-toggle-item:not(:last-child) {
-        border-right: 1px solid var(--rad-ui-color-gray-500);
+    // Links keep an underline so they read as navigation, not as an action.
+    .rad-ui-toolbar-link {
+        text-decoration: underline;
+        text-decoration-color: currentcolor;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.18em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+    }
+
+    // Toggle items read as toolbar buttons. The pressed state is a lifted
+    // canvas fill with the selected-control ring, so it is distinguishable
+    // from hover without relying on color alone.
+    .rad-ui-toolbar-toggle-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--rad-ui-density-gap-xs);
+        padding: 0;
+    }
+
+    &[data-orientation='vertical'] .rad-ui-toolbar-toggle-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rad-ui-toolbar-toggle-item {
+        &[data-state='on'] {
+            background-color: var(--rad-ui-surface-canvas);
+            color: var(--rad-ui-text-primary);
+            box-shadow: var(--rad-ui-selected-control-shadow);
+        }
+
+        &[data-state='on']:focus-visible {
+            box-shadow: var(--rad-ui-selected-control-shadow), var(--rad-ui-focus-ring-shadow-sm);
+        }
     }
 
     .rad-ui-toolbar-separator {
-        background-color: var(--rad-ui-color-gray-500);
-        align-self: stretch;
-        width: 1px;
-        min-height: 2.375rem;
-        height: auto;
-        margin: 0 0.125rem;
+        background-color: var(--rad-ui-border-soft);
+        align-self: center;
+        width: var(--rad-ui-border-width-default);
+        height: var(--rad-ui-icon-size-md);
+        margin: 0 var(--rad-ui-density-gap-sm);
         flex-shrink: 0;
     }
 
     &[data-orientation='vertical'] .rad-ui-toolbar-separator {
-        width: 100%;
-        min-height: 0;
-        height: 1px;
-        margin: 0.25rem 0;
+        align-self: stretch;
+        width: auto;
+        height: var(--rad-ui-border-width-default);
+        margin: var(--rad-ui-density-gap-sm) 0;
     }
 
     .rad-ui-toolbar-meta {
-        margin-left: 0.5rem;
+        margin-left: var(--rad-ui-spacing-2);
         margin-right: auto;
-        font-size: 0.95rem;
+        font-size: var(--rad-ui-component-font-size-sm);
         color: var(--rad-ui-text-muted);
         white-space: nowrap;
     }

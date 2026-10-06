@@ -302,7 +302,7 @@ describe('MenuPrimitive', () => {
             expect(screen.getByText('Disabled Item')).toBeInTheDocument();
         });
 
-        it('should call onSelect and keep menu open when onSelect is provided', async() => {
+        it('should call onSelect and close the menu', async() => {
             const onSelect = jest.fn();
 
             render(
@@ -316,14 +316,35 @@ describe('MenuPrimitive', () => {
                 </MenuPrimitive.Root>
             );
 
-            const item = screen.getByText('Selectable Item');
-
             await act(async() => {
-                fireEvent.click(item);
+                fireEvent.click(screen.getByText('Selectable Item'));
             });
 
-            expect(onSelect).toHaveBeenCalled();
-            // Since onSelect is handled by user, default close should not occur
+            expect(onSelect).toHaveBeenCalledTimes(1);
+            await waitFor(() => {
+                expect(screen.queryByText('Menu Content')).not.toBeInTheDocument();
+            });
+        });
+
+        it('should keep the menu open when onSelect calls event.preventDefault()', async() => {
+            const onSelect = jest.fn((event: React.MouseEvent) => event.preventDefault());
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Content>
+                        <div>Menu Content</div>
+                        <MenuPrimitive.Item onSelect={onSelect}>
+                            <span>Selectable Item</span>
+                        </MenuPrimitive.Item>
+                    </MenuPrimitive.Content>
+                </MenuPrimitive.Root>
+            );
+
+            await act(async() => {
+                fireEvent.click(screen.getByText('Selectable Item'));
+            });
+
+            expect(onSelect).toHaveBeenCalledTimes(1);
             expect(screen.getByText('Menu Content')).toBeInTheDocument();
         });
 
@@ -389,6 +410,25 @@ describe('MenuPrimitive', () => {
 
             const contentElement = screen.getByText('Menu Content').parentElement?.parentElement;
             expect(contentElement).toHaveClass('flex', 'flex-col', 'mt-2', 'bg-gray-1000', 'border', 'border-gray-200', 'rounded', 'shadow-lg', 'min-w-[180px]');
+        });
+
+        it('should apply scroll styles to the inner content container for overflow menus', () => {
+            act(() => {
+                render(
+                    <MenuPrimitive.Root defaultOpen={true}>
+                        <MenuPrimitive.Content>
+                            <div>Menu Content</div>
+                        </MenuPrimitive.Content>
+                    </MenuPrimitive.Root>
+                );
+            });
+
+            const scrollContainer = screen.getByText('Menu Content').parentElement;
+            expect(scrollContainer).toHaveStyle({
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                overscrollBehavior: 'contain'
+            });
         });
 
         it('should return null when used outside MenuPrimitive.Root context', () => {
@@ -500,7 +540,7 @@ describe('MenuPrimitive', () => {
             act(() => {
                 render(
                     <MenuPrimitive.Root defaultOpen={true}>
-                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <MenuPrimitive.Trigger className="px-4 py-2 bg-blue-900 text-gray-50 rounded hover:bg-blue-600 focus:outline-hidden focus:ring-2 focus:ring-blue-400">
             Trigger
                         </MenuPrimitive.Trigger>
                         <MenuPrimitive.Portal>
@@ -518,7 +558,7 @@ describe('MenuPrimitive', () => {
                                     <MenuPrimitive.Trigger className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded">
                   Nested Trigger
                                     </MenuPrimitive.Trigger>
-                                    <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow min-w-[160px]">
+                                    <MenuPrimitive.Content className="flex flex-col mt-2 bg-gray-1000 border border-gray-200 rounded shadow-sm min-w-[160px]">
                                         <MenuPrimitive.Item className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded" label="Nested item 1">
                     Nested item 1
                                         </MenuPrimitive.Item>

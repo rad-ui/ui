@@ -2,7 +2,8 @@
 import React, { useContext, isValidElement, cloneElement } from 'react';
 import clsx from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
-import { mergeProps, composeRefs } from '~/core/utils/mergeProps';
+import { AccordionItemContext } from '../contexts/AccordionItemContext';
+import { mergeProps, composeRefs, getElementRef } from '~/core/utils/mergeProps';
 
 export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'h3'> & {
     asChild?: boolean;
@@ -10,18 +11,21 @@ export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'h3'> & {
 
 const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
     ({ children, className = '', asChild = false, ...props }, ref) => {
-        const { rootClass, orientation } = useContext(AccordionContext);
+        const { rootClass, orientation, activeItems } = useContext(AccordionContext);
+        const { itemValue, disabled } = useContext(AccordionItemContext);
+        const state = activeItems.includes(itemValue) ? 'open' : 'closed';
+        const disabledAttr = disabled ? '' : undefined;
         const mergedClass = clsx(rootClass && `${rootClass}-header`, className);
 
         if (asChild && isValidElement(children)) {
             const child = children as React.ReactElement;
             const merged = mergeProps(
-                { className: mergedClass, 'data-orientation': orientation, 'data-slot': 'accordion-header' },
+                { className: mergedClass, 'data-orientation': orientation, 'data-state': state, 'data-disabled': disabledAttr, 'data-slot': 'accordion-header' },
                 child.props as Record<string, unknown>
             );
             return cloneElement(child, {
                 ...merged,
-                ref: composeRefs(ref, (child as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref)
+                ref: composeRefs(ref, getElementRef(child) as React.Ref<HTMLElement>)
             });
         }
 
@@ -30,6 +34,8 @@ const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProp
                 ref={ref}
                 className={mergedClass}
                 data-orientation={orientation}
+                data-state={state}
+                data-disabled={disabledAttr}
                 data-slot="accordion-header"
                 {...props}
             >

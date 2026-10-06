@@ -1,65 +1,60 @@
 .rad-ui-data-list {
+    --rad-ui-data-list-gap: var(--rad-ui-spacing-4);
+    --rad-ui-data-list-font-size: var(--rad-ui-font-size-2);
+    --rad-ui-data-list-line-height: var(--rad-ui-line-height-3);
+
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 16px;
+    gap: var(--rad-ui-data-list-gap);
 
+    // The root is a <dl>; reset the user-agent block margins.
+    margin: 0;
 
     .rad-ui-data-list-item {
-    display:grid;
-    grid-template-columns: subgrid;
-    gap: inherit;
-    grid-column: span 2;
-
-        .rad-ui-data-list-label {
-            grid-column: 1;
-            color: var(--rad-ui-text-muted);
-            font-size: 14px;
-            line-height: 20px;
-            letter-spacing: 0.1px;
-        }
-
-        .rad-ui-data-list-value {
-            grid-column: 2;
-            color: var(--rad-ui-text-primary);
-            font-size: 14px;
-            line-height: 20px;
-            letter-spacing: 0.1px;
-        }
+        display: grid;
+        grid-template-columns: subgrid;
+        gap: inherit;
+        grid-column: span 2;
     }
 
-    // Size variants
-    &[data-size="small"] {
-        gap: 10px;
+    .rad-ui-data-list-label,
+    .rad-ui-data-list-value {
+        // <dt>/<dd> carry user-agent margins (dd is indented by default).
+        margin: 0;
+        font-size: var(--rad-ui-data-list-font-size);
+        line-height: var(--rad-ui-data-list-line-height);
+    }
 
-        .rad-ui-data-list-label,
-        .rad-ui-data-list-value {
-            font-size: var(--rad-ui-font-size-1);
-            line-height: var(--rad-ui-line-height-1);
-        }
+    .rad-ui-data-list-label {
+        grid-column: 1;
+        color: var(--rad-ui-text-muted);
+    }
+
+    .rad-ui-data-list-value {
+        grid-column: 2;
+        min-width: 0;
+        color: var(--rad-ui-text-primary);
+    }
+
+    // Size variants. No size behaves exactly like medium.
+    &[data-size="small"] {
+        --rad-ui-data-list-gap: var(--rad-ui-spacing-3);
+        --rad-ui-data-list-font-size: var(--rad-ui-font-size-1);
     }
 
     &[data-size="medium"] {
-        gap: 16px;
-
-        .rad-ui-data-list-label,
-        .rad-ui-data-list-value {
-            font-size: var(--rad-ui-font-size-2);
-            line-height: var(--rad-ui-line-height-2);
-        }
+        --rad-ui-data-list-gap: var(--rad-ui-spacing-4);
+        --rad-ui-data-list-font-size: var(--rad-ui-font-size-2);
     }
 
     &[data-size="large"] {
-        gap: 20px;
-
-        .rad-ui-data-list-label,
-        .rad-ui-data-list-value {
-            font-size: var(--rad-ui-font-size-3);
-            line-height: var(--rad-ui-line-height-3);
-        }
+        --rad-ui-data-list-gap: var(--rad-ui-spacing-5);
+        --rad-ui-data-list-font-size: var(--rad-ui-font-size-3);
     }
 
-    // Label-level color — independent of root color
+    // Label-level color — independent of root color. Text uses the 950 step:
+    // 800 fails WCAG AA against the page surface for most accent scales.
     .rad-ui-data-list-label[data-color] {
-        color: var(--rad-ui-color-accent-800);
+        color: var(--rad-ui-color-accent-950);
     }
 }

@@ -4,6 +4,7 @@ import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { snapToStep } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'SliderRangeSlider';
 const THUMB_HALF_SIZE = 8;
@@ -29,7 +30,9 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
 }, ref) => {
     const { rootClass, minValue, maxValue, step, disabled, orientation, rootRef } = React.useContext(SliderContext);
 
-    const [value, setValue] = React.useState<[number, number]>(valueProp || defaultValue);
+    const [internalValue, setValue] = React.useState<[number, number]>(valueProp || defaultValue);
+    // Honour a controlled `value` prop instead of only reading it on mount.
+    const value = valueProp ?? internalValue;
     const [isDragging, setIsDragging] = React.useState<'lower' | 'upper' | null>(null);
     const [focused, setFocused] = React.useState<'lower' | 'upper' | null>(null);
     const lastUpdateTime = React.useRef(0);
@@ -55,7 +58,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
         }
 
         const rawValue = minValue + relative * (maxValue - minValue);
-        const steppedValue = Math.round(rawValue / step) * step;
+        const steppedValue = snapToStep(rawValue, step, minValue);
         const newValue = clamp(steppedValue);
 
         const newValues = [...value] as [number, number];
@@ -93,7 +96,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
             }
 
             const rawValue = minValue + relative * (maxValue - minValue);
-            const steppedValue = Math.round(rawValue / step) * step;
+            const steppedValue = snapToStep(rawValue, step, minValue);
             const newValue = clamp(steppedValue);
 
             const newValues = [...value] as [number, number];

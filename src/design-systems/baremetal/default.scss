@@ -13,6 +13,7 @@
 @use "../../components/ui/DataList/data-list.baremetal";
 @use "../../components/ui/Dialog/dialog.baremetal";
 @use "../../components/ui/Drawer/drawer.baremetal";
+@use "../../components/ui/Em/em.baremetal";
 @use "../../components/ui/Table/table.baremetal";
 @use "../../components/ui/Code/code.baremetal";
 @use "../../components/ui/Disclosure/disclosure.baremetal";
@@ -24,6 +25,7 @@
 @use "../../components/ui/Tabs/tabs.baremetal";
 @use "../../components/ui/Text/text.baremetal";
 @use "../../components/ui/TextArea/textarea.baremetal";
+@use "../../components/ui/TextField/text-field.baremetal";
 @use "../../components/ui/Progress/progress.baremetal";
 @use "../../components/ui/Toggle/toggle.baremetal";
 @use "../../components/ui/ToggleGroup/toggle-group.baremetal";
@@ -57,6 +59,7 @@
 @use "../../components/ui/Tooltip/tooltip.baremetal";
 @use "../../components/ui/Spinner/spinner.baremetal";
 @use "../../components/ui/Toast/toast.baremetal";
+@use "../../components/ui/Fieldset/fieldset.baremetal";
 @use "scope";
 
 #{scope.$theme-root} {

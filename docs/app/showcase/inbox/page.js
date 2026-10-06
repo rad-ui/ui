@@ -1,9 +1,7 @@
+import showcaseMetadata from "../helpers/showcaseMetadata"
 import InboxDemo from "../helpers/InboxDemo"
 
-export const metadata = {
-    title: "Showcase Inbox",
-    description: "An email inbox UI showcase demo built with Rad UI components.",
-}
+export const metadata = showcaseMetadata("/showcase/inbox")
 
 const InboxPage = () => {
     return <InboxDemo />

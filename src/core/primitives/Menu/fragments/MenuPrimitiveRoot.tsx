@@ -1,7 +1,8 @@
-import React, { useState, useRef, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import React, { useState, useRef, useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -28,15 +29,26 @@ export type MenuPrimitiveRootProps = {
   | 'left-start'
   | 'left-end';
   avoidCollision?: boolean
+  /** @deprecated Use `dir="rtl"`. */
   rtl?: boolean
-} & ComponentPropsWithoutRef<'div'>;
+  /** Reading direction. In `rtl`, ArrowLeft/ArrowRight open and close submenus and submenus open on the left. Submenus inherit it. */
+  dir?: 'ltr' | 'rtl'
+} & Omit<ComponentPropsWithoutRef<'div'>, 'dir'>;
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, ...props }, ref) => {
+type MenuComponentRootProps = MenuPrimitiveRootProps & {
+    /** Internal: set by MenuPrimitive.Sub so the menu behaves as a submenu. */
+    isSubmenu?: boolean
+};
+
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, ...props }, ref) => {
+    const isRtl = rtl || dir === 'rtl';
+    const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : dir;
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,
         onOpenChange
     );
+    useRegisterDocumentOverlayOpen(isOpen);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
@@ -48,7 +60,9 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
 
     const nodeId = Floater.useFloatingNodeId();
     const parentId = Floater.useFloatingParentNodeId();
-    const isNested = parentId != null;
+    // A menu can live inside another floating element's tree (e.g. a Dialog or
+    // Popover), so "nested" means "is a submenu", not "has a floating parent".
+    const isNested = isSubmenu;
 
     const effectiveCrossAxisOffset = crossAxisOffset ?? 0;
     const effectiveMainAxisOffset =
@@ -84,7 +98,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         onOpenChange: setIsOpen,
         strategy: 'fixed',
         transform: false,
-        placement: isNested ? 'right-start' : placement,
+        // Submenus open toward the inline end: right in LTR, left in RTL.
+        placement: isNested ? (isRtl ? 'left-start' : 'right-start') : placement,
         middleware: [
             Floater.offset({
                 mainAxis: effectiveMainAxisOffset,
@@ -109,7 +124,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         listRef: elementsRef,
         activeIndex,
         nested: isNested,
-        rtl,
+        rtl: isRtl,
         loop,
         onNavigate: setActiveIndex
     });
@@ -119,8 +134,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         delay: { open: 75 },
         handleClose: Floater.safePolygon({ blockPointerEvents: true })
     });
+    // Submenus let Escape bubble so the whole menu closes; the top-level menu
+    // does not, so Escape inside a menu never also closes a host Dialog/Popover.
     const dismiss = Floater.useDismiss(floatingContext, {
-        bubbles: true
+        bubbles: isNested
     });
     const typeahead = Floater.useTypeahead(floatingContext, {
         listRef: labelsRef,
@@ -128,13 +145,24 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         activeIndex
     });
 
+    // Wires aria-haspopup/aria-expanded/aria-controls on the trigger (role="menuitem"
+    // for nested sub triggers) and role="menu" + aria-labelledby on the content.
+    const role = Floater.useRole(floatingContext, { role: 'menu' });
+
     const { getReferenceProps, getFloatingProps, getItemProps } = Floater.useInteractions([
         dismiss,
         click,
         listNavigation,
         hover,
-        typeahead
+        typeahead,
+        role
     ]);
+
+    const parentMenuContext = useContext(MenuPrimitiveRootContext);
+    const getRootTrigger = React.useCallback((): Element | null => {
+        if (isNested && parentMenuContext) return parentMenuContext.getRootTrigger();
+        return refs.domReference.current;
+    }, [isNested, parentMenuContext, refs.domReference]);
 
     const values = {
         isOpen,
@@ -154,7 +182,9 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
         nodeId,
         isNested,
         floatingContext,
-        rtl
+        rtl: isRtl,
+        dir: direction,
+        getRootTrigger
     };
     const tree = Floater.useFloatingTree();
 
@@ -174,7 +204,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
 
     return (
 
-        <div ref={ref} className={className} data-tree="true" {...props}>
+        <div ref={ref} className={className} data-tree="true" dir={direction} {...props}>
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>
@@ -189,11 +219,23 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimit
 MenuComponentRoot.displayName = 'MenuComponentRoot';
 
 const MenuPrimitiveRoot = forwardRef<MenuPrimitiveRootElement, MenuPrimitiveRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary, collisionPadding, ...props }, ref) => {
+    // Join an existing floating tree (e.g. when rendered inside a Dialog or
+    // Popover) so the host knows the menu is its child: Escape and outside
+    // presses inside the menu then only close the menu, not the host.
+    const floatingTree = Floater.useFloatingTree();
+    const menu = (
+        <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} collisionBoundary={collisionBoundary} collisionPadding={collisionPadding} {...props}>
+            {children}
+        </MenuComponentRoot>
+    );
+
+    if (floatingTree) {
+        return menu;
+    }
+
     return (
         <Floater.FloatingTree>
-            <MenuComponentRoot ref={ref} className={className} open={open} onOpenChange={onOpenChange} defaultOpen={defaultOpen} crossAxisOffset={crossAxisOffset} mainAxisOffset={mainAxisOffset} collisionBoundary={collisionBoundary} collisionPadding={collisionPadding} {...props}>
-                {children}
-            </MenuComponentRoot>
+            {menu}
         </Floater.FloatingTree>
     );
 });

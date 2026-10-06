@@ -1,30 +1,20 @@
 import Documentation from "@/components/layout/Documentation/Documentation"
-import Breadcrumb from "@radui/ui/Breadcrumb"
-import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+import BreadcrumbExample from "./docs/example_1"
+import codeUsage, { api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
 
 <Documentation
   title="Breadcrumb"
   description="Breadcrumbs show the user's location within a hierarchy and provide links back to parent pages."
 >
   <Documentation.ComponentHero codeUsage={codeUsage}>
-    <Breadcrumb.Root>
-      <Breadcrumb.List>
-        <Breadcrumb.Item>
-          <Breadcrumb.Link href="/docs">Docs</Breadcrumb.Link>
-          <Breadcrumb.Separator />
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Breadcrumb.Link href="/docs/components">Components</Breadcrumb.Link>
-          <Breadcrumb.Separator />
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Breadcrumb.Page>Breadcrumb</Breadcrumb.Page>
-        </Breadcrumb.Item>
-      </Breadcrumb.List>
-    </Breadcrumb.Root>
+    <BreadcrumbExample />
   </Documentation.ComponentHero>
 
   <Documentation.ComponentFeatures features={features} />
+
+  <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+
+  <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
 
   <Documentation.Section title="API Documentation" as="h2">
     <Documentation.Table

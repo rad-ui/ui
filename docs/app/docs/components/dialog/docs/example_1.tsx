@@ -19,7 +19,7 @@ const DialogExample = () => {
             <Dialog.Description>
               Just kidding, it will not self destruct.
             </Dialog.Description>
-            <Dialog.Close>
+            <Dialog.Close aria-label="Close">
               <CloseIcon />
             </Dialog.Close>
           </Dialog.Content>
@@ -28,6 +28,6 @@ const DialogExample = () => {
     </div>)
 }
 
-const CloseIcon = ()=> <X size={15} strokeWidth={2} />
+const CloseIcon = ()=> <X size={15} strokeWidth={2} aria-hidden="true" />
 
 export default DialogExample;

@@ -66,7 +66,7 @@
   background: transparent;
   background-clip: padding-box;
   padding: 0.75rem 0.875rem;
-  font-size: 0.9375rem;
+  font-size: var(--rad-ui-component-font-size-comfortable);
   color: var(--rad-ui-text-primary);
   outline: none;
 
@@ -135,7 +135,7 @@
   padding: 0.4375rem 0.625rem;
   border-radius: 0.875rem;
   color: var(--rad-ui-text-primary);
-  font-size: 0.8125rem;
+  font-size: var(--rad-ui-component-font-size-dense);
   line-height: 1.2;
   cursor: default;
   user-select: none;

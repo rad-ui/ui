@@ -28,7 +28,9 @@ export default {
         '2': 'var(--rad-ui-font-size-2)',
         '3': 'var(--rad-ui-font-size-3)',
         '4': 'var(--rad-ui-font-size-4)',
-        '5': 'var(--rad-ui-font-size-5)'
+        '5': 'var(--rad-ui-font-size-5)',
+        '1.5': 'var(--rad-ui-font-size-1-5)',
+        '2.5': 'var(--rad-ui-font-size-2-5)'
     },
     fontWeight: {
         regular: 'var(--rad-ui-font-weight-regular)',
@@ -64,6 +66,7 @@ export default {
         portal: 'var(--rad-ui-z-index-portal)'
     },
     duration: {
+        reduced: 'var(--rad-ui-motion-duration-reduced)',
         instant: 'var(--rad-ui-motion-duration-instant)',
         fast: 'var(--rad-ui-motion-duration-fast)',
         normal: 'var(--rad-ui-motion-duration-normal)',
@@ -81,7 +84,11 @@ export default {
     borderWidth: {
         '0': 'var(--rad-ui-border-width-0)',
         '1': 'var(--rad-ui-border-width-1)',
-        '2': 'var(--rad-ui-border-width-2)'
+        '2': 'var(--rad-ui-border-width-2)',
+        '3': 'var(--rad-ui-border-width-3)',
+        '4': 'var(--rad-ui-border-width-4)',
+        '5': 'var(--rad-ui-border-width-5)',
+        '6': 'var(--rad-ui-border-width-6)'
     },
     opacity: {
         '0': 'var(--rad-ui-opacity-0)',

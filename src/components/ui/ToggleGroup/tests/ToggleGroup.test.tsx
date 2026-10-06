@@ -1,4 +1,6 @@
 import React from 'react';
+import fs from 'node:fs';
+import path from 'node:path';
 import { render, fireEvent, screen } from '@testing-library/react';
 import ToggleGroup from '../ToggleGroup';
 
@@ -47,5 +49,18 @@ describe('ToggleGroup ref forwarding', () => {
         expect(button).toHaveAttribute('aria-pressed', 'false');
         fireEvent.click(button);
         expect(button).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    test('segmented recipe does not clip focus rings at group edges', () => {
+        const stylesheet = fs.readFileSync(path.resolve(__dirname, '../toggle-group.clarity.scss'), 'utf8');
+        const rootBlock = stylesheet.slice(
+            stylesheet.indexOf('.rad-ui-toggle-group {'),
+            stylesheet.indexOf('.rad-ui-toggle-group-item {')
+        );
+
+        expect(rootBlock).not.toContain('overflow: hidden');
+        expect(stylesheet).toContain('.rad-ui-toggle-group-item:first-child');
+        expect(stylesheet).toContain('.rad-ui-toggle-group-item:last-child');
+        expect(stylesheet).toContain('&:focus-visible');
     });
 });

@@ -46,4 +46,13 @@ export type { DisclosureRootProps } from './fragments/DisclosureRoot';
 export type { DisclosureItemProps } from './fragments/DisclosureItem';
 export type { DisclosureTriggerProps } from './fragments/DisclosureTrigger';
 export type { DisclosureContentProps } from './fragments/DisclosureContent';
+// Named part exports let React Server Components use `import * as Disclosure from '@radui/ui/Disclosure'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    DisclosureRoot as Root,
+    DisclosureItem as Item,
+    DisclosureTrigger as Trigger,
+    DisclosureContent as Content
+};
+
 export default Disclosure;

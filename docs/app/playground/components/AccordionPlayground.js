@@ -2,7 +2,7 @@
 
 import { ChevronDown } from "lucide-react"
 import Accordion from "@radui/ui/Accordion"
-import ColorLooper from "../helpers/ColorLooper"
+import PlaygroundSection from "../helpers/PlaygroundSection"
 
 const items = [
     {
@@ -23,8 +23,8 @@ const items = [
 ]
 
 const AccordionPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
+    <div>
+        <PlaygroundSection
             title="Accordion"
             docsLink="/docs/components/accordion"
             description="Composable sections with keyboard support and clear trigger/content structure."
@@ -44,7 +44,7 @@ const AccordionPlayground = () => (
                     </Accordion.Item>
                 ))}
             </Accordion.Root>
-        </ColorLooper>
+        </PlaygroundSection>
     </div>
 )
 

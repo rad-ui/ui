@@ -37,3 +37,10 @@ jobs:
       - name: Run ESLint
         run: npm run lint
         continue-on-error: false
+
+      # Clarity styling drift gate. Fails only when a rule exceeds its recorded
+      # budget in scripts/clarity-audit.cjs, so it blocks new one-off colors,
+      # shadows and durations while the existing backlog is paid down.
+      - name: Audit Clarity component styles
+        run: npm run check:clarity
+        continue-on-error: false

@@ -72,4 +72,14 @@ describe('AspectRatio', () => {
         errorSpy.mockRestore();
         warnSpy.mockRestore();
     });
+
+    test('accepts CSS-style ratios with spaces around the slash', () => {
+        render(<AspectRatio ratio="16 / 9">Spaced</AspectRatio>);
+        expect(screen.getByText('Spaced').style.aspectRatio).toBe('16 / 9');
+    });
+
+    test('accepts decimal fractions like ".5/1"', () => {
+        render(<AspectRatio ratio="1.5/1">Decimal</AspectRatio>);
+        expect(screen.getByText('Decimal').style.aspectRatio).toBe('1.5/1');
+    });
 });

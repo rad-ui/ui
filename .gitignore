@@ -14,8 +14,12 @@ storybook-static/
 .DS_Store
 chromatic.log
 build-storybook.log
+.codex-docs-server.log
 
 test-results/
+
+# Git worktrees
+.worktrees/
 
 
 LLM.md

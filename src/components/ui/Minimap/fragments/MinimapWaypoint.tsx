@@ -13,13 +13,11 @@ const MinimapWaypoint = ({ children, className = '', value = '', ...props }: Min
 
     // Memoize callbacks to prevent useEffect re-runs
     const handleEnter = React.useCallback(() => {
-        console.log('waypoint', value, 'in view');
-        handleInView(value);
+        if (value) handleInView(value);
     }, [value, handleInView]);
 
     const handleLeave = React.useCallback(() => {
-        console.log('waypoint', value, 'out of view');
-        handleOutView(value);
+        if (value) handleOutView(value);
     }, [value, handleOutView]);
 
     const ref = useInView<HTMLDivElement>({

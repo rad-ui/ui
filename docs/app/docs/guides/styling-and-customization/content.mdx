@@ -23,6 +23,25 @@ Use these stable hooks when styling:
 
 See [Usage](/docs/first-steps/usage) for `Theme` and `classNamespace` examples.
 
+## CSS variable fallbacks
+
+Rad UI's tokenized styles expect the loaded theme CSS to provide the documented `--rad-ui-*` variables that those styles use.
+
+Use CSS variable overrides as a layer on top of a complete theme:
+
+```css
+@import "@radui/ui/themes/default.css";
+
+.billing-theme {
+  --rad-ui-radius-md: 10px;
+  --rad-ui-spacing-4: 1rem;
+}
+```
+
+Do not treat `var(--token, fallback)` branches as a supported theming API unless the token guide documents that behavior for a specific variable. Fallback values may exist to keep internal migrations resilient, but consumers should not rely on missing variables resolving to Rad UI-chosen defaults.
+
+See [Design Token Contract](/docs/guides/design-token-contract) for complete-theme and partial-override rules.
+
 ## What not to rely on
 
 Avoid styling strategies that break when Rad UI refactors internals:
@@ -31,6 +50,7 @@ Avoid styling strategies that break when Rad UI refactors internals:
 - overriding private class names that are not part of your `classNamespace`
 - `!important` rules that fight component state styles
 - copying markup from Storybook and assuming incidental wrapper elements are stable
+- replacing the default theme with a partial CSS variable map
 
 If a style requirement needs a hook that does not exist, open an issue or PR to add a **documented** public attribute rather than targeting internals.
 

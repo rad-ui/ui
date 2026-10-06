@@ -30,4 +30,13 @@ RadioGroup.Indicator = RadioGroupIndicator;
 RadioGroup.Label = RadioGroupLabel;
 
 export type { RadioGroupRootProps } from './fragments/RadioGroupRoot';
+// Named part exports let React Server Components use `import * as RadioGroup from '@radui/ui/RadioGroup'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    RadioGroupRoot as Root,
+    RadioGroupItem as Item,
+    RadioGroupIndicator as Indicator,
+    RadioGroupLabel as Label
+};
+
 export default RadioGroup;

@@ -17,7 +17,7 @@ const VisuallyHiddenExample = () => {
                     <Heading as="h3" className="mb-1 text-base">
                         Icon-only actions
                     </Heading>
-                    <Text className="text-sm text-gray-800">
+                    <Text className="text-sm text-gray-950">
                         Each control has a hidden text label for screen readers.
                     </Text>
                 </div>

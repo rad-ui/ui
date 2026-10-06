@@ -1,4 +1,14 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS
+} from '../../shared/keyboardShortcuts';
 import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
 
@@ -17,5 +27,35 @@ export const api_documentation = {
     root: root_api,
     item: item_api
 };
+
+export const keyboardShortcuts = createKeyboardShortcutTable([
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ENTER,
+        'Activates the focused menu item.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.SPACE,
+        'Activates the focused menu item.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ARROW_DOWN,
+        'Moves focus to the next enabled item.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ARROW_UP,
+        'Moves focus to the previous enabled item.'
+    ),
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.ESCAPE,
+        'Closes the context menu and returns focus to the trigger context.'
+    )
+]);
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.MENU,
+        'Uses menu semantics for contextual action lists with roving focus and item activation.'
+    )
+]);
 
 export default code;

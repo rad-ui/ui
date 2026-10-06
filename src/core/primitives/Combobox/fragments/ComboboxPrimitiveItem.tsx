@@ -6,6 +6,7 @@ import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { useComboboxGroupContext } from '../contexts/ComboboxGroupContext';
+import { getNodeText, markAsComboboxItemPart } from '../utils/itemLabels';
 
 export interface ComboboxPrimitiveItemProps {
     children: React.ReactNode;
@@ -34,7 +35,6 @@ const ComboboxPrimitiveItem = React.forwardRef<
         activeIndex,
         selectedIndex,
         selectedValue,
-        virtualItemRef,
         selectedItemRef,
         hasSearch,
         search,
@@ -44,18 +44,24 @@ const ComboboxPrimitiveItem = React.forwardRef<
         labelsRef,
         displayLabelsRef,
         valuesRef,
-        bumpLabelsVersion
+        bumpLabelsVersion,
+        idPrefix
     } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
-    const itemLabel = label || value;
+    // Prefer the visible text so the trigger, typeahead, and search all match what users see.
+    const itemLabel = label || getNodeText(children).trim() || value;
     const { ref, index } = Floater.useListItem({ label: itemLabel });
 
     const isHidden = hiddenIndices.includes(index);
     const isActive = activeIndex === index;
     const isSelected = selectedIndex === index || selectedValue === value;
 
-    // Use the value prop for the ID, fallback to index if value is not provided
-    const itemId = value || `select-item-${index}`;
+    // Ids are namespaced per root so several comboboxes with the same option values never
+    // produce duplicate ids (which would break aria-activedescendant).
+    const itemId = `${idPrefix}-option-${value || index}`;
+
+    // With a search field, focus stays in the input (virtual focus), so options are never tab stops.
+    const itemTabIndex = disabled || hasSearch ? -1 : isActive ? 0 : -1;
 
     const groupContext = useComboboxGroupContext();
 
@@ -68,7 +74,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
 
     // Value and label registration
     React.useEffect(() => {
-        valuesRef.current[index] = itemId;
+        valuesRef.current[index] = value;
         labelsRef.current[index] = itemLabel;
         displayLabelsRef.current[index] = itemLabel;
         return () => {
@@ -76,7 +82,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
             delete labelsRef.current[index];
             delete displayLabelsRef.current[index];
         };
-    }, [displayLabelsRef, index, itemId, itemLabel, labelsRef, valuesRef]);
+    }, [displayLabelsRef, index, value, itemLabel, labelsRef, valuesRef]);
     React.useEffect(() => {
         bumpLabelsVersion();
         return () => {
@@ -126,12 +132,12 @@ const ComboboxPrimitiveItem = React.forwardRef<
             style={{ display: isHidden ? 'none' : undefined, ...props.style }}
             data-value={value}
             data-label={itemLabel}
-            data-active={!hasSearch ? isActive : virtualItemRef.current?.id == itemId }
+            data-active={isActive}
             aria-selected={isSelected}
             aria-disabled={disabled ? true : undefined}
             data-disabled={disabled ? '' : undefined}
             {...getItemProps({
-                tabIndex: disabled ? -1 : isActive ? 0 : -1,
+                tabIndex: itemTabIndex,
                 onClick: () => !disabled && handleSelect(index),
                 onKeyDown: (event: React.KeyboardEvent) => {
                     if (disabled) return;
@@ -147,7 +153,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
                 }
             })}
             {...props}
-            tabIndex={disabled ? -1 : isActive ? 0 : -1}
+            tabIndex={itemTabIndex}
         >
             {children}
         </Primitive.div>
@@ -155,5 +161,6 @@ const ComboboxPrimitiveItem = React.forwardRef<
 });
 
 ComboboxPrimitiveItem.displayName = 'ComboboxPrimitiveItem';
+markAsComboboxItemPart(ComboboxPrimitiveItem);
 
 export default ComboboxPrimitiveItem;

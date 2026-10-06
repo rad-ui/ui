@@ -1,6 +1,5 @@
 const path = require('path');
-const autoprefixer = require('autoprefixer');
-const tailwindcss = require('tailwindcss');
+const tailwindcss = require('@tailwindcss/postcss');
 
 const tailwindEntry = path.resolve(__dirname, '../main.tailwind.css');
 
@@ -44,12 +43,9 @@ const config = {
                     loader: 'postcss-loader',
                     options: {
                         postcssOptions: {
-                            plugins: [
-                                tailwindcss({
-                                    config: path.resolve(__dirname, '../tailwind.config.js')
-                                }),
-                                autoprefixer()
-                            ]
+                            // v4 bundles `@import`s and adds vendor prefixes
+                            // itself, so postcss-import and autoprefixer are gone.
+                            plugins: [tailwindcss()]
                         }
                     }
                 }

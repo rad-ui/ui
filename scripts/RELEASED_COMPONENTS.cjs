@@ -17,6 +17,7 @@ const RELEASED_COMPONENTS = [
     'Heading',
     'Text',
     'Kbd',
+    'LiveRegion',
     'Progress',
     'Separator',
     'Strong',
@@ -44,6 +45,7 @@ const RELEASED_COMPONENTS = [
     'Drawer',
     'Disclosure',
     'DropdownMenu',
+    'Fieldset',
     'HoverCard',
     'Menubar',
     'Meter',
@@ -62,6 +64,8 @@ const RELEASED_COMPONENTS = [
     'Steps',
     'TabNav',
     'TextArea',
+    'TextField',
+    'Toast',
     'Tree'
 ];
 

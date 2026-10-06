@@ -1,6 +1,7 @@
 import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 
 import ButtonPrimitive from '~/core/primitives/Button';
+import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 
@@ -67,7 +68,9 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const resolvedRole = role ?? (isLinkLikeChild ? undefined : 'button');
     const resolvedType = type ?? (isLinkLikeChild ? undefined : 'button');
 
-    // Is this item currently selected
+    // Whether this item is the group's current tab stop. This is roving *focus* state, not
+    // selection, so it is never exposed as aria-selected; consumers whose role supports
+    // aria-selected (e.g. tabs) set it explicitly from their own selection state.
     const isSelected = focusedItemId === registrationId;
     const tabIndex = disableTabIndexing ? 0 : !isDisabled && isSelected ? 0 : -1;
 
@@ -268,7 +271,12 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         }
     };
 
-    return <ButtonPrimitive
+    // ButtonPrimitive defaults `role`/`type` to "button" whenever they are undefined, which would
+    // stamp button semantics onto link children (`<a href>`). Link-like children slot through the
+    // bare Primitive instead so they keep native link semantics unless a role/type is passed explicitly.
+    const SlotComponent = isLinkLikeChild ? Primitive.button : ButtonPrimitive;
+
+    return <SlotComponent
         asChild
         onFocus={handleFocus}
         tabIndex={tabIndex}
@@ -278,14 +286,13 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         data-child-disabled={isDisabled}
         role={resolvedRole}
         type={resolvedType}
-        aria-selected={isSelected}
         aria-disabled={isDisabled}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
         {...props}
     >
         {children}
-    </ButtonPrimitive>;
+    </SlotComponent>;
 });
 
 RovingFocusItem.displayName = 'RovingFocusItem';

@@ -104,20 +104,12 @@ const nextConfig = {
     // This is required to support PostHog trailing slash API requests
     skipTrailingSlashRedirect: true,
 
+
     turbopack: {
         root: __dirname,
     },
 
     webpack: (config) => {
-        config.resolve.alias = {
-            ...config.resolve.alias,
-            '@radui/ui/Breadcrumb': path.resolve(__dirname, '../src/components/ui/Breadcrumb/Breadcrumb.tsx'),
-            '@radui/ui/Meter': path.resolve(__dirname, '../src/components/ui/Meter/Meter.tsx'),
-            '@radui/ui/Toast': path.resolve(__dirname, '../src/components/ui/Toast/Toast.tsx'),
-            '@radui/ui/themes/default.css': path.resolve(__dirname, '../src/design-systems/clarity/default.scss'),
-            '@radui/ui/themes/baremetal.css': path.resolve(__dirname, '../src/design-systems/baremetal/default.scss'),
-            '~': path.resolve(__dirname, '../src'),
-        }
         config.resolve.modules = [
             path.resolve(__dirname, 'node_modules'),
             ...(config.resolve.modules ?? ['node_modules']),

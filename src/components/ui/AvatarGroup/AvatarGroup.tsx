@@ -24,4 +24,13 @@ export type { AvatarGroupRootProps } from './fragments/AvatarGroupRoot';
 export type { AvatarGroupItemProps } from './fragments/AvatarGroupItem';
 export type { AvatarGroupAvatarProps } from './fragments/AvatarGroupAvatar';
 export type { AvatarGroupFallbackProps } from './fragments/AvatarGroupFallback';
+// Named part exports let React Server Components use `import * as AvatarGroup from '@radui/ui/AvatarGroup'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    AvatarGroupRoot as Root,
+    AvatarGroupItem as Item,
+    AvatarGroupAvatar as Avatar,
+    AvatarGroupFallback as Fallback
+};
+
 export default AvatarGroup;

@@ -2,28 +2,29 @@
 
 import { Bold, Italic, Underline } from "lucide-react"
 import ToggleGroup from "@radui/ui/ToggleGroup"
-import ColorLooper from "../helpers/ColorLooper"
+import Matrix from "../helpers/Matrix"
+import PlaygroundSection from "../helpers/PlaygroundSection"
+
+const rows = [
+    { key: "multiple", label: "multiple", type: "multiple", defaultValue: ["bold", "italic"] },
+    { key: "single", label: "single", type: "single", defaultValue: ["bold"] }
+]
+const columns = [{ key: "enabled", label: "enabled" }, { key: "disabled", label: "disabled" }]
 
 const ToggleGroupPlayground = () => (
-    <div className='mt-4 space-y-2'>
-        <ColorLooper
-            title="ToggleGroup"
-            docsLink="/docs/components/toggle-group"
-            description="Related toggle controls grouped for multi-select or single-select formatting patterns."
-        >
-            <ToggleGroup.Root type="multiple" defaultValue={["bold"]}>
-                <ToggleGroup.Item value="bold" aria-label="Bold" iconOnly>
-                    <Bold size={16} />
-                </ToggleGroup.Item>
-                <ToggleGroup.Item value="italic" aria-label="Italic" iconOnly>
-                    <Italic size={16} />
-                </ToggleGroup.Item>
-                <ToggleGroup.Item value="underline" aria-label="Underline" iconOnly>
-                    <Underline size={16} />
-                </ToggleGroup.Item>
-            </ToggleGroup.Root>
-        </ColorLooper>
-    </div>
+    <PlaygroundSection title="ToggleGroup" docsLink="/docs/components/toggle-group" description="selection type × enabled/disabled.">
+        <Matrix
+            rows={rows}
+            columns={columns}
+            renderCell={(row, column) => (
+                <ToggleGroup.Root type={row.type} defaultValue={row.defaultValue} disabled={column.key === "disabled"}>
+                    <ToggleGroup.Item value="bold" aria-label="Bold" iconOnly><Bold size={16} /></ToggleGroup.Item>
+                    <ToggleGroup.Item value="italic" aria-label="Italic" iconOnly><Italic size={16} /></ToggleGroup.Item>
+                    <ToggleGroup.Item value="underline" aria-label="Underline" iconOnly><Underline size={16} /></ToggleGroup.Item>
+                </ToggleGroup.Root>
+            )}
+        />
+    </PlaygroundSection>
 )
 
 export default ToggleGroupPlayground

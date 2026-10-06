@@ -3,6 +3,8 @@ import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 export type RadioGroupPrimitiveRootElement = React.ElementRef<typeof Primitive.div>;
 
@@ -18,23 +20,73 @@ export type RadioGroupPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof
     dir?: 'ltr' | 'rtl';
 };
 
+const NAVIGATION_KEYS: string[] = [
+    KEYBOARD_KEYS.ARROW_UP,
+    KEYBOARD_KEYS.ARROW_DOWN,
+    KEYBOARD_KEYS.ARROW_LEFT,
+    KEYBOARD_KEYS.ARROW_RIGHT,
+    KEYBOARD_KEYS.HOME,
+    KEYBOARD_KEYS.END
+];
+
+const visuallyHiddenInputStyle: React.CSSProperties = {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    opacity: 0,
+    pointerEvents: 'none',
+    margin: 0
+};
+
 const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(
-    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', ...props }, ref) => {
+    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
         const [selectedValue, setSelectedValue] = useControllableState(
             value,
             defaultValue,
             onValueChange
         );
+        const isNavigatingWithKeyboardRef = React.useRef(false);
+        const formInputRef = React.useRef<HTMLInputElement>(null);
+        const defaultValueRef = React.useRef(defaultValue);
+
+        // Native radios return to their default selection when their form resets.
+        React.useEffect(() => {
+            const form = formInputRef.current?.form;
+            if (!form) return;
+            const handleReset = () => setSelectedValue(defaultValueRef.current);
+            form.addEventListener('reset', handleReset);
+            return () => form.removeEventListener('reset', handleReset);
+        }, [setSelectedValue, name, required]);
 
         const sendItems = {
             selectedValue,
             setSelectedValue,
-            groupDisabled
+            groupDisabled,
+            isNavigatingWithKeyboardRef
         };
 
+        const isEmpty = selectedValue === '' || selectedValue == null;
+
         return (
-            <Primitive.div ref={ref} {...props} aria-required={required} role='radiogroup' aria-disabled={groupDisabled} data-disabled={groupDisabled ? '' : undefined}>
-                <RovingFocusGroup.Root dir={dir} orientation={orientation} loop={loop} asChild>
+            <Primitive.div
+                ref={ref}
+                {...props}
+                onKeyDownCapture={composeEventHandlers(onKeyDownCapture, (event: React.KeyboardEvent<HTMLDivElement>) => {
+                    isNavigatingWithKeyboardRef.current = NAVIGATION_KEYS.includes(event.key);
+                }, { checkForDefaultPrevented: false })}
+                onKeyUpCapture={composeEventHandlers(onKeyUpCapture, () => {
+                    isNavigatingWithKeyboardRef.current = false;
+                }, { checkForDefaultPrevented: false })}
+                aria-required={required}
+                role='radiogroup'
+                aria-orientation={orientation === 'both' ? undefined : orientation}
+                aria-disabled={groupDisabled}
+                data-disabled={groupDisabled ? '' : undefined}
+            >
+                {/* Radio groups move with all four arrow keys whatever their visual
+                    orientation (WAI-ARIA APG radio pattern; Radix and Base UI do the same).
+                    `orientation` still sets aria-orientation above. */}
+                <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>
                         <RovingFocusGroup.Group>
 
@@ -44,39 +96,31 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                     </RadioGroupContext.Provider>
                 </RovingFocusGroup.Root>
                 {name && (
-                    <>
-                        <input
-                            type='hidden'
-                            name={name}
-                            value={selectedValue}
-                            disabled={groupDisabled}
-                        />
-                        {required && selectedValue !== '' && (
-                            <input
-                                type='radio'
-                                name={name}
-                                value={selectedValue}
-                                checked
-                                onChange={() => {}}
-                                disabled={groupDisabled}
-                                required
-                                aria-hidden='true'
-                                tabIndex={-1}
-                                style={{
-                                    position: 'absolute',
-                                    width: 0,
-                                    height: 0,
-                                    opacity: 0,
-                                    pointerEvents: 'none',
-                                    margin: 0
-                                }}
-                            />
-                        )}
-                    </>
+                    <input
+                        ref={formInputRef}
+                        type='hidden'
+                        name={name}
+                        value={selectedValue}
+                        disabled={groupDisabled}
+                    />
+                )}
+                {required && (
+                    // Unnamed so it never adds a FormData entry; it only exists so native
+                    // constraint validation blocks submission while nothing is selected.
+                    <input
+                        ref={name ? undefined : formInputRef}
+                        type='radio'
+                        checked={!isEmpty}
+                        onChange={() => {}}
+                        disabled={groupDisabled}
+                        required
+                        aria-hidden='true'
+                        tabIndex={-1}
+                        style={visuallyHiddenInputStyle}
+                    />
                 )}
             </Primitive.div>
-        )
-        ;
+        );
     }
 );
 

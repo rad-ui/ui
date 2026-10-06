@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import ScrollArea from '../ScrollArea';
 
@@ -103,6 +103,28 @@ describe('ScrollArea', () => {
         expect(screen.getByTestId('root')).toHaveAttribute('data-scrollbar-type', 'scroll');
     });
 
+    test('a thumb inherits its scrollbar orientation when both axes are rendered', () => {
+        render(
+            <ScrollArea.Root type="always">
+                <ScrollArea.Viewport>
+                    <div>content</div>
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar orientation="vertical">
+                    <ScrollArea.Thumb data-testid="thumb-y" />
+                </ScrollArea.Scrollbar>
+                <ScrollArea.Scrollbar orientation="horizontal">
+                    <ScrollArea.Thumb data-testid="thumb-x" />
+                </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+        );
+
+        // Vertical sizing writes `height` and horizontal sizing writes `width`; a horizontal thumb
+        // that wrongly registered as vertical would receive a height and leave the real one unsized.
+        expect(screen.getByTestId('thumb-y').style.height).not.toBe('');
+        expect(screen.getByTestId('thumb-x').style.height).toBe('');
+        expect(screen.getByTestId('thumb-x').style.width).not.toBe('');
+    });
+
     test('type always keeps scrollbar and thumb visible', () => {
         render(
             <ScrollArea.Root type="always">
@@ -175,5 +197,111 @@ describe('ScrollArea', () => {
         fireEvent.mouseEnter(screen.getByTestId('root'));
 
         expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'visible');
+    });
+
+    test('resets scroll when direct viewport child is swapped, not on nested mutations', async() => {
+        const { rerender } = render(
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div key="panel-a" data-testid="panel-a" style={{ height: 400 }}>Panel A</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
+        viewport.scrollTop = 120;
+
+        act(() => {
+            const nested = document.createElement('span');
+            nested.textContent = 'nested';
+            screen.getByTestId('panel-a').appendChild(nested);
+        });
+
+        expect(viewport.scrollTop).toBe(120);
+
+        rerender(
+            <ScrollArea.Root style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div key="panel-b" data-testid="panel-b" style={{ height: 400 }}>Panel B</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        await act(async() => {
+            await Promise.resolve();
+        });
+
+        const nextViewport = screen.getByTestId('viewport') as HTMLDivElement;
+        await waitFor(() => {
+            expect(nextViewport.scrollTop).toBe(0);
+        });
+    });
+
+    test('preserves viewport scroll on rerender by default', () => {
+        const { rerender } = render(
+            <ScrollArea.Root data-testid="root" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        const viewport = screen.getByTestId('viewport') as HTMLDivElement;
+        viewport.scrollTop = 120;
+        viewport.scrollLeft = 16;
+
+        rerender(
+            <ScrollArea.Root data-testid="root" className="rerendered" style={{ height: 100 }}>
+                <ScrollArea.Viewport data-testid="viewport" style={{ height: 100, overflow: 'auto' }}>
+                    <div style={{ height: 400 }}>content</div>
+                </ScrollArea.Viewport>
+            </ScrollArea.Root>
+        );
+
+        expect(viewport.scrollTop).toBe(120);
+        expect(viewport.scrollLeft).toBe(16);
+    });
+
+    test('hides scrollbar while document overlay is open', () => {
+        document.documentElement.setAttribute('data-rad-ui-overlay-open', '');
+        try {
+            render(
+                <ScrollArea.Root type="always">
+                    <ScrollArea.Viewport>
+                        <div>content</div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                        <ScrollArea.Thumb data-testid="thumb" />
+                    </ScrollArea.Scrollbar>
+                </ScrollArea.Root>
+            );
+
+            expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+            expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'hidden');
+        } finally {
+            document.documentElement.removeAttribute('data-rad-ui-overlay-open');
+        }
+    });
+
+    test('hides scrollbar while body scroll is locked', () => {
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        try {
+            render(
+                <ScrollArea.Root type="always">
+                    <ScrollArea.Viewport>
+                        <div>content</div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar data-testid="scrollbar" orientation="vertical">
+                        <ScrollArea.Thumb data-testid="thumb" />
+                    </ScrollArea.Scrollbar>
+                </ScrollArea.Root>
+            );
+
+            expect(screen.getByTestId('scrollbar')).toHaveAttribute('data-state', 'hidden');
+            expect(screen.getByTestId('thumb')).toHaveAttribute('data-state', 'hidden');
+        } finally {
+            document.body.style.overflow = previousOverflow;
+        }
     });
 });

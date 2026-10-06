@@ -7,12 +7,6 @@
          margin: 0;
          border-bottom: 1px solid var(--rad-ui-border-soft);
 
-        &:focus{
-            outline: none;
-            border: none;
-            color: var(--rad-ui-text-primary);
-        }
-         
         &:focus-within{
             color: var(--rad-ui-text-primary);
         }
@@ -25,11 +19,13 @@
          font-weight: 600;
          color: var(--rad-ui-text-primary);
          background-color: transparent;
+         border: none;
+         text-align: left;
+         cursor: pointer;
 
-         &:focus{
+         &:focus-visible{
             outline: none;
             box-shadow: var(--rad-ui-focus-ring-shadow-inset);
-        
          }
 
          &:hover {
@@ -39,10 +35,18 @@
      }
 
      .rad-ui-disclosure-content{
-        padding: 0 1rem 1rem;
+        // No vertical padding on the animated element: the height animation cannot go below
+        // padding, so the last 1rem would snap away when the close finishes. The bottom
+        // spacing lives in a pseudo-element inside the box, which collapses with the height.
+        padding: 0 var(--rad-ui-spacing-4);
         background-color: var(--rad-ui-surface-panel);
         color: var(--rad-ui-text-muted);
 
+        &::after {
+            content: "";
+            display: block;
+            height: var(--rad-ui-spacing-4);
+        }
      }
 
      &:last-child {

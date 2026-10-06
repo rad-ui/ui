@@ -56,6 +56,14 @@ const data = {
         type : "function",
         default : "--",
        },
+       {
+        prop : {
+            name : "dismissOnOutsidePress",
+            info_tooltips : "Whether pressing outside the dialog (including the overlay) closes it. Off by default, per the WAI-ARIA alertdialog pattern; Escape, Cancel and Action always close it."
+        },
+        type : "boolean",
+        default : "false",
+       },
     ]
 }
 

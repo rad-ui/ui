@@ -22,6 +22,8 @@ export default [
             'storybook-static/**',
             'playwright-report/**',
             'test-results/**',
+            '.worktrees/**',
+            'styles/jsTokens/**',
             // Match previous `eslint --ext .js,.jsx,.ts,.tsx` (omit CJS/MJS configs and tooling)
             '**/*.cjs',
             '**/*.mjs',

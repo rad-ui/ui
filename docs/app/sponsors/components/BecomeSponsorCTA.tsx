@@ -8,7 +8,7 @@ interface BecomeSponsorCTAProps {
 
 export default function BecomeSponsorCTA({ className = "" }: BecomeSponsorCTAProps) {
   return (
-    <div className={`bg-gradient-to-b from-gray-50 to-green-200 rounded-lg p-8 border border-gray-700 text-center mt-12 ${className}`}>
+    <div className={`bg-linear-to-b from-gray-50 to-green-200 rounded-lg p-8 border border-gray-700 text-center mt-12 ${className}`}>
       <Heading as="h2" className="text-gray-1000 mb-4">
         Become a Sponsor
       </Heading>

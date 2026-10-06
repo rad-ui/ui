@@ -29,4 +29,11 @@ RadioCards.Item = RadioCardsItem;
 
 export type { RadioCardsRootProps } from './fragments/RadioCardsRoot';
 export type { RadioCardsItemProps } from './fragments/RadioCardsItem';
+// Named part exports let React Server Components use `import * as RadioCards from '@radui/ui/RadioCards'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    RadioCardsRoot as Root,
+    RadioCardsItem as Item
+};
+
 export default RadioCards;

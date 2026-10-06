@@ -1,2 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
-export default generateSeoMetadata({ title: "Spinner - Rad UI", description: "A headless React Spinner component for indicating loading states. Supports size customization." })
+
+const metadata = generateSeoMetadata({
+    title: "Spinner - Rad UI",
+    description: "Accessible, headless React Spinner component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Spinner","headless spinner","accessible spinner","spinner component","React spinner component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/spinner"
+});
+
+
+export default metadata

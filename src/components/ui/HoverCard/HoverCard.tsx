@@ -37,4 +37,14 @@ export type { HoverCardTriggerProps } from './fragments/HoverCardTrigger';
 export type { HoverCardPortalProps } from './fragments/HoverCardPortal';
 export type { HoverCardContentProps } from './fragments/HoverCardContent';
 export type { HoverCardArrowProps } from './fragments/HoverCardArrow';
+// Named part exports let React Server Components use `import * as HoverCard from '@radui/ui/HoverCard'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    HoverCardRoot as Root,
+    HoverCardTrigger as Trigger,
+    HoverCardPortal as Portal,
+    HoverCardContent as Content,
+    HoverCardArrow as Arrow
+};
+
 export default HoverCard;

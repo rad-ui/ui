@@ -94,80 +94,77 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
 
   return (
     <div
-      className={`sticky top-0 z-20 flex items-center justify-between px-3 py-2 backdrop-blur-md backdrop-saturate-150 ${isDocsPage ? "border-b border-gray-300 bg-gray-50" : "border-b border-gray-500"}`}
+      className={`sticky top-0 z-20 grid grid-cols-[1fr_auto_1fr] items-center border-b border-gray-300 bg-gray-50 px-4 py-2.5 ${
+        isDocsPage ? "" : "backdrop-blur-xl backdrop-saturate-150"
+      }`}
     >
-      <div className="mr-3 flex items-center space-x-8">
+      <div className="flex items-center">
         <a
-          className="text-gray-1000 flex items-center space-x-2 text-md pl-1"
+          className="flex items-center pl-0.5 text-gray-1000"
           href="/"
+          aria-label="Rad UI home"
         >
           <RadUILogo />
         </a>
-        <div className="hidden lg:block">
-          <ul className="flex items-center space-x-4 text-sm">
-            <li>
-              <Link
-                className="text-gray-950 hover:text-gray-1000"
-                href="/docs/first-steps/introduction"
-              >
-                Docs
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="text-gray-950 hover:text-gray-1000"
-                href="/playground"
-              >
-                Playground
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="text-gray-950 hover:text-gray-1000"
-                href="/colors"
-              >
-                Colors
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="text-gray-950 hover:text-gray-1000"
-                href="/showcase/music-app"
-              >
-                Showcase
-              </Link>
-            </li>
-          </ul>
-        </div>
       </div>
-      <div className="flex items-center">
-        <div className="hidden lg:flex lg:items-center lg:gap-2">
+      {/* The centre cell stays in the grid at every breakpoint. Hiding it below
+          `lg` would leave two children in a `1fr auto 1fr` track, pulling the
+          action buttons into the centre column on mobile. */}
+      <div>
+        <ul className="hidden items-center gap-1 text-[0.84rem] font-medium lg:flex">
+          {[
+            { href: "/docs/first-steps/introduction", label: "Docs" },
+            { href: "/playground", label: "Playground" },
+            { href: "/colors", label: "Colors" },
+            { href: "/showcase/music-app", label: "Showcase" },
+          ].map((item) => (
+            <li key={item.href}>
+              <Link
+                className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="flex items-center justify-end gap-1">
+        <div className="hidden lg:flex lg:items-center lg:gap-1">
           <Button
             color="gray"
-            variant={isDocsPage ? "ghost" : "soft"}
+            variant="ghost"
             onClick={openLink("https://discord.gg/nMaQfeEPNp")}
+            aria-label="Rad UI on Discord"
           >
             <span className="text-gray-1000"><DiscordLogo size={15} /></span>
           </Button>
           <Button
             color="gray"
-            variant={isDocsPage ? "ghost" : "soft"}
+            variant="ghost"
             onClick={openLink("https://github.com/rad-ui/ui")}
+            aria-label="Rad UI on GitHub"
           >
             <span className="text-gray-1000"><GithubLogo size={15} /></span>
           </Button>
-
-          <Button color="gray" variant={isDocsPage ? "ghost" : "soft"} onClick={toggleDarkMode}>
-            <span className="text-gray-1000">
-              {darkMode ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
-            </span>
-          </Button>
         </div>
+        <Button
+          color="gray"
+          variant="ghost"
+          onClick={toggleDarkMode}
+          aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
+        >
+          <span className="text-gray-1000">
+            {darkMode ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
+          </span>
+        </Button>
         <div className="lg:hidden">
           <Button
             color="gray"
-            variant={isDocsNavOpen ? "soft" : "outline"}
+            variant={isDocsNavOpen ? "soft" : "ghost"}
             onClick={handleDocsNavOpen}
+            aria-label="Toggle docs navigation"
+            aria-expanded={isDocsNavOpen}
           >
             <Menu size={15} strokeWidth={2} />
           </Button>

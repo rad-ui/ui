@@ -1,9 +1,7 @@
+import showcaseMetadata from "../helpers/showcaseMetadata"
 import PreferencesDemo from "../helpers/PreferencesDemo"
 
-export const metadata = {
-    title: "Showcase Preferences",
-    description: "A settings and preferences UI showcase demo built with Rad UI components.",
-}
+export const metadata = showcaseMetadata("/showcase/preferences")
 
 const PreferencesPage = () => {
     return <PreferencesDemo />

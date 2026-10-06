@@ -37,7 +37,7 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: var(--rad-ui-shadow-none);
-  transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
+  transition: border-color var(--rad-ui-motion-duration-fast) ease, background-color var(--rad-ui-motion-duration-fast) ease, color var(--rad-ui-motion-duration-fast) ease;
 
   &:hover {
     background-color: var(--rad-ui-surface-subtle);

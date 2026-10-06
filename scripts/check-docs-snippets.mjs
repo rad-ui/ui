@@ -28,7 +28,7 @@ const SOURCE_COMPONENTS = new Set(
 const ALLOWED_SUBPATHS = new Set([
   'themes/default.css',
   'themes/baremetal.css',
-  'themes/tailwind-presets/default.js'
+  'themes/tailwind-presets/default.css'
 ]);
 const PLACEHOLDER_SUBPATHS = new Set(['Component', 'ComponentName']);
 

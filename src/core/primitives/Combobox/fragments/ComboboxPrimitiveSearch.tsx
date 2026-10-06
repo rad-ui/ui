@@ -4,6 +4,7 @@ import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { markAsComboboxSearchPart } from '../contexts/ComboboxSearchPart';
 
 const ComboboxPrimitiveSearch = React.forwardRef<
     React.ElementRef<typeof Primitive.input>,
@@ -13,8 +14,6 @@ const ComboboxPrimitiveSearch = React.forwardRef<
     const {
         refs,
         handleSelect,
-        labelsRef,
-        valuesRef,
         activeIndex,
         elementsRef,
         virtualItemRef,
@@ -22,7 +21,9 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         setHasSearch,
         search,
         setSearch,
-        setActiveIndex
+        setActiveIndex,
+        hiddenIndices,
+        disabledIndices
     } = context;
 
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -39,8 +40,37 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         };
     }, [setHasSearch, setActiveIndex, setSearch]);
 
-    // Get the reference props from Floating UI
-    const referenceProps = getReferenceProps();
+    // Keep the highlight on the first visible, enabled option as the query narrows the list,
+    // so Enter always acts on something the user can see.
+    const isFirstRender = React.useRef(true);
+    React.useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        const unavailable = new Set([...hiddenIndices, ...disabledIndices]);
+        const firstAvailable = elementsRef.current.findIndex((element, index) => element != null && !unavailable.has(index));
+        setActiveIndex(firstAvailable === -1 ? null : firstAvailable);
+    }, [search, hiddenIndices, disabledIndices, elementsRef, setActiveIndex]);
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (activeIndex !== null && event.key === KEYBOARD_KEYS.ENTER) {
+            event.preventDefault();
+            handleSelect(activeIndex);
+        }
+        props.onKeyDown?.(event);
+    };
+
+    const { onKeyDown: referenceKeyDown, onKeyUp: referenceKeyUp, ...referenceProps } = getReferenceProps({
+        ...props,
+        value: search,
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
+        onKeyDown: handleKeyDown
+    }) as Record<string, any>;
+
+    // The trigger's click interaction treats Space/Enter as "toggle the popup". Inside a text
+    // field those keys are text entry and option selection, so they bypass it.
+    const isTextEntryKey = (key: string) => key === KEYBOARD_KEYS.SPACE || key === KEYBOARD_KEYS.ENTER;
 
     return (
         <Primitive.input
@@ -49,24 +79,28 @@ const ComboboxPrimitiveSearch = React.forwardRef<
             className={className}
             placeholder="Search..."
             ref={Floater.useMergeRefs([inputRef, forwardedRef])}
-            value={search}
-            aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null && valuesRef.current[activeIndex] ? valuesRef.current[activeIndex] : undefined)}
-            // @ts-ignore
-            onChange={(e) => setSearch(e.target.value)}
+            aria-activedescendant={virtualItemRef.current?.id || (activeIndex !== null ? elementsRef.current[activeIndex]?.id : undefined)}
             {...referenceProps}
+            aria-autocomplete="list"
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                if (activeIndex !== null) {
-                    if (event.key === KEYBOARD_KEYS.ENTER) {
-                        event.preventDefault();
-                        handleSelect(activeIndex);
-                    }
+                if (isTextEntryKey(event.key)) {
+                    handleKeyDown(event);
+                    return;
                 }
+                referenceKeyDown?.(event);
             }}
-            {...props}
+            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                if (isTextEntryKey(event.key)) {
+                    props.onKeyUp?.(event);
+                    return;
+                }
+                referenceKeyUp?.(event);
+            }}
         />
     );
 });
 
 ComboboxPrimitiveSearch.displayName = 'ComboboxPrimitiveSearch';
+markAsComboboxSearchPart(ComboboxPrimitiveSearch);
 
 export default ComboboxPrimitiveSearch;

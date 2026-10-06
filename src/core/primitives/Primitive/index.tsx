@@ -1,5 +1,5 @@
 import React from 'react';
-import { composeRefs, mergeProps } from '../../utils/mergeProps';
+import { composeRefs, getElementRef, mergeProps } from '../../utils/mergeProps';
 
 // Define supported HTML elements
 const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input', 'a', 'img', 'p', 'h2', 'label'] as const;
@@ -39,7 +39,7 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
 
             const child = childrenArray[0] as React.ReactElement;
 
-            const childRef = (child as any).ref;
+            const childRef = getElementRef(child);
             const mergedRef = composeRefs(ref, childRef);
             const mergedProps = mergeProps(elementProps, child.props);
 

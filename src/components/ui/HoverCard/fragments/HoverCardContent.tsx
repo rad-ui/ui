@@ -46,6 +46,8 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
             'data-slot': 'hover-card-content',
             onPointerEnter: openWithDelay,
             onPointerLeave: closeWithDelay,
+            onFocus: openWithDelay,
+            onBlur: closeWithDelay,
             ...props
         })}>{children}</div>;
 });

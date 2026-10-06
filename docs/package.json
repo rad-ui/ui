@@ -2,11 +2,19 @@
   "name": "@radui/docs",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "rimraf .next && next dev --webpack",
+    "prebuild": "node scripts/check-docs-boundary.mjs && npx tsx scripts/generate-llms.ts",
     "build": "next build --webpack",
+    "postbuild": "node scripts/check-static-pages.mjs",
     "start": "next start",
     "check:examples": "tsc -p tsconfig.examples.json --noEmit",
+    "check:boundary": "node scripts/check-docs-boundary.mjs",
+    "check:static": "node scripts/check-static-pages.mjs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "update-rad": "pnpm i @radui/ui@latest",
     "preinstall": "npx only-allow pnpm"
@@ -16,7 +24,7 @@
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.7",
     "@radui/fx": "^0.2.0",
-    "@radui/ui": "^0.5.0",
+    "@radui/ui": "^1.0.1",
     "@types/mdx": "^2.0.13",
     "@types/node": "20.5.9",
     "@types/react": "19.0.2",
@@ -24,16 +32,14 @@
     "@vercel/analytics": "^1.6.1",
     "@vercel/og": "^0.6.8",
     "@vercel/speed-insights": "^1.3.1",
-    "autoprefixer": "10.4.15",
     "clsx": "^2.1.1",
     "eslint": "9.39.2",
     "eslint-config-next": "16.2.7",
     "js-cookie": "^3.0.7",
     "lucide-react": "^1.17.0",
     "motion": "^12.40.0",
-    "next": "16.3.0",
+    "next": "16.3.8",
     "node-fetch": "^3.3.2",
-    "postcss": "8.5.23",
     "posthog-js": "^1.379.3",
     "posthog-node": "^5.35.15",
     "react": "19.0.0",
@@ -42,8 +48,9 @@
     "refractor": "^4.9.0",
     "remark-gfm": "^4.0.1",
     "sass": "^1.100.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "@tailwindcss/postcss": "^4.1.11",
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "rimraf": "^5.0.10"

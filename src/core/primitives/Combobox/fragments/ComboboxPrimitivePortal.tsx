@@ -2,14 +2,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Floater from '~/core/primitives/Floater';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
+import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
 const ComboboxPrimitivePortal = React.forwardRef<
     React.ElementRef<typeof Floater.Portal>,
     { children: React.ReactNode; container?: HTMLElement | null } & React.ComponentPropsWithoutRef<typeof Floater.Portal>
 >(({ children, container, ...props }, _forwardedRef) => {
     const { isOpen } = useContext(ComboboxPrimitiveContext);
+    const themeContext = useContext(ThemeContext);
     const [rootElementFound, setRootElementFound] = useState(false);
-    const rootElement = (container || document.querySelector('#rad-ui-theme-container') || document.body) as HTMLElement | null;
+    const rootElement = (
+        container
+        ?? themeContext?.portalRootRef.current
+        ?? themeContext?.containerRef.current
+        // Guarded so server rendering (no `document`) does not throw.
+        ?? (typeof document !== 'undefined' ? document.body : null)
+    ) as HTMLElement | null;
 
     useEffect(() => {
         if (rootElement) {

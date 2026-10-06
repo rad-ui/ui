@@ -20,7 +20,6 @@ const RadioPrimitive = React.forwardRef<RadioPrimitiveElement, RadioPrimitivePro
                 type="radio"
                 checked={checked}
                 name={name}
-                tabIndex={-1}
                 value={value}
                 onChange={onChange}
                 id={id}

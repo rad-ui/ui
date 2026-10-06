@@ -25,4 +25,12 @@ Meter.Indicator = MeterIndicator;
 
 export type { MeterRootProps } from './fragments/MeterRoot';
 export type { MeterIndicatorProps } from './fragments/MeterIndicator';
+
+// Named part exports let React Server Components use `import * as Meter from '@radui/ui/Meter'`;
+// property access on the default export is undefined across the client boundary.
+export {
+    MeterRoot as Root,
+    MeterIndicator as Indicator
+};
+
 export default Meter;

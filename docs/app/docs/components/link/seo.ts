@@ -1,8 +1,11 @@
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
-const linkMetadata = generateSeoMetadata({
+const metadata = generateSeoMetadata({
     title: "Link - Rad UI",
-    description: "A headless React Link component for navigating between pages. Supports size, color, and asChild composition patterns."
+    description: "Accessible, headless React Link component. Built with ARIA, keyboard navigation, and full customization for design systems.",
+    keywords: ["React Link","headless link","accessible link","link component","React link component"],
+    canonicalUrl: "https://www.rad-ui.com/docs/components/link"
 });
 
-export default linkMetadata
+
+export default metadata

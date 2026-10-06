@@ -8,6 +8,9 @@ const componentCoverageMetadata: Metadata = {
     description: "A transparent comparison of component availability across Rad UI, Radix UI, Base UI, Ark UI, and Headless UI.",
     type: "article",
   },
+  alternates: {
+    canonical: "https://www.rad-ui.com/docs/guides/component-coverage",
+  },
 };
 
 export default componentCoverageMetadata;

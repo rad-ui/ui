@@ -109,4 +109,11 @@ describe('Text Component', () => {
         warn.mockRestore();
         error.mockRestore();
     });
+
+    test('Clarity styles use typography tokens where a matching token exists', () => {
+        const fs = require('node:fs');
+        const path = require('node:path');
+        const rules: string = fs.readFileSync(path.resolve(__dirname, '../text.clarity.scss'), 'utf8').replace(/\/\/.*$/gm, '');
+        expect(rules).not.toMatch(/(font-size|line-height):\s*\d+px/);
+    });
 });

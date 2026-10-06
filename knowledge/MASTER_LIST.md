@@ -20,11 +20,18 @@ Rad UI is a React component library focused on headless behavior, accessibility,
 - Build library: `npm run build:rollup`
 - Run root tests: `npm test`
 - Run lint: `npm run lint`
+- Audit Clarity component styles: `npm run check:clarity`
+- Report theme recipe coverage: `npm run check:theme-coverage`
 
 Docs app workflow:
 
 - Install docs dependencies: `cd docs && pnpm install`
 - Run docs app: `cd docs && pnpm dev`
+- Check docs boundary: `cd docs && pnpm check:boundary`
+- Docs against local library build (live mode): `npm run docs:live`
+- Docs against pinned published library (fixed mode): `npm run docs:fixed`
+- Release sanity check (isolated docs builds, like Vercel): `npm run docs:verify:fixed && npm run docs:verify:live`
+- Docs text contrast (WCAG AA, both themes; also runs in CI): `npm run docs:verify:fixed -- --contrast`
 
 ## Codebase Landmarks
 
@@ -40,6 +47,7 @@ Docs app workflow:
 - Avoid `querySelector` in components; use refs for instance-safe DOM access.
 - Do not introduce library-owned styling classes unless they are generated through `Theme classNamespace`.
 - Match existing architecture and naming conventions before adding new patterns.
+- The docs app (`docs/`) must never reference files outside `docs/` (no aliases, relative imports, CSS `@import`s, or `fs` reads into `../src`, `../styles`, etc.). Vercel builds `docs/` in isolation, so such references break production. Consume the library through the published `@radui/ui` package. See `docs/AGENTS.md` → "Docs app boundary".
 
 ## Knowledge Docs
 
@@ -58,7 +66,7 @@ Open these as needed based on the task:
 - `knowledge/design_system/clarity_design_system.md`
   Use for design-system thinking and perceptual consistency decisions.
 - `knowledge/design_system/clarity_audit_spec.md`
-  Use before adding or changing Clarity component styles; defines component recipes, token usage, audit categories, and enforcement rules.
+  Use before adding or changing Clarity component styles; defines component recipes, token usage, audit categories, and enforcement rules. `npm run check:clarity` enforces the mechanically checkable subset in CI.
 - `knowledge/releases/how-rad-ui-releases-are-made.md`
   Use for release-stage terminology and release documentation.
 

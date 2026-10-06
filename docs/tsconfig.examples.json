@@ -4,12 +4,12 @@
     "app/docs/**/docs/**/*.ts",
     "app/docs/**/docs/**/*.tsx",
     "app/docs/**/examples/**/*.ts",
-    "app/docs/**/examples/**/*.tsx"
+    "app/docs/**/examples/**/*.tsx",
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
     ".next",
-    "app/docs/components/meter/**",
     "app/docs/components/toast/**"
   ]
 }
