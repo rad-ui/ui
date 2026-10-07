@@ -165,8 +165,8 @@ export const fxCatalog: Record<string, FxDocs> = {
         props: backdropProps([
             ['color', 'string', 'violet, 45%', 'Line colour.'],
             ['glowColor', 'string', 'violet, 35%', 'Glow along the horizon.'],
-            ['cellSize', 'number', '48', 'Cell size in px.'],
-            ['speed', 'number', '2', 'Seconds to travel one cell.']
+            ['cellSize', 'number', '28', 'Cell size in px (before perspective).'],
+            ['speed', 'number', '1.2', 'Seconds to travel one cell.']
         ])
     },
     'dot-field': {

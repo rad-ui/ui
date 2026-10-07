@@ -17,7 +17,7 @@ export type GridBackdropProps = React.ComponentPropsWithoutRef<'div'> & {
     paused?: boolean
 }
 
-const GridBackdrop = ({ color = 'rgba(167, 139, 250, 0.45)', glowColor = 'rgba(139, 92, 246, 0.35)', cellSize = 48, speed = 2, paused = false, className, style, children, ...props }: GridBackdropProps) => {
+const GridBackdrop = ({ color = 'rgba(167, 139, 250, 0.45)', glowColor = 'rgba(139, 92, 246, 0.35)', cellSize = 28, speed = 1.2, paused = false, className, style, children, ...props }: GridBackdropProps) => {
     const ref = React.useRef<HTMLDivElement | null>(null)
     const offscreen = useOffscreen(ref)
 

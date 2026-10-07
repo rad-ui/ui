@@ -1,43 +1,49 @@
-/* GridBackdrop: a perspective grid gliding toward the viewer, fading at the horizon. */
+/* GridBackdrop: a floor grid running from the horizon toward the viewer.
+   The eye (perspective-origin) sits on the horizon so every line converges there.
+   The floor's depth (height × sin(tilt)) must stay below the perspective distance,
+   or its near edge ends up behind the camera and disappears. */
 .rad-fx-grid {
+    --rad-fx-grid-horizon: 38%;
+
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    perspective: 600px;
+    perspective: 300px;
+    perspective-origin: 50% var(--rad-fx-grid-horizon);
 }
 
 .rad-fx-grid-plane {
-    /* The floor starts at the horizon and tilts toward the viewer. Its depth must stay
-       below the perspective distance, or the near edge ends up behind the camera. */
     position: absolute;
-    top: 30%;
-    left: -50%;
-    right: -50%;
-    height: 100%;
-    max-height: 520px;
+    top: var(--rad-fx-grid-horizon);
+    left: -150%;
+    right: -150%;
+    height: 270px;
     z-index: -1;
     pointer-events: none;
     background-image:
         linear-gradient(to right, var(--rad-fx-grid-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--rad-fx-grid-color) 1px, transparent 1px);
     background-size: var(--rad-fx-grid-size, 48px) var(--rad-fx-grid-size, 48px);
-    transform: rotateX(60deg);
+    background-position: center 0;
+    transform: rotateX(75deg);
     transform-origin: 50% 0;
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 100%);
+
+    /* Lines dissolve into the horizon instead of ending on a hard edge. */
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
     animation: rad-fx-grid-travel var(--rad-fx-grid-speed, 2s) linear infinite;
 }
 
-/* A soft glow along the horizon line. */
+/* Soft glow sitting on the horizon. */
 .rad-fx-grid::before {
     content: '';
     position: absolute;
-    top: 30%;
+    top: calc(var(--rad-fx-grid-horizon) - 90px);
     left: 0;
     right: 0;
-    height: 1px;
+    height: 180px;
     z-index: -1;
     pointer-events: none;
-    box-shadow: 0 0 60px 18px var(--rad-fx-grid-glow, rgb(139, 92, 246, 0.35));
+    background: radial-gradient(ellipse 55% 50% at 50% 50%, var(--rad-fx-grid-glow, rgb(139, 92, 246, 0.35)), transparent 70%);
 }
 
 .rad-fx-grid[data-state='paused'] .rad-fx-grid-plane { animation-play-state: paused; }
@@ -45,7 +51,7 @@
 .rad-fx-grid-content { position: relative; }
 
 @keyframes rad-fx-grid-travel {
-    to { background-position: 0 var(--rad-fx-grid-size, 48px); }
+    to { background-position: center var(--rad-fx-grid-size, 48px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
