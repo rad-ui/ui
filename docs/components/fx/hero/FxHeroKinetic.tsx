@@ -73,10 +73,12 @@ const BEATS: Beat[] = [
     { ms: 480, move: 'pop', bg: 'lime', size: 'xl', words: 'HANDLED.' },
     { ms: 360, move: 'whip-l', size: 'm', words: 'Keyboards?' },
     { ms: 900, move: 'mega', bg: 'lime', size: 'xxl', words: 'HANDLED.' },
-    // Copy / Own / Ship: each one arrives behind a swipe, alternating directions.
-    { ms: 560, move: 'whip-l', ink: 'cyan', size: 'xl', swipe: { from: 'left', color: '#3de8ff' }, words: 'Copy it.' },
-    { ms: 560, move: 'whip-r', ink: 'lime', size: 'xl', swipe: { from: 'right', color: '#b8ff3c' }, words: 'Own it.' },
-    { ms: 950, move: 'rise', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: 'Ship it.' }
+    // Make / Copy / Ship / OWN: each one arrives behind a swipe, alternating
+    // directions, building to a full-size OWN IT.
+    { ms: 520, move: 'whip-l', ink: 'orange', size: 'xl', swipe: { from: 'left', color: '#ff9a3c' }, words: 'Make it.' },
+    { ms: 520, move: 'whip-r', ink: 'cyan', size: 'xl', swipe: { from: 'right', color: '#3de8ff' }, words: 'Copy it.' },
+    { ms: 520, move: 'whip-l', ink: 'lime', size: 'xl', swipe: { from: 'left', color: '#b8ff3c' }, words: 'Ship it.' },
+    { ms: 1150, move: 'mega', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: 'OWN IT.' }
 ]
 
 // What screen readers get: the whole story once, in sentences.
@@ -86,7 +88,7 @@ const STORY = [
     'Plot twist. What if motion had manners?',
     '90 effects. Every one accessible.',
     'Reduced motion, screen readers, keyboards: handled.',
-    'Copy it. Own it. Ship it.',
+    'Make it. Copy it. Ship it. Own it.',
     'Rad UI FX. Motion with manners.'
 ]
 
