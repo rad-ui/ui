@@ -114,11 +114,15 @@ export const fxCatalog: Record<string, FxDocs> = {
         demos: [{ Demo: WordCycleDemo, replayable: false }],
         usage: `import WordCycle from "@/components/fx/word-cycle"
 
-<h2>Interfaces that feel <WordCycle words={["fast", "accessible", "alive"]} /></h2>`,
+<h2>
+    Interfaces that feel{" "}
+    <WordCycle words={["fast", "accessible", "alive"]} colors={["#38bdf8", "#4ade80", "#f472b6"]} />
+</h2>`,
         props: [
             ['words', 'string[]', '—', 'Words to cycle through.'],
             ['interval', 'number', '2200', 'Milliseconds each word stays.'],
             ['paused', 'boolean', 'false', 'Stop cycling.'],
+            ['colors', 'string[]', '—', 'One colour per word; cycles if shorter than words.'],
             ['srJoiner', '(words: string[]) => string', '"a, b or c"', 'How the words are read to screen readers.']
         ]
     },

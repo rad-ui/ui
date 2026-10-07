@@ -232,6 +232,7 @@
         "accessibility": [
           "Screen readers hear every word once as a list (\"fast, accessible or yours\"), never a changing word.",
           "Cycling pauses on hover and offscreen; pass `paused` from a visible control if it sits next to reading content (WCAG 2.2.2).",
+          "With `colors`, every word colour must meet contrast against the background, since each one is shown on its own.",
           "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the first word, still."
         ]
       }
