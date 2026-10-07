@@ -1,0 +1,55 @@
+/* AuroraBackdrop: soft colour blobs drifting behind content. */
+.rad-fx-aurora {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-aurora-glow {
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--rad-fx-aurora-intensity, 0.55);
+    filter: blur(var(--rad-fx-aurora-blur, 64px));
+}
+
+.rad-fx-aurora-blob {
+    position: absolute;
+    width: 55%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: rad-fx-aurora-drift var(--rad-fx-aurora-speed, 20s) ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+.rad-fx-aurora-blob:nth-child(1) { top: 0; left: 0; background: var(--rad-fx-aurora-color-1); }
+.rad-fx-aurora-blob:nth-child(2) { top: 10%; right: 0; background: var(--rad-fx-aurora-color-2); animation-delay: calc(var(--rad-fx-aurora-speed, 20s) / -4); }
+.rad-fx-aurora-blob:nth-child(3) { bottom: 0; left: 15%; background: var(--rad-fx-aurora-color-3); animation-delay: calc(var(--rad-fx-aurora-speed, 20s) / -2); }
+.rad-fx-aurora-blob:nth-child(4) { bottom: 5%; right: 15%; background: var(--rad-fx-aurora-color-4); animation-delay: calc(var(--rad-fx-aurora-speed, 20s) * -0.75); }
+
+.rad-fx-aurora[data-state='paused'] .rad-fx-aurora-blob {
+    animation-play-state: paused;
+}
+
+.rad-fx-aurora-content {
+    position: relative;
+}
+
+@keyframes rad-fx-aurora-drift {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50% { transform: translate(18%, 12%) rotate(60deg) scale(1.15); }
+    100% { transform: translate(-12%, 20%) rotate(120deg) scale(0.9); }
+}
+
+/* Reduced motion: keep the colours, drop the drift.
+   Applies to the OS setting, or to an in-app setting via data-rad-fx-motion="reduce" on any ancestor. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-aurora-blob {
+        animation: none;
+    }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-aurora-blob {
+    animation: none;
+}

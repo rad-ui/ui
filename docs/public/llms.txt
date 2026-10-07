@@ -119,6 +119,15 @@
 - [Component Docs: Accessibility](https://www.rad-ui.com/docs/contributing/component-docs-accessibility)
 - [Component Docs: Features](https://www.rad-ui.com/docs/contributing/component-docs-features)
 
+## Rad UI FX
+> Accessible animated components (text effects, backgrounds), installed as source through a shadcn-compatible registry. Each registry item lists its accessibility rules in `meta.accessibility`.
+- [FX Introduction](https://www.rad-ui.com/fx)
+- [FX Installation](https://www.rad-ui.com/fx/installation)
+- [FX Accessibility Contract](https://www.rad-ui.com/fx/accessibility)
+- [BlurReveal](https://www.rad-ui.com/fx/blur-reveal)
+- [AuroraBackdrop](https://www.rad-ui.com/fx/aurora-backdrop)
+- [FX registry index](https://www.rad-ui.com/r/registry.json)
+
 ## Resources
 - [GitHub](https://github.com/rad-ui/ui)
 - [Playground](https://www.rad-ui.com/playground)

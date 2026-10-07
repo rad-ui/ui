@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aurora-backdrop",
+  "type": "registry:component",
+  "title": "AuroraBackdrop",
+  "description": "Soft drifting colour glow behind any content. Decorative only, pauses offscreen, and stays still under reduced motion.",
+  "files": [
+    {
+      "path": "registry/fx/aurora-backdrop/aurora-backdrop.tsx",
+      "type": "registry:component",
+      "target": "components/fx/aurora-backdrop.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport './aurora-backdrop.css'\n\nexport type AuroraBackdropProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Up to four CSS colors for the glow. */\n    colors?: string[]\n    /** Seconds for one full drift cycle. Higher is calmer. */\n    speed?: number\n    /** Blur radius of the glow, in px. */\n    blur?: number\n    /** Opacity of the glow layer, 0–1. */\n    intensity?: number\n    /** Stop the drift. Wire this to a visible pause control on pages where the backdrop runs for long. */\n    paused?: boolean\n}\n\nconst DEFAULT_COLORS = ['#22d3ee', '#a78bfa', '#34d399', '#f472b6']\n\nconst AuroraBackdrop = React.forwardRef<HTMLDivElement, AuroraBackdropProps>(({\n    colors = DEFAULT_COLORS,\n    speed = 20,\n    blur = 64,\n    intensity = 0.55,\n    paused = false,\n    className,\n    style,\n    children,\n    ...props\n}, forwardedRef) => {\n    const localRef = React.useRef<HTMLDivElement | null>(null)\n    const [offscreen, setOffscreen] = React.useState(false)\n\n    const setRef = React.useCallback((node: HTMLDivElement | null) => {\n        localRef.current = node\n        if (typeof forwardedRef === 'function') forwardedRef(node)\n        else if (forwardedRef) forwardedRef.current = node\n    }, [forwardedRef])\n\n    // Don't spend GPU time on a backdrop nobody can see.\n    React.useEffect(() => {\n        const node = localRef.current\n        if (!node || typeof IntersectionObserver === 'undefined') return\n        const observer = new IntersectionObserver(([entry]) => setOffscreen(!entry.isIntersecting))\n        observer.observe(node)\n        return () => observer.disconnect()\n    }, [])\n\n    const palette = colors.length ? colors : DEFAULT_COLORS\n    const colorVars = Object.fromEntries(\n        Array.from({ length: 4 }, (_, i) => [`--rad-fx-aurora-color-${i + 1}`, palette[i % palette.length]])\n    )\n\n    return <div\n        ref={setRef}\n        className={['rad-fx-aurora', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{\n            ...colorVars,\n            '--rad-fx-aurora-speed': `${speed}s`,\n            '--rad-fx-aurora-blur': `${blur}px`,\n            '--rad-fx-aurora-intensity': intensity,\n            ...style\n        } as React.CSSProperties}\n        {...props}\n    >\n        {/* Purely decorative: hidden from assistive tech and from pointer events. */}\n        <div className=\"rad-fx-aurora-glow\" aria-hidden=\"true\">\n            <span className=\"rad-fx-aurora-blob\" />\n            <span className=\"rad-fx-aurora-blob\" />\n            <span className=\"rad-fx-aurora-blob\" />\n            <span className=\"rad-fx-aurora-blob\" />\n        </div>\n        <div className=\"rad-fx-aurora-content\">{children}</div>\n    </div>\n})\n\nAuroraBackdrop.displayName = 'AuroraBackdrop'\n\nexport default AuroraBackdrop\n"
+    },
+    {
+      "path": "registry/fx/aurora-backdrop/aurora-backdrop.css",
+      "type": "registry:file",
+      "target": "components/fx/aurora-backdrop.css",
+      "content": "/* AuroraBackdrop: soft colour blobs drifting behind content. */\n.rad-fx-aurora {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-aurora-glow {\n    position: absolute;\n    inset: -20%;\n    z-index: -1;\n    pointer-events: none;\n    opacity: var(--rad-fx-aurora-intensity, 0.55);\n    filter: blur(var(--rad-fx-aurora-blur, 64px));\n}\n\n.rad-fx-aurora-blob {\n    position: absolute;\n    width: 55%;\n    aspect-ratio: 1;\n    border-radius: 50%;\n    animation: rad-fx-aurora-drift var(--rad-fx-aurora-speed, 20s) ease-in-out infinite alternate;\n    will-change: transform;\n}\n\n.rad-fx-aurora-blob:nth-child(1) { top: 0; left: 0; background: var(--rad-fx-aurora-color-1); }\n.rad-fx-aurora-blob:nth-child(2) { top: 10%; right: 0; background: var(--rad-fx-aurora-color-2); animation-delay: calc(var(--rad-fx-aurora-speed, 20s) / -4); }\n.rad-fx-aurora-blob:nth-child(3) { bottom: 0; left: 15%; background: var(--rad-fx-aurora-color-3); animation-delay: calc(var(--rad-fx-aurora-speed, 20s) / -2); }\n.rad-fx-aurora-blob:nth-child(4) { bottom: 5%; right: 15%; background: var(--rad-fx-aurora-color-4); animation-delay: calc(var(--rad-fx-aurora-speed, 20s) * -0.75); }\n\n.rad-fx-aurora[data-state='paused'] .rad-fx-aurora-blob {\n    animation-play-state: paused;\n}\n\n.rad-fx-aurora-content {\n    position: relative;\n}\n\n@keyframes rad-fx-aurora-drift {\n    0% { transform: translate(0, 0) rotate(0deg) scale(1); }\n    50% { transform: translate(18%, 12%) rotate(60deg) scale(1.15); }\n    100% { transform: translate(-12%, 20%) rotate(120deg) scale(0.9); }\n}\n\n/* Reduced motion: keep the colours, drop the drift.\n   Applies to the OS setting, or to an in-app setting via data-rad-fx-motion=\"reduce\" on any ancestor. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-aurora-blob {\n        animation: none;\n    }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-aurora-blob {\n    animation: none;\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/aurora-backdrop",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The glow layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "prefers-reduced-motion: reduce keeps the colours but stops the drift.",
+      "The drift pauses automatically offscreen. If it runs behind content for long, give users a visible pause control wired to the `paused` prop (WCAG 2.2.2).",
+      "Check text contrast over the brightest part of the glow."
+    ]
+  }
+}

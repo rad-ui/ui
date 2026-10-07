@@ -1,0 +1,65 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "rad-ui",
+  "homepage": "https://www.rad-ui.com",
+  "items": [
+    {
+      "name": "blur-reveal",
+      "type": "registry:component",
+      "title": "BlurReveal",
+      "description": "Text that fades in from a soft blur, word by word or letter by letter. Screen readers get the whole sentence once; reduced motion shows it instantly.",
+      "dependencies": ["@radui/ui"],
+      "files": [
+        {
+          "path": "registry/fx/blur-reveal/blur-reveal.tsx",
+          "type": "registry:component",
+          "target": "components/fx/blur-reveal.tsx"
+        },
+        {
+          "path": "registry/fx/blur-reveal/blur-reveal.css",
+          "type": "registry:file",
+          "target": "components/fx/blur-reveal.css"
+        }
+      ],
+      "categories": ["fx", "text"],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/blur-reveal",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The full text is rendered once in a visually hidden span; the animated pieces are aria-hidden. Do not remove either.",
+          "prefers-reduced-motion: reduce shows the text immediately, with no blur, movement or stagger.",
+          "Use the `as` prop to keep the correct heading level instead of wrapping in another heading."
+        ]
+      }
+    },
+    {
+      "name": "aurora-backdrop",
+      "type": "registry:component",
+      "title": "AuroraBackdrop",
+      "description": "Soft drifting colour glow behind any content. Decorative only, pauses offscreen, and stays still under reduced motion.",
+      "files": [
+        {
+          "path": "registry/fx/aurora-backdrop/aurora-backdrop.tsx",
+          "type": "registry:component",
+          "target": "components/fx/aurora-backdrop.tsx"
+        },
+        {
+          "path": "registry/fx/aurora-backdrop/aurora-backdrop.css",
+          "type": "registry:file",
+          "target": "components/fx/aurora-backdrop.css"
+        }
+      ],
+      "categories": ["fx", "backgrounds"],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/aurora-backdrop",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The glow layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "prefers-reduced-motion: reduce keeps the colours but stops the drift.",
+          "The drift pauses automatically offscreen. If it runs behind content for long, give users a visible pause control wired to the `paused` prop (WCAG 2.2.2).",
+          "Check text contrast over the brightest part of the glow."
+        ]
+      }
+    }
+  ]
+}

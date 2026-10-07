@@ -26,7 +26,8 @@ const EditPageOnGithub = () => {
         );
     }
 
-    const currentDocsPath = "docs/app/docs/" + page;
+    // URL paths mirror the app directory: /docs/... and /fx/... alike.
+    const currentDocsPath = "docs/app" + pathname.replace(/\/$/, "");
 
     return (
         <div className="mt-10 border-t border-gray-300 pt-6">

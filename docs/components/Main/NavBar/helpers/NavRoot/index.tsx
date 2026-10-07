@@ -6,6 +6,7 @@ import { NavBarContext } from "@/components/Main/NavBar/NavBarContext";
 import { usePathname } from "next/navigation";
 
 import Link from "next/link";
+import { getDocsProduct } from "@/components/navigation/products";
 import { Menu, Moon, Sun } from "lucide-react";
 
 const RadUILogo = () => {
@@ -69,7 +70,8 @@ const DiscordLogo = ({ size = 15 }) => {
 const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
   const { isDocsNavOpen, setIsDocsNavOpen } = useContext(NavBarContext);
   const pathname = usePathname();
-  const isDocsPage = pathname?.startsWith("/docs");
+  const docsProduct = getDocsProduct(pathname);
+  const isDocsPage = Boolean(docsProduct);
 
   const openLink = useCallback(
     (url) => () => {
@@ -113,20 +115,26 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
       <div>
         <ul className="hidden items-center gap-1 text-[0.84rem] font-medium lg:flex">
           {[
-            { href: "/docs/first-steps/introduction", label: "Docs" },
+            { href: "/docs/first-steps/introduction", label: "Docs", productId: "ui" },
+            { href: "/fx", label: "FX", productId: "fx" },
             { href: "/playground", label: "Playground" },
             { href: "/colors", label: "Colors" },
             { href: "/showcase/music-app", label: "Showcase" },
-          ].map((item) => (
-            <li key={item.href}>
-              <Link
-                className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
-                href={item.href}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          ].map((item) => {
+            const isActive = Boolean(item.productId) && docsProduct?.id === item.productId;
+            return (
+              <li key={item.href}>
+                <Link
+                  className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000 data-[active=true]:bg-gray-200 data-[active=true]:text-gray-1000"
+                  href={item.href}
+                  data-active={isActive}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="flex items-center justify-end gap-1">

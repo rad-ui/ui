@@ -126,6 +126,18 @@ export default function App() {
 - CSS Variable Fallbacks: https://www.rad-ui.com/docs/guides/css-variable-fallbacks
 - Troubleshooting: https://www.rad-ui.com/docs/guides/troubleshooting
 
+## Rad UI FX (animated components)
+- Registry index: https://www.rad-ui.com/r/registry.json
+- Install one: npx shadcn@latest add https://www.rad-ui.com/r/<name>.json (files go to components/fx/)
+- Or add `"registries": { "@rad-ui": "https://www.rad-ui.com/r/{name}.json" }` to components.json and run npx shadcn@latest add @rad-ui/<name>
+- Every item's `meta.accessibility` lists rules to keep (visually hidden text, aria-hidden decorative layers, reduced-motion fallbacks). Do not remove them when editing.
+- Apps with their own motion setting can set data-rad-fx-motion="reduce" on an ancestor.
+- Introduction: https://www.rad-ui.com/fx
+- Installation: https://www.rad-ui.com/fx/installation
+- Accessibility Contract: https://www.rad-ui.com/fx/accessibility
+- BlurReveal: https://www.rad-ui.com/fx/blur-reveal
+- AuroraBackdrop: https://www.rad-ui.com/fx/aurora-backdrop
+
 ## Useful Agent Notes
 - Prefer per-component imports such as @radui/ui/Dialog, @radui/ui/Select, and @radui/ui/Button.
 - Use the docs component pages for anatomy, examples, and accessibility behavior.

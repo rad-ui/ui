@@ -1,0 +1,42 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import FxPreview from "@/components/fx/FxPreview"
+import FxInstall from "@/components/fx/FxInstall"
+import FxA11yContract from "@/components/fx/FxA11yContract"
+import { BlurRevealHeadline, BlurRevealLetters } from "./examples/BlurRevealDemo"
+import { sourceFiles, usage, lettersUsage, BlurRevealTable } from "./docs/codeUsage"
+
+<Documentation
+    eyebrow="FX · Text"
+    title={`BlurReveal`}
+    description={`
+        Text that fades in from a soft blur, word by word or letter by letter. Screen readers hear the sentence once, and reduced motion shows it straight away.
+    `}
+>
+    <FxPreview>
+        <BlurRevealHeadline />
+    </FxPreview>
+
+    <Documentation.Section title="Installation">
+        <FxInstall name="blur-reveal" files={sourceFiles} />
+    </Documentation.Section>
+
+    <Documentation.Section title="Usage">
+        <Documentation.CodeBlock language="tsx">{usage.javascript.code}</Documentation.CodeBlock>
+    </Documentation.Section>
+
+    <Documentation.Section title="Letter by letter">
+        <FxPreview minHeight={200}>
+            <BlurRevealLetters />
+        </FxPreview>
+        <Documentation.CodeBlock language="tsx">{lettersUsage.javascript.code}</Documentation.CodeBlock>
+    </Documentation.Section>
+
+    <Documentation.Section title="Accessibility contract">
+        <FxA11yContract name="blur-reveal" />
+    </Documentation.Section>
+
+    <Documentation.Table
+        columns={BlurRevealTable.columns}
+        data={BlurRevealTable.data}
+    />
+</Documentation>

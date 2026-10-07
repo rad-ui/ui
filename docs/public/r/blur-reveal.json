@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blur-reveal",
+  "type": "registry:component",
+  "title": "BlurReveal",
+  "description": "Text that fades in from a soft blur, word by word or letter by letter. Screen readers get the whole sentence once; reduced motion shows it instantly.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/blur-reveal/blur-reveal.tsx",
+      "type": "registry:component",
+      "target": "components/fx/blur-reveal.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport './blur-reveal.css'\n\ntype BlurRevealTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'blockquote'\n\nexport type BlurRevealProps = {\n    /** The text to reveal. Screen readers always get it whole, never piece by piece. */\n    text: string\n    /** Element to render. Keep the heading level your page outline needs. */\n    as?: BlurRevealTag\n    /** Animate word by word, or letter by letter (letters never break across lines). */\n    by?: 'word' | 'letter'\n    /** `inView` waits until the text scrolls into view; `mount` starts right away. */\n    trigger?: 'inView' | 'mount'\n    /** Delay between pieces, in ms. */\n    stagger?: number\n    /** Duration of each piece, in ms. */\n    duration?: number\n    /** Delay before the first piece, in ms. */\n    delay?: number\n    className?: string\n    style?: React.CSSProperties\n}\n\ntype Piece = { kind: 'space', value: string } | { kind: 'word', parts: string[] }\n\n// Graphemes, not UTF-16 code units, so emoji and combining accents stay whole.\nconst splitGraphemes = (word: string): string[] => {\n    if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {\n        const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' })\n        return Array.from(segmenter.segment(word), (s) => s.segment)\n    }\n    return Array.from(word)\n}\n\nconst splitText = (text: string, by: 'word' | 'letter'): Piece[] =>\n    text.split(/(\\s+)/).filter(Boolean).map((chunk) =>\n        /^\\s+$/.test(chunk)\n            ? { kind: 'space', value: chunk }\n            : { kind: 'word', parts: by === 'letter' ? splitGraphemes(chunk) : [chunk] }\n    )\n\nconst BlurReveal = React.forwardRef<HTMLElement, BlurRevealProps>(({\n    text,\n    as: Tag = 'p',\n    by = 'word',\n    trigger = 'inView',\n    stagger = 60,\n    duration = 700,\n    delay = 0,\n    className,\n    style\n}, forwardedRef) => {\n    const localRef = React.useRef<HTMLElement | null>(null)\n    const [revealed, setRevealed] = React.useState(trigger === 'mount')\n\n    const setRef = React.useCallback((node: HTMLElement | null) => {\n        localRef.current = node\n        if (typeof forwardedRef === 'function') forwardedRef(node)\n        else if (forwardedRef) forwardedRef.current = node\n    }, [forwardedRef])\n\n    React.useEffect(() => {\n        if (trigger !== 'inView' || revealed) return\n        const node = localRef.current\n        if (!node || typeof IntersectionObserver === 'undefined') {\n            setRevealed(true)\n            return\n        }\n        const observer = new IntersectionObserver((entries) => {\n            if (entries.some((entry) => entry.isIntersecting)) {\n                setRevealed(true)\n                observer.disconnect()\n            }\n        }, { threshold: 0.2 })\n        observer.observe(node)\n        return () => observer.disconnect()\n    }, [trigger, revealed])\n\n    const pieces = React.useMemo(() => splitText(text, by), [text, by])\n\n    let index = 0\n    const visual = pieces.map((piece, pieceIndex) => {\n        if (piece.kind === 'space') return piece.value\n        return <span key={pieceIndex} className=\"rad-fx-blur-reveal-word\">\n            {piece.parts.map((part, partIndex) => (\n                <span\n                    key={partIndex}\n                    className=\"rad-fx-blur-reveal-piece\"\n                    style={{ '--rad-fx-index': index++ } as React.CSSProperties}\n                >\n                    {part}\n                </span>\n            ))}\n        </span>\n    })\n\n    return <Tag\n        ref={setRef as React.Ref<never>}\n        className={['rad-fx-blur-reveal', className].filter(Boolean).join(' ')}\n        data-state={revealed ? 'visible' : 'hidden'}\n        style={{\n            '--rad-fx-stagger': `${stagger}ms`,\n            '--rad-fx-duration': `${duration}ms`,\n            '--rad-fx-delay': `${delay}ms`,\n            ...style\n        } as React.CSSProperties}\n    >\n        <VisuallyHidden asChild><span>{text}</span></VisuallyHidden>\n        <span aria-hidden=\"true\">{visual}</span>\n    </Tag>\n})\n\nBlurReveal.displayName = 'BlurReveal'\n\nexport default BlurReveal\n"
+    },
+    {
+      "path": "registry/fx/blur-reveal/blur-reveal.css",
+      "type": "registry:file",
+      "target": "components/fx/blur-reveal.css",
+      "content": "/* BlurReveal: each piece fades in from a soft blur, one after another. */\n.rad-fx-blur-reveal-word {\n    display: inline-block;\n    white-space: nowrap;\n}\n\n.rad-fx-blur-reveal-piece {\n    display: inline-block;\n    opacity: 0;\n    filter: blur(10px);\n    transform: translateY(0.25em);\n}\n\n.rad-fx-blur-reveal[data-state='visible'] .rad-fx-blur-reveal-piece {\n    animation: rad-fx-blur-reveal-in var(--rad-fx-duration, 700ms) cubic-bezier(0.2, 0.65, 0.3, 1) both;\n    animation-delay: calc(var(--rad-fx-delay, 0ms) + var(--rad-fx-index, 0) * var(--rad-fx-stagger, 60ms));\n}\n\n@keyframes rad-fx-blur-reveal-in {\n    to {\n        opacity: 1;\n        filter: blur(0);\n        transform: none;\n    }\n}\n\n/* Reduced motion: no blur, no movement, no stagger. The text is simply there.\n   Applies to the OS setting, or to an in-app setting via data-rad-fx-motion=\"reduce\" on any ancestor. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-blur-reveal-piece,\n    .rad-fx-blur-reveal[data-state='visible'] .rad-fx-blur-reveal-piece {\n        animation: none;\n        opacity: 1;\n        filter: none;\n        transform: none;\n    }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-blur-reveal-piece,\n[data-rad-fx-motion='reduce'] .rad-fx-blur-reveal[data-state='visible'] .rad-fx-blur-reveal-piece {\n    animation: none;\n    opacity: 1;\n    filter: none;\n    transform: none;\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/blur-reveal",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The full text is rendered once in a visually hidden span; the animated pieces are aria-hidden. Do not remove either.",
+      "prefers-reduced-motion: reduce shows the text immediately, with no blur, movement or stagger.",
+      "Use the `as` prop to keep the correct heading level instead of wrapping in another heading."
+    ]
+  }
+}

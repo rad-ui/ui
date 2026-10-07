@@ -1,0 +1,27 @@
+# Accessibility Contract
+
+Motion should never cost anyone access to the content. Every Rad UI FX component follows these rules, and each component page lists its own specific contract, which is also shipped inside the registry item for agents.
+
+## 1. Reduced motion is a designed state
+
+When the user asks for less motion, through the operating system's **Reduce motion** setting or your app's `data-rad-fx-motion="reduce"`, components don't just stop halfway. They show a finished, static result: text is fully visible, backgrounds keep their colours without drifting.
+
+## 2. Screen readers get the content once
+
+Effects that split text into pieces render the full text once for assistive technology and hide the animated pieces with `aria-hidden`. Nobody hears a sentence read letter by letter.
+
+## 3. Decoration stays decoration
+
+Purely visual layers (glows, particles, gradients) are `aria-hidden` and ignore pointer events. They never receive focus and never cover interactive content.
+
+## 4. Long-running motion can be paused
+
+Animation that keeps running next to other content can be stopped. Components expose a `paused` prop and pause themselves when offscreen; pages that run them for long should add a visible pause control ([WCAG 2.2.2](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html)).
+
+## 5. Content is never hidden behind motion
+
+Text inside or over an effect must keep its contrast across the whole animation, including the brightest frame. Check contrast against the glow, not the page background.
+
+## 6. Interactive effects keep Rad UI behaviour
+
+Animated versions of interactive components (Accordion, Dialog and more are next) are built on Rad UI primitives, so keyboard support, focus management and ARIA come from the same tested code as the rest of Rad UI.
