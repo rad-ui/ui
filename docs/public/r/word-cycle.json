@@ -21,7 +21,7 @@
       "path": "registry/fx/word-cycle.css",
       "type": "registry:file",
       "target": "components/fx/word-cycle.css",
-      "content": ".rad-fx-word-cycle-stage {\n    display: inline-grid;\n    vertical-align: bottom;\n    overflow: hidden;\n}\n\n.rad-fx-word-cycle-word {\n    grid-area: 1 / 1;\n    /* Hug the preceding text even inside centred headings; the spare width trails after. */\n    justify-self: start;\n    text-align: start;\n    opacity: 0;\n    transform: translateY(100%);\n    transition: opacity 400ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n.rad-fx-word-cycle-word[data-state='active'] {\n    opacity: 1;\n    transform: none;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-word-cycle-word { transition: none; transform: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-word-cycle-word { transition: none; transform: none; }\n"
+      "content": ".rad-fx-word-cycle-stage {\n    display: inline-grid;\n    vertical-align: bottom;\n    overflow: hidden;\n}\n\n.rad-fx-word-cycle-word {\n    grid-area: 1 / 1;\n\n    /* Hug the preceding text even inside centred headings; the spare width trails after. */\n    justify-self: start;\n    text-align: start;\n    opacity: 0;\n    transform: translateY(100%);\n    transition: opacity 400ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n.rad-fx-word-cycle-word[data-state='active'] {\n    opacity: 1;\n    transform: none;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-word-cycle-word { transition: none; transform: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-word-cycle-word { transition: none; transform: none; }\n"
     }
   ],
   "categories": [
