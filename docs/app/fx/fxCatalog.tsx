@@ -11,6 +11,7 @@ import { GridBackdropDemo, DotFieldDemo, StarfieldDemo, MeteorShowerDemo, Pausab
 import { GlowCardDemo, PerspectiveCardDemo, MagneticDemo, ClickBurstDemo, RevealOnScrollDemo } from './demos/interactions'
 import { OrbitBorderDemo, MarqueeDemo, SlidingTabsDemo } from './demos/components'
 import { NoiseGrainDemo, WaveLinesDemo, LightBeamsDemo, BubbleFieldDemo, PulseRingsDemo, ShineDemo, PressRippleDemo, ConfettiBurstDemo, PointerParallaxDemo, FlipCardDemo, StaggerListDemo, DrawCheckboxDemo, OdometerDemo, DockDemo, ToggleSwitchDemo, CardStackDemo, ProgressRingDemo, SkeletonDemo, TypingIndicatorDemo, LoaderDemo } from './demos/collection-3'
+import { WipeRevealDemo, LetterDropDemo, StrikeSwapDemo, FillTextDemo, LavaLampDemo, FirefliesDemo, CrtOverlayDemo, HaloGlowDemo, FlashlightDemo, ExpandStripDemo, CompareSliderDemo, CopyButtonDemo, ExpandSearchDemo, StepperDemo, NotificationBellDemo, SmoothDetailsDemo, ToastStackDemo, SuccessCheckDemo, ProgressBarDemo, StrengthMeterDemo } from './demos/collection-4'
 
 // Docs-only data per FX: demos, a usage snippet and the props table. Titles,
 // descriptions and accessibility contracts live in registry/registry.json.
@@ -687,6 +688,241 @@ export const fxCatalog: Record<string, FxDocs> = {
             ['label', 'string', "'Loading'", 'Announced to screen readers.'],
             ['size', 'number', '32', 'Size in px.'],
             ['color', 'string', 'currentColor', 'Colour.']
+        ]
+    },
+    'wipe-reveal': {
+        demos: [{ Demo: WipeRevealDemo }],
+        usage: `import WipeReveal from "@/components/fx/wipe-reveal"
+
+<h1><WipeReveal>Motion with manners.</WipeReveal></h1>`,
+        props: [
+            ['children', 'ReactNode', '—', 'The text.'],
+            ['as', "'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'", "'span'", 'Element to render.'],
+            ['color', 'string', "'#a78bfa'", 'Bar colour.'],
+            ['duration', 'number', '900', 'Milliseconds for the wipe.'],
+            ['delay', 'number', '0', 'Milliseconds before starting.']
+        ]
+    },
+    'letter-drop': {
+        demos: [{ Demo: LetterDropDemo }],
+        usage: `import LetterDrop from "@/components/fx/letter-drop"
+
+<LetterDrop as="h2" text="Drop it like it's hot" />`,
+        props: [
+            ['text', 'string', '—', 'The text.'],
+            ['as', "'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'", "'span'", 'Element to render.'],
+            ['stagger', 'number', '45', 'Milliseconds between letters.']
+        ]
+    },
+    'strike-swap': {
+        demos: [{ Demo: StrikeSwapDemo }],
+        usage: `import StrikeSwap from "@/components/fx/strike-swap"
+
+<p>Animation should be <StrikeSwap from="decoration" to="communication" /></p>`,
+        props: [
+            ['from', 'ReactNode', '—', 'The struck word (<del>).'],
+            ['to', 'ReactNode', '—', 'The replacement (<ins>).'],
+            ['color', 'string', "'#f472b6'", 'Strike and new-word colour.']
+        ]
+    },
+    'fill-text': {
+        demos: [{ Demo: FillTextDemo, replayable: false }],
+        usage: `import FillText from "@/components/fx/fill-text"
+
+<FillText as="h2">FILL ME UP</FillText>`,
+        props: [
+            ['children', 'ReactNode', '—', 'The text.'],
+            ['as', "'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'", "'span'", 'Element to render.'],
+            ['color', 'string', "'#f4f4f5'", 'Fill and outline colour.'],
+            ['trigger', "'inView' | 'hover'", "'inView'", 'When to fill.']
+        ]
+    },
+    'lava-lamp': {
+        demos: [{ Demo: LavaLampDemo, replayable: false }],
+        usage: `import LavaLamp from "@/components/fx/lava-lamp"
+
+<LavaLamp className="px-8 py-24"><h2>Groovy</h2></LavaLamp>`,
+        props: [
+            ['colors', '[string, string]', 'pink, violet', 'Blob gradient.'],
+            ['speed', 'number', '12', 'Seconds per rise and fall.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'fireflies': {
+        demos: [{ Demo: FirefliesDemo, replayable: false }],
+        usage: `import Fireflies from "@/components/fx/fireflies"
+
+<Fireflies className="px-8 py-24"><h2>Summer night</h2></Fireflies>`,
+        props: [
+            ['count', 'number', '26', 'Number of fireflies.'],
+            ['color', 'string', "'#fde68a'", 'Glow colour.'],
+            ['seed', 'number', '5', 'Change for a different, stable swarm.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'crt-overlay': {
+        demos: [{ Demo: CrtOverlayDemo, replayable: false }],
+        usage: `import CrtOverlay from "@/components/fx/crt-overlay"
+
+<CrtOverlay><Terminal /></CrtOverlay>`,
+        props: [
+            ['intensity', 'number', '0.35', 'Scanline strength, 0–1.'],
+            ['roll', 'boolean', 'true', 'Slow rolling band.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'halo-glow': {
+        demos: [{ Demo: HaloGlowDemo, replayable: false }],
+        usage: `import HaloGlow from "@/components/fx/halo-glow"
+
+<HaloGlow><Logo /></HaloGlow>`,
+        props: [
+            ['children', 'ReactNode', '—', 'The content in front of the halo.'],
+            ['colors', 'string[]', 'violet, cyan, pink', 'Halo colours.'],
+            ['speed', 'number', '8', 'Seconds per turn.'],
+            ['spread', 'number', '1.4', 'Halo size relative to the content.'],
+            ['paused', 'boolean', 'false', 'Stop turning.']
+        ]
+    },
+    'flashlight': {
+        demos: [{ Demo: FlashlightDemo, replayable: false }],
+        usage: `import Flashlight from "@/components/fx/flashlight"
+
+<Flashlight><Grid /></Flashlight>`,
+        props: [
+            ['radius', 'number', '140', 'Beam radius in px.'],
+            ['darkness', 'number', '0.82', 'How dark the surroundings get, 0–1.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div.']
+        ]
+    },
+    'expand-strip': {
+        demos: [{ Demo: ExpandStripDemo, replayable: false }],
+        usage: `import ExpandStrip from "@/components/fx/expand-strip"
+
+<ExpandStrip label="Destinations" items={[
+    { title: "Kyoto", description: "Temples and tea.", background: "url(/kyoto.jpg) center/cover", href: "/kyoto" }
+]} />`,
+        props: [
+            ['items', '{ title, description?, background, href? }[]', '—', 'Panels.'],
+            ['label', 'string', '—', 'Accessible name for the list.']
+        ]
+    },
+    'compare-slider': {
+        demos: [{ Demo: CompareSliderDemo, replayable: false }],
+        usage: `import CompareSlider from "@/components/fx/compare-slider"
+
+<CompareSlider
+    before={<img src="/before.jpg" alt="Before colour grading" />}
+    after={<img src="/after.jpg" alt="After colour grading" />}
+/>`,
+        props: [
+            ['before', 'ReactNode', '—', 'Left-hand content.'],
+            ['after', 'ReactNode', '—', 'Right-hand content.'],
+            ['label', 'string', "'Comparison position'", 'Accessible name for the slider.'],
+            ['defaultValue', 'number', '50', 'Starting position, 0–100.']
+        ]
+    },
+    'copy-button': {
+        demos: [{ Demo: CopyButtonDemo, replayable: false }],
+        usage: `import CopyButton from "@/components/fx/copy-button"
+
+<CopyButton value={command} label="Copy install command" />`,
+        props: [
+            ['value', 'string', '—', 'Text to copy.'],
+            ['label', 'string', "'Copy'", 'Accessible name.'],
+            ['resetAfter', 'number', '1800', 'Milliseconds before resetting.']
+        ]
+    },
+    'expand-search': {
+        demos: [{ Demo: ExpandSearchDemo, replayable: false }],
+        usage: `import ExpandSearch from "@/components/fx/expand-search"
+
+<ExpandSearch label="Search docs" onSearch={search} />`,
+        props: [
+            ['onSearch', '(query: string) => void', '—', 'Called on submit.'],
+            ['placeholder', 'string', "'Search…'", 'Field placeholder.'],
+            ['label', 'string', "'Search'", 'Accessible name.']
+        ]
+    },
+    'stepper': {
+        demos: [{ Demo: StepperDemo, replayable: false }],
+        usage: `import Stepper from "@/components/fx/stepper"
+
+<Stepper label="Checkout progress" steps={["Cart", "Shipping", "Payment"]} current={1} />`,
+        props: [
+            ['steps', 'string[]', '—', 'Step labels.'],
+            ['current', 'number', '—', 'Index of the current step.'],
+            ['label', 'string', "'Progress'", 'Accessible name.']
+        ]
+    },
+    'notification-bell': {
+        demos: [{ Demo: NotificationBellDemo, replayable: false }],
+        usage: `import NotificationBell from "@/components/fx/notification-bell"
+
+<NotificationBell count={unread} onClick={openInbox} />`,
+        props: [
+            ['count', 'number', '—', 'Unread count.'],
+            ['getLabel', '(count: number) => string', '"Notifications, n unread"', 'Builds the accessible name.']
+        ]
+    },
+    'smooth-details': {
+        demos: [{ Demo: SmoothDetailsDemo, replayable: false }],
+        usage: `import SmoothDetails from "@/components/fx/smooth-details"
+
+<SmoothDetails title="Is it accessible?">Yes.</SmoothDetails>`,
+        props: [
+            ['title', 'ReactNode', '—', 'Summary line.'],
+            ['...props', "ComponentProps<'details'>", '—', 'open, name, onToggle…']
+        ]
+    },
+    'toast-stack': {
+        demos: [{ Demo: ToastStackDemo, replayable: false, minHeight: 460 }],
+        usage: `import ToastStack from "@/components/fx/toast-stack"
+
+<ToastStack toasts={toasts} onDismiss={(id) => remove(id)} />`,
+        props: [
+            ['toasts', '{ id, title, description? }[]', '—', 'Toasts, oldest first.'],
+            ['onDismiss', '(id) => void', '—', 'Called by each close button.'],
+            ['label', 'string', "'Notifications'", 'Accessible name for the region.'],
+            ['visible', 'number', '3', 'Toasts visible while collapsed.']
+        ]
+    },
+    'success-check': {
+        demos: [{ Demo: SuccessCheckDemo, replayable: false }],
+        usage: `import SuccessCheck from "@/components/fx/success-check"
+
+{paid && <SuccessCheck label="Payment complete" />}`,
+        props: [
+            ['label', 'string', '—', 'Announced to screen readers.'],
+            ['size', 'number', '88', 'Diameter in px.'],
+            ['color', 'string', "'#4ade80'", 'Colour.']
+        ]
+    },
+    'progress-bar': {
+        demos: [{ Demo: ProgressBarDemo, replayable: false }],
+        usage: `import ProgressBar from "@/components/fx/progress-bar"
+
+<ProgressBar value={progress} label="Installing dependencies" />
+<ProgressBar label="Waiting for server" />  {/* indeterminate */}`,
+        props: [
+            ['value', 'number', '—', '0–100; omit for indeterminate.'],
+            ['label', 'string', '—', 'Accessible name.'],
+            ['showLabel', 'boolean', 'true', 'Show label and percentage.'],
+            ['color', 'string', "'#a78bfa'", 'Bar colour.']
+        ]
+    },
+    'strength-meter': {
+        demos: [{ Demo: StrengthMeterDemo, replayable: false }],
+        usage: `import StrengthMeter from "@/components/fx/strength-meter"
+
+<StrengthMeter score={score} label="Password strength" />`,
+        props: [
+            ['score', '0 | 1 | 2 | 3 | 4', '—', 'Strength level.'],
+            ['label', 'string', "'Strength'", 'Accessible name.'],
+            ['levels', '[string × 5]', 'Too short … Strong', 'Text for each level.']
         ]
     }
 }

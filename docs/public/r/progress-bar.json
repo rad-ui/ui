@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress-bar",
+  "type": "registry:component",
+  "title": "ProgressBar",
+  "description": "A progress bar with a moving sheen, determinate or indeterminate.",
+  "files": [
+    {
+      "path": "registry/fx/progress-bar.tsx",
+      "type": "registry:component",
+      "target": "components/fx/progress-bar.tsx",
+      "content": "import * as React from 'react'\n\nimport './progress-bar.css'\n\nexport type ProgressBarProps = {\n    /** 0–100. Leave undefined for an indeterminate bar. */\n    value?: number\n    /** Accessible name, e.g. \"Installing dependencies\". */\n    label: string\n    /** Show the label and percentage above the bar. */\n    showLabel?: boolean\n    color?: string\n    className?: string\n}\n\nconst ProgressBar = ({ value, label, showLabel = true, color = '#a78bfa', className }: ProgressBarProps) => {\n    const indeterminate = value === undefined\n    const clamped = Math.min(100, Math.max(0, value ?? 0))\n    const labelId = React.useId()\n\n    return <div className={['rad-fx-bar', className].filter(Boolean).join(' ')} style={{ '--rad-fx-bar-color': color } as React.CSSProperties}>\n        {showLabel ? <div className=\"rad-fx-bar-meta\">\n            <span id={labelId}>{label}</span>\n            {!indeterminate ? <span aria-hidden=\"true\">{Math.round(clamped)}%</span> : null}\n        </div> : null}\n        <div\n            role=\"progressbar\"\n            aria-labelledby={showLabel ? labelId : undefined}\n            aria-label={showLabel ? undefined : label}\n            aria-valuemin={indeterminate ? undefined : 0}\n            aria-valuemax={indeterminate ? undefined : 100}\n            aria-valuenow={indeterminate ? undefined : Math.round(clamped)}\n            className=\"rad-fx-bar-track\"\n            data-state={indeterminate ? 'indeterminate' : 'determinate'}\n        >\n            <div className=\"rad-fx-bar-fill\" style={indeterminate ? undefined : { transform: `scaleX(${clamped / 100})` }} />\n        </div>\n    </div>\n}\n\nexport default ProgressBar\n"
+    },
+    {
+      "path": "registry/fx/progress-bar.css",
+      "type": "registry:file",
+      "target": "components/fx/progress-bar.css",
+      "content": ".rad-fx-bar { width: 100%; }\n\n.rad-fx-bar-meta {\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: 8px;\n    font-size: 0.875rem;\n    font-variant-numeric: tabular-nums;\n}\n\n.rad-fx-bar-track {\n    position: relative;\n    height: 8px;\n    overflow: hidden;\n    border-radius: 999px;\n    background: rgba(127, 127, 127, 0.25);\n}\n\n.rad-fx-bar-fill {\n    position: absolute;\n    inset: 0;\n    border-radius: inherit;\n    background:\n        linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%) 0 0 / 200% 100%,\n        var(--rad-fx-bar-color, #a78bfa);\n    transform-origin: 0 50%;\n    transition: transform 500ms cubic-bezier(0.3, 0.7, 0.2, 1);\n    animation: rad-fx-bar-sheen 1.8s linear infinite;\n}\n\n.rad-fx-bar-track[data-state='indeterminate'] .rad-fx-bar-fill {\n    right: auto;\n    width: 35%;\n    animation: rad-fx-bar-slide 1.3s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;\n}\n\n@keyframes rad-fx-bar-sheen {\n    from { background-position: 150% 0, 0 0; }\n    to { background-position: -50% 0, 0 0; }\n}\n\n@keyframes rad-fx-bar-slide {\n    from { transform: translateX(-110%); }\n    to { transform: translateX(310%); }\n}\n\n/* Reduced motion: no sheen; an indeterminate bar pulses in place instead of sliding. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-bar-fill { animation: none; transition: none; }\n    .rad-fx-bar-track[data-state='indeterminate'] .rad-fx-bar-fill { width: 100%; animation: rad-fx-bar-pulse 2s ease-in-out infinite; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-bar-fill { animation: none; transition: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-bar-track[data-state='indeterminate'] .rad-fx-bar-fill { width: 100%; animation: rad-fx-bar-pulse 2s ease-in-out infinite; }\n\n@keyframes rad-fx-bar-pulse {\n    0%, 100% { opacity: 0.35; }\n    50% { opacity: 1; }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "feedback"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/progress-bar",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "role=\"progressbar\" labelled by its visible label, with aria-valuenow (omitted while indeterminate).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) drops the sheen; an indeterminate bar pulses in place instead of sliding."
+    ]
+  }
+}

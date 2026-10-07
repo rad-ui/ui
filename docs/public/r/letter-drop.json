@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "letter-drop",
+  "type": "registry:component",
+  "title": "LetterDrop",
+  "description": "Letters that fall in from above and land with a small bounce.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/letter-drop.tsx",
+      "type": "registry:component",
+      "target": "components/fx/letter-drop.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './letter-drop.css'\n\ntype DropTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type LetterDropProps = {\n    text: string\n    as?: DropTag\n    /** Milliseconds between letters. */\n    stagger?: number\n    className?: string\n}\n\n// Letters fall in from above and land with a little bounce.\nconst LetterDrop = ({ text, as: Tag = 'span', stagger = 45, className }: LetterDropProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const [dropped, setDropped] = React.useState(false)\n    useInViewOnce(ref, () => setDropped(true), !dropped, 0.4)\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-drop', className].filter(Boolean).join(' ')}\n        data-state={dropped ? 'dropped' : 'waiting'}\n        style={{ '--rad-fx-drop-stagger': `${stagger}ms` } as React.CSSProperties}\n    >\n        <VisuallyHidden asChild><span>{text}</span></VisuallyHidden>\n        <span aria-hidden=\"true\">\n            {text.split(/(\\s+)/).filter(Boolean).map((word, w, words) => {\n                if (/^\\s+$/.test(word)) return word\n                const offset = words.slice(0, w).join('').replace(/\\s/g, '').length\n                return <span key={w} className=\"rad-fx-drop-word\">\n                    {Array.from(word).map((char, i) => (\n                        <span key={i} className=\"rad-fx-drop-char\" style={{ '--rad-fx-drop-i': offset + i } as React.CSSProperties}>{char}</span>\n                    ))}\n                </span>\n            })}\n        </span>\n    </Tag>\n}\n\nexport default LetterDrop\n"
+    },
+    {
+      "path": "registry/fx/letter-drop.css",
+      "type": "registry:file",
+      "target": "components/fx/letter-drop.css",
+      "content": ".rad-fx-drop-word { display: inline-block; white-space: nowrap; }\n\n.rad-fx-drop-char {\n    display: inline-block;\n    opacity: 0;\n    transform: translateY(-1.2em);\n}\n\n.rad-fx-drop[data-state='dropped'] .rad-fx-drop-char {\n    animation: rad-fx-drop 650ms cubic-bezier(0.3, 1.6, 0.5, 1) both;\n    animation-delay: calc(var(--rad-fx-drop-i, 0) * var(--rad-fx-drop-stagger, 45ms));\n}\n\n@keyframes rad-fx-drop {\n    0% { opacity: 0; transform: translateY(-1.2em); }\n    40% { opacity: 1; }\n    100% { opacity: 1; transform: translateY(0); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-drop-char, .rad-fx-drop[data-state] .rad-fx-drop-char { opacity: 1; transform: none; animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-drop-char { opacity: 1 !important; transform: none !important; animation: none !important; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/letter-drop",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The text is read once from a visually hidden copy; the falling letters are aria-hidden.",
+      "Words never break mid-word while animating.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the text in place."
+    ]
+  }
+}

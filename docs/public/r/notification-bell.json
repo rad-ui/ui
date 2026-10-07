@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notification-bell",
+  "type": "registry:component",
+  "title": "NotificationBell",
+  "description": "A bell that rings and pops its badge when the unread count goes up.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/notification-bell.tsx",
+      "type": "registry:component",
+      "target": "components/fx/notification-bell.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './notification-bell.css'\n\nexport type NotificationBellProps = Omit<React.ComponentPropsWithoutRef<'button'>, 'children'> & {\n    /** Unread count. The bell rings and the badge pops when it goes up. */\n    count: number\n    /** Builds the accessible name from the count. */\n    getLabel?: (count: number) => string\n}\n\nconst defaultLabel = (count: number) => (count === 0 ? 'Notifications' : `Notifications, ${count} unread`)\n\n// The count lives in the button's accessible name, so it is read on focus\n// without interrupting anyone with live announcements on every increment.\nconst NotificationBell = ({ count, getLabel = defaultLabel, className, ...props }: NotificationBellProps) => {\n    const ref = React.useRef<HTMLButtonElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const previous = React.useRef(count)\n    const [ringId, setRingId] = React.useState(0)\n\n    React.useEffect(() => {\n        if (count > previous.current && !reduced) setRingId((id) => id + 1)\n        previous.current = count\n    }, [count, reduced])\n\n    return <button ref={ref} type=\"button\" aria-label={getLabel(count)} className={['rad-fx-bell', className].filter(Boolean).join(' ')} {...props}>\n        <svg key={`bell-${ringId}`} className=\"rad-fx-bell-icon\" data-ring={ringId > 0 ? '' : undefined} viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\">\n            <path d=\"M6 16 V11 a6 6 0 0 1 12 0 V16 l1.5 2 h-15 Z\" />\n            <path d=\"M10 20.5 a2 2 0 0 0 4 0\" />\n        </svg>\n        {count > 0 ? <span key={`badge-${ringId}`} className=\"rad-fx-bell-badge\" aria-hidden=\"true\">{count > 99 ? '99+' : count}</span> : null}\n    </button>\n}\n\nexport default NotificationBell\n"
+    },
+    {
+      "path": "registry/fx/notification-bell.css",
+      "type": "registry:file",
+      "target": "components/fx/notification-bell.css",
+      "content": ".rad-fx-bell {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 44px;\n    height: 44px;\n    padding: 0;\n    border: 1px solid rgba(127, 127, 127, 0.45);\n    border-radius: 12px;\n    background: transparent;\n    color: inherit;\n    cursor: pointer;\n}\n\n.rad-fx-bell:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }\n\n.rad-fx-bell-icon {\n    width: 22px;\n    height: 22px;\n    fill: none;\n    stroke: currentColor;\n    stroke-width: 1.8;\n    stroke-linejoin: round;\n    transform-origin: 50% 10%;\n}\n\n.rad-fx-bell-icon[data-ring] { animation: rad-fx-bell-ring 800ms ease; }\n\n.rad-fx-bell-badge {\n    position: absolute;\n    top: -6px;\n    right: -6px;\n    min-width: 20px;\n    height: 20px;\n    padding: 0 5px;\n    border-radius: 999px;\n    background: #e11d48;\n    color: #fff;\n    font-size: 11px;\n    font-weight: 700;\n    line-height: 20px;\n    text-align: center;\n    animation: rad-fx-bell-pop 450ms cubic-bezier(0.3, 1.8, 0.5, 1);\n}\n\n@keyframes rad-fx-bell-ring {\n    0%, 100% { transform: rotate(0); }\n    15% { transform: rotate(16deg); }\n    30% { transform: rotate(-14deg); }\n    45% { transform: rotate(10deg); }\n    60% { transform: rotate(-6deg); }\n    75% { transform: rotate(3deg); }\n}\n\n@keyframes rad-fx-bell-pop {\n    from { transform: scale(0.4); }\n    to { transform: scale(1); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-bell-icon[data-ring], .rad-fx-bell-badge { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-bell-icon[data-ring],\n[data-rad-fx-motion='reduce'] .rad-fx-bell-badge { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/notification-bell",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The count is in the button's accessible name (\"Notifications, 3 unread\"), read on focus without live interruptions.",
+      "The badge number is aria-hidden to avoid reading it twice.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) updates the badge without ringing."
+    ]
+  }
+}

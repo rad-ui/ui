@@ -1,0 +1,66 @@
+.rad-fx-bell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgb(127, 127, 127, 0.45);
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.rad-fx-bell:focus-visible { outline: 2px solid currentcolor; outline-offset: 2px; }
+
+.rad-fx-bell-icon {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.8;
+    stroke-linejoin: round;
+    transform-origin: 50% 10%;
+}
+
+.rad-fx-bell-icon[data-ring] { animation: rad-fx-bell-ring 800ms ease; }
+
+.rad-fx-bell-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #e11d48;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    animation: rad-fx-bell-pop 450ms cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+
+@keyframes rad-fx-bell-ring {
+    0%, 100% { transform: rotate(0); }
+    15% { transform: rotate(16deg); }
+    30% { transform: rotate(-14deg); }
+    45% { transform: rotate(10deg); }
+    60% { transform: rotate(-6deg); }
+    75% { transform: rotate(3deg); }
+}
+
+@keyframes rad-fx-bell-pop {
+    from { transform: scale(0.4); }
+    to { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-bell-icon[data-ring], .rad-fx-bell-badge { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-bell-icon[data-ring],
+[data-rad-fx-motion='reduce'] .rad-fx-bell-badge { animation: none; }

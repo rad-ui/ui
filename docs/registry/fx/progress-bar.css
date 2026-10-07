@@ -1,0 +1,59 @@
+.rad-fx-bar { width: 100%; }
+
+.rad-fx-bar-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.rad-fx-bar-track {
+    position: relative;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(127, 127, 127, 0.25);
+}
+
+.rad-fx-bar-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        linear-gradient(100deg, transparent 30%, rgb(255, 255, 255, 0.35) 50%, transparent 70%) 0 0 / 200% 100%,
+        var(--rad-fx-bar-color, #a78bfa);
+    transform-origin: 0 50%;
+    transition: transform 500ms cubic-bezier(0.3, 0.7, 0.2, 1);
+    animation: rad-fx-bar-sheen 1.8s linear infinite;
+}
+
+.rad-fx-bar-track[data-state='indeterminate'] .rad-fx-bar-fill {
+    right: auto;
+    width: 35%;
+    animation: rad-fx-bar-slide 1.3s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+}
+
+@keyframes rad-fx-bar-sheen {
+    from { background-position: 150% 0, 0 0; }
+    to { background-position: -50% 0, 0 0; }
+}
+
+@keyframes rad-fx-bar-slide {
+    from { transform: translateX(-110%); }
+    to { transform: translateX(310%); }
+}
+
+/* Reduced motion: no sheen; an indeterminate bar pulses in place instead of sliding. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-bar-fill { animation: none; transition: none; }
+    .rad-fx-bar-track[data-state='indeterminate'] .rad-fx-bar-fill { width: 100%; animation: rad-fx-bar-pulse 2s ease-in-out infinite; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-bar-fill { animation: none; transition: none; }
+[data-rad-fx-motion='reduce'] .rad-fx-bar-track[data-state='indeterminate'] .rad-fx-bar-fill { width: 100%; animation: rad-fx-bar-pulse 2s ease-in-out infinite; }
+
+@keyframes rad-fx-bar-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+}

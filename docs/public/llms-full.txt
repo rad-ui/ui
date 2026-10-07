@@ -152,6 +152,10 @@ export default function App() {
 - ExtrudedText: https://www.rad-ui.com/fx/extruded-text
 - CircularText: https://www.rad-ui.com/fx/circular-text
 - NeonText: https://www.rad-ui.com/fx/neon-text
+- WipeReveal: https://www.rad-ui.com/fx/wipe-reveal
+- LetterDrop: https://www.rad-ui.com/fx/letter-drop
+- StrikeSwap: https://www.rad-ui.com/fx/strike-swap
+- FillText: https://www.rad-ui.com/fx/fill-text
 - AuroraBackdrop: https://www.rad-ui.com/fx/aurora-backdrop
 - GridBackdrop: https://www.rad-ui.com/fx/grid-backdrop
 - DotField: https://www.rad-ui.com/fx/dot-field
@@ -162,6 +166,10 @@ export default function App() {
 - LightBeams: https://www.rad-ui.com/fx/light-beams
 - BubbleField: https://www.rad-ui.com/fx/bubble-field
 - PulseRings: https://www.rad-ui.com/fx/pulse-rings
+- LavaLamp: https://www.rad-ui.com/fx/lava-lamp
+- Fireflies: https://www.rad-ui.com/fx/fireflies
+- CrtOverlay: https://www.rad-ui.com/fx/crt-overlay
+- HaloGlow: https://www.rad-ui.com/fx/halo-glow
 - GlowCard: https://www.rad-ui.com/fx/glow-card
 - PerspectiveCard: https://www.rad-ui.com/fx/perspective-card
 - Magnetic: https://www.rad-ui.com/fx/magnetic
@@ -173,6 +181,10 @@ export default function App() {
 - PointerParallax: https://www.rad-ui.com/fx/pointer-parallax
 - FlipCard: https://www.rad-ui.com/fx/flip-card
 - StaggerList: https://www.rad-ui.com/fx/stagger-list
+- Flashlight: https://www.rad-ui.com/fx/flashlight
+- ExpandStrip: https://www.rad-ui.com/fx/expand-strip
+- CompareSlider: https://www.rad-ui.com/fx/compare-slider
+- CopyButton: https://www.rad-ui.com/fx/copy-button
 - OrbitBorder: https://www.rad-ui.com/fx/orbit-border
 - Marquee: https://www.rad-ui.com/fx/marquee
 - SlidingTabs: https://www.rad-ui.com/fx/sliding-tabs
@@ -181,10 +193,18 @@ export default function App() {
 - Dock: https://www.rad-ui.com/fx/dock
 - ToggleSwitch: https://www.rad-ui.com/fx/toggle-switch
 - CardStack: https://www.rad-ui.com/fx/card-stack
+- ExpandSearch: https://www.rad-ui.com/fx/expand-search
+- Stepper: https://www.rad-ui.com/fx/stepper
+- NotificationBell: https://www.rad-ui.com/fx/notification-bell
+- SmoothDetails: https://www.rad-ui.com/fx/smooth-details
 - ProgressRing: https://www.rad-ui.com/fx/progress-ring
 - Skeleton: https://www.rad-ui.com/fx/skeleton
 - TypingIndicator: https://www.rad-ui.com/fx/typing-indicator
 - Loader: https://www.rad-ui.com/fx/loader
+- ToastStack: https://www.rad-ui.com/fx/toast-stack
+- SuccessCheck: https://www.rad-ui.com/fx/success-check
+- ProgressBar: https://www.rad-ui.com/fx/progress-bar
+- StrengthMeter: https://www.rad-ui.com/fx/strength-meter
 
 ## Useful Agent Notes
 - Prefer per-component imports such as @radui/ui/Dialog, @radui/ui/Select, and @radui/ui/Button.

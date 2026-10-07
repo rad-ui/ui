@@ -1,0 +1,37 @@
+.rad-fx-crt {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-crt-screen {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(to bottom, rgb(0, 0, 0, var(--rad-fx-crt-intensity, 0.35)) 0 1px, transparent 1px 3px),
+        radial-gradient(ellipse at center, transparent 55%, rgb(0, 0, 0, 0.55) 100%);
+}
+
+.rad-fx-crt[data-roll] .rad-fx-crt-screen::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 30%;
+    top: -30%;
+    background: linear-gradient(to bottom, transparent, rgb(255, 255, 255, 0.06), transparent);
+    animation: rad-fx-crt-roll 6s linear infinite;
+}
+
+.rad-fx-crt[data-state='paused'] .rad-fx-crt-screen::after { animation-play-state: paused; }
+
+@keyframes rad-fx-crt-roll {
+    to { top: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-crt-screen::after { animation: none !important; display: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-crt-screen::after { animation: none !important; display: none; }
