@@ -1,5 +1,11 @@
 # @radui/ui
 
+## 1.1.1
+
+### Patch Changes
+
+- d0b3237: Document Separator keyboard and ARIA accessibility references.
+
 ## 1.1.0
 
 ### Minor Changes
