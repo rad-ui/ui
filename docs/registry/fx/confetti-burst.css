@@ -1,0 +1,32 @@
+.rad-fx-confetti {
+    position: relative;
+    display: inline-block;
+}
+
+.rad-fx-confetti-origin {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.rad-fx-confetti-piece {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 1px;
+    opacity: 0;
+    animation: rad-fx-confetti 1.1s cubic-bezier(0.15, 0.6, 0.35, 1) forwards;
+}
+
+.rad-fx-confetti-piece[data-shape='strip'] { width: 4px; height: 10px; }
+
+/* Out along the launch vector, then gravity pulls each piece down as it fades. */
+@keyframes rad-fx-confetti {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+    55% { opacity: 1; transform: translate(var(--rad-fx-confetti-dx), var(--rad-fx-confetti-dy)) rotate(calc(var(--rad-fx-confetti-rotate) * 0.6)); }
+    100% { opacity: 0; transform: translate(calc(var(--rad-fx-confetti-dx) * 1.15), calc(var(--rad-fx-confetti-dy) + 90px)) rotate(var(--rad-fx-confetti-rotate)); }
+}

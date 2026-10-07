@@ -157,14 +157,34 @@ export default function App() {
 - DotField: https://www.rad-ui.com/fx/dot-field
 - Starfield: https://www.rad-ui.com/fx/starfield
 - MeteorShower: https://www.rad-ui.com/fx/meteor-shower
+- NoiseGrain: https://www.rad-ui.com/fx/noise-grain
+- WaveLines: https://www.rad-ui.com/fx/wave-lines
+- LightBeams: https://www.rad-ui.com/fx/light-beams
+- BubbleField: https://www.rad-ui.com/fx/bubble-field
+- PulseRings: https://www.rad-ui.com/fx/pulse-rings
 - GlowCard: https://www.rad-ui.com/fx/glow-card
 - PerspectiveCard: https://www.rad-ui.com/fx/perspective-card
 - Magnetic: https://www.rad-ui.com/fx/magnetic
 - ClickBurst: https://www.rad-ui.com/fx/click-burst
 - RevealOnScroll: https://www.rad-ui.com/fx/reveal-on-scroll
+- Shine: https://www.rad-ui.com/fx/shine
+- PressRipple: https://www.rad-ui.com/fx/press-ripple
+- ConfettiBurst: https://www.rad-ui.com/fx/confetti-burst
+- PointerParallax: https://www.rad-ui.com/fx/pointer-parallax
+- FlipCard: https://www.rad-ui.com/fx/flip-card
+- StaggerList: https://www.rad-ui.com/fx/stagger-list
 - OrbitBorder: https://www.rad-ui.com/fx/orbit-border
 - Marquee: https://www.rad-ui.com/fx/marquee
 - SlidingTabs: https://www.rad-ui.com/fx/sliding-tabs
+- DrawCheckbox: https://www.rad-ui.com/fx/draw-checkbox
+- Odometer: https://www.rad-ui.com/fx/odometer
+- Dock: https://www.rad-ui.com/fx/dock
+- ToggleSwitch: https://www.rad-ui.com/fx/toggle-switch
+- CardStack: https://www.rad-ui.com/fx/card-stack
+- ProgressRing: https://www.rad-ui.com/fx/progress-ring
+- Skeleton: https://www.rad-ui.com/fx/skeleton
+- TypingIndicator: https://www.rad-ui.com/fx/typing-indicator
+- Loader: https://www.rad-ui.com/fx/loader
 
 ## Useful Agent Notes
 - Prefer per-component imports such as @radui/ui/Dialog, @radui/ui/Select, and @radui/ui/Button.

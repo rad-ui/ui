@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "light-beams",
+  "type": "registry:component",
+  "title": "LightBeams",
+  "description": "Stage lights shining down from the top edge, gently swaying.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/light-beams.tsx",
+      "type": "registry:component",
+      "target": "components/fx/light-beams.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './light-beams.css'\n\nexport type LightBeamsProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Number of beams. */\n    count?: number\n    /** Beam colour. */\n    color?: string\n    /** Seconds per sway. */\n    speed?: number\n    paused?: boolean\n}\n\nconst LightBeams = ({ count = 5, color = 'rgba(167, 139, 250, 0.5)', speed = 8, paused = false, className, style, children, ...props }: LightBeamsProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-beams', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-beam-color': color, '--rad-fx-beam-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-beams-rig\" aria-hidden=\"true\">\n            {Array.from({ length: count }, (_, i) => {\n                const position = count === 1 ? 50 : 10 + (80 / (count - 1)) * i\n                return <span\n                    key={i}\n                    className=\"rad-fx-beam\"\n                    style={{ left: `${position}%`, '--rad-fx-beam-tilt': `${(position - 50) * 0.5}deg`, animationDelay: `${-i * 1.3}s` } as React.CSSProperties}\n                />\n            })}\n        </div>\n        <div className=\"rad-fx-beams-content\">{children}</div>\n    </div>\n}\n\nexport default LightBeams\n"
+    },
+    {
+      "path": "registry/fx/light-beams.css",
+      "type": "registry:file",
+      "target": "components/fx/light-beams.css",
+      "content": "/* LightBeams: stage lights shining down from the top edge, gently swaying. */\n.rad-fx-beams {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-beams-rig {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n    filter: blur(6px);\n}\n\n.rad-fx-beam {\n    position: absolute;\n    top: -10%;\n    width: 9%;\n    height: 130%;\n    margin-left: -4.5%;\n    transform-origin: 50% 0;\n    background: linear-gradient(to bottom, var(--rad-fx-beam-color), transparent 85%);\n    clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);\n    animation: rad-fx-beam-sway var(--rad-fx-beam-speed, 8s) ease-in-out infinite alternate;\n}\n\n.rad-fx-beams[data-state='paused'] .rad-fx-beam { animation-play-state: paused; }\n\n.rad-fx-beams-content { position: relative; }\n\n@keyframes rad-fx-beam-sway {\n    from { transform: rotate(calc(var(--rad-fx-beam-tilt, 0deg) - 8deg)); opacity: 0.6; }\n    to { transform: rotate(calc(var(--rad-fx-beam-tilt, 0deg) + 8deg)); opacity: 1; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-beam { animation: none; transform: rotate(var(--rad-fx-beam-tilt, 0deg)); }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-beam { animation: none; transform: rotate(var(--rad-fx-beam-tilt, 0deg)); }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/light-beams",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks each beam at its resting angle."
+    ]
+  }
+}

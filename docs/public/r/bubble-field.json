@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bubble-field",
+  "type": "registry:component",
+  "title": "BubbleField",
+  "description": "Soft bubbles rising and drifting, seeded so server and client match.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/bubble-field.tsx",
+      "type": "registry:component",
+      "target": "components/fx/bubble-field.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './bubble-field.css'\n\nexport type BubbleFieldProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Number of bubbles. */\n    count?: number\n    /** Bubble colours. */\n    colors?: string[]\n    seed?: number\n    paused?: boolean\n}\n\n// Seeded so server and client draw the same bubbles.\nconst mulberry32 = (seed: number) => () => {\n    seed |= 0\n    seed = (seed + 0x6d2b79f5) | 0\n    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)\n    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t\n    return ((t ^ (t >>> 14)) >>> 0) / 4294967296\n}\n\nconst DEFAULT_COLORS = ['rgba(56, 189, 248, 0.35)', 'rgba(167, 139, 250, 0.35)', 'rgba(244, 114, 182, 0.3)']\n\nconst BubbleField = ({ count = 22, colors = DEFAULT_COLORS, seed = 11, paused = false, className, style, children, ...props }: BubbleFieldProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    const bubbles = React.useMemo(() => {\n        const random = mulberry32(seed)\n        return Array.from({ length: count }, (_, i) => ({\n            left: `${(random() * 100).toFixed(2)}%`,\n            size: `${(random() * 46 + 10).toFixed(0)}px`,\n            delay: `${(random() * -14).toFixed(2)}s`,\n            duration: `${(random() * 8 + 9).toFixed(2)}s`,\n            drift: `${(random() * 60 - 30).toFixed(0)}px`,\n            rest: `${(random() * 80 + 5).toFixed(0)}%`,\n            color: colors[i % colors.length]\n        }))\n    }, [count, seed, colors])\n\n    return <div\n        ref={ref}\n        className={['rad-fx-bubbles', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={style}\n        {...props}\n    >\n        <div className=\"rad-fx-bubbles-tank\" aria-hidden=\"true\">\n            {bubbles.map((bubble, i) => (\n                <span\n                    key={i}\n                    className=\"rad-fx-bubble\"\n                    style={{\n                        left: bubble.left,\n                        width: bubble.size,\n                        height: bubble.size,\n                        animationDelay: bubble.delay,\n                        animationDuration: bubble.duration,\n                        '--rad-fx-bubble-drift': bubble.drift,\n                        '--rad-fx-bubble-color': bubble.color,\n                        '--rad-fx-bubble-rest': bubble.rest\n                    } as React.CSSProperties}\n                />\n            ))}\n        </div>\n        <div className=\"rad-fx-bubbles-content\">{children}</div>\n    </div>\n}\n\nexport default BubbleField\n"
+    },
+    {
+      "path": "registry/fx/bubble-field.css",
+      "type": "registry:file",
+      "target": "components/fx/bubble-field.css",
+      "content": ".rad-fx-bubbles {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-bubbles-tank {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-bubble {\n    position: absolute;\n    bottom: -15%;\n    border-radius: 50%;\n    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), var(--rad-fx-bubble-color) 45%, transparent 72%);\n    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.15);\n    animation: rad-fx-bubble-rise 12s linear infinite;\n}\n\n.rad-fx-bubbles[data-state='paused'] .rad-fx-bubble { animation-play-state: paused; }\n\n.rad-fx-bubbles-content { position: relative; }\n\n@keyframes rad-fx-bubble-rise {\n    0% { bottom: -15%; transform: translateX(0); opacity: 0; }\n    10% { opacity: 1; }\n    90% { opacity: 1; }\n    100% { bottom: 110%; transform: translateX(var(--rad-fx-bubble-drift, 0px)); opacity: 0; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    /* Each bubble rests at its own height, so the still scene looks scattered, not lined up. */\n    .rad-fx-bubble { animation: none; opacity: 0.6; bottom: var(--rad-fx-bubble-rest, 40%); }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-bubble { animation: none; opacity: 0.6; bottom: var(--rad-fx-bubble-rest, 40%); }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/bubble-field",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) scatters the bubbles at rest."
+    ]
+  }
+}

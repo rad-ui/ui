@@ -6,7 +6,8 @@ const CATEGORY_TITLES: Record<string, string> = {
     text: 'Text',
     backgrounds: 'Backgrounds',
     interactions: 'Interactions',
-    components: 'Components'
+    components: 'Components',
+    feedback: 'Feedback'
 }
 
 export const fxComponents = registry.items.filter((item) => item.type === 'registry:component')

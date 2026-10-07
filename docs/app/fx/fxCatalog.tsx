@@ -10,6 +10,7 @@ import { WaveTextDemo, WaveTextHoverDemo, GlitchTextDemo, MarkerHighlightDemo, I
 import { GridBackdropDemo, DotFieldDemo, StarfieldDemo, MeteorShowerDemo, PausableStarfieldDemo } from './demos/backgrounds'
 import { GlowCardDemo, PerspectiveCardDemo, MagneticDemo, ClickBurstDemo, RevealOnScrollDemo } from './demos/interactions'
 import { OrbitBorderDemo, MarqueeDemo, SlidingTabsDemo } from './demos/components'
+import { NoiseGrainDemo, WaveLinesDemo, LightBeamsDemo, BubbleFieldDemo, PulseRingsDemo, ShineDemo, PressRippleDemo, ConfettiBurstDemo, PointerParallaxDemo, FlipCardDemo, StaggerListDemo, DrawCheckboxDemo, OdometerDemo, DockDemo, ToggleSwitchDemo, CardStackDemo, ProgressRingDemo, SkeletonDemo, TypingIndicatorDemo, LoaderDemo } from './demos/collection-3'
 
 // Docs-only data per FX: demos, a usage snippet and the props table. Titles,
 // descriptions and accessibility contracts live in registry/registry.json.
@@ -445,6 +446,243 @@ export const fxCatalog: Record<string, FxDocs> = {
             ['defaultValue', 'string', 'first tab', 'Initially selected tab.'],
             ['value', 'string', '—', 'Controlled selected tab.'],
             ['onValueChange', '(value: string) => void', '—', 'Called when the selection changes.']
+        ]
+    },
+    'noise-grain': {
+        demos: [{ Demo: NoiseGrainDemo, replayable: false }],
+        usage: `import NoiseGrain from "@/components/fx/noise-grain"
+
+<NoiseGrain opacity={0.18} className="rounded-2xl bg-violet-950 p-16">…</NoiseGrain>`,
+        props: backdropProps([
+            ['opacity', 'number', '0.14', 'Grain opacity, 0–1.'],
+            ['animated', 'boolean', 'true', 'Let the grain shimmer.']
+        ])
+    },
+    'wave-lines': {
+        demos: [{ Demo: WaveLinesDemo, replayable: false }],
+        usage: `import WaveLines from "@/components/fx/wave-lines"
+
+<WaveLines className="px-8 py-24"><h2>Ride the wave</h2></WaveLines>`,
+        props: backdropProps([
+            ['colors', 'string[]', 'indigo, purple, cyan', 'One colour per wave, back to front.'],
+            ['speed', 'number', '14', 'Seconds for the front wave to drift one width.']
+        ])
+    },
+    'light-beams': {
+        demos: [{ Demo: LightBeamsDemo, replayable: false }],
+        usage: `import LightBeams from "@/components/fx/light-beams"
+
+<LightBeams className="px-8 py-24"><h2>Center stage</h2></LightBeams>`,
+        props: backdropProps([
+            ['count', 'number', '5', 'Number of beams.'],
+            ['color', 'string', 'violet, 50%', 'Beam colour.'],
+            ['speed', 'number', '8', 'Seconds per sway.']
+        ])
+    },
+    'bubble-field': {
+        demos: [{ Demo: BubbleFieldDemo, replayable: false }],
+        usage: `import BubbleField from "@/components/fx/bubble-field"
+
+<BubbleField className="px-8 py-24"><h2>Fizz</h2></BubbleField>`,
+        props: backdropProps([
+            ['count', 'number', '22', 'Number of bubbles.'],
+            ['colors', 'string[]', 'sky, violet, pink', 'Bubble colours.'],
+            ['seed', 'number', '11', 'Change for a different, stable layout.']
+        ])
+    },
+    'pulse-rings': {
+        demos: [{ Demo: PulseRingsDemo, replayable: false }],
+        usage: `import PulseRings from "@/components/fx/pulse-rings"
+
+<PulseRings><Avatar … /></PulseRings>`,
+        props: [
+            ['children', 'ReactNode', '—', 'Centre content.'],
+            ['color', 'string', 'emerald, 60%', 'Ring colour.'],
+            ['rings', 'number', '3', 'Rings in flight.'],
+            ['duration', 'number', '2.8', 'Seconds per ring.'],
+            ['size', 'number', '72', 'Starting diameter in px.'],
+            ['paused', 'boolean', 'false', 'Stop pulsing.']
+        ]
+    },
+    'shine': {
+        demos: [{ Demo: ShineDemo, replayable: false }],
+        usage: `import Shine from "@/components/fx/shine"
+
+<Shine><button>Upgrade to Pro</button></Shine>`,
+        props: [
+            ['children', 'ReactNode', '—', 'Usually a button, link or card.'],
+            ['radius', 'number | string', '8', 'Corner radius to match the child.'],
+            ['color', 'string', 'white, 35%', 'Colour of the light band.']
+        ]
+    },
+    'press-ripple': {
+        demos: [{ Demo: PressRippleDemo, replayable: false }],
+        usage: `import PressRipple from "@/components/fx/press-ripple"
+
+<PressRipple><button>Press me</button></PressRipple>`,
+        props: [
+            ['children', 'ReactNode', '—', 'Usually a button.'],
+            ['color', 'string', 'white, 35%', 'Ripple colour.'],
+            ['radius', 'number | string', '8', 'Corner radius to clip to.']
+        ]
+    },
+    'confetti-burst': {
+        demos: [{ Demo: ConfettiBurstDemo, replayable: false }],
+        usage: `import ConfettiBurst from "@/components/fx/confetti-burst"
+
+<ConfettiBurst><button onClick={ship}>Ship it</button></ConfettiBurst>`,
+        props: [
+            ['children', 'ReactNode', '—', 'Usually a button.'],
+            ['pieces', 'number', '28', 'Pieces per burst.'],
+            ['colors', 'string[]', 'pink, sky, yellow, violet, green', 'Confetti colours.']
+        ]
+    },
+    'pointer-parallax': {
+        demos: [{ Demo: PointerParallaxDemo, replayable: false }],
+        usage: `import PointerParallax from "@/components/fx/pointer-parallax"
+
+<PointerParallax strength={28}>
+    <PointerParallax.Layer depth={-0.4}>…</PointerParallax.Layer>
+    <PointerParallax.Layer depth={0.8}>…</PointerParallax.Layer>
+</PointerParallax>`,
+        props: [
+            ['strength', 'number', '24', 'Max shift in px for depth 1.'],
+            ['Layer depth', 'number', '0.5', 'How far a layer moves; negative moves the other way.']
+        ]
+    },
+    'flip-card': {
+        demos: [{ Demo: FlipCardDemo, replayable: false }],
+        usage: `import FlipCard from "@/components/fx/flip-card"
+
+<FlipCard front={<Front />} back={<Back />} />`,
+        props: [
+            ['front', 'ReactNode', '—', 'Front face.'],
+            ['back', 'ReactNode', '—', 'Back face.'],
+            ['flipLabel', '{ toBack, toFront }', "'Show back' / 'Show front'", 'Flip button labels.'],
+            ['flipped', 'boolean', '—', 'Controlled state.'],
+            ['defaultFlipped', 'boolean', 'false', 'Initial state.'],
+            ['onFlippedChange', '(flipped: boolean) => void', '—', 'Called on flip.']
+        ]
+    },
+    'stagger-list': {
+        demos: [{ Demo: StaggerListDemo }],
+        usage: `import StaggerList from "@/components/fx/stagger-list"
+
+<StaggerList>
+    {items.map((item) => <li key={item.id}>{item.name}</li>)}
+</StaggerList>`,
+        props: [
+            ['children', 'ReactNode', '—', 'List items, usually <li>.'],
+            ['as', "'ul' | 'ol' | 'div'", "'ul'", 'List element.'],
+            ['stagger', 'number', '70', 'Milliseconds between items.'],
+            ['duration', 'number', '500', 'Milliseconds per item.']
+        ]
+    },
+    'draw-checkbox': {
+        demos: [{ Demo: DrawCheckboxDemo, replayable: false }],
+        usage: `import DrawCheckbox from "@/components/fx/draw-checkbox"
+
+<DrawCheckbox label="Respect reduced motion" name="motion" defaultChecked />`,
+        props: [
+            ['label', 'ReactNode', '—', 'Visible label.'],
+            ['...props', "ComponentProps<'input'>", '—', 'Any checkbox input prop: checked, onChange, name, disabled…']
+        ]
+    },
+    'odometer': {
+        demos: [{ Demo: OdometerDemo, replayable: false }],
+        usage: `import Odometer from "@/components/fx/odometer"
+
+<Odometer value={followers} />`,
+        props: [
+            ['value', 'number', '—', 'The number.'],
+            ['format', 'Intl.NumberFormatOptions', '—', 'Number formatting.'],
+            ['locale', 'string', "'en-US'", 'Locale for formatting.'],
+            ['live', 'boolean', 'false', 'Announce changes politely.']
+        ]
+    },
+    'dock': {
+        demos: [{ Demo: DockDemo, replayable: false }],
+        usage: `import Dock from "@/components/fx/dock"
+
+<Dock label="Apps" items={[
+    { label: "Home", icon: <Home />, onSelect: goHome },
+    { label: "Search", icon: <Search />, onSelect: openSearch }
+]} />`,
+        props: [
+            ['items', '{ label, icon, onSelect? }[]', '—', 'Toolbar items.'],
+            ['label', 'string', "'Dock'", 'Accessible name for the toolbar.'],
+            ['magnification', 'number', '0.6', 'Extra scale under the pointer.']
+        ]
+    },
+    'toggle-switch': {
+        demos: [{ Demo: ToggleSwitchDemo, replayable: false }],
+        usage: `import ToggleSwitch from "@/components/fx/toggle-switch"
+
+<ToggleSwitch label="Haptic feedback" checked={on} onCheckedChange={setOn} />`,
+        props: [
+            ['label', 'ReactNode', '—', 'Visible label and accessible name.'],
+            ['checked', 'boolean', '—', 'Controlled state.'],
+            ['defaultChecked', 'boolean', 'false', 'Initial state.'],
+            ['onCheckedChange', '(checked: boolean) => void', '—', 'Called on toggle.']
+        ]
+    },
+    'card-stack': {
+        demos: [{ Demo: CardStackDemo, replayable: false }],
+        usage: `import CardStack from "@/components/fx/card-stack"
+
+<CardStack label="Release notes" cards={notes.map((note) => <Note key={note.id} {...note} />)} />`,
+        props: [
+            ['cards', 'ReactNode[]', '—', 'Cards, front to back.'],
+            ['label', 'string', '—', 'Accessible name for the stack.'],
+            ['visibleBehind', 'number', '2', 'Cards peeking out behind the front.']
+        ]
+    },
+    'progress-ring': {
+        demos: [{ Demo: ProgressRingDemo, replayable: false }],
+        usage: `import ProgressRing from "@/components/fx/progress-ring"
+
+<ProgressRing value={progress} label="Uploading report.pdf" />
+<ProgressRing label="Connecting" />  {/* indeterminate */}`,
+        props: [
+            ['value', 'number', '—', '0–100; omit for indeterminate.'],
+            ['label', 'string', '—', 'Accessible name.'],
+            ['size', 'number', '96', 'Diameter in px.'],
+            ['thickness', 'number', '8', 'Ring thickness in px.'],
+            ['showValue', 'boolean', 'true', 'Show the percentage.'],
+            ['color', 'string', "'#a78bfa'", 'Ring colour.']
+        ]
+    },
+    'skeleton': {
+        demos: [{ Demo: SkeletonDemo, replayable: false }],
+        usage: `import Skeleton from "@/components/fx/skeleton"
+
+{loading ? <Skeleton label="Loading profile" avatar /> : <Profile />}`,
+        props: [
+            ['label', 'string', "'Loading'", 'Announced to screen readers.'],
+            ['avatar', 'boolean', 'false', 'Show an avatar circle.'],
+            ['lines', 'number', '3', 'Number of text lines.']
+        ]
+    },
+    'typing-indicator': {
+        demos: [{ Demo: TypingIndicatorDemo, replayable: false }],
+        usage: `import TypingIndicator from "@/components/fx/typing-indicator"
+
+<TypingIndicator label="Ada is typing" />`,
+        props: [
+            ['label', 'string', "'Typing'", 'Announced to screen readers.'],
+            ['color', 'string', 'currentColor', 'Dot colour.']
+        ]
+    },
+    'loader': {
+        demos: [{ Demo: LoaderDemo, replayable: false }],
+        usage: `import Loader from "@/components/fx/loader"
+
+<Loader variant="bars" label="Loading audio" />`,
+        props: [
+            ['variant', "'dots' | 'bars' | 'orbit'", "'dots'", 'Style.'],
+            ['label', 'string', "'Loading'", 'Announced to screen readers.'],
+            ['size', 'number', '32', 'Size in px.'],
+            ['color', 'string', 'currentColor', 'Colour.']
         ]
     }
 }

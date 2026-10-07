@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "press-ripple",
+  "type": "registry:component",
+  "title": "PressRipple",
+  "description": "A ripple that spreads from exactly where a button is pressed.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/press-ripple.tsx",
+      "type": "registry:component",
+      "target": "components/fx/press-ripple.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './press-ripple.css'\n\nexport type PressRippleProps = {\n    /** Usually a button. Presses still reach it as normal. */\n    children: React.ReactNode\n    color?: string\n    /** Corner radius to clip the ripple to the child's shape. */\n    radius?: number | string\n    className?: string\n}\n\ntype Ripple = { id: number, x: number, y: number, size: number }\n\nconst PressRipple = ({ children, color = 'rgba(255, 255, 255, 0.35)', radius = 8, className }: PressRippleProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const [ripples, setRipples] = React.useState<Ripple[]>([])\n    const nextId = React.useRef(0)\n\n    const spawn = (x: number, y: number, rect: DOMRect) => {\n        if (reduced) return\n        const size = Math.hypot(Math.max(x, rect.width - x), Math.max(y, rect.height - y)) * 2\n        const id = nextId.current++\n        setRipples((current) => [...current, { id, x, y, size }])\n    }\n\n    const handlePointerDown = (event: React.PointerEvent<HTMLSpanElement>) => {\n        const rect = event.currentTarget.getBoundingClientRect()\n        spawn(event.clientX - rect.left, event.clientY - rect.top, rect)\n    }\n\n    // Keyboard presses ripple from the centre.\n    const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {\n        if (event.key !== 'Enter' && event.key !== ' ') return\n        const rect = event.currentTarget.getBoundingClientRect()\n        spawn(rect.width / 2, rect.height / 2, rect)\n    }\n\n    return <span\n        ref={ref}\n        className={['rad-fx-ripple', className].filter(Boolean).join(' ')}\n        style={{ borderRadius: radius, '--rad-fx-ripple-color': color } as React.CSSProperties}\n        onPointerDown={handlePointerDown}\n        onKeyDown={handleKeyDown}\n    >\n        {children}\n        {ripples.map((ripple) => (\n            <span\n                key={ripple.id}\n                className=\"rad-fx-ripple-wave\"\n                aria-hidden=\"true\"\n                style={{ left: ripple.x - ripple.size / 2, top: ripple.y - ripple.size / 2, width: ripple.size, height: ripple.size }}\n                onAnimationEnd={() => setRipples((current) => current.filter((r) => r.id !== ripple.id))}\n            />\n        ))}\n    </span>\n}\n\nexport default PressRipple\n"
+    },
+    {
+      "path": "registry/fx/press-ripple.css",
+      "type": "registry:file",
+      "target": "components/fx/press-ripple.css",
+      "content": ".rad-fx-ripple {\n    position: relative;\n    display: inline-flex;\n    overflow: hidden;\n    isolation: isolate;\n}\n\n.rad-fx-ripple-wave {\n    position: absolute;\n    border-radius: 50%;\n    pointer-events: none;\n    background: var(--rad-fx-ripple-color);\n    transform: scale(0);\n    animation: rad-fx-ripple 600ms cubic-bezier(0.2, 0.6, 0.3, 1) forwards;\n}\n\n@keyframes rad-fx-ripple {\n    to { transform: scale(1); opacity: 0; }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/press-ripple",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Ripples are aria-hidden and removed after their animation.",
+      "Enter and Space ripple from the centre, so keyboard presses get feedback too.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows no ripple."
+    ]
+  }
+}

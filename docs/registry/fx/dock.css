@@ -1,0 +1,66 @@
+.rad-fx-dock {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgb(255, 255, 255, 0.12);
+    border-radius: 20px;
+    background: rgb(24, 24, 32, 0.6);
+    backdrop-filter: blur(14px);
+}
+
+.rad-fx-dock-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 1px solid rgb(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: linear-gradient(160deg, rgb(255, 255, 255, 0.14), rgb(255, 255, 255, 0.04));
+    color: #f4f4f5;
+    cursor: pointer;
+    transform-origin: 50% 100%;
+    transform: scale(var(--rad-fx-dock-scale, 1));
+    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rad-fx-dock-item:focus-visible {
+    --rad-fx-dock-scale: 1.35;
+
+    outline: 2px solid #f4f4f5;
+    outline-offset: 3px;
+}
+
+.rad-fx-dock-icon { display: inline-flex; }
+
+/* Visual tooltip for sighted users; the accessible name comes from aria-label. */
+.rad-fx-dock-tip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #f4f4f5;
+    color: #0b0b0f;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 4px) scale(calc(1 / var(--rad-fx-dock-scale, 1)));
+    transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.rad-fx-dock-item:hover .rad-fx-dock-tip,
+.rad-fx-dock-item:focus-visible .rad-fx-dock-tip {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(calc(1 / var(--rad-fx-dock-scale, 1)));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-dock-item { transition: none; transform: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-dock-item { transition: none; transform: none; }

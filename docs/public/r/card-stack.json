@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card-stack",
+  "type": "registry:component",
+  "title": "CardStack",
+  "description": "A deck of cards you page through, the front card flying to the back.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/card-stack.tsx",
+      "type": "registry:component",
+      "target": "components/fx/card-stack.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport './card-stack.css'\n\nexport type CardStackProps = {\n    /** The cards, front to back. */\n    cards: React.ReactNode[]\n    /** Accessible name for the stack. */\n    label: string\n    /** How many cards peek out behind the front one. */\n    visibleBehind?: number\n    className?: string\n}\n\n// A deck you page through with Previous / Next. Only the front card is reachable\n// by screen readers and Tab; the position is announced politely on change.\nconst CardStack = ({ cards, label, visibleBehind = 2, className }: CardStackProps) => {\n    const [front, setFront] = React.useState(0)\n    const [leaving, setLeaving] = React.useState<number | null>(null)\n    const count = cards.length\n\n    const go = (step: 1 | -1) => {\n        if (step === 1) setLeaving(front)\n        setFront((current) => (current + step + count) % count)\n    }\n\n    return <section className={['rad-fx-stack', className].filter(Boolean).join(' ')} aria-label={label} aria-roledescription=\"card stack\">\n        <div className=\"rad-fx-stack-deck\">\n            {cards.map((card, i) => {\n                const position = (i - front + count) % count\n                const isFront = position === 0\n                return <div\n                    key={i}\n                    className=\"rad-fx-stack-card\"\n                    data-position={position}\n                    data-leaving={leaving === i ? '' : undefined}\n                    onAnimationEnd={() => setLeaving(null)}\n                    inert={!isFront}\n                    aria-hidden={!isFront || undefined}\n                    style={{\n                        '--rad-fx-stack-pos': Math.min(position, visibleBehind + 1),\n                        zIndex: count - position,\n                        opacity: position > visibleBehind ? 0 : 1\n                    } as React.CSSProperties}\n                >\n                    {card}\n                </div>\n            })}\n        </div>\n        <div className=\"rad-fx-stack-controls\">\n            <button type=\"button\" onClick={() => go(-1)}>Previous</button>\n            <span aria-hidden=\"true\">{front + 1} / {count}</span>\n            <button type=\"button\" onClick={() => go(1)}>Next</button>\n        </div>\n        <VisuallyHidden asChild><span aria-live=\"polite\">Card {front + 1} of {count}</span></VisuallyHidden>\n    </section>\n}\n\nexport default CardStack\n"
+    },
+    {
+      "path": "registry/fx/card-stack.css",
+      "type": "registry:file",
+      "target": "components/fx/card-stack.css",
+      "content": ".rad-fx-stack {\n    display: inline-flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 18px;\n}\n\n.rad-fx-stack-deck {\n    display: grid;\n}\n\n.rad-fx-stack-card {\n    grid-area: 1 / 1;\n    transform: translateY(calc(var(--rad-fx-stack-pos, 0) * -12px)) scale(calc(1 - var(--rad-fx-stack-pos, 0) * 0.06));\n    transform-origin: 50% 0;\n    filter: brightness(calc(1 - var(--rad-fx-stack-pos, 0) * 0.15));\n    transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms ease, filter 300ms ease;\n}\n\n/* The card that was just dismissed flies off before settling at the back. */\n.rad-fx-stack-card[data-leaving] {\n    animation: rad-fx-stack-leave 450ms cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n@keyframes rad-fx-stack-leave {\n    0% { transform: translate(0, 0) rotate(0deg); z-index: 99; }\n    45% { transform: translate(115%, -10px) rotate(10deg); z-index: 99; }\n    100% { transform: translateY(calc(var(--rad-fx-stack-pos, 0) * -12px)) scale(calc(1 - var(--rad-fx-stack-pos, 0) * 0.06)); }\n}\n\n.rad-fx-stack-controls {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    font-variant-numeric: tabular-nums;\n}\n\n.rad-fx-stack-controls button {\n    padding: 6px 14px;\n    border: 1px solid currentColor;\n    border-radius: 999px;\n    background: transparent;\n    color: inherit;\n    font: inherit;\n    cursor: pointer;\n}\n\n.rad-fx-stack-controls button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-stack-card { transition: none; }\n    .rad-fx-stack-card[data-leaving] { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-stack-card { transition: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-stack-card[data-leaving] { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/card-stack",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Only the front card is reachable: the others are inert and aria-hidden.",
+      "Previous and Next are real buttons; the position (\"Card 2 of 5\") is announced politely.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps cards without the fly-out."
+    ]
+  }
+}

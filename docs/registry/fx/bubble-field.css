@@ -1,0 +1,39 @@
+.rad-fx-bubbles {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-bubbles-tank {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-bubble {
+    position: absolute;
+    bottom: -15%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgb(255, 255, 255, 0.35), var(--rad-fx-bubble-color) 45%, transparent 72%);
+    box-shadow: inset 0 0 6px rgb(255, 255, 255, 0.15);
+    animation: rad-fx-bubble-rise 12s linear infinite;
+}
+
+.rad-fx-bubbles[data-state='paused'] .rad-fx-bubble { animation-play-state: paused; }
+
+.rad-fx-bubbles-content { position: relative; }
+
+@keyframes rad-fx-bubble-rise {
+    0% { bottom: -15%; transform: translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { bottom: 110%; transform: translateX(var(--rad-fx-bubble-drift, 0px)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* Each bubble rests at its own height, so the still scene looks scattered, not lined up. */
+    .rad-fx-bubble { animation: none; opacity: 0.6; bottom: var(--rad-fx-bubble-rest, 40%); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-bubble { animation: none; opacity: 0.6; bottom: var(--rad-fx-bubble-rest, 40%); }

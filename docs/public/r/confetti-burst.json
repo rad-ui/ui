@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "confetti-burst",
+  "type": "registry:component",
+  "title": "ConfettiBurst",
+  "description": "A burst of confetti from wherever a button is clicked.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/confetti-burst.tsx",
+      "type": "registry:component",
+      "target": "components/fx/confetti-burst.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './confetti-burst.css'\n\nexport type ConfettiBurstProps = {\n    /** Usually a button. Clicks still reach it as normal. */\n    children: React.ReactNode\n    /** Pieces per burst. */\n    pieces?: number\n    colors?: string[]\n    className?: string\n}\n\ntype Piece = { dx: number, dy: number, rotate: number, color: string, delay: number, shape: 'square' | 'strip' }\ntype Burst = { id: number, x: number, y: number, pieces: Piece[] }\n\nconst DEFAULT_COLORS = ['#f472b6', '#38bdf8', '#facc15', '#a78bfa', '#34d399']\n\nconst ConfettiBurst = ({ children, pieces = 28, colors = DEFAULT_COLORS, className }: ConfettiBurstProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const [bursts, setBursts] = React.useState<Burst[]>([])\n    const nextId = React.useRef(0)\n\n    const handleClick = (event: React.MouseEvent<HTMLSpanElement>) => {\n        if (reduced) return\n        const rect = event.currentTarget.getBoundingClientRect()\n        const fromKeyboard = event.detail === 0\n        const x = fromKeyboard ? rect.width / 2 : event.clientX - rect.left\n        const y = fromKeyboard ? rect.height / 2 : event.clientY - rect.top\n        const id = nextId.current++\n        const burst: Burst = {\n            id, x, y,\n            pieces: Array.from({ length: pieces }, (_, i) => {\n                const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.1\n                const power = 70 + Math.random() * 90\n                return {\n                    dx: Math.cos(angle) * power,\n                    dy: Math.sin(angle) * power,\n                    rotate: Math.random() * 720 - 360,\n                    color: colors[i % colors.length],\n                    delay: Math.random() * 60,\n                    shape: Math.random() > 0.5 ? 'square' : 'strip'\n                }\n            })\n        }\n        setBursts((current) => [...current, burst])\n        window.setTimeout(() => setBursts((current) => current.filter((b) => b.id !== id)), 1300)\n    }\n\n    return <span ref={ref} className={['rad-fx-confetti', className].filter(Boolean).join(' ')} onClick={handleClick}>\n        {children}\n        {bursts.map((burst) => (\n            <span key={burst.id} className=\"rad-fx-confetti-origin\" aria-hidden=\"true\" style={{ left: burst.x, top: burst.y }}>\n                {burst.pieces.map((piece, i) => (\n                    <span\n                        key={i}\n                        className=\"rad-fx-confetti-piece\"\n                        data-shape={piece.shape}\n                        style={{\n                            background: piece.color,\n                            animationDelay: `${piece.delay}ms`,\n                            '--rad-fx-confetti-dx': `${piece.dx}px`,\n                            '--rad-fx-confetti-dy': `${piece.dy}px`,\n                            '--rad-fx-confetti-rotate': `${piece.rotate}deg`\n                        } as React.CSSProperties}\n                    />\n                ))}\n            </span>\n        ))}\n    </span>\n}\n\nexport default ConfettiBurst\n"
+    },
+    {
+      "path": "registry/fx/confetti-burst.css",
+      "type": "registry:file",
+      "target": "components/fx/confetti-burst.css",
+      "content": ".rad-fx-confetti {\n    position: relative;\n    display: inline-block;\n}\n\n.rad-fx-confetti-origin {\n    position: absolute;\n    width: 0;\n    height: 0;\n    pointer-events: none;\n    z-index: 10;\n}\n\n.rad-fx-confetti-piece {\n    position: absolute;\n    left: -3px;\n    top: -3px;\n    width: 7px;\n    height: 7px;\n    border-radius: 1px;\n    opacity: 0;\n    animation: rad-fx-confetti 1.1s cubic-bezier(0.15, 0.6, 0.35, 1) forwards;\n}\n\n.rad-fx-confetti-piece[data-shape='strip'] { width: 4px; height: 10px; }\n\n/* Out along the launch vector, then gravity pulls each piece down as it fades. */\n@keyframes rad-fx-confetti {\n    0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }\n    55% { opacity: 1; transform: translate(var(--rad-fx-confetti-dx), var(--rad-fx-confetti-dy)) rotate(calc(var(--rad-fx-confetti-rotate) * 0.6)); }\n    100% { opacity: 0; transform: translate(calc(var(--rad-fx-confetti-dx) * 1.15), calc(var(--rad-fx-confetti-dy) + 90px)) rotate(var(--rad-fx-confetti-rotate)); }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/confetti-burst",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Confetti is aria-hidden, ignores pointer events and is removed after about a second.",
+      "Keyboard activation bursts from the centre.",
+      "Pair it with a real status message for what happened; confetti alone says nothing to a screen reader.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows no confetti."
+    ]
+  }
+}

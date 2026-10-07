@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typing-indicator",
+  "type": "registry:component",
+  "title": "TypingIndicator",
+  "description": "Three bouncing dots for \"someone is typing\".",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/typing-indicator.tsx",
+      "type": "registry:component",
+      "target": "components/fx/typing-indicator.tsx",
+      "content": "import * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport './typing-indicator.css'\n\nexport type TypingIndicatorProps = {\n    /** Announced to screen readers, e.g. \"Ada is typing\". */\n    label?: string\n    color?: string\n    className?: string\n}\n\nconst TypingIndicator = ({ label = 'Typing', color = 'currentColor', className }: TypingIndicatorProps) => (\n    <span role=\"status\" className={['rad-fx-typing', className].filter(Boolean).join(' ')} style={{ '--rad-fx-typing-color': color } as React.CSSProperties}>\n        <VisuallyHidden asChild><span>{label}</span></VisuallyHidden>\n        <span className=\"rad-fx-typing-dot\" aria-hidden=\"true\" />\n        <span className=\"rad-fx-typing-dot\" aria-hidden=\"true\" />\n        <span className=\"rad-fx-typing-dot\" aria-hidden=\"true\" />\n    </span>\n)\n\nexport default TypingIndicator\n"
+    },
+    {
+      "path": "registry/fx/typing-indicator.css",
+      "type": "registry:file",
+      "target": "components/fx/typing-indicator.css",
+      "content": ".rad-fx-typing {\n    display: inline-flex;\n    align-items: center;\n    gap: 5px;\n    padding: 12px 16px;\n    border-radius: 18px;\n    background: rgba(127, 127, 127, 0.18);\n}\n\n.rad-fx-typing-dot {\n    width: 7px;\n    height: 7px;\n    border-radius: 50%;\n    background: var(--rad-fx-typing-color, currentColor);\n    animation: rad-fx-typing 1.2s ease-in-out infinite;\n}\n\n.rad-fx-typing-dot:nth-of-type(2) { animation-delay: 0.15s; }\n.rad-fx-typing-dot:nth-of-type(3) { animation-delay: 0.3s; }\n\n@keyframes rad-fx-typing {\n    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }\n    30% { transform: translateY(-5px); opacity: 1; }\n}\n\n/* Reduced motion: no bouncing, just a slow fade so it still reads as \"live\". */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-typing-dot { animation: rad-fx-typing-fade 2s ease-in-out infinite; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-typing-dot { animation: rad-fx-typing-fade 2s ease-in-out infinite; }\n\n@keyframes rad-fx-typing-fade {\n    0%, 100% { opacity: 0.45; }\n    50% { opacity: 1; }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "feedback"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/typing-indicator",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "role=\"status\" with a label such as \"Ada is typing\"; the dots are aria-hidden.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) replaces the bounce with a slow fade."
+    ]
+  }
+}
