@@ -334,3 +334,7 @@
 /* The departure board for MANNERS?: one row, sized to fit the stage. */
 .fx-kinetic-flap { font-size: 1.3em; letter-spacing: 0; }
 .fx-kinetic-flap .rad-fx-flap-board { flex-wrap: nowrap; gap: 0.08em; }
+
+/* A black cut: white type on black in either theme (used by "Plot twist."). */
+.fx-kinetic .fx-kinetic-stage[data-bg='black'] { background: #000; }
+[data-rad-ui-theme] .fx-kinetic .fx-kinetic-stage[data-bg='black'] .fx-kinetic-beat { color: #fafafa; }

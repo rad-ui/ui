@@ -27,7 +27,7 @@ const MIN_BEAT = 200
 type Move = 'slam' | 'zoom' | 'whip-l' | 'whip-r' | 'drop' | 'rise' | 'spin' | 'shake' | 'pop' | 'mega'
 type Ink = 'white' | 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet'
 type Size = 'xxl' | 'xl' | 'l' | 'm' | 's'
-type Backdrop = 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet' | 'white'
+type Backdrop = 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet' | 'white' | 'black'
 
 type Beat = {
     /** Milliseconds on screen. Never below MIN_BEAT. */
@@ -63,8 +63,9 @@ const BEATS: Beat[] = [
     { ms: 380, move: 'whip-r', size: 'm', words: 'Inner ears?' },
     { ms: 1000, move: 'zoom', bg: 'orange', size: 'xl', words: <WaveText text="SEASICK." amplitude={0.16} duration={0.8} stagger={0.06} /> },
     // The twist
-    // A quiet beat after all the noise: small, plain, black and white.
-    { ms: 1200, move: 'zoom', size: 's', site: 'flip', words: 'Plot twist.' },
+    // A quiet beat after all the noise: small white type on black, even while
+    // the site around it has flipped to light.
+    { ms: 1200, move: 'zoom', bg: 'black', size: 's', site: 'flip', words: 'Plot twist.' },
     { ms: 340, move: 'zoom', size: 'l', words: 'What if' },
     { ms: 340, move: 'whip-l', size: 'l', words: 'motion' },
     { ms: 280, move: 'drop', size: 'l', words: 'had' },
