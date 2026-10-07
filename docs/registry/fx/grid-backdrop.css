@@ -33,17 +33,17 @@
     animation: rad-fx-grid-travel var(--rad-fx-grid-speed, 2s) linear infinite;
 }
 
-/* Soft glow sitting on the horizon. */
+/* Horizon fog: a soft band across the full width, densest on the horizon line. */
 .rad-fx-grid::before {
     content: '';
     position: absolute;
-    top: calc(var(--rad-fx-grid-horizon) - 90px);
+    top: calc(var(--rad-fx-grid-horizon) - 80px);
     left: 0;
     right: 0;
-    height: 180px;
+    height: 160px;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(ellipse 55% 50% at 50% 50%, var(--rad-fx-grid-glow, rgb(139, 92, 246, 0.35)), transparent 70%);
+    background: linear-gradient(to bottom, transparent, var(--rad-fx-grid-glow, rgb(139, 92, 246, 0.35)) 50%, transparent);
 }
 
 .rad-fx-grid[data-state='paused'] .rad-fx-grid-plane { animation-play-state: paused; }
