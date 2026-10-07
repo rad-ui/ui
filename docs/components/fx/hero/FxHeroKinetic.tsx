@@ -4,6 +4,7 @@ import Link from 'next/link'
 import VisuallyHidden from '@radui/ui/VisuallyHidden'
 
 import CountTo from '@/registry/fx/count-to'
+import Typewriter from '@/registry/fx/typewriter'
 import NeonText from '@/registry/fx/neon-text'
 import { useOffscreen } from '@/registry/fx/use-reduced-motion'
 
@@ -78,7 +79,7 @@ const BEATS: Beat[] = [
     { ms: 520, move: 'whip-l', ink: 'orange', size: 'xl', swipe: { from: 'left', color: '#ff9a3c' }, words: 'Make it.' },
     { ms: 520, move: 'whip-r', ink: 'cyan', size: 'xl', swipe: { from: 'right', color: '#3de8ff' }, words: 'Copy it.' },
     { ms: 520, move: 'whip-l', ink: 'lime', size: 'xl', swipe: { from: 'left', color: '#b8ff3c' }, words: 'Ship it.' },
-    { ms: 1150, move: 'mega', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: 'OWN IT.' }
+    { ms: 1500, move: 'zoom', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: <Typewriter as="span" trigger="mount" text="OWN IT." speed={85} delay={260} /> }
 ]
 
 // What screen readers get: the whole story once, in sentences.
