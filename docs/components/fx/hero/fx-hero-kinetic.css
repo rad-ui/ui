@@ -39,6 +39,7 @@
     animation: fx-kinetic-drift var(--fx-kinetic-ms, 500ms) linear both;
 }
 
+.fx-kinetic-beat[data-size='xxl'] .fx-kinetic-words { font-size: 22cqw; letter-spacing: -0.065em; }
 .fx-kinetic-beat[data-size='xl'] .fx-kinetic-words { font-size: 17cqw; }
 .fx-kinetic-beat[data-size='l'] .fx-kinetic-words { font-size: 12cqw; }
 .fx-kinetic-beat[data-size='m'] .fx-kinetic-words { font-size: 8.5cqw; letter-spacing: -0.04em; }
@@ -62,6 +63,16 @@
 .fx-kinetic-beat[data-move='drop'] { animation-name: fx-kinetic-drop; animation-timing-function: cubic-bezier(0.3, 1.5, 0.5, 1); animation-duration: 340ms; }
 .fx-kinetic-beat[data-move='rise'] { animation-name: fx-kinetic-rise; }
 .fx-kinetic-beat[data-move='spin'] { animation-name: fx-kinetic-spin; animation-duration: 420ms; }
+.fx-kinetic-beat[data-move='pop'] { animation-name: fx-kinetic-pop; animation-duration: 380ms; animation-timing-function: cubic-bezier(0.3, 1.6, 0.4, 1); }
+
+.fx-kinetic-beat[data-move='mega'] {
+    animation-name: fx-kinetic-mega, fx-kinetic-shake, fx-kinetic-pulse;
+    animation-duration: 380ms, 360ms, 420ms;
+    animation-delay: 0ms, 380ms, 740ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), linear, ease-in-out;
+    animation-iteration-count: 1, 1, infinite;
+    animation-direction: normal, normal, alternate;
+}
 .fx-kinetic-beat[data-move='shake'] { animation-name: fx-kinetic-slam, fx-kinetic-shake; animation-duration: 320ms, 420ms; animation-delay: 0ms, 320ms; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), linear; }
 
 @keyframes fx-kinetic-slam {
@@ -234,3 +245,21 @@
 
 [data-rad-ui-theme='light'] .fx-kinetic-link:focus-visible,
 [data-rad-ui-theme='light'] .fx-kinetic-button:focus-visible { outline-color: #0369a1; }
+
+/* The HANDLED escalation: a bouncy tilted pop, then an all-out slam. */
+@keyframes fx-kinetic-pop {
+    0% { transform: scale(0.2) rotate(-10deg); opacity: 0; }
+    70% { transform: scale(1.12) rotate(3deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+
+@keyframes fx-kinetic-mega {
+    0% { transform: scale(3.4) rotate(-14deg); opacity: 0; filter: blur(18px); }
+    55% { transform: scale(0.94) rotate(2deg); opacity: 1; filter: blur(0); }
+    100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+}
+
+@keyframes fx-kinetic-pulse {
+    from { transform: scale(1) rotate(-3deg); }
+    to { transform: scale(1.05) rotate(-1deg); }
+}

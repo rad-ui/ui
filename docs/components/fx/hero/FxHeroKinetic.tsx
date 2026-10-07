@@ -18,9 +18,9 @@ import './fx-hero-kinetic.css'
 // still get the story as text.
 const MIN_BEAT = 200
 
-type Move = 'slam' | 'zoom' | 'whip-l' | 'whip-r' | 'drop' | 'rise' | 'spin' | 'shake'
+type Move = 'slam' | 'zoom' | 'whip-l' | 'whip-r' | 'drop' | 'rise' | 'spin' | 'shake' | 'pop' | 'mega'
 type Ink = 'white' | 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet'
-type Size = 'xl' | 'l' | 'm'
+type Size = 'xxl' | 'xl' | 'l' | 'm'
 type Backdrop = 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet' | 'white'
 
 type Beat = {
@@ -64,12 +64,13 @@ const BEATS: Beat[] = [
     { ms: 1200, move: 'zoom', ink: 'yellow', size: 'xl', words: <><CountTo to={90} duration={650} /> <span className="fx-kinetic-small">effects.</span></> },
     { ms: 380, move: 'whip-r', size: 'l', words: 'Every one' },
     { ms: 700, move: 'slam', bg: 'lime', size: 'xl', words: 'accessible.' },
+    // HANDLED escalates: each one bigger and more violent than the last.
     { ms: 400, move: 'whip-l', size: 'm', words: 'Reduced motion?' },
-    { ms: 340, move: 'drop', bg: 'lime', size: 'l', words: 'HANDLED.' },
+    { ms: 380, move: 'drop', bg: 'lime', size: 'l', words: 'HANDLED.' },
     { ms: 380, move: 'whip-r', size: 'm', words: 'Screen readers?' },
-    { ms: 340, move: 'drop', bg: 'lime', size: 'l', words: 'HANDLED.' },
+    { ms: 480, move: 'pop', bg: 'lime', size: 'xl', words: 'HANDLED.' },
     { ms: 360, move: 'whip-l', size: 'm', words: 'Keyboards?' },
-    { ms: 440, move: 'drop', bg: 'lime', size: 'l', words: 'HANDLED.' },
+    { ms: 900, move: 'mega', bg: 'lime', size: 'xxl', words: 'HANDLED.' },
     { ms: 380, move: 'slam', ink: 'cyan', size: 'l', words: 'Copy it.' },
     { ms: 380, move: 'slam', ink: 'lime', size: 'l', words: 'Own it.' },
     { ms: 800, move: 'slam', bg: 'yellow', size: 'xl', words: 'Ship it.' }
