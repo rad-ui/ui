@@ -325,3 +325,12 @@
 
 /* A swipe reveals the next background: the colour cut waits until the panel covers the stage. */
 .fx-kinetic-stage:has(.fx-kinetic-swipe) { transition: background-color 0s linear 200ms; }
+
+/* Effects inside beats: keep the hero's type, not each effect's defaults. */
+.fx-kinetic-words .fx-kinetic-inherit-font { font-family: inherit; font-variant-numeric: normal; }
+
+.fx-kinetic-tilt { display: inline-block; transform: rotate(-6deg); }
+
+/* The departure board for MANNERS?: one row, sized to fit the stage. */
+.fx-kinetic-flap { font-size: 1.3em; letter-spacing: 0; }
+.fx-kinetic-flap .rad-fx-flap-board { flex-wrap: nowrap; gap: 0.08em; }

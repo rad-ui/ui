@@ -4,6 +4,12 @@ import Link from 'next/link'
 import VisuallyHidden from '@radui/ui/VisuallyHidden'
 
 import CountTo from '@/registry/fx/count-to'
+import GlitchText from '@/registry/fx/glitch-text'
+import ScrambleText from '@/registry/fx/scramble-text'
+import WaveText from '@/registry/fx/wave-text'
+import LetterDrop from '@/registry/fx/letter-drop'
+import SplitFlap from '@/registry/fx/split-flap'
+import InkUnderline from '@/registry/fx/ink-underline'
 import Typewriter from '@/registry/fx/typewriter'
 import NeonText from '@/registry/fx/neon-text'
 import { useOffscreen } from '@/registry/fx/use-reduced-motion'
@@ -48,25 +54,26 @@ const BEATS: Beat[] = [
     { ms: 300, move: 'whip-l', size: 'l', words: 'Most' },
     { ms: 360, move: 'zoom', size: 'l', words: 'animations' },
     { ms: 260, move: 'drop', size: 'l', words: 'are' },
-    { ms: 900, move: 'shake', bg: 'orange', size: 'xl', words: 'BROKEN.' },
+    // Effects only where they act out the word.
+    { ms: 1000, move: 'shake', bg: 'orange', size: 'xl', words: <GlitchText text="BROKEN." interval={0.45} colors={['#3de8ff', '#ffe14d']} /> },
     // The problem
     { ms: 420, move: 'whip-r', size: 'm', words: 'Screen readers?' },
-    { ms: 420, move: 'slam', bg: 'orange', size: 'xl', words: 'LOST.' },
+    { ms: 600, move: 'slam', bg: 'orange', size: 'xl', words: <ScrambleText text="LOST." trigger="mount" duration={340} characters="ABCDEFGHJKLMNPQRSTUVWXYZ?#%&" className="fx-kinetic-inherit-font" /> },
     { ms: 380, move: 'whip-l', size: 'm', words: 'Keyboards?' },
     { ms: 420, move: 'slam', bg: 'orange', size: 'xl', words: 'STUCK.' },
     { ms: 380, move: 'whip-r', size: 'm', words: 'Inner ears?' },
-    { ms: 700, move: 'spin', bg: 'orange', size: 'xl', words: 'SEASICK.' },
+    { ms: 1000, move: 'zoom', bg: 'orange', size: 'xl', words: <WaveText text="SEASICK." amplitude={0.16} duration={0.8} stagger={0.06} /> },
     // The twist
     { ms: 320, move: 'rise', ink: 'violet', size: 'l', words: 'Plot' },
-    { ms: 560, move: 'slam', bg: 'violet', size: 'xl', site: 'flip', words: 'twist.' },
+    { ms: 950, move: 'zoom', bg: 'violet', size: 'xl', site: 'flip', words: <span className="fx-kinetic-tilt"><LetterDrop text="twist." stagger={45} /></span> },
     { ms: 340, move: 'zoom', size: 'l', words: 'What if' },
     { ms: 340, move: 'whip-l', size: 'l', words: 'motion' },
     { ms: 280, move: 'drop', size: 'l', words: 'had' },
-    { ms: 1000, move: 'slam', bg: 'cyan', size: 'xl', words: 'MANNERS?' },
+    { ms: 1100, move: 'zoom', bg: 'cyan', size: 'm', words: <SplitFlap text="MANNERS?" trigger="mount" speed={30} flips={5} stagger={1} className="fx-kinetic-flap" /> },
     // The payoff
     { ms: 1200, move: 'zoom', ink: 'yellow', size: 'xl', words: <><CountTo to={90} duration={650} /> <span className="fx-kinetic-small">effects.</span></> },
     { ms: 380, move: 'whip-r', size: 'l', words: 'Every one' },
-    { ms: 700, move: 'slam', bg: 'lime', size: 'xl', words: 'accessible.' },
+    { ms: 1050, move: 'slam', bg: 'lime', size: 'xl', words: <InkUnderline color="#000" thickness={5}>accessible.</InkUnderline> },
     // HANDLED escalates: each one bigger and more violent than the last.
     { ms: 400, move: 'whip-l', size: 'm', words: 'Reduced motion?' },
     { ms: 380, move: 'drop', bg: 'lime', size: 'l', words: 'HANDLED.' },
