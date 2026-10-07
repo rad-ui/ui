@@ -35,7 +35,8 @@ const FxPreview = ({ children, replayable = true, minHeight = 280 }: {
             </div>
         </div>
         <div
-            key={runId}
+            // Remount on toggle too, so JS-driven effects re-read the motion preference.
+            key={`${runId}-${reduced}`}
             data-rad-fx-motion={reduced ? 'reduce' : undefined}
             className="flex items-center justify-center overflow-hidden"
             style={{ minHeight }}

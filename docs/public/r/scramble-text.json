@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scramble-text",
+  "type": "registry:component",
+  "title": "ScrambleText",
+  "description": "Text that decodes from random characters into its final form, on view, on hover, or on mount.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/scramble-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/scramble-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useInViewOnce, useReducedMotion } from './use-reduced-motion'\nimport './scramble-text.css'\n\ntype ScrambleTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type ScrambleTextProps = {\n    /** Final text. Screen readers only ever get this. */\n    text: string\n    as?: ScrambleTag\n    /** Total time to settle, in ms. */\n    duration?: number\n    /** Characters used while scrambling. */\n    characters?: string\n    /** `inView` runs once when visible, `hover` re-runs on pointer enter, `mount` runs right away. */\n    trigger?: 'inView' | 'hover' | 'mount'\n    className?: string\n}\n\nconst DEFAULT_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=?'\n\nconst ScrambleText = ({ text, as: Tag = 'span', duration = 1100, characters = DEFAULT_CHARACTERS, trigger = 'inView', className }: ScrambleTextProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    // Server and first client render show the final text, so hydration always matches.\n    const [display, setDisplay] = React.useState(text)\n    const frame = React.useRef<number | null>(null)\n\n    const run = React.useCallback(() => {\n        if (reduced) return\n        if (frame.current) cancelAnimationFrame(frame.current)\n        const start = performance.now()\n        const step = (now: number) => {\n            const progress = Math.min(1, (now - start) / duration)\n            const settled = Math.floor(progress * text.length)\n            setDisplay(Array.from(text, (char, i) =>\n                i < settled || /\\s/.test(char) ? char : characters[Math.floor(Math.random() * characters.length)]\n            ).join(''))\n            if (progress < 1) frame.current = requestAnimationFrame(step)\n        }\n        frame.current = requestAnimationFrame(step)\n    }, [reduced, duration, text, characters])\n\n    useInViewOnce(ref, run, trigger === 'inView' && !reduced)\n    React.useEffect(() => { if (trigger === 'mount') run() }, [trigger, run])\n    React.useEffect(() => () => { if (frame.current) cancelAnimationFrame(frame.current) }, [])\n    React.useEffect(() => { setDisplay(text) }, [text])\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-scramble', className].filter(Boolean).join(' ')}\n        onPointerEnter={trigger === 'hover' ? run : undefined}\n    >\n        <VisuallyHidden asChild><span>{text}</span></VisuallyHidden>\n        <span aria-hidden=\"true\">{display}</span>\n    </Tag>\n}\n\nexport default ScrambleText\n"
+    },
+    {
+      "path": "registry/fx/scramble-text.css",
+      "type": "registry:file",
+      "target": "components/fx/scramble-text.css",
+      "content": "/* Tabular figures and a monospace stack keep the width steady while characters change. */\n.rad-fx-scramble {\n    font-variant-numeric: tabular-nums;\n    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/scramble-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Screen readers only ever get the final text (visually hidden); the scrambling copy is aria-hidden.",
+      "Server render shows the final text, so content is readable before hydration.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) skips scrambling entirely."
+    ]
+  }
+}

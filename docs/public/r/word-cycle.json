@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "word-cycle",
+  "type": "registry:component",
+  "title": "WordCycle",
+  "description": "An inline slot that cycles through words, sized to the longest so the sentence never jumps.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/word-cycle.tsx",
+      "type": "registry:component",
+      "target": "components/fx/word-cycle.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useOffscreen, useReducedMotion } from './use-reduced-motion'\nimport './word-cycle.css'\n\nexport type WordCycleProps = {\n    /** Words to cycle through. Screen readers hear them once, as a list. */\n    words: string[]\n    /** Milliseconds each word stays. */\n    interval?: number\n    /** Stop cycling. Wire to a visible pause control if the cycle sits next to other content. */\n    paused?: boolean\n    /** Joiner for the screen-reader version, e.g. \"fast, accessible or yours\". */\n    srJoiner?: (words: string[]) => string\n    className?: string\n}\n\nconst defaultJoiner = (words: string[]) =>\n    words.length < 2 ? words.join('') : `${words.slice(0, -1).join(', ')} or ${words[words.length - 1]}`\n\nconst WordCycle = ({ words, interval = 2200, paused = false, srJoiner = defaultJoiner, className }: WordCycleProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const offscreen = useOffscreen(ref)\n    const [index, setIndex] = React.useState(0)\n    const [hovered, setHovered] = React.useState(false)\n    const stopped = paused || reduced || offscreen || hovered\n\n    React.useEffect(() => {\n        if (stopped || words.length < 2) return\n        const timer = window.setInterval(() => setIndex((i) => (i + 1) % words.length), interval)\n        return () => window.clearInterval(timer)\n    }, [stopped, words.length, interval])\n\n    return <span\n        ref={ref}\n        className={['rad-fx-word-cycle', className].filter(Boolean).join(' ')}\n        onPointerEnter={() => setHovered(true)}\n        onPointerLeave={() => setHovered(false)}\n    >\n        <VisuallyHidden asChild><span>{srJoiner(words)}</span></VisuallyHidden>\n        <span className=\"rad-fx-word-cycle-stage\" aria-hidden=\"true\">\n            {/* Every word is stacked in the same cell, so the slot is as wide as the longest word. */}\n            {words.map((word, i) => (\n                <span key={word + i} className=\"rad-fx-word-cycle-word\" data-state={i === index ? 'active' : 'inactive'}>\n                    {word}\n                </span>\n            ))}\n        </span>\n    </span>\n}\n\nexport default WordCycle\n"
+    },
+    {
+      "path": "registry/fx/word-cycle.css",
+      "type": "registry:file",
+      "target": "components/fx/word-cycle.css",
+      "content": ".rad-fx-word-cycle-stage {\n    display: inline-grid;\n    vertical-align: bottom;\n    overflow: hidden;\n}\n\n.rad-fx-word-cycle-word {\n    grid-area: 1 / 1;\n    opacity: 0;\n    transform: translateY(100%);\n    transition: opacity 400ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n.rad-fx-word-cycle-word[data-state='active'] {\n    opacity: 1;\n    transform: none;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-word-cycle-word { transition: none; transform: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-word-cycle-word { transition: none; transform: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/word-cycle",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Screen readers hear every word once as a list (\"fast, accessible or yours\"), never a changing word.",
+      "Cycling pauses on hover and offscreen; pass `paused` from a visible control if it sits next to reading content (WCAG 2.2.2).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the first word, still."
+    ]
+  }
+}

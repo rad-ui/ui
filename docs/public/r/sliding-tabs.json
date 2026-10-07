@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sliding-tabs",
+  "type": "registry:component",
+  "title": "SlidingTabs",
+  "description": "Rad UI Tabs with an indicator that slides between triggers and content that fades in.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/sliding-tabs.tsx",
+      "type": "registry:component",
+      "target": "components/fx/sliding-tabs.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport Tabs from '@radui/ui/Tabs'\n\nimport './sliding-tabs.css'\n\nexport type SlidingTab = {\n    value: string\n    label: React.ReactNode\n    content: React.ReactNode\n}\n\nexport type SlidingTabsProps = {\n    tabs: SlidingTab[]\n    defaultValue?: string\n    value?: string\n    onValueChange?: (value: string) => void\n    className?: string\n}\n\n// Rad UI Tabs owns the behaviour: roles, arrow-key navigation, focus and\n// selection. This component only adds the sliding indicator and a content fade.\nconst SlidingTabs = ({ tabs, defaultValue, value, onValueChange, className }: SlidingTabsProps) => {\n    const [internal, setInternal] = React.useState(defaultValue ?? tabs[0]?.value)\n    const current = value ?? internal\n    const listRef = React.useRef<HTMLDivElement | null>(null)\n    const triggerRefs = React.useRef(new Map<string, HTMLElement>())\n    const [indicator, setIndicator] = React.useState<{ left: number, width: number } | null>(null)\n\n    const measure = React.useCallback(() => {\n        const trigger = current ? triggerRefs.current.get(current) : undefined\n        if (!trigger) return\n        setIndicator({ left: trigger.offsetLeft, width: trigger.offsetWidth })\n    }, [current])\n\n    React.useLayoutEffect(() => { measure() }, [measure])\n\n    React.useEffect(() => {\n        const list = listRef.current\n        if (!list || typeof ResizeObserver === 'undefined') return\n        const observer = new ResizeObserver(measure)\n        observer.observe(list)\n        return () => observer.disconnect()\n    }, [measure])\n\n    const handleChange = (next: string) => {\n        if (value === undefined) setInternal(next)\n        onValueChange?.(next)\n    }\n\n    return <Tabs.Root\n        // Own class namespace: Rad UI theme styles stay off, this file's CSS is the only styling.\n        customRootClass=\"rad-fx-sliding-tabs\"\n        className={className}\n        value={current}\n        onValueChange={handleChange}\n    >\n        <Tabs.List ref={listRef} className=\"rad-fx-sliding-tabs-list\">\n            {indicator ? <span\n                className=\"rad-fx-sliding-tabs-indicator\"\n                aria-hidden=\"true\"\n                style={{ transform: `translateX(${indicator.left}px)`, width: indicator.width }}\n            /> : null}\n            {tabs.map((tab) => (\n                <Tabs.Trigger\n                    key={tab.value}\n                    value={tab.value}\n                    className=\"rad-fx-sliding-tabs-trigger\"\n                    ref={(node: HTMLElement | null) => {\n                        if (node) triggerRefs.current.set(tab.value, node)\n                        else triggerRefs.current.delete(tab.value)\n                    }}\n                >\n                    {tab.label}\n                </Tabs.Trigger>\n            ))}\n        </Tabs.List>\n        {tabs.map((tab) => (\n            <Tabs.Content key={tab.value} value={tab.value} className=\"rad-fx-sliding-tabs-content\">\n                {tab.content}\n            </Tabs.Content>\n        ))}\n    </Tabs.Root>\n}\n\nexport default SlidingTabs\n"
+    },
+    {
+      "path": "registry/fx/sliding-tabs.css",
+      "type": "registry:file",
+      "target": "components/fx/sliding-tabs.css",
+      "content": ".rad-fx-sliding-tabs-list {\n    position: relative;\n    display: inline-flex;\n    gap: 2px;\n    padding: 4px;\n    border-radius: 10px;\n    background: rgba(127, 127, 127, 0.12);\n}\n\n.rad-fx-sliding-tabs-indicator {\n    position: absolute;\n    top: 4px;\n    bottom: 4px;\n    left: 0;\n    border-radius: 7px;\n    background: rgba(127, 127, 127, 0.28);\n    transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), width 320ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n.rad-fx-sliding-tabs-trigger {\n    position: relative;\n    z-index: 1;\n    padding: 6px 14px;\n    border: 0;\n    border-radius: 7px;\n    background: transparent;\n    color: inherit;\n    font: inherit;\n    font-size: 0.9rem;\n    cursor: pointer;\n}\n\n/* Active state is carried by the indicator and weight, never by fading the text,\n   so every label keeps full contrast. */\n.rad-fx-sliding-tabs-trigger[data-state='active'] { font-weight: 600; }\n\n.rad-fx-sliding-tabs-trigger:focus-visible {\n    outline: 2px solid currentColor;\n    outline-offset: 2px;\n}\n\n.rad-fx-sliding-tabs-content[data-state='active'] {\n    animation: rad-fx-sliding-tabs-in 300ms ease both;\n}\n\n@keyframes rad-fx-sliding-tabs-in {\n    from { opacity: 0; transform: translateY(4px); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-sliding-tabs-indicator { transition: none; }\n    .rad-fx-sliding-tabs-content[data-state='active'] { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-sliding-tabs-indicator { transition: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-sliding-tabs-content[data-state='active'] { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/sliding-tabs",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Built on Rad UI Tabs: tablist/tab/tabpanel roles, arrow-key navigation and focus management come from the library.",
+      "The indicator is aria-hidden decoration.",
+      "Focus-visible outline is kept on triggers.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) snaps the indicator and skips the fade."
+    ]
+  }
+}

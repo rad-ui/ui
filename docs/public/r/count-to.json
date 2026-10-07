@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "count-to",
+  "type": "registry:component",
+  "title": "CountTo",
+  "description": "A number that counts up to its value when it scrolls into view, formatted with Intl.NumberFormat.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/count-to.tsx",
+      "type": "registry:component",
+      "target": "components/fx/count-to.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useInViewOnce, useReducedMotion } from './use-reduced-motion'\nimport './count-to.css'\n\nexport type CountToProps = {\n    /** Final value. Screen readers only get this. */\n    to: number\n    from?: number\n    /** Milliseconds to count. */\n    duration?: number\n    /** Passed to Intl.NumberFormat, e.g. { style: 'currency', currency: 'USD' }. */\n    format?: Intl.NumberFormatOptions\n    locale?: string\n    className?: string\n}\n\nconst easeOut = (t: number) => 1 - Math.pow(1 - t, 3)\n\nconst CountTo = ({ to, from = 0, duration = 1600, format, locale, className }: CountToProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const [value, setValue] = React.useState(to)\n    const formatter = React.useMemo(() => new Intl.NumberFormat(locale, format), [locale, format])\n    const decimals = format?.maximumFractionDigits ?? 0\n\n    useInViewOnce(ref, () => {\n        if (reduced) return\n        const start = performance.now()\n        const step = (now: number) => {\n            const progress = Math.min(1, (now - start) / duration)\n            const current = from + (to - from) * easeOut(progress)\n            setValue(progress < 1 ? Number(current.toFixed(decimals)) : to)\n            if (progress < 1) requestAnimationFrame(step)\n        }\n        setValue(from)\n        requestAnimationFrame(step)\n    }, !reduced)\n\n    return <span ref={ref} className={['rad-fx-count-to', className].filter(Boolean).join(' ')}>\n        <VisuallyHidden asChild><span>{formatter.format(to)}</span></VisuallyHidden>\n        <span aria-hidden=\"true\">{formatter.format(value)}</span>\n    </span>\n}\n\nexport default CountTo\n"
+    },
+    {
+      "path": "registry/fx/count-to.css",
+      "type": "registry:file",
+      "target": "components/fx/count-to.css",
+      "content": "/* Tabular figures stop the number from wobbling sideways while it counts. */\n.rad-fx-count-to {\n    font-variant-numeric: tabular-nums;\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/count-to",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Screen readers get the final formatted value only; the ticking copy is aria-hidden.",
+      "Tabular figures prevent sideways jitter.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the final value without counting."
+    ]
+  }
+}

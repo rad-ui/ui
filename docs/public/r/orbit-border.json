@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "orbit-border",
+  "type": "registry:component",
+  "title": "OrbitBorder",
+  "description": "A comet of light running around an element's border.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/orbit-border.tsx",
+      "type": "registry:component",
+      "target": "components/fx/orbit-border.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './orbit-border.css'\n\nexport type OrbitBorderProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Colour of the light travelling around the edge. */\n    color?: string\n    /** Seconds per lap. */\n    duration?: number\n    /** Border width in px. */\n    width?: number\n    /** Corner radius in px. */\n    radius?: number\n    paused?: boolean\n}\n\nconst OrbitBorder = ({ color = '#38bdf8', duration = 4, width = 1.5, radius = 14, paused = false, className, style, children, ...props }: OrbitBorderProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-orbit', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{\n            '--rad-fx-orbit-color': color,\n            '--rad-fx-orbit-duration': `${duration}s`,\n            '--rad-fx-orbit-width': `${width}px`,\n            '--rad-fx-orbit-radius': `${radius}px`,\n            ...style\n        } as React.CSSProperties}\n        {...props}\n    >\n        {children}\n    </div>\n}\n\nexport default OrbitBorder\n"
+    },
+    {
+      "path": "registry/fx/orbit-border.css",
+      "type": "registry:file",
+      "target": "components/fx/orbit-border.css",
+      "content": "/* OrbitBorder: a comet of light running around the element's edge. The animated\n   angle needs @property; browsers without it show a still highlight instead. */\n@property --rad-fx-orbit-angle {\n    syntax: '<angle>';\n    inherits: false;\n    initial-value: 0deg;\n}\n\n.rad-fx-orbit {\n    position: relative;\n    border-radius: var(--rad-fx-orbit-radius, 14px);\n}\n\n.rad-fx-orbit::before {\n    content: '';\n    position: absolute;\n    inset: 0;\n    padding: var(--rad-fx-orbit-width, 1.5px);\n    border-radius: inherit;\n    pointer-events: none;\n    background: conic-gradient(\n        from var(--rad-fx-orbit-angle),\n        transparent 0deg,\n        transparent 280deg,\n        var(--rad-fx-orbit-color) 340deg,\n        transparent 360deg\n    );\n    /* Show the gradient only in the padding ring, not behind the content. */\n    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);\n    -webkit-mask-composite: xor;\n    mask-composite: exclude;\n    animation: rad-fx-orbit var(--rad-fx-orbit-duration, 4s) linear infinite;\n}\n\n.rad-fx-orbit[data-state='paused']::before { animation-play-state: paused; }\n\n@keyframes rad-fx-orbit {\n    to { --rad-fx-orbit-angle: 360deg; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-orbit::before { animation: none; --rad-fx-orbit-angle: 45deg; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-orbit::before { animation: none; --rad-fx-orbit-angle: 45deg; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/orbit-border",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The light is a pseudo-element: nothing is added to the accessibility tree.",
+      "Browsers without @property show a still highlight.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows a still highlight."
+    ]
+  }
+}

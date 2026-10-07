@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magnetic",
+  "type": "registry:component",
+  "title": "Magnetic",
+  "description": "Pulls a button or link a little toward the pointer.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/magnetic.tsx",
+      "type": "registry:component",
+      "target": "components/fx/magnetic.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './magnetic.css'\n\nexport type MagneticProps = {\n    /** The element to attract, usually a button or link. It keeps its own semantics and focus. */\n    children: React.ReactNode\n    /** 0–1: how far the element follows the pointer. */\n    strength?: number\n    className?: string\n}\n\nconst Magnetic = ({ children, strength = 0.3, className }: MagneticProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n\n    const move = (event: React.PointerEvent<HTMLSpanElement>) => {\n        if (reduced || event.pointerType === 'touch') return\n        const rect = event.currentTarget.getBoundingClientRect()\n        const x = (event.clientX - (rect.left + rect.width / 2)) * strength\n        const y = (event.clientY - (rect.top + rect.height / 2)) * strength\n        event.currentTarget.style.setProperty('--rad-fx-magnet-x', `${x.toFixed(1)}px`)\n        event.currentTarget.style.setProperty('--rad-fx-magnet-y', `${y.toFixed(1)}px`)\n    }\n\n    const reset = (event: React.PointerEvent<HTMLSpanElement>) => {\n        event.currentTarget.style.setProperty('--rad-fx-magnet-x', '0px')\n        event.currentTarget.style.setProperty('--rad-fx-magnet-y', '0px')\n    }\n\n    // A wrapper span, not a cloned child: the child's own props, ref and focus stay untouched.\n    return <span ref={ref} className={['rad-fx-magnetic', className].filter(Boolean).join(' ')} onPointerMove={move} onPointerLeave={reset}>\n        {children}\n    </span>\n}\n\nexport default Magnetic\n"
+    },
+    {
+      "path": "registry/fx/magnetic.css",
+      "type": "registry:file",
+      "target": "components/fx/magnetic.css",
+      "content": ".rad-fx-magnetic {\n    display: inline-block;\n    /* A little padding widens the pull area without moving the layout. */\n    padding: 12px;\n    margin: -12px;\n    transform: translate(var(--rad-fx-magnet-x, 0px), var(--rad-fx-magnet-y, 0px));\n    transition: transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-magnetic { transform: none; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-magnetic { transform: none; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/magnetic",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Wraps the child in a span instead of cloning it, so the child keeps its role, props, ref and focus.",
+      "Keyboard focus and activation are unaffected.",
+      "Touch input never moves it.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) disables the pull."
+    ]
+  }
+}

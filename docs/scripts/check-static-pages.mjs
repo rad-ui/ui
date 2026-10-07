@@ -23,9 +23,21 @@ const ALLOWED_DYNAMIC = new Map([
 const readJson = (file) => JSON.parse(fs.readFileSync(path.join(nextDir, file), 'utf8'))
 
 const routes = Object.values(readJson('app-path-routes-manifest.json'))
-const prerendered = new Set(Object.keys(readJson('prerender-manifest.json').routes))
+const prerenderManifest = readJson('prerender-manifest.json')
+const prerendered = new Set(Object.keys(prerenderManifest.routes))
 
-const dynamicRoutes = routes.filter((route) => !prerendered.has(route) && !ALLOWED_DYNAMIC.has(route))
+// Param routes (e.g. /fx/[slug]) are fine when every page is generated at build
+// time and unknown params 404 instead of rendering on demand (dynamicParams = false
+// gives fallback: false).
+const fullyPrerenderedPatterns = new Set(
+    Object.entries(prerenderManifest.dynamicRoutes ?? {})
+        .filter(([, config]) => config.fallback === false)
+        .map(([route]) => route)
+)
+
+const dynamicRoutes = routes.filter((route) =>
+    !prerendered.has(route) && !fullyPrerenderedPatterns.has(route) && !ALLOWED_DYNAMIC.has(route)
+)
 
 if (dynamicRoutes.length > 0) {
     console.error(`\nStatic pages check failed: ${dynamicRoutes.length} route(s) are no longer prerendered:\n`)

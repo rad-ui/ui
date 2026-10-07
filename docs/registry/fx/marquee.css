@@ -1,0 +1,44 @@
+.rad-fx-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.rad-fx-marquee-track {
+    display: flex;
+    width: max-content;
+    gap: var(--rad-fx-marquee-gap, 2.5rem);
+    animation: rad-fx-marquee var(--rad-fx-marquee-duration, 30s) linear infinite;
+}
+
+.rad-fx-marquee[data-direction='right'] .rad-fx-marquee-track { animation-direction: reverse; }
+
+.rad-fx-marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--rad-fx-marquee-gap, 2.5rem);
+}
+
+.rad-fx-marquee[data-state='paused'] .rad-fx-marquee-track,
+.rad-fx-marquee[data-pause-on-hover]:hover .rad-fx-marquee-track,
+.rad-fx-marquee:focus-within .rad-fx-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Moves exactly one group plus one gap, so the second group lands where the first started. */
+@keyframes rad-fx-marquee {
+    to { transform: translateX(calc(-50% - var(--rad-fx-marquee-gap, 2.5rem) / 2)); }
+}
+
+/* Reduced motion: no scrolling; the items wrap into a normal row and the copy disappears. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-marquee { mask-image: none; }
+    .rad-fx-marquee-track { animation: none; width: auto; }
+    .rad-fx-marquee-group { flex-wrap: wrap; justify-content: center; flex-shrink: 1; }
+    .rad-fx-marquee-group[aria-hidden='true'] { display: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-marquee { mask-image: none; }
+[data-rad-fx-motion='reduce'] .rad-fx-marquee-track { animation: none; width: auto; }
+[data-rad-fx-motion='reduce'] .rad-fx-marquee-group { flex-wrap: wrap; justify-content: center; flex-shrink: 1; }
+[data-rad-fx-motion='reduce'] .rad-fx-marquee-group[aria-hidden='true'] { display: none; }

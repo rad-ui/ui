@@ -136,7 +136,25 @@ export default function App() {
 - Installation: https://www.rad-ui.com/fx/installation
 - Accessibility Contract: https://www.rad-ui.com/fx/accessibility
 - BlurReveal: https://www.rad-ui.com/fx/blur-reveal
+- Typewriter: https://www.rad-ui.com/fx/typewriter
+- ScrambleText: https://www.rad-ui.com/fx/scramble-text
+- ShimmerText: https://www.rad-ui.com/fx/shimmer-text
+- ColorShiftText: https://www.rad-ui.com/fx/color-shift-text
+- WordCycle: https://www.rad-ui.com/fx/word-cycle
+- CountTo: https://www.rad-ui.com/fx/count-to
 - AuroraBackdrop: https://www.rad-ui.com/fx/aurora-backdrop
+- GridBackdrop: https://www.rad-ui.com/fx/grid-backdrop
+- DotField: https://www.rad-ui.com/fx/dot-field
+- Starfield: https://www.rad-ui.com/fx/starfield
+- MeteorShower: https://www.rad-ui.com/fx/meteor-shower
+- GlowCard: https://www.rad-ui.com/fx/glow-card
+- PerspectiveCard: https://www.rad-ui.com/fx/perspective-card
+- Magnetic: https://www.rad-ui.com/fx/magnetic
+- ClickBurst: https://www.rad-ui.com/fx/click-burst
+- RevealOnScroll: https://www.rad-ui.com/fx/reveal-on-scroll
+- OrbitBorder: https://www.rad-ui.com/fx/orbit-border
+- Marquee: https://www.rad-ui.com/fx/marquee
+- SlidingTabs: https://www.rad-ui.com/fx/sliding-tabs
 
 ## Useful Agent Notes
 - Prefer per-component imports such as @radui/ui/Dialog, @radui/ui/Select, and @radui/ui/Button.

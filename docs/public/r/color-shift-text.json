@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "color-shift-text",
+  "type": "registry:component",
+  "title": "ColorShiftText",
+  "description": "Text filled with a slowly flowing multi-colour gradient.",
+  "files": [
+    {
+      "path": "registry/fx/color-shift-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/color-shift-text.tsx",
+      "content": "import * as React from 'react'\n\nimport './color-shift-text.css'\n\ntype ColorShiftTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type ColorShiftTextProps = {\n    children: React.ReactNode\n    as?: ColorShiftTag\n    /** Two or more colours that flow through the text. Check each against your background. */\n    colors?: string[]\n    /** Seconds per cycle. */\n    duration?: number\n    className?: string\n}\n\nconst DEFAULT_COLORS = ['#22d3ee', '#a78bfa', '#f472b6', '#22d3ee']\n\nconst ColorShiftText = ({ children, as: Tag = 'span', colors = DEFAULT_COLORS, duration = 6, className }: ColorShiftTextProps) => (\n    <Tag\n        className={['rad-fx-color-shift', className].filter(Boolean).join(' ')}\n        style={{\n            '--rad-fx-color-shift-gradient': `linear-gradient(90deg, ${colors.join(', ')})`,\n            '--rad-fx-color-shift-duration': `${duration}s`\n        } as React.CSSProperties}\n    >\n        {children}\n    </Tag>\n)\n\nexport default ColorShiftText\n"
+    },
+    {
+      "path": "registry/fx/color-shift-text.css",
+      "type": "registry:file",
+      "target": "components/fx/color-shift-text.css",
+      "content": ".rad-fx-color-shift {\n    background-image: var(--rad-fx-color-shift-gradient);\n    background-size: 300% 100%;\n    background-clip: text;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    animation: rad-fx-color-shift var(--rad-fx-color-shift-duration, 6s) ease-in-out infinite alternate;\n}\n\n@keyframes rad-fx-color-shift {\n    from { background-position: 0% 50%; }\n    to { background-position: 100% 50%; }\n}\n\n@media (forced-colors: active) {\n    .rad-fx-color-shift { background: none; -webkit-text-fill-color: currentColor; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-color-shift { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-color-shift { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/color-shift-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Text is never split.",
+      "Every colour in the gradient must meet contrast against the background, since any of them can sit under any letter.",
+      "Forced-colours mode falls back to plain text.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes the gradient."
+    ]
+  }
+}

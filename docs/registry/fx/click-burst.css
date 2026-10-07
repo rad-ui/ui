@@ -1,0 +1,28 @@
+.rad-fx-click-burst {
+    position: relative;
+    display: inline-block;
+}
+
+.rad-fx-click-burst-sparks {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.rad-fx-click-burst-spark {
+    position: absolute;
+    left: -1px;
+    top: -5px;
+    width: 2px;
+    height: 10px;
+    border-radius: 1px;
+    background: var(--rad-fx-burst-color);
+    transform: rotate(var(--rad-fx-burst-angle)) translateY(0);
+    animation: rad-fx-burst 450ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes rad-fx-burst {
+    from { opacity: 1; transform: rotate(var(--rad-fx-burst-angle)) translateY(-6px) scaleY(1); }
+    to { opacity: 0; transform: rotate(var(--rad-fx-burst-angle)) translateY(calc(-1 * var(--rad-fx-burst-distance, 28px))) scaleY(0.3); }
+}

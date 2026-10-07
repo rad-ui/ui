@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import { docsNavigationSections } from './docs/docsNavigationSections';
-import { fxNavigationSections } from './fx/fxNavigationSections';
+import { fxComponents, fxNavigationSections } from './fx/fxNavigationSections';
 
 const getLastModified = (filePath) => {
   try {
@@ -21,7 +21,10 @@ const pathToFileMap = (urlPath) => {
   // For docs pages, they might be .mdx files
   // Most doc pages follow pattern: app/docs/.../page.mdx or content.mdx
   if (urlPath === '/fx' || urlPath.startsWith('/fx/')) {
-    return `app${urlPath}/content.mdx`;
+    const slug = urlPath.split('/')[2];
+    return fxComponents.some((item) => item.name === slug)
+      ? `registry/fx/${slug}.tsx`
+      : `app${urlPath}/content.mdx`;
   }
   if (urlPath.startsWith('/docs/')) {
     const relativePath = urlPath.replace('/docs/', 'app/docs/');

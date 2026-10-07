@@ -1,0 +1,36 @@
+/* GridBackdrop: a perspective grid gliding toward the viewer, fading at the horizon. */
+.rad-fx-grid {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    perspective: 320px;
+}
+
+.rad-fx-grid-plane {
+    position: absolute;
+    inset: 0 -50% -40%;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--rad-fx-grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--rad-fx-grid-color) 1px, transparent 1px);
+    background-size: var(--rad-fx-grid-size, 48px) var(--rad-fx-grid-size, 48px);
+    transform: rotateX(62deg);
+    transform-origin: 50% 0;
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+    animation: rad-fx-grid-travel var(--rad-fx-grid-speed, 2s) linear infinite;
+}
+
+.rad-fx-grid[data-state='paused'] .rad-fx-grid-plane { animation-play-state: paused; }
+
+.rad-fx-grid-content { position: relative; }
+
+@keyframes rad-fx-grid-travel {
+    to { background-position: 0 var(--rad-fx-grid-size, 48px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-grid-plane { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-grid-plane { animation: none; }

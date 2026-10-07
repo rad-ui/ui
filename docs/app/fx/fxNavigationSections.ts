@@ -1,3 +1,18 @@
+import registry from '../../registry/registry.json'
+
+// Component sections are generated from the registry, grouped by the second
+// category of each item, so adding an FX to registry.json adds it here too.
+const CATEGORY_TITLES: Record<string, string> = {
+    text: 'Text',
+    backgrounds: 'Backgrounds',
+    interactions: 'Interactions',
+    components: 'Components'
+}
+
+export const fxComponents = registry.items.filter((item) => item.type === 'registry:component')
+
+export const fxCategoryTitle = (category: string) => CATEGORY_TITLES[category] ?? category
+
 export const fxNavigationSections = [
     {
         type: "CATEGORY",
@@ -8,20 +23,13 @@ export const fxNavigationSections = [
             { title: "Accessibility Contract", path: "/fx/accessibility" }
         ]
     },
-    {
+    ...Object.keys(CATEGORY_TITLES).map((category) => ({
         type: "CATEGORY",
-        title: "Text",
-        items: [
-            { title: "BlurReveal", path: "/fx/blur-reveal", is_new: true }
-        ]
-    },
-    {
-        type: "CATEGORY",
-        title: "Backgrounds",
-        items: [
-            { title: "AuroraBackdrop", path: "/fx/aurora-backdrop", is_new: true }
-        ]
-    }
+        title: CATEGORY_TITLES[category],
+        items: fxComponents
+            .filter((item) => item.categories?.[1] === category)
+            .map((item) => ({ title: item.title, path: `/fx/${item.name}`, is_new: true }))
+    })).filter((section) => section.items.length > 0)
 ]
 
 export default fxNavigationSections;
