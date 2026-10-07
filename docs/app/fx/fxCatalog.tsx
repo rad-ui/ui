@@ -151,10 +151,10 @@ export const fxCatalog: Record<string, FxDocs> = {
     <h1>Build something bright</h1>
 </AuroraBackdrop>`,
         props: backdropProps([
-            ['colors', 'string[]', 'cyan, violet, green, pink', 'Up to four colours for the glow.'],
+            ['colors', 'string[]', 'indigo, purple, cyan, pink', 'Up to four colours for the glow.'],
             ['speed', 'number', '10', 'Seconds per drift cycle. Higher is calmer.'],
             ['blur', 'number', '64', 'Blur radius in px.'],
-            ['intensity', 'number', '0.55', 'Opacity of the glow, 0–1.']
+            ['intensity', 'number', '0.5', 'Opacity of the glow, 0–1.']
         ])
     },
     'grid-backdrop': {
@@ -163,7 +163,8 @@ export const fxCatalog: Record<string, FxDocs> = {
 
 <GridBackdrop className="px-8 py-28"><h2>Enter the grid</h2></GridBackdrop>`,
         props: backdropProps([
-            ['color', 'string', 'slate, 35%', 'Line colour.'],
+            ['color', 'string', 'violet, 45%', 'Line colour.'],
+            ['glowColor', 'string', 'violet, 35%', 'Glow along the horizon.'],
             ['cellSize', 'number', '48', 'Cell size in px.'],
             ['speed', 'number', '2', 'Seconds to travel one cell.']
         ])
@@ -174,9 +175,10 @@ export const fxCatalog: Record<string, FxDocs> = {
 
 <DotField className="px-8 py-28"><h2>Quietly alive</h2></DotField>`,
         props: backdropProps([
-            ['color', 'string', 'slate', 'Dot colour.'],
+            ['color', 'string', 'slate', 'Colour of the dim dots.'],
+            ['glowColor', 'string', "'#a78bfa'", 'Colour of the dots under the moving light.'],
             ['gap', 'number', '18', 'Spacing between dots in px.'],
-            ['speed', 'number', '9', 'Seconds for the light to sweep across.']
+            ['speed', 'number', '7', 'Seconds for the light to sweep across.']
         ])
     },
     'starfield': {

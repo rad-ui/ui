@@ -3,22 +3,41 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    perspective: 320px;
+    perspective: 600px;
 }
 
 .rad-fx-grid-plane {
+    /* The floor starts at the horizon and tilts toward the viewer. Its depth must stay
+       below the perspective distance, or the near edge ends up behind the camera. */
     position: absolute;
-    inset: 0 -50% -40%;
+    top: 30%;
+    left: -50%;
+    right: -50%;
+    height: 100%;
+    max-height: 520px;
     z-index: -1;
     pointer-events: none;
     background-image:
         linear-gradient(to right, var(--rad-fx-grid-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--rad-fx-grid-color) 1px, transparent 1px);
     background-size: var(--rad-fx-grid-size, 48px) var(--rad-fx-grid-size, 48px);
-    transform: rotateX(62deg);
+    transform: rotateX(60deg);
     transform-origin: 50% 0;
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 100%);
     animation: rad-fx-grid-travel var(--rad-fx-grid-speed, 2s) linear infinite;
+}
+
+/* A soft glow along the horizon line. */
+.rad-fx-grid::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: -1;
+    pointer-events: none;
+    box-shadow: 0 0 60px 18px var(--rad-fx-grid-glow, rgb(139, 92, 246, 0.35));
 }
 
 .rad-fx-grid[data-state='paused'] .rad-fx-grid-plane { animation-play-state: paused; }

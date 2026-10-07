@@ -15,11 +15,16 @@
     background-size: var(--rad-fx-dots-gap, 18px) var(--rad-fx-dots-gap, 18px);
 }
 
-.rad-fx-dots-base { opacity: 0.25; }
+.rad-fx-dots-base { opacity: 0.3; }
 
+/* Lit dots are larger and tinted, with a faint glow under them. */
 .rad-fx-dots-lit {
+    background-image:
+        radial-gradient(circle, var(--rad-fx-dots-glow, #a78bfa) 1.4px, transparent 2px),
+        radial-gradient(closest-side, color-mix(in srgb, var(--rad-fx-dots-glow, #a78bfa) 18%, transparent), transparent);
+    background-size: var(--rad-fx-dots-gap, 18px) var(--rad-fx-dots-gap, 18px), 100% 100%;
     mask-image: radial-gradient(circle at center, #000 0, transparent 70%);
-    mask-size: 60% 90%;
+    mask-size: 55% 110%;
     mask-repeat: no-repeat;
     mask-position: 0% 50%;
     animation: rad-fx-dots-sweep var(--rad-fx-dots-speed, 9s) ease-in-out infinite alternate;

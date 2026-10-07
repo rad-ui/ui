@@ -35,7 +35,8 @@ const DocsTableOfContents = () => {
             const headings = Array.from(
                 article.querySelectorAll<HTMLHeadingElement>("h2, h3")
             )
-                .filter((heading) => heading.textContent?.trim())
+                // Headings inside live demos are content, not page sections.
+                .filter((heading) => heading.textContent?.trim() && !heading.closest("[data-docs-toc-ignore]"))
                 .map((heading) => {
                     const text = heading.textContent?.trim() || "";
                     const anchorRoot = heading.closest<HTMLElement>(".docs-anchor");

@@ -27,7 +27,7 @@ const FxInstall = ({ name, files }: { name: string, files: { path: string, code:
     ]
 
     return <div className={`${docsSurfaceClassName} px-4 pb-4 pt-3 sm:px-5`}>
-        <CodeTabs data={tabs} />
+        <CodeTabs data={tabs} preserveCase />
     </div>
 }
 

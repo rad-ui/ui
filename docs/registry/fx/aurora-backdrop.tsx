@@ -17,13 +17,13 @@ export type AuroraBackdropProps = React.ComponentPropsWithoutRef<'div'> & {
     paused?: boolean
 }
 
-const DEFAULT_COLORS = ['#22d3ee', '#a78bfa', '#34d399', '#f472b6']
+const DEFAULT_COLORS = ['#6366f1', '#a855f7', '#22d3ee', '#ec4899']
 
 const AuroraBackdrop = React.forwardRef<HTMLDivElement, AuroraBackdropProps>(({
     colors = DEFAULT_COLORS,
     speed = 10,
     blur = 64,
-    intensity = 0.55,
+    intensity = 0.5,
     paused = false,
     className,
     style,

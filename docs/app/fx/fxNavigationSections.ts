@@ -28,7 +28,7 @@ export const fxNavigationSections = [
         title: CATEGORY_TITLES[category],
         items: fxComponents
             .filter((item) => item.categories?.[1] === category)
-            .map((item) => ({ title: item.title, path: `/fx/${item.name}`, is_new: true }))
+            .map((item) => ({ title: item.title, path: `/fx/${item.name}` }))
     })).filter((section) => section.items.length > 0)
 ]
 

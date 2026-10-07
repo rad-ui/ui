@@ -19,9 +19,10 @@ const FxComponentPage = async ({ name }: { name: string }) => {
         code: await getSourceCodeFromPath(`docs/${file.path}`)
     })))
     const [primary, ...extraDemos] = docs.demos
+    const variant = item.categories?.[1] === 'backgrounds' ? 'bare' : 'stage'
 
     return <Documentation eyebrow={`FX · ${fxCategoryTitle(item.categories?.[1] ?? '')}`} title={item.title} description={item.description}>
-        <FxPreview replayable={primary.replayable} minHeight={primary.minHeight}>
+        <FxPreview replayable={primary.replayable} minHeight={primary.minHeight} variant={variant}>
             <primary.Demo />
         </FxPreview>
 
@@ -35,7 +36,7 @@ const FxComponentPage = async ({ name }: { name: string }) => {
 
         {extraDemos.map((demo) => (
             <Documentation.Section key={demo.title} title={demo.title}>
-                <FxPreview replayable={demo.replayable} minHeight={demo.minHeight}>
+                <FxPreview replayable={demo.replayable} minHeight={demo.minHeight} variant={variant}>
                     <demo.Demo />
                 </FxPreview>
                 {demo.code ? <Documentation.CodeBlock language="tsx">{demo.code}</Documentation.CodeBlock> : null}

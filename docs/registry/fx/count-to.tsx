@@ -14,13 +14,14 @@ export type CountToProps = {
     duration?: number
     /** Passed to Intl.NumberFormat, e.g. { style: 'currency', currency: 'USD' }. */
     format?: Intl.NumberFormatOptions
+    /** Defaults to en-US so server and client format identically. */
     locale?: string
     className?: string
 }
 
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 
-const CountTo = ({ to, from = 0, duration = 1600, format, locale, className }: CountToProps) => {
+const CountTo = ({ to, from = 0, duration = 1600, format, locale = 'en-US', className }: CountToProps) => {
     const ref = React.useRef<HTMLSpanElement | null>(null)
     const reduced = useReducedMotion(ref)
     const [value, setValue] = React.useState(to)

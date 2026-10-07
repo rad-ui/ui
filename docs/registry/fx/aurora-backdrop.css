@@ -10,13 +10,13 @@
     inset: -20%;
     z-index: -1;
     pointer-events: none;
-    opacity: var(--rad-fx-aurora-intensity, 0.55);
+    opacity: var(--rad-fx-aurora-intensity, 0.5);
     filter: blur(var(--rad-fx-aurora-blur, 64px));
 }
 
 .rad-fx-aurora-blob {
     position: absolute;
-    width: 55%;
+    width: 42%;
     aspect-ratio: 1;
     border-radius: 50%;
     animation: rad-fx-aurora-drift var(--rad-fx-aurora-speed, 10s) ease-in-out infinite alternate;

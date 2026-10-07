@@ -15,7 +15,7 @@
       "path": "registry/fx/color-shift-text.css",
       "type": "registry:file",
       "target": "components/fx/color-shift-text.css",
-      "content": ".rad-fx-color-shift {\n    background-image: var(--rad-fx-color-shift-gradient);\n    background-size: 300% 100%;\n    background-clip: text;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    animation: rad-fx-color-shift var(--rad-fx-color-shift-duration, 6s) ease-in-out infinite alternate;\n}\n\n@keyframes rad-fx-color-shift {\n    from { background-position: 0% 50%; }\n    to { background-position: 100% 50%; }\n}\n\n@media (forced-colors: active) {\n    .rad-fx-color-shift { background: none; -webkit-text-fill-color: currentColor; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-color-shift { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-color-shift { animation: none; }\n"
+      "content": ".rad-fx-color-shift {\n    background-image: var(--rad-fx-color-shift-gradient);\n    background-size: 300% 100%;\n    background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n    animation: rad-fx-color-shift var(--rad-fx-color-shift-duration, 6s) ease-in-out infinite alternate;\n}\n\n@keyframes rad-fx-color-shift {\n    from { background-position: 0% 50%; }\n    to { background-position: 100% 50%; }\n}\n\n@media (forced-colors: active) {\n    .rad-fx-color-shift { background: none; -webkit-text-fill-color: currentcolor; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-color-shift { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-color-shift { animation: none; }\n"
     }
   ],
   "categories": [
