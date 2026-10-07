@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stripe-flow",
+  "type": "registry:component",
+  "title": "StripeFlow",
+  "description": "Diagonal stripes gliding along, softened at the edges.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/stripe-flow.tsx",
+      "type": "registry:component",
+      "target": "components/fx/stripe-flow.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './stripe-flow.css'\n\nexport type StripeFlowProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Stripe colour and gap colour. */\n    colors?: [string, string]\n    /** Stripe width in px. */\n    width?: number\n    /** Seconds per stripe step. */\n    speed?: number\n    paused?: boolean\n}\n\n// Diagonal stripes gliding along, softened at the edges.\nconst StripeFlow = ({ colors = ['rgba(167, 139, 250, 0.16)', 'transparent'], width = 22, speed = 1.6, paused = false, className, style, children, ...props }: StripeFlowProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-stripes', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-stripe-a': colors[0], '--rad-fx-stripe-b': colors[1], '--rad-fx-stripe-width': `${width}px`, '--rad-fx-stripe-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-stripes-layer\" aria-hidden=\"true\" />\n        <div className=\"rad-fx-stripes-content\">{children}</div>\n    </div>\n}\n\nexport default StripeFlow\n"
+    },
+    {
+      "path": "registry/fx/stripe-flow.css",
+      "type": "registry:file",
+      "target": "components/fx/stripe-flow.css",
+      "content": ".rad-fx-stripes {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-stripes-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-stripes-content { position: relative; }\n\n.rad-fx-stripes[data-state='paused'] .rad-fx-stripes-layer,\n.rad-fx-stripes[data-state='paused'] .rad-fx-stripes-layer * { animation-play-state: paused !important; }\n\n.rad-fx-stripes-layer {\n    --rad-fx-stripe-period: calc(var(--rad-fx-stripe-width, 22px) * 2);\n    background: repeating-linear-gradient(-45deg, var(--rad-fx-stripe-a) 0 var(--rad-fx-stripe-width, 22px), var(--rad-fx-stripe-b) var(--rad-fx-stripe-width, 22px) var(--rad-fx-stripe-period));\n    background-size: calc(var(--rad-fx-stripe-period) * 1.4142) calc(var(--rad-fx-stripe-period) * 1.4142);\n    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);\n    animation: rad-fx-stripes var(--rad-fx-stripe-speed, 1.6s) linear infinite;\n}\n\n@keyframes rad-fx-stripes {\n    to { background-position: calc(var(--rad-fx-stripe-period) * 1.4142) 0; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-stripes-layer { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-stripes-layer { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/stripe-flow",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the stripes still."
+    ]
+  }
+}

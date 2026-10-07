@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "snowfall",
+  "type": "registry:component",
+  "title": "Snowfall",
+  "description": "Snowflakes drifting down and swaying.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/snowfall.tsx",
+      "type": "registry:component",
+      "target": "components/fx/snowfall.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './snowfall.css'\n\nexport type SnowfallProps = React.ComponentPropsWithoutRef<'div'> & {\n    count?: number\n    color?: string\n    seed?: number\n    paused?: boolean\n}\n\n// Seeded so server and client draw the same scene.\nconst mulberry32 = (seed: number) => () => {\n    seed |= 0\n    seed = (seed + 0x6d2b79f5) | 0\n    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)\n    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t\n    return ((t ^ (t >>> 14)) >>> 0) / 4294967296\n}\n\nconst Snowfall = ({ count = 60, color = '#f8fafc', seed = 9, paused = false, className, style, children, ...props }: SnowfallProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n    const flakes = React.useMemo(() => {\n        const random = mulberry32(seed)\n        return Array.from({ length: count }, () => {\n            const size = random() * 4 + 2\n            return {\n                left: `${(random() * 100).toFixed(1)}%`,\n                size: `${size.toFixed(1)}px`,\n                blur: size > 4.5 ? '1px' : '0px',\n                fall: `${(random() * 8 + 8).toFixed(1)}s`,\n                sway: `${(random() * 2 + 2.5).toFixed(1)}s`,\n                delay: `${(random() * -16).toFixed(1)}s`,\n                rest: `${(random() * 90 + 5).toFixed(0)}%`\n            }\n        })\n    }, [count, seed])\n\n    return <div ref={ref} className={['rad-fx-snow', className].filter(Boolean).join(' ')} data-state={paused || offscreen ? 'paused' : 'running'} style={{ '--rad-fx-snow-color': color, ...style } as React.CSSProperties} {...props}>\n        <div className=\"rad-fx-snow-layer\" aria-hidden=\"true\">\n            {flakes.map((flake, i) => (\n                <span key={i} className=\"rad-fx-snow-fall\" style={{ left: flake.left, animationDuration: flake.fall, animationDelay: flake.delay, '--rad-fx-snow-rest': flake.rest } as React.CSSProperties}>\n                    <span className=\"rad-fx-snow-flake\" style={{ width: flake.size, height: flake.size, filter: `blur(${flake.blur})`, animationDuration: flake.sway, animationDelay: flake.delay }} />\n                </span>\n            ))}\n        </div>\n        <div className=\"rad-fx-snow-content\">{children}</div>\n    </div>\n}\n\nexport default Snowfall\n"
+    },
+    {
+      "path": "registry/fx/snowfall.css",
+      "type": "registry:file",
+      "target": "components/fx/snowfall.css",
+      "content": ".rad-fx-snow {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-snow-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-snow-content { position: relative; }\n\n.rad-fx-snow-fall {\n    position: absolute;\n    top: -5%;\n    animation: rad-fx-snow-fall 12s linear infinite;\n}\n\n.rad-fx-snow-flake {\n    display: block;\n    border-radius: 50%;\n    background: var(--rad-fx-snow-color);\n    opacity: 0.85;\n    animation: rad-fx-snow-sway 3s ease-in-out infinite alternate;\n}\n\n.rad-fx-snow[data-state='paused'] .rad-fx-snow-fall,\n.rad-fx-snow[data-state='paused'] .rad-fx-snow-flake { animation-play-state: paused; }\n\n@keyframes rad-fx-snow-fall { to { top: 105%; } }\n@keyframes rad-fx-snow-sway { from { transform: translateX(-14px); } to { transform: translateX(14px); } }\n\n/* Reduced motion: flakes rest where they are, scattered. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-snow-fall { animation: none; top: var(--rad-fx-snow-rest, 50%); }\n    .rad-fx-snow-flake { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-snow-fall { animation: none; top: var(--rad-fx-snow-rest, 50%); }\n[data-rad-fx-motion='reduce'] .rad-fx-snow-flake { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/snowfall",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) leaves the flakes resting, scattered."
+    ]
+  }
+}

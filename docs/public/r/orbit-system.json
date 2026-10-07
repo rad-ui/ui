@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "orbit-system",
+  "type": "registry:component",
+  "title": "OrbitSystem",
+  "description": "Planets circling concentric orbits behind centred content.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/orbit-system.tsx",
+      "type": "registry:component",
+      "target": "components/fx/orbit-system.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './orbit-system.css'\n\nexport type OrbitSystemProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    /** Planet colours, one orbit each, innermost first. */\n    planets?: string[]\n    /** Seconds for the innermost orbit; outer orbits are slower. */\n    speed?: number\n    paused?: boolean\n}\n\n// Concentric orbits with planets circling at different speeds, behind centred content.\nconst OrbitSystem = ({ color = 'rgba(148, 163, 184, 0.25)', planets = ['#38bdf8', '#a78bfa', '#f472b6', '#fbbf24'], speed = 8, paused = false, className, style, children, ...props }: OrbitSystemProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-orbits', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-orbits-color': color, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-orbits-layer\" aria-hidden=\"true\">\n            {planets.map((planet, i) => (\n                <span\n                    key={i}\n                    className=\"rad-fx-orbits-ring\"\n                    style={{ width: `${30 + i * 18}%`, animationDuration: `${speed * (1 + i * 0.7)}s`, animationDelay: `${-i * 1.7}s`, '--rad-fx-planet': planet } as React.CSSProperties}\n                >\n                    <span className=\"rad-fx-orbits-planet\" />\n                </span>\n            ))}\n        </div>\n        <div className=\"rad-fx-orbits-content\">{children}</div>\n    </div>\n}\n\nexport default OrbitSystem\n"
+    },
+    {
+      "path": "registry/fx/orbit-system.css",
+      "type": "registry:file",
+      "target": "components/fx/orbit-system.css",
+      "content": ".rad-fx-orbits {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-orbits-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-orbits-content { position: relative; }\n\n.rad-fx-orbits[data-state='paused'] .rad-fx-orbits-layer,\n.rad-fx-orbits[data-state='paused'] .rad-fx-orbits-layer * { animation-play-state: paused !important; }\n\n.rad-fx-orbits-ring {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    aspect-ratio: 1;\n    translate: -50% -50%;\n    border: 1px solid var(--rad-fx-orbits-color);\n    border-radius: 50%;\n    animation: rad-fx-orbits 10s linear infinite;\n}\n\n.rad-fx-orbits-planet {\n    position: absolute;\n    top: -5px;\n    left: calc(50% - 5px);\n    width: 10px;\n    height: 10px;\n    border-radius: 50%;\n    background: var(--rad-fx-planet);\n    box-shadow: 0 0 12px 2px var(--rad-fx-planet);\n}\n\n@keyframes rad-fx-orbits { to { transform: rotate(360deg); } }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-orbits-ring { animation: none; }\n    .rad-fx-orbits-ring:nth-child(2) { transform: rotate(120deg); }\n    .rad-fx-orbits-ring:nth-child(3) { transform: rotate(230deg); }\n    .rad-fx-orbits-ring:nth-child(4) { transform: rotate(310deg); }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring { animation: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring:nth-child(2) { transform: rotate(120deg); }\n[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring:nth-child(3) { transform: rotate(230deg); }\n[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring:nth-child(4) { transform: rotate(310deg); }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/orbit-system",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes each planet at a different point on its orbit."
+    ]
+  }
+}

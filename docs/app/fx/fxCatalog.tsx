@@ -12,6 +12,7 @@ import { GlowCardDemo, PerspectiveCardDemo, MagneticDemo, ClickBurstDemo, Reveal
 import { OrbitBorderDemo, MarqueeDemo, SlidingTabsDemo } from './demos/components'
 import { NoiseGrainDemo, WaveLinesDemo, LightBeamsDemo, BubbleFieldDemo, PulseRingsDemo, ShineDemo, PressRippleDemo, ConfettiBurstDemo, PointerParallaxDemo, FlipCardDemo, StaggerListDemo, DrawCheckboxDemo, OdometerDemo, DockDemo, ToggleSwitchDemo, CardStackDemo, ProgressRingDemo, SkeletonDemo, TypingIndicatorDemo, LoaderDemo } from './demos/collection-3'
 import { WipeRevealDemo, LetterDropDemo, StrikeSwapDemo, FillTextDemo, LavaLampDemo, FirefliesDemo, CrtOverlayDemo, HaloGlowDemo, FlashlightDemo, ExpandStripDemo, CompareSliderDemo, CopyButtonDemo, ExpandSearchDemo, StepperDemo, NotificationBellDemo, SmoothDetailsDemo, ToastStackDemo, SuccessCheckDemo, ProgressBarDemo, StrengthMeterDemo } from './demos/collection-4'
+import { RainDemo, SnowfallDemo, DriftCloudsDemo, BokehDemo, RippleDropsDemo, MeshGradientDemo, SunburstDemo, VortexDemo, StripeFlowDemo, HalftoneDemo, HexGridDemo, TileWaveDemo, ContourLinesDemo, ConstellationDemo, OrbitSystemDemo, CodeRainDemo, CircuitTracesDemo, EqualizerBarsDemo, WarpTunnelDemo, HyperspaceDemo, SunburstHorizonDemo } from './demos/collection-5'
 
 // Docs-only data per FX: demos, a usage snippet and the props table. Titles,
 // descriptions and accessibility contracts live in registry/registry.json.
@@ -923,6 +924,319 @@ export const fxCatalog: Record<string, FxDocs> = {
             ['score', '0 | 1 | 2 | 3 | 4', '—', 'Strength level.'],
             ['label', 'string', "'Strength'", 'Accessible name.'],
             ['levels', '[string × 5]', 'Too short … Strong', 'Text for each level.']
+        ]
+    },
+    'rain': {
+        demos: [{ Demo: RainDemo, replayable: false }],
+        usage: `import Rain from "@/components/fx/rain"
+
+<Rain className="px-8 py-24">
+    <h2>Your content</h2>
+</Rain>`,
+        props: [
+            ['count', 'number', '70', 'Number of drops.'],
+            ['color', 'string', 'indigo, 55%', 'Drop colour.'],
+            ['angle', 'number', '12', 'Slant in degrees.'],
+            ['seed', 'number', '2', 'Change for a different, stable pattern.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'snowfall': {
+        demos: [{ Demo: SnowfallDemo, replayable: false }],
+        usage: `import Snowfall from "@/components/fx/snowfall"
+
+<Snowfall className="px-8 py-24">
+    <h2>Your content</h2>
+</Snowfall>`,
+        props: [
+            ['count', 'number', '60', 'Number of flakes.'],
+            ['color', 'string', "'#f8fafc'", 'Flake colour.'],
+            ['seed', 'number', '9', 'Change for a different, stable pattern.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'drift-clouds': {
+        demos: [{ Demo: DriftCloudsDemo, replayable: false }],
+        usage: `import DriftClouds from "@/components/fx/drift-clouds"
+
+<DriftClouds className="px-8 py-24">
+    <h2>Your content</h2>
+</DriftClouds>`,
+        props: [
+            ['count', 'number', '7', 'Number of clouds.'],
+            ['color', 'string', 'slate, 22%', 'Cloud colour.'],
+            ['speed', 'number', '40', 'Seconds to cross. Higher is calmer.'],
+            ['seed', 'number', '4', 'Change for a different, stable sky.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'bokeh': {
+        demos: [{ Demo: BokehDemo, replayable: false }],
+        usage: `import Bokeh from "@/components/fx/bokeh"
+
+<Bokeh className="px-8 py-24">
+    <h2>Your content</h2>
+</Bokeh>`,
+        props: [
+            ['count', 'number', '16', 'Number of orbs.'],
+            ['colors', 'string[]', 'amber, pink, blue', 'Orb colours.'],
+            ['seed', 'number', '6', 'Change for a different, stable layout.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'ripple-drops': {
+        demos: [{ Demo: RippleDropsDemo, replayable: false }],
+        usage: `import RippleDrops from "@/components/fx/ripple-drops"
+
+<RippleDrops className="px-8 py-24">
+    <h2>Your content</h2>
+</RippleDrops>`,
+        props: [
+            ['count', 'number', '9', 'Number of drop spots.'],
+            ['color', 'string', 'sky, 50%', 'Ring colour.'],
+            ['seed', 'number', '12', 'Change for a different, stable layout.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'mesh-gradient': {
+        demos: [{ Demo: MeshGradientDemo, replayable: false }],
+        usage: `import MeshGradient from "@/components/fx/mesh-gradient"
+
+<MeshGradient className="px-8 py-24">
+    <h2>Your content</h2>
+</MeshGradient>`,
+        props: [
+            ['colors', '[string × 4]', 'indigo, pink, cyan, violet', 'One colour per corner.'],
+            ['speed', 'number', '16', 'Seconds per drift cycle.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'sunburst': {
+        demos: [{ Demo: SunburstDemo, replayable: false }, { title: 'From the horizon', Demo: SunburstHorizonDemo, replayable: false, code: '<Sunburst origin="50% 100%">…</Sunburst>' }],
+        usage: `import Sunburst from "@/components/fx/sunburst"
+
+<Sunburst className="px-8 py-24">
+    <h2>Your content</h2>
+</Sunburst>`,
+        props: [
+            ['color', 'string', 'amber, 14%', 'Ray colour.'],
+            ['rays', 'number', '18', 'Number of rays.'],
+            ['origin', 'string', "'50% 50%'", 'Where the rays come from, as "x y".'],
+            ['speed', 'number', '60', 'Seconds per turn.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'vortex': {
+        demos: [{ Demo: VortexDemo, replayable: false }],
+        usage: `import Vortex from "@/components/fx/vortex"
+
+<Vortex className="px-8 py-24">
+    <h2>Your content</h2>
+</Vortex>`,
+        props: [
+            ['colors', '[string, string]', 'violet, cyan', 'Spiral colours.'],
+            ['speed', 'number', '30', 'Seconds per turn. Keep it slow.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'stripe-flow': {
+        demos: [{ Demo: StripeFlowDemo, replayable: false }],
+        usage: `import StripeFlow from "@/components/fx/stripe-flow"
+
+<StripeFlow className="px-8 py-24">
+    <h2>Your content</h2>
+</StripeFlow>`,
+        props: [
+            ['colors', '[string, string]', 'violet, transparent', 'Stripe and gap colours.'],
+            ['width', 'number', '22', 'Stripe width in px.'],
+            ['speed', 'number', '1.6', 'Seconds per stripe step.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'halftone': {
+        demos: [{ Demo: HalftoneDemo, replayable: false }],
+        usage: `import Halftone from "@/components/fx/halftone"
+
+<Halftone className="px-8 py-24">
+    <h2>Your content</h2>
+</Halftone>`,
+        props: [
+            ['color', 'string', 'pink, 55%', 'Dot colour.'],
+            ['spacing', 'number', '14', 'Dot spacing in px.'],
+            ['speed', 'number', '8', 'Seconds for the band to cross.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'hex-grid': {
+        demos: [{ Demo: HexGridDemo, replayable: false }],
+        usage: `import HexGrid from "@/components/fx/hex-grid"
+
+<HexGrid className="px-8 py-24">
+    <h2>Your content</h2>
+</HexGrid>`,
+        props: [
+            ['color', 'string', 'sky, 55%', 'Line colour.'],
+            ['size', 'number', '28', 'Hexagon size in px.'],
+            ['speed', 'number', '10', 'Seconds for the glow to sweep.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'tile-wave': {
+        demos: [{ Demo: TileWaveDemo, replayable: false }],
+        usage: `import TileWave from "@/components/fx/tile-wave"
+
+<TileWave className="px-8 py-24">
+    <h2>Your content</h2>
+</TileWave>`,
+        props: [
+            ['color', 'string', 'violet, 50%', 'Tile colour.'],
+            ['columns', 'number', '18', 'Columns.'],
+            ['rows', 'number', '10', 'Rows.'],
+            ['speed', 'number', '3.2', 'Seconds per wave.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'contour-lines': {
+        demos: [{ Demo: ContourLinesDemo, replayable: false }],
+        usage: `import ContourLines from "@/components/fx/contour-lines"
+
+<ContourLines className="px-8 py-24">
+    <h2>Your content</h2>
+</ContourLines>`,
+        props: [
+            ['color', 'string', 'emerald, 35%', 'Line colour.'],
+            ['spacing', 'number', '18', 'Distance between lines in px.'],
+            ['speed', 'number', '20', 'Seconds per drift cycle.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'constellation': {
+        demos: [{ Demo: ConstellationDemo, replayable: false }],
+        usage: `import Constellation from "@/components/fx/constellation"
+
+<Constellation className="px-8 py-24">
+    <h2>Your content</h2>
+</Constellation>`,
+        props: [
+            ['count', 'number', '34', 'Number of stars.'],
+            ['color', 'string', "'#c4b5fd'", 'Star and line colour.'],
+            ['reach', 'number', '16', 'Max link distance, % of width.'],
+            ['seed', 'number', '21', 'Change for a different, stable sky.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'orbit-system': {
+        demos: [{ Demo: OrbitSystemDemo, replayable: false }],
+        usage: `import OrbitSystem from "@/components/fx/orbit-system"
+
+<OrbitSystem className="px-8 py-24">
+    <h2>Your content</h2>
+</OrbitSystem>`,
+        props: [
+            ['color', 'string', 'slate, 25%', 'Orbit line colour.'],
+            ['planets', 'string[]', 'sky, violet, pink, amber', 'Planet colours, innermost first.'],
+            ['speed', 'number', '8', 'Seconds for the innermost orbit.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'code-rain': {
+        demos: [{ Demo: CodeRainDemo, replayable: false }],
+        usage: `import CodeRain from "@/components/fx/code-rain"
+
+<CodeRain className="px-8 py-24">
+    <h2>Your content</h2>
+</CodeRain>`,
+        props: [
+            ['columns', 'number', '28', 'Number of columns.'],
+            ['color', 'string', "'#4ade80'", 'Glyph colour.'],
+            ['characters', 'string', 'katakana, digits, symbols', 'Glyphs to draw from.'],
+            ['seed', 'number', '3', 'Change for a different, stable pattern.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'circuit-traces': {
+        demos: [{ Demo: CircuitTracesDemo, replayable: false }],
+        usage: `import CircuitTraces from "@/components/fx/circuit-traces"
+
+<CircuitTraces className="px-8 py-24">
+    <h2>Your content</h2>
+</CircuitTraces>`,
+        props: [
+            ['count', 'number', '14', 'Number of traces.'],
+            ['color', 'string', "'#22d3ee'", 'Trace colour.'],
+            ['seed', 'number', '8', 'Change for a different, stable layout.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'equalizer-bars': {
+        demos: [{ Demo: EqualizerBarsDemo, replayable: false }],
+        usage: `import EqualizerBars from "@/components/fx/equalizer-bars"
+
+<EqualizerBars className="px-8 py-24">
+    <h2>Your content</h2>
+</EqualizerBars>`,
+        props: [
+            ['bars', 'number', '40', 'Number of bars.'],
+            ['colors', '[string, string]', 'violet, cyan', 'Bottom-to-top gradient.'],
+            ['seed', 'number', '14', 'Change for a different, stable beat.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'warp-tunnel': {
+        demos: [{ Demo: WarpTunnelDemo, replayable: false }],
+        usage: `import WarpTunnel from "@/components/fx/warp-tunnel"
+
+const [paused, setPaused] = useState(false)
+
+<WarpTunnel paused={paused}>
+    <button aria-pressed={paused} onClick={() => setPaused(p => !p)}>
+        {paused ? "Play" : "Pause"} background
+    </button>
+</WarpTunnel>`,
+        props: [
+            ['color', 'string', 'violet, 60%', 'Frame colour.'],
+            ['rings', 'number', '10', 'Frames in flight.'],
+            ['speed', 'number', '6', 'Seconds for a frame to reach you.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
+        ]
+    },
+    'hyperspace': {
+        demos: [{ Demo: HyperspaceDemo, replayable: false }],
+        usage: `import Hyperspace from "@/components/fx/hyperspace"
+
+const [paused, setPaused] = useState(false)
+
+<Hyperspace paused={paused}>
+    <button aria-pressed={paused} onClick={() => setPaused(p => !p)}>
+        {paused ? "Play" : "Pause"} background
+    </button>
+</Hyperspace>`,
+        props: [
+            ['count', 'number', '70', 'Number of streaks.'],
+            ['color', 'string', "'#e0e7ff'", 'Streak colour.'],
+            ['speed', 'number', '1.8', 'Seconds per streak. Higher is calmer.'],
+            ['seed', 'number', '17', 'Change for a different, stable pattern.'],
+            ['paused', 'boolean', 'false', 'Stop the animation. It also pauses offscreen.'],
+            ['...props', "ComponentProps<'div'>", '—', 'Passed to the root div; children render above.']
         ]
     }
 }

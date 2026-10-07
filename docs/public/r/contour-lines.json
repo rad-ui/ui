@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contour-lines",
+  "type": "registry:component",
+  "title": "ContourLines",
+  "description": "Topographic contour rings around slowly wandering peaks.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/contour-lines.tsx",
+      "type": "registry:component",
+      "target": "components/fx/contour-lines.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './contour-lines.css'\n\nexport type ContourLinesProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    /** Distance between contour lines in px. */\n    spacing?: number\n    /** Seconds per drift cycle. */\n    speed?: number\n    paused?: boolean\n}\n\n// Topographic contour rings around a few slowly wandering peaks.\nconst ContourLines = ({ color = 'rgba(52, 211, 153, 0.35)', spacing = 18, speed = 20, paused = false, className, style, children, ...props }: ContourLinesProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-contour', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-contour-color': color, '--rad-fx-contour-spacing': `${spacing}px`, '--rad-fx-contour-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-contour-layer\" aria-hidden=\"true\">\n            <span /><span /><span />\n        </div>\n        <div className=\"rad-fx-contour-content\">{children}</div>\n    </div>\n}\n\nexport default ContourLines\n"
+    },
+    {
+      "path": "registry/fx/contour-lines.css",
+      "type": "registry:file",
+      "target": "components/fx/contour-lines.css",
+      "content": ".rad-fx-contour {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-contour-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-contour-content { position: relative; }\n\n.rad-fx-contour[data-state='paused'] .rad-fx-contour-layer,\n.rad-fx-contour[data-state='paused'] .rad-fx-contour-layer * { animation-play-state: paused !important; }\n\n.rad-fx-contour-layer span {\n    position: absolute;\n    width: 90%;\n    aspect-ratio: 1;\n    border-radius: 50%;\n    background: repeating-radial-gradient(\n        circle at center,\n        transparent 0 calc(var(--rad-fx-contour-spacing, 18px) - 1.5px),\n        var(--rad-fx-contour-color) calc(var(--rad-fx-contour-spacing, 18px) - 1.5px) var(--rad-fx-contour-spacing, 18px)\n    );\n    mask-image: radial-gradient(circle, #000 20%, transparent 70%);\n    animation: rad-fx-contour var(--rad-fx-contour-speed, 20s) ease-in-out infinite alternate;\n}\n\n.rad-fx-contour-layer span:nth-child(1) { left: -25%; top: -40%; }\n.rad-fx-contour-layer span:nth-child(2) { right: -30%; top: -10%; width: 70%; animation-delay: calc(var(--rad-fx-contour-speed, 20s) / -2); }\n.rad-fx-contour-layer span:nth-child(3) { left: 20%; bottom: -60%; width: 75%; animation-delay: calc(var(--rad-fx-contour-speed, 20s) / -3); }\n\n@keyframes rad-fx-contour {\n    from { transform: translate(0, 0) scale(1); }\n    to { transform: translate(6%, 8%) scale(1.12); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-contour-layer span { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-contour-layer span { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/contour-lines",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the contours still."
+    ]
+  }
+}

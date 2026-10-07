@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sunburst",
+  "type": "registry:component",
+  "title": "Sunburst",
+  "description": "Rays fanning out from a point, turning very slowly.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/sunburst.tsx",
+      "type": "registry:component",
+      "target": "components/fx/sunburst.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './sunburst.css'\n\nexport type SunburstProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    /** Number of rays. */\n    rays?: number\n    /** Where the rays come from, as \"x y\" percentages, e.g. \"50% 100%\" for the bottom edge. */\n    origin?: string\n    /** Seconds per full turn. */\n    speed?: number\n    paused?: boolean\n}\n\n// Rays fanning out from a point, turning very slowly. Retro posters, celebrations.\nconst Sunburst = ({ color = 'rgba(250, 204, 21, 0.14)', rays = 18, origin = '50% 50%', speed = 60, paused = false, className, style, children, ...props }: SunburstProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-sunburst', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-sun-color': color, '--rad-fx-sun-step': `${360 / rays}deg`, '--rad-fx-sun-x': origin.split(' ')[0], '--rad-fx-sun-y': origin.split(' ')[1] ?? '50%', '--rad-fx-sun-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-sunburst-layer\" aria-hidden=\"true\">\n            <span className=\"rad-fx-sunburst-rays\" />\n        </div>\n        <div className=\"rad-fx-sunburst-content\">{children}</div>\n    </div>\n}\n\nexport default Sunburst\n"
+    },
+    {
+      "path": "registry/fx/sunburst.css",
+      "type": "registry:file",
+      "target": "components/fx/sunburst.css",
+      "content": ".rad-fx-sunburst {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-sunburst-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-sunburst-content { position: relative; }\n\n.rad-fx-sunburst[data-state='paused'] .rad-fx-sunburst-layer,\n.rad-fx-sunburst[data-state='paused'] .rad-fx-sunburst-layer * { animation-play-state: paused !important; }\n\n.rad-fx-sunburst-rays {\n    position: absolute;\n    left: var(--rad-fx-sun-x, 50%);\n    top: var(--rad-fx-sun-y, 50%);\n    width: 300%;\n    aspect-ratio: 1;\n    translate: -50% -50%;\n    background: repeating-conic-gradient(from 0deg at 50% 50%, var(--rad-fx-sun-color) 0deg calc(var(--rad-fx-sun-step, 20deg) / 2), transparent calc(var(--rad-fx-sun-step, 20deg) / 2) var(--rad-fx-sun-step, 20deg));\n    mask-image: radial-gradient(circle at center, #000 0%, transparent 45%);\n    animation: rad-fx-sunburst var(--rad-fx-sun-speed, 60s) linear infinite;\n}\n\n@keyframes rad-fx-sunburst { to { transform: rotate(360deg); } }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-sunburst-rays { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-sunburst-rays { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/sunburst",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+    ]
+  }
+}

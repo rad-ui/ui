@@ -1,0 +1,36 @@
+.rad-fx-bokeh {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-bokeh-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-bokeh-content { position: relative; }
+
+.rad-fx-bokeh-orb {
+    position: absolute;
+    margin: -60px 0 0 -60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--rad-fx-bokeh-color) 0%, var(--rad-fx-bokeh-color) 55%, transparent 72%);
+    filter: blur(2px);
+    animation: rad-fx-bokeh 12s ease-in-out infinite alternate;
+}
+
+.rad-fx-bokeh[data-state='paused'] .rad-fx-bokeh-orb { animation-play-state: paused; }
+
+@keyframes rad-fx-bokeh {
+    from { transform: translate(0, 0) scale(0.9); opacity: 0.5; }
+    to { transform: translate(var(--rad-fx-bokeh-dx), var(--rad-fx-bokeh-dy)) scale(1.1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-bokeh-orb { animation: none; opacity: 0.8; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-bokeh-orb { animation: none; opacity: 0.8; }
