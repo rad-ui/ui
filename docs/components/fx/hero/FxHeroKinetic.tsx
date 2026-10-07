@@ -33,6 +33,8 @@ type Beat = {
     bg?: Backdrop
     /** Flip the whole site to the opposite theme for just this beat. */
     site?: 'flip'
+    /** A full-height colour panel swipes across the stage as the beat lands. */
+    swipe?: { from: 'left' | 'right' | 'bottom', color: string }
     words: React.ReactNode
 }
 
@@ -71,9 +73,10 @@ const BEATS: Beat[] = [
     { ms: 480, move: 'pop', bg: 'lime', size: 'xl', words: 'HANDLED.' },
     { ms: 360, move: 'whip-l', size: 'm', words: 'Keyboards?' },
     { ms: 900, move: 'mega', bg: 'lime', size: 'xxl', words: 'HANDLED.' },
-    { ms: 380, move: 'slam', ink: 'cyan', size: 'l', words: 'Copy it.' },
-    { ms: 380, move: 'slam', ink: 'lime', size: 'l', words: 'Own it.' },
-    { ms: 800, move: 'slam', bg: 'yellow', size: 'xl', words: 'Ship it.' }
+    // Copy / Own / Ship: each one arrives behind a swipe, alternating directions.
+    { ms: 560, move: 'whip-l', ink: 'cyan', size: 'xl', swipe: { from: 'left', color: '#3de8ff' }, words: 'Copy it.' },
+    { ms: 560, move: 'whip-r', ink: 'lime', size: 'xl', swipe: { from: 'right', color: '#b8ff3c' }, words: 'Own it.' },
+    { ms: 950, move: 'rise', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: 'Ship it.' }
 ]
 
 // What screen readers get: the whole story once, in sentences.
@@ -165,7 +168,14 @@ const FxHeroKinetic = () => {
                 >
                     <span className="fx-kinetic-words">{beat.words}</span>
                 </div>
-            ) : (
+            ) : null}
+            {beat?.swipe ? (
+                <span key={`swipe-${index}-${run}`} className="fx-kinetic-swipe" data-from={beat.swipe.from} style={{ '--fx-kinetic-swipe': beat.swipe.color } as React.CSSProperties}>
+                    <span className="fx-kinetic-swipe-streak" />
+                    <span className="fx-kinetic-swipe-streak" />
+                </span>
+            ) : null}
+            {beat ? null : (
                 <div key={`end-${run}`} className="fx-kinetic-beat" data-move="zoom" data-ink="white" data-size="xl">
                     <EndCard />
                 </div>
