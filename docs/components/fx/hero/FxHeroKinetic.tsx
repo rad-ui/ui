@@ -31,6 +31,8 @@ type Beat = {
     size?: Size
     /** Cut the whole stage to this colour for emphasis; words turn black. */
     bg?: Backdrop
+    /** Flip the whole site's theme from this beat on ('flip'), or restore it ('restore'). */
+    site?: 'flip' | 'restore'
     words: React.ReactNode
 }
 
@@ -53,7 +55,7 @@ const BEATS: Beat[] = [
     { ms: 700, move: 'spin', bg: 'orange', size: 'xl', words: 'SEASICK.' },
     // The twist
     { ms: 320, move: 'rise', ink: 'violet', size: 'l', words: 'Plot' },
-    { ms: 560, move: 'slam', bg: 'violet', size: 'xl', words: 'twist.' },
+    { ms: 560, move: 'slam', bg: 'violet', size: 'xl', site: 'flip', words: 'twist.' },
     { ms: 340, move: 'zoom', size: 'l', words: 'What if' },
     { ms: 340, move: 'whip-l', size: 'l', words: 'motion' },
     { ms: 280, move: 'drop', size: 'l', words: 'had' },
@@ -86,6 +88,15 @@ const STORY = [
 
 const END = BEATS.length
 
+// Must match THEME_PREVIEW_EVENT in components/Main/Main.js.
+const THEME_PREVIEW_EVENT = 'rad-docs:theme-preview'
+const previewTheme = (mode: 'light' | 'dark' | null) => {
+    window.dispatchEvent(new CustomEvent(THEME_PREVIEW_EVENT, { detail: mode }))
+}
+// The site's theme as the user chose it (the hero's own preview aside).
+const siteTheme = (): 'light' | 'dark' =>
+    document.cookie.split('; ').includes('darkMode=false') ? 'light' : 'dark'
+
 const EndCard = () => <div className="fx-kinetic-end">
     <p className="fx-kinetic-end-title">Rad UI FX</p>
     <p className="fx-kinetic-end-line">Motion with <NeonText color={CYAN} flicker={false}>manners.</NeonText></p>
@@ -113,6 +124,14 @@ const FxHeroKinetic = () => {
     }, [index, run, playing, offscreen])
 
     useEffect(() => { if (index >= END) setPlaying(false) }, [index])
+
+    // The plot twist flips the whole site to the opposite theme; the end card,
+    // Replay and leaving the page all hand the user's own theme back.
+    useEffect(() => {
+        const flipped = BEATS.slice(0, Math.min(index, END) + 1).some((b) => b.site === 'flip') && index < END
+        previewTheme(flipped ? (siteTheme() === 'dark' ? 'light' : 'dark') : null)
+    }, [index])
+    useEffect(() => () => previewTheme(null), [])
 
     const replay = () => {
         firstBeat.current = false

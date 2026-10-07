@@ -1,4 +1,4 @@
-/* Hero v2: kinetic typography on pure black, with full-stage colour cuts for
+/* Hero v2: kinetic typography (black canvas in dark theme, white in light), with full-stage colour cuts for
    emphasis. Same in both themes. Motion is not reduced: a product decision. */
 .fx-kinetic {
     overflow: hidden;
@@ -191,3 +191,46 @@
 .fx-kinetic-stage[data-bg='white'] { background: #fafafa; }
 
 .fx-kinetic-stage[data-bg] .fx-kinetic-beat { color: #000; }
+
+/* Light theme: white canvas, black type. Emphasis cuts keep their colours (black
+   type works on all of them); plain-canvas accents switch to deeper inks that
+   hold up on white, and the neon end-card word becomes solid. */
+[data-rad-ui-theme='light'] .fx-kinetic {
+    border-color: rgb(0, 0, 0, 0.1);
+    background: #fff;
+    color: #0a0a0a;
+}
+
+[data-rad-ui-theme='light'] .fx-kinetic-beat[data-ink='white'] { color: #0a0a0a; }
+[data-rad-ui-theme='light'] .fx-kinetic-beat[data-ink='yellow'] { color: #a15c00; }
+[data-rad-ui-theme='light'] .fx-kinetic-beat[data-ink='cyan'] { color: #0369a1; }
+[data-rad-ui-theme='light'] .fx-kinetic-beat[data-ink='lime'] { color: #3f6212; }
+[data-rad-ui-theme='light'] .fx-kinetic-beat[data-ink='orange'] { color: #c2410c; }
+[data-rad-ui-theme='light'] .fx-kinetic-beat[data-ink='violet'] { color: #6d28d9; }
+
+[data-rad-ui-theme='light'] .fx-kinetic-stage[data-bg] .fx-kinetic-beat { color: #000; }
+
+[data-rad-ui-theme='light'] .fx-kinetic-end-title,
+[data-rad-ui-theme='light'] .fx-kinetic-end-line { color: #0a0a0a; }
+
+[data-rad-ui-theme='light'] .fx-kinetic-end .rad-fx-neon {
+    color: #0369a1;
+    text-shadow: none;
+}
+
+[data-rad-ui-theme='light'] .fx-kinetic-bar { border-top-color: rgb(0, 0, 0, 0.08); }
+
+[data-rad-ui-theme='light'] .fx-kinetic-link,
+[data-rad-ui-theme='light'] .fx-kinetic-button {
+    border-color: rgb(0, 0, 0, 0.2);
+    color: #0a0a0a;
+}
+
+[data-rad-ui-theme='light'] .fx-kinetic-link-primary {
+    border-color: #0a0a0a;
+    background: #0a0a0a;
+    color: #fff;
+}
+
+[data-rad-ui-theme='light'] .fx-kinetic-link:focus-visible,
+[data-rad-ui-theme='light'] .fx-kinetic-button:focus-visible { outline-color: #0369a1; }
