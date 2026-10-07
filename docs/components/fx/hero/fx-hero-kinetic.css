@@ -1,0 +1,193 @@
+/* Hero v2: kinetic typography on pure black, with full-stage colour cuts for
+   emphasis. Same in both themes. Motion is not reduced: a product decision. */
+.fx-kinetic {
+    overflow: hidden;
+    margin: 1.5rem 0 0;
+    border: 1px solid rgb(255, 255, 255, 0.1);
+    border-radius: 22px;
+    background: #000;
+    color: #fafafa;
+}
+
+.fx-kinetic-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 8;
+    min-height: 320px;
+    overflow: hidden;
+    container-type: inline-size;
+    padding: 0 4cqw;
+}
+
+.fx-kinetic-beat {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+.fx-kinetic-words {
+    display: inline-block;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+
+    /* Every beat drifts slightly toward the viewer for its whole duration. */
+    animation: fx-kinetic-drift var(--fx-kinetic-ms, 500ms) linear both;
+}
+
+.fx-kinetic-beat[data-size='xl'] .fx-kinetic-words { font-size: 17cqw; }
+.fx-kinetic-beat[data-size='l'] .fx-kinetic-words { font-size: 12cqw; }
+.fx-kinetic-beat[data-size='m'] .fx-kinetic-words { font-size: 8.5cqw; letter-spacing: -0.04em; }
+
+.fx-kinetic-small { font-size: 0.42em; letter-spacing: -0.03em; vertical-align: 0.55em; }
+
+/* Every ink is at least 4.5:1 on black. */
+.fx-kinetic-beat[data-ink='white'] { color: #fafafa; }
+.fx-kinetic-beat[data-ink='yellow'] { color: #ffe14d; }
+.fx-kinetic-beat[data-ink='cyan'] { color: #3de8ff; }
+.fx-kinetic-beat[data-ink='lime'] { color: #b8ff3c; }
+.fx-kinetic-beat[data-ink='orange'] { color: #ff9a3c; }
+.fx-kinetic-beat[data-ink='violet'] { color: #c79bff; }
+
+/* Entrances. Short, hard and physical: the camera "cuts" on every beat. */
+.fx-kinetic-beat[data-move] { animation: 260ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fx-kinetic-beat[data-move='slam'] { animation-name: fx-kinetic-slam; animation-duration: 320ms; }
+.fx-kinetic-beat[data-move='zoom'] { animation-name: fx-kinetic-zoom; }
+.fx-kinetic-beat[data-move='whip-l'] { animation-name: fx-kinetic-whip-l; }
+.fx-kinetic-beat[data-move='whip-r'] { animation-name: fx-kinetic-whip-r; }
+.fx-kinetic-beat[data-move='drop'] { animation-name: fx-kinetic-drop; animation-timing-function: cubic-bezier(0.3, 1.5, 0.5, 1); animation-duration: 340ms; }
+.fx-kinetic-beat[data-move='rise'] { animation-name: fx-kinetic-rise; }
+.fx-kinetic-beat[data-move='spin'] { animation-name: fx-kinetic-spin; animation-duration: 420ms; }
+.fx-kinetic-beat[data-move='shake'] { animation-name: fx-kinetic-slam, fx-kinetic-shake; animation-duration: 320ms, 420ms; animation-delay: 0ms, 320ms; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), linear; }
+
+@keyframes fx-kinetic-slam {
+    0% { transform: scale(2.4); opacity: 0; filter: blur(14px); }
+    60% { transform: scale(0.97); opacity: 1; filter: blur(0); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fx-kinetic-zoom {
+    from { transform: scale(0.55); opacity: 0; filter: blur(8px); }
+    to { transform: scale(1); opacity: 1; filter: blur(0); }
+}
+
+@keyframes fx-kinetic-whip-l {
+    from { transform: translateX(-45%) skewX(14deg); opacity: 0; filter: blur(10px); }
+    to { transform: none; opacity: 1; filter: blur(0); }
+}
+
+@keyframes fx-kinetic-whip-r {
+    from { transform: translateX(45%) skewX(-14deg); opacity: 0; filter: blur(10px); }
+    to { transform: none; opacity: 1; filter: blur(0); }
+}
+
+@keyframes fx-kinetic-drop {
+    from { transform: translateY(-70%); opacity: 0; }
+    to { transform: none; opacity: 1; }
+}
+
+@keyframes fx-kinetic-rise {
+    from { transform: translateY(60%); opacity: 0; filter: blur(6px); }
+    to { transform: none; opacity: 1; filter: blur(0); }
+}
+
+@keyframes fx-kinetic-spin {
+    0% { transform: rotate(-24deg) scale(0.5); opacity: 0; }
+    70% { transform: rotate(4deg) scale(1.04); opacity: 1; }
+    100% { transform: rotate(-3deg) scale(1); opacity: 1; }
+}
+
+@keyframes fx-kinetic-shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-1.2cqw) rotate(-1deg); }
+    40% { transform: translateX(1cqw) rotate(1deg); }
+    60% { transform: translateX(-0.6cqw); }
+    80% { transform: translateX(0.4cqw); }
+}
+
+@keyframes fx-kinetic-drift {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+}
+
+/* End card. */
+.fx-kinetic-end {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6cqw;
+}
+
+.fx-kinetic-end .fx-kinetic-words,
+.fx-kinetic-end { animation: none; }
+
+.fx-kinetic-end-title {
+    margin: 0;
+    font-size: 15cqw;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+    color: #fafafa;
+}
+
+.fx-kinetic-end-line {
+    margin: 0;
+    font-size: 5.2cqw;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    color: #fafafa;
+}
+
+/* Bottom bar: calls to action and Replay. */
+.fx-kinetic-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-top: 1px solid rgb(255, 255, 255, 0.08);
+}
+
+.fx-kinetic-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.fx-kinetic-link,
+.fx-kinetic-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid rgb(255, 255, 255, 0.22);
+    border-radius: 999px;
+    background: transparent;
+    color: #fafafa;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.fx-kinetic-link-primary {
+    border-color: #fafafa;
+    background: #fafafa;
+    color: #000;
+}
+
+.fx-kinetic-link:focus-visible,
+.fx-kinetic-button:focus-visible {
+    outline: 2px solid #3de8ff;
+    outline-offset: 3px;
+}
+
+/* Emphasis beats cut the whole stage to a solid colour, with black type. */
+.fx-kinetic-stage[data-bg='yellow'] { background: #ffe14d; }
+.fx-kinetic-stage[data-bg='cyan'] { background: #3de8ff; }
+.fx-kinetic-stage[data-bg='lime'] { background: #b8ff3c; }
+.fx-kinetic-stage[data-bg='orange'] { background: #ff7a1a; }
+.fx-kinetic-stage[data-bg='violet'] { background: #b98aff; }
+.fx-kinetic-stage[data-bg='white'] { background: #fafafa; }
+
+.fx-kinetic-stage[data-bg] .fx-kinetic-beat { color: #000; }
