@@ -6,6 +6,7 @@ import { ShimmerTextDemo } from './demos/shimmer-text'
 import { ColorShiftTextDemo } from './demos/color-shift-text'
 import { WordCycleDemo } from './demos/word-cycle'
 import { CountToDemo } from './demos/count-to'
+import { WaveTextDemo, WaveTextHoverDemo, GlitchTextDemo, MarkerHighlightDemo, InkUnderlineDemo, InkUnderlineHoverDemo, SplitFlapDemo, MorphWordsDemo, SpotlightTextDemo, ExtrudedTextDemo, CircularTextDemo, NeonTextDemo } from './demos/text-effects'
 import { GridBackdropDemo, DotFieldDemo, StarfieldDemo, MeteorShowerDemo, PausableStarfieldDemo } from './demos/backgrounds'
 import { GlowCardDemo, PerspectiveCardDemo, MagneticDemo, ClickBurstDemo, RevealOnScrollDemo } from './demos/interactions'
 import { OrbitBorderDemo, MarqueeDemo, SlidingTabsDemo } from './demos/components'
@@ -132,6 +133,146 @@ export const fxCatalog: Record<string, FxDocs> = {
             ['duration', 'number', '1600', 'Milliseconds to count.'],
             ['format', 'Intl.NumberFormatOptions', '—', 'Number formatting.'],
             ['locale', 'string', 'browser', 'Locale for formatting.']
+        ]
+    },
+    'wave-text': {
+        demos: [
+            { Demo: WaveTextDemo, replayable: false },
+            { title: 'On hover', Demo: WaveTextHoverDemo, minHeight: 180, replayable: false, code: '<WaveText trigger="hover" text="wiggle wiggle" amplitude={0.35} />' }
+        ],
+        usage: `import WaveText from "@/components/fx/wave-text"
+
+<WaveText as="h2" text="Good vibrations" />`,
+        props: [
+            ['text', 'string', '—', 'The text. Read once by screen readers.'],
+            ['as', TAG_TYPE, "'span'", 'Element to render.'],
+            ['trigger', "'loop' | 'hover'", "'loop'", 'Ripple continuously, or only while hovered.'],
+            ['amplitude', 'number', '0.22', 'Wave height in em.'],
+            ['duration', 'number', '1.4', 'Seconds per ripple.'],
+            ['stagger', 'number', '0.06', 'Seconds between letters.'],
+            ['paused', 'boolean', 'false', 'Stop the wave.']
+        ]
+    },
+    'glitch-text': {
+        demos: [{ Demo: GlitchTextDemo, replayable: false }],
+        usage: `import GlitchText from "@/components/fx/glitch-text"
+
+<GlitchText as="h2" text="SYSTEM_OVERRIDE" />`,
+        props: [
+            ['text', 'string', '—', 'The text. Read once by screen readers.'],
+            ['as', TAG_TYPE, "'span'", 'Element to render.'],
+            ['interval', 'number', '3', 'Seconds between bursts.'],
+            ['colors', '[string, string]', 'cyan, pink', 'Colours of the split channels.'],
+            ['paused', 'boolean', 'false', 'Stop glitching.']
+        ]
+    },
+    'marker-highlight': {
+        demos: [{ Demo: MarkerHighlightDemo }],
+        usage: `import MarkerHighlight from "@/components/fx/marker-highlight"
+
+<p>Motion should <MarkerHighlight>never cost anyone access</MarkerHighlight>.</p>`,
+        props: [
+            ['children', 'ReactNode', '—', 'The highlighted text.'],
+            ['as', "'mark' | 'span'", "'mark'", 'mark announces a highlight to assistive tech.'],
+            ['color', 'string', 'yellow, 45%', 'Marker colour.'],
+            ['duration', 'number', '900', 'Milliseconds for the stroke.'],
+            ['delay', 'number', '0', 'Milliseconds before drawing.']
+        ]
+    },
+    'ink-underline': {
+        demos: [
+            { Demo: InkUnderlineDemo },
+            { title: 'On hover and focus', Demo: InkUnderlineHoverDemo, minHeight: 180, replayable: false, code: '<InkUnderline trigger="hover"><a href="/docs">documentation link</a></InkUnderline>' }
+        ],
+        usage: `import InkUnderline from "@/components/fx/ink-underline"
+
+<h2>Design that feels <InkUnderline>handmade</InkUnderline></h2>`,
+        props: [
+            ['children', 'ReactNode', '—', 'The underlined content.'],
+            ['color', 'string', "'#f472b6'", 'Ink colour.'],
+            ['trigger', "'inView' | 'hover'", "'inView'", 'Draw once in view, or on hover and focus.'],
+            ['thickness', 'number', '3', 'Stroke width.']
+        ]
+    },
+    'split-flap': {
+        demos: [{ Demo: SplitFlapDemo }],
+        usage: `import SplitFlap from "@/components/fx/split-flap"
+
+<SplitFlap text="Now boarding" />`,
+        props: [
+            ['text', 'string', '—', 'Final text, shown in uppercase.'],
+            ['as', TAG_TYPE, "'div'", 'Element to render.'],
+            ['speed', 'number', '55', 'Milliseconds per flip.'],
+            ['flips', 'number', '8', 'Flips before the first tile settles.'],
+            ['stagger', 'number', '2', 'Extra flips per tile, left to right.'],
+            ['characters', 'string', 'A–Z, 0–9', 'Characters cycled while flipping.'],
+            ['trigger', "'inView' | 'mount'", "'inView'", 'When flipping starts.']
+        ]
+    },
+    'morph-words': {
+        demos: [{ Demo: MorphWordsDemo, replayable: false }],
+        usage: `import MorphWords from "@/components/fx/morph-words"
+
+<h2>Make it <MorphWords words={["liquid", "smooth", "yours"]} /></h2>`,
+        props: [
+            ['words', 'string[]', '—', 'Words to morph between.'],
+            ['interval', 'number', '2600', 'Milliseconds each word stays.'],
+            ['paused', 'boolean', 'false', 'Stop morphing.'],
+            ['srJoiner', '(words: string[]) => string', '"a, b or c"', 'How the words are read to screen readers.']
+        ]
+    },
+    'spotlight-text': {
+        demos: [{ Demo: SpotlightTextDemo, replayable: false }],
+        usage: `import SpotlightText from "@/components/fx/spotlight-text"
+
+<SpotlightText as="h2" text="Move your pointer over me" />`,
+        props: [
+            ['text', 'string', '—', 'The text.'],
+            ['as', TAG_TYPE, "'span'", 'Element to render.'],
+            ['colors', '[string, string]', 'cyan, purple', 'Colours of the light.'],
+            ['radius', 'number', '110', 'Light radius in px.']
+        ]
+    },
+    'extruded-text': {
+        demos: [{ Demo: ExtrudedTextDemo, replayable: false }],
+        usage: `import ExtrudedText from "@/components/fx/extruded-text"
+
+<ExtrudedText as="h1" text="RAD FX" />`,
+        props: [
+            ['text', 'string', '—', 'The text.'],
+            ['as', TAG_TYPE, "'span'", 'Element to render.'],
+            ['depth', 'number', '10', 'Extrusion depth in px.'],
+            ['sideColor', 'string', "'#6d28d9'", 'Colour of the sides.'],
+            ['tilt', 'boolean', 'true', 'Tilt toward the pointer.'],
+            ['maxTilt', 'number', '12', 'Maximum tilt in degrees.']
+        ]
+    },
+    'circular-text': {
+        demos: [{ Demo: CircularTextDemo, replayable: false }],
+        usage: `import CircularText from "@/components/fx/circular-text"
+
+<CircularText text="SCROLL TO EXPLORE • RAD UI FX • ">
+    <ArrowDown aria-hidden="true" />
+</CircularText>`,
+        props: [
+            ['text', 'string', '—', 'Text around the ring.'],
+            ['size', 'number', '160', 'Diameter in px.'],
+            ['duration', 'number', '16', 'Seconds per turn.'],
+            ['direction', "'clockwise' | 'counterclockwise'", "'clockwise'", 'Spin direction.'],
+            ['children', 'ReactNode', '—', 'Centre content.'],
+            ['paused', 'boolean', 'false', 'Stop spinning.']
+        ]
+    },
+    'neon-text': {
+        demos: [{ Demo: NeonTextDemo, replayable: false }],
+        usage: `import NeonText from "@/components/fx/neon-text"
+
+<NeonText as="h2">Open late</NeonText>`,
+        props: [
+            ['children', 'ReactNode', '—', 'The text.'],
+            ['as', TAG_TYPE, "'span'", 'Element to render.'],
+            ['color', 'string', "'#e879f9'", 'Tube colour.'],
+            ['flicker', 'boolean', 'true', 'Rare, gentle flicker.']
         ]
     },
     'aurora-backdrop': {

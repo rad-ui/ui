@@ -1,0 +1,11 @@
+.rad-fx-extruded {
+    display: inline-block;
+    transform: perspective(700px) rotateX(var(--rad-fx-extrude-x, 0deg)) rotateY(var(--rad-fx-extrude-y, 0deg));
+    transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-extruded { transform: none; transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-extruded { transform: none; transition: none; }

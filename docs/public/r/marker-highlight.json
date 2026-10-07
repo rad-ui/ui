@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marker-highlight",
+  "type": "registry:component",
+  "title": "MarkerHighlight",
+  "description": "A highlighter stroke that sweeps behind words as they scroll into view.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/marker-highlight.tsx",
+      "type": "registry:component",
+      "target": "components/fx/marker-highlight.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './marker-highlight.css'\n\nexport type MarkerHighlightProps = {\n    children: React.ReactNode\n    /** `mark` tells assistive tech the text is highlighted; use `span` for purely visual emphasis. */\n    as?: 'mark' | 'span'\n    /** Marker colour. Keep it light enough for the text on top to keep its contrast. */\n    color?: string\n    /** Milliseconds for the stroke. */\n    duration?: number\n    delay?: number\n    className?: string\n}\n\nconst MarkerHighlight = ({ children, as: Tag = 'mark', color = 'rgba(250, 204, 21, 0.45)', duration = 900, delay = 0, className }: MarkerHighlightProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const [drawn, setDrawn] = React.useState(false)\n    useInViewOnce(ref, () => setDrawn(true), !drawn, 0.6)\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-marker', className].filter(Boolean).join(' ')}\n        data-state={drawn ? 'drawn' : 'idle'}\n        style={{ '--rad-fx-marker-color': color, '--rad-fx-marker-duration': `${duration}ms`, '--rad-fx-marker-delay': `${delay}ms` } as React.CSSProperties}\n    >\n        {children}\n    </Tag>\n}\n\nexport default MarkerHighlight\n"
+    },
+    {
+      "path": "registry/fx/marker-highlight.css",
+      "type": "registry:file",
+      "target": "components/fx/marker-highlight.css",
+      "content": ".rad-fx-marker {\n    color: inherit;\n    padding: 0 0.15em;\n    margin: 0 -0.15em;\n    border-radius: 0.2em;\n    background-color: transparent;\n    background-image: linear-gradient(100deg, transparent 0.2em, var(--rad-fx-marker-color) 0.4em, var(--rad-fx-marker-color) calc(100% - 0.3em), transparent);\n    background-repeat: no-repeat;\n    background-position: 0 85%;\n    background-size: 0% 75%;\n    /* Each line of a wrapped highlight gets its own stroke. */\n    -webkit-box-decoration-break: clone;\n    box-decoration-break: clone;\n    transition: background-size var(--rad-fx-marker-duration, 900ms) cubic-bezier(0.6, 0.1, 0.2, 1) var(--rad-fx-marker-delay, 0ms);\n}\n\n.rad-fx-marker[data-state='drawn'] { background-size: 100% 75%; }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-marker { transition: none; background-size: 100% 75%; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-marker { transition: none; background-size: 100% 75%; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/marker-highlight",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Renders a real <mark> by default, so assistive tech knows the text is highlighted; use as=\"span\" for decoration only.",
+      "Text keeps its own colour; pick a marker colour that keeps contrast with it.",
+      "Wrapped highlights get one stroke per line.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the full highlight immediately."
+    ]
+  }
+}

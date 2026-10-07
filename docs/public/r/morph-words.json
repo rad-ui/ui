@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "morph-words",
+  "type": "registry:component",
+  "title": "MorphWords",
+  "description": "Words that melt into one another with a gooey liquid morph.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/morph-words.tsx",
+      "type": "registry:component",
+      "target": "components/fx/morph-words.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useOffscreen, useReducedMotion } from './use-reduced-motion'\nimport './morph-words.css'\n\nexport type MorphWordsProps = {\n    /** Words to morph between. Screen readers hear them once, as a list. */\n    words: string[]\n    /** Milliseconds each word stays. */\n    interval?: number\n    /** Stop morphing. Wire to a visible pause control if it sits next to reading content. */\n    paused?: boolean\n    srJoiner?: (words: string[]) => string\n    className?: string\n}\n\nconst MORPH_MS = 900\nconst defaultJoiner = (words: string[]) =>\n    words.length < 2 ? words.join('') : `${words.slice(0, -1).join(', ')} or ${words[words.length - 1]}`\n\nconst MorphWords = ({ words, interval = 2600, paused = false, srJoiner = defaultJoiner, className }: MorphWordsProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const offscreen = useOffscreen(ref)\n    const [index, setIndex] = React.useState(0)\n    const [morphing, setMorphing] = React.useState(false)\n    const [hovered, setHovered] = React.useState(false)\n    const filterId = `rad-fx-morph-${React.useId().replace(/[^a-zA-Z0-9-]/g, '')}`\n    const stopped = paused || reduced || offscreen || hovered\n\n    React.useEffect(() => {\n        if (stopped || words.length < 2) return\n        let settle: number | undefined\n        const timer = window.setInterval(() => {\n            setMorphing(true)\n            setIndex((i) => (i + 1) % words.length)\n            // The gooey filter only runs during the morph, so resting text stays crisp.\n            settle = window.setTimeout(() => setMorphing(false), MORPH_MS)\n        }, interval)\n        return () => { window.clearInterval(timer); window.clearTimeout(settle) }\n    }, [stopped, words.length, interval])\n\n    return <span\n        ref={ref}\n        className={['rad-fx-morph', className].filter(Boolean).join(' ')}\n        onPointerEnter={() => setHovered(true)}\n        onPointerLeave={() => setHovered(false)}\n    >\n        <VisuallyHidden asChild><span>{srJoiner(words)}</span></VisuallyHidden>\n        <span\n            className=\"rad-fx-morph-stage\"\n            aria-hidden=\"true\"\n            data-morphing={morphing ? '' : undefined}\n            style={{ '--rad-fx-morph-filter': `url(#${filterId})` } as React.CSSProperties}\n        >\n            {words.map((word, i) => (\n                <span key={word + i} className=\"rad-fx-morph-word\" data-state={i === index ? 'active' : 'inactive'}>{word}</span>\n            ))}\n        </span>\n        <svg className=\"rad-fx-morph-defs\" aria-hidden=\"true\" focusable=\"false\">\n            <filter id={filterId}>\n                <feColorMatrix in=\"SourceGraphic\" type=\"matrix\" values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 255 -140\" />\n            </filter>\n        </svg>\n    </span>\n}\n\nexport default MorphWords\n"
+    },
+    {
+      "path": "registry/fx/morph-words.css",
+      "type": "registry:file",
+      "target": "components/fx/morph-words.css",
+      "content": ".rad-fx-morph-stage {\n    display: inline-grid;\n    vertical-align: bottom;\n}\n\n.rad-fx-morph-stage[data-morphing] {\n    filter: var(--rad-fx-morph-filter);\n}\n\n.rad-fx-morph-word {\n    grid-area: 1 / 1;\n    /* Hug the preceding text; spare width from longer words trails after. */\n    justify-self: start;\n    opacity: 0;\n    filter: blur(12px);\n    transition: opacity 900ms ease, filter 900ms ease;\n}\n\n.rad-fx-morph-word[data-state='active'] {\n    opacity: 1;\n    filter: blur(0);\n}\n\n.rad-fx-morph-defs {\n    position: absolute;\n    width: 0;\n    height: 0;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-morph-word { transition: none; filter: none; }\n    .rad-fx-morph-stage[data-morphing] { filter: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-morph-word { transition: none; filter: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-morph-stage[data-morphing] { filter: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/morph-words",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Screen readers hear every word once as a list, never a changing word.",
+      "The gooey filter only runs mid-morph, so resting text stays crisp.",
+      "Pauses on hover and offscreen; `paused` stops it from a visible control (WCAG 2.2.2).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps words without blur or filter."
+    ]
+  }
+}

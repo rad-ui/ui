@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "circular-text",
+  "type": "registry:component",
+  "title": "CircularText",
+  "description": "Text running around a slowly turning circle, with an optional centre icon.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/circular-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/circular-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './circular-text.css'\n\nexport type CircularTextProps = {\n    /** Text around the circle, e.g. \"SCROLL DOWN • SCROLL DOWN • \". Read once by screen readers. */\n    text: string\n    /** Diameter in px. */\n    size?: number\n    /** Seconds per turn. */\n    duration?: number\n    direction?: 'clockwise' | 'counterclockwise'\n    /** Shown in the centre, e.g. an icon. */\n    children?: React.ReactNode\n    paused?: boolean\n    className?: string\n}\n\nconst CircularText = ({ text, size = 160, duration = 16, direction = 'clockwise', children, paused = false, className }: CircularTextProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const offscreen = useOffscreen(ref)\n    const pathId = `rad-fx-circle-${React.useId().replace(/[^a-zA-Z0-9-]/g, '')}`\n    const radius = 38\n    const circumference = 2 * Math.PI * radius\n\n    return <span\n        ref={ref}\n        className={['rad-fx-circular', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        data-direction={direction}\n        style={{ width: size, height: size, '--rad-fx-circular-duration': `${duration}s` } as React.CSSProperties}\n    >\n        <VisuallyHidden asChild><span>{text.trim()}</span></VisuallyHidden>\n        <svg className=\"rad-fx-circular-ring\" viewBox=\"0 0 100 100\" aria-hidden=\"true\" focusable=\"false\">\n            <defs>\n                <path id={pathId} d={`M 50 50 m -${radius} 0 a ${radius} ${radius} 0 1 1 ${radius * 2} 0 a ${radius} ${radius} 0 1 1 -${radius * 2} 0`} />\n            </defs>\n            <text>\n                {/* Non-breaking spaces survive textLength fitting, so the seam keeps its gap. */}\n                <textPath href={`#${pathId}`} textLength={circumference} lengthAdjust=\"spacing\">{text.replace(/ /g, '\\u00a0')}</textPath>\n            </text>\n        </svg>\n        {children ? <span className=\"rad-fx-circular-center\">{children}</span> : null}\n    </span>\n}\n\nexport default CircularText\n"
+    },
+    {
+      "path": "registry/fx/circular-text.css",
+      "type": "registry:file",
+      "target": "components/fx/circular-text.css",
+      "content": ".rad-fx-circular {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.rad-fx-circular-ring {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    overflow: visible;\n    fill: currentColor;\n    font-size: 9px;\n    font-weight: 600;\n    letter-spacing: 0.08em;\n    text-transform: uppercase;\n    animation: rad-fx-circular-spin var(--rad-fx-circular-duration, 16s) linear infinite;\n}\n\n.rad-fx-circular[data-direction='counterclockwise'] .rad-fx-circular-ring { animation-direction: reverse; }\n\n.rad-fx-circular[data-state='paused'] .rad-fx-circular-ring,\n.rad-fx-circular:hover .rad-fx-circular-ring {\n    animation-play-state: paused;\n}\n\n.rad-fx-circular-center {\n    position: relative;\n    display: inline-flex;\n}\n\n@keyframes rad-fx-circular-spin {\n    to { transform: rotate(360deg); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-circular-ring { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-circular-ring { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/circular-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The ring is an aria-hidden SVG; the text is read once, trimmed.",
+      "Pauses on hover and offscreen; `paused` stops it.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+    ]
+  }
+}

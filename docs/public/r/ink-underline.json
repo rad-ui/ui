@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ink-underline",
+  "type": "registry:component",
+  "title": "InkUnderline",
+  "description": "A hand-drawn squiggle that draws itself under a word, on view or on hover.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/ink-underline.tsx",
+      "type": "registry:component",
+      "target": "components/fx/ink-underline.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './ink-underline.css'\n\nexport type InkUnderlineProps = {\n    children: React.ReactNode\n    color?: string\n    /** `inView` draws once when visible; `hover` draws on hover and keyboard focus inside. */\n    trigger?: 'inView' | 'hover'\n    /** Stroke width in the underline's own units (about px at body size). */\n    thickness?: number\n    className?: string\n}\n\nconst InkUnderline = ({ children, color = '#f472b6', trigger = 'inView', thickness = 3, className }: InkUnderlineProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const [drawn, setDrawn] = React.useState(false)\n    useInViewOnce(ref, () => setDrawn(true), trigger === 'inView' && !drawn, 0.6)\n\n    return <span\n        ref={ref}\n        className={['rad-fx-ink', className].filter(Boolean).join(' ')}\n        data-trigger={trigger}\n        data-state={drawn ? 'drawn' : 'idle'}\n        style={{ '--rad-fx-ink-color': color } as React.CSSProperties}\n    >\n        {children}\n        <svg className=\"rad-fx-ink-line\" viewBox=\"0 0 200 12\" preserveAspectRatio=\"none\" aria-hidden=\"true\" focusable=\"false\">\n            <path d=\"M2 8 C 30 2, 50 12, 80 6 S 130 2, 160 7 S 190 9, 198 5\" pathLength={1} strokeWidth={thickness} />\n        </svg>\n    </span>\n}\n\nexport default InkUnderline\n"
+    },
+    {
+      "path": "registry/fx/ink-underline.css",
+      "type": "registry:file",
+      "target": "components/fx/ink-underline.css",
+      "content": ".rad-fx-ink {\n    position: relative;\n    display: inline-block;\n}\n\n.rad-fx-ink-line {\n    position: absolute;\n    left: -2%;\n    bottom: -0.32em;\n    width: 104%;\n    height: 0.45em;\n    overflow: visible;\n    pointer-events: none;\n}\n\n.rad-fx-ink-line path {\n    fill: none;\n    stroke: var(--rad-fx-ink-color);\n    stroke-linecap: round;\n    stroke-dasharray: 1;\n    stroke-dashoffset: 1;\n    transition: stroke-dashoffset 700ms cubic-bezier(0.6, 0.1, 0.2, 1);\n}\n\n.rad-fx-ink[data-state='drawn'] .rad-fx-ink-line path,\n.rad-fx-ink[data-trigger='hover']:hover .rad-fx-ink-line path,\n.rad-fx-ink[data-trigger='hover']:focus-within .rad-fx-ink-line path {\n    stroke-dashoffset: 0;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-ink-line path { transition: none; stroke-dashoffset: 0; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-ink-line path { transition: none; stroke-dashoffset: 0; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/ink-underline",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The squiggle is an aria-hidden SVG; the words are untouched.",
+      "`trigger=\"hover\"` also draws on keyboard focus inside, so links get the same affordance.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the underline already drawn."
+    ]
+  }
+}

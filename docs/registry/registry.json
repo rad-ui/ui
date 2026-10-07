@@ -274,6 +274,360 @@
       }
     },
     {
+      "name": "wave-text",
+      "type": "registry:component",
+      "title": "WaveText",
+      "description": "Letters that ripple in a travelling wave, continuously or on hover.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/wave-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/wave-text.tsx"
+        },
+        {
+          "path": "registry/fx/wave-text.css",
+          "type": "registry:file",
+          "target": "components/fx/wave-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wave-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The full text is read once from a visually hidden copy; the rippling letters are aria-hidden.",
+          "Pauses offscreen; `paused` stops it, and `trigger=\"hover\"` only moves under the pointer.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the letters still."
+        ]
+      }
+    },
+    {
+      "name": "glitch-text",
+      "type": "registry:component",
+      "title": "GlitchText",
+      "description": "Text that breaks into offset colour slices in short, occasional bursts.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/glitch-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/glitch-text.tsx"
+        },
+        {
+          "path": "registry/fx/glitch-text.css",
+          "type": "registry:file",
+          "target": "components/fx/glitch-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/glitch-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Bursts are brief and spaced seconds apart, staying well under 3 flashes per second (WCAG 2.3.1).",
+          "The colour layers are real aria-hidden elements, not ::before content that some screen readers announce; the text is read once.",
+          "Pauses offscreen; `paused` stops it.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the glitch entirely."
+        ]
+      }
+    },
+    {
+      "name": "marker-highlight",
+      "type": "registry:component",
+      "title": "MarkerHighlight",
+      "description": "A highlighter stroke that sweeps behind words as they scroll into view.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/marker-highlight.tsx",
+          "type": "registry:component",
+          "target": "components/fx/marker-highlight.tsx"
+        },
+        {
+          "path": "registry/fx/marker-highlight.css",
+          "type": "registry:file",
+          "target": "components/fx/marker-highlight.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/marker-highlight",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Renders a real <mark> by default, so assistive tech knows the text is highlighted; use as=\"span\" for decoration only.",
+          "Text keeps its own colour; pick a marker colour that keeps contrast with it.",
+          "Wrapped highlights get one stroke per line.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the full highlight immediately."
+        ]
+      }
+    },
+    {
+      "name": "ink-underline",
+      "type": "registry:component",
+      "title": "InkUnderline",
+      "description": "A hand-drawn squiggle that draws itself under a word, on view or on hover.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/ink-underline.tsx",
+          "type": "registry:component",
+          "target": "components/fx/ink-underline.tsx"
+        },
+        {
+          "path": "registry/fx/ink-underline.css",
+          "type": "registry:file",
+          "target": "components/fx/ink-underline.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/ink-underline",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The squiggle is an aria-hidden SVG; the words are untouched.",
+          "`trigger=\"hover\"` also draws on keyboard focus inside, so links get the same affordance.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the underline already drawn."
+        ]
+      }
+    },
+    {
+      "name": "split-flap",
+      "type": "registry:component",
+      "title": "SplitFlap",
+      "description": "Departure-board tiles that flip through characters before landing on the text.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/split-flap.tsx",
+          "type": "registry:component",
+          "target": "components/fx/split-flap.tsx"
+        },
+        {
+          "path": "registry/fx/split-flap.css",
+          "type": "registry:file",
+          "target": "components/fx/split-flap.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/split-flap",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers get the text once, as written; the tiles are aria-hidden.",
+          "Server render shows the final text, so it is readable before hydration.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the final tiles with no flipping."
+        ]
+      }
+    },
+    {
+      "name": "morph-words",
+      "type": "registry:component",
+      "title": "MorphWords",
+      "description": "Words that melt into one another with a gooey liquid morph.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/morph-words.tsx",
+          "type": "registry:component",
+          "target": "components/fx/morph-words.tsx"
+        },
+        {
+          "path": "registry/fx/morph-words.css",
+          "type": "registry:file",
+          "target": "components/fx/morph-words.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/morph-words",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers hear every word once as a list, never a changing word.",
+          "The gooey filter only runs mid-morph, so resting text stays crisp.",
+          "Pauses on hover and offscreen; `paused` stops it from a visible control (WCAG 2.2.2).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps words without blur or filter."
+        ]
+      }
+    },
+    {
+      "name": "spotlight-text",
+      "type": "registry:component",
+      "title": "SpotlightText",
+      "description": "A pool of coloured light that follows the pointer across text.",
+      "files": [
+        {
+          "path": "registry/fx/spotlight-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/spotlight-text.tsx"
+        },
+        {
+          "path": "registry/fx/spotlight-text.css",
+          "type": "registry:file",
+          "target": "components/fx/spotlight-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/spotlight-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The real text always shows at its own colour and contrast; the light is an aria-hidden copy on top.",
+          "Pointer-driven only: nothing moves on its own.",
+          "Forced-colours mode drops the light."
+        ]
+      }
+    },
+    {
+      "name": "extruded-text",
+      "type": "registry:component",
+      "title": "ExtrudedText",
+      "description": "Chunky 3D extruded lettering that tilts toward the pointer.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/extruded-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/extruded-text.tsx"
+        },
+        {
+          "path": "registry/fx/extruded-text.css",
+          "type": "registry:file",
+          "target": "components/fx/extruded-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/extruded-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Real, unsplit text; the depth is text-shadow.",
+          "Tilt is capped and off for touch input.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the depth but disables the tilt."
+        ]
+      }
+    },
+    {
+      "name": "circular-text",
+      "type": "registry:component",
+      "title": "CircularText",
+      "description": "Text running around a slowly turning circle, with an optional centre icon.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/circular-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/circular-text.tsx"
+        },
+        {
+          "path": "registry/fx/circular-text.css",
+          "type": "registry:file",
+          "target": "components/fx/circular-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/circular-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The ring is an aria-hidden SVG; the text is read once, trimmed.",
+          "Pauses on hover and offscreen; `paused` stops it.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+        ]
+      }
+    },
+    {
+      "name": "neon-text",
+      "type": "registry:component",
+      "title": "NeonText",
+      "description": "A glowing neon sign with a rare, gentle flicker.",
+      "files": [
+        {
+          "path": "registry/fx/neon-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/neon-text.tsx"
+        },
+        {
+          "path": "registry/fx/neon-text.css",
+          "type": "registry:file",
+          "target": "components/fx/neon-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/neon-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Real, unsplit text.",
+          "The flicker is two short dips every 7 seconds, far below 3 flashes per second; turn it off with `flicker={false}`.",
+          "Use it on a dark surface and check contrast of the pale letters, not the glow.",
+          "Forced-colours mode drops the glow.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the glow steady."
+        ]
+      }
+    },
+    {
       "name": "aurora-backdrop",
       "type": "registry:component",
       "title": "AuroraBackdrop",
