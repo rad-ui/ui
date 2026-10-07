@@ -42,6 +42,7 @@
 .fx-kinetic-beat[data-size='xxl'] .fx-kinetic-words { font-size: 22cqw; letter-spacing: -0.065em; }
 .fx-kinetic-beat[data-size='xl'] .fx-kinetic-words { font-size: 17cqw; }
 .fx-kinetic-beat[data-size='l'] .fx-kinetic-words { font-size: 12cqw; }
+.fx-kinetic-beat[data-size='s'] .fx-kinetic-words { font-size: 3.6cqw; font-weight: 600; letter-spacing: -0.02em; }
 .fx-kinetic-beat[data-size='m'] .fx-kinetic-words { font-size: 8.5cqw; letter-spacing: -0.04em; }
 
 .fx-kinetic-small { font-size: 0.42em; letter-spacing: -0.03em; vertical-align: 0.55em; }
@@ -329,7 +330,6 @@
 /* Effects inside beats: keep the hero's type, not each effect's defaults. */
 .fx-kinetic-words .fx-kinetic-inherit-font { font-family: inherit; font-variant-numeric: normal; }
 
-.fx-kinetic-tilt { display: inline-block; transform: rotate(-6deg); }
 
 /* The departure board for MANNERS?: one row, sized to fit the stage. */
 .fx-kinetic-flap { font-size: 1.3em; letter-spacing: 0; }

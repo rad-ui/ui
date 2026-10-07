@@ -7,7 +7,6 @@ import CountTo from '@/registry/fx/count-to'
 import GlitchText from '@/registry/fx/glitch-text'
 import ScrambleText from '@/registry/fx/scramble-text'
 import WaveText from '@/registry/fx/wave-text'
-import LetterDrop from '@/registry/fx/letter-drop'
 import SplitFlap from '@/registry/fx/split-flap'
 import InkUnderline from '@/registry/fx/ink-underline'
 import Typewriter from '@/registry/fx/typewriter'
@@ -27,7 +26,7 @@ const MIN_BEAT = 200
 
 type Move = 'slam' | 'zoom' | 'whip-l' | 'whip-r' | 'drop' | 'rise' | 'spin' | 'shake' | 'pop' | 'mega'
 type Ink = 'white' | 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet'
-type Size = 'xxl' | 'xl' | 'l' | 'm'
+type Size = 'xxl' | 'xl' | 'l' | 'm' | 's'
 type Backdrop = 'yellow' | 'cyan' | 'lime' | 'orange' | 'violet' | 'white'
 
 type Beat = {
@@ -64,8 +63,8 @@ const BEATS: Beat[] = [
     { ms: 380, move: 'whip-r', size: 'm', words: 'Inner ears?' },
     { ms: 1000, move: 'zoom', bg: 'orange', size: 'xl', words: <WaveText text="SEASICK." amplitude={0.16} duration={0.8} stagger={0.06} /> },
     // The twist
-    { ms: 320, move: 'rise', ink: 'violet', size: 'l', words: 'Plot' },
-    { ms: 950, move: 'zoom', bg: 'violet', size: 'xl', site: 'flip', words: <span className="fx-kinetic-tilt"><LetterDrop text="twist." stagger={45} /></span> },
+    // A quiet beat after all the noise: small, plain, black and white.
+    { ms: 1200, move: 'zoom', size: 's', site: 'flip', words: 'Plot twist.' },
     { ms: 340, move: 'zoom', size: 'l', words: 'What if' },
     { ms: 340, move: 'whip-l', size: 'l', words: 'motion' },
     { ms: 280, move: 'drop', size: 'l', words: 'had' },
