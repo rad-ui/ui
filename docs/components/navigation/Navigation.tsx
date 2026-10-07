@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 import ScrollArea from "@radui/ui/ScrollArea"
 import Category from './Category'
-import ProductSwitcher from './ProductSwitcher'
 import { getDocsProduct } from './products'
 
 
@@ -18,7 +17,6 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
             title: "Main",
             items: [
                 { title: "Documentation", path: "/docs/first-steps/introduction" },
-                { title: "FX", path: "/fx" },
                 { title: "Playground", path: "/playground" },
                 { title: "Colors", path: "/colors" },
                 { title: "Showcase", path: "/showcase/music-app" }
@@ -37,7 +35,6 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
         <ScrollArea.Viewport style={{ height: "100%" }}>
           <div className="min-w-[272px]">
              <div className='w-full flex-none px-3 pb-16 pt-4 lg:w-[272px]'>
-                {product ? <ProductSwitcher current={product} onNavigate={() => setIsDocsNavOpen(false)} /> : null}
                 {sections.map((section, i) => {
                     const isCategory = section.type === "CATEGORY";
                     if (isCategory) {

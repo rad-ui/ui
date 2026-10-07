@@ -1,25 +1,24 @@
 'use client'
 import Link from 'next/link'
 
-import { docsProducts, type DocsProduct } from './products'
+import { products, type Product } from './products'
 
-// Segmented links rather than a menu: two destinations, both always visible,
-// and plain links keep middle-click / open-in-new-tab working.
-const ProductSwitcher = ({ current, onNavigate }: { current: DocsProduct, onNavigate?: () => void }) => {
-    return <nav aria-label="Documentation product" className="mb-6 px-1">
-        <ul className="grid grid-cols-2 gap-1 rounded-lg border border-gray-400 bg-gray-100 p-1">
-            {docsProducts.map((product) => {
+// UI | FX switch beside the logo. Plain links rather than a menu: two
+// destinations, always visible, and open-in-new-tab keeps working.
+const ProductSwitcher = ({ current }: { current: Product }) => {
+    return <nav aria-label="Rad UI products">
+        <ul className="flex items-center gap-0.5 rounded-md border border-gray-400 bg-gray-100 p-0.5 text-[0.75rem] font-semibold">
+            {products.map((product) => {
                 const isCurrent = product.id === current.id
                 return <li key={product.id}>
                     <Link
                         href={product.home}
-                        onClick={onNavigate}
                         aria-current={isCurrent ? 'true' : undefined}
+                        aria-label={product.title}
                         data-state={isCurrent ? 'active' : 'inactive'}
-                        className="flex flex-col rounded-md px-3 py-1.5 text-gray-950 transition-colors hover:text-gray-1000 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-1000 data-[state=active]:shadow-sm"
+                        className="block rounded-[5px] px-2 py-0.5 font-mono tracking-wide text-gray-950 transition-colors hover:text-gray-1000 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-1000 data-[state=active]:shadow-sm"
                     >
-                        <span className="text-[0.84rem] font-semibold">{product.title}</span>
-                        <span className="text-[0.7rem] text-gray-950">{product.description}</span>
+                        {product.label}
                     </Link>
                 </li>
             })}
