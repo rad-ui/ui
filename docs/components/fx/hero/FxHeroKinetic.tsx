@@ -31,8 +31,8 @@ type Beat = {
     size?: Size
     /** Cut the whole stage to this colour for emphasis; words turn black. */
     bg?: Backdrop
-    /** Flip the whole site's theme from this beat on ('flip'), or restore it ('restore'). */
-    site?: 'flip' | 'restore'
+    /** Flip the whole site to the opposite theme for just this beat. */
+    site?: 'flip'
     words: React.ReactNode
 }
 
@@ -125,10 +125,10 @@ const FxHeroKinetic = () => {
 
     useEffect(() => { if (index >= END) setPlaying(false) }, [index])
 
-    // The plot twist flips the whole site to the opposite theme; the end card,
-    // Replay and leaving the page all hand the user's own theme back.
+    // The plot twist flips the whole site to the opposite theme for that beat only;
+    // the next beat, Replay and leaving the page all hand the user's own theme back.
     useEffect(() => {
-        const flipped = BEATS.slice(0, Math.min(index, END) + 1).some((b) => b.site === 'flip') && index < END
+        const flipped = BEATS[index]?.site === 'flip'
         previewTheme(flipped ? (siteTheme() === 'dark' ? 'light' : 'dark') : null)
     }, [index])
     useEffect(() => () => previewTheme(null), [])
