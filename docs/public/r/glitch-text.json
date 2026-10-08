@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glitch-text",
+  "type": "registry:component",
+  "title": "GlitchText",
+  "description": "Text that breaks into offset colour slices in short, occasional bursts.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/glitch-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/glitch-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './glitch-text.css'\n\ntype GlitchTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type GlitchTextProps = {\n    text: string\n    as?: GlitchTag\n    /** Seconds between glitch bursts. Each burst is brief and never flashes more than 3 times a second. */\n    interval?: number\n    /** Colours of the two split channels. */\n    colors?: [string, string]\n    paused?: boolean\n    className?: string\n}\n\nconst GlitchText = ({ text, as: Tag = 'span', interval = 3, colors = ['#22d3ee', '#f472b6'], paused = false, className }: GlitchTextProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-glitch', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-glitch-interval': `${interval}s`, '--rad-fx-glitch-a': colors[0], '--rad-fx-glitch-b': colors[1] } as React.CSSProperties}\n    >\n        <VisuallyHidden asChild><span>{text}</span></VisuallyHidden>\n        {/* Real elements rather than ::before/::after with content: attr(),\n            which some screen readers read aloud. */}\n        <span className=\"rad-fx-glitch-stack\" aria-hidden=\"true\">\n            <span className=\"rad-fx-glitch-base\">{text}</span>\n            <span className=\"rad-fx-glitch-layer\" data-channel=\"a\">{text}</span>\n            <span className=\"rad-fx-glitch-layer\" data-channel=\"b\">{text}</span>\n        </span>\n    </Tag>\n}\n\nexport default GlitchText\n"
+    },
+    {
+      "path": "registry/fx/glitch-text.css",
+      "type": "registry:file",
+      "target": "components/fx/glitch-text.css",
+      "content": ".rad-fx-glitch-stack {\n    position: relative;\n    display: inline-block;\n}\n\n.rad-fx-glitch-layer {\n    position: absolute;\n    inset: 0;\n    pointer-events: none;\n    opacity: 0;\n    animation: rad-fx-glitch-a var(--rad-fx-glitch-interval, 3s) steps(1) infinite;\n}\n\n.rad-fx-glitch-layer[data-channel='a'] { color: var(--rad-fx-glitch-a); }\n.rad-fx-glitch-layer[data-channel='b'] { color: var(--rad-fx-glitch-b); animation-name: rad-fx-glitch-b; }\n\n.rad-fx-glitch[data-state='paused'] .rad-fx-glitch-layer { animation-play-state: paused; opacity: 0; }\n\n/* Quiet for most of the cycle, then a short burst of offset slices near the end. */\n@keyframes rad-fx-glitch-a {\n    0%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }\n    89% { opacity: 0.9; transform: translate(-3px, 1px); clip-path: inset(10% 0 55% 0); }\n    92% { opacity: 0.9; transform: translate(3px, -1px); clip-path: inset(60% 0 8% 0); }\n    95% { opacity: 0.9; transform: translate(-2px, 0); clip-path: inset(35% 0 35% 0); }\n}\n\n@keyframes rad-fx-glitch-b {\n    0%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }\n    89% { opacity: 0.9; transform: translate(3px, -1px); clip-path: inset(55% 0 15% 0); }\n    92% { opacity: 0.9; transform: translate(-3px, 1px); clip-path: inset(5% 0 70% 0); }\n    95% { opacity: 0.9; transform: translate(2px, 0); clip-path: inset(40% 0 30% 0); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-glitch-layer { animation: none; opacity: 0; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-glitch-layer { animation: none; opacity: 0; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/glitch-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Bursts are brief and spaced seconds apart, staying well under 3 flashes per second (WCAG 2.3.1).",
+      "The colour layers are real aria-hidden elements, not ::before content that some screen readers announce; the text is read once.",
+      "Pauses offscreen; `paused` stops it.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the glitch entirely."
+    ]
+  }
+}

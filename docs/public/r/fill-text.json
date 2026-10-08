@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fill-text",
+  "type": "registry:component",
+  "title": "FillText",
+  "description": "Outlined letters that flood with colour, in view or on hover.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/fill-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/fill-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './fill-text.css'\n\ntype FillTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type FillTextProps = {\n    children: React.ReactNode\n    as?: FillTag\n    /** Fill colour. The outline uses the same colour. */\n    color?: string\n    /** `inView` fills once when visible; `hover` fills on hover. */\n    trigger?: 'inView' | 'hover'\n    className?: string\n}\n\n// Outlined letters that flood with colour. Real, unsplit text throughout.\nconst FillText = ({ children, as: Tag = 'span', color = '#f4f4f5', trigger = 'inView', className }: FillTextProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const [filled, setFilled] = React.useState(false)\n    useInViewOnce(ref, () => setFilled(true), trigger === 'inView' && !filled, 0.6)\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-fill', className].filter(Boolean).join(' ')}\n        data-trigger={trigger}\n        data-state={filled ? 'filled' : 'outline'}\n        style={{ '--rad-fx-fill-color': color } as React.CSSProperties}\n    >\n        {children}\n    </Tag>\n}\n\nexport default FillText\n"
+    },
+    {
+      "path": "registry/fx/fill-text.css",
+      "type": "registry:file",
+      "target": "components/fx/fill-text.css",
+      "content": ".rad-fx-fill {\n    color: transparent;\n    -webkit-text-stroke: 1.5px var(--rad-fx-fill-color);\n    background-image: linear-gradient(var(--rad-fx-fill-color), var(--rad-fx-fill-color));\n    background-repeat: no-repeat;\n    background-size: 0% 100%;\n    background-clip: text;\n    background-clip: text;\n    transition: background-size 900ms cubic-bezier(0.6, 0.1, 0.2, 1);\n}\n\n.rad-fx-fill[data-state='filled'],\n.rad-fx-fill[data-trigger='hover']:hover {\n    background-size: 100% 100%;\n}\n\n/* Forced colours: plain text, no outline trick. */\n@media (forced-colors: active) {\n    .rad-fx-fill { color: CanvasText; -webkit-text-stroke: 0; background: none; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-fill { background-size: 100% 100%; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-fill { background-size: 100% 100%; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/fill-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Real, unsplit text.",
+      "Outline-only text is hard to read, so it fills as soon as it is visible by default.",
+      "Forced-colours mode shows plain text.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the text already filled."
+    ]
+  }
+}

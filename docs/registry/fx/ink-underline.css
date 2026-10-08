@@ -1,0 +1,35 @@
+.rad-fx-ink {
+    position: relative;
+    display: inline-block;
+}
+
+.rad-fx-ink-line {
+    position: absolute;
+    left: -2%;
+    bottom: -0.32em;
+    width: 104%;
+    height: 0.45em;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.rad-fx-ink-line path {
+    fill: none;
+    stroke: var(--rad-fx-ink-color);
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 700ms cubic-bezier(0.6, 0.1, 0.2, 1);
+}
+
+.rad-fx-ink[data-state='drawn'] .rad-fx-ink-line path,
+.rad-fx-ink[data-trigger='hover']:hover .rad-fx-ink-line path,
+.rad-fx-ink[data-trigger='hover']:focus-within .rad-fx-ink-line path {
+    stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-ink-line path { transition: none; stroke-dashoffset: 0; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-ink-line path { transition: none; stroke-dashoffset: 0; }

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pointer-parallax",
+  "type": "registry:component",
+  "title": "PointerParallax",
+  "description": "Layers that drift with the pointer at different depths.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/pointer-parallax.tsx",
+      "type": "registry:component",
+      "target": "components/fx/pointer-parallax.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './pointer-parallax.css'\n\nexport type PointerParallaxProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Max shift in px for a layer with depth 1. */\n    strength?: number\n}\n\nexport type PointerParallaxLayerProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** How far this layer moves: 0 is fixed, 1 moves the most, negatives move the other way. */\n    depth?: number\n}\n\n// Layers drift with the pointer at different depths. Pointer-only and purely visual:\n// layout, reading order and focus never change.\nconst PointerParallax = ({ strength = 24, className, style, onPointerMove, onPointerLeave, children, ...props }: PointerParallaxProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const reduced = useReducedMotion(ref)\n\n    const handleMove = (event: React.PointerEvent<HTMLDivElement>) => {\n        onPointerMove?.(event)\n        if (reduced || event.pointerType === 'touch') return\n        const rect = event.currentTarget.getBoundingClientRect()\n        event.currentTarget.style.setProperty('--rad-fx-px', `${((event.clientX - rect.left) / rect.width - 0.5) * 2}`)\n        event.currentTarget.style.setProperty('--rad-fx-py', `${((event.clientY - rect.top) / rect.height - 0.5) * 2}`)\n    }\n\n    const handleLeave = (event: React.PointerEvent<HTMLDivElement>) => {\n        onPointerLeave?.(event)\n        event.currentTarget.style.setProperty('--rad-fx-px', '0')\n        event.currentTarget.style.setProperty('--rad-fx-py', '0')\n    }\n\n    return <div\n        ref={ref}\n        className={['rad-fx-parallax', className].filter(Boolean).join(' ')}\n        style={{ '--rad-fx-parallax-strength': `${strength}px`, ...style } as React.CSSProperties}\n        onPointerMove={handleMove}\n        onPointerLeave={handleLeave}\n        {...props}\n    >\n        {children}\n    </div>\n}\n\nconst PointerParallaxLayer = ({ depth = 0.5, className, style, ...props }: PointerParallaxLayerProps) => (\n    <div\n        className={['rad-fx-parallax-layer', className].filter(Boolean).join(' ')}\n        style={{ '--rad-fx-depth': depth, ...style } as React.CSSProperties}\n        {...props}\n    />\n)\n\nPointerParallax.Layer = PointerParallaxLayer\n\nexport { PointerParallaxLayer }\nexport default PointerParallax\n"
+    },
+    {
+      "path": "registry/fx/pointer-parallax.css",
+      "type": "registry:file",
+      "target": "components/fx/pointer-parallax.css",
+      "content": ".rad-fx-parallax {\n    position: relative;\n\n    --rad-fx-px: 0;\n    --rad-fx-py: 0;\n}\n\n.rad-fx-parallax-layer {\n    transform: translate(\n        calc(var(--rad-fx-px) * var(--rad-fx-depth, 0.5) * var(--rad-fx-parallax-strength, 24px)),\n        calc(var(--rad-fx-py) * var(--rad-fx-depth, 0.5) * var(--rad-fx-parallax-strength, 24px))\n    );\n    transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-parallax-layer { transform: none; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-parallax-layer { transform: none; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/pointer-parallax",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Purely visual: layout, reading order and focus order never change.",
+      "Touch input never moves the layers.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps every layer still."
+    ]
+  }
+}

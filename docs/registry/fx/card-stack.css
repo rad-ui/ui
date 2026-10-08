@@ -1,0 +1,56 @@
+.rad-fx-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.rad-fx-stack-deck {
+    display: grid;
+}
+
+.rad-fx-stack-card {
+    grid-area: 1 / 1;
+    transform: translateY(calc(var(--rad-fx-stack-pos, 0) * -12px)) scale(calc(1 - var(--rad-fx-stack-pos, 0) * 0.06));
+    transform-origin: 50% 0;
+    filter: brightness(calc(1 - var(--rad-fx-stack-pos, 0) * 0.15));
+    transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms ease, filter 300ms ease;
+}
+
+/* The card that was just dismissed flies off before settling at the back. */
+.rad-fx-stack-card[data-leaving] {
+    animation: rad-fx-stack-leave 450ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes rad-fx-stack-leave {
+    0% { transform: translate(0, 0) rotate(0deg); z-index: 99; }
+    45% { transform: translate(115%, -10px) rotate(10deg); z-index: 99; }
+    100% { transform: translateY(calc(var(--rad-fx-stack-pos, 0) * -12px)) scale(calc(1 - var(--rad-fx-stack-pos, 0) * 0.06)); }
+}
+
+.rad-fx-stack-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.rad-fx-stack-controls button {
+    padding: 6px 14px;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.rad-fx-stack-controls button:focus-visible { outline: 2px solid currentcolor; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-stack-card { transition: none; }
+    .rad-fx-stack-card[data-leaving] { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-stack-card { transition: none; }
+[data-rad-fx-motion='reduce'] .rad-fx-stack-card[data-leaving] { animation: none; }

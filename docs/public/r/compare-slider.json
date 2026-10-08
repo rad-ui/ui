@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "compare-slider",
+  "type": "registry:component",
+  "title": "CompareSlider",
+  "description": "A before/after comparison with a draggable divider.",
+  "files": [
+    {
+      "path": "registry/fx/compare-slider.tsx",
+      "type": "registry:component",
+      "target": "components/fx/compare-slider.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport './compare-slider.css'\n\nexport type CompareSliderProps = {\n    before: React.ReactNode\n    after: React.ReactNode\n    /** Accessible name for the slider, e.g. \"Before and after comparison\". */\n    label?: string\n    /** Starting position, 0–100. */\n    defaultValue?: number\n    className?: string\n}\n\n// Before/after comparison driven by a real <input type=\"range\">: arrow keys, Home/End,\n// screen-reader value announcements and touch all come from the browser.\nconst CompareSlider = ({ before, after, label = 'Comparison position', defaultValue = 50, className }: CompareSliderProps) => {\n    const [value, setValue] = React.useState(defaultValue)\n\n    return <div className={['rad-fx-compare', className].filter(Boolean).join(' ')} style={{ '--rad-fx-compare': `${value}%` } as React.CSSProperties}>\n        <div className=\"rad-fx-compare-layer\">{after}</div>\n        <div className=\"rad-fx-compare-layer rad-fx-compare-before\">{before}</div>\n        <div className=\"rad-fx-compare-handle\" aria-hidden=\"true\"><span /></div>\n        <input\n            type=\"range\"\n            min={0}\n            max={100}\n            value={value}\n            aria-label={label}\n            aria-valuetext={`${value}% before`}\n            className=\"rad-fx-compare-input\"\n            onChange={(event) => setValue(Number(event.target.value))}\n        />\n    </div>\n}\n\nexport default CompareSlider\n"
+    },
+    {
+      "path": "registry/fx/compare-slider.css",
+      "type": "registry:file",
+      "target": "components/fx/compare-slider.css",
+      "content": ".rad-fx-compare {\n    position: relative;\n    display: grid;\n    overflow: hidden;\n    border-radius: 16px;\n    user-select: none;\n}\n\n.rad-fx-compare-layer { grid-area: 1 / 1; }\n\n.rad-fx-compare-before { clip-path: inset(0 calc(100% - var(--rad-fx-compare, 50%)) 0 0); }\n\n.rad-fx-compare-handle {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: var(--rad-fx-compare, 50%);\n    width: 2px;\n    margin-left: -1px;\n    background: #fff;\n    box-shadow: 0 0 12px rgb(0, 0, 0, 0.4);\n    pointer-events: none;\n}\n\n.rad-fx-compare-handle span {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 36px;\n    height: 36px;\n    border-radius: 50%;\n    background: #fff;\n    box-shadow: 0 2px 10px rgb(0, 0, 0, 0.35);\n    transform: translate(-50%, -50%);\n}\n\n/* The real slider sits on top, invisible but focusable and draggable. */\n.rad-fx-compare-input {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    opacity: 0;\n    cursor: ew-resize;\n}\n\n.rad-fx-compare:has(.rad-fx-compare-input:focus-visible) .rad-fx-compare-handle span {\n    outline: 3px solid #fff;\n    outline-offset: 3px;\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/compare-slider",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Driven by a real <input type=\"range\">: arrow keys, Home/End, touch and value announcements come from the browser.",
+      "Visible focus ring on the handle.",
+      "Give both images meaningful alt text in `before` and `after`."
+    ]
+  }
+}

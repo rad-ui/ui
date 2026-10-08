@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marquee",
+  "type": "registry:component",
+  "title": "Marquee",
+  "description": "A seamless, infinitely scrolling row of items: logos, testimonials, tags.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/marquee.tsx",
+      "type": "registry:component",
+      "target": "components/fx/marquee.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './marquee.css'\n\nexport type MarqueeProps = {\n    /** The items. Rendered once for assistive tech; the looping copy is hidden and inert. */\n    children: React.ReactNode\n    /** Seconds per loop. Higher is slower. */\n    duration?: number\n    direction?: 'left' | 'right'\n    /** Pause while hovered or while focus is inside. */\n    pauseOnHover?: boolean\n    /** Stop scrolling. Wire to a visible pause control (WCAG 2.2.2). */\n    paused?: boolean\n    /** Gap between items, any CSS length. */\n    gap?: string\n    /** Accessible name for the list, e.g. \"Customers\". */\n    label?: string\n    className?: string\n}\n\nconst Marquee = ({ children, duration = 30, direction = 'left', pauseOnHover = true, paused = false, gap = '2.5rem', label, className }: MarqueeProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        role={label ? 'region' : undefined}\n        aria-label={label}\n        className={['rad-fx-marquee', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        data-pause-on-hover={pauseOnHover ? '' : undefined}\n        data-direction={direction}\n        style={{ '--rad-fx-marquee-duration': `${duration}s`, '--rad-fx-marquee-gap': gap } as React.CSSProperties}\n    >\n        <div className=\"rad-fx-marquee-track\">\n            <div className=\"rad-fx-marquee-group\">{children}</div>\n            {/* The second copy only exists to make the loop seamless: hidden and unfocusable. */}\n            <div className=\"rad-fx-marquee-group\" aria-hidden=\"true\" inert>{children}</div>\n        </div>\n    </div>\n}\n\nexport default Marquee\n"
+    },
+    {
+      "path": "registry/fx/marquee.css",
+      "type": "registry:file",
+      "target": "components/fx/marquee.css",
+      "content": ".rad-fx-marquee {\n    overflow: hidden;\n    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);\n}\n\n.rad-fx-marquee-track {\n    display: flex;\n    width: max-content;\n    gap: var(--rad-fx-marquee-gap, 2.5rem);\n    animation: rad-fx-marquee var(--rad-fx-marquee-duration, 30s) linear infinite;\n}\n\n.rad-fx-marquee[data-direction='right'] .rad-fx-marquee-track { animation-direction: reverse; }\n\n.rad-fx-marquee-group {\n    display: flex;\n    flex-shrink: 0;\n    align-items: center;\n    gap: var(--rad-fx-marquee-gap, 2.5rem);\n}\n\n.rad-fx-marquee[data-state='paused'] .rad-fx-marquee-track,\n.rad-fx-marquee[data-pause-on-hover]:hover .rad-fx-marquee-track,\n.rad-fx-marquee:focus-within .rad-fx-marquee-track {\n    animation-play-state: paused;\n}\n\n/* Moves exactly one group plus one gap, so the second group lands where the first started. */\n@keyframes rad-fx-marquee {\n    to { transform: translateX(calc(-50% - var(--rad-fx-marquee-gap, 2.5rem) / 2)); }\n}\n\n/* Reduced motion: no scrolling; the items wrap into a normal row and the copy disappears. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-marquee { mask-image: none; }\n    .rad-fx-marquee-track { animation: none; width: auto; }\n    .rad-fx-marquee-group { flex-wrap: wrap; justify-content: center; flex-shrink: 1; }\n    .rad-fx-marquee-group[aria-hidden='true'] { display: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-marquee { mask-image: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-marquee-track { animation: none; width: auto; }\n[data-rad-fx-motion='reduce'] .rad-fx-marquee-group { flex-wrap: wrap; justify-content: center; flex-shrink: 1; }\n[data-rad-fx-motion='reduce'] .rad-fx-marquee-group[aria-hidden='true'] { display: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/marquee",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Items are exposed once; the looping copy is aria-hidden and inert, so nothing is read or focused twice.",
+      "Pauses on hover and whenever focus is inside; `paused` stops it from a visible control (WCAG 2.2.2).",
+      "Pass `label` to expose it as a named region.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops scrolling and wraps the items into a normal row."
+    ]
+  }
+}

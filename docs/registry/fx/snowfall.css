@@ -1,0 +1,44 @@
+.rad-fx-snow {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-snow-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-snow-content { position: relative; }
+
+.rad-fx-snow-fall {
+    position: absolute;
+    top: -5%;
+    animation: rad-fx-snow-fall 12s linear infinite;
+}
+
+.rad-fx-snow-flake {
+    display: block;
+    border-radius: 50%;
+    background: var(--rad-fx-snow-color);
+    opacity: 0.85;
+    animation: rad-fx-snow-sway 3s ease-in-out infinite alternate;
+}
+
+.rad-fx-snow[data-state='paused'] .rad-fx-snow-fall,
+.rad-fx-snow[data-state='paused'] .rad-fx-snow-flake { animation-play-state: paused; }
+
+@keyframes rad-fx-snow-fall { to { top: 105%; } }
+
+@keyframes rad-fx-snow-sway { from { transform: translateX(-14px); } to { transform: translateX(14px); } }
+
+/* Reduced motion: flakes rest where they are, scattered. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-snow-fall { animation: none; top: var(--rad-fx-snow-rest, 50%); }
+    .rad-fx-snow-flake { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-snow-fall { animation: none; top: var(--rad-fx-snow-rest, 50%); }
+[data-rad-fx-motion='reduce'] .rad-fx-snow-flake { animation: none; }

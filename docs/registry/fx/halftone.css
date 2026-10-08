@@ -1,0 +1,47 @@
+.rad-fx-halftone {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-halftone-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-halftone-content { position: relative; }
+
+.rad-fx-halftone[data-state='paused'] .rad-fx-halftone-layer,
+.rad-fx-halftone[data-state='paused'] .rad-fx-halftone-layer * { animation-play-state: paused !important; }
+
+.rad-fx-halftone-small,
+.rad-fx-halftone-large {
+    position: absolute;
+    inset: 0;
+    background-size: var(--rad-fx-halftone-spacing, 14px) var(--rad-fx-halftone-spacing, 14px);
+}
+
+.rad-fx-halftone-small {
+    background-image: radial-gradient(circle, var(--rad-fx-halftone-color) 1px, transparent 1.5px);
+    opacity: 0.45;
+}
+
+.rad-fx-halftone-large {
+    background-image: radial-gradient(circle, var(--rad-fx-halftone-color) 3.2px, transparent 3.8px);
+    mask-image: linear-gradient(100deg, transparent 20%, #000 45%, #000 55%, transparent 80%);
+    mask-size: 220% 100%;
+    animation: rad-fx-halftone var(--rad-fx-halftone-speed, 8s) ease-in-out infinite alternate;
+}
+
+@keyframes rad-fx-halftone {
+    from { mask-position: 100% 0; }
+    to { mask-position: 0% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-halftone-large { animation: none; mask-position: 50% 0; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-halftone-large { animation: none; mask-position: 50% 0; }

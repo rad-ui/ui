@@ -1,0 +1,35 @@
+.rad-fx-glow-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    --rad-fx-glow-x: 50%;
+    --rad-fx-glow-y: 50%;
+}
+
+.rad-fx-glow-card-light {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+        var(--rad-fx-glow-radius, 320px) circle at var(--rad-fx-glow-x) var(--rad-fx-glow-y),
+        var(--rad-fx-glow-color),
+        transparent 70%
+    );
+    transition: opacity 300ms ease;
+}
+
+.rad-fx-glow-card:hover .rad-fx-glow-card-light,
+.rad-fx-glow-card:focus-within .rad-fx-glow-card-light {
+    opacity: 1;
+}
+
+.rad-fx-glow-card-content { position: relative; }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-glow-card-light { transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-glow-card-light { transition: none; }

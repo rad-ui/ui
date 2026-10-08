@@ -1,0 +1,35 @@
+.rad-fx-grain {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-grain-layer {
+    position: absolute;
+    inset: -50%;
+    pointer-events: none;
+    opacity: var(--rad-fx-grain-opacity, 0.14);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.rad-fx-grain[data-animated] .rad-fx-grain-layer {
+    animation: rad-fx-grain 0.9s steps(6) infinite;
+}
+
+.rad-fx-grain[data-state='paused'] .rad-fx-grain-layer { animation-play-state: paused; }
+
+@keyframes rad-fx-grain {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-8%, 5%); }
+    40% { transform: translate(6%, -9%); }
+    60% { transform: translate(-4%, 11%); }
+    80% { transform: translate(10%, 3%); }
+    100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-grain-layer { animation: none !important; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-grain-layer { animation: none !important; }

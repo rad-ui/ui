@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { docsNavigationSections } from '../app/docs/docsNavigationSections';
+import { fxNavigationSections } from '../app/fx/fxNavigationSections';
 
 const BASE_URL = 'https://www.rad-ui.com';
 
@@ -32,6 +33,16 @@ function generateLlmsTxt() {
       content += '\n';
     }
   });
+
+  content += `## Rad UI FX
+> Accessible animated components (text effects, backgrounds), installed as source through a shadcn-compatible registry. Each registry item lists its accessibility rules in \`meta.accessibility\`.
+`;
+  fxNavigationSections.forEach((section: any) => {
+    section.items.forEach((item: any) => {
+      content += `- [${section.title === 'Getting Started' ? `FX ${item.title}` : item.title}](${BASE_URL}${item.path})\n`;
+    });
+  });
+  content += `- [FX registry index](${BASE_URL}/r/registry.json)\n\n`;
 
   content += `## Resources
 - [GitHub](https://github.com/rad-ui/ui)
@@ -99,6 +110,14 @@ export default function App() {
   });
 
   content += `
+## Rad UI FX (animated components)
+- Registry index: ${BASE_URL}/r/registry.json
+- Install one: npx shadcn@latest add ${BASE_URL}/r/<name>.json (files go to components/fx/)
+- Or add \`"registries": { "@rad-ui": "${BASE_URL}/r/{name}.json" }\` to components.json and run npx shadcn@latest add @rad-ui/<name>
+- Every item's \`meta.accessibility\` lists rules to keep (visually hidden text, aria-hidden decorative layers, reduced-motion fallbacks). Do not remove them when editing.
+- Apps with their own motion setting can set data-rad-fx-motion="reduce" on an ancestor.
+${fxNavigationSections.flatMap((section: any) => section.items).map((item: any) => `- ${item.title}: ${BASE_URL}${item.path}`).join('\n')}
+
 ## Useful Agent Notes
 - Prefer per-component imports such as @radui/ui/Dialog, @radui/ui/Select, and @radui/ui/Button.
 - Use the docs component pages for anatomy, examples, and accessibility behavior.

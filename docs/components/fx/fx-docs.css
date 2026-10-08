@@ -1,0 +1,144 @@
+/* Rad UI FX docs stage: a dark, lit backdrop so effects read as a hero moment.
+   Docs-only styling; nothing here ships with the registry components. */
+.fx-stage {
+    --fx-stage-base: #07070b;
+    --fx-stage-glow-1: rgb(124, 58, 237, 0.30);
+    --fx-stage-glow-2: rgb(34, 211, 238, 0.16);
+    --fx-stage-glow-3: rgb(236, 72, 153, 0.14);
+    --fx-stage-line: rgb(255, 255, 255, 0.055);
+    --fx-stage-border: rgb(255, 255, 255, 0.10);
+    --fx-stage-highlight: rgb(255, 255, 255, 0.07);
+    --fx-stage-chrome: rgb(255, 255, 255, 0.06);
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid var(--fx-stage-border);
+    border-radius: 18px;
+    background:
+        radial-gradient(120% 85% at 50% -15%, var(--fx-stage-glow-1), transparent 55%),
+        radial-gradient(70% 60% at 105% 110%, var(--fx-stage-glow-2), transparent 60%),
+        radial-gradient(60% 55% at -5% 105%, var(--fx-stage-glow-3), transparent 60%),
+        var(--fx-stage-base);
+    box-shadow:
+        inset 0 1px 0 var(--fx-stage-highlight),
+        0 30px 80px -40px rgb(0, 0, 0, 0.6);
+}
+
+[data-rad-ui-theme='light'] .fx-stage {
+    --fx-stage-base: #fbfbfe;
+    --fx-stage-glow-1: rgb(139, 92, 246, 0.16);
+    --fx-stage-glow-2: rgb(34, 211, 238, 0.12);
+    --fx-stage-glow-3: rgb(244, 114, 182, 0.10);
+    --fx-stage-line: rgb(15, 23, 42, 0.06);
+    --fx-stage-border: rgb(15, 23, 42, 0.10);
+    --fx-stage-highlight: rgb(255, 255, 255, 0.9);
+    --fx-stage-chrome: rgb(15, 23, 42, 0.05);
+
+    box-shadow: inset 0 1px 0 var(--fx-stage-highlight), 0 30px 80px -50px rgb(15, 23, 42, 0.35);
+}
+
+/* Faint grid that fades out toward the edges. */
+.fx-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--fx-stage-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--fx-stage-line) 1px, transparent 1px);
+    background-size: 36px 36px;
+    background-position: center;
+    mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 20%, transparent 75%);
+}
+
+/* A thin bright line along the top edge, like light catching glass. */
+.fx-stage::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgb(167, 139, 250, 0.7), rgb(34, 211, 238, 0.6), transparent);
+}
+
+.fx-stage-toolbar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid var(--fx-stage-border);
+    border-radius: 10px;
+    background: var(--fx-stage-chrome);
+    backdrop-filter: blur(12px);
+}
+
+.fx-stage-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Gallery cards: same stage, flush with the card. */
+.fx-stage[data-variant='card'],
+.fx-stage[data-variant='card-bare'] {
+    border: 0;
+    border-bottom: 1px solid var(--fx-stage-border);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* FX pages: a soft glow behind the page header. */
+.fx-page {
+    position: relative;
+    isolation: isolate;
+}
+
+.fx-page::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    left: -60px;
+    right: -60px;
+    height: 460px;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(55% 90% at 25% 0%, rgb(124, 58, 237, 0.20), transparent 70%),
+        radial-gradient(40% 70% at 85% 0%, rgb(34, 211, 238, 0.12), transparent 70%);
+    filter: blur(24px);
+}
+
+[data-rad-ui-theme='light'] .fx-page::before {
+    background:
+        radial-gradient(55% 90% at 25% 0%, rgb(139, 92, 246, 0.12), transparent 70%),
+        radial-gradient(40% 70% at 85% 0%, rgb(34, 211, 238, 0.08), transparent 70%);
+}
+
+/* Bare stage: the effect is the background, so the stage adds nothing on top
+   and the demo fills it edge to edge. */
+.fx-stage[data-variant='bare'],
+.fx-stage[data-variant='card-bare'] {
+    background: var(--fx-stage-base);
+}
+
+.fx-stage[data-variant='bare']::before,
+.fx-stage[data-variant='card-bare']::before {
+    display: none;
+}
+
+.fx-stage[data-variant='bare'] .fx-stage-body,
+.fx-stage[data-variant='card-bare'] {
+    align-items: stretch;
+}
+
+.fx-stage[data-variant='bare'] .fx-stage-body > *,
+.fx-stage[data-variant='card-bare'] > * {
+    flex: 1;
+}

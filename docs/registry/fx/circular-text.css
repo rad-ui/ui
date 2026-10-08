@@ -1,0 +1,42 @@
+.rad-fx-circular {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rad-fx-circular-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: currentcolor;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    animation: rad-fx-circular-spin var(--rad-fx-circular-duration, 16s) linear infinite;
+}
+
+.rad-fx-circular[data-direction='counterclockwise'] .rad-fx-circular-ring { animation-direction: reverse; }
+
+.rad-fx-circular[data-state='paused'] .rad-fx-circular-ring,
+.rad-fx-circular:hover .rad-fx-circular-ring {
+    animation-play-state: paused;
+}
+
+.rad-fx-circular-center {
+    position: relative;
+    display: inline-flex;
+}
+
+@keyframes rad-fx-circular-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-circular-ring { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-circular-ring { animation: none; }

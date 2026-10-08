@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "@radui/ui/Link";
+import { fxComponents } from "@/app/fx/fxNavigationSections";
 
 const GITHUB_REPO_EDIT_BASE = "https://github.com/rad-ui/ui/edit/main";
 
@@ -26,12 +27,19 @@ const EditPageOnGithub = () => {
         );
     }
 
-    const currentDocsPath = "docs/app/docs/" + page;
+    // FX component pages are generated from the registry: edit the component source.
+    const fxSlug = pathname.match(/^\/fx\/([^/]+)$/)?.[1];
+    const isFxComponent = fxComponents.some((item) => item.name === fxSlug);
+
+    // Everything else mirrors the app directory: /docs/... and /fx/... alike.
+    const editHref = isFxComponent
+        ? `${GITHUB_REPO_EDIT_BASE}/docs/registry/fx/${fxSlug}.tsx`
+        : `${GITHUB_REPO_EDIT_BASE}/docs/app${pathname.replace(/\/$/, "")}/content.mdx`;
 
     return (
         <div className="mt-10 border-t border-gray-300 pt-6">
             <Link
-                href={`${GITHUB_REPO_EDIT_BASE}/${currentDocsPath}/content.mdx`}
+                href={editHref}
                 target="_blank"
                 rel="noreferrer"
                 className="font-mono text-[0.78rem] font-medium tracking-wide text-gray-950 hover:text-green-1000"

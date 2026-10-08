@@ -1,0 +1,47 @@
+/* DotField: a dim dot grid with a soft pool of light drifting across it. */
+.rad-fx-dots {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-dots-base,
+.rad-fx-dots-lit {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--rad-fx-dots-color) 1px, transparent 1.5px);
+    background-size: var(--rad-fx-dots-gap, 18px) var(--rad-fx-dots-gap, 18px);
+}
+
+.rad-fx-dots-base { opacity: 0.3; }
+
+/* Lit dots are larger and tinted, with a faint glow under them. */
+.rad-fx-dots-lit {
+    background-image:
+        radial-gradient(circle, var(--rad-fx-dots-glow, #a78bfa) 1.4px, transparent 2px),
+        radial-gradient(closest-side, color-mix(in srgb, var(--rad-fx-dots-glow, #a78bfa) 18%, transparent), transparent);
+    background-size: var(--rad-fx-dots-gap, 18px) var(--rad-fx-dots-gap, 18px), 100% 100%;
+    mask-image: radial-gradient(circle at center, #000 0, transparent 70%);
+    mask-size: 55% 110%;
+    mask-repeat: no-repeat;
+    mask-position: 0% 50%;
+    animation: rad-fx-dots-sweep var(--rad-fx-dots-speed, 9s) ease-in-out infinite alternate;
+}
+
+.rad-fx-dots[data-state='paused'] .rad-fx-dots-lit { animation-play-state: paused; }
+
+.rad-fx-dots-content { position: relative; }
+
+@keyframes rad-fx-dots-sweep {
+    0% { mask-position: 0% 20%; }
+    50% { mask-position: 60% 80%; }
+    100% { mask-position: 100% 30%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-dots-lit { animation: none; mask-position: 50% 50%; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-dots-lit { animation: none; mask-position: 50% 50%; }

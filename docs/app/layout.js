@@ -10,6 +10,7 @@ import { PostHogProvider } from "../components/PostHogProvider"
 /** Don't change the order or all hell breaks loose */
 import './globals.css';
 import "@radui/ui/themes/default.css";
+import "./dark-surfaces.css";
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],

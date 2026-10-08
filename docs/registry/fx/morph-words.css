@@ -1,0 +1,37 @@
+.rad-fx-morph-stage {
+    display: inline-grid;
+    vertical-align: bottom;
+}
+
+.rad-fx-morph-stage[data-morphing] {
+    filter: var(--rad-fx-morph-filter);
+}
+
+.rad-fx-morph-word {
+    grid-area: 1 / 1;
+
+    /* Hug the preceding text; spare width from longer words trails after. */
+    justify-self: start;
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity 900ms ease, filter 900ms ease;
+}
+
+.rad-fx-morph-word[data-state='active'] {
+    opacity: 1;
+    filter: blur(0);
+}
+
+.rad-fx-morph-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-morph-word { transition: none; filter: none; }
+    .rad-fx-morph-stage[data-morphing] { filter: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-morph-word { transition: none; filter: none; }
+[data-rad-fx-motion='reduce'] .rad-fx-morph-stage[data-morphing] { filter: none; }

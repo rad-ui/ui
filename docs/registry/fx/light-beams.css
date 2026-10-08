@@ -1,0 +1,41 @@
+/* LightBeams: stage lights shining down from the top edge, gently swaying. */
+.rad-fx-beams {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-beams-rig {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(6px);
+}
+
+.rad-fx-beam {
+    position: absolute;
+    top: -10%;
+    width: 9%;
+    height: 130%;
+    margin-left: -4.5%;
+    transform-origin: 50% 0;
+    background: linear-gradient(to bottom, var(--rad-fx-beam-color), transparent 85%);
+    clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+    animation: rad-fx-beam-sway var(--rad-fx-beam-speed, 8s) ease-in-out infinite alternate;
+}
+
+.rad-fx-beams[data-state='paused'] .rad-fx-beam { animation-play-state: paused; }
+
+.rad-fx-beams-content { position: relative; }
+
+@keyframes rad-fx-beam-sway {
+    from { transform: rotate(calc(var(--rad-fx-beam-tilt, 0deg) - 8deg)); opacity: 0.6; }
+    to { transform: rotate(calc(var(--rad-fx-beam-tilt, 0deg) + 8deg)); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-beam { animation: none; transform: rotate(var(--rad-fx-beam-tilt, 0deg)); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-beam { animation: none; transform: rotate(var(--rad-fx-beam-tilt, 0deg)); }

@@ -1,0 +1,38 @@
+.rad-fx-waves {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-waves-sea {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-wave-line {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 200%;
+    height: 45%;
+
+    /* Back waves move slower than front ones, for depth. */
+    animation: rad-fx-waves var(--rad-fx-waves-speed, 14s) linear infinite;
+    animation-duration: calc(var(--rad-fx-waves-speed, 14s) * (1 + (2 - var(--rad-fx-wave-i, 0)) * 0.5));
+}
+
+.rad-fx-waves[data-state='paused'] .rad-fx-wave-line { animation-play-state: paused; }
+
+.rad-fx-waves-content { position: relative; }
+
+@keyframes rad-fx-waves {
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-wave-line { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-wave-line { animation: none; }

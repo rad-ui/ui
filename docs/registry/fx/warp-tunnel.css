@@ -1,0 +1,43 @@
+.rad-fx-warp {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-warp-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-warp-content { position: relative; }
+
+.rad-fx-warp[data-state='paused'] .rad-fx-warp-layer,
+.rad-fx-warp[data-state='paused'] .rad-fx-warp-layer * { animation-play-state: paused !important; }
+
+.rad-fx-warp-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    translate: -50% -50%;
+    border: 1.5px solid var(--rad-fx-warp-color);
+    border-radius: 18%;
+    opacity: 0;
+    animation: rad-fx-warp var(--rad-fx-warp-speed, 6s) cubic-bezier(0.55, 0, 1, 0.45) infinite;
+}
+
+/* Frames start tiny and faint, then accelerate past the viewer. */
+@keyframes rad-fx-warp {
+    0% { transform: scale(0.02); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-warp-ring { animation: none; transform: scale(var(--rad-fx-warp-rest, 0.5)); opacity: calc(0.9 - var(--rad-fx-warp-rest, 0.5) * 0.7); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-warp-ring { animation: none; transform: scale(var(--rad-fx-warp-rest, 0.5)); opacity: calc(0.9 - var(--rad-fx-warp-rest, 0.5) * 0.7); }

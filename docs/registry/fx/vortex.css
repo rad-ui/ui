@@ -1,0 +1,39 @@
+.rad-fx-vortex {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-vortex-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-vortex-content { position: relative; }
+
+.rad-fx-vortex[data-state='paused'] .rad-fx-vortex-layer,
+.rad-fx-vortex[data-state='paused'] .rad-fx-vortex-layer * { animation-play-state: paused !important; }
+
+.rad-fx-vortex-swirl {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 180%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background:
+        repeating-conic-gradient(from 0deg, var(--rad-fx-vortex-a) 0deg 12deg, transparent 12deg 30deg, var(--rad-fx-vortex-b) 30deg 40deg, transparent 40deg 60deg);
+    mask-image: radial-gradient(circle, #000 0%, transparent 55%);
+    filter: blur(14px);
+    animation: rad-fx-vortex var(--rad-fx-vortex-speed, 30s) linear infinite;
+}
+
+@keyframes rad-fx-vortex { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-vortex-swirl { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-vortex-swirl { animation: none; }

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "wave-lines",
+  "type": "registry:component",
+  "title": "WaveLines",
+  "description": "Layered waves drifting along the bottom edge, back waves slower for depth.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/wave-lines.tsx",
+      "type": "registry:component",
+      "target": "components/fx/wave-lines.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './wave-lines.css'\n\nexport type WaveLinesProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** One colour per wave, back to front. */\n    colors?: string[]\n    /** Seconds for the front wave to drift one full width. */\n    speed?: number\n    paused?: boolean\n}\n\nconst DEFAULT_COLORS = ['rgba(99, 102, 241, 0.22)', 'rgba(168, 85, 247, 0.28)', 'rgba(34, 211, 238, 0.32)']\n\n// One period of a smooth wave, drawn twice side by side so the drift loops seamlessly.\nconst WAVE = 'M0 60 C 150 20, 250 100, 400 60 S 650 20, 800 60 V 120 H 0 Z'\n\nconst WaveLines = ({ colors = DEFAULT_COLORS, speed = 14, paused = false, className, style, children, ...props }: WaveLinesProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-waves', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-waves-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-waves-sea\" aria-hidden=\"true\">\n            {colors.map((color, i) => (\n                <svg\n                    key={i}\n                    className=\"rad-fx-wave-line\"\n                    viewBox=\"0 0 1600 120\"\n                    preserveAspectRatio=\"none\"\n                    focusable=\"false\"\n                    // Every wave sits on the bottom edge; back waves are taller so they show above the front ones.\n                    style={{ '--rad-fx-wave-i': i, height: `${55 - (i * 20) / Math.max(1, colors.length - 1)}%` } as React.CSSProperties}\n                >\n                    <path d={WAVE} fill={color} />\n                    <path d={WAVE} fill={color} transform=\"translate(800 0)\" />\n                </svg>\n            ))}\n        </div>\n        <div className=\"rad-fx-waves-content\">{children}</div>\n    </div>\n}\n\nexport default WaveLines\n"
+    },
+    {
+      "path": "registry/fx/wave-lines.css",
+      "type": "registry:file",
+      "target": "components/fx/wave-lines.css",
+      "content": ".rad-fx-waves {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-waves-sea {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-wave-line {\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    width: 200%;\n    height: 45%;\n\n    /* Back waves move slower than front ones, for depth. */\n    animation: rad-fx-waves var(--rad-fx-waves-speed, 14s) linear infinite;\n    animation-duration: calc(var(--rad-fx-waves-speed, 14s) * (1 + (2 - var(--rad-fx-wave-i, 0)) * 0.5));\n}\n\n.rad-fx-waves[data-state='paused'] .rad-fx-wave-line { animation-play-state: paused; }\n\n.rad-fx-waves-content { position: relative; }\n\n@keyframes rad-fx-waves {\n    to { transform: translateX(-50%); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-wave-line { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-wave-line { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wave-lines",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the waves still."
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+.rad-fx-search {
+    display: inline-flex;
+    align-items: center;
+    height: 44px;
+    border: 1px solid rgb(127, 127, 127, 0.45);
+    border-radius: 999px;
+    overflow: hidden;
+    transition: border-color 200ms ease;
+}
+
+.rad-fx-search:focus-within { border-color: currentcolor; }
+
+.rad-fx-search-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.rad-fx-search-toggle:focus-visible { outline: 2px solid currentcolor; outline-offset: -4px; }
+
+.rad-fx-search-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.rad-fx-search-input {
+    width: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    opacity: 0;
+    transition: width 420ms cubic-bezier(0.3, 0.8, 0.2, 1), opacity 250ms ease, padding 420ms ease;
+}
+
+.rad-fx-search[data-state='open'] .rad-fx-search-input {
+    width: 220px;
+    padding-right: 16px;
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-search-input { transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-search-input { transition: none; }

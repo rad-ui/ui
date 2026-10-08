@@ -6,6 +6,8 @@ import { NavBarContext } from "@/components/Main/NavBar/NavBarContext";
 import { usePathname } from "next/navigation";
 
 import Link from "next/link";
+import { getActiveNavLink, getActiveProduct, getDocsProduct } from "@/components/navigation/products";
+import ProductSwitcher from "@/components/navigation/ProductSwitcher";
 import { Menu, Moon, Sun } from "lucide-react";
 
 const RadUILogo = () => {
@@ -69,7 +71,9 @@ const DiscordLogo = ({ size = 15 }) => {
 const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
   const { isDocsNavOpen, setIsDocsNavOpen } = useContext(NavBarContext);
   const pathname = usePathname();
-  const isDocsPage = pathname?.startsWith("/docs");
+  const isDocsPage = Boolean(getDocsProduct(pathname));
+  const product = getActiveProduct(pathname);
+  const activeNavLink = getActiveNavLink(product, pathname);
 
   const openLink = useCallback(
     (url) => () => {
@@ -98,7 +102,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         isDocsPage ? "" : "backdrop-blur-xl backdrop-saturate-150"
       }`}
     >
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
         <a
           className="flex items-center pl-0.5 text-gray-1000"
           href="/"
@@ -106,27 +110,29 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         >
           <RadUILogo />
         </a>
+        <ProductSwitcher current={product} />
       </div>
       {/* The centre cell stays in the grid at every breakpoint. Hiding it below
           `lg` would leave two children in a `1fr auto 1fr` track, pulling the
           action buttons into the centre column on mobile. */}
       <div>
-        <ul className="hidden items-center gap-1 text-[0.84rem] font-medium lg:flex">
-          {[
-            { href: "/docs/first-steps/introduction", label: "Docs" },
-            { href: "/playground", label: "Playground" },
-            { href: "/colors", label: "Colors" },
-            { href: "/showcase/music-app", label: "Showcase" },
-          ].map((item) => (
-            <li key={item.href}>
-              <Link
-                className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
-                href={item.href}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
+        {/* Links for the current product only: UI and FX are separate packages. */}
+        <ul className="hidden items-center gap-1 text-[0.84rem] font-medium lg:flex" aria-label={`${product.title} sections`}>
+          {product.navLinks.map((item) => {
+            const isActive = item === activeNavLink;
+            return (
+              <li key={item.href}>
+                <Link
+                  className="rounded-md px-2.5 py-1.5 text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000 data-[active=true]:bg-gray-200 data-[active=true]:text-gray-1000"
+                  href={item.href}
+                  data-active={isActive}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="flex items-center justify-end gap-1">

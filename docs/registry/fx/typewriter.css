@@ -1,0 +1,37 @@
+.rad-fx-typewriter-stage {
+    display: inline-grid;
+}
+
+.rad-fx-typewriter-ghost,
+.rad-fx-typewriter-typed {
+    grid-area: 1 / 1;
+}
+
+.rad-fx-typewriter-ghost {
+    visibility: hidden;
+}
+
+.rad-fx-typewriter-caret {
+    display: inline-block;
+    width: 0.08em;
+    height: 1em;
+    margin-inline-start: 0.06em;
+    vertical-align: -0.12em;
+    background: currentcolor;
+    animation: rad-fx-typewriter-blink 1s steps(1) infinite;
+}
+
+/* Stop blinking once typing is done: a caret blinking forever is a distraction. */
+.rad-fx-typewriter[data-state='done'] .rad-fx-typewriter-caret {
+    animation-iteration-count: 3;
+}
+
+@keyframes rad-fx-typewriter-blink {
+    50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-typewriter-caret { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-typewriter-caret { animation: none; }

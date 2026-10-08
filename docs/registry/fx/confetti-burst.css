@@ -1,0 +1,42 @@
+.rad-fx-confetti {
+    position: relative;
+    display: inline-block;
+}
+
+.rad-fx-confetti-origin {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.rad-fx-confetti-piece {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 1px;
+    pointer-events: none;
+
+    /* Two animations sharing one duration: a strong ease-out for the flight and spin,
+       and a separate fade that only starts once the piece has mostly slowed down. */
+    animation-name: rad-fx-confetti-fly, rad-fx-confetti-fade;
+    animation-duration: 1.1s;
+    animation-timing-function: cubic-bezier(0.1, 0.7, 0.2, 1), linear;
+    animation-fill-mode: both;
+}
+
+.rad-fx-confetti-piece[data-shape='strip'] { width: 4px; height: 10px; }
+
+/* Fast burst outward from the press point, easing to a stop as the spin winds down. */
+@keyframes rad-fx-confetti-fly {
+    from { transform: translate(0, 0) rotate(0deg) scale(0.6); }
+    to { transform: translate(var(--rad-fx-confetti-dx), var(--rad-fx-confetti-dy)) rotate(var(--rad-fx-confetti-rotate)) scale(1); }
+}
+
+@keyframes rad-fx-confetti-fade {
+    0%, 55% { opacity: 1; }
+    100% { opacity: 0; }
+}

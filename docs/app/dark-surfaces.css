@@ -1,0 +1,11 @@
+/* Docs dark theme: deeper, near-black surfaces.
+   Only the low gray steps (page, panels, hover fills) change; borders (500+) and
+   text steps (900–1000) keep the theme's values, so text contrast only improves.
+   `html` in the selector outranks the theme's own [data-rad-ui-theme=dark] rule. */
+html [data-rad-ui-theme='dark'] {
+    --rad-ui-color-gray-50: #050505;
+    --rad-ui-color-gray-100: #0a0a0a;
+    --rad-ui-color-gray-200: #131313;
+    --rad-ui-color-gray-300: #1a1a1a;
+    --rad-ui-color-gray-400: #232323;
+}

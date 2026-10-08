@@ -1,0 +1,21 @@
+.rad-fx-wave-char {
+    display: inline-block;
+    animation: rad-fx-wave var(--rad-fx-wave-duration, 1.4s) ease-in-out infinite;
+    animation-delay: calc(var(--rad-fx-wave-index, 0) * var(--rad-fx-wave-stagger, 0.06s));
+}
+
+.rad-fx-wave[data-state='paused'] .rad-fx-wave-char,
+.rad-fx-wave[data-trigger='hover']:not(:hover) .rad-fx-wave-char {
+    animation-play-state: paused;
+}
+
+@keyframes rad-fx-wave {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(calc(-1 * var(--rad-fx-wave-amplitude, 0.22em))); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-wave-char { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-wave-char { animation: none; }

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "click-burst",
+  "type": "registry:component",
+  "title": "ClickBurst",
+  "description": "A small burst of sparks from wherever a button is clicked.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/click-burst.tsx",
+      "type": "registry:component",
+      "target": "components/fx/click-burst.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './click-burst.css'\n\nexport type ClickBurstProps = {\n    /** Usually a button. Clicks (mouse, touch or keyboard) still reach it as normal. */\n    children: React.ReactNode\n    color?: string\n    /** Number of sparks. */\n    sparks?: number\n    /** Spark travel distance in px. */\n    distance?: number\n    className?: string\n}\n\ntype Burst = { id: number, x: number, y: number }\n\nconst ClickBurst = ({ children, color = '#fbbf24', sparks = 8, distance = 28, className }: ClickBurstProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const [bursts, setBursts] = React.useState<Burst[]>([])\n    const nextId = React.useRef(0)\n\n    const handleClick = (event: React.MouseEvent<HTMLSpanElement>) => {\n        if (reduced) return\n        const rect = event.currentTarget.getBoundingClientRect()\n        // Keyboard \"clicks\" have no pointer position (detail === 0): burst from the centre.\n        const fromKeyboard = event.detail === 0\n        const x = fromKeyboard ? rect.width / 2 : event.clientX - rect.left\n        const y = fromKeyboard ? rect.height / 2 : event.clientY - rect.top\n        const id = nextId.current++\n        setBursts((current) => [...current, { id, x, y }])\n    }\n\n    const remove = (id: number) => setBursts((current) => current.filter((burst) => burst.id !== id))\n\n    return <span ref={ref} className={['rad-fx-click-burst', className].filter(Boolean).join(' ')} onClick={handleClick}>\n        {children}\n        {bursts.map((burst) => (\n            <span\n                key={burst.id}\n                className=\"rad-fx-click-burst-sparks\"\n                aria-hidden=\"true\"\n                style={{ left: burst.x, top: burst.y, '--rad-fx-burst-color': color, '--rad-fx-burst-distance': `${distance}px` } as React.CSSProperties}\n                onAnimationEnd={(event) => { if (event.target === event.currentTarget.lastElementChild) remove(burst.id) }}\n            >\n                {Array.from({ length: sparks }, (_, i) => (\n                    <span key={i} className=\"rad-fx-click-burst-spark\" style={{ '--rad-fx-burst-angle': `${(360 / sparks) * i}deg` } as React.CSSProperties} />\n                ))}\n            </span>\n        ))}\n    </span>\n}\n\nexport default ClickBurst\n"
+    },
+    {
+      "path": "registry/fx/click-burst.css",
+      "type": "registry:file",
+      "target": "components/fx/click-burst.css",
+      "content": ".rad-fx-click-burst {\n    position: relative;\n    display: inline-block;\n}\n\n.rad-fx-click-burst-sparks {\n    position: absolute;\n    width: 0;\n    height: 0;\n    pointer-events: none;\n}\n\n.rad-fx-click-burst-spark {\n    position: absolute;\n    left: -1px;\n    top: -5px;\n    width: 2px;\n    height: 10px;\n    border-radius: 1px;\n    background: var(--rad-fx-burst-color);\n    transform: rotate(var(--rad-fx-burst-angle)) translateY(0);\n    animation: rad-fx-burst 450ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;\n}\n\n@keyframes rad-fx-burst {\n    from { opacity: 1; transform: rotate(var(--rad-fx-burst-angle)) translateY(-6px) scaleY(1); }\n    to { opacity: 0; transform: rotate(var(--rad-fx-burst-angle)) translateY(calc(-1 * var(--rad-fx-burst-distance, 28px))) scaleY(0.3); }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/click-burst",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Sparks are aria-hidden, ignore pointer events and are removed after their animation.",
+      "Keyboard activation bursts from the centre of the element.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows no sparks."
+    ]
+  }
+}

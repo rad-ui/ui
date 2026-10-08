@@ -1,0 +1,43 @@
+.rad-fx-constellation {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-constellation-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-constellation-content { position: relative; }
+
+.rad-fx-constellation[data-state='paused'] .rad-fx-constellation-layer,
+.rad-fx-constellation[data-state='paused'] .rad-fx-constellation-layer * { animation-play-state: paused !important; }
+
+.rad-fx-constellation-layer { width: 100%; height: 100%; }
+
+.rad-fx-constellation-link {
+    stroke: var(--rad-fx-star-color, #c4b5fd);
+    stroke-width: 0.12;
+    opacity: 0.35;
+}
+
+.rad-fx-constellation-star {
+    fill: var(--rad-fx-star-color, #c4b5fd);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: rad-fx-constellation 4s ease-in-out infinite;
+}
+
+@keyframes rad-fx-constellation {
+    0%, 100% { opacity: 0.45; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-constellation-star { animation: none; opacity: 0.85; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-constellation-star { animation: none; opacity: 0.85; }

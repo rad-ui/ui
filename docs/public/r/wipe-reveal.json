@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "wipe-reveal",
+  "type": "registry:component",
+  "title": "WipeReveal",
+  "description": "An editorial wipe: a colour bar sweeps across and leaves the text behind it.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/wipe-reveal.tsx",
+      "type": "registry:component",
+      "target": "components/fx/wipe-reveal.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './wipe-reveal.css'\n\ntype WipeTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type WipeRevealProps = {\n    children: React.ReactNode\n    as?: WipeTag\n    /** Colour of the wiping bar. */\n    color?: string\n    /** Milliseconds for the whole wipe. */\n    duration?: number\n    delay?: number\n    className?: string\n}\n\n// Editorial wipe: a bar sweeps across and leaves the text behind it. The text is\n// real and always in the accessibility tree; only its clip animates.\nconst WipeReveal = ({ children, as: Tag = 'span', color = '#a78bfa', duration = 900, delay = 0, className }: WipeRevealProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const [shown, setShown] = React.useState(false)\n    useInViewOnce(ref, () => setShown(true), !shown, 0.5)\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-wipe', className].filter(Boolean).join(' ')}\n        data-state={shown ? 'shown' : 'hidden'}\n        style={{ '--rad-fx-wipe-color': color, '--rad-fx-wipe-duration': `${duration}ms`, '--rad-fx-wipe-delay': `${delay}ms` } as React.CSSProperties}\n    >\n        <span className=\"rad-fx-wipe-text\">{children}</span>\n        <span className=\"rad-fx-wipe-bar\" aria-hidden=\"true\" />\n    </Tag>\n}\n\nexport default WipeReveal\n"
+    },
+    {
+      "path": "registry/fx/wipe-reveal.css",
+      "type": "registry:file",
+      "target": "components/fx/wipe-reveal.css",
+      "content": ".rad-fx-wipe {\n    position: relative;\n    display: inline-block;\n}\n\n.rad-fx-wipe-text {\n    display: inline-block;\n    clip-path: inset(0 100% 0 0);\n}\n\n.rad-fx-wipe[data-state='shown'] .rad-fx-wipe-text {\n    animation: rad-fx-wipe-text var(--rad-fx-wipe-duration, 900ms) var(--rad-fx-wipe-delay, 0ms) both;\n}\n\n.rad-fx-wipe-bar {\n    position: absolute;\n    inset: 0;\n    background: var(--rad-fx-wipe-color);\n    transform: scaleX(0);\n    transform-origin: 0 50%;\n    pointer-events: none;\n}\n\n.rad-fx-wipe[data-state='shown'] .rad-fx-wipe-bar {\n    animation: rad-fx-wipe-bar var(--rad-fx-wipe-duration, 900ms) cubic-bezier(0.7, 0, 0.3, 1) var(--rad-fx-wipe-delay, 0ms) both;\n}\n\n/* The bar grows to cover the text, the text is revealed under it, then the bar exits right. */\n@keyframes rad-fx-wipe-bar {\n    0% { transform: scaleX(0); transform-origin: 0 50%; }\n    50% { transform: scaleX(1); transform-origin: 0 50%; }\n    50.1% { transform: scaleX(1); transform-origin: 100% 50%; }\n    100% { transform: scaleX(0); transform-origin: 100% 50%; }\n}\n\n@keyframes rad-fx-wipe-text {\n    0%, 49.9% { clip-path: inset(0 100% 0 0); }\n    50%, 100% { clip-path: inset(0 0 0 0); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-wipe-text, .rad-fx-wipe[data-state] .rad-fx-wipe-text { clip-path: none; animation: none; }\n    .rad-fx-wipe-bar, .rad-fx-wipe[data-state] .rad-fx-wipe-bar { display: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-wipe-text { clip-path: none; animation: none !important; }\n[data-rad-fx-motion='reduce'] .rad-fx-wipe-bar { display: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wipe-reveal",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Real, unsplit text that stays in the accessibility tree; only its clip animates.",
+      "The bar is aria-hidden.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the text with no wipe."
+    ]
+  }
+}

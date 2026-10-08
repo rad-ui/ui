@@ -1,0 +1,54 @@
+.rad-fx-hyper {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-hyper-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-hyper-content { position: relative; }
+
+.rad-fx-hyper[data-state='paused'] .rad-fx-hyper-layer,
+.rad-fx-hyper[data-state='paused'] .rad-fx-hyper-layer * { animation-play-state: paused !important; }
+
+.rad-fx-hyper-layer { container-type: size; }
+
+.rad-fx-hyper-arm {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+}
+
+.rad-fx-hyper-streak {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(to right, transparent, var(--rad-fx-hyper-color));
+    transform-origin: 0 50%;
+    opacity: 0;
+    animation: rad-fx-hyper 1.4s cubic-bezier(0.55, 0, 1, 0.45) infinite;
+}
+
+/* Each streak starts near the centre as a point and stretches as it accelerates outward. */
+@keyframes rad-fx-hyper {
+    0% { transform: translateX(2cqmax) scaleX(0.2); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateX(70cqmax) scaleX(5); opacity: 0.9; }
+}
+
+/* Reduced motion: a still field of stars, no rushing. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-hyper-streak { animation: none; width: 3px; height: 3px; opacity: 0.7; transform: translateX(var(--rad-fx-hyper-rest, 20cqmax)); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-hyper-streak { animation: none; width: 3px; height: 3px; opacity: 0.7; transform: translateX(var(--rad-fx-hyper-rest, 20cqmax)); }

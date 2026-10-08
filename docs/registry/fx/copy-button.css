@@ -1,0 +1,48 @@
+.rad-fx-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgb(127, 127, 127, 0.45);
+    border-radius: 10px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.rad-fx-copy:focus-visible { outline: 2px solid currentcolor; outline-offset: 2px; }
+
+.rad-fx-copy svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.rad-fx-copy-icon {
+    transform-origin: 50% 50%;
+    transition: opacity 200ms ease, transform 250ms ease;
+}
+
+.rad-fx-copy-check {
+    stroke: var(--rad-fx-copy-success, #4ade80);
+    stroke-width: 2.4;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 300ms cubic-bezier(0.6, 0.1, 0.3, 1) 120ms;
+}
+
+.rad-fx-copy[data-state='copied'] .rad-fx-copy-icon { opacity: 0; transform: scale(0.6) rotate(-12deg); }
+.rad-fx-copy[data-state='copied'] .rad-fx-copy-check { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-copy-icon, .rad-fx-copy-check { transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-copy-icon,
+[data-rad-fx-motion='reduce'] .rad-fx-copy-check { transition: none; }

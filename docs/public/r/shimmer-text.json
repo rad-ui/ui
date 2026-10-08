@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shimmer-text",
+  "type": "registry:component",
+  "title": "ShimmerText",
+  "description": "A soft highlight sweeping across real, unsplit text.",
+  "files": [
+    {
+      "path": "registry/fx/shimmer-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/shimmer-text.tsx",
+      "content": "import * as React from 'react'\n\nimport './shimmer-text.css'\n\ntype ShimmerTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type ShimmerTextProps = {\n    children: React.ReactNode\n    as?: ShimmerTag\n    /** Seconds per sweep. */\n    duration?: number\n    /** Colour of the passing highlight. The text colour itself stays `currentColor`. */\n    highlight?: string\n    className?: string\n}\n\n// Real text, never split: screen readers, selection and translation all just work.\nconst ShimmerText = ({ children, as: Tag = 'span', duration = 2.5, highlight = 'rgba(255, 255, 255, 0.85)', className }: ShimmerTextProps) => (\n    <Tag\n        className={['rad-fx-shimmer', className].filter(Boolean).join(' ')}\n        style={{ '--rad-fx-shimmer-duration': `${duration}s`, '--rad-fx-shimmer-highlight': highlight } as React.CSSProperties}\n    >\n        {children}\n    </Tag>\n)\n\nexport default ShimmerText\n"
+    },
+    {
+      "path": "registry/fx/shimmer-text.css",
+      "type": "registry:file",
+      "target": "components/fx/shimmer-text.css",
+      "content": ".rad-fx-shimmer {\n    background-image: linear-gradient(\n        110deg,\n        currentcolor 40%,\n        var(--rad-fx-shimmer-highlight, rgb(255, 255, 255, 0.85)) 50%,\n        currentcolor 60%\n    );\n    background-size: 250% 100%;\n    background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n    animation: rad-fx-shimmer var(--rad-fx-shimmer-duration, 2.5s) linear infinite;\n}\n\n@keyframes rad-fx-shimmer {\n    from { background-position: 100% 0; }\n    to { background-position: 0% 0; }\n}\n\n/* Forced colours (Windows high contrast) ignore backgrounds: fall back to plain text. */\n@media (forced-colors: active) {\n    .rad-fx-shimmer { background: none; -webkit-text-fill-color: currentcolor; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-shimmer { animation: none; background-position: 100% 0; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-shimmer { animation: none; background-position: 100% 0; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/shimmer-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Text is never split, so screen readers, selection and translation work normally.",
+      "The base colour is currentColor: check its contrast; the highlight only brightens it briefly.",
+      "Forced-colours mode falls back to plain text.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the sweep."
+    ]
+  }
+}
