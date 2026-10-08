@@ -1,6 +1,7 @@
 import Text from '@radui/ui/Text';
 import Heading from '@radui/ui/Heading';
 import Separator from '@radui/ui/Separator';
+import Link from 'next/link';
 import DocsTable from './helpers/DocsTable';
 
 import CodeBlock from '@/components/layout/Documentation/helpers/CodeBlock';
@@ -17,7 +18,43 @@ import {
     docsSectionStackClassName
 } from './shared';
 
+const componentTitleSlugExceptions = {
+    AlertDialog: 'alert-dialog',
+    AspectRatio: 'aspect-ratio',
+    AvatarGroup: 'avatar-group',
+    BlockQuote: 'blockquote',
+    CheckboxCards: 'checkbox-cards',
+    CheckboxGroup: 'checkbox-group',
+    ContextMenu: 'context-menu',
+    DataList: 'data-list',
+    DropdownMenu: 'dropdown-menu',
+    HoverCard: 'hover-card',
+    LiveRegion: 'live-region',
+    NavigationMenu: 'navigation-menu',
+    NumberField: 'number-field',
+    RadioCards: 'radio-cards',
+    RadioGroup: 'radio-group',
+    ScrollArea: 'scroll-area',
+    TabNav: 'tab-nav',
+    TextArea: 'text-area',
+    TextField: 'text-field',
+    ToggleGroup: 'toggle-group',
+    VisuallyHidden: 'visually-hidden'
+};
+
+const componentTitleToSlug = (title = '') => componentTitleSlugExceptions[title]
+    || title
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
 const Documentation = ({ title = '', description = '', eyebrow = 'Component', currentPage = undefined, children }) => {
+    const componentChangelogPath = eyebrow === 'Component' && title
+        ? `/docs/components/${componentTitleToSlug(title)}/changelog`
+        : null;
+
     return <div className="docs-article text-gray-1000">
         <div className={docsSectionIntroClassName}>
             {eyebrow ? <p className={docsEyebrowClassName}>{eyebrow}</p> : null}
@@ -33,6 +70,14 @@ const Documentation = ({ title = '', description = '', eyebrow = 'Component', cu
                     {description}
                 </Text>
             )}
+            {componentChangelogPath ? (
+                <Link
+                    className="inline-flex w-fit text-sm font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
+                    href={componentChangelogPath}
+                >
+                    View component changelog
+                </Link>
+            ) : null}
         </div>
         <div className={docsSectionStackClassName}>
             {children}

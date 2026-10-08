@@ -15,6 +15,7 @@ const nextDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..',
 
 // Routes that are dynamic on purpose. Keep this list short and explained.
 const ALLOWED_DYNAMIC = new Map([
+    ['/docs/components/[component]/changelog', 'SSG route template; concrete component changelog paths use generateStaticParams'],
     ['/docs/first-steps/changelog', 'paginates with ?page= (searchParams)'],
     ['/og', 'generates Open Graph images from query params'],
     ['/funding.json', 'route handler'],
