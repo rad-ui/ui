@@ -5,7 +5,6 @@ import VisuallyHidden from '@radui/ui/VisuallyHidden'
 
 import CountTo from '@/registry/fx/count-to'
 import GlitchText from '@/registry/fx/glitch-text'
-import ScrambleText from '@/registry/fx/scramble-text'
 import WaveText from '@/registry/fx/wave-text'
 import SplitFlap from '@/registry/fx/split-flap'
 import InkUnderline from '@/registry/fx/ink-underline'
@@ -57,7 +56,7 @@ const BEATS: Beat[] = [
     { ms: 1000, move: 'shake', bg: 'orange', size: 'xl', words: <GlitchText text="BROKEN." interval={0.45} colors={['#3de8ff', '#ffe14d']} /> },
     // The problem
     { ms: 420, move: 'whip-r', size: 'm', words: 'Screen readers?' },
-    { ms: 600, move: 'slam', bg: 'orange', size: 'xl', words: <ScrambleText text="LOST." trigger="mount" duration={340} characters="ABCDEFGHJKLMNPQRSTUVWXYZ?#%&" className="fx-kinetic-inherit-font" /> },
+    { ms: 600, move: 'slam', bg: 'orange', size: 'xl', words: <ScatterLetters text="LOST." /> },
     { ms: 380, move: 'whip-l', size: 'm', words: 'Keyboards?' },
     { ms: 420, move: 'slam', bg: 'orange', size: 'xl', words: 'STUCK.' },
     { ms: 380, move: 'whip-r', size: 'm', words: 'Inner ears?' },
@@ -88,6 +87,26 @@ const BEATS: Beat[] = [
     { ms: 520, move: 'whip-l', ink: 'lime', size: 'xl', swipe: { from: 'left', color: '#b8ff3c' }, words: 'Ship it.' },
     { ms: 1500, move: 'zoom', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: <Typewriter as="span" trigger="mount" text="OWN IT." speed={85} delay={260} /> }
 ]
+
+// LOST.: letters fly in from scattered positions and lock into place. Only
+// transforms and opacity animate, starting fully transparent: content that
+// changes while visible (a scramble) became the page's Largest Contentful Paint
+// at ~6s; elements first painted transparent don't count.
+const SCATTER = [[-38, -60, -40], [24, 70, 32], [-20, -80, 18], [44, 50, -28], [-30, 64, 50]]
+function ScatterLetters ({ text }: { text: string }) {
+    return <>
+        {Array.from(text).map((letter, i) => {
+            const [dx, dy, rot] = SCATTER[i % SCATTER.length]
+            return <span
+                key={i}
+                className="fx-kinetic-scatter"
+                style={{ '--fx-dx': `${dx}%`, '--fx-dy': `${dy}%`, '--fx-rot': `${rot}deg`, animationDelay: `${i * 45}ms` } as React.CSSProperties}
+            >
+                {letter}
+            </span>
+        })}
+    </>
+}
 
 // What screen readers get: the whole story once, in sentences.
 const STORY = [
