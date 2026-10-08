@@ -13,6 +13,10 @@
     position: relative;
     display: grid;
     place-items: center;
+
+    /* An explicit width stops min-height from widening the stage via the aspect
+       ratio on narrow screens (it grows taller instead). */
+    width: 100%;
     aspect-ratio: 16 / 8;
     min-height: 320px;
     overflow: hidden;
