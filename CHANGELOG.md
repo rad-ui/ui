@@ -1,5 +1,12 @@
 # @radui/ui
 
+## 1.1.2
+
+### Patch Changes
+
+- d495e2a: docs: add component-specific changelog pages
+- d318b3a: docs(tab-nav): add keyboard and ARIA reference tables
+
 ## 1.1.1
 
 ### Patch Changes
