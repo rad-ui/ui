@@ -5,7 +5,6 @@ import VisuallyHidden from '@radui/ui/VisuallyHidden'
 
 import CountTo from '@/registry/fx/count-to'
 import GlitchText from '@/registry/fx/glitch-text'
-import ScrambleText from '@/registry/fx/scramble-text'
 import WaveText from '@/registry/fx/wave-text'
 import SplitFlap from '@/registry/fx/split-flap'
 import InkUnderline from '@/registry/fx/ink-underline'
@@ -57,7 +56,7 @@ const BEATS: Beat[] = [
     { ms: 1000, move: 'shake', bg: 'orange', size: 'xl', words: <GlitchText text="BROKEN." interval={0.45} colors={['#3de8ff', '#ffe14d']} /> },
     // The problem
     { ms: 420, move: 'whip-r', size: 'm', words: 'Screen readers?' },
-    { ms: 600, move: 'slam', bg: 'orange', size: 'xl', words: <ScrambleText text="LOST." trigger="mount" duration={340} characters="ABCDEFGHJKLMNPQRSTUVWXYZ?#%&" className="fx-kinetic-inherit-font" /> },
+    { ms: 600, move: 'slam', bg: 'orange', size: 'xl', words: <ScatterLetters text="LOST." /> },
     { ms: 380, move: 'whip-l', size: 'm', words: 'Keyboards?' },
     { ms: 420, move: 'slam', bg: 'orange', size: 'xl', words: 'STUCK.' },
     { ms: 380, move: 'whip-r', size: 'm', words: 'Inner ears?' },
@@ -89,6 +88,26 @@ const BEATS: Beat[] = [
     { ms: 1500, move: 'zoom', bg: 'yellow', size: 'xxl', swipe: { from: 'bottom', color: '#ffe14d' }, words: <Typewriter as="span" trigger="mount" text="OWN IT." speed={85} delay={260} /> }
 ]
 
+// LOST.: letters fly in from scattered positions and lock into place. Only
+// transforms and opacity animate, starting fully transparent: content that
+// changes while visible (a scramble) became the page's Largest Contentful Paint
+// at ~6s; elements first painted transparent don't count.
+const SCATTER = [[-38, -60, -40], [24, 70, 32], [-20, -80, 18], [44, 50, -28], [-30, 64, 50]]
+function ScatterLetters ({ text }: { text: string }) {
+    return <>
+        {Array.from(text).map((letter, i) => {
+            const [dx, dy, rot] = SCATTER[i % SCATTER.length]
+            return <span
+                key={i}
+                className="fx-kinetic-scatter"
+                style={{ '--fx-dx': `${dx}%`, '--fx-dy': `${dy}%`, '--fx-rot': `${rot}deg`, animationDelay: `${i * 45}ms` } as React.CSSProperties}
+            >
+                {letter}
+            </span>
+        })}
+    </>
+}
+
 // What screen readers get: the whole story once, in sentences.
 const STORY = [
     'Stop. Most animations are broken.',
@@ -100,7 +119,10 @@ const STORY = [
     'Rad UI FX. Motion with manners.'
 ]
 
-const END = BEATS.length
+// First load only: a slow countdown before the ad. Replay skips straight to STOP.
+const COUNTDOWN: Beat[] = ['3', '2', '1'].map((n) => ({ ms: 1000, move: 'zoom', bg: 'black', size: 's', words: n }))
+const FIRST_RUN = [...COUNTDOWN, ...BEATS]
+const sequenceFor = (run: number) => (run === 0 ? FIRST_RUN : BEATS)
 
 // Must match THEME_PREVIEW_EVENT in components/Main/Main.js.
 const THEME_PREVIEW_EVENT = 'rad-docs:theme-preview'
@@ -127,8 +149,9 @@ const FxHeroKinetic = () => {
     const firstBeat = useRef(true)
 
     useEffect(() => {
-        if (!playing || offscreen || index >= END) return
-        let ms = Math.max(MIN_BEAT, BEATS[index].ms)
+        const sequence = sequenceFor(run)
+        if (!playing || offscreen || index >= sequence.length) return
+        let ms = Math.max(MIN_BEAT, sequence[index].ms)
         if (index === 0 && firstBeat.current) ms = Math.max(MIN_BEAT, ms - performance.now())
         const timer = window.setTimeout(() => {
             firstBeat.current = false
@@ -137,14 +160,14 @@ const FxHeroKinetic = () => {
         return () => window.clearTimeout(timer)
     }, [index, run, playing, offscreen])
 
-    useEffect(() => { if (index >= END) setPlaying(false) }, [index])
+    useEffect(() => { if (index >= sequenceFor(run).length) setPlaying(false) }, [index, run])
 
     // The plot twist flips the whole site to the opposite theme for that beat only;
     // the next beat, Replay and leaving the page all hand the user's own theme back.
     useEffect(() => {
-        const flipped = BEATS[index]?.site === 'flip'
+        const flipped = sequenceFor(run)[index]?.site === 'flip'
         previewTheme(flipped ? (siteTheme() === 'dark' ? 'light' : 'dark') : null)
-    }, [index])
+    }, [index, run])
     useEffect(() => () => previewTheme(null), [])
 
     const replay = () => {
@@ -154,7 +177,7 @@ const FxHeroKinetic = () => {
         setPlaying(true)
     }
 
-    const beat = BEATS[index]
+    const beat = sequenceFor(run)[index]
 
     return <section
         ref={rootRef}

@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import FxLazyDemo from './FxLazyDemo'
+
 import './fx-docs.css'
 
 import { fxCatalog } from '@/app/fx/fxCatalog'
@@ -14,7 +16,9 @@ const FxGallery = () => (
             if (!demo) return null
             return <li key={item.name} className="group relative overflow-hidden rounded-xl border border-gray-400 bg-gray-50 transition-colors hover:border-gray-600">
                 <div className="fx-stage pointer-events-none flex h-56 items-center justify-center [&>*]:max-w-full" data-variant={item.categories?.[1] === 'backgrounds' ? 'card-bare' : 'card'} aria-hidden="true" inert>
-                    <demo.Demo />
+                    <FxLazyDemo className={item.categories?.[1] === 'backgrounds' ? 'flex h-full w-full items-stretch [&>*]:flex-1' : 'flex h-full w-full items-center justify-center [&>*]:max-w-full'}>
+                        <demo.Demo />
+                    </FxLazyDemo>
                 </div>
                 <div className="p-4">
                     <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-green-1000">{fxCategoryTitle(item.categories?.[1] ?? '')}</p>
