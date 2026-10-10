@@ -23,6 +23,7 @@ const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberField
             type="button"
             className={clsx(rootClass && `${rootClass}-decrement`, className)}
             disabled={isDisabled}
+            data-slot="number-field-decrement"
             data-disabled={isDisabled ? '' : undefined}
             {...props}
             tabIndex={-1}

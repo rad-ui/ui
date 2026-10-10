@@ -22,6 +22,7 @@ export type NumberFieldRootProps = {
     disabled?: boolean
     readOnly?: boolean
     required?: boolean
+    invalid?: boolean
 } & ComponentPropsWithoutRef<'div'>;
 
 const countDecimals = (value: number | undefined): number => {
@@ -40,7 +41,7 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, id, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, invalid, id, className = '', ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -134,6 +135,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         disabled,
         readOnly,
         required,
+        invalid,
         rootClass
     };
 
@@ -141,8 +143,11 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         <div
             ref={ref}
             className={clsx(rootClass && `${rootClass}-root`, className)}
+            data-slot="number-field-root"
             data-disabled={disabled ? '' : undefined}
             data-readonly={readOnly ? '' : undefined}
+            data-required={required ? '' : undefined}
+            data-invalid={invalid ? '' : undefined}
             {...props}
         >
             <NumberFieldContext.Provider value={contextValues}>
