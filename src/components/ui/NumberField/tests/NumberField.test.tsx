@@ -36,6 +36,42 @@ describe('NumberField', () => {
         expect(screen.getByRole('button', { name: '+' })).toBeInTheDocument();
     });
 
+    test('exposes stable part and validation state attributes', () => {
+        render(
+            <NumberField.Root data-testid="root" defaultValue={2} required invalid data-slot="custom-root" data-invalid={undefined}>
+                <NumberField.Decrement data-slot="custom-decrement">-</NumberField.Decrement>
+                <NumberField.Input aria-label="Quantity" />
+                <NumberField.Increment data-slot="custom-increment">+</NumberField.Increment>
+            </NumberField.Root>
+        );
+
+        const root = screen.getByTestId('root');
+        const input = screen.getByLabelText('Quantity');
+        const increment = screen.getByRole('button', { name: '+' });
+        const decrement = screen.getByRole('button', { name: '-' });
+
+        expect(root).toHaveAttribute('data-slot', 'number-field-root');
+        expect(root).toHaveAttribute('data-required');
+        expect(root).toHaveAttribute('data-invalid');
+        expect(input).toHaveAttribute('data-slot', 'number-field-input');
+        expect(input).toHaveAttribute('data-required');
+        expect(input).toHaveAttribute('data-invalid');
+        expect(input).toHaveAttribute('aria-invalid', 'true');
+        expect(increment).toHaveAttribute('data-slot', 'number-field-increment');
+        expect(decrement).toHaveAttribute('data-slot', 'number-field-decrement');
+    });
+
+    test('lets consumers override input aria-invalid when composing validation themselves', () => {
+        render(
+            <NumberField.Root invalid>
+                <NumberField.Input aria-label="Quantity" aria-invalid={false} />
+            </NumberField.Root>
+        );
+
+        expect(screen.getByLabelText('Quantity')).toHaveAttribute('aria-invalid', 'false');
+        expect(screen.getByLabelText('Quantity')).toHaveAttribute('data-invalid');
+    });
+
     test('keeps stepper buttons out of the tab order while preserving pointer clicks', () => {
         render(
             <NumberField.Root defaultValue={3} step={1}>

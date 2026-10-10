@@ -23,8 +23,9 @@ const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberField
             type="button"
             className={clsx(rootClass && `${rootClass}-increment`, className)}
             disabled={isDisabled}
-            data-disabled={isDisabled ? '' : undefined}
             {...props}
+            data-slot="number-field-increment"
+            data-disabled={isDisabled ? '' : undefined}
             tabIndex={-1}
             onPointerDown={(event) => {
                 onPointerDown?.(event);
