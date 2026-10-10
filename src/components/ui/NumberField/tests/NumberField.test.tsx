@@ -38,10 +38,10 @@ describe('NumberField', () => {
 
     test('exposes stable part and validation state attributes', () => {
         render(
-            <NumberField.Root data-testid="root" defaultValue={2} required invalid>
-                <NumberField.Decrement>-</NumberField.Decrement>
+            <NumberField.Root data-testid="root" defaultValue={2} required invalid data-slot="custom-root" data-invalid={undefined}>
+                <NumberField.Decrement data-slot="custom-decrement">-</NumberField.Decrement>
                 <NumberField.Input aria-label="Quantity" />
-                <NumberField.Increment>+</NumberField.Increment>
+                <NumberField.Increment data-slot="custom-increment">+</NumberField.Increment>
             </NumberField.Root>
         );
 

@@ -23,9 +23,9 @@ const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberField
             type="button"
             className={clsx(rootClass && `${rootClass}-decrement`, className)}
             disabled={isDisabled}
+            {...props}
             data-slot="number-field-decrement"
             data-disabled={isDisabled ? '' : undefined}
-            {...props}
             tabIndex={-1}
             onPointerDown={(event) => {
                 onPointerDown?.(event);

@@ -143,12 +143,12 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         <div
             ref={ref}
             className={clsx(rootClass && `${rootClass}-root`, className)}
+            {...props}
             data-slot="number-field-root"
             data-disabled={disabled ? '' : undefined}
             data-readonly={readOnly ? '' : undefined}
             data-required={required ? '' : undefined}
             data-invalid={invalid ? '' : undefined}
-            {...props}
         >
             <NumberFieldContext.Provider value={contextValues}>
                 {children}
