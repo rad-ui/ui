@@ -1,12 +1,32 @@
+# Everything is public documentation. AI search and assistant crawlers are named explicitly so a
+# future blanket rule can't shut them out: being citable by ChatGPT, Perplexity, Claude, Gemini
+# and Copilot helps people find Rad UI. No Crawl-delay: Bing honours it and it slows reindexing.
+
 User-agent: *
 Allow: /
 
-# Sitemap
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://www.rad-ui.com/sitemap.xml
-
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
-
-# Disallow admin or private areas (if any)
-# Disallow: /admin/
-# Disallow: /private/ 

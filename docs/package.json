@@ -18,7 +18,8 @@
     "registry:build": "node scripts/build-registry.mjs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "update-rad": "pnpm i @radui/ui@latest",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
