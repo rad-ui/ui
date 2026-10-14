@@ -1,5 +1,14 @@
 # @radui/ui
 
+## 1.1.2
+
+### Patch Changes
+
+- d495e2a: docs: add component-specific changelog pages
+- f70cd18: Fix Dialog.Close and AlertDialog.Cancel types so they accept standard button props.
+- c0b83c0: Add stable NumberField part attributes and invalid state propagation.
+- d318b3a: docs(tab-nav): add keyboard and ARIA reference tables
+
 ## 1.1.1
 
 ### Patch Changes
