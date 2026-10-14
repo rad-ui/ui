@@ -70,9 +70,10 @@ describe('Dialog item props merge', () => {
 
     test('Cancel accepts standard button props', async() => {
         const user = userEvent.setup();
+        const onKeyDown = jest.fn();
 
         render(dialog(
-            <DialogPrimitive.Cancel aria-label="Dismiss dialog" data-testid="cancel" title="Dismiss dialog" type="button">
+            <DialogPrimitive.Cancel aria-label="Dismiss dialog" data-testid="cancel" onKeyDown={onKeyDown} title="Dismiss dialog" type="button">
                 Dismiss
             </DialogPrimitive.Cancel>
         ));
@@ -83,6 +84,10 @@ describe('Dialog item props merge', () => {
         expect(cancel).toHaveAttribute('aria-label', 'Dismiss dialog');
         expect(cancel).toHaveAttribute('title', 'Dismiss dialog');
         expect(cancel).toHaveAttribute('type', 'button');
+
+        cancel.focus();
+        await user.keyboard('{ArrowDown}');
+        expect(onKeyDown).toHaveBeenCalled();
     });
 
     test('Action closes the dialog when no consumer onClick is supplied', async() => {
