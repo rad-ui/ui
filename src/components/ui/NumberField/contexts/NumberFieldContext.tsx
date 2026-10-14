@@ -21,6 +21,7 @@ export type NumberFieldContextType = {
   disabled?: boolean;
   readOnly?: boolean;
   required?: boolean;
+  invalid?: boolean;
   rootClass?: string;
 };
 

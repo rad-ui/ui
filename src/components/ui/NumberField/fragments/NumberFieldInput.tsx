@@ -6,7 +6,7 @@ import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 export type NumberFieldInputElement = ElementRef<'input'>;
 export type NumberFieldInputProps = ComponentPropsWithoutRef<'input'>;
 
-const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputProps>(({ className, onKeyDown, onChange, onBlur, ...props }, ref) => {
+const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputProps>(({ className, onKeyDown, onChange, onBlur, 'aria-invalid': ariaInvalid, ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
@@ -26,6 +26,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         disabled,
         readOnly,
         required,
+        invalid,
         rootClass
     } = context;
 
@@ -82,6 +83,12 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             readOnly={readOnly}
             required={required}
             {...props}
+            aria-invalid={ariaInvalid ?? (invalid ? true : undefined)}
+            data-slot="number-field-input"
+            data-disabled={disabled ? '' : undefined}
+            data-readonly={readOnly ? '' : undefined}
+            data-required={required ? '' : undefined}
+            data-invalid={invalid ? '' : undefined}
             value={inputValue === '' ? '' : inputValue}
             onKeyDown={handleKeyDown}
             onChange={(event) => {
