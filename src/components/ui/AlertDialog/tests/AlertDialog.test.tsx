@@ -476,6 +476,26 @@ describe('AlertDialog', () => {
             // Dialog should be closed
             expect(onOpenChange).toHaveBeenCalledWith(false);
         });
+
+        it('should pass standard button props to Cancel', () => {
+            render(
+                <AlertDialog.Root open={true}>
+                    <AlertDialog.Portal>
+                        <AlertDialog.Content>
+                            <AlertDialog.Cancel aria-label="Cancel dialog" data-testid="cancel" disabled title="Cancel dialog" type="button">
+                                Cancel
+                            </AlertDialog.Cancel>
+                        </AlertDialog.Content>
+                    </AlertDialog.Portal>
+                </AlertDialog.Root>
+            );
+
+            const cancelButton = screen.getByTestId('cancel');
+            expect(cancelButton).toBeDisabled();
+            expect(cancelButton).toHaveAttribute('aria-label', 'Cancel dialog');
+            expect(cancelButton).toHaveAttribute('title', 'Cancel dialog');
+            expect(cancelButton).toHaveAttribute('type', 'button');
+        });
     });
 
     describe('Accessibility', () => {
