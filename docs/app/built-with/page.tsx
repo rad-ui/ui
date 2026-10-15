@@ -17,8 +17,8 @@ export const metadata = generateSeoMetadata({
 /** Real products using Rad UI in production code. Add yours with a PR. */
 const products = [
     {
-        name: "X (working name)",
-        href: "https://github.com/kotAPI/kinetic-beat",
+        name: "Razzle",
+        href: "https://getrazzle.com",
         summary:
             "A browser-based editor for beat-synced kinetic typography videos. Its controls, dialogs, sliders and inspector fields are Rad UI.",
         components: ["Button", "Dialog", "Select", "ToggleGroup", "Slider", "Switch", "NumberField", "TextField", "TextArea", "Progress", "Badge", "Theme"],
