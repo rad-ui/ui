@@ -86,6 +86,17 @@ function verifyDeclarationFiles() {
     missing.forEach((name) => console.error(`  - dist/components/${name}.d.ts`));
     process.exit(1);
   }
+
+  const declarationsWithInternalAliases = RELEASED_COMPONENTS.filter((name) => {
+    const declarationPath = path.join(DIST_COMPONENTS_PATH, `${name}.d.ts`);
+    return /from\s+['\"]~\//.test(fs.readFileSync(declarationPath, 'utf8'));
+  });
+
+  if (declarationsWithInternalAliases.length > 0) {
+    console.error('Generated declaration files must not reference internal ~/ aliases:');
+    declarationsWithInternalAliases.forEach((name) => console.error(`  - dist/components/${name}.d.ts`));
+    process.exit(1);
+  }
 }
 
 const expectedExportPaths = getExpectedExportPaths();
