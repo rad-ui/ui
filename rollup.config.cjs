@@ -41,6 +41,11 @@ const aliasPluginInstance = alias({
         { find: '~/core', replacement: path.resolve(__dirname, 'src/core') }
     ]
 });
+const dtsAliasPluginInstance = alias({
+    entries: [
+        { find: '~', replacement: path.resolve(__dirname, 'src') }
+    ]
+});
 const terserPluginInstance = terser();
 const resolvePluginInstance = resolve();
 const bannerPluginInstance = banner2(() => '\'use client\';');
@@ -99,7 +104,7 @@ const dtsBundles = components.map((component) => {
             file: `dist/temp-cleanup/${component}.d.ts`,
             format: 'es'
         },
-        plugins: [dtsPluginInstance],
+        plugins: [dtsAliasPluginInstance, dtsPluginInstance],
         external: ['react', 'react-dom']
     };
 });
