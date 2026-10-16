@@ -391,6 +391,4 @@
   --color-orange-900: oklch(from var(--rad-ui-color-orange-900) l c h);
   --color-orange-950: oklch(from var(--rad-ui-color-orange-950) l c h);
   --color-orange-1000: oklch(from var(--rad-ui-color-orange-1000) l c h);
-  --color-black: oklch(from var(--rad-ui-color-black) l c h);
-  --color-white: oklch(from var(--rad-ui-color-white) l c h);
 }
