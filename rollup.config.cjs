@@ -43,7 +43,6 @@ const aliasPluginInstance = alias({
 });
 const dtsAliasPluginInstance = alias({
     entries: [
-        { find: '~/core', replacement: path.resolve(__dirname, 'src/core') },
         { find: '~', replacement: path.resolve(__dirname, 'src') }
     ]
 });
