@@ -89,7 +89,7 @@ function verifyDeclarationFiles() {
 
   const declarationsWithInternalAliases = RELEASED_COMPONENTS.filter((name) => {
     const declarationPath = path.join(DIST_COMPONENTS_PATH, `${name}.d.ts`);
-    return /(?:from\s+|import\s*)['\"]~\//.test(fs.readFileSync(declarationPath, 'utf8'));
+    return /(?:from\s*|import\s*\(?\s*)['\"]~\//.test(fs.readFileSync(declarationPath, 'utf8'));
   });
 
   if (declarationsWithInternalAliases.length > 0) {
