@@ -1,5 +1,12 @@
 # @radui/ui
 
+## 1.1.3
+
+### Patch Changes
+
+- 7e532c2: Fix published component declarations that referenced internal aliases.
+- 519eaa2: Keep Tailwind `black` and `white` utilities literal across appearances.
+
 ## 1.1.2
 
 ### Patch Changes
