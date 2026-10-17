@@ -55,6 +55,12 @@ type TokenGroup = Record<string, unknown>;
  */
 const THEME_NAMESPACES: Array<[keyof typeof tokens, string]> = [['colors', 'color']];
 
+// Tailwind's `black` and `white` utilities are literal colors. Rad UI's
+// similarly named tokens intentionally invert with the active appearance, so
+// exposing them here would make utilities like `bg-white` render black in dark
+// themes. Leave Tailwind's built-in literals intact instead.
+const TAILWIND_LITERAL_COLOURS = new Set(['black', 'white']);
+
 /**
  * Why the theme block is emitted as `@theme inline` rather than plain `@theme`.
  *
@@ -124,6 +130,8 @@ function collectThemeVariables(): EmittedVariable[] {
         if (!isPlainRecord(group)) continue;
 
         for (const [key, value] of Object.entries(group)) {
+            if (namespace === 'color' && TAILWIND_LITERAL_COLOURS.has(key)) continue;
+
             // Colour ramps nest one level (`gray: { 50: ... }`) while scalars
             // sit beside them (`black: ...`). Both flatten to the same shape:
             // `--color-gray-50` and `--color-black`.
