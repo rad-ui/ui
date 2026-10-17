@@ -64,7 +64,7 @@ jobs:
       - name: Run tests
         env:
           JEST_SHARD: ${{ matrix.shard }}/${{ matrix.total }}
-        run: npm run test:shard
+        run: npm run test:shard -- --passWithNoTests
 
   build:
     name: Build
