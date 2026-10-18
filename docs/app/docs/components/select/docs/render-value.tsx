@@ -5,7 +5,7 @@ import Select from "@radui/ui/Select"
 export default function CustomSelectValue() {
     return (
         <Select.Root defaultValue="auto">
-            <Select.Trigger aria-label="Move" renderValue={(value) => value === "auto" ? "whip-l" : value}>
+            <Select.Trigger aria-label="Move" renderValue={(value: string) => value === "auto" ? "whip-l" : value}>
                 Choose a move
             </Select.Trigger>
             <Select.Portal>

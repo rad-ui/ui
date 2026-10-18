@@ -1,5 +1,11 @@
 import Select from '@radui/ui/Select';
 import Combobox from '@radui/ui/Combobox';
+import type { ComponentProps } from 'react';
+
+const selectProps: ComponentProps<typeof Select.Trigger> = { 'data-testid': 'select' };
+const comboboxProps: ComponentProps<typeof Combobox.Trigger> = { 'data-custom-state': 'ready' };
+<Select.Trigger {...selectProps} />;
+<Combobox.Trigger {...comboboxProps} />;
 
 <Select.Trigger renderValue={(value, label) => {
     const display: string = `${value.toUpperCase()}: ${label.toUpperCase()}`;
