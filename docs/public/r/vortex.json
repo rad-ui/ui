@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "vortex",
+  "type": "registry:component",
+  "title": "Vortex",
+  "description": "A slow spiral of colour fading toward the edges.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/vortex.tsx",
+      "type": "registry:component",
+      "target": "components/fx/vortex.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './vortex.css'\n\nexport type VortexProps = React.ComponentPropsWithoutRef<'div'> & {\n    colors?: [string, string]\n    /** Seconds per turn. Keep it slow: spinning spirals can cause discomfort. */\n    speed?: number\n    paused?: boolean\n}\n\n// A slowly turning spiral of colour that fades toward the edges.\nconst Vortex = ({ colors = ['rgba(139, 92, 246, 0.45)', 'rgba(34, 211, 238, 0.25)'], speed = 30, paused = false, className, style, children, ...props }: VortexProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-vortex', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-vortex-a': colors[0], '--rad-fx-vortex-b': colors[1], '--rad-fx-vortex-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-vortex-layer\" aria-hidden=\"true\">\n            <span className=\"rad-fx-vortex-swirl\" />\n        </div>\n        <div className=\"rad-fx-vortex-content\">{children}</div>\n    </div>\n}\n\nexport default Vortex\n"
+    },
+    {
+      "path": "registry/fx/vortex.css",
+      "type": "registry:file",
+      "target": "components/fx/vortex.css",
+      "content": ".rad-fx-vortex {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-vortex-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-vortex-content { position: relative; }\n\n.rad-fx-vortex[data-state='paused'] .rad-fx-vortex-layer,\n.rad-fx-vortex[data-state='paused'] .rad-fx-vortex-layer * { animation-play-state: paused !important; }\n\n.rad-fx-vortex-swirl {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    width: 180%;\n    aspect-ratio: 1;\n    translate: -50% -50%;\n    background:\n        repeating-conic-gradient(from 0deg, var(--rad-fx-vortex-a) 0deg 12deg, transparent 12deg 30deg, var(--rad-fx-vortex-b) 30deg 40deg, transparent 40deg 60deg);\n    mask-image: radial-gradient(circle, #000 0%, transparent 55%);\n    filter: blur(14px);\n    animation: rad-fx-vortex var(--rad-fx-vortex-speed, 30s) linear infinite;\n}\n\n@keyframes rad-fx-vortex { to { transform: rotate(360deg); } }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-vortex-swirl { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-vortex-swirl { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/vortex",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Spinning spirals can cause vestibular discomfort: keep `speed` slow and offer a pause control.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the spin."
+    ]
+  }
+}

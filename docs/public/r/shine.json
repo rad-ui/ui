@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shine",
+  "type": "registry:component",
+  "title": "Shine",
+  "description": "A band of light that sweeps across a button or card on hover and keyboard focus.",
+  "files": [
+    {
+      "path": "registry/fx/shine.tsx",
+      "type": "registry:component",
+      "target": "components/fx/shine.tsx",
+      "content": "import * as React from 'react'\n\nimport './shine.css'\n\nexport type ShineProps = {\n    /** Usually a button, link or card. It keeps its own semantics and focus. */\n    children: React.ReactNode\n    /** Corner radius of the shine's clip, to match the child. */\n    radius?: number | string\n    /** Colour of the light band. */\n    color?: string\n    className?: string\n}\n\n// A band of light sweeps across the child on hover and on keyboard focus inside.\nconst Shine = ({ children, radius = 8, color = 'rgba(255, 255, 255, 0.35)', className }: ShineProps) => (\n    <span\n        className={['rad-fx-shine', className].filter(Boolean).join(' ')}\n        style={{ borderRadius: radius, '--rad-fx-shine-color': color } as React.CSSProperties}\n    >\n        {children}\n    </span>\n)\n\nexport default Shine\n"
+    },
+    {
+      "path": "registry/fx/shine.css",
+      "type": "registry:file",
+      "target": "components/fx/shine.css",
+      "content": ".rad-fx-shine {\n    position: relative;\n    display: inline-flex;\n    overflow: hidden;\n    isolation: isolate;\n}\n\n.rad-fx-shine::after {\n    content: '';\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: -60%;\n    width: 50%;\n    pointer-events: none;\n    background: linear-gradient(100deg, transparent, var(--rad-fx-shine-color), transparent);\n    transform: skewX(-20deg) translateX(0);\n}\n\n.rad-fx-shine:hover::after,\n.rad-fx-shine:focus-within::after {\n    animation: rad-fx-shine 750ms ease-out;\n}\n\n@keyframes rad-fx-shine {\n    to { transform: skewX(-20deg) translateX(420%); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-shine::after { display: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-shine::after { display: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/shine",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Wraps the child without cloning it, so its role, props and focus are untouched.",
+      "Keyboard focus inside triggers the same sweep as hover.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the sweep."
+    ]
+  }
+}

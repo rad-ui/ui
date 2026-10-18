@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-reduced-motion",
+  "type": "registry:hook",
+  "title": "useReducedMotion",
+  "description": "Shared hooks for Rad UI FX: reduced-motion detection (OS setting or data-rad-fx-motion=\"reduce\"), run-once-in-view, and offscreen pausing.",
+  "files": [
+    {
+      "path": "registry/fx/use-reduced-motion.ts",
+      "type": "registry:hook",
+      "target": "components/fx/use-reduced-motion.ts",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nconst QUERY = '(prefers-reduced-motion: reduce)'\n\n/**\n * True when the user asked for less motion: the OS \"Reduce motion\" setting, or an\n * in-app setting via data-rad-fx-motion=\"reduce\" on any ancestor of `ref`.\n * Starts as false on the server and updates after mount.\n */\nexport function useReducedMotion(ref?: React.RefObject<Element | null>): boolean {\n    const [reduced, setReduced] = React.useState(false)\n\n    React.useEffect(() => {\n        const query = typeof window.matchMedia === 'function' ? window.matchMedia(QUERY) : null\n        const update = () => setReduced(\n            Boolean(query?.matches) || Boolean(ref?.current?.closest('[data-rad-fx-motion=\"reduce\"]'))\n        )\n        update()\n        query?.addEventListener('change', update)\n        return () => query?.removeEventListener('change', update)\n    }, [ref])\n\n    return reduced\n}\n\n/** Calls `onEnter` once when `ref` first scrolls into view (or right away without IntersectionObserver). */\nexport function useInViewOnce(ref: React.RefObject<Element | null>, onEnter: () => void, enabled = true, threshold = 0.2) {\n    const callback = React.useRef(onEnter)\n    // Keep the latest callback without re-subscribing the observer on every render.\n    React.useEffect(() => { callback.current = onEnter })\n\n    React.useEffect(() => {\n        if (!enabled) return\n        const node = ref.current\n        if (!node || typeof IntersectionObserver === 'undefined') {\n            callback.current()\n            return\n        }\n        const observer = new IntersectionObserver((entries) => {\n            if (entries.some((entry) => entry.isIntersecting)) {\n                observer.disconnect()\n                callback.current()\n            }\n        }, { threshold })\n        observer.observe(node)\n        return () => observer.disconnect()\n    }, [ref, enabled, threshold])\n}\n\n/** True while `ref` is outside the viewport, so looping effects can pause. */\nexport function useOffscreen(ref: React.RefObject<Element | null>): boolean {\n    const [offscreen, setOffscreen] = React.useState(false)\n    React.useEffect(() => {\n        const node = ref.current\n        if (!node || typeof IntersectionObserver === 'undefined') return\n        const observer = new IntersectionObserver(([entry]) => setOffscreen(!entry.isIntersecting))\n        observer.observe(node)\n        return () => observer.disconnect()\n    }, [ref])\n    return offscreen\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "utilities"
+  ],
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Honours both the OS Reduce motion setting and an in-app data-rad-fx-motion=\"reduce\" ancestor."
+    ]
+  }
+}

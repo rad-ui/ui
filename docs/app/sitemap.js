@@ -1,5 +1,6 @@
 import { execSync } from 'child_process';
 import { docsNavigationSections } from './docs/docsNavigationSections';
+import { fxComponents, fxNavigationSections } from './fx/fxNavigationSections';
 
 const getLastModified = (filePath) => {
   try {
@@ -19,6 +20,12 @@ const getLastModified = (filePath) => {
 const pathToFileMap = (urlPath) => {
   // For docs pages, they might be .mdx files
   // Most doc pages follow pattern: app/docs/.../page.mdx or content.mdx
+  if (urlPath === '/fx' || urlPath.startsWith('/fx/')) {
+    const slug = urlPath.split('/')[2];
+    return fxComponents.some((item) => item.name === slug)
+      ? `registry/fx/${slug}.tsx`
+      : `app${urlPath}/content.mdx`;
+  }
   if (urlPath.startsWith('/docs/')) {
     const relativePath = urlPath.replace('/docs/', 'app/docs/');
     // Try common patterns
@@ -30,7 +37,7 @@ const pathToFileMap = (urlPath) => {
 const generateComponentsSitemaps = () => {
   const allPages = [];
 
-  docsNavigationSections.map((section) => {
+  [...docsNavigationSections, ...fxNavigationSections].map((section) => {
     return section.items.map((item) => {
       let priority = 0.7;
       let changeFrequency = 'weekly';

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hex-grid",
+  "type": "registry:component",
+  "title": "HexGrid",
+  "description": "A honeycomb grid with a pool of light drifting across it.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/hex-grid.tsx",
+      "type": "registry:component",
+      "target": "components/fx/hex-grid.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './hex-grid.css'\n\nexport type HexGridProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    /** Hexagon size in px. */\n    size?: number\n    /** Seconds for the glow to sweep across. */\n    speed?: number\n    paused?: boolean\n}\n\n// A honeycomb grid with a pool of light drifting across it.\nconst HexGrid = ({ color = 'rgba(56, 189, 248, 0.55)', size = 28, speed = 10, paused = false, className, style, children, ...props }: HexGridProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n    const patternId = `rad-fx-hex-${React.useId().replace(/[^a-zA-Z0-9-]/g, '')}`\n    const w = size * Math.sqrt(3)\n    const h = size * 3\n    const s = size\n    // One tile holds a full hexagon plus the halves that complete the pattern.\n    const hex = (cx: number, cy: number) => `M${cx} ${cy - s} L${cx + w / 2} ${cy - s / 2} L${cx + w / 2} ${cy + s / 2} L${cx} ${cy + s} L${cx - w / 2} ${cy + s / 2} L${cx - w / 2} ${cy - s / 2} Z`\n\n    const grid = (className: string) => <svg className={className} width=\"100%\" height=\"100%\" aria-hidden=\"true\" focusable=\"false\">\n        <defs>\n            <pattern id={`${patternId}-${className}`} width={w} height={h} patternUnits=\"userSpaceOnUse\">\n                <path d={`${hex(w / 2, s)} ${hex(0, s * 2.5)} ${hex(w, s * 2.5)}`} fill=\"none\" strokeWidth=\"1\" style={{ stroke: 'var(--rad-fx-hex-color)' }} />\n            </pattern>\n        </defs>\n        <rect width=\"100%\" height=\"100%\" fill={`url(#${patternId}-${className})`} />\n    </svg>\n\n    return <div\n        ref={ref}\n        className={['rad-fx-hex', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-hex-color': color, '--rad-fx-hex-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-hex-layer\" aria-hidden=\"true\">\n            {grid('rad-fx-hex-dim')}\n            {grid('rad-fx-hex-lit')}\n        </div>\n        <div className=\"rad-fx-hex-content\">{children}</div>\n    </div>\n}\n\nexport default HexGrid\n"
+    },
+    {
+      "path": "registry/fx/hex-grid.css",
+      "type": "registry:file",
+      "target": "components/fx/hex-grid.css",
+      "content": ".rad-fx-hex {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-hex-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-hex-content { position: relative; }\n\n.rad-fx-hex[data-state='paused'] .rad-fx-hex-layer,\n.rad-fx-hex[data-state='paused'] .rad-fx-hex-layer * { animation-play-state: paused !important; }\n\n.rad-fx-hex-dim,\n.rad-fx-hex-lit { position: absolute; inset: 0; }\n\n.rad-fx-hex-dim { opacity: 0.18; }\n\n.rad-fx-hex-lit {\n    filter: drop-shadow(0 0 3px var(--rad-fx-hex-color));\n    mask-image: radial-gradient(circle at center, #000 0, transparent 65%);\n    mask-size: 50% 100%;\n    mask-repeat: no-repeat;\n    animation: rad-fx-hex var(--rad-fx-hex-speed, 10s) ease-in-out infinite alternate;\n}\n\n@keyframes rad-fx-hex {\n    0% { mask-position: 0% 30%; }\n    50% { mask-position: 55% 80%; }\n    100% { mask-position: 100% 20%; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-hex-lit { animation: none; mask-position: 50% 50%; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-hex-lit { animation: none; mask-position: 50% 50%; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/hex-grid",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks the light in the centre."
+    ]
+  }
+}

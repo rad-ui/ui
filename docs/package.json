@@ -8,13 +8,14 @@
   },
   "scripts": {
     "dev": "rimraf .next && next dev --webpack",
-    "prebuild": "node scripts/check-docs-boundary.mjs && npx tsx scripts/generate-llms.ts",
+    "prebuild": "node scripts/check-docs-boundary.mjs && node scripts/build-registry.mjs && npx tsx scripts/generate-llms.ts",
     "build": "next build --webpack",
     "postbuild": "node scripts/check-static-pages.mjs",
     "start": "next start",
     "check:examples": "tsc -p tsconfig.examples.json --noEmit",
     "check:boundary": "node scripts/check-docs-boundary.mjs",
     "check:static": "node scripts/check-static-pages.mjs",
+    "registry:build": "node scripts/build-registry.mjs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "update-rad": "pnpm i @radui/ui@latest",
     "preinstall": "npx only-allow pnpm"

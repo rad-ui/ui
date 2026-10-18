@@ -1,0 +1,29 @@
+.rad-fx-shimmer {
+    background-image: linear-gradient(
+        110deg,
+        currentcolor 40%,
+        var(--rad-fx-shimmer-highlight, rgb(255, 255, 255, 0.85)) 50%,
+        currentcolor 60%
+    );
+    background-size: 250% 100%;
+    background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rad-fx-shimmer var(--rad-fx-shimmer-duration, 2.5s) linear infinite;
+}
+
+@keyframes rad-fx-shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: 0% 0; }
+}
+
+/* Forced colours (Windows high contrast) ignore backgrounds: fall back to plain text. */
+@media (forced-colors: active) {
+    .rad-fx-shimmer { background: none; -webkit-text-fill-color: currentcolor; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-shimmer { animation: none; background-position: 100% 0; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-shimmer { animation: none; background-position: 100% 0; }

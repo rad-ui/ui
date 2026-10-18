@@ -2,14 +2,15 @@
 import { useState } from 'react'
 import Tabs from "@radui/ui/Tabs"
 
-const CodeTabs = ({ data }) => {
+// `preserveCase` keeps labels as written (file names), instead of capitalising them.
+const CodeTabs = ({ data, preserveCase = false }) => {
     const [activeTab, setActiveTab] = useState(data[0]?.value)
 
     return <Tabs.Root defaultValue={activeTab} className="gap-2">
         <Tabs.List className="inline-flex gap-0.5 self-start rounded-md border border-gray-400 bg-gray-100 p-0.5">
             {data.map((tab, index) => (
                 <Tabs.Trigger
-                    className="rounded-[5px] px-2.5 py-1 font-mono text-[0.75rem] font-medium capitalize tracking-wide text-gray-950 transition-colors data-[state=active]:bg-gray-50 data-[state=active]:text-gray-1000"
+                    className={`rounded-[5px] px-2.5 py-1 font-mono text-[0.75rem] font-medium ${preserveCase ? "" : "capitalize"} tracking-wide text-gray-950 transition-colors data-[state=active]:bg-gray-50 data-[state=active]:text-gray-1000`}
                     key={index}
                     value={tab.value}
                 >

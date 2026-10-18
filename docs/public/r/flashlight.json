@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "flashlight",
+  "type": "registry:component",
+  "title": "Flashlight",
+  "description": "Hovering darkens everything except a beam that follows the pointer.",
+  "files": [
+    {
+      "path": "registry/fx/flashlight.tsx",
+      "type": "registry:component",
+      "target": "components/fx/flashlight.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport './flashlight.css'\n\nexport type FlashlightProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Radius of the beam in px. */\n    radius?: number\n    /** How dark the surroundings get while the beam is on, 0–1. */\n    darkness?: number\n}\n\n// While the pointer is over it, everything darkens except a beam around the cursor.\n// It is fully lit by default and whenever keyboard focus is inside, so nothing is\n// ever hidden from anyone not using a mouse.\nconst Flashlight = ({ radius = 140, darkness = 0.82, className, style, onPointerMove, children, ...props }: FlashlightProps) => {\n    const handleMove = (event: React.PointerEvent<HTMLDivElement>) => {\n        onPointerMove?.(event)\n        const rect = event.currentTarget.getBoundingClientRect()\n        event.currentTarget.style.setProperty('--rad-fx-beam-x', `${event.clientX - rect.left}px`)\n        event.currentTarget.style.setProperty('--rad-fx-beam-y', `${event.clientY - rect.top}px`)\n    }\n\n    return <div\n        className={['rad-fx-flashlight', className].filter(Boolean).join(' ')}\n        style={{ '--rad-fx-beam-radius': `${radius}px`, '--rad-fx-darkness': darkness, ...style } as React.CSSProperties}\n        onPointerMove={handleMove}\n        {...props}\n    >\n        {children}\n        <div className=\"rad-fx-flashlight-dark\" aria-hidden=\"true\" />\n    </div>\n}\n\nexport default Flashlight\n"
+    },
+    {
+      "path": "registry/fx/flashlight.css",
+      "type": "registry:file",
+      "target": "components/fx/flashlight.css",
+      "content": ".rad-fx-flashlight {\n    position: relative;\n    isolation: isolate;\n\n    --rad-fx-beam-x: 50%;\n    --rad-fx-beam-y: 50%;\n}\n\n.rad-fx-flashlight-dark {\n    position: absolute;\n    inset: 0;\n    pointer-events: none;\n    background: radial-gradient(\n        circle var(--rad-fx-beam-radius, 140px) at var(--rad-fx-beam-x) var(--rad-fx-beam-y),\n        transparent 0%,\n        rgb(0, 0, 0, calc(var(--rad-fx-darkness, 0.82) * 0.4)) 60%,\n        rgb(0, 0, 0, var(--rad-fx-darkness, 0.82)) 100%\n    );\n    opacity: 0;\n    transition: opacity 300ms ease;\n}\n\n.rad-fx-flashlight:hover .rad-fx-flashlight-dark { opacity: 1; }\n\n/* Keyboard users always see everything. */\n.rad-fx-flashlight:focus-within .rad-fx-flashlight-dark { opacity: 0; }\n\n@media (forced-colors: active) {\n    .rad-fx-flashlight-dark { display: none; }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/flashlight",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Fully lit by default and whenever keyboard focus is inside, so nothing is hidden from people not using a mouse.",
+      "The darkness is an aria-hidden overlay; content and focus order are untouched.",
+      "Forced-colours mode drops the overlay."
+    ]
+  }
+}

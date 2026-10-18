@@ -1,0 +1,19 @@
+.rad-fx-reveal {
+    transition:
+        opacity var(--rad-fx-reveal-duration, 700ms) ease var(--rad-fx-reveal-delay, 0ms),
+        transform var(--rad-fx-reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1) var(--rad-fx-reveal-delay, 0ms);
+}
+
+.rad-fx-reveal[data-state='hidden'] {
+    opacity: 0;
+    transform: translate(var(--rad-fx-reveal-x, 0px), var(--rad-fx-reveal-y, 24px));
+}
+
+/* Reduced motion: content is simply there, from the first paint. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-reveal,
+    .rad-fx-reveal[data-state='hidden'] { opacity: 1; transform: none; transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-reveal,
+[data-rad-fx-motion='reduce'] .rad-fx-reveal[data-state='hidden'] { opacity: 1; transform: none; transition: none; }

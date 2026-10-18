@@ -1,0 +1,42 @@
+.rad-fx-hex {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-hex-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-hex-content { position: relative; }
+
+.rad-fx-hex[data-state='paused'] .rad-fx-hex-layer,
+.rad-fx-hex[data-state='paused'] .rad-fx-hex-layer * { animation-play-state: paused !important; }
+
+.rad-fx-hex-dim,
+.rad-fx-hex-lit { position: absolute; inset: 0; }
+
+.rad-fx-hex-dim { opacity: 0.18; }
+
+.rad-fx-hex-lit {
+    filter: drop-shadow(0 0 3px var(--rad-fx-hex-color));
+    mask-image: radial-gradient(circle at center, #000 0, transparent 65%);
+    mask-size: 50% 100%;
+    mask-repeat: no-repeat;
+    animation: rad-fx-hex var(--rad-fx-hex-speed, 10s) ease-in-out infinite alternate;
+}
+
+@keyframes rad-fx-hex {
+    0% { mask-position: 0% 30%; }
+    50% { mask-position: 55% 80%; }
+    100% { mask-position: 100% 20%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-hex-lit { animation: none; mask-position: 50% 50%; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-hex-lit { animation: none; mask-position: 50% 50%; }

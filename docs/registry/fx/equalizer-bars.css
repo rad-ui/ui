@@ -1,0 +1,46 @@
+.rad-fx-eq {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-eq-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-eq-content { position: relative; }
+
+.rad-fx-eq[data-state='paused'] .rad-fx-eq-layer,
+.rad-fx-eq[data-state='paused'] .rad-fx-eq-layer * { animation-play-state: paused !important; }
+
+.rad-fx-eq-layer {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 0 3px;
+    mask-image: linear-gradient(to top, #000 20%, transparent 85%);
+}
+
+.rad-fx-eq-bar {
+    flex: 1;
+    height: 70%;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(to top, var(--rad-fx-eq-a), var(--rad-fx-eq-b));
+    opacity: 0.6;
+    transform-origin: 50% 100%;
+    animation: rad-fx-eq 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes rad-fx-eq {
+    from { transform: scaleY(0.08); }
+    to { transform: scaleY(var(--rad-fx-eq-peak, 0.7)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-eq-bar { animation: none; transform: scaleY(calc(var(--rad-fx-eq-peak, 0.7) * 0.6)); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-eq-bar { animation: none; transform: scaleY(calc(var(--rad-fx-eq-peak, 0.7) * 0.6)); }

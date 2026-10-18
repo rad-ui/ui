@@ -16,6 +16,11 @@ const data = {
             prop: { name: "className", info_tooltips: "Additional CSS class names for the header wrapper." },
             type: "string",
             default: "''",
+        },
+        {
+            prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." },
+            type: "boolean",
+            default: "false",
         }
     ]
 };

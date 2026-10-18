@@ -1,0 +1,35 @@
+.rad-fx-starfield {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-starfield-sky {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-star {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--rad-fx-star-color, #e2e8f0);
+    box-shadow: 0 0 4px var(--rad-fx-star-color, #e2e8f0);
+    animation: rad-fx-twinkle 5s ease-in-out infinite;
+}
+
+.rad-fx-starfield[data-state='paused'] .rad-fx-star { animation-play-state: paused; }
+
+.rad-fx-starfield-content { position: relative; }
+
+@keyframes rad-fx-twinkle {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-star { animation: none; opacity: 0.7; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-star { animation: none; opacity: 0.7; }

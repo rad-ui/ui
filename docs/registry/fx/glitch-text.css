@@ -1,0 +1,38 @@
+.rad-fx-glitch-stack {
+    position: relative;
+    display: inline-block;
+}
+
+.rad-fx-glitch-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    animation: rad-fx-glitch-a var(--rad-fx-glitch-interval, 3s) steps(1) infinite;
+}
+
+.rad-fx-glitch-layer[data-channel='a'] { color: var(--rad-fx-glitch-a); }
+.rad-fx-glitch-layer[data-channel='b'] { color: var(--rad-fx-glitch-b); animation-name: rad-fx-glitch-b; }
+
+.rad-fx-glitch[data-state='paused'] .rad-fx-glitch-layer { animation-play-state: paused; opacity: 0; }
+
+/* Quiet for most of the cycle, then a short burst of offset slices near the end. */
+@keyframes rad-fx-glitch-a {
+    0%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
+    89% { opacity: 0.9; transform: translate(-3px, 1px); clip-path: inset(10% 0 55% 0); }
+    92% { opacity: 0.9; transform: translate(3px, -1px); clip-path: inset(60% 0 8% 0); }
+    95% { opacity: 0.9; transform: translate(-2px, 0); clip-path: inset(35% 0 35% 0); }
+}
+
+@keyframes rad-fx-glitch-b {
+    0%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
+    89% { opacity: 0.9; transform: translate(3px, -1px); clip-path: inset(55% 0 15% 0); }
+    92% { opacity: 0.9; transform: translate(-3px, 1px); clip-path: inset(5% 0 70% 0); }
+    95% { opacity: 0.9; transform: translate(2px, 0); clip-path: inset(40% 0 30% 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-glitch-layer { animation: none; opacity: 0; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-glitch-layer { animation: none; opacity: 0; }

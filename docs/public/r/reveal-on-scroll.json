@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "reveal-on-scroll",
+  "type": "registry:component",
+  "title": "RevealOnScroll",
+  "description": "Content that fades and slides into place as it scrolls into view.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/reveal-on-scroll.tsx",
+      "type": "registry:component",
+      "target": "components/fx/reveal-on-scroll.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './reveal-on-scroll.css'\n\nexport type RevealOnScrollProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Where the content comes from. */\n    from?: 'below' | 'above' | 'left' | 'right' | 'none'\n    /** Travel distance in px. */\n    distance?: number\n    /** Milliseconds. */\n    duration?: number\n    /** Milliseconds before starting, handy for staggering siblings. */\n    delay?: number\n}\n\nconst OFFSETS = { below: [0, 1], above: [0, -1], left: [-1, 0], right: [1, 0], none: [0, 0] } as const\n\nconst RevealOnScroll = ({ from = 'below', distance = 24, duration = 700, delay = 0, className, style, onFocusCapture, children, ...props }: RevealOnScrollProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const [revealed, setRevealed] = React.useState(false)\n    const [dx, dy] = OFFSETS[from]\n\n    useInViewOnce(ref, () => setRevealed(true), !revealed, 0.15)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-reveal', className].filter(Boolean).join(' ')}\n        data-state={revealed ? 'visible' : 'hidden'}\n        // Keyboard focus landing inside hidden content reveals it at once.\n        onFocusCapture={(event) => { setRevealed(true); onFocusCapture?.(event) }}\n        style={{\n            '--rad-fx-reveal-x': `${dx * distance}px`,\n            '--rad-fx-reveal-y': `${dy * distance}px`,\n            '--rad-fx-reveal-duration': `${duration}ms`,\n            '--rad-fx-reveal-delay': `${delay}ms`,\n            ...style\n        } as React.CSSProperties}\n        {...props}\n    >\n        {children}\n    </div>\n}\n\nexport default RevealOnScroll\n"
+    },
+    {
+      "path": "registry/fx/reveal-on-scroll.css",
+      "type": "registry:file",
+      "target": "components/fx/reveal-on-scroll.css",
+      "content": ".rad-fx-reveal {\n    transition:\n        opacity var(--rad-fx-reveal-duration, 700ms) ease var(--rad-fx-reveal-delay, 0ms),\n        transform var(--rad-fx-reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1) var(--rad-fx-reveal-delay, 0ms);\n}\n\n.rad-fx-reveal[data-state='hidden'] {\n    opacity: 0;\n    transform: translate(var(--rad-fx-reveal-x, 0px), var(--rad-fx-reveal-y, 24px));\n}\n\n/* Reduced motion: content is simply there, from the first paint. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-reveal,\n    .rad-fx-reveal[data-state='hidden'] { opacity: 1; transform: none; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-reveal,\n[data-rad-fx-motion='reduce'] .rad-fx-reveal[data-state='hidden'] { opacity: 1; transform: none; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/reveal-on-scroll",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Content is always in the DOM and the accessibility tree; only its opacity and position animate.",
+      "Keyboard focus landing inside hidden content reveals it immediately.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows content from the first paint."
+    ]
+  }
+}

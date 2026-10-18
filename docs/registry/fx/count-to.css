@@ -1,0 +1,4 @@
+/* Tabular figures stop the number from wobbling sideways while it counts. */
+.rad-fx-count-to {
+    font-variant-numeric: tabular-nums;
+}

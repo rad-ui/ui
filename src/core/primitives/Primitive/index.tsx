@@ -1,24 +1,36 @@
 import React from 'react';
 import { composeRefs, getElementRef, mergeProps } from '../../utils/mergeProps';
 
-// Define supported HTML elements
-const SUPPORTED_HTML_ELEMENTS = ['div', 'span', 'button', 'input', 'a', 'img', 'p', 'h2', 'label'] as const;
+const SUPPORTED_HTML_ELEMENTS = [
+    'div',
+    'span',
+    'button',
+    'input',
+    'a',
+    'img',
+    'p',
+    'h2',
+    'h3',
+    'label',
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'td',
+    'th'
+] as const;
 type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
-
-type PrimitiveProps =
-  | (React.InputHTMLAttributes<HTMLInputElement> & { asChild?: boolean })
-  | (React.HTMLAttributes<HTMLElement> & { asChild?: boolean; children?: React.ReactNode });
-
-type AnchorPrimitiveProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { asChild?: boolean };
-
-type PrimitiveComponent = React.ForwardRefExoticComponent<PrimitiveProps & React.RefAttributes<HTMLElement>>;
-
-type PrimitiveMap = Record<SupportedElement, PrimitiveComponent> & {
-    a: React.ForwardRefExoticComponent<AnchorPrimitiveProps & React.RefAttributes<HTMLAnchorElement>>;
+type PrimitiveComponentProps<TTag extends SupportedElement> = React.ComponentPropsWithoutRef<TTag> & {
+    asChild?: boolean;
+};
+type PrimitiveComponentMap = {
+    [TTag in SupportedElement]: React.ForwardRefExoticComponent<
+        PrimitiveComponentProps<TTag> & React.RefAttributes<HTMLElement>
+    >;
 };
 
-const createPrimitiveComponent = (elementType: SupportedElement) => {
-    const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveProps>((props, ref) => {
+const createPrimitiveComponent = <TTag extends SupportedElement>(elementType: TTag) => {
+    const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveComponentProps<TTag>>((props, ref) => {
         const { asChild = false, children, ...elementProps } = props;
 
         if (asChild) {
@@ -29,6 +41,7 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
                 return React.createElement(elementType, { ...elementProps, ref }, children);
             }
 
+            // Check if there's exactly one child and it's a valid element
             const childrenArray = React.Children.toArray(children);
             if (childrenArray.length !== 1 || !React.isValidElement(childrenArray[0])) {
                 console.warn(
@@ -38,10 +51,10 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
             }
 
             const child = childrenArray[0] as React.ReactElement;
-
+            // React 19 exposes refs as props (element.ref is deprecated); getElementRef handles both.
             const childRef = getElementRef(child);
             const mergedRef = composeRefs(ref, childRef);
-            const mergedProps = mergeProps(elementProps, child.props);
+            const mergedProps = mergeProps(elementProps, child.props as Record<string, unknown>);
 
             return React.cloneElement(child, {
                 ...mergedProps,
@@ -56,12 +69,10 @@ const createPrimitiveComponent = (elementType: SupportedElement) => {
     return PrimitiveComponent;
 };
 
-const Primitive = SUPPORTED_HTML_ELEMENTS.reduce(
-    (components, elementType) => {
-        components[elementType] = createPrimitiveComponent(elementType);
-        return components;
-    },
-    {} as Record<SupportedElement, PrimitiveComponent>
-) as PrimitiveMap;
+const Primitive = {} as PrimitiveComponentMap;
+
+for (const elementType of SUPPORTED_HTML_ELEMENTS) {
+    Primitive[elementType] = createPrimitiveComponent(elementType) as never;
+}
 
 export default Primitive;

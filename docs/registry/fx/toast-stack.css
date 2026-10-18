@@ -1,0 +1,62 @@
+.rad-fx-toasts { width: 340px; }
+
+.rad-fx-toasts-list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rad-fx-toast {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 14px 14px 16px;
+    border: 1px solid rgb(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: #17171c;
+    color: #f4f4f5;
+    box-shadow: 0 12px 32px rgb(0, 0, 0, 0.35);
+
+    /* Collapsed: each older toast peeks out a little behind the newest. */
+    transform: translateY(calc(var(--rad-fx-toast-i, 0) * -10px)) scale(calc(1 - var(--rad-fx-toast-i, 0) * 0.05));
+    transform-origin: 50% 0;
+    transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms ease;
+    animation: rad-fx-toast-in 450ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+/* Expanded on hover or focus: toasts fan out into a readable list. */
+.rad-fx-toasts:hover .rad-fx-toast,
+.rad-fx-toasts:focus-within .rad-fx-toast {
+    transform: translateY(calc(var(--rad-fx-toast-i, 0) * -100% - var(--rad-fx-toast-i, 0) * 8px));
+    opacity: 1 !important;
+}
+
+.rad-fx-toast-text { flex: 1; min-width: 0; }
+.rad-fx-toast-title { margin: 0; font-weight: 600; font-size: 0.9rem; }
+.rad-fx-toast-description { margin: 4px 0 0; font-size: 0.85rem; color: #c4c4cc; }
+
+.rad-fx-toast-close {
+    display: inline-flex;
+    padding: 4px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.rad-fx-toast-close:focus-visible { outline: 2px solid currentcolor; }
+
+.rad-fx-toast-close svg { width: 16px; height: 16px; fill: none; stroke: currentcolor; stroke-width: 2; stroke-linecap: round; }
+
+@keyframes rad-fx-toast-in {
+    from { opacity: 0; transform: translateY(24px) scale(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-toast { animation: none; transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-toast { animation: none; transition: none; }

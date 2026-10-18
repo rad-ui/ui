@@ -1,0 +1,34 @@
+.rad-fx-halo {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    isolation: isolate;
+}
+
+.rad-fx-halo-ring {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 50%;
+    background: var(--rad-fx-halo-gradient);
+    filter: blur(28px);
+    opacity: 0.75;
+    transform: scale(var(--rad-fx-halo-spread, 1.4));
+    animation: rad-fx-halo var(--rad-fx-halo-speed, 8s) linear infinite;
+    pointer-events: none;
+}
+
+.rad-fx-halo[data-state='paused'] .rad-fx-halo-ring { animation-play-state: paused; }
+
+.rad-fx-halo-content { position: relative; }
+
+@keyframes rad-fx-halo {
+    from { transform: scale(var(--rad-fx-halo-spread, 1.4)) rotate(0deg); }
+    to { transform: scale(var(--rad-fx-halo-spread, 1.4)) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-halo-ring { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-halo-ring { animation: none; }

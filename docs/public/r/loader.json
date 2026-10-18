@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loader",
+  "type": "registry:component",
+  "title": "Loader",
+  "description": "A small loader in three styles: dots, bars or orbit.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/loader.tsx",
+      "type": "registry:component",
+      "target": "components/fx/loader.tsx",
+      "content": "import * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport './loader.css'\n\nexport type LoaderProps = {\n    variant?: 'dots' | 'bars' | 'orbit'\n    /** Announced to screen readers. */\n    label?: string\n    /** Size in px. */\n    size?: number\n    color?: string\n    className?: string\n}\n\nconst PARTS = { dots: 3, bars: 4, orbit: 2 } as const\n\nconst Loader = ({ variant = 'dots', label = 'Loading', size = 32, color = 'currentColor', className }: LoaderProps) => (\n    <span\n        role=\"status\"\n        className={['rad-fx-loader', className].filter(Boolean).join(' ')}\n        data-variant={variant}\n        style={{ '--rad-fx-loader-size': `${size}px`, '--rad-fx-loader-color': color } as React.CSSProperties}\n    >\n        <VisuallyHidden asChild><span>{label}</span></VisuallyHidden>\n        <span className=\"rad-fx-loader-art\" aria-hidden=\"true\">\n            {Array.from({ length: PARTS[variant] }, (_, i) => (\n                <span key={i} className=\"rad-fx-loader-part\" style={{ '--rad-fx-loader-i': i } as React.CSSProperties} />\n            ))}\n        </span>\n    </span>\n)\n\nexport default Loader\n"
+    },
+    {
+      "path": "registry/fx/loader.css",
+      "type": "registry:file",
+      "target": "components/fx/loader.css",
+      "content": ".rad-fx-loader { display: inline-flex; }\n\n.rad-fx-loader-art {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: calc(var(--rad-fx-loader-size, 32px) * 0.12);\n    width: var(--rad-fx-loader-size, 32px);\n    height: var(--rad-fx-loader-size, 32px);\n}\n\n.rad-fx-loader-part {\n    background: var(--rad-fx-loader-color, currentColor);\n    animation-delay: calc(var(--rad-fx-loader-i, 0) * 0.14s);\n}\n\n/* Dots: a bouncing trio. */\n.rad-fx-loader[data-variant='dots'] .rad-fx-loader-part {\n    width: 26%;\n    aspect-ratio: 1;\n    border-radius: 50%;\n    animation: rad-fx-loader-bounce 0.9s ease-in-out infinite;\n}\n\n/* Bars: an equaliser. */\n.rad-fx-loader[data-variant='bars'] .rad-fx-loader-part {\n    width: 14%;\n    height: 100%;\n    border-radius: 3px;\n    transform-origin: 50% 100%;\n    animation: rad-fx-loader-eq 1s ease-in-out infinite;\n}\n\n/* Orbit: two dots circling a faint track. */\n.rad-fx-loader[data-variant='orbit'] .rad-fx-loader-art { animation: rad-fx-loader-spin 1.1s linear infinite; }\n\n.rad-fx-loader[data-variant='orbit'] .rad-fx-loader-art::before {\n    content: '';\n    position: absolute;\n    inset: 13%;\n    border: 2px solid var(--rad-fx-loader-color, currentColor);\n    border-radius: 50%;\n    opacity: 0.2;\n}\n\n.rad-fx-loader[data-variant='orbit'] .rad-fx-loader-part {\n    position: absolute;\n    width: 26%;\n    aspect-ratio: 1;\n    border-radius: 50%;\n    top: 0;\n    left: 37%;\n}\n.rad-fx-loader[data-variant='orbit'] .rad-fx-loader-part + .rad-fx-loader-part { top: auto; bottom: 0; opacity: 0.5; }\n\n@keyframes rad-fx-loader-bounce {\n    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }\n    40% { transform: scale(1); opacity: 1; }\n}\n\n@keyframes rad-fx-loader-eq {\n    0%, 100% { transform: scaleY(0.35); }\n    50% { transform: scaleY(1); }\n}\n\n@keyframes rad-fx-loader-spin {\n    to { transform: rotate(360deg); }\n}\n\n/* Reduced motion: every variant becomes a slow opacity pulse, so \"busy\" still reads. */\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-loader-art,\n    .rad-fx-loader .rad-fx-loader-part { animation: rad-fx-loader-pulse 2s ease-in-out infinite !important; transform: none !important; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-loader-art,\n[data-rad-fx-motion='reduce'] .rad-fx-loader .rad-fx-loader-part { animation: rad-fx-loader-pulse 2s ease-in-out infinite !important; transform: none !important; }\n\n@keyframes rad-fx-loader-pulse {\n    0%, 100% { opacity: 0.4; }\n    50% { opacity: 1; }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "feedback"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/loader",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "role=\"status\" with a label; the art is aria-hidden.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) turns every style into a slow pulse, so \"busy\" still reads."
+    ]
+  }
+}

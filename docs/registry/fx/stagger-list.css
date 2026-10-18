@@ -1,0 +1,19 @@
+.rad-fx-stagger > * {
+    transition:
+        opacity var(--rad-fx-stagger-duration, 500ms) ease,
+        transform var(--rad-fx-stagger-duration, 500ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(var(--rad-fx-stagger-i, 0) * var(--rad-fx-stagger-step, 70ms));
+}
+
+.rad-fx-stagger[data-state='hidden'] > * {
+    opacity: 0;
+    transform: translateY(14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-stagger > *,
+    .rad-fx-stagger[data-state='hidden'] > * { opacity: 1; transform: none; transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-stagger > *,
+[data-rad-fx-motion='reduce'] .rad-fx-stagger[data-state='hidden'] > * { opacity: 1; transform: none; transition: none; }

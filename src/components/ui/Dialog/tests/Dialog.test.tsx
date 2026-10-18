@@ -100,6 +100,24 @@ describe('Dialog', () => {
         expect(getByText('Open')).toHaveAttribute('data-disabled');
     });
 
+    test('Close accepts standard button props', () => {
+        render(
+            <Dialog.Root open>
+                <Dialog.Content>
+                    <Dialog.Close aria-label="Close dialog" data-testid="close" disabled title="Close dialog" type="button">
+                        Close
+                    </Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        const close = screen.getByTestId('close');
+        expect(close).toBeDisabled();
+        expect(close).toHaveAttribute('aria-label', 'Close dialog');
+        expect(close).toHaveAttribute('title', 'Close dialog');
+        expect(close).toHaveAttribute('type', 'button');
+    });
+
     test('supports uncontrolled defaultOpen and controlled rerenders', async() => {
         const user = userEvent.setup();
 

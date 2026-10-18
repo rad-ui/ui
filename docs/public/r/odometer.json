@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "odometer",
+  "type": "registry:component",
+  "title": "Odometer",
+  "description": "Numbers that roll digit by digit like a mechanical counter.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/odometer.tsx",
+      "type": "registry:component",
+      "target": "components/fx/odometer.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport './odometer.css'\n\nexport type OdometerProps = {\n    value: number\n    /** Passed to Intl.NumberFormat. */\n    format?: Intl.NumberFormatOptions\n    /** Defaults to en-US so server and client format identically. */\n    locale?: string\n    /** Announce changes politely to screen readers. Off by default: only turn it on for values people need to hear. */\n    live?: boolean\n    className?: string\n}\n\nconst DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']\n\n// Each digit is a vertical strip of 0–9 that rolls to its value. The strips are\n// aria-hidden; screen readers get the formatted number as plain text.\nconst Odometer = ({ value, format, locale = 'en-US', live = false, className }: OdometerProps) => {\n    const text = React.useMemo(() => new Intl.NumberFormat(locale, format).format(value), [value, format, locale])\n    const chars = Array.from(text)\n\n    return <span className={['rad-fx-odometer', className].filter(Boolean).join(' ')}>\n        <VisuallyHidden asChild><span aria-live={live ? 'polite' : undefined}>{text}</span></VisuallyHidden>\n        <span className=\"rad-fx-odometer-display\" aria-hidden=\"true\">\n            {chars.map((char, i) => {\n                // Key digits from the right, so units stay units when the number grows.\n                const key = chars.length - i\n                const digit = DIGITS.indexOf(char)\n                if (digit === -1) return <span key={`s${key}`} className=\"rad-fx-odometer-symbol\">{char}</span>\n                return <span key={`d${key}`} className=\"rad-fx-odometer-digit\">\n                    <span className=\"rad-fx-odometer-strip\" style={{ transform: `translateY(${-digit * 10}%)` }}>\n                        {DIGITS.map((d) => <span key={d}>{d}</span>)}\n                    </span>\n                </span>\n            })}\n        </span>\n    </span>\n}\n\nexport default Odometer\n"
+    },
+    {
+      "path": "registry/fx/odometer.css",
+      "type": "registry:file",
+      "target": "components/fx/odometer.css",
+      "content": ".rad-fx-odometer-display {\n    display: inline-flex;\n    font-variant-numeric: tabular-nums;\n}\n\n.rad-fx-odometer-digit {\n    display: inline-block;\n    height: 1.15em;\n    line-height: 1.15em;\n    overflow: hidden;\n}\n\n.rad-fx-odometer-strip {\n    display: flex;\n    flex-direction: column;\n    transition: transform 700ms cubic-bezier(0.25, 1.2, 0.4, 1);\n}\n\n.rad-fx-odometer-strip > span { height: 1.15em; }\n\n.rad-fx-odometer-symbol { line-height: 1.15em; }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-odometer-strip { transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-odometer-strip { transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/odometer",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Screen readers get the formatted number as plain text; the rolling strips are aria-hidden.",
+      "`live` opts in to polite announcements of changes; leave it off for numbers that change often.",
+      "Defaults to en-US formatting so server and client match.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps digits without rolling."
+    ]
+  }
+}

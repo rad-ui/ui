@@ -2,20 +2,21 @@
 import React from 'react';
 import clsx from 'clsx';
 import TableContext from '../context/TableContext';
+import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'TableHead';
 
-export type TableHeadProps = React.ComponentPropsWithoutRef<'thead'>;
+export type TableHeadProps = React.ComponentPropsWithoutRef<typeof Primitive.thead>;
 
-const TableHead = React.forwardRef<React.ElementRef<'thead'>, TableHeadProps>(
+const TableHead = React.forwardRef<React.ElementRef<typeof Primitive.thead>, TableHeadProps>(
     ({ children, className = 'header', ...props }, ref) => {
         // Namespaced class is always applied so styling survives a consumer className.
         // The unprefixed default (`header`) is kept for backward compatibility.
         const rootClass = React.useContext(TableContext)?.rootClass;
         return (
-            <thead ref={ref} className={clsx(rootClass && `${rootClass}-head`, className)} {...props}>
+            <Primitive.thead ref={ref} className={clsx(rootClass && `${rootClass}-head`, className)} {...props}>
                 {children}
-            </thead>
+            </Primitive.thead>
         );
     }
 );

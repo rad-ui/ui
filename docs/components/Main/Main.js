@@ -11,6 +11,11 @@ import Theme from '@radui/ui/Theme';
 
 export const DARK_MODE_COOKIE = 'darkMode';
 
+// Pages can preview a theme without touching the user's saved choice:
+//   window.dispatchEvent(new CustomEvent(THEME_PREVIEW_EVENT, { detail: 'light' | 'dark' | null }))
+// null ends the preview. The FX hero uses this to flip the site mid-story.
+export const THEME_PREVIEW_EVENT = 'rad-docs:theme-preview';
+
 
 
 // Pages are prerendered, so the server always renders the default (dark) theme.
@@ -22,11 +27,18 @@ const THEME_SCRIPT = `try{if(document.cookie.split('; ').indexOf('${DARK_MODE_CO
 const MainLayout = ({ children }) => {
     const [darkMode, setDarkMode] = useState(true);
     const [isDocsNavOpen, setIsDocsNavOpen] = useState(false);
+    const [previewAppearance, setPreviewAppearance] = useState(null);
 
     useEffect(() => {
         if (Cookies.get(DARK_MODE_COOKIE) === 'false') {
             setDarkMode(false);
         }
+    }, []);
+
+    useEffect(() => {
+        const onPreview = (event) => setPreviewAppearance(event.detail === 'light' || event.detail === 'dark' ? event.detail : null);
+        window.addEventListener(THEME_PREVIEW_EVENT, onPreview);
+        return () => window.removeEventListener(THEME_PREVIEW_EVENT, onPreview);
     }, []);
 
     const sendValues = {
@@ -38,7 +50,7 @@ const MainLayout = ({ children }) => {
 
     return (
         <Theme
-            appearance={darkMode ? 'dark' : 'light'}
+            appearance={previewAppearance ?? (darkMode ? 'dark' : 'light')}
             accentColor="gray"
             classNamespace="rad-ui"
             // THEME_SCRIPT may change data-rad-ui-theme before hydration.

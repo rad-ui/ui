@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spotlight-text",
+  "type": "registry:component",
+  "title": "SpotlightText",
+  "description": "A pool of coloured light that follows the pointer across text.",
+  "files": [
+    {
+      "path": "registry/fx/spotlight-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/spotlight-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport './spotlight-text.css'\n\ntype SpotlightTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type SpotlightTextProps = {\n    text: string\n    as?: SpotlightTag\n    /** Colours of the light. */\n    colors?: [string, string]\n    /** Radius of the light in px. */\n    radius?: number\n    className?: string\n}\n\n// The real text is always fully visible at its own colour; the light is an\n// aria-hidden copy on top, masked to a circle under the pointer.\nconst SpotlightText = ({ text, as: Tag = 'span', colors = ['#22d3ee', '#a855f7'], radius = 110, className }: SpotlightTextProps) => {\n    const handleMove = (event: React.PointerEvent<HTMLElement>) => {\n        const rect = event.currentTarget.getBoundingClientRect()\n        event.currentTarget.style.setProperty('--rad-fx-spot-x', `${event.clientX - rect.left}px`)\n        event.currentTarget.style.setProperty('--rad-fx-spot-y', `${event.clientY - rect.top}px`)\n    }\n\n    return <Tag\n        className={['rad-fx-spotlight', className].filter(Boolean).join(' ')}\n        onPointerMove={handleMove}\n        style={{ '--rad-fx-spot-a': colors[0], '--rad-fx-spot-b': colors[1], '--rad-fx-spot-radius': `${radius}px` } as React.CSSProperties}\n    >\n        {text}\n        <span className=\"rad-fx-spotlight-light\" aria-hidden=\"true\">{text}</span>\n    </Tag>\n}\n\nexport default SpotlightText\n"
+    },
+    {
+      "path": "registry/fx/spotlight-text.css",
+      "type": "registry:file",
+      "target": "components/fx/spotlight-text.css",
+      "content": ".rad-fx-spotlight {\n    position: relative;\n    display: inline-block;\n\n    --rad-fx-spot-x: 50%;\n    --rad-fx-spot-y: 50%;\n}\n\n.rad-fx-spotlight-light {\n    position: absolute;\n    inset: 0;\n    pointer-events: none;\n    background: linear-gradient(120deg, var(--rad-fx-spot-a), var(--rad-fx-spot-b));\n    background-clip: text;\n    background-clip: text;\n    -webkit-text-fill-color: transparent;\n    mask-image: radial-gradient(var(--rad-fx-spot-radius, 110px) circle at var(--rad-fx-spot-x) var(--rad-fx-spot-y), #000 30%, transparent 100%);\n    mask-image: radial-gradient(var(--rad-fx-spot-radius, 110px) circle at var(--rad-fx-spot-x) var(--rad-fx-spot-y), #000 30%, transparent 100%);\n    opacity: 0;\n    transition: opacity 250ms ease;\n}\n\n.rad-fx-spotlight:hover .rad-fx-spotlight-light { opacity: 1; }\n\n@media (forced-colors: active) {\n    .rad-fx-spotlight-light { display: none; }\n}\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/spotlight-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The real text always shows at its own colour and contrast; the light is an aria-hidden copy on top.",
+      "Pointer-driven only: nothing moves on its own.",
+      "Forced-colours mode drops the light."
+    ]
+  }
+}

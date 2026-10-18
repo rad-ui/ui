@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "wave-text",
+  "type": "registry:component",
+  "title": "WaveText",
+  "description": "Letters that ripple in a travelling wave, continuously or on hover.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/wave-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/wave-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './wave-text.css'\n\ntype WaveTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type WaveTextProps = {\n    /** The text. Screen readers get it once, whole. */\n    text: string\n    as?: WaveTag\n    /** `loop` ripples continuously; `hover` only while the pointer is over it. */\n    trigger?: 'loop' | 'hover'\n    /** Height of the wave, in em. */\n    amplitude?: number\n    /** Seconds for one ripple to travel through a letter. */\n    duration?: number\n    /** Seconds between neighbouring letters. */\n    stagger?: number\n    paused?: boolean\n    className?: string\n}\n\nconst WaveText = ({ text, as: Tag = 'span', trigger = 'loop', amplitude = 0.22, duration = 1.4, stagger = 0.06, paused = false, className }: WaveTextProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-wave', className].filter(Boolean).join(' ')}\n        data-trigger={trigger}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-wave-amplitude': `${amplitude}em`, '--rad-fx-wave-duration': `${duration}s`, '--rad-fx-wave-stagger': `${stagger}s` } as React.CSSProperties}\n    >\n        <VisuallyHidden asChild><span>{text}</span></VisuallyHidden>\n        <span aria-hidden=\"true\">\n            {Array.from(text).map((char, i) => (\n                <span key={i} className=\"rad-fx-wave-char\" style={{ '--rad-fx-wave-index': i } as React.CSSProperties}>\n                    {char === ' ' ? ' ' : char}\n                </span>\n            ))}\n        </span>\n    </Tag>\n}\n\nexport default WaveText\n"
+    },
+    {
+      "path": "registry/fx/wave-text.css",
+      "type": "registry:file",
+      "target": "components/fx/wave-text.css",
+      "content": ".rad-fx-wave-char {\n    display: inline-block;\n    animation: rad-fx-wave var(--rad-fx-wave-duration, 1.4s) ease-in-out infinite;\n    animation-delay: calc(var(--rad-fx-wave-index, 0) * var(--rad-fx-wave-stagger, 0.06s));\n}\n\n.rad-fx-wave[data-state='paused'] .rad-fx-wave-char,\n.rad-fx-wave[data-trigger='hover']:not(:hover) .rad-fx-wave-char {\n    animation-play-state: paused;\n}\n\n@keyframes rad-fx-wave {\n    0%, 60%, 100% { transform: translateY(0); }\n    30% { transform: translateY(calc(-1 * var(--rad-fx-wave-amplitude, 0.22em))); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-wave-char { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-wave-char { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wave-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The full text is read once from a visually hidden copy; the rippling letters are aria-hidden.",
+      "Pauses offscreen; `paused` stops it, and `trigger=\"hover\"` only moves under the pointer.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the letters still."
+    ]
+  }
+}

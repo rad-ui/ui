@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "halftone",
+  "type": "registry:component",
+  "title": "Halftone",
+  "description": "Print-style halftone dots with a band of large dots sweeping across.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/halftone.tsx",
+      "type": "registry:component",
+      "target": "components/fx/halftone.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './halftone.css'\n\nexport type HalftoneProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    /** Dot spacing in px. */\n    spacing?: number\n    /** Seconds for the dense band to travel across. */\n    speed?: number\n    paused?: boolean\n}\n\n// Print-style halftone dots, with a band of larger dots sweeping across.\nconst Halftone = ({ color = 'rgba(244, 114, 182, 0.55)', spacing = 14, speed = 8, paused = false, className, style, children, ...props }: HalftoneProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-halftone', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-halftone-color': color, '--rad-fx-halftone-spacing': `${spacing}px`, '--rad-fx-halftone-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-halftone-layer\" aria-hidden=\"true\">\n            <span className=\"rad-fx-halftone-small\" />\n            <span className=\"rad-fx-halftone-large\" />\n        </div>\n        <div className=\"rad-fx-halftone-content\">{children}</div>\n    </div>\n}\n\nexport default Halftone\n"
+    },
+    {
+      "path": "registry/fx/halftone.css",
+      "type": "registry:file",
+      "target": "components/fx/halftone.css",
+      "content": ".rad-fx-halftone {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-halftone-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-halftone-content { position: relative; }\n\n.rad-fx-halftone[data-state='paused'] .rad-fx-halftone-layer,\n.rad-fx-halftone[data-state='paused'] .rad-fx-halftone-layer * { animation-play-state: paused !important; }\n\n.rad-fx-halftone-small,\n.rad-fx-halftone-large {\n    position: absolute;\n    inset: 0;\n    background-size: var(--rad-fx-halftone-spacing, 14px) var(--rad-fx-halftone-spacing, 14px);\n}\n\n.rad-fx-halftone-small {\n    background-image: radial-gradient(circle, var(--rad-fx-halftone-color) 1px, transparent 1.5px);\n    opacity: 0.45;\n}\n\n.rad-fx-halftone-large {\n    background-image: radial-gradient(circle, var(--rad-fx-halftone-color) 3.2px, transparent 3.8px);\n    mask-image: linear-gradient(100deg, transparent 20%, #000 45%, #000 55%, transparent 80%);\n    mask-size: 220% 100%;\n    animation: rad-fx-halftone var(--rad-fx-halftone-speed, 8s) ease-in-out infinite alternate;\n}\n\n@keyframes rad-fx-halftone {\n    from { mask-position: 100% 0; }\n    to { mask-position: 0% 0; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-halftone-large { animation: none; mask-position: 50% 0; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-halftone-large { animation: none; mask-position: 50% 0; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/halftone",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks the band in the middle."
+    ]
+  }
+}

@@ -49,4 +49,53 @@ describe('Card', () => {
         expect(screen.getByTestId('card-content')).toHaveClass('rad-ui-card-content');
         expect(screen.getByTestId('card-footer')).toHaveClass('rad-ui-card-footer');
     });
+
+    test('supports asChild across card parts while preserving refs and generated classes', () => {
+        const rootRef = React.createRef<HTMLDivElement>();
+        const headerRef = React.createRef<HTMLDivElement>();
+        const titleRef = React.createRef<HTMLHeadingElement>();
+        const descriptionRef = React.createRef<HTMLParagraphElement>();
+        const contentRef = React.createRef<HTMLDivElement>();
+        const footerRef = React.createRef<HTMLDivElement>();
+
+        render(
+            <Card.Root asChild customRootClass="acme" ref={rootRef}>
+                <section data-testid="card">
+                    <Card.Header asChild ref={headerRef}>
+                        <header data-testid="header">
+                            <Card.Title asChild ref={titleRef}>
+                                <h2 data-testid="title">Title</h2>
+                            </Card.Title>
+                            <Card.Action asChild>
+                                <button data-testid="action" type="button">Action</button>
+                            </Card.Action>
+                            <Card.Description asChild ref={descriptionRef}>
+                                <p data-testid="description">Description</p>
+                            </Card.Description>
+                        </header>
+                    </Card.Header>
+                    <Card.Content asChild ref={contentRef}>
+                        <section data-testid="content">Content</section>
+                    </Card.Content>
+                    <Card.Footer asChild ref={footerRef}>
+                        <footer data-testid="footer">Footer</footer>
+                    </Card.Footer>
+                </section>
+            </Card.Root>
+        );
+
+        expect(screen.getByTestId('card')).toHaveClass('acme-card-root');
+        expect(screen.getByTestId('header')).toHaveClass('acme-card-header');
+        expect(screen.getByTestId('title')).toHaveClass('acme-card-title');
+        expect(screen.getByTestId('action')).toHaveClass('acme-card-action');
+        expect(screen.getByTestId('description')).toHaveClass('acme-card-description');
+        expect(screen.getByTestId('content')).toHaveClass('acme-card-content');
+        expect(screen.getByTestId('footer')).toHaveClass('acme-card-footer');
+        expect(rootRef.current?.tagName).toBe('SECTION');
+        expect(headerRef.current?.tagName).toBe('HEADER');
+        expect(titleRef.current?.tagName).toBe('H2');
+        expect(descriptionRef.current?.tagName).toBe('P');
+        expect(contentRef.current?.tagName).toBe('SECTION');
+        expect(footerRef.current?.tagName).toBe('FOOTER');
+    });
 });

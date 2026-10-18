@@ -22,7 +22,7 @@ describe('Dialog item props merge', () => {
         const onClick = jest.fn();
 
         render(dialog(
-            <DialogPrimitive.Action {...({ onClick } as object)}>Confirm</DialogPrimitive.Action>
+            <DialogPrimitive.Action onClick={onClick}>Confirm</DialogPrimitive.Action>
         ));
 
         await user.click(screen.getByText('Open'));
@@ -39,7 +39,7 @@ describe('Dialog item props merge', () => {
         const onClick = jest.fn();
 
         render(dialog(
-            <DialogPrimitive.Cancel {...({ onClick } as object)}>Dismiss</DialogPrimitive.Cancel>
+            <DialogPrimitive.Cancel onClick={onClick}>Dismiss</DialogPrimitive.Cancel>
         ));
 
         await user.click(screen.getByText('Open'));
@@ -55,16 +55,39 @@ describe('Dialog item props merge', () => {
         const user = userEvent.setup();
 
         render(dialog(
-            <DialogPrimitive.Action {...({ 'data-testid': 'action' } as object)}>Confirm</DialogPrimitive.Action>
+            <DialogPrimitive.Action data-testid="action" title="Confirm action">Confirm</DialogPrimitive.Action>
         ));
 
         await user.click(screen.getByText('Open'));
 
         const action = screen.getByTestId('action');
         expect(action).toBeInTheDocument();
+        expect(action).toHaveAttribute('title', 'Confirm action');
 
         await user.click(action);
         expect(screen.queryByText('Dialog body')).not.toBeInTheDocument();
+    });
+
+    test('Cancel accepts standard button props', async() => {
+        const user = userEvent.setup();
+        const onKeyDown = jest.fn();
+
+        render(dialog(
+            <DialogPrimitive.Cancel aria-label="Dismiss dialog" data-testid="cancel" onKeyDown={onKeyDown} title="Dismiss dialog" type="button">
+                Dismiss
+            </DialogPrimitive.Cancel>
+        ));
+
+        await user.click(screen.getByText('Open'));
+
+        const cancel = screen.getByTestId('cancel');
+        expect(cancel).toHaveAttribute('aria-label', 'Dismiss dialog');
+        expect(cancel).toHaveAttribute('title', 'Dismiss dialog');
+        expect(cancel).toHaveAttribute('type', 'button');
+
+        cancel.focus();
+        await user.keyboard('{ArrowDown}');
+        expect(onKeyDown).toHaveBeenCalled();
     });
 
     test('Action closes the dialog when no consumer onClick is supplied', async() => {

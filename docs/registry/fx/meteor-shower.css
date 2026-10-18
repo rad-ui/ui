@@ -1,0 +1,54 @@
+.rad-fx-meteors {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-meteors-sky {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-meteor {
+    position: absolute;
+    top: -10%;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--rad-fx-meteor-color);
+    box-shadow: 0 0 6px 1px var(--rad-fx-meteor-color);
+    opacity: 0;
+    animation: rad-fx-meteor-fall 4s linear infinite;
+}
+
+/* The tail trails behind the head: the meteor travels along its local -x axis. */
+.rad-fx-meteor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 1px;
+    width: 80px;
+    height: 1px;
+    transform: translateY(-50%);
+    background: linear-gradient(to right, var(--rad-fx-meteor-color), transparent);
+}
+
+.rad-fx-meteors[data-state='paused'] .rad-fx-meteor { animation-play-state: paused; }
+
+.rad-fx-meteors-content { position: relative; }
+
+@keyframes rad-fx-meteor-fall {
+    0% { opacity: 0; transform: rotate(215deg) translateX(0); }
+    10% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; transform: rotate(215deg) translateX(-600px); }
+}
+
+/* Reduced motion: no streaks at all. A frozen meteor just looks like a glitch. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-meteor { animation: none; display: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-meteor { animation: none; display: none; }

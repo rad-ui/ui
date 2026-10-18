@@ -2,12 +2,13 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useStepsContext } from '../context/StepsContext';
+import Primitive from '~/core/primitives/Primitive';
 
-export type StepTrackProps = React.HTMLAttributes<HTMLDivElement>;
+export type StepTrackProps = React.ComponentPropsWithoutRef<typeof Primitive.div>;
 
 const StepTrack = React.forwardRef<HTMLDivElement, StepTrackProps>(({ children, className = '', ...props }, ref) => {
     const { rootClass } = useStepsContext();
-    return <div ref={ref} className={clsx(rootClass && `${rootClass}-track`, className)} {...props}>{children}</div>;
+    return <Primitive.div ref={ref} className={clsx(rootClass && `${rootClass}-track`, className)} {...props}>{children}</Primitive.div>;
 });
 
 StepTrack.displayName = 'Steps.Track';

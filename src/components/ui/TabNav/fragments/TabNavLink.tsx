@@ -61,7 +61,8 @@ const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({
                 data-state={isActive ? 'active' : 'inactive'}
                 data-disabled={disabled ? '' : undefined}
                 data-slot="tab-nav-link"
-                disabled={disabled}
+                // `disabled` is not an <a> attribute, but matters when asChild renders a <button>.
+                {...({ disabled } as Record<string, unknown>)}
                 {...disabled ? {} : { href }}
                 {...props}
             >

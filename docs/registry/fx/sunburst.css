@@ -1,0 +1,37 @@
+.rad-fx-sunburst {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-sunburst-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-sunburst-content { position: relative; }
+
+.rad-fx-sunburst[data-state='paused'] .rad-fx-sunburst-layer,
+.rad-fx-sunburst[data-state='paused'] .rad-fx-sunburst-layer * { animation-play-state: paused !important; }
+
+.rad-fx-sunburst-rays {
+    position: absolute;
+    left: var(--rad-fx-sun-x, 50%);
+    top: var(--rad-fx-sun-y, 50%);
+    width: 300%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background: repeating-conic-gradient(from 0deg at 50% 50%, var(--rad-fx-sun-color) 0deg calc(var(--rad-fx-sun-step, 20deg) / 2), transparent calc(var(--rad-fx-sun-step, 20deg) / 2) var(--rad-fx-sun-step, 20deg));
+    mask-image: radial-gradient(circle at center, #000 0%, transparent 45%);
+    animation: rad-fx-sunburst var(--rad-fx-sun-speed, 60s) linear infinite;
+}
+
+@keyframes rad-fx-sunburst { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-sunburst-rays { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-sunburst-rays { animation: none; }

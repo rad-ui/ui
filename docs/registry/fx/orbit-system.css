@@ -1,0 +1,53 @@
+.rad-fx-orbits {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-orbits-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-orbits-content { position: relative; }
+
+.rad-fx-orbits[data-state='paused'] .rad-fx-orbits-layer,
+.rad-fx-orbits[data-state='paused'] .rad-fx-orbits-layer * { animation-play-state: paused !important; }
+
+.rad-fx-orbits-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border: 1px solid var(--rad-fx-orbits-color);
+    border-radius: 50%;
+    animation: rad-fx-orbits 10s linear infinite;
+}
+
+.rad-fx-orbits-planet {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 5px);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--rad-fx-planet);
+    box-shadow: 0 0 12px 2px var(--rad-fx-planet);
+}
+
+@keyframes rad-fx-orbits { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-orbits-ring { animation: none; }
+    .rad-fx-orbits-ring:nth-child(2) { transform: rotate(120deg); }
+    .rad-fx-orbits-ring:nth-child(3) { transform: rotate(230deg); }
+    .rad-fx-orbits-ring:nth-child(4) { transform: rotate(310deg); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring { animation: none; }
+[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring:nth-child(2) { transform: rotate(120deg); }
+[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring:nth-child(3) { transform: rotate(230deg); }
+[data-rad-fx-motion='reduce'] .rad-fx-orbits-ring:nth-child(4) { transform: rotate(310deg); }

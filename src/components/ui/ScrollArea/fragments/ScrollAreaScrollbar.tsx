@@ -4,9 +4,10 @@ import { getHorizontalScrollRange } from '../utils/track';
 import React, { useContext, useRef, useCallback, useEffect, useLayoutEffect, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { ScrollAreaContext, ScrollAreaScrollbarOrientationContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
+import Primitive from '~/core/primitives/Primitive';
 
-type ScrollAreaScrollbarElement = ElementRef<'div'>;
-export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<'div'> & {
+type ScrollAreaScrollbarElement = ElementRef<typeof Primitive.div>;
+export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
     orientation?: 'horizontal' | 'vertical';
 };
 
@@ -187,8 +188,12 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
     // Both tracks are laid out: styles can inset this one so the two do not overlap at the corner.
     const hasCorner = shouldKeepInDOM && otherAxisMounted && (otherAxisOverflowing || type === 'always');
 
+    // The orientation provider wraps the element (not its children): with
+    // `asChild`, Primitive renders its single child, which must be the
+    // consumer's element rather than a context provider.
     return (
-        <div
+        <ScrollAreaScrollbarOrientationContext.Provider value={orientation}>
+        <Primitive.div
             {...props}
             ref={setRefs}
             className={clsx(rootClass && `${rootClass}-scrollbar`, className)}
@@ -217,10 +222,9 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
                 stopContinuousScroll();
             }}
         >
-            <ScrollAreaScrollbarOrientationContext.Provider value={orientation}>
-                {children}
-            </ScrollAreaScrollbarOrientationContext.Provider>
-        </div>
+            {children}
+        </Primitive.div>
+        </ScrollAreaScrollbarOrientationContext.Provider>
     );
 });
 

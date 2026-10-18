@@ -75,9 +75,20 @@ const banner = (lines) => {
     console.log(`\n${'='.repeat(width)}\n${lines.map((line) => `  ${line}`).join('\n')}\n${'='.repeat(width)}\n`)
 }
 
+// Every temp dir a verify run creates. They are removed when the command ends
+// (pass or fail), since each isolated copy holds a full node_modules (~1 GB).
+// Pass --keep to leave them for debugging.
+const tempDirs = []
+const keepTemp = flags.includes('--keep')
+const makeTempDir = (prefix) => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), prefix))
+    tempDirs.push(dir)
+    return dir
+}
+
 // Copy docs/ to a temp dir with no monorepo around it, like Vercel does.
 const isolatedDocsCopy = () => {
-    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'radui-docs-'))
+    const tempRoot = makeTempDir('radui-docs-')
     const target = path.join(tempRoot, 'docs')
     fs.cpSync(docsDir, target, {
         recursive: true,
@@ -148,14 +159,14 @@ const commands = {
         run('pnpm', ['build'], { cwd: target })
         const { version } = readJson(path.join(target, 'node_modules', '@radui', 'ui', 'package.json'))
         if (checkContrast) await runContrastCheck(target)
-        banner([`OK: docs build with published @radui/ui ${version} (isolated: ${target})`])
+        banner([`OK: docs build with published @radui/ui ${version} (isolated copy ${keepTemp ? `kept at ${target}` : 'removed after the run; pass --keep to inspect it'})`])
     },
 
     async 'verify:live' () {
         buildLibrary()
 
         // Pack exactly what `npm publish` would ship (files, exports, dist).
-        const packDir = fs.mkdtempSync(path.join(os.tmpdir(), 'radui-pack-'))
+        const packDir = makeTempDir('radui-pack-')
         run('npm', ['pack', '--pack-destination', packDir])
         const tarball = path.join(packDir, fs.readdirSync(packDir).find((file) => file.endsWith('.tgz')))
 
@@ -168,7 +179,7 @@ const commands = {
 
         const { version } = readJson(path.join(repoRoot, 'package.json'))
         if (checkContrast) await runContrastCheck(target)
-        banner([`OK: docs build with the local @radui/ui ${version} package (isolated: ${target})`])
+        banner([`OK: docs build with the local @radui/ui ${version} package (isolated copy ${keepTemp ? `kept at ${target}` : 'removed after the run; pass --keep to inspect it'})`])
     }
 }
 
@@ -177,9 +188,17 @@ if (!commands[command]) {
     process.exit(1)
 }
 
+let failed = false
 try {
     await commands[command]()
 } catch (error) {
     console.error(`\ndocs-mode ${command} failed: ${error.message}`)
-    process.exit(1)
+    failed = true
+} finally {
+    if (keepTemp) {
+        if (tempDirs.length) console.log(`Kept temp dirs (--keep): ${tempDirs.join(', ')}`)
+    } else {
+        for (const dir of tempDirs) fs.rmSync(dir, { recursive: true, force: true })
+    }
 }
+if (failed) process.exit(1)

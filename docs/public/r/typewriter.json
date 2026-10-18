@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typewriter",
+  "type": "registry:component",
+  "title": "Typewriter",
+  "description": "Types text out character by character with a caret. Screen readers get the full text immediately and nothing reflows while typing.",
+  "dependencies": [
+    "@radui/ui"
+  ],
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/typewriter.tsx",
+      "type": "registry:component",
+      "target": "components/fx/typewriter.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\nimport VisuallyHidden from '@radui/ui/VisuallyHidden'\n\nimport { useInViewOnce, useReducedMotion } from './use-reduced-motion'\nimport './typewriter.css'\n\ntype TypewriterTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type TypewriterProps = {\n    /** The text to type. Screen readers get it whole, immediately. */\n    text: string\n    as?: TypewriterTag\n    /** Milliseconds per character. */\n    speed?: number\n    /** Milliseconds before typing starts. */\n    delay?: number\n    /** Show a blinking caret. */\n    cursor?: boolean\n    /** `inView` starts when scrolled into view; `mount` starts right away. */\n    trigger?: 'inView' | 'mount'\n    className?: string\n}\n\nconst Typewriter = ({ text, as: Tag = 'p', speed = 45, delay = 0, cursor = true, trigger = 'inView', className }: TypewriterProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const [started, setStarted] = React.useState(trigger === 'mount')\n    const [count, setCount] = React.useState(0)\n\n    useInViewOnce(ref, () => setStarted(true), trigger === 'inView')\n\n    React.useEffect(() => {\n        if (!started || reduced) return\n        let index = 0\n        let timer = window.setTimeout(function tick() {\n            index += 1\n            setCount(index)\n            if (index < text.length) timer = window.setTimeout(tick, speed)\n        }, delay)\n        return () => window.clearTimeout(timer)\n    }, [started, reduced, text, speed, delay])\n\n    const shown = reduced ? text : text.slice(0, count)\n    const done = shown.length >= text.length\n\n    return <Tag ref={ref as React.Ref<never>} className={['rad-fx-typewriter', className].filter(Boolean).join(' ')} data-state={done ? 'done' : 'typing'}>\n        <VisuallyHidden asChild><span>{text}</span></VisuallyHidden>\n        <span className=\"rad-fx-typewriter-stage\" aria-hidden=\"true\">\n            {/* Invisible full text reserves the final size, so nothing reflows while typing. */}\n            <span className=\"rad-fx-typewriter-ghost\">{text}</span>\n            <span className=\"rad-fx-typewriter-typed\">\n                {shown}\n                {cursor ? <span className=\"rad-fx-typewriter-caret\" /> : null}\n            </span>\n        </span>\n    </Tag>\n}\n\nexport default Typewriter\n"
+    },
+    {
+      "path": "registry/fx/typewriter.css",
+      "type": "registry:file",
+      "target": "components/fx/typewriter.css",
+      "content": ".rad-fx-typewriter-stage {\n    display: inline-grid;\n}\n\n.rad-fx-typewriter-ghost,\n.rad-fx-typewriter-typed {\n    grid-area: 1 / 1;\n}\n\n.rad-fx-typewriter-ghost {\n    visibility: hidden;\n}\n\n.rad-fx-typewriter-caret {\n    display: inline-block;\n    width: 0.08em;\n    height: 1em;\n    margin-inline-start: 0.06em;\n    vertical-align: -0.12em;\n    background: currentcolor;\n    animation: rad-fx-typewriter-blink 1s steps(1) infinite;\n}\n\n/* Stop blinking once typing is done: a caret blinking forever is a distraction. */\n.rad-fx-typewriter[data-state='done'] .rad-fx-typewriter-caret {\n    animation-iteration-count: 3;\n}\n\n@keyframes rad-fx-typewriter-blink {\n    50% { opacity: 0; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-typewriter-caret { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-typewriter-caret { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/typewriter",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The full text is in a visually hidden span; the typed copy and caret are aria-hidden.",
+      "An invisible copy of the final text reserves its size, so surrounding layout never shifts.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the full text at once with a still caret.",
+      "The caret stops blinking shortly after typing finishes."
+    ]
+  }
+}

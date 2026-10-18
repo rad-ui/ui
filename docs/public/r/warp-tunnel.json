@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "warp-tunnel",
+  "type": "registry:component",
+  "title": "WarpTunnel",
+  "description": "Rounded frames rushing toward the viewer, like flying down a tunnel.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/warp-tunnel.tsx",
+      "type": "registry:component",
+      "target": "components/fx/warp-tunnel.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './warp-tunnel.css'\n\nexport type WarpTunnelProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    /** Number of frames in flight. */\n    rings?: number\n    /** Seconds for a frame to reach you. Keep it slow: zooming motion can trigger vestibular discomfort. */\n    speed?: number\n    paused?: boolean\n}\n\n// Rounded frames rushing toward the viewer, like flying down a tunnel.\nconst WarpTunnel = ({ color = 'rgba(167, 139, 250, 0.6)', rings = 10, speed = 6, paused = false, className, style, children, ...props }: WarpTunnelProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-warp', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-warp-color': color, '--rad-fx-warp-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-warp-layer\" aria-hidden=\"true\">\n            {Array.from({ length: rings }, (_, i) => (\n                <span key={i} className=\"rad-fx-warp-ring\" style={{ animationDelay: `calc(var(--rad-fx-warp-speed, 6s) * ${(-i / rings).toFixed(3)})`, '--rad-fx-warp-rest': (0.15 + (i / rings) * 0.85).toFixed(2) } as React.CSSProperties} />\n            ))}\n        </div>\n        <div className=\"rad-fx-warp-content\">{children}</div>\n    </div>\n}\n\nexport default WarpTunnel\n"
+    },
+    {
+      "path": "registry/fx/warp-tunnel.css",
+      "type": "registry:file",
+      "target": "components/fx/warp-tunnel.css",
+      "content": ".rad-fx-warp {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-warp-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-warp-content { position: relative; }\n\n.rad-fx-warp[data-state='paused'] .rad-fx-warp-layer,\n.rad-fx-warp[data-state='paused'] .rad-fx-warp-layer * { animation-play-state: paused !important; }\n\n.rad-fx-warp-ring {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    width: 100%;\n    height: 100%;\n    translate: -50% -50%;\n    border: 1.5px solid var(--rad-fx-warp-color);\n    border-radius: 18%;\n    opacity: 0;\n    animation: rad-fx-warp var(--rad-fx-warp-speed, 6s) cubic-bezier(0.55, 0, 1, 0.45) infinite;\n}\n\n/* Frames start tiny and faint, then accelerate past the viewer. */\n@keyframes rad-fx-warp {\n    0% { transform: scale(0.02); opacity: 0; }\n    20% { opacity: 0.8; }\n    100% { transform: scale(1.6); opacity: 0; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-warp-ring { animation: none; transform: scale(var(--rad-fx-warp-rest, 0.5)); opacity: calc(0.9 - var(--rad-fx-warp-rest, 0.5) * 0.7); }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-warp-ring { animation: none; transform: scale(var(--rad-fx-warp-rest, 0.5)); opacity: calc(0.9 - var(--rad-fx-warp-rest, 0.5) * 0.7); }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/warp-tunnel",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Zooming motion is a strong vestibular trigger: keep `speed` slow and give users a visible pause control.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the tunnel as still, nested frames."
+    ]
+  }
+}

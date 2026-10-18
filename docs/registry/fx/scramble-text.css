@@ -1,0 +1,5 @@
+/* Tabular figures and a monospace stack keep the width steady while characters change. */
+.rad-fx-scramble {
+    font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
