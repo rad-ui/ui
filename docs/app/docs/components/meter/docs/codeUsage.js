@@ -23,7 +23,7 @@ export const api_documentation = {
 export const anatomy = { code: anatomy_SourceCode };
 
 export const features = [
-    "Uses the native meter ARIA role for bounded measurements",
+    "Uses the meter ARIA role for bounded measurements",
     "Supports min, max, low, high, and optimum thresholds",
     "Exposes data-state and threshold attributes for styling",
     "Supports compound usage with Root and Indicator parts"

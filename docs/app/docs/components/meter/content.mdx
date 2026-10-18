@@ -12,6 +12,10 @@ import MeterExample from "./docs/examples/MeterExample"
 
   <Documentation.ComponentFeatures features={features} />
 
+  <Documentation.Section title="Accessible name">
+    Give the meter an accessible name with `aria-label` or `aria-labelledby` so people can tell what it measures. Use `getValueLabel` when the value needs a more descriptive announcement.
+  </Documentation.Section>
+
   <Documentation.ApiReference
     anatomy={anatomy.code}
     tables={api_documentation}

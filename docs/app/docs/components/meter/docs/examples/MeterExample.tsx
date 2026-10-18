@@ -6,6 +6,7 @@ export default function MeterExample() {
     return (
         <div style={{ width: "280px" }}>
             <Meter.Root
+                aria-label="Storage used"
                 value={72}
                 minValue={0}
                 maxValue={100}

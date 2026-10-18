@@ -48,7 +48,7 @@ const data = {
             default: "false"
         },
         {
-            prop: { name: "customRootClass", info_tooltips: "Custom root class name to override default styling." },
+            prop: { name: "customRootClass", info_tooltips: "Overrides the class namespace for the meter and its parts." },
             type: "string",
             default: "--"
         }
