@@ -10,7 +10,7 @@ export type ComboboxPrimitiveTriggerProps = {
     className?: string;
     disabled?: boolean;
     renderValue?: (value: string, label: string) => React.ReactNode;
-    [key: string]: any;
+    'data-placeholder'?: string;
 };
 
 const ComboboxPrimitiveTrigger = React.forwardRef<
