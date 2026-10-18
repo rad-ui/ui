@@ -41,6 +41,7 @@
 - [Link](https://www.rad-ui.com/docs/components/link)
 - [LiveRegion](https://www.rad-ui.com/docs/components/live-region)
 - [Menubar](https://www.rad-ui.com/docs/components/menubar)
+- [Meter](https://www.rad-ui.com/docs/components/meter)
 - [Minimap](https://www.rad-ui.com/docs/components/minimap)
 - [NavigationMenu](https://www.rad-ui.com/docs/components/navigation-menu)
 - [NumberField](https://www.rad-ui.com/docs/components/number-field)
