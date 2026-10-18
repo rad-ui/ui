@@ -2,8 +2,8 @@ import Select from '@radui/ui/Select';
 import Combobox from '@radui/ui/Combobox';
 import type { ComponentProps } from 'react';
 
-const selectProps: ComponentProps<typeof Select.Trigger> = { 'data-testid': 'select' };
-const comboboxProps: ComponentProps<typeof Combobox.Trigger> = { 'data-custom-state': 'ready' };
+const selectProps: ComponentProps<typeof Select.Trigger> = { 'data-testid': 'select', customProp: 'select' };
+const comboboxProps: ComponentProps<typeof Combobox.Trigger> = { 'data-custom-state': 'ready', customProp: 'combobox' };
 <Select.Trigger {...selectProps} />;
 <Combobox.Trigger {...comboboxProps} />;
 
