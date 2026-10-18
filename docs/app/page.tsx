@@ -333,6 +333,9 @@ export default function Home() {
                                 <Link href="/colors" className="transition-colors hover:text-gray-1000">
                                     Colors
                                 </Link>
+                                <Link href="/built-with" className="transition-colors hover:text-gray-1000">
+                                    Built with
+                                </Link>
                                 <Link href="/sponsors" className="transition-colors hover:text-gray-1000">
                                     Sponsors
                                 </Link>
