@@ -41,7 +41,7 @@ npm run docs:verify:fixed   # what's deployed today still builds
 npm run docs:verify:live    # docs build against the version you're about to publish
 ```
 
-Add `-- --contrast` to either verify command to also check every page for WCAG AA text contrast in dark and light, the same check CI runs.
+Add `-- --contrast` to either verify command to also check every page for WCAG AA text contrast in dark and light, the same check CI runs. Each verify run removes its isolated copy when it finishes; add `-- --keep` to leave it in the temp directory for debugging.
 
 ## Dev note: the docs app must stay inside `docs/`
 

@@ -1,0 +1,103 @@
+.rad-fx-stepper {
+    display: flex;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rad-fx-step {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.rad-fx-step-marker {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgb(127, 127, 127, 0.5);
+    border-radius: 50%;
+    background: var(--rad-fx-stepper-surface, transparent);
+    font-weight: 600;
+    transition: border-color 300ms ease, background 300ms ease, transform 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.rad-fx-step-marker svg {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #0b0b0f;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 350ms ease 150ms;
+}
+
+.rad-fx-step[data-state='current'] .rad-fx-step-marker {
+    border-color: var(--rad-fx-stepper-color, #a78bfa);
+    transform: scale(1.1);
+}
+
+.rad-fx-step[data-state='done'] .rad-fx-step-marker {
+    border-color: var(--rad-fx-stepper-color, #a78bfa);
+    background: var(--rad-fx-stepper-color, #a78bfa);
+}
+
+.rad-fx-step[data-state='done'] .rad-fx-step-number { opacity: 0; }
+.rad-fx-step[data-state='done'] .rad-fx-step-marker svg { stroke-dashoffset: 0; }
+
+.rad-fx-step[data-state='current'] .rad-fx-step-label { font-weight: 600; }
+
+/* Visually hidden "(completed)" so state isn't conveyed by the tick alone. */
+.rad-fx-step-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.rad-fx-step-line {
+    position: absolute;
+    top: 17px;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background: rgb(127, 127, 127, 0.35);
+    overflow: hidden;
+}
+
+.rad-fx-step-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rad-fx-stepper-color, #a78bfa);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 450ms cubic-bezier(0.6, 0.1, 0.3, 1);
+}
+
+.rad-fx-step[data-state='done'] .rad-fx-step-line::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-step-marker, .rad-fx-step-marker svg, .rad-fx-step-line::after { transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-step-marker,
+[data-rad-fx-motion='reduce'] .rad-fx-step-marker svg,
+[data-rad-fx-motion='reduce'] .rad-fx-step-line::after { transition: none; }

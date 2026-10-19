@@ -161,7 +161,7 @@ export const ScrollCollisionVisualTest: Story = {
                         <ContextMenu.Trigger className="flex h-[180px] w-[320px] items-center justify-center rounded border border-[var(--rad-ui-border-default)] text-[var(--rad-ui-text-primary)]">
                             Right click
                         </ContextMenu.Trigger>
-                        <ContextMenu.Portal root={container}>
+                        <ContextMenu.Portal container={container}>
                             <ContextMenu.Content>
                                 <MenuItems />
                             </ContextMenu.Content>

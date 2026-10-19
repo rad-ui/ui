@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dock",
+  "type": "registry:component",
+  "title": "Dock",
+  "description": "A toolbar of icon buttons that swell as the pointer passes over them.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/dock.tsx",
+      "type": "registry:component",
+      "target": "components/fx/dock.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './dock.css'\n\nexport type DockItem = {\n    /** Accessible name, also shown as the tooltip label. */\n    label: string\n    icon: React.ReactNode\n    onSelect?: () => void\n}\n\nexport type DockProps = {\n    items: DockItem[]\n    /** Accessible name for the toolbar. */\n    label?: string\n    /** Extra scale for the item under the pointer. */\n    magnification?: number\n    className?: string\n}\n\n// A toolbar of icon buttons that swell near the pointer. One Tab stop; arrow keys\n// move between items (the toolbar pattern), and the focused item magnifies too.\nconst Dock = ({ items, label = 'Dock', magnification = 0.6, className }: DockProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const buttons = React.useRef<(HTMLButtonElement | null)[]>([])\n    const [active, setActive] = React.useState(0)\n\n    const handleMove = (event: React.PointerEvent<HTMLDivElement>) => {\n        if (reduced || event.pointerType === 'touch') return\n        buttons.current.forEach((button) => {\n            if (!button) return\n            const rect = button.getBoundingClientRect()\n            const distance = Math.abs(event.clientX - (rect.left + rect.width / 2))\n            const influence = Math.max(0, 1 - distance / 140)\n            button.style.setProperty('--rad-fx-dock-scale', `${1 + influence * magnification}`)\n        })\n    }\n\n    const reset = () => buttons.current.forEach((button) => button?.style.setProperty('--rad-fx-dock-scale', '1'))\n\n    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {\n        const moves: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, Home: -Infinity, End: Infinity }\n        if (!(event.key in moves)) return\n        event.preventDefault()\n        const step = moves[event.key]\n        const next = step === -Infinity ? 0 : step === Infinity ? items.length - 1 : (active + step + items.length) % items.length\n        setActive(next)\n        buttons.current[next]?.focus()\n    }\n\n    return <div\n        ref={ref}\n        role=\"toolbar\"\n        aria-label={label}\n        aria-orientation=\"horizontal\"\n        className={['rad-fx-dock', className].filter(Boolean).join(' ')}\n        onPointerMove={handleMove}\n        onPointerLeave={reset}\n        onKeyDown={handleKeyDown}\n    >\n        {items.map((item, i) => (\n            <button\n                key={item.label}\n                ref={(node) => { buttons.current[i] = node }}\n                type=\"button\"\n                className=\"rad-fx-dock-item\"\n                aria-label={item.label}\n                tabIndex={i === active ? 0 : -1}\n                onFocus={() => setActive(i)}\n                onClick={item.onSelect}\n            >\n                <span className=\"rad-fx-dock-icon\" aria-hidden=\"true\">{item.icon}</span>\n                <span className=\"rad-fx-dock-tip\" aria-hidden=\"true\">{item.label}</span>\n            </button>\n        ))}\n    </div>\n}\n\nexport default Dock\n"
+    },
+    {
+      "path": "registry/fx/dock.css",
+      "type": "registry:file",
+      "target": "components/fx/dock.css",
+      "content": ".rad-fx-dock {\n    display: inline-flex;\n    align-items: flex-end;\n    gap: 10px;\n    padding: 10px 12px;\n    border: 1px solid rgb(255, 255, 255, 0.12);\n    border-radius: 20px;\n    background: rgb(24, 24, 32, 0.6);\n    backdrop-filter: blur(14px);\n}\n\n.rad-fx-dock-item {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 46px;\n    height: 46px;\n    padding: 0;\n    border: 1px solid rgb(255, 255, 255, 0.1);\n    border-radius: 12px;\n    background: linear-gradient(160deg, rgb(255, 255, 255, 0.14), rgb(255, 255, 255, 0.04));\n    color: #f4f4f5;\n    cursor: pointer;\n    transform-origin: 50% 100%;\n    transform: scale(var(--rad-fx-dock-scale, 1));\n    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);\n}\n\n.rad-fx-dock-item:focus-visible {\n    --rad-fx-dock-scale: 1.35;\n\n    outline: 2px solid #f4f4f5;\n    outline-offset: 3px;\n}\n\n.rad-fx-dock-icon { display: inline-flex; }\n\n/* Visual tooltip for sighted users; the accessible name comes from aria-label. */\n.rad-fx-dock-tip {\n    position: absolute;\n    bottom: calc(100% + 10px);\n    left: 50%;\n    padding: 3px 8px;\n    border-radius: 6px;\n    background: #f4f4f5;\n    color: #0b0b0f;\n    font-size: 12px;\n    white-space: nowrap;\n    pointer-events: none;\n    opacity: 0;\n    transform: translate(-50%, 4px) scale(calc(1 / var(--rad-fx-dock-scale, 1)));\n    transition: opacity 150ms ease, transform 150ms ease;\n}\n\n.rad-fx-dock-item:hover .rad-fx-dock-tip,\n.rad-fx-dock-item:focus-visible .rad-fx-dock-tip {\n    opacity: 1;\n    transform: translate(-50%, 0) scale(calc(1 / var(--rad-fx-dock-scale, 1)));\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-dock-item { transition: none; transform: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-dock-item { transition: none; transform: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "components"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/dock",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "role=\"toolbar\" with one Tab stop; arrow keys, Home and End move between items.",
+      "Every button has an accessible name; the floating label is visual only.",
+      "The focused item magnifies, so keyboard users see where they are.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) disables magnification."
+    ]
+  }
+}

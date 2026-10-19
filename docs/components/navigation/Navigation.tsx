@@ -3,9 +3,9 @@ import { usePathname } from 'next/navigation';
 import { useContext } from 'react';
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
-import docsSections from "@/app/docs/docsNavigationSections"
 import ScrollArea from "@radui/ui/ScrollArea"
 import Category from './Category'
+import { getDocsProduct } from './products'
 
 
 
@@ -27,7 +27,8 @@ const Navigation = ({ customSections }: { customSections?: any }) => {
     const pathname = usePathname();
     const { setIsDocsNavOpen } = useContext(NavBarContext) as { isDocsNavOpen: boolean, setIsDocsNavOpen: (isDocsNavOpen: boolean) => void };
 
-    const sections = /^\/docs(\/|$)/.test(pathname) ? docsSections : defaultSections;
+    const product = getDocsProduct(pathname);
+    const sections = product ? product.sections : defaultSections;
 
 
     return <ScrollArea.Root customRootClass="rad-ui" className="h-full">

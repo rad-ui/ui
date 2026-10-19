@@ -1,0 +1,46 @@
+.rad-fx-mesh {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-mesh-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-mesh-content { position: relative; }
+
+.rad-fx-mesh[data-state='paused'] .rad-fx-mesh-layer,
+.rad-fx-mesh[data-state='paused'] .rad-fx-mesh-layer * { animation-play-state: paused !important; }
+
+.rad-fx-mesh-layer { background: #050510; }
+
+.rad-fx-mesh-layer span {
+    position: absolute;
+    width: 70%;
+    height: 80%;
+    border-radius: 50%;
+    opacity: 0.55;
+    filter: blur(40px);
+    animation: rad-fx-mesh var(--rad-fx-mesh-speed, 16s) ease-in-out infinite alternate;
+}
+
+.rad-fx-mesh-layer span:nth-child(1) { top: -20%; left: -15%; background: var(--rad-fx-mesh-1); }
+.rad-fx-mesh-layer span:nth-child(2) { top: -20%; right: -15%; background: var(--rad-fx-mesh-2); animation-delay: calc(var(--rad-fx-mesh-speed, 16s) / -3); }
+.rad-fx-mesh-layer span:nth-child(3) { bottom: -25%; left: -10%; background: var(--rad-fx-mesh-3); animation-delay: calc(var(--rad-fx-mesh-speed, 16s) / -1.5); }
+.rad-fx-mesh-layer span:nth-child(4) { bottom: -25%; right: -10%; background: var(--rad-fx-mesh-4); animation-delay: calc(var(--rad-fx-mesh-speed, 16s) / -1.2); }
+
+@keyframes rad-fx-mesh {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(12%, 10%) scale(1.15); }
+    100% { transform: translate(-10%, 6%) scale(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-mesh-layer span { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-mesh-layer span { animation: none; }

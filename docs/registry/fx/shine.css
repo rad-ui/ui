@@ -1,0 +1,33 @@
+.rad-fx-shine {
+    position: relative;
+    display: inline-flex;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.rad-fx-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 50%;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent, var(--rad-fx-shine-color), transparent);
+    transform: skewX(-20deg) translateX(0);
+}
+
+.rad-fx-shine:hover::after,
+.rad-fx-shine:focus-within::after {
+    animation: rad-fx-shine 750ms ease-out;
+}
+
+@keyframes rad-fx-shine {
+    to { transform: skewX(-20deg) translateX(420%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-shine::after { display: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-shine::after { display: none; }

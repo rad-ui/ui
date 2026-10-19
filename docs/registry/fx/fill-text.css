@@ -1,0 +1,26 @@
+.rad-fx-fill {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--rad-fx-fill-color);
+    background-image: linear-gradient(var(--rad-fx-fill-color), var(--rad-fx-fill-color));
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    background-clip: text;
+    background-clip: text;
+    transition: background-size 900ms cubic-bezier(0.6, 0.1, 0.2, 1);
+}
+
+.rad-fx-fill[data-state='filled'],
+.rad-fx-fill[data-trigger='hover']:hover {
+    background-size: 100% 100%;
+}
+
+/* Forced colours: plain text, no outline trick. */
+@media (forced-colors: active) {
+    .rad-fx-fill { color: CanvasText; -webkit-text-stroke: 0; background: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-fill { background-size: 100% 100%; transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-fill { background-size: 100% 100%; transition: none; }

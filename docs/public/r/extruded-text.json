@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "extruded-text",
+  "type": "registry:component",
+  "title": "ExtrudedText",
+  "description": "Chunky 3D extruded lettering that tilts toward the pointer.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/extruded-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/extruded-text.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useReducedMotion } from './use-reduced-motion'\nimport './extruded-text.css'\n\ntype ExtrudedTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type ExtrudedTextProps = {\n    text: string\n    as?: ExtrudedTag\n    /** Layers of extrusion, in px. */\n    depth?: number\n    /** Colour of the extruded sides. */\n    sideColor?: string\n    /** Tilt toward the pointer. */\n    tilt?: boolean\n    /** Maximum tilt in degrees. */\n    maxTilt?: number\n    className?: string\n}\n\nconst ExtrudedText = ({ text, as: Tag = 'span', depth = 10, sideColor = '#6d28d9', tilt = true, maxTilt = 12, className }: ExtrudedTextProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const reduced = useReducedMotion(ref)\n    const shadow = React.useMemo(() => [\n        ...Array.from({ length: depth }, (_, i) => `${i + 1}px ${i + 1}px 0 ${sideColor}`),\n        `${depth + 4}px ${depth + 6}px 16px rgba(0, 0, 0, 0.45)`\n    ].join(', '), [depth, sideColor])\n\n    const handleMove = (event: React.PointerEvent<HTMLElement>) => {\n        if (!tilt || reduced || event.pointerType === 'touch') return\n        const rect = event.currentTarget.getBoundingClientRect()\n        const x = (event.clientX - rect.left) / rect.width - 0.5\n        const y = (event.clientY - rect.top) / rect.height - 0.5\n        event.currentTarget.style.setProperty('--rad-fx-extrude-x', `${(-y * maxTilt * 2).toFixed(1)}deg`)\n        event.currentTarget.style.setProperty('--rad-fx-extrude-y', `${(x * maxTilt * 2).toFixed(1)}deg`)\n    }\n\n    const handleLeave = (event: React.PointerEvent<HTMLElement>) => {\n        event.currentTarget.style.setProperty('--rad-fx-extrude-x', '0deg')\n        event.currentTarget.style.setProperty('--rad-fx-extrude-y', '0deg')\n    }\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-extruded', className].filter(Boolean).join(' ')}\n        onPointerMove={handleMove}\n        onPointerLeave={handleLeave}\n        style={{ textShadow: shadow }}\n    >\n        {text}\n    </Tag>\n}\n\nexport default ExtrudedText\n"
+    },
+    {
+      "path": "registry/fx/extruded-text.css",
+      "type": "registry:file",
+      "target": "components/fx/extruded-text.css",
+      "content": ".rad-fx-extruded {\n    display: inline-block;\n    transform: perspective(700px) rotateX(var(--rad-fx-extrude-x, 0deg)) rotateY(var(--rad-fx-extrude-y, 0deg));\n    transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-extruded { transform: none; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-extruded { transform: none; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/extruded-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Real, unsplit text; the depth is text-shadow.",
+      "Tilt is capped and off for touch input.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the depth but disables the tilt."
+    ]
+  }
+}

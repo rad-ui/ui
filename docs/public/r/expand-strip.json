@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "expand-strip",
+  "type": "registry:component",
+  "title": "ExpandStrip",
+  "description": "A row of panels where the one under the pointer or focus widens to show more.",
+  "files": [
+    {
+      "path": "registry/fx/expand-strip.tsx",
+      "type": "registry:component",
+      "target": "components/fx/expand-strip.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport './expand-strip.css'\n\nexport type ExpandStripItem = {\n    title: string\n    description?: React.ReactNode\n    /** Any CSS background: colour, gradient or url(). */\n    background: string\n    href?: string\n}\n\nexport type ExpandStripProps = {\n    items: ExpandStripItem[]\n    /** Accessible name for the list. */\n    label: string\n    className?: string\n}\n\n// A row of panels; the one under the pointer or keyboard focus widens to show its\n// description. Every title and description is always in the DOM and readable.\nconst ExpandStrip = ({ items, label, className }: ExpandStripProps) => (\n    <ul className={['rad-fx-strip', className].filter(Boolean).join(' ')} aria-label={label}>\n        {items.map((item) => {\n            const inner = <>\n                <span className=\"rad-fx-strip-title\">{item.title}</span>\n                {item.description ? <span className=\"rad-fx-strip-description\">{item.description}</span> : null}\n            </>\n            return <li key={item.title} className=\"rad-fx-strip-item\" style={{ background: item.background }}>\n                {item.href\n                    ? <a className=\"rad-fx-strip-body\" href={item.href}>{inner}</a>\n                    : <div className=\"rad-fx-strip-body\" tabIndex={0}>{inner}</div>}\n            </li>\n        })}\n    </ul>\n)\n\nexport default ExpandStrip\n"
+    },
+    {
+      "path": "registry/fx/expand-strip.css",
+      "type": "registry:file",
+      "target": "components/fx/expand-strip.css",
+      "content": ".rad-fx-strip {\n    display: flex;\n    gap: 8px;\n    height: 280px;\n    margin: 0;\n    padding: 0;\n    list-style: none;\n}\n\n.rad-fx-strip-item {\n    position: relative;\n    flex: 1;\n    min-width: 0;\n    overflow: hidden;\n    border-radius: 16px;\n    transition: flex-grow 500ms cubic-bezier(0.3, 0.7, 0.2, 1);\n}\n\n.rad-fx-strip-item:hover,\n.rad-fx-strip-item:focus-within { flex-grow: 4; }\n\n.rad-fx-strip-body {\n    position: absolute;\n    inset: 0;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    gap: 6px;\n    padding: 18px;\n    color: #fff;\n    text-decoration: none;\n\n    /* A scrim keeps white text readable on any background. */\n    background: linear-gradient(to top, rgb(0, 0, 0, 0.75), rgb(0, 0, 0, 0.1) 60%, transparent);\n}\n\n.rad-fx-strip-body:focus-visible { outline: 3px solid #fff; outline-offset: -6px; border-radius: 14px; }\n\n.rad-fx-strip-title {\n    font-weight: 600;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n\n.rad-fx-strip-description {\n    max-height: 0;\n    opacity: 0;\n    font-size: 0.875rem;\n    line-height: 1.4;\n    transition: opacity 300ms ease, max-height 400ms ease;\n}\n\n.rad-fx-strip-item:hover .rad-fx-strip-description,\n.rad-fx-strip-item:focus-within .rad-fx-strip-description { max-height: 6em; opacity: 1; transition-delay: 150ms; }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-strip-item, .rad-fx-strip-description { transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-strip-item,\n[data-rad-fx-motion='reduce'] .rad-fx-strip-description { transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/expand-strip",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "A labelled list; each panel is a link or focusable region, and focus expands it just like hover.",
+      "Titles and descriptions are always in the DOM, so screen readers get everything.",
+      "A scrim keeps white text readable on any background.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) expands instantly."
+    ]
+  }
+}

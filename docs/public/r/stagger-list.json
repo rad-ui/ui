@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stagger-list",
+  "type": "registry:component",
+  "title": "StaggerList",
+  "description": "List items that fade up one after another as the list scrolls into view.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/stagger-list.tsx",
+      "type": "registry:component",
+      "target": "components/fx/stagger-list.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './stagger-list.css'\n\nexport type StaggerListProps = {\n    /** List items: usually <li> elements. */\n    children: React.ReactNode\n    as?: 'ul' | 'ol' | 'div'\n    /** Milliseconds between items. */\n    stagger?: number\n    /** Milliseconds per item. */\n    duration?: number\n    className?: string\n}\n\n// Items fade up one after another when the list scrolls into view. The list\n// semantics, order and content are untouched; only opacity and position animate.\nconst StaggerList = ({ children, as: Tag = 'ul', stagger = 70, duration = 500, className }: StaggerListProps) => {\n    const ref = React.useRef<HTMLElement | null>(null)\n    const [visible, setVisible] = React.useState(false)\n    useInViewOnce(ref, () => setVisible(true), !visible, 0.1)\n\n    let index = 0\n    const items = React.Children.map(children, (child) => {\n        if (!React.isValidElement<{ style?: React.CSSProperties }>(child)) return child\n        const i = index++\n        return React.cloneElement(child, { style: { ...child.props.style, '--rad-fx-stagger-i': i } as React.CSSProperties })\n    })\n\n    return <Tag\n        ref={ref as React.Ref<never>}\n        className={['rad-fx-stagger', className].filter(Boolean).join(' ')}\n        data-state={visible ? 'visible' : 'hidden'}\n        onFocusCapture={() => setVisible(true)}\n        style={{ '--rad-fx-stagger-step': `${stagger}ms`, '--rad-fx-stagger-duration': `${duration}ms` } as React.CSSProperties}\n    >\n        {items}\n    </Tag>\n}\n\nexport default StaggerList\n"
+    },
+    {
+      "path": "registry/fx/stagger-list.css",
+      "type": "registry:file",
+      "target": "components/fx/stagger-list.css",
+      "content": ".rad-fx-stagger > * {\n    transition:\n        opacity var(--rad-fx-stagger-duration, 500ms) ease,\n        transform var(--rad-fx-stagger-duration, 500ms) cubic-bezier(0.2, 0.7, 0.2, 1);\n    transition-delay: calc(var(--rad-fx-stagger-i, 0) * var(--rad-fx-stagger-step, 70ms));\n}\n\n.rad-fx-stagger[data-state='hidden'] > * {\n    opacity: 0;\n    transform: translateY(14px);\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-stagger > *,\n    .rad-fx-stagger[data-state='hidden'] > * { opacity: 1; transform: none; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-stagger > *,\n[data-rad-fx-motion='reduce'] .rad-fx-stagger[data-state='hidden'] > * { opacity: 1; transform: none; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/stagger-list",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "List semantics, order and content are untouched; only opacity and position animate.",
+      "Focus moving into the list reveals every item at once.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the list from the first paint."
+    ]
+  }
+}

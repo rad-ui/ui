@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lava-lamp",
+  "type": "registry:component",
+  "title": "LavaLamp",
+  "description": "Wax-like blobs that rise, sink and merge behind content.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/lava-lamp.tsx",
+      "type": "registry:component",
+      "target": "components/fx/lava-lamp.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './lava-lamp.css'\n\nexport type LavaLampProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Two colours: the blobs blend from the first to the second. */\n    colors?: [string, string]\n    /** Seconds per rise and fall. */\n    speed?: number\n    paused?: boolean\n}\n\nconst BLOBS = [\n    { left: '12%', size: '16%', delay: '0s', duration: 1 },\n    { left: '58%', size: '13%', delay: '-3s', duration: 1.25 },\n    { left: '36%', size: '11%', delay: '-6s', duration: 0.85 },\n    { left: '74%', size: '9%', delay: '-1.5s', duration: 1.1 },\n    { left: '24%', size: '10%', delay: '-4.5s', duration: 1.4 },\n    { left: '48%', size: '14%', delay: '-8s', duration: 1.2 },\n    { left: '84%', size: '12%', delay: '-5.5s', duration: 0.95 }\n]\n\n// Blobs rise and sink; a blur-then-threshold SVG filter makes them merge like wax.\nconst LavaLamp = ({ colors = ['#f472b6', '#8b5cf6'], speed = 12, paused = false, className, style, children, ...props }: LavaLampProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n    const filterId = `rad-fx-lava-${React.useId().replace(/[^a-zA-Z0-9-]/g, '')}`\n\n    return <div\n        ref={ref}\n        className={['rad-fx-lava', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-lava-a': colors[0], '--rad-fx-lava-b': colors[1], '--rad-fx-lava-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-lava-wax\" aria-hidden=\"true\" style={{ filter: `url(#${filterId})` }}>\n            {BLOBS.map((blob, i) => (\n                <span\n                    key={i}\n                    className=\"rad-fx-lava-blob\"\n                    style={{ left: blob.left, width: blob.size, animationDelay: blob.delay, animationDuration: `calc(var(--rad-fx-lava-speed, 12s) * ${blob.duration})` }}\n                />\n            ))}\n        </div>\n        <svg className=\"rad-fx-lava-defs\" aria-hidden=\"true\" focusable=\"false\">\n            <filter id={filterId}>\n                <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"14\" result=\"blur\" />\n                <feColorMatrix in=\"blur\" type=\"matrix\" values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9\" />\n            </filter>\n        </svg>\n        <div className=\"rad-fx-lava-content\">{children}</div>\n    </div>\n}\n\nexport default LavaLamp\n"
+    },
+    {
+      "path": "registry/fx/lava-lamp.css",
+      "type": "registry:file",
+      "target": "components/fx/lava-lamp.css",
+      "content": ".rad-fx-lava {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-lava-wax {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n    opacity: 0.7;\n}\n\n.rad-fx-lava-blob {\n    position: absolute;\n    bottom: -20%;\n    aspect-ratio: 1;\n    border-radius: 50%;\n    background: linear-gradient(160deg, var(--rad-fx-lava-a), var(--rad-fx-lava-b));\n    animation: rad-fx-lava 12s ease-in-out infinite alternate;\n}\n\n.rad-fx-lava[data-state='paused'] .rad-fx-lava-blob { animation-play-state: paused; }\n\n.rad-fx-lava-defs { position: absolute; width: 0; height: 0; }\n\n.rad-fx-lava-content { position: relative; }\n\n@keyframes rad-fx-lava {\n    0% { bottom: -20%; transform: scale(1, 1); }\n    50% { transform: scale(0.9, 1.1); }\n    100% { bottom: 85%; transform: scale(1.05, 0.95); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-lava-blob { animation: none; }\n    .rad-fx-lava-blob:nth-child(2) { bottom: 40%; }\n    .rad-fx-lava-blob:nth-child(4) { bottom: 65%; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-lava-blob { animation: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-lava-blob:nth-child(2) { bottom: 40%; }\n[data-rad-fx-motion='reduce'] .rad-fx-lava-blob:nth-child(4) { bottom: 65%; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/lava-lamp",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the blobs still at different heights."
+    ]
+  }
+}

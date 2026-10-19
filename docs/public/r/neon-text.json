@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "neon-text",
+  "type": "registry:component",
+  "title": "NeonText",
+  "description": "A glowing neon sign with a rare, gentle flicker.",
+  "files": [
+    {
+      "path": "registry/fx/neon-text.tsx",
+      "type": "registry:component",
+      "target": "components/fx/neon-text.tsx",
+      "content": "import * as React from 'react'\n\nimport './neon-text.css'\n\ntype NeonTag = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4'\n\nexport type NeonTextProps = {\n    children: React.ReactNode\n    as?: NeonTag\n    /** Tube colour: used for the glow. The letters stay a pale tint of it. */\n    color?: string\n    /** A rare, gentle flicker: two short dips every few seconds, well under 3 flashes a second. */\n    flicker?: boolean\n    className?: string\n}\n\n// Real text, never split. Use it on a dark surface: the glow is what sells it.\nconst NeonText = ({ children, as: Tag = 'span', color = '#e879f9', flicker = true, className }: NeonTextProps) => (\n    <Tag\n        className={['rad-fx-neon', className].filter(Boolean).join(' ')}\n        data-flicker={flicker ? '' : undefined}\n        style={{ '--rad-fx-neon-color': color } as React.CSSProperties}\n    >\n        {children}\n    </Tag>\n)\n\nexport default NeonText\n"
+    },
+    {
+      "path": "registry/fx/neon-text.css",
+      "type": "registry:file",
+      "target": "components/fx/neon-text.css",
+      "content": ".rad-fx-neon {\n    color: color-mix(in srgb, var(--rad-fx-neon-color, #e879f9) 25%, #fff);\n    text-shadow:\n        0 0 2px #fff,\n        0 0 8px var(--rad-fx-neon-color, #e879f9),\n        0 0 18px var(--rad-fx-neon-color, #e879f9),\n        0 0 42px var(--rad-fx-neon-color, #e879f9),\n        0 0 80px color-mix(in srgb, var(--rad-fx-neon-color, #e879f9) 60%, transparent);\n}\n\n.rad-fx-neon[data-flicker] {\n    animation: rad-fx-neon-flicker 7s linear infinite;\n}\n\n/* Two brief dips per 7s cycle: a flicker, not a strobe. */\n@keyframes rad-fx-neon-flicker {\n    0%, 90%, 91.5%, 93%, 94.5%, 100% { opacity: 1; }\n    90.8% { opacity: 0.55; }\n    93.8% { opacity: 0.7; }\n}\n\n@media (forced-colors: active) {\n    .rad-fx-neon { text-shadow: none; color: CanvasText; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-neon[data-flicker] { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-neon[data-flicker] { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/neon-text",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Real, unsplit text.",
+      "The flicker is two short dips every 7 seconds, far below 3 flashes per second; turn it off with `flicker={false}`.",
+      "Use it on a dark surface and check contrast of the pale letters, not the glow.",
+      "Forced-colours mode drops the glow.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the glow steady."
+    ]
+  }
+}

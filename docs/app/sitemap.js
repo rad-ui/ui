@@ -1,5 +1,6 @@
 import { execSync } from 'child_process';
 import { docsNavigationSections } from './docs/docsNavigationSections';
+import { fxComponents, fxNavigationSections } from './fx/fxNavigationSections';
 
 const getLastModified = (filePath) => {
   try {
@@ -10,15 +11,23 @@ const getLastModified = (filePath) => {
     }).trim();
     if (date) return date;
   } catch (e) {
-    // Fall back to current date if git fails
+    // No git history (e.g. a shallow build): leave the date out below.
   }
-  return new Date().toISOString();
+  // Never fall back to "now": a sitemap where every page changed today teaches search engines to
+  // ignore its dates. Entries without a real date simply omit lastModified.
+  return undefined;
 };
 
 // Map paths to actual file paths in the repo
 const pathToFileMap = (urlPath) => {
   // For docs pages, they might be .mdx files
   // Most doc pages follow pattern: app/docs/.../page.mdx or content.mdx
+  if (urlPath === '/fx' || urlPath.startsWith('/fx/')) {
+    const slug = urlPath.split('/')[2];
+    return fxComponents.some((item) => item.name === slug)
+      ? `registry/fx/${slug}.tsx`
+      : `app${urlPath}/content.mdx`;
+  }
   if (urlPath.startsWith('/docs/')) {
     const relativePath = urlPath.replace('/docs/', 'app/docs/');
     // Try common patterns
@@ -30,7 +39,7 @@ const pathToFileMap = (urlPath) => {
 const generateComponentsSitemaps = () => {
   const allPages = [];
 
-  docsNavigationSections.map((section) => {
+  [...docsNavigationSections, ...fxNavigationSections].map((section) => {
     return section.items.map((item) => {
       let priority = 0.7;
       let changeFrequency = 'weekly';
@@ -47,7 +56,7 @@ const generateComponentsSitemaps = () => {
 
       // Try to get actual file modified date
       const filePath = pathToFileMap(item.path);
-      const lastModified = filePath ? getLastModified(filePath) : new Date().toISOString();
+      const lastModified = filePath ? getLastModified(filePath) : undefined;
 
       allPages.push({
         url: `https://www.rad-ui.com${item.path}`,
@@ -104,8 +113,14 @@ const generateAdditionalPages = () => {
 export default function sitemap() {
   return [
     {
+      url: 'https://www.rad-ui.com/built-with',
+      lastModified: getLastModified('app/built-with/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
       url: 'https://www.rad-ui.com',
-      lastModified: getLastModified('app/page.tsx') || getLastModified('app/page.js') || new Date().toISOString(),
+      lastModified: getLastModified('app/page.tsx') || getLastModified('app/page.js'),
       changeFrequency: 'weekly',
       priority: 1.0,
     },

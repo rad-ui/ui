@@ -1,0 +1,33 @@
+import FxHeroKinetic from "@/components/fx/hero/FxHeroKinetic"
+import FxGallery from "@/components/fx/FxGallery"
+
+{/* Hero v1 (scene story) is kept in FxHeroStory (tag fx-hero-v1); this is v2, the kinetic-type cut. */}
+
+# Rad UI FX
+
+Rad UI FX is a collection of **animated React components that stay accessible**: 90 effects across text, backgrounds, interactions, components and loading feedback, each with a written accessibility contract.
+
+<FxHeroKinetic />
+
+## All effects
+
+Every card below is live. Open one for its install command, accessibility contract and props.
+
+<FxGallery />
+
+## How it's different
+
+- **Accessible by contract.** Every component documents and ships its reduced-motion behaviour, what screen readers hear, and how it treats focus. The rules travel with the code, so your agent sees them too. Read the [accessibility contract](/fx/accessibility).
+- **You own the code.** Components are copied into your project through the shadcn CLI, not installed as a black box. Change anything.
+- **No animation library required.** Most effects are plain CSS. When an effect genuinely needs a library, it says so up front.
+- **Built on Rad UI.** Interactive effects use Rad UI primitives for behaviour and ARIA, so the animation never comes at the cost of keyboard or screen reader support.
+
+## Get started
+
+Install any component in one command:
+
+```bash
+npx shadcn@latest add https://www.rad-ui.com/r/blur-reveal.json
+```
+
+See [Installation](/fx/installation) for agents and manual setup, then browse the components in the sidebar.

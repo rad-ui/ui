@@ -3,11 +3,8 @@ import React, { forwardRef, useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import ButtonPrimitive from '~/core/primitives/Button';
 
-export type DialogPrimitiveActionProps = {
+export type DialogPrimitiveActionProps = React.ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     children: React.ReactNode;
-    className?: string;
-    asChild?: boolean;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const DialogPrimitiveAction = forwardRef<HTMLButtonElement, DialogPrimitiveActionProps>(({ children, asChild, onClick, ...props }, ref) => {

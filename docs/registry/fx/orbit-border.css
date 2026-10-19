@@ -1,0 +1,46 @@
+/* OrbitBorder: a comet of light running around the element's edge. The animated
+   angle needs @property; browsers without it show a still highlight instead. */
+@property --rad-fx-orbit-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.rad-fx-orbit {
+    position: relative;
+    border-radius: var(--rad-fx-orbit-radius, 14px);
+}
+
+.rad-fx-orbit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: var(--rad-fx-orbit-width, 1.5px);
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(
+        from var(--rad-fx-orbit-angle),
+        transparent 0deg,
+        transparent 280deg,
+        var(--rad-fx-orbit-color) 340deg,
+        transparent 360deg
+    );
+
+    /* Show the gradient only in the padding ring, not behind the content. */
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: xor;
+    mask-composite: exclude;
+    animation: rad-fx-orbit var(--rad-fx-orbit-duration, 4s) linear infinite;
+}
+
+.rad-fx-orbit[data-state='paused']::before { animation-play-state: paused; }
+
+@keyframes rad-fx-orbit {
+    to { --rad-fx-orbit-angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-orbit::before { animation: none; --rad-fx-orbit-angle: 45deg; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-orbit::before { animation: none; --rad-fx-orbit-angle: 45deg; }

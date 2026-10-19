@@ -65,7 +65,7 @@ export const ScrollCollisionVisualTest: Story = {
                     <div className="h-[280px]" />
                     <DropdownMenu.Root customRootClass="" open={open} onOpenChange={setOpen} collisionBoundary={container}>
                         <DropdownMenu.Trigger><Hamburger /></DropdownMenu.Trigger>
-                        <DropdownMenu.Portal root={container}>
+                        <DropdownMenu.Portal container={container}>
                             <DropdownMenu.Content>
                                 <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
                                 <DropdownMenu.Item label="Settings">Settings</DropdownMenu.Item>

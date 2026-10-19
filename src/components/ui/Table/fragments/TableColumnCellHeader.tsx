@@ -3,15 +3,16 @@ import React from 'react';
 import clsx from 'clsx';
 import TableColumnHeaderContext from '../context/TableColumnHeaderContext';
 import { useTable } from './TableRoot';
+import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'TableColumnCellHeader';
 
-export type TableColumnCellHeaderProps = React.ComponentPropsWithoutRef<'th'> & {
+export type TableColumnCellHeaderProps = React.ComponentPropsWithoutRef<typeof Primitive.th> & {
     columnIndex?: number;
 };
 
 const TableColumnCellHeader = React.forwardRef<
-    React.ElementRef<'th'>,
+    React.ElementRef<typeof Primitive.th>,
     TableColumnCellHeaderProps
 >(({ children, className = 'cell-header', columnIndex, style, ...props }, ref) => {
     const { resizable, registerColumnIndex, rootClass } = useTable();
@@ -24,7 +25,7 @@ const TableColumnCellHeader = React.forwardRef<
     }, [columnIndex, registerColumnIndex]);
 
     const header = (
-        <th
+        <Primitive.th
             ref={ref}
             // Namespaced class is always applied so styling survives a consumer className.
             // The unprefixed `cell-header`/`resizable` classes are kept for backward compatibility.
@@ -34,7 +35,7 @@ const TableColumnCellHeader = React.forwardRef<
             {...props}
         >
             {children}
-        </th>
+        </Primitive.th>
     );
 
     if (columnIndex === undefined) {

@@ -15,6 +15,7 @@ const nextDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..',
 
 // Routes that are dynamic on purpose. Keep this list short and explained.
 const ALLOWED_DYNAMIC = new Map([
+    ['/docs/components/[component]/changelog', 'SSG route template; concrete component changelog paths use generateStaticParams'],
     ['/docs/first-steps/changelog', 'paginates with ?page= (searchParams)'],
     ['/og', 'generates Open Graph images from query params'],
     ['/funding.json', 'route handler'],
@@ -23,9 +24,21 @@ const ALLOWED_DYNAMIC = new Map([
 const readJson = (file) => JSON.parse(fs.readFileSync(path.join(nextDir, file), 'utf8'))
 
 const routes = Object.values(readJson('app-path-routes-manifest.json'))
-const prerendered = new Set(Object.keys(readJson('prerender-manifest.json').routes))
+const prerenderManifest = readJson('prerender-manifest.json')
+const prerendered = new Set(Object.keys(prerenderManifest.routes))
 
-const dynamicRoutes = routes.filter((route) => !prerendered.has(route) && !ALLOWED_DYNAMIC.has(route))
+// Param routes (e.g. /fx/[slug]) are fine when every page is generated at build
+// time and unknown params 404 instead of rendering on demand (dynamicParams = false
+// gives fallback: false).
+const fullyPrerenderedPatterns = new Set(
+    Object.entries(prerenderManifest.dynamicRoutes ?? {})
+        .filter(([, config]) => config.fallback === false)
+        .map(([route]) => route)
+)
+
+const dynamicRoutes = routes.filter((route) =>
+    !prerendered.has(route) && !fullyPrerenderedPatterns.has(route) && !ALLOWED_DYNAMIC.has(route)
+)
 
 if (dynamicRoutes.length > 0) {
     console.error(`\nStatic pages check failed: ${dynamicRoutes.length} route(s) are no longer prerendered:\n`)

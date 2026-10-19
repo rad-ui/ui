@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "halo-glow",
+  "type": "registry:component",
+  "title": "HaloGlow",
+  "description": "A slowly turning, blurred colour halo behind a logo, avatar or button.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/halo-glow.tsx",
+      "type": "registry:component",
+      "target": "components/fx/halo-glow.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './halo-glow.css'\n\nexport type HaloGlowProps = {\n    /** The content the halo sits behind, e.g. a logo, avatar or button. */\n    children: React.ReactNode\n    colors?: string[]\n    /** Seconds per turn. */\n    speed?: number\n    /** Halo size relative to the content. */\n    spread?: number\n    paused?: boolean\n    className?: string\n}\n\n// A slowly turning, blurred conic gradient behind any element.\nconst HaloGlow = ({ children, colors = ['#8b5cf6', '#22d3ee', '#f472b6', '#8b5cf6'], speed = 8, spread = 1.4, paused = false, className }: HaloGlowProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <span\n        ref={ref}\n        className={['rad-fx-halo', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{\n            '--rad-fx-halo-gradient': `conic-gradient(from 0deg, ${colors.join(', ')})`,\n            '--rad-fx-halo-speed': `${speed}s`,\n            '--rad-fx-halo-spread': spread\n        } as React.CSSProperties}\n    >\n        <span className=\"rad-fx-halo-ring\" aria-hidden=\"true\" />\n        <span className=\"rad-fx-halo-content\">{children}</span>\n    </span>\n}\n\nexport default HaloGlow\n"
+    },
+    {
+      "path": "registry/fx/halo-glow.css",
+      "type": "registry:file",
+      "target": "components/fx/halo-glow.css",
+      "content": ".rad-fx-halo {\n    position: relative;\n    display: inline-grid;\n    place-items: center;\n    isolation: isolate;\n}\n\n.rad-fx-halo-ring {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    border-radius: 50%;\n    background: var(--rad-fx-halo-gradient);\n    filter: blur(28px);\n    opacity: 0.75;\n    transform: scale(var(--rad-fx-halo-spread, 1.4));\n    animation: rad-fx-halo var(--rad-fx-halo-speed, 8s) linear infinite;\n    pointer-events: none;\n}\n\n.rad-fx-halo[data-state='paused'] .rad-fx-halo-ring { animation-play-state: paused; }\n\n.rad-fx-halo-content { position: relative; }\n\n@keyframes rad-fx-halo {\n    from { transform: scale(var(--rad-fx-halo-spread, 1.4)) rotate(0deg); }\n    to { transform: scale(var(--rad-fx-halo-spread, 1.4)) rotate(360deg); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-halo-ring { animation: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-halo-ring { animation: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/halo-glow",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The halo is aria-hidden; the content inside is untouched.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+    ]
+  }
+}

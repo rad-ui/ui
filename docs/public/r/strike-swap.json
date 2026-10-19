@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "strike-swap",
+  "type": "registry:component",
+  "title": "StrikeSwap",
+  "description": "A word gets struck out and its replacement springs in.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/strike-swap.tsx",
+      "type": "registry:component",
+      "target": "components/fx/strike-swap.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useInViewOnce } from './use-reduced-motion'\nimport './strike-swap.css'\n\nexport type StrikeSwapProps = {\n    /** The word that gets struck out. Rendered as <del>. */\n    from: React.ReactNode\n    /** The replacement. Rendered as <ins>. */\n    to: React.ReactNode\n    /** Colour of the strike line and the new word. */\n    color?: string\n    className?: string\n}\n\n// A correction, with real <del> and <ins> so assistive tech can tell which word\n// was removed and which replaced it. The strike draws through, then the new word arrives.\nconst StrikeSwap = ({ from, to, color = '#f472b6', className }: StrikeSwapProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const [swapped, setSwapped] = React.useState(false)\n    useInViewOnce(ref, () => setSwapped(true), !swapped, 0.6)\n\n    return <span\n        ref={ref}\n        className={['rad-fx-strike', className].filter(Boolean).join(' ')}\n        data-state={swapped ? 'swapped' : 'idle'}\n        style={{ '--rad-fx-strike-color': color } as React.CSSProperties}\n    >\n        <del className=\"rad-fx-strike-from\">{from}</del>{' '}\n        <ins className=\"rad-fx-strike-to\">{to}</ins>\n    </span>\n}\n\nexport default StrikeSwap\n"
+    },
+    {
+      "path": "registry/fx/strike-swap.css",
+      "type": "registry:file",
+      "target": "components/fx/strike-swap.css",
+      "content": ".rad-fx-strike-from {\n    position: relative;\n    text-decoration: none;\n    opacity: 0.75;\n}\n\n/* Our own strike line, so it can draw across. */\n.rad-fx-strike-from::after {\n    content: '';\n    position: absolute;\n    left: -0.05em;\n    right: -0.05em;\n    top: 52%;\n    height: 0.09em;\n    border-radius: 0.05em;\n    background: var(--rad-fx-strike-color);\n    transform: scaleX(0);\n    transform-origin: 0 50%;\n    transition: transform 450ms cubic-bezier(0.6, 0.1, 0.3, 1);\n}\n\n.rad-fx-strike[data-state='swapped'] .rad-fx-strike-from::after { transform: scaleX(1); }\n\n.rad-fx-strike-to {\n    display: inline-block;\n    text-decoration: none;\n    color: var(--rad-fx-strike-color);\n    opacity: 0;\n    transform: translateY(0.4em);\n    transition: opacity 400ms ease 450ms, transform 500ms cubic-bezier(0.3, 1.4, 0.5, 1) 450ms;\n}\n\n.rad-fx-strike[data-state='swapped'] .rad-fx-strike-to { opacity: 1; transform: none; }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-strike-from::after { transform: scaleX(1); transition: none; }\n    .rad-fx-strike-to { opacity: 1; transform: none; transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-strike-from::after { transform: scaleX(1); transition: none; }\n[data-rad-fx-motion='reduce'] .rad-fx-strike-to { opacity: 1; transform: none; transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "text"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/strike-swap",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Uses real <del> and <ins>, so assistive tech can tell which word was removed and which replaced it.",
+      "The struck word stays readable; the new word is not conveyed by colour alone.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the final strike and word without motion."
+    ]
+  }
+}

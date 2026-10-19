@@ -3,11 +3,14 @@ import React, { useContext } from 'react';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
+import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     position?: string;
+    /** Keep the content mounted while closed (e.g. for exit animations). Inside a `Portal`, set `forceMount` on the Portal (it passes down): a closed Portal renders nothing, as in Radix. */
+    forceMount?: boolean;
     [key: string]: any;
 }
 
@@ -33,7 +36,8 @@ function getPlacementState(placement: string) {
 const ComboboxPrimitiveContent = React.forwardRef<
     React.ElementRef<'div'>,
     ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
->(({ children, className, style, onKeyDownCapture, ...props }, forwardedRef) => {
+>(({ children, className, style, onKeyDownCapture, forceMount = false, ...props }, forwardedRef) => {
+    const { forceMount: portalForceMount } = useContext(ComboboxPrimitivePortalContext);
     const {
         isOpen,
         elementsRef,
@@ -121,43 +125,49 @@ const ComboboxPrimitiveContent = React.forwardRef<
         ...popupProps
     } = floatingProps as Record<string, any>;
 
-    return (
-        <>
-            {isOpen && (
-                // Tabbable detection ignores `visibility: hidden` content, so wait until the list is
-                // positioned (and visible) before moving focus into it; otherwise focus lands on the
-                // container instead of the search field or the selected option.
-                <Floater.FocusManager context={floatingContext} disabled={isHiddenUntilPositioned}>
-                    <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef} >
-                        {hasSearchPart ? (
-                            <div ref={mergedRef} {...popupProps} id={`${listboxId}-popup`}>
-                                {leadingSearch}
-                                <div
-                                    id={listboxId}
-                                    role={listboxRole}
-                                    aria-orientation={listboxOrientation}
-                                    data-slot="combobox-listbox"
-                                >
-                                    {listChildren}
-                                </div>
-                                {trailingSearch}
-                            </div>
-                        ) : (
-                            <div
-                                ref={mergedRef}
-                                {...popupProps}
-                                id={listboxId}
-                                role={listboxRole}
-                                aria-orientation={listboxOrientation}
-                            >
-                                {children}
-                            </div>
-                        )}
-                    </Floater.FloatingList>
-                </Floater.FocusManager>
-            )}
-        </>
+    if (!isOpen && !forceMount && !portalForceMount) return null;
 
+    // Force-mounted while closed: keep the DOM (for exit animations) but hide
+    // it from users and assistive tech.
+    const shownProps = isOpen
+        ? popupProps
+        : { ...popupProps, style: { ...popupProps.style, visibility: 'hidden', pointerEvents: 'none' } };
+
+    const popup = hasSearchPart ? (
+        <div ref={mergedRef} {...shownProps} id={`${listboxId}-popup`}>
+            {leadingSearch}
+            <div
+                id={listboxId}
+                role={listboxRole}
+                aria-orientation={listboxOrientation}
+                data-slot="combobox-listbox"
+            >
+                {listChildren}
+            </div>
+            {trailingSearch}
+        </div>
+    ) : (
+        <div
+            ref={mergedRef}
+            {...shownProps}
+            id={listboxId}
+            role={listboxRole}
+            aria-orientation={listboxOrientation}
+        >
+            {children}
+        </div>
+    );
+
+    return (
+        // Tabbable detection ignores `visibility: hidden` content, so wait until the list is
+        // positioned (and visible) before moving focus into it; otherwise focus lands on the
+        // container instead of the search field or the selected option. Force-mounted closed
+        // content keeps the same tree (so React keeps the node) with focus management off.
+        <Floater.FocusManager context={floatingContext} disabled={!isOpen || isHiddenUntilPositioned}>
+            <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+                {popup}
+            </Floater.FloatingList>
+        </Floater.FocusManager>
     );
 });
 

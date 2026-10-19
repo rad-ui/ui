@@ -1,0 +1,253 @@
+/* FX landing hero. Its own near-black canvas with explicit light text, so it
+   looks identical (and keeps contrast) in both docs themes. */
+.fx-hero {
+    --fx-hero-ink: #f5f5f7;
+    --fx-hero-muted: #c9c9d4;
+    --fx-hero-canvas: #000;
+    --fx-hero-line: rgb(255, 255, 255, 0.1);
+
+    margin: 2rem 0 3rem;
+    overflow: hidden;
+    border: 1px solid var(--fx-hero-line);
+    border-radius: 22px;
+    background: var(--fx-hero-canvas);
+    color: var(--fx-hero-ink);
+}
+
+.fx-hero-stage {
+    position: relative;
+    display: flex;
+    min-height: 460px;
+    align-items: center;
+    justify-content: center;
+    background: var(--fx-hero-canvas);
+}
+
+.fx-hero-scene {
+    display: flex;
+    width: 100%;
+    max-width: 860px;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 3.5rem 2rem;
+    text-align: center;
+    animation: fx-hero-in 380ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.fx-hero-scene[data-state='leaving'] {
+    animation: fx-hero-out 300ms ease-in both;
+}
+
+/* Bouncy entrance, quick zoom-out exit. */
+@keyframes fx-hero-in {
+    from { opacity: 0; filter: blur(8px); transform: translateY(18px) scale(0.92); }
+}
+
+@keyframes fx-hero-out {
+    to { opacity: 0; filter: blur(8px); transform: scale(1.08); }
+}
+
+/* Typography */
+.fx-hero-scene p { margin: 0; }
+
+.fx-hero-mega {
+    font-size: clamp(3rem, 8.5vw, 6.2rem);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+    color: var(--fx-hero-ink);
+}
+
+.fx-hero-giant {
+    font-size: clamp(4.5rem, 14vw, 10rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: var(--fx-hero-ink);
+}
+
+/* Impact: slams in from oversized, with a little overshoot. */
+.fx-hero-impact { display: inline-block; animation: fx-hero-impact 480ms cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+
+@keyframes fx-hero-impact {
+    0% { opacity: 0; transform: scale(2.4) rotate(-6deg); filter: blur(6px); }
+    60% { opacity: 1; filter: blur(0); }
+}
+
+.fx-hero-sub-lg { font-size: clamp(1.2rem, 2.4vw, 1.6rem); color: var(--fx-hero-ink); }
+
+.fx-hero-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.fx-hero-punch {
+    font-size: clamp(1.4rem, 3.4vw, 2.3rem);
+    font-weight: 800;
+}
+
+.fx-hero-block { display: block; }
+
+.fx-hero-tilt-l { display: inline-block; transform: rotate(-4deg); }
+.fx-hero-tilt-r { display: inline-block; transform: rotate(3deg); }
+
+.fx-hero-scene .fx-hero-ink-orange { color: #ff9a3c; }
+.fx-hero-scene .fx-hero-ink-violet { color: #c79bff; }
+.fx-hero-scene .fx-hero-ink-cyan { color: #3de8ff; }
+.fx-hero-scene .fx-hero-ink-lime { color: #b8ff3c; }
+.fx-hero-scene .fx-hero-ink-yellow { color: #ffe14d; }
+
+
+.fx-hero-display {
+    font-size: clamp(2.4rem, 6vw, 4.6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    color: var(--fx-hero-ink);
+}
+
+.fx-hero-title {
+    font-size: clamp(1.8rem, 4.2vw, 3.1rem);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    color: var(--fx-hero-ink);
+}
+
+.fx-hero-lead {
+    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+    font-weight: 500;
+    color: var(--fx-hero-muted);
+}
+
+.fx-hero-sub {
+    font-size: clamp(1.1rem, 2.1vw, 1.4rem);
+    font-weight: 500;
+    color: var(--fx-hero-muted);
+}
+
+.fx-hero-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: 0.04em;
+}
+
+
+/* Departure board */
+
+/* One shared grid, so every row's tiles line up in the same column. */
+.fx-hero-board {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: 0.9rem 1.5rem;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    text-align: left;
+}
+
+.fx-hero-board-row { display: contents; }
+
+.fx-hero-board-label {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fx-hero-muted);
+}
+
+.fx-hero-board-flap { --rad-fx-flap-tile: #17171f; font-size: clamp(1.6rem, 3.6vw, 2.4rem); font-weight: 900; }
+
+/* Counter */
+.fx-hero-count {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.35em;
+    font-size: clamp(4.5rem, 13vw, 9rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: #ffe14d;
+}
+
+.fx-hero-count-label {
+    font-size: 0.42em;
+    letter-spacing: -0.02em;
+    color: var(--fx-hero-ink);
+}
+
+/* End card */
+.fx-hero-endcard { display: inline-block; margin-bottom: 1.4rem; }
+.fx-hero-endcard .fx-hero-mega { font-size: clamp(3.6rem, 11vw, 7.6rem); }
+
+/* Controls */
+.fx-hero-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    border-top: 1px solid var(--fx-hero-line);
+}
+
+
+.fx-hero-button {
+    padding: 0.4rem 0.85rem;
+    border: 1px solid rgb(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgb(255, 255, 255, 0.04);
+    color: var(--fx-hero-ink);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.fx-hero-button:hover { background: rgb(255, 255, 255, 0.1); }
+.fx-hero-button:focus-visible { outline: 2px solid var(--fx-hero-ink); outline-offset: 2px; }
+
+/* Calls to action */
+.fx-hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.fx-hero-link {
+    padding: 0.6rem 1.1rem;
+    border: 1px solid rgb(255, 255, 255, 0.18);
+    border-radius: 12px;
+    color: var(--fx-hero-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.fx-hero-link:hover { background: rgb(255, 255, 255, 0.08); }
+.fx-hero-link:focus-visible { outline: 2px solid var(--fx-hero-ink); outline-offset: 2px; }
+
+.fx-hero-link-primary { border-color: transparent; background: var(--fx-hero-ink); color: var(--fx-hero-canvas); }
+.fx-hero-link-primary:hover { background: #e4e4ec; }
+
+@media (prefers-reduced-motion: reduce) {
+    .fx-hero-scene, .fx-hero-scene[data-state='leaving'], .fx-hero-impact { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .fx-hero-scene,
+[data-rad-fx-motion='reduce'] .fx-hero-scene[data-state='leaving'],
+[data-rad-fx-motion='reduce'] .fx-hero-impact { animation: none; }
+
+/* End card: black type on a tilted yellow sticker with an orange 3D drop. */
+.fx-hero-sticker {
+    display: inline-block;
+    padding: 0.18em 0.42em 0.22em;
+    border-radius: 18px;
+    background: #ffe14d;
+    box-shadow: 10px 10px 0 #ff9a3c, 20px 20px 0 rgb(255, 154, 60, 0.35);
+    rotate: -3deg;
+}
+
+.fx-hero-scene .fx-hero-endcard-face { color: #000; }

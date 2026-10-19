@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "strength-meter",
+  "type": "registry:component",
+  "title": "StrengthMeter",
+  "description": "Four bars that fill and change colour with strength, e.g. for passwords.",
+  "files": [
+    {
+      "path": "registry/fx/strength-meter.tsx",
+      "type": "registry:component",
+      "target": "components/fx/strength-meter.tsx",
+      "content": "import * as React from 'react'\n\nimport './strength-meter.css'\n\nexport type StrengthMeterProps = {\n    /** 0 (none) to 4 (strong). */\n    score: 0 | 1 | 2 | 3 | 4\n    /** Accessible name, e.g. \"Password strength\". */\n    label?: string\n    /** Text for each score, also shown under the meter. */\n    levels?: [string, string, string, string, string]\n    className?: string\n}\n\nconst DEFAULT_LEVELS: [string, string, string, string, string] = ['Too short', 'Weak', 'Fair', 'Good', 'Strong']\nconst COLORS = ['#71717a', '#ef4444', '#f59e0b', '#22c55e', '#10b981']\n\n// role=\"meter\" with the level as aria-valuetext, so it reads \"Strong\", not \"4\".\n// The level is also written out in text: colour is never the only signal.\nconst StrengthMeter = ({ score, label = 'Strength', levels = DEFAULT_LEVELS, className }: StrengthMeterProps) => (\n    <div className={['rad-fx-strength', className].filter(Boolean).join(' ')} style={{ '--rad-fx-strength-color': COLORS[score] } as React.CSSProperties}>\n        <div\n            role=\"meter\"\n            aria-label={label}\n            aria-valuemin={0}\n            aria-valuemax={4}\n            aria-valuenow={score}\n            aria-valuetext={levels[score]}\n            className=\"rad-fx-strength-bars\"\n        >\n            {[1, 2, 3, 4].map((step) => (\n                <span key={step} className=\"rad-fx-strength-bar\" data-on={step <= score ? '' : undefined} />\n            ))}\n        </div>\n        <p className=\"rad-fx-strength-text\" aria-hidden=\"true\">{levels[score]}</p>\n    </div>\n)\n\nexport default StrengthMeter\n"
+    },
+    {
+      "path": "registry/fx/strength-meter.css",
+      "type": "registry:file",
+      "target": "components/fx/strength-meter.css",
+      "content": ".rad-fx-strength-bars {\n    display: grid;\n    grid-template-columns: repeat(4, 1fr);\n    gap: 6px;\n}\n\n.rad-fx-strength-bar {\n    height: 6px;\n    border-radius: 999px;\n    background: rgb(127, 127, 127, 0.25);\n    overflow: hidden;\n    position: relative;\n}\n\n.rad-fx-strength-bar::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background: var(--rad-fx-strength-color);\n    transform: scaleX(0);\n    transform-origin: 0 50%;\n    transition: transform 350ms cubic-bezier(0.3, 0.8, 0.2, 1), background 300ms ease;\n}\n\n.rad-fx-strength-bar[data-on]::after { transform: scaleX(1); }\n\n/* Each bar fills just after the one before it. */\n.rad-fx-strength-bar:nth-child(2)::after { transition-delay: 60ms; }\n.rad-fx-strength-bar:nth-child(3)::after { transition-delay: 120ms; }\n.rad-fx-strength-bar:nth-child(4)::after { transition-delay: 180ms; }\n\n.rad-fx-strength-text {\n    margin: 8px 0 0;\n    font-size: 0.85rem;\n    font-weight: 600;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-strength-bar::after { transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-strength-bar::after { transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "feedback"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/strength-meter",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "role=\"meter\" with aria-valuetext (\"Strong\"), not just a number.",
+      "The level is written out in text, so colour is never the only signal.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) fills without animating."
+    ]
+  }
+}

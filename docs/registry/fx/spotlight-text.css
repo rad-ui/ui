@@ -1,0 +1,27 @@
+.rad-fx-spotlight {
+    position: relative;
+    display: inline-block;
+
+    --rad-fx-spot-x: 50%;
+    --rad-fx-spot-y: 50%;
+}
+
+.rad-fx-spotlight-light {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, var(--rad-fx-spot-a), var(--rad-fx-spot-b));
+    background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    mask-image: radial-gradient(var(--rad-fx-spot-radius, 110px) circle at var(--rad-fx-spot-x) var(--rad-fx-spot-y), #000 30%, transparent 100%);
+    mask-image: radial-gradient(var(--rad-fx-spot-radius, 110px) circle at var(--rad-fx-spot-x) var(--rad-fx-spot-y), #000 30%, transparent 100%);
+    opacity: 0;
+    transition: opacity 250ms ease;
+}
+
+.rad-fx-spotlight:hover .rad-fx-spotlight-light { opacity: 1; }
+
+@media (forced-colors: active) {
+    .rad-fx-spotlight-light { display: none; }
+}

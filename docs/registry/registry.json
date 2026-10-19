@@ -1,0 +1,3084 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "rad-ui",
+  "homepage": "https://www.rad-ui.com",
+  "items": [
+    {
+      "name": "use-reduced-motion",
+      "type": "registry:hook",
+      "title": "useReducedMotion",
+      "description": "Shared hooks for Rad UI FX: reduced-motion detection (OS setting or data-rad-fx-motion=\"reduce\"), run-once-in-view, and offscreen pausing.",
+      "files": [
+        {
+          "path": "registry/fx/use-reduced-motion.ts",
+          "type": "registry:hook",
+          "target": "components/fx/use-reduced-motion.ts"
+        }
+      ],
+      "categories": [
+        "fx",
+        "utilities"
+      ],
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Honours both the OS Reduce motion setting and an in-app data-rad-fx-motion=\"reduce\" ancestor."
+        ]
+      }
+    },
+    {
+      "name": "blur-reveal",
+      "type": "registry:component",
+      "title": "BlurReveal",
+      "description": "Text that fades in from a soft blur, word by word or letter by letter. Screen readers get the whole sentence once; reduced motion shows it instantly.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/blur-reveal.tsx",
+          "type": "registry:component",
+          "target": "components/fx/blur-reveal.tsx"
+        },
+        {
+          "path": "registry/fx/blur-reveal.css",
+          "type": "registry:file",
+          "target": "components/fx/blur-reveal.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/blur-reveal",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The full text is rendered once in a visually hidden span; the animated pieces are aria-hidden. Do not remove either.",
+          "prefers-reduced-motion: reduce shows the text immediately, with no blur, movement or stagger.",
+          "Use the `as` prop to keep the correct heading level instead of wrapping in another heading."
+        ]
+      }
+    },
+    {
+      "name": "typewriter",
+      "type": "registry:component",
+      "title": "Typewriter",
+      "description": "Types text out character by character with a caret. Screen readers get the full text immediately and nothing reflows while typing.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/typewriter.tsx",
+          "type": "registry:component",
+          "target": "components/fx/typewriter.tsx"
+        },
+        {
+          "path": "registry/fx/typewriter.css",
+          "type": "registry:file",
+          "target": "components/fx/typewriter.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/typewriter",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The full text is in a visually hidden span; the typed copy and caret are aria-hidden.",
+          "An invisible copy of the final text reserves its size, so surrounding layout never shifts.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the full text at once with a still caret.",
+          "The caret stops blinking shortly after typing finishes."
+        ]
+      }
+    },
+    {
+      "name": "scramble-text",
+      "type": "registry:component",
+      "title": "ScrambleText",
+      "description": "Text that decodes from random characters into its final form, on view, on hover, or on mount.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/scramble-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/scramble-text.tsx"
+        },
+        {
+          "path": "registry/fx/scramble-text.css",
+          "type": "registry:file",
+          "target": "components/fx/scramble-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/scramble-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers only ever get the final text (visually hidden); the scrambling copy is aria-hidden.",
+          "Server render shows the final text, so content is readable before hydration.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) skips scrambling entirely."
+        ]
+      }
+    },
+    {
+      "name": "shimmer-text",
+      "type": "registry:component",
+      "title": "ShimmerText",
+      "description": "A soft highlight sweeping across real, unsplit text.",
+      "files": [
+        {
+          "path": "registry/fx/shimmer-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/shimmer-text.tsx"
+        },
+        {
+          "path": "registry/fx/shimmer-text.css",
+          "type": "registry:file",
+          "target": "components/fx/shimmer-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/shimmer-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Text is never split, so screen readers, selection and translation work normally.",
+          "The base colour is currentColor: check its contrast; the highlight only brightens it briefly.",
+          "Forced-colours mode falls back to plain text.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the sweep."
+        ]
+      }
+    },
+    {
+      "name": "color-shift-text",
+      "type": "registry:component",
+      "title": "ColorShiftText",
+      "description": "Text filled with a slowly flowing multi-colour gradient.",
+      "files": [
+        {
+          "path": "registry/fx/color-shift-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/color-shift-text.tsx"
+        },
+        {
+          "path": "registry/fx/color-shift-text.css",
+          "type": "registry:file",
+          "target": "components/fx/color-shift-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/color-shift-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Text is never split.",
+          "Every colour in the gradient must meet contrast against the background, since any of them can sit under any letter.",
+          "Forced-colours mode falls back to plain text.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes the gradient."
+        ]
+      }
+    },
+    {
+      "name": "word-cycle",
+      "type": "registry:component",
+      "title": "WordCycle",
+      "description": "An inline slot that cycles through words, sized to the longest so the sentence never jumps.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/word-cycle.tsx",
+          "type": "registry:component",
+          "target": "components/fx/word-cycle.tsx"
+        },
+        {
+          "path": "registry/fx/word-cycle.css",
+          "type": "registry:file",
+          "target": "components/fx/word-cycle.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/word-cycle",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers hear every word once as a list (\"fast, accessible or yours\"), never a changing word.",
+          "Cycling pauses on hover and offscreen; pass `paused` from a visible control if it sits next to reading content (WCAG 2.2.2).",
+          "With `colors`, every word colour must meet contrast against the background, since each one is shown on its own.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the first word, still."
+        ]
+      }
+    },
+    {
+      "name": "count-to",
+      "type": "registry:component",
+      "title": "CountTo",
+      "description": "A number that counts up to its value when it scrolls into view, formatted with Intl.NumberFormat.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/count-to.tsx",
+          "type": "registry:component",
+          "target": "components/fx/count-to.tsx"
+        },
+        {
+          "path": "registry/fx/count-to.css",
+          "type": "registry:file",
+          "target": "components/fx/count-to.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/count-to",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers get the final formatted value only; the ticking copy is aria-hidden.",
+          "Tabular figures prevent sideways jitter.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the final value without counting."
+        ]
+      }
+    },
+    {
+      "name": "wave-text",
+      "type": "registry:component",
+      "title": "WaveText",
+      "description": "Letters that ripple in a travelling wave, continuously or on hover.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/wave-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/wave-text.tsx"
+        },
+        {
+          "path": "registry/fx/wave-text.css",
+          "type": "registry:file",
+          "target": "components/fx/wave-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wave-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The full text is read once from a visually hidden copy; the rippling letters are aria-hidden.",
+          "Pauses offscreen; `paused` stops it, and `trigger=\"hover\"` only moves under the pointer.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the letters still."
+        ]
+      }
+    },
+    {
+      "name": "glitch-text",
+      "type": "registry:component",
+      "title": "GlitchText",
+      "description": "Text that breaks into offset colour slices in short, occasional bursts.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/glitch-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/glitch-text.tsx"
+        },
+        {
+          "path": "registry/fx/glitch-text.css",
+          "type": "registry:file",
+          "target": "components/fx/glitch-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/glitch-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Bursts are brief and spaced seconds apart, staying well under 3 flashes per second (WCAG 2.3.1).",
+          "The colour layers are real aria-hidden elements, not ::before content that some screen readers announce; the text is read once.",
+          "Pauses offscreen; `paused` stops it.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the glitch entirely."
+        ]
+      }
+    },
+    {
+      "name": "marker-highlight",
+      "type": "registry:component",
+      "title": "MarkerHighlight",
+      "description": "A highlighter stroke that sweeps behind words as they scroll into view.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/marker-highlight.tsx",
+          "type": "registry:component",
+          "target": "components/fx/marker-highlight.tsx"
+        },
+        {
+          "path": "registry/fx/marker-highlight.css",
+          "type": "registry:file",
+          "target": "components/fx/marker-highlight.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/marker-highlight",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Renders a real <mark> by default, so assistive tech knows the text is highlighted; use as=\"span\" for decoration only.",
+          "Text keeps its own colour; pick a marker colour that keeps contrast with it.",
+          "Wrapped highlights get one stroke per line.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the full highlight immediately."
+        ]
+      }
+    },
+    {
+      "name": "ink-underline",
+      "type": "registry:component",
+      "title": "InkUnderline",
+      "description": "A hand-drawn squiggle that draws itself under a word, on view or on hover.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/ink-underline.tsx",
+          "type": "registry:component",
+          "target": "components/fx/ink-underline.tsx"
+        },
+        {
+          "path": "registry/fx/ink-underline.css",
+          "type": "registry:file",
+          "target": "components/fx/ink-underline.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/ink-underline",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The squiggle is an aria-hidden SVG; the words are untouched.",
+          "`trigger=\"hover\"` also draws on keyboard focus inside, so links get the same affordance.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the underline already drawn."
+        ]
+      }
+    },
+    {
+      "name": "split-flap",
+      "type": "registry:component",
+      "title": "SplitFlap",
+      "description": "Departure-board tiles that flip through characters before landing on the text.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/split-flap.tsx",
+          "type": "registry:component",
+          "target": "components/fx/split-flap.tsx"
+        },
+        {
+          "path": "registry/fx/split-flap.css",
+          "type": "registry:file",
+          "target": "components/fx/split-flap.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/split-flap",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers get the text once, as written; the tiles are aria-hidden.",
+          "Server render shows the final text, so it is readable before hydration.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the final tiles with no flipping."
+        ]
+      }
+    },
+    {
+      "name": "morph-words",
+      "type": "registry:component",
+      "title": "MorphWords",
+      "description": "Words that melt into one another with a gooey liquid morph.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/morph-words.tsx",
+          "type": "registry:component",
+          "target": "components/fx/morph-words.tsx"
+        },
+        {
+          "path": "registry/fx/morph-words.css",
+          "type": "registry:file",
+          "target": "components/fx/morph-words.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/morph-words",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers hear every word once as a list, never a changing word.",
+          "The gooey filter only runs mid-morph, so resting text stays crisp.",
+          "Pauses on hover and offscreen; `paused` stops it from a visible control (WCAG 2.2.2).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps words without blur or filter."
+        ]
+      }
+    },
+    {
+      "name": "spotlight-text",
+      "type": "registry:component",
+      "title": "SpotlightText",
+      "description": "A pool of coloured light that follows the pointer across text.",
+      "files": [
+        {
+          "path": "registry/fx/spotlight-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/spotlight-text.tsx"
+        },
+        {
+          "path": "registry/fx/spotlight-text.css",
+          "type": "registry:file",
+          "target": "components/fx/spotlight-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/spotlight-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The real text always shows at its own colour and contrast; the light is an aria-hidden copy on top.",
+          "Pointer-driven only: nothing moves on its own.",
+          "Forced-colours mode drops the light."
+        ]
+      }
+    },
+    {
+      "name": "extruded-text",
+      "type": "registry:component",
+      "title": "ExtrudedText",
+      "description": "Chunky 3D extruded lettering that tilts toward the pointer.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/extruded-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/extruded-text.tsx"
+        },
+        {
+          "path": "registry/fx/extruded-text.css",
+          "type": "registry:file",
+          "target": "components/fx/extruded-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/extruded-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Real, unsplit text; the depth is text-shadow.",
+          "Tilt is capped and off for touch input.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the depth but disables the tilt."
+        ]
+      }
+    },
+    {
+      "name": "circular-text",
+      "type": "registry:component",
+      "title": "CircularText",
+      "description": "Text running around a slowly turning circle, with an optional centre icon.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/circular-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/circular-text.tsx"
+        },
+        {
+          "path": "registry/fx/circular-text.css",
+          "type": "registry:file",
+          "target": "components/fx/circular-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/circular-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The ring is an aria-hidden SVG; the text is read once, trimmed.",
+          "Pauses on hover and offscreen; `paused` stops it.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+        ]
+      }
+    },
+    {
+      "name": "neon-text",
+      "type": "registry:component",
+      "title": "NeonText",
+      "description": "A glowing neon sign with a rare, gentle flicker.",
+      "files": [
+        {
+          "path": "registry/fx/neon-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/neon-text.tsx"
+        },
+        {
+          "path": "registry/fx/neon-text.css",
+          "type": "registry:file",
+          "target": "components/fx/neon-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/neon-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Real, unsplit text.",
+          "The flicker is two short dips every 7 seconds, far below 3 flashes per second; turn it off with `flicker={false}`.",
+          "Use it on a dark surface and check contrast of the pale letters, not the glow.",
+          "Forced-colours mode drops the glow.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the glow steady."
+        ]
+      }
+    },
+    {
+      "name": "aurora-backdrop",
+      "type": "registry:component",
+      "title": "AuroraBackdrop",
+      "description": "Soft drifting colour glow behind any content. Decorative only, pauses offscreen, and stays still under reduced motion.",
+      "files": [
+        {
+          "path": "registry/fx/aurora-backdrop.tsx",
+          "type": "registry:component",
+          "target": "components/fx/aurora-backdrop.tsx"
+        },
+        {
+          "path": "registry/fx/aurora-backdrop.css",
+          "type": "registry:file",
+          "target": "components/fx/aurora-backdrop.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/aurora-backdrop",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The glow layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "prefers-reduced-motion: reduce keeps the colours but stops the drift.",
+          "The drift pauses automatically offscreen. If it runs behind content for long, give users a visible pause control wired to the `paused` prop (WCAG 2.2.2).",
+          "Check text contrast over the brightest part of the glow."
+        ]
+      }
+    },
+    {
+      "name": "grid-backdrop",
+      "type": "registry:component",
+      "title": "GridBackdrop",
+      "description": "A perspective grid gliding toward the viewer and fading at the horizon.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/grid-backdrop.tsx",
+          "type": "registry:component",
+          "target": "components/fx/grid-backdrop.tsx"
+        },
+        {
+          "path": "registry/fx/grid-backdrop.css",
+          "type": "registry:file",
+          "target": "components/fx/grid-backdrop.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/grid-backdrop",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The grid is aria-hidden and ignores pointer events.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the grid still."
+        ]
+      }
+    },
+    {
+      "name": "dot-field",
+      "type": "registry:component",
+      "title": "DotField",
+      "description": "A dim dot grid with a soft pool of light drifting across it.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/dot-field.tsx",
+          "type": "registry:component",
+          "target": "components/fx/dot-field.tsx"
+        },
+        {
+          "path": "registry/fx/dot-field.css",
+          "type": "registry:file",
+          "target": "components/fx/dot-field.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/dot-field",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Both dot layers are aria-hidden and ignore pointer events.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks the light in the centre."
+        ]
+      }
+    },
+    {
+      "name": "starfield",
+      "type": "registry:component",
+      "title": "Starfield",
+      "description": "A field of softly twinkling stars, generated from a seed so server and client match.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/starfield.tsx",
+          "type": "registry:component",
+          "target": "components/fx/starfield.tsx"
+        },
+        {
+          "path": "registry/fx/starfield.css",
+          "type": "registry:file",
+          "target": "components/fx/starfield.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/starfield",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Stars are aria-hidden and ignore pointer events.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the stars, without twinkling."
+        ]
+      }
+    },
+    {
+      "name": "meteor-shower",
+      "type": "registry:component",
+      "title": "MeteorShower",
+      "description": "Occasional streaks of light falling across the background.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/meteor-shower.tsx",
+          "type": "registry:component",
+          "target": "components/fx/meteor-shower.tsx"
+        },
+        {
+          "path": "registry/fx/meteor-shower.css",
+          "type": "registry:file",
+          "target": "components/fx/meteor-shower.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/meteor-shower",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Meteors are aria-hidden and ignore pointer events.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the meteors rather than freezing them mid-flight."
+        ]
+      }
+    },
+    {
+      "name": "glow-card",
+      "type": "registry:component",
+      "title": "GlowCard",
+      "description": "A card whose surface lights up under the pointer, and around keyboard focus.",
+      "files": [
+        {
+          "path": "registry/fx/glow-card.tsx",
+          "type": "registry:component",
+          "target": "components/fx/glow-card.tsx"
+        },
+        {
+          "path": "registry/fx/glow-card.css",
+          "type": "registry:file",
+          "target": "components/fx/glow-card.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/glow-card",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The glow layer is aria-hidden; the card adds no roles or tab stops of its own.",
+          "Focus inside the card lights it too, so keyboard users get the same affordance.",
+          "Check text contrast with the glow at full strength."
+        ]
+      }
+    },
+    {
+      "name": "perspective-card",
+      "type": "registry:component",
+      "title": "PerspectiveCard",
+      "description": "A card that tilts gently toward the pointer, with an optional glare.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/perspective-card.tsx",
+          "type": "registry:component",
+          "target": "components/fx/perspective-card.tsx"
+        },
+        {
+          "path": "registry/fx/perspective-card.css",
+          "type": "registry:file",
+          "target": "components/fx/perspective-card.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/perspective-card",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Tilt is capped (8° by default) to avoid vestibular discomfort.",
+          "Touch input never tilts, so scrolling past the card on mobile stays still.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) disables the tilt.",
+          "The glare is aria-hidden."
+        ]
+      }
+    },
+    {
+      "name": "magnetic",
+      "type": "registry:component",
+      "title": "Magnetic",
+      "description": "Pulls a button or link a little toward the pointer.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/magnetic.tsx",
+          "type": "registry:component",
+          "target": "components/fx/magnetic.tsx"
+        },
+        {
+          "path": "registry/fx/magnetic.css",
+          "type": "registry:file",
+          "target": "components/fx/magnetic.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/magnetic",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Wraps the child in a span instead of cloning it, so the child keeps its role, props, ref and focus.",
+          "Keyboard focus and activation are unaffected.",
+          "Touch input never moves it.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) disables the pull."
+        ]
+      }
+    },
+    {
+      "name": "click-burst",
+      "type": "registry:component",
+      "title": "ClickBurst",
+      "description": "A small burst of sparks from wherever a button is clicked.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/click-burst.tsx",
+          "type": "registry:component",
+          "target": "components/fx/click-burst.tsx"
+        },
+        {
+          "path": "registry/fx/click-burst.css",
+          "type": "registry:file",
+          "target": "components/fx/click-burst.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/click-burst",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Sparks are aria-hidden, ignore pointer events and are removed after their animation.",
+          "Keyboard activation bursts from the centre of the element.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows no sparks."
+        ]
+      }
+    },
+    {
+      "name": "reveal-on-scroll",
+      "type": "registry:component",
+      "title": "RevealOnScroll",
+      "description": "Content that fades and slides into place as it scrolls into view.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/reveal-on-scroll.tsx",
+          "type": "registry:component",
+          "target": "components/fx/reveal-on-scroll.tsx"
+        },
+        {
+          "path": "registry/fx/reveal-on-scroll.css",
+          "type": "registry:file",
+          "target": "components/fx/reveal-on-scroll.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/reveal-on-scroll",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Content is always in the DOM and the accessibility tree; only its opacity and position animate.",
+          "Keyboard focus landing inside hidden content reveals it immediately.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows content from the first paint."
+        ]
+      }
+    },
+    {
+      "name": "orbit-border",
+      "type": "registry:component",
+      "title": "OrbitBorder",
+      "description": "A comet of light running around an element's border.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/orbit-border.tsx",
+          "type": "registry:component",
+          "target": "components/fx/orbit-border.tsx"
+        },
+        {
+          "path": "registry/fx/orbit-border.css",
+          "type": "registry:file",
+          "target": "components/fx/orbit-border.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/orbit-border",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The light is a pseudo-element: nothing is added to the accessibility tree.",
+          "Browsers without @property show a still highlight.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows a still highlight."
+        ]
+      }
+    },
+    {
+      "name": "marquee",
+      "type": "registry:component",
+      "title": "Marquee",
+      "description": "A seamless, infinitely scrolling row of items: logos, testimonials, tags.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/marquee.tsx",
+          "type": "registry:component",
+          "target": "components/fx/marquee.tsx"
+        },
+        {
+          "path": "registry/fx/marquee.css",
+          "type": "registry:file",
+          "target": "components/fx/marquee.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/marquee",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Items are exposed once; the looping copy is aria-hidden and inert, so nothing is read or focused twice.",
+          "Pauses on hover and whenever focus is inside; `paused` stops it from a visible control (WCAG 2.2.2).",
+          "Pass `label` to expose it as a named region.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops scrolling and wraps the items into a normal row."
+        ]
+      }
+    },
+    {
+      "name": "sliding-tabs",
+      "type": "registry:component",
+      "title": "SlidingTabs",
+      "description": "Rad UI Tabs with an indicator that slides between triggers and content that fades in.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/sliding-tabs.tsx",
+          "type": "registry:component",
+          "target": "components/fx/sliding-tabs.tsx"
+        },
+        {
+          "path": "registry/fx/sliding-tabs.css",
+          "type": "registry:file",
+          "target": "components/fx/sliding-tabs.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/sliding-tabs",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Built on Rad UI Tabs: tablist/tab/tabpanel roles, arrow-key navigation and focus management come from the library.",
+          "The indicator is aria-hidden decoration.",
+          "Focus-visible outline is kept on triggers.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) snaps the indicator and skips the fade."
+        ]
+      }
+    },
+    {
+      "name": "noise-grain",
+      "type": "registry:component",
+      "title": "NoiseGrain",
+      "description": "A film-grain overlay that gives flat surfaces texture, optionally shimmering.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/noise-grain.tsx",
+          "type": "registry:component",
+          "target": "components/fx/noise-grain.tsx"
+        },
+        {
+          "path": "registry/fx/noise-grain.css",
+          "type": "registry:file",
+          "target": "components/fx/noise-grain.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/noise-grain",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Keep `opacity` low and re-check text contrast with the grain on.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes the grain."
+        ]
+      }
+    },
+    {
+      "name": "wave-lines",
+      "type": "registry:component",
+      "title": "WaveLines",
+      "description": "Layered waves drifting along the bottom edge, back waves slower for depth.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/wave-lines.tsx",
+          "type": "registry:component",
+          "target": "components/fx/wave-lines.tsx"
+        },
+        {
+          "path": "registry/fx/wave-lines.css",
+          "type": "registry:file",
+          "target": "components/fx/wave-lines.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wave-lines",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the waves still."
+        ]
+      }
+    },
+    {
+      "name": "light-beams",
+      "type": "registry:component",
+      "title": "LightBeams",
+      "description": "Stage lights shining down from the top edge, gently swaying.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/light-beams.tsx",
+          "type": "registry:component",
+          "target": "components/fx/light-beams.tsx"
+        },
+        {
+          "path": "registry/fx/light-beams.css",
+          "type": "registry:file",
+          "target": "components/fx/light-beams.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/light-beams",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks each beam at its resting angle."
+        ]
+      }
+    },
+    {
+      "name": "bubble-field",
+      "type": "registry:component",
+      "title": "BubbleField",
+      "description": "Soft bubbles rising and drifting, seeded so server and client match.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/bubble-field.tsx",
+          "type": "registry:component",
+          "target": "components/fx/bubble-field.tsx"
+        },
+        {
+          "path": "registry/fx/bubble-field.css",
+          "type": "registry:file",
+          "target": "components/fx/bubble-field.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/bubble-field",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) scatters the bubbles at rest."
+        ]
+      }
+    },
+    {
+      "name": "pulse-rings",
+      "type": "registry:component",
+      "title": "PulseRings",
+      "description": "Rings radiating out from a centre: live status, radar, \"on air\".",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/pulse-rings.tsx",
+          "type": "registry:component",
+          "target": "components/fx/pulse-rings.tsx"
+        },
+        {
+          "path": "registry/fx/pulse-rings.css",
+          "type": "registry:file",
+          "target": "components/fx/pulse-rings.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/pulse-rings",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Rings are aria-hidden; give the centre content its own accessible name if it means something (e.g. \"Live\").",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows one still ring."
+        ]
+      }
+    },
+    {
+      "name": "shine",
+      "type": "registry:component",
+      "title": "Shine",
+      "description": "A band of light that sweeps across a button or card on hover and keyboard focus.",
+      "files": [
+        {
+          "path": "registry/fx/shine.tsx",
+          "type": "registry:component",
+          "target": "components/fx/shine.tsx"
+        },
+        {
+          "path": "registry/fx/shine.css",
+          "type": "registry:file",
+          "target": "components/fx/shine.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/shine",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Wraps the child without cloning it, so its role, props and focus are untouched.",
+          "Keyboard focus inside triggers the same sweep as hover.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the sweep."
+        ]
+      }
+    },
+    {
+      "name": "press-ripple",
+      "type": "registry:component",
+      "title": "PressRipple",
+      "description": "A ripple that spreads from exactly where a button is pressed.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/press-ripple.tsx",
+          "type": "registry:component",
+          "target": "components/fx/press-ripple.tsx"
+        },
+        {
+          "path": "registry/fx/press-ripple.css",
+          "type": "registry:file",
+          "target": "components/fx/press-ripple.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/press-ripple",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Ripples are aria-hidden and removed after their animation.",
+          "Enter and Space ripple from the centre, so keyboard presses get feedback too.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows no ripple."
+        ]
+      }
+    },
+    {
+      "name": "confetti-burst",
+      "type": "registry:component",
+      "title": "ConfettiBurst",
+      "description": "A burst of confetti from wherever a button is clicked.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/confetti-burst.tsx",
+          "type": "registry:component",
+          "target": "components/fx/confetti-burst.tsx"
+        },
+        {
+          "path": "registry/fx/confetti-burst.css",
+          "type": "registry:file",
+          "target": "components/fx/confetti-burst.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/confetti-burst",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Confetti is aria-hidden, ignores pointer events and is removed after about a second.",
+          "Keyboard activation bursts from the centre.",
+          "Pair it with a real status message for what happened; confetti alone says nothing to a screen reader.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows no confetti."
+        ]
+      }
+    },
+    {
+      "name": "pointer-parallax",
+      "type": "registry:component",
+      "title": "PointerParallax",
+      "description": "Layers that drift with the pointer at different depths.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/pointer-parallax.tsx",
+          "type": "registry:component",
+          "target": "components/fx/pointer-parallax.tsx"
+        },
+        {
+          "path": "registry/fx/pointer-parallax.css",
+          "type": "registry:file",
+          "target": "components/fx/pointer-parallax.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/pointer-parallax",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Purely visual: layout, reading order and focus order never change.",
+          "Touch input never moves the layers.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps every layer still."
+        ]
+      }
+    },
+    {
+      "name": "flip-card",
+      "type": "registry:component",
+      "title": "FlipCard",
+      "description": "A card that turns over in 3D to reveal its back.",
+      "files": [
+        {
+          "path": "registry/fx/flip-card.tsx",
+          "type": "registry:component",
+          "target": "components/fx/flip-card.tsx"
+        },
+        {
+          "path": "registry/fx/flip-card.css",
+          "type": "registry:file",
+          "target": "components/fx/flip-card.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/flip-card",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Flipping is an explicit button, never hover-only, so it works with keyboard, touch and screen readers.",
+          "The hidden face is inert and aria-hidden: Tab and screen readers only reach the side you can see.",
+          "The button label says what it will do (\"Show back\"), so it is not also marked aria-pressed.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) cross-fades instead of turning."
+        ]
+      }
+    },
+    {
+      "name": "stagger-list",
+      "type": "registry:component",
+      "title": "StaggerList",
+      "description": "List items that fade up one after another as the list scrolls into view.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/stagger-list.tsx",
+          "type": "registry:component",
+          "target": "components/fx/stagger-list.tsx"
+        },
+        {
+          "path": "registry/fx/stagger-list.css",
+          "type": "registry:file",
+          "target": "components/fx/stagger-list.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/stagger-list",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "List semantics, order and content are untouched; only opacity and position animate.",
+          "Focus moving into the list reveals every item at once.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the list from the first paint."
+        ]
+      }
+    },
+    {
+      "name": "draw-checkbox",
+      "type": "registry:component",
+      "title": "DrawCheckbox",
+      "description": "A native checkbox whose tick draws itself in.",
+      "files": [
+        {
+          "path": "registry/fx/draw-checkbox.tsx",
+          "type": "registry:component",
+          "target": "components/fx/draw-checkbox.tsx"
+        },
+        {
+          "path": "registry/fx/draw-checkbox.css",
+          "type": "registry:file",
+          "target": "components/fx/draw-checkbox.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/draw-checkbox",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "A real <input type=\"checkbox\">: forms, labels, keyboard and screen readers work exactly as usual.",
+          "Visible focus ring on the drawn box.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) switches state without drawing."
+        ]
+      }
+    },
+    {
+      "name": "odometer",
+      "type": "registry:component",
+      "title": "Odometer",
+      "description": "Numbers that roll digit by digit like a mechanical counter.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/odometer.tsx",
+          "type": "registry:component",
+          "target": "components/fx/odometer.tsx"
+        },
+        {
+          "path": "registry/fx/odometer.css",
+          "type": "registry:file",
+          "target": "components/fx/odometer.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/odometer",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Screen readers get the formatted number as plain text; the rolling strips are aria-hidden.",
+          "`live` opts in to polite announcements of changes; leave it off for numbers that change often.",
+          "Defaults to en-US formatting so server and client match.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps digits without rolling."
+        ]
+      }
+    },
+    {
+      "name": "dock",
+      "type": "registry:component",
+      "title": "Dock",
+      "description": "A toolbar of icon buttons that swell as the pointer passes over them.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/dock.tsx",
+          "type": "registry:component",
+          "target": "components/fx/dock.tsx"
+        },
+        {
+          "path": "registry/fx/dock.css",
+          "type": "registry:file",
+          "target": "components/fx/dock.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/dock",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"toolbar\" with one Tab stop; arrow keys, Home and End move between items.",
+          "Every button has an accessible name; the floating label is visual only.",
+          "The focused item magnifies, so keyboard users see where they are.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) disables magnification."
+        ]
+      }
+    },
+    {
+      "name": "toggle-switch",
+      "type": "registry:component",
+      "title": "ToggleSwitch",
+      "description": "An on/off switch whose knob squishes on press and springs across.",
+      "files": [
+        {
+          "path": "registry/fx/toggle-switch.tsx",
+          "type": "registry:component",
+          "target": "components/fx/toggle-switch.tsx"
+        },
+        {
+          "path": "registry/fx/toggle-switch.css",
+          "type": "registry:file",
+          "target": "components/fx/toggle-switch.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/toggle-switch",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "A button with role=\"switch\" and aria-checked, labelled by its visible label.",
+          "Space and Enter toggle it; visible focus ring.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) moves the knob without the spring."
+        ]
+      }
+    },
+    {
+      "name": "card-stack",
+      "type": "registry:component",
+      "title": "CardStack",
+      "description": "A deck of cards you page through, the front card flying to the back.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/card-stack.tsx",
+          "type": "registry:component",
+          "target": "components/fx/card-stack.tsx"
+        },
+        {
+          "path": "registry/fx/card-stack.css",
+          "type": "registry:file",
+          "target": "components/fx/card-stack.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/card-stack",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Only the front card is reachable: the others are inert and aria-hidden.",
+          "Previous and Next are real buttons; the position (\"Card 2 of 5\") is announced politely.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps cards without the fly-out."
+        ]
+      }
+    },
+    {
+      "name": "progress-ring",
+      "type": "registry:component",
+      "title": "ProgressRing",
+      "description": "A circular progress indicator, determinate or spinning.",
+      "files": [
+        {
+          "path": "registry/fx/progress-ring.tsx",
+          "type": "registry:component",
+          "target": "components/fx/progress-ring.tsx"
+        },
+        {
+          "path": "registry/fx/progress-ring.css",
+          "type": "registry:file",
+          "target": "components/fx/progress-ring.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/progress-ring",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"progressbar\" with aria-valuenow, or no value while indeterminate; requires a `label`.",
+          "The percentage text is aria-hidden because the value is already exposed.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) turns the spinner into a gentle pulse, so \"busy\" still reads."
+        ]
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:component",
+      "title": "Skeleton",
+      "description": "A loading placeholder with a soft shimmer.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/skeleton.tsx",
+          "type": "registry:component",
+          "target": "components/fx/skeleton.tsx"
+        },
+        {
+          "path": "registry/fx/skeleton.css",
+          "type": "registry:file",
+          "target": "components/fx/skeleton.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/skeleton",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "One role=\"status\" message (\"Loading\") instead of a pile of empty boxes; the shapes are aria-hidden.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the placeholder still."
+        ]
+      }
+    },
+    {
+      "name": "typing-indicator",
+      "type": "registry:component",
+      "title": "TypingIndicator",
+      "description": "Three bouncing dots for \"someone is typing\".",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/typing-indicator.tsx",
+          "type": "registry:component",
+          "target": "components/fx/typing-indicator.tsx"
+        },
+        {
+          "path": "registry/fx/typing-indicator.css",
+          "type": "registry:file",
+          "target": "components/fx/typing-indicator.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/typing-indicator",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"status\" with a label such as \"Ada is typing\"; the dots are aria-hidden.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) replaces the bounce with a slow fade."
+        ]
+      }
+    },
+    {
+      "name": "loader",
+      "type": "registry:component",
+      "title": "Loader",
+      "description": "A small loader in three styles: dots, bars or orbit.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/loader.tsx",
+          "type": "registry:component",
+          "target": "components/fx/loader.tsx"
+        },
+        {
+          "path": "registry/fx/loader.css",
+          "type": "registry:file",
+          "target": "components/fx/loader.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/loader",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"status\" with a label; the art is aria-hidden.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) turns every style into a slow pulse, so \"busy\" still reads."
+        ]
+      }
+    },
+    {
+      "name": "wipe-reveal",
+      "type": "registry:component",
+      "title": "WipeReveal",
+      "description": "An editorial wipe: a colour bar sweeps across and leaves the text behind it.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/wipe-reveal.tsx",
+          "type": "registry:component",
+          "target": "components/fx/wipe-reveal.tsx"
+        },
+        {
+          "path": "registry/fx/wipe-reveal.css",
+          "type": "registry:file",
+          "target": "components/fx/wipe-reveal.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/wipe-reveal",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Real, unsplit text that stays in the accessibility tree; only its clip animates.",
+          "The bar is aria-hidden.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the text with no wipe."
+        ]
+      }
+    },
+    {
+      "name": "letter-drop",
+      "type": "registry:component",
+      "title": "LetterDrop",
+      "description": "Letters that fall in from above and land with a small bounce.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/letter-drop.tsx",
+          "type": "registry:component",
+          "target": "components/fx/letter-drop.tsx"
+        },
+        {
+          "path": "registry/fx/letter-drop.css",
+          "type": "registry:file",
+          "target": "components/fx/letter-drop.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/letter-drop",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The text is read once from a visually hidden copy; the falling letters are aria-hidden.",
+          "Words never break mid-word while animating.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the text in place."
+        ]
+      }
+    },
+    {
+      "name": "strike-swap",
+      "type": "registry:component",
+      "title": "StrikeSwap",
+      "description": "A word gets struck out and its replacement springs in.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/strike-swap.tsx",
+          "type": "registry:component",
+          "target": "components/fx/strike-swap.tsx"
+        },
+        {
+          "path": "registry/fx/strike-swap.css",
+          "type": "registry:file",
+          "target": "components/fx/strike-swap.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/strike-swap",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Uses real <del> and <ins>, so assistive tech can tell which word was removed and which replaced it.",
+          "The struck word stays readable; the new word is not conveyed by colour alone.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the final strike and word without motion."
+        ]
+      }
+    },
+    {
+      "name": "fill-text",
+      "type": "registry:component",
+      "title": "FillText",
+      "description": "Outlined letters that flood with colour, in view or on hover.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/fill-text.tsx",
+          "type": "registry:component",
+          "target": "components/fx/fill-text.tsx"
+        },
+        {
+          "path": "registry/fx/fill-text.css",
+          "type": "registry:file",
+          "target": "components/fx/fill-text.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "text"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/fill-text",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Real, unsplit text.",
+          "Outline-only text is hard to read, so it fills as soon as it is visible by default.",
+          "Forced-colours mode shows plain text.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the text already filled."
+        ]
+      }
+    },
+    {
+      "name": "lava-lamp",
+      "type": "registry:component",
+      "title": "LavaLamp",
+      "description": "Wax-like blobs that rise, sink and merge behind content.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/lava-lamp.tsx",
+          "type": "registry:component",
+          "target": "components/fx/lava-lamp.tsx"
+        },
+        {
+          "path": "registry/fx/lava-lamp.css",
+          "type": "registry:file",
+          "target": "components/fx/lava-lamp.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/lava-lamp",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the blobs still at different heights."
+        ]
+      }
+    },
+    {
+      "name": "fireflies",
+      "type": "registry:component",
+      "title": "Fireflies",
+      "description": "Little lights wandering on their own paths and glowing on and off.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/fireflies.tsx",
+          "type": "registry:component",
+          "target": "components/fx/fireflies.tsx"
+        },
+        {
+          "path": "registry/fx/fireflies.css",
+          "type": "registry:file",
+          "target": "components/fx/fireflies.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/fireflies",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "The glow fades gently; there is no flashing.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the lights still and steady."
+        ]
+      }
+    },
+    {
+      "name": "crt-overlay",
+      "type": "registry:component",
+      "title": "CrtOverlay",
+      "description": "Scanlines, a slow rolling band and a vignette over any content.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/crt-overlay.tsx",
+          "type": "registry:component",
+          "target": "components/fx/crt-overlay.tsx"
+        },
+        {
+          "path": "registry/fx/crt-overlay.css",
+          "type": "registry:file",
+          "target": "components/fx/crt-overlay.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/crt-overlay",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The overlay is aria-hidden and ignores pointer events.",
+          "Deliberately no flicker: flashing overlays are a seizure risk.",
+          "Keep `intensity` modest and re-check text contrast under the scanlines.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the rolling band."
+        ]
+      }
+    },
+    {
+      "name": "halo-glow",
+      "type": "registry:component",
+      "title": "HaloGlow",
+      "description": "A slowly turning, blurred colour halo behind a logo, avatar or button.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/halo-glow.tsx",
+          "type": "registry:component",
+          "target": "components/fx/halo-glow.tsx"
+        },
+        {
+          "path": "registry/fx/halo-glow.css",
+          "type": "registry:file",
+          "target": "components/fx/halo-glow.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/halo-glow",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The halo is aria-hidden; the content inside is untouched.",
+          "Pauses offscreen; `paused` stops it on demand.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+        ]
+      }
+    },
+    {
+      "name": "flashlight",
+      "type": "registry:component",
+      "title": "Flashlight",
+      "description": "Hovering darkens everything except a beam that follows the pointer.",
+      "files": [
+        {
+          "path": "registry/fx/flashlight.tsx",
+          "type": "registry:component",
+          "target": "components/fx/flashlight.tsx"
+        },
+        {
+          "path": "registry/fx/flashlight.css",
+          "type": "registry:file",
+          "target": "components/fx/flashlight.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/flashlight",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Fully lit by default and whenever keyboard focus is inside, so nothing is hidden from people not using a mouse.",
+          "The darkness is an aria-hidden overlay; content and focus order are untouched.",
+          "Forced-colours mode drops the overlay."
+        ]
+      }
+    },
+    {
+      "name": "expand-strip",
+      "type": "registry:component",
+      "title": "ExpandStrip",
+      "description": "A row of panels where the one under the pointer or focus widens to show more.",
+      "files": [
+        {
+          "path": "registry/fx/expand-strip.tsx",
+          "type": "registry:component",
+          "target": "components/fx/expand-strip.tsx"
+        },
+        {
+          "path": "registry/fx/expand-strip.css",
+          "type": "registry:file",
+          "target": "components/fx/expand-strip.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/expand-strip",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "A labelled list; each panel is a link or focusable region, and focus expands it just like hover.",
+          "Titles and descriptions are always in the DOM, so screen readers get everything.",
+          "A scrim keeps white text readable on any background.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) expands instantly."
+        ]
+      }
+    },
+    {
+      "name": "compare-slider",
+      "type": "registry:component",
+      "title": "CompareSlider",
+      "description": "A before/after comparison with a draggable divider.",
+      "files": [
+        {
+          "path": "registry/fx/compare-slider.tsx",
+          "type": "registry:component",
+          "target": "components/fx/compare-slider.tsx"
+        },
+        {
+          "path": "registry/fx/compare-slider.css",
+          "type": "registry:file",
+          "target": "components/fx/compare-slider.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/compare-slider",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Driven by a real <input type=\"range\">: arrow keys, Home/End, touch and value announcements come from the browser.",
+          "Visible focus ring on the handle.",
+          "Give both images meaningful alt text in `before` and `after`."
+        ]
+      }
+    },
+    {
+      "name": "copy-button",
+      "type": "registry:component",
+      "title": "CopyButton",
+      "description": "A copy button whose icon morphs into a check.",
+      "dependencies": [
+        "@radui/ui"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/copy-button.tsx",
+          "type": "registry:component",
+          "target": "components/fx/copy-button.tsx"
+        },
+        {
+          "path": "registry/fx/copy-button.css",
+          "type": "registry:file",
+          "target": "components/fx/copy-button.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "interactions"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/copy-button",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The result is announced with a role=\"status\" \"Copied\" message, not just shown.",
+          "Needs an accessible name via `label`, e.g. \"Copy install command\".",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) swaps the icons without animating."
+        ]
+      }
+    },
+    {
+      "name": "expand-search",
+      "type": "registry:component",
+      "title": "ExpandSearch",
+      "description": "A search button that widens into a field.",
+      "files": [
+        {
+          "path": "registry/fx/expand-search.tsx",
+          "type": "registry:component",
+          "target": "components/fx/expand-search.tsx"
+        },
+        {
+          "path": "registry/fx/expand-search.css",
+          "type": "registry:file",
+          "target": "components/fx/expand-search.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/expand-search",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "A role=\"search\" form; the toggle reports aria-expanded and controls the field.",
+          "Focus moves into the field when it opens; Escape closes it and returns focus to the button.",
+          "The field is out of the Tab order while closed.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) opens instantly."
+        ]
+      }
+    },
+    {
+      "name": "stepper",
+      "type": "registry:component",
+      "title": "Stepper",
+      "description": "Progress steps whose connecting line fills as you advance.",
+      "files": [
+        {
+          "path": "registry/fx/stepper.tsx",
+          "type": "registry:component",
+          "target": "components/fx/stepper.tsx"
+        },
+        {
+          "path": "registry/fx/stepper.css",
+          "type": "registry:file",
+          "target": "components/fx/stepper.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/stepper",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "An ordered list with aria-current=\"step\" on the current step.",
+          "Completed steps say \"(completed)\" in text, not just with a tick.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) changes state without animating."
+        ]
+      }
+    },
+    {
+      "name": "notification-bell",
+      "type": "registry:component",
+      "title": "NotificationBell",
+      "description": "A bell that rings and pops its badge when the unread count goes up.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/notification-bell.tsx",
+          "type": "registry:component",
+          "target": "components/fx/notification-bell.tsx"
+        },
+        {
+          "path": "registry/fx/notification-bell.css",
+          "type": "registry:file",
+          "target": "components/fx/notification-bell.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/notification-bell",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The count is in the button's accessible name (\"Notifications, 3 unread\"), read on focus without live interruptions.",
+          "The badge number is aria-hidden to avoid reading it twice.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) updates the badge without ringing."
+        ]
+      }
+    },
+    {
+      "name": "smooth-details",
+      "type": "registry:component",
+      "title": "SmoothDetails",
+      "description": "A native <details> disclosure with an animated height.",
+      "files": [
+        {
+          "path": "registry/fx/smooth-details.tsx",
+          "type": "registry:component",
+          "target": "components/fx/smooth-details.tsx"
+        },
+        {
+          "path": "registry/fx/smooth-details.css",
+          "type": "registry:file",
+          "target": "components/fx/smooth-details.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "components"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/smooth-details",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "Native <details>/<summary>: keyboard, screen readers, find-in-page and no-JS all work.",
+          "Animates where ::details-content is supported; elsewhere it opens instantly.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) opens without animation."
+        ]
+      }
+    },
+    {
+      "name": "toast-stack",
+      "type": "registry:component",
+      "title": "ToastStack",
+      "description": "Stacked toast notifications that fan out on hover or focus.",
+      "files": [
+        {
+          "path": "registry/fx/toast-stack.tsx",
+          "type": "registry:component",
+          "target": "components/fx/toast-stack.tsx"
+        },
+        {
+          "path": "registry/fx/toast-stack.css",
+          "type": "registry:file",
+          "target": "components/fx/toast-stack.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/toast-stack",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "A labelled region with a polite live list: new toasts are announced without stealing focus.",
+          "Every toast has a labelled dismiss button; focusing the stack fans all toasts out so each is reachable.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows toasts without sliding."
+        ]
+      }
+    },
+    {
+      "name": "success-check",
+      "type": "registry:component",
+      "title": "SuccessCheck",
+      "description": "A ring and tick that draw themselves, then pop.",
+      "files": [
+        {
+          "path": "registry/fx/success-check.tsx",
+          "type": "registry:component",
+          "target": "components/fx/success-check.tsx"
+        },
+        {
+          "path": "registry/fx/success-check.css",
+          "type": "registry:file",
+          "target": "components/fx/success-check.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/success-check",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"status\" with a `label`, so the success is announced when it appears.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the finished tick."
+        ]
+      }
+    },
+    {
+      "name": "progress-bar",
+      "type": "registry:component",
+      "title": "ProgressBar",
+      "description": "A progress bar with a moving sheen, determinate or indeterminate.",
+      "files": [
+        {
+          "path": "registry/fx/progress-bar.tsx",
+          "type": "registry:component",
+          "target": "components/fx/progress-bar.tsx"
+        },
+        {
+          "path": "registry/fx/progress-bar.css",
+          "type": "registry:file",
+          "target": "components/fx/progress-bar.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/progress-bar",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"progressbar\" labelled by its visible label, with aria-valuenow (omitted while indeterminate).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) drops the sheen; an indeterminate bar pulses in place instead of sliding."
+        ]
+      }
+    },
+    {
+      "name": "strength-meter",
+      "type": "registry:component",
+      "title": "StrengthMeter",
+      "description": "Four bars that fill and change colour with strength, e.g. for passwords.",
+      "files": [
+        {
+          "path": "registry/fx/strength-meter.tsx",
+          "type": "registry:component",
+          "target": "components/fx/strength-meter.tsx"
+        },
+        {
+          "path": "registry/fx/strength-meter.css",
+          "type": "registry:file",
+          "target": "components/fx/strength-meter.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "feedback"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/strength-meter",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "role=\"meter\" with aria-valuetext (\"Strong\"), not just a number.",
+          "The level is written out in text, so colour is never the only signal.",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) fills without animating."
+        ]
+      }
+    },
+    {
+      "name": "rain",
+      "type": "registry:component",
+      "title": "Rain",
+      "description": "Slanted rain streaking down behind content.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/rain.tsx",
+          "type": "registry:component",
+          "target": "components/fx/rain.tsx"
+        },
+        {
+          "path": "registry/fx/rain.css",
+          "type": "registry:file",
+          "target": "components/fx/rain.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/rain",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows a still sheet of streaks."
+        ]
+      }
+    },
+    {
+      "name": "snowfall",
+      "type": "registry:component",
+      "title": "Snowfall",
+      "description": "Snowflakes drifting down and swaying.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/snowfall.tsx",
+          "type": "registry:component",
+          "target": "components/fx/snowfall.tsx"
+        },
+        {
+          "path": "registry/fx/snowfall.css",
+          "type": "registry:file",
+          "target": "components/fx/snowfall.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/snowfall",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) leaves the flakes resting, scattered."
+        ]
+      }
+    },
+    {
+      "name": "drift-clouds",
+      "type": "registry:component",
+      "title": "DriftClouds",
+      "description": "Soft clouds sailing slowly across.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/drift-clouds.tsx",
+          "type": "registry:component",
+          "target": "components/fx/drift-clouds.tsx"
+        },
+        {
+          "path": "registry/fx/drift-clouds.css",
+          "type": "registry:file",
+          "target": "components/fx/drift-clouds.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/drift-clouds",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks each cloud at its own spot."
+        ]
+      }
+    },
+    {
+      "name": "bokeh",
+      "type": "registry:component",
+      "title": "Bokeh",
+      "description": "Out-of-focus light orbs, breathing and drifting.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/bokeh.tsx",
+          "type": "registry:component",
+          "target": "components/fx/bokeh.tsx"
+        },
+        {
+          "path": "registry/fx/bokeh.css",
+          "type": "registry:file",
+          "target": "components/fx/bokeh.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/bokeh",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the orbs still."
+        ]
+      }
+    },
+    {
+      "name": "ripple-drops",
+      "type": "registry:component",
+      "title": "RippleDrops",
+      "description": "Rings spreading out from drops on a still surface.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/ripple-drops.tsx",
+          "type": "registry:component",
+          "target": "components/fx/ripple-drops.tsx"
+        },
+        {
+          "path": "registry/fx/ripple-drops.css",
+          "type": "registry:file",
+          "target": "components/fx/ripple-drops.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/ripple-drops",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows frozen rings."
+        ]
+      }
+    },
+    {
+      "name": "mesh-gradient",
+      "type": "registry:component",
+      "title": "MeshGradient",
+      "description": "Four soft colour fields drifting around each other: a living gradient mesh.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/mesh-gradient.tsx",
+          "type": "registry:component",
+          "target": "components/fx/mesh-gradient.tsx"
+        },
+        {
+          "path": "registry/fx/mesh-gradient.css",
+          "type": "registry:file",
+          "target": "components/fx/mesh-gradient.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/mesh-gradient",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Check text contrast against the brightest blend of colours.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the mesh still."
+        ]
+      }
+    },
+    {
+      "name": "sunburst",
+      "type": "registry:component",
+      "title": "Sunburst",
+      "description": "Rays fanning out from a point, turning very slowly.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/sunburst.tsx",
+          "type": "registry:component",
+          "target": "components/fx/sunburst.tsx"
+        },
+        {
+          "path": "registry/fx/sunburst.css",
+          "type": "registry:file",
+          "target": "components/fx/sunburst.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/sunburst",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the rotation."
+        ]
+      }
+    },
+    {
+      "name": "vortex",
+      "type": "registry:component",
+      "title": "Vortex",
+      "description": "A slow spiral of colour fading toward the edges.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/vortex.tsx",
+          "type": "registry:component",
+          "target": "components/fx/vortex.tsx"
+        },
+        {
+          "path": "registry/fx/vortex.css",
+          "type": "registry:file",
+          "target": "components/fx/vortex.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/vortex",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Spinning spirals can cause vestibular discomfort: keep `speed` slow and offer a pause control.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) stops the spin."
+        ]
+      }
+    },
+    {
+      "name": "stripe-flow",
+      "type": "registry:component",
+      "title": "StripeFlow",
+      "description": "Diagonal stripes gliding along, softened at the edges.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/stripe-flow.tsx",
+          "type": "registry:component",
+          "target": "components/fx/stripe-flow.tsx"
+        },
+        {
+          "path": "registry/fx/stripe-flow.css",
+          "type": "registry:file",
+          "target": "components/fx/stripe-flow.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/stripe-flow",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the stripes still."
+        ]
+      }
+    },
+    {
+      "name": "halftone",
+      "type": "registry:component",
+      "title": "Halftone",
+      "description": "Print-style halftone dots with a band of large dots sweeping across.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/halftone.tsx",
+          "type": "registry:component",
+          "target": "components/fx/halftone.tsx"
+        },
+        {
+          "path": "registry/fx/halftone.css",
+          "type": "registry:file",
+          "target": "components/fx/halftone.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/halftone",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks the band in the middle."
+        ]
+      }
+    },
+    {
+      "name": "hex-grid",
+      "type": "registry:component",
+      "title": "HexGrid",
+      "description": "A honeycomb grid with a pool of light drifting across it.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/hex-grid.tsx",
+          "type": "registry:component",
+          "target": "components/fx/hex-grid.tsx"
+        },
+        {
+          "path": "registry/fx/hex-grid.css",
+          "type": "registry:file",
+          "target": "components/fx/hex-grid.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/hex-grid",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) parks the light in the centre."
+        ]
+      }
+    },
+    {
+      "name": "tile-wave",
+      "type": "registry:component",
+      "title": "TileWave",
+      "description": "A grid of tiles lighting up in a diagonal wave.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/tile-wave.tsx",
+          "type": "registry:component",
+          "target": "components/fx/tile-wave.tsx"
+        },
+        {
+          "path": "registry/fx/tile-wave.css",
+          "type": "registry:file",
+          "target": "components/fx/tile-wave.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/tile-wave",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Tiles pulse gently; there are no rapid flashes.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the grid unlit and still."
+        ]
+      }
+    },
+    {
+      "name": "contour-lines",
+      "type": "registry:component",
+      "title": "ContourLines",
+      "description": "Topographic contour rings around slowly wandering peaks.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/contour-lines.tsx",
+          "type": "registry:component",
+          "target": "components/fx/contour-lines.tsx"
+        },
+        {
+          "path": "registry/fx/contour-lines.css",
+          "type": "registry:file",
+          "target": "components/fx/contour-lines.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/contour-lines",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the contours still."
+        ]
+      }
+    },
+    {
+      "name": "constellation",
+      "type": "registry:component",
+      "title": "Constellation",
+      "description": "Stars joined to their nearest neighbours, gently twinkling.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/constellation.tsx",
+          "type": "registry:component",
+          "target": "components/fx/constellation.tsx"
+        },
+        {
+          "path": "registry/fx/constellation.css",
+          "type": "registry:file",
+          "target": "components/fx/constellation.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/constellation",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) keeps the stars steady."
+        ]
+      }
+    },
+    {
+      "name": "orbit-system",
+      "type": "registry:component",
+      "title": "OrbitSystem",
+      "description": "Planets circling concentric orbits behind centred content.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/orbit-system.tsx",
+          "type": "registry:component",
+          "target": "components/fx/orbit-system.tsx"
+        },
+        {
+          "path": "registry/fx/orbit-system.css",
+          "type": "registry:file",
+          "target": "components/fx/orbit-system.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/orbit-system",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes each planet at a different point on its orbit."
+        ]
+      }
+    },
+    {
+      "name": "code-rain",
+      "type": "registry:component",
+      "title": "CodeRain",
+      "description": "Columns of glyphs streaming down, brightest at the leading edge.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/code-rain.tsx",
+          "type": "registry:component",
+          "target": "components/fx/code-rain.tsx"
+        },
+        {
+          "path": "registry/fx/code-rain.css",
+          "type": "registry:file",
+          "target": "components/fx/code-rain.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/code-rain",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "The glyphs are random decoration, never content: they are aria-hidden.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes the columns mid-fall."
+        ]
+      }
+    },
+    {
+      "name": "circuit-traces",
+      "type": "registry:component",
+      "title": "CircuitTraces",
+      "description": "Right-angled circuit traces with pulses of light running along them.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/circuit-traces.tsx",
+          "type": "registry:component",
+          "target": "components/fx/circuit-traces.tsx"
+        },
+        {
+          "path": "registry/fx/circuit-traces.css",
+          "type": "registry:file",
+          "target": "components/fx/circuit-traces.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/circuit-traces",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the traces without pulses."
+        ]
+      }
+    },
+    {
+      "name": "equalizer-bars",
+      "type": "registry:component",
+      "title": "EqualizerBars",
+      "description": "An audio equaliser along the bottom edge, each bar on its own beat.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/equalizer-bars.tsx",
+          "type": "registry:component",
+          "target": "components/fx/equalizer-bars.tsx"
+        },
+        {
+          "path": "registry/fx/equalizer-bars.css",
+          "type": "registry:file",
+          "target": "components/fx/equalizer-bars.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/equalizer-bars",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) holds the bars at rest heights."
+        ]
+      }
+    },
+    {
+      "name": "warp-tunnel",
+      "type": "registry:component",
+      "title": "WarpTunnel",
+      "description": "Rounded frames rushing toward the viewer, like flying down a tunnel.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/warp-tunnel.tsx",
+          "type": "registry:component",
+          "target": "components/fx/warp-tunnel.tsx"
+        },
+        {
+          "path": "registry/fx/warp-tunnel.css",
+          "type": "registry:file",
+          "target": "components/fx/warp-tunnel.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/warp-tunnel",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "Zooming motion is a strong vestibular trigger: keep `speed` slow and give users a visible pause control.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the tunnel as still, nested frames."
+        ]
+      }
+    },
+    {
+      "name": "hyperspace",
+      "type": "registry:component",
+      "title": "Hyperspace",
+      "description": "Stars stretching into streaks as they rush out from the centre.",
+      "registryDependencies": [
+        "https://www.rad-ui.com/r/use-reduced-motion.json"
+      ],
+      "files": [
+        {
+          "path": "registry/fx/hyperspace.tsx",
+          "type": "registry:component",
+          "target": "components/fx/hyperspace.tsx"
+        },
+        {
+          "path": "registry/fx/hyperspace.css",
+          "type": "registry:file",
+          "target": "components/fx/hyperspace.css"
+        }
+      ],
+      "categories": [
+        "fx",
+        "backgrounds"
+      ],
+      "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/hyperspace",
+      "meta": {
+        "product": "Rad UI FX",
+        "accessibility": [
+          "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+          "This is one of the most intense effects: use it briefly or behind a visible pause control, never behind long reading content.",
+          "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+          "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows a still field of stars."
+        ]
+      }
+    }
+  ]
+}

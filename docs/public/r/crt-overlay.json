@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "crt-overlay",
+  "type": "registry:component",
+  "title": "CrtOverlay",
+  "description": "Scanlines, a slow rolling band and a vignette over any content.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/crt-overlay.tsx",
+      "type": "registry:component",
+      "target": "components/fx/crt-overlay.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './crt-overlay.css'\n\nexport type CrtOverlayProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Scanline strength, 0–1. */\n    intensity?: number\n    /** A soft bright band rolling down the screen. No flicker, ever. */\n    roll?: boolean\n    paused?: boolean\n}\n\n// Scanlines, a rolling band and a vignette over any content. Deliberately no\n// flicker: flashing overlays are a seizure risk and add nothing here.\nconst CrtOverlay = ({ intensity = 0.35, roll = true, paused = false, className, style, children, ...props }: CrtOverlayProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-crt', className].filter(Boolean).join(' ')}\n        data-roll={roll ? '' : undefined}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-crt-intensity': intensity, ...style } as React.CSSProperties}\n        {...props}\n    >\n        {children}\n        <div className=\"rad-fx-crt-screen\" aria-hidden=\"true\" />\n    </div>\n}\n\nexport default CrtOverlay\n"
+    },
+    {
+      "path": "registry/fx/crt-overlay.css",
+      "type": "registry:file",
+      "target": "components/fx/crt-overlay.css",
+      "content": ".rad-fx-crt {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-crt-screen {\n    position: absolute;\n    inset: 0;\n    pointer-events: none;\n    background:\n        repeating-linear-gradient(to bottom, rgb(0, 0, 0, var(--rad-fx-crt-intensity, 0.35)) 0 1px, transparent 1px 3px),\n        radial-gradient(ellipse at center, transparent 55%, rgb(0, 0, 0, 0.55) 100%);\n}\n\n.rad-fx-crt[data-roll] .rad-fx-crt-screen::after {\n    content: '';\n    position: absolute;\n    left: 0;\n    right: 0;\n    height: 30%;\n    top: -30%;\n    background: linear-gradient(to bottom, transparent, rgb(255, 255, 255, 0.06), transparent);\n    animation: rad-fx-crt-roll 6s linear infinite;\n}\n\n.rad-fx-crt[data-state='paused'] .rad-fx-crt-screen::after { animation-play-state: paused; }\n\n@keyframes rad-fx-crt-roll {\n    to { top: 100%; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-crt-screen::after { animation: none !important; display: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-crt-screen::after { animation: none !important; display: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/crt-overlay",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The overlay is aria-hidden and ignores pointer events.",
+      "Deliberately no flicker: flashing overlays are a seizure risk.",
+      "Keep `intensity` modest and re-check text contrast under the scanlines.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) removes the rolling band."
+    ]
+  }
+}

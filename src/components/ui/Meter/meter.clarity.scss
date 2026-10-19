@@ -1,0 +1,39 @@
+// Meter — Clarity design system aligned (same track/fill recipe as Progress)
+// Track: subtle muted surface; indicator: semantic fill by state.
+.rad-ui-meter {
+    background: var(--rad-ui-surface-muted);
+    border: none;
+    overflow: hidden;
+    height: var(--rad-ui-spacing-1);
+    border-radius: var(--rad-ui-control-radius-pill);
+    width: 100%;
+    max-width: calc(var(--rad-ui-overlay-width-md) + var(--rad-ui-size-10) + var(--rad-ui-spacing-1));
+
+    .rad-ui-meter-indicator {
+        background: var(--rad-ui-color-accent-800);
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        transition: transform var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
+    }
+
+    // Semantic state (relative to low / high / optimum) is also exposed via
+    // data-state, so the color is never the only signal.
+    .rad-ui-meter-indicator[data-state="low"] {
+        background: var(--rad-ui-warning-solid);
+    }
+
+    .rad-ui-meter-indicator[data-state="high"] {
+        background: var(--rad-ui-info-solid);
+    }
+
+    .rad-ui-meter-indicator[data-state="optimum"] {
+        background: var(--rad-ui-success-solid);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-ui-meter .rad-ui-meter-indicator {
+        transition: none;
+    }
+}

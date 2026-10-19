@@ -141,6 +141,50 @@ describe('Combobox full behavior', () => {
         expect(document.activeElement).toBe(trigger);
     });
 
+    test('portal forceMount keeps content mounted while closed', () => {
+        render(
+            <Combobox.Root>
+                <Combobox.Trigger>open</Combobox.Trigger>
+                <Combobox.Portal forceMount>
+                    <Combobox.Content>
+                        <Combobox.Group>
+                            <Combobox.Item value="one">One</Combobox.Item>
+                        </Combobox.Group>
+                    </Combobox.Content>
+                </Combobox.Portal>
+            </Combobox.Root>
+        );
+
+        expect(screen.getByRole('listbox', { hidden: true })).toHaveAttribute('data-state', 'closed');
+    });
+
+    test('force-mounted content keeps its node and returns focus across open and close', async() => {
+        const user = userEvent.setup();
+        render(
+            <Combobox.Root>
+                <Combobox.Trigger>open</Combobox.Trigger>
+                <Combobox.Portal forceMount>
+                    <Combobox.Content>
+                        <Combobox.Group>
+                            <Combobox.Item value="one">One</Combobox.Item>
+                        </Combobox.Group>
+                    </Combobox.Content>
+                </Combobox.Portal>
+            </Combobox.Root>
+        );
+        const listbox = screen.getByRole('listbox', { hidden: true });
+        const trigger = screen.getByText('open');
+
+        await user.click(trigger);
+        expect(screen.getByRole('listbox')).toBe(listbox);
+        expect(listbox).toHaveAttribute('data-state', 'open');
+
+        await user.keyboard('{Escape}');
+        expect(screen.getByRole('listbox', { hidden: true })).toBe(listbox);
+        expect(listbox).toHaveAttribute('data-state', 'closed');
+        await waitFor(() => expect(document.activeElement).toBe(trigger));
+    });
+
     test('axe: no violations and aria attributes set', async() => {
         const { container } = render(
             <div>

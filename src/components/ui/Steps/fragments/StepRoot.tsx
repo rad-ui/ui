@@ -9,7 +9,7 @@ import useControllableState from '~/core/hooks/useControllableState';
 
 const COMPONENT_NAME = 'Steps';
 
-export type StepsRootProps = React.HTMLAttributes<HTMLDivElement> & {
+export type StepsRootProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     customRootClass?: string;
     /**
      * Layout direction. Defaults to `vertical`, which is how Steps has always rendered;

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "success-check",
+  "type": "registry:component",
+  "title": "SuccessCheck",
+  "description": "A ring and tick that draw themselves, then pop.",
+  "files": [
+    {
+      "path": "registry/fx/success-check.tsx",
+      "type": "registry:component",
+      "target": "components/fx/success-check.tsx",
+      "content": "import * as React from 'react'\n\nimport './success-check.css'\n\nexport type SuccessCheckProps = {\n    /** Announced to screen readers, e.g. \"Payment complete\". */\n    label: string\n    /** Diameter in px. */\n    size?: number\n    color?: string\n    className?: string\n}\n\n// A ring draws itself, then the tick, then a soft pop. Render it when the\n// success happens: it carries role=\"status\" so the label is announced.\nconst SuccessCheck = ({ label, size = 88, color = '#4ade80', className }: SuccessCheckProps) => (\n    <span role=\"status\" aria-label={label} className={['rad-fx-success', className].filter(Boolean).join(' ')} style={{ width: size, height: size, '--rad-fx-success-color': color } as React.CSSProperties}>\n        <svg viewBox=\"0 0 52 52\" aria-hidden=\"true\" focusable=\"false\">\n            <circle className=\"rad-fx-success-ring\" cx=\"26\" cy=\"26\" r=\"23\" pathLength={1} />\n            <path className=\"rad-fx-success-tick\" d=\"M15 27 L23 34 L37 19\" pathLength={1} />\n        </svg>\n    </span>\n)\n\nexport default SuccessCheck\n"
+    },
+    {
+      "path": "registry/fx/success-check.css",
+      "type": "registry:file",
+      "target": "components/fx/success-check.css",
+      "content": ".rad-fx-success {\n    display: inline-flex;\n    animation: rad-fx-success-pop 400ms cubic-bezier(0.3, 1.6, 0.5, 1) 900ms both;\n}\n\n.rad-fx-success svg {\n    width: 100%;\n    height: 100%;\n    fill: none;\n    stroke: var(--rad-fx-success-color, #4ade80);\n    stroke-width: 3;\n    stroke-linecap: round;\n    stroke-linejoin: round;\n}\n\n.rad-fx-success-ring {\n    stroke-dasharray: 1;\n    stroke-dashoffset: 1;\n    transform: rotate(-90deg);\n    transform-origin: 50% 50%;\n    animation: rad-fx-success-draw 600ms cubic-bezier(0.6, 0.1, 0.3, 1) forwards;\n}\n\n.rad-fx-success-tick {\n    stroke-width: 3.5;\n    stroke-dasharray: 1;\n    stroke-dashoffset: 1;\n    animation: rad-fx-success-draw 350ms cubic-bezier(0.6, 0.1, 0.3, 1) 550ms forwards;\n}\n\n@keyframes rad-fx-success-draw { to { stroke-dashoffset: 0; } }\n\n@keyframes rad-fx-success-pop {\n    0% { transform: scale(1); }\n    50% { transform: scale(1.08); }\n    100% { transform: scale(1); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-success, .rad-fx-success-ring, .rad-fx-success-tick { animation: none; stroke-dashoffset: 0; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-success,\n[data-rad-fx-motion='reduce'] .rad-fx-success-ring,\n[data-rad-fx-motion='reduce'] .rad-fx-success-tick { animation: none; stroke-dashoffset: 0; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "feedback"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/success-check",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "role=\"status\" with a `label`, so the success is announced when it appears.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the finished tick."
+    ]
+  }
+}

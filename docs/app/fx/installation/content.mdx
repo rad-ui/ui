@@ -1,0 +1,43 @@
+# Installation
+
+Rad UI FX components are distributed through a [shadcn-compatible registry](https://ui.shadcn.com/docs/registry). The source is copied into your project, so you can read and change everything.
+
+## With the shadcn CLI
+
+```bash
+npx shadcn@latest add https://www.rad-ui.com/r/blur-reveal.json
+```
+
+Files land in `components/fx/`. Each component imports its own CSS file, and some also use `@radui/ui` primitives, which the CLI installs for you.
+
+To use the short `@rad-ui/<name>` form, add the registry to your `components.json`:
+
+```json
+{
+  "registries": {
+    "@rad-ui": "https://www.rad-ui.com/r/{name}.json"
+  }
+}
+```
+
+```bash
+npx shadcn@latest add @rad-ui/blur-reveal
+```
+
+## With a coding agent
+
+Agents that support the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) can browse and install from the registry directly once it's in your `components.json`. Otherwise, paste a prompt like this:
+
+```bash
+Install the Rad UI FX "blur-reveal" component from https://www.rad-ui.com/r/blur-reveal.json using the shadcn CLI. Follow the accessibility notes in its "meta.accessibility" field.
+```
+
+Every registry item carries its accessibility contract in `meta.accessibility`, so the agent knows which parts must not be removed.
+
+## Manually
+
+Each component page shows its source files. Copy them into the same folder in your project and install any dependencies listed on the page.
+
+## In-app reduced motion
+
+Every FX component follows the operating system's **Reduce motion** setting. If your app has its own motion setting, set `data-rad-fx-motion="reduce"` on any ancestor (for example `<html>`) to get the same result.

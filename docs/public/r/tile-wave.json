@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tile-wave",
+  "type": "registry:component",
+  "title": "TileWave",
+  "description": "A grid of tiles lighting up in a diagonal wave.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/tile-wave.tsx",
+      "type": "registry:component",
+      "target": "components/fx/tile-wave.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './tile-wave.css'\n\nexport type TileWaveProps = React.ComponentPropsWithoutRef<'div'> & {\n    color?: string\n    columns?: number\n    rows?: number\n    /** Seconds per wave. */\n    speed?: number\n    paused?: boolean\n}\n\n// A grid of tiles that light up in a diagonal wave.\nconst TileWave = ({ color = 'rgba(167, 139, 250, 0.5)', columns = 18, rows = 10, speed = 3.2, paused = false, className, style, children, ...props }: TileWaveProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n    const diagonal = columns + rows\n\n    return <div\n        ref={ref}\n        className={['rad-fx-tiles', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-tile-color': color, '--rad-fx-tile-speed': `${speed}s`, ...style } as React.CSSProperties}\n        {...props}\n    >\n        <div className=\"rad-fx-tiles-layer\" aria-hidden=\"true\" style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)` }}>\n            {Array.from({ length: columns * rows }, (_, i) => {\n                const col = i % columns\n                const row = Math.floor(i / columns)\n                return <span key={i} className=\"rad-fx-tile\" style={{ animationDelay: `calc(var(--rad-fx-tile-speed, 3.2s) * ${((col + row) / diagonal).toFixed(3)})` }} />\n            })}\n        </div>\n        <div className=\"rad-fx-tiles-content\">{children}</div>\n    </div>\n}\n\nexport default TileWave\n"
+    },
+    {
+      "path": "registry/fx/tile-wave.css",
+      "type": "registry:file",
+      "target": "components/fx/tile-wave.css",
+      "content": ".rad-fx-tiles {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-tiles-layer {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n}\n\n.rad-fx-tiles-content { position: relative; }\n\n.rad-fx-tiles[data-state='paused'] .rad-fx-tiles-layer,\n.rad-fx-tiles[data-state='paused'] .rad-fx-tiles-layer * { animation-play-state: paused !important; }\n\n.rad-fx-tiles-layer {\n    display: grid;\n    gap: 3px;\n    padding: 3px;\n    mask-image: radial-gradient(ellipse at center, #000 35%, transparent 85%);\n}\n\n.rad-fx-tile {\n    border-radius: 3px;\n    background: var(--rad-fx-tile-color);\n    opacity: 0.08;\n    animation: rad-fx-tile var(--rad-fx-tile-speed, 3.2s) ease-in-out infinite;\n}\n\n@keyframes rad-fx-tile {\n    0%, 70%, 100% { opacity: 0.08; transform: scale(0.85); }\n    20% { opacity: 0.7; transform: scale(1); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-tile { animation: none; opacity: 0.15; transform: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-tile { animation: none; opacity: 0.15; transform: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/tile-wave",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Tiles pulse gently; there are no rapid flashes.",
+      "Pauses offscreen; `paused` stops it on demand (wire it to a visible control if it runs behind reading content).",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows the grid unlit and still."
+    ]
+  }
+}

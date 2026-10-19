@@ -4,23 +4,29 @@ import { getNextTabbable } from '@floating-ui/react/utils';
 
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
+import { MenuPrimitivePortalContext } from '../contexts/MenuPrimitivePortalContext';
 
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     initialFocus?: number;
     focusManagerDisabled?: boolean;
+    /** Keep the content mounted while closed (e.g. for exit animations). Inside a `Portal`, set `forceMount` on the Portal (it passes down): a closed Portal renders nothing, as in Radix. */
+    forceMount?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(
-    ({ children, className, initialFocus, focusManagerDisabled = false, ...props }, propRef) => {
+    ({ children, className, initialFocus, focusManagerDisabled = false, forceMount = false, ...props }, propRef) => {
         const context = useContext(MenuPrimitiveRootContext);
         const tree = Floater.useFloatingTree();
         const mergedRef = Floater.useMergeRefs([
             context?.refs.setFloating,
             propRef
         ]);
-        if (!context || !context.isOpen) return null;
+        const { forceMount: portalForceMount } = useContext(MenuPrimitivePortalContext);
+        if (!context) return null;
+        const isOpen = context.isOpen;
+        if (!isOpen && !forceMount && !portalForceMount) return null;
         const {
             floatingStyles,
             getFloatingProps,
@@ -67,38 +73,48 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             overscrollBehavior: 'contain'
         };
 
+        // Force-mounted while closed: keep the DOM (for exit animations) but hide
+        // it from users and assistive tech. The tree is the same open or closed so
+        // React keeps the node (and its state) across toggles; only the focus
+        // manager switches off, which also returns focus.
+        const floatingProps = isOpen
+            ? (getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
+                ...restProps,
+                className,
+                // Portaled content does not inherit direction from the trigger's tree.
+                dir: context.dir,
+                'data-state': 'open',
+                onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
+                    (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);
+                    handleTabKey(event);
+                },
+                style: { ...consumerStyle, ...floatingStyles }
+            })
+            : {
+                ...restProps,
+                className,
+                dir: context.dir,
+                'data-state': 'closed',
+                style: { ...consumerStyle, ...floatingStyles, visibility: 'hidden', pointerEvents: 'none' }
+            };
+
         return (
-            <>
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 <Floater.FocusManager
                     context={floatingContext}
-                    disabled={focusManagerDisabled}
+                    disabled={focusManagerDisabled || !isOpen}
                     modal={false}
                     initialFocus={initialFocus ?? (isNested ? -1 : 0)}
                     returnFocus={!isNested}
-                >         
+                >
                     <div
                         ref={mergedRef}
-                        {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
-                            ...restProps,
-                            className,
-                            // Portaled content does not inherit direction from the trigger's tree.
-                            dir: context.dir,
-                            'data-state': 'open',
-                            onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
-                                (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);
-                                handleTabKey(event);
-                            },
-                            style: { ...consumerStyle, ...floatingStyles }
-                        })}
+                        {...floatingProps}
                     >
-                        <div style={scrollContainerStyle}>
-                        {children}
-                        </div>
+                        <div style={scrollContainerStyle}>{children}</div>
                     </div>
                 </Floater.FocusManager>
             </Floater.FloatingList>
-             </>
         );
     }
 );

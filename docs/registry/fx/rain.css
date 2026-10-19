@@ -1,0 +1,40 @@
+.rad-fx-rain {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-rain-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-rain-content { position: relative; }
+
+.rad-fx-rain-layer { transform: rotate(var(--rad-fx-rain-angle, 12deg)) scale(1.3); }
+
+.rad-fx-rain-drop {
+    position: absolute;
+    top: -20%;
+    width: 1.5px;
+    border-radius: 1px;
+    background: linear-gradient(to bottom, transparent, var(--rad-fx-rain-color));
+    animation: rad-fx-rain-fall 0.8s linear infinite;
+}
+
+.rad-fx-rain[data-state='paused'] .rad-fx-rain-drop { animation-play-state: paused; }
+
+@keyframes rad-fx-rain-fall {
+    to { transform: translateY(160cqh); }
+}
+
+.rad-fx-rain-layer { container-type: size; }
+
+/* Reduced motion: a still sheet of rain streaks. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-rain-drop { animation: none; transform: translateY(calc(var(--rad-fx-rain-rest, 0.5) * 100cqh)); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-rain-drop { animation: none; transform: translateY(calc(var(--rad-fx-rain-rest, 0.5) * 100cqh)); }

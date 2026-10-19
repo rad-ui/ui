@@ -1,0 +1,41 @@
+.rad-fx-strike-from {
+    position: relative;
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+/* Our own strike line, so it can draw across. */
+.rad-fx-strike-from::after {
+    content: '';
+    position: absolute;
+    left: -0.05em;
+    right: -0.05em;
+    top: 52%;
+    height: 0.09em;
+    border-radius: 0.05em;
+    background: var(--rad-fx-strike-color);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 450ms cubic-bezier(0.6, 0.1, 0.3, 1);
+}
+
+.rad-fx-strike[data-state='swapped'] .rad-fx-strike-from::after { transform: scaleX(1); }
+
+.rad-fx-strike-to {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--rad-fx-strike-color);
+    opacity: 0;
+    transform: translateY(0.4em);
+    transition: opacity 400ms ease 450ms, transform 500ms cubic-bezier(0.3, 1.4, 0.5, 1) 450ms;
+}
+
+.rad-fx-strike[data-state='swapped'] .rad-fx-strike-to { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-strike-from::after { transform: scaleX(1); transition: none; }
+    .rad-fx-strike-to { opacity: 1; transform: none; transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-strike-from::after { transform: scaleX(1); transition: none; }
+[data-rad-fx-motion='reduce'] .rad-fx-strike-to { opacity: 1; transform: none; transition: none; }

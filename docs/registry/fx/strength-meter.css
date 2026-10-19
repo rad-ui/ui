@@ -1,0 +1,42 @@
+.rad-fx-strength-bars {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.rad-fx-strength-bar {
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(127, 127, 127, 0.25);
+    overflow: hidden;
+    position: relative;
+}
+
+.rad-fx-strength-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rad-fx-strength-color);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 350ms cubic-bezier(0.3, 0.8, 0.2, 1), background 300ms ease;
+}
+
+.rad-fx-strength-bar[data-on]::after { transform: scaleX(1); }
+
+/* Each bar fills just after the one before it. */
+.rad-fx-strength-bar:nth-child(2)::after { transition-delay: 60ms; }
+.rad-fx-strength-bar:nth-child(3)::after { transition-delay: 120ms; }
+.rad-fx-strength-bar:nth-child(4)::after { transition-delay: 180ms; }
+
+.rad-fx-strength-text {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-strength-bar::after { transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-strength-bar::after { transition: none; }

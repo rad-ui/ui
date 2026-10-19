@@ -1,0 +1,40 @@
+.rad-fx-clouds {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-clouds-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-clouds-content { position: relative; }
+
+.rad-fx-cloud {
+    position: absolute;
+    left: 0;
+    aspect-ratio: 3 / 1;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, var(--rad-fx-cloud-color), transparent 70%);
+    filter: blur(8px);
+    animation: rad-fx-cloud-drift 40s linear infinite;
+}
+
+.rad-fx-clouds[data-state='paused'] .rad-fx-cloud { animation-play-state: paused; }
+
+@keyframes rad-fx-cloud-drift {
+    from { transform: translateX(-110%); }
+    to { transform: translateX(calc(100cqw + 10%)); }
+}
+
+.rad-fx-clouds-layer { container-type: size; }
+
+/* Reduced motion: each cloud rests at its own seeded spot. */
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-cloud { animation: none; transform: translateX(calc(var(--rad-fx-cloud-rest, 0.3) * 100cqw)); }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-cloud { animation: none; transform: translateX(calc(var(--rad-fx-cloud-rest, 0.3) * 100cqw)); }

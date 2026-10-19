@@ -1,0 +1,47 @@
+.rad-fx-fireflies {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-fireflies-air {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-firefly {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--rad-fx-firefly-color);
+    box-shadow: 0 0 8px 2px var(--rad-fx-firefly-color), 0 0 18px 4px color-mix(in srgb, var(--rad-fx-firefly-color) 40%, transparent);
+    animation-name: rad-fx-firefly-wander, rad-fx-firefly-glow;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-direction: alternate, alternate;
+}
+
+.rad-fx-fireflies[data-state='paused'] .rad-fx-firefly { animation-play-state: paused; }
+
+.rad-fx-fireflies-content { position: relative; }
+
+@keyframes rad-fx-firefly-wander {
+    0% { transform: translate(0, 0); }
+    33% { transform: translate(var(--x1), var(--y1)); }
+    66% { transform: translate(var(--x2), var(--y2)); }
+    100% { transform: translate(var(--x3), var(--y3)); }
+}
+
+@keyframes rad-fx-firefly-glow {
+    0%, 30% { opacity: 0.15; }
+    100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-firefly { animation: none; opacity: 0.7; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-firefly { animation: none; opacity: 0.7; }

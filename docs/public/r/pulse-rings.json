@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pulse-rings",
+  "type": "registry:component",
+  "title": "PulseRings",
+  "description": "Rings radiating out from a centre: live status, radar, \"on air\".",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/pulse-rings.tsx",
+      "type": "registry:component",
+      "target": "components/fx/pulse-rings.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './pulse-rings.css'\n\nexport type PulseRingsProps = {\n    /** Shown in the centre, e.g. an avatar or icon. */\n    children?: React.ReactNode\n    /** Ring colour. */\n    color?: string\n    /** Number of rings in flight. */\n    rings?: number\n    /** Seconds per ring. */\n    duration?: number\n    /** Diameter of the rings' starting circle, in px. */\n    size?: number\n    paused?: boolean\n    className?: string\n}\n\nconst PulseRings = ({ children, color = 'rgba(52, 211, 153, 0.6)', rings = 3, duration = 2.8, size = 72, paused = false, className }: PulseRingsProps) => {\n    const ref = React.useRef<HTMLSpanElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <span\n        ref={ref}\n        className={['rad-fx-pulse', className].filter(Boolean).join(' ')}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ width: size, height: size, '--rad-fx-pulse-color': color, '--rad-fx-pulse-duration': `${duration}s` } as React.CSSProperties}\n    >\n        {Array.from({ length: rings }, (_, i) => (\n            <span key={i} className=\"rad-fx-pulse-ring\" aria-hidden=\"true\" style={{ animationDelay: `${(duration / rings) * i}s` }} />\n        ))}\n        <span className=\"rad-fx-pulse-center\">{children}</span>\n    </span>\n}\n\nexport default PulseRings\n"
+    },
+    {
+      "path": "registry/fx/pulse-rings.css",
+      "type": "registry:file",
+      "target": "components/fx/pulse-rings.css",
+      "content": ".rad-fx-pulse {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.rad-fx-pulse-ring {\n    position: absolute;\n    inset: 0;\n    border-radius: 50%;\n    border: 2px solid var(--rad-fx-pulse-color);\n    pointer-events: none;\n    opacity: 0;\n    animation: rad-fx-pulse var(--rad-fx-pulse-duration, 2.8s) cubic-bezier(0.2, 0.6, 0.3, 1) infinite;\n}\n\n.rad-fx-pulse[data-state='paused'] .rad-fx-pulse-ring { animation-play-state: paused; }\n\n.rad-fx-pulse-center {\n    position: relative;\n    display: inline-flex;\n}\n\n@keyframes rad-fx-pulse {\n    0% { transform: scale(1); opacity: 0.9; }\n    100% { transform: scale(3.2); opacity: 0; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-pulse-ring { animation: none; opacity: 0.35; transform: scale(1.5); }\n    .rad-fx-pulse-ring + .rad-fx-pulse-ring { display: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-pulse-ring { animation: none; opacity: 0.35; transform: scale(1.5); }\n[data-rad-fx-motion='reduce'] .rad-fx-pulse-ring + .rad-fx-pulse-ring { display: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/pulse-rings",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "Rings are aria-hidden; give the centre content its own accessible name if it means something (e.g. \"Live\").",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) shows one still ring."
+    ]
+  }
+}

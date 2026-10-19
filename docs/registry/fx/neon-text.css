@@ -1,0 +1,30 @@
+.rad-fx-neon {
+    color: color-mix(in srgb, var(--rad-fx-neon-color, #e879f9) 25%, #fff);
+    text-shadow:
+        0 0 2px #fff,
+        0 0 8px var(--rad-fx-neon-color, #e879f9),
+        0 0 18px var(--rad-fx-neon-color, #e879f9),
+        0 0 42px var(--rad-fx-neon-color, #e879f9),
+        0 0 80px color-mix(in srgb, var(--rad-fx-neon-color, #e879f9) 60%, transparent);
+}
+
+.rad-fx-neon[data-flicker] {
+    animation: rad-fx-neon-flicker 7s linear infinite;
+}
+
+/* Two brief dips per 7s cycle: a flicker, not a strobe. */
+@keyframes rad-fx-neon-flicker {
+    0%, 90%, 91.5%, 93%, 94.5%, 100% { opacity: 1; }
+    90.8% { opacity: 0.55; }
+    93.8% { opacity: 0.7; }
+}
+
+@media (forced-colors: active) {
+    .rad-fx-neon { text-shadow: none; color: CanvasText; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-neon[data-flicker] { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-neon[data-flicker] { animation: none; }

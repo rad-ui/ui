@@ -1,0 +1,41 @@
+{
+  "name": "Rad UI",
+  "packageName": "@radui/ui",
+  "description": "Headless, accessible React components with TypeScript types and optional theme styling for custom design systems.",
+  "repository": "https://github.com/rad-ui/ui",
+  "documentation": "https://www.rad-ui.com/docs/first-steps/introduction",
+  "npm": "https://www.npmjs.com/package/@radui/ui",
+  "license": "MIT",
+  "framework": "React",
+  "language": "TypeScript",
+  "styling": {
+    "model": "Headless components with optional Rad UI theme CSS",
+    "themeCss": "@radui/ui/themes/default.css",
+    "tailwindPreset": "@radui/ui/themes/tailwind-presets/default.css"
+  },
+  "install": {
+    "npm": "npm install @radui/ui",
+    "pnpm": "pnpm add @radui/ui",
+    "yarn": "yarn add @radui/ui"
+  },
+  "imports": {
+    "recommended": "import Button from \"@radui/ui/Button\"",
+    "theme": "import Theme from \"@radui/ui/Theme\"",
+    "css": "import \"@radui/ui/themes/default.css\""
+  },
+  "capabilities": [
+    "accessible React primitives",
+    "headless component APIs",
+    "per-component imports",
+    "server-rendering friendly markup",
+    "stable data attributes for styling",
+    "optional design-system theme"
+  ],
+  "primaryDocs": [
+    "https://www.rad-ui.com/docs/first-steps/installation",
+    "https://www.rad-ui.com/docs/first-steps/usage",
+    "https://www.rad-ui.com/docs/guides/styling-and-customization",
+    "https://www.rad-ui.com/docs/guides/design-system-integration",
+    "https://www.rad-ui.com/docs/guides/accessibility"
+  ]
+}

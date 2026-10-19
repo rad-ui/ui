@@ -24,7 +24,8 @@ export const DOCS_KEYBOARD_SHORTCUTS = Object.freeze({
     PAGE_UP: { id: 'page-up', label: 'PageUp' },
     SHIFT_TAB: { id: 'shift-tab', label: 'Shift + Tab' },
     SPACE: { id: 'space', label: 'Space' },
-    TAB: { id: 'tab', label: 'Tab' }
+    TAB: { id: 'tab', label: 'Tab' },
+    NONE: { id: 'none', label: 'None' }
 });
 
 export const createKeyboardShortcutRow = (shortcut, description) => {

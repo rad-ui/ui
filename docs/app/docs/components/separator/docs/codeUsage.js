@@ -1,4 +1,14 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
+import {
+    createAriaReferenceRow,
+    createAriaReferenceTable,
+    DOCS_ARIA_PATTERNS
+} from '../../shared/ariaReferences';
+import {
+    createKeyboardShortcutRow,
+    createKeyboardShortcutTable,
+    DOCS_KEYBOARD_SHORTCUTS
+} from '../../shared/keyboardShortcuts';
 
 // Import API documentation
 import separator_api_SourceCode from './component_api/separator.tsx';
@@ -48,10 +58,26 @@ export const api_documentation = {
 export const features = [
     "Support for both horizontal and vertical orientation",
     "Customizable with different color themes",
+    "Uses semantic separator roles by default",
+    "Can opt into decorative presentation when the divider is visual-only",
     "Helps establish visual hierarchy in layouts",
     "Simple integration with minimal props required",
     "Lightweight implementation with proper spacing"
 ];
+
+export const keyboardShortcuts = createKeyboardShortcutTable([
+    createKeyboardShortcutRow(
+        DOCS_KEYBOARD_SHORTCUTS.NONE,
+        'Separators are static by default and do not add component-specific keyboard shortcuts.'
+    )
+]);
+
+export const ariaReferences = createAriaReferenceTable([
+    createAriaReferenceRow(
+        DOCS_ARIA_PATTERNS.SEPARATOR,
+        'Uses role="separator" for semantic dividers, adds aria-orientation="vertical" when needed, and switches to role="none" when decorative is true.'
+    )
+]);
 
 // Kept for backwards compatibility
 export const SeparatorTable = {

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "noise-grain",
+  "type": "registry:component",
+  "title": "NoiseGrain",
+  "description": "A film-grain overlay that gives flat surfaces texture, optionally shimmering.",
+  "registryDependencies": [
+    "https://www.rad-ui.com/r/use-reduced-motion.json"
+  ],
+  "files": [
+    {
+      "path": "registry/fx/noise-grain.tsx",
+      "type": "registry:component",
+      "target": "components/fx/noise-grain.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport { useOffscreen } from './use-reduced-motion'\nimport './noise-grain.css'\n\nexport type NoiseGrainProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Grain opacity, 0–1. Subtle reads best: 0.08–0.2. */\n    opacity?: number\n    /** Let the grain shimmer like film. */\n    animated?: boolean\n    paused?: boolean\n}\n\n// A film-grain overlay. The noise is an inline SVG turbulence texture: no image request.\nconst NoiseGrain = ({ opacity = 0.14, animated = true, paused = false, className, style, children, ...props }: NoiseGrainProps) => {\n    const ref = React.useRef<HTMLDivElement | null>(null)\n    const offscreen = useOffscreen(ref)\n\n    return <div\n        ref={ref}\n        className={['rad-fx-grain', className].filter(Boolean).join(' ')}\n        data-animated={animated ? '' : undefined}\n        data-state={paused || offscreen ? 'paused' : 'running'}\n        style={{ '--rad-fx-grain-opacity': opacity, ...style } as React.CSSProperties}\n        {...props}\n    >\n        {children}\n        <div className=\"rad-fx-grain-layer\" aria-hidden=\"true\" />\n    </div>\n}\n\nexport default NoiseGrain\n"
+    },
+    {
+      "path": "registry/fx/noise-grain.css",
+      "type": "registry:file",
+      "target": "components/fx/noise-grain.css",
+      "content": ".rad-fx-grain {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n}\n\n.rad-fx-grain-layer {\n    position: absolute;\n    inset: -50%;\n    pointer-events: none;\n    opacity: var(--rad-fx-grain-opacity, 0.14);\n    mix-blend-mode: overlay;\n    background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\");\n}\n\n.rad-fx-grain[data-animated] .rad-fx-grain-layer {\n    animation: rad-fx-grain 0.9s steps(6) infinite;\n}\n\n.rad-fx-grain[data-state='paused'] .rad-fx-grain-layer { animation-play-state: paused; }\n\n@keyframes rad-fx-grain {\n    0% { transform: translate(0, 0); }\n    20% { transform: translate(-8%, 5%); }\n    40% { transform: translate(6%, -9%); }\n    60% { transform: translate(-4%, 11%); }\n    80% { transform: translate(10%, 3%); }\n    100% { transform: translate(0, 0); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-grain-layer { animation: none !important; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-grain-layer { animation: none !important; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "backgrounds"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/noise-grain",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The effect layer is aria-hidden and ignores pointer events; only children are exposed.",
+      "Keep `opacity` low and re-check text contrast with the grain on.",
+      "Pauses offscreen; `paused` stops it on demand.",
+      "prefers-reduced-motion: reduce (or data-rad-fx-motion=\"reduce\" on an ancestor) freezes the grain."
+    ]
+  }
+}

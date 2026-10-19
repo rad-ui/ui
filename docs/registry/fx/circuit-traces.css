@@ -1,0 +1,52 @@
+.rad-fx-circuit {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.rad-fx-circuit-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rad-fx-circuit-content { position: relative; }
+
+.rad-fx-circuit[data-state='paused'] .rad-fx-circuit-layer,
+.rad-fx-circuit[data-state='paused'] .rad-fx-circuit-layer * { animation-play-state: paused !important; }
+
+.rad-fx-circuit-layer { width: 100%; height: 100%; }
+
+.rad-fx-circuit-trace {
+    fill: none;
+    stroke: var(--rad-fx-circuit-color);
+    stroke-width: 0.25;
+    opacity: 0.2;
+}
+
+.rad-fx-circuit-pulse {
+    fill: none;
+    stroke: var(--rad-fx-circuit-color);
+    stroke-width: 0.45;
+    stroke-linecap: round;
+    stroke-dasharray: 0.12 0.88;
+    stroke-dashoffset: 1;
+    filter: drop-shadow(0 0 1px var(--rad-fx-circuit-color));
+    animation: rad-fx-circuit 4s linear infinite;
+}
+
+.rad-fx-circuit-pad {
+    fill: var(--rad-fx-circuit-color);
+    opacity: 0.6;
+}
+
+@keyframes rad-fx-circuit { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-circuit-pulse { animation: none; opacity: 0; }
+    .rad-fx-circuit-trace { opacity: 0.35; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-circuit-pulse { animation: none; opacity: 0; }
+[data-rad-fx-motion='reduce'] .rad-fx-circuit-trace { opacity: 0.35; }

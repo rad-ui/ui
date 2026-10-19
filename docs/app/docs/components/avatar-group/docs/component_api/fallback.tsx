@@ -31,6 +31,14 @@ const data = {
         },
         type : "string",
         default : "--",
+       },
+       {
+        prop : {
+            name : "asChild",
+            info_tooltips : "Merges fallback props onto the immediate child element instead of rendering the default span."
+        },
+        type : "boolean",
+        default : "false",
        }
     ]
 }

@@ -1,0 +1,24 @@
+.rad-fx-drop-word { display: inline-block; white-space: nowrap; }
+
+.rad-fx-drop-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-1.2em);
+}
+
+.rad-fx-drop[data-state='dropped'] .rad-fx-drop-char {
+    animation: rad-fx-drop 650ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+    animation-delay: calc(var(--rad-fx-drop-i, 0) * var(--rad-fx-drop-stagger, 45ms));
+}
+
+@keyframes rad-fx-drop {
+    0% { opacity: 0; transform: translateY(-1.2em); }
+    40% { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-drop-char, .rad-fx-drop[data-state] .rad-fx-drop-char { opacity: 1; transform: none; animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-drop-char { opacity: 1 !important; transform: none !important; animation: none !important; }

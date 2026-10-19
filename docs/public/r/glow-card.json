@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glow-card",
+  "type": "registry:component",
+  "title": "GlowCard",
+  "description": "A card whose surface lights up under the pointer, and around keyboard focus.",
+  "files": [
+    {
+      "path": "registry/fx/glow-card.tsx",
+      "type": "registry:component",
+      "target": "components/fx/glow-card.tsx",
+      "content": "'use client'\n\nimport * as React from 'react'\n\nimport './glow-card.css'\n\nexport type GlowCardProps = React.ComponentPropsWithoutRef<'div'> & {\n    /** Glow colour. */\n    glowColor?: string\n    /** Glow radius in px. */\n    radius?: number\n}\n\n// The glow follows the pointer, and lights up the centre when keyboard focus\n// lands inside, so keyboard users get the same affordance as mouse users.\nconst GlowCard = ({ glowColor = 'rgba(56, 189, 248, 0.25)', radius = 320, className, style, onPointerMove, children, ...props }: GlowCardProps) => {\n    const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {\n        const rect = event.currentTarget.getBoundingClientRect()\n        event.currentTarget.style.setProperty('--rad-fx-glow-x', `${event.clientX - rect.left}px`)\n        event.currentTarget.style.setProperty('--rad-fx-glow-y', `${event.clientY - rect.top}px`)\n        onPointerMove?.(event)\n    }\n\n    return <div\n        className={['rad-fx-glow-card', className].filter(Boolean).join(' ')}\n        style={{ '--rad-fx-glow-color': glowColor, '--rad-fx-glow-radius': `${radius}px`, ...style } as React.CSSProperties}\n        onPointerMove={handlePointerMove}\n        {...props}\n    >\n        <div className=\"rad-fx-glow-card-light\" aria-hidden=\"true\" />\n        <div className=\"rad-fx-glow-card-content\">{children}</div>\n    </div>\n}\n\nexport default GlowCard\n"
+    },
+    {
+      "path": "registry/fx/glow-card.css",
+      "type": "registry:file",
+      "target": "components/fx/glow-card.css",
+      "content": ".rad-fx-glow-card {\n    position: relative;\n    isolation: isolate;\n    overflow: hidden;\n\n    --rad-fx-glow-x: 50%;\n    --rad-fx-glow-y: 50%;\n}\n\n.rad-fx-glow-card-light {\n    position: absolute;\n    inset: 0;\n    z-index: -1;\n    pointer-events: none;\n    opacity: 0;\n    background: radial-gradient(\n        var(--rad-fx-glow-radius, 320px) circle at var(--rad-fx-glow-x) var(--rad-fx-glow-y),\n        var(--rad-fx-glow-color),\n        transparent 70%\n    );\n    transition: opacity 300ms ease;\n}\n\n.rad-fx-glow-card:hover .rad-fx-glow-card-light,\n.rad-fx-glow-card:focus-within .rad-fx-glow-card-light {\n    opacity: 1;\n}\n\n.rad-fx-glow-card-content { position: relative; }\n\n@media (prefers-reduced-motion: reduce) {\n    .rad-fx-glow-card-light { transition: none; }\n}\n\n[data-rad-fx-motion='reduce'] .rad-fx-glow-card-light { transition: none; }\n"
+    }
+  ],
+  "categories": [
+    "fx",
+    "interactions"
+  ],
+  "docs": "Docs and accessibility contract: https://www.rad-ui.com/fx/glow-card",
+  "meta": {
+    "product": "Rad UI FX",
+    "accessibility": [
+      "The glow layer is aria-hidden; the card adds no roles or tab stops of its own.",
+      "Focus inside the card lights it too, so keyboard users get the same affordance.",
+      "Check text contrast with the glow at full strength."
+    ]
+  }
+}

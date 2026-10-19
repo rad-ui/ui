@@ -1,0 +1,30 @@
+.rad-fx-flashlight {
+    position: relative;
+    isolation: isolate;
+
+    --rad-fx-beam-x: 50%;
+    --rad-fx-beam-y: 50%;
+}
+
+.rad-fx-flashlight-dark {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+        circle var(--rad-fx-beam-radius, 140px) at var(--rad-fx-beam-x) var(--rad-fx-beam-y),
+        transparent 0%,
+        rgb(0, 0, 0, calc(var(--rad-fx-darkness, 0.82) * 0.4)) 60%,
+        rgb(0, 0, 0, var(--rad-fx-darkness, 0.82)) 100%
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.rad-fx-flashlight:hover .rad-fx-flashlight-dark { opacity: 1; }
+
+/* Keyboard users always see everything. */
+.rad-fx-flashlight:focus-within .rad-fx-flashlight-dark { opacity: 0; }
+
+@media (forced-colors: active) {
+    .rad-fx-flashlight-dark { display: none; }
+}

@@ -90,6 +90,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         label: 'Menu button pattern',
         href: 'https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/'
     },
+    NAVIGATION_LANDMARK: {
+        id: 'navigation-landmark',
+        label: 'Navigation landmark',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/navigation_role'
+    },
     PROGRESSBAR: {
         id: 'progressbar',
         label: 'Progressbar role',
@@ -99,6 +104,11 @@ export const DOCS_ARIA_PATTERNS = Object.freeze({
         id: 'region',
         label: 'Region role',
         href: 'https://www.w3.org/TR/wai-aria-1.3/#region'
+    },
+    SEPARATOR: {
+        id: 'separator',
+        label: 'Separator role',
+        href: 'https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/separator_role'
     },
     SLIDER: {
         id: 'slider',

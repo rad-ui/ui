@@ -1,0 +1,54 @@
+.rad-fx-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.rad-fx-switch-track {
+    position: relative;
+    width: 52px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid rgb(127, 127, 127, 0.5);
+    border-radius: 999px;
+    background: rgb(127, 127, 127, 0.25);
+    cursor: pointer;
+    transition: background 250ms ease, border-color 250ms ease;
+}
+
+.rad-fx-switch-track[data-state='on'] {
+    background: var(--rad-fx-switch-color, #8b5cf6);
+    border-color: var(--rad-fx-switch-color, #8b5cf6);
+}
+
+.rad-fx-switch-track:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 3px;
+}
+
+.rad-fx-switch-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgb(0, 0, 0, 0.35);
+
+    /* A slight overshoot gives the spring. */
+    transition: transform 380ms cubic-bezier(0.3, 1.5, 0.5, 1), width 150ms ease;
+}
+
+.rad-fx-switch-track[data-state='on'] .rad-fx-switch-knob { transform: translateX(22px); }
+
+/* Squish while pressed: the knob stretches toward where it is going. */
+.rad-fx-switch-track:active .rad-fx-switch-knob { width: 28px; }
+.rad-fx-switch-track[data-state='on']:active .rad-fx-switch-knob { transform: translateX(16px); }
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-switch-track, .rad-fx-switch-knob { transition: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-switch-track,
+[data-rad-fx-motion='reduce'] .rad-fx-switch-knob { transition: none; }

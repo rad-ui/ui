@@ -1,0 +1,23 @@
+.rad-fx-color-shift {
+    background-image: var(--rad-fx-color-shift-gradient);
+    background-size: 300% 100%;
+    background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rad-fx-color-shift var(--rad-fx-color-shift-duration, 6s) ease-in-out infinite alternate;
+}
+
+@keyframes rad-fx-color-shift {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+}
+
+@media (forced-colors: active) {
+    .rad-fx-color-shift { background: none; -webkit-text-fill-color: currentcolor; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-fx-color-shift { animation: none; }
+}
+
+[data-rad-fx-motion='reduce'] .rad-fx-color-shift { animation: none; }

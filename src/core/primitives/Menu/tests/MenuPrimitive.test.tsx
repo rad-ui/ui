@@ -524,6 +524,56 @@ describe('MenuPrimitive', () => {
             expect(screen.queryByText('Portal Content')).not.toBeInTheDocument();
         });
 
+        it('should render portal content into a custom container', () => {
+            const container = document.createElement('div');
+            document.body.appendChild(container);
+
+            render(
+                <MenuPrimitive.Root defaultOpen={true}>
+                    <MenuPrimitive.Portal container={container}>
+                        <div>Portal Content</div>
+                    </MenuPrimitive.Portal>
+                </MenuPrimitive.Root>
+            );
+
+            expect(container).toContainElement(screen.getByText('Portal Content'));
+            container.remove();
+        });
+
+        it('keeps the same force-mounted node across open and close', () => {
+            const renderMenu = (open: boolean) => (
+                <MenuPrimitive.Root open={open} onOpenChange={() => {}}>
+                    <MenuPrimitive.Trigger>Trigger</MenuPrimitive.Trigger>
+                    <MenuPrimitive.Portal forceMount>
+                        <MenuPrimitive.Content>Portal Content</MenuPrimitive.Content>
+                    </MenuPrimitive.Portal>
+                </MenuPrimitive.Root>
+            );
+            const { rerender } = render(renderMenu(false));
+            const closed = screen.getByText('Portal Content').closest('[data-state]');
+            expect(closed).toHaveAttribute('data-state', 'closed');
+
+            rerender(renderMenu(true));
+            expect(screen.getByText('Portal Content').closest('[data-state]')).toBe(closed);
+            expect(closed).toHaveAttribute('data-state', 'open');
+
+            rerender(renderMenu(false));
+            expect(screen.getByText('Portal Content').closest('[data-state]')).toBe(closed);
+            expect(closed).toHaveAttribute('data-state', 'closed');
+        });
+
+        it('should keep content mounted when forceMount is enabled', () => {
+            render(
+                <MenuPrimitive.Root defaultOpen={false}>
+                    <MenuPrimitive.Portal forceMount>
+                        <MenuPrimitive.Content>Portal Content</MenuPrimitive.Content>
+                    </MenuPrimitive.Portal>
+                </MenuPrimitive.Root>
+            );
+
+            expect(screen.getByText('Portal Content').closest('[data-state]')).toHaveAttribute('data-state', 'closed');
+        });
+
         it('should return null when used outside MenuPrimitive.Root context', () => {
             const { container } = render(
                 <MenuPrimitive.Portal>
