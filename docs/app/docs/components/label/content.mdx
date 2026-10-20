@@ -1,0 +1,23 @@
+import Documentation from "@/components/layout/Documentation/Documentation"
+import LabelExample from "./docs/examples/LabelExample"
+import codeUsage, { api_documentation, features } from "./docs/codeUsage"
+
+<Documentation
+  title="Label"
+  description="Label renders a native label that names a form control. Use it with htmlFor, or wrap the control, so screen readers announce the control's name and clicking the label focuses it."
+>
+  <Documentation.ComponentHero codeUsage={codeUsage}>
+    <LabelExample />
+  </Documentation.ComponentHero>
+
+  <Documentation.ComponentFeatures features={features} />
+
+  <Documentation.Section title="API Documentation" as="h2">
+    <Documentation.Table
+      title="Label"
+      description={api_documentation.label.description}
+      columns={api_documentation.label.columns}
+      data={api_documentation.label.data}
+    />
+  </Documentation.Section>
+</Documentation>
