@@ -3,7 +3,6 @@ import Text from '@radui/ui/Text';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/table/docs/example_1.tsx');
-const example_2_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/table/docs/example_2.tsx');
 
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/table.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/table/docs/anatomy.tsx');
@@ -39,9 +38,3 @@ export const api_documentation = {
 }
 
 export default code
-
-export const denseCode = {
-    javascript: {
-        code: example_2_SourceCode
-    }
-};

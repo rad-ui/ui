@@ -40,42 +40,7 @@ const data = {
         type : "string",
         default : "''",
        },
-       {
-        prop : {
-            name : "size",
-            info_tooltips : "Row density: small, medium or large."
-        },
-        type : "enum",
-        enum_values : ["small", "medium", "large"],
-        default : "'medium'",
-       },
-       {
-        prop : {
-            name : "variant",
-            info_tooltips : "surface draws a framed panel with a header background; ghost sits directly on the page with only row dividers."
-        },
-        type : "enum",
-        enum_values : ["surface", "ghost"],
-        default : "'surface'",
-       },
-       {
-        prop : {
-            name : "resizable",
-            info_tooltips : "Enables column resizing. Pass columnIndex to headers and cells and render a ColumnResizeHandle in each header."
-        },
-        type : "boolean",
-        default : "false",
-       },
-       {
-        prop : {
-            name : "resizeHandleVisibility",
-            info_tooltips : "When resizable, show the handles on hover or always."
-        },
-        type : "enum",
-        enum_values : ["hover", "always"],
-        default : "'hover'",
-       },
-]
+    ]
 }
 
 export default data;

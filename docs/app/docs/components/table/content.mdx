@@ -1,7 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import TableExample from "./docs/example_1"
-import TableDenseExample from "./docs/example_2"
-import {code, denseCode, anatomy, api_documentation} from "./docs/codeUsage"
+import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
 <Documentation
     title={`Table`}
@@ -12,12 +11,6 @@ import {code, denseCode, anatomy, api_documentation} from "./docs/codeUsage"
     <Documentation.ComponentHero codeUsage={code}>
         <TableExample />
     </Documentation.ComponentHero>
-
-    <Documentation.ComponentHero title="Alignment and density" codeUsage={denseCode}>
-        <TableDenseExample />
-    </Documentation.ComponentHero>
-
-    Pass `align="end"` on a column's header and cells so numbers line up on their last digit (the table uses tabular figures). `size="small"` tightens rows for dense data, `size="large"` relaxes them. `variant="ghost"` drops the frame and header background when the table sits inside its own panel.
 
     <Documentation.ApiReference
         anatomy={anatomy.code}
