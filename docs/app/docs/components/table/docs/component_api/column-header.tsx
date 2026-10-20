@@ -40,7 +40,16 @@ const data = {
         type : "boolean",
         default : "false",
        },
-    ]
+       {
+        prop : {
+            name : "align",
+            info_tooltips : "Horizontal alignment of the content. Use end for numeric columns so digits line up."
+        },
+        type : "enum",
+        enum_values : ["start", "center", "end"],
+        default : "'start'",
+       },
+]
 }
 
 export default data;
