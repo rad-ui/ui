@@ -54,6 +54,7 @@ export const docsNavigationSections = [
             { title:"Heading", path:"/docs/components/heading" },
             { title:"HoverCard", path:"/docs/components/hover-card", is_preview:true },
             { title:"Kbd", path:"/docs/components/kbd" },
+            { title:"Label", path:"/docs/components/label", is_preview:true },
             { title:"Link", path:"/docs/components/link", is_preview:true },
             { title:"LiveRegion", path:"/docs/components/live-region", is_preview:true },
             { title:"Menubar", path:"/docs/components/menubar", is_preview:true },
