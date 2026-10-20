@@ -2,9 +2,26 @@
 // `-cell-header`, `-cell`). The legacy unprefixed defaults (`header`, `row`,
 // `cell-header`, `cell`) disappear as soon as a consumer passes `className`,
 // so they must not carry the design-system styles.
+// The recipe uses neutral surface/border/text aliases rather than the accent
+// scale, so a table reads as a data surface whatever the Theme accent is, and
+// still renders its frame when no accent colour is set.
 .rad-ui-table-wrapper {
-    border: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-500);
-    border-radius: var(--rad-ui-panel-radius-lg);
+    --rad-ui-table-font-size: var(--rad-ui-font-size-2);
+    --rad-ui-table-line-height: var(--rad-ui-line-height-3);
+    --rad-ui-table-header-font-size: var(--rad-ui-font-size-1);
+    --rad-ui-table-cell-padding-y: var(--rad-ui-spacing-3);
+    --rad-ui-table-cell-padding-x: var(--rad-ui-spacing-4);
+    --rad-ui-table-frame-border: var(--rad-ui-border-default);
+    --rad-ui-table-divider: var(--rad-ui-border-soft);
+    --rad-ui-table-background: var(--rad-ui-surface-panel);
+    --rad-ui-table-header-background: var(--rad-ui-surface-subtle);
+    --rad-ui-table-header-text: var(--rad-ui-text-secondary);
+    --rad-ui-table-row-hover-background: var(--rad-ui-surface-hover);
+    --rad-ui-table-radius: var(--rad-ui-panel-radius-md);
+
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-table-frame-border);
+    border-radius: var(--rad-ui-table-radius);
+    background-color: var(--rad-ui-table-background);
     overflow: hidden;
 
     &[data-resizable] {
@@ -25,13 +42,49 @@
         opacity: 1;
     }
 
+    // Density. No size behaves exactly like medium.
+    &[data-size="small"] {
+        --rad-ui-table-font-size: var(--rad-ui-font-size-1-5);
+        --rad-ui-table-line-height: var(--rad-ui-line-height-2);
+        --rad-ui-table-cell-padding-y: var(--rad-ui-spacing-2);
+        --rad-ui-table-cell-padding-x: var(--rad-ui-spacing-3);
+    }
+
+    &[data-size="medium"] {
+        --rad-ui-table-font-size: var(--rad-ui-font-size-2);
+        --rad-ui-table-cell-padding-y: var(--rad-ui-spacing-3);
+        --rad-ui-table-cell-padding-x: var(--rad-ui-spacing-4);
+    }
+
+    &[data-size="large"] {
+        --rad-ui-table-font-size: var(--rad-ui-font-size-3);
+        --rad-ui-table-header-font-size: var(--rad-ui-font-size-2);
+        --rad-ui-table-cell-padding-y: var(--rad-ui-spacing-4);
+        --rad-ui-table-cell-padding-x: var(--rad-ui-spacing-5);
+    }
+
+    // Ghost: no frame, sits directly on the page surface. Header keeps its
+    // divider so the columns still read as a header row.
+    &[data-variant="ghost"] {
+        --rad-ui-table-background: transparent;
+        --rad-ui-table-header-background: transparent;
+
+        border-color: transparent;
+        border-radius: 0;
+    }
+
     .rad-ui-table {
         width: 100%;
         text-align: start;
-        vertical-align: top;
+        vertical-align: middle;
         border-spacing: 0;
         box-sizing: border-box;
         color: var(--rad-ui-text-primary);
+        font-size: var(--rad-ui-table-font-size);
+        line-height: var(--rad-ui-table-line-height);
+
+        // Digits take equal width so numeric columns line up.
+        font-variant-numeric: tabular-nums;
 
         &[data-resizable] {
             min-width: 100%;
@@ -39,18 +92,21 @@
     }
 
     .rad-ui-table-head {
-        vertical-align: inherit;
-        font-size: var(--rad-ui-font-size-2);
+        vertical-align: bottom;
     }
 
     .rad-ui-table-cell-header {
         // Same inline padding as body cells so header text aligns with its column.
-        padding: var(--rad-ui-spacing-3) var(--rad-ui-spacing-4);
+        padding: var(--rad-ui-table-cell-padding-y) var(--rad-ui-table-cell-padding-x);
         vertical-align: inherit;
         text-align: start;
-        font-weight: 500;
-        background-color: var(--rad-ui-color-accent-200);
-        border-bottom: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-500);
+        font-size: var(--rad-ui-table-header-font-size);
+        font-weight: var(--rad-ui-font-weight-semibold);
+        line-height: var(--rad-ui-line-height-2);
+        letter-spacing: var(--rad-ui-letter-spacing-wide);
+        color: var(--rad-ui-table-header-text);
+        background-color: var(--rad-ui-table-header-background);
+        border-bottom: var(--rad-ui-border-width-default) solid var(--rad-ui-table-frame-border);
 
         &[data-resizable] {
             position: relative;
@@ -79,7 +135,7 @@
             right: 0;
             bottom: 0;
             width: var(--rad-ui-border-width-default);
-            background: var(--rad-ui-border-soft);
+            background: var(--rad-ui-table-divider);
             opacity: 0;
             transition:
                 opacity var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard),
@@ -103,26 +159,50 @@
 
     .rad-ui-table-row {
         vertical-align: inherit;
-        background-color: var(--rad-ui-color-accent-50);
+    }
+
+    .rad-ui-table-body .rad-ui-table-row {
+        transition: background-color var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard);
+
+        &:hover {
+            background-color: var(--rad-ui-table-row-hover-background);
+        }
     }
 
     // Row dividers live on the cells: borders on <tr> are not rendered with
     // `border-collapse: separate` (the table uses border-spacing: 0).
     .rad-ui-table-body .rad-ui-table-row:not(:last-child) > .rad-ui-table-cell {
-        border-bottom: var(--rad-ui-border-width-default) solid var(--rad-ui-color-accent-300);
+        border-bottom: var(--rad-ui-border-width-default) solid var(--rad-ui-table-divider);
     }
 
     .rad-ui-table-cell {
-        padding: var(--rad-ui-spacing-3) var(--rad-ui-spacing-4);
+        padding: var(--rad-ui-table-cell-padding-y) var(--rad-ui-table-cell-padding-x);
         vertical-align: inherit;
         color: var(--rad-ui-text-primary);
-        font-weight: 400;
-        font-size: var(--rad-ui-font-size-2);
+        font-weight: var(--rad-ui-font-weight-regular);
 
         &[data-resizable] {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+    }
+
+    // Column alignment, set per cell with the `align` prop.
+    .rad-ui-table-cell-header[data-align="end"],
+    .rad-ui-table-cell[data-align="end"] {
+        text-align: end;
+    }
+
+    .rad-ui-table-cell-header[data-align="center"],
+    .rad-ui-table-cell[data-align="center"] {
+        text-align: center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .rad-ui-table-body .rad-ui-table-row,
+        .rad-ui-table-column-resize-handle::before {
+            transition: none;
         }
     }
 }

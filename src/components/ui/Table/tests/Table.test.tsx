@@ -526,3 +526,42 @@ describe('Table styling hooks', () => {
         expect(rules).not.toMatch(/(^|\s)\.(row|cell|header|cell-header|resizable)\b/m);
     });
 });
+
+describe('Table styling props', () => {
+    it('emits the resolved variant and an explicit size on the wrapper', () => {
+        const { container, rerender } = render(
+            <Table.Root data-testid="root"><Table.Body><Table.Row><Table.Cell>a</Table.Cell></Table.Row></Table.Body></Table.Root>
+        );
+        const wrapper = container.firstChild as HTMLElement;
+        expect(wrapper).toHaveAttribute('data-variant', 'surface');
+        expect(wrapper).not.toHaveAttribute('data-size');
+        rerender(
+            <Table.Root size="small" variant="ghost"><Table.Body><Table.Row><Table.Cell>a</Table.Cell></Table.Row></Table.Body></Table.Root>
+        );
+        expect(wrapper).toHaveAttribute('data-size', 'small');
+        expect(wrapper).toHaveAttribute('data-variant', 'ghost');
+    });
+
+    it('exposes column alignment through data-align on headers and cells', () => {
+        render(
+            <Table.Root>
+                <Table.Head><Table.Row><Table.ColumnCellHeader align="end">Orders</Table.ColumnCellHeader></Table.Row></Table.Head>
+                <Table.Body><Table.Row><Table.Cell align="end">14,474</Table.Cell><Table.Cell>Parking</Table.Cell></Table.Row></Table.Body>
+            </Table.Root>
+        );
+        expect(screen.getByRole('columnheader', { name: 'Orders' })).toHaveAttribute('data-align', 'end');
+        expect(screen.getByRole('cell', { name: '14,474' })).toHaveAttribute('data-align', 'end');
+        expect(screen.getByRole('cell', { name: 'Parking' })).not.toHaveAttribute('data-align');
+    });
+
+    it('Clarity recipe uses neutral aliases, aligns columns, and respects reduced motion', () => {
+        const fs = require('node:fs');
+        const path = require('node:path');
+        const stylesheet: string = fs.readFileSync(path.resolve(__dirname, '../table.clarity.scss'), 'utf8').replace(/\/\/.*$/gm, '');
+        expect(stylesheet).not.toContain('--rad-ui-color-accent-');
+        expect(stylesheet).toContain('[data-align="end"]');
+        expect(stylesheet).toContain('[data-size="small"]');
+        expect(stylesheet).toContain('[data-variant="ghost"]');
+        expect(stylesheet).toContain('@media (prefers-reduced-motion: reduce)');
+    });
+});
