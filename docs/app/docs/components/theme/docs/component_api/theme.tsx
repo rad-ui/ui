@@ -8,7 +8,7 @@ const data = {
     ],
     data: [
         { prop: { name: "appearance", info_tooltips: "Sets the color scheme. Defaults to 'dark'; 'system' follows the OS preference." }, type: "enum", enum_values: ["light", "dark", "system"], default: "dark" },
-        { prop: { name: "accentColor", info_tooltips: "The accent color token applied to all child components." }, type: "string", default: '""' },
+        { prop: { name: "accentColor", info_tooltips: "The accent color scale applied to all child components. Defaults to gray when not set." }, type: "string", default: '"gray"' },
         { prop: { name: "radius", info_tooltips: "Border radius scale applied across components." }, type: "string", default: '""' },
         { prop: { name: "scaling", info_tooltips: "UI density / scaling factor applied across components." }, type: "string", default: '""' },
         { prop: { name: "id", info_tooltips: "The id attribute of the root div." }, type: "string", default: '"rad-ui-theme-container"' }
