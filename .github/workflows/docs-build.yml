@@ -18,7 +18,9 @@ concurrency:
 jobs:
   build-docs:
     name: Build docs
-    runs-on: ubuntu-latest
+    # Pinned: the contrast check installs Playwright's Chromium, and
+    # ubuntu-latest (26.04) is not a supported Playwright platform yet.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: docs
