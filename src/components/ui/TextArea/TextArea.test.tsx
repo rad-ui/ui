@@ -3,10 +3,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import TextArea from './TextArea';
 
 describe('TextArea', () => {
-    it('forwards ref to the root element', () => {
-        const ref = React.createRef<HTMLDivElement>();
+    it('forwards ref to the textarea element', () => {
+        const ref = React.createRef<HTMLTextAreaElement>();
         render(<TextArea ref={ref}>content</TextArea>);
-        expect(ref.current).toBeInstanceOf(HTMLDivElement);
+        expect(ref.current).toBeInstanceOf(HTMLTextAreaElement);
+        ref.current?.focus();
+        expect(ref.current).toHaveFocus();
     });
 
     it('forwards ref to the input element', () => {
