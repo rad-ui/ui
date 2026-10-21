@@ -11,12 +11,12 @@ export type TextAreaProps = RootOnlyProps & Omit<TextAreaInputProps, 'className'
     readonly?: boolean;
 };
 
-type TextAreaComponent = React.ForwardRefExoticComponent<TextAreaProps & React.RefAttributes<React.ElementRef<'div'>>> & {
+type TextAreaComponent = React.ForwardRefExoticComponent<TextAreaProps & React.RefAttributes<React.ElementRef<'textarea'>>> & {
     Input: typeof TextAreaInput;
     Root: typeof TextAreaRoot;
 };
 
-const TextArea = React.forwardRef<React.ElementRef<'div'>, TextAreaProps>(({
+const TextArea = React.forwardRef<React.ElementRef<'textarea'>, TextAreaProps>(({
     customRootClass = '',
     className = '',
     style,
@@ -43,7 +43,6 @@ const TextArea = React.forwardRef<React.ElementRef<'div'>, TextAreaProps>(({
 
     return (
         <TextAreaRoot
-            ref={ref}
             customRootClass={customRootClass}
             className={clsx(className)}
             style={style}
@@ -56,6 +55,7 @@ const TextArea = React.forwardRef<React.ElementRef<'div'>, TextAreaProps>(({
             {...rootDataAttributes}
         >
             <TextAreaInput
+                ref={ref}
                 placeholder={placeholder}
                 disabled={disabled}
                 readOnly={readOnly ?? readonly}
