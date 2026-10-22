@@ -87,3 +87,6 @@ jobs:
 
       - name: Check public API surface
         run: npm run check:api-surface
+
+      - name: Check consumer types
+        run: npm run check:consumer-types
