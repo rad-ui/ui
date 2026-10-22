@@ -26,7 +26,7 @@ const assignRef = <T,>(ref: React.ForwardedRef<T>, value: T) => {
 const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
     appearance = 'dark',
     id = 'rad-ui-theme-container',
-    accentColor = '',
+    accentColor = 'gray',
     radius = '',
     scaling = '',
     classNamespace,
@@ -69,9 +69,7 @@ const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
     }, [appearance]);
 
     useEffect(() => {
-        if (accentColor) {
-            setThemeAccentColor(accentColor);
-        }
+        setThemeAccentColor(accentColor);
     }, [accentColor]);
 
     useEffect(() => {

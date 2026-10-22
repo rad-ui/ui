@@ -37,6 +37,7 @@ describe('Theme', () => {
         const themeDiv = container.firstChild as HTMLElement;
 
         expect(themeDiv).toHaveAttribute('data-rad-ui-theme', 'dark');
+        expect(themeDiv).toHaveAttribute('data-rad-ui-accent-color', 'gray');
         expect(mediaQueryList.addEventListener).not.toHaveBeenCalled();
     });
 
@@ -158,6 +159,17 @@ describe('Theme', () => {
         const themeDiv = container.firstChild as HTMLElement;
 
         expect(themeDiv).not.toHaveClass('rad-ui-theme');
+    });
+
+    test('restores gray accent metadata when accentColor is removed', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const { rerender } = render(<Theme accentColor="blue" data-testid="theme">content</Theme>);
+
+        expect(screen.getByTestId('theme')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+
+        rerender(<Theme data-testid="theme">content</Theme>);
+
+        expect(screen.getByTestId('theme')).toHaveAttribute('data-rad-ui-accent-color', 'gray');
     });
 
     test('renders under StrictMode without console errors', () => {
