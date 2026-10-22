@@ -16,7 +16,9 @@ const ProgressComp = ({ value = 0, maxValue = 100, minValue = 0 }: { value?: num
 describe('Progress', () => {
     test('default theme lets the track fill its container', () => {
         const stylesheet = fs.readFileSync(path.resolve(__dirname, '../progress.clarity.scss'), 'utf8');
-        const rootRule = stylesheet.match(/\.rad-ui-progress\s*\{([\s\S]*?)\n\}/)?.[1];
+        const rootRule = stylesheet
+            .match(/\.rad-ui-progress\s*\{([\s\S]*?)^\}/m)?.[1]
+            ?.replace(/\n {4}\.rad-ui-progress-indicator\s*\{[\s\S]*?\n {4}\}/, '');
 
         expect(rootRule).toContain('width: 100%');
         expect(rootRule).not.toContain('max-width');
