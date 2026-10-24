@@ -23,6 +23,8 @@ type DialogPrimitiveContextType = {
   openChildCount?: number;
   /** Called after the open or close animations finish. */
   onOpenChangeComplete?: (open: boolean) => void;
+  /** `true` blocks the page, `'trap-focus'` only traps focus, `false` leaves the page usable. */
+  modal?: boolean | 'trap-focus';
 };
 
 export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>({

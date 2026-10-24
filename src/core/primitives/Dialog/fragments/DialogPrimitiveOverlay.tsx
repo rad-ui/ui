@@ -16,7 +16,9 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
     onClick,
     ...props
 }, ref) => {
-    const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
+    const { isOpen, handleOverlayClick, modal = true } = useContext(DialogPrimitiveContext);
+    // Only a fully modal dialog locks scroll and lets the overlay take pointer input.
+    const blocksPage = modal === true;
 
     const overlayRef = React.useRef<HTMLDivElement | null>(null);
     const mergedRef = Floater.useMergeRefs([overlayRef, ref]);
@@ -29,7 +31,7 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
             {shouldRender && (
                 <Floater.Overlay
                     ref={mergedRef}
-                    lockScroll={isOpen}
+                    lockScroll={isOpen && blocksPage}
                     onClick={(event) => {
                         onClick?.(event);
 
@@ -42,6 +44,7 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
                     data-state={dataState}
                     {...getTransitionAttributes(transition.status)}
                     {...props}
+                    style={blocksPage ? props.style : { ...props.style, pointerEvents: 'none' }}
                 >
                     {children}
                 </Floater.Overlay>

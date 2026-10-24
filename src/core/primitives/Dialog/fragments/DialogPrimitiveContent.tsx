@@ -29,15 +29,18 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     forceMount = false,
     initialFocus = true,
     finalFocus = true,
-    trapFocus = true,
+    trapFocus: trapFocusProp,
     role = 'dialog',
-    'aria-modal': ariaModal = true,
+    'aria-modal': ariaModalProp,
     'aria-labelledby': ariaLabelledBy,
     'aria-describedby': ariaDescribedBy,
     style: styleProp,
     ...props
 }, ref) => {
-    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0, onOpenChangeComplete } = useContext(DialogPrimitiveContext);
+    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0, onOpenChangeComplete, modal = true } = useContext(DialogPrimitiveContext);
+    // The root's modal mode sets the defaults; explicit props still win.
+    const trapFocus = trapFocusProp ?? modal !== false;
+    const ariaModal = ariaModalProp ?? modal !== false;
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
