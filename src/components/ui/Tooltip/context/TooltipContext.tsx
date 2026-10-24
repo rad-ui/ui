@@ -10,6 +10,7 @@ type TooltipContextType = {
     rootClass: string;
     /** True while a provider group is opening tooltips without delay. */
     isInstantPhase?: boolean;
+    onOpenChangeComplete?: (open: boolean) => void;
 };
 const TooltipContext = createContext<null | TooltipContextType>(null);
 

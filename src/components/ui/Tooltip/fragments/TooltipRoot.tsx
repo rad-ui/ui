@@ -64,6 +64,8 @@ export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'d
      * to the trigger. The tooltip then closes as soon as the pointer leaves the trigger.
      */
     trackCursorAxis?: 'none' | 'x' | 'y' | 'both';
+    /** Called after the open or close animations finish (at once when there are none). */
+    onOpenChangeComplete?: (open: boolean) => void;
 }
 
 const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
@@ -80,6 +82,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         customRootClass = '',
         handle,
         trackCursorAxis = 'none',
+        onOpenChangeComplete,
         ...props
     }, ref) => {
         const arrowRef = useRef<SVGSVGElement>(null);
@@ -192,7 +195,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         ]);
 
         return (
-            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase }}>
+            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase, onOpenChangeComplete }}>
                 <div ref={ref} data-slot="tooltip-root" {...props}>
                     {typeof children === 'function' ? (children as (state: { payload: unknown }) => React.ReactNode)({ payload: handleState?.payload }) : children}
                 </div>

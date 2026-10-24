@@ -55,6 +55,8 @@ export type MenuPrimitiveRootProps = {
    * scroll is locked and outside content is hidden from assistive technology.
    */
   modal?: boolean
+  /** Called after the open or close animations finish (at once when there are none). */
+  onOpenChangeComplete?: (open: boolean) => void
 } & Omit<ComponentPropsWithoutRef<'div'>, 'dir' | 'children'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
@@ -62,7 +64,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, onOpenChangeComplete, ...props }, ref) => {
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
@@ -204,7 +206,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         return refs.domReference.current;
     }, [isNested, parentMenuContext, refs.domReference]);
 
-    const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current, onOpenChangeComplete);
 
     const values = {
         transitionMounted: transition.mounted,

@@ -83,6 +83,8 @@ export type ComboboxPrimitiveRootProps = {
      * the list has mounted, even when items are rendered inside your own components.
      */
     items?: ComboboxItemsLabels;
+    /** Called after the open or close animations finish (at once when there are none). */
+    onOpenChangeComplete?: (open: boolean) => void;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -131,6 +133,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     onInputValueChange,
     alignItemWithTrigger = false,
     items,
+    onOpenChangeComplete,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -520,7 +523,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         typeahead
     ]);
 
-    const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current, onOpenChangeComplete);
     const clearValue = React.useCallback(() => {
         if (multiple) setMultipleValue(EMPTY_VALUES);
         setSelectedValue('');

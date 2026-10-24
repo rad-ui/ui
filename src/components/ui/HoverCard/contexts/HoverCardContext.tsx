@@ -17,6 +17,7 @@ type HoverCardContextType = {
     openWithDelay: () => void;
     floatingContext: any;
     arrowRef: any;
+    onOpenChangeComplete?: (open: boolean) => void;
 
 };
 

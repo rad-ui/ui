@@ -21,7 +21,8 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         rootClass,
         closeWithDelay,
         openWithDelay,
-        closeWithoutDelay
+        closeWithoutDelay,
+        onOpenChangeComplete
     } = useContext(HoverCardContext);
     const { forceMount: portalForceMount } = useContext(HoverCardPortalContext);
 
@@ -39,7 +40,7 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     const contentRef = React.useRef<HTMLDivElement | null>(null);
     const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, contentRef, ref]);
     const dataAttributes = createDataAttributes('hover-card', { size });
-    const transition = useTransitionStatus(isOpen, () => contentRef.current);
+    const transition = useTransitionStatus(isOpen, () => contentRef.current, onOpenChangeComplete);
     const ending = transition.status === 'ending';
 
     if (!transition.mounted && !forceMount && !portalForceMount) return null;

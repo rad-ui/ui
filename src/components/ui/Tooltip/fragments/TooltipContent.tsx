@@ -28,7 +28,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
         const arrowRef = tooltipContext.arrowRef;
 
         const mergedRef = useMergeRefs([context.refs.setFloating, ref]);
-        const transition = useTransitionStatus(isOpen, () => context.refs.floating.current);
+        const transition = useTransitionStatus(isOpen, () => context.refs.floating.current, tooltipContext.onOpenChangeComplete);
 
         if (!transition.mounted) return null;
 
