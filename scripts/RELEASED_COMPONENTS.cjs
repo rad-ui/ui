@@ -48,6 +48,7 @@ const RELEASED_COMPONENTS = [
     'DropdownMenu',
     'Field',
     'Fieldset',
+    'Form',
     'HoverCard',
     'Menubar',
     'Meter',

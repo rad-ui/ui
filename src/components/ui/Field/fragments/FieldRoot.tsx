@@ -12,6 +12,8 @@ import FieldContext, {
     FieldValidityKey,
     FieldValidityState
 } from '../contexts/FieldContext';
+import FormContext from '~/components/ui/Form/contexts/FormContext';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 
 const COMPONENT_NAME = 'Field';
 
@@ -37,6 +39,7 @@ export type FieldRootProps = {
      * When validation results are shown. `onSubmit` (default) waits for a form
      * submit attempt, `onBlur` shows them when the control loses focus, and
      * `onChange` on every change. Once shown, they update as the user types.
+     * Inside a Form, defaults to the Form's `validationMode`.
      */
     validationMode?: FieldValidationMode;
     /** Disables the control and marks every part with data-disabled. */
@@ -83,7 +86,7 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     invalid: invalidProp = false,
     validate: validateProp,
     validationDebounceTime = 0,
-    validationMode = 'onSubmit',
+    validationMode: validationModeProp,
     disabled = false,
     required = false,
     name,
@@ -190,7 +193,21 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         debounceTimerRef.current = setTimeout(() => validate(show), validationDebounceTime);
     }, [validate, validationDebounceTime]);
 
-    const invalid = invalidProp || (validityShown && validity.state?.valid === false);
+    const form = React.useContext(FormContext);
+    const validationMode = validationModeProp ?? form?.validationMode ?? 'onSubmit';
+    // Server errors from Form `errors`, keyed by this field's name.
+    const formError = name ? form?.errors[name] : undefined;
+    const formErrors = (Array.isArray(formError) ? formError : [formError]).filter((message): message is string => Boolean(message));
+
+    const registerFormField = form?.registerField;
+    const clearFormError = form?.clearError;
+    useLayoutEffect(() => {
+        if (!registerFormField) return;
+        return registerFormField(generatedId, { validate, controlRef });
+    }, [registerFormField, generatedId, validate]);
+
+    const errorMessages = formErrors.length ? formErrors : validity.errors;
+    const invalid = invalidProp || formErrors.length > 0 || (validityShown && validity.state?.valid === false);
     const valid = !invalid && validityShown && validity.state?.valid === true;
 
     const stateAttributes = React.useMemo(() => createDataAttributes('field', {
@@ -227,8 +244,10 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         validateDebounced,
         validating,
         controlRef,
+        errorMessages,
+        clearFormError,
         stateAttributes
-    }), [rootClass, controlId, describedBy, registerDescription, name, invalid, disabled, required, touched, dirty, focused, validity, validityShown, validationMode, validate, validateDebounced, validating, stateAttributes]);
+    }), [rootClass, controlId, describedBy, registerDescription, name, invalid, disabled, required, touched, dirty, focused, validity, validityShown, validationMode, validate, validateDebounced, validating, errorMessages, clearFormError, stateAttributes]);
 
     return (
         <FieldContext.Provider value={contextValue}>

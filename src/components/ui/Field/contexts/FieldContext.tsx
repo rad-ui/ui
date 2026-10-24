@@ -61,6 +61,10 @@ export type FieldContextValue = {
     validateDebounced: (show?: boolean) => void;
     /** True while an async `validate` is pending. */
     validating: boolean;
+    /** Messages Field.Error shows by default: Form errors first, then validation errors. */
+    errorMessages: string[];
+    /** Clears this field's Form error once the user edits it. */
+    clearFormError?: (name: string) => void;
     /** The control element, registered by Field.Control. */
     controlRef: React.MutableRefObject<HTMLElement | null>;
     /** Shared data-* state, spread on every part so each can be styled on its own. */

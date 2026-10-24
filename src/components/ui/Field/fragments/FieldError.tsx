@@ -55,7 +55,7 @@ const RegisterError = ({ id }: { id: string }) => {
  * when it appears. Without children it shows the validation message.
  */
 const FieldError = forwardRef<FieldErrorElement, FieldErrorProps>(({ forceMount = false, match, children, ...props }, ref) => {
-    const { invalid, validity, validityShown } = useFieldContext('Error');
+    const { invalid, validity, validityShown, errorMessages } = useFieldContext('Error');
     const active = match === true
         ? true
         : typeof match === 'string'
@@ -64,7 +64,7 @@ const FieldError = forwardRef<FieldErrorElement, FieldErrorProps>(({ forceMount 
     if (!active && !forceMount) return null;
     return (
         <FieldErrorMessage ref={ref} active={active} {...props}>
-            {children ?? (active ? validity.errors[0] : null)}
+            {children ?? (active ? errorMessages[0] : null)}
         </FieldErrorMessage>
     );
 });

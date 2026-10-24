@@ -45,6 +45,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
         validityShown,
         validationMode,
         controlRef,
+        clearFormError,
         stateAttributes
     } = useFieldContext('Control');
     const mergedRef = React.useMemo(() => mergeRefs(ref, controlRef as React.Ref<HTMLInputElement>), [ref, controlRef]);
@@ -89,6 +90,8 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 onChange?.(event);
                 setDirty(true);
+                const fieldName = nameProp ?? name;
+                if (fieldName) clearFormError?.(fieldName);
                 validateDebounced(validationMode === 'onChange' || validityShown);
             }}
             onInvalid={(event: React.FormEvent<HTMLInputElement>) => {
