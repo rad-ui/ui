@@ -119,7 +119,8 @@ const data = {
             },
             type: "boolean",
             default: "false",
-        }
+        },
+        { prop: { name: "readOnly", info_tooltips: "Show the state without letting the user change it; stays focusable and in the form, with aria-readonly." }, type: "boolean", default: "false" }
     ]
 };
 

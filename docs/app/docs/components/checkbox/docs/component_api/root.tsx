@@ -15,7 +15,8 @@ const data = {
         { prop: { name: "color", info_tooltips: "Accent color applied to the checkbox." }, type: "string", default: '""' },
         { prop: { name: "size", info_tooltips: "Size variant." }, type: "string", default: '""' },
         { prop: { name: "variant", info_tooltips: "Style variant." }, type: "string", default: '""' },
-        { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' }
+        { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' },
+        { prop: { name: "readOnly", info_tooltips: "Show the state without letting the user change it; stays focusable and in the form, with aria-readonly." }, type: "boolean", default: "false" }
     ]
 }
 
