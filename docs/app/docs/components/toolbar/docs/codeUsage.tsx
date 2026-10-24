@@ -6,6 +6,7 @@ import button_api from './component_api/button';
 import link_api from './component_api/link';
 import separator_api from './component_api/separator';
 import input_api from './component_api/input';
+import group_api from './component_api/group';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -35,7 +36,8 @@ export const api_documentation = {
     button: button_api,
     link: link_api,
     separator: separator_api,
-    input: input_api
+    input: input_api,
+    group: group_api
 };
 
 export const features = [
