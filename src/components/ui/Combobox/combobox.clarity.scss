@@ -118,7 +118,9 @@
 
     .rad-ui-combobox-item-indicator {
         position: absolute;
+        top: 50%;
         right: var(--rad-ui-control-padding-x-md);
+        transform: translateY(-50%);
         display: flex;
         align-items: center;
         justify-content: center;
