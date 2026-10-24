@@ -47,7 +47,8 @@ const data = {
         },
         type: 'string | number',
         default: '--',
-       }
+       },
+        { prop: { name: "onOpenChange", info_tooltips: "Called with true or false whenever this item opens or closes, including when opening another item closes it in single mode." }, type: "(open: boolean) => void", default: "--" }
     ]
 }
 
