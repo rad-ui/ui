@@ -6,6 +6,7 @@ import ComboboxTrigger from './fragments/ComboboxTrigger';
 import ComboboxRoot from './fragments/ComboboxRoot';
 import ComboboxIndicator from './fragments/ComboboxIndicator';
 import ComboboxPortal from './fragments/ComboboxPortal';
+import ComboboxEmpty from './fragments/ComboboxEmpty';
 import ComboboxGroup from './fragments/ComboboxGroup';
 import ComboboxSearch from './fragments/ComboboxSearch';
 import ComboboxChips from './fragments/ComboboxChips';
@@ -23,6 +24,7 @@ interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAtt
     Item: typeof ComboboxItem;
     Trigger: typeof ComboboxTrigger;
     Portal: typeof ComboboxPortal;
+    Empty: typeof ComboboxEmpty;
     Group: typeof ComboboxGroup;
     Indicator: typeof ComboboxIndicator;
     Search: typeof ComboboxSearch;
@@ -36,12 +38,14 @@ Combobox.Content = ComboboxContent;
 Combobox.Item = ComboboxItem;
 Combobox.Trigger = ComboboxTrigger;
 Combobox.Portal = ComboboxPortal;
+Combobox.Empty = ComboboxEmpty;
 Combobox.Group = ComboboxGroup;
 Combobox.Indicator = ComboboxIndicator;
 Combobox.Search = ComboboxSearch;
 Combobox.Chips = ComboboxChips;
 
 export type { ComboboxRootProps } from './fragments/ComboboxRoot';
+export type { ComboboxEmptyProps } from './fragments/ComboboxEmpty';
 export type { ComboboxContentProps } from './fragments/ComboboxContent';
 export type { ComboboxItemProps } from './fragments/ComboboxItem';
 export type { ComboboxTriggerProps } from './fragments/ComboboxTrigger';
@@ -55,6 +59,7 @@ export {
     ComboboxItem as Item,
     ComboboxTrigger as Trigger,
     ComboboxPortal as Portal,
+    ComboboxEmpty as Empty,
     ComboboxGroup as Group,
     ComboboxIndicator as Indicator,
     ComboboxSearch as Search,

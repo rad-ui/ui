@@ -57,8 +57,9 @@
         display: none;
     }
 
-    // An empty filter leaves nothing to show; drop the empty panel.
-    &:not(:has([role="option"]:not([style*="display: none"]))) {
+    // An empty filter leaves nothing to show; drop the empty panel unless an
+    // Empty message is showing.
+    &:not(:has([role="option"]:not([style*="display: none"]), [data-empty])) {
         display: none;
     }
 }
@@ -83,4 +84,10 @@
         opacity: 0.5;
         pointer-events: none;
     }
+}
+
+.rad-ui-autocomplete-empty {
+    padding: var(--rad-ui-control-padding-y-md) var(--rad-ui-control-padding-x-md);
+    color: var(--rad-ui-text-muted);
+    font-size: var(--rad-ui-component-font-size-sm);
 }

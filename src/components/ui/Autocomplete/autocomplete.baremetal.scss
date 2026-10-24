@@ -4,3 +4,4 @@
 #{baremetal.$theme-root} :where(.rad-ui-autocomplete-input) { @include baremetal.input-like; }
 #{baremetal.$theme-root} :where(.rad-ui-autocomplete-content) { @include baremetal.surface; padding: 0.5rem; }
 #{baremetal.$theme-root} :where(.rad-ui-autocomplete-item) { @include baremetal.option-item; }
+#{baremetal.$theme-root} :where(.rad-ui-autocomplete-empty) { @include baremetal.body-text; padding: 0.5rem; }

@@ -5,6 +5,7 @@ import ComboboxPrimitiveRoot from './fragments/ComboboxPrimitiveRoot';
 import ComboboxPrimitivePortal from './fragments/ComboboxPrimitivePortal';
 import ComboboxPrimitiveGroup from './fragments/ComboboxPrimitiveGroup';
 import ComboboxPrimitiveSearch from './fragments/ComboboxPrimitiveSearch';
+import ComboboxPrimitiveEmpty from './fragments/ComboboxPrimitiveEmpty';
 import React from 'react';
 
 const ComboboxPrimitiveBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
@@ -22,6 +23,7 @@ interface ComboboxPrimitiveComponent extends React.ForwardRefExoticComponent<Rea
     Trigger: typeof ComboboxPrimitiveTrigger;
     Group: typeof ComboboxPrimitiveGroup;
     Search: typeof ComboboxPrimitiveSearch;
+    Empty: typeof ComboboxPrimitiveEmpty;
 }
 
 const ComboboxPrimitive = ComboboxPrimitiveBase as ComboboxPrimitiveComponent;
@@ -33,5 +35,6 @@ ComboboxPrimitive.Item = ComboboxPrimitiveItem;
 ComboboxPrimitive.Trigger = ComboboxPrimitiveTrigger;
 ComboboxPrimitive.Group = ComboboxPrimitiveGroup;
 ComboboxPrimitive.Search = ComboboxPrimitiveSearch;
+ComboboxPrimitive.Empty = ComboboxPrimitiveEmpty;
 
 export default ComboboxPrimitive;
