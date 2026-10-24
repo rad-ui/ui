@@ -112,3 +112,18 @@ export const LinkWithIcon = {
         </SandboxEditor>
     )
 };
+
+export const WithInput = {
+    render: () => (
+        <SandboxEditor>
+            <Toolbar.Root aria-label="Formatting">
+                <Toolbar.Button aria-label="Bold"><Bold size={16} /></Toolbar.Button>
+                <Toolbar.Button aria-label="Italic"><Italic size={16} /></Toolbar.Button>
+                <Toolbar.Separator />
+                <Toolbar.Input aria-label="Font size" defaultValue="14" />
+                <Toolbar.Separator />
+                <Toolbar.Button aria-label="Underline"><Underline size={16} /></Toolbar.Button>
+            </Toolbar.Root>
+        </SandboxEditor>
+    )
+};
