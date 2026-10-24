@@ -12,6 +12,7 @@ import {
 import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
 import empty_api from './component_api/empty.tsx';
+import clear_api from './component_api/clear.tsx';
 import group_label_api from './component_api/group_label.tsx';
 import separator_api from './component_api/separator.tsx';
 import chips_api from './component_api/chips.tsx';
@@ -37,6 +38,7 @@ export const api_documentation = {
     item: item_api,
     chips: chips_api,
     empty: empty_api,
+    clear: clear_api,
     group_label: group_label_api,
     separator: separator_api
 };

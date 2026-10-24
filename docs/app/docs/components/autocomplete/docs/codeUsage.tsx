@@ -3,6 +3,7 @@ import root_api from './component_api/root';
 import input_api from './component_api/input';
 import item_api from './component_api/item';
 import empty_api from './component_api/empty';
+import clear_api from './component_api/clear';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -29,7 +30,8 @@ export const api_documentation = {
     root: root_api,
     input: input_api,
     item: item_api,
-    empty: empty_api
+    empty: empty_api,
+    clear: clear_api
 };
 
 export const features = [
