@@ -9,7 +9,7 @@ const data = {
     data: [
         { prop: { name: "open", info_tooltips: "Controls the open state of the popover when used as a controlled component." }, type: "boolean", default: "--" },
         { prop: { name: "defaultOpen", info_tooltips: "Initial open state when uncontrolled." }, type: "boolean", default: "false" },
-        { prop: { name: "onOpenChange", info_tooltips: "Called with the next open state whenever it changes." }, type: "(open: boolean) => void", default: "--" },
+        { prop: { name: "onOpenChange", info_tooltips: "Called with the next open state. A handler with a second parameter also gets details: reason (trigger-press, outside-press, escape-key, focus-out, close-press…), event, and cancel() to keep the current state." }, type: "(open: boolean, details) => void", default: "--" },
         { prop: { name: "modal", info_tooltips: "Traps focus and marks outside content inert while open." }, type: "boolean", default: "false" },
         { prop: { name: "className", info_tooltips: "Class name applied to the Popover root element." }, type: "string", default: "--" },
         { prop: { name: "customRootClass", info_tooltips: "Override the generated root class namespace." }, type: "string", default: '""' },

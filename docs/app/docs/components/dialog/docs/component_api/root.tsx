@@ -59,9 +59,9 @@ const data = {
        {
         prop : {
             name : "onOpenChange",
-            info_tooltips : "The function to handle the open change of the DialogRoot."
+            info_tooltips : "Called with the next open state. A handler with a second parameter also gets details: reason (trigger-press, outside-press, escape-key, focus-out, close-press…), event, and cancel() to keep the current state."
         },
-        type : "function",
+        type : "(open: boolean, details) => void",
         default : "--",
        },
        {
