@@ -2,12 +2,12 @@ import React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { useTransitionStatus, getTransitionAttributes } from '../index';
 
-const Popup = ({ open, animations = [] }: { open: boolean; animations?: Array<{ finished: Promise<unknown>; playState?: string; effect?: unknown }> }) => {
+const Popup = ({ open, animations = [], onComplete }: { open: boolean; animations?: Array<{ finished: Promise<unknown>; playState?: string; effect?: unknown }>; onComplete?: (open: boolean) => void }) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const { mounted, status } = useTransitionStatus(open, () => {
         if (ref.current) (ref.current as unknown as { getAnimations: () => unknown[] }).getAnimations = () => animations;
         return ref.current;
-    });
+    }, onComplete);
     return mounted ? <div ref={ref} data-testid="popup" {...getTransitionAttributes(status)} /> : null;
 };
 
@@ -69,5 +69,49 @@ describe('useTransitionStatus', () => {
         } finally {
             window.matchMedia = original;
         }
+    });
+
+    describe('onComplete', () => {
+        const nextFrame = () => act(async() => { await new Promise((resolve) => requestAnimationFrame(() => resolve(null))); });
+
+        test('is not called for something that starts open', async() => {
+            const onComplete = jest.fn();
+            render(<Popup open onComplete={onComplete} />);
+            await nextFrame();
+            expect(onComplete).not.toHaveBeenCalled();
+        });
+
+        test('reports open after the starting frame when nothing animates', async() => {
+            const onComplete = jest.fn();
+            const { rerender } = render(<Popup open={false} onComplete={onComplete} />);
+            rerender(<Popup open onComplete={onComplete} />);
+            expect(onComplete).not.toHaveBeenCalled();
+            await nextFrame();
+            expect(onComplete).toHaveBeenCalledWith(true);
+            expect(onComplete).toHaveBeenCalledTimes(1);
+        });
+
+        test('waits for enter animations before reporting open', async() => {
+            const onComplete = jest.fn();
+            let finish: (value?: unknown) => void = () => {};
+            const finished = new Promise((resolve) => { finish = resolve; });
+            const { rerender } = render(<Popup open={false} animations={[{ finished }]} onComplete={onComplete} />);
+            rerender(<Popup open animations={[{ finished }]} onComplete={onComplete} />);
+            await nextFrame();
+            expect(onComplete).not.toHaveBeenCalled();
+            await act(async() => { finish(); await finished; });
+            expect(onComplete).toHaveBeenCalledWith(true);
+        });
+
+        test('reports closed only after the exit animation finishes', async() => {
+            const onComplete = jest.fn();
+            let finish: (value?: unknown) => void = () => {};
+            const finished = new Promise((resolve) => { finish = resolve; });
+            const { rerender } = render(<Popup open animations={[{ finished }]} onComplete={onComplete} />);
+            rerender(<Popup open={false} animations={[{ finished }]} onComplete={onComplete} />);
+            expect(onComplete).not.toHaveBeenCalled();
+            await act(async() => { finish(); await finished; });
+            expect(onComplete).toHaveBeenCalledWith(false);
+        });
     });
 });

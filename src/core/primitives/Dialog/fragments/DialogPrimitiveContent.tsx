@@ -37,13 +37,13 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     style: styleProp,
     ...props
 }, ref) => {
-    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0 } = useContext(DialogPrimitiveContext);
+    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0, onOpenChangeComplete } = useContext(DialogPrimitiveContext);
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
 
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const transition = useTransitionStatus(isOpen, () => refs.floating?.current ?? null);
+    const transition = useTransitionStatus(isOpen, () => refs.floating?.current ?? null, onOpenChangeComplete);
     const shouldRender = transition.mounted || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
 

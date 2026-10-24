@@ -34,6 +34,8 @@ export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<type
     hoverOpenDelay?: number;
     /** With `openOnHover`, ms after the pointer leaves before closing. */
     hoverCloseDelay?: number;
+    /** Called after the open or close animations finish (at once when there are none). */
+    onOpenChangeComplete?: (open: boolean) => void;
 };
 
 const COMPONENT_NAME = 'PopoverPrimitive';
@@ -77,6 +79,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     hoverOpenDelay = 300,
     hoverCloseDelay = 0,
     handle,
+    onOpenChangeComplete,
     ...props
 }, ref) => {
     // onOpenChange is called by requestOpenChange (with details), not by the state hook.
@@ -251,7 +254,8 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         refs,
         isPositioned,
         floatingStyles,
-        floatingContext
+        floatingContext,
+        onOpenChangeComplete
     }), [
         anchorNode,
         contentId,
@@ -263,6 +267,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         isOpen,
         isPositioned,
         modal,
+        onOpenChangeComplete,
         positioning,
         refs,
         setContentEventHandlers,

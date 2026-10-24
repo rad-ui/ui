@@ -32,11 +32,13 @@ export type DialogPrimitiveRootProps = {
      * close the dialog, while Escape still does. Used by AlertDialog.
      */
     dismissOnOutsidePress?: boolean;
+    /** Called after the open or close animations finish (at once when there are none). */
+    onOpenChangeComplete?: (open: boolean) => void;
 }
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, onOpenChangeComplete, ...props }, ref) => {
     // onOpenChange is called by handleOpenChange (with details), not by the state hook.
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, noop);
     const onOpenChangeRef = React.useRef(onOpenChange);
@@ -99,7 +101,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         role
     ]);
 
-    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount };
+    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete };
     return (
         <DialogNestingContext.Provider value={nesting}>
         <DialogPrimitiveContext.Provider value={contextProps}>

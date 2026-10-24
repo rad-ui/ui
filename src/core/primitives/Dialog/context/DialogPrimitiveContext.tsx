@@ -21,6 +21,8 @@ type DialogPrimitiveContextType = {
   nested?: boolean;
   /** How many dialogs nested in this one are open. */
   openChildCount?: number;
+  /** Called after the open or close animations finish. */
+  onOpenChangeComplete?: (open: boolean) => void;
 };
 
 export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>({

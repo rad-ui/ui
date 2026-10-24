@@ -30,12 +30,21 @@ const exitAnimations = (element: AnimatedElement | null): Animation[] => {
  *   and transition on the element has finished; with none (or reduced motion,
  *   or only infinite animations), it unmounts at once.
  */
-export const useTransitionStatus = (open: boolean, getElement: () => Element | null) => {
+export const useTransitionStatus = (
+    open: boolean,
+    getElement: () => Element | null,
+    /** Called once the open or close animations have finished (at once when there are none). */
+    onComplete?: (open: boolean) => void
+) => {
     const [mounted, setMounted] = React.useState(open);
     const [status, setStatus] = React.useState<TransitionStatus>(undefined);
     const getElementRef = React.useRef(getElement);
     getElementRef.current = getElement;
+    const onCompleteRef = React.useRef(onComplete);
+    onCompleteRef.current = onComplete;
     const isFirstRunRef = React.useRef(true);
+    // Set when an opening transition leaves its starting frame, so its end can be reported.
+    const enteringRef = React.useRef(false);
 
     useLayoutEffect(() => {
         const isFirstRun = isFirstRunRef.current;
@@ -45,15 +54,38 @@ export const useTransitionStatus = (open: boolean, getElement: () => Element | n
             // Something that starts open (defaultOpen) has nothing to animate from.
             if (isFirstRun) return;
             setStatus('starting');
-            if (typeof requestAnimationFrame !== 'function') {
+            // Marked when the starting frame ends, so the effect below waits for the enter animations.
+            const endStartingFrame = () => {
+                enteringRef.current = true;
                 setStatus(undefined);
+            };
+            if (typeof requestAnimationFrame !== 'function') {
+                endStartingFrame();
                 return;
             }
-            const frame = requestAnimationFrame(() => setStatus(undefined));
+            const frame = requestAnimationFrame(endStartingFrame);
             return () => cancelAnimationFrame(frame);
         }
+        enteringRef.current = false;
         if (!isFirstRun) setStatus('ending');
     }, [open]);
+
+    // After the starting frame, wait for the enter animations, then report the open as complete.
+    useLayoutEffect(() => {
+        if (!open || status !== undefined || !enteringRef.current) return;
+        enteringRef.current = false;
+        const element = getElementRef.current() as (Element & { getAnimations?: (options?: { subtree?: boolean }) => Animation[] }) | null;
+        const animations = element?.getAnimations?.({ subtree: true }) ?? [];
+        if (!animations.length) {
+            onCompleteRef.current?.(true);
+            return;
+        }
+        let cancelled = false;
+        Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+            if (!cancelled) onCompleteRef.current?.(true);
+        });
+        return () => { cancelled = true; };
+    }, [open, status]);
 
     useLayoutEffect(() => {
         if (status !== 'ending') return;
@@ -62,6 +94,7 @@ export const useTransitionStatus = (open: boolean, getElement: () => Element | n
         const finish = () => {
             setMounted(false);
             setStatus(undefined);
+            onCompleteRef.current?.(false);
         };
         if (!animations.length) {
             finish();

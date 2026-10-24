@@ -84,12 +84,13 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         floatingStyles,
         floatingContext,
         setContentEventHandlers,
-        setPositioning
+        setPositioning,
+        onOpenChangeComplete
     } = useContext(PopoverPrimitiveContext);
 
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current, onOpenChangeComplete);
     const shouldRender = transition.mounted || forceMount || portalForceMount;
 
     const resolvedInitialFocus = React.useMemo((): number | React.MutableRefObject<HTMLElement | null> => {
