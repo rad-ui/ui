@@ -265,12 +265,12 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         <Floater.FocusManager
             context={floatingContext}
             disabled={!isOpen}
-            modal={modal}
+            modal={modal !== false}
             initialFocus={resolvedInitialFocus}
             returnFocus={resolvedReturnFocus}
             restoreFocus={true}
-            outsideElementsInert={modal}
-            closeOnFocusOut={!modal}
+            outsideElementsInert={modal === true}
+            closeOnFocusOut={modal === false}
         >
             {content}
         </Floater.FocusManager>

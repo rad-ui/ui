@@ -156,3 +156,31 @@ const FocusTargetsExample = () => {
 export const FocusTargets = {
     render: () => <FocusTargetsExample />
 };
+
+const TrapFocusExample = () => (
+    <SandboxEditor>
+        <div style={{ padding: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <Popover.Root modal="trap-focus">
+                <Popover.Trigger asChild>
+                    <Button variant="soft">Trap focus</Button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                    <Popover.Content sideOffset={12}>
+                        <div style={{ display: 'grid', gap: '0.5rem', minWidth: '14rem' }}>
+                            <TextField aria-label="Note" defaultValue="Tab stays in here" />
+                            <Popover.Close asChild>
+                                <Button size="small">Done</Button>
+                            </Popover.Close>
+                        </div>
+                    </Popover.Content>
+                </Popover.Portal>
+            </Popover.Root>
+            <Button variant="outline">Still clickable</Button>
+        </div>
+    </SandboxEditor>
+);
+
+/** `modal="trap-focus"` keeps Tab inside the popover while the page stays clickable. */
+export const TrapFocus = {
+    render: () => <TrapFocusExample />
+};

@@ -27,7 +27,11 @@ export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<type
      * `cancel()` to keep it as it is.
      */
     onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
-    modal?: boolean;
+    /**
+     * `true`: focus is trapped and the rest of the page is inert while open. `'trap-focus'`: focus
+     * is trapped but the page still takes pointer input. `false` (default): neither.
+     */
+    modal?: boolean | 'trap-focus';
     /** Also open while the pointer rests on the trigger, like a hover card. Clicking still toggles. */
     openOnHover?: boolean;
     /** With `openOnHover`, ms the pointer must rest before opening. */
