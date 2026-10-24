@@ -72,7 +72,8 @@ const data = {
         type : "function",
         default : "--",
        },
-        { prop: { name: "handle", info_tooltips: "Connects triggers rendered outside the Root, made with createHandle(). Children can then be a function of the opening trigger's payload." }, type: "Handle", default: "--" }
+        { prop: { name: "handle", info_tooltips: "Connects triggers rendered outside the Root, made with createHandle(). Children can then be a function of the opening trigger's payload." }, type: "Handle", default: "--" },
+        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" }
     ]
 }
 

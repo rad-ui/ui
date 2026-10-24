@@ -64,6 +64,7 @@ const data = {
         type : "boolean",
         default : "false",
        },
+        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" }
     ]
 }
 
