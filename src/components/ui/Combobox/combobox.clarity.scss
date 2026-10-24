@@ -208,4 +208,8 @@
     padding: var(--rad-ui-control-padding-y-md) var(--rad-ui-control-padding-x-md);
     color: var(--rad-ui-text-muted);
     font-size: var(--rad-ui-component-font-size-sm);
+.rad-ui-combobox-separator {
+    height: var(--rad-ui-border-width-default);
+    margin: var(--rad-ui-density-gap-xs) 0;
+    background-color: var(--rad-ui-border-soft);
 }

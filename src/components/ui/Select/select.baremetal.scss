@@ -5,3 +5,4 @@
 #{baremetal.$theme-root} :where(.rad-ui-select-content) { @include baremetal.surface; padding: 1.5rem; }
 #{baremetal.$theme-root} :where(.rad-ui-select-item) { @include baremetal.option-item; }
 #{baremetal.$theme-root} :where(.rad-ui-select-label) { border-color: var(--rad-ui-baremetal-black) !important; background: var(--rad-ui-baremetal-white) !important; }
+#{baremetal.$theme-root} :where(.rad-ui-select-separator) { @include baremetal.divider; }

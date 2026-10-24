@@ -226,3 +226,9 @@
     white-space: nowrap;
     text-align: left;
 }
+
+.rad-ui-select-separator {
+    height: var(--rad-ui-border-width-default);
+    margin: var(--rad-ui-density-gap-xs) 0;
+    background-color: var(--rad-ui-border-soft);
+}

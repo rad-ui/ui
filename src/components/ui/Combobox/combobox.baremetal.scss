@@ -10,3 +10,4 @@
 #{baremetal.$theme-root} :where(.rad-ui-combobox-chip) { @include baremetal.surface; display: inline-flex; align-items: center; gap: 0.25rem; padding: 0 0.25rem; }
 #{baremetal.$theme-root} :where(.rad-ui-combobox-chip-remove) { @include baremetal.button-like; }
 #{baremetal.$theme-root} :where(.rad-ui-combobox-empty) { @include baremetal.body-text; padding: 0.5rem; }
+#{baremetal.$theme-root} :where(.rad-ui-combobox-separator) { @include baremetal.divider; }

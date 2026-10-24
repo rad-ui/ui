@@ -40,13 +40,17 @@ const ComboboxPrimitiveGroup = React.forwardRef<
     const hasVisibleItems = visibleItems.size > 0;
     const shouldHide = search !== '' && !hasVisibleItems;
 
-    const contextValue = React.useMemo(() => ({ registerItem }), [registerItem]);
+    const labelId = React.useId();
+    const [hasLabel, setHasLabel] = React.useState(false);
+    const contextValue = React.useMemo(() => ({ registerItem, labelId, setHasLabel }), [registerItem, labelId]);
 
     return (
         <ComboboxGroupContext.Provider value={contextValue}>
             <div
                 className={className}
                 ref={forwardedRef}
+                role="group"
+                aria-labelledby={hasLabel ? labelId : undefined}
                 {...props}
                 style={{ display: shouldHide ? 'none' : undefined, ...props.style }}
             >

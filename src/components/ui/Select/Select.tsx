@@ -7,6 +7,8 @@ import SelectRoot from './fragments/SelectRoot';
 import SelectIndicator from './fragments/SelectIndicator';
 import SelectPortal from './fragments/SelectPortal';
 import SelectGroup from './fragments/SelectGroup';
+import SelectGroupLabel from './fragments/SelectGroupLabel';
+import SelectSeparator from './fragments/SelectSeparator';
 
 const SelectBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
     console.warn('Direct usage of Select is not supported. Please use Select.Root, Select.Content, etc. instead.');
@@ -22,6 +24,8 @@ interface SelectComponent extends React.ForwardRefExoticComponent<React.RefAttri
     Trigger: typeof SelectTrigger;
     Portal: typeof SelectPortal;
     Group: typeof SelectGroup;
+    GroupLabel: typeof SelectGroupLabel;
+    Separator: typeof SelectSeparator;
     Indicator: typeof SelectIndicator;
 }
 
@@ -33,10 +37,14 @@ Select.Item = SelectItem;
 Select.Trigger = SelectTrigger;
 Select.Portal = SelectPortal;
 Select.Group = SelectGroup;
+Select.GroupLabel = SelectGroupLabel;
+Select.Separator = SelectSeparator;
 Select.Indicator = SelectIndicator;
 
 export type { SelectRootProps } from './fragments/SelectRoot';
 export type { SelectContentProps } from './fragments/SelectContent';
+export type { SelectGroupLabelProps } from './fragments/SelectGroupLabel';
+export type { SelectSeparatorProps } from './fragments/SelectSeparator';
 export type { SelectItemProps } from './fragments/SelectItem';
 export type { SelectTriggerProps } from './fragments/SelectTrigger';
 export type { SelectPortalProps } from './fragments/SelectPortal';
@@ -51,6 +59,8 @@ export {
     SelectTrigger as Trigger,
     SelectPortal as Portal,
     SelectGroup as Group,
+    SelectGroupLabel as GroupLabel,
+    SelectSeparator as Separator,
     SelectIndicator as Indicator
 };
 
