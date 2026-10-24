@@ -1,6 +1,7 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import root_api from './component_api/root.tsx';
 import content_api from './component_api/content.tsx';
+import trigger_api from './component_api/trigger.tsx';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -25,6 +26,7 @@ export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
     root: root_api,
+    trigger: trigger_api,
     content: content_api
 };
 
