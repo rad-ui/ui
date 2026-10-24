@@ -4,6 +4,7 @@ import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
 import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
+import { getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
@@ -55,7 +56,9 @@ const ComboboxPrimitiveContent = React.forwardRef<
         isTypingRef,
         dir,
         multiple,
-        referenceIsInput
+        referenceIsInput,
+        transitionMounted,
+        transitionStatus
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
@@ -127,13 +130,19 @@ const ComboboxPrimitiveContent = React.forwardRef<
         ...popupProps
     } = floatingProps as Record<string, any>;
 
-    if (!isOpen && !forceMount && !portalForceMount) return null;
+    if (!transitionMounted && !forceMount && !portalForceMount) return null;
 
-    // Force-mounted while closed: keep the DOM (for exit animations) but hide
-    // it from users and assistive tech.
+    // Closed but still rendered: while the exit animation runs it stays visible
+    // but inert; once only force-mounted it's hidden from users and assistive tech.
+    const transitionAttributes = getTransitionAttributes(transitionStatus);
     const shownProps = isOpen
-        ? popupProps
-        : { ...popupProps, style: { ...popupProps.style, visibility: 'hidden', pointerEvents: 'none' } };
+        ? { ...popupProps, ...transitionAttributes }
+        : {
+            ...popupProps,
+            ...transitionAttributes,
+            'aria-hidden': true as const,
+            style: { ...popupProps.style, visibility: transitionStatus === 'ending' ? undefined : 'hidden', pointerEvents: 'none' }
+        };
 
     const popup = hasSearchPart ? (
         <div ref={mergedRef} {...shownProps} id={`${listboxId}-popup`}>

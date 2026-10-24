@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import type { TransitionStatus } from '~/core/hooks/useTransitionStatus';
 
 export interface MenuPrimitiveRootPrimitiveContextProps {
   isOpen: boolean;
@@ -32,6 +33,9 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   dir?: 'ltr' | 'rtl';
   /** Returns the top-level trigger of this menu tree (the sub trigger's root, for submenus). */
   getRootTrigger: () => Element | null;
+  /** True while open or running an exit animation. */
+  transitionMounted: boolean;
+  transitionStatus: TransitionStatus;
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);

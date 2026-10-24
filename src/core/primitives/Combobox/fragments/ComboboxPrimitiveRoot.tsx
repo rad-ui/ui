@@ -8,6 +8,7 @@ import { findItemLabel } from '../utils/itemLabels';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
 import { useDirection } from '~/core/hooks/useDirection';
+import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'start' | 'center' | 'end';
@@ -424,7 +425,11 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         typeahead
     ]);
 
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+
     const values = React.useMemo(() => ({
+        transitionMounted: transition.mounted,
+        transitionStatus: transition.status,
         isOpen,
         setIsOpen,
         handleSelect,
@@ -499,7 +504,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         selectedLabels,
         removeValue,
         setSearch,
-        referenceIsInput
+        referenceIsInput,
+        transition.mounted,
+        transition.status
     ]);
 
     return (

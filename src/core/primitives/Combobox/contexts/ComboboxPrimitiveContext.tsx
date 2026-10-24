@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import type { TransitionStatus } from '~/core/hooks/useTransitionStatus';
 
 export type ComboboxPrimitiveContextType = {
     isOpen: boolean,
@@ -56,6 +57,9 @@ export type ComboboxPrimitiveContextType = {
     /** True when a text input is the anchor (Autocomplete): focus stays in it while open. */
     referenceIsInput: boolean;
     setReferenceIsInput: React.Dispatch<React.SetStateAction<boolean>>;
+    /** True while open or running an exit animation. */
+    transitionMounted: boolean;
+    transitionStatus: TransitionStatus;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

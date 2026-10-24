@@ -5,6 +5,7 @@ import { getNextTabbable } from '@floating-ui/react/utils';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import { MenuPrimitivePortalContext } from '../contexts/MenuPrimitivePortalContext';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
@@ -26,7 +27,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
         const { forceMount: portalForceMount } = useContext(MenuPrimitivePortalContext);
         if (!context) return null;
         const isOpen = context.isOpen;
-        if (!isOpen && !forceMount && !portalForceMount) return null;
+        if (!context.transitionMounted && !forceMount && !portalForceMount) return null;
         const {
             floatingStyles,
             getFloatingProps,
@@ -84,6 +85,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 // Portaled content does not inherit direction from the trigger's tree.
                 dir: context.dir,
                 'data-state': 'open',
+                ...getTransitionAttributes(context.transitionStatus),
                 onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
                     (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);
                     handleTabKey(event);
@@ -95,7 +97,10 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 className,
                 dir: context.dir,
                 'data-state': 'closed',
-                style: { ...consumerStyle, ...floatingStyles, visibility: 'hidden', pointerEvents: 'none' }
+                'aria-hidden': 'true',
+                ...getTransitionAttributes(context.transitionStatus),
+                // Stay visible while the exit animation runs; hidden once it's only force-mounted.
+                style: { ...consumerStyle, ...floatingStyles, visibility: context.transitionStatus === 'ending' ? undefined : 'hidden', pointerEvents: 'none' }
             };
 
         return (

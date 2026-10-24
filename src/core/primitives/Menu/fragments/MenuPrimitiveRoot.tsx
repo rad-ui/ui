@@ -4,6 +4,7 @@ import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { useDirection } from '~/core/hooks/useDirection';
+import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -166,7 +167,11 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         return refs.domReference.current;
     }, [isNested, parentMenuContext, refs.domReference]);
 
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+
     const values = {
+        transitionMounted: transition.mounted,
+        transitionStatus: transition.status,
         isOpen,
         setIsOpen,
         refs,

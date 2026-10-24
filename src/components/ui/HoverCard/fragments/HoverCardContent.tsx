@@ -4,6 +4,7 @@ import HoverCardContext from '../contexts/HoverCardContext';
 import Floater from '~/core/primitives/Floater';
 import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 import { HoverCardPortalContext } from '../contexts/HoverCardPortalContext';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type HoverCardContentElement = ElementRef<'div'>;
 export type HoverCardContentProps = ComponentPropsWithoutRef<'div'> & {
@@ -35,19 +36,24 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         };
     }, [closeWithoutDelay, isOpen]);
 
-    const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, ref]);
+    const contentRef = React.useRef<HTMLDivElement | null>(null);
+    const mergedRef = Floater.useMergeRefs([floatingRefs.setFloating, contentRef, ref]);
     const dataAttributes = createDataAttributes('hover-card', { size });
+    const transition = useTransitionStatus(isOpen, () => contentRef.current);
+    const ending = transition.status === 'ending';
 
-    if (!isOpen && !forceMount && !portalForceMount) return null;
+    if (!transition.mounted && !forceMount && !portalForceMount) return null;
 
     return <div
         className={clsx(rootClass, className)}
         ref={mergedRef}
         data-state={isOpen ? 'open' : 'closed'}
         aria-hidden={!isOpen ? 'true' : undefined}
+        {...getTransitionAttributes(transition.status)}
         style={{
             ...floatingStyles,
-            visibility: isOpen ? undefined : 'hidden',
+            // Stay visible while the exit animation runs.
+            visibility: isOpen || ending ? undefined : 'hidden',
             pointerEvents: isOpen ? undefined : 'none'
         }}
         {...dataAttributes}
