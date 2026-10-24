@@ -4,6 +4,14 @@ import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '../../Floater';
 import Primitive from '../../Primitive';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
+import { COMBOBOX_VALUE_PART } from './ComboboxPrimitiveValue';
+
+// True when a Value part sits anywhere in the trigger's children.
+const containsValuePart = (node: React.ReactNode): boolean => React.Children.toArray(node).some((child) => {
+    if (!React.isValidElement(child)) return false;
+    if ((child.type as unknown as Record<string, unknown>)?.[COMBOBOX_VALUE_PART]) return true;
+    return containsValuePart((child.props as { children?: React.ReactNode }).children);
+});
 
 export type ComboboxPrimitiveTriggerProps = {
     children?: React.ReactNode;
@@ -52,7 +60,8 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
                 disabled: isDisabled
             })}
         >
-            {renderedValue ?? (selectedLabel || selectedValue || children)}
+            {/* A Value part renders the label itself, so the trigger keeps its own children. */}
+            {containsValuePart(children) ? children : renderedValue ?? (selectedLabel || selectedValue || children)}
         </Primitive.button>
     );
 });

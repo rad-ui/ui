@@ -232,3 +232,22 @@
     margin: var(--rad-ui-density-gap-xs) 0;
     background-color: var(--rad-ui-border-soft);
 }
+
+// With a Value part the trigger lays out its own children.
+.rad-ui-select-value {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: start;
+
+    &[data-placeholder] {
+        color: var(--rad-ui-text-muted);
+    }
+}
+
+// A Select.Icon replaces the built-in caret.
+.rad-ui-select-trigger:has(.rad-ui-select-icon)::after {
+    display: none;
+}
