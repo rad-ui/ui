@@ -80,6 +80,14 @@ const data = {
             },
             type: "boolean",
             default: "false",
+        },
+        {
+            prop: {
+                name: "focusableWhenDisabled",
+                info_tooltips: "Keep a disabled button in the tab order with aria-disabled, so focus isn't lost when it disables itself during a request and keyboard users can still reach it. It still won't activate."
+            },
+            type: "boolean",
+            default: "false",
         }
     ]
 };

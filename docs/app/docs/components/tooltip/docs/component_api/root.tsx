@@ -49,12 +49,12 @@ const data = {
       default: "--",
     },
     {
-      prop: { name: "openDelay", info_tooltips: "Delay in ms before opening on hover. Focus opens immediately." },
+      prop: { name: "openDelay", info_tooltips: "Delay in ms before opening on hover. Focus opens immediately. Inside Tooltip.Provider, defaults to its delay." },
       type: "number",
       default: "0",
     },
     {
-      prop: { name: "closeDelay", info_tooltips: "Delay in ms before closing after the pointer leaves." },
+      prop: { name: "closeDelay", info_tooltips: "Delay in ms before closing after the pointer leaves. Inside Tooltip.Provider, defaults to its delay." },
       type: "number",
       default: "0",
     },

@@ -1,0 +1,23 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import SlotExample from "./docs/examples/SlotExample"
+import code, { anatomy, api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
+
+<Documentation
+    title="Slot"
+    description="Tools for building your own components on Rad UI: Slot, mergeProps, composeRefs and useRender."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <SlotExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['slot', 'merge_props', 'use_render']}
+    />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
+</Documentation>

@@ -10,6 +10,15 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <ContextMenuExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures
+        features={[
+            "Opens on right-click, the Menu key or Shift+F10",
+            "Opens on a 500ms touch long press, including iOS Safari, which never fires contextmenu",
+            "Full keyboard navigation with sub-menus and typeahead",
+            "Supports CSS enter and exit transitions with data-starting-style and data-ending-style"
+        ]}
+    />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

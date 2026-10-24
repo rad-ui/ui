@@ -21,6 +21,7 @@ import root_api_SourceCode from './component_api/root.tsx';
 import trigger_api_SourceCode from './component_api/trigger.tsx';
 import list_api_SourceCode from './component_api/list.tsx';
 import content_api_SourceCode from './component_api/content.tsx';
+import indicator_api_SourceCode from './component_api/indicator.tsx';
 
 export const code = {
     javascript: {
@@ -39,7 +40,8 @@ export const api_documentation = {
     root: root_api_SourceCode,
     trigger: trigger_api_SourceCode,
     list: list_api_SourceCode,
-    content: content_api_SourceCode
+    content: content_api_SourceCode,
+    indicator: indicator_api_SourceCode
 }
 
 export const keyboardShortcuts = createKeyboardShortcutTable([

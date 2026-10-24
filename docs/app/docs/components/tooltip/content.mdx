@@ -18,14 +18,16 @@ import TooltipExample1 from "./docs/examples/tooltip_example1"
       "Follows WAI-ARIA tooltip pattern",
       "Appears on hover or focus",
       "Automatically positions itself",
-      "Dismissable with Escape key"
+      "Dismissable with Escape key",
+      "Tooltip.Provider shares one hover delay, so moving along a toolbar opens the next tooltip instantly",
+      "Supports CSS enter and exit transitions with data-starting-style and data-ending-style"
     ]} 
   />
 
   <Documentation.ApiReference
     anatomy={anatomy.code}
     tables={api_documentation}
-    order={['root', 'trigger', 'content']}
+    order={['provider', 'root', 'trigger', 'content']}
   />
 
   {/* Keyboard Shortcuts */}

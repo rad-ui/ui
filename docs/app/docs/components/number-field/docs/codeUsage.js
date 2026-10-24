@@ -1,5 +1,6 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import root_api from './component_api/root.tsx';
+import scrub_area_api from './component_api/scrub_area.tsx';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -23,7 +24,8 @@ export const code = {
 export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
-    root: root_api
+    root: root_api,
+    scrub_area: scrub_area_api
 };
 
 export const keyboardShortcuts = createKeyboardShortcutTable([

@@ -4,6 +4,7 @@ import label_api from './component_api/label';
 import control_api from './component_api/control';
 import description_api from './component_api/description';
 import error_api from './component_api/error_part';
+import validity_api from './component_api/validity';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -31,13 +32,16 @@ export const api_documentation = {
     label: label_api,
     control: control_api,
     description: description_api,
-    error: error_api
+    error: error_api,
+    validity: validity_api
 };
 
 export const features = [
     "Links the label, help text and error to the control without hand-written ids",
     "Sets aria-invalid and announces the error only while the field is invalid",
     "Works with TextField, TextArea, native inputs or your own control through asChild",
+    "Validates with the browser's own checks plus your validate function, showing results on submit, blur or change",
+    "Field.Error match gives each problem its own message, such as valueMissing or typeMismatch",
     "Exposes data-invalid, data-disabled, data-required, data-focused, data-touched and data-dirty on every part"
 ];
 

@@ -7,8 +7,9 @@ const data = {
         { name: "Default", id: "default" }
     ],
     data: [
-        { prop: { name: "value", info_tooltips: "Controlled selected value." }, type: "string", default: "--" },
-        { prop: { name: "defaultValue", info_tooltips: "Initial selected value (uncontrolled)." }, type: "string", default: "--" },
+        { prop: { name: "multiple", info_tooltips: "Allow several selected values. value, defaultValue and onValueChange use arrays, and picking an option toggles it and keeps the list open." }, type: "boolean", default: "false" },
+        { prop: { name: "value", info_tooltips: "Controlled selected value, or an array of values with multiple." }, type: "string | string[]", default: "--" },
+        { prop: { name: "defaultValue", info_tooltips: "Initial selected value (uncontrolled), or an array with multiple." }, type: "string | string[]", default: "--" },
         { prop: { name: "open", info_tooltips: "Controlled open state." }, type: "boolean", default: "--" },
         { prop: { name: "disabled", info_tooltips: "Disables the select." }, type: "boolean", default: "false" },
         { prop: { name: "onValueChange", info_tooltips: "Callback when selection changes." }, type: "function", default: "--" },

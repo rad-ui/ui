@@ -15,6 +15,7 @@ const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components
 
 // Import API documentation
 import root_api_SourceCode from './component_api/root.tsx';
+import provider_api_SourceCode from './component_api/provider.tsx';
 import trigger_api_SourceCode from './component_api/trigger.tsx';
 import content_api_SourceCode from './component_api/content.tsx';
 
@@ -42,6 +43,7 @@ const columns = [
 
 // API documentation
 export const api_documentation = {
+    provider: provider_api_SourceCode,
     root: root_api_SourceCode,
     trigger: trigger_api_SourceCode,
     content: content_api_SourceCode
