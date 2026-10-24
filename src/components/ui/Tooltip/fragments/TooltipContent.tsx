@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import TooltipContext from '../context/TooltipContext';
 import { useMergeRefs, FloatingPortal, FloatingArrow } from '@floating-ui/react';
 import Primitive from '~/core/primitives/Primitive';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import ThemeContext from '~/components/ui/Theme/ThemeContext';
 
 export type TooltipContentElement = React.ElementRef<typeof Primitive.div>;
@@ -27,8 +28,9 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
         const arrowRef = tooltipContext.arrowRef;
 
         const mergedRef = useMergeRefs([context.refs.setFloating, ref]);
+        const transition = useTransitionStatus(isOpen, () => context.refs.floating.current);
 
-        if (!isOpen) return null;
+        if (!transition.mounted) return null;
 
         const { getFloatingProps } = interactions;
 
@@ -43,6 +45,8 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
                     ref={mergedRef}
                     data-slot="tooltip-content"
                     data-state={isOpen ? 'open' : 'closed'}
+                    {...getTransitionAttributes(transition.status)}
+                    aria-hidden={!isOpen || undefined}
                     data-side={String(data.placement ?? '').split('-')[0] || undefined}
                     data-instant={isInstantPhase ? '' : undefined}
                     {...getFloatingProps(props)}

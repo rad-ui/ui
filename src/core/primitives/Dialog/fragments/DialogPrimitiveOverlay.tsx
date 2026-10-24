@@ -2,7 +2,7 @@
 import React, { forwardRef, useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
-import usePresence from '~/core/hooks/usePresence';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type DialogPrimitiveOverlayProps = React.ComponentPropsWithoutRef<typeof Floater.Overlay> & {
     asChild?: boolean;
@@ -19,10 +19,9 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
     const { isOpen, handleOverlayClick } = useContext(DialogPrimitiveContext);
 
     const overlayRef = React.useRef<HTMLDivElement | null>(null);
-    const mergedRef = Floater.useMergeRefs([ref, overlayRef]);
-    // Stays mounted while the closing transition plays (#2290).
-    const isPresent = usePresence(isOpen, overlayRef);
-    const shouldRender = isPresent || forceMount;
+    const mergedRef = Floater.useMergeRefs([overlayRef, ref]);
+    const transition = useTransitionStatus(isOpen, () => overlayRef.current);
+    const shouldRender = transition.mounted || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
 
     return (
@@ -41,6 +40,7 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
                         handleOverlayClick();
                     }}
                     data-state={dataState}
+                    {...getTransitionAttributes(transition.status)}
                     {...props}
                 >
                     {children}

@@ -65,3 +65,33 @@ export const Default = {
 export const Modal = {
     render: () => <PopoverDemo modal />
 };
+
+export const CssTransitions = {
+    render: () => (
+        <SandboxEditor>
+            <style>{`
+                .transition-demo {
+                    transition: opacity 180ms ease, transform 180ms ease;
+                }
+                .transition-demo[data-starting-style],
+                .transition-demo[data-ending-style] {
+                    opacity: 0;
+                    transform: scale(0.96);
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    .transition-demo { transition: none; }
+                }
+            `}</style>
+            <Popover.Root>
+                <Popover.Trigger asChild>
+                    <Button>Open with a transition</Button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                    <Popover.Content className="transition-demo">
+                        <Text>Fades and scales in, and stays mounted until it has faded out.</Text>
+                    </Popover.Content>
+                </Popover.Portal>
+            </Popover.Root>
+        </SandboxEditor>
+    )
+};

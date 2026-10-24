@@ -3,7 +3,6 @@
 import React, { forwardRef, useContext } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import Floater from '~/core/primitives/Floater';
-import usePresence from '~/core/hooks/usePresence';
 import {
     PopoverAlign,
     PopoverPrimitiveContext,
@@ -11,6 +10,7 @@ import {
     PopoverSticky
 } from '../context/PopoverPrimitiveContext';
 import { PopoverPrimitivePortalContext } from '../context/PopoverPrimitivePortalContext';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     asChild?: boolean;
@@ -73,11 +73,9 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     } = useContext(PopoverPrimitiveContext);
 
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
-    const contentRef = React.useRef<HTMLDivElement | null>(null);
-    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref, contentRef]);
-    // Stays mounted while the closing transition plays (#2290).
-    const isPresent = usePresence(isOpen, contentRef);
-    const shouldRender = isPresent || forceMount || portalForceMount;
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+    const shouldRender = transition.mounted || forceMount || portalForceMount;
 
     React.useEffect(() => {
         setPositioning({
@@ -191,11 +189,13 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         'data-side': resolvedSide ?? side,
         'data-align': resolvedPlacement ? (resolvedAlign ?? 'center') : align,
         'aria-hidden': !isOpen ? 'true' : undefined,
+        ...getTransitionAttributes(transition.status),
         style: {
             ...floatingStyles,
             outline: 'none',
             visibility: isOpen && !isPositioned ? 'hidden' : undefined,
-            pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
+            // Closed content still on screen (exit animation, forceMount) can't be clicked.
+            pointerEvents: (isOpen && !isPositioned) || !isOpen ? 'none' : undefined,
             ...style
         }
     });
