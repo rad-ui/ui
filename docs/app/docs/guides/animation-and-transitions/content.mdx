@@ -12,6 +12,7 @@ Rad UI components carry data attributes for every state, so you can animate them
 | `data-side`, `data-align` | positioned popups | Where the popup ended up after collision handling |
 | `data-instant` | Tooltip content | The tooltip opened instantly from a `Tooltip.Provider` group: skip the entry animation |
 | `data-activation-direction` | `Tabs.Indicator` | Which way the active tab moved |
+| `data-nested-dialog-open`, `--nested-dialogs` | Dialog content | A dialog nested in this one is open, and how many |
 
 `data-starting-style` and `data-ending-style` are on Popover, Tooltip, Dialog, AlertDialog (content and overlay), DropdownMenu, ContextMenu, Menubar, HoverCard, Select and Combobox.
 
@@ -67,6 +68,18 @@ Use `data-side` so a popup slides away from its trigger.
   height: 2px;
   background: currentColor;
   transition: left 200ms ease, width 200ms ease;
+}
+```
+
+## Stacked dialogs
+
+A dialog with another dialog open inside it gets `data-nested-dialog-open` and a `--nested-dialogs` count, so it can step back visually.
+
+```css
+.dialog-content[data-nested-dialog-open] {
+  transform: scale(calc(1 - 0.04 * var(--nested-dialogs)));
+  filter: brightness(0.96);
+  transition: transform 200ms ease, filter 200ms ease;
 }
 ```
 

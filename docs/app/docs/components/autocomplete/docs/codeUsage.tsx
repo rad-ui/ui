@@ -2,6 +2,7 @@ import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import root_api from './component_api/root';
 import input_api from './component_api/input';
 import item_api from './component_api/item';
+import empty_api from './component_api/empty';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -27,7 +28,8 @@ export const anatomy = { code: anatomy_SourceCode };
 export const api_documentation = {
     root: root_api,
     input: input_api,
-    item: item_api
+    item: item_api,
+    empty: empty_api
 };
 
 export const features = [

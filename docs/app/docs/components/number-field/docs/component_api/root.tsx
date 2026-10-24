@@ -17,7 +17,9 @@ const data = {
         { prop: { name: "readOnly", info_tooltips: "Prevents editing and stepping while keeping the value focusable." }, type: "boolean", default: "false" },
         { prop: { name: "required", info_tooltips: "Marks the input as required for form validation." }, type: "boolean", default: "false" },
         { prop: { name: "disabled", info_tooltips: "Disables the field." }, type: "boolean", default: "false" },
-        { prop: { name: "onValueChange", info_tooltips: "Callback when value changes. Typed values are clamped to min/max on blur or Enter." }, type: "(value: number | '') => void", default: "--" }
+        { prop: { name: "onValueChange", info_tooltips: "Callback when value changes. Typed values are clamped to min/max on blur or Enter." }, type: "(value: number | '') => void", default: "--" },
+        { prop: { name: "format", info_tooltips: "Intl.NumberFormat options, such as currency or percent. The input accepts formatted typing; the value stays a number (25% is 0.25)." }, type: "Intl.NumberFormatOptions", default: "--" },
+        { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" }
     ]
 }
 

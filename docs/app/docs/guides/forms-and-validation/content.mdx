@@ -79,6 +79,25 @@ For a checklist such as password rules, return every failing message and render 
 </Field.Root>
 ```
 
+## Async checks
+
+`validate` can return a promise, for checks that need the server. While it's pending, Field parts carry `data-validating` and `Field.Validity` reports `validating`. A slower, older check never overwrites a newer result. Add `validationDebounceTime` so it waits for typing to pause.
+
+```tsx
+<Field.Root
+  name="username"
+  validationMode="onChange"
+  validationDebounceTime={300}
+  validate={async (value) => ((await isTaken(String(value))) ? 'That username is taken.' : null)}
+>
+  <Field.Label>Username</Field.Label>
+  <Field.Control />
+  <Field.Error />
+</Field.Root>
+```
+
+A Form submit waits for pending checks: it treats the field as not yet valid and focuses it.
+
 ## When errors show
 
 | `validationMode` | Errors first appear |

@@ -11,6 +11,8 @@ import {
 } from '../../shared/keyboardShortcuts';
 import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
+import group_label_api from './component_api/group_label.tsx';
+import separator_api from './component_api/separator.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/example_1.tsx');
 const largeList_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/large-list.tsx');
@@ -30,7 +32,9 @@ export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
     root: root_api,
-    item: item_api
+    item: item_api,
+    group_label: group_label_api,
+    separator: separator_api
 };
 
 export const keyboardShortcuts = createKeyboardShortcutTable([

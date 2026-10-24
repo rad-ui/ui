@@ -12,7 +12,10 @@ const data = {
         { prop: { name: "onOpenChange", info_tooltips: "Called with the next open state whenever it changes." }, type: "(open: boolean) => void", default: "--" },
         { prop: { name: "modal", info_tooltips: "Traps focus and marks outside content inert while open." }, type: "boolean", default: "false" },
         { prop: { name: "className", info_tooltips: "Class name applied to the Popover root element." }, type: "string", default: "--" },
-        { prop: { name: "customRootClass", info_tooltips: "Override the generated root class namespace." }, type: "string", default: '""' }
+        { prop: { name: "customRootClass", info_tooltips: "Override the generated root class namespace." }, type: "string", default: '""' },
+        { prop: { name: "openOnHover", info_tooltips: "Also open while the pointer rests on the trigger. Clicking still toggles." }, type: "boolean", default: "false" },
+        { prop: { name: "hoverOpenDelay", info_tooltips: "With openOnHover, ms before opening." }, type: "number", default: "300" },
+        { prop: { name: "hoverCloseDelay", info_tooltips: "With openOnHover, ms after the pointer leaves before closing." }, type: "number", default: "0" }
     ]
 }
 
