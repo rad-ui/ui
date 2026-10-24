@@ -6,6 +6,7 @@ import FieldLabel from './fragments/FieldLabel';
 import FieldControl from './fragments/FieldControl';
 import FieldDescription from './fragments/FieldDescription';
 import FieldError from './fragments/FieldError';
+import FieldValidity from './fragments/FieldValidity';
 
 export const COMPONENT_NAME = 'Field';
 
@@ -19,6 +20,7 @@ type FieldComponent = React.ForwardRefExoticComponent<
     Control: typeof FieldControl;
     Description: typeof FieldDescription;
     Error: typeof FieldError;
+    Validity: typeof FieldValidity;
 };
 
 const Field = forwardRef<FieldRootElement, FieldProps>((props, ref) => (
@@ -31,12 +33,15 @@ Field.Label = FieldLabel;
 Field.Control = FieldControl;
 Field.Description = FieldDescription;
 Field.Error = FieldError;
+Field.Validity = FieldValidity;
 
 export type { FieldRootProps } from './fragments/FieldRoot';
 export type { FieldLabelProps } from './fragments/FieldLabel';
 export type { FieldControlProps } from './fragments/FieldControl';
 export type { FieldDescriptionProps } from './fragments/FieldDescription';
 export type { FieldErrorProps } from './fragments/FieldError';
+export type { FieldValidityProps, FieldValidityRenderProps } from './fragments/FieldValidity';
+export type { FieldValidityKey, FieldValidityState, FieldValidationMode } from './contexts/FieldContext';
 // Named part exports let React Server Components use `import * as Field from '@radui/ui/Field'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -44,7 +49,8 @@ export {
     FieldLabel as Label,
     FieldControl as Control,
     FieldDescription as Description,
-    FieldError as Error
+    FieldError as Error,
+    FieldValidity as Validity
 };
 
 export default Field;

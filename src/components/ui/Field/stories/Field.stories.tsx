@@ -95,3 +95,33 @@ export const Disabled: Story = {
         </SandboxEditor>
     )
 };
+
+export const NativeValidation: Story = {
+    render: () => (
+        <SandboxEditor>
+            <form className="flex max-w-sm flex-col gap-4" onSubmit={(event) => event.preventDefault()}>
+                <Field.Root name="email" required validationMode="onBlur">
+                    <Field.Label>Email</Field.Label>
+                    <Field.Control asChild>
+                        <TextField type="email" />
+                    </Field.Control>
+                    <Field.Error match="valueMissing">Enter your email.</Field.Error>
+                    <Field.Error match="typeMismatch">That doesn't look like an email.</Field.Error>
+                </Field.Root>
+                <Field.Root
+                    name="username"
+                    required
+                    validate={(value) => (String(value).toLowerCase() === 'admin' ? 'That username is taken.' : null)}
+                >
+                    <Field.Label>Username</Field.Label>
+                    <Field.Control asChild>
+                        <TextField />
+                    </Field.Control>
+                    <Field.Description>Try "admin" to see a custom error.</Field.Description>
+                    <Field.Error />
+                </Field.Root>
+                <Button type="submit">Create account</Button>
+            </form>
+        </SandboxEditor>
+    )
+};

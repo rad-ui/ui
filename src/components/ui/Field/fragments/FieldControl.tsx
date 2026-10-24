@@ -4,6 +4,7 @@ import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 import { useFieldContext } from '../contexts/FieldContext';
 
 export type FieldControlElement = ElementRef<typeof Primitive.input>;
@@ -24,6 +25,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
     onFocus,
     onBlur,
     onChange,
+    onInvalid,
     ...props
 }, ref) => {
     const {
@@ -38,8 +40,19 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
         setTouched,
         setDirty,
         setFocused,
+        validate,
+        validityShown,
+        validationMode,
+        controlRef,
         stateAttributes
     } = useFieldContext('Control');
+    const mergedRef = React.useMemo(() => mergeRefs(ref, controlRef as React.Ref<HTMLInputElement>), [ref, controlRef]);
+
+    // Check silently on mount, so a custom `validate` error blocks native form
+    // submission before the user has touched the field.
+    React.useEffect(() => {
+        validate(false);
+    }, [validate]);
 
     // A control with its own id keeps it; the Label follows.
     useLayoutEffect(() => {
@@ -51,7 +64,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
 
     return (
         <Primitive.input
-            ref={ref}
+            ref={mergedRef}
             id={idProp ?? controlId}
             name={nameProp ?? name}
             disabled={disabledProp ?? (disabled || undefined)}
@@ -70,10 +83,18 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
                 onBlur?.(event);
                 setFocused(false);
                 setTouched(true);
+                validate(validationMode === 'onBlur' || validityShown);
             }}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 onChange?.(event);
                 setDirty(true);
+                validate(validationMode === 'onChange' || validityShown);
+            }}
+            onInvalid={(event: React.FormEvent<HTMLInputElement>) => {
+                onInvalid?.(event);
+                // A submit attempt found the field invalid: show the result.
+                setTouched(true);
+                validate(true);
             }}
         />
     );
