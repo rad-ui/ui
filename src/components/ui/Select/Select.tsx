@@ -11,6 +11,7 @@ import SelectGroupLabel from './fragments/SelectGroupLabel';
 import SelectSeparator from './fragments/SelectSeparator';
 import SelectValue from './fragments/SelectValue';
 import SelectIcon from './fragments/SelectIcon';
+import { SelectScrollUpArrow, SelectScrollDownArrow } from './fragments/SelectScrollArrow';
 
 const SelectBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
     console.warn('Direct usage of Select is not supported. Please use Select.Root, Select.Content, etc. instead.');
@@ -31,6 +32,8 @@ interface SelectComponent extends React.ForwardRefExoticComponent<React.RefAttri
     Value: typeof SelectValue;
     Icon: typeof SelectIcon;
     Indicator: typeof SelectIndicator;
+    ScrollUpArrow: typeof SelectScrollUpArrow;
+    ScrollDownArrow: typeof SelectScrollDownArrow;
 }
 
 const Select = SelectBase as SelectComponent;
@@ -46,6 +49,8 @@ Select.Separator = SelectSeparator;
 Select.Value = SelectValue;
 Select.Icon = SelectIcon;
 Select.Indicator = SelectIndicator;
+Select.ScrollUpArrow = SelectScrollUpArrow;
+Select.ScrollDownArrow = SelectScrollDownArrow;
 
 export type { SelectRootProps } from './fragments/SelectRoot';
 export type { SelectContentProps } from './fragments/SelectContent';
@@ -58,6 +63,7 @@ export type { SelectTriggerProps } from './fragments/SelectTrigger';
 export type { SelectPortalProps } from './fragments/SelectPortal';
 export type { SelectGroupProps } from './fragments/SelectGroup';
 export type { SelectIndicatorProps } from './fragments/SelectIndicator';
+export type { SelectScrollArrowProps } from './fragments/SelectScrollArrow';
 // Named part exports let React Server Components use `import * as Select from '@radui/ui/Select'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -71,7 +77,9 @@ export {
     SelectSeparator as Separator,
     SelectValue as Value,
     SelectIcon as Icon,
-    SelectIndicator as Indicator
+    SelectIndicator as Indicator,
+    SelectScrollUpArrow as ScrollUpArrow,
+    SelectScrollDownArrow as ScrollDownArrow
 };
 
 export default Select;

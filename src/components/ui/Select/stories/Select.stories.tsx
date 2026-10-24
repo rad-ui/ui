@@ -323,3 +323,28 @@ export const Multiple = () => {
         </SandboxEditor>
     );
 };
+
+const COUNTRIES = ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'Denmark', 'Egypt', 'Finland', 'France', 'Germany', 'Greece', 'India', 'Ireland', 'Italy', 'Japan', 'Kenya', 'Mexico', 'Norway', 'Peru', 'Portugal', 'Spain', 'Sweden'];
+
+export const WithScrollArrows = () => {
+    return (
+        <SandboxEditor>
+            <div className="w-[240px]">
+                <Select.Root>
+                    <Select.Trigger>
+                        <span>Country</span>
+                    </Select.Trigger>
+                    <Select.Portal>
+                        <Select.Content style={{ '--rad-select-content-height': '220px' } as React.CSSProperties}>
+                            <Select.ScrollUpArrow />
+                            {COUNTRIES.map((country) => (
+                                <Select.Item key={country} value={country}><Select.Indicator />{country}</Select.Item>
+                            ))}
+                            <Select.ScrollDownArrow />
+                        </Select.Content>
+                    </Select.Portal>
+                </Select.Root>
+            </div>
+        </SandboxEditor>
+    );
+};
