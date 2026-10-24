@@ -268,13 +268,14 @@
     background-color: var(--rad-ui-color-gray-50);
     cursor: default;
 
+    // Stick flush to the content's edge, over its padding, so no option peeks past the arrow.
     &[data-direction="up"] {
-        top: 0;
+        top: calc(var(--rad-ui-spacing-1) * -1);
         margin-bottom: calc(var(--rad-select-scroll-arrow-height, 1.5rem) * -1);
     }
 
     &[data-direction="down"] {
-        bottom: 0;
+        bottom: calc(var(--rad-ui-spacing-1) * -1);
         margin-top: calc(var(--rad-select-scroll-arrow-height, 1.5rem) * -1);
     }
 
