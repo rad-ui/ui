@@ -1,6 +1,9 @@
 // Import API documentation
 import root_api_SourceCode from './component_api/root.tsx';
 import indicator_api_SourceCode from './component_api/indicator.tsx';
+import label_api from './component_api/label.tsx';
+import value_api from './component_api/value.tsx';
+import track_api from './component_api/track.tsx';
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import {
     createAriaReferenceRow,
@@ -32,6 +35,9 @@ const code = {
 // API documentation
 export const api_documentation = {
     root: root_api_SourceCode,
+    label: label_api,
+    value: value_api,
+    track: track_api,
     indicator: indicator_api_SourceCode
 };
 

@@ -11,7 +11,8 @@ const data = {
         { prop: { name: "scrollRestoration", info_tooltips: "Use manual for full-page scroll containers that should reset their viewport on route changes." }, type: "enum", enum_values: ["auto", "manual"], default: "auto" },
         { prop: { name: "restoreKey", info_tooltips: "Key that triggers a manual scroll reset when it changes, such as a pathname." }, type: "React.Key", default: "undefined" },
         { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' },
-        { prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." }, type: "boolean", default: "false" }
+        { prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." }, type: "boolean", default: "false" },
+        { prop: { name: "data-overflow-*", info_tooltips: "Set on the root and viewport while content is hidden past an edge: data-overflow-y-start, -y-end, -x-start, -x-end, with --scroll-area-overflow-* distances in px for fade masks." }, type: "attribute", default: "--" }
     ]
 }
 

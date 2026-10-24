@@ -83,6 +83,22 @@ A dialog with another dialog open inside it gets `data-nested-dialog-open` and a
 }
 ```
 
+## Fade the edges of a scroll area
+
+ScrollArea sets `--scroll-area-overflow-y-start` and `--scroll-area-overflow-y-end` to how far content extends past each edge, so a mask fades only where there's more to scroll.
+
+```css
+.scroll-area .rad-ui-scroll-area-viewport {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black min(24px, var(--scroll-area-overflow-y-start)),
+    black calc(100% - min(24px, var(--scroll-area-overflow-y-end))),
+    transparent 100%
+  );
+}
+```
+
 ## Respect reduced motion
 
 Turn transitions off for people who ask for less motion. The Clarity theme already does this.

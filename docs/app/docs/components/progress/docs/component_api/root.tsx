@@ -63,7 +63,9 @@ const data = {
             },
             type: "function",
             default: "--",
-        }
+        },
+        { prop: { name: "format", info_tooltips: "Intl.NumberFormat options for the value text and the Value part; also sets aria-valuetext." }, type: "Intl.NumberFormatOptions", default: "--" },
+        { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" }
     ]
 };
 
