@@ -19,7 +19,8 @@ const data = {
         { prop: { name: "disabled", info_tooltips: "Disables the field." }, type: "boolean", default: "false" },
         { prop: { name: "onValueChange", info_tooltips: "Callback when value changes. Typed values are clamped to min/max on blur or Enter." }, type: "(value: number | '') => void", default: "--" },
         { prop: { name: "format", info_tooltips: "Intl.NumberFormat options, such as currency or percent. The input accepts formatted typing; the value stays a number (25% is 0.25)." }, type: "Intl.NumberFormatOptions", default: "--" },
-        { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" }
+        { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" },
+        { prop: { name: "allowWheelScrub", info_tooltips: "While the input is focused, the mouse wheel steps the value (Shift uses largeStep)." }, type: "boolean", default: "false" }
     ]
 }
 
