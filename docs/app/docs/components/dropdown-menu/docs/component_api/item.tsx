@@ -8,7 +8,8 @@ const data = {
     ],
     data: [
         { prop: { name: "disabled", info_tooltips: "Disables the item." }, type: "boolean", default: "false" },
-        { prop: { name: "onSelect", info_tooltips: "Called when the item is selected. The menu then closes; call event.preventDefault() to keep it open." }, type: "function", default: "--" },
+        { prop: { name: "onSelect", info_tooltips: "Called when the item is selected. The menu then closes; call event.preventDefault() or set closeOnClick={false} to keep it open." }, type: "function", default: "--" },
+        { prop: { name: "closeOnClick", info_tooltips: "Close the whole menu when this item is chosen. Set to false to keep it open." }, type: "boolean", default: "true" },
         { prop: { name: "className", info_tooltips: "Additional CSS classes." }, type: "string", default: '""' }
     ]
 }
