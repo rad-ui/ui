@@ -170,4 +170,29 @@ describe('Field validation', () => {
         expect(screen.getByRole('alert')).toHaveTextContent('Enter a city');
         expect(input).toHaveAttribute('aria-invalid', 'true');
     });
+
+    test('a form reset hides shown errors and clears touched and dirty', async() => {
+        const user = userEvent.setup();
+        render(
+            <form data-testid="form">
+                <Field.Root required>
+                    <Field.Label>Name</Field.Label>
+                    <Field.Control />
+                    <Field.Error match="valueMissing">Enter your name</Field.Error>
+                </Field.Root>
+            </form>
+        );
+        const input = screen.getByLabelText('Name');
+        await user.type(input, 'a');
+        await user.clear(input);
+        fireEvent.invalid(input);
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+        const root = input.closest('[data-slot="field-root"]');
+        expect(root).toHaveAttribute('data-dirty');
+
+        fireEvent.reset(screen.getByTestId('form'));
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+        expect(root).not.toHaveAttribute('data-dirty');
+        expect(root).not.toHaveAttribute('data-touched');
+    });
 });

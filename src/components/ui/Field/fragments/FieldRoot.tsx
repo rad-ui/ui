@@ -159,6 +159,23 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         return apply(result as FieldValidateResult);
     }, []);
 
+    // A form reset clears what the user did: shown errors, touched and dirty.
+    React.useEffect(() => {
+        const form = (controlRef.current as ValidatableElement | null)?.form;
+        if (!form) return;
+        const handleReset = () => {
+            runIdRef.current += 1;
+            setValidityShown(false);
+            setValidating(false);
+            setTouched(false);
+            setDirty(false);
+            // Re-check after the browser restores default values.
+            setTimeout(() => validate(false));
+        };
+        form.addEventListener('reset', handleReset);
+        return () => form.removeEventListener('reset', handleReset);
+    }, [validate]);
+
     // Debounced validation for onChange mode, used by Field.Control.
     const debounceTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
     React.useEffect(() => () => {
