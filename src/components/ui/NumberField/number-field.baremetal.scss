@@ -3,3 +3,5 @@
 
 #{baremetal.$theme-root} :where(.rad-ui-number-field-increment, .rad-ui-number-field-decrement) { @include baremetal.button-like; }
 #{baremetal.$theme-root} :where(.rad-ui-number-field-input) { @include baremetal.input-like; }
+#{baremetal.$theme-root} :where(.rad-ui-number-field-scrub-area) { cursor: ew-resize; user-select: none; touch-action: none; }
+#{baremetal.$theme-root} :where(.rad-ui-number-field-scrub-area[data-direction="vertical"]) { cursor: ns-resize; }

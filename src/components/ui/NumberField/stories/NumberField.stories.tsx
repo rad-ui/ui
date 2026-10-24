@@ -56,3 +56,14 @@ export const FormExample = () => {
         </SandboxEditor>
     );
 };
+
+export const ScrubArea = () => (
+    <SandboxEditor>
+        <NumberField.Root defaultValue={240} step={1} min={0} max={1200} largeStep={10}>
+            <NumberField.ScrubArea>W</NumberField.ScrubArea>
+            <NumberField.Decrement>-</NumberField.Decrement>
+            <NumberField.Input aria-label="Width" />
+            <NumberField.Increment>+</NumberField.Increment>
+        </NumberField.Root>
+    </SandboxEditor>
+);

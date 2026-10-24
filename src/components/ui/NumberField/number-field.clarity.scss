@@ -133,3 +133,44 @@
         transform: translateY(-0.125rem) rotate(225deg);
     }
 }
+
+// A scrub area becomes a leading column: drag it to change the value.
+.rad-ui-number-field-root:has(> .rad-ui-number-field-scrub-area) {
+    grid-template-columns: auto minmax(0, var(--rad-ui-number-field-input-width, 4.5rem)) 2.5rem;
+
+    .rad-ui-number-field-input {
+        grid-column: 2;
+    }
+
+    .rad-ui-number-field-increment,
+    .rad-ui-number-field-decrement {
+        grid-column: 3;
+    }
+}
+
+.rad-ui-number-field-scrub-area {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--rad-ui-control-padding-x-sm);
+    border-right: 1px solid var(--rad-ui-field-border);
+    color: var(--rad-ui-text-muted);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-component-font-size-xs);
+    cursor: ew-resize;
+    user-select: none;
+    touch-action: none;
+
+    &[data-direction="vertical"] {
+        cursor: ns-resize;
+    }
+
+    &[data-scrubbing] {
+        color: var(--rad-ui-text-primary);
+    }
+
+    &[data-disabled] {
+        cursor: default;
+    }
+}
