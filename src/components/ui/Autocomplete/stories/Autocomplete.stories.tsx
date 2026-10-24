@@ -25,3 +25,19 @@ export const Basic = () => {
         </SandboxEditor>
     );
 };
+
+export const WithClear = () => (
+    <SandboxEditor>
+        <Autocomplete.Root defaultValue="Lisbon">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Autocomplete.Input aria-label="City" placeholder="Search cities" />
+                <Autocomplete.Clear />
+            </div>
+            <Autocomplete.Portal>
+                <Autocomplete.Content>
+                    {CITIES.map((city) => <Autocomplete.Item key={city} value={city}>{city}</Autocomplete.Item>)}
+                </Autocomplete.Content>
+            </Autocomplete.Portal>
+        </Autocomplete.Root>
+    </SandboxEditor>
+);
