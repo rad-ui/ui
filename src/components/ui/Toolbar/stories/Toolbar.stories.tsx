@@ -127,3 +127,37 @@ export const WithInput = {
         </SandboxEditor>
     )
 };
+
+const GroupsExample = () => {
+    const [locked, setLocked] = React.useState(true);
+    return (
+        <SandboxEditor className="pt-4">
+            <div className="flex flex-col items-center gap-4 py-10">
+                <Toolbar.Root aria-label="Formatting">
+                    <Toolbar.Group aria-label="Text style">
+                        <Toolbar.Button aria-label="Bold"><Bold size={16} aria-hidden /></Toolbar.Button>
+                        <Toolbar.Button aria-label="Italic"><Italic size={16} aria-hidden /></Toolbar.Button>
+                        <Toolbar.Button aria-label="Underline"><Underline size={16} aria-hidden /></Toolbar.Button>
+                    </Toolbar.Group>
+                    <Toolbar.Separator />
+                    <Toolbar.Group aria-label="Alignment" disabled={locked}>
+                        <Toolbar.ToggleGroup type="single" defaultValue={['left']} aria-label="Align">
+                            <Toolbar.ToggleItem value="left" aria-label="Left"><AlignLeft size={16} aria-hidden /></Toolbar.ToggleItem>
+                            <Toolbar.ToggleItem value="center" aria-label="Center"><AlignCenter size={16} aria-hidden /></Toolbar.ToggleItem>
+                            <Toolbar.ToggleItem value="right" aria-label="Right"><AlignRight size={16} aria-hidden /></Toolbar.ToggleItem>
+                        </Toolbar.ToggleGroup>
+                    </Toolbar.Group>
+                </Toolbar.Root>
+                <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={locked} onChange={(event) => setLocked(event.target.checked)} />
+                    Lock alignment group
+                </label>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+/** `Toolbar.Group` names related items; `disabled` turns off everything inside it. */
+export const Groups = {
+    render: () => <GroupsExample />
+};

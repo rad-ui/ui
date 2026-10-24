@@ -161,3 +161,15 @@
         white-space: nowrap;
     }
 }
+
+// A group lays its items out like the bar itself, with the same gap.
+.rad-ui-toolbar-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--rad-ui-density-gap-xs);
+
+    &[data-orientation='vertical'] {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

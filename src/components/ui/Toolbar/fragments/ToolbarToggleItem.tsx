@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import TogglePrimitive from '~/core/primitives/Toggle';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ToolbarToggleGroupContext from '../context/ToolbarToggleGroupContext';
+import ToolbarGroupContext from '../context/ToolbarGroupContext';
 
 const COMPONENT_NAME = 'ToolbarToggleItem';
 
@@ -17,7 +18,8 @@ const ToolbarToggleItem = React.forwardRef<React.ElementRef<typeof TogglePrimiti
         if (!context) throw new Error('Toolbar.ToggleItem must be used within Toolbar.ToggleGroup');
 
         const isPressed = context.value.includes(value);
-        const isDisabled = disabled || context.disabled;
+        const group = React.useContext(ToolbarGroupContext);
+        const isDisabled = disabled || context.disabled || group.disabled;
         const isRadio = context.type === 'single';
         // Single-select items are radios (aria-checked); multi-select items are toggle buttons (aria-pressed).
         const selectionAttributes = isRadio

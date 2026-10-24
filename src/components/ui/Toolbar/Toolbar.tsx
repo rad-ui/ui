@@ -6,6 +6,7 @@ import ToolbarLink from './fragments/ToolbarLink';
 import ToolbarToggleGroup from './fragments/ToolbarToggleGroup';
 import ToolbarToggleItem from './fragments/ToolbarToggleItem';
 import ToolbarInput from './fragments/ToolbarInput';
+import ToolbarGroup from './fragments/ToolbarGroup';
 
 type ToolbarElement = React.ElementRef<'div'>;
 type ToolbarProps = React.ComponentPropsWithoutRef<'div'>;
@@ -18,6 +19,7 @@ type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps & React.Ref
   ToggleGroup: typeof ToolbarToggleGroup;
   ToggleItem: typeof ToolbarToggleItem;
   Input: typeof ToolbarInput;
+  Group: typeof ToolbarGroup;
 };
 
 const Toolbar = React.forwardRef<ToolbarElement, ToolbarProps>((_props, _ref) => {
@@ -36,6 +38,7 @@ Toolbar.Link = ToolbarLink;
 Toolbar.ToggleGroup = ToolbarToggleGroup;
 Toolbar.ToggleItem = ToolbarToggleItem;
 Toolbar.Input = ToolbarInput;
+Toolbar.Group = ToolbarGroup;
 
 export type { ToolbarRootProps } from './fragments/ToolbarRoot';
 export type { ToolbarButtonProps } from './fragments/ToolbarButton';
@@ -44,6 +47,7 @@ export type { ToolbarLinkProps } from './fragments/ToolbarLink';
 export type { ToolbarInputProps } from './fragments/ToolbarInput';
 export type { ToolbarToggleGroupProps } from './fragments/ToolbarToggleGroup';
 export type { ToolbarToggleItemProps } from './fragments/ToolbarToggleItem';
+export type { ToolbarGroupProps } from './fragments/ToolbarGroup';
 // Named part exports let React Server Components use `import * as Toolbar from '@radui/ui/Toolbar'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -53,7 +57,8 @@ export {
     ToolbarLink as Link,
     ToolbarToggleGroup as ToggleGroup,
     ToolbarToggleItem as ToggleItem,
-    ToolbarInput as Input
+    ToolbarInput as Input,
+    ToolbarGroup as Group
 };
 
 export default Toolbar;

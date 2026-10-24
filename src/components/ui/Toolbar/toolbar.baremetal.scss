@@ -5,3 +5,4 @@
 #{baremetal.$theme-root} :where(.rad-ui-toolbar-button, .rad-ui-toolbar-toggle-item) { @include baremetal.button-like; }
 #{baremetal.$theme-root} :where(.rad-ui-toolbar-separator) { @include baremetal.divider; }
 #{baremetal.$theme-root} :where(.rad-ui-toolbar-input) { @include baremetal.input-like; }
+#{baremetal.$theme-root} :where(.rad-ui-toolbar-group) { display: inline-flex; gap: 0; }
