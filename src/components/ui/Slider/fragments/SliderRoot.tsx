@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { SliderContext } from '../context/SliderContext';
 import useControllableState from '~/core/hooks/useControllableState';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { clampValue, getThumbBounds, snapToStep } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'Slider';
@@ -72,6 +73,16 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         };
     }, [ref]);
 
+    // Follow the resolved CSS direction (a dir attribute anywhere above, or CSS), so the
+    // thumb, range, marks and pointer all mirror together in right-to-left layouts.
+    const [isRtl, setIsRtl] = React.useState(false);
+    useLayoutEffect(() => {
+        const node = internalRef.current;
+        if (!node || typeof window === 'undefined') return;
+        const next = window.getComputedStyle(node).direction === 'rtl';
+        if (next !== isRtl) setIsRtl(next);
+    });
+
     const clamp = (val: number) => clampValue(val, min, max);
 
     // Latest value, readable synchronously from document-level pointer listeners.
@@ -102,7 +113,9 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
 
         const relative = orientation === 'vertical'
             ? (rect.bottom - e.clientY) / size
-            : (e.clientX - rect.left) / size;
+            : isRtl
+                ? (rect.right - e.clientX) / size
+                : (e.clientX - rect.left) / size;
 
         const rawValue = min + clampValue(relative, 0, 1) * (max - min);
         return clamp(snapToStep(rawValue, step, min));
@@ -215,6 +228,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         setDragging,
         disabled,
         orientation,
+        isRtl,
         pageStepMultiplier,
         minStepsBetweenValues,
         showStepMarks,

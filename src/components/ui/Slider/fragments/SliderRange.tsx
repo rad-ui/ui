@@ -10,7 +10,7 @@ export type SliderRangeElement = ElementRef<'div'>;
 export type SliderRangeProps = { children?: React.ReactNode } & ComponentPropsWithoutRef<'div'>;
 
 const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children, className, style, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, orientation } = React.useContext(SliderContext);
+    const { rootClass, value, minValue, maxValue, orientation, isRtl } = React.useContext(SliderContext);
     let startPercent = 0;
     let endPercent = 0;
 
@@ -51,7 +51,8 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
                     marginTop: `${100 - endPercent}%`
                 }
                 : {
-                    marginLeft: `${startPercent}%`,
+                    // Physical margin: in right-to-left the filled part starts from the right edge.
+                    marginLeft: `${isRtl ? 100 - endPercent : startPercent}%`,
                     width: `${length}%`
                 })
             }}

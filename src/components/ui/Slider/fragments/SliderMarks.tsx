@@ -12,7 +12,7 @@ export type SliderMarksProps = {
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children, customMarks, ...props }, ref) => {
-    const { rootClass, minValue, maxValue, step, orientation, showStepMarks } = React.useContext(SliderContext);
+    const { rootClass, minValue, maxValue, step, orientation, showStepMarks, isRtl } = React.useContext(SliderContext);
 
     if (!showStepMarks && !customMarks) {
         return null;
@@ -37,7 +37,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                             transform: 'translateX(-50%)'
                         }
                         : {
-                            left: `${percent}%`,
+                            left: `${isRtl ? 100 - percent : percent}%`,
                             top: 0,
                             transform: 'translateX(-50%)'
                         }
@@ -107,7 +107,7 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                             transform: 'translateX(-50%)'
                         }
                         : {
-                            left: `${percent}%`,
+                            left: `${isRtl ? 100 - percent : percent}%`,
                             top: 0,
                             transform: 'translateX(-50%)'
                         }
