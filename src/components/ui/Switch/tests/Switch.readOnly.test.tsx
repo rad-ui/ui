@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Switch from '../Switch';
 import Checkbox from '~/components/ui/Checkbox/Checkbox';
+import RadioGroup from '~/components/ui/RadioGroup/RadioGroup';
 
 describe('readOnly Switch and Checkbox', () => {
     test('a read-only Switch stays focusable but does not toggle', async() => {
@@ -26,5 +27,23 @@ describe('readOnly Switch and Checkbox', () => {
         control.focus();
         await user.keyboard(' ');
         expect(control).toHaveAttribute('aria-checked', 'false');
+    });
+
+    test('a read-only RadioGroup keeps its selection under clicks and arrow keys', async() => {
+        const user = userEvent.setup();
+        render(
+            <RadioGroup.Root defaultValue="a" readOnly aria-label="Plan">
+                <RadioGroup.Item value="a">A</RadioGroup.Item>
+                <RadioGroup.Item value="b">B</RadioGroup.Item>
+            </RadioGroup.Root>
+        );
+        const [a, b] = screen.getAllByRole('radio');
+        await user.click(b);
+        expect(a).toHaveAttribute('aria-checked', 'true');
+        a.focus();
+        await user.keyboard('{ArrowRight}');
+        expect(b).toHaveFocus();
+        expect(a).toHaveAttribute('aria-checked', 'true');
+        expect(screen.getByRole('radiogroup')).toHaveAttribute('aria-readonly', 'true');
     });
 });

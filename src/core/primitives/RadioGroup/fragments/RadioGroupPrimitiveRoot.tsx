@@ -14,6 +14,8 @@ export type RadioGroupPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof
     defaultValue?: string;
     onValueChange?: (value: string) => void;
     disabled?: boolean;
+    /** Show the selection without letting the user change it. Radios stay focusable. */
+    readOnly?: boolean;
     required?: boolean;
     name?: string;
     orientation?: 'horizontal' | 'vertical' | 'both';
@@ -40,7 +42,7 @@ const visuallyHiddenInputStyle: React.CSSProperties = {
 };
 
 const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(
-    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir: dirProp, onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
+    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, readOnly = false, required = false, name = '', orientation = 'horizontal', loop = true, dir: dirProp, onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
         const dir = useDirection(dirProp) ?? 'ltr';
         const [selectedValue, setSelectedValue] = useControllableState(
             value,
@@ -64,6 +66,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
             selectedValue,
             setSelectedValue,
             groupDisabled,
+            readOnly,
             isNavigatingWithKeyboardRef
         };
 
@@ -80,6 +83,8 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                     isNavigatingWithKeyboardRef.current = false;
                 }, { checkForDefaultPrevented: false })}
                 aria-required={required}
+                aria-readonly={readOnly || undefined}
+                data-readonly={readOnly ? '' : undefined}
                 role='radiogroup'
                 aria-orientation={orientation === 'both' ? undefined : orientation}
                 aria-disabled={groupDisabled}
