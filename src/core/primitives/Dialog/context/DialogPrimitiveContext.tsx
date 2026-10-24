@@ -15,7 +15,11 @@ type DialogPrimitiveContextType = {
     floating?: { current?: any };
   };
   floatingStyles: React.CSSProperties;
-  floaterContext?: any
+  floaterContext?: any;
+  /** True when this dialog is rendered inside another dialog. */
+  nested?: boolean;
+  /** How many dialogs nested in this one are open. */
+  openChildCount?: number;
 };
 
 export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>({

@@ -37,7 +37,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     style: styleProp,
     ...props
 }, ref) => {
-    const { isOpen, getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
+    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0 } = useContext(DialogPrimitiveContext);
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
@@ -131,7 +131,9 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
             asChild={asChild}
             {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
                 ...restProps,
-                style: { outline: 'none', ...styleProp, ...consumerStyle },
+                style: { outline: 'none', ['--nested-dialogs' as string]: openChildCount, ...styleProp, ...consumerStyle },
+                'data-nested': nested ? '' : undefined,
+                'data-nested-dialog-open': openChildCount > 0 ? '' : undefined,
                 role,
                 'aria-hidden': !isOpen ? 'true' : undefined,
                 'aria-labelledby': isOpen ? ariaLabelledBy : undefined,

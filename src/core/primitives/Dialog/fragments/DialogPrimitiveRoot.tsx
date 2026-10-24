@@ -1,6 +1,7 @@
 'use client';
 import React, { forwardRef } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
+import { DialogNestingContext } from '../context/DialogNestingContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
@@ -27,6 +28,20 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const nodeId = Floater.useFloatingNodeId();
     useRegisterDocumentOverlayOpen(isOpen);
+
+    // Nested dialogs report their open state to the dialog they're inside, so
+    // its content can be styled as stacked behind them.
+    const parentNesting = React.useContext(DialogNestingContext);
+    const [openChildCount, setOpenChildCount] = React.useState(0);
+    const nesting = React.useMemo(() => ({
+        onChildOpenChange: (childOpen: boolean) => setOpenChildCount((count) => Math.max(0, count + (childOpen ? 1 : -1)))
+    }), []);
+    const parentOnChildOpenChange = parentNesting?.onChildOpenChange;
+    React.useEffect(() => {
+        if (!isOpen || !parentOnChildOpenChange) return;
+        parentOnChildOpenChange(true);
+        return () => parentOnChildOpenChange(false);
+    }, [isOpen, parentOnChildOpenChange]);
 
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
@@ -55,8 +70,9 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         role
     ]);
 
-    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
+    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount };
     return (
+        <DialogNestingContext.Provider value={nesting}>
         <DialogPrimitiveContext.Provider value={contextProps}>
             <Floater.FloatingNode id={nodeId}>
                 <div
@@ -69,6 +85,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
                 </div>
             </Floater.FloatingNode>
         </DialogPrimitiveContext.Provider>
+        </DialogNestingContext.Provider>
     );
 });
 
