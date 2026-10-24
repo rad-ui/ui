@@ -63,7 +63,8 @@ const data = {
       type: "string",
       default: '""',
     },
-        { prop: { name: "handle", info_tooltips: "Connects detached triggers made with Tooltip.createHandle(); children can be a function of the hovered trigger's payload." }, type: "Handle", default: "--" }
+        { prop: { name: "handle", info_tooltips: "Connects detached triggers made with Tooltip.createHandle(); children can be a function of the hovered trigger's payload." }, type: "Handle", default: "--" },
+        { prop: { name: "trackCursorAxis", info_tooltips: "Follow the pointer along this axis while it's over the trigger. A tracking tooltip closes when the pointer leaves." }, type: "'none' | 'x' | 'y' | 'both'", default: "'none'" }
     ]
 };
 
