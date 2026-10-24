@@ -12,6 +12,8 @@ import {
 import { PopoverPrimitivePortalContext } from '../context/PopoverPrimitivePortalContext';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
+export type PopoverFocusTarget = boolean | React.RefObject<HTMLElement | null> | (() => boolean | void | HTMLElement | null);
+
 export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     asChild?: boolean;
     forceMount?: boolean;
@@ -27,6 +29,17 @@ export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof
     hideWhenDetached?: boolean;
     onOpenAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
     onCloseAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
+    /**
+     * Where focus goes on open: `true` the first tabbable element, `false` stay on the trigger,
+     * a ref to an element, or a function returning one of those. Defaults to the first tabbable
+     * element when `modal`, otherwise the trigger keeps focus.
+     */
+    initialFocus?: PopoverFocusTarget;
+    /**
+     * Where focus goes on close: `true` the trigger, `false` nowhere, a ref, or a function
+     * returning one of those. Defaults to the trigger.
+     */
+    finalFocus?: PopoverFocusTarget;
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
     onPointerDownOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<PointerEvent>) => void;
     onFocusOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<FocusEvent>) => void;
@@ -49,6 +62,8 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     hideWhenDetached = false,
     onOpenAutoFocus,
     onCloseAutoFocus,
+    initialFocus,
+    finalFocus,
     onEscapeKeyDown,
     onPointerDownOutside,
     onFocusOutside,
@@ -76,6 +91,39 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
     const transition = useTransitionStatus(isOpen, () => refs.floating.current);
     const shouldRender = transition.mounted || forceMount || portalForceMount;
+
+    const resolvedInitialFocus = React.useMemo((): number | React.MutableRefObject<HTMLElement | null> => {
+        if (initialFocus === undefined) return modal ? 0 : -1;
+        if (initialFocus === true) return 0;
+        if (initialFocus === false) return -1;
+        if (typeof initialFocus === 'function') {
+            const result = initialFocus();
+            if (result === true) return 0;
+            return result instanceof HTMLElement ? { current: result } : -1;
+        }
+        return initialFocus as React.MutableRefObject<HTMLElement | null>;
+    }, [initialFocus, modal]);
+
+    // A function target is resolved when the popover closes, through a ref the focus manager reads then.
+    const finalFocusRef = React.useRef(finalFocus);
+    finalFocusRef.current = finalFocus;
+    const resolvedReturnFocus = React.useMemo((): boolean | React.MutableRefObject<HTMLElement | null> => {
+        if (finalFocus === undefined) return !onCloseAutoFocus;
+        if (typeof finalFocus === 'boolean') return finalFocus;
+        if (typeof finalFocus === 'function') {
+            return {
+                get current() {
+                    const target = finalFocusRef.current;
+                    const result = typeof target === 'function' ? target() : null;
+                    if (result === true) return triggerNode ?? previousFocusedElementRef.current;
+                    return result instanceof HTMLElement ? result : null;
+                },
+                set current(_value) {}
+            } as React.MutableRefObject<HTMLElement | null>;
+        }
+        return finalFocus as React.MutableRefObject<HTMLElement | null>;
+    }, [finalFocus, onCloseAutoFocus, triggerNode]);
+
 
     React.useEffect(() => {
         setPositioning({
@@ -217,8 +265,8 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
             context={floatingContext}
             disabled={!isOpen}
             modal={modal}
-            initialFocus={modal ? 0 : -1}
-            returnFocus={!onCloseAutoFocus}
+            initialFocus={resolvedInitialFocus}
+            returnFocus={resolvedReturnFocus}
             restoreFocus={true}
             outsideElementsInert={modal}
             closeOnFocusOut={!modal}

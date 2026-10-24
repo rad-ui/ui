@@ -123,3 +123,36 @@ const DetachedTriggersExample = () => {
 export const DetachedTriggers = {
     render: () => <DetachedTriggersExample />
 };
+
+const FocusTargetsExample = () => {
+    const nameRef = React.useRef<HTMLInputElement>(null);
+    const saveRef = React.useRef<HTMLButtonElement>(null);
+    return (
+        <SandboxEditor>
+            <div style={{ padding: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                <Popover.Root>
+                    <Popover.Trigger asChild>
+                        <Button variant="soft">Rename</Button>
+                    </Popover.Trigger>
+                    <Popover.Portal>
+                        <Popover.Content sideOffset={12} initialFocus={nameRef} finalFocus={saveRef}>
+                            <div style={{ display: 'grid', gap: '0.5rem', minWidth: '16rem' }}>
+                                <Text as="label" htmlFor="popover-name">Name</Text>
+                                <TextField id="popover-name" ref={nameRef} defaultValue="Untitled" />
+                                <Popover.Close asChild>
+                                    <Button size="small">Done</Button>
+                                </Popover.Close>
+                            </div>
+                        </Popover.Content>
+                    </Popover.Portal>
+                </Popover.Root>
+                <Button ref={saveRef} variant="outline">Save document</Button>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+/** `initialFocus` puts the caret in the name field; `finalFocus` moves on to Save when it closes. */
+export const FocusTargets = {
+    render: () => <FocusTargetsExample />
+};
