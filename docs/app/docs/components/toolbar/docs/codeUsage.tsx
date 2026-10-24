@@ -5,6 +5,7 @@ import toggle_item_api from './component_api/toggleItem';
 import button_api from './component_api/button';
 import link_api from './component_api/link';
 import separator_api from './component_api/separator';
+import input_api from './component_api/input';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -33,7 +34,8 @@ export const api_documentation = {
     toggleItem: toggle_item_api,
     button: button_api,
     link: link_api,
-    separator: separator_api
+    separator: separator_api,
+    input: input_api
 };
 
 export const features = [
