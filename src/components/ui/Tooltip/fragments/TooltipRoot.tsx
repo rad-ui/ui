@@ -1,4 +1,7 @@
 import React, { useContext, useRef } from 'react';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import type { PopupHandle } from '~/core/utils/popupHandle';
+import { tooltipHandleIds } from '../context/tooltipHandleIds';
 
 import TooltipContext from '../context/TooltipContext';
 import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon, useDelayGroup } from '@floating-ui/react';
@@ -27,8 +30,9 @@ type Placement =
 
 export type TooltipRootElement = React.ElementRef<'div'>;
 
-export interface TooltipRootProps extends React.ComponentPropsWithoutRef<'div'> {
-    children: React.ReactNode;
+export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children'> {
+    /** Content, or a function of the hovered trigger's payload (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
     placement?: Placement;
     collisionBoundary?: Element | null | Array<Element | null>;
     collisionPadding?: number;
@@ -49,6 +53,12 @@ export interface TooltipRootProps extends React.ComponentPropsWithoutRef<'div'> 
      */
     closeDelay?: number;
     customRootClass?: string;
+    /**
+     * Connects triggers rendered anywhere, made with `Tooltip.createHandle()`.
+     * The tooltip anchors to whichever is hovered or focused, and its children
+     * can be a function of that trigger's payload.
+     */
+    handle?: PopupHandle<any>;
 }
 
 const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
@@ -63,6 +73,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         openDelay,
         closeDelay,
         customRootClass = '',
+        handle,
         ...props
     }, ref) => {
         const arrowRef = useRef<SVGSVGElement>(null);
@@ -93,7 +104,11 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             open: isOpen,
             placement,
             strategy: 'fixed',
-            onOpenChange: (nextOpen, event, reason) => setIsOpen(nextOpen, fromFloatingReason(reason), event),
+            onOpenChange: (nextOpen, event, reason) => {
+                setIsOpen(nextOpen, fromFloatingReason(reason), event);
+                // Closing by hover-out, Escape or blur also closes the handle.
+                if (!nextOpen) handle?.close();
+            },
             middleware: [
                 arrow({
                     element: arrowRef,
@@ -125,6 +140,22 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         };
         const isInstantPhase = Boolean(provider) && group.isInstantPhase;
 
+        // A handle lets detached triggers open this tooltip and anchor it.
+        const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+        const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+        const handleOpen = handleState?.open;
+        const handleTrigger = handleState?.trigger ?? null;
+        const setReference = data.refs.setReference;
+        const isOpenRef = useRef(isOpen);
+        isOpenRef.current = isOpen;
+        useLayoutEffect(() => {
+            if (!handle) return;
+            if (handleTrigger) setReference(handleTrigger);
+            if (handleOpen !== undefined && handleOpen !== isOpenRef.current) setIsOpen(handleOpen);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [handle, handleOpen, handleTrigger, setReference]);
+        if (handle && context.floatingId) tooltipHandleIds.set(handle, context.floatingId);
+
         const hover = useHover(context, {
             move: false,
             delay,
@@ -149,7 +180,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         return (
             <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase }}>
                 <div ref={ref} data-slot="tooltip-root" {...props}>
-                    {children}
+                    {typeof children === 'function' ? (children as (state: { payload: unknown }) => React.ReactNode)({ payload: handleState?.payload }) : children}
                 </div>
             </TooltipContext.Provider>
         );

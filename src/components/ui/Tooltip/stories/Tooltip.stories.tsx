@@ -53,6 +53,28 @@ export const SharedDelay: Story = {
     )
 };
 
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => Tooltip.createHandle<string>(), []);
+    return (
+        <SandboxEditor>
+            <div className="flex gap-2 py-16">
+                {['Revenue', 'Costs', 'Margin'].map((metric) => (
+                    <Tooltip.Trigger key={metric} handle={handle} payload={metric} delay={300} asChild>
+                        <button className="rounded-md border border-[var(--rad-ui-border)] px-3 py-1">{metric}</button>
+                    </Tooltip.Trigger>
+                ))}
+            </div>
+            <Tooltip.Root handle={handle}>
+                {({ payload }) => <Tooltip.Content>How {String(payload).toLowerCase()} is calculated</Tooltip.Content>}
+            </Tooltip.Root>
+        </SandboxEditor>
+    );
+};
+
+export const DetachedTriggers: Story = {
+    render: () => <DetachedTriggersExample />
+};
+
 export const ScrollCollisionVisualTest: Story = {
     render: () => {
         const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
