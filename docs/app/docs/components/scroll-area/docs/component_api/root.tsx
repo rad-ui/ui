@@ -12,6 +12,7 @@ const data = {
         { prop: { name: "restoreKey", info_tooltips: "Key that triggers a manual scroll reset when it changes, such as a pathname." }, type: "React.Key", default: "undefined" },
         { prop: { name: "customRootClass", info_tooltips: "Override the root CSS class." }, type: "string", default: '""' },
         { prop: { name: "asChild", info_tooltips: "Merges props onto the immediate child element instead of rendering a default div." }, type: "boolean", default: "false" },
+        { prop: { name: "overflowEdgeThreshold", info_tooltips: "Pixels of hidden content an edge needs before it gets its data-overflow-* attribute, as one number or per edge ({ xStart, xEnd, yStart, yEnd })." }, type: "number | object", default: "0" },
         { prop: { name: "data-overflow-*", info_tooltips: "Set on the root and viewport while content is hidden past an edge: data-overflow-y-start, -y-end, -x-start, -x-end, with --scroll-area-overflow-* distances in px for fade masks." }, type: "attribute", default: "--" }
     ]
 }
