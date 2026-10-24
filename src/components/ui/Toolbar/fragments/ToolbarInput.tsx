@@ -3,6 +3,7 @@ import React from 'react';
 import { clsx } from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ToolbarRootContext from '../context/ToolbarRootContext';
+import ToolbarGroupContext from '../context/ToolbarGroupContext';
 
 const COMPONENT_NAME = 'ToolbarInput';
 
@@ -14,7 +15,8 @@ export type ToolbarInputProps = React.ComponentPropsWithoutRef<'input'>;
  * caret, and leave the field once the caret reaches its start or end.
  */
 const ToolbarInput = React.forwardRef<HTMLInputElement, ToolbarInputProps>(
-    ({ className = '', type = 'text', ...props }, ref) => {
+    ({ className = '', type = 'text', disabled, ...props }, ref) => {
+        const group = React.useContext(ToolbarGroupContext);
         const context = React.useContext(ToolbarRootContext);
         if (!context) throw new Error('Toolbar.Input must be used within Toolbar.Root');
         const { rootClass } = context;
@@ -26,6 +28,7 @@ const ToolbarInput = React.forwardRef<HTMLInputElement, ToolbarInputProps>(
                     type={type}
                     className={clsx(rootClass && `${rootClass}-input`, className)}
                     data-slot="toolbar-input"
+                    disabled={disabled ?? (group.disabled || undefined)}
                     {...props}
                 />
             </RovingFocusGroup.Item>
