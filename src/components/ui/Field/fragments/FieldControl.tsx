@@ -41,6 +41,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
         setDirty,
         setFocused,
         validate,
+        validateDebounced,
         validityShown,
         validationMode,
         controlRef,
@@ -88,7 +89,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 onChange?.(event);
                 setDirty(true);
-                validate(validationMode === 'onChange' || validityShown);
+                validateDebounced(validationMode === 'onChange' || validityShown);
             }}
             onInvalid={(event: React.FormEvent<HTMLInputElement>) => {
                 onInvalid?.(event);

@@ -8,6 +8,8 @@ export type FieldValidityRenderProps = FieldValidityData & {
     invalid: boolean;
     /** Whether the result is being shown yet, per `validationMode`. */
     shown: boolean;
+    /** True while an async `validate` is pending. */
+    validating: boolean;
 };
 
 export type FieldValidityProps = {
@@ -16,8 +18,8 @@ export type FieldValidityProps = {
 
 /** Renders custom UI from the field's validity, such as a password strength list. */
 const FieldValidity = ({ children }: FieldValidityProps) => {
-    const { validity, validityShown, invalid } = useFieldContext('Validity');
-    return <>{children({ ...validity, invalid, shown: validityShown })}</>;
+    const { validity, validityShown, invalid, validating } = useFieldContext('Validity');
+    return <>{children({ ...validity, invalid, shown: validityShown, validating })}</>;
 };
 
 FieldValidity.displayName = 'FieldValidity';

@@ -57,6 +57,10 @@ export type FieldContextValue = {
     validationMode: FieldValidationMode;
     /** Runs native and custom validation; `show` reveals the result. Returns whether the field is valid. */
     validate: (show?: boolean) => boolean;
+    /** `validate` after the root's `validationDebounceTime`. */
+    validateDebounced: (show?: boolean) => void;
+    /** True while an async `validate` is pending. */
+    validating: boolean;
     /** The control element, registered by Field.Control. */
     controlRef: React.MutableRefObject<HTMLElement | null>;
     /** Shared data-* state, spread on every part so each can be styled on its own. */
