@@ -8,7 +8,8 @@ const data = {
     ],
     data: [
         { prop: { name: "open", info_tooltips: "Controlled open state." }, type: "boolean", default: "--" },
-        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" }
+        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" },
+        { prop: { name: "modal", info_tooltips: "While open, an outside press only closes the menu, page scroll is locked and the rest of the page is hidden from assistive technology." }, type: "boolean", default: "false" }
     ]
 }
 
