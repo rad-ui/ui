@@ -201,3 +201,10 @@
     }
   }
 }
+
+.rad-ui-slider-value {
+    color: var(--rad-ui-text-secondary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-variant-numeric: tabular-nums;
+}
