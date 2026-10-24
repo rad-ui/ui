@@ -348,3 +348,26 @@ export const WithScrollArrows = () => {
         </SandboxEditor>
     );
 };
+
+const SIZES = ['Extra small', 'Small', 'Medium', 'Large', 'Extra large', 'Double extra large'];
+
+export const AlignItemWithTrigger = () => {
+    return (
+        <SandboxEditor>
+            <div className="w-[240px] py-32">
+                <Select.Root alignItemWithTrigger defaultValue="Large">
+                    <Select.Trigger>
+                        <span>Size</span>
+                    </Select.Trigger>
+                    <Select.Portal>
+                        <Select.Content>
+                            {SIZES.map((size) => (
+                                <Select.Item key={size} value={size}><Select.Indicator />{size}</Select.Item>
+                            ))}
+                        </Select.Content>
+                    </Select.Portal>
+                </Select.Root>
+            </div>
+        </SandboxEditor>
+    );
+};

@@ -73,6 +73,11 @@ export type ComboboxPrimitiveRootProps = {
     defaultInputValue?: string;
     /** Called when the search or autocomplete input text changes. */
     onInputValueChange?: (value: string) => void;
+    /**
+     * Open the list over the trigger with the selected option lined up on it, like a native
+     * select. Falls back to normal positioning when nothing is selected.
+     */
+    alignItemWithTrigger?: boolean;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -119,6 +124,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     inputValue,
     defaultInputValue = '',
     onInputValueChange,
+    alignItemWithTrigger = false,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -236,7 +242,47 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         };
     }, [boundary, collisionPadding]);
 
+    // With alignItemWithTrigger: the selected option's centre, measured from the list's top
+    // edge once on open. Positioning then puts that point on the trigger's centre.
+    const alignedItemCenterRef = React.useRef<number | null>(null);
+    const itemAligned = alignItemWithTrigger && !multiple && !referenceIsInput && Boolean(selectedValue);
+
     const middleware = React.useMemo(() => {
+        if (itemAligned) {
+            // The list overlaps the trigger, so there's no side to offset from or flip to;
+            // shift keeps it inside the viewport.
+            const alignedMiddleware: Array<Middleware | false> = [
+                {
+                    name: 'alignItemWithTrigger',
+                    fn: ({ rects, y }) => {
+                        const itemCenter = alignedItemCenterRef.current;
+                        if (itemCenter === null) return {};
+                        return { y: rects.reference.y + rects.reference.height / 2 - itemCenter, data: { previousY: y } };
+                    }
+                },
+                // For a bottom placement, mainAxis is horizontal and crossAxis vertical: clamp both.
+                avoidCollisions && Floater.shift({
+                    mainAxis: true,
+                    crossAxis: true,
+                    ...detectOverflowOptions
+                }),
+                constrainSize && Floater.size({
+                    ...detectOverflowOptions,
+                    apply: ({ elements, rects }) => {
+                        const floatingStyle = elements.floating.style;
+                        // Over the trigger, the list may use the viewport's height minus the padding.
+                        const padding = typeof collisionPadding === 'number' ? collisionPadding * 2 : (collisionPadding.top ?? 0) + (collisionPadding.bottom ?? 0);
+                        const viewportHeight = elements.floating.ownerDocument.documentElement.clientHeight;
+                        floatingStyle.setProperty('--rad-ui-floating-available-height', `${Math.max(0, viewportHeight - padding)}px`);
+                        floatingStyle.setProperty('--rad-ui-floating-reference-width', `${rects.reference.width}px`);
+                        floatingStyle.setProperty('--rad-ui-floating-reference-height', `${rects.reference.height}px`);
+                        if (matchReferenceWidth) floatingStyle.width = `${rects.reference.width}px`;
+                    }
+                })
+            ];
+            return alignedMiddleware.filter(Boolean) as Middleware[];
+        }
+
         const configuredMiddleware: Array<Middleware | false> = [
             Floater.offset({
                 mainAxis: mainAxisOffset,
@@ -282,7 +328,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         hideWhenDetached,
         mainAxisOffset,
         matchReferenceWidth,
-        sticky
+        sticky,
+        itemAligned,
+        collisionPadding
     ]);
 
     const {
@@ -326,6 +374,28 @@ const ComboboxPrimitiveRoot = React.forwardRef<
             onPlaced?.();
         }
     }, [isPositioned, onPlaced]);
+
+    // On open, centre the selected option in the list and remember where its centre sits,
+    // so the positioning above can put it on the trigger.
+    useLayoutEffect(() => {
+        if (!isOpen || !itemAligned) {
+            alignedItemCenterRef.current = null;
+            return;
+        }
+        if (alignedItemCenterRef.current !== null) return;
+        const floating = refs.floating.current;
+        // Items attach their elements during commit, before values register in effects.
+        const item = elementsRef.current.find((element) => element?.getAttribute('data-value') === selectedValue)
+            ?? elementsRef.current[valuesRef.current.indexOf(selectedValue)];
+        if (!floating || !item) return;
+        const floatingRect = floating.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+        const itemOffset = itemRect.top - floatingRect.top + floating.scrollTop;
+        const maxScroll = Math.max(0, floating.scrollHeight - floating.clientHeight);
+        floating.scrollTop = Math.min(maxScroll, Math.max(0, itemOffset - (floating.clientHeight - itemRect.height) / 2));
+        alignedItemCenterRef.current = itemOffset - floating.scrollTop + itemRect.height / 2;
+        update();
+    }, [isOpen, itemAligned, selectedValue, refs, update, labelsVersion]);
 
     const click = Floater.useClick(floatingContext, { enabled: !referenceIsInput });
     const dismiss = Floater.useDismiss(floatingContext);
