@@ -1,5 +1,5 @@
 import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import NumberFieldContext from '../contexts/NumberFieldContext';
+import NumberFieldContext, { getStepType } from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { formatNumber, parseFormattedNumber } from '../utils/numberFormat';
@@ -70,11 +70,11 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         switch (event.key) {
         case KEYBOARD_KEYS.ARROW_UP:
             event.preventDefault();
-            handleStep({ direction: 'increment', type: event.shiftKey ? 'large' : 'small' });
+            handleStep({ direction: 'increment', type: getStepType(event) });
             break;
         case KEYBOARD_KEYS.ARROW_DOWN:
             event.preventDefault();
-            handleStep({ direction: 'decrement', type: event.shiftKey ? 'large' : 'small' });
+            handleStep({ direction: 'decrement', type: getStepType(event) });
             break;
         case 'PageUp':
             event.preventDefault();

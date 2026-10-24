@@ -18,6 +18,8 @@ export type NumberFieldRootProps = {
     step?: number
     /** Amount used by Shift+Arrow and PageUp/PageDown. Defaults to `step * 10`. */
     largeStep?: number
+    /** Amount used by Alt/Option+Arrow, for fine adjustments. Defaults to `step / 10`. */
+    smallStep?: number
     min?: number
     max?: number
     disabled?: boolean
@@ -52,7 +54,7 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, id: idProp, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, id: idProp, className = '', ...props }, ref) => {
     // Inside Field.Root, the input takes the field's id, name and state.
     const field = React.useContext(FieldContext);
     const id = idProp ?? field?.controlId;
@@ -68,6 +70,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
 
     const resolvedStep = isValidStep(step) ? step : 1;
     const resolvedLargeStep = isValidStep(largeStep) ? largeStep : resolvedStep * 10;
+    const resolvedSmallStep = isValidStep(smallStep) ? smallStep : resolvedStep / 10;
 
     // Latest value, readable from timers (press-and-hold) without stale closures.
     const valueRef = useRef<number | ''>(inputValue);
@@ -110,7 +113,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
 
     const handleStep: NumberFieldContextType['handleStep'] = ({ type, direction }) => {
         if (disabled || readOnly) return false;
-        let amount = type === 'large' ? resolvedLargeStep : resolvedStep;
+        let amount = type === 'large' ? resolvedLargeStep : type === 'fine' ? resolvedSmallStep : resolvedStep;
         if (direction === 'decrement') amount *= -1;
 
         const current = valueRef.current;
@@ -119,7 +122,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
             // Start from 0 (clamped into range) rather than an arbitrary offset.
             next = clamp(0 + amount);
         } else {
-            next = clamp(roundToPrecision(current + amount, current, resolvedStep, resolvedLargeStep, min));
+            next = clamp(roundToPrecision(current + amount, current, resolvedStep, resolvedLargeStep, resolvedSmallStep, min));
         }
 
         if (next === current) return false;

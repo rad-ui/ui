@@ -1,7 +1,15 @@
 import React from 'react';
 
 export type NumberFieldStepDirection = 'increment' | 'decrement';
-export type NumberFieldStepType = 'small' | 'large';
+/** `small` is the regular step, `large` is Shift (or PageUp/PageDown) and `fine` is Alt/Option. */
+export type NumberFieldStepType = 'small' | 'large' | 'fine';
+
+/** The step type a key or pointer event asks for: Shift for `largeStep`, Alt/Option for `smallStep`. */
+export const getStepType = (event: { shiftKey: boolean; altKey: boolean }): NumberFieldStepType => {
+    if (event.shiftKey) return 'large';
+    if (event.altKey) return 'fine';
+    return 'small';
+};
 
 export type NumberFieldContextType = {
   inputValue: number|'';
