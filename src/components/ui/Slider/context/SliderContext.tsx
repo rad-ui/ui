@@ -14,6 +14,8 @@ type SliderContextType = {
     disabled: boolean;
     orientation: 'horizontal' | 'vertical';
     pageStepMultiplier: number;
+    /** Smallest gap between neighbouring thumbs, in steps. */
+    minStepsBetweenValues: number;
     showStepMarks: boolean;
     formatValue?: (value: number) => string;
     rootRef: RefObject<HTMLDivElement>;
@@ -35,6 +37,7 @@ export const SliderContext = createContext<SliderContextType>({
     disabled: false,
     orientation: 'horizontal',
     pageStepMultiplier: 10,
+    minStepsBetweenValues: 0,
     showStepMarks: false,
     formatValue: undefined,
     rootRef: { current: null },

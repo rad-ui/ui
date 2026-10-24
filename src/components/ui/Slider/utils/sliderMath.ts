@@ -26,9 +26,9 @@ export const clampValue = (value: number, min: number, max: number): number => M
 
 /**
  * Bounds for the thumb at `index` in a multi-thumb slider so it cannot cross
- * its neighbours.
+ * its neighbours, keeping at least `minGap` between them.
  */
-export const getThumbBounds = (values: number[], index: number, min: number, max: number) => ({
-    lower: index > 0 ? values[index - 1] : min,
-    upper: index < values.length - 1 ? values[index + 1] : max
+export const getThumbBounds = (values: number[], index: number, min: number, max: number, minGap = 0) => ({
+    lower: index > 0 ? Math.min(values[index], values[index - 1] + minGap) : min,
+    upper: index < values.length - 1 ? Math.max(values[index], values[index + 1] - minGap) : max
 });

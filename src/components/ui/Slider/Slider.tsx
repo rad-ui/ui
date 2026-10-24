@@ -27,6 +27,8 @@ export type SliderProps = {
     name?: string;
     orientation?: 'horizontal' | 'vertical';
     pageStepMultiplier?: number;
+    /** In a range slider, the smallest number of steps kept between neighbouring thumbs. */
+    minStepsBetweenValues?: number;
     showStepMarks?: boolean;
     formatValue?: (value: number) => string;
     'aria-label'?: string;

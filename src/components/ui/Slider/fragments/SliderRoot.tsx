@@ -25,6 +25,8 @@ export type SliderRootProps = {
     name?: string;
     orientation?: 'horizontal' | 'vertical';
     pageStepMultiplier?: number;
+    /** In a range slider, the smallest number of steps kept between neighbouring thumbs. */
+    minStepsBetweenValues?: number;
     showStepMarks?: boolean;
     formatValue?: (value: number) => string;
 } & Omit<ComponentPropsWithoutRef<'div'>, 'value' | 'defaultValue' | 'onValueChange'>;
@@ -44,6 +46,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     name,
     orientation = 'horizontal',
     pageStepMultiplier = 10,
+    minStepsBetweenValues = 0,
     showStepMarks = false,
     formatValue,
     onPointerDown,
@@ -137,7 +140,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
             }
 
             // Thumbs never cross: clamp the dragged thumb between its neighbours.
-            const { lower, upper } = getThumbBounds(current, indexToUpdate, min, max);
+            const { lower, upper } = getThumbBounds(current, indexToUpdate, min, max, minStepsBetweenValues * step);
             const bounded = clampValue(newValue, lower, upper);
             if (bounded === current[indexToUpdate]) return;
 
@@ -213,6 +216,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         disabled,
         orientation,
         pageStepMultiplier,
+        minStepsBetweenValues,
         showStepMarks,
         formatValue,
         rootRef: internalRef,

@@ -21,7 +21,7 @@ export type SliderThumbProps = {
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef } = React.useContext(SliderContext);
     const contextDir = useDirection();
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
@@ -80,7 +80,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
 
         // In multi-thumb sliders a thumb cannot move past its neighbours.
         const bounds = Array.isArray(value)
-            ? getThumbBounds(value, index, minValue, maxValue)
+            ? getThumbBounds(value, index, minValue, maxValue, minStepsBetweenValues * step)
             : { lower: minValue, upper: maxValue };
         const nextThumbValue = clampValue(
             roundToStepPrecision(newValue, step, minValue),

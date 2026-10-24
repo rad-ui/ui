@@ -17,6 +17,16 @@ export const Basic = {
     }
 };
 
+export const RangeWithMinimumGap = {
+    render: () => {
+        return <SandboxEditor>
+            <div className="flex justify-center py-16">
+                <Slider defaultValue={[30, 70]} step={5} minStepsBetweenValues={4} aria-label="Price range" />
+            </div>
+        </SandboxEditor>;
+    }
+};
+
 export const VerticalWithMarks = {
     render: () => {
         return <SandboxEditor>
