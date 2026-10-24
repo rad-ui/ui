@@ -32,9 +32,14 @@
 
 // Repeat the focus state so an invalid control stays red while focused
 // (the TextField and TextArea recipes darken the border on focus).
+// With asChild, TextField puts the control class on its wrapper and data-invalid on the
+// inner input, so key off the root's state too.
 .rad-ui-field-control[data-invalid],
 .rad-ui-field-control[data-invalid]:focus,
-.rad-ui-field-control[data-invalid]:focus-within {
+.rad-ui-field-control[data-invalid]:focus-within,
+.rad-ui-field[data-invalid] .rad-ui-field-control,
+.rad-ui-field[data-invalid] .rad-ui-field-control:focus,
+.rad-ui-field[data-invalid] .rad-ui-field-control:focus-within {
     border-color: var(--rad-ui-field-invalid);
 }
 
