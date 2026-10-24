@@ -46,3 +46,32 @@ export default {
 };
 
 export const Basic = {};
+
+const SelectAllExample = () => {
+    const files = ['Invoice.pdf', 'Contract.docx', 'Photo.png'];
+    const [selected, setSelected] = useState<string[]>(['Contract.docx']);
+    return (
+        <SandboxEditor>
+            <CheckboxGroup.Root name="files" allValues={files} value={selected} onValueChange={setSelected} aria-label="Files">
+                <CheckboxGroup.Label>
+                    <CheckboxGroup.Trigger parent>
+                        <CheckboxGroup.Indicator />
+                    </CheckboxGroup.Trigger>
+                    Select all
+                </CheckboxGroup.Label>
+                {files.map((file) => (
+                    <CheckboxGroup.Label key={file}>
+                        <CheckboxGroup.Trigger value={file}>
+                            <CheckboxGroup.Indicator />
+                        </CheckboxGroup.Trigger>
+                        {file}
+                    </CheckboxGroup.Label>
+                ))}
+            </CheckboxGroup.Root>
+        </SandboxEditor>
+    );
+};
+
+export const SelectAll = {
+    render: () => <SelectAllExample />
+};

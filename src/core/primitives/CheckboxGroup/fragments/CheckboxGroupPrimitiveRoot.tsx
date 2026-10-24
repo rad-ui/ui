@@ -16,9 +16,11 @@ export type CheckboxGroupPrimitiveRootProps = {
     defaultValue?: string[];
     value?: string[];
     onValueChange?: (value: string[]) => void;
+    /** Every item's value. Needed for a parent checkbox that checks or clears them all. */
+    allValues?: string[];
 } & ComponentPropsWithoutRef<'div'>;
 
-const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir: dirProp, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }, ref) => {
+const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir: dirProp, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, allValues, className = '', ...props }, ref) => {
     const dir = useDirection(dirProp);
     const [checkedValues, setCheckedValues] = useControllableState(
         value,
@@ -41,7 +43,7 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
         <div ref={mergeRefs(ref, rootRef)} className={className} data-disabled={disabled ? '' : undefined} {...props}>
             {/* Checkboxes are often stacked vertically, so arrow keys move in both axes by default. */}
             <RovingFocusGroup.Root dir={dir} orientation={orientation ?? 'both'} loop={loop ?? true}>
-                <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled }}>
+                <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled, allValues }}>
                     <RovingFocusGroup.Group>
                         {children}
                     </RovingFocusGroup.Group>

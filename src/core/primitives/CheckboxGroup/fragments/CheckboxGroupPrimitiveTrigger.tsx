@@ -7,7 +7,14 @@ import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 export type CheckboxGroupPrimitiveTriggerElement = ElementRef<'button'>;
 export type CheckboxGroupPrimitiveTriggerProps = {
-    value: string;
+    /** This item's value. Not needed on a `parent` checkbox. */
+    value?: string;
+    /**
+     * Make this the group's "select all" checkbox: checked when every value in
+     * the root's `allValues` is checked, mixed when some are, and toggling it
+     * checks or clears them all.
+     */
+    parent?: boolean;
     required?: boolean;
     disabled?: boolean;
     /**
@@ -20,15 +27,25 @@ export type CheckboxGroupPrimitiveTriggerProps = {
     onCheckedChange?: (checked: boolean) => void;
 } & ComponentPropsWithoutRef<'button'>;
 
-const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerElement, CheckboxGroupPrimitiveTriggerProps>(({ children, className = '', value, required, disabled, checked: _ignoredChecked, onCheckedChange, onClick, onKeyDown, ...props }, ref) => {
-    const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled } = React.useContext(CheckboxGroupPrimitiveContext);
+const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerElement, CheckboxGroupPrimitiveTriggerProps>(({ children, className = '', value = '', parent = false, required, disabled, checked: _ignoredChecked, onCheckedChange, onClick, onKeyDown, ...props }, ref) => {
+    const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled, allValues = [] } = React.useContext(CheckboxGroupPrimitiveContext);
 
-    const isChecked = checkedValues.includes(value);
+    const checkedCount = parent ? allValues.filter((item) => checkedValues.includes(item)).length : 0;
+    const isChecked = parent ? allValues.length > 0 && checkedCount === allValues.length : checkedValues.includes(value);
+    const isIndeterminate = parent && checkedCount > 0 && !isChecked;
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event);
         event.preventDefault();
         event.stopPropagation();
+        if (parent) {
+            // Values outside allValues (if any) are left as they are.
+            const others = checkedValues.filter((item) => !allValues.includes(item));
+            const next = isChecked ? others : [...others, ...allValues];
+            setCheckedValues(next);
+            onCheckedChange?.(!isChecked);
+            return;
+        }
         if (checkedValues.includes(value)) {
             setCheckedValues(checkedValues.filter((v) => v !== value));
             onCheckedChange?.(false);
@@ -46,7 +63,7 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
     return (
         // Phrasing content: items are commonly wrapped in <label>, which only permits inline children.
         <span>
-            <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked }}>
+            <CheckboxGroupPrimitiveTriggerContext.Provider value={{ isChecked, isIndeterminate }}>
                 <RovingFocusGroup.Item
                     ref={ref}
                     onClick={handleClick}
@@ -56,13 +73,14 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                     })}
                     className={className}
                     role={role}
-                    aria-checked={isChecked}
+                    aria-checked={isIndeterminate ? 'mixed' : isChecked}
                     aria-selected={undefined}
                     aria-required={ariaRequired || undefined}
                     aria-disabled={isDisabled || undefined}
                     disabled={isDisabled}
                     {...triggerProps}
-                    data-state={isChecked ? 'checked' : 'unchecked'}
+                    data-state={isIndeterminate ? 'indeterminate' : isChecked ? 'checked' : 'unchecked'}
+                    data-parent={parent ? '' : undefined}
                 >
                     <button type="button" disabled={isDisabled}>
                         {children}
@@ -70,7 +88,8 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                 </RovingFocusGroup.Item>
             </CheckboxGroupPrimitiveTriggerContext.Provider>
 
-            <input
+            {/* A parent checkbox has no value of its own to submit. */}
+            {!parent && <input
                 type="checkbox"
                 checked={isChecked}
                 name={name}
@@ -82,7 +101,7 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                 disabled={isDisabled}
                 aria-hidden="true"
                 readOnly
-            />
+            />}
 
         </span>
     );
