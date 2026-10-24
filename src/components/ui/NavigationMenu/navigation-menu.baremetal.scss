@@ -3,3 +3,4 @@
 
 #{baremetal.$theme-root} :where(.rad-ui-navigation-menu-content) { @include baremetal.surface; }
 #{baremetal.$theme-root} :where(.rad-ui-navigation-menu-link, .rad-ui-navigation-menu-trigger) { @include baremetal.option-item; }
+#{baremetal.$theme-root} :where(.rad-ui-navigation-menu-viewport) { @include baremetal.surface; }

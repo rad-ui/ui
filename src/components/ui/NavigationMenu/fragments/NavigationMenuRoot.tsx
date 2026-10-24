@@ -43,10 +43,13 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const dir = useDirection(dirProp);
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
+        const [viewport, setViewport] = React.useState<HTMLElement | null>(null);
+        const [activeContent, setActiveContent] = React.useState<HTMLElement | null>(null);
+        const triggersRef = React.useRef(new Set<HTMLElement>());
 
         return (
             <nav ref={ref} dir={dir} {...props}>
-                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop, dir }}>
+                <NavigationMenuRootContext.Provider value={{ isOpen, setIsOpen, rootClass, contentLoop, dir, viewport, setViewport, activeContent, setActiveContent, triggersRef }}>
                     <RovingFocusGroup.Root loop={loop} dir={dir}>
                         <RovingFocusGroup.Group className={clsx(rootClass && `${rootClass}-root`, className)}>
                             {children}

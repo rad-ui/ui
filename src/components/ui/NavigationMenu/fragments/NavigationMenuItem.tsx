@@ -20,6 +20,9 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
         const itemRef = React.useRef<HTMLDivElement>(null);
         const triggerRef = React.useRef<HTMLButtonElement>(null);
         const contentId = React.useId();
+        const contentNodeRef = React.useRef<HTMLElement | null>(null);
+        // The panel may be portaled into NavigationMenu.Viewport, outside this item's DOM.
+        const containsNode = (node: Node) => !!itemRef.current?.contains(node) || !!contentNodeRef.current?.contains(node);
 
         const itemOpen = isOpen === value;
 
@@ -127,7 +130,7 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
             const handleKeyDown = (event: KeyboardEvent) => {
                 if (event.key !== KEYBOARD_KEYS.ESCAPE || event.defaultPrevented) return;
                 const activeElement = ownerDocument.activeElement;
-                const focusWasInside = !!itemNode && !!activeElement && itemNode.contains(activeElement);
+                const focusWasInside = !!activeElement && containsNode(activeElement);
                 const focusWasNowhere = !activeElement || activeElement === ownerDocument.body;
                 setIsOpen('');
                 // Return focus to the trigger unless the user had already moved focus elsewhere.
@@ -138,7 +141,7 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
 
             const handlePointerDown = (event: PointerEvent) => {
                 const target = event.target as Node | null;
-                if (itemNode && target && itemNode.contains(target)) return;
+                if (target && containsNode(target)) return;
                 setIsOpen('');
             };
 
@@ -156,12 +159,12 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
         const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
             if (!itemOpen) return;
             const nextFocused = event.relatedTarget as Node | null;
-            if (!nextFocused || event.currentTarget.contains(nextFocused)) return;
+            if (!nextFocused || containsNode(nextFocused)) return;
             setIsOpen((current: string) => (current === value ? '' : current));
         };
 
         return (
-            <NavigationMenuItemContext.Provider value={{ itemOpen, handleTrigger, triggerRef, contentId, registerLink, openAndFocusFirstLink, flushPendingFocus }}>
+            <NavigationMenuItemContext.Provider value={{ itemOpen, handleTrigger, triggerRef, contentId, registerLink, openAndFocusFirstLink, flushPendingFocus, contentNodeRef }}>
                 <div
                     ref={mergeRefs(itemRef, ref)}
                     onMouseEnter={composeEventHandlers(onMouseEnter, handleMouseEnter)}

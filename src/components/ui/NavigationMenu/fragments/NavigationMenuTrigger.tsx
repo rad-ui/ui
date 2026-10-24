@@ -17,12 +17,26 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
 
         // APG disclosure navigation: ArrowDown on a trigger opens its panel (if closed) and moves
         // focus to the first link inside it.
+        const { rootClass, viewport, triggersRef } = React.useContext(NavigationMenuRootContext);
         const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-            if (event.key !== KEYBOARD_KEYS.ARROW_DOWN || !openAndFocusFirstLink) return;
+            if (!openAndFocusFirstLink) return;
+            // In a viewport the open panel sits after every trigger in the DOM, so Tab from its
+            // trigger jumps into it, as it would if the panel followed the trigger.
+            const tabIntoViewport = event.key === 'Tab' && !event.shiftKey && itemOpen && !!viewport;
+            if (event.key !== KEYBOARD_KEYS.ARROW_DOWN && !tabIntoViewport) return;
             event.preventDefault();
             openAndFocusFirstLink();
         };
-        const { rootClass } = React.useContext(NavigationMenuRootContext);
+
+        React.useEffect(() => {
+            const node = triggerRef.current;
+            const triggers = triggersRef?.current;
+            if (!node || !triggers) return;
+            triggers.add(node);
+            return () => {
+                triggers.delete(node);
+            };
+        }, [triggerRef, triggersRef]);
 
         return (
             <RovingFocusGroup.Item>
