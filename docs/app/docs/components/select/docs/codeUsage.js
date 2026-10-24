@@ -11,6 +11,8 @@ import {
 } from '../../shared/keyboardShortcuts';
 import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
+import value_api from './component_api/value.tsx';
+import icon_api from './component_api/icon.tsx';
 import group_label_api from './component_api/group_label.tsx';
 import separator_api from './component_api/separator.tsx';
 
@@ -34,7 +36,9 @@ export const api_documentation = {
     root: root_api,
     item: item_api,
     group_label: group_label_api,
-    separator: separator_api
+    separator: separator_api,
+    value: value_api,
+    icon: icon_api
 };
 
 export const keyboardShortcuts = createKeyboardShortcutTable([
