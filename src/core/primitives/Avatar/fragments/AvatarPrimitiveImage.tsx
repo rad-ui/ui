@@ -4,12 +4,16 @@ import Primitive from '~/core/primitives/Primitive';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { composeRefs } from '~/core/utils/mergeProps';
 
+export type AvatarImageLoadingStatus = 'loading' | 'loaded' | 'error';
+
 export type AvatarRootImageProps = React.ComponentPropsWithoutRef<typeof Primitive.img> & {
     src?: string;
     alt?: string;
+    /** Called when the image starts loading, finishes, or fails (a missing `src` counts as `error`). */
+    onLoadingStatusChange?: (status: AvatarImageLoadingStatus) => void;
 };
 
-const AvatarPrimitiveImage = React.forwardRef<React.ElementRef<typeof Primitive.img>, AvatarRootImageProps>(({ src = '', alt = '', onLoad, onError, ...props }, ref) => {
+const AvatarPrimitiveImage = React.forwardRef<React.ElementRef<typeof Primitive.img>, AvatarRootImageProps>(({ src = '', alt = '', onLoad, onError, onLoadingStatusChange, ...props }, ref) => {
     const { handleErrorImage, handleLoadImage, handleLoadingImage, hasError, isImageLoaded } = useContext(AvatarPrimitiveContext);
     const imageRef = useRef<HTMLImageElement | null>(null);
     const composedRef = React.useMemo(() => composeRefs<HTMLImageElement>(ref as React.Ref<HTMLImageElement>, imageRef), [ref]);
@@ -56,6 +60,13 @@ const AvatarPrimitiveImage = React.forwardRef<React.ElementRef<typeof Primitive.
         onError?.(event);
         handleErrorImage();
     }, [onError, handleErrorImage]);
+
+    const status: AvatarImageLoadingStatus = hasError ? 'error' : isImageLoaded ? 'loaded' : 'loading';
+    const onLoadingStatusChangeRef = useRef(onLoadingStatusChange);
+    onLoadingStatusChangeRef.current = onLoadingStatusChange;
+    useLayoutEffect(() => {
+        onLoadingStatusChangeRef.current?.(status);
+    }, [status]);
 
     if (hasError) {
         return null;
