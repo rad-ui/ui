@@ -23,6 +23,8 @@ const data = {
         { prop: { name: "asChild", info_tooltips: "Merges props onto the single child element instead of rendering a div." }, type: "boolean", default: "false" },
         { prop: { name: "onOpenAutoFocus", info_tooltips: "Called when focus moves into the content on open. Call preventDefault to keep focus on the trigger." }, type: "(event) => void", default: "--" },
         { prop: { name: "onCloseAutoFocus", info_tooltips: "Called when focus returns to the trigger on close." }, type: "(event) => void", default: "--" },
+        { prop: { name: "initialFocus", info_tooltips: "Where focus goes on open: true the first tabbable element, false stay on the trigger, a ref, or a function returning one of those. Defaults to the first tabbable element when modal." }, type: "boolean | RefObject | () => ...", default: "--" },
+        { prop: { name: "finalFocus", info_tooltips: "Where focus goes on close: true the trigger, false nowhere, a ref, or a function (resolved at close)." }, type: "boolean | RefObject | () => ...", default: "true" },
         { prop: { name: "onEscapeKeyDown", info_tooltips: "Called when Escape is pressed inside the popover." }, type: "(event: KeyboardEvent) => void", default: "--" },
         { prop: { name: "onPointerDownOutside", info_tooltips: "Called on an outside pointer press." }, type: "(event) => void", default: "--" },
         { prop: { name: "onFocusOutside", info_tooltips: "Called when focus moves outside the popover." }, type: "(event) => void", default: "--" },
