@@ -25,6 +25,7 @@ export type NumberFieldContextType = {
   rootClass?: string;
   format?: Intl.NumberFormatOptions;
   locale?: string;
+  allowWheelScrub?: boolean;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { formatNumber, parseFormattedNumber } from '../utils/numberFormat';
 import FieldContext from '~/components/ui/Field/contexts/FieldContext';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 export type NumberFieldInputElement = ElementRef<'input'>;
 export type NumberFieldInputProps = ComponentPropsWithoutRef<'input'>;
@@ -13,6 +14,26 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     // With `format`, the text the user is typing, shown until they leave the field.
     const [draft, setDraft] = React.useState<string | null>(null);
     const field = useContext(FieldContext);
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
+    const mergedRef = React.useMemo(() => mergeRefs(ref, inputRef), [ref]);
+    const handleStepRef = React.useRef(context?.handleStep);
+    handleStepRef.current = context?.handleStep;
+    const wheelEnabled = Boolean(context?.allowWheelScrub);
+
+    // The wheel steps the value only while the input is focused, so scrolling the
+    // page past it doesn't change anything. A non-passive listener can stop the
+    // page from scrolling at the same time.
+    React.useEffect(() => {
+        const input = inputRef.current;
+        if (!input || !wheelEnabled) return;
+        const handleWheel = (event: WheelEvent) => {
+            if (document.activeElement !== input || event.deltaY === 0) return;
+            event.preventDefault();
+            handleStepRef.current?.({ direction: event.deltaY < 0 ? 'increment' : 'decrement', type: event.shiftKey ? 'large' : 'small' });
+        };
+        input.addEventListener('wheel', handleWheel, { passive: false });
+        return () => input.removeEventListener('wheel', handleWheel);
+    }, [wheelEnabled]);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
         return null;
@@ -34,7 +55,8 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         invalid,
         rootClass,
         format,
-        locale
+        locale,
+        allowWheelScrub
     } = context;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -83,6 +105,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
 
     const sharedAttributes = {
         'aria-invalid': ariaInvalid ?? (invalid ? true : undefined),
+        'aria-describedby': [props['aria-describedby'], field?.describedBy].filter(Boolean).join(' ') || undefined,
         'data-slot': 'number-field-input',
         'data-disabled': disabled ? '' : undefined,
         'data-readonly': readOnly ? '' : undefined,
@@ -96,7 +119,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         return (
             <>
                 <input
-                    ref={ref}
+                    ref={mergedRef}
                     type="text"
                     role="spinbutton"
                     inputMode={format.maximumFractionDigits === 0 ? 'numeric' : 'decimal'}
@@ -134,7 +157,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
 
     return (
         <input
-            ref={ref}
+            ref={mergedRef}
             type="number"
             id={id}
             name={name}
