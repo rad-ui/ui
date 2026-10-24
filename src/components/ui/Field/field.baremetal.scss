@@ -1,0 +1,18 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+// Field is layout and text around a control that brings its own recipe; label, help
+// text and error read as body text, matching Label and Fieldset.
+#{baremetal.$theme-root} :where(.rad-ui-field) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-field-label),
+#{baremetal.$theme-root} :where(.rad-ui-field-description),
+#{baremetal.$theme-root} :where(.rad-ui-field-error) { @include baremetal.body-text; }
+
+#{baremetal.$theme-root} :where(.rad-ui-field-description),
+#{baremetal.$theme-root} :where(.rad-ui-field-error) { margin: 0; }

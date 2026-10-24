@@ -61,6 +61,7 @@
 @use "../../components/ui/Spinner/spinner.baremetal";
 @use "../../components/ui/Toast/toast.baremetal";
 @use "../../components/ui/Fieldset/fieldset.baremetal";
+@use "../../components/ui/Field/field.baremetal";
 @use "scope";
 
 #{scope.$theme-root} {
