@@ -33,6 +33,11 @@
       "require": "./dist/components/AspectRatio.cjs",
       "types": "./dist/components/AspectRatio.d.ts"
     },
+    "./Autocomplete": {
+      "import": "./dist/components/Autocomplete.js",
+      "require": "./dist/components/Autocomplete.cjs",
+      "types": "./dist/components/Autocomplete.d.ts"
+    },
     "./Avatar": {
       "import": "./dist/components/Avatar.js",
       "require": "./dist/components/Avatar.cjs",

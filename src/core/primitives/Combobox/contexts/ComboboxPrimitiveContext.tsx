@@ -53,6 +53,9 @@ export type ComboboxPrimitiveContextType = {
     selectedLabels: string[];
     /** Deselects one value (multiple only), for chip remove buttons. */
     removeValue: (value: string) => void;
+    /** True when a text input is the anchor (Autocomplete): focus stays in it while open. */
+    referenceIsInput: boolean;
+    setReferenceIsInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

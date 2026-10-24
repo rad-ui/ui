@@ -61,6 +61,12 @@ export type ComboboxPrimitiveRootProps = {
     disabled?: boolean;
     /** Marks the field as required for native form validation. */
     required?: boolean;
+    /** Controlled text of the search or autocomplete input. */
+    inputValue?: string;
+    /** Initial text of the search or autocomplete input. */
+    defaultInputValue?: string;
+    /** Called when the search or autocomplete input text changes. */
+    onInputValueChange?: (value: string) => void;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -104,6 +110,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     onOpenChange,
     disabled = false,
     required = false,
+    inputValue,
+    defaultInputValue = '',
+    onInputValueChange,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -146,7 +155,14 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const [hasSearch, setHasSearch] = React.useState(false);
-    const [search, setSearch] = React.useState('');
+    const [searchState, setSearchState] = useControllableState<string>(inputValue, defaultInputValue, onInputValueChange);
+    const search = searchState ?? '';
+    // Stable identity: the search part resets the text from an effect keyed on this setter.
+    const setSearchStateRef = React.useRef(setSearchState);
+    setSearchStateRef.current = setSearchState;
+    const setSearch = React.useCallback((next: string) => setSearchStateRef.current(next), []);
+    // An autocomplete input is the anchor itself: focus stays in it and clicks don't toggle.
+    const [referenceIsInput, setReferenceIsInput] = React.useState(false);
     const [labelsVersion, bumpLabelsVersion] = React.useReducer((current) => current + 1, 0);
 
     const hiddenIndices = React.useMemo(() => {
@@ -291,7 +307,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         }
     }, [isPositioned, onPlaced]);
 
-    const click = Floater.useClick(floatingContext);
+    const click = Floater.useClick(floatingContext, { enabled: !referenceIsInput });
     const dismiss = Floater.useDismiss(floatingContext);
     const role = Floater.useRole(floatingContext, {
         role: 'listbox'
@@ -448,7 +464,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         multiple,
         selectedValues,
         selectedLabels,
-        removeValue
+        removeValue,
+        referenceIsInput,
+        setReferenceIsInput
     }), [
         isOpen,
         handleSelect,
@@ -478,7 +496,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         multiple,
         selectedValues,
         selectedLabels,
-        removeValue
+        removeValue,
+        setSearch,
+        referenceIsInput
     ]);
 
     return (

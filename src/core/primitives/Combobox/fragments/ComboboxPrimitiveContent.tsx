@@ -54,7 +54,8 @@ const ComboboxPrimitiveContent = React.forwardRef<
         handleSelect,
         isTypingRef,
         dir,
-        multiple
+        multiple,
+        referenceIsInput
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
@@ -166,7 +167,12 @@ const ComboboxPrimitiveContent = React.forwardRef<
         // positioned (and visible) before moving focus into it; otherwise focus lands on the
         // container instead of the search field or the selected option. Force-mounted closed
         // content keeps the same tree (so React keeps the node) with focus management off.
-        <Floater.FocusManager context={floatingContext} disabled={!isOpen || isHiddenUntilPositioned}>
+        <Floater.FocusManager
+            context={floatingContext}
+            disabled={!isOpen || isHiddenUntilPositioned}
+            // An input anchor keeps focus so the user can keep typing; options are reached virtually.
+            {...(referenceIsInput ? { initialFocus: -1, returnFocus: false, modal: false } : {})}
+        >
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 {popup}
             </Floater.FloatingList>

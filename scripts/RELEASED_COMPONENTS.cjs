@@ -1,6 +1,7 @@
 const RELEASED_COMPONENTS = [
     // Released
     'Accordion',
+    'Autocomplete',
     'Avatar',
     'AvatarGroup',
     'AlertDialog',
