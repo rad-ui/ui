@@ -71,7 +71,8 @@ const data = {
         },
         type : "function",
         default : "--",
-       }
+       },
+        { prop: { name: "handle", info_tooltips: "Connects triggers rendered outside the Root, made with createHandle(). Children can then be a function of the opening trigger's payload." }, type: "Handle", default: "--" }
     ]
 }
 

@@ -31,7 +31,9 @@ const data = {
         },
         type: 'boolean',
         default: 'false',
-       }
+       },
+        { prop: { name: "handle", info_tooltips: "Open the Root connected to this handle, from anywhere in the page." }, type: "Handle", default: "--" },
+        { prop: { name: "payload", info_tooltips: "Data for the content, such as the row this trigger belongs to." }, type: "unknown", default: "--" }
     ]
 }
 
