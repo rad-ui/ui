@@ -35,11 +35,11 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_UP,
-        'Increments the current value by step when focus is on the input. Shift plus ArrowUp uses largeStep.'
+        'Increments the current value by step when focus is on the input. Shift plus ArrowUp uses largeStep; Alt/Option plus ArrowUp uses smallStep.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_DOWN,
-        'Decrements the current value by step when focus is on the input. Shift plus ArrowDown uses largeStep.'
+        'Decrements the current value by step when focus is on the input. Shift plus ArrowDown uses largeStep; Alt/Option plus ArrowDown uses smallStep.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_UP,

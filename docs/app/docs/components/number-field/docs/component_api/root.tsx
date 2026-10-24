@@ -13,6 +13,7 @@ const data = {
         { prop: { name: "max", info_tooltips: "Maximum allowed value." }, type: "number", default: "--" },
         { prop: { name: "step", info_tooltips: "Amount to increment/decrement per step. Decimal steps are rounded to the step's precision." }, type: "number", default: "1" },
         { prop: { name: "largeStep", info_tooltips: "Amount used by Shift+Arrow and PageUp/PageDown." }, type: "number", default: "step * 10" },
+        { prop: { name: "smallStep", info_tooltips: "Amount used by Alt/Option+Arrow for fine adjustments." }, type: "number", default: "step / 10" },
         { prop: { name: "name", info_tooltips: "Form field name forwarded to the input." }, type: "string", default: "--" },
         { prop: { name: "readOnly", info_tooltips: "Prevents editing and stepping while keeping the value focusable." }, type: "boolean", default: "false" },
         { prop: { name: "required", info_tooltips: "Marks the input as required for form validation." }, type: "boolean", default: "false" },
@@ -20,7 +21,7 @@ const data = {
         { prop: { name: "onValueChange", info_tooltips: "Callback when value changes. Typed values are clamped to min/max on blur or Enter." }, type: "(value: number | '') => void", default: "--" },
         { prop: { name: "format", info_tooltips: "Intl.NumberFormat options, such as currency or percent. The input accepts formatted typing; the value stays a number (25% is 0.25)." }, type: "Intl.NumberFormatOptions", default: "--" },
         { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" },
-        { prop: { name: "allowWheelScrub", info_tooltips: "While the input is focused, the mouse wheel steps the value (Shift uses largeStep)." }, type: "boolean", default: "false" }
+        { prop: { name: "allowWheelScrub", info_tooltips: "While the input is focused, the mouse wheel steps the value (Shift uses largeStep, Alt uses smallStep)." }, type: "boolean", default: "false" }
     ]
 }
 
