@@ -18,6 +18,11 @@ export type ScrollAreaRootProps = ComponentPropsWithoutRef<typeof Primitive.div>
     customRootClass?: string;
     /** Controls scrollbar and thumb visibility: always, on scroll (1s fade), on hover + scroll, or when overflowing (auto). */
     type?: ScrollAreaScrollbarType;
+    /**
+     * Pixels of hidden content an edge needs before it gets its `data-overflow-*` attribute,
+     * as one number or per edge. Defaults to 0 (sub-pixel remainders never count).
+     */
+    overflowEdgeThreshold?: number | Partial<Record<'xStart' | 'xEnd' | 'yStart' | 'yEnd', number>>;
 };
 
 const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
@@ -25,6 +30,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     className = '',
     customRootClass = '',
     type = 'hover',
+    overflowEdgeThreshold = 0,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
@@ -159,12 +165,20 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         // Measured from the inline start, so RTL's negative scrollLeft reads the same.
         const xStart = Math.abs(viewport.scrollLeft);
         const xEnd = Math.max(0, viewport.scrollWidth - viewport.clientWidth - xStart);
-        const edges: Array<[string, number]> = [['y-start', yStart], ['y-end', yEnd], ['x-start', xStart], ['x-end', xEnd]];
+        const threshold = (edge: 'xStart' | 'xEnd' | 'yStart' | 'yEnd') => (
+            typeof overflowEdgeThreshold === 'number' ? overflowEdgeThreshold : overflowEdgeThreshold[edge] ?? 0
+        );
+        const edges: Array<[string, number, number]> = [
+            ['y-start', yStart, threshold('yStart')],
+            ['y-end', yEnd, threshold('yEnd')],
+            ['x-start', xStart, threshold('xStart')],
+            ['x-end', xEnd, threshold('xEnd')]
+        ];
         [internalRootRef.current, viewport].forEach((element) => {
             if (!element) return;
-            edges.forEach(([edge, distance]) => {
-                // Sub-pixel remainders from zoom shouldn't count as overflow.
-                element.toggleAttribute(`data-overflow-${edge}`, distance > 1);
+            edges.forEach(([edge, distance, minimum]) => {
+                // Sub-pixel remainders from zoom never count as overflow.
+                element.toggleAttribute(`data-overflow-${edge}`, distance > Math.max(1, minimum));
                 element.style.setProperty(`--scroll-area-overflow-${edge}`, `${Math.round(distance)}px`);
             });
         });
