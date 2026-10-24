@@ -4,7 +4,7 @@ import Primitive from '../../Primitive';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
-import { findItemLabel } from '../utils/itemLabels';
+import { findItemLabel, labelFromItems, ComboboxItemsLabels } from '../utils/itemLabels';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
 import { useDirection } from '~/core/hooks/useDirection';
@@ -78,6 +78,11 @@ export type ComboboxPrimitiveRootProps = {
      * select. Falls back to normal positioning when nothing is selected.
      */
     alignItemWithTrigger?: boolean;
+    /**
+     * Labels by value (or `{ value, label }` pairs), so the trigger shows the selected label before
+     * the list has mounted, even when items are rendered inside your own components.
+     */
+    items?: ComboboxItemsLabels;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -125,6 +130,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     defaultInputValue = '',
     onInputValueChange,
     alignItemWithTrigger = false,
+    items,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -165,7 +171,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const setSelectedValue = setSingleValue;
     // Resolve the label from the element tree so the trigger shows it before the list ever mounts.
     const [selectedLabel, setSelectedLabel] = React.useState(() => (
-        selectedValue ? findItemLabel(children, selectedValue) ?? selectedValue : selectedValue
+        selectedValue ? labelFromItems(items, selectedValue) ?? findItemLabel(children, selectedValue) ?? selectedValue : selectedValue
     ));
 
     const selectedItemRef = React.useRef<any>(null);
@@ -456,9 +462,10 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         const index = valuesRef.current.findIndex((itemValue) => itemValue === entry);
         return (index !== -1 ? elementsRef.current[index]?.getAttribute('data-label') || displayLabelsRef.current[index] || labelsRef.current[index] : null)
             || displayLabelsByValueRef.current[entry]
+            || labelFromItems(items, entry)
             || findItemLabel(children, entry)
             || entry;
-    }), [selectedValues, labelsVersion, children]);
+    }), [selectedValues, labelsVersion, children, items]);
 
     const removeValue = React.useCallback((entry: string) => {
         setMultipleValue((current) => (current ?? EMPTY_VALUES).filter((item) => item !== entry));
@@ -471,7 +478,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
             setSelectedIndex(null);
             setSelectedLabel(
                 displayLabelsByValueRef.current[selectedValue]
-                || (selectedValue ? findItemLabel(children, selectedValue) : null)
+                || (selectedValue ? labelFromItems(items, selectedValue) ?? findItemLabel(children, selectedValue) : null)
                 || selectedValue
             );
             return;
@@ -481,7 +488,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         const label = elementsRef.current[valueIndex]?.getAttribute('data-label') || displayLabelsRef.current[valueIndex] || labelsRef.current[valueIndex] || selectedValue;
         displayLabelsByValueRef.current[selectedValue] = label;
         setSelectedLabel(label);
-    }, [labelsVersion, selectedValue, children]);
+    }, [labelsVersion, selectedValue, children, items]);
 
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
