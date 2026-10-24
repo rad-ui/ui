@@ -15,6 +15,8 @@ type SliderContextType = {
     orientation: 'horizontal' | 'vertical';
     /** True when the slider lays out right-to-left, so horizontal positions are mirrored. */
     isRtl: boolean;
+    /** `edge` keeps thumbs inside the track at the ends. */
+    thumbAlignment: 'center' | 'edge';
     pageStepMultiplier: number;
     /** Smallest gap between neighbouring thumbs, in steps. */
     minStepsBetweenValues: number;
@@ -39,6 +41,7 @@ export const SliderContext = createContext<SliderContextType>({
     disabled: false,
     orientation: 'horizontal',
     isRtl: false,
+    thumbAlignment: 'center',
     pageStepMultiplier: 10,
     minStepsBetweenValues: 0,
     showStepMarks: false,

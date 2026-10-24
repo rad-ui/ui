@@ -26,6 +26,8 @@ export type SliderProps = {
     disabled?: boolean;
     name?: string;
     orientation?: 'horizontal' | 'vertical';
+    /** `edge` keeps the whole thumb inside the track at the ends. */
+    thumbAlignment?: 'center' | 'edge';
     pageStepMultiplier?: number;
     /** In a range slider, the smallest number of steps kept between neighbouring thumbs. */
     minStepsBetweenValues?: number;

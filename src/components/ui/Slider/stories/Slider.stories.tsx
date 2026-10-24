@@ -152,3 +152,14 @@ export const AllProps = {
         );
     }
 };
+
+export const EdgeAlignedThumbs = {
+    render: () => {
+        return <SandboxEditor>
+            <div className="flex flex-col items-center gap-10 py-16">
+                <Slider defaultValue={0} thumbAlignment="edge" aria-label="Edge aligned at the minimum" />
+                <Slider defaultValue={[0, 100]} thumbAlignment="edge" aria-label="Edge aligned range" />
+            </div>
+        </SandboxEditor>;
+    }
+};

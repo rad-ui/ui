@@ -21,7 +21,7 @@ export type SliderThumbProps = {
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, isRtl: rootIsRtl, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, isRtl: rootIsRtl, thumbAlignment, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef } = React.useContext(SliderContext);
     const contextDir = useDirection();
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
@@ -140,9 +140,16 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             onBlur={(e: React.FocusEvent<HTMLDivElement>) => { onBlur?.(e); setFocused(false); }}
             style={{
                 ...style,
-                ...(orientation === 'vertical'
-                    ? { top: `calc(${percent}% - 10px)` }
-                    : { left: `calc(${rootIsRtl ? 100 - percent : percent}% - 10px)` })
+                ...(() => {
+                    // Mirror first in right-to-left, then keep the thumb inside the track for edge alignment.
+                    const visual = orientation !== 'vertical' && rootIsRtl ? 100 - percent : percent;
+                    const offset = thumbAlignment === 'edge'
+                        ? `var(--rad-slider-thumb-size, 20px) * ${visual / 100}`
+                        : '10px';
+                    return orientation === 'vertical'
+                        ? { top: `calc(${visual}% - ${offset})` }
+                        : { left: `calc(${visual}% - ${offset})` };
+                })()
             }}
             {...props}
         >
