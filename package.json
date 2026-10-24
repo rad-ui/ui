@@ -128,6 +128,11 @@
       "require": "./dist/components/Dialog.cjs",
       "types": "./dist/components/Dialog.d.ts"
     },
+    "./DirectionProvider": {
+      "import": "./dist/components/DirectionProvider.js",
+      "require": "./dist/components/DirectionProvider.cjs",
+      "types": "./dist/components/DirectionProvider.d.ts"
+    },
     "./Disclosure": {
       "import": "./dist/components/Disclosure.js",
       "require": "./dist/components/Disclosure.cjs",

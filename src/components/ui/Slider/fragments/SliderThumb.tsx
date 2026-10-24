@@ -7,6 +7,7 @@ import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
 import { clampValue, getThumbBounds, roundToStepPrecision } from '../utils/sliderMath';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'SliderThumb';
 
@@ -21,6 +22,7 @@ export type SliderThumbProps = {
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
     const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const contextDir = useDirection();
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
     // Register this thumb ref with the slider root
@@ -45,7 +47,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         onKeyDown?.(e);
         if (disabled || e.defaultPrevented) return;
         let newValue = currentValue;
-        const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
+        const isRtl = contextDir ? contextDir === 'rtl' : Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
         switch (e.key) {
         case KEYBOARD_KEYS.ARROW_RIGHT:
             newValue = isRtl ? currentValue - step : currentValue + step;

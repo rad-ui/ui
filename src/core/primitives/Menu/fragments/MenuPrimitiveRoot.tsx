@@ -3,6 +3,7 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -41,8 +42,9 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
 };
 
 export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, ...props }, ref) => {
-    const isRtl = rtl || dir === 'rtl';
-    const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : dir;
+    const resolvedDir = useDirection(dir);
+    const isRtl = rtl || resolvedDir === 'rtl';
+    const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
     const [isOpen, setIsOpen] = useControllableState(
         open,
         defaultOpen,

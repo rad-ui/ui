@@ -14,6 +14,7 @@ const RELEASED_COMPONENTS = [
     'Card',
     'Code',
     'Dialog',
+    'DirectionProvider',
     'Em',
     'Heading',
     'Text',

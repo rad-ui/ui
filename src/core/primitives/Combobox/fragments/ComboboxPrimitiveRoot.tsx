@@ -7,6 +7,7 @@ import Floater from '~/core/primitives/Floater';
 import { findItemLabel } from '../utils/itemLabels';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
+import { useDirection } from '~/core/hooks/useDirection';
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'start' | 'center' | 'end';
@@ -117,7 +118,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
     // portaled content, which does not inherit direction from this tree.
-    const dir = props.dir;
+    const dir = useDirection(props.dir);
     const [isOpenState, setIsOpen] = useControllableState<boolean>(open, defaultOpen, onOpenChange);
     const isOpen = Boolean(isOpenState) && !disabled;
     const idPrefix = React.useId();

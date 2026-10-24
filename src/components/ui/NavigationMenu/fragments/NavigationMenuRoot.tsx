@@ -4,6 +4,7 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'NavigationMenu';
 
@@ -33,13 +34,14 @@ const NavigationMenuRoot = React.forwardRef<NavigationMenuRootElement, Navigatio
             customRootClass,
             loop = true,
             contentLoop = true,
-            dir,
+            dir: dirProp,
             className,
             ...props
         },
         ref
     ) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const dir = useDirection(dirProp);
         const [isOpen, setIsOpen] = useControllableState(value, defaultValue, onValueChange);
 
         return (

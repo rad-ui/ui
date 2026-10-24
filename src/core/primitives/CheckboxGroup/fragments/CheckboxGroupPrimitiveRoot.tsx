@@ -3,6 +3,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type CheckboxGroupPrimitiveRootElement = ElementRef<'div'>;
 export type CheckboxGroupPrimitiveRootProps = {
@@ -17,7 +18,8 @@ export type CheckboxGroupPrimitiveRootProps = {
     onValueChange?: (value: string[]) => void;
 } & ComponentPropsWithoutRef<'div'>;
 
-const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }, ref) => {
+const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir: dirProp, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }, ref) => {
+    const dir = useDirection(dirProp);
     const [checkedValues, setCheckedValues] = useControllableState(
         value,
         defaultValue,

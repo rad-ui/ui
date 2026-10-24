@@ -5,6 +5,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type RadioGroupPrimitiveRootElement = React.ElementRef<typeof Primitive.div>;
 
@@ -39,7 +40,8 @@ const visuallyHiddenInputStyle: React.CSSProperties = {
 };
 
 const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(
-    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
+    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir: dirProp, onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
+        const dir = useDirection(dirProp) ?? 'ltr';
         const [selectedValue, setSelectedValue] = useControllableState(
             value,
             defaultValue,

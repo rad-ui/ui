@@ -7,6 +7,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 
 import { ToggleContext } from '../contexts/toggleContext';
+import { useDirection } from '~/core/hooks/useDirection';
 
 type ToggleGroupRootElement = React.ElementRef<'div'>;
 export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
@@ -53,13 +54,14 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     onValueChange,
     color = '',
     disabled = false,
-    dir = 'ltr',
+    dir: dirProp,
     rovingFocus = true,
     asChild = false,
     children,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const dir = useDirection(dirProp) ?? 'ltr';
 
     // Use controllable state for value management
     const [activeToggles, setActiveToggles] = useControllableState(
