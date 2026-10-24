@@ -16,6 +16,12 @@ export type PopoverPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Pr
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
     modal?: boolean;
+    /** Also open while the pointer rests on the trigger, like a hover card. Clicking still toggles. */
+    openOnHover?: boolean;
+    /** With `openOnHover`, ms the pointer must rest before opening. */
+    hoverOpenDelay?: number;
+    /** With `openOnHover`, ms after the pointer leaves before closing. */
+    hoverCloseDelay?: number;
 };
 
 const COMPONENT_NAME = 'PopoverPrimitive';
@@ -55,6 +61,9 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     defaultOpen = false,
     onOpenChange,
     modal = false,
+    openOnHover = false,
+    hoverOpenDelay = 300,
+    hoverCloseDelay = 0,
     ...props
 }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
@@ -150,6 +159,13 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         toggle: true
     });
 
+    const hover = Floater.useHover(floatingContext, {
+        enabled: openOnHover,
+        delay: { open: hoverOpenDelay, close: hoverCloseDelay },
+        // Lets the pointer travel from the trigger into the popover without it closing.
+        handleClose: Floater.safePolygon()
+    });
+
     const dismiss = Floater.useDismiss(floatingContext, {
         outsidePressEvent: 'pointerdown',
         outsidePress: (event) => {
@@ -164,6 +180,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
 
     const { getReferenceProps, getFloatingProps } = Floater.useInteractions([
         click,
+        hover,
         dismiss,
         role
     ]);
