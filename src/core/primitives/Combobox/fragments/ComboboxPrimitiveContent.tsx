@@ -58,7 +58,8 @@ const ComboboxPrimitiveContent = React.forwardRef<
         multiple,
         referenceIsInput,
         transitionMounted,
-        transitionStatus
+        transitionStatus,
+        modal = false
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
@@ -176,6 +177,8 @@ const ComboboxPrimitiveContent = React.forwardRef<
         // positioned (and visible) before moving focus into it; otherwise focus lands on the
         // container instead of the search field or the selected option. Force-mounted closed
         // content keeps the same tree (so React keeps the node) with focus management off.
+        <>
+            {modal && isOpen && !referenceIsInput && <Floater.Overlay lockScroll data-slot="combobox-backdrop" />}
         <Floater.FocusManager
             context={floatingContext}
             // An input anchor keeps focus while options are reached virtually, so no focus
@@ -186,6 +189,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 {popup}
             </Floater.FloatingList>
         </Floater.FocusManager>
+        </>
     );
 });
 

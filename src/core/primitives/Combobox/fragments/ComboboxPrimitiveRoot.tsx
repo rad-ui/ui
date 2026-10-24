@@ -85,6 +85,8 @@ export type ComboboxPrimitiveRootProps = {
     items?: ComboboxItemsLabels;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** While open, lock page scroll and keep outside presses from reaching the page (they only close the list). */
+    modal?: boolean;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -134,6 +136,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     alignItemWithTrigger = false,
     items,
     onOpenChangeComplete,
+    modal = false,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -577,7 +580,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         removeValue,
         referenceIsInput,
         setReferenceIsInput,
-        clearValue
+        clearValue,
+        modal
     }), [
         isOpen,
         handleSelect,
@@ -612,7 +616,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         referenceIsInput,
         transition.mounted,
         transition.status,
-        clearValue
+        clearValue,
+        modal
     ]);
 
     return (
