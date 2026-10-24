@@ -161,3 +161,33 @@ export const ScrollCollisionVisualTest = () => {
         </div>
     );
 };
+
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => HoverCard.createHandle<string>(), []);
+    return (
+        <div>
+            <p>
+                Built by{' '}
+                {['ada', 'grace', 'linus'].map((user, index) => (
+                    <React.Fragment key={user}>
+                        {index > 0 && ', '}
+                        <HoverCard.Trigger handle={handle} payload={user}>
+                            <a href={`#${user}`}>@{user}</a>
+                        </HoverCard.Trigger>
+                    </React.Fragment>
+                ))}
+            </p>
+            <HoverCard.Root handle={handle}>
+                {({ payload }) => (
+                    <HoverCard.Portal>
+                        <HoverCard.Content>Profile of @{String(payload)}</HoverCard.Content>
+                    </HoverCard.Portal>
+                )}
+            </HoverCard.Root>
+        </div>
+    );
+};
+
+export const DetachedTriggers: Story = {
+    render: () => <DetachedTriggersExample />
+};

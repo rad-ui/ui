@@ -5,6 +5,7 @@ import HoverCardTrigger from './fragments/HoverCardTrigger';
 import HoverCardPortal from './fragments/HoverCardPortal';
 import HoverCardContent from './fragments/HoverCardContent';
 import HoverCardArrow from './fragments/HoverCardArrow';
+import { createPopupHandle } from '~/core/utils/popupHandle';
 
 export type HoverCardElement = ElementRef<'div'>;
 // Empty props type - only supporting fragment exports
@@ -16,6 +17,8 @@ type HoverCardComponent = React.ForwardRefExoticComponent<HoverCardProps & React
     Portal: typeof HoverCardPortal;
     Content: typeof HoverCardContent;
     Arrow: typeof HoverCardArrow;
+    /** Creates a handle that connects triggers rendered outside HoverCard.Root. */
+    createHandle: typeof createPopupHandle;
 };
 
 // Empty implementation - we don't support direct usage
@@ -31,6 +34,7 @@ HoverCard.Trigger = HoverCardTrigger;
 HoverCard.Portal = HoverCardPortal;
 HoverCard.Content = HoverCardContent;
 HoverCard.Arrow = HoverCardArrow;
+HoverCard.createHandle = createPopupHandle;
 
 export type { HoverCardRootProps } from './fragments/HoverCardRoot';
 export type { HoverCardTriggerProps } from './fragments/HoverCardTrigger';
@@ -44,7 +48,8 @@ export {
     HoverCardTrigger as Trigger,
     HoverCardPortal as Portal,
     HoverCardContent as Content,
-    HoverCardArrow as Arrow
+    HoverCardArrow as Arrow,
+    createPopupHandle as createHandle
 };
 
 export default HoverCard;
