@@ -1,0 +1,72 @@
+# TypeScript
+
+Rad UI is written in TypeScript and ships its types. These patterns cover the cases people ask about most.
+
+## Typing a wrapper component
+
+Take a part's props with `React.ComponentPropsWithoutRef<typeof Part>` and its element with `React.ElementRef<typeof Part>`, so your wrapper accepts everything the part does and forwards refs correctly.
+
+```tsx
+import React from 'react'
+import Select from '@radui/ui/Select'
+
+type FruitSelectProps = Omit<React.ComponentPropsWithoutRef<typeof Select.Root>, 'children'>
+
+export const FruitSelect = React.forwardRef<React.ElementRef<typeof Select.Root>, FruitSelectProps>(
+  (props, ref) => (
+    <Select.Root ref={ref} {...props}>
+      <Select.Trigger>Pick a fruit</Select.Trigger>
+      <Select.Content>
+        <Select.Item value="apple">Apple</Select.Item>
+      </Select.Content>
+    </Select.Root>
+  )
+)
+```
+
+## Single and multiple values
+
+Select and Combobox take `value: string` normally and `value: string[]` with `multiple`. `onValueChange` is typed so both kinds of handler compile, including inline callbacks:
+
+```tsx
+const [fruit, setFruit] = useState('')
+<Select.Root value={fruit} onValueChange={setFruit}>…</Select.Root>
+
+const [toppings, setToppings] = useState<string[]>([])
+<Select.Root multiple value={toppings} onValueChange={setToppings}>…</Select.Root>
+```
+
+## Typed dialog and popover handles
+
+`createHandle` takes the payload type, so the trigger's `payload` is checked:
+
+```tsx
+type Invoice = { id: string; number: string }
+const deleteDialog = Dialog.createHandle<Invoice>()
+
+<Dialog.Trigger handle={deleteDialog} payload={invoice}>Delete</Dialog.Trigger>
+```
+
+Inside the Root's render function, cast the payload to that type (the Root can't know which handle type it was given).
+
+## Field validators
+
+`validate` receives the control's value as `unknown` (a string for text inputs, a boolean for checkboxes) and returns a message, several, `null`, or a promise of one:
+
+```tsx
+<Field.Root validate={async (value) => (await isTaken(String(value)) ? 'Taken' : null)}>…</Field.Root>
+```
+
+`Field.Error`'s `match` accepts the `ValidityState` keys, and `FieldValidityKey` is exported for your own helpers.
+
+## Server Components
+
+Every compound component exports its parts by name, so in a React Server Component file use a namespace import:
+
+```tsx
+import * as Dialog from '@radui/ui/Dialog'
+```
+
+Property access on the default export (`Dialog.Root`) is undefined across the client boundary.
+
+Related: [Composition Recipes](/docs/guides/composition-recipes), [Forms & Validation](/docs/guides/forms-and-validation), [Framework Usage](/docs/guides/framework-usage).

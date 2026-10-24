@@ -173,6 +173,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/animation-and-transitions"
             },
             {
+                title:"TypeScript",
+                path:"/docs/guides/typescript"
+            },
+            {
                 title:"Hidden Input Strategies",
                 path:"/docs/guides/hidden-input-strategies"
             },
