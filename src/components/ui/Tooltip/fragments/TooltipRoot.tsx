@@ -4,7 +4,7 @@ import type { PopupHandle } from '~/core/utils/popupHandle';
 import { tooltipHandleIds } from '../context/tooltipHandleIds';
 
 import TooltipContext from '../context/TooltipContext';
-import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon, useDelayGroup } from '@floating-ui/react';
+import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon, useDelayGroup, useClientPoint } from '@floating-ui/react';
 import TooltipProviderContext from '../context/TooltipProviderContext';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
@@ -59,6 +59,11 @@ export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'d
      * can be a function of that trigger's payload.
      */
     handle?: PopupHandle<any>;
+    /**
+     * Follow the pointer along this axis while it's over the trigger, instead of anchoring
+     * to the trigger. The tooltip then closes as soon as the pointer leaves the trigger.
+     */
+    trackCursorAxis?: 'none' | 'x' | 'y' | 'both';
 }
 
 const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
@@ -74,6 +79,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         closeDelay,
         customRootClass = '',
         handle,
+        trackCursorAxis = 'none',
         ...props
     }, ref) => {
         const arrowRef = useRef<SVGSVGElement>(null);
@@ -155,13 +161,20 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [handle, handleOpen, handleTrigger, setReference]);
         if (handle && context.floatingId) tooltipHandleIds.set(handle, context.floatingId);
+        const tracksCursor = trackCursorAxis !== 'none';
 
         const hover = useHover(context, {
             move: false,
             delay,
             // Lets the pointer travel from the trigger onto the tooltip without
-            // it closing (WCAG 1.4.13 "hoverable").
-            handleClose: safePolygon()
+            // it closing (WCAG 1.4.13 "hoverable"). A tooltip that follows the
+            // pointer can't be reached, so it closes when the pointer leaves.
+            handleClose: tracksCursor ? null : safePolygon()
+        });
+
+        const clientPoint = useClientPoint(context, {
+            enabled: tracksCursor,
+            axis: tracksCursor ? trackCursorAxis : 'both'
         });
 
         const focus = useFocus(context);
@@ -172,6 +185,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
 
         const interactions = useInteractions([
             hover,
+            clientPoint,
             focus,
             dismiss,
             role

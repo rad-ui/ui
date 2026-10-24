@@ -102,3 +102,22 @@ export const ScrollCollisionVisualTest: Story = {
         );
     }
 };
+
+export const TrackCursor: Story = {
+    render: () => (
+        <SandboxEditor>
+            <div className="flex flex-col items-center gap-6 py-16">
+                {(['x', 'both'] as const).map((axis) => (
+                    <Tooltip.Root key={axis} trackCursorAxis={axis}>
+                        <Tooltip.Trigger asChild>
+                            <button className="h-24 w-[28rem] rounded-[1.25rem] border border-[var(--rad-ui-border)] bg-[var(--rad-ui-surface)] text-[var(--rad-ui-text-primary)]">
+                                trackCursorAxis=&quot;{axis}&quot;
+                            </button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Following the pointer</Tooltip.Content>
+                    </Tooltip.Root>
+                ))}
+            </div>
+        </SandboxEditor>
+    )
+};
