@@ -12,12 +12,29 @@ export type ContextMenuTriggerProps = {
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 
+// Touch devices without a native context menu gesture (iOS Safari) open the
+// menu after holding a finger still for this long.
+const LONG_PRESS_DELAY = 500;
+// Moving further than this cancels the long press, so scrolling still works.
+const LONG_PRESS_MOVE_TOLERANCE = 10;
+
 const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTriggerProps>(
     ({ children, className, ...props }, ref) => {
         const context = React.useContext(ContextMenuContext);
         const menuContext = React.useContext(MenuPrimitiveRootContext);
         const contextTriggerRef = React.useRef<HTMLSpanElement>(null);
         const mergedRef = useMergeRefs([contextTriggerRef, ref]);
+        const longPressTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+        const longPressStartRef = React.useRef<{ x: number; y: number } | null>(null);
+        const openedByLongPressRef = React.useRef(false);
+
+        const cancelLongPress = React.useCallback(() => {
+            if (longPressTimerRef.current) clearTimeout(longPressTimerRef.current);
+            longPressTimerRef.current = null;
+            longPressStartRef.current = null;
+        }, []);
+
+        React.useEffect(() => cancelLongPress, [cancelLongPress]);
 
         if (!context) {
             console.warn('ContextMenuTrigger should be used in the ContextMenuRoot');
@@ -48,7 +65,29 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
 
         const handleContextMenu = (e: React.MouseEvent) => {
             e.preventDefault();
+            cancelLongPress();
             openAtPoint(e.clientX, e.clientY);
+        };
+
+        const handlePointerDown = (e: React.PointerEvent) => {
+            openedByLongPressRef.current = false;
+            if (e.pointerType !== 'touch') return;
+            cancelLongPress();
+            const { clientX: x, clientY: y } = e;
+            longPressStartRef.current = { x, y };
+            longPressTimerRef.current = setTimeout(() => {
+                longPressTimerRef.current = null;
+                openedByLongPressRef.current = true;
+                openAtPoint(x, y);
+            }, LONG_PRESS_DELAY);
+        };
+
+        const handlePointerMove = (e: React.PointerEvent) => {
+            const start = longPressStartRef.current;
+            if (!start) return;
+            if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > LONG_PRESS_MOVE_TOLERANCE) {
+                cancelLongPress();
+            }
         };
 
         const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -72,8 +111,18 @@ const ContextMenuTrigger = forwardRef<ContextMenuTriggerElement, ContextMenuTrig
                     ref={mergedRef}
                     onContextMenu={handleContextMenu}
                     onKeyDown={handleKeyDown}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={cancelLongPress}
+                    onPointerCancel={cancelLongPress}
                     onClick={(e) => {
                         e.preventDefault();
+                        // Lifting the finger after a long press can fire a click;
+                        // it must not close the menu that just opened.
+                        if (openedByLongPressRef.current) {
+                            openedByLongPressRef.current = false;
+                            return;
+                        }
                         setIsOpen(false);
                     }}
                     role="button"
