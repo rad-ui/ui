@@ -22,7 +22,7 @@
     box-sizing: border-box;
     box-shadow: var(--rad-ui-control-shadow-hover);
 
-    &:hover{
+    &:hover:not([data-disabled]){
         background-color: var(--rad-ui-button-solid-hover);
         border-color: var(--rad-ui-button-solid-hover);
     }
@@ -34,9 +34,15 @@
     &:disabled,
     &[data-disabled] {
         opacity: 0.5;
-        pointer-events: none;
         cursor: not-allowed;
         transform: none;
+    }
+
+    // A natively disabled button ignores the pointer. A focusableWhenDisabled
+    // (or asChild) one keeps pointer events so a Tooltip can explain why it's
+    // disabled; its clicks are blocked in Button itself.
+    &:disabled {
+        pointer-events: none;
     }
 
     &[data-variant="outline"]{
@@ -45,7 +51,7 @@
         border-color: var(--rad-ui-color-accent-600);
         box-shadow: var(--rad-ui-control-shadow);
 
-        &:hover{
+        &:hover:not([data-disabled]){
             background-color: var(--rad-ui-color-accent-200);
             border-color: var(--rad-ui-color-accent-700);
             color: var(--rad-ui-color-accent-1000);
@@ -58,7 +64,7 @@
         background-color:  var(--rad-ui-color-accent-200);
         box-shadow: var(--rad-ui-control-shadow);
 
-        &:hover{
+        &:hover:not([data-disabled]){
             background-color: var(--rad-ui-color-accent-300);
             border-color: transparent;
             color: var(--rad-ui-color-accent-1000);
@@ -75,7 +81,7 @@
         border-color: transparent;
         box-shadow: var(--rad-ui-shadow-none);
 
-        &:hover{
+        &:hover:not([data-disabled]){
             border-color: transparent;
             background-color: var(--rad-ui-color-accent-200);
             color: var(--rad-ui-color-accent-1000);
@@ -87,7 +93,7 @@
         border-color: var(--rad-ui-color-red-600);
         color: var(--rad-ui-color-red-50);
 
-        &:hover{
+        &:hover:not([data-disabled]){
             background-color: var(--rad-ui-color-red-900);
             border-color: var(--rad-ui-color-red-900);
         }
