@@ -283,6 +283,11 @@
       "require": "./dist/components/Slider.cjs",
       "types": "./dist/components/Slider.d.ts"
     },
+    "./Slot": {
+      "import": "./dist/components/Slot.js",
+      "require": "./dist/components/Slot.cjs",
+      "types": "./dist/components/Slot.d.ts"
+    },
     "./Spinner": {
       "import": "./dist/components/Spinner.js",
       "require": "./dist/components/Spinner.cjs",

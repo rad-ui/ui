@@ -17,6 +17,7 @@ const RELEASED_COMPONENTS = [
     'DirectionProvider',
     'Em',
     'Heading',
+    'Slot',
     'Text',
     'Kbd',
     'Label',
