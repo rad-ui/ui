@@ -95,3 +95,31 @@ export const CssTransitions = {
         </SandboxEditor>
     )
 };
+
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => Popover.createHandle<string>(), []);
+    return (
+        <SandboxEditor>
+            <div className="flex gap-2">
+                {['Ada', 'Grace', 'Linus'].map((name) => (
+                    <Popover.Trigger key={name} handle={handle} payload={name} asChild>
+                        <Button>{name}</Button>
+                    </Popover.Trigger>
+                ))}
+            </div>
+            <Popover.Root handle={handle}>
+                {({ payload }) => (
+                    <Popover.Portal>
+                        <Popover.Content>
+                            <Text>Profile card for {String(payload)}</Text>
+                        </Popover.Content>
+                    </Popover.Portal>
+                )}
+            </Popover.Root>
+        </SandboxEditor>
+    );
+};
+
+export const DetachedTriggers = {
+    render: () => <DetachedTriggersExample />
+};

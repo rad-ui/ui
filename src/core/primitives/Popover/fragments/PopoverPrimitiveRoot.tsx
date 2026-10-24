@@ -9,9 +9,13 @@ import {
     defaultPopoverPositioning,
     PopoverPrimitiveContext
 } from '../context/PopoverPrimitiveContext';
+import type { PopupHandle } from '~/core/utils/popupHandle';
 
-export type PopoverPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
-    children: React.ReactNode;
+export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.div>, 'children'> & {
+    /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
+    /** Connects detached triggers made with `createHandle()`; the popover anchors to whichever opened it. */
+    handle?: PopupHandle<any>;
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -64,6 +68,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     openOnHover = false,
     hoverOpenDelay = 300,
     hoverCloseDelay = 0,
+    handle,
     ...props
 }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
@@ -94,7 +99,18 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         altBoundary: collisionBoundary.length > 0
     }), [collisionBoundary, positioning.collisionPadding]);
 
-    const referenceElement = anchorNode ?? triggerNode;
+    // A handle lets triggers outside this Root open it; keep both in sync.
+    const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+    const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+    const handleOpen = handleState?.open;
+    React.useEffect(() => {
+        if (handleOpen === undefined) return;
+        setIsOpen(handleOpen);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleOpen]);
+    const activeTrigger = handle ? handleState?.trigger ?? null : triggerNode;
+
+    const referenceElement = anchorNode ?? activeTrigger;
 
     const { context: floatingContext, refs, floatingStyles, isPositioned } = Floater.useFloating({
         open: isOpen,
@@ -117,6 +133,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
             }
 
             setIsOpen(nextOpen);
+            if (!nextOpen) handle?.close();
         },
         placement,
         strategy: 'fixed',
@@ -193,7 +210,8 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
 
     const handleOpenChange = React.useCallback((nextOpen: boolean) => {
         setIsOpen(nextOpen);
-    }, [setIsOpen]);
+        if (!nextOpen) handle?.close();
+    }, [setIsOpen, handle]);
 
     const setContentEventHandlers = React.useCallback((handlers: typeof contentEventHandlersRef.current) => {
         contentEventHandlersRef.current = handlers;
@@ -203,7 +221,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         isOpen,
         modal,
         contentId,
-        triggerNode,
+        triggerNode: activeTrigger,
         anchorNode,
         handleOpenChange,
         setTriggerNode,
@@ -233,14 +251,14 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         refs,
         setContentEventHandlers,
         setPositioning,
-        triggerNode
+        activeTrigger
     ]);
 
     return (
         <PopoverPrimitiveContext.Provider value={contextValue}>
             <Floater.FloatingNode id={nodeId}>
                 <Primitive.div ref={ref} data-state={isOpen ? 'open' : 'closed'} {...props}>
-                    {children}
+                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </Primitive.div>
             </Floater.FloatingNode>
         </PopoverPrimitiveContext.Provider>
