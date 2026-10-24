@@ -150,9 +150,30 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         setOverflow((previous) => (previous.x === hasH && previous.y === hasV ? previous : { x: hasH, y: hasV }));
     };
 
+    // Mark which edges have hidden content, for fade masks or shadows:
+    // data-overflow-{x,y}-{start,end} plus --scroll-area-overflow-* distances.
+    // Written to the DOM directly so scrolling doesn't re-render.
+    const updateOverflowEdges = (viewport: HTMLElement) => {
+        const yStart = Math.max(0, viewport.scrollTop);
+        const yEnd = Math.max(0, viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop);
+        // Measured from the inline start, so RTL's negative scrollLeft reads the same.
+        const xStart = Math.abs(viewport.scrollLeft);
+        const xEnd = Math.max(0, viewport.scrollWidth - viewport.clientWidth - xStart);
+        const edges: Array<[string, number]> = [['y-start', yStart], ['y-end', yEnd], ['x-start', xStart], ['x-end', xEnd]];
+        [internalRootRef.current, viewport].forEach((element) => {
+            if (!element) return;
+            edges.forEach(([edge, distance]) => {
+                // Sub-pixel remainders from zoom shouldn't count as overflow.
+                element.toggleAttribute(`data-overflow-${edge}`, distance > 1);
+                element.style.setProperty(`--scroll-area-overflow-${edge}`, `${Math.round(distance)}px`);
+            });
+        });
+    };
+
     const handleScroll = () => {
         if (!scrollAreaViewportRef.current) return;
         const viewport = scrollAreaViewportRef.current;
+        updateOverflowEdges(viewport);
 
         // Vertical
         if (scrollYThumbRef.current) {
