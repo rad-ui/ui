@@ -444,6 +444,12 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     ]);
 
     const transition = useTransitionStatus(isOpen, () => refs.floating.current);
+    const clearValue = React.useCallback(() => {
+        if (multiple) setMultipleValue(EMPTY_VALUES);
+        setSelectedValue('');
+        setSearch('');
+        (refs.reference.current as HTMLElement | null)?.focus();
+    }, [setSelectedValue, setSearch, refs, multiple, setMultipleValue]);
 
     const values = React.useMemo(() => ({
         transitionMounted: transition.mounted,
@@ -490,7 +496,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         selectedLabels,
         removeValue,
         referenceIsInput,
-        setReferenceIsInput
+        setReferenceIsInput,
+        clearValue
     }), [
         isOpen,
         handleSelect,
@@ -524,7 +531,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         removeValue,
         referenceIsInput,
         transition.mounted,
-        transition.status
+        transition.status,
+        clearValue
     ]);
 
     return (

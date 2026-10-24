@@ -7,6 +7,7 @@ import ComboboxRoot from './fragments/ComboboxRoot';
 import ComboboxIndicator from './fragments/ComboboxIndicator';
 import ComboboxPortal from './fragments/ComboboxPortal';
 import ComboboxEmpty from './fragments/ComboboxEmpty';
+import ComboboxClear from './fragments/ComboboxClear';
 import ComboboxGroup from './fragments/ComboboxGroup';
 import ComboboxGroupLabel from './fragments/ComboboxGroupLabel';
 import ComboboxSeparator from './fragments/ComboboxSeparator';
@@ -28,6 +29,7 @@ interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAtt
     Trigger: typeof ComboboxTrigger;
     Portal: typeof ComboboxPortal;
     Empty: typeof ComboboxEmpty;
+    Clear: typeof ComboboxClear;
     Group: typeof ComboboxGroup;
     GroupLabel: typeof ComboboxGroupLabel;
     Separator: typeof ComboboxSeparator;
@@ -45,6 +47,7 @@ Combobox.Item = ComboboxItem;
 Combobox.Trigger = ComboboxTrigger;
 Combobox.Portal = ComboboxPortal;
 Combobox.Empty = ComboboxEmpty;
+Combobox.Clear = ComboboxClear;
 Combobox.Group = ComboboxGroup;
 Combobox.GroupLabel = ComboboxGroupLabel;
 Combobox.Separator = ComboboxSeparator;
@@ -55,6 +58,7 @@ Combobox.Value = ComboboxValue;
 
 export type { ComboboxRootProps } from './fragments/ComboboxRoot';
 export type { ComboboxEmptyProps } from './fragments/ComboboxEmpty';
+export type { ComboboxClearProps } from './fragments/ComboboxClear';
 export type { ComboboxContentProps } from './fragments/ComboboxContent';
 export type { ComboboxGroupLabelProps } from './fragments/ComboboxGroupLabel';
 export type { ComboboxSeparatorProps } from './fragments/ComboboxSeparator';
@@ -72,6 +76,7 @@ export {
     ComboboxTrigger as Trigger,
     ComboboxPortal as Portal,
     ComboboxEmpty as Empty,
+    ComboboxClear as Clear,
     ComboboxGroup as Group,
     ComboboxGroupLabel as GroupLabel,
     ComboboxSeparator as Separator,

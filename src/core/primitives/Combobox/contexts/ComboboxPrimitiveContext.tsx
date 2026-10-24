@@ -38,6 +38,8 @@ export type ComboboxPrimitiveContextType = {
     setHasSearch: React.Dispatch<React.SetStateAction<boolean>>;
     search: string;
     setSearch: (value: string) => void;
+    /** Clears the selection and the typed text, then focuses the trigger or input. */
+    clearValue: () => void;
     hiddenIndices: number[];
     labelsVersion: number;
     bumpLabelsVersion: () => void;
