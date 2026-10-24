@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 
 import TooltipContext from '../context/TooltipContext';
-import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon } from '@floating-ui/react';
+import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon, useDelayGroup } from '@floating-ui/react';
+import TooltipProviderContext from '../context/TooltipProviderContext';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 
@@ -34,9 +35,15 @@ export interface TooltipRootProps extends React.ComponentPropsWithoutRef<'div'> 
     defaultOpen?: boolean;
     /** Called with the next open state whenever it changes. */
     onOpenChange?: (open: boolean) => void;
-    /** Delay in ms before the tooltip opens on hover. Focus opens immediately. */
+    /**
+     * Delay in ms before the tooltip opens on hover. Focus opens immediately.
+     * Defaults to the `Tooltip.Provider` delay, or 0 outside a provider.
+     */
     openDelay?: number;
-    /** Delay in ms before the tooltip closes after the pointer leaves. */
+    /**
+     * Delay in ms before the tooltip closes after the pointer leaves.
+     * Defaults to the `Tooltip.Provider` delay, or 0 outside a provider.
+     */
     closeDelay?: number;
     customRootClass?: string;
 }
@@ -50,8 +57,8 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         open,
         defaultOpen = false,
         onOpenChange,
-        openDelay = 0,
-        closeDelay = 0,
+        openDelay,
+        closeDelay,
         customRootClass = '',
         ...props
     }, ref) => {
@@ -92,9 +99,22 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
 
         const context = data.context;
 
+        const provider = useContext(TooltipProviderContext);
+        // Outside a provider this returns a no-op group, so the explicit props
+        // (or 0) always apply.
+        const group = useDelayGroup(context, { id: context.floatingId, enabled: Boolean(provider) });
+        const groupDelay = typeof group.delay === 'number'
+            ? { open: group.delay, close: group.delay }
+            : group.delay;
+        const delay = {
+            open: openDelay ?? (provider ? groupDelay.open ?? provider.openDelay : 0),
+            close: closeDelay ?? (provider ? groupDelay.close ?? provider.closeDelay : 0)
+        };
+        const isInstantPhase = Boolean(provider) && group.isInstantPhase;
+
         const hover = useHover(context, {
             move: false,
-            delay: { open: openDelay, close: closeDelay },
+            delay,
             // Lets the pointer travel from the trigger onto the tooltip without
             // it closing (WCAG 1.4.13 "hoverable").
             handleClose: safePolygon()
@@ -114,7 +134,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         ]);
 
         return (
-            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass }}>
+            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase }}>
                 <div ref={ref} data-slot="tooltip-root" {...props}>
                     {children}
                 </div>

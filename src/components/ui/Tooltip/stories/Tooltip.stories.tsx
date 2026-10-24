@@ -32,6 +32,27 @@ export const Basic: Story = {
     )
 };
 
+export const SharedDelay: Story = {
+    render: () => (
+        <SandboxEditor>
+            <Tooltip.Provider openDelay={600}>
+                <div className="flex justify-center gap-2 py-16">
+                    {['Bold', 'Italic', 'Underline', 'Strikethrough'].map((label) => (
+                        <Tooltip.Root key={label}>
+                            <Tooltip.Trigger asChild>
+                                <button className="inline-flex min-h-[2.5rem] items-center justify-center rounded-md border border-[var(--rad-ui-border)] bg-[var(--rad-ui-surface)] px-3 text-[var(--rad-ui-text-primary)]">
+                                    {label[0]}
+                                </button>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content>{label}</Tooltip.Content>
+                        </Tooltip.Root>
+                    ))}
+                </div>
+            </Tooltip.Provider>
+        </SandboxEditor>
+    )
+};
+
 export const ScrollCollisionVisualTest: Story = {
     render: () => {
         const [container, setContainer] = React.useState<HTMLDivElement | null>(null);

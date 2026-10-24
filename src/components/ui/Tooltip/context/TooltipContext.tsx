@@ -8,6 +8,8 @@ type TooltipContextType = {
     context: any;
     arrowRef: React.RefObject<SVGSVGElement>;
     rootClass: string;
+    /** True while a provider group is opening tooltips without delay. */
+    isInstantPhase?: boolean;
 };
 const TooltipContext = createContext<null | TooltipContextType>(null);
 

@@ -23,7 +23,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
             throw new Error('TooltipContent must be used within a TooltipRoot component');
         }
 
-        const { isOpen, data, interactions, context, rootClass } = tooltipContext;
+        const { isOpen, data, interactions, context, rootClass, isInstantPhase } = tooltipContext;
         const arrowRef = tooltipContext.arrowRef;
 
         const mergedRef = useMergeRefs([context.refs.setFloating, ref]);
@@ -44,6 +44,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
                     data-slot="tooltip-content"
                     data-state={isOpen ? 'open' : 'closed'}
                     data-side={String(data.placement ?? '').split('-')[0] || undefined}
+                    data-instant={isInstantPhase ? '' : undefined}
                     {...getFloatingProps(props)}
                     className={clsx(rootClass && `${rootClass}-floating-element`, className)}
                     style={{ ...style, ...data.floatingStyles }}
