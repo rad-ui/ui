@@ -2,12 +2,15 @@ import React, { useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } f
 import NumberFieldContext from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { formatNumber, parseFormattedNumber } from '../utils/numberFormat';
 
 export type NumberFieldInputElement = ElementRef<'input'>;
 export type NumberFieldInputProps = ComponentPropsWithoutRef<'input'>;
 
 const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputProps>(({ className, onKeyDown, onChange, onBlur, 'aria-invalid': ariaInvalid, ...props }, ref) => {
     const context = useContext(NumberFieldContext);
+    // With `format`, the text the user is typing, shown until they leave the field.
+    const [draft, setDraft] = React.useState<string | null>(null);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
         return null;
@@ -27,12 +30,18 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         readOnly,
         required,
         invalid,
-        rootClass
+        rootClass,
+        format,
+        locale
     } = context;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         onKeyDown?.(event);
         if (event.defaultPrevented) return;
+        // Keys that change the value show the newly formatted value.
+        if (format && [KEYBOARD_KEYS.ARROW_UP, KEYBOARD_KEYS.ARROW_DOWN, 'PageUp', 'PageDown', 'Home', 'End', 'Enter'].includes(event.key)) {
+            setDraft(null);
+        }
 
         switch (event.key) {
         case KEYBOARD_KEYS.ARROW_UP:
@@ -69,6 +78,57 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             break;
         }
     };
+
+    const sharedAttributes = {
+        'aria-invalid': ariaInvalid ?? (invalid ? true : undefined),
+        'data-slot': 'number-field-input',
+        'data-disabled': disabled ? '' : undefined,
+        'data-readonly': readOnly ? '' : undefined,
+        'data-required': required ? '' : undefined,
+        'data-invalid': invalid ? '' : undefined,
+        className: clsx(rootClass && `${rootClass}-input`, className)
+    };
+
+    if (format) {
+        const formatted = formatNumber(inputValue, locale, format);
+        return (
+            <>
+                <input
+                    ref={ref}
+                    type="text"
+                    role="spinbutton"
+                    inputMode={format.maximumFractionDigits === 0 ? 'numeric' : 'decimal'}
+                    autoComplete="off"
+                    id={id}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    required={required}
+                    aria-valuenow={inputValue === '' ? undefined : inputValue}
+                    aria-valuemin={min}
+                    aria-valuemax={max}
+                    aria-valuetext={formatted || undefined}
+                    {...props}
+                    {...sharedAttributes}
+                    value={draft ?? formatted}
+                    onKeyDown={handleKeyDown}
+                    onChange={(event) => {
+                        onChange?.(event);
+                        const text = event.target.value;
+                        setDraft(text);
+                        const parsed = parseFormattedNumber(text, locale, format);
+                        if (parsed !== null) handleOnChange(parsed);
+                    }}
+                    onBlur={(event) => {
+                        commitValue();
+                        setDraft(null);
+                        onBlur?.(event);
+                    }}
+                />
+                {/* The visible text is formatted; forms submit the plain number. */}
+                {name && <input type="hidden" name={name} value={inputValue} disabled={disabled} />}
+            </>
+        );
+    }
 
     return (
         <input

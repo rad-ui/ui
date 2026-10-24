@@ -23,6 +23,8 @@ export type NumberFieldContextType = {
   required?: boolean;
   invalid?: boolean;
   rootClass?: string;
+  format?: Intl.NumberFormatOptions;
+  locale?: string;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);

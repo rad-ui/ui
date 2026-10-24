@@ -67,3 +67,20 @@ export const ScrubArea = () => (
         </NumberField.Root>
     </SandboxEditor>
 );
+
+export const Formatted = () => (
+    <SandboxEditor>
+        <div className="flex flex-col gap-4">
+            <NumberField.Root defaultValue={1299.5} step={10} format={{ style: 'currency', currency: 'USD' }} locale="en-US">
+                <NumberField.Decrement>-</NumberField.Decrement>
+                <NumberField.Input aria-label="Price" />
+                <NumberField.Increment>+</NumberField.Increment>
+            </NumberField.Root>
+            <NumberField.Root defaultValue={0.15} step={0.01} min={0} max={1} format={{ style: 'percent' }}>
+                <NumberField.Decrement>-</NumberField.Decrement>
+                <NumberField.Input aria-label="Discount" />
+                <NumberField.Increment>+</NumberField.Increment>
+            </NumberField.Root>
+        </div>
+    </SandboxEditor>
+);

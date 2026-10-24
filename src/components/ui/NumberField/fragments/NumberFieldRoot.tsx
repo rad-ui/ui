@@ -23,6 +23,14 @@ export type NumberFieldRootProps = {
     readOnly?: boolean
     required?: boolean
     invalid?: boolean
+    /**
+     * Display the value with Intl.NumberFormat, such as currency, percent or
+     * unit. The input becomes a text field that accepts formatted typing; the
+     * value stays a plain number (a percent of 25% is 0.25).
+     */
+    format?: Intl.NumberFormatOptions
+    /** Locale for `format`. Defaults to the browser's. */
+    locale?: string
 } & ComponentPropsWithoutRef<'div'>;
 
 const countDecimals = (value: number | undefined): number => {
@@ -41,7 +49,7 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, invalid, id, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, invalid, format, locale, id, className = '', ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -136,7 +144,9 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         readOnly,
         required,
         invalid,
-        rootClass
+        rootClass,
+        format,
+        locale
     };
 
     return (
