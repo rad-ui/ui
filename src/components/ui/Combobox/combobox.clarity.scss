@@ -204,12 +204,29 @@
         cursor: not-allowed;
         opacity: 0.5;
     }
+}
+
 .rad-ui-combobox-empty {
     padding: var(--rad-ui-control-padding-y-md) var(--rad-ui-control-padding-x-md);
     color: var(--rad-ui-text-muted);
     font-size: var(--rad-ui-component-font-size-sm);
+}
+
 .rad-ui-combobox-separator {
     height: var(--rad-ui-border-width-default);
     margin: var(--rad-ui-density-gap-xs) 0;
     background-color: var(--rad-ui-border-soft);
+}
+
+.rad-ui-combobox-value {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: start;
+
+    &[data-placeholder] {
+        color: var(--rad-ui-text-muted);
+    }
 }

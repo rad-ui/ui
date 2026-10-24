@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Select from '../Select';
+import Combobox from '~/components/ui/Combobox/Combobox';
 
 const Picker = (props: Partial<React.ComponentProps<typeof Select.Root>>) => (
     <Select.Root {...props}>
@@ -57,5 +58,19 @@ describe('Select.Value and Select.Icon', () => {
         );
         expect(screen.getByRole('combobox')).toHaveTextContent('Kick');
         expect(screen.getByRole('combobox')).not.toHaveTextContent('Pick');
+    });
+
+    test('Combobox.Value works the same way', () => {
+        render(
+            <Combobox.Root defaultValue="go">
+                <Combobox.Trigger><span data-testid="lang-icon">⌘</span><Combobox.Value placeholder="Language" /></Combobox.Trigger>
+                <Combobox.Content>
+                    <Combobox.Item value="go">Go</Combobox.Item>
+                </Combobox.Content>
+            </Combobox.Root>
+        );
+        const trigger = screen.getAllByRole('combobox')[0];
+        expect(trigger).toHaveTextContent('Go');
+        expect(screen.getByTestId('lang-icon')).toBeInTheDocument();
     });
 });
