@@ -51,6 +51,37 @@ export const Basic: Story = {
     )
 };
 
+export const CheckboxAndRadioItems: Story = {
+    render: () => {
+        const [grid, setGrid] = React.useState(true);
+        const [sort, setSort] = React.useState('name');
+        return (
+            <SandboxEditor>
+                <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>View</DropdownMenu.Trigger>
+                    <DropdownMenu.Portal>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.CheckboxItem checked={grid} onCheckedChange={setGrid}>
+                                Show grid
+                                <DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator>
+                            </DropdownMenu.CheckboxItem>
+                            <DropdownMenu.Separator />
+                            <DropdownMenu.Group>
+                                <DropdownMenu.GroupLabel>Sort by</DropdownMenu.GroupLabel>
+                                <DropdownMenu.RadioGroup value={sort} onValueChange={setSort}>
+                                    <DropdownMenu.RadioItem value="name">Name<DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator></DropdownMenu.RadioItem>
+                                    <DropdownMenu.RadioItem value="date">Date modified<DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator></DropdownMenu.RadioItem>
+                                    <DropdownMenu.RadioItem value="size">Size<DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator></DropdownMenu.RadioItem>
+                                </DropdownMenu.RadioGroup>
+                            </DropdownMenu.Group>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                </DropdownMenu.Root>
+            </SandboxEditor>
+        );
+    }
+};
+
 export const ScrollCollisionVisualTest: Story = {
     render: () => {
         const [open, setOpen] = React.useState(true);
