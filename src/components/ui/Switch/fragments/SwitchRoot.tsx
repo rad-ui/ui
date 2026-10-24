@@ -28,6 +28,8 @@ export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> &
     checked?: boolean;
     onCheckedChange?: (checked: boolean) => void;
     disabled?: boolean;
+    /** Show the state without letting the user change it. Stays focusable. */
+    readOnly?: boolean;
     required?: boolean;
     name?: string;
     value?: string;
@@ -45,6 +47,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         checked,
         onCheckedChange,
         disabled = false,
+        readOnly = false,
         required = false,
         name,
         value,
@@ -66,7 +69,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
     const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     const handleCheckedChange = () => {
-        if (disabled) return;
+        if (disabled || readOnly) return;
         setIsChecked(!isChecked);
     };
 
@@ -98,6 +101,8 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         role: 'switch',
         'aria-checked': isChecked,
         'aria-required': required,
+        'aria-readonly': readOnly || undefined,
+        'data-readonly': readOnly ? '' : undefined,
         disabled,
         ...props
     };

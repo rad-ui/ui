@@ -11,8 +11,9 @@ export type CheckboxPrimitiveTriggerProps = ComponentPropsWithoutRef<typeof Butt
 
 const CheckboxPrimitiveTrigger = forwardRef<CheckboxPrimitiveTriggerElement, CheckboxPrimitiveTriggerProps>(
     ({ children, className = '', onClick, onKeyDown, ...props }, ref) => {
-        const { isChecked, setIsChecked, id, required, disabled } = React.useContext(CheckboxPrimitiveContext);
+        const { isChecked, setIsChecked, id, required, disabled, readOnly } = React.useContext(CheckboxPrimitiveContext);
         const toggleChecked = () => {
+            if (readOnly) return;
             const next = isChecked === 'indeterminate' || isChecked === null ? true : !isChecked;
             setIsChecked(next);
         };
@@ -33,6 +34,8 @@ const CheckboxPrimitiveTrigger = forwardRef<CheckboxPrimitiveTriggerElement, Che
             id={id}
             aria-checked={ariaChecked}
             aria-required={required}
+            aria-readonly={readOnly || undefined}
+            data-readonly={readOnly ? '' : undefined}
             data-checked={isChecked as any}
             data-state={dataState}
             disabled={disabled}
