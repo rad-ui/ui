@@ -3,6 +3,7 @@ import NumberFieldContext from '../contexts/NumberFieldContext';
 import clsx from 'clsx';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { formatNumber, parseFormattedNumber } from '../utils/numberFormat';
+import FieldContext from '~/components/ui/Field/contexts/FieldContext';
 
 export type NumberFieldInputElement = ElementRef<'input'>;
 export type NumberFieldInputProps = ComponentPropsWithoutRef<'input'>;
@@ -11,6 +12,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     const context = useContext(NumberFieldContext);
     // With `format`, the text the user is typing, shown until they leave the field.
     const [draft, setDraft] = React.useState<string | null>(null);
+    const field = useContext(FieldContext);
     if (!context) {
         console.error('NumberFieldInput must be used within a NumberField');
         return null;
@@ -144,6 +146,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             required={required}
             {...props}
             aria-invalid={ariaInvalid ?? (invalid ? true : undefined)}
+            aria-describedby={[props['aria-describedby'], field?.describedBy].filter(Boolean).join(' ') || undefined}
             data-slot="number-field-input"
             data-disabled={disabled ? '' : undefined}
             data-readonly={readOnly ? '' : undefined}

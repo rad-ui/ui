@@ -87,3 +87,32 @@ export const useFieldDescription = (id: string, kind: FieldDescriptionKind) => {
 };
 
 export default FieldContext;
+
+type FieldControlProps = {
+    id?: string;
+    name?: string;
+    disabled?: boolean;
+    required?: boolean;
+    'aria-describedby'?: string;
+    'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
+};
+
+/**
+ * Lets a Rad UI control (Checkbox, Switch, Select, NumberField) placed inside
+ * Field.Root pick up the field's id (so Field.Label points at it), name,
+ * disabled, required, description and invalid state. Its own props win.
+ * Outside a Field it returns the props unchanged.
+ */
+export const useFieldControlProps = <P extends FieldControlProps>(props: P): P => {
+    const field = React.useContext(FieldContext);
+    if (!field) return props;
+    return {
+        ...props,
+        id: props.id ?? field.controlId,
+        name: props.name ?? field.name,
+        disabled: props.disabled ?? (field.disabled || undefined),
+        required: props.required ?? (field.required || undefined),
+        'aria-describedby': [props['aria-describedby'], field.describedBy].filter(Boolean).join(' ') || undefined,
+        'aria-invalid': props['aria-invalid'] ?? (field.invalid || undefined)
+    };
+};

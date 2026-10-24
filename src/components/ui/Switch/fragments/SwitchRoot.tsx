@@ -13,6 +13,7 @@ import useControllableState from '~/core/hooks/useControllableState';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
+import { useFieldControlProps } from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'Switch';
 
@@ -33,24 +34,25 @@ export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> &
     asChild?: boolean;
 };
 
-const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
-    children,
-    customRootClass,
-    color = '',
-    variant,
-    size,
-    defaultChecked = false,
-    checked,
-    onCheckedChange,
-    disabled = false,
-    required = false,
-    name,
-    value,
-    asChild = false,
-    className,
-    onClick,
-    ...props
-}, ref) => {
+const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwareProps, ref) => {
+    const {
+        children,
+        customRootClass,
+        color = '',
+        variant,
+        size,
+        defaultChecked = false,
+        checked,
+        onCheckedChange,
+        disabled = false,
+        required = false,
+        name,
+        value,
+        asChild = false,
+        className,
+        onClick,
+        ...props
+    } = useFieldControlProps(fieldAwareProps);
     const [isChecked, setIsChecked] = useControllableState(
         checked,
         defaultChecked,

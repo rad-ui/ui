@@ -3,6 +3,7 @@ import React from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { SelectRootContext } from '../contexts/SelectRootContext';
+import FieldContext from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'Select';
 
@@ -14,6 +15,13 @@ export type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrim
 const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
     ({ customRootClass, children, className, sideOffset = 4, ...props }, forwardedRef) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        // Inside Field.Root, take the field's name, required and disabled state.
+        const field = React.useContext(FieldContext);
+        const fieldProps = field ? {
+            name: props.name ?? field.name,
+            required: props.required ?? (field.required || undefined),
+            disabled: props.disabled ?? (field.disabled || undefined)
+        } : {};
 
         return (
             <SelectRootContext.Provider value={{ rootClass }}>
@@ -23,6 +31,7 @@ const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
                     sideOffset={sideOffset}
                     ref={forwardedRef}
                     {...props}
+                    {...fieldProps}
                 >
                     {children}
                 </ComboboxPrimitive.Root>

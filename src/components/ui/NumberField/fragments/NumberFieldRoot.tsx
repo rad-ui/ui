@@ -3,6 +3,7 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import NumberFieldContext, { NumberFieldContextType } from '../contexts/NumberFieldContext';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
+import FieldContext from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'NumberField';
 
@@ -49,7 +50,14 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, invalid, format, locale, id, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, id: idProp, className = '', ...props }, ref) => {
+    // Inside Field.Root, the input takes the field's id, name and state.
+    const field = React.useContext(FieldContext);
+    const id = idProp ?? field?.controlId;
+    const name = nameProp ?? field?.name;
+    const disabled = disabledProp ?? (field?.disabled || undefined);
+    const required = requiredProp ?? (field?.required || undefined);
+    const invalid = invalidProp ?? (field?.invalid || undefined);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
