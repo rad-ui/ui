@@ -102,4 +102,30 @@ describe('Autocomplete', () => {
         render(<Cities disabled />);
         expect(screen.getByRole('combobox', { name: 'City' })).toBeDisabled();
     });
+
+    test('the rest of the page stays available to screen readers while open', async() => {
+        const user = userEvent.setup();
+        render(
+            <>
+                <Cities />
+                <button type="button">Search</button>
+            </>
+        );
+        await user.type(screen.getByRole('combobox', { name: 'City' }), 'a');
+        expect(screen.getByRole('button', { name: 'Search' })).not.toHaveAttribute('aria-hidden');
+    });
+
+    test('tabbing away closes the suggestions', async() => {
+        const user = userEvent.setup();
+        render(
+            <>
+                <Cities />
+                <button type="button">Next</button>
+            </>
+        );
+        const input = screen.getByRole('combobox', { name: 'City' });
+        await user.type(input, 'a');
+        await user.tab();
+        expect(input).toHaveAttribute('aria-expanded', 'false');
+    });
 });

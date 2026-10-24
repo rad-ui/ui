@@ -178,9 +178,9 @@ const ComboboxPrimitiveContent = React.forwardRef<
         // content keeps the same tree (so React keeps the node) with focus management off.
         <Floater.FocusManager
             context={floatingContext}
-            disabled={!isOpen || isHiddenUntilPositioned}
-            // An input anchor keeps focus so the user can keep typing; options are reached virtually.
-            {...(referenceIsInput ? { initialFocus: -1, returnFocus: false, modal: false } : {})}
+            // An input anchor keeps focus while options are reached virtually, so no focus
+            // management is needed, and it must not hide the rest of the page from screen readers.
+            disabled={!isOpen || isHiddenUntilPositioned || referenceIsInput}
         >
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 {popup}

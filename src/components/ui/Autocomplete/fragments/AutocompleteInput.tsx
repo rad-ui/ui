@@ -10,7 +10,7 @@ type AutocompleteInputElement = React.ElementRef<typeof Primitive.input>;
 export type AutocompleteInputProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.input>, 'value' | 'defaultValue'>;
 
 /** The text input. Typing opens the suggestions; ArrowDown/ArrowUp move through them and Enter picks one. */
-const AutocompleteInput = React.forwardRef<AutocompleteInputElement, AutocompleteInputProps>(({ className, onChange, onKeyDown, disabled: disabledProp, ...props }, forwardedRef) => {
+const AutocompleteInput = React.forwardRef<AutocompleteInputElement, AutocompleteInputProps>(({ className, onChange, onKeyDown, onBlur, disabled: disabledProp, ...props }, forwardedRef) => {
     const { rootClass } = useContext(AutocompleteRootContext);
     const {
         refs,
@@ -58,6 +58,13 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
             onChange?.(event);
             setSearch(event.target.value);
             if (!isOpen) setIsOpen(true);
+        },
+        onBlur: (event: React.FocusEvent<HTMLInputElement>) => {
+            onBlur?.(event);
+            // Tabbing away closes the suggestions; clicking one keeps them until it's picked.
+            const next = event.relatedTarget as Node | null;
+            const floating = refs.floating.current as HTMLElement | null;
+            if (!next || !floating?.contains(next)) setIsOpen(false);
         },
         onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => {
             onKeyDown?.(event);
