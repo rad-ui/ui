@@ -62,8 +62,9 @@ const data = {
       prop: { name: "customRootClass", info_tooltips: "Override the generated class namespace." },
       type: "string",
       default: '""',
-    }
-  ]
+    },
+        { prop: { name: "handle", info_tooltips: "Connects detached triggers made with Tooltip.createHandle(); children can be a function of the hovered trigger's payload." }, type: "Handle", default: "--" }
+    ]
 };
 
 export default data; 

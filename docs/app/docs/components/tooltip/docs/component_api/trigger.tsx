@@ -31,8 +31,11 @@ const data = {
       },
       type: "ReactNode",
       default: "--",
-    }
-  ]
+    },
+        { prop: { name: "handle", info_tooltips: "Open the shared tooltip connected to this handle." }, type: "Handle", default: "--" },
+        { prop: { name: "payload", info_tooltips: "Data for the tooltip's content." }, type: "unknown", default: "--" },
+        { prop: { name: "delay", info_tooltips: "With handle, ms the pointer rests before opening. Focus opens at once." }, type: "number", default: "0" }
+    ]
 };
 
 export default data; 
