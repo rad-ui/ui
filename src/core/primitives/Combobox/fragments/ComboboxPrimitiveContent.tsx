@@ -53,7 +53,8 @@ const ComboboxPrimitiveContent = React.forwardRef<
         hasSearch,
         handleSelect,
         isTypingRef,
-        dir
+        dir,
+        multiple
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
@@ -140,6 +141,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 id={listboxId}
                 role={listboxRole}
                 aria-orientation={listboxOrientation}
+                aria-multiselectable={multiple || undefined}
                 data-slot="combobox-listbox"
             >
                 {listChildren}
@@ -153,6 +155,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
             id={listboxId}
             role={listboxRole}
             aria-orientation={listboxOrientation}
+            aria-multiselectable={multiple || undefined}
         >
             {children}
         </div>

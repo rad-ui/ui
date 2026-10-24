@@ -16,8 +16,21 @@ type Boundary = Element | null;
 export type ComboboxPrimitiveRootProps = {
     children: React.ReactNode,
     className?: string,
-    value?: string,
-    defaultValue?: string,
+    /**
+     * Allow several selected values. `value` and `defaultValue` become arrays
+     * and `onValueChange` receives an array; the listbox stays open on select.
+     */
+    multiple?: boolean,
+    /** The selected value, or an array of values with `multiple`. */
+    value?: string | string[],
+    /** The initial value, or an array of values with `multiple`. */
+    defaultValue?: string | string[],
+    /**
+     * Called with the new value, or the array of values with `multiple`. The
+     * parameter is typed so both `(value: string) => …` and
+     * `(value: string[]) => …` handlers, and inline callbacks, type-check.
+     */
+    onValueChange?: (value: string & string[]) => void,
     name?: string,
     align?: Align,
     alignOffset?: number,
@@ -36,7 +49,6 @@ export type ComboboxPrimitiveRootProps = {
     sideOffset?: number,
     sticky?: 'partial' | 'always',
     updatePositionStrategy?: 'optimized' | 'always',
-    onValueChange?: (value: string) => void
     onClickOutside?: () => void;
     placement?: Placement
     /** Controlled open state. */
@@ -49,7 +61,9 @@ export type ComboboxPrimitiveRootProps = {
     disabled?: boolean;
     /** Marks the field as required for native form validation. */
     required?: boolean;
-}
+};
+
+const EMPTY_VALUES: string[] = [];
 
 function getPlacement(side: Side, align: Align): Placement {
     return align === 'center' ? side : `${side}-${align}` as Placement;
@@ -63,8 +77,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     className,
     value,
     name,
-    defaultValue = '',
+    defaultValue,
     onValueChange,
+    multiple = false,
     onClickOutside = () => {},
     align = 'start',
     alignOffset = 0,
@@ -98,11 +113,21 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const isOpen = Boolean(isOpenState) && !disabled;
     const idPrefix = React.useId();
     useRegisterDocumentOverlayOpen(isOpen);
-    const [selectedValue, setSelectedValue] = useControllableState(
-        value,
-        defaultValue,
-        onValueChange
+    // Both states always exist (hooks can't be conditional); `multiple` picks one.
+    const [singleValue, setSingleValue] = useControllableState<string>(
+        multiple ? undefined : value as string | undefined,
+        multiple ? '' : (defaultValue as string | undefined) ?? '',
+        multiple ? undefined : onValueChange as ((value: string) => void) | undefined
     );
+    const [multipleValue, setMultipleValue] = useControllableState<string[]>(
+        multiple ? value as string[] | undefined : undefined,
+        multiple ? (defaultValue as string[] | undefined) ?? EMPTY_VALUES : EMPTY_VALUES,
+        multiple ? onValueChange as ((value: string[]) => void) | undefined : undefined
+    );
+    const selectedValues = multiple ? multipleValue ?? EMPTY_VALUES : EMPTY_VALUES;
+    // Single-value code paths (label lookup, scroll-into-view) follow the latest pick.
+    const selectedValue = multiple ? selectedValues[selectedValues.length - 1] ?? '' : singleValue;
+    const setSelectedValue = setSingleValue;
     // Resolve the label from the element tree so the trigger shows it before the list ever mounts.
     const [selectedLabel, setSelectedLabel] = React.useState(() => (
         selectedValue ? findItemLabel(children, selectedValue) ?? selectedValue : selectedValue
@@ -152,10 +177,13 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     React.useEffect(() => {
         const form = nativeSelectRef.current?.form;
         if (!form) return;
-        const handleReset = () => setSelectedValue(defaultValueRef.current);
+        const handleReset = () => {
+            if (multiple) setMultipleValue((defaultValueRef.current as string[] | undefined) ?? EMPTY_VALUES);
+            else setSelectedValue((defaultValueRef.current as string | undefined) ?? '');
+        };
         form.addEventListener('reset', handleReset);
         return () => form.removeEventListener('reset', handleReset);
-    }, [isFormChild, name, setSelectedValue]);
+    }, [isFormChild, name, setSelectedValue, setMultipleValue, multiple]);
 
     const resolvedPlacement = placement ?? getPlacement(side, align);
     const mainAxisOffset = sideOffset ?? offsetValue ?? 0;
@@ -273,7 +301,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         if (index === null || totalDisabledIndices.includes(index)) return;
         if (isOpen) {
             setActiveIndex(index);
-        } else {
+        } else if (!multiple) {
+            // Typing on a closed multi-select would toggle values unseen, so it only selects for single.
             handleSelect(index);
         }
     }
@@ -281,6 +310,20 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const handleSelect = React.useCallback(
         (index: number | null) => {
             if (index === null || totalDisabledIndices.includes(index)) return;
+            if (multiple) {
+                // Toggle and stay open so several values can be picked in a row.
+                const item = elementsRef.current[index];
+                const value = item?.getAttribute('data-value') || valuesRef.current[index];
+                if (!value) return;
+                const label = item?.getAttribute('data-label') || displayLabelsRef.current[index] || labelsRef.current[index];
+                if (label) displayLabelsByValueRef.current[value] = label;
+                setSelectedIndex(index);
+                setMultipleValue((current) => {
+                    const values = current ?? EMPTY_VALUES;
+                    return values.includes(value) ? values.filter((entry) => entry !== value) : [...values, value];
+                });
+                return;
+            }
             setSelectedIndex(index);
             setIsOpen(false);
             (refs.reference.current as HTMLElement | null)?.focus();
@@ -299,8 +342,21 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 }
             }
         },
-        [totalDisabledIndices, refs, setSelectedValue, setIsOpen]
+        [totalDisabledIndices, refs, setSelectedValue, setIsOpen, multiple, setMultipleValue]
     );
+
+    // Labels for every selected value, for the trigger and chips.
+    const selectedLabels = React.useMemo(() => selectedValues.map((entry) => {
+        const index = valuesRef.current.findIndex((itemValue) => itemValue === entry);
+        return (index !== -1 ? elementsRef.current[index]?.getAttribute('data-label') || displayLabelsRef.current[index] || labelsRef.current[index] : null)
+            || displayLabelsByValueRef.current[entry]
+            || findItemLabel(children, entry)
+            || entry;
+    }), [selectedValues, labelsVersion, children]);
+
+    const removeValue = React.useCallback((entry: string) => {
+        setMultipleValue((current) => (current ?? EMPTY_VALUES).filter((item) => item !== entry));
+    }, [setMultipleValue]);
 
     useLayoutEffect(() => {
         const valueIndex = valuesRef.current.findIndex(itemValue => itemValue === selectedValue);
@@ -388,7 +444,11 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         bumpLabelsVersion,
         idPrefix,
         disabled,
-        dir
+        dir,
+        multiple,
+        selectedValues,
+        selectedLabels,
+        removeValue
     }), [
         isOpen,
         handleSelect,
@@ -414,7 +474,11 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         idPrefix,
         disabled,
         setIsOpen,
-        dir
+        dir,
+        multiple,
+        selectedValues,
+        selectedLabels,
+        removeValue
     ]);
 
     return (
@@ -434,7 +498,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                         <select
                             ref={nativeSelectRef}
                             name={name}
-                            value={selectedValue}
+                            multiple={multiple || undefined}
+                            value={multiple ? selectedValues : selectedValue}
                             required={required}
                             disabled={disabled}
                             aria-hidden="true"
@@ -454,7 +519,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                                 overflow: 'hidden'
                             }}
                         >
-                            <option value={selectedValue}>{selectedValue}</option>
+                            {multiple
+                                ? selectedValues.map((entry) => <option key={entry} value={entry}>{entry}</option>)
+                                : <option value={selectedValue}>{selectedValue}</option>}
                         </select>
                     )
                 }

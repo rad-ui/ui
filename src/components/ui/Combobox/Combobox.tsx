@@ -8,6 +8,7 @@ import ComboboxIndicator from './fragments/ComboboxIndicator';
 import ComboboxPortal from './fragments/ComboboxPortal';
 import ComboboxGroup from './fragments/ComboboxGroup';
 import ComboboxSearch from './fragments/ComboboxSearch';
+import ComboboxChips from './fragments/ComboboxChips';
 
 const ComboboxBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
     console.warn('Direct usage of Combobox is not supported. Please use Combobox.Root, Combobox.Content, etc. instead.');
@@ -24,7 +25,8 @@ interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAtt
     Portal: typeof ComboboxPortal;
     Group: typeof ComboboxGroup;
     Indicator: typeof ComboboxIndicator;
-    Search: typeof ComboboxSearch
+    Search: typeof ComboboxSearch;
+    Chips: typeof ComboboxChips;
 }
 
 const Combobox = ComboboxBase as ComboboxComponent;
@@ -37,12 +39,14 @@ Combobox.Portal = ComboboxPortal;
 Combobox.Group = ComboboxGroup;
 Combobox.Indicator = ComboboxIndicator;
 Combobox.Search = ComboboxSearch;
+Combobox.Chips = ComboboxChips;
 
 export type { ComboboxRootProps } from './fragments/ComboboxRoot';
 export type { ComboboxContentProps } from './fragments/ComboboxContent';
 export type { ComboboxItemProps } from './fragments/ComboboxItem';
 export type { ComboboxTriggerProps } from './fragments/ComboboxTrigger';
 export type { ComboboxSearchProps } from './fragments/ComboboxSearch';
+export type { ComboboxChipsProps, ComboboxChip } from './fragments/ComboboxChips';
 // Named part exports let React Server Components use `import * as Combobox from '@radui/ui/Combobox'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -53,7 +57,8 @@ export {
     ComboboxPortal as Portal,
     ComboboxGroup as Group,
     ComboboxIndicator as Indicator,
-    ComboboxSearch as Search
+    ComboboxSearch as Search,
+    ComboboxChips as Chips
 };
 
 export default Combobox;

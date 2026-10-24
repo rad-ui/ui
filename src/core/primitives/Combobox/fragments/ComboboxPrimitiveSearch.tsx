@@ -23,7 +23,10 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         setSearch,
         setActiveIndex,
         hiddenIndices,
-        disabledIndices
+        disabledIndices,
+        multiple,
+        selectedValues,
+        removeValue
     } = context;
 
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -57,6 +60,10 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         if (activeIndex !== null && event.key === KEYBOARD_KEYS.ENTER) {
             event.preventDefault();
             handleSelect(activeIndex);
+        }
+        // Backspace in an empty search removes the last chip, as in tag inputs.
+        if (multiple && event.key === 'Backspace' && !search && selectedValues.length) {
+            removeValue(selectedValues[selectedValues.length - 1]);
         }
         props.onKeyDown?.(event);
     };

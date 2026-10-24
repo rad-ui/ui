@@ -301,3 +301,25 @@ export const ScrollCollisionVisualTest = () => {
         </SandboxEditor>
     );
 };
+
+export const Multiple = () => {
+    return (
+        <SandboxEditor>
+            <div className="w-[240px]">
+                <Select.Root multiple defaultValue={['apple', 'grape']}>
+                    <Select.Trigger>
+                        <span>Pick fruits</span>
+                    </Select.Trigger>
+                    <Select.Portal>
+                        <Select.Content>
+                            <Select.Item value="apple"> <Select.Indicator />Apple</Select.Item>
+                            <Select.Item value="banana"> <Select.Indicator />Banana</Select.Item>
+                            <Select.Item value="orange"> <Select.Indicator />Orange</Select.Item>
+                            <Select.Item value="grape"> <Select.Indicator />Grape</Select.Item>
+                        </Select.Content>
+                    </Select.Portal>
+                </Select.Root>
+            </div>
+        </SandboxEditor>
+    );
+};

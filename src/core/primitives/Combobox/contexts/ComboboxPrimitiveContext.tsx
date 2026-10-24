@@ -45,6 +45,14 @@ export type ComboboxPrimitiveContextType = {
     disabled: boolean;
     /** Reading direction, applied to the (portaled) listbox content. */
     dir?: string;
+    /** Whether several values can be selected. */
+    multiple: boolean;
+    /** Every selected value when `multiple`; empty otherwise. */
+    selectedValues: string[];
+    /** Labels for `selectedValues`, in the same order. */
+    selectedLabels: string[];
+    /** Deselects one value (multiple only), for chip remove buttons. */
+    removeValue: (value: string) => void;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

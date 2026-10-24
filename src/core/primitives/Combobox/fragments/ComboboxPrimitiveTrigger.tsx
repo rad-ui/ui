@@ -9,7 +9,11 @@ export type ComboboxPrimitiveTriggerProps = {
     children?: React.ReactNode;
     className?: string;
     disabled?: boolean;
-    renderValue?: (value: string, label: string) => React.ReactNode;
+    /**
+     * Custom display for the selected value. With `multiple`, it receives the
+     * arrays of values and labels instead.
+     */
+    renderValue?: (value: string & string[], label: string & string[]) => React.ReactNode;
     [key: string]: any;
 };
 
@@ -17,14 +21,16 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
     ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(({ children, className, disabled, asChild, onClick, renderValue, 'aria-disabled': ariaDisabled, 'data-placeholder': dataPlaceholder, ...props }, forwardedRef) => {
-    const { isOpen, selectedLabel, selectedValue, refs, getReferenceProps, disabled: rootDisabled } = useContext(ComboboxPrimitiveContext);
+    const { isOpen, selectedLabel, selectedValue, refs, getReferenceProps, disabled: rootDisabled, multiple, selectedValues, selectedLabels } = useContext(ComboboxPrimitiveContext);
     const isDisabled = Boolean(disabled || rootDisabled);
 
     const handleClick = composeEventHandlers(onClick);
-    const hasSelectedValue = Boolean(selectedLabel || selectedValue);
-    const renderedValue = hasSelectedValue
-        ? renderValue?.(selectedValue, selectedLabel || selectedValue)
-        : undefined;
+    const hasSelectedValue = multiple ? selectedValues.length > 0 : Boolean(selectedLabel || selectedValue);
+    const renderedValue = !hasSelectedValue
+        ? undefined
+        : multiple
+            ? (renderValue as ((value: string[], label: string[]) => React.ReactNode) | undefined)?.(selectedValues, selectedLabels) ?? selectedLabels.join(', ')
+            : (renderValue as ((value: string, label: string) => React.ReactNode) | undefined)?.(selectedValue, selectedLabel || selectedValue);
 
     return (
         <Primitive.button

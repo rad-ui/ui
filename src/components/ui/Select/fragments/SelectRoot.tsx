@@ -12,7 +12,7 @@ export type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrim
 };
 
 const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
-    ({ customRootClass, children, className, defaultValue, value, onValueChange, sideOffset = 4, ...props }, forwardedRef) => {
+    ({ customRootClass, children, className, sideOffset = 4, ...props }, forwardedRef) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         return (
@@ -20,9 +20,6 @@ const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
                 <ComboboxPrimitive.Root
                     className={clsx(rootClass ? `${rootClass}-root` : undefined, className) || undefined}
                     data-slot="select-root"
-                    defaultValue={defaultValue}
-                    value={value}
-                    onValueChange={onValueChange}
                     sideOffset={sideOffset}
                     ref={forwardedRef}
                     {...props}
