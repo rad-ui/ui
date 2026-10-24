@@ -13,7 +13,8 @@ const data = {
         { prop: { name: "open", info_tooltips: "Controlled open state." }, type: "boolean", default: "--" },
         { prop: { name: "disabled", info_tooltips: "Disables the select." }, type: "boolean", default: "false" },
         { prop: { name: "onValueChange", info_tooltips: "Callback when selection changes." }, type: "function", default: "--" },
-        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" }
+        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" },
+        { prop: { name: "alignItemWithTrigger", info_tooltips: "Open the list over the trigger with the selected option lined up on it, like a native select. Falls back to normal positioning when nothing is selected (and with multiple)." }, type: "boolean", default: "false" }
     ]
 }
 
