@@ -13,6 +13,7 @@ import DropdownMenuRadioItem from './fragments/DropdownMenuRadioItem';
 import DropdownMenuItemIndicator from './fragments/DropdownMenuItemIndicator';
 import DropdownMenuGroup from './fragments/DropdownMenuGroup';
 import DropdownMenuGroupLabel from './fragments/DropdownMenuGroupLabel';
+import { createPopupHandle } from '~/core/utils/popupHandle';
 
 export type DropdownMenuElement = ElementRef<'div'>;
 export type DropdownMenuProps = ComponentPropsWithoutRef<'div'>;
@@ -32,6 +33,8 @@ type DropdownMenuComponent = React.ForwardRefExoticComponent<DropdownMenuProps &
     ItemIndicator: typeof DropdownMenuItemIndicator;
     Group: typeof DropdownMenuGroup;
     GroupLabel: typeof DropdownMenuGroupLabel;
+    /** Creates a handle that connects triggers rendered outside DropdownMenu.Root. */
+    createHandle: typeof createPopupHandle;
 };
 
 const DropdownMenu = forwardRef<DropdownMenuElement, DropdownMenuProps>((_props, _ref) => {
@@ -55,6 +58,7 @@ DropdownMenu.RadioItem = DropdownMenuRadioItem;
 DropdownMenu.ItemIndicator = DropdownMenuItemIndicator;
 DropdownMenu.Group = DropdownMenuGroup;
 DropdownMenu.GroupLabel = DropdownMenuGroupLabel;
+DropdownMenu.createHandle = createPopupHandle;
 
 export type { DropdownMenuRootProps } from './fragments/DropdownMenuRoot';
 export type { DropdownMenuTriggerProps } from './fragments/DropdownMenuTrigger';
@@ -86,7 +90,8 @@ export {
     DropdownMenuRadioItem as RadioItem,
     DropdownMenuItemIndicator as ItemIndicator,
     DropdownMenuGroup as Group,
-    DropdownMenuGroupLabel as GroupLabel
+    DropdownMenuGroupLabel as GroupLabel,
+    createPopupHandle as createHandle
 };
 
 export default DropdownMenu;

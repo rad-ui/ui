@@ -8,10 +8,15 @@ import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 
 const noop = () => {};
+import type { PopupHandle } from '~/core/utils/popupHandle';
+import useIsomorphicLayoutEffect from '~/core/hooks/useLayoutEffect';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
-    children: React.ReactNode
+    /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode)
+    /** Connects detached triggers made with `createHandle()`; the menu anchors to whichever opened it. */
+    handle?: PopupHandle<any>
     className?: string
     open?: boolean
     /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
@@ -45,14 +50,14 @@ export type MenuPrimitiveRootProps = {
   hoverOpenDelay?: number
   /** With `openOnHover`, ms after the pointer leaves before closing. */
   hoverCloseDelay?: number
-} & Omit<ComponentPropsWithoutRef<'div'>, 'dir'>;
+} & Omit<ComponentPropsWithoutRef<'div'>, 'dir' | 'children'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
     /** Internal: set by MenuPrimitive.Sub so the menu behaves as a submenu. */
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, ...props }, ref) => {
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
@@ -121,7 +126,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
-        onOpenChange: (nextOpen, event, reason) => setIsOpen(nextOpen, fromFloatingReason(reason), event),
+        onOpenChange: (nextOpen, event, reason) => {
+            setIsOpen(nextOpen, fromFloatingReason(reason), event);
+            if (!nextOpen) handle?.close();
+        },
         strategy: 'fixed',
         transform: false,
         // Submenus open toward the inline end: right in LTR, left in RTL.
@@ -217,6 +225,18 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         dir: direction,
         getRootTrigger
     };
+    // A handle lets detached triggers open this menu and anchor it.
+    const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+    const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+    const handleOpen = handleState?.open;
+    const handleTrigger = handleState?.trigger ?? null;
+    useIsomorphicLayoutEffect(() => {
+        if (!handle) return;
+        if (handleTrigger) refs.setReference(handleTrigger);
+        if (handleOpen !== undefined && handleOpen !== isOpenRef.current) setIsOpen(handleOpen);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handle, handleOpen, handleTrigger]);
+
     const tree = Floater.useFloatingTree();
 
     React.useEffect(() => {
@@ -224,6 +244,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
 
         function handleTreeClick() {
             setIsOpen(false, 'item-press');
+            handle?.close();
         }
 
         tree.events.on('click', handleTreeClick);
@@ -239,7 +260,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>
-                    {children}
+                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </Floater.FloatingNode>
             </MenuPrimitiveRootContext.Provider>
 

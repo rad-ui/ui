@@ -10,6 +10,7 @@ import MenuPrimitiveRadioItem, { MenuPrimitiveRadioItemProps } from './fragments
 import MenuPrimitiveItemIndicator from './fragments/MenuPrimitiveItemIndicator';
 import MenuPrimitiveGroup from './fragments/MenuPrimitiveGroup';
 import MenuPrimitiveGroupLabel from './fragments/MenuPrimitiveGroupLabel';
+import { createPopupHandle } from '~/core/utils/popupHandle';
 
 const MenuPrimitive = () => {
     console.warn('Direct usage of MenuPrimitive is not supported. Please use MenuPrimitive.Root, MenuPrimitive.Item instead.');
@@ -28,6 +29,7 @@ MenuPrimitive.RadioItem = MenuPrimitiveRadioItem;
 MenuPrimitive.ItemIndicator = MenuPrimitiveItemIndicator;
 MenuPrimitive.Group = MenuPrimitiveGroup;
 MenuPrimitive.GroupLabel = MenuPrimitiveGroupLabel;
+MenuPrimitive.createHandle = createPopupHandle;
 
 export namespace MenuPrimitiveProps {
     export type Root = MenuPrimitiveRootProps;

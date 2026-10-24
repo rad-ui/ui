@@ -6,7 +6,6 @@ import DropdownMenuContext from '../contexts/DropdownMenuContext';
 
 export type DropdownMenuRootElement = ElementRef<typeof MenuPrimitive.Root>;
 export type DropdownMenuRootProps = {
-  children: React.ReactNode;
   customRootClass?: string;
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Root>;

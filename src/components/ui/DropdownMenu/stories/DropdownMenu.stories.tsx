@@ -82,6 +82,36 @@ export const CheckboxAndRadioItems: Story = {
     }
 };
 
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => DropdownMenu.createHandle<string>(), []);
+    return (
+        <SandboxEditor>
+            <ul className="flex flex-col gap-2">
+                {['Invoice.pdf', 'Contract.docx'].map((file) => (
+                    <li key={file} className="flex items-center gap-3">
+                        {file}
+                        <DropdownMenu.Trigger handle={handle} payload={file}>Actions</DropdownMenu.Trigger>
+                    </li>
+                ))}
+            </ul>
+            <DropdownMenu.Root handle={handle}>
+                {({ payload }) => (
+                    <DropdownMenu.Portal>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.Item>Rename {String(payload)}</DropdownMenu.Item>
+                            <DropdownMenu.Item>Delete {String(payload)}</DropdownMenu.Item>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                )}
+            </DropdownMenu.Root>
+        </SandboxEditor>
+    );
+};
+
+export const DetachedTriggers: Story = {
+    render: () => <DetachedTriggersExample />
+};
+
 export const ScrollCollisionVisualTest: Story = {
     render: () => {
         const [open, setOpen] = React.useState(true);
