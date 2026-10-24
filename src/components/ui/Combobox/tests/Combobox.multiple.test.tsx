@@ -75,4 +75,24 @@ describe('Combobox multiple', () => {
         );
         expect(screen.getByRole('listitem')).toHaveTextContent('Go!');
     });
+
+    test('clear removes every chip', async() => {
+        const user = userEvent.setup();
+        const onValueChange = jest.fn();
+        render(
+            <Combobox.Root multiple defaultValue={['go', 'rs']} onValueChange={onValueChange}>
+                <Combobox.Trigger>Pick</Combobox.Trigger>
+                <Combobox.Chips />
+                <Combobox.Clear />
+                <Combobox.Content>
+                    <Combobox.Item value="go">Go</Combobox.Item>
+                    <Combobox.Item value="rs">Rust</Combobox.Item>
+                </Combobox.Content>
+            </Combobox.Root>
+        );
+        await user.click(screen.getByRole('button', { name: 'Clear' }));
+        expect(onValueChange).toHaveBeenLastCalledWith([]);
+        expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
+    });
 });

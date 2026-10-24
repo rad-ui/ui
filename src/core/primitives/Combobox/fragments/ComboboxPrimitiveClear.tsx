@@ -10,8 +10,8 @@ export type ComboboxPrimitiveClearProps = React.ComponentPropsWithoutRef<typeof 
 
 /** A button that clears the selection and typed text. It hides while there's nothing to clear. */
 const ComboboxPrimitiveClear = React.forwardRef<HTMLButtonElement, ComboboxPrimitiveClearProps>(({ forceMount = false, onClick, children, ...props }, ref) => {
-    const { selectedValue, search, clearValue, disabled } = useContext(ComboboxPrimitiveContext);
-    const hasValue = Boolean(selectedValue || search);
+    const { selectedValue, selectedValues, search, clearValue, disabled } = useContext(ComboboxPrimitiveContext);
+    const hasValue = Boolean(selectedValue || search || selectedValues.length);
     if (!hasValue && !forceMount) return null;
     return (
         <Primitive.button
