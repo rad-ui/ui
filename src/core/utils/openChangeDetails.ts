@@ -7,6 +7,7 @@ export type OpenChangeReason =
     | 'escape-key'
     | 'focus-out'
     | 'close-press'
+    | 'item-press'
     | 'list-navigation'
     | 'none';
 

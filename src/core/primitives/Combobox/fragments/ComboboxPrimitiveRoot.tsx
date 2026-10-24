@@ -9,6 +9,9 @@ import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocument
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
 import { useDirection } from '~/core/hooks/useDirection';
 import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'start' | 'center' | 'end';
@@ -58,7 +61,8 @@ export type ComboboxPrimitiveRootProps = {
     /** Initial open state (uncontrolled). */
     defaultOpen?: boolean;
     /** Called when the listbox opens or closes. */
-    onOpenChange?: (open: boolean) => void;
+    /** Called when the listbox opens or closes; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
     /** Disables the trigger so the listbox cannot be opened. */
     disabled?: boolean;
     /** Marks the field as required for native form validation. */
@@ -120,7 +124,21 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     // `dir` stays on the root element (it's in props) and is also passed to the
     // portaled content, which does not inherit direction from this tree.
     const dir = useDirection(props.dir);
-    const [isOpenState, setIsOpen] = useControllableState<boolean>(open, defaultOpen, onOpenChange);
+    const [isOpenState, setOpenState] = useControllableState<boolean>(open, defaultOpen, noop);
+    // onOpenChange is called here with details; the state hook only stores the value.
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const isOpenRef = React.useRef(Boolean(isOpenState));
+    isOpenRef.current = Boolean(isOpenState);
+    const setIsOpen = React.useCallback((nextOpenOrUpdater: boolean | ((previous: boolean) => boolean), reason: OpenChangeReason = 'none', event?: Event) => {
+        const nextOpen = typeof nextOpenOrUpdater === 'function' ? nextOpenOrUpdater(isOpenRef.current) : nextOpenOrUpdater;
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, nextOpen, details);
+        if (details.isCanceled) return false;
+        setOpenState(nextOpen);
+        return true;
+    }, [setOpenState]);
+
     const isOpen = Boolean(isOpenState) && !disabled;
     const idPrefix = React.useId();
     useRegisterDocumentOverlayOpen(isOpen);
@@ -278,14 +296,14 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     } = Floater.useFloating({
         middleware,
         open: isOpen,
-        onOpenChange: (nextOpen: boolean, _event?: Event, reason?: string) => {
+        onOpenChange: (nextOpen: boolean, event?: Event, reason?: string) => {
             if (disabled && nextOpen) return;
-            setIsOpen(nextOpen);
+            const applied = setIsOpen(nextOpen, fromFloatingReason(reason), event);
             // Escape closes the list: put focus back on the trigger now, rather than waiting for the
             // focus manager's queued return (which can lag a frame or more, and leaves force-mounted
             // content holding focus meanwhile). Only when focus is inside the list, so a dismiss
             // from elsewhere never steals focus.
-            if (!nextOpen && reason === 'escape-key') {
+            if (applied && !nextOpen && reason === 'escape-key') {
                 const floating = refs.floating.current;
                 const active = floating?.ownerDocument.activeElement;
                 if (floating && active && floating.contains(active)) {
@@ -343,7 +361,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 return;
             }
             setSelectedIndex(index);
-            setIsOpen(false);
+            setIsOpen(false, 'item-press');
             (refs.reference.current as HTMLElement | null)?.focus();
             if (index !== null) {
                 const item = elementsRef.current[index];
@@ -498,12 +516,12 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         idPrefix,
         disabled,
         setIsOpen,
+        setSearch,
         dir,
         multiple,
         selectedValues,
         selectedLabels,
         removeValue,
-        setSearch,
         referenceIsInput,
         transition.mounted,
         transition.status

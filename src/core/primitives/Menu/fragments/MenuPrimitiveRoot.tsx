@@ -5,13 +5,17 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { useDirection } from '~/core/hooks/useDirection';
 import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
     children: React.ReactNode
     className?: string
     open?: boolean
-    onOpenChange?: (open: boolean) => void
+    /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void
     defaultOpen?: boolean
     crossAxisOffset?: number
     mainAxisOffset?: number
@@ -52,11 +56,24 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
-    const [isOpen, setIsOpen] = useControllableState(
+    const [isOpen, setOpenState] = useControllableState(
         open,
         defaultOpen,
-        onOpenChange
+        noop
     );
+    // onOpenChange is called here with details; the state hook only stores the value.
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const isOpenRef = React.useRef(Boolean(isOpen));
+    isOpenRef.current = Boolean(isOpen);
+    const setIsOpen = React.useCallback((nextOpenOrUpdater: React.SetStateAction<boolean>, reason: OpenChangeReason = 'none', event?: Event) => {
+        const nextOpen = typeof nextOpenOrUpdater === 'function' ? nextOpenOrUpdater(isOpenRef.current) : nextOpenOrUpdater;
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, nextOpen, details);
+        if (details.isCanceled) return;
+        setOpenState(nextOpen);
+    }, [setOpenState]);
+
     useRegisterDocumentOverlayOpen(isOpen);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -104,7 +121,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
         open: isOpen,
         nodeId,
-        onOpenChange: setIsOpen,
+        onOpenChange: (nextOpen, event, reason) => setIsOpen(nextOpen, fromFloatingReason(reason), event),
         strategy: 'fixed',
         transform: false,
         // Submenus open toward the inline end: right in LTR, left in RTL.
@@ -206,7 +223,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         if (!tree) return;
 
         function handleTreeClick() {
-            setIsOpen(false);
+            setIsOpen(false, 'item-press');
         }
 
         tree.events.on('click', handleTreeClick);

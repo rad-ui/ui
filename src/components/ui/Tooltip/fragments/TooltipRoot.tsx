@@ -5,6 +5,9 @@ import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRo
 import TooltipProviderContext from '../context/TooltipProviderContext';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
 
 const COMPONENT_NAME = 'Tooltip';
 
@@ -33,8 +36,8 @@ export interface TooltipRootProps extends React.ComponentPropsWithoutRef<'div'> 
     open?: boolean;
     /** Initial open state when uncontrolled. */
     defaultOpen?: boolean;
-    /** Called with the next open state whenever it changes. */
-    onOpenChange?: (open: boolean) => void;
+    /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
     /**
      * Delay in ms before the tooltip opens on hover. Focus opens immediately.
      * Defaults to the `Tooltip.Provider` delay, or 0 outside a provider.
@@ -65,7 +68,17 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         const arrowRef = useRef<SVGSVGElement>(null);
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-        const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
+        const [isOpen, setOpenState] = useControllableState(open, defaultOpen, noop);
+        // onOpenChange is called here with details; the state hook only stores the value.
+        const onOpenChangeRef = React.useRef(onOpenChange);
+        onOpenChangeRef.current = onOpenChange;
+        const setIsOpen = React.useCallback((nextOpen: boolean, reason: OpenChangeReason = 'none', event?: Event) => {
+            const details = createOpenChangeDetails(reason, event);
+            callOpenChange(onOpenChangeRef.current, nextOpen, details);
+            if (details.isCanceled) return;
+            setOpenState(nextOpen);
+        }, [setOpenState]);
+
         const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
         const filteredBoundary = boundary.filter((item): item is Element => item != null);
         const detectOverflowOptions = {
@@ -80,7 +93,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             open: isOpen,
             placement,
             strategy: 'fixed',
-            onOpenChange: setIsOpen,
+            onOpenChange: (nextOpen, event, reason) => setIsOpen(nextOpen, fromFloatingReason(reason), event),
             middleware: [
                 arrow({
                     element: arrowRef,
