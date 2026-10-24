@@ -13,7 +13,8 @@ const data = {
         { prop: { name: "open", info_tooltips: "Controlled open state." }, type: "boolean", default: "--" },
         { prop: { name: "disabled", info_tooltips: "Disables the combobox." }, type: "boolean", default: "false" },
         { prop: { name: "onValueChange", info_tooltips: "Callback when selection changes." }, type: "function", default: "--" },
-        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" }
+        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" },
+        { prop: { name: "items", info_tooltips: "Labels by value (or { value, label } pairs) so the trigger shows the selected label before the list mounts, even when items are rendered inside your own components." }, type: "Record<string, string> | { value: string; label: string }[]", default: "--" }
     ]
 }
 
