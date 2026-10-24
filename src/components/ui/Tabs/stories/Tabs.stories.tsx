@@ -652,3 +652,32 @@ export const DataAttributes: Story = {
         </div>
     )
 };
+
+export const WithIndicator: Story = {
+    render: () => (
+        <div className="flex flex-col gap-8">
+            <Tabs.Root defaultValue="account">
+                <Tabs.List>
+                    <Tabs.Trigger value="account">Account</Tabs.Trigger>
+                    <Tabs.Trigger value="password">Password</Tabs.Trigger>
+                    <Tabs.Trigger value="notifications">Notifications</Tabs.Trigger>
+                    <Tabs.Indicator />
+                </Tabs.List>
+                <Tabs.Content value="account">Account settings</Tabs.Content>
+                <Tabs.Content value="password">Password settings</Tabs.Content>
+                <Tabs.Content value="notifications">Notification settings</Tabs.Content>
+            </Tabs.Root>
+            <Tabs.Root defaultValue="general" orientation="vertical">
+                <Tabs.List>
+                    <Tabs.Trigger value="general">General</Tabs.Trigger>
+                    <Tabs.Trigger value="billing">Billing</Tabs.Trigger>
+                    <Tabs.Trigger value="team">Team</Tabs.Trigger>
+                    <Tabs.Indicator />
+                </Tabs.List>
+                <Tabs.Content value="general">General</Tabs.Content>
+                <Tabs.Content value="billing">Billing</Tabs.Content>
+                <Tabs.Content value="team">Team</Tabs.Content>
+            </Tabs.Root>
+        </div>
+    )
+};
