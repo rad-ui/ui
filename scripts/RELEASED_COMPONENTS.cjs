@@ -55,6 +55,7 @@ const RELEASED_COMPONENTS = [
     'Minimap',
     'NavigationMenu',
     'NumberField',
+    'OTPField',
     'Quote',
     'Radio',
     'RadioCards',

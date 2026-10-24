@@ -1,0 +1,12 @@
+/* stylelint-disable at-rule-no-unknown */
+@use "src/design-systems/baremetal/scope" as baremetal;
+
+#{baremetal.$theme-root} :where(.rad-ui-otp-field) { display: inline-flex; gap: 0.5rem; }
+#{baremetal.$theme-root} :where(.rad-ui-otp-field-input) {
+    @include baremetal.input-like;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    text-align: center;
+}

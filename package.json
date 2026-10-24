@@ -213,6 +213,11 @@
       "require": "./dist/components/NumberField.cjs",
       "types": "./dist/components/NumberField.d.ts"
     },
+    "./OTPField": {
+      "import": "./dist/components/OTPField.js",
+      "require": "./dist/components/OTPField.cjs",
+      "types": "./dist/components/OTPField.d.ts"
+    },
     "./Popover": {
       "import": "./dist/components/Popover.js",
       "require": "./dist/components/Popover.cjs",
