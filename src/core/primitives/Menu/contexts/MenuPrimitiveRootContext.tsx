@@ -36,6 +36,8 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   /** True while open or running an exit animation. */
   transitionMounted: boolean;
   transitionStatus: TransitionStatus;
+  /** The top-level menu blocks the page while open. */
+  modal?: boolean;
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);

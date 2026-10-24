@@ -144,3 +144,29 @@ export const ScrollCollisionVisualTest: Story = {
         );
     }
 };
+
+export const Modal: Story = {
+    render: () => (
+        <SandboxEditor>
+            <div style={{ minHeight: '150vh' }}>
+                <DropdownMenu.Root modal>
+                    <DropdownMenu.Trigger><Hamburger /></DropdownMenu.Trigger>
+                    <DropdownMenu.Portal>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
+                            <DropdownMenu.Item label="Settings">Settings</DropdownMenu.Item>
+                            <DropdownMenu.Sub>
+                                <DropdownMenu.SubTrigger>More Options <ChevronRight /></DropdownMenu.SubTrigger>
+                                <DropdownMenu.Content>
+                                    <DropdownMenu.Item label="Help Center">Help Center</DropdownMenu.Item>
+                                    <DropdownMenu.Item label="Feedback">Feedback</DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Sub>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                </DropdownMenu.Root>
+                <p style={{ marginTop: '1rem' }}>While the menu is open the page can't scroll and clicks outside only close it.</p>
+            </div>
+        </SandboxEditor>
+    )
+};

@@ -36,8 +36,10 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             isNested,
             floatingContext,
             maxHeight,
-            getRootTrigger
+            getRootTrigger,
+            modal = false
         } = context;
+        const blocksPage = modal && isOpen && !isNested;
 
         // Menu button pattern (WAI-ARIA APG): Tab / Shift+Tab close the whole
         // menu tree. Shift+Tab returns focus to the trigger; Tab moves focus to
@@ -105,10 +107,13 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
 
         return (
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+                {/* A modal menu covers the page with a transparent layer: it locks scroll and
+                    takes outside presses, which close the menu without reaching the page. */}
+                {blocksPage && <Floater.Overlay lockScroll data-slot="menu-backdrop" style={{ zIndex: 'auto' }} />}
                 <Floater.FocusManager
                     context={floatingContext}
                     disabled={focusManagerDisabled || !isOpen}
-                    modal={false}
+                    modal={blocksPage}
                     initialFocus={initialFocus ?? (isNested ? -1 : 0)}
                     returnFocus={!isNested}
                 >

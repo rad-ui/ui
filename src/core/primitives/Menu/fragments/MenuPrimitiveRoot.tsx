@@ -50,6 +50,11 @@ export type MenuPrimitiveRootProps = {
   hoverOpenDelay?: number
   /** With `openOnHover`, ms after the pointer leaves before closing. */
   hoverCloseDelay?: number
+  /**
+   * While open, block the rest of the page: an outside press only closes the menu, page
+   * scroll is locked and outside content is hidden from assistive technology.
+   */
+  modal?: boolean
 } & Omit<ComponentPropsWithoutRef<'div'>, 'dir' | 'children'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
@@ -57,7 +62,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, ...props }, ref) => {
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
@@ -223,7 +228,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         floatingContext,
         rtl: isRtl,
         dir: direction,
-        getRootTrigger
+        getRootTrigger,
+        modal: modal && !isNested
     };
     // A handle lets detached triggers open this menu and anchor it.
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
