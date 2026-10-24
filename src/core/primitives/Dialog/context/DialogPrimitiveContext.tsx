@@ -1,9 +1,10 @@
 'use client';
 import { createContext } from 'react';
+import type { OpenChangeReason } from '~/core/utils/openChangeDetails';
 
 type DialogPrimitiveContextType = {
   isOpen: boolean;
-  handleOpenChange: (open: boolean) => void;
+  handleOpenChange: (open: boolean, reason?: OpenChangeReason, event?: Event) => void;
   handleOverlayClick: () => void;
   getItemProps: (userProps?: Record<string, unknown>) => any;
   getReferenceProps: (userProps?: Record<string, unknown>) => any;

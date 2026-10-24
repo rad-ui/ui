@@ -390,7 +390,7 @@ const contextValue = useMemo(() => ({
             <DialogPrimitive.Root
                 ref={ref}
                 open={isOpen}
-                onOpenChange={handleOpenChange}
+                onOpenChange={(next: boolean, details: { event?: Event }) => handleOpenChange(next, details.event)}
                 className={clsx(rootClass, className)}
                 disablePointerDismissal={disablePointerDismissal}
             >

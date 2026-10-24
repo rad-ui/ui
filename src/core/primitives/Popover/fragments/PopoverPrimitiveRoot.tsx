@@ -10,6 +10,9 @@ import {
     PopoverPrimitiveContext
 } from '../context/PopoverPrimitiveContext';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
 
 export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.div>, 'children'> & {
     /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
@@ -18,7 +21,12 @@ export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<type
     handle?: PopupHandle<any>;
     open?: boolean;
     defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    /**
+     * Called with the next open state and details: `reason` (such as
+     * `trigger-press`, `outside-press`, `escape-key`), the `event`, and
+     * `cancel()` to keep it as it is.
+     */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
     modal?: boolean;
     /** Also open while the pointer rests on the trigger, like a hover card. Clicking still toggles. */
     openOnHover?: boolean;
@@ -71,7 +79,17 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     handle,
     ...props
 }, ref) => {
-    const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
+    // onOpenChange is called by requestOpenChange (with details), not by the state hook.
+    const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, noop);
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const requestOpenChange = React.useCallback((nextOpen: boolean, reason: OpenChangeReason, event?: Event) => {
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, nextOpen, details);
+        if (details.isCanceled) return;
+        setIsOpen(nextOpen);
+        if (!nextOpen) handle?.close();
+    }, [setIsOpen, handle]);
     useRegisterDocumentOverlayOpen(isOpen);
     const [triggerNode, setTriggerNode] = React.useState<HTMLElement | null>(null);
     const [anchorNode, setAnchorNode] = React.useState<HTMLElement | null>(null);
@@ -132,8 +150,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
                 }
             }
 
-            setIsOpen(nextOpen);
-            if (!nextOpen) handle?.close();
+            requestOpenChange(nextOpen, fromFloatingReason(reason), event);
         },
         placement,
         strategy: 'fixed',
@@ -209,9 +226,8 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     }, []);
 
     const handleOpenChange = React.useCallback((nextOpen: boolean) => {
-        setIsOpen(nextOpen);
-        if (!nextOpen) handle?.close();
-    }, [setIsOpen, handle]);
+        requestOpenChange(nextOpen, nextOpen ? 'none' : 'close-press');
+    }, [requestOpenChange]);
 
     const setContentEventHandlers = React.useCallback((handlers: typeof contentEventHandlersRef.current) => {
         contentEventHandlersRef.current = handlers;

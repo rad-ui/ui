@@ -57,7 +57,7 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
                     onClick?.(event);
                     if (event.defaultPrevented) return;
                     if (handle) handle.open(payload, event.currentTarget);
-                    else handleOpenChange(true);
+                    else handleOpenChange(true, 'trigger-press', event.nativeEvent);
                 }
             })}
         >
