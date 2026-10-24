@@ -33,6 +33,7 @@ describe('theme SCSS coverage', () => {
         // Guard against "just add it to the list" as a way to make this pass.
         expect(Object.keys(themeMod.STYLESS_BY_DESIGN).sort()).toEqual([
             'AspectRatio',
+            'DirectionProvider',
             'LiveRegion',
             'Theme',
             'VisuallyHidden'

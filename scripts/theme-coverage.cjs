@@ -29,6 +29,7 @@ const COMPONENT_DIR = path.resolve(__dirname, '../src/components/ui');
  */
 const STYLESS_BY_DESIGN = {
     AspectRatio: 'sets an inline `aspect-ratio`; no themed appearance',
+    DirectionProvider: 'context provider; renders no element',
     LiveRegion: 'visually-hidden live region; inline styles only',
     Theme: 'theme provider; ships tokens, not appearance',
     VisuallyHidden: 'visually-hidden utility; inline styles only'
