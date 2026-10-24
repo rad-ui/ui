@@ -35,6 +35,12 @@ export type MenuPrimitiveRootProps = {
   rtl?: boolean
   /** Reading direction. In `rtl`, ArrowLeft/ArrowRight open and close submenus and submenus open on the left. Submenus inherit it. */
   dir?: 'ltr' | 'rtl'
+  /** Also open the menu while the pointer rests on its trigger. Clicking still toggles it. */
+  openOnHover?: boolean
+  /** With `openOnHover`, ms the pointer rests before opening. */
+  hoverOpenDelay?: number
+  /** With `openOnHover`, ms after the pointer leaves before closing. */
+  hoverCloseDelay?: number
 } & Omit<ComponentPropsWithoutRef<'div'>, 'dir'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
@@ -42,7 +48,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, ...props }, ref) => {
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
@@ -133,9 +139,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     });
     const click = Floater.useClick(floatingContext, {});
     const hover = Floater.useHover(floatingContext, {
-        enabled: isNested,
-        delay: { open: 75 },
-        handleClose: Floater.safePolygon({ blockPointerEvents: true })
+        enabled: isNested || openOnHover,
+        delay: isNested ? { open: 75 } : { open: hoverOpenDelay, close: hoverCloseDelay },
+        // Lets the pointer travel from the trigger into the menu without it closing.
+        handleClose: Floater.safePolygon({ blockPointerEvents: isNested })
     });
     // Submenus let Escape bubble so the whole menu closes; the top-level menu
     // does not, so Escape inside a menu never also closes a host Dialog/Popover.
