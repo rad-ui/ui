@@ -10,10 +10,12 @@ export type AccordionContentProps = React.ComponentPropsWithoutRef<'div'> & {
     index?: number;
     forceMount?: boolean;
     asChild?: boolean;
+    /** Keep closed content searchable with the browser's find-in-page; a match opens the item. */
+    hiddenUntilFound?: boolean;
 };
 
 const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionContentProps>(
-    ({ children, index: _index, className = '', forceMount, asChild = false, style, ...props }, ref) => {
+    ({ children, index: _index, className = '', forceMount, asChild = false, hiddenUntilFound, style, ...props }, ref) => {
         const { rootClass, orientation } = useContext(AccordionContext);
         const { headerId } = useContext(AccordionItemContext);
 
@@ -22,6 +24,7 @@ const AccordionContent = React.forwardRef<React.ElementRef<'div'>, AccordionCont
                 ref={ref}
                 asChild={asChild}
                 forceMount={forceMount}
+                hiddenUntilFound={hiddenUntilFound}
                 className={clsx(rootClass && `${rootClass}-content`, className)}
                 role="region"
                 aria-labelledby={headerId}
