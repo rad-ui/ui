@@ -12,7 +12,8 @@ import {
 import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
 import value_api from './component_api/value.tsx';
-import icon_api from './component_api/icon.tsx';
+// Not icon.tsx: inside app/, Next.js treats icon.* as a favicon route.
+import icon_api from './component_api/icon_part.tsx';
 import scroll_arrows_api from './component_api/scroll_arrows.tsx';
 import group_label_api from './component_api/group_label.tsx';
 import separator_api from './component_api/separator.tsx';
