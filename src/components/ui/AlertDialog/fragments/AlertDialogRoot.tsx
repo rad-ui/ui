@@ -57,9 +57,11 @@ const AlertDialogRoot = forwardRef<AlertDialogRootElement, AlertDialogRootProps>
             dismissOnOutsidePress={false}
             {...props}
         >
-            <AlertDialogContext.Provider value={contextProps}>
-                {children}
-            </AlertDialogContext.Provider>
+            {typeof children === 'function'
+                ? (state: { payload: unknown }) => (
+                    <AlertDialogContext.Provider value={contextProps}>{children(state)}</AlertDialogContext.Provider>
+                )
+                : <AlertDialogContext.Provider value={contextProps}>{children}</AlertDialogContext.Provider>}
         </DialogPrimitive.Root>
     );
 });

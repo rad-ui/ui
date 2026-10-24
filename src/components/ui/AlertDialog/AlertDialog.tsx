@@ -8,6 +8,7 @@ import AlertDialogOverlay from './fragments/AlertDialogOverlay';
 import AlertDialogCancel from './fragments/AlertDialogCancel';
 import AlertDialogAction from './fragments/AlertDialogAction';
 import AlertDialogFooter from './fragments/AlertDialogFooter';
+import { createDialogHandle } from '~/core/primitives/Dialog/handle';
 import AlertDialogTitle from './fragments/AlertDialogTitle';
 import AlertDialogDescription from './fragments/AlertDialogDescription';
 // Explicit extension to satisfy ESM linting/resolution
@@ -30,6 +31,7 @@ AlertDialog.Title = AlertDialogTitle;
 AlertDialog.Description = AlertDialogDescription;
 AlertDialog.Footer = AlertDialogFooter;
 AlertDialog.Cancel = AlertDialogCancel;
+AlertDialog.createHandle = createDialogHandle;
 AlertDialog.Action = AlertDialogAction;
 
 // Named part exports let React Server Components use `import * as AlertDialog from '@radui/ui/AlertDialog'`;
@@ -44,7 +46,8 @@ export {
     AlertDialogDescription as Description,
     AlertDialogFooter as Footer,
     AlertDialogCancel as Cancel,
-    AlertDialogAction as Action
+    AlertDialogAction as Action,
+    createDialogHandle as createHandle
 };
 
 export default AlertDialog;

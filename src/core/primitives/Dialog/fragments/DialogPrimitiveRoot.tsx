@@ -3,11 +3,15 @@ import React, { forwardRef } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import { DialogNestingContext } from '../context/DialogNestingContext';
 import Floater from '~/core/primitives/Floater';
+import type { DialogHandle } from '../handle';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 
 export type DialogPrimitiveRootProps = {
-    children: React.ReactNode;
+    /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
+    /** Connects detached triggers made with `createHandle()`. */
+    handle?: DialogHandle<any>;
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -24,7 +28,7 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, ...props }, ref) => {
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
     const nodeId = Floater.useFloatingNodeId();
     useRegisterDocumentOverlayOpen(isOpen);
@@ -42,9 +46,19 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         parentOnChildOpenChange(true);
         return () => parentOnChildOpenChange(false);
     }, [isOpen, parentOnChildOpenChange]);
+    // A handle lets triggers outside this Root open it; keep both in sync.
+    const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+    const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+    const handleOpen = handleState?.open;
+    React.useEffect(() => {
+        if (handleOpen === undefined) return;
+        setIsOpen(handleOpen);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleOpen]);
 
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
+        if (!open) handle?.close();
     };
     const handleOverlayClick = () => {
         if (disablePointerDismissal || !dismissOnOutsidePress) return;
@@ -53,6 +67,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     };
 
     const { context: floaterContext, refs, floatingStyles } = Floater.useFloating({
+        elements: handleState?.trigger ? { reference: handleState.trigger } : undefined,
         open: isOpen,
         nodeId,
         onOpenChange: handleOpenChange
@@ -81,7 +96,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
                     {...props}
                     className={className}
                 >
-                    {children}
+                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </div>
             </Floater.FloatingNode>
         </DialogPrimitiveContext.Provider>

@@ -10,6 +10,7 @@ import DialogTitle from './fragments/DialogTitle';
 import DialogDescription from './fragments/DialogDescription';
 import DialogClose from './fragments/DialogClose';
 import DialogFooter from './fragments/DialogFooter';
+import { createDialogHandle } from '~/core/primitives/Dialog/handle';
 
 type DialogElement = React.ElementRef<'div'>;
 type DialogProps = React.ComponentPropsWithoutRef<'div'>;
@@ -31,6 +32,8 @@ interface DialogComponent extends React.ForwardRefExoticComponent<DialogProps & 
     Description: typeof DialogDescription;
     Footer: typeof DialogFooter;
     Close: typeof DialogClose;
+    /** Creates a handle that connects triggers rendered outside Dialog.Root. */
+    createHandle: typeof createDialogHandle;
 }
 
 const Dialog = DialogBase as DialogComponent;
@@ -44,8 +47,10 @@ Dialog.Title = DialogTitle;
 Dialog.Description = DialogDescription;
 Dialog.Footer = DialogFooter;
 Dialog.Close = DialogClose;
+Dialog.createHandle = createDialogHandle;
 
 export type { DialogRootProps } from './fragments/DialogRoot';
+export type { DialogHandle } from '~/core/primitives/Dialog/handle';
 export type { DialogTriggerProps } from './fragments/DialogTrigger';
 export type { DialogPortalProps } from './fragments/DialogPortal';
 export type { DialogOverlayProps } from './fragments/DialogOverlay';
@@ -65,7 +70,8 @@ export {
     DialogTitle as Title,
     DialogDescription as Description,
     DialogFooter as Footer,
-    DialogClose as Close
+    DialogClose as Close,
+    createDialogHandle as createHandle
 };
 
 export default Dialog;
