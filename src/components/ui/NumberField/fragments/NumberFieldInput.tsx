@@ -43,6 +43,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         handleOnChange,
         handleStep,
         commitValue,
+        notifyCommit,
         setToBound,
         id,
         name,
@@ -66,6 +67,9 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         if (format && [KEYBOARD_KEYS.ARROW_UP, KEYBOARD_KEYS.ARROW_DOWN, 'PageUp', 'PageDown', 'Home', 'End', 'Enter'].includes(event.key)) {
             setDraft(null);
         }
+
+        // Keyboard steps settle at once, so they commit right away.
+        const commitAfter = [KEYBOARD_KEYS.ARROW_UP, KEYBOARD_KEYS.ARROW_DOWN, 'PageUp', 'PageDown', 'Home', 'End'].includes(event.key);
 
         switch (event.key) {
         case KEYBOARD_KEYS.ARROW_UP:
@@ -101,6 +105,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             commitValue();
             break;
         }
+        if (commitAfter) notifyCommit();
     };
 
     const sharedAttributes = {

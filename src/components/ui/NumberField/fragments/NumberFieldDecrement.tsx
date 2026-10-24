@@ -9,7 +9,7 @@ export type NumberFieldDecrementProps = ComponentPropsWithoutRef<'button'>;
 const NumberFieldDecrement = forwardRef<NumberFieldDecrementElement, NumberFieldDecrementProps>(({ children, className, onMouseDown, onPointerDown, onPointerLeave, onClick, disabled: disabledProp, ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     const enabled = !!context && !disabledProp && context.canDecrement;
-    const stepper = useStepperButton('decrement', context ? context.handleStep : () => false, enabled);
+    const stepper = useStepperButton('decrement', context ? context.handleStep : () => false, enabled, context?.notifyCommit);
     if (!context) {
         console.error('NumberFieldDecrement must be used within a NumberField');
         return null;

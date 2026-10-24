@@ -36,6 +36,11 @@ export type NumberFieldRootProps = {
     locale?: string
     /** Let the mouse wheel step the value while the input is focused. */
     allowWheelScrub?: boolean
+    /**
+     * Called with the settled value: on blur or Enter after typing, when a stepper button or
+     * scrub is released, and right away for keyboard steps. Fires only when the value changed.
+     */
+    onValueCommit?: (value: number | '') => void
 } & ComponentPropsWithoutRef<'div'>;
 
 const countDecimals = (value: number | undefined): number => {
@@ -54,7 +59,7 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, id: idProp, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, onValueCommit, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, id: idProp, className = '', ...props }, ref) => {
     // Inside Field.Root, the input takes the field's id, name and state.
     const field = React.useContext(FieldContext);
     const id = idProp ?? field?.controlId;
@@ -105,10 +110,21 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         commit(input);
     };
 
+    // The last value reported to onValueCommit, so a commit only fires on a real change.
+    const lastCommittedRef = useRef<number | ''>(inputValue);
+    const onValueCommitRef = useRef(onValueCommit);
+    onValueCommitRef.current = onValueCommit;
+    const notifyCommit = () => {
+        const current = valueRef.current;
+        if (current === lastCommittedRef.current) return;
+        lastCommittedRef.current = current;
+        onValueCommitRef.current?.(current);
+    };
+
     const commitValue = () => {
         const current = valueRef.current;
-        if (current === '') return;
-        commit(clamp(current));
+        if (current !== '') commit(clamp(current));
+        notifyCommit();
     };
 
     const handleStep: NumberFieldContextType['handleStep'] = ({ type, direction }) => {
@@ -146,6 +162,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         handleStep,
         commitValue,
         setToBound,
+        notifyCommit,
         canIncrement,
         canDecrement,
         id,

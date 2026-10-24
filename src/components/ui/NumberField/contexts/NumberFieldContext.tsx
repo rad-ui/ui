@@ -19,6 +19,8 @@ export type NumberFieldContextType = {
   commitValue: () => void;
   /** Jumps to min (`'min'`) or max (`'max'`) when that bound is defined. */
   setToBound: (bound: 'min' | 'max') => void;
+  /** Reports the value to `onValueCommit` if it changed since the last report. */
+  notifyCommit: () => void;
   canIncrement: boolean;
   canDecrement: boolean;
   id?: string;
