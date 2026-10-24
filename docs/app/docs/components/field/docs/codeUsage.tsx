@@ -40,6 +40,7 @@ export const features = [
     "Links the label, help text and error to the control without hand-written ids",
     "Sets aria-invalid and announces the error only while the field is invalid",
     "Works with TextField, TextArea, native inputs or your own control through asChild",
+    "Checkbox, Switch, Select and NumberField join the field directly, without Field.Control",
     "Validates with the browser's own checks plus your validate function, showing results on submit, blur or change",
     "Field.Error match gives each problem its own message, such as valueMissing or typeMismatch",
     "Exposes data-invalid, data-disabled, data-required, data-focused, data-touched and data-dirty on every part"

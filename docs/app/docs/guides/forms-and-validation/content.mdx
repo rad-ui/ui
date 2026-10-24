@@ -30,6 +30,21 @@ import TextField from '@radui/ui/TextField'
 </Field.Root>
 ```
 
+## Other Rad UI controls
+
+Checkbox, Switch, Select and NumberField can sit directly inside `Field.Root`, without `Field.Control`. They take the field's id, name, disabled and required state, and its description and error.
+
+```tsx
+<Field.Root name="plan" required>
+  <Field.Label>Plan</Field.Label>
+  <Select.Root>
+    <Select.Trigger>Choose a plan</Select.Trigger>
+    <Select.Content>…</Select.Content>
+  </Select.Root>
+  <Field.Description>You can change it later.</Field.Description>
+</Field.Root>
+```
+
 ## One message per problem
 
 `match` shows an error only for one validity problem, so each can say something specific.
