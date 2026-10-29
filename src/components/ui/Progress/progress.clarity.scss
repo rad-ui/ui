@@ -8,7 +8,6 @@
     height: var(--rad-ui-spacing-1);
     border-radius: var(--rad-ui-control-radius-pill);
     width: 100%;
-    max-width: calc(var(--rad-ui-overlay-width-md) + var(--rad-ui-size-10) + var(--rad-ui-spacing-1));
 
     .rad-ui-progress-indicator {
         background: var(--rad-ui-color-accent-800); // accent — solid fill, brand signal
