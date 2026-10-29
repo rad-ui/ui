@@ -2,6 +2,7 @@
 import React, { useState, useRef, useCallback, useMemo, useLayoutEffect, useEffect } from 'react';
 import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import TableContext, {
     ColumnWidths,
@@ -11,8 +12,15 @@ import TableContext, {
 
 const COMPONENT_NAME = 'Table';
 
+export type TableSize = 'small' | 'medium' | 'large';
+export type TableVariant = 'surface' | 'ghost';
+
 export type TableRootProps = React.ComponentPropsWithoutRef<'div'> & {
     customRootClass?: string;
+    /** Row density. Defaults to `medium`. */
+    size?: TableSize;
+    /** `surface` (default) draws a framed panel; `ghost` sits directly on the page. */
+    variant?: TableVariant;
     resizable?: boolean;
     defaultColumnWidths?: number[] | ColumnWidths;
     columnWidths?: number[] | ColumnWidths;
@@ -80,6 +88,8 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
     children,
     className = '',
     customRootClass = '',
+    size,
+    variant = 'surface',
     resizable = false,
     defaultColumnWidths,
     columnWidths: controlledColumnWidths,
@@ -343,6 +353,7 @@ const TableRoot = React.forwardRef<React.ElementRef<'div'>, TableRootProps>(({
             <div
                 ref={ref}
                 className={clsx(rootClass && `${rootClass}-wrapper`, className)}
+                {...createDataAttributes('table', { size, variant })}
                 data-resizable={resizable ? '' : undefined}
                 data-resizing={resizable && isResizing ? '' : undefined}
                 data-resize-handle-visibility={resizable ? resizeHandleVisibility : undefined}
