@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Form from '../Form';
 import Field from '~/components/ui/Field/Field';
@@ -153,5 +153,68 @@ describe('Form', () => {
         expect(screen.queryByText('Taken')).not.toBeInTheDocument();
         await user.type(screen.getByLabelText('Note'), 'hi');
         expect(screen.queryByText('Taken')).not.toBeInTheDocument();
+    });
+    test('waits for an async check, then submits once it passes', async() => {
+        const user = userEvent.setup();
+        const onFormSubmit = jest.fn();
+        let resolveCheck: (result: string | null) => void = () => {};
+        const validate = jest.fn(() => new Promise<string | null>((resolve) => { resolveCheck = resolve; }));
+        render(
+            <Form onFormSubmit={onFormSubmit}>
+                <Field.Root name="username" validate={validate}>
+                    <Field.Label>Username</Field.Label>
+                    <Field.Control defaultValue="ada" />
+                    <Field.Error />
+                </Field.Root>
+                <button type="submit">Join</button>
+            </Form>
+        );
+        await user.click(screen.getByRole('button', { name: 'Join' }));
+        expect(onFormSubmit).not.toHaveBeenCalled();
+
+        resolveCheck(null);
+        await waitFor(() => expect(onFormSubmit).toHaveBeenCalledTimes(1));
+        expect(onFormSubmit.mock.calls[0][0]).toEqual({ username: 'ada' });
+    });
+
+    test('an async check that fails blocks submit and focuses the field', async() => {
+        const user = userEvent.setup();
+        const onFormSubmit = jest.fn();
+        let resolveCheck: (result: string | null) => void = () => {};
+        const validate = () => new Promise<string | null>((resolve) => { resolveCheck = resolve; });
+        render(
+            <Form onFormSubmit={onFormSubmit}>
+                <Field.Root name="username" validate={validate}>
+                    <Field.Label>Username</Field.Label>
+                    <Field.Control defaultValue="ada" />
+                    <Field.Error />
+                </Field.Root>
+                <button type="submit">Join</button>
+            </Form>
+        );
+        await user.click(screen.getByRole('button', { name: 'Join' }));
+        resolveCheck('That username is taken');
+
+        expect(await screen.findByText('That username is taken')).toBeInTheDocument();
+        await waitFor(() => expect(screen.getByLabelText('Username')).toHaveFocus());
+        expect(onFormSubmit).not.toHaveBeenCalled();
+    });
+
+    test('checks plain controls that are not in a Field', async() => {
+        const user = userEvent.setup();
+        const onFormSubmit = jest.fn();
+        render(
+            <Form onFormSubmit={onFormSubmit}>
+                <label>Code <input name="code" required /></label>
+                <button type="submit">Send</button>
+            </Form>
+        );
+        await user.click(screen.getByRole('button', { name: 'Send' }));
+        expect(onFormSubmit).not.toHaveBeenCalled();
+        expect(screen.getByLabelText('Code')).toHaveFocus();
+
+        await user.type(screen.getByLabelText('Code'), '42');
+        await user.click(screen.getByRole('button', { name: 'Send' }));
+        expect(onFormSubmit).toHaveBeenCalledWith({ code: '42' }, expect.anything());
     });
 });

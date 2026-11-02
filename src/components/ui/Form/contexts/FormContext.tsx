@@ -9,6 +9,8 @@ export type FormFieldEntry = {
     /** Runs the field's validation; `show` reveals the result. Returns whether it's valid. */
     validate: (show?: boolean) => boolean;
     controlRef: React.MutableRefObject<HTMLElement | null>;
+    /** Resolves with the result of a pending async check, or null when none is running. */
+    pending: () => Promise<boolean> | null;
 };
 
 export type FormContextValue = {

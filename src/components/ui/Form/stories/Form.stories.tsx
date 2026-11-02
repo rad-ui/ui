@@ -78,3 +78,41 @@ export const ValidateOnBlur: Story = {
         </SandboxEditor>
     )
 };
+
+const TAKEN = ['admin', 'rad', 'ui'];
+
+export const AsyncCheck: Story = {
+    render: () => {
+        const AsyncForm = () => {
+            const [status, setStatus] = React.useState('');
+            return (
+                <Form className="max-w-sm" onFormSubmit={(values) => setStatus(`Reserved ${values.username}`)}>
+                    <Field.Root
+                        name="username"
+                        required
+                        validationMode="onChange"
+                        validationDebounceTime={300}
+                        validate={async(value) => {
+                            await new Promise((resolve) => setTimeout(resolve, 600));
+                            return TAKEN.includes(String(value)) ? 'That username is taken.' : null;
+                        }}
+                    >
+                        <Field.Label>Username</Field.Label>
+                        <Field.Control asChild>
+                            <TextField />
+                        </Field.Control>
+                        <Field.Description>Try "admin": the form waits for the check before submitting.</Field.Description>
+                        <Field.Error />
+                    </Field.Root>
+                    <Button type="submit">Reserve</Button>
+                    <p role="status">{status}</p>
+                </Form>
+            );
+        };
+        return (
+            <SandboxEditor>
+                <AsyncForm />
+            </SandboxEditor>
+        );
+    }
+};

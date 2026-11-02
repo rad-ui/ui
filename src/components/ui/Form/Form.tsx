@@ -98,21 +98,72 @@ const Form = forwardRef<FormElement, FormProps>(({
         validationMode
     }), [errors, clearError, registerField, validationMode]);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        const invalidControls: Array<HTMLElement | null> = [];
-        fieldsRef.current.forEach((field) => {
-            if (!field.validate(true)) invalidControls.push(field.controlRef.current);
-        });
-        if (invalidControls.length) {
-            event.preventDefault();
-            invalidControls.sort(byDocumentOrder)[0]?.focus();
-            return;
-        }
+    // Set after pending async checks pass, so the resubmit skips straight to submitting.
+    const skipValidationRef = React.useRef(false);
+
+    const submit = (event: React.FormEvent<HTMLFormElement>) => {
         onSubmit?.(event);
         if (onFormSubmit) {
             event.preventDefault();
             onFormSubmit(readValues(event.currentTarget), event);
         }
+    };
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        if (skipValidationRef.current) {
+            skipValidationRef.current = false;
+            submit(event);
+            return;
+        }
+        const form = event.currentTarget;
+        const invalidControls: Array<HTMLElement | null> = [];
+        const pendingChecks: Array<Promise<HTMLElement | null>> = [];
+        const fieldControls = new Set<Element | null>();
+        fieldsRef.current.forEach((field) => {
+            fieldControls.add(field.controlRef.current);
+            const valid = field.validate(true);
+            const pending = field.pending();
+            if (pending) pendingChecks.push(pending.then((settled) => (settled ? null : field.controlRef.current)));
+            else if (!valid) invalidControls.push(field.controlRef.current);
+        });
+        // Controls outside a Field still get the browser's checks, which `noValidate` turns off.
+        Array.from(form.elements).forEach((element) => {
+            const control = element as HTMLInputElement;
+            if (fieldControls.has(control) || !control.willValidate || typeof control.checkValidity !== 'function') return;
+            if (!control.checkValidity()) invalidControls.push(control);
+        });
+
+        const focusFirst = (controls: Array<HTMLElement | null>) => {
+            const first = controls.filter(Boolean).sort(byDocumentOrder)[0];
+            if (!first) return;
+            first.focus();
+            // A control without a Field has nowhere to show its error but the browser's bubble.
+            if (!fieldControls.has(first)) (first as HTMLInputElement).reportValidity?.();
+        };
+
+        if (invalidControls.length) {
+            event.preventDefault();
+            focusFirst(invalidControls);
+            return;
+        }
+        if (pendingChecks.length) {
+            // Wait for async checks such as "is this username taken", then submit if they pass.
+            event.preventDefault();
+            const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+            Promise.all(pendingChecks).then((results) => {
+                if (!form.isConnected) return;
+                const failed = results.filter(Boolean);
+                if (failed.length) {
+                    focusFirst(failed);
+                    return;
+                }
+                skipValidationRef.current = true;
+                if (submitter && submitter.isConnected) form.requestSubmit(submitter);
+                else form.requestSubmit();
+            });
+            return;
+        }
+        submit(event);
     };
 
     return (

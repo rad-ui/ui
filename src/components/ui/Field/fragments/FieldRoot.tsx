@@ -120,6 +120,8 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     const [validating, setValidating] = React.useState(false);
     // Each run gets an id so a slow async check can't overwrite a newer result.
     const runIdRef = React.useRef(0);
+    // The result of a pending async check, so a Form can wait for it before submitting.
+    const pendingRef = React.useRef<Promise<boolean> | null>(null);
 
     const validate = React.useCallback((show = false) => {
         const control = controlRef.current as ValidatableElement | null;
@@ -128,6 +130,7 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
 
         const value = isCheckable(control) ? control.checked : control.value;
         const runId = ++runIdRef.current;
+        pendingRef.current = null;
         control.setCustomValidity('');
 
         const apply = (result: FieldValidateResult) => {
@@ -150,11 +153,13 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         if (result && typeof (result as Promise<FieldValidateResult>).then === 'function') {
             setValidating(true);
             const settle = (settled: FieldValidateResult) => {
-                if (runId !== runIdRef.current) return;
+                // A newer run owns the result; report its outcome instead.
+                if (runId !== runIdRef.current) return pendingRef.current ?? snapshotValidity(control).valid;
+                pendingRef.current = null;
                 setValidating(false);
-                apply(settled);
+                return apply(settled);
             };
-            (result as Promise<FieldValidateResult>).then(settle, () => settle(null));
+            pendingRef.current = (result as Promise<FieldValidateResult>).then(settle, () => settle(null));
             // Still checking: not valid yet, so a Form submit waits for the result.
             return false;
         }
@@ -168,6 +173,7 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         if (!form) return;
         const handleReset = () => {
             runIdRef.current += 1;
+            pendingRef.current = null;
             setValidityShown(false);
             setValidating(false);
             setTouched(false);
@@ -203,7 +209,7 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     const clearFormError = form?.clearError;
     useLayoutEffect(() => {
         if (!registerFormField) return;
-        return registerFormField(generatedId, { validate, controlRef });
+        return registerFormField(generatedId, { validate, controlRef, pending: () => pendingRef.current });
     }, [registerFormField, generatedId, validate]);
 
     const errorMessages = formErrors.length ? formErrors : validity.errors;
