@@ -17,9 +17,11 @@ import icon_api from './component_api/icon_part.tsx';
 import scroll_arrows_api from './component_api/scroll_arrows.tsx';
 import group_label_api from './component_api/group_label.tsx';
 import separator_api from './component_api/separator.tsx';
+import trigger_api from './component_api/trigger.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/example_1.tsx');
 const largeList_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/large-list.tsx');
+const customTrigger_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/custom-trigger.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/select.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/anatomy.tsx');
 
@@ -32,10 +34,15 @@ export const largeListCode = {
     javascript: { code: largeList_SourceCode }
 };
 
+export const customTriggerCode = {
+    javascript: { code: customTrigger_SourceCode }
+};
+
 export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
     root: root_api,
+    trigger: trigger_api,
     item: item_api,
     group_label: group_label_api,
     separator: separator_api,
