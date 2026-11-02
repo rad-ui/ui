@@ -1,9 +1,14 @@
 'use client';
 import React, {
     forwardRef,
+    useCallback,
+    useRef,
+    useState,
     ComponentPropsWithoutRef,
     ElementRef
 } from 'react';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import ButtonPrimitive from '~/core/primitives/Button';
@@ -12,6 +17,20 @@ import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 // make the color prop default accent color
 const COMPONENT_NAME = 'Button';
+
+/**
+ * What an `asChild` Button actually rendered: a native button, a link, or something else (span, div,
+ * custom element). Read from the mounted element rather than from `children.type`, which can differ
+ * between the server render and hydration (children crossing a server/client boundary), and which
+ * can't see through components like `next/link` that render an <a>.
+ */
+type ChildKind = 'button' | 'link' | 'other';
+
+function kindOf(node: Element): ChildKind {
+    if (node.tagName === 'BUTTON') return 'button';
+    if ((node.tagName === 'A' || node.tagName === 'AREA') && node.hasAttribute('href')) return 'link';
+    return 'other';
+}
 
 export type ButtonProps = {
     customRootClass?: string;
@@ -80,19 +99,31 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
             onAuxClickCapture?.(event);
         };
 
-        const childType = asChild && React.isValidElement(children) ? children.type : null;
-        const childIsNativeButton = childType === 'button';
-        const childIsNativeAnchor = childType === 'a';
+        // Until the child has mounted, render only what is the same on the server and the client:
+        // no role, type or tabIndex of our own. After mount, add just what the element lacks.
+        const [childKind, setChildKind] = useState<ChildKind | null>(null);
+        const nodeRef = useRef<HTMLElement | null>(null);
+        const composedRef = useCallback(mergeRefs(ref, nodeRef), [ref]);
+        useLayoutEffect(() => {
+            if (!asChild || !nodeRef.current) return;
+            const next = kindOf(nodeRef.current);
+            setChildKind((current) => (current === next ? current : next));
+        });
+
+        const childIsNativeButton = childKind === 'button';
         // `asChild` can turn Button into a span, div, or custom component. Those elements
         // do not get native button focus/keyboard behavior, so add only the missing pieces.
-        const childNeedsButtonKeyboardSupport = asChild && !childIsNativeButton;
-        // Anchors are already tabbable when they have href; spans/custom elements are not.
-        const childNeedsTabIndex = childNeedsButtonKeyboardSupport && !childIsNativeAnchor;
-        const resolvedTabIndex = disabled && childNeedsButtonKeyboardSupport
-            ? -1
-            : childNeedsTabIndex && tabIndex === undefined
-                ? 0
-                : tabIndex;
+        const childNeedsButtonKeyboardSupport = asChild && childKind === 'other';
+        const resolvedTabIndex = !asChild
+            ? tabIndex
+            : disabled && childKind !== null && !childIsNativeButton
+                ? -1
+                : childNeedsButtonKeyboardSupport && tabIndex === undefined
+                    ? 0
+                    : tabIndex;
+        // `null` (not undefined) so ButtonPrimitive's own defaults don't fill them back in.
+        const resolvedRole = !asChild || childNeedsButtonKeyboardSupport ? props.role : (props.role ?? null);
+        const resolvedType = !asChild || childIsNativeButton ? type : null;
 
         const handleKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (event) => {
             if (disabled) {
@@ -105,10 +136,8 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 return;
             }
 
-            // Native anchors already activate on Enter. Space does not activate anchors,
-            // but ARIA buttons are expected to respond to both Enter and Space.
-            const shouldActivate = event.key === KEYBOARD_KEYS.SPACE ||
-                (!childIsNativeAnchor && event.key === KEYBOARD_KEYS.ENTER);
+            // ARIA buttons are expected to respond to both Enter and Space.
+            const shouldActivate = event.key === KEYBOARD_KEYS.SPACE || event.key === KEYBOARD_KEYS.ENTER;
 
             if (!shouldActivate) {
                 return;
@@ -120,8 +149,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
 
         return (
             <ButtonPrimitive
-                ref={ref}
-                type={type}
+                ref={composedRef}
                 asChild={asChild}
                 tabIndex={resolvedTabIndex}
                 disabled={disabled}
@@ -133,6 +161,9 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 onAuxClickCapture={handleAuxClickCapture}
                 onKeyDown={handleKeyDown}
                 {...props}
+                // After the spread, so asChild children get the resolved values.
+                role={resolvedRole as string | undefined}
+                type={resolvedType as 'button' | undefined}
             >
                 {children}
             </ButtonPrimitive>

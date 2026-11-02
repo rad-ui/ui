@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Button from '../Button';
+import { expectNoUnexpectedHydrationWarnings, flush, hydrateRoot, renderToString } from '../../tests/ssrHydration';
 
 const Custom = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>((props, ref) => (
     <span ref={ref} {...props} />
@@ -10,17 +11,20 @@ const Custom = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanEl
 Custom.displayName = 'Custom';
 
 describe('Button asChild', () => {
-    test('anchor child preserves role and forwards className and ref', () => {
+    test('anchor child keeps link semantics and forwards className and ref', () => {
         const ref = React.createRef<HTMLAnchorElement>();
         render(
             <Button asChild customRootClass="rad-ui" className="test-class" ref={ref as any}>
                 <a href="/button-link">link</a>
             </Button>
         );
-        const button = screen.getByRole('button');
-        expect(button.tagName.toLowerCase()).toBe('a');
-        expect(button).toHaveClass('rad-ui-button-root', 'test-class');
-        expect(ref.current).toBe(button);
+        const link = screen.getByRole('link', { name: 'link' });
+        expect(screen.queryByRole('button')).toBeNull();
+        expect(link).not.toHaveAttribute('role');
+        expect(link).not.toHaveAttribute('type');
+        expect(link).not.toHaveAttribute('tabindex');
+        expect(link).toHaveClass('rad-ui-button-root', 'test-class');
+        expect(ref.current).toBe(link);
     });
 
     test('span child preserves role and className', () => {
@@ -59,7 +63,7 @@ describe('Button asChild', () => {
                 <a href="/disabled-link">disabled</a>
             </Button>
         );
-        const button = screen.getByRole('button');
+        const button = screen.getByRole('link');
         await user.click(button);
         expect(onClick).not.toHaveBeenCalled();
         expect(button).toHaveAttribute('data-disabled', '');
@@ -96,7 +100,7 @@ describe('Button asChild', () => {
             </Button>
         );
         container.addEventListener('click', parentClick);
-        const link = screen.getByRole('button');
+        const link = screen.getByRole('link');
         const event = new MouseEvent('click', { bubbles: true, cancelable: true });
         link.dispatchEvent(event);
         expect(event.defaultPrevented).toBe(true);
@@ -136,7 +140,7 @@ describe('Button asChild', () => {
                 <a href="/enabled-link" onClick={childClick}>link</a>
             </Button>
         );
-        const link = screen.getByRole('button');
+        const link = screen.getByRole('link');
         expect(link).not.toHaveAttribute('tabindex');
         await user.click(link);
         expect(childClick).toHaveBeenCalledTimes(1);
@@ -152,5 +156,78 @@ describe('Button asChild', () => {
         const button = screen.getByRole('button');
         expect(button).toBeDisabled();
         expect(button).not.toHaveAttribute('tabindex');
+    });
+
+    test('a Link-style component that renders an <a> is treated as a link (next/link and friends)', () => {
+        const Link = React.forwardRef<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>(
+            (props, ref) => <a ref={ref} {...props} />
+        );
+        Link.displayName = 'Link';
+        render(
+            <Button asChild>
+                <Link href="/games">Games</Link>
+            </Button>
+        );
+        const link = screen.getByRole('link', { name: 'Games' });
+        expect(link).not.toHaveAttribute('role');
+        expect(link).not.toHaveAttribute('type');
+        expect(link).not.toHaveAttribute('tabindex');
+    });
+
+    test('server HTML adds no role, type or tabindex to an asChild child', () => {
+        const html = renderToString(
+            <Button asChild>
+                <a href="/x">x</a>
+            </Button>
+        );
+        expect(html).not.toMatch(/role=|type=|tabindex=/i);
+    });
+
+    test('hydrates an asChild link without a mismatch', async() => {
+        const ui = (
+            <Button asChild>
+                <a href="/x">x</a>
+            </Button>
+        );
+        const container = document.createElement('div');
+        container.innerHTML = renderToString(ui);
+        document.body.appendChild(container);
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        await act(async() => {
+            hydrateRoot(container, ui);
+            await flush();
+        });
+        expectNoUnexpectedHydrationWarnings(warn, error);
+        warn.mockRestore();
+        error.mockRestore();
+        const link = container.querySelector('a')!;
+        expect(link).not.toHaveAttribute('role');
+        expect(link).not.toHaveAttribute('tabindex');
+        container.remove();
+    });
+
+    test('hydrates an asChild span, then makes it a focusable button', async() => {
+        const ui = (
+            <Button asChild>
+                <span>go</span>
+            </Button>
+        );
+        const container = document.createElement('div');
+        container.innerHTML = renderToString(ui);
+        document.body.appendChild(container);
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+        await act(async() => {
+            hydrateRoot(container, ui);
+            await flush();
+        });
+        expectNoUnexpectedHydrationWarnings(warn, error);
+        warn.mockRestore();
+        error.mockRestore();
+        const span = container.querySelector('span')!;
+        expect(span).toHaveAttribute('role', 'button');
+        expect(span).toHaveAttribute('tabindex', '0');
+        container.remove();
     });
 });
