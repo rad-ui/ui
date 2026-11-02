@@ -4,6 +4,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
@@ -51,6 +52,8 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     handleRightKeyDown,
     handleLeftKeyDown,
     domId,
+    onKeyDown,
+    onFocus,
     ...props
 }, ref) => {
     const autoId = useId();
@@ -278,11 +281,12 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
 
     return <SlotComponent
         asChild
-        onFocus={handleFocus}
+        // Consumer handlers run first and can preventDefault; they no longer replace roving focus.
+        onFocus={composeEventHandlers(onFocus, handleFocus)}
         tabIndex={tabIndex}
         ref={mergeRefs(itemRef, ref)}
         id={registrationId}
-        onKeyDown={handleKeyDown}
+        onKeyDown={composeEventHandlers(onKeyDown, handleKeyDown)}
         data-child-disabled={isDisabled}
         role={resolvedRole}
         type={resolvedType}
