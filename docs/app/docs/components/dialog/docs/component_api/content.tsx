@@ -47,6 +47,30 @@ const data = {
             },
             type : "boolean",
             default : "false",
+        },
+        {
+            prop : {
+                name : "initialFocus",
+                info_tooltips : "Where focus goes when the dialog opens: true for the first focusable element, false for none, a ref to an element, or a function returning an element (or true/false)."
+            },
+            type : "boolean | RefObject<HTMLElement> | () => HTMLElement | boolean",
+            default : "true",
+        },
+        {
+            prop : {
+                name : "finalFocus",
+                info_tooltips : "Where focus goes after the dialog closes: true for the trigger (or whatever was focused before opening), false to leave it, a ref, or a function returning an element."
+            },
+            type : "boolean | RefObject<HTMLElement> | () => HTMLElement | boolean",
+            default : "true",
+        },
+        {
+            prop : {
+                name : "trapFocus",
+                info_tooltips : "Keep Tab and Shift+Tab inside the dialog while it's open."
+            },
+            type : "boolean",
+            default : "true",
         }
     ]
 }
