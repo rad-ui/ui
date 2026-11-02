@@ -3,6 +3,7 @@ import React, { forwardRef, useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
+import usePresence from '~/core/hooks/usePresence';
 
 export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     children: React.ReactNode;
@@ -41,8 +42,11 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
 
-    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const shouldRender = isOpen || forceMount;
+    const contentRef = React.useRef<HTMLDivElement | null>(null);
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref, contentRef]);
+    // Stays mounted while the closing transition plays (#2290).
+    const isPresent = usePresence(isOpen, contentRef);
+    const shouldRender = isPresent || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
 
     React.useEffect(() => {
@@ -145,18 +149,17 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     return (
         <>
             {shouldRender && (
-                isOpen
-                    ? (
-                        <Floater.FocusManager
-                            context={floaterContext}
-                            modal={trapFocus}
-                            initialFocus={managerInitialFocus}
-                            returnFocus={finalFocus !== false}
-                        >
-                            {content}
-                        </Floater.FocusManager>
-                    )
-                    : content
+                // Always wrapped (disabled while closed) so closing keeps the same element and its exit
+                // transition can play (#2290).
+                <Floater.FocusManager
+                    context={floaterContext}
+                    disabled={!isOpen}
+                    modal={trapFocus}
+                    initialFocus={managerInitialFocus}
+                    returnFocus={finalFocus !== false}
+                >
+                    {content}
+                </Floater.FocusManager>
             )}
         </>
     );

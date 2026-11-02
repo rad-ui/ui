@@ -3,6 +3,7 @@
 import React, { forwardRef, useContext } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import Floater from '~/core/primitives/Floater';
+import usePresence from '~/core/hooks/usePresence';
 import {
     PopoverAlign,
     PopoverPrimitiveContext,
@@ -72,8 +73,11 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     } = useContext(PopoverPrimitiveContext);
 
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
-    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const shouldRender = isOpen || forceMount || portalForceMount;
+    const contentRef = React.useRef<HTMLDivElement | null>(null);
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref, contentRef]);
+    // Stays mounted while the closing transition plays (#2290).
+    const isPresent = usePresence(isOpen, contentRef);
+    const shouldRender = isPresent || forceMount || portalForceMount;
 
     React.useEffect(() => {
         setPositioning({
@@ -206,23 +210,22 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         </Primitive.div>
     );
 
-    if (isOpen) {
-        return (
-            <Floater.FocusManager
-                context={floatingContext}
-                modal={modal}
-                initialFocus={modal ? 0 : -1}
-                returnFocus={!onCloseAutoFocus}
-                restoreFocus={true}
-                outsideElementsInert={modal}
-                closeOnFocusOut={!modal}
-            >
-                {content}
-            </Floater.FocusManager>
-        );
-    }
-
-    return content;
+    // Always wrapped (disabled while closed) so closing keeps the same element and its exit transition
+    // can play (#2290).
+    return (
+        <Floater.FocusManager
+            context={floatingContext}
+            disabled={!isOpen}
+            modal={modal}
+            initialFocus={modal ? 0 : -1}
+            returnFocus={!onCloseAutoFocus}
+            restoreFocus={true}
+            outsideElementsInert={modal}
+            closeOnFocusOut={!modal}
+        >
+            {content}
+        </Floater.FocusManager>
+    );
 });
 
 PopoverPrimitiveContent.displayName = 'PopoverPrimitiveContent';
