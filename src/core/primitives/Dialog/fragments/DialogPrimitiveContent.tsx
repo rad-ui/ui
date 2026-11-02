@@ -13,6 +13,15 @@ export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof 
     trapFocus?: boolean;
 }
 
+const FIRST_FOCUSABLE = [
+    'button:not([disabled])',
+    '[href]',
+    'input:not([disabled]):not([type="hidden"])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+].join(',');
+
 const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContentProps>(({
     children,
     asChild = false,
@@ -85,30 +94,32 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
         }
     }, [finalFocus, isOpen, referenceElement]);
 
-    const resolvedInitialFocus = React.useMemo(() => {
-        if (initialFocus === false) {
-            return -1;
-        }
+    // A specific target (a ref, or a function) is focused here with preventScroll, so a tall, scrolling
+    // dialog opens at its top instead of jumping to that element (#2278). The focus manager then gets -1
+    // and focuses nothing itself. `true` keeps its default: the first tabbable element.
+    const ownsInitialFocus = typeof initialFocus === 'function' || (typeof initialFocus === 'object' && initialFocus !== null);
+    const managerInitialFocus = initialFocus === true ? 0 : -1;
 
-        if (initialFocus === true) {
-            return 0;
-        }
+    React.useEffect(() => {
+        if (!isOpen || !ownsInitialFocus) return;
+        // A frame later, so the content and anything a function looks up are in the DOM.
+        const frame = requestAnimationFrame(() => {
+            const content = refs.floating?.current as HTMLElement | null | undefined;
+            let target: HTMLElement | null = null;
+            if (typeof initialFocus === 'function') {
+                const result = initialFocus();
+                if (result instanceof HTMLElement) target = result;
+                else if (result === true) target = content?.querySelector<HTMLElement>(FIRST_FOCUSABLE) ?? null;
+            } else if (typeof initialFocus === 'object' && initialFocus !== null) {
+                target = initialFocus.current;
+            }
+            target?.focus({ preventScroll: true });
+        });
+        return () => cancelAnimationFrame(frame);
+        // Run once per open: a new inline function on every render must not move focus again.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, ownsInitialFocus]);
 
-        if ('current' in initialFocus) {
-            return initialFocus;
-        }
-
-        const result = initialFocus();
-        if (result === false || result === undefined) {
-            return -1;
-        }
-
-        if (result === true) {
-            return 0;
-        }
-
-        return result;
-    }, [initialFocus]);
     const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
     const restProps = { ...props } as Record<string, unknown>;
     delete restProps.style;
@@ -139,7 +150,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                         <Floater.FocusManager
                             context={floaterContext}
                             modal={trapFocus}
-                            initialFocus={resolvedInitialFocus as any}
+                            initialFocus={managerInitialFocus}
                             returnFocus={finalFocus !== false}
                         >
                             {content}
