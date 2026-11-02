@@ -182,7 +182,8 @@ describe('Combobox full behavior', () => {
         await user.keyboard('{Escape}');
         expect(screen.getByRole('listbox', { hidden: true })).toBe(listbox);
         expect(listbox).toHaveAttribute('data-state', 'closed');
-        await waitFor(() => expect(document.activeElement).toBe(trigger));
+        // Escape returns focus synchronously (#2274): no waiting on queued frames.
+        expect(document.activeElement).toBe(trigger);
     });
 
     test('axe: no violations and aria attributes set', async() => {

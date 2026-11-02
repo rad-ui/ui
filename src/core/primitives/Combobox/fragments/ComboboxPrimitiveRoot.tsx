@@ -232,9 +232,20 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     } = Floater.useFloating({
         middleware,
         open: isOpen,
-        onOpenChange: (nextOpen: boolean) => {
+        onOpenChange: (nextOpen: boolean, _event?: Event, reason?: string) => {
             if (disabled && nextOpen) return;
             setIsOpen(nextOpen);
+            // Escape closes the list: put focus back on the trigger now, rather than waiting for the
+            // focus manager's queued return (which can lag a frame or more, and leaves force-mounted
+            // content holding focus meanwhile). Only when focus is inside the list, so a dismiss
+            // from elsewhere never steals focus.
+            if (!nextOpen && reason === 'escape-key') {
+                const floating = refs.floating.current;
+                const active = floating?.ownerDocument.activeElement;
+                if (floating && active && floating.contains(active)) {
+                    (refs.reference.current as HTMLElement | null)?.focus();
+                }
+            }
         },
         placement: resolvedPlacement,
         strategy: positioningStrategy,
