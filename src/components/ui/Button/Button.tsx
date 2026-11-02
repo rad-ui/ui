@@ -53,6 +53,8 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         onClickCapture,
         onAuxClickCapture,
         onKeyDown,
+        onKeyUp,
+        onBlur,
         asChild = false,
         tabIndex,
         ...props
@@ -103,6 +105,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         // no role, type or tabIndex of our own. After mount, add just what the element lacks.
         const [childKind, setChildKind] = useState<ChildKind | null>(null);
         const nodeRef = useRef<HTMLElement | null>(null);
+        const spacePressedRef = useRef(false);
         const composedRef = useCallback(mergeRefs(ref, nodeRef), [ref]);
         useLayoutEffect(() => {
             if (!asChild || !nodeRef.current) return;
@@ -136,15 +139,32 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 return;
             }
 
-            // ARIA buttons are expected to respond to both Enter and Space.
-            const shouldActivate = event.key === KEYBOARD_KEYS.SPACE || event.key === KEYBOARD_KEYS.ENTER;
-
-            if (!shouldActivate) {
+            // Like a native button: Enter activates on keydown; Space only stops the page scrolling
+            // here and activates once, on keyup (#2289).
+            if (event.key === KEYBOARD_KEYS.ENTER) {
+                event.preventDefault();
+                event.currentTarget.click();
                 return;
             }
+            if (event.key === KEYBOARD_KEYS.SPACE) {
+                event.preventDefault();
+                spacePressedRef.current = true;
+            }
+        };
 
+        const handleKeyUp: React.KeyboardEventHandler<HTMLButtonElement> = (event) => {
+            onKeyUp?.(event);
+            if (event.key !== KEYBOARD_KEYS.SPACE || !spacePressedRef.current) return;
+            spacePressedRef.current = false;
+            if (disabled || event.defaultPrevented || !childNeedsButtonKeyboardSupport) return;
             event.preventDefault();
             event.currentTarget.click();
+        };
+
+        // Focus leaving while Space is held cancels the press, as on a native button.
+        const handleBlur: React.FocusEventHandler<HTMLButtonElement> = (event) => {
+            spacePressedRef.current = false;
+            onBlur?.(event);
         };
 
         return (
@@ -160,6 +180,8 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 onClickCapture={handleClickCapture}
                 onAuxClickCapture={handleAuxClickCapture}
                 onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
+                onBlur={handleBlur}
                 {...props}
                 // After the spread, so asChild children get the resolved values.
                 role={resolvedRole as string | undefined}

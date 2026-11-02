@@ -230,4 +230,56 @@ describe('Button asChild', () => {
         expect(span).toHaveAttribute('tabindex', '0');
         container.remove();
     });
+
+    test('Space activates a span child once, on release, even when held (#2289)', async() => {
+        const user = userEvent.setup();
+        const onClick = jest.fn();
+        render(
+            <Button asChild onClick={onClick}>
+                <span>go</span>
+            </Button>
+        );
+        screen.getByRole('button').focus();
+        await user.keyboard('[Space>5]');
+        expect(onClick).not.toHaveBeenCalled();
+        await user.keyboard('[/Space]');
+        expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('moving focus away while Space is held cancels the press', async() => {
+        const user = userEvent.setup();
+        const onClick = jest.fn();
+        render(
+            <>
+                <Button asChild onClick={onClick}>
+                    <span>go</span>
+                </Button>
+                <button>next</button>
+            </>
+        );
+        screen.getByRole('button', { name: 'go' }).focus();
+        await user.keyboard('[Space>]');
+        screen.getByText('next').focus();
+        await user.keyboard('[/Space]');
+        expect(onClick).not.toHaveBeenCalled();
+    });
+
+    test('keeps the consumer onKeyUp and onBlur', async() => {
+        const user = userEvent.setup();
+        const onKeyUp = jest.fn();
+        const onBlur = jest.fn();
+        render(
+            <>
+                <Button asChild onKeyUp={onKeyUp} onBlur={onBlur}>
+                    <span>go</span>
+                </Button>
+                <button>next</button>
+            </>
+        );
+        screen.getByRole('button', { name: 'go' }).focus();
+        await user.keyboard('a');
+        await user.tab();
+        expect(onKeyUp).toHaveBeenCalled();
+        expect(onBlur).toHaveBeenCalled();
+    });
 });
