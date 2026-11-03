@@ -14,14 +14,14 @@ This file is the working tracker. Update it in the same PR as the work it descri
 
 | Primitive | Status | Notes |
 | --- | --- | --- |
-| Field | partial | `feat/field-primitive` has 5 unmerged commits (label/help/error linking, validation, async validate, reset); #1771 |
-| Form | missing | #1773: validation state, submit, server errors |
-| Input wiring | partial | #1770: TextField controlled/uncontrolled and Field wiring |
-| Direction provider | missing | #1786, #1813: RTL for direction-dependent keyboard handling |
-| OTP field | missing | one-time code input |
-| Autocomplete | missing | #1775: build it, or document Combobox as the answer |
-| CSP provider | missing | nonce for injected styles |
-| Shared prop and event merging | partial | #1791: one utility instead of ad-hoc `composeEventHandlers` |
+| Field | built | Label, description and error linking; browser checks, custom and async `validate`, `match`, debounce; reset. Checkbox, Switch, Select and NumberField join a Field directly. #1771 |
+| Form | built | Validates every Field on submit, focuses the first invalid one, waits for async checks, server `errors` by name, `onFormSubmit(values)`. #1773 |
+| Input wiring | built | TextField and TextArea `onValueChange`; Field wiring. #1770 |
+| Direction provider | built | `DirectionProvider` sets reading direction once; directional keys and Slider follow it. #1786, #1813 |
+| OTP field | built | Paste, autofill, per-slot inputs, form value |
+| Autocomplete | built | Free-text input with filtered suggestions, `Empty` and `Clear` parts. #1775 |
+| CSP provider | not needed | No component injects `<style>` or `<script>`; a test (`contentSecurityPolicy.test.tsx`) keeps it that way |
+| Shared prop and event merging | partial | Internal `mergeProps`, also exported from `@radui/ui/Slot` with `Slot` and `composeRefs`; older parts still use `composeEventHandlers`. #1791 |
 
 ## Quality checklist (per component)
 
@@ -52,3 +52,4 @@ A component moves to `done` when all of these hold, with tests:
 | Date | Change |
 | --- | --- |
 | 2026-11-02 | Tracker created |
+| 2026-11-03 | Field, Form, OTP field, Autocomplete, Direction provider and about 60 behaviour additions (detached triggers, open change details and completion, transition attributes, modal options, multiple select, menu checkbox and radio items, tooltip provider, tabs indicator, number field format and scrub, and more) landed on one branch with the open stability fixes; CSP provider ruled unnecessary with a guard test |
