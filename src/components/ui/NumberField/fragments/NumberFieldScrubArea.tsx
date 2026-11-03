@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
-import NumberFieldContext from '../contexts/NumberFieldContext';
+import NumberFieldContext, { getStepType } from '../contexts/NumberFieldContext';
 import Primitive from '~/core/primitives/Primitive';
 
 export type NumberFieldScrubAreaElement = ElementRef<typeof Primitive.span>;
@@ -35,13 +35,14 @@ const NumberFieldScrubArea = forwardRef<NumberFieldScrubAreaElement, NumberField
         console.error('NumberFieldScrubArea must be used within a NumberField');
         return null;
     }
-    const { rootClass, handleStep, disabled, readOnly } = context;
+    const { rootClass, handleStep, disabled, readOnly, notifyCommit } = context;
     const sensitivity = pixelSensitivity > 0 ? pixelSensitivity : 2;
     const pointFor = (event: React.PointerEvent) => direction === 'vertical' ? event.clientY : event.clientX;
 
     const stop = (event: React.PointerEvent) => {
         if (!scrubbing) return;
         setScrubbing(false);
+        notifyCommit();
         lastPointRef.current = null;
         remainderRef.current = 0;
         if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
@@ -80,7 +81,7 @@ const NumberFieldScrubArea = forwardRef<NumberFieldScrubAreaElement, NumberField
                 const steps = Math.trunc(remainderRef.current / sensitivity);
                 if (steps === 0) return;
                 remainderRef.current -= steps * sensitivity;
-                const type = event.shiftKey ? 'large' : 'small';
+                const type = getStepType(event);
                 const stepDirection = steps > 0 ? 'increment' : 'decrement';
                 for (let i = 0; i < Math.abs(steps); i++) {
                     if (!handleStep({ direction: stepDirection, type })) break;

@@ -18,6 +18,8 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     const mergedRef = React.useMemo(() => mergeRefs(ref, inputRef), [ref]);
     const handleStepRef = React.useRef(context?.handleStep);
     handleStepRef.current = context?.handleStep;
+    const notifyCommitRef = React.useRef(context?.notifyCommit);
+    notifyCommitRef.current = context?.notifyCommit;
     const wheelEnabled = Boolean(context?.allowWheelScrub);
 
     // The wheel steps the value only while the input is focused, so scrolling the
@@ -29,7 +31,8 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
         const handleWheel = (event: WheelEvent) => {
             if (document.activeElement !== input || event.deltaY === 0) return;
             event.preventDefault();
-            handleStepRef.current?.({ direction: event.deltaY < 0 ? 'increment' : 'decrement', type: event.shiftKey ? 'large' : 'small' });
+            handleStepRef.current?.({ direction: event.deltaY < 0 ? 'increment' : 'decrement', type: getStepType(event) });
+            notifyCommitRef.current?.();
         };
         input.addEventListener('wheel', handleWheel, { passive: false });
         return () => input.removeEventListener('wheel', handleWheel);
