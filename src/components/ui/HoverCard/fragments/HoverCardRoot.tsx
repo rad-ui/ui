@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { hoverCardHandleControls } from '../contexts/hoverCardHandleControls';
+import { ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
 
 const COMPONENT_NAME = 'HoverCard';
 
@@ -49,6 +50,12 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
 
     const [open, setOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
 
+    // `side`, `align` and offsets set on HoverCard.Content.
+    const [positioning, setPositioningState] = React.useState<ContentPositioning>({});
+    const setPositioning = React.useCallback((next: ContentPositioning) => {
+        setPositioningState((current) => (samePositioning(current, next) ? current : next));
+    }, []);
+
     // Timers capture stale closures, so read the latest open state from a ref
     // and skip no-op transitions (onOpenChange only fires on real changes).
     const openRef = useRef(open);
@@ -62,16 +69,16 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         if (!newOpen) handle?.close();
     };
 
-    const { refs: floatingRefs, floatingStyles, context: floatingContext } = Floater.useFloating({
+    const { refs: floatingRefs, floatingStyles, context: floatingContext, placement: resolvedPlacement } = Floater.useFloating({
         open,
         onOpenChange: handleOpenChange,
-        placement: 'bottom',
+        placement: toPlacement(positioning.side ?? 'bottom', positioning.align),
         strategy: 'fixed',
         middleware: [
             Floater.arrow({
                 element: arrowRef
             }),
-            Floater.offset(ARROW_HEIGHT + SPACING_GAP),
+            Floater.offset({ mainAxis: positioning.sideOffset ?? ARROW_HEIGHT + SPACING_GAP, crossAxis: positioning.alignOffset ?? 0 }),
             Floater.flip({
                 mainAxis: true,
                 ...detectOverflowOptions
@@ -186,6 +193,8 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
 
     const sendValues = {
         onOpenChangeComplete,
+        setPositioning,
+        resolvedPlacement,
         isOpen: open,
         handleOpenChange,
         floatingRefs,

@@ -2,6 +2,7 @@ import React, { useContext, useRef } from 'react';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { tooltipHandleIds } from '../context/tooltipHandleIds';
+import { ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
 
 import TooltipContext from '../context/TooltipContext';
 import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon, useDelayGroup, useClientPoint } from '@floating-ui/react';
@@ -33,6 +34,7 @@ export type TooltipRootElement = React.ElementRef<'div'>;
 export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children'> {
     /** Content, or a function of the hovered trigger's payload (with `handle`). */
     children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
+    /** Where the tooltip sits. `side`/`align` on `Tooltip.Content` take precedence. */
     placement?: Placement;
     collisionBoundary?: Element | null | Array<Element | null>;
     collisionPadding?: number;
@@ -99,6 +101,15 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             setOpenState(nextOpen);
         }, [setOpenState]);
 
+        // `side`, `align` and offsets set on Tooltip.Content.
+        const [positioning, setPositioningState] = React.useState<ContentPositioning>({});
+        const setPositioning = React.useCallback((next: ContentPositioning) => {
+            setPositioningState((current) => (samePositioning(current, next) ? current : next));
+        }, []);
+        const resolvedPlacement = positioning.side || positioning.align
+            ? toPlacement(positioning.side ?? 'top', positioning.align)
+            : placement;
+
         const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
         const filteredBoundary = boundary.filter((item): item is Element => item != null);
         const detectOverflowOptions = {
@@ -111,7 +122,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             // The open state must be passed in, otherwise dismiss (Escape),
             // useRole (aria-describedby) and hover-close logic never see it.
             open: isOpen,
-            placement,
+            placement: resolvedPlacement,
             strategy: 'fixed',
             onOpenChange: (nextOpen, event, reason) => {
                 setIsOpen(nextOpen, fromFloatingReason(reason), event);
@@ -123,7 +134,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
                     element: arrowRef,
                     padding: 4
                 }),
-                offset(5),
+                offset({ mainAxis: positioning.sideOffset ?? 5, crossAxis: positioning.alignOffset ?? 0 }),
                 flip({
                     crossAxis: true,
                     fallbackAxisSideDirection: 'start',
@@ -195,7 +206,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         ]);
 
         return (
-            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase, onOpenChangeComplete }}>
+            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase, onOpenChangeComplete, setPositioning }}>
                 <div ref={ref} data-slot="tooltip-root" {...props}>
                     {typeof children === 'function' ? (children as (state: { payload: unknown }) => React.ReactNode)({ payload: handleState?.payload }) : children}
                 </div>
