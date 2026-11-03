@@ -95,7 +95,9 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                     `orientation` still sets aria-orientation above. */}
                 <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>
-                        <RovingFocusGroup.Group>
+                        {/* Always a wrapper: merged onto a single child, the group role and id would
+                            land on that child (often a <label>, which then stops naming its control). */}
+                        <RovingFocusGroup.Group asChild={false}>
 
                             {children}
 

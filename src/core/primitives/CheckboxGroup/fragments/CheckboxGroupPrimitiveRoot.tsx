@@ -44,7 +44,9 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
             {/* Checkboxes are often stacked vertically, so arrow keys move in both axes by default. */}
             <RovingFocusGroup.Root dir={dir} orientation={orientation ?? 'both'} loop={loop ?? true}>
                 <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled, allValues }}>
-                    <RovingFocusGroup.Group>
+                    {/* Always a wrapper: merged onto a single child, the group role and id would
+                        land on that child (often a <label>, which then stops naming its control). */}
+                    <RovingFocusGroup.Group asChild={false}>
                         {children}
                     </RovingFocusGroup.Group>
                 </CheckboxGroupPrimitiveContext.Provider>
