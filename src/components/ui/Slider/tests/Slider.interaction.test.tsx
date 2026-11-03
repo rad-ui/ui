@@ -16,7 +16,7 @@ describe('Slider interactions', () => {
             <Slider.Root defaultValue={50} step={10} min={0} max={100}>
                 <Slider.Track data-testid="track">
                     <Slider.Range>
-                        <Slider.Thumb />
+                        <Slider.Thumb aria-label="Volume" />
                     </Slider.Range>
                 </Slider.Track>
             </Slider.Root>
@@ -40,7 +40,7 @@ describe('Slider interactions', () => {
             <Slider.Root defaultValue={0} min={0} max={100} data-testid="root">
                 <Slider.Track style={{ width: '100px' }}>
                     <Slider.Range>
-                        <Slider.Thumb />
+                        <Slider.Thumb aria-label="Volume" />
                     </Slider.Range>
                 </Slider.Track>
             </Slider.Root>
@@ -67,7 +67,7 @@ describe('Slider interactions', () => {
                     <Slider.Root value={value} onValueChange={(v: number | number[]) => setValue(v as number)} step={1}>
                         <Slider.Track>
                             <Slider.Range>
-                                <Slider.Thumb />
+                                <Slider.Thumb aria-label="Volume" />
                             </Slider.Range>
                         </Slider.Track>
                     </Slider.Root>
@@ -85,7 +85,7 @@ describe('Slider interactions', () => {
             <Slider.Root defaultValue={20} step={1}>
                 <Slider.Track>
                     <Slider.Range>
-                        <Slider.Thumb />
+                        <Slider.Thumb aria-label="Volume" />
                     </Slider.Range>
                 </Slider.Track>
             </Slider.Root>
@@ -108,7 +108,7 @@ describe('Slider interactions', () => {
                 <Slider.Root name="volume" defaultValue={75}>
                     <Slider.Track>
                         <Slider.Range>
-                            <Slider.Thumb />
+                            <Slider.Thumb aria-label="Volume" />
                         </Slider.Range>
                     </Slider.Track>
                 </Slider.Root>
@@ -124,7 +124,7 @@ describe('Slider interactions', () => {
             <Slider.Root defaultValue={30} min={0} max={100}>
                 <Slider.Track>
                     <Slider.Range>
-                        <Slider.Thumb />
+                        <Slider.Thumb aria-label="Volume" />
                     </Slider.Range>
                 </Slider.Track>
             </Slider.Root>
@@ -144,7 +144,7 @@ describe('Slider interactions', () => {
                 <Slider.Root defaultValue={10} step={1}>
                     <Slider.Track>
                         <Slider.Range>
-                            <Slider.Thumb />
+                            <Slider.Thumb aria-label="Volume" />
                         </Slider.Range>
                     </Slider.Track>
                 </Slider.Root>

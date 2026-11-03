@@ -10,7 +10,7 @@ describe('Checkbox states', () => {
     test('click toggles checked state and data-state attribute', async() => {
         const user = userEvent.setup();
         const { container } = render(
-            <Checkbox.Root>
+            <Checkbox.Root aria-label="Accept">
                 <Checkbox.Indicator />
             </Checkbox.Root>
         );
@@ -106,7 +106,7 @@ describe('Checkbox states', () => {
 
     test('axe has no violations and checkbox has appropriate aria attributes', async() => {
         const { container } = render(
-            <Checkbox.Root>
+            <Checkbox.Root aria-label="Accept">
                 <Checkbox.Indicator />
             </Checkbox.Root>
         );

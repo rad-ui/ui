@@ -7,7 +7,7 @@ import Meter from '../Meter';
 describe('Meter accessibility', () => {
     test('axe: no violations', async() => {
         const { container } = render(
-            <Meter.Root value={65} minValue={0} maxValue={100} lowValue={30} highValue={85}>
+            <Meter.Root aria-label="Storage" value={65} minValue={0} maxValue={100} lowValue={30} highValue={85}>
                 <Meter.Indicator />
             </Meter.Root>
         );

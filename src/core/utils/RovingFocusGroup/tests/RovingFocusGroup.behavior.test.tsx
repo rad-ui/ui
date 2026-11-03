@@ -228,7 +228,7 @@ describe('RovingFocusGroup behavior', () => {
         expect(g2Item1).toHaveFocus();
     });
 
-    test('has no accessibility violations', (done) => {
+    test('has no accessibility violations', async() => {
         const { container } = render(
             <RovingFocusGroup.Root orientation="horizontal">
                 <RovingFocusGroup.Group>
@@ -238,11 +238,9 @@ describe('RovingFocusGroup behavior', () => {
             </RovingFocusGroup.Root>
         );
 
-        axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } }).then((results) => {
-            expect(results.incomplete.length).toBe(0);
-            expect(results.violations.length).toBe(0);
-            done();
-        });
+        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        expect(results.incomplete.map((r) => r.id)).toEqual([]);
+        expect(results.violations.map((r) => r.id)).toEqual([]);
     });
     test('Group with multiple children renders a wrapper div without asChild warnings', () => {
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});

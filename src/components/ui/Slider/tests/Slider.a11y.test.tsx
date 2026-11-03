@@ -6,7 +6,7 @@ import Slider from '../Slider';
 
 describe('Slider accessibility', () => {
     test('axe: no violations', async() => {
-        const { container } = render(<Slider>Test</Slider>);
+        const { container } = render(<Slider aria-label="Volume">Test</Slider>);
         const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
         expect(results.violations).toHaveLength(0);
     });
