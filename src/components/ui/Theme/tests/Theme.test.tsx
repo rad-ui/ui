@@ -29,6 +29,33 @@ describe('Theme', () => {
         window.matchMedia = originalMatchMedia;
     });
 
+    test('renders without window.matchMedia (default and system appearance)', () => {
+        (window as { matchMedia?: unknown }).matchMedia = undefined;
+
+        const { container, rerender } = render(<Theme>content</Theme>);
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'dark');
+
+        rerender(<Theme appearance="system">content</Theme>);
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'light');
+    });
+
+    test('follows the system with the older addListener API', () => {
+        const listeners: Array<(e: MediaQueryListEvent) => void> = [];
+        const legacy = {
+            matches: false,
+            addListener: jest.fn((listener) => listeners.push(listener)),
+            removeListener: jest.fn()
+        } as unknown as MediaQueryList;
+        window.matchMedia = jest.fn().mockReturnValue(legacy);
+
+        const { container, unmount } = render(<Theme appearance="system">content</Theme>);
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'light');
+        act(() => listeners.forEach((listener) => listener({ matches: true } as MediaQueryListEvent)));
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'dark');
+        unmount();
+        expect(legacy.removeListener).toHaveBeenCalled();
+    });
+
     test('defaults to dark appearance and ignores system preference', () => {
         const { mediaQueryList } = createMediaQueryList(false);
         window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
