@@ -6,6 +6,7 @@ import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import { MenuPrimitivePortalContext } from '../contexts/MenuPrimitivePortalContext';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { placementAlign, placementSide } from '~/core/utils/placement';
 
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
@@ -87,6 +88,8 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 // Portaled content does not inherit direction from the trigger's tree.
                 dir: context.dir,
                 'data-state': 'open',
+                'data-side': placementSide(context.resolvedPlacement),
+                'data-align': placementAlign(context.resolvedPlacement),
                 ...getTransitionAttributes(context.transitionStatus),
                 onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
                     (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);
@@ -99,6 +102,8 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 className,
                 dir: context.dir,
                 'data-state': 'closed',
+                'data-side': placementSide(context.resolvedPlacement),
+                'data-align': placementAlign(context.resolvedPlacement),
                 'aria-hidden': 'true',
                 ...getTransitionAttributes(context.transitionStatus),
                 // Stay visible while the exit animation runs; hidden once it's only force-mounted.

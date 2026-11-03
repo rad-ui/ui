@@ -3,6 +3,7 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
+import { Align, Side, toPlacement } from '~/core/utils/placement';
 import { useDirection } from '~/core/hooks/useDirection';
 import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
@@ -22,8 +23,18 @@ export type MenuPrimitiveRootProps = {
     /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
     onOpenChange?: (open: boolean, details: OpenChangeDetails) => void
     defaultOpen?: boolean
+    /** Shift along the cross axis in px. Same as `alignOffset`. */
     crossAxisOffset?: number
+    /** Distance from the trigger in px. Same as `sideOffset`. */
     mainAxisOffset?: number
+    /** Preferred side of the trigger; overrides `placement`. Flips when there isn't room. */
+    side?: Side
+    /** Alignment against the trigger; overrides `placement`. Defaults to `start`. */
+    align?: Align
+    /** Distance from the trigger in px. Defaults to 4 (14 for submenus). */
+    sideOffset?: number
+    /** Shift along the cross axis in px. Defaults to 0. */
+    alignOffset?: number
     collisionBoundary?: Element | null | Array<Element | null>
     collisionPadding?: number
     loop?: boolean
@@ -64,7 +75,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, onOpenChangeComplete, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, onOpenChangeComplete, ...props }, ref) => {
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
@@ -102,9 +113,9 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     // Popover), so "nested" means "is a submenu", not "has a floating parent".
     const isNested = isSubmenu;
 
-    const effectiveCrossAxisOffset = crossAxisOffset ?? 0;
-    const effectiveMainAxisOffset =
-        mainAxisOffset !== undefined ? mainAxisOffset : isNested ? 14 : 4;
+    const effectiveCrossAxisOffset = alignOffset ?? crossAxisOffset ?? 0;
+    const effectiveMainAxisOffset = sideOffset ?? mainAxisOffset ?? (isNested ? 14 : 4);
+    const requestedPlacement = side || align ? toPlacement(side ?? 'bottom', align ?? 'start') : placement;
     const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
     const filteredBoundary = boundary.filter((item): item is Element => item != null);
     const hasCustomCollisionBoundary = filteredBoundary.length > 0;
@@ -130,7 +141,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         ...sharedDetectOverflowOptions
     };
 
-    const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
+    const { refs, floatingStyles, context: floatingContext, placement: resolvedPlacement } = Floater.useFloating({
         open: isOpen,
         nodeId,
         onOpenChange: (nextOpen, event, reason) => {
@@ -140,7 +151,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         strategy: 'fixed',
         transform: false,
         // Submenus open toward the inline end: right in LTR, left in RTL.
-        placement: isNested ? (isRtl ? 'left-start' : 'right-start') : placement,
+        placement: isNested ? (isRtl ? 'left-start' : 'right-start') : requestedPlacement,
         middleware: [
             Floater.offset({
                 mainAxis: effectiveMainAxisOffset,
@@ -215,6 +226,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         setIsOpen,
         refs,
         floatingStyles,
+        resolvedPlacement,
         maxHeight,
         getReferenceProps,
         getFloatingProps,

@@ -15,6 +15,8 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
     setPositionReference(node: Element): void;
   };
   floatingStyles: React.CSSProperties;
+  /** Where the menu ended up, after flipping. */
+  resolvedPlacement?: string;
   maxHeight: number | undefined;
   getReferenceProps: (userProps?: any) => any;
   getFloatingProps: (userProps?: any) => any;
