@@ -231,7 +231,7 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     // If not in visible list AND not leaving, don't render
     if (index === -1 && !leaving) return null;
 
-    /** Alternating phase so CSS can re-run pulse when `updateKey` changes (Base UI pattern). */
+    /** Alternating phase so CSS can re-run pulse when `updateKey` changes. */
     const pulsePhase =
         toast.updateKey && toast.updateKey > 0
             ? (toast.updateKey % 2 === 0 ? 'even' : 'odd')

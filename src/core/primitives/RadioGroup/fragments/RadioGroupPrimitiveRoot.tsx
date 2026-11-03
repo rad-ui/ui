@@ -91,7 +91,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                 data-disabled={groupDisabled ? '' : undefined}
             >
                 {/* Radio groups move with all four arrow keys whatever their visual
-                    orientation (WAI-ARIA APG radio pattern; Radix and Base UI do the same).
+                    orientation (WAI-ARIA APG radio pattern).
                     `orientation` still sets aria-orientation above. */}
                 <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>

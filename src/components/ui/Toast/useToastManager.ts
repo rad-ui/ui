@@ -6,13 +6,13 @@ import { ToastState, promiseToast, type ToastPromiseMessages } from './ToastStat
 
 type ToastOptions = Omit<ToastData, 'id' | 'variant' | 'updateKey' | 'limited'>;
 
-/** Mirrors [Base UI `useToastManager`](https://base-ui.com/react/components/toast#useToastManager). */
+/** The toast list plus the imperative manager API, for use inside `Toast.Provider`. */
 export interface ToastManagerReturn {
     toasts: ToastData[];
     add: (data: CreateToastInput) => string;
-    /** Base UI */
+    /** Dismisses one toast, or every toast when called without an id. */
     close: (toastId?: string) => void;
-    /** Base UI */
+    /** Changes a live toast's content or options. */
     update: <TData = unknown>(toastId: string, options: ToastManagerUpdateOptions<TData>) => void;
     promise: <T>(p: Promise<T>, messages: ToastPromiseMessages<T>, options?: ToastOptions) => Promise<T>;
     /** @deprecated Use `close(id)`. */
@@ -29,13 +29,13 @@ export interface ToastManagerReturn {
 
 /**
  * Must be called inside a `<Toast.Provider>`.
- * Returns the live toast list and the same imperative API as Base UI’s manager.
+ * Returns the live toast list and the imperative manager API.
  */
 export function useToastManager(): ToastManagerReturn {
     const ctx = useContext(ToastProviderContext);
     const manager = ctx.toastManager ?? ToastState;
 
-    // Functions keep their identity for a given manager (like Base UI's), so
+    // Functions keep their identity for a given manager, so
     // effects keyed on them (e.g. `useEffect(() => () => dismissAll(), [dismissAll])`)
     // don't re-run on every render. Recreating them each render made such a
     // cleanup dismiss each toast as soon as it was added.

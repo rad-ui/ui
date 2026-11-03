@@ -6,7 +6,7 @@ import { ToastProviderContext, ToastItemContext } from '../contexts/ToastContext
 export type ToastActionProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
- * Base UI–style action button — merges `toast.actionProps` then your props.
+ * Action button: merges `toast.actionProps`, then your props.
  */
 const ToastAction = React.forwardRef<HTMLButtonElement, ToastActionProps>(
     ({ className, children, type = 'button', ...props }, ref) => {

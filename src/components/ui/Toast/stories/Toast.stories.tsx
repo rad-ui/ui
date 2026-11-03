@@ -207,7 +207,7 @@ export const PromiseToast = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Stable id + pulse on duplicate (Base UI–style)
+// Stable id + pulse on duplicate
 // ─────────────────────────────────────────────────────────────────────────────
 
 const PULSE_TOAST_STORY_STYLE_ID = 'rad-ui-toast-pulse-story-css';
@@ -288,7 +288,7 @@ export const PulseDuplicateId = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Action (Base UI `actionProps` + Toast.Action)
+// Action (`actionProps` + Toast.Action)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function WithActionDemo() {
@@ -336,7 +336,7 @@ export const WithAction = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// update() + close() (Base UI manager)
+// update() + close() (manager)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function UpdateAndCloseDemo() {
