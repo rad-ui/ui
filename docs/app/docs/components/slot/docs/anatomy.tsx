@@ -1,4 +1,4 @@
-import Slot, { mergeProps, composeRefs, useRender } from "@radui/ui/Slot"
+import Slot, { mergeProps, composeRefs } from "@radui/ui/Slot"
 
 export default () => {
     return (

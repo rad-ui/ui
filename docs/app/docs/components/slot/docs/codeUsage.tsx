@@ -1,7 +1,6 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import slot_api from './component_api/slot';
 import merge_props_api from './component_api/merge_props';
-import use_render_api from './component_api/use_render';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -26,15 +25,14 @@ export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
     slot: slot_api,
-    merge_props: merge_props_api,
-    use_render: use_render_api
+    merge_props: merge_props_api
 };
 
 export const features = [
     "Slot gives your components the asChild behavior Rad UI parts use",
     "mergeProps joins classes, merges styles and chains event handlers",
     "composeRefs combines callback and object refs",
-    "useRender adds a Base UI style render prop to your own components"
+    "Works with forwarded refs, so focus and measuring keep working"
 ];
 
 export const keyboardShortcuts = createKeyboardShortcutTable([

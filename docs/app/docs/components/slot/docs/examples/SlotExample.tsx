@@ -1,21 +1,25 @@
 "use client"
 
-import type { HTMLAttributes, ReactElement } from "react"
-import Slot, { useRender } from "@radui/ui/Slot"
+import { forwardRef, type ButtonHTMLAttributes } from "react"
+import Slot, { mergeProps } from "@radui/ui/Slot"
 
-// A Card that renders a <section> by default, or whatever element `render` passes.
-function Card({ render, ...props }: { render?: ReactElement } & HTMLAttributes<HTMLElement>) {
-    return useRender({ render, props: { className: "rounded-lg border p-4", ...props }, defaultTagName: "section" })
-}
+// A button that can render as its child (for example a link) with `asChild`,
+// the same way Rad UI parts do.
+type ActionProps = ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }
+
+const Action = forwardRef<HTMLButtonElement, ActionProps>(({ asChild, ...props }, ref) => {
+    const merged = mergeProps({ className: "rounded-md border px-3 py-1.5" }, props)
+    return asChild ? <Slot ref={ref} {...merged} /> : <button ref={ref} type="button" {...merged} />
+})
+Action.displayName = "Action"
 
 export default function SlotExample() {
     return (
-        <div className="flex flex-col gap-3">
-            <Card>A section card</Card>
-            <Card render={<a href="#slot" />}>A card that is a link</Card>
-            <Slot className="underline" onClick={() => console.log("clicked")}>
-                <button type="button">Slot merged its props onto this button</button>
-            </Slot>
+        <div className="flex gap-3">
+            <Action onClick={() => console.log("clicked")}>A button</Action>
+            <Action asChild>
+                <a href="#slot">A link with the same styles</a>
+            </Action>
         </div>
     )
 }

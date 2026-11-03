@@ -33,7 +33,7 @@ const data = {
             default: '14',
         },
         {
-            prop: { name: 'limit', info_tooltips: 'Max visible toasts in the stack (Base UI name).' },
+            prop: { name: 'limit', info_tooltips: 'Max visible toasts in the stack.' },
             type: 'number',
             default: '3',
         },
