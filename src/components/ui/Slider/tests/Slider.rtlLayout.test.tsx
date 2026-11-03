@@ -68,3 +68,16 @@ describe('Slider right-to-left layout', () => {
         expect(screen.getByTestId('mark-100').style.left).toBe('0%');
     });
 });
+
+test('right-to-left with edge alignment mirrors first, then insets', () => {
+    render(
+        <Slider.Root defaultValue={25} thumbAlignment="edge" style={{ direction: 'rtl' }}>
+            <Slider.Track>
+                <Slider.Range data-testid="edge-range" />
+            </Slider.Track>
+            <Slider.Thumb data-testid="edge-thumb" />
+        </Slider.Root>
+    );
+    expect(screen.getByTestId('edge-thumb').style.left).toBe('calc(75% - var(--rad-slider-thumb-size, 20px) * 0.75)');
+    expect(screen.getByTestId('edge-range').style.marginLeft).toBe('calc(75% + var(--rad-slider-thumb-size, 20px) * -0.25)');
+});
