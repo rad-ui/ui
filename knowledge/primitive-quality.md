@@ -53,3 +53,4 @@ A component moves to `done` when all of these hold, with tests:
 | --- | --- |
 | 2026-11-02 | Tracker created |
 | 2026-11-03 | Field, Form, OTP field, Autocomplete, Direction provider and about 60 behaviour additions (detached triggers, open change details and completion, transition attributes, modal options, multiple select, menu checkbox and radio items, tooltip provider, tabs indicator, number field format and scrub, and more) landed on one branch with the open stability fixes; CSP provider ruled unnecessary with a guard test |
+| 2026-11-03 | `side`/`align`/offsets on Tooltip, HoverCard and menus (#1784); modal background test across every modal part (#1790); server render and hydration tests for 36 components; axe now runs every WCAG A/AA rule (#2300), which found a CheckboxGroup/RadioGroup label bug (#2301) |
