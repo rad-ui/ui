@@ -15,6 +15,15 @@ export type SelectRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPrim
 const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
     ({ customRootClass, children, className, sideOffset = 4, ...props }, forwardedRef) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const baseId = React.useId();
+        const [hasLabel, setHasLabel] = React.useState(false);
+        const labelContext = React.useMemo(() => ({
+            rootClass,
+            triggerId: `${baseId}-trigger`,
+            labelId: `${baseId}-label`,
+            hasLabel,
+            setHasLabel
+        }), [rootClass, baseId, hasLabel]);
         // Inside Field.Root, take the field's name, required and disabled state.
         const field = React.useContext(FieldContext);
         const fieldProps = field ? {
@@ -24,7 +33,7 @@ const SelectRoot = React.forwardRef<SelectRootElement, SelectRootProps>(
         } : {};
 
         return (
-            <SelectRootContext.Provider value={{ rootClass }}>
+            <SelectRootContext.Provider value={labelContext}>
                 <ComboboxPrimitive.Root
                     className={clsx(rootClass ? `${rootClass}-root` : undefined, className) || undefined}
                     data-slot="select-root"

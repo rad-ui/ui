@@ -9,7 +9,12 @@ import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocument
 import { Middleware, Placement, Strategy } from '@floating-ui/react';
 import { useDirection } from '~/core/hooks/useDirection';
 import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
+import { anchorTracking, collisionMiddleware, CollisionAvoidance, FloatingAnchor, PositionMethod } from '~/core/utils/placement';
+import { useFloatingAnchor, useStableAnchor } from '~/core/hooks/useFloatingAnchor';
+import { createFilter } from '~/core/utils/filter';
+import { FinalFocus, focusFinal } from '~/core/utils/focusTarget';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const noop = () => {};
 
@@ -52,7 +57,8 @@ export type ComboboxPrimitiveRootProps = {
     positioningStrategy?: Strategy,
     side?: Side,
     sideOffset?: number,
-    sticky?: 'partial' | 'always',
+    /** Keep the list in view after the trigger scrolls away: `'always'` (or `true`), or `'partial'` (or `false`). */
+    sticky?: 'partial' | 'always' | boolean,
     updatePositionStrategy?: 'optimized' | 'always',
     onClickOutside?: () => void;
     placement?: Placement
@@ -85,8 +91,43 @@ export type ComboboxPrimitiveRootProps = {
     items?: ComboboxItemsLabels;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
     /** While open, lock page scroll and keep outside presses from reaching the page (they only close the list). */
     modal?: boolean;
+    /** Position against this element, virtual element, ref or function instead of the trigger. */
+    anchor?: FloatingAnchor;
+    /** CSS position of the list. Same as `positioningStrategy`. Defaults to `'fixed'`. */
+    positionMethod?: PositionMethod;
+    /** Per-axis collision handling (flip, shift or none). Takes over from the default flip + shift. */
+    collisionAvoidance?: CollisionAvoidance;
+    /** Don't re-position when the trigger's layout shifts; scroll and resize still update it. */
+    disableAnchorTracking?: boolean;
+    /** Show the value but don't let it change: the list doesn't open and keys don't select. */
+    readOnly?: boolean;
+    /** `id` of a `<form>` elsewhere in the page that the value submits with. */
+    form?: string;
+    /** Ref to the hidden form control that holds the value. */
+    inputRef?: React.Ref<HTMLSelectElement>;
+    /** Highlight options as the pointer moves over them. Defaults to true. */
+    highlightItemOnHover?: boolean;
+    /** Called when the highlighted option changes, with its value (or `undefined`) and index. */
+    onItemHighlighted?: (value: string | undefined, details: { index: number | null }) => void;
+    /** Arrow keys wrap from the last option to the first and back. */
+    loop?: boolean;
+    /**
+     * Decides whether an option shows for the typed text. Gets the option's label and the text.
+     * Defaults to a case- and accent-insensitive "contains". `null` turns filtering off.
+     */
+    filter?: ((label: string, query: string) => boolean) | null;
+    /** Show at most this many matching options. */
+    limit?: number;
+    /** Locale for the default filter's case folding. */
+    locale?: Intl.LocalesArgument;
+    /** Where focus goes when the list closes: the trigger (default), `false` nowhere, a ref, or a function. */
+    finalFocus?: FinalFocus;
+    /** `autocomplete` for the hidden form control, so browsers can autofill the value. */
+    autoComplete?: string;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -137,6 +178,22 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     items,
     onOpenChangeComplete,
     modal = false,
+    anchor,
+    positionMethod,
+    collisionAvoidance,
+    disableAnchorTracking = false,
+    readOnly = false,
+    form,
+    inputRef,
+    highlightItemOnHover = true,
+    onItemHighlighted,
+    loop = false,
+    filter,
+    limit,
+    locale,
+    actionsRef,
+    finalFocus,
+    autoComplete,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -144,6 +201,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const dir = useDirection(props.dir);
     const [isOpenState, setOpenState] = useControllableState<boolean>(open, defaultOpen, noop);
     // onOpenChange is called here with details; the state hook only stores the value.
+    const finalFocusRef = React.useRef(finalFocus);
+    finalFocusRef.current = finalFocus;
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const isOpenRef = React.useRef(Boolean(isOpenState));
@@ -156,8 +215,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         setOpenState(nextOpen);
         return true;
     }, [setOpenState]);
+    usePopupActions(actionsRef, () => setIsOpen(false, 'imperative-action'));
 
-    const isOpen = Boolean(isOpenState) && !disabled;
+    const isOpen = Boolean(isOpenState) && !disabled && !readOnly;
     const idPrefix = React.useId();
     useRegisterDocumentOverlayOpen(isOpen);
     // Both states always exist (hooks can't be conditional); `multiple` picks one.
@@ -203,17 +263,24 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const [referenceIsInput, setReferenceIsInput] = React.useState(false);
     const [labelsVersion, bumpLabelsVersion] = React.useReducer((current) => current + 1, 0);
 
+    const filterRef = React.useRef(filter);
+    filterRef.current = filter;
+    const defaultFilter = React.useMemo(() => createFilter({ locale }).contains, [locale]);
     const hiddenIndices = React.useMemo(() => {
-        if (!search) return [];
-        const filtered = [];
+        const matches = filterRef.current === null ? () => true : (filterRef.current ?? defaultFilter);
+        const filtered: number[] = [];
+        let shown = 0;
         for (let i = 0; i < labelsRef.current.length; i++) {
             const label = labelsRef.current[i];
-            if (label && !label.toLowerCase().includes(search.toLowerCase())) {
+            const visible = !search || !label || matches(label, search);
+            if (visible && (limit === undefined || limit < 0 || shown < limit)) {
+                shown += 1;
+            } else {
                 filtered.push(i);
             }
         }
         return filtered;
-    }, [search, labelsVersion]);
+    }, [search, labelsVersion, defaultFilter, limit]);
 
     const totalDisabledIndices = React.useMemo(() => {
         const set = new Set([...disabledIndices, ...hiddenIndices]);
@@ -227,6 +294,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         setIsFormChild(Boolean(rootRef.current?.closest('form')));
     }, []);
     const nativeSelectRef = React.useRef<HTMLSelectElement>(null);
+    const mergedSelectRef = Floater.useMergeRefs([nativeSelectRef, inputRef]);
     const defaultValueRef = React.useRef(defaultValue);
     React.useEffect(() => {
         const form = nativeSelectRef.current?.form;
@@ -259,6 +327,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const alignedItemCenterRef = React.useRef<number | null>(null);
     const itemAligned = alignItemWithTrigger && !multiple && !referenceIsInput && Boolean(selectedValue);
 
+    const collisionKey = collisionAvoidance ? `${collisionAvoidance.side}|${collisionAvoidance.align}|${collisionAvoidance.fallbackAxisSide}` : '';
     const middleware = React.useMemo(() => {
         if (itemAligned) {
             // The list overlaps the trigger, so there's no side to offset from or flip to;
@@ -300,13 +369,23 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 mainAxis: mainAxisOffset,
                 alignmentAxis: alignOffset
             }),
-            avoidCollisions && enableShift && Floater.shift({
+            ...(collisionAvoidance
+                ? collisionMiddleware({
+                    avoidCollisions,
+                    collisionAvoidance,
+                    padding: detectOverflowOptions.padding,
+                    boundary: detectOverflowOptions.boundary,
+                    sticky: sticky === 'always' || sticky === true,
+                    aligned: resolvedPlacement.includes('-')
+                })
+                : []),
+            !collisionAvoidance && avoidCollisions && enableShift && Floater.shift({
                 mainAxis: true,
                 crossAxis: false,
-                limiter: sticky === 'partial' ? Floater.limitShift() : undefined,
+                limiter: sticky === 'always' || sticky === true ? undefined : Floater.limitShift(),
                 ...detectOverflowOptions
             }),
-            avoidCollisions && enableFlip && Floater.flip(detectOverflowOptions),
+            !collisionAvoidance && avoidCollisions && enableFlip && Floater.flip(detectOverflowOptions),
             constrainSize && Floater.size({
                 ...detectOverflowOptions,
                 apply: ({ elements, rects, availableWidth, availableHeight }) => {
@@ -342,7 +421,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         matchReferenceWidth,
         sticky,
         itemAligned,
-        collisionPadding
+        collisionPadding,
+        collisionKey,
+        resolvedPlacement
     ]);
 
     const {
@@ -357,7 +438,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         middleware,
         open: isOpen,
         onOpenChange: (nextOpen: boolean, event?: Event, reason?: string) => {
-            if (disabled && nextOpen) return;
+            if ((disabled || readOnly) && nextOpen) return;
             const applied = setIsOpen(nextOpen, fromFloatingReason(reason), event);
             // Escape closes the list: put focus back on the trigger now, rather than waiting for the
             // focus manager's queued return (which can lag a frame or more, and leaves force-mounted
@@ -367,19 +448,22 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 const floating = refs.floating.current;
                 const active = floating?.ownerDocument.activeElement;
                 if (floating && active && floating.contains(active)) {
-                    (refs.reference.current as HTMLElement | null)?.focus();
+                    focusFinal(finalFocusRef.current, refs.reference.current as HTMLElement | null);
                 }
             }
         },
         placement: resolvedPlacement,
-        strategy: positioningStrategy,
-        whileElementsMounted: (reference, floating, updatePosition) => Floater.autoUpdate(
-            reference,
-            floating,
-            updatePosition,
-            { animationFrame: updatePositionStrategy === 'always' }
-        )
+        strategy: positionMethod ?? positioningStrategy,
+        whileElementsMounted: (reference, floating, updatePosition) => (disableAnchorTracking
+            ? anchorTracking(true)(reference, floating, updatePosition)
+            : Floater.autoUpdate(
+                reference,
+                floating,
+                updatePosition,
+                { animationFrame: updatePositionStrategy === 'always' }
+            ))
     });
+    useFloatingAnchor(useStableAnchor(anchor), refs.setPositionReference, isOpen);
 
     useLayoutEffect(() => {
         if (isPositioned) {
@@ -419,7 +503,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         if (index === null || totalDisabledIndices.includes(index)) return;
         if (isOpen) {
             setActiveIndex(index);
-        } else if (!multiple) {
+        } else if (!multiple && !readOnly) {
             // Typing on a closed multi-select would toggle values unseen, so it only selects for single.
             handleSelect(index);
         }
@@ -444,7 +528,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
             }
             setSelectedIndex(index);
             setIsOpen(false, 'item-press');
-            (refs.reference.current as HTMLElement | null)?.focus();
+            focusFinal(finalFocusRef.current, refs.reference.current as HTMLElement | null);
             if (index !== null) {
                 const item = elementsRef.current[index];
                 const value = item?.getAttribute('data-value') || valuesRef.current[index];
@@ -496,11 +580,23 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         setSelectedLabel(label);
     }, [labelsVersion, selectedValue, children, items]);
 
+    const onItemHighlightedRef = React.useRef(onItemHighlighted);
+    onItemHighlightedRef.current = onItemHighlighted;
+    const handleNavigate = React.useCallback((index: number | null) => {
+        setActiveIndex(index);
+        const highlighted = index == null
+            ? undefined
+            : valuesRef.current[index] ?? elementsRef.current[index]?.getAttribute('data-value') ?? undefined;
+        onItemHighlightedRef.current?.(highlighted, { index });
+    }, []);
+
     const listNav = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
         activeIndex,
         selectedIndex,
-        onNavigate: setActiveIndex,
+        onNavigate: handleNavigate,
+        loop,
+        focusItemOnHover: highlightItemOnHover,
         virtual: hasSearch, // Enable virtual navigation only when search is present
         virtualItemRef,
         disabledIndices: totalDisabledIndices
@@ -581,7 +677,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         referenceIsInput,
         setReferenceIsInput,
         clearValue,
-        modal
+        modal,
+        readOnly,
+        finalFocus
     }), [
         isOpen,
         handleSelect,
@@ -617,7 +715,9 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         transition.mounted,
         transition.status,
         clearValue,
-        modal
+        modal,
+        readOnly,
+        finalFocus
     ]);
 
     return (
@@ -628,15 +728,18 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 ref={Floater.useMergeRefs([rootRef, forwardedRef])}
                 data-state={isOpen ? 'open' : 'closed'}
                 data-disabled={disabled ? '' : undefined}
+                data-readonly={readOnly ? '' : undefined}
             >
 
                 {children}
                 {/* Native select mirrors the value for form submission, validation, and reset. */}
                 {
-                    (isFormChild || Boolean(name)) && (
+                    (isFormChild || Boolean(name) || Boolean(form)) && (
                         <select
-                            ref={nativeSelectRef}
+                            ref={mergedSelectRef}
                             name={name}
+                            form={form}
+                            autoComplete={autoComplete}
                             multiple={multiple || undefined}
                             value={multiple ? selectedValues : selectedValue}
                             required={required}

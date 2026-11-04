@@ -40,6 +40,8 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
   transitionStatus: TransitionStatus;
   /** The top-level menu blocks the page while open. */
   modal?: boolean;
+  /** Registers `Menu.Arrow`'s element so positioning can place it. */
+  setArrowNode?: (node: SVGSVGElement | null) => void;
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);

@@ -5,6 +5,7 @@ import Floater from '~/core/primitives/Floater';
 import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
 import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
 import { getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { toReturnFocus } from '~/core/utils/focusTarget';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
@@ -57,6 +58,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
         dir,
         multiple,
         referenceIsInput,
+        finalFocus,
         transitionMounted,
         transitionStatus,
         modal = false
@@ -184,6 +186,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
             // An input anchor keeps focus while options are reached virtually, so no focus
             // management is needed, and it must not hide the rest of the page from screen readers.
             disabled={!isOpen || isHiddenUntilPositioned || referenceIsInput}
+            returnFocus={toReturnFocus(finalFocus)}
         >
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 {popup}

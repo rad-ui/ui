@@ -6,8 +6,6 @@ import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 
-const HOVER_CLOSE_DELAY_MS = 150;
-
 export type NavigationMenuItemElement = React.ElementRef<'div'>;
 
 export interface NavigationMenuItemProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -16,7 +14,7 @@ export interface NavigationMenuItemProps extends React.ComponentPropsWithoutRef<
 
 const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, NavigationMenuItemProps>(
     ({ value, children, className, onMouseEnter, onMouseLeave, onBlur, ...props }, ref) => {
-        const { isOpen, setIsOpen, rootClass } = React.useContext(NavigationMenuRootContext);
+        const { isOpen, setIsOpen, rootClass, delay = 0, closeDelay = 150 } = React.useContext(NavigationMenuRootContext);
         const itemRef = React.useRef<HTMLDivElement>(null);
         const triggerRef = React.useRef<HTMLButtonElement>(null);
         const contentId = React.useId();
@@ -44,31 +42,46 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
         // Closing on mouseleave is deferred so the pointer can cross the gap between the trigger and
         // the content panel (or briefly overshoot it) without the menu disappearing.
         const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+        const openTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
         const cancelPendingClose = () => {
             if (closeTimerRef.current !== null) {
                 clearTimeout(closeTimerRef.current);
                 closeTimerRef.current = null;
             }
         };
+        const cancelPendingOpen = () => {
+            if (openTimerRef.current !== null) {
+                clearTimeout(openTimerRef.current);
+                openTimerRef.current = null;
+            }
+        };
+        // Disabled triggers don't open on hover either.
+        const triggerDisabled = () => Boolean(triggerRef.current?.disabled);
 
         // Hover opens/closes explicitly instead of toggling, so a menu dismissed while the pointer
         // is still over it (Escape) is not re-opened when the pointer leaves.
         const handleMouseEnter = () => {
             cancelPendingClose();
-            if (!itemOpen) {
+            if (itemOpen || triggerDisabled()) return;
+            const open = () => {
+                openTimerRef.current = null;
                 openedByHoverRef.current = true;
                 setIsOpen(value);
-            }
+            };
+            // Moving between items while one is open switches at once; the first open waits `delay`.
+            if (delay <= 0 || isOpen) open();
+            else openTimerRef.current = setTimeout(open, delay);
         };
 
         const handleMouseLeave = () => {
             cancelPendingClose();
+            cancelPendingOpen();
             if (!itemOpen) return;
             closeTimerRef.current = setTimeout(() => {
                 closeTimerRef.current = null;
                 openedByHoverRef.current = false;
                 setIsOpen((current: string) => (current === value ? '' : current));
-            }, HOVER_CLOSE_DELAY_MS);
+            }, closeDelay);
         };
 
         React.useEffect(() => {
@@ -78,7 +91,10 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
             }
         }, [itemOpen]);
 
-        React.useEffect(() => cancelPendingClose, []);
+        React.useEffect(() => () => {
+            cancelPendingClose();
+            cancelPendingOpen();
+        }, []);
 
         // Links inside the panel, kept in a ref so focus can move into the panel without querySelector.
         const linksRef = React.useRef(new Set<HTMLElement>());

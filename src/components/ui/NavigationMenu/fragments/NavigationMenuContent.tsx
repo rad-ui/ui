@@ -4,18 +4,21 @@ import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import NavigationMenuItemContext from '../contexts/NavigationMenyItemContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import clsx from 'clsx';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type NavigationMenuContentElement = React.ElementRef<'div'>;
 
 export interface NavigationMenuContentProps extends React.ComponentPropsWithoutRef<'div'> {
     children: React.ReactNode;
     loop?: boolean;
+    /** Keep the panel in the DOM while closed (hidden), for SEO or to keep its state. */
+    forceMount?: boolean;
 }
 
 const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, NavigationMenuContentProps>(
-    ({ children, className, loop, onKeyDown, ...props }, ref) => {
+    ({ children, className, loop, onKeyDown, forceMount = false, ...props }, ref) => {
         const { itemOpen, contentId, flushPendingFocus, contentNodeRef, triggerRef } = React.useContext(NavigationMenuItemContext);
-        const { rootClass, contentLoop, dir, viewport, setActiveContent, triggersRef } = React.useContext(NavigationMenuRootContext);
+        const { rootClass, contentLoop, dir, viewport, setActiveContent, triggersRef, onOpenChangeComplete } = React.useContext(NavigationMenuRootContext);
         const contentRef = React.useRef<HTMLDivElement | null>(null);
         const resolvedLoop = loop ?? contentLoop;
 
@@ -58,7 +61,9 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
             next.focus();
         };
 
-        if (!itemOpen) return null;
+        const transition = useTransitionStatus(Boolean(itemOpen), () => contentRef.current, onOpenChangeComplete);
+        if (!transition.mounted && !forceMount) return null;
+        const hidden = !itemOpen && !transition.mounted;
 
         const panel = (
             <div
@@ -66,6 +71,8 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
                 id={contentId}
                 className={clsx(rootClass && `${rootClass}-content`, className)}
                 data-state={itemOpen ? 'open' : 'closed'}
+                {...getTransitionAttributes(transition.status)}
+                hidden={hidden || undefined}
                 {...props}
                 onKeyDown={handleKeyDown}
             >

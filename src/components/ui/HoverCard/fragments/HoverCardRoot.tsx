@@ -8,7 +8,10 @@ import clsx from 'clsx';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { hoverCardHandleControls } from '../contexts/hoverCardHandleControls';
-import { ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
+import { anchorTracking, collisionMiddleware, ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
+import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const COMPONENT_NAME = 'HoverCard';
 
@@ -24,7 +27,8 @@ export type HoverCardRootProps = Omit<ComponentPropsWithoutRef<'div'>, 'children
     handle?: PopupHandle<any>;
     open?: boolean;
     defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
     customRootClass?: string;
     openDelay?: number;
     closeDelay?: number;
@@ -32,9 +36,11 @@ export type HoverCardRootProps = Omit<ComponentPropsWithoutRef<'div'>, 'children
     collisionPadding?: number;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, handle, onOpenChangeComplete, ...props }, ref) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, handle, onOpenChangeComplete, actionsRef, ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
@@ -42,13 +48,10 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     const SPACING_GAP = 2;
     const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
     const filteredBoundary = boundary.filter((item): item is Element => item != null);
-    const detectOverflowOptions = {
-        padding: collisionPadding,
-        boundary: filteredBoundary,
-        altBoundary: filteredBoundary.length > 0
-    };
 
-    const [open, setOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
+    const [open, setOpen] = useControllableState(controlledOpen, defaultOpen, () => {});
+    const onOpenChangeRef = useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
 
     // `side`, `align` and offsets set on HoverCard.Content.
     const [positioning, setPositioningState] = React.useState<ContentPositioning>({});
@@ -61,8 +64,11 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     const openRef = useRef(open);
     openRef.current = open;
 
-    const handleOpenChange = (newOpen: boolean) => {
+    const handleOpenChange = (newOpen: boolean, reason: OpenChangeReason = 'none', event?: Event) => {
         if (openRef.current === newOpen) return;
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, newOpen, details);
+        if (details.isCanceled) return;
         openRef.current = newOpen;
         setOpen(newOpen);
         // Closing by pointer-out, Escape or blur also closes the handle.
@@ -71,24 +77,26 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
 
     const { refs: floatingRefs, floatingStyles, context: floatingContext, placement: resolvedPlacement } = Floater.useFloating({
         open,
-        onOpenChange: handleOpenChange,
+        onOpenChange: (nextOpen, event, reason) => handleOpenChange(nextOpen, fromFloatingReason(reason), event),
         placement: toPlacement(positioning.side ?? 'bottom', positioning.align),
-        strategy: 'fixed',
+        strategy: positioning.positionMethod ?? 'fixed',
         middleware: [
             Floater.arrow({
-                element: arrowRef
+                element: arrowRef,
+                padding: positioning.arrowPadding ?? 0
             }),
             Floater.offset({ mainAxis: positioning.sideOffset ?? ARROW_HEIGHT + SPACING_GAP, crossAxis: positioning.alignOffset ?? 0 }),
-            Floater.flip({
-                mainAxis: true,
-                ...detectOverflowOptions
-            }),
-            Floater.shift({
-                ...detectOverflowOptions
+            ...collisionMiddleware({
+                collisionAvoidance: positioning.collisionAvoidance,
+                padding: collisionPadding,
+                boundary: filteredBoundary,
+                sticky: positioning.sticky,
+                aligned: Boolean(positioning.align && positioning.align !== 'center')
             })
         ],
-        whileElementsMounted: Floater.autoUpdate
+        whileElementsMounted: anchorTracking(positioning.disableAnchorTracking)
     });
+    useFloatingAnchor(positioning.anchor, floatingRefs.setPositionReference, open);
 
     // When the pointer leaves the trigger/content, delay closing and confirm
     // the pointer has not re-entered before committing the state change.
@@ -117,16 +125,18 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     };
 
     // `target` comes from a detached trigger: anchor to it and pass its payload once the delay ends.
-    const openWithDelay = (target?: { trigger: HTMLElement; payload: unknown }) => {
+    // `delay` overrides the Root's openDelay (a trigger's own `delay`).
+    const openWithDelay = (target?: { trigger: HTMLElement; payload: unknown }, event?: Event, delay = openDelay) => {
         mouseIsExitingRef.current = false;
         clearTimers();
+        const reason: OpenChangeReason = event?.type === 'focus' || event?.type === 'focusin' ? 'trigger-focus' : 'trigger-hover';
 
         const commitOpen = () => {
             if (target && handle) handle.open(target.payload, target.trigger);
-            handleOpenChange(true);
+            handleOpenChange(true, reason, event);
         };
 
-        if (openDelay <= 0) {
+        if (delay <= 0) {
             commitOpen();
             return;
         }
@@ -134,31 +144,33 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         openTimeoutRef.current = setTimeout(() => {
             openTimeoutRef.current = null;
             commitOpen();
-        }, openDelay) as unknown as number;
+        }, delay) as unknown as number;
     };
 
-    const closeWithDelay = () => {
+    const closeWithDelay = (event?: Event, delay = closeDelay) => {
         mouseIsExitingRef.current = true;
         // A pending open must not fire after the pointer/focus has already left.
         clearTimers();
+        const reason: OpenChangeReason = event?.type === 'blur' || event?.type === 'focusout' ? 'focus-out' : 'trigger-hover';
 
-        if (closeDelay <= 0) {
-            handleOpenChange(false);
+        if (delay <= 0) {
+            handleOpenChange(false, reason, event);
             return;
         }
 
         closeTimeoutRef.current = setTimeout(() => {
             closeTimeoutRef.current = null;
             if (mouseIsExitingRef.current) {
-                handleOpenChange(false);
+                handleOpenChange(false, reason, event);
             }
-        }, closeDelay) as unknown as number;
+        }, delay) as unknown as number;
     };
 
     const closeWithoutDelay = () => {
         clearTimers();
-        handleOpenChange(false);
+        handleOpenChange(false, 'none');
     };
+    usePopupActions(actionsRef, () => { clearTimers(); handleOpenChange(false, 'imperative-action'); });
 
     useEffect(() => clearTimers, []);
 
@@ -183,8 +195,8 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
     useEffect(() => {
         if (!handle) return;
         hoverCardHandleControls.set(handle, {
-            openWithDelay: (target) => controlsRef.current.openWithDelay(target),
-            closeWithDelay: () => controlsRef.current.closeWithDelay()
+            openWithDelay: (target, event, delay) => controlsRef.current.openWithDelay(target, event, delay),
+            closeWithDelay: (event, delay) => controlsRef.current.closeWithDelay(event, delay)
         });
         return () => {
             hoverCardHandleControls.delete(handle);
@@ -207,8 +219,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         rootTriggerClass,
         closeWithDelay,
         closeWithoutDelay,
-        // Parts pass this straight to event props; drop the event so it is never read as a target.
-        openWithDelay: () => openWithDelay()
+        openWithDelay: (event?: Event, delay?: number) => openWithDelay(undefined, event, delay)
     };
 
     return <HoverCardContext.Provider value={sendValues}>

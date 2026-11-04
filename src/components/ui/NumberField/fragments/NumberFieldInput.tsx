@@ -16,6 +16,8 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     const field = useContext(FieldContext);
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const mergedRef = React.useMemo(() => mergeRefs(ref, inputRef), [ref]);
+    // Without `format` the visible input is the one that submits, so it takes the root's inputRef too.
+    const namedRef = React.useMemo(() => mergeRefs(ref, inputRef, context?.inputRef), [ref, context?.inputRef]);
     const handleStepRef = React.useRef(context?.handleStep);
     handleStepRef.current = context?.handleStep;
     const notifyCommitRef = React.useRef(context?.notifyCommit);
@@ -158,19 +160,20 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
                     }}
                 />
                 {/* The visible text is formatted; forms submit the plain number. */}
-                {name && <input type="hidden" name={name} value={inputValue} disabled={disabled} />}
+                {name && <input ref={context.inputRef} type="hidden" name={name} form={context.form} value={inputValue} disabled={disabled} />}
             </>
         );
     }
 
     return (
         <input
-            ref={mergedRef}
+            ref={namedRef}
             type="number"
             id={id}
             name={name}
-            min={min}
-            max={max}
+            form={context.form}
+            min={context.allowOutOfRange ? undefined : min}
+            max={context.allowOutOfRange ? undefined : max}
             step={step}
             disabled={disabled}
             readOnly={readOnly}

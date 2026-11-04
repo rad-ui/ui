@@ -8,7 +8,10 @@ import { mergeRefs } from '~/core/utils/mergeRefs';
 import { useFieldContext } from '../contexts/FieldContext';
 
 export type FieldControlElement = ElementRef<typeof Primitive.input>;
-export type FieldControlProps = ComponentPropsWithoutRef<typeof Primitive.input>;
+export type FieldControlProps = ComponentPropsWithoutRef<typeof Primitive.input> & {
+    /** Called with the control's new value as the user edits it. */
+    onValueChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 /**
  * The form control. Renders an <input> by default; pass `asChild` to wire up another control,
@@ -26,6 +29,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
     onBlur,
     onChange,
     onInvalid,
+    onValueChange,
     ...props
 }, ref) => {
     const {
@@ -89,6 +93,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
             }}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 onChange?.(event);
+                onValueChange?.(event.target.value, event);
                 setDirty(true);
                 const fieldName = nameProp ?? name;
                 if (fieldName) clearFormError?.(fieldName);

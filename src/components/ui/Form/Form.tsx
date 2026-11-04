@@ -29,7 +29,14 @@ export type FormProps = {
     validationMode?: FieldValidationMode;
     /** Overrides the generated root class. */
     customRootClass?: string;
+    /** Ref with `validate(name?)`: checks every Field (or the one with that name) and shows the results. */
+    actionsRef?: React.Ref<FormActions>;
 } & ComponentPropsWithoutRef<typeof Primitive.form>;
+
+export type FormActions = {
+    /** Checks every Field, or only those named `name`, and shows their errors. Returns whether they're valid. */
+    validate: (name?: string) => boolean;
+};
 
 const readValues = (form: HTMLFormElement): FormValues => {
     const values: FormValues = {};
@@ -61,6 +68,7 @@ const Form = forwardRef<FormElement, FormProps>(({
     validationMode,
     onSubmit,
     noValidate = true,
+    actionsRef,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
@@ -97,6 +105,17 @@ const Form = forwardRef<FormElement, FormProps>(({
         registerField,
         validationMode
     }), [errors, clearError, registerField, validationMode]);
+
+    React.useImperativeHandle(actionsRef, () => ({
+        validate: (name?: string) => {
+            let valid = true;
+            fieldsRef.current.forEach((field) => {
+                if (name !== undefined && field.name !== name) return;
+                if (!field.validate(true)) valid = false;
+            });
+            return valid;
+        }
+    }), []);
 
     // Set after pending async checks pass, so the resubmit skips straight to submitting.
     const skipValidationRef = React.useRef(false);
@@ -186,4 +205,5 @@ const Form = forwardRef<FormElement, FormProps>(({
 Form.displayName = COMPONENT_NAME;
 
 export type { FormErrors } from './contexts/FormContext';
+export type { FieldActions } from '../Field/fragments/FieldRoot';
 export default Form;

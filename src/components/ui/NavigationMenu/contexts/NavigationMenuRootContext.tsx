@@ -14,6 +14,12 @@ export interface NavigationMenuRootContextProps {
     setActiveContent?: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
     /** Every trigger, so Tab can leave a viewport panel to the next trigger. */
     triggersRef?: React.MutableRefObject<Set<HTMLElement>>;
+    /** ms the pointer rests on a trigger before its panel opens. */
+    delay?: number;
+    /** ms after the pointer leaves before the panel closes. */
+    closeDelay?: number;
+    orientation?: 'horizontal' | 'vertical';
+    onOpenChangeComplete?: (open: boolean) => void;
 }
 
 const NavigationMenuRootContext = React.createContext<NavigationMenuRootContextProps>({

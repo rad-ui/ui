@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import Autocomplete from '../Autocomplete';
 
 const Cities = (props: Partial<React.ComponentProps<typeof Autocomplete.Root>>) => (
-    <Autocomplete.Root {...props}>
+    <Autocomplete.Root autoHighlight {...props}>
         <Autocomplete.Input aria-label="City" />
         <Autocomplete.Content>
             <Autocomplete.Item value="Amsterdam">Amsterdam</Autocomplete.Item>

@@ -3,7 +3,8 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
-import { Align, Side, toPlacement } from '~/core/utils/placement';
+import { Align, anchorTracking, collisionMiddleware, CollisionAvoidance, FloatingAnchor, PositionMethod, Side, toPlacement } from '~/core/utils/placement';
+import { useFloatingAnchor, useStableAnchor } from '~/core/hooks/useFloatingAnchor';
 import { useDirection } from '~/core/hooks/useDirection';
 import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
@@ -11,6 +12,7 @@ import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChange
 const noop = () => {};
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import useIsomorphicLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -68,6 +70,24 @@ export type MenuPrimitiveRootProps = {
   modal?: boolean
   /** Called after the open or close animations finish (at once when there are none). */
   onOpenChangeComplete?: (open: boolean) => void
+  /** Position against this element, virtual element, ref or function instead of the trigger. */
+  anchor?: FloatingAnchor
+  /** CSS position of the menu. Defaults to `'fixed'`. */
+  positionMethod?: PositionMethod
+  /** Per-axis collision handling (flip, shift or none). Takes over from the default flip + shift. */
+  collisionAvoidance?: CollisionAvoidance
+  /** Keep the menu in view after its trigger scrolls out of the boundary. */
+  sticky?: boolean
+  /** Don't re-position when the trigger's layout shifts; scroll and resize still update it. */
+  disableAnchorTracking?: boolean
+  /** Highlight items as the pointer moves over them. Defaults to true. */
+  highlightItemOnHover?: boolean
+  /** Called when the highlighted item changes, with the item element (or `undefined`) and its index. */
+  onItemHighlighted?: (item: HTMLElement | undefined, details: { index: number | null }) => void
+  /** In a submenu: Escape closes the whole menu instead of only this submenu. Defaults to false. */
+  closeParentOnEsc?: boolean
+  /** Ref with `close()`, to close the menu from code (reason `'imperative-action'`). */
+  actionsRef?: React.Ref<PopupActions>
 } & Omit<ComponentPropsWithoutRef<'div'>, 'dir' | 'children'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
@@ -75,7 +95,9 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, onOpenChangeComplete, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, actionsRef, ...props }, ref) => {
+    const hoverOpenDelay = hoverOpenDelayProp ?? 100;
+    const hoverCloseDelay = hoverCloseDelayProp ?? 0;
     const resolvedDir = useDirection(dir);
     const isRtl = rtl || resolvedDir === 'rtl';
     const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
@@ -96,11 +118,13 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         if (details.isCanceled) return;
         setOpenState(nextOpen);
     }, [setOpenState]);
+    usePopupActions(actionsRef, () => { setIsOpen(false, 'imperative-action'); handle?.close(); });
 
     useRegisterDocumentOverlayOpen(isOpen);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
+    const [arrowNode, setArrowNode] = useState<SVGSVGElement | null>(null);
 
     const listRef = useRef([]);
     const elementsRef = useRef([]);
@@ -147,20 +171,34 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         onOpenChange: (nextOpen, event, reason) => {
             setIsOpen(nextOpen, fromFloatingReason(reason), event);
             if (!nextOpen) handle?.close();
+            // Escape closing just this submenu puts focus back on its trigger item.
+            if (!nextOpen && isNested && reason === 'escape-key' && !closeParentOnEsc) {
+                (refs.domReference.current as HTMLElement | null)?.focus();
+            }
         },
-        strategy: 'fixed',
+        strategy: positionMethod ?? 'fixed',
         transform: false,
         // Submenus open toward the inline end: right in LTR, left in RTL.
         placement: isNested ? (isRtl ? 'left-start' : 'right-start') : requestedPlacement,
         middleware: [
             Floater.offset({
-                mainAxis: effectiveMainAxisOffset,
+                // Room for Menu.Arrow when there is one.
+                mainAxis: effectiveMainAxisOffset + (arrowNode ? 5 : 0),
                 crossAxis: effectiveCrossAxisOffset
             }),
-            ...(avoidCollision ? [
-                Floater.flip(flipOptions),
-                Floater.shift(shiftOptions)
-            ] : []),
+            ...(collisionAvoidance
+                ? collisionMiddleware({
+                    avoidCollisions: avoidCollision,
+                    collisionAvoidance,
+                    padding: collisionPadding,
+                    boundary: hasCustomCollisionBoundary ? filteredBoundary : undefined,
+                    sticky,
+                    aligned: true
+                })
+                : avoidCollision ? [
+                    Floater.flip(flipOptions),
+                    Floater.shift(shiftOptions)
+                ] : []),
             ...(!isNested ? [Floater.size({
                 ...sizeOptions,
                 apply({ availableHeight, elements }) {
@@ -168,9 +206,18 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
                     elements.floating.style.maxHeight = `${availableHeight}px`;
                 },
             })] : []),
+            ...(arrowNode ? [Floater.arrow({ element: arrowNode, padding: 4 })] : []),
         ],
-        whileElementsMounted: Floater.autoUpdate
+        whileElementsMounted: anchorTracking(disableAnchorTracking)
     });
+    useFloatingAnchor(useStableAnchor(anchor), refs.setPositionReference, Boolean(isOpen));
+
+    const onItemHighlightedRef = useRef(onItemHighlighted);
+    onItemHighlightedRef.current = onItemHighlighted;
+    const handleNavigate = React.useCallback((index: number | null) => {
+        setActiveIndex(index);
+        onItemHighlightedRef.current?.(index == null ? undefined : (elementsRef.current[index] ?? undefined), { index });
+    }, []);
 
     const listNavigation = Floater.useListNavigation(floatingContext, {
         listRef: elementsRef,
@@ -178,19 +225,21 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         nested: isNested,
         rtl: isRtl,
         loop,
-        onNavigate: setActiveIndex
+        focusItemOnHover: highlightItemOnHover,
+        onNavigate: handleNavigate
     });
     const click = Floater.useClick(floatingContext, {});
     const hover = Floater.useHover(floatingContext, {
         enabled: isNested || openOnHover,
-        delay: isNested ? { open: 75 } : { open: hoverOpenDelay, close: hoverCloseDelay },
+        delay: isNested ? { open: hoverOpenDelayProp ?? 75, close: hoverCloseDelayProp ?? 0 } : { open: hoverOpenDelay, close: hoverCloseDelay },
         // Lets the pointer travel from the trigger into the menu without it closing.
         handleClose: Floater.safePolygon({ blockPointerEvents: isNested })
     });
-    // Submenus let Escape bubble so the whole menu closes; the top-level menu
-    // does not, so Escape inside a menu never also closes a host Dialog/Popover.
+    // Escape in a submenu closes only that submenu unless `closeParentOnEsc`. The
+    // top-level menu never bubbles, so Escape inside a menu never also closes a
+    // host Dialog/Popover.
     const dismiss = Floater.useDismiss(floatingContext, {
-        bubbles: isNested
+        bubbles: isNested ? { escapeKey: closeParentOnEsc, outsidePress: true } : false
     });
     const typeahead = Floater.useTypeahead(floatingContext, {
         listRef: labelsRef,
@@ -243,7 +292,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         rtl: isRtl,
         dir: direction,
         getRootTrigger,
-        modal: modal && !isNested
+        modal: modal && !isNested,
+        setArrowNode
     };
     // A handle lets detached triggers open this menu and anchor it.
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);

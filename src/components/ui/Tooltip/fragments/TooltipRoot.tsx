@@ -2,14 +2,16 @@ import React, { useContext, useRef } from 'react';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { tooltipHandleIds } from '../context/tooltipHandleIds';
-import { ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
+import { anchorTracking, collisionMiddleware, ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
+import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
 
 import TooltipContext from '../context/TooltipContext';
-import { useFloating, offset, flip, shift, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, autoUpdate, safePolygon, useDelayGroup, useClientPoint } from '@floating-ui/react';
+import { useFloating, offset, useHover, useFocus, useDismiss, useRole, useInteractions, arrow, safePolygon, useDelayGroup, useClientPoint } from '@floating-ui/react';
 import TooltipProviderContext from '../context/TooltipProviderContext';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const noop = () => {};
 
@@ -68,6 +70,15 @@ export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'d
     trackCursorAxis?: 'none' | 'x' | 'y' | 'both';
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
+    /** Never open the tooltip, and close it if it is open. */
+    disabled?: boolean;
+    /**
+     * Close as soon as the pointer leaves the trigger, instead of letting it move onto the
+     * tooltip. Use for tooltips with nothing to read or select.
+     */
+    disableHoverablePopup?: boolean;
 }
 
 const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
@@ -85,12 +96,19 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         handle,
         trackCursorAxis = 'none',
         onOpenChangeComplete,
+        disabled = false,
+        disableHoverablePopup = false,
+        actionsRef,
         ...props
     }, ref) => {
         const arrowRef = useRef<SVGSVGElement>(null);
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         const [isOpen, setOpenState] = useControllableState(open, defaultOpen, noop);
+        const isOpenRef = useRef(isOpen);
+        isOpenRef.current = isOpen;
+        // Set by Tooltip.Trigger: a disabled trigger doesn't open the tooltip.
+        const triggerDisabledRef = useRef(false);
         // onOpenChange is called here with details; the state hook only stores the value.
         const onOpenChangeRef = React.useRef(onOpenChange);
         onOpenChangeRef.current = onOpenChange;
@@ -100,6 +118,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             if (details.isCanceled) return;
             setOpenState(nextOpen);
         }, [setOpenState]);
+        usePopupActions(actionsRef, () => { setIsOpen(false, 'imperative-action'); handle?.close(); });
 
         // `side`, `align` and offsets set on Tooltip.Content.
         const [positioning, setPositioningState] = React.useState<ContentPositioning>({});
@@ -112,19 +131,15 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
 
         const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
         const filteredBoundary = boundary.filter((item): item is Element => item != null);
-        const detectOverflowOptions = {
-            padding: collisionPadding,
-            boundary: filteredBoundary,
-            altBoundary: filteredBoundary.length > 0
-        };
 
         const data = useFloating({
             // The open state must be passed in, otherwise dismiss (Escape),
             // useRole (aria-describedby) and hover-close logic never see it.
             open: isOpen,
             placement: resolvedPlacement,
-            strategy: 'fixed',
+            strategy: positioning.positionMethod ?? 'fixed',
             onOpenChange: (nextOpen, event, reason) => {
+                if (nextOpen && (disabled || triggerDisabledRef.current)) return;
                 setIsOpen(nextOpen, fromFloatingReason(reason), event);
                 // Closing by hover-out, Escape or blur also closes the handle.
                 if (!nextOpen) handle?.close();
@@ -132,18 +147,27 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             middleware: [
                 arrow({
                     element: arrowRef,
-                    padding: 4
+                    padding: positioning.arrowPadding ?? 4
                 }),
                 offset({ mainAxis: positioning.sideOffset ?? 5, crossAxis: positioning.alignOffset ?? 0 }),
-                flip({
-                    crossAxis: true,
-                    fallbackAxisSideDirection: 'start',
-                    ...detectOverflowOptions
-                }),
-                shift(detectOverflowOptions)
+                ...collisionMiddleware({
+                    collisionAvoidance: positioning.collisionAvoidance,
+                    padding: collisionPadding,
+                    boundary: filteredBoundary,
+                    sticky: positioning.sticky
+                })
             ],
-            whileElementsMounted: autoUpdate
+            whileElementsMounted: anchorTracking(positioning.disableAnchorTracking)
         });
+
+        // `anchor` on Tooltip.Content positions against something other than the trigger.
+        useFloatingAnchor(positioning.anchor, data.refs.setPositionReference, isOpen);
+
+        // Turning `disabled` on closes an open tooltip.
+        useLayoutEffect(() => {
+            if (disabled && isOpenRef.current) setIsOpen(false, 'none');
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [disabled]);
 
         const context = data.context;
 
@@ -166,8 +190,6 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         const handleOpen = handleState?.open;
         const handleTrigger = handleState?.trigger ?? null;
         const setReference = data.refs.setReference;
-        const isOpenRef = useRef(isOpen);
-        isOpenRef.current = isOpen;
         useLayoutEffect(() => {
             if (!handle) return;
             if (handleTrigger) setReference(handleTrigger);
@@ -178,12 +200,13 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         const tracksCursor = trackCursorAxis !== 'none';
 
         const hover = useHover(context, {
+            enabled: !disabled,
             move: false,
             delay,
             // Lets the pointer travel from the trigger onto the tooltip without
             // it closing (WCAG 1.4.13 "hoverable"). A tooltip that follows the
             // pointer can't be reached, so it closes when the pointer leaves.
-            handleClose: tracksCursor ? null : safePolygon()
+            handleClose: tracksCursor || disableHoverablePopup ? null : safePolygon()
         });
 
         const clientPoint = useClientPoint(context, {
@@ -191,7 +214,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             axis: tracksCursor ? trackCursorAxis : 'both'
         });
 
-        const focus = useFocus(context);
+        const focus = useFocus(context, { enabled: !disabled });
 
         const dismiss = useDismiss(context);
 
@@ -206,7 +229,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         ]);
 
         return (
-            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase, onOpenChangeComplete, setPositioning }}>
+            <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase, onOpenChangeComplete, setPositioning, disabled, triggerDisabledRef }}>
                 <div ref={ref} data-slot="tooltip-root" {...props}>
                     {typeof children === 'function' ? (children as (state: { payload: unknown }) => React.ReactNode)({ payload: handleState?.payload }) : children}
                 </div>

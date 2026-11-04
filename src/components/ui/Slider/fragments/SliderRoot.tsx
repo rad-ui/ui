@@ -7,7 +7,7 @@ import { SliderContext } from '../context/SliderContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { useDirection } from '~/core/hooks/useDirection';
-import { clampValue, getThumbBounds, snapToStep } from '../utils/sliderMath';
+import { clampValue, moveThumb, snapToStep, ThumbCollisionBehavior } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'Slider';
 
@@ -33,6 +33,19 @@ export type SliderRootProps = {
     minStepsBetweenValues?: number;
     showStepMarks?: boolean;
     formatValue?: (value: number) => string;
+    /** Number format for the value text (screen readers, `Slider.Value`), when there's no `formatValue`. */
+    format?: Intl.NumberFormatOptions;
+    /** Locale for `format`. */
+    locale?: Intl.LocalesArgument;
+    /** Step for Page Up / Page Down and Shift + arrows. Same as `step * pageStepMultiplier`. */
+    largeStep?: number;
+    /**
+     * When a dragged or keyed thumb meets another: `none` stops at it, `push` moves it along,
+     * `swap` passes it. Defaults to `none`.
+     */
+    thumbCollisionBehavior?: ThumbCollisionBehavior;
+    /** `id` of a `<form>` elsewhere in the page that the value submits with. */
+    form?: string;
 } & Omit<ComponentPropsWithoutRef<'div'>, 'value' | 'defaultValue' | 'onValueChange'>;
 
 const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
@@ -53,10 +66,24 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     pageStepMultiplier = 10,
     minStepsBetweenValues = 0,
     showStepMarks = false,
-    formatValue,
+    formatValue: formatValueProp,
+    format,
+    locale,
+    largeStep,
+    thumbCollisionBehavior = 'none',
+    form,
     onPointerDown,
     ...props
 }, ref) => {
+    const formatKey = JSON.stringify(format ?? null) + String(locale ?? '');
+    const formatValue = React.useMemo(() => {
+        if (formatValueProp) return formatValueProp;
+        if (!format && !locale) return undefined;
+        const formatter = new Intl.NumberFormat(locale as string | string[] | undefined, format);
+        return (value: number) => formatter.format(value);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [formatValueProp, formatKey]);
+    const effectivePageStepMultiplier = largeStep !== undefined && step > 0 ? largeStep / step : pageStepMultiplier;
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const [value, setValue] = useControllableState<number | number[]>(
@@ -164,14 +191,14 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
                 thumbRefsArray.current[indexToUpdate]?.current?.focus();
             }
 
-            // Thumbs never cross: clamp the dragged thumb between its neighbours.
-            const { lower, upper } = getThumbBounds(current, indexToUpdate, min, max, minStepsBetweenValues * step);
-            const bounded = clampValue(newValue, lower, upper);
-            if (bounded === current[indexToUpdate]) return;
-
-            const nextValue = [...current];
-            nextValue[indexToUpdate] = bounded;
-            updateValue(nextValue);
+            // Neighbours stop, get pushed along, or swap places, per thumbCollisionBehavior.
+            const moved = moveThumb(current, indexToUpdate, newValue, min, max, minStepsBetweenValues * step, thumbCollisionBehavior);
+            if (moved.values.every((entry, i) => entry === current[i])) return;
+            if (moved.index !== indexToUpdate) {
+                activeThumbIndexRef.current = moved.index;
+                thumbRefsArray.current[moved.index]?.current?.focus();
+            }
+            updateValue(moved.values);
         } else if (newValue !== current) {
             updateValue(newValue);
         }
@@ -242,7 +269,10 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         orientation,
         isRtl,
         thumbAlignment,
-        pageStepMultiplier,
+        pageStepMultiplier: effectivePageStepMultiplier,
+        thumbCollisionBehavior,
+        form,
+        focusThumb: (index: number) => thumbRefsArray.current[index]?.current?.focus(),
         minStepsBetweenValues,
         showStepMarks,
         formatValue,

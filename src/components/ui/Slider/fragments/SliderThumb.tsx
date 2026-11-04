@@ -6,7 +6,7 @@ import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
-import { clampValue, getThumbBounds, roundToStepPrecision } from '../utils/sliderMath';
+import { clampValue, moveThumb, roundToStepPrecision } from '../utils/sliderMath';
 import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'SliderThumb';
@@ -18,10 +18,16 @@ export type SliderThumbProps = {
     index?: number;
     'aria-label'?: string;
     'aria-labelledby'?: string;
+    /** Accessible name from the thumb's index, for multi-thumb sliders ("Minimum", "Maximum"). */
+    getAriaLabel?: (index: number) => string;
+    /** Text screen readers announce for the value. Gets the formatted value, the number and the index. */
+    getAriaValueText?: (formattedValue: string, value: number, index: number) => string;
+    /** Ref to the hidden input that holds this thumb's value for forms. */
+    inputRef?: React.Ref<HTMLInputElement>;
 } & ComponentPropsWithoutRef<'div'>;
 
-const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, isRtl: rootIsRtl, thumbAlignment, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef } = React.useContext(SliderContext);
+const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, getAriaLabel, getAriaValueText, inputRef, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
+    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, isRtl: rootIsRtl, thumbAlignment, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef, thumbCollisionBehavior = 'none', form, focusThumb } = React.useContext(SliderContext);
     const contextDir = useDirection();
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
@@ -78,24 +84,21 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         }
         e.preventDefault();
 
-        // In multi-thumb sliders a thumb cannot move past its neighbours.
-        const bounds = Array.isArray(value)
-            ? getThumbBounds(value, index, minValue, maxValue, minStepsBetweenValues * step)
-            : { lower: minValue, upper: maxValue };
-        const nextThumbValue = clampValue(
-            roundToStepPrecision(newValue, step, minValue),
-            bounds.lower,
-            bounds.upper
-        );
-        if (nextThumbValue === currentValue) return;
-
+        const target = roundToStepPrecision(newValue, step, minValue);
         let nextValue: number | number[];
         if (Array.isArray(value)) {
-            const next = [...value];
-            next[index] = nextThumbValue;
-            nextValue = next;
+            // Neighbours stop, get pushed along, or swap places, per thumbCollisionBehavior.
+            const moved = moveThumb(value, index, target, minValue, maxValue, minStepsBetweenValues * step, thumbCollisionBehavior);
+            if (moved.values.every((entry, i) => entry === value[i])) return;
+            nextValue = moved.values;
+            if (moved.index !== index) {
+                // The value now belongs to another thumb: focus follows it.
+                const movedTo = moved.index;
+                setTimeout(() => focusThumb?.(movedTo), 0);
+            }
         } else {
-            nextValue = nextThumbValue;
+            nextValue = clampValue(target, minValue, maxValue);
+            if (nextValue === currentValue) return;
         }
         setValue(nextValue);
         commitValue(nextValue);
@@ -125,9 +128,11 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             aria-valuemin={minValue}
             aria-valuemax={maxValue}
             aria-valuenow={currentValue}
-            aria-valuetext={formatValue ? formatValue(currentValue) : undefined}
+            aria-valuetext={getAriaValueText
+                ? getAriaValueText(formatValue ? formatValue(currentValue) : String(currentValue), currentValue, index)
+                : formatValue ? formatValue(currentValue) : undefined}
             aria-orientation={orientation}
-            aria-label={ariaLabel}
+            aria-label={ariaLabel ?? getAriaLabel?.(index)}
             aria-labelledby={ariaLabelledby}
             aria-disabled={disabled || undefined}
             data-state={state}
@@ -161,7 +166,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         <>
             {thumbNode}
             {name !== undefined && (
-                <input type="hidden" value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} disabled={disabled} />
+                <input ref={inputRef} type="hidden" form={form} value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} disabled={disabled} />
             )}
         </>
     );

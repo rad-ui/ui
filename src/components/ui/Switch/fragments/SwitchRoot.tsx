@@ -34,6 +34,12 @@ export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> &
     name?: string;
     value?: string;
     asChild?: boolean;
+    /** Value submitted under `name` while off. By default nothing is submitted then. */
+    uncheckedValue?: string;
+    /** `id` of a `<form>` elsewhere in the page that this switch submits with. */
+    form?: string;
+    /** Ref to the hidden `<input type="checkbox">` that mirrors the state for forms. */
+    inputRef?: React.Ref<HTMLInputElement>;
 };
 
 const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwareProps, ref) => {
@@ -54,6 +60,9 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         asChild = false,
         className,
         onClick,
+        uncheckedValue,
+        form,
+        inputRef,
         ...props
     } = useFieldControlProps(fieldAwareProps);
     const [isChecked, setIsChecked] = useControllableState(
@@ -78,13 +87,20 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
     const rendersFormInput = Boolean(name) || required;
 
     // Return to the initial state when the owning form resets, like a native checkbox.
+    const hiddenInputRef = React.useRef<HTMLInputElement | null>(null);
+    const setHiddenInput = React.useCallback((node: HTMLInputElement | null) => {
+        hiddenInputRef.current = node;
+        if (typeof inputRef === 'function') inputRef(node);
+        else if (inputRef) (inputRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+    }, [inputRef]);
     React.useEffect(() => {
-        const form = buttonRef.current?.closest('form');
-        if (!form || !rendersFormInput) return;
+        // The hidden input knows its form even when `form` points outside the tree.
+        const owner = hiddenInputRef.current?.form ?? buttonRef.current?.closest('form');
+        if (!owner || !rendersFormInput) return;
         const handleReset = () => setIsChecked(Boolean(defaultCheckedRef.current));
-        form.addEventListener('reset', handleReset);
-        return () => form.removeEventListener('reset', handleReset);
-    }, [rendersFormInput, setIsChecked]);
+        owner.addEventListener('reset', handleReset);
+        return () => owner.removeEventListener('reset', handleReset);
+    }, [rendersFormInput, setIsChecked, form]);
 
     const contextValues = {
         checked: isChecked,
@@ -126,10 +142,12 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
                 // A button only submits its name/value when it is the submitter, so mirror the
                 // state into a checkbox the form can read (FormData, required validation).
                 <input
+                    ref={setHiddenInput}
                     type="checkbox"
                     aria-hidden="true"
                     tabIndex={-1}
                     name={name}
+                    form={form}
                     value={value ?? 'on'}
                     checked={isChecked}
                     required={required}
@@ -144,6 +162,9 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
                         pointerEvents: 'none'
                     }}
                 />
+            )}
+            {rendersFormInput && uncheckedValue !== undefined && name && !isChecked && !disabled && (
+                <input type="hidden" name={name} form={form} value={uncheckedValue} />
             )}
         </SwitchContext.Provider>
     );

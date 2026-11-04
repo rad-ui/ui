@@ -10,6 +10,7 @@ import SelectGroup from './fragments/SelectGroup';
 import SelectGroupLabel from './fragments/SelectGroupLabel';
 import SelectSeparator from './fragments/SelectSeparator';
 import SelectValue from './fragments/SelectValue';
+import SelectLabel from './fragments/SelectLabel';
 import SelectIcon from './fragments/SelectIcon';
 import { SelectScrollUpArrow, SelectScrollDownArrow } from './fragments/SelectScrollArrow';
 
@@ -30,6 +31,7 @@ interface SelectComponent extends React.ForwardRefExoticComponent<React.RefAttri
     GroupLabel: typeof SelectGroupLabel;
     Separator: typeof SelectSeparator;
     Value: typeof SelectValue;
+    Label: typeof SelectLabel;
     Icon: typeof SelectIcon;
     Indicator: typeof SelectIndicator;
     ScrollUpArrow: typeof SelectScrollUpArrow;
@@ -47,6 +49,7 @@ Select.Group = SelectGroup;
 Select.GroupLabel = SelectGroupLabel;
 Select.Separator = SelectSeparator;
 Select.Value = SelectValue;
+Select.Label = SelectLabel;
 Select.Icon = SelectIcon;
 Select.Indicator = SelectIndicator;
 Select.ScrollUpArrow = SelectScrollUpArrow;
@@ -57,6 +60,7 @@ export type { SelectContentProps } from './fragments/SelectContent';
 export type { SelectGroupLabelProps } from './fragments/SelectGroupLabel';
 export type { SelectSeparatorProps } from './fragments/SelectSeparator';
 export type { SelectValueProps } from './fragments/SelectValue';
+export type { SelectLabelProps } from './fragments/SelectLabel';
 export type { SelectIconProps } from './fragments/SelectIcon';
 export type { SelectItemProps } from './fragments/SelectItem';
 export type { SelectTriggerProps } from './fragments/SelectTrigger';
@@ -76,6 +80,7 @@ export {
     SelectGroupLabel as GroupLabel,
     SelectSeparator as Separator,
     SelectValue as Value,
+    SelectLabel as Label,
     SelectIcon as Icon,
     SelectIndicator as Indicator,
     SelectScrollUpArrow as ScrollUpArrow,

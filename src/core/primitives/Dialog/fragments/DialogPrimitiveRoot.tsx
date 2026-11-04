@@ -7,6 +7,7 @@ import type { DialogHandle } from '../handle';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const noop = () => {};
 
@@ -34,6 +35,8 @@ export type DialogPrimitiveRootProps = {
     dismissOnOutsidePress?: boolean;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
     /**
      * `true` (default): focus is trapped, page scroll is locked and the overlay blocks the page.
      * `'trap-focus'`: focus is trapped but the page still scrolls and takes pointer input.
@@ -44,7 +47,7 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, onOpenChangeComplete, modal = true, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, onOpenChangeComplete, modal = true, actionsRef, ...props }, ref) => {
     // onOpenChange is called by handleOpenChange (with details), not by the state hook.
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, noop);
     const onOpenChangeRef = React.useRef(onOpenChange);
@@ -107,6 +110,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         role
     ]);
 
+    usePopupActions(actionsRef, () => handleOpenChange(false, 'imperative-action'));
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete, modal };
     return (
         <DialogNestingContext.Provider value={nesting}>

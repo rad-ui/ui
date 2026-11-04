@@ -251,6 +251,7 @@
 .rad-ui-select-trigger:has(.rad-ui-select-icon)::after {
     display: none;
 }
+
 // Scroll arrows overlay the top and bottom edges of the list while it can scroll that way.
 .rad-ui-select-content {
     scroll-padding-block: var(--rad-select-scroll-arrow-height, 1.5rem);

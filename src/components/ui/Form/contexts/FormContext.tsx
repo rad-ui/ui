@@ -11,6 +11,7 @@ export type FormFieldEntry = {
     controlRef: React.MutableRefObject<HTMLElement | null>;
     /** Resolves with the result of a pending async check, or null when none is running. */
     pending: () => Promise<boolean> | null;
+    name?: string;
 };
 
 export type FormContextValue = {

@@ -5,6 +5,8 @@ export type ComboboxPrimitiveContextType = {
     isOpen: boolean,
     /** While open, lock page scroll and keep outside presses from reaching the page. */
     modal?: boolean,
+    readOnly?: boolean,
+    finalFocus?: import('~/core/utils/focusTarget').FinalFocus,
     setIsOpen: (open: boolean | ((previous: boolean) => boolean)) => void,
     handleSelect: (index: number | null) => void,
     refs: {

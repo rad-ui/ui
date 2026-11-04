@@ -13,6 +13,7 @@ import DropdownMenuRadioItem from './fragments/DropdownMenuRadioItem';
 import DropdownMenuItemIndicator from './fragments/DropdownMenuItemIndicator';
 import DropdownMenuGroup from './fragments/DropdownMenuGroup';
 import DropdownMenuGroupLabel from './fragments/DropdownMenuGroupLabel';
+import DropdownMenuArrow from './fragments/DropdownMenuArrow';
 import { createPopupHandle } from '~/core/utils/popupHandle';
 
 export type DropdownMenuElement = ElementRef<'div'>;
@@ -33,6 +34,7 @@ type DropdownMenuComponent = React.ForwardRefExoticComponent<DropdownMenuProps &
     ItemIndicator: typeof DropdownMenuItemIndicator;
     Group: typeof DropdownMenuGroup;
     GroupLabel: typeof DropdownMenuGroupLabel;
+    Arrow: typeof DropdownMenuArrow;
     /** Creates a handle that connects triggers rendered outside DropdownMenu.Root. */
     createHandle: typeof createPopupHandle;
 };
@@ -58,6 +60,7 @@ DropdownMenu.RadioItem = DropdownMenuRadioItem;
 DropdownMenu.ItemIndicator = DropdownMenuItemIndicator;
 DropdownMenu.Group = DropdownMenuGroup;
 DropdownMenu.GroupLabel = DropdownMenuGroupLabel;
+DropdownMenu.Arrow = DropdownMenuArrow;
 DropdownMenu.createHandle = createPopupHandle;
 
 export type { DropdownMenuRootProps } from './fragments/DropdownMenuRoot';
@@ -74,6 +77,7 @@ export type { DropdownMenuRadioItemProps } from './fragments/DropdownMenuRadioIt
 export type { DropdownMenuItemIndicatorProps } from './fragments/DropdownMenuItemIndicator';
 export type { DropdownMenuGroupProps } from './fragments/DropdownMenuGroup';
 export type { DropdownMenuGroupLabelProps } from './fragments/DropdownMenuGroupLabel';
+export type { DropdownMenuArrowProps } from './fragments/DropdownMenuArrow';
 // Named part exports let React Server Components use `import * as DropdownMenu from '@radui/ui/DropdownMenu'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -91,6 +95,7 @@ export {
     DropdownMenuItemIndicator as ItemIndicator,
     DropdownMenuGroup as Group,
     DropdownMenuGroupLabel as GroupLabel,
+    DropdownMenuArrow as Arrow,
     createPopupHandle as createHandle
 };
 

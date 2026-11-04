@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useFilter } from '~/core/hooks/useFilter';
 import ComboboxContent from './fragments/ComboboxContent';
 import ComboboxItem from './fragments/ComboboxItem';
 import ComboboxTrigger from './fragments/ComboboxTrigger';
@@ -7,6 +8,7 @@ import ComboboxRoot from './fragments/ComboboxRoot';
 import ComboboxIndicator from './fragments/ComboboxIndicator';
 import ComboboxPortal from './fragments/ComboboxPortal';
 import ComboboxEmpty from './fragments/ComboboxEmpty';
+import ComboboxStatus from './fragments/ComboboxStatus';
 import ComboboxClear from './fragments/ComboboxClear';
 import ComboboxGroup from './fragments/ComboboxGroup';
 import ComboboxGroupLabel from './fragments/ComboboxGroupLabel';
@@ -23,12 +25,15 @@ const ComboboxBase = React.forwardRef<unknown, Record<string, never>>((_props, _
 ComboboxBase.displayName = 'Combobox';
 
 interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAttributes<unknown>> {
+    /** Text matchers for a custom `filter`: `contains`, `startsWith`, `endsWith`. */
+    useFilter: typeof useFilter;
     Root: typeof ComboboxRoot;
     Content: typeof ComboboxContent;
     Item: typeof ComboboxItem;
     Trigger: typeof ComboboxTrigger;
     Portal: typeof ComboboxPortal;
     Empty: typeof ComboboxEmpty;
+    Status: typeof ComboboxStatus;
     Clear: typeof ComboboxClear;
     Group: typeof ComboboxGroup;
     GroupLabel: typeof ComboboxGroupLabel;
@@ -42,11 +47,13 @@ interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAtt
 const Combobox = ComboboxBase as ComboboxComponent;
 
 Combobox.Root = ComboboxRoot;
+Combobox.useFilter = useFilter;
 Combobox.Content = ComboboxContent;
 Combobox.Item = ComboboxItem;
 Combobox.Trigger = ComboboxTrigger;
 Combobox.Portal = ComboboxPortal;
 Combobox.Empty = ComboboxEmpty;
+Combobox.Status = ComboboxStatus;
 Combobox.Clear = ComboboxClear;
 Combobox.Group = ComboboxGroup;
 Combobox.GroupLabel = ComboboxGroupLabel;
@@ -58,6 +65,7 @@ Combobox.Value = ComboboxValue;
 
 export type { ComboboxRootProps } from './fragments/ComboboxRoot';
 export type { ComboboxEmptyProps } from './fragments/ComboboxEmpty';
+export type { ComboboxStatusProps } from './fragments/ComboboxStatus';
 export type { ComboboxClearProps } from './fragments/ComboboxClear';
 export type { ComboboxContentProps } from './fragments/ComboboxContent';
 export type { ComboboxGroupLabelProps } from './fragments/ComboboxGroupLabel';
@@ -76,6 +84,7 @@ export {
     ComboboxTrigger as Trigger,
     ComboboxPortal as Portal,
     ComboboxEmpty as Empty,
+    ComboboxStatus as Status,
     ComboboxClear as Clear,
     ComboboxGroup as Group,
     ComboboxGroupLabel as GroupLabel,

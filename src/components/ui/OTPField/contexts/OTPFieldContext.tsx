@@ -13,6 +13,8 @@ export type OTPFieldContextValue = {
     length: number;
     validationType: OTPFieldValidationType;
     type: 'text' | 'password';
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+    autoComplete?: string;
     disabled: boolean;
     readOnly: boolean;
     /** Registers a slot's input; returns an unregister function. */
