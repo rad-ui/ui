@@ -7,18 +7,21 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import { MenuPrimitivePortalContext } from '../contexts/MenuPrimitivePortalContext';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import { placementAlign, placementSide } from '~/core/utils/placement';
+import { FinalFocus, toReturnFocus } from '~/core/utils/focusTarget';
 
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
     className?: string;
     initialFocus?: number;
+    /** Where focus goes when the menu closes: the trigger (default), `false` nowhere, a ref, or a function. */
+    finalFocus?: FinalFocus;
     focusManagerDisabled?: boolean;
     /** Keep the content mounted while closed (e.g. for exit animations). Inside a `Portal`, set `forceMount` on the Portal (it passes down): a closed Portal renders nothing, as in Radix. */
     forceMount?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProps>(
-    ({ children, className, initialFocus, focusManagerDisabled = false, forceMount = false, ...props }, propRef) => {
+    ({ children, className, initialFocus, finalFocus, focusManagerDisabled = false, forceMount = false, ...props }, propRef) => {
         const context = useContext(MenuPrimitiveRootContext);
         const tree = Floater.useFloatingTree();
         const mergedRef = Floater.useMergeRefs([
@@ -120,7 +123,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                     disabled={focusManagerDisabled || !isOpen}
                     modal={blocksPage}
                     initialFocus={initialFocus ?? (isNested ? -1 : 0)}
-                    returnFocus={!isNested}
+                    returnFocus={isNested ? false : toReturnFocus(finalFocus)}
                 >
                     <div
                         ref={mergedRef}

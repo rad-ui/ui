@@ -12,6 +12,7 @@ import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
 import { anchorTracking, collisionMiddleware, CollisionAvoidance, FloatingAnchor, PositionMethod } from '~/core/utils/placement';
 import { useFloatingAnchor, useStableAnchor } from '~/core/hooks/useFloatingAnchor';
 import { createFilter } from '~/core/utils/filter';
+import { FinalFocus, focusFinal } from '~/core/utils/focusTarget';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
@@ -123,6 +124,10 @@ export type ComboboxPrimitiveRootProps = {
     limit?: number;
     /** Locale for the default filter's case folding. */
     locale?: Intl.LocalesArgument;
+    /** Where focus goes when the list closes: the trigger (default), `false` nowhere, a ref, or a function. */
+    finalFocus?: FinalFocus;
+    /** `autocomplete` for the hidden form control, so browsers can autofill the value. */
+    autoComplete?: string;
 };
 
 const EMPTY_VALUES: string[] = [];
@@ -187,6 +192,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     limit,
     locale,
     actionsRef,
+    finalFocus,
+    autoComplete,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -194,6 +201,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const dir = useDirection(props.dir);
     const [isOpenState, setOpenState] = useControllableState<boolean>(open, defaultOpen, noop);
     // onOpenChange is called here with details; the state hook only stores the value.
+    const finalFocusRef = React.useRef(finalFocus);
+    finalFocusRef.current = finalFocus;
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const isOpenRef = React.useRef(Boolean(isOpenState));
@@ -439,7 +448,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 const floating = refs.floating.current;
                 const active = floating?.ownerDocument.activeElement;
                 if (floating && active && floating.contains(active)) {
-                    (refs.reference.current as HTMLElement | null)?.focus();
+                    focusFinal(finalFocusRef.current, refs.reference.current as HTMLElement | null);
                 }
             }
         },
@@ -519,7 +528,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
             }
             setSelectedIndex(index);
             setIsOpen(false, 'item-press');
-            (refs.reference.current as HTMLElement | null)?.focus();
+            focusFinal(finalFocusRef.current, refs.reference.current as HTMLElement | null);
             if (index !== null) {
                 const item = elementsRef.current[index];
                 const value = item?.getAttribute('data-value') || valuesRef.current[index];
@@ -669,7 +678,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         setReferenceIsInput,
         clearValue,
         modal,
-        readOnly
+        readOnly,
+        finalFocus
     }), [
         isOpen,
         handleSelect,
@@ -706,7 +716,8 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         transition.status,
         clearValue,
         modal,
-        readOnly
+        readOnly,
+        finalFocus
     ]);
 
     return (
@@ -728,6 +739,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                             ref={mergedSelectRef}
                             name={name}
                             form={form}
+                            autoComplete={autoComplete}
                             multiple={multiple || undefined}
                             value={multiple ? selectedValues : selectedValue}
                             required={required}

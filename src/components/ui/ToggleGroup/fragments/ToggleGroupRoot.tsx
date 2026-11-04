@@ -13,6 +13,8 @@ type ToggleGroupRootElement = React.ElementRef<'div'>;
 export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
     type?: 'single' | 'multiple';
+    /** Same as `type="multiple"` when true. */
+    multiple?: boolean;
     /** Additional CSS class names to apply */
     className?: string;
     /** Whether focus should loop from last to first and vice versa */
@@ -44,7 +46,8 @@ export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
 const COMPONENT_NAME = 'ToggleGroup';
 
 const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
-    type = 'single',
+    type: typeProp,
+    multiple,
     className = '',
     loop = true,
     orientation = 'horizontal',
@@ -60,6 +63,7 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     children,
     ...props
 }, ref) => {
+    const type = typeProp ?? (multiple ? 'multiple' : 'single');
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const dir = useDirection(dirProp) ?? 'ltr';
 
