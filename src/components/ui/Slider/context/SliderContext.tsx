@@ -25,6 +25,9 @@ type SliderContextType = {
     rootRef: RefObject<HTMLDivElement>;
     thumbRefs?: RefObject<HTMLDivElement>[];
     registerThumbRef?: (index: number, thumbRef: RefObject<HTMLDivElement>) => void;
+    thumbCollisionBehavior?: 'none' | 'push' | 'swap';
+    form?: string;
+    focusThumb?: (index: number) => void;
 };
 
 export const SliderContext = createContext<SliderContextType>({
