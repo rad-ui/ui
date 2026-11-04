@@ -2,7 +2,6 @@
   textarea {
     display: block;
     width: 100%;
-    min-height: 7.5rem;
     box-sizing: border-box;
     resize: vertical;
     font-family: var(--rad-ui-font-sans);
@@ -66,7 +65,6 @@
 
   &[data-size="small"] textarea {
     font-size: var(--rad-ui-font-size-2);
-    min-height: 6rem;
     padding: 0.75rem 0.875rem;
   }
 
@@ -76,7 +74,6 @@
 
   &[data-size="large"] textarea {
     font-size: var(--rad-ui-font-size-4);
-    min-height: 9rem;
     padding: 1.125rem 1.25rem;
   }
 
@@ -143,4 +140,17 @@
       border-color: var(--rad-ui-border-default);
     }
   }
+}
+
+// The default heights only apply without `rows`; with `rows`, the browser sizes it to that many lines.
+.rad-ui-text-area textarea:not([rows]) {
+  min-height: 7.5rem;
+}
+
+.rad-ui-text-area[data-size="small"] textarea:not([rows]) {
+  min-height: 6rem;
+}
+
+.rad-ui-text-area[data-size="large"] textarea:not([rows]) {
+  min-height: 9rem;
 }
