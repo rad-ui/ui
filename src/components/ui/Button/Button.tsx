@@ -44,6 +44,12 @@ export type ButtonProps = {
      * button disables itself while a request is pending.
      */
     focusableWhenDisabled?: boolean;
+    /**
+     * A solid button filled with the text colour and labelled in the background colour,
+     * so it reads as the one main action without an accent hue (light on dark, dark on
+     * light). Applies to the default and `solid` variants. Sets `data-high-contrast`.
+     */
+    highContrast?: boolean;
 } & ComponentPropsWithoutRef<typeof ButtonPrimitive>;
 
 const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
@@ -57,6 +63,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         color = '',
         disabled = false,
         focusableWhenDisabled = false,
+        highContrast = false,
         onClick,
         onClickCapture,
         onAuxClickCapture,
@@ -70,7 +77,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
         // apply data attribute for accent color
         // apply attribute only if color is present
-        const dataAttributes = createDataAttributes('button', { variant, size });
+        const dataAttributes = createDataAttributes('button', { variant, size, highContrast });
         const accentAttributes = createDataAccentColorAttribute(color);
         const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
