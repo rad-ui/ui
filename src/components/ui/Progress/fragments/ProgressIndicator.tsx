@@ -9,6 +9,7 @@ import React, {
 import { clsx } from 'clsx';
 import { ProgressContext } from '../contexts/ProgressContext';
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type ProgressIndicatorElement = ElementRef<typeof Primitive.div>;
 export type ProgressIndicatorProps = ComponentPropsWithoutRef<
@@ -35,7 +36,7 @@ const ProgressIndicator = forwardRef<
             className={clsx(rootClass && `${rootClass}-indicator`, className)}
             // Indeterminate bars are animated by the theme via [data-state="indeterminate"].
             style={isIndeterminate ? style : { transform: `translateX(-${100 - percentage}%)`, ...style }}
-            data-state={state}
+            {...stateData(state)}
             data-value={isIndeterminate ? undefined : boundedValue}
             data-max={maxValue}
             data-min={minValue}

@@ -8,6 +8,7 @@ import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
 import { clampValue, moveThumb, roundToStepPrecision } from '../utils/sliderMath';
 import { useDirection } from '~/core/hooks/useDirection';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'SliderThumb';
 
@@ -135,7 +136,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             aria-label={ariaLabel ?? getAriaLabel?.(index)}
             aria-labelledby={ariaLabelledby}
             aria-disabled={disabled || undefined}
-            data-state={state}
+            {...stateData(state)}
             data-disabled={disabled}
             data-index={index}
             onKeyDown={handleKeyDown}

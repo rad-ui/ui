@@ -39,6 +39,8 @@ export type NumberFieldContextType = {
   allowOutOfRange?: boolean;
   form?: string;
   inputRef?: React.Ref<HTMLInputElement>;
+  /** Inside Field.Root: the field's data-* state, for the input. */
+  fieldStateAttributes?: Record<string, string> | null;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);

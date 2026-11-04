@@ -13,6 +13,9 @@ export type FieldControlProps = ComponentPropsWithoutRef<typeof Primitive.input>
     onValueChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+const isFilled = (control: HTMLInputElement) =>
+    control.type === 'checkbox' || control.type === 'radio' ? control.checked : control.value !== '';
+
 /**
  * The form control. Renders an <input> by default; pass `asChild` to wire up another control,
  * such as Rad UI's TextField or TextArea, a native select, or your own input.
@@ -44,6 +47,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
         setTouched,
         setDirty,
         setFocused,
+        setFilled,
         validate,
         validateDebounced,
         validityShown,
@@ -59,6 +63,12 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
     React.useEffect(() => {
         validate(false);
     }, [validate]);
+
+    // data-filled follows the value, including one set from outside.
+    useLayoutEffect(() => {
+        const control = controlRef.current as HTMLInputElement | null;
+        if (control && 'value' in control) setFilled(isFilled(control));
+    }, [controlRef, setFilled, props.value, props.checked]);
 
     // A control with its own id keeps it; the Label follows.
     useLayoutEffect(() => {
@@ -95,6 +105,7 @@ const FieldControl = forwardRef<FieldControlElement, FieldControlProps>(({
                 onChange?.(event);
                 onValueChange?.(event.target.value, event);
                 setDirty(true);
+                setFilled(isFilled(event.target));
                 const fieldName = nameProp ?? name;
                 if (fieldName) clearFormError?.(fieldName);
                 validateDebounced(validationMode === 'onChange' || validityShown);

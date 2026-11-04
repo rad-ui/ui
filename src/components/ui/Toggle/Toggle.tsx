@@ -4,6 +4,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import useControllableState from '~/core/hooks/useControllableState';
 
 import TogglePrimitive from '~/core/primitives/Toggle';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Toggle';
 
@@ -70,7 +71,7 @@ const Toggle = forwardRef<ToggleElement, ToggleProps>(({
             className={clsx(rootClass, className)}
             pressed={isPressed}
             onPressedChange={setIsPressed}
-            data-state={isPressed ? 'on' : 'off'}
+            {...stateData(isPressed ? 'on' : 'off')}
             data-disabled={props.disabled ? '' : undefined}
             asChild={asChild}
             {...props}

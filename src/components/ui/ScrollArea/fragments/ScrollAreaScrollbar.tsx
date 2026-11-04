@@ -5,6 +5,7 @@ import React, { useContext, useRef, useCallback, useEffect, useLayoutEffect, for
 import { ScrollAreaContext, ScrollAreaScrollbarOrientationContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type ScrollAreaScrollbarElement = ElementRef<typeof Primitive.div>;
 export type ScrollAreaScrollbarProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
@@ -198,7 +199,7 @@ const ScrollAreaScrollbar = forwardRef<ScrollAreaScrollbarElement, ScrollAreaScr
             ref={setRefs}
             className={clsx(rootClass && `${rootClass}-scrollbar`, className)}
             data-orientation={orientation}
-            data-state={isVisible ? 'visible' : 'hidden'}
+            {...stateData(isVisible ? 'visible' : 'hidden')}
             data-corner={hasCorner ? '' : undefined}
             style={{
                 // The horizontal thumb is positioned with a physical `left` offset

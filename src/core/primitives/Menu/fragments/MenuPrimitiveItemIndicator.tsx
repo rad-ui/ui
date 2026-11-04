@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { MenuItemIndicatorContext } from '../contexts/MenuItemStateContexts';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveItemIndicatorProps = React.ComponentPropsWithoutRef<typeof Primitive.span> & {
     /** Keep it rendered while unchecked, for animations or reserved space. */
@@ -14,7 +15,7 @@ const MenuPrimitiveItemIndicator = forwardRef<HTMLSpanElement, MenuPrimitiveItem
         const checked = Boolean(context?.checked);
         if (!checked && !forceMount) return null;
         return (
-            <Primitive.span ref={ref} aria-hidden="true" data-state={checked ? 'checked' : 'unchecked'} {...props}>
+            <Primitive.span ref={ref} aria-hidden="true" {...stateData(checked ? 'checked' : 'unchecked')} {...props}>
                 {children}
             </Primitive.span>
         );

@@ -4,6 +4,7 @@ import NavigationMenuRootContext from '../contexts/NavigationMenuRootContext';
 import Primitive from '~/core/primitives/Primitive';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type NavigationMenuViewportElement = React.ElementRef<'div'>;
 
@@ -51,7 +52,7 @@ const NavigationMenuViewport = React.forwardRef<NavigationMenuViewportElement, N
             <Primitive.div
                 ref={mergeRefs(setViewport, ref)}
                 className={clsx(rootClass && `${rootClass}-viewport`, className)}
-                data-state={open ? 'open' : 'closed'}
+                {...stateData(open ? 'open' : 'closed')}
                 data-slot="navigation-menu-viewport"
                 hidden={!open || undefined}
                 asChild={asChild}

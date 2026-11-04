@@ -5,6 +5,7 @@ import NavigationMenuItemContext from '../contexts/NavigationMenyItemContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import clsx from 'clsx';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type NavigationMenuContentElement = React.ElementRef<'div'>;
 
@@ -70,7 +71,7 @@ const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, Nav
                 ref={setContentNode}
                 id={contentId}
                 className={clsx(rootClass && `${rootClass}-content`, className)}
-                data-state={itemOpen ? 'open' : 'closed'}
+                {...stateData(itemOpen ? 'open' : 'closed')}
                 {...getTransitionAttributes(transition.status)}
                 hidden={hidden || undefined}
                 {...props}

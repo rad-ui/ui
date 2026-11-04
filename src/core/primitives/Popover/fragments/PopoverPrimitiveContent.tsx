@@ -13,6 +13,7 @@ import { PopoverPrimitivePortalContext } from '../context/PopoverPrimitivePortal
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
 import type { CollisionAvoidance, FloatingAnchor, PositionMethod } from '~/core/utils/placement';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type PopoverFocusTarget = boolean | React.RefObject<HTMLElement | null> | (() => boolean | void | HTMLElement | null);
 
@@ -262,7 +263,7 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         ...props,
         id: contentId,
         role,
-        'data-state': isOpen ? 'open' : 'closed',
+        ...stateData(isOpen ? 'open' : 'closed'),
         'data-side': resolvedSide ?? side,
         'data-align': resolvedPlacement ? (resolvedAlign ?? 'center') : align,
         'aria-hidden': !isOpen ? 'true' : undefined,

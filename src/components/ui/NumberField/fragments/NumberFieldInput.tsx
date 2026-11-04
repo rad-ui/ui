@@ -114,6 +114,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
     };
 
     const sharedAttributes = {
+        ...context.fieldStateAttributes,
         'aria-invalid': ariaInvalid ?? (invalid ? true : undefined),
         'aria-describedby': [props['aria-describedby'], field?.describedBy].filter(Boolean).join(' ') || undefined,
         'data-slot': 'number-field-input',
@@ -178,6 +179,7 @@ const NumberFieldInput = forwardRef<NumberFieldInputElement, NumberFieldInputPro
             disabled={disabled}
             readOnly={readOnly}
             required={required}
+            {...context.fieldStateAttributes}
             {...props}
             aria-invalid={ariaInvalid ?? (invalid ? true : undefined)}
             aria-describedby={[props['aria-describedby'], field?.describedBy].filter(Boolean).join(' ') || undefined}

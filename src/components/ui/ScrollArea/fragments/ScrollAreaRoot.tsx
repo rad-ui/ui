@@ -338,6 +338,33 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         syncThumbs();
     }, [scrollbarsMounted.x, scrollbarsMounted.y, overflow.x, overflow.y, type]);
 
+    // data-scrolling while the viewport scrolls (cleared 150ms after the last scroll event)
+    // and data-hovering while the pointer is over the area; set on the root and both scrollbars.
+    React.useEffect(() => {
+        const root = internalRootRef.current;
+        const viewport = scrollAreaViewportRef.current;
+        if (!root) return;
+        const targets = () => [root, scrollbarXRef.current, scrollbarYRef.current].filter((element): element is HTMLDivElement => Boolean(element));
+        const mark = (name: string, on: boolean) => targets().forEach((element) => element.toggleAttribute(name, on));
+        let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+        const handleScroll = () => {
+            mark('data-scrolling', true);
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => mark('data-scrolling', false), 150);
+        };
+        const handleEnter = () => mark('data-hovering', true);
+        const handleLeave = () => mark('data-hovering', false);
+        viewport?.addEventListener('scroll', handleScroll, { passive: true });
+        root.addEventListener('pointerenter', handleEnter);
+        root.addEventListener('pointerleave', handleLeave);
+        return () => {
+            clearTimeout(scrollTimer);
+            viewport?.removeEventListener('scroll', handleScroll);
+            root.removeEventListener('pointerenter', handleEnter);
+            root.removeEventListener('pointerleave', handleLeave);
+        };
+    }, [scrollbarXRef, scrollbarYRef]);
+
     return (
         <ScrollAreaContext.Provider
             value={{
@@ -365,6 +392,8 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
                 data-scrollbar-type={type}
                 data-scrollbar-x={String(overflow.x || type === 'always')}
                 data-scrollbar-y={String(overflow.y || type === 'always')}
+                data-has-overflow-x={overflow.x ? '' : undefined}
+                data-has-overflow-y={overflow.y ? '' : undefined}
                 {...props}
             >
                 {children}

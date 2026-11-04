@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { DrawerContext } from '../context/DrawerContext';
 import { DialogPrimitiveContext } from '~/core/primitives/Dialog/context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type DrawerOverlayElement = React.ElementRef<'div'>;
 
@@ -61,7 +62,7 @@ const DrawerOverlay = forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({
                 lockScroll={isOpen && lockScroll}
                 ref={ref}
                 onClick={handleClick}
-                data-state={dataState}
+                {...stateData(dataState)}
                 // When modal=false, overlay is invisible (no backdrop) but still present for z-index stacking
                 style={modal === false ? { pointerEvents: 'none', background: 'transparent' } : undefined}
                 className={clsx(rootClass && `${rootClass}-overlay`, className)}

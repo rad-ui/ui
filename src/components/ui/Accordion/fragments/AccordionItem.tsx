@@ -8,6 +8,7 @@ import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import Primitive from '~/core/primitives/Primitive';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import { usePrefersReducedMotion } from '~/core/hooks/usePrefersReducedMotion';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type AccordionItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value: string;
@@ -92,7 +93,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                 <Primitive.div
                     ref={mergeRefs(accordionItemRef, forwardedRef)}
                     className={clsx(rootClass && `${rootClass}-item`, className)}
-                    data-state={isOpen ? 'open' : 'closed'}
+                    {...stateData(isOpen ? 'open' : 'closed')}
                     data-disabled={effectiveDisabled ? '' : undefined}
                     data-orientation={orientation}
                     data-slot="accordion-item"

@@ -52,7 +52,15 @@ const AvatarPrimitiveRoot = React.forwardRef<React.ElementRef<typeof Primitive.s
     const showsImage = hasImage && !hasError;
 
     return <AvatarPrimitiveContext.Provider value={values} >
-        <Primitive.span ref={ref} asChild={asChild} data-rad-ui-has-image={showsImage ? '' : undefined} {...props}>{children}</Primitive.span>
+        <Primitive.span
+            ref={ref}
+            asChild={asChild}
+            data-rad-ui-has-image={showsImage ? '' : undefined}
+            // The image's status, for styling the whole avatar while it loads or after it fails.
+            data-loading={imageLoadingStatus === 'loading' ? '' : undefined}
+            data-error={hasError ? '' : undefined}
+            {...props}
+        >{children}</Primitive.span>
     </AvatarPrimitiveContext.Provider>;
 });
 

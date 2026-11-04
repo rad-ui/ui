@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { AccordionContext } from '../contexts/AccordionContext';
 import { AccordionItemContext } from '../contexts/AccordionItemContext';
 import { mergeProps, composeRefs, getElementRef } from '~/core/utils/mergeProps';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type AccordionHeaderProps = React.ComponentPropsWithoutRef<'h3'> & {
     asChild?: boolean;
@@ -20,7 +21,7 @@ const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProp
         if (asChild && isValidElement(children)) {
             const child = children as React.ReactElement;
             const merged = mergeProps(
-                { className: mergedClass, 'data-orientation': orientation, 'data-state': state, 'data-disabled': disabledAttr, 'data-slot': 'accordion-header' },
+                { className: mergedClass, 'data-orientation': orientation, ...stateData(state), 'data-disabled': disabledAttr, 'data-slot': 'accordion-header' },
                 child.props as Record<string, unknown>
             );
             return cloneElement(child, {
@@ -34,7 +35,7 @@ const AccordionHeader = React.forwardRef<HTMLHeadingElement, AccordionHeaderProp
                 ref={ref}
                 className={mergedClass}
                 data-orientation={orientation}
-                data-state={state}
+                {...stateData(state)}
                 data-disabled={disabledAttr}
                 data-slot="accordion-header"
                 {...props}

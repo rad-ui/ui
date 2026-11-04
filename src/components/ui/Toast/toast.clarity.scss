@@ -33,7 +33,7 @@
     transform-origin: bottom center;
     transform:
         translateY(var(--y, 0px))
-        translateY(var(--swipe-y, 0px))
+        translate(var(--swipe-x, 0px), var(--swipe-y, 0px))
         scale(var(--scale, 1));
 
     /* Sonner [data-sonner-toast]: transform/opacity 400ms (+ height in Sonner; omitted here). */
@@ -45,10 +45,20 @@
         opacity: 0;
         transform:
             translateY(calc(var(--toast-lift, -1) * -100%))
-            translateY(var(--swipe-y, 0px))
+            translate(var(--swipe-x, 0px), var(--swipe-y, 0px))
             scale(var(--scale, 1));
         transition: transform var(--rad-ui-motion-duration-slow) ease, opacity var(--rad-ui-motion-duration-slow) ease, box-shadow var(--rad-ui-motion-duration-normal) ease;
     }
+
+    // Swiped off to the side: keep the stack offset and finish the slide sideways.
+    &[data-leaving][data-swipe-out="left"],
+    &[data-leaving][data-swipe-out="right"] {
+        transform:
+            translateY(var(--y, 0px))
+            translate(var(--swipe-x, 0px), 0)
+            scale(var(--scale, 1));
+    }
+
 
     &:not([data-mounted]) {
         opacity: 0;

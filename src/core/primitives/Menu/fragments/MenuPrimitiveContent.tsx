@@ -8,6 +8,7 @@ import { MenuPrimitivePortalContext } from '../contexts/MenuPrimitivePortalConte
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import { placementAlign, placementSide } from '~/core/utils/placement';
 import { FinalFocus, toReturnFocus } from '~/core/utils/focusTarget';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
@@ -90,7 +91,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 className,
                 // Portaled content does not inherit direction from the trigger's tree.
                 dir: context.dir,
-                'data-state': 'open',
+                ...stateData('open'),
                 'data-side': placementSide(context.resolvedPlacement),
                 'data-align': placementAlign(context.resolvedPlacement),
                 ...getTransitionAttributes(context.transitionStatus),
@@ -104,7 +105,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 ...restProps,
                 className,
                 dir: context.dir,
-                'data-state': 'closed',
+                ...stateData('closed'),
                 'data-side': placementSide(context.resolvedPlacement),
                 'data-align': placementAlign(context.resolvedPlacement),
                 'aria-hidden': 'true',

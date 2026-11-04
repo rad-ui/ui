@@ -15,6 +15,7 @@ import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const noop = () => {};
 
@@ -309,7 +310,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     return (
         <PopoverPrimitiveContext.Provider value={contextValue}>
             <Floater.FloatingNode id={nodeId}>
-                <Primitive.div ref={ref} data-state={isOpen ? 'open' : 'closed'} {...props}>
+                <Primitive.div ref={ref} {...stateData(isOpen ? 'open' : 'closed')} {...props}>
                     {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </Primitive.div>
             </Floater.FloatingNode>

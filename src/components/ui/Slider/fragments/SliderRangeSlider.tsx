@@ -6,6 +6,7 @@ import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { snapToStep } from '../utils/sliderMath';
 import { useDirection } from '~/core/hooks/useDirection';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'SliderRangeSlider';
 const THUMB_HALF_SIZE = 8;
@@ -200,7 +201,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
                 aria-orientation={orientation}
                 aria-label={ariaLabel ? `${ariaLabel} minimum` : 'Minimum value'}
                 aria-labelledby={ariaLabelledby}
-                data-state={isDragging === 'lower' ? 'dragging' : focused === 'lower' ? 'active' : 'inactive'}
+                {...stateData(isDragging === 'lower' ? 'dragging' : focused === 'lower' ? 'active' : 'inactive')}
                 data-disabled={disabled}
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => handleKeyDown(e, 'lower')}
                 onFocus={() => setFocused('lower')}
@@ -225,7 +226,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
                 aria-orientation={orientation}
                 aria-label={ariaLabel ? `${ariaLabel} maximum` : 'Maximum value'}
                 aria-labelledby={ariaLabelledby}
-                data-state={isDragging === 'upper' ? 'dragging' : focused === 'upper' ? 'active' : 'inactive'}
+                {...stateData(isDragging === 'upper' ? 'dragging' : focused === 'upper' ? 'active' : 'inactive')}
                 data-disabled={disabled}
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => handleKeyDown(e, 'upper')}
                 onFocus={() => setFocused('upper')}

@@ -4,6 +4,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import type { DialogHandle } from '../handle';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type DialogPrimitiveTriggerProps = {
     children: React.ReactNode;
@@ -50,7 +51,7 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
                 ...restProps,
                 disabled,
                 'aria-expanded': triggerOpen,
-                'data-state': dataState,
+                ...stateData(dataState),
                 'data-disabled': dataDisabled,
                 onClick(event: React.MouseEvent<HTMLButtonElement>) {
                     if (disabled) return;

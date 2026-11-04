@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type NavigationMenuTriggerElement = React.ElementRef<'button'>;
 
@@ -52,7 +53,7 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
                     aria-expanded={itemOpen}
                     // The content panel only exists while open, so only reference it then.
                     aria-controls={itemOpen ? contentId : undefined}
-                    data-state={itemOpen ? 'open' : 'closed'}
+                    {...stateData(itemOpen ? 'open' : 'closed')}
                     data-disabled={props.disabled ? '' : undefined}
                     {...props}
                 >

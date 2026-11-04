@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import MenuPrimitiveItem, { MenuPrimitiveItemProps } from './MenuPrimitiveItem';
 import { MenuItemIndicatorContext } from '../contexts/MenuItemStateContexts';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveCheckboxItemProps = MenuPrimitiveItemProps & {
     /** Controlled checked state. */
@@ -26,7 +27,7 @@ const MenuPrimitiveCheckboxItem = forwardRef<HTMLButtonElement, MenuPrimitiveChe
                     ref={ref}
                     role="menuitemcheckbox"
                     aria-checked={Boolean(checked)}
-                    data-state={checked ? 'checked' : 'unchecked'}
+                    {...stateData(checked ? 'checked' : 'unchecked')}
                     data-checked={checked ? '' : undefined}
                     {...props}
                     onSelect={(event) => {

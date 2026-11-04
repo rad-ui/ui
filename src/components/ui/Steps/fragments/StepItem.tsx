@@ -4,6 +4,7 @@ import React from 'react';
 import { useStepsContext } from '../context/StepsContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type StepItemProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     value?: string | number | null;
@@ -48,7 +49,7 @@ const StepItem = React.forwardRef<HTMLDivElement, StepItemProps>(({ children, va
         <Primitive.div
             ref={setRefs}
             className={clsx(rootClass && `${rootClass}-item`, className)}
-            data-state={state}
+            {...stateData(state)}
             data-value={hasExplicitValue ? value : (stepIndex ?? undefined)}
             aria-current={isActive ? 'step' : undefined}
             {...props}

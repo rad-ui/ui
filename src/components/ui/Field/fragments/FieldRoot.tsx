@@ -115,6 +115,8 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     const touched = touchedProp ?? touchedState;
     const dirty = dirtyProp ?? dirtyState;
     const [focused, setFocused] = React.useState(false);
+    // Whether the control holds a value (non-empty text, a checked box, a picked option).
+    const [filled, setFilled] = React.useState(false);
 
     // Description and Error parts register their ids so the control's accessible
     // description lists them, descriptions first and errors after.
@@ -195,7 +197,11 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
             setTouched(false);
             setDirty(false);
             // Re-check after the browser restores default values.
-            setTimeout(() => validate(false));
+            setTimeout(() => {
+                const control = controlRef.current as ValidatableElement | null;
+                if (control && 'value' in control) setFilled(isCheckable(control) ? control.checked : control.value !== '');
+                validate(false);
+            });
         };
         form.addEventListener('reset', handleReset);
         return () => form.removeEventListener('reset', handleReset);
@@ -240,9 +246,10 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         required,
         touched,
         dirty,
+        filled,
         focused,
         validating
-    }) as Record<string, string>, [invalid, valid, disabled, required, touched, dirty, focused, validating]);
+    }) as Record<string, string>, [invalid, valid, disabled, required, touched, dirty, filled, focused, validating]);
 
     const contextValue = React.useMemo(() => ({
         rootClass,
@@ -257,9 +264,11 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         touched,
         dirty,
         focused,
+        filled,
         setTouched,
         setDirty,
         setFocused,
+        setFilled,
         validity,
         validityShown,
         validationMode,
@@ -270,7 +279,7 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
         errorMessages,
         clearFormError,
         stateAttributes
-    }), [rootClass, controlId, describedBy, registerDescription, name, invalid, disabled, required, touched, dirty, focused, validity, validityShown, validationMode, validate, validateDebounced, validating, errorMessages, clearFormError, stateAttributes]);
+    }), [rootClass, controlId, describedBy, registerDescription, name, invalid, disabled, required, touched, dirty, focused, filled, validity, validityShown, validationMode, validate, validateDebounced, validating, errorMessages, clearFormError, stateAttributes]);
 
     return (
         <FieldContext.Provider value={contextValue}>

@@ -13,7 +13,8 @@ import useControllableState from '~/core/hooks/useControllableState';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
-import { useFieldControlProps } from '~/components/ui/Field/contexts/FieldContext';
+import { useFieldControlProps, useFieldInteraction } from '~/components/ui/Field/contexts/FieldContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Switch';
 
@@ -63,6 +64,8 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         uncheckedValue,
         form,
         inputRef,
+        onFocus,
+        onBlur,
         ...props
     } = useFieldControlProps(fieldAwareProps);
     const [isChecked, setIsChecked] = useControllableState(
@@ -71,6 +74,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         onCheckedChange
     );
 
+    const field = useFieldInteraction(isChecked, Boolean(isChecked));
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('switch', { variant, size });
@@ -110,9 +114,10 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
     };
 
     const switchAttributes: Record<string, any> = {
+        ...field.stateAttributes,
         ...composedAttributes,
         'data-slot': 'switch-root',
-        'data-state': isChecked ? 'checked' : 'unchecked',
+        ...stateData(isChecked ? 'checked' : 'unchecked'),
         'data-disabled': disabled ? '' : undefined,
         role: 'switch',
         'aria-checked': isChecked,
@@ -135,6 +140,8 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
                 {...switchAttributes}
                 className={clsx(rootClass, className)}
                 onClick={composeEventHandlers(onClick, handleCheckedChange)}
+                onFocus={composeEventHandlers(onFocus, field.onFocus)}
+                onBlur={composeEventHandlers(onBlur, field.onBlur)}
             >
                 {children}
             </ButtonPrimitive>

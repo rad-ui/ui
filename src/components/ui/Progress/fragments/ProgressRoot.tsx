@@ -9,6 +9,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { ProgressContext } from '../contexts/ProgressContext';
 
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Progress';
 
@@ -103,7 +104,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
                     aria-valuenow={isIndeterminate ? undefined : value}
                     aria-valuemin={minValue}
                     aria-valuemax={maxValue}
-                    data-state={state}
+                    {...stateData(state)}
                     data-value={isIndeterminate ? undefined : value}
                     data-max={maxValue}
                     data-min={minValue}

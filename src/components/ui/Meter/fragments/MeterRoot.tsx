@@ -9,6 +9,7 @@ import { clsx } from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { MeterContext } from '../contexts/MeterContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Meter';
 
@@ -103,7 +104,7 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
                     aria-valuemax={rangeMax}
                     aria-valuetext={valueLabel}
                     aria-labelledby={hasLabel ? labelId : undefined}
-                    data-state={state}
+                    {...stateData(state)}
                     data-value={boundedValue}
                     data-min={minValue}
                     data-max={rangeMax}

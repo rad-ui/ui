@@ -8,6 +8,7 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const noop = () => {};
 
@@ -118,7 +119,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
             <Floater.FloatingNode id={nodeId}>
                 <div
                     ref={ref}
-                    data-state={isOpen ? 'open' : 'closed'}
+                    {...stateData(isOpen ? 'open' : 'closed')}
                     {...props}
                     className={className}
                 >

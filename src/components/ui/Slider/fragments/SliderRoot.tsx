@@ -289,6 +289,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
                 data-slider-root={rootClass}
                 data-disabled={disabled}
                 data-orientation={orientation}
+                data-dragging={isDragging ? '' : undefined}
                 {...props}
                 onPointerDown={handlePointerDown}
             >
