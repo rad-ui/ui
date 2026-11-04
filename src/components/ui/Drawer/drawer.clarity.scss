@@ -335,7 +335,7 @@ $close-easing: var(--rad-ui-motion-easing-standard);
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-color: var(--rad-ui-color-gray-1000, #000);
+  background-color: var(--rad-ui-color-gray-1000);
 }
 
 .rad-ui-drawer-indent {
