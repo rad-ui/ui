@@ -1,5 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
+import { useActiveIndex } from '~/core/utils/activeIndexStore';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
@@ -14,7 +15,7 @@ const ComboboxPrimitiveSearch = React.forwardRef<
     const {
         refs,
         handleSelect,
-        activeIndex,
+        activeIndexStore,
         elementsRef,
         virtualItemRef,
         getReferenceProps,
@@ -28,6 +29,7 @@ const ComboboxPrimitiveSearch = React.forwardRef<
         selectedValues,
         removeValue
     } = context;
+    const activeIndex = useActiveIndex(activeIndexStore);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
 

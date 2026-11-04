@@ -1,7 +1,8 @@
 'use client';
 import React, { useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
-import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
+import { ComboboxItemContext, ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
+import { createActiveIndexStore } from '~/core/utils/activeIndexStore';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
 import { findItemLabel, labelFromItems, ComboboxItemsLabels } from '../utils/itemLabels';
@@ -253,6 +254,11 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const rootRef = React.useRef<HTMLDivElement>(null);
     const virtualItemRef = React.useRef<HTMLElement | null>(null);
     const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
+    // Options read the highlight from this store, so moving it re-renders two options, not all.
+    const [activeIndexStore] = React.useState(createActiveIndexStore);
+    useLayoutEffect(() => {
+        activeIndexStore.set(activeIndex);
+    }, [activeIndexStore, activeIndex]);
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const [hasSearch, setHasSearch] = React.useState(false);
     const [searchState, setSearchState] = useControllableState<string>(inputValue, defaultInputValue, onInputValueChange);
@@ -649,7 +655,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         getReferenceProps,
         floatingStyles,
         getItemProps,
-        activeIndex,
+        activeIndexStore,
         selectedIndex,
         elementsRef,
         labelsRef,
@@ -696,7 +702,6 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         getReferenceProps,
         floatingStyles,
         getItemProps,
-        activeIndex,
         selectedIndex,
         disabledIndices,
         selectedLabel,
@@ -723,8 +728,46 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         finalFocus
     ]);
 
+    const itemValues = React.useMemo(() => ({
+        handleSelect,
+        isTypingRef,
+        getItemProps,
+        activeIndexStore,
+        selectedIndex,
+        selectedValue,
+        selectedItemRef,
+        hasSearch,
+        search,
+        hiddenIndices,
+        disabledIndices,
+        setDisabledIndices,
+        labelsRef,
+        displayLabelsRef,
+        valuesRef,
+        bumpLabelsVersion,
+        idPrefix,
+        multiple,
+        selectedValues
+    }), [
+        handleSelect,
+        getItemProps,
+        activeIndexStore,
+        selectedIndex,
+        selectedValue,
+        hasSearch,
+        search,
+        hiddenIndices,
+        disabledIndices,
+        setDisabledIndices,
+        bumpLabelsVersion,
+        idPrefix,
+        multiple,
+        selectedValues
+    ]);
+
     return (
         <ComboboxPrimitiveContext.Provider value={values}>
+        <ComboboxItemContext.Provider value={itemValues}>
             <Primitive.div
                 {...props}
                 className={className}
@@ -771,6 +814,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                     )
                 }
             </Primitive.div>
+        </ComboboxItemContext.Provider>
         </ComboboxPrimitiveContext.Provider>
     );
 });

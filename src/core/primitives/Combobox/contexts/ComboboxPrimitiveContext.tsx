@@ -1,3 +1,4 @@
+import type { ActiveIndexStore } from '~/core/utils/activeIndexStore';
 import { createContext } from 'react';
 import type { TransitionStatus } from '~/core/hooks/useTransitionStatus';
 
@@ -24,7 +25,8 @@ export type ComboboxPrimitiveContextType = {
     getReferenceProps: (userProps?: any) => any;
     getFloatingProps: () => any;
     getItemProps: (userProps?: any) => any;
-    activeIndex: number | null;
+    /** The highlighted option. Read it with useActiveIndex / useIsActiveIndex, or `.get()` in handlers. */
+    activeIndexStore: ActiveIndexStore;
     setActiveIndex: React.Dispatch<React.SetStateAction<number | null>>;
     selectedIndex: number | null;
     elementsRef: React.MutableRefObject<(HTMLElement | null)[]>;
@@ -69,3 +71,11 @@ export type ComboboxPrimitiveContextType = {
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);
+
+/**
+ * What an option needs, apart from the rest of the Root's context. The full context changes on
+ * every arrow key (the floating and reference prop getters carry the highlighted option), and a
+ * long list re-rendered every option each time.
+ */
+export type ComboboxItemContextType = Pick<ComboboxPrimitiveContextType, 'handleSelect' | 'isTypingRef' | 'getItemProps' | 'activeIndexStore' | 'selectedIndex' | 'selectedValue' | 'selectedItemRef' | 'hasSearch' | 'search' | 'hiddenIndices' | 'disabledIndices' | 'setDisabledIndices' | 'labelsRef' | 'displayLabelsRef' | 'valuesRef' | 'bumpLabelsVersion' | 'idPrefix' | 'multiple' | 'selectedValues'>;
+export const ComboboxItemContext = createContext<ComboboxItemContextType | null>(null);

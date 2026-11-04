@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useContext } from 'react';
-import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
+import { useIsActiveIndex } from '~/core/utils/activeIndexStore';
+import { ComboboxItemContext } from '../contexts/ComboboxPrimitiveContext';
 import Primitive from '../../Primitive';
 import Floater from '../../Floater';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
@@ -21,7 +22,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
     React.ElementRef<typeof Primitive.div>,
     ComboboxPrimitiveItemProps & React.ComponentPropsWithoutRef<typeof Primitive.div>
 >(({ children, value, label, disabled, className, ...props }, forwardedRef) => {
-    const context = useContext(ComboboxPrimitiveContext);
+    const context = useContext(ComboboxItemContext);
 
     if (!context) {
         console.error('ComboboxPrimitiveItem must be used within a ComboboxPrimitive');
@@ -32,7 +33,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
         handleSelect,
         isTypingRef,
         getItemProps,
-        activeIndex,
+        activeIndexStore,
         selectedIndex,
         selectedValue,
         selectedItemRef,
@@ -55,7 +56,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
     const { ref, index } = Floater.useListItem({ label: itemLabel });
 
     const isHidden = hiddenIndices.includes(index);
-    const isActive = activeIndex === index;
+    const isActive = useIsActiveIndex(activeIndexStore, index);
     const isSelected = multiple ? selectedValues.includes(value) : selectedIndex === index || selectedValue === value;
 
     // Ids are namespaced per root so several comboboxes with the same option values never
