@@ -71,7 +71,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
         titleId,
         descriptionId,
     } = useContext(DrawerContext);
-    const { getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
+    const { getFloatingProps, refs, floaterContext, isTopModal = true } = useContext(DialogPrimitiveContext);
 
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [element, setElement] = useState<HTMLDivElement | null>(null);
@@ -270,7 +270,9 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                 // focusReady above); otherwise initial focus silently fails and
                 // Tab escapes the modal.
                 disabled={!isOpen || !focusReady}
-                modal={trapFocus}
+                modal={trapFocus && isTopModal}
+                // Under another modal, focus moving into it must not close this one.
+                closeOnFocusOut={isTopModal ? undefined : false}
                 initialFocus={initialFocus as any}
                 returnFocus={!finalFocus}
             >

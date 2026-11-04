@@ -6,12 +6,16 @@ import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'TableCell';
 
-export type TableCellProps = React.ComponentPropsWithoutRef<typeof Primitive.td> & {
+export type TableCellAlign = 'start' | 'center' | 'end';
+
+export type TableCellProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.td>, 'align'> & {
     columnIndex?: number;
+    /** Horizontal alignment of the cell content. Use `end` for numeric columns. */
+    align?: TableCellAlign;
 };
 
 const TableCell = React.forwardRef<React.ElementRef<typeof Primitive.td>, TableCellProps>(
-    ({ children, className = 'cell', columnIndex, style, ...props }, ref) => {
+    ({ children, className = 'cell', columnIndex, align, style, ...props }, ref) => {
         const { resizable, rootClass } = useTable();
         const isResizable = resizable && columnIndex !== undefined;
 
@@ -22,6 +26,7 @@ const TableCell = React.forwardRef<React.ElementRef<typeof Primitive.td>, TableC
                 // The unprefixed `cell`/`resizable` classes are kept for backward compatibility.
                 className={clsx(rootClass && `${rootClass}-cell`, className, isResizable && 'resizable')}
                 data-resizable={isResizable ? '' : undefined}
+                data-align={align}
                 style={style}
                 {...props}
             >

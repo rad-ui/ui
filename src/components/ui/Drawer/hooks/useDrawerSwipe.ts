@@ -460,6 +460,10 @@ export function useDrawerSwipe(options: UseDrawerSwipeOptions): DrawerSwipeResul
 
         const element = elementRef.current;
         if (!element) return;
+        // React sends events from portalled children (a Select's list, a menu) up through the
+        // drawer even though they sit elsewhere in the page. Capturing the pointer for those
+        // would steal their click, so only presses inside the drawer itself start a swipe.
+        if (!target || !element.contains(target)) return;
 
         const scrollable = findScrollableAncestor(target, element);
         if (scrollable && !isAtDismissStartEdge(scrollable.element, scrollable.axis, dismissDirection)) return;
@@ -546,7 +550,8 @@ export function useDrawerSwipe(options: UseDrawerSwipeOptions): DrawerSwipeResul
         }
 
         const element = elementRef.current;
-        if (!element) {
+        // Portalled children (a Select's list) reach here through React; they aren't the drawer.
+        if (!element || !target || !element.contains(target)) {
             claimedRef.current = false;
             return;
         }

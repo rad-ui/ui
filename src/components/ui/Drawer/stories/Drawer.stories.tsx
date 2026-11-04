@@ -4,6 +4,8 @@ import Drawer from '../Drawer';
 import type { DrawerRootActions } from '../Drawer';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import Button from '~/components/ui/Button/Button';
+import Select from '~/components/ui/Select/Select';
+import AlertDialog from '~/components/ui/AlertDialog/AlertDialog';
 import { X } from 'lucide-react';
 
 const meta: Meta<typeof Drawer> = {
@@ -465,6 +467,50 @@ export const NestedDrawers: Story = {
                     </Drawer.Content>
                 </Drawer.Portal>
             </Drawer.Root>
+        );
+    }
+};
+
+/** A Select and a confirmation dialog used from inside a drawer: both stack on top of it. */
+export const WithSelectAndDialog: Story = {
+    render: () => {
+        const [open, setOpen] = useState(false);
+        const [plan, setPlan] = useState('free');
+        const [confirm, setConfirm] = useState(false);
+        const [paused, setPaused] = useState(false);
+        return (
+            <>
+                <Drawer.Root open={open} onOpenChange={setOpen} swipeDirection="right">
+                    <Drawer.Trigger>Team settings</Drawer.Trigger>
+                    <Drawer.Portal>
+                        <Drawer.Overlay />
+                        <Drawer.Content>
+                            <Drawer.Title>Team</Drawer.Title>
+                            <Select.Root value={plan} onValueChange={setPlan}>
+                                <Select.Trigger aria-label="Plan"><Select.Value /></Select.Trigger>
+                                <Select.Portal>
+                                    <Select.Content>
+                                        <Select.Item value="free">Free</Select.Item>
+                                        <Select.Item value="pro">Pro</Select.Item>
+                                    </Select.Content>
+                                </Select.Portal>
+                            </Select.Root>
+                            <p data-testid="drawer-status">Plan: {plan}. Posting {paused ? 'paused' : 'on'}.</p>
+                            <Button onClick={() => setConfirm(true)}>Pause posting</Button>
+                        </Drawer.Content>
+                    </Drawer.Portal>
+                </Drawer.Root>
+                <AlertDialog.Root open={confirm} onOpenChange={setConfirm}>
+                    <AlertDialog.Portal>
+                        <AlertDialog.Overlay />
+                        <AlertDialog.Content>
+                            <AlertDialog.Title>Pause posting?</AlertDialog.Title>
+                            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+                            <AlertDialog.Action onClick={() => { setPaused(true); setConfirm(false); }}>Pause</AlertDialog.Action>
+                        </AlertDialog.Content>
+                    </AlertDialog.Portal>
+                </AlertDialog.Root>
+            </>
         );
     }
 };

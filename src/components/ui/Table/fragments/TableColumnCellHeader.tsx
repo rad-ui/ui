@@ -7,14 +7,16 @@ import Primitive from '~/core/primitives/Primitive';
 
 const COMPONENT_NAME = 'TableColumnCellHeader';
 
-export type TableColumnCellHeaderProps = React.ComponentPropsWithoutRef<typeof Primitive.th> & {
+export type TableColumnCellHeaderProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.th>, 'align'> & {
     columnIndex?: number;
+    /** Horizontal alignment of the header text. Match the column's cells. */
+    align?: 'start' | 'center' | 'end';
 };
 
 const TableColumnCellHeader = React.forwardRef<
     React.ElementRef<typeof Primitive.th>,
     TableColumnCellHeaderProps
->(({ children, className = 'cell-header', columnIndex, style, ...props }, ref) => {
+>(({ children, className = 'cell-header', columnIndex, align, style, ...props }, ref) => {
     const { resizable, registerColumnIndex, rootClass } = useTable();
     const hasResizeHandle = resizable && columnIndex !== undefined;
 
@@ -31,6 +33,7 @@ const TableColumnCellHeader = React.forwardRef<
             // The unprefixed `cell-header`/`resizable` classes are kept for backward compatibility.
             className={clsx(rootClass && `${rootClass}-cell-header`, className, hasResizeHandle && 'resizable')}
             data-resizable={hasResizeHandle ? '' : undefined}
+            data-align={align}
             style={style}
             {...props}
         >
