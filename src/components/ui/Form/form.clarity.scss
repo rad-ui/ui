@@ -1,0 +1,7 @@
+// Form stacks its fields; layout inside each field comes from Field.
+.rad-ui-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rad-ui-density-gap-lg);
+    min-width: 0;
+}

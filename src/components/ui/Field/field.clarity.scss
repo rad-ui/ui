@@ -1,0 +1,50 @@
+// Field — Clarity design system aligned. A label, a control, help text and an error,
+// stacked. The control keeps its own recipe (TextField, TextArea, Select…); Field only
+// recolours its border when invalid.
+.rad-ui-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rad-ui-spacing-2);
+    min-width: 0;
+}
+
+.rad-ui-field-label {
+    color: var(--rad-ui-text-primary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-weight: 500;
+    line-height: var(--rad-ui-line-height-2);
+}
+
+.rad-ui-field-description {
+    margin: 0;
+    color: var(--rad-ui-text-secondary);
+    font-size: var(--rad-ui-font-size-2);
+    line-height: var(--rad-ui-line-height-3);
+}
+
+.rad-ui-field-error {
+    margin: 0;
+    color: var(--rad-ui-danger-text);
+    font-size: var(--rad-ui-font-size-2);
+    line-height: var(--rad-ui-line-height-3);
+}
+
+// Repeat the focus state so an invalid control stays red while focused
+// (the TextField and TextArea recipes darken the border on focus).
+// With asChild, TextField puts the control class on its wrapper and data-invalid on the
+// inner input, so key off the root's state too.
+.rad-ui-field-control[data-invalid],
+.rad-ui-field-control[data-invalid]:focus,
+.rad-ui-field-control[data-invalid]:focus-within,
+.rad-ui-field[data-invalid] .rad-ui-field-control,
+.rad-ui-field[data-invalid] .rad-ui-field-control:focus,
+.rad-ui-field[data-invalid] .rad-ui-field-control:focus-within {
+    border-color: var(--rad-ui-field-invalid);
+}
+
+.rad-ui-field[data-disabled] .rad-ui-field-label,
+.rad-ui-field[data-disabled] .rad-ui-field-description {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

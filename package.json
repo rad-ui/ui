@@ -143,10 +143,20 @@
       "require": "./dist/components/Em.cjs",
       "types": "./dist/components/Em.d.ts"
     },
+    "./Field": {
+      "import": "./dist/components/Field.js",
+      "require": "./dist/components/Field.cjs",
+      "types": "./dist/components/Field.d.ts"
+    },
     "./Fieldset": {
       "import": "./dist/components/Fieldset.js",
       "require": "./dist/components/Fieldset.cjs",
       "types": "./dist/components/Fieldset.d.ts"
+    },
+    "./Form": {
+      "import": "./dist/components/Form.js",
+      "require": "./dist/components/Form.cjs",
+      "types": "./dist/components/Form.d.ts"
     },
     "./Heading": {
       "import": "./dist/components/Heading.js",
