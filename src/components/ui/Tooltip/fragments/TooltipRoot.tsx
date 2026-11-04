@@ -11,6 +11,7 @@ import TooltipProviderContext from '../context/TooltipProviderContext';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const noop = () => {};
 
@@ -69,6 +70,8 @@ export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'d
     trackCursorAxis?: 'none' | 'x' | 'y' | 'both';
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
     /** Never open the tooltip, and close it if it is open. */
     disabled?: boolean;
     /**
@@ -95,6 +98,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         onOpenChangeComplete,
         disabled = false,
         disableHoverablePopup = false,
+        actionsRef,
         ...props
     }, ref) => {
         const arrowRef = useRef<SVGSVGElement>(null);
@@ -114,6 +118,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             if (details.isCanceled) return;
             setOpenState(nextOpen);
         }, [setOpenState]);
+        usePopupActions(actionsRef, () => { setIsOpen(false, 'imperative-action'); handle?.close(); });
 
         // `side`, `align` and offsets set on Tooltip.Content.
         const [positioning, setPositioningState] = React.useState<ContentPositioning>({});

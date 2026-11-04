@@ -50,7 +50,18 @@ export type FieldRootProps = {
     name?: string;
     /** Overrides the generated root class. */
     customRootClass?: string;
+    /** Controlled touched state (the control has been focused and left). */
+    touched?: boolean;
+    /** Controlled dirty state (the value differs from the initial one). */
+    dirty?: boolean;
+    /** Ref with `validate()`, which checks the field now and shows the result. Returns whether it's valid. */
+    actionsRef?: React.Ref<FieldActions>;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
+
+export type FieldActions = {
+    /** Checks the field and shows its errors. Returns whether it's valid (async checks report later). */
+    validate: () => boolean;
+};
 
 type ValidatableElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
@@ -90,14 +101,19 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     disabled = false,
     required = false,
     name,
+    touched: touchedProp,
+    dirty: dirtyProp,
+    actionsRef,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const generatedId = React.useId();
     const [customControlId, setControlId] = React.useState<string | undefined>(undefined);
     const controlId = customControlId ?? `${generatedId}-control`;
-    const [touched, setTouched] = React.useState(false);
-    const [dirty, setDirty] = React.useState(false);
+    const [touchedState, setTouched] = React.useState(false);
+    const [dirtyState, setDirty] = React.useState(false);
+    const touched = touchedProp ?? touchedState;
+    const dirty = dirtyProp ?? dirtyState;
     const [focused, setFocused] = React.useState(false);
 
     // Description and Error parts register their ids so the control's accessible
@@ -209,8 +225,9 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     const clearFormError = form?.clearError;
     useLayoutEffect(() => {
         if (!registerFormField) return;
-        return registerFormField(generatedId, { validate, controlRef, pending: () => pendingRef.current });
-    }, [registerFormField, generatedId, validate]);
+        return registerFormField(generatedId, { validate, controlRef, pending: () => pendingRef.current, name });
+    }, [registerFormField, generatedId, validate, name]);
+    React.useImperativeHandle(actionsRef, () => ({ validate: () => validate(true) }), [validate]);
 
     const errorMessages = formErrors.length ? formErrors : validity.errors;
     const invalid = invalidProp || formErrors.length > 0 || (validityShown && validity.state?.valid === false);

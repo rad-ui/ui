@@ -13,6 +13,7 @@ import { anchorTracking, collisionMiddleware, CollisionAvoidance, FloatingAnchor
 import { useFloatingAnchor, useStableAnchor } from '~/core/hooks/useFloatingAnchor';
 import { createFilter } from '~/core/utils/filter';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const noop = () => {};
 
@@ -89,6 +90,8 @@ export type ComboboxPrimitiveRootProps = {
     items?: ComboboxItemsLabels;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
     /** While open, lock page scroll and keep outside presses from reaching the page (they only close the list). */
     modal?: boolean;
     /** Position against this element, virtual element, ref or function instead of the trigger. */
@@ -183,6 +186,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     filter,
     limit,
     locale,
+    actionsRef,
     ...props
 }, forwardedRef) => {
     // `dir` stays on the root element (it's in props) and is also passed to the
@@ -202,6 +206,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         setOpenState(nextOpen);
         return true;
     }, [setOpenState]);
+    usePopupActions(actionsRef, () => setIsOpen(false, 'imperative-action'));
 
     const isOpen = Boolean(isOpenState) && !disabled && !readOnly;
     const idPrefix = React.useId();

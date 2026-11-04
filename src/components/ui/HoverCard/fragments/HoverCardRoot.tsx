@@ -11,6 +11,7 @@ import { hoverCardHandleControls } from '../contexts/hoverCardHandleControls';
 import { anchorTracking, collisionMiddleware, ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
 import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const COMPONENT_NAME = 'HoverCard';
 
@@ -35,9 +36,11 @@ export type HoverCardRootProps = Omit<ComponentPropsWithoutRef<'div'>, 'children
     collisionPadding?: number;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, handle, onOpenChangeComplete, ...props }, ref) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, handle, onOpenChangeComplete, actionsRef, ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
@@ -167,6 +170,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         clearTimers();
         handleOpenChange(false, 'none');
     };
+    usePopupActions(actionsRef, () => { clearTimers(); handleOpenChange(false, 'imperative-action'); });
 
     useEffect(() => clearTimers, []);
 

@@ -9,6 +9,7 @@ export type OpenChangeReason =
     | 'close-press'
     | 'item-press'
     | 'list-navigation'
+    | 'imperative-action'
     | 'none';
 
 export type OpenChangeDetails = {

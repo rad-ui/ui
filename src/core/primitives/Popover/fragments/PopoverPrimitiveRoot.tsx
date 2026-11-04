@@ -14,6 +14,7 @@ import { anchorTracking, collisionMiddleware } from '~/core/utils/placement';
 import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 const noop = () => {};
 
@@ -43,6 +44,8 @@ export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<type
     hoverCloseDelay?: number;
     /** Called after the open or close animations finish (at once when there are none). */
     onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
 };
 
 const COMPONENT_NAME = 'PopoverPrimitive';
@@ -87,6 +90,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     hoverCloseDelay = 0,
     handle,
     onOpenChangeComplete,
+    actionsRef,
     ...props
 }, ref) => {
     // onOpenChange is called by requestOpenChange (with details), not by the state hook.
@@ -100,6 +104,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         setIsOpen(nextOpen);
         if (!nextOpen) handle?.close();
     }, [setIsOpen, handle]);
+    usePopupActions(actionsRef, () => requestOpenChange(false, 'imperative-action'));
     useRegisterDocumentOverlayOpen(isOpen);
     const [triggerNode, setTriggerNode] = React.useState<HTMLElement | null>(null);
     const [anchorNode, setAnchorNode] = React.useState<HTMLElement | null>(null);

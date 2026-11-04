@@ -12,6 +12,7 @@ import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChange
 const noop = () => {};
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import useIsomorphicLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -85,6 +86,8 @@ export type MenuPrimitiveRootProps = {
   onItemHighlighted?: (item: HTMLElement | undefined, details: { index: number | null }) => void
   /** In a submenu: Escape closes the whole menu instead of only this submenu. Defaults to false. */
   closeParentOnEsc?: boolean
+  /** Ref with `close()`, to close the menu from code (reason `'imperative-action'`). */
+  actionsRef?: React.Ref<PopupActions>
 } & Omit<ComponentPropsWithoutRef<'div'>, 'dir' | 'children'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
@@ -92,7 +95,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, actionsRef, ...props }, ref) => {
     const hoverOpenDelay = hoverOpenDelayProp ?? 100;
     const hoverCloseDelay = hoverCloseDelayProp ?? 0;
     const resolvedDir = useDirection(dir);
@@ -115,6 +118,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         if (details.isCanceled) return;
         setOpenState(nextOpen);
     }, [setOpenState]);
+    usePopupActions(actionsRef, () => { setIsOpen(false, 'imperative-action'); handle?.close(); });
 
     useRegisterDocumentOverlayOpen(isOpen);
 
