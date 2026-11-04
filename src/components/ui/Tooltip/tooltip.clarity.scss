@@ -35,3 +35,26 @@
     transform: translateY(0) scale(1);
   }
 }
+
+// Closing fades out before the tooltip unmounts (the content waits for this animation).
+.rad-ui-tooltip-floating-element[data-state="closed"] .rad-ui-tooltip-content-inner {
+  animation: rad-ui-tooltip-fade-out var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard) forwards;
+}
+
+// Moving between tooltips in a group swaps them without animating.
+.rad-ui-tooltip-floating-element[data-instant] .rad-ui-tooltip-content-inner {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rad-ui-tooltip-content-inner {
+    animation: none;
+  }
+}
+
+@keyframes rad-ui-tooltip-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
