@@ -139,3 +139,29 @@ describe('Field state from Rad UI controls', () => {
         expect(field).not.toHaveAttribute('data-filled');
     });
 });
+
+describe('Field.Label', () => {
+    test('clicking it focuses a Select trigger without opening it', async() => {
+        const user = userEvent.setup();
+        render(
+            <Field.Root name="fruit">
+                <Field.Label>Fruit</Field.Label>
+                <Select.Root>
+                    <Select.Trigger><Select.Value placeholder="Pick" /></Select.Trigger>
+                    <Select.Portal><Select.Content><Select.Item value="apple">Apple</Select.Item></Select.Content></Select.Portal>
+                </Select.Root>
+            </Field.Root>
+        );
+        await user.click(screen.getByText('Fruit'));
+        const trigger = screen.getByRole('combobox', { name: 'Fruit' });
+        expect(trigger).toHaveFocus();
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    test('clicking it still toggles a Checkbox', async() => {
+        const user = userEvent.setup();
+        render(<Field.Root><Field.Label>Terms</Field.Label><Checkbox.Root><Checkbox.Indicator /></Checkbox.Root></Field.Root>);
+        await user.click(screen.getByText('Terms'));
+        expect(screen.getByRole('checkbox', { name: 'Terms' })).toHaveAttribute('aria-checked', 'true');
+    });
+});
