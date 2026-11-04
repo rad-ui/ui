@@ -33,7 +33,9 @@
     }
 }
 
-.rad-ui-hover-card-trigger {
+// The link look belongs to the trigger's own <span>. With asChild the trigger is your element
+// (a Button, a card) and keeps its own styles.
+.rad-ui-hover-card-trigger:where(span) {
     color: var(--rad-ui-text-primary);
     text-decoration: underline;
     text-underline-offset: 0.18em;
