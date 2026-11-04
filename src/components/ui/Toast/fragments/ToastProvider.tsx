@@ -163,7 +163,10 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
         });
     }, []);
 
-    const visibleToasts = toasts.slice(0, maxToasts);
+    // Anchored toasts show beside their element and don't take a place in the stack.
+    const stackToasts = useMemo(() => toasts.filter((t) => !t.anchor), [toasts]);
+    const anchoredToasts = useMemo(() => toasts.filter((t) => t.anchor), [toasts]);
+    const visibleToasts = stackToasts.slice(0, maxToasts);
 
     return (
         <ToastProviderContext.Provider value={{
@@ -181,6 +184,8 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             unlinkStackHeight,
             removeToast,
             toasts,
+            stackToasts,
+            anchoredToasts,
             visibleToasts,
             viewportClassName: className,
             viewportStyle: style,

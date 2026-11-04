@@ -28,9 +28,11 @@ export type ToastRootProps = {
 const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => {
     const {
         rootClass, position, expand, isHovered,
-        heights, gap, toasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
+        heights, gap, toasts: allToasts, stackToasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
         defaultToastTimeout, toastManager, pauseWhenPageIsHidden, swipeDirections, dragThreshold,
     } = useContext(ToastProviderContext);
+    // FIFO timing is about the stack; anchored toasts aren't part of it.
+    const toasts = stackToasts ?? allToasts;
 
     const itemRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -157,13 +159,14 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     // Imperative dismiss — same exit as Close / timer
     useEffect(() => {
-        if (!toastManager) return;
+        // Anchored toasts are closed by their own component (Toast.AnchoredToasts).
+        if (!toastManager || toast.anchor) return;
         const unsub = toastManager.subscribeDismiss((id) => {
             if (id === '__all__') return;
             if (id === toast.id) dismissRef.current();
         });
         return unsub;
-    }, [toast.id, toastManager]);
+    }, [toast.id, toast.anchor, toastManager]);
 
     // ── Timer: only oldest toast ticks down when collapsed (FIFO) ───────────
     const pauseTimer = useCallback(() => {
