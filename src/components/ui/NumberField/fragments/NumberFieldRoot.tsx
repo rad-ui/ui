@@ -41,6 +41,14 @@ export type NumberFieldRootProps = {
      * scrub is released, and right away for keyboard steps. Fires only when the value changed.
      */
     onValueCommit?: (value: number | '') => void
+    /** Keep typed values outside `min`/`max` instead of clamping them on blur. Buttons and keys still stop at the bounds. */
+    allowOutOfRange?: boolean
+    /** Stepping first lands on the nearest multiple of the step (counted from `min`), then moves by whole steps. */
+    snapOnStep?: boolean
+    /** `id` of a `<form>` elsewhere in the page that the value submits with. */
+    form?: string
+    /** Ref to the input that submits the value (the hidden one with `format`). */
+    inputRef?: React.Ref<HTMLInputElement>
 } & ComponentPropsWithoutRef<'div'>;
 
 const countDecimals = (value: number | undefined): number => {
@@ -59,7 +67,7 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, onValueCommit, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, id: idProp, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, onValueCommit, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, allowOutOfRange = false, snapOnStep = false, form, inputRef, id: idProp, className = '', ...props }, ref) => {
     // Inside Field.Root, the input takes the field's id, name and state.
     const field = React.useContext(FieldContext);
     const id = idProp ?? field?.controlId;
@@ -123,7 +131,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
 
     const commitValue = () => {
         const current = valueRef.current;
-        if (current !== '') commit(clamp(current));
+        if (current !== '' && !allowOutOfRange) commit(clamp(current));
         notifyCommit();
     };
 
@@ -138,7 +146,15 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
             // Start from 0 (clamped into range) rather than an arbitrary offset.
             next = clamp(0 + amount);
         } else {
-            next = clamp(roundToPrecision(current + amount, current, resolvedStep, resolvedLargeStep, resolvedSmallStep, min));
+            const base = min ?? 0;
+            const unit = Math.abs(amount);
+            const offset = (current - base) / unit;
+            const onGrid = Math.abs(offset - Math.round(offset)) < 1e-9;
+            const raw = snapOnStep && !onGrid
+                // Off the grid: the first press lands on the next grid line in that direction.
+                ? base + (amount > 0 ? Math.ceil(offset) : Math.floor(offset)) * unit
+                : current + amount;
+            next = clamp(roundToPrecision(raw, current, resolvedStep, resolvedLargeStep, resolvedSmallStep, min));
         }
 
         if (next === current) return false;
@@ -177,7 +193,10 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         rootClass,
         format,
         locale,
-        allowWheelScrub
+        allowWheelScrub,
+        allowOutOfRange,
+        form,
+        inputRef
     };
 
     return (

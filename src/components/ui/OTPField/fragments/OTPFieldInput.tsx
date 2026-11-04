@@ -21,7 +21,7 @@ const OTPFieldInput = forwardRef<OTPFieldInputElement, OTPFieldInputProps>(({
     ...props
 }, ref) => {
     const context = useOTPFieldContext('Input');
-    const { rootClass, value, valueRef, length, validationType, type, disabled, readOnly, registerInput, indexOf, focusSlot, insertAt, removeAt } = context;
+    const { rootClass, value, valueRef, length, validationType, type, inputMode, autoComplete, disabled, readOnly, registerInput, indexOf, focusSlot, insertAt, removeAt } = context;
     const elementRef = React.useRef<HTMLInputElement | null>(null);
     const mergedRef = React.useMemo(() => mergeRefs(ref, elementRef), [ref]);
     const [index, setIndex] = React.useState(-1);
@@ -45,9 +45,9 @@ const OTPFieldInput = forwardRef<OTPFieldInputElement, OTPFieldInputProps>(({
             ref={mergedRef}
             type={type}
             value={char}
-            inputMode={validationType === 'numeric' ? 'numeric' : 'text'}
+            inputMode={inputMode ?? (validationType === 'numeric' ? 'numeric' : 'text')}
             // Only the first slot offers the SMS code, which some browsers insert all at once.
-            autoComplete={index === 0 ? 'one-time-code' : 'off'}
+            autoComplete={index === 0 ? autoComplete : 'off'}
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck={false}

@@ -41,6 +41,18 @@ export type OTPFieldRootProps = {
     required?: boolean;
     /** Overrides the generated root class. */
     customRootClass?: string;
+    /** Hide the characters as they're typed. Same as `type="password"`. */
+    mask?: boolean;
+    /** Transforms typed or pasted text before it's checked, such as `(text) => text.toUpperCase()`. */
+    normalizeValue?: (value: string) => string;
+    /** Called when typed or pasted characters are rejected by `validationType`. */
+    onValueInvalid?: (value: string, details: { rejected: string }) => void;
+    /** Keyboard to show on touch devices. Defaults to `numeric` for numeric codes, otherwise `text`. */
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+    /** `autocomplete` on the first slot. Defaults to `one-time-code`, so the code can come from SMS. */
+    autoComplete?: string;
+    /** `id` of a `<form>` elsewhere in the page that the code submits with. */
+    form?: string;
 } & Omit<ComponentPropsWithoutRef<typeof Primitive.div>, 'defaultValue' | 'onChange'>;
 
 const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
@@ -59,8 +71,16 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
     disabled = false,
     readOnly = false,
     required = false,
+    mask = false,
+    normalizeValue,
+    onValueInvalid,
+    inputMode,
+    autoComplete = 'one-time-code',
+    form,
     ...props
 }, ref) => {
+    const onValueInvalidRef = React.useRef(onValueInvalid);
+    onValueInvalidRef.current = onValueInvalid;
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [value, setValue] = useControllableState<string>(valueProp, defaultValue, onValueChange);
     const valueRef = React.useRef(value);
@@ -104,7 +124,12 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
 
     const insertAt = React.useCallback((index: number, text: string) => {
         if (disabled || readOnly) return;
-        const chars = sanitize(text);
+        const normalized = normalizeValue ? normalizeValue(text) : text;
+        const chars = sanitize(normalized);
+        if (chars.length < Array.from(normalized).filter((char) => char.trim() !== '').length) {
+            const kept = new Set(Array.from(chars));
+            onValueInvalidRef.current?.(normalized, { rejected: Array.from(normalized).filter((char) => char.trim() !== '' && !kept.has(char)).join('') });
+        }
         if (!chars) return;
         const current = valueRef.current;
         // Slots fill left to right, so never leave a gap before `index`.
@@ -112,7 +137,7 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
         const next = (current.slice(0, start) + chars + current.slice(start + chars.length)).slice(0, length);
         commit(next);
         focusSlot(Math.min(start + chars.length, length - 1));
-    }, [disabled, readOnly, sanitize, length, commit, focusSlot]);
+    }, [disabled, readOnly, sanitize, length, commit, focusSlot, normalizeValue]);
 
     const removeAt = React.useCallback((index: number) => {
         if (disabled || readOnly) return;
@@ -127,7 +152,9 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
         valueRef,
         length,
         validationType,
-        type,
+        type: mask ? 'password' as const : type,
+        inputMode,
+        autoComplete,
         disabled,
         readOnly,
         registerInput,
@@ -135,7 +162,7 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
         focusSlot,
         insertAt,
         removeAt
-    }), [rootClass, value, length, validationType, type, disabled, readOnly, registerInput, indexOf, focusSlot, insertAt, removeAt]);
+    }), [rootClass, value, length, validationType, type, mask, inputMode, autoComplete, disabled, readOnly, registerInput, indexOf, focusSlot, insertAt, removeAt]);
 
     const complete = value.length === length;
 
@@ -151,13 +178,24 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
                 data-disabled={disabled ? '' : undefined}
             >
                 {children}
+                {/* Holds the code for forms. A hidden input is never validated, so a required field
+                    uses a visually hidden text input whose pattern needs every slot filled (not
+                    readOnly: read-only inputs skip validation). */}
                 <input
                     ref={hiddenInputRef}
-                    type="hidden"
+                    type={required ? 'text' : 'hidden'}
                     name={name}
+                    form={form}
                     value={value}
                     disabled={disabled}
-                    required={required}
+                    required={required || undefined}
+                    pattern={required ? `.{${length}}` : undefined}
+                    aria-hidden={required ? true : undefined}
+                    tabIndex={required ? -1 : undefined}
+                    onChange={() => {}}
+                    // Native validation focuses this input: hand focus to the first empty slot.
+                    onFocus={required ? () => focusSlot(Math.min(valueRef.current.length, length - 1)) : undefined}
+                    style={required ? { position: 'absolute', width: 1, height: 1, margin: 0, padding: 0, border: 0, opacity: 0, pointerEvents: 'none' } : undefined}
                     data-slot="otp-field-hidden-input"
                 />
             </Primitive.div>

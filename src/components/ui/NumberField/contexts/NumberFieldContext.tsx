@@ -36,6 +36,9 @@ export type NumberFieldContextType = {
   format?: Intl.NumberFormatOptions;
   locale?: string;
   allowWheelScrub?: boolean;
+  allowOutOfRange?: boolean;
+  form?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);
