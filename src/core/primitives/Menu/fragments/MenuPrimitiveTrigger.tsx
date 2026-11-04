@@ -3,6 +3,7 @@ import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import ButtonPrimitive from '../../Button';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveTriggerProps = {
@@ -27,6 +28,8 @@ const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerP
         const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
         const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
         const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+        // Lets the Root's `triggerId` find this trigger.
+        useHandleTriggerRegistration(handle, triggerRef, payload);
         const detachedRef = Floater.useMergeRefs([triggerRef, propRef]);
 
         if (handle) {

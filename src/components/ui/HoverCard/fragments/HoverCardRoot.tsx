@@ -12,6 +12,7 @@ import { anchorTracking, collisionMiddleware, ContentPositioning, samePositionin
 import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { useHandleTriggerId } from '~/core/utils/popupHandle';
 
 const COMPONENT_NAME = 'HoverCard';
 
@@ -25,6 +26,13 @@ export type HoverCardRootProps = Omit<ComponentPropsWithoutRef<'div'>, 'children
      * be a function of that trigger's payload.
      */
     handle?: PopupHandle<any>;
+    /**
+     * With `handle`: the DOM `id` of the detached trigger the popup belongs to while open.
+     * It is anchored to that trigger and gets its payload, also when opened from code.
+     */
+    triggerId?: string | null;
+    /** Uncontrolled `triggerId`: the trigger used when the popup opens without one (e.g. `defaultOpen`). */
+    defaultTriggerId?: string | null;
     open?: boolean;
     defaultOpen?: boolean;
     /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
@@ -40,7 +48,7 @@ export type HoverCardRootProps = Omit<ComponentPropsWithoutRef<'div'>, 'children
     actionsRef?: React.Ref<PopupActions>;
 };
 
-const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, handle, onOpenChangeComplete, actionsRef, ...props }, ref) => {
+const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ children, open: controlledOpen = undefined, defaultOpen = false, onOpenChange, customRootClass = '', className = '', openDelay = 100, closeDelay = 200, collisionBoundary = null, collisionPadding = 4, handle, triggerId, defaultTriggerId, onOpenChangeComplete, actionsRef, ...props }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootTriggerClass = useComponentClass(customRootClass, `${COMPONENT_NAME}-trigger`);
     const arrowRef = useRef<SVGSVGElement | null>(null);
@@ -171,6 +179,7 @@ const HoverCardRoot = forwardRef<HoverCardRootElement, HoverCardRootProps>(({ ch
         handleOpenChange(false, 'none');
     };
     usePopupActions(actionsRef, () => { clearTimers(); handleOpenChange(false, 'imperative-action'); });
+    useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(open));
 
     useEffect(() => clearTimers, []);
 

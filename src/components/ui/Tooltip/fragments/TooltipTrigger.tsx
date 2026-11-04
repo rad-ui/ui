@@ -5,6 +5,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import { useMergeRefs } from '@floating-ui/react';
 import { getElementRef } from '~/core/utils/mergeProps';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 import { tooltipHandleIds } from '../context/tooltipHandleIds';
 import { stateData } from '~/core/utils/stateAttributes';
 
@@ -29,6 +30,8 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
         const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
         const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
         const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+        // Lets the Root's `triggerId` find this trigger.
+        useHandleTriggerRegistration(handle, triggerRef, payload);
         const openTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
         const childrenRef = getElementRef(children);
         const detachedRef = useMergeRefs([ref, triggerRef, childrenRef]);

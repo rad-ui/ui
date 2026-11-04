@@ -13,6 +13,7 @@ const noop = () => {};
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import useIsomorphicLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { useHandleTriggerId } from '~/core/utils/popupHandle';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
@@ -20,6 +21,13 @@ export type MenuPrimitiveRootProps = {
     children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode)
     /** Connects detached triggers made with `createHandle()`; the menu anchors to whichever opened it. */
     handle?: PopupHandle<any>
+    /**
+     * With `handle`: the DOM `id` of the detached trigger the popup belongs to while open.
+     * It is anchored to that trigger and gets its payload, also when opened from code.
+     */
+    triggerId?: string | null
+    /** Uncontrolled `triggerId`: the trigger used when the popup opens without one (e.g. `defaultOpen`). */
+    defaultTriggerId?: string | null
     className?: string
     open?: boolean
     /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
@@ -97,7 +105,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, arrowPadding = 4, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, actionsRef, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, triggerId, defaultTriggerId, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, arrowPadding = 4, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, actionsRef, ...props }, ref) => {
     const hoverOpenDelay = hoverOpenDelayProp ?? 100;
     const hoverCloseDelay = hoverCloseDelayProp ?? 0;
     const resolvedDir = useDirection(dir);
@@ -121,6 +129,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         setOpenState(nextOpen);
     }, [setOpenState]);
     usePopupActions(actionsRef, () => { setIsOpen(false, 'imperative-action'); handle?.close(); });
+    useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(isOpen));
 
     useRegisterDocumentOverlayOpen(isOpen);
 

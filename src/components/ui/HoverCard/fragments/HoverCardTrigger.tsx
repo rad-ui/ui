@@ -6,6 +6,7 @@ import Primitive from '~/core/primitives/Primitive';
 import Floater from '~/core/primitives/Floater';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 import { hoverCardHandleControls } from '../contexts/hoverCardHandleControls';
 import { stateData } from '~/core/utils/stateAttributes';
 
@@ -26,6 +27,8 @@ const HoverCardTrigger = forwardRef<HoverCardTriggerElement, HoverCardTriggerPro
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
     const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
     const triggerRef = React.useRef<HTMLSpanElement | null>(null);
+    // Lets the Root's `triggerId` find this trigger.
+    useHandleTriggerRegistration(handle, triggerRef, payload);
     const detachedRef = Floater.useMergeRefs([triggerRef, ref]);
     // Hooks run before the detached/attached split so their order never changes.
     const mergedRef = Floater.useMergeRefs([floatingRefs?.setReference, ref]);
