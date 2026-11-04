@@ -85,7 +85,7 @@ Pair color with at least one additional cue:
 | Selected | hue change only | selected icon, weight, or `data-state="on"` styling |
 | Disabled | faded color only | `data-disabled` + `aria-disabled` + non-interactive cursor |
 
-When customizing Rad UI themes, test with Windows **High Contrast** mode and forced-colors media queries where possible.
+The default theme supports forced-colours mode (Windows **High Contrast** and similar). In that mode the browser removes box-shadows and replaces your colours with the person's system colours. So the theme gives keyboard focus a system-colour outline instead of its shadow ring, and it keeps the fills that carry state: the Switch thumb, the Radio dot, the Slider range and thumb, Progress, the Tabs indicator, pressed toggles and the highlighted item in a menu or list. If you style these parts yourself, check them with `@media (forced-colors: active)` and use system colours such as `Highlight` and `CanvasText`.
 
 ---
 

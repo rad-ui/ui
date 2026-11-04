@@ -101,12 +101,15 @@ ScrollArea sets `--scroll-area-overflow-y-start` and `--scroll-area-overflow-y-e
 
 ## Respect reduced motion
 
-Turn transitions off for people who ask for less motion. The Clarity theme already does this.
+The default theme follows the system's reduce-motion setting for you. Every `--rad-ui-motion-duration-*` token collapses to `--rad-ui-motion-duration-reduced` (0.01ms), so the theme's transitions and enter/exit animations finish at once. Components still get their animation events, so a closing Dialog or Popover unmounts on time. The `--rad-ui-transition-*` tokens keep colour changes and drop movement.
+
+Activity indicators are the exception. A Spinner keeps spinning and an indeterminate Progress moves slowly, because they tell people something is happening. A Skeleton stops pulsing.
+
+If your own styles use the motion tokens, they follow along. If they use fixed times, turn them off yourself:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  .popover-content,
-  .tabs-indicator { transition: none; }
+  .my-panel { transition: none; }
 }
 ```
 
