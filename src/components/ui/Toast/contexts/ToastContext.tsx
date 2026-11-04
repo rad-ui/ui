@@ -6,6 +6,9 @@ import { createContext } from 'react';
  */
 export type ToastPosition = string;
 
+/** A direction a toast can be swiped to dismiss it. */
+export type SwipeDirection = 'up' | 'down' | 'left' | 'right';
+
 export interface ToastData {
     id: string;
     title?: React.ReactNode;
@@ -51,6 +54,12 @@ export interface ToastData {
     style?: React.CSSProperties;
     /** Unstyled mode hint (headless - styling left to consumer). */
     unstyled?: boolean;
+    /**
+     * Direction(s) this toast can be swiped to dismiss it. Overrides the provider's
+     * `swipeDirections`; defaults to the edge the toasts sit on (`up` for top positions,
+     * `down` for bottom).
+     */
+    swipeDirection?: SwipeDirection | SwipeDirection[];
 }
 
 /** Options for `toast()` / `manager.add()` — optional stable `id` for upsert. */
