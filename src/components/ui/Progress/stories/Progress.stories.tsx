@@ -74,3 +74,14 @@ export const WithLabelAndValue: Story = {
         </SandboxEditor>
     )
 };
+
+/** No value: the bar shows that work is happening without saying how much. */
+export const Indeterminate: Story = {
+    render: () => (
+        <SandboxEditor>
+            <div className="flex min-h-[240px] w-full items-center justify-center">
+                <ProgressExample value={null} />
+            </div>
+        </SandboxEditor>
+    )
+};
