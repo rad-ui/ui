@@ -31,7 +31,7 @@
     transform-origin: bottom center;
     transform:
         translateY(var(--y, 0px))
-        translateY(var(--swipe-y, 0px))
+        translate(var(--swipe-x, 0px), var(--swipe-y, 0px))
         scale(var(--scale, 1));
 
     &[data-behind] { height: var(--front-height); }
@@ -44,6 +44,16 @@
     &[data-leaving] {
         pointer-events: none;
     }
+
+    // Swiped off to the side: keep the stack offset and finish the slide sideways.
+    &[data-leaving][data-swipe-out="left"],
+    &[data-leaving][data-swipe-out="right"] {
+        transform:
+            translateY(var(--y, 0px))
+            translate(var(--swipe-x, 0px), 0)
+            scale(var(--scale, 1)) !important;
+    }
+
     &[data-swiping] { cursor: grabbing; }
 
     [data-position^="top"] & {
@@ -115,7 +125,7 @@
         opacity: 0 !important;
         transform:
             translateY(calc(var(--toast-lift, -1) * -100%))
-            translateY(var(--swipe-y, 0px))
+            translate(var(--swipe-x, 0px), var(--swipe-y, 0px))
             scale(var(--scale, 1)) !important;
         transition: transform 400ms ease, opacity 400ms ease, box-shadow 200ms ease !important;
     }
@@ -141,4 +151,10 @@
         &:not([data-mounted]) { opacity: 0; transition: none !important; }
         &[data-leaving]       { opacity: 0; transition: opacity 100ms ease !important; }
     }
+}
+
+#{baremetal.$theme-root} :where(.rad-ui-toast-anchored) {
+    z-index: 9999;
+    width: max-content;
+    max-width: min(22rem, calc(100vw - 2rem));
 }

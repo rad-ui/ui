@@ -159,7 +159,7 @@ describe('Tabs interactions', () => {
         expect(screen.getByText('Panel A')).toBeInTheDocument();
     });
 
-    test('no accessibility violations for selected tab', (done) => {
+    test('no accessibility violations for selected tab', async() => {
         const { container } = render(
             <Tabs.Root defaultValue="tab1">
                 <Tabs.List>
@@ -171,10 +171,8 @@ describe('Tabs interactions', () => {
             </Tabs.Root>
         );
 
-        runAxe(container).then((results) => {
-            expect(results.violations.length).toBe(0);
-            done();
-        });
+        const results = await runAxe(container);
+        expect(results.violations.map((v) => v.id)).toEqual([]);
     });
 
     test('asChild preserves semantics and forwards refs', () => {
@@ -254,5 +252,62 @@ describe('Tabs interactions', () => {
 
         await user.keyboard('{ArrowLeft}');
         expect(t2).toHaveFocus();
+    });
+
+    test('Home and End jump to the first and last enabled tabs and select them in automatic mode', async() => {
+        const user = userEvent.setup();
+        const onValueChange = jest.fn();
+        render(
+            <Tabs.Root defaultValue="b" onValueChange={onValueChange}>
+                <Tabs.List>
+                    <Tabs.Trigger value="a" disabled>A</Tabs.Trigger>
+                    <Tabs.Trigger value="b">B</Tabs.Trigger>
+                    <Tabs.Trigger value="c">C</Tabs.Trigger>
+                    <Tabs.Trigger value="d">D</Tabs.Trigger>
+                    <Tabs.Trigger value="e" disabled>E</Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content value="b">Panel B</Tabs.Content>
+                <Tabs.Content value="c">Panel C</Tabs.Content>
+                <Tabs.Content value="d">Panel D</Tabs.Content>
+            </Tabs.Root>
+        );
+
+        await user.tab();
+        expect(screen.getByRole('tab', { name: 'B' })).toHaveFocus();
+
+        await user.keyboard('{End}');
+        expect(screen.getByRole('tab', { name: 'D' })).toHaveFocus();
+        expect(screen.getByRole('tab', { name: 'D' })).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel D');
+
+        await user.keyboard('{Home}');
+        expect(screen.getByRole('tab', { name: 'B' })).toHaveFocus();
+        expect(screen.getByRole('tab', { name: 'B' })).toHaveAttribute('aria-selected', 'true');
+        expect(onValueChange.mock.calls.map(([value]) => value)).toEqual(['d', 'b']);
+    });
+
+    test('Home and End only move focus in manual mode', async() => {
+        const user = userEvent.setup();
+        render(
+            <Tabs.Root defaultValue="a" activationMode="manual">
+                <Tabs.List>
+                    <Tabs.Trigger value="a">A</Tabs.Trigger>
+                    <Tabs.Trigger value="b">B</Tabs.Trigger>
+                    <Tabs.Trigger value="c">C</Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content value="a">Panel A</Tabs.Content>
+                <Tabs.Content value="b">Panel B</Tabs.Content>
+                <Tabs.Content value="c">Panel C</Tabs.Content>
+            </Tabs.Root>
+        );
+
+        await user.tab();
+        await user.keyboard('{End}');
+        expect(screen.getByRole('tab', { name: 'C' })).toHaveFocus();
+        expect(screen.getByRole('tab', { name: 'A' })).toHaveAttribute('aria-selected', 'true');
+
+        await user.keyboard('{Enter}');
+        expect(screen.getByRole('tab', { name: 'C' })).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel C');
     });
 });

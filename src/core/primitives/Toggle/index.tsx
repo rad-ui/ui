@@ -3,6 +3,7 @@ import React, { forwardRef, useState } from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { isActivationKey } from '~/core/utils/keyboard';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type TogglePrimitiveElement = React.ElementRef<typeof ButtonPrimitive>;
 export interface TogglePrimitiveProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive> {
@@ -56,7 +57,7 @@ const TogglePrimitive = forwardRef<TogglePrimitiveElement, TogglePrimitiveProps>
         ref={ref}
         onClick={composeEventHandlers(props.onClick, handleTogglePressed)}
         onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
-        data-state={isPressed ? 'on' : 'off'}
+        {...stateData(isPressed ? 'on' : 'off')}
         data-disabled={disabled ? '' : undefined}
         disabled={disabled}
         asChild={asChild}

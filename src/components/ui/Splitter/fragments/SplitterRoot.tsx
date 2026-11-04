@@ -4,6 +4,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import clsx from 'clsx';
 import SplitterContext, { SplitterContextValue, SplitterOrientation } from '../context/SplitterContext';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export interface SplitterRootProps extends React.ComponentPropsWithoutRef<'div'> {
   orientation?: SplitterOrientation;
@@ -46,12 +47,13 @@ const SplitterRoot = React.forwardRef<
     maxSizes = [100, 100],
     onSizesChange,
     disabled = false,
-    dir,
+    dir: dirProp,
     style,
     ...props
 }, forwardedRef) => {
     const baseId = React.useId();
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const dir = useDirection(dirProp);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [sizes, setSizes] = useState<number[]>(defaultSizes);
     const [isDragging, setIsDragging] = useState(false);

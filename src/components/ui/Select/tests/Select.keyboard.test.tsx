@@ -59,4 +59,23 @@ describe('Select keyboard paths', () => {
         await waitFor(() => expect(screen.queryByText('Apple')).not.toBeInTheDocument());
         expect(trigger).toHaveFocus();
     });
+
+    test('typeahead highlights the matching item while open', async() => {
+        const user = userEvent.setup();
+        render(select());
+
+        await user.click(screen.getByText('choose'));
+        await user.keyboard('o');
+        await waitFor(() => expect(screen.getByRole('option', { name: 'Orange' })).toHaveAttribute('data-active', 'true'));
+
+        // Letters typed in quick succession build one search ("ba" finds Banana)...
+        await new Promise((resolve) => setTimeout(resolve, 1100));
+        await user.keyboard('ba');
+        await waitFor(() => expect(screen.getByRole('option', { name: 'Banana' })).toHaveAttribute('data-active', 'true'));
+
+        // ...and a string that matches nothing leaves the highlight where it was.
+        await new Promise((resolve) => setTimeout(resolve, 1100));
+        await user.keyboard('zz');
+        expect(screen.getByRole('option', { name: 'Banana' })).toHaveAttribute('data-active', 'true');
+    });
 });

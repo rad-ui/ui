@@ -10,8 +10,23 @@ const COLOR_PREFIX = '--rad-ui-color-';
 }
  */
 
+const DEFAULT_ACCENT = 'gray';
+
 const generateAccentTokens = (theme) => {
     let accentStyleSheet = '';
+
+    // Default accent: a Theme with no accentColor still needs the accent scale
+    // defined, or every accent-based border and fill disappears. The named
+    // blocks below share this zero specificity and come later in the source,
+    // so any explicit accent colour on the same element wins.
+    const defaultAccent = colors[DEFAULT_ACCENT]?.[theme];
+    if (defaultAccent && typeof defaultAccent === 'object' && !Array.isArray(defaultAccent)) {
+        accentStyleSheet += ':where([data-rad-ui-theme]){\n';
+        for (const [shadeName] of Object.entries(defaultAccent)) {
+            accentStyleSheet += `${COLOR_PREFIX}accent-${shadeName}: var(${COLOR_PREFIX}${DEFAULT_ACCENT}-${shadeName});\n`;
+        }
+        accentStyleSheet += '}\n';
+    }
 
     for (const colorObj in colors) {
         const colorName = colorObj;

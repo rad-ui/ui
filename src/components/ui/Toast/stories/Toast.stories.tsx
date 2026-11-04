@@ -207,7 +207,7 @@ export const PromiseToast = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Stable id + pulse on duplicate (Base UI–style)
+// Stable id + pulse on duplicate
 // ─────────────────────────────────────────────────────────────────────────────
 
 const PULSE_TOAST_STORY_STYLE_ID = 'rad-ui-toast-pulse-story-css';
@@ -288,7 +288,7 @@ export const PulseDuplicateId = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Action (Base UI `actionProps` + Toast.Action)
+// Action (`actionProps` + Toast.Action)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function WithActionDemo() {
@@ -336,7 +336,7 @@ export const WithAction = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// update() + close() (Base UI manager)
+// update() + close() (manager)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function UpdateAndCloseDemo() {
@@ -559,6 +559,41 @@ export const CustomRender = {
         <SandboxEditor>
             <Toast.Provider position="bottom-right">
                 <CustomRenderDemo />
+            </Toast.Provider>
+        </SandboxEditor>
+    )
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Anchored — a toast beside the element that triggered it
+// ─────────────────────────────────────────────────────────────────────────────
+
+function AnchoredDemo() {
+    useCleanup();
+    const manager = Toast.useToastManager();
+
+    return (
+        <>
+            <Toaster />
+            <Toast.AnchoredToasts />
+            <div style={{ display: 'flex', gap: '0.5rem', padding: '6rem 2rem' }}>
+                <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => manager.add({ title: 'Copied', anchor: event.currentTarget, timeout: 1500 })}>
+                    Copy link
+                </Button>
+                <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => manager.add({ title: 'Saved to favourites', anchor: event.currentTarget, side: 'bottom', timeout: 2000 })}>
+                    Favourite
+                </Button>
+                <Button onClick={() => manager.add({ title: 'Changes saved.' })}>Stacked toast</Button>
+            </div>
+        </>
+    );
+}
+
+export const Anchored = {
+    render: () => (
+        <SandboxEditor>
+            <Toast.Provider position="bottom-right">
+                <AnchoredDemo />
             </Toast.Provider>
         </SandboxEditor>
     )

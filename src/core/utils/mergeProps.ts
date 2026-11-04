@@ -1,4 +1,5 @@
 import React from 'react';
+import composeEventHandlers from '../hooks/composeEventHandlers';
 
 // Generic “props object” type. We use this because mergeProps is meant to work with any React props shape.
 type AnyProps = Record<string, any>;
@@ -127,16 +128,8 @@ export const mergeProps = <T extends AnyProps, U extends AnyProps>(slotProps: T,
             typeof slotPropValue === 'function' &&
             typeof childPropValue === 'function'
         ) {
-            mergedProps[propName] = (...args: unknown[]) => {
-                // Run the child handler first so the child has priority.
-                childPropValue(...args);
-
-                // If child calls event.preventDefault(), treat it as “cancel parent behavior”.
-                const event = args[0] as { defaultPrevented?: boolean } | undefined;
-                if (!event || event.defaultPrevented !== true) {
-                    slotPropValue(...args);
-                }
-            };
+            // Child (consumer) first; the slot's handler is skipped if the child called preventDefault().
+            mergedProps[propName] = composeEventHandlers(childPropValue, slotPropValue);
             continue;
         }
 

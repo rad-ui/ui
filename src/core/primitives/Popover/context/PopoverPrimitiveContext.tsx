@@ -15,9 +15,17 @@ export type PopoverPositioning = {
     collisionBoundary?: Element | null | Array<Element | null>;
     collisionPadding: number | Partial<Record<PopoverSide, number>>;
     arrowPadding: number;
-    sticky: PopoverSticky;
+    /** `true` is `'always'`, `false` is `'partial'`. */
+    sticky: PopoverSticky | boolean;
     hideWhenDetached: boolean;
+    anchor?: import('~/core/utils/placement').FloatingAnchor;
+    positionMethod?: import('~/core/utils/placement').PositionMethod;
+    collisionAvoidance?: import('~/core/utils/placement').CollisionAvoidance;
+    disableAnchorTracking?: boolean;
 };
+
+/** Hover options a Trigger sets for itself, over the Root's. */
+export type PopoverTriggerHover = { openOnHover?: boolean; delay?: number; closeDelay?: number };
 
 export type PopoverOutsideInteractionEvent<T extends Event> = {
     originalEvent: T;
@@ -27,7 +35,9 @@ export type PopoverOutsideInteractionEvent<T extends Event> = {
 
 type PopoverPrimitiveContextType = {
     isOpen: boolean;
-    modal: boolean;
+    modal: boolean | 'trap-focus';
+    /** Called after the open or close animations finish. */
+    onOpenChangeComplete?: (open: boolean) => void;
     contentId: string;
     triggerNode: HTMLElement | null;
     anchorNode: HTMLElement | null;
@@ -37,6 +47,7 @@ type PopoverPrimitiveContextType = {
     setArrowNode: (node: SVGSVGElement | null) => void;
     positioning: PopoverPositioning;
     setPositioning: (value: Partial<PopoverPositioning>) => void;
+    setTriggerHover?: (value: PopoverTriggerHover) => void;
     getReferenceProps: (userProps?: Record<string, unknown>) => Record<string, unknown>;
     getFloatingProps: (userProps?: Record<string, unknown>) => Record<string, unknown>;
     setContentEventHandlers: (handlers: {

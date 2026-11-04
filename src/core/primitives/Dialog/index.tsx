@@ -8,6 +8,7 @@ import DialogPrimitiveTrigger from './fragments/DialogPrimitiveTrigger';
 import DialogPrimitiveOverlay from './fragments/DialogPrimitiveOverlay';
 import DialogPrimitivePortal from './fragments/DialogPrimitivePortal';
 import DialogPrimitiveFooter from './fragments/DialogPrimitiveFooter';
+import { createDialogHandle } from './handle';
 
 const DialogPrimitive = {
     Root: DialogPrimitiveRoot,
@@ -17,7 +18,10 @@ const DialogPrimitive = {
     Content: DialogPrimitiveContent,
     Trigger: DialogPrimitiveTrigger,
     Overlay: DialogPrimitiveOverlay,
-    Portal: DialogPrimitivePortal
+    Portal: DialogPrimitivePortal,
+    createHandle: createDialogHandle
 };
+
+export type { DialogHandle } from './handle';
 
 export default DialogPrimitive;

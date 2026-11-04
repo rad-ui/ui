@@ -48,6 +48,7 @@
 @use "../../components/ui/NavigationMenu/navigation-menu.baremetal";
 @use "../../components/ui/DropdownMenu/dropdown-menu.baremetal";
 @use "../../components/ui/NumberField/number-field.baremetal";
+@use "../../components/ui/OTPField/otp-field.baremetal";
 @use "../../components/ui/ContextMenu/context-menu.baremetal";
 @use "../../components/ui/Menubar/menubar.baremetal";
 @use "../../components/ui/Meter/meter.baremetal";
@@ -56,11 +57,14 @@
 @use "../../components/ui/Steps/steps.baremetal";
 @use "../../components/ui/Minimap/minimap.baremetal";
 @use "../../components/ui/Combobox/combobox.baremetal";
+@use "../../components/ui/Autocomplete/autocomplete.baremetal";
 @use "../../components/ui/Command/command.baremetal";
 @use "../../components/ui/Tooltip/tooltip.baremetal";
 @use "../../components/ui/Spinner/spinner.baremetal";
 @use "../../components/ui/Toast/toast.baremetal";
 @use "../../components/ui/Fieldset/fieldset.baremetal";
+@use "../../components/ui/Field/field.baremetal";
+@use "../../components/ui/Form/form.baremetal";
 @use "scope";
 
 #{scope.$theme-root} {

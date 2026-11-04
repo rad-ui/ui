@@ -1,5 +1,5 @@
 /**
- * Toast manager — Base UI–aligned imperative API (`add`, `close`, `update`, `promise`).
+ * Toast manager: imperative API (`add`, `close`, `update`, `promise`).
  * Use `ToastState` singleton or `createToastManager()` per `<Toast.Provider toastManager={…}>`.
  */
 import type {
@@ -74,7 +74,7 @@ export class ToastManager implements IToastManager {
         this.dismissSubscribers.forEach((fn) => fn('__all__'));
     }
 
-    /** Base UI — `close(id?)` dismisses one or all. */
+    /** `close(id?)` dismisses one toast, or all of them. */
     close(id?: string): void {
         if (id === undefined) this.dismissAll();
         else this.dismiss(id);

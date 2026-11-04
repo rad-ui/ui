@@ -10,7 +10,7 @@ describe('Switch behaviour', () => {
     test('space and enter keys toggle the switch and update data-state', async() => {
         const user = userEvent.setup();
         const { container } = render(
-            <Switch.Root>
+            <Switch.Root aria-label="Notifications">
                 <Switch.Thumb />
             </Switch.Root>
         );
@@ -27,7 +27,7 @@ describe('Switch behaviour', () => {
 
     test('exposes stable anatomy slots without duplicating switch semantics', () => {
         const { container } = render(
-            <Switch.Root>
+            <Switch.Root aria-label="Notifications">
                 <Switch.Thumb />
             </Switch.Root>
         );
@@ -101,7 +101,7 @@ describe('Switch behaviour', () => {
 
     test('no axe violations and proper aria attributes', async() => {
         const { container } = render(
-            <Switch.Root>
+            <Switch.Root aria-label="Notifications">
                 <Switch.Thumb />
             </Switch.Root>
         );
@@ -145,7 +145,7 @@ describe('Switch behaviour', () => {
     test('rapid toggling updates state correctly', async() => {
         const user = userEvent.setup();
         const { container } = render(
-            <Switch.Root>
+            <Switch.Root aria-label="Notifications">
                 <Switch.Thumb />
             </Switch.Root>
         );

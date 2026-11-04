@@ -65,3 +65,122 @@ export const Default = {
 export const Modal = {
     render: () => <PopoverDemo modal />
 };
+
+export const CssTransitions = {
+    render: () => (
+        <SandboxEditor>
+            <style>{`
+                .transition-demo {
+                    transition: opacity 180ms ease, transform 180ms ease;
+                }
+                .transition-demo[data-starting-style],
+                .transition-demo[data-ending-style] {
+                    opacity: 0;
+                    transform: scale(0.96);
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    .transition-demo { transition: none; }
+                }
+            `}</style>
+            <Popover.Root>
+                <Popover.Trigger asChild>
+                    <Button>Open with a transition</Button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                    <Popover.Content className="transition-demo">
+                        <Text>Fades and scales in, and stays mounted until it has faded out.</Text>
+                    </Popover.Content>
+                </Popover.Portal>
+            </Popover.Root>
+        </SandboxEditor>
+    )
+};
+
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => Popover.createHandle<string>(), []);
+    return (
+        <SandboxEditor>
+            <div className="flex gap-2">
+                {['Ada', 'Grace', 'Linus'].map((name) => (
+                    <Popover.Trigger key={name} handle={handle} payload={name} asChild>
+                        <Button>{name}</Button>
+                    </Popover.Trigger>
+                ))}
+            </div>
+            <Popover.Root handle={handle}>
+                {({ payload }) => (
+                    <Popover.Portal>
+                        <Popover.Content>
+                            <Text>Profile card for {String(payload)}</Text>
+                        </Popover.Content>
+                    </Popover.Portal>
+                )}
+            </Popover.Root>
+        </SandboxEditor>
+    );
+};
+
+export const DetachedTriggers = {
+    render: () => <DetachedTriggersExample />
+};
+
+const FocusTargetsExample = () => {
+    const nameRef = React.useRef<HTMLInputElement>(null);
+    const saveRef = React.useRef<HTMLButtonElement>(null);
+    return (
+        <SandboxEditor>
+            <div style={{ padding: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                <Popover.Root>
+                    <Popover.Trigger asChild>
+                        <Button variant="soft">Rename</Button>
+                    </Popover.Trigger>
+                    <Popover.Portal>
+                        <Popover.Content sideOffset={12} initialFocus={nameRef} finalFocus={saveRef}>
+                            <div style={{ display: 'grid', gap: '0.5rem', minWidth: '16rem' }}>
+                                <Text as="label" htmlFor="popover-name">Name</Text>
+                                <TextField id="popover-name" ref={nameRef} defaultValue="Untitled" />
+                                <Popover.Close asChild>
+                                    <Button size="small">Done</Button>
+                                </Popover.Close>
+                            </div>
+                        </Popover.Content>
+                    </Popover.Portal>
+                </Popover.Root>
+                <Button ref={saveRef} variant="outline">Save document</Button>
+            </div>
+        </SandboxEditor>
+    );
+};
+
+/** `initialFocus` puts the caret in the name field; `finalFocus` moves on to Save when it closes. */
+export const FocusTargets = {
+    render: () => <FocusTargetsExample />
+};
+
+const TrapFocusExample = () => (
+    <SandboxEditor>
+        <div style={{ padding: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <Popover.Root modal="trap-focus">
+                <Popover.Trigger asChild>
+                    <Button variant="soft">Trap focus</Button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                    <Popover.Content sideOffset={12}>
+                        <div style={{ display: 'grid', gap: '0.5rem', minWidth: '14rem' }}>
+                            <TextField aria-label="Note" defaultValue="Tab stays in here" />
+                            <Popover.Close asChild>
+                                <Button size="small">Done</Button>
+                            </Popover.Close>
+                        </div>
+                    </Popover.Content>
+                </Popover.Portal>
+            </Popover.Root>
+            <Button variant="outline">Still clickable</Button>
+        </div>
+    </SandboxEditor>
+);
+
+/** `modal="trap-focus"` keeps Tab inside the popover while the page stays clickable. */
+export const TrapFocus = {
+    render: () => <TrapFocusExample />
+};

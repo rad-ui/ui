@@ -26,9 +26,62 @@ export const clampValue = (value: number, min: number, max: number): number => M
 
 /**
  * Bounds for the thumb at `index` in a multi-thumb slider so it cannot cross
- * its neighbours.
+ * its neighbours, keeping at least `minGap` between them.
  */
-export const getThumbBounds = (values: number[], index: number, min: number, max: number) => ({
-    lower: index > 0 ? values[index - 1] : min,
-    upper: index < values.length - 1 ? values[index + 1] : max
+export const getThumbBounds = (values: number[], index: number, min: number, max: number, minGap = 0) => ({
+    lower: index > 0 ? Math.min(values[index], values[index - 1] + minGap) : min,
+    upper: index < values.length - 1 ? Math.max(values[index], values[index + 1] - minGap) : max
 });
+
+export type ThumbAlignment = 'center' | 'edge';
+
+const THUMB_SIZE = 'var(--rad-slider-thumb-size, 20px)';
+
+/**
+ * CSS position of a thumb's centre at `percent` along the track. With `edge`, thumbs stay
+ * inside the track: the centre runs from half a thumb in at the start to half a thumb in at the end.
+ */
+export const thumbCenterPosition = (percent: number, alignment: ThumbAlignment): string => (
+    alignment === 'edge'
+        ? `calc(${percent}% + ${THUMB_SIZE} * ${roundRatio(0.5 - percent / 100)})`
+        : `${percent}%`
+);
+
+const roundRatio = (value: number) => Number(value.toFixed(6));
+
+export type ThumbCollisionBehavior = 'none' | 'push' | 'swap';
+
+/**
+ * Moves thumb `index` towards `target` in a multi-thumb slider.
+ * - `none`: the thumb stops at its neighbours (plus `minGap`).
+ * - `push`: it pushes the neighbours along, keeping `minGap` between them.
+ * - `swap`: it passes its neighbours; values stay sorted and the moved thumb's new index is returned.
+ */
+export const moveThumb = (
+    values: number[],
+    index: number,
+    target: number,
+    min: number,
+    max: number,
+    minGap = 0,
+    behavior: ThumbCollisionBehavior = 'none'
+): { values: number[]; index: number } => {
+    const next = [...values];
+    if (behavior === 'push') {
+        const lower = min + index * minGap;
+        const upper = max - (values.length - 1 - index) * minGap;
+        next[index] = clampValue(target, lower, upper);
+        for (let i = index + 1; i < next.length; i++) next[i] = Math.max(next[i], next[i - 1] + minGap);
+        for (let i = index - 1; i >= 0; i--) next[i] = Math.min(next[i], next[i + 1] - minGap);
+        return { values: next, index };
+    }
+    if (behavior === 'swap') {
+        next[index] = clampValue(target, min, max);
+        const order = next.map((value, i) => ({ value, i })).sort((a, b) => a.value - b.value || (a.i === index ? -1 : 1));
+        const newIndex = order.findIndex((entry) => entry.i === index);
+        return { values: order.map((entry) => entry.value), index: newIndex };
+    }
+    const { lower, upper } = getThumbBounds(values, index, min, max, minGap);
+    next[index] = clampValue(target, lower, upper);
+    return { values: next, index };
+};

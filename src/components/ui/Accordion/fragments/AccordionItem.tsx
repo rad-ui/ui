@@ -8,14 +8,17 @@ import CollapsiblePrimitive from '~/core/primitives/Collapsible';
 import Primitive from '~/core/primitives/Primitive';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import { usePrefersReducedMotion } from '~/core/hooks/usePrefersReducedMotion';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type AccordionItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value: string;
     disabled?: boolean;
     asChild?: boolean;
+    /** Called when this item opens or closes, including when opening another item closes it. */
+    onOpenChange?: (open: boolean) => void;
 };
 
-const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemProps>(({ children, value, className = '', disabled = false, asChild = false, ...props }, forwardedRef) => {
+const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemProps>(({ children, value, className = '', disabled = false, asChild = false, onOpenChange, ...props }, forwardedRef) => {
     const accordionItemRef = React.useRef<HTMLDivElement | null>(null);
     const autoValue = useId();
     const itemValue = value ?? autoValue;
@@ -36,6 +39,16 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
     const prefersReducedMotion = usePrefersReducedMotion();
 
     const isOpen = activeItems.includes(itemValue);
+
+    // Report real changes only (not the first render), whatever caused them.
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const wasOpenRef = React.useRef(isOpen);
+    React.useEffect(() => {
+        if (wasOpenRef.current === isOpen) return;
+        wasOpenRef.current = isOpen;
+        onOpenChangeRef.current?.(isOpen);
+    }, [isOpen]);
 
     const handleOpenChange = useCallback(
         (nextOpen: boolean) => {
@@ -80,7 +93,7 @@ const AccordionItem = React.forwardRef<React.ElementRef<'div'>, AccordionItemPro
                 <Primitive.div
                     ref={mergeRefs(accordionItemRef, forwardedRef)}
                     className={clsx(rootClass && `${rootClass}-item`, className)}
-                    data-state={isOpen ? 'open' : 'closed'}
+                    {...stateData(isOpen ? 'open' : 'closed')}
                     data-disabled={effectiveDisabled ? '' : undefined}
                     data-orientation={orientation}
                     data-slot="accordion-item"

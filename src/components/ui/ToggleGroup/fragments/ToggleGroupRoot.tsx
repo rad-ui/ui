@@ -7,11 +7,14 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 
 import { ToggleContext } from '../contexts/toggleContext';
+import { useDirection } from '~/core/hooks/useDirection';
 
 type ToggleGroupRootElement = React.ElementRef<'div'>;
 export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     /** Selection mode - 'single' allows only one item to be selected, 'multiple' allows many */
     type?: 'single' | 'multiple';
+    /** Same as `type="multiple"` when true. */
+    multiple?: boolean;
     /** Additional CSS class names to apply */
     className?: string;
     /** Whether focus should loop from last to first and vice versa */
@@ -28,6 +31,10 @@ export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     onValueChange?: (value: any) => void;
     /** Accent color for the toggle group */
     color?: string;
+    /** Look of the group; sets `data-variant`. `'soft'` draws a padded track with the pressed item as a raised pill (a view switcher). */
+    variant?: string;
+    /** Size of the items; sets `data-size`. The default theme has `'small'` for dense toolbars. */
+    size?: string;
     /** Whether the toggle group is disabled */
     disabled?: boolean;
     /** Text direction */
@@ -43,7 +50,8 @@ export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
 const COMPONENT_NAME = 'ToggleGroup';
 
 const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRootProps>(({
-    type = 'single',
+    type: typeProp,
+    multiple,
     className = '',
     loop = true,
     orientation = 'horizontal',
@@ -52,14 +60,18 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     defaultValue = [],
     onValueChange,
     color = '',
+    variant,
+    size,
     disabled = false,
-    dir = 'ltr',
+    dir: dirProp,
     rovingFocus = true,
     asChild = false,
     children,
     ...props
 }, ref) => {
+    const type = typeProp ?? (multiple ? 'multiple' : 'single');
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const dir = useDirection(dirProp) ?? 'ltr';
 
     // Use controllable state for value management
     const [activeToggles, setActiveToggles] = useControllableState(
@@ -88,6 +100,8 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     }
 
     data_attributes['data-orientation'] = orientation as any;
+    if (variant) data_attributes['data-variant'] = variant;
+    if (size) data_attributes['data-size'] = size;
 
     // If rovingFocus is disabled, render without RovingFocusGroup
     if (!rovingFocus) {

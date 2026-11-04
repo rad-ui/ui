@@ -2,11 +2,11 @@ import React from 'react';
 import clsx from 'clsx';
 
 import TextFieldRoot from './fragments/TextFieldRoot';
-import TextFieldInput from './fragments/TextFieldInput';
+import TextFieldInput, { TextFieldInputProps } from './fragments/TextFieldInput';
 import TextFieldSlot from './fragments/TextFieldSlot';
 import TextFieldReset from './fragments/TextFieldReset';
 
-export type TextFieldProps = React.ComponentPropsWithoutRef<'input'> & {
+export type TextFieldProps = TextFieldInputProps & {
     className?: string;
     customRootClass?: string;
     inputClassName?: string;

@@ -6,7 +6,9 @@ import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
-import { clampValue, getThumbBounds, roundToStepPrecision } from '../utils/sliderMath';
+import { clampValue, moveThumb, roundToStepPrecision } from '../utils/sliderMath';
+import { useDirection } from '~/core/hooks/useDirection';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'SliderThumb';
 
@@ -17,10 +19,17 @@ export type SliderThumbProps = {
     index?: number;
     'aria-label'?: string;
     'aria-labelledby'?: string;
+    /** Accessible name from the thumb's index, for multi-thumb sliders ("Minimum", "Maximum"). */
+    getAriaLabel?: (index: number) => string;
+    /** Text screen readers announce for the value. Gets the formatted value, the number and the index. */
+    getAriaValueText?: (formattedValue: string, value: number, index: number) => string;
+    /** Ref to the hidden input that holds this thumb's value for forms. */
+    inputRef?: React.Ref<HTMLInputElement>;
 } & ComponentPropsWithoutRef<'div'>;
 
-const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, getAriaLabel, getAriaValueText, inputRef, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
+    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, isRtl: rootIsRtl, thumbAlignment, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef, thumbCollisionBehavior = 'none', form, focusThumb } = React.useContext(SliderContext);
+    const contextDir = useDirection();
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
     // Register this thumb ref with the slider root
@@ -45,7 +54,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         onKeyDown?.(e);
         if (disabled || e.defaultPrevented) return;
         let newValue = currentValue;
-        const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
+        const isRtl = contextDir ? contextDir === 'rtl' : rootIsRtl || Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
         switch (e.key) {
         case KEYBOARD_KEYS.ARROW_RIGHT:
             newValue = isRtl ? currentValue - step : currentValue + step;
@@ -76,24 +85,21 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         }
         e.preventDefault();
 
-        // In multi-thumb sliders a thumb cannot move past its neighbours.
-        const bounds = Array.isArray(value)
-            ? getThumbBounds(value, index, minValue, maxValue)
-            : { lower: minValue, upper: maxValue };
-        const nextThumbValue = clampValue(
-            roundToStepPrecision(newValue, step, minValue),
-            bounds.lower,
-            bounds.upper
-        );
-        if (nextThumbValue === currentValue) return;
-
+        const target = roundToStepPrecision(newValue, step, minValue);
         let nextValue: number | number[];
         if (Array.isArray(value)) {
-            const next = [...value];
-            next[index] = nextThumbValue;
-            nextValue = next;
+            // Neighbours stop, get pushed along, or swap places, per thumbCollisionBehavior.
+            const moved = moveThumb(value, index, target, minValue, maxValue, minStepsBetweenValues * step, thumbCollisionBehavior);
+            if (moved.values.every((entry, i) => entry === value[i])) return;
+            nextValue = moved.values;
+            if (moved.index !== index) {
+                // The value now belongs to another thumb: focus follows it.
+                const movedTo = moved.index;
+                setTimeout(() => focusThumb?.(movedTo), 0);
+            }
         } else {
-            nextValue = nextThumbValue;
+            nextValue = clampValue(target, minValue, maxValue);
+            if (nextValue === currentValue) return;
         }
         setValue(nextValue);
         commitValue(nextValue);
@@ -123,12 +129,14 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             aria-valuemin={minValue}
             aria-valuemax={maxValue}
             aria-valuenow={currentValue}
-            aria-valuetext={formatValue ? formatValue(currentValue) : undefined}
+            aria-valuetext={getAriaValueText
+                ? getAriaValueText(formatValue ? formatValue(currentValue) : String(currentValue), currentValue, index)
+                : formatValue ? formatValue(currentValue) : undefined}
             aria-orientation={orientation}
-            aria-label={ariaLabel}
+            aria-label={ariaLabel ?? getAriaLabel?.(index)}
             aria-labelledby={ariaLabelledby}
             aria-disabled={disabled || undefined}
-            data-state={state}
+            {...stateData(state)}
             data-disabled={disabled}
             data-index={index}
             onKeyDown={handleKeyDown}
@@ -138,9 +146,16 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             onBlur={(e: React.FocusEvent<HTMLDivElement>) => { onBlur?.(e); setFocused(false); }}
             style={{
                 ...style,
-                ...(orientation === 'vertical'
-                    ? { top: `calc(${percent}% - 10px)` }
-                    : { left: `calc(${percent}% - 10px)` })
+                ...(() => {
+                    // Mirror first in right-to-left, then keep the thumb inside the track for edge alignment.
+                    const visual = orientation !== 'vertical' && rootIsRtl ? 100 - percent : percent;
+                    const offset = thumbAlignment === 'edge'
+                        ? `var(--rad-slider-thumb-size, 20px) * ${visual / 100}`
+                        : '10px';
+                    return orientation === 'vertical'
+                        ? { top: `calc(${visual}% - ${offset})` }
+                        : { left: `calc(${visual}% - ${offset})` };
+                })()
             }}
             {...props}
         >
@@ -152,7 +167,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         <>
             {thumbNode}
             {name !== undefined && (
-                <input type="hidden" value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} disabled={disabled} />
+                <input ref={inputRef} type="hidden" form={form} value={currentValue} name={Array.isArray(value) ? `${name}[${index}]` : name} disabled={disabled} />
             )}
         </>
     );

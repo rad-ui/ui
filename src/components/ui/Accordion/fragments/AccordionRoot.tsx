@@ -6,6 +6,7 @@ import { AccordionContext } from '../contexts/AccordionContext';
 import useControllableState from '~/core/hooks/useControllableState';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'Accordion';
 
@@ -64,12 +65,13 @@ const AccordionRoot = React.forwardRef<React.ElementRef<'div'>, AccordionRootPro
         defaultValue,
         onValueChange,
         openMultiple = false,
-        dir,
+        dir: dirProp,
         ...restProps
     } = props;
     const accordionRef = useRef<HTMLDivElement | null>(null);
     const componentClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME, 'root');
+    const dir = useDirection(dirProp);
 
     const isMultiple = type === 'multiple' || openMultiple;
     const collapsibleEffective = isMultiple ? true : collapsible;

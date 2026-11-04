@@ -29,6 +29,33 @@ describe('Theme', () => {
         window.matchMedia = originalMatchMedia;
     });
 
+    test('renders without window.matchMedia (default and system appearance)', () => {
+        (window as { matchMedia?: unknown }).matchMedia = undefined;
+
+        const { container, rerender } = render(<Theme>content</Theme>);
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'dark');
+
+        rerender(<Theme appearance="system">content</Theme>);
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'light');
+    });
+
+    test('follows the system with the older addListener API', () => {
+        const listeners: Array<(e: MediaQueryListEvent) => void> = [];
+        const legacy = {
+            matches: false,
+            addListener: jest.fn((listener) => listeners.push(listener)),
+            removeListener: jest.fn()
+        } as unknown as MediaQueryList;
+        window.matchMedia = jest.fn().mockReturnValue(legacy);
+
+        const { container, unmount } = render(<Theme appearance="system">content</Theme>);
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'light');
+        act(() => listeners.forEach((listener) => listener({ matches: true } as MediaQueryListEvent)));
+        expect(container.firstChild).toHaveAttribute('data-rad-ui-theme', 'dark');
+        unmount();
+        expect(legacy.removeListener).toHaveBeenCalled();
+    });
+
     test('defaults to dark appearance and ignores system preference', () => {
         const { mediaQueryList } = createMediaQueryList(false);
         window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
@@ -37,6 +64,7 @@ describe('Theme', () => {
         const themeDiv = container.firstChild as HTMLElement;
 
         expect(themeDiv).toHaveAttribute('data-rad-ui-theme', 'dark');
+        expect(themeDiv).toHaveAttribute('data-rad-ui-accent-color', 'gray');
         expect(mediaQueryList.addEventListener).not.toHaveBeenCalled();
     });
 
@@ -158,6 +186,17 @@ describe('Theme', () => {
         const themeDiv = container.firstChild as HTMLElement;
 
         expect(themeDiv).not.toHaveClass('rad-ui-theme');
+    });
+
+    test('restores gray accent metadata when accentColor is removed', () => {
+        window.matchMedia = jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as MediaQueryList);
+        const { rerender } = render(<Theme accentColor="blue" data-testid="theme">content</Theme>);
+
+        expect(screen.getByTestId('theme')).toHaveAttribute('data-rad-ui-accent-color', 'blue');
+
+        rerender(<Theme data-testid="theme">content</Theme>);
+
+        expect(screen.getByTestId('theme')).toHaveAttribute('data-rad-ui-accent-color', 'gray');
     });
 
     test('renders under StrictMode without console errors', () => {

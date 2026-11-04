@@ -29,3 +29,25 @@ export const Basic = {
         );
     }
 };
+
+export const SoftViewSwitcher = {
+    render: () => {
+        const [view, setView] = React.useState<string[]>(['board']);
+        return (
+            <SandboxEditor>
+                <div className="flex flex-col items-start gap-4">
+                    <ToggleGroup.Root type="single" variant="soft" size="small" value={view} onValueChange={setView} aria-label="View">
+                        <ToggleGroup.Item value="board">Board</ToggleGroup.Item>
+                        <ToggleGroup.Item value="table">Table</ToggleGroup.Item>
+                        <ToggleGroup.Item value="sections">Sections</ToggleGroup.Item>
+                    </ToggleGroup.Root>
+                    <ToggleGroup.Root type="single" variant="soft" defaultValue={['week']} aria-label="Range">
+                        <ToggleGroup.Item value="day">Day</ToggleGroup.Item>
+                        <ToggleGroup.Item value="week">Week</ToggleGroup.Item>
+                        <ToggleGroup.Item value="month">Month</ToggleGroup.Item>
+                    </ToggleGroup.Root>
+                </div>
+            </SandboxEditor>
+        );
+    }
+};

@@ -8,6 +8,12 @@ type MeterContextType = {
     highValue?: number;
     optimumValue?: number;
     rootClass: string;
+    /** The formatted value: getValueLabel, then format, if either is set. */
+    valueText?: string;
+    /** Value as a 0-100 percentage of the range. */
+    percentage?: number;
+    labelId?: string;
+    setHasLabel?: (hasLabel: boolean) => void;
     state: 'normal' | 'low' | 'high' | 'optimum';
 };
 

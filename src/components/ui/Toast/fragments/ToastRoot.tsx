@@ -2,13 +2,22 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { ToastProviderContext, ToastItemContext } from '../contexts/ToastContext';
-import type { ToastData } from '../contexts/ToastContext';
+import type { ToastData, SwipeDirection } from '../contexts/ToastContext';
 
 const SWIPE_THRESHOLD = 40;
 const SWIPE_VELOCITY_THRESHOLD = 0.11;
 const PEEK_PX = 14;
 /** Sonner `TIME_BEFORE_UNMOUNT` — DOM removal after exit starts (styles.css drives motion). */
 const TIME_BEFORE_UNMOUNT_MS = 200;
+
+const SWIPE_DIRECTIONS: SwipeDirection[] = ['up', 'down', 'left', 'right'];
+
+/** Normalises a direction or list of directions; falls back to `fallback` when none are valid. */
+function toSwipeDirections(value: SwipeDirection | readonly string[] | undefined, fallback: SwipeDirection): SwipeDirection[] {
+    const list = (Array.isArray(value) ? value : value ? [value] : []) as string[];
+    const valid = list.filter((d): d is SwipeDirection => SWIPE_DIRECTIONS.includes(d as SwipeDirection));
+    return valid.length ? valid : [fallback];
+}
 
 export type ToastRootProps = {
     toast: ToastData;
@@ -19,9 +28,11 @@ export type ToastRootProps = {
 const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => {
     const {
         rootClass, position, expand, isHovered,
-        heights, gap, toasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
+        heights, gap, toasts: allToasts, stackToasts, visibleToasts, updateHeight, unlinkStackHeight, removeToast,
         defaultToastTimeout, toastManager, pauseWhenPageIsHidden, swipeDirections, dragThreshold,
     } = useContext(ToastProviderContext);
+    // FIFO timing is about the stack; anchored toasts aren't part of it.
+    const toasts = stackToasts ?? allToasts;
 
     const itemRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -36,8 +47,8 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     const prevIndexRef = useRef<number>(-1);
     const prevVisibleCountRef = useRef<number>(-1);
     const isDraggingRef = useRef(false);
-    const pointerStartRef = useRef({ y: 0, time: 0 });
-    const swipeYRef = useRef(0);
+    const pointerStartRef = useRef({ x: 0, y: 0, time: 0 });
+    const swipeRef = useRef({ x: 0, y: 0 });
 
     const isTop = position.startsWith('top');
     const isExpanded = expand || isHovered;
@@ -148,13 +159,14 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
 
     // Imperative dismiss — same exit as Close / timer
     useEffect(() => {
-        if (!toastManager) return;
+        // Anchored toasts are closed by their own component (Toast.AnchoredToasts).
+        if (!toastManager || toast.anchor) return;
         const unsub = toastManager.subscribeDismiss((id) => {
             if (id === '__all__') return;
             if (id === toast.id) dismissRef.current();
         });
         return unsub;
-    }, [toast.id, toastManager]);
+    }, [toast.id, toast.anchor, toastManager]);
 
     // ── Timer: only oldest toast ticks down when collapsed (FIFO) ───────────
     const pauseTimer = useCallback(() => {
@@ -191,47 +203,70 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
     }, [leaving, removeToast, toast.id]);
 
     // ── Swipe ───────────────────────────────────────────────────────────────
+    // Directions this toast can be swiped away in: its own `swipeDirection`, else the
+    // provider's `swipeDirections`, else toward the screen edge it sits on.
+    const swipeOut = toSwipeDirections(toast.swipeDirection ?? swipeDirections, isTop ? 'up' : 'down');
+    const swipeKey = swipeOut.join(' ');
+
     const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
         isDraggingRef.current = true;
-        pointerStartRef.current = { y: e.clientY, time: Date.now() };
+        pointerStartRef.current = { x: e.clientX, y: e.clientY, time: Date.now() };
         itemRef.current?.setPointerCapture(e.pointerId);
         pauseTimer();
     }, [pauseTimer]);
 
     const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !itemRef.current) return;
-        const delta = e.clientY - pointerStartRef.current.y;
-        const dir = isTop ? -1 : 1;
-        const sy = delta * dir < 0 ? delta * 0.2 : delta;
-        swipeYRef.current = sy;
+        const allowed = swipeKey.split(' ');
+        // Movement in a direction that doesn't dismiss is damped, so the toast resists it.
+        const damp = (delta: number, positive: SwipeDirection, negative: SwipeDirection) =>
+            (delta > 0 ? allowed.includes(positive) : allowed.includes(negative)) ? delta : delta * 0.2;
+        const dx = e.clientX - pointerStartRef.current.x;
+        const dy = e.clientY - pointerStartRef.current.y;
+        const horizontal = allowed.includes('left') || allowed.includes('right');
+        const vertical = allowed.includes('up') || allowed.includes('down');
+        const sx = horizontal ? damp(dx, 'right', 'left') : 0;
+        const sy = vertical || !horizontal ? damp(dy, 'down', 'up') : 0;
+        swipeRef.current = { x: sx, y: sy };
+        itemRef.current.style.setProperty('--swipe-x', `${sx}px`);
         itemRef.current.style.setProperty('--swipe-y', `${sy}px`);
         itemRef.current.setAttribute('data-swiping', '');
-    }, [isTop]);
+    }, [swipeKey]);
 
     const onPointerUp = useCallback((_e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !itemRef.current) return;
         isDraggingRef.current = false;
-        itemRef.current.removeAttribute('data-swiping');
-        const sy = swipeYRef.current;
-        const elapsed = Date.now() - pointerStartRef.current.time;
-        const vel = Math.abs(sy) / elapsed;
-        const dir = isTop ? -1 : 1;
-        const defaultDirection = isTop ? 'up' : 'down';
-        const allowsDirection = !swipeDirections?.length || swipeDirections.includes(defaultDirection);
+        const item = itemRef.current;
+        item.removeAttribute('data-swiping');
+        const { x, y } = swipeRef.current;
+        const elapsed = Math.max(1, Date.now() - pointerStartRef.current.time);
         const threshold = dragThreshold ?? SWIPE_THRESHOLD;
-        if (allowsDirection && sy * dir > 0 && (Math.abs(sy) >= threshold || vel > SWIPE_VELOCITY_THRESHOLD)) {
+        const moved: Record<SwipeDirection, number> = { right: x, left: -x, down: y, up: -y };
+        const direction = swipeKey.split(' ')
+            .map((d) => d as SwipeDirection)
+            .filter((d) => moved[d] > 0 && (moved[d] >= threshold || moved[d] / elapsed > SWIPE_VELOCITY_THRESHOLD))
+            .sort((a, b) => moved[b] - moved[a])[0];
+        if (direction) {
+            item.setAttribute('data-swipe-out', direction);
+            if (direction === 'left' || direction === 'right') {
+                // Carry on off the side instead of sliding back toward the stack edge.
+                const width = item.getBoundingClientRect().width || 400;
+                item.style.setProperty('--swipe-x', `${direction === 'right' ? width : -width}px`);
+                item.style.setProperty('--swipe-y', '0px');
+            }
             dismiss();
         } else {
-            swipeYRef.current = 0;
-            itemRef.current.style.setProperty('--swipe-y', '0px');
+            swipeRef.current = { x: 0, y: 0 };
+            item.style.setProperty('--swipe-x', '0px');
+            item.style.setProperty('--swipe-y', '0px');
             startTimer();
         }
-    }, [dragThreshold, isTop, dismiss, startTimer, swipeDirections]);
+    }, [dragThreshold, dismiss, startTimer, swipeKey]);
 
     // If not in visible list AND not leaving, don't render
     if (index === -1 && !leaving) return null;
 
-    /** Alternating phase so CSS can re-run pulse when `updateKey` changes (Base UI pattern). */
+    /** Alternating phase so CSS can re-run pulse when `updateKey` changes. */
     const pulsePhase =
         toast.updateKey && toast.updateKey > 0
             ? (toast.updateKey % 2 === 0 ? 'even' : 'odd')
@@ -290,11 +325,20 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
                 data-pulse={pulsePhase}
                 data-update-key={toast.updateKey ?? 0}
                 data-toast-id={toast.id}
+                data-swipe-direction={swipeKey}
                 className={clsx(rootClass && `${rootClass}-item`, toast.className, className)}
                 style={{ ...style, ...toast.style }}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
+                onKeyDown={(event) => {
+                    // Escape dismisses the toast that has focus; focus moves to the viewport so it isn't lost.
+                    if (event.key !== 'Escape' || event.defaultPrevented) return;
+                    event.stopPropagation();
+                    const viewport = event.currentTarget.closest<HTMLElement>('[role="region"]');
+                    dismiss();
+                    viewport?.focus();
+                }}
             >
                 {toast.render ? toast.render({ id: toast.id, toast, onDismiss: dismiss }) : children}
             </div>

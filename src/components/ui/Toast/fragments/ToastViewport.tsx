@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { ToastProviderContext } from '../contexts/ToastContext';
 
@@ -14,6 +14,9 @@ function toCssLength(value: number | string | undefined): string | undefined {
     return typeof value === 'number' ? `${value}px` : value;
 }
 
+const DEFAULT_HOTKEY = ['altKey', 'KeyT'];
+const MODIFIERS = { altKey: 'Alt', ctrlKey: 'Control', metaKey: 'Meta', shiftKey: 'Shift' } as const;
+
 const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, style }) => {
     const {
         rootClass,
@@ -27,6 +30,7 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
         viewportClassName,
         viewportStyle,
         containerAriaLabel,
+        hotkey = DEFAULT_HOTKEY,
         offset,
         mobileOffset,
         theme,
@@ -36,6 +40,27 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
     } = useContext(ToastProviderContext);
 
     const listRef = useRef<HTMLElement>(null);
+    const focusBeforeHotkeyRef = useRef<HTMLElement | null>(null);
+
+    // Hotkey (default Alt+T): move focus to the toasts so keyboard users can reach their actions before they
+    // time out. Focus inside the viewport also expands the stack and pauses the timers.
+    useEffect(() => {
+        if (!hotkey.length) return;
+        const onKeyDown = (event: KeyboardEvent) => {
+            const pressed = hotkey.every((key) => (key in MODIFIERS ? event[key as keyof typeof MODIFIERS] : event.code === key));
+            if (!pressed || !listRef.current) return;
+            event.preventDefault();
+            const active = document.activeElement;
+            if (!listRef.current.contains(active)) {
+                focusBeforeHotkeyRef.current = active instanceof HTMLElement ? active : null;
+            }
+            listRef.current.focus();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [hotkey]);
+
+    const hotkeyLabel = hotkey.map((key) => MODIFIERS[key as keyof typeof MODIFIERS] ?? key.replace(/^(Key|Digit)/, '')).join('+');
     const isExpanded = expand || isHovered;
 
     // Front toast height — match ToastRoot fallback so viewport height doesn’t jump when the new front isn’t measured yet
@@ -56,6 +81,7 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
             ref={listRef}
             role="region"
             aria-label={containerAriaLabel}
+            aria-keyshortcuts={hotkeyLabel || undefined}
             tabIndex={-1}
             data-position={position}
             data-expanded={isExpanded ? '' : undefined}
@@ -79,6 +105,13 @@ const ToastViewport: React.FC<ToastViewportProps> = ({ children, className, styl
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onFocusCapture={() => setIsHovered(true)}
+            onKeyDown={(event) => {
+                // Escape on the viewport itself hands focus back to where the hotkey was pressed.
+                if (event.key === 'Escape' && event.target === listRef.current && focusBeforeHotkeyRef.current) {
+                    focusBeforeHotkeyRef.current.focus();
+                    focusBeforeHotkeyRef.current = null;
+                }
+            }}
             onBlurCapture={(e) => {
                 if (!listRef.current?.contains(e.relatedTarget as Node)) {
                     setIsHovered(false);

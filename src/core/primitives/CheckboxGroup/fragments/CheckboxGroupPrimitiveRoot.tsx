@@ -3,6 +3,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type CheckboxGroupPrimitiveRootElement = ElementRef<'div'>;
 export type CheckboxGroupPrimitiveRootProps = {
@@ -15,9 +16,12 @@ export type CheckboxGroupPrimitiveRootProps = {
     defaultValue?: string[];
     value?: string[];
     onValueChange?: (value: string[]) => void;
+    /** Every item's value. Needed for a parent checkbox that checks or clears them all. */
+    allValues?: string[];
 } & ComponentPropsWithoutRef<'div'>;
 
-const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, className = '', ...props }, ref) => {
+const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement, CheckboxGroupPrimitiveRootProps>(({ dir: dirProp, orientation, loop, defaultValue = [], value, onValueChange, children, name, required, disabled, allValues, className = '', ...props }, ref) => {
+    const dir = useDirection(dirProp);
     const [checkedValues, setCheckedValues] = useControllableState(
         value,
         defaultValue,
@@ -39,8 +43,10 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
         <div ref={mergeRefs(ref, rootRef)} className={className} data-disabled={disabled ? '' : undefined} {...props}>
             {/* Checkboxes are often stacked vertically, so arrow keys move in both axes by default. */}
             <RovingFocusGroup.Root dir={dir} orientation={orientation ?? 'both'} loop={loop ?? true}>
-                <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled }}>
-                    <RovingFocusGroup.Group>
+                <CheckboxGroupPrimitiveContext.Provider value={{ checkedValues, setCheckedValues, name, required, disabled, allValues }}>
+                    {/* Always a wrapper: merged onto a single child, the group role and id would
+                        land on that child (often a <label>, which then stops naming its control). */}
+                    <RovingFocusGroup.Group asChild={false}>
                         {children}
                     </RovingFocusGroup.Group>
                 </CheckboxGroupPrimitiveContext.Provider>

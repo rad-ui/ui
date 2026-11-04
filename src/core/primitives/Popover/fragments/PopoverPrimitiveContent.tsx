@@ -10,6 +10,12 @@ import {
     PopoverSticky
 } from '../context/PopoverPrimitiveContext';
 import { PopoverPrimitivePortalContext } from '../context/PopoverPrimitivePortalContext';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
+import type { CollisionAvoidance, FloatingAnchor, PositionMethod } from '~/core/utils/placement';
+import { stateData } from '~/core/utils/stateAttributes';
+
+export type PopoverFocusTarget = boolean | React.RefObject<HTMLElement | null> | (() => boolean | void | HTMLElement | null);
 
 export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     asChild?: boolean;
@@ -22,10 +28,30 @@ export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof
     collisionBoundary?: Element | null | Array<Element | null>;
     collisionPadding?: number | Partial<Record<PopoverSide, number>>;
     arrowPadding?: number;
-    sticky?: PopoverSticky;
+    /** Keep the popover in view after the anchor scrolls away: `'always'` (or `true`), or `'partial'` (or `false`). */
+    sticky?: PopoverSticky | boolean;
     hideWhenDetached?: boolean;
+    /** Position against this element, virtual element, ref or function instead of the trigger (or `Popover.Anchor`). */
+    anchor?: FloatingAnchor;
+    /** CSS position of the popover. Defaults to `'fixed'`. */
+    positionMethod?: PositionMethod;
+    /** Per-axis collision handling (flip, shift or none). Takes over from the default flip + shift. */
+    collisionAvoidance?: CollisionAvoidance;
+    /** Don't re-position when the anchor's layout shifts; scroll and resize still update it. */
+    disableAnchorTracking?: boolean;
     onOpenAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
     onCloseAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
+    /**
+     * Where focus goes on open: `true` the first tabbable element, `false` stay on the trigger,
+     * a ref to an element, or a function returning one of those. Defaults to the first tabbable
+     * element when `modal`, otherwise the trigger keeps focus.
+     */
+    initialFocus?: PopoverFocusTarget;
+    /**
+     * Where focus goes on close: `true` the trigger, `false` nowhere, a ref, or a function
+     * returning one of those. Defaults to the trigger.
+     */
+    finalFocus?: PopoverFocusTarget;
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
     onPointerDownOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<PointerEvent>) => void;
     onFocusOutside?: (event: import('../context/PopoverPrimitiveContext').PopoverOutsideInteractionEvent<FocusEvent>) => void;
@@ -46,8 +72,14 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     arrowPadding = 0,
     sticky = 'partial',
     hideWhenDetached = false,
+    anchor,
+    positionMethod,
+    collisionAvoidance,
+    disableAnchorTracking,
     onOpenAutoFocus,
     onCloseAutoFocus,
+    initialFocus,
+    finalFocus,
     onEscapeKeyDown,
     onPointerDownOutside,
     onFocusOutside,
@@ -68,12 +100,52 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         floatingStyles,
         floatingContext,
         setContentEventHandlers,
-        setPositioning
+        setPositioning,
+        onOpenChangeComplete
     } = useContext(PopoverPrimitiveContext);
 
+    const stableAnchor = useStableAnchor(anchor);
+    // An inline object would re-position on every render; compare by value.
+    const collisionKey = collisionAvoidance ? `${collisionAvoidance.side}|${collisionAvoidance.align}|${collisionAvoidance.fallbackAxisSide}` : '';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const stableCollisionAvoidance = React.useMemo(() => collisionAvoidance, [collisionKey]);
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const shouldRender = isOpen || forceMount || portalForceMount;
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current, onOpenChangeComplete);
+    const shouldRender = transition.mounted || forceMount || portalForceMount;
+
+    const resolvedInitialFocus = React.useMemo((): number | React.MutableRefObject<HTMLElement | null> => {
+        if (initialFocus === undefined) return modal ? 0 : -1;
+        if (initialFocus === true) return 0;
+        if (initialFocus === false) return -1;
+        if (typeof initialFocus === 'function') {
+            const result = initialFocus();
+            if (result === true) return 0;
+            return result instanceof HTMLElement ? { current: result } : -1;
+        }
+        return initialFocus as React.MutableRefObject<HTMLElement | null>;
+    }, [initialFocus, modal]);
+
+    // A function target is resolved when the popover closes, through a ref the focus manager reads then.
+    const finalFocusRef = React.useRef(finalFocus);
+    finalFocusRef.current = finalFocus;
+    const resolvedReturnFocus = React.useMemo((): boolean | React.MutableRefObject<HTMLElement | null> => {
+        if (finalFocus === undefined) return !onCloseAutoFocus;
+        if (typeof finalFocus === 'boolean') return finalFocus;
+        if (typeof finalFocus === 'function') {
+            return {
+                get current() {
+                    const target = finalFocusRef.current;
+                    const result = typeof target === 'function' ? target() : null;
+                    if (result === true) return triggerNode ?? previousFocusedElementRef.current;
+                    return result instanceof HTMLElement ? result : null;
+                },
+                set current(_value) {}
+            } as React.MutableRefObject<HTMLElement | null>;
+        }
+        return finalFocus as React.MutableRefObject<HTMLElement | null>;
+    }, [finalFocus, onCloseAutoFocus, triggerNode]);
+
 
     React.useEffect(() => {
         setPositioning({
@@ -86,9 +158,17 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
             collisionPadding,
             arrowPadding,
             sticky,
-            hideWhenDetached
+            hideWhenDetached,
+            anchor: stableAnchor,
+            positionMethod,
+            collisionAvoidance: stableCollisionAvoidance,
+            disableAnchorTracking
         });
     }, [
+        stableAnchor,
+        positionMethod,
+        stableCollisionAvoidance,
+        disableAnchorTracking,
         align,
         alignOffset,
         arrowPadding,
@@ -183,15 +263,17 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         ...props,
         id: contentId,
         role,
-        'data-state': isOpen ? 'open' : 'closed',
+        ...stateData(isOpen ? 'open' : 'closed'),
         'data-side': resolvedSide ?? side,
         'data-align': resolvedPlacement ? (resolvedAlign ?? 'center') : align,
         'aria-hidden': !isOpen ? 'true' : undefined,
+        ...getTransitionAttributes(transition.status),
         style: {
             ...floatingStyles,
             outline: 'none',
             visibility: isOpen && !isPositioned ? 'hidden' : undefined,
-            pointerEvents: isOpen && !isPositioned ? 'none' : undefined,
+            // Closed content still on screen (exit animation, forceMount) can't be clicked.
+            pointerEvents: (isOpen && !isPositioned) || !isOpen ? 'none' : undefined,
             ...style
         }
     });
@@ -206,23 +288,22 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         </Primitive.div>
     );
 
-    if (isOpen) {
-        return (
-            <Floater.FocusManager
-                context={floatingContext}
-                modal={modal}
-                initialFocus={modal ? 0 : -1}
-                returnFocus={!onCloseAutoFocus}
-                restoreFocus={true}
-                outsideElementsInert={modal}
-                closeOnFocusOut={!modal}
-            >
-                {content}
-            </Floater.FocusManager>
-        );
-    }
-
-    return content;
+    // Always wrapped (disabled while closed) so closing keeps the same element and its exit transition
+    // can play (#2290).
+    return (
+        <Floater.FocusManager
+            context={floatingContext}
+            disabled={!isOpen}
+            modal={modal !== false}
+            initialFocus={resolvedInitialFocus}
+            returnFocus={resolvedReturnFocus}
+            restoreFocus={true}
+            outsideElementsInert={modal === true}
+            closeOnFocusOut={modal === false}
+        >
+            {content}
+        </Floater.FocusManager>
+    );
 });
 
 PopoverPrimitiveContent.displayName = 'PopoverPrimitiveContent';

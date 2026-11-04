@@ -1,10 +1,14 @@
 import { createContext } from 'react';
+import type { Align, FloatingAnchor, Side } from '~/core/utils/placement';
 
 /**
  * Viewport corner — headless string for `data-position` (theme defines valid values).
  * Common: `bottom-right`, `bottom-left`, `bottom-center`, `top-right`, `top-left`, `top-center`.
  */
 export type ToastPosition = string;
+
+/** A direction a toast can be swiped to dismiss it. */
+export type SwipeDirection = 'up' | 'down' | 'left' | 'right';
 
 export interface ToastData {
     id: string;
@@ -14,7 +18,7 @@ export interface ToastData {
     variant?: string;
     /** Headless — forwarded as `data-type` when set (e.g. `loading`). */
     type?: string;
-    /** Auto-dismiss delay (ms). Base UI name: prefer `timeout`; we normalize both. */
+    /** Auto-dismiss delay (ms). Prefer `timeout`; both are accepted. */
     duration?: number;
     timeout?: number;
     persistent?: boolean;
@@ -23,19 +27,19 @@ export interface ToastData {
      */
     priority?: string;
     onDismiss?: () => void;
-    /** Base UI name — called when the toast begins closing. */
+    /** Called when the toast begins closing. */
     onClose?: () => void;
-    /** Base UI — after removal from the list (post-exit). */
+    /** Called after the toast is removed from the list (after its exit animation). */
     onRemove?: () => void;
     /**
      * Incremented when `add({ id })` upserts an existing toast (pulse / replay).
      */
     updateKey?: number;
-    /** Base UI — toast was dropped because the stack limit was exceeded. */
+    /** The toast was dropped because the stack limit was exceeded. */
     limited?: boolean;
-    /** Base UI — props spread onto the action button (`Toast.Action`). */
+    /** Props spread onto the action button (`Toast.Action`). */
     actionProps?: React.ButtonHTMLAttributes<HTMLButtonElement> & { children?: React.ReactNode };
-    /** Base UI — custom payload for render logic. */
+    /** Custom payload for your render logic. */
     data?: unknown;
     /** Headless custom render function (Sonner-like). Receives render props. */
     render?: (props: {
@@ -51,12 +55,31 @@ export interface ToastData {
     style?: React.CSSProperties;
     /** Unstyled mode hint (headless - styling left to consumer). */
     unstyled?: boolean;
+    /**
+     * Direction(s) this toast can be swiped to dismiss it. Overrides the provider's
+     * `swipeDirections`; defaults to the edge the toasts sit on (`up` for top positions,
+     * `down` for bottom).
+     */
+    swipeDirection?: SwipeDirection | SwipeDirection[];
+    /**
+     * Show this toast next to an element (or virtual element, ref or function) instead of in
+     * the stack, e.g. "Copied" beside a copy button. It is positioned with collision handling.
+     */
+    anchor?: FloatingAnchor;
+    /** With `anchor`: side of the anchor to show on. Defaults to `'top'`. */
+    side?: Side;
+    /** With `anchor`: alignment against the anchor. Defaults to `'center'`. */
+    align?: Align;
+    /** With `anchor`: distance from the anchor in px. Defaults to 8. */
+    sideOffset?: number;
+    /** With `anchor`: shift along the anchor in px. Defaults to 0. */
+    alignOffset?: number;
 }
 
 /** Options for `toast()` / `manager.add()` — optional stable `id` for upsert. */
 export type CreateToastInput = Omit<ToastData, 'id' | 'updateKey' | 'limited'> & { id?: string };
 
-/** Base UI `update()` / per-state `promise` payloads. */
+/** Payloads for `update()` and the per-state `promise` options. */
 export type ToastManagerUpdateOptions<TData = unknown> = Omit<
     ToastData,
     'id' | 'updateKey' | 'limited'
@@ -83,7 +106,7 @@ export interface ToastProviderContextType {
     expand: boolean;
     gap: number;
     maxToasts: number;
-    /** Base UI `timeout` default (ms) for new toasts. */
+    /** Default `timeout` (ms) for new toasts. */
     defaultToastTimeout: number;
     /** Active manager — set by `<Toast.Provider>`; absent in default context. */
     toastManager?: IToastManager;
@@ -95,10 +118,16 @@ export interface ToastProviderContextType {
     unlinkStackHeight: (id: string) => void;
     removeToast: (id: string) => void;
     toasts: ToastData[];
+    /** Toasts shown in the stack (those without an `anchor`). */
+    stackToasts?: ToastData[];
+    /** Toasts shown next to their `anchor`. */
+    anchoredToasts?: ToastData[];
     visibleToasts: ToastData[];
     viewportClassName?: string;
     viewportStyle?: React.CSSProperties;
     containerAriaLabel: string;
+    /** Keys that move focus to the toasts: modifier names (`altKey`, `ctrlKey`, `metaKey`, `shiftKey`) plus a `KeyboardEvent.code`. */
+    hotkey?: string[];
     offset?: number | string;
     mobileOffset?: number | string | { top?: number | string; bottom?: number | string; left?: number | string; right?: number | string };
     theme?: 'light' | 'dark' | 'system';
@@ -128,10 +157,13 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     unlinkStackHeight: () => {},
     removeToast: () => {},
     toasts: [],
+    stackToasts: [],
+    anchoredToasts: [],
     visibleToasts: [],
     viewportClassName: undefined,
     viewportStyle: undefined,
     containerAriaLabel: 'Notifications',
+    hotkey: ['altKey', 'KeyT'],
     offset: undefined,
     mobileOffset: undefined,
     theme: undefined,

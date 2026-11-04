@@ -9,6 +9,7 @@ import ToastTitle from './fragments/ToastTitle';
 import ToastDescription from './fragments/ToastDescription';
 import ToastAction from './fragments/ToastAction';
 import ToastClose from './fragments/ToastClose';
+import { ToastAnchoredToasts } from './fragments/ToastAnchored';
 import type { ToastProviderProps } from './fragments/ToastProvider';
 import { ToastProviderContext } from './contexts/ToastContext';
 import { useToastManager } from './useToastManager';
@@ -23,11 +24,11 @@ export type ToasterProps = Omit<ToastProviderProps, 'children'> & {
 
 function DefaultToasts() {
     const { toasts } = useToastManager();
-    const { closeButton, icons, loadingIcon } = React.useContext(ToastProviderContext);
+    const { closeButton, icons, loadingIcon, stackToasts } = React.useContext(ToastProviderContext);
 
     return (
         <>
-            {toasts.map((toast) => (
+            {(stackToasts ?? toasts).map((toast) => (
                 <ToastRoot key={toast.id} toast={toast}>
                     <ToastContent>
                         {toast.icon ?? (toast.type === 'loading' ? loadingIcon : undefined) ?? icons?.[toast.variant ?? toast.type ?? '']}
@@ -65,6 +66,7 @@ export function Toaster({
                     </ToastViewport>
                 </div>
             </ToastPortal>
+            <ToastAnchoredToasts />
         </ToastProvider>
     );
 }

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { AlertDialogContext } from '../contexts/AlertDialogContext';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type AlertDialogTriggerElement = React.ElementRef<typeof DialogPrimitive.Trigger>;
 type DialogPrimitiveTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
@@ -31,7 +32,7 @@ const AlertDialogTrigger = forwardRef<AlertDialogTriggerElement, AlertDialogTrig
             className={clsx(rootClass && `${rootClass}-trigger`, className)}
             asChild={asChild}
             disabled={disabled}
-            data-state={dataState}
+            {...stateData(dataState)}
             data-disabled={dataDisabled}
             {...props}
         >

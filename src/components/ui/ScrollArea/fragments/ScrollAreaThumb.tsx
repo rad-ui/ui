@@ -5,6 +5,7 @@ import { ScrollAreaContext, ScrollAreaScrollbarOrientationContext } from '../con
 import clsx from 'clsx';
 import { getTrackLength, clampScrollLeft } from '../utils/track';
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type ScrollAreaThumbElement = ElementRef<typeof Primitive.div>;
 export type ScrollAreaThumbProps = ComponentPropsWithoutRef<typeof Primitive.div> & {
@@ -136,7 +137,7 @@ const ScrollAreaThumb = forwardRef<ScrollAreaThumbElement, ScrollAreaThumbProps>
             ref={setRef}
             className={clsx(rootClass && `${rootClass}-thumb`, className)}
             data-orientation={orientation}
-            data-state={isVisible ? 'visible' : 'hidden'}
+            {...stateData(isVisible ? 'visible' : 'hidden')}
             data-dragging={isDragging ? '' : undefined}
             // The browser must not pan/scroll the page while a touch drags the thumb.
             style={{ touchAction: 'none', ...style }}

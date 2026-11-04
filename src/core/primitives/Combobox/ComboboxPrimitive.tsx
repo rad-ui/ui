@@ -5,6 +5,12 @@ import ComboboxPrimitiveRoot from './fragments/ComboboxPrimitiveRoot';
 import ComboboxPrimitivePortal from './fragments/ComboboxPrimitivePortal';
 import ComboboxPrimitiveGroup from './fragments/ComboboxPrimitiveGroup';
 import ComboboxPrimitiveSearch from './fragments/ComboboxPrimitiveSearch';
+import ComboboxPrimitiveEmpty from './fragments/ComboboxPrimitiveEmpty';
+import ComboboxPrimitiveStatus from './fragments/ComboboxPrimitiveStatus';
+import ComboboxPrimitiveGroupLabel from './fragments/ComboboxPrimitiveGroupLabel';
+import ComboboxPrimitiveSeparator from './fragments/ComboboxPrimitiveSeparator';
+import ComboboxPrimitiveValue from './fragments/ComboboxPrimitiveValue';
+import ComboboxPrimitiveClear from './fragments/ComboboxPrimitiveClear';
 import React from 'react';
 
 const ComboboxPrimitiveBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
@@ -22,6 +28,12 @@ interface ComboboxPrimitiveComponent extends React.ForwardRefExoticComponent<Rea
     Trigger: typeof ComboboxPrimitiveTrigger;
     Group: typeof ComboboxPrimitiveGroup;
     Search: typeof ComboboxPrimitiveSearch;
+    Empty: typeof ComboboxPrimitiveEmpty;
+    Status: typeof ComboboxPrimitiveStatus;
+    GroupLabel: typeof ComboboxPrimitiveGroupLabel;
+    Separator: typeof ComboboxPrimitiveSeparator;
+    Value: typeof ComboboxPrimitiveValue;
+    Clear: typeof ComboboxPrimitiveClear;
 }
 
 const ComboboxPrimitive = ComboboxPrimitiveBase as ComboboxPrimitiveComponent;
@@ -33,5 +45,11 @@ ComboboxPrimitive.Item = ComboboxPrimitiveItem;
 ComboboxPrimitive.Trigger = ComboboxPrimitiveTrigger;
 ComboboxPrimitive.Group = ComboboxPrimitiveGroup;
 ComboboxPrimitive.Search = ComboboxPrimitiveSearch;
+ComboboxPrimitive.Empty = ComboboxPrimitiveEmpty;
+ComboboxPrimitive.Status = ComboboxPrimitiveStatus;
+ComboboxPrimitive.GroupLabel = ComboboxPrimitiveGroupLabel;
+ComboboxPrimitive.Separator = ComboboxPrimitiveSeparator;
+ComboboxPrimitive.Value = ComboboxPrimitiveValue;
+ComboboxPrimitive.Clear = ComboboxPrimitiveClear;
 
 export default ComboboxPrimitive;

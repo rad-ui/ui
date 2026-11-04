@@ -13,15 +13,15 @@ export type ToastProviderProps = {
     position?: ToastPosition;
     expand?: boolean;
     gap?: number;
-    /** @deprecated Prefer Base UI name `limit`. */
+    /** @deprecated Use `limit`. */
     maxToasts?: number;
-    /** Base UI — max visible stack size (default `3`). */
+    /** Max visible stack size (default `3`). */
     limit?: number;
-    /** Base UI — default auto-dismiss ms (default `5000`). */
+    /** Default auto-dismiss delay in ms (default `5000`). */
     timeout?: number;
     /** Sonner alias */
     duration?: number;
-    /** Base UI — isolate queue / use outside React tree (pair with `createToastManager()`). */
+    /** A separate queue you can also use outside React (pair with `createToastManager()`). */
     toastManager?: ToastManager;
     /** Optional className passthrough for viewport region if needed (headless) */
     className?: string;
@@ -43,6 +43,7 @@ export type ToastProviderProps = {
     icons?: Record<string, React.ReactNode>;
     loadingIcon?: React.ReactNode;
     rtl?: boolean;
+    /** Keys that move focus to the toasts. Default `['altKey', 'KeyT']` (Alt+T / Option+T). An empty array turns it off. */
     hotkey?: string[];
     containerAriaLabel?: string;
     dragThreshold?: number;
@@ -162,7 +163,10 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
         });
     }, []);
 
-    const visibleToasts = toasts.slice(0, maxToasts);
+    // Anchored toasts show beside their element and don't take a place in the stack.
+    const stackToasts = useMemo(() => toasts.filter((t) => !t.anchor), [toasts]);
+    const anchoredToasts = useMemo(() => toasts.filter((t) => t.anchor), [toasts]);
+    const visibleToasts = stackToasts.slice(0, maxToasts);
 
     return (
         <ToastProviderContext.Provider value={{
@@ -180,10 +184,13 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             unlinkStackHeight,
             removeToast,
             toasts,
+            stackToasts,
+            anchoredToasts,
             visibleToasts,
             viewportClassName: className,
             viewportStyle: style,
             containerAriaLabel: containerAriaLabel ?? 'Notifications',
+            hotkey: hotkey ?? ['altKey', 'KeyT'],
             offset,
             mobileOffset,
             theme,

@@ -3,6 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import TableColumnHeaderContext from '../context/TableColumnHeaderContext';
 import { useTable } from './TableRoot';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'TableColumnResizeHandle';
 
@@ -67,7 +68,7 @@ const TableColumnResizeHandle = React.forwardRef<
             ref={mergedRef}
             data-slot="table-column-resize-handle"
             data-resize-handle-visibility={resizeHandleVisibility}
-            data-state={isActive ? 'active' : undefined}
+            {...stateData(isActive ? 'active' : undefined)}
             className={clsx(
                 rootClass && `${rootClass}-column-resize-handle`,
                 { active: isActive },

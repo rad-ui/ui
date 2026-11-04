@@ -7,7 +7,9 @@ export interface CheckboxGroupPrimitiveContextProps {
     setCheckedValues: (value: string[]) => void,
     name?: string,
     required?: boolean,
-    disabled?: boolean
+    disabled?: boolean,
+    /** Every item's value, so a parent checkbox can check or clear them all. */
+    allValues?: string[]
 }
 
 const CheckboxGroupPrimitiveContext = React.createContext<CheckboxGroupPrimitiveContextProps>({

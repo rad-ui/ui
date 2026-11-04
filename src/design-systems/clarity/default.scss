@@ -16,7 +16,9 @@
 @use "../../components/ui/Code/code.clarity";
 @use "../../components/ui/Disclosure/disclosure.clarity";
 @use "../../components/ui/Em/em.clarity";
+@use "../../components/ui/Field/field.clarity";
 @use "../../components/ui/Fieldset/fieldset.clarity";
+@use "../../components/ui/Form/form.clarity";
 @use "../../components/ui/Heading/heading.clarity";
 @use "../../components/ui/HoverCard/hover-card.clarity";
 @use "../../components/ui/Kbd/kbd.clarity";
@@ -49,6 +51,7 @@
 @use "../../components/ui/NavigationMenu/navigation-menu.clarity";
 @use "../../components/ui/DropdownMenu/dropdown-menu.clarity";
 @use "../../components/ui/NumberField/number-field.clarity";
+@use "../../components/ui/OTPField/otp-field.clarity";
 @use "../../components/ui/ContextMenu/context-menu.clarity";
 @use "../../components/ui/Menubar/menubar.clarity";
 @use "../../components/ui/Meter/meter.clarity";
@@ -57,6 +60,7 @@
 @use "../../components/ui/Steps/steps.clarity";
 @use "../../components/ui/Minimap/minimap.clarity";
 @use "../../components/ui/Combobox/combobox.clarity";
+@use "../../components/ui/Autocomplete/autocomplete.clarity";
 @use "../../components/ui/Command/command.clarity";
 @use "../../components/ui/Tooltip/tooltip.clarity";
 @use "../../components/ui/Spinner/spinner.clarity";
@@ -224,9 +228,16 @@
     --rad-ui-badge-soft-text-weight: 100%;
 }
 
-:where([data-rad-ui-theme] :is(button, [role="button"], a[href], input:not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"]))):focus-visible {
-    outline: none;
-    box-shadow: var(--rad-ui-focus-ring-shadow-contained);
+// Fallback focus ring for plain focusable elements inside a Theme. It lives in the `base`
+// cascade layer so app styles win: with Tailwind it joins Tailwind's own `base` layer
+// (below `utilities`, whatever the import order), and any unlayered app CSS beats it.
+// The ring sits outside the element, so content that fills it (an image, a canvas)
+// can't cover it. Rad UI components draw their own ring over this one.
+@layer base {
+    :where([data-rad-ui-theme] :is(button, [role="button"], a[href], input:not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"]))):focus-visible {
+        outline: none;
+        box-shadow: var(--rad-ui-focus-ring-shadow-outset);
+    }
 }
 
 [data-rad-ui-portal-root] {

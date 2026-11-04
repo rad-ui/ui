@@ -69,3 +69,22 @@ export const ScrollCollisionVisualTest = () => {
         </SandboxEditor>
     );
 };
+
+export const Multiple = () => {
+    const [value, setValue] = React.useState<string[]>(['ts']);
+    return (
+        <SandboxEditor>
+            <Combobox.Root multiple value={value} onValueChange={setValue}>
+                <Combobox.Trigger>Languages</Combobox.Trigger>
+                <Combobox.Chips />
+                <Combobox.Content>
+                    <Combobox.Search aria-label="Search languages" />
+                    <Combobox.Item value="ts">TypeScript<Combobox.Indicator /></Combobox.Item>
+                    <Combobox.Item value="go">Go<Combobox.Indicator /></Combobox.Item>
+                    <Combobox.Item value="rs">Rust<Combobox.Indicator /></Combobox.Item>
+                    <Combobox.Item value="py">Python<Combobox.Indicator /></Combobox.Item>
+                </Combobox.Content>
+            </Combobox.Root>
+        </SandboxEditor>
+    );
+};

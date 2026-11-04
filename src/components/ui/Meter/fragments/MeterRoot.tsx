@@ -9,6 +9,7 @@ import { clsx } from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { MeterContext } from '../contexts/MeterContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Meter';
 
@@ -21,6 +22,10 @@ export type MeterRootProps = {
     highValue?: number;
     optimumValue?: number;
     getValueLabel?: (value: number, minValue: number, maxValue: number) => string;
+    /** Intl.NumberFormat options for the value text (and Value part), such as percent or unit. */
+    format?: Intl.NumberFormatOptions;
+    /** Locale for `format`. */
+    locale?: string;
     customRootClass?: string;
     children?: React.ReactNode;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
@@ -52,6 +57,8 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
             highValue,
             optimumValue,
             getValueLabel,
+            format,
+            locale,
             customRootClass,
             className,
             children,
@@ -65,7 +72,11 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
         const rangeMax = Math.max(minValue, maxValue);
         const boundedValue = clamp(value, minValue, rangeMax);
         const state = getMeterState(boundedValue, lowValue, highValue, optimumValue);
-        const valueLabel = getValueLabel?.(boundedValue, minValue, rangeMax);
+        const valueLabel = getValueLabel?.(boundedValue, minValue, rangeMax)
+            ?? (format ? new Intl.NumberFormat(locale, format).format(boundedValue) : undefined);
+        const percentage = rangeMax === minValue ? 0 : ((boundedValue - minValue) / (rangeMax - minValue)) * 100;
+        const labelId = React.useId();
+        const [hasLabel, setHasLabel] = React.useState(false);
 
         const { asChild, ...rest } = props;
 
@@ -79,7 +90,11 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
                     highValue,
                     optimumValue,
                     rootClass,
-                    state
+                    state,
+                    valueText: valueLabel,
+                    percentage,
+                    labelId,
+                    setHasLabel
                 }}
             >
                 <Primitive.div
@@ -88,7 +103,8 @@ const MeterRoot = forwardRef<MeterRootElement, MeterRootProps>(
                     aria-valuemin={minValue}
                     aria-valuemax={rangeMax}
                     aria-valuetext={valueLabel}
-                    data-state={state}
+                    aria-labelledby={hasLabel ? labelId : undefined}
+                    {...stateData(state)}
                     data-value={boundedValue}
                     data-min={minValue}
                     data-max={rangeMax}

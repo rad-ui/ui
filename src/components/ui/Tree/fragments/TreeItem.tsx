@@ -25,8 +25,16 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
     useImperativeHandle(ref, () => thisRef.current as TreeItemElement);
 
     const hasChildren = Boolean(item?.items?.length);
-    const [isToggled, setIsToggled] = useState(() => Boolean(item?.expanded));
-    const { rootClass, itemRefs, registerItemRef, unregisterItemRef } = useContext(TreeContext);
+    const [localToggled, setLocalToggled] = useState(() => Boolean(item?.expanded));
+    const { rootClass, itemRefs, registerItemRef, unregisterItemRef, dir, expansion } = useContext(TreeContext);
+    // The Root owns expansion when given `expanded` / `defaultExpanded`; otherwise each item does.
+    const itemKey = String(item?.id ?? item?.value ?? item?.label ?? id);
+    const isToggled = expansion ? expansion.isExpanded(itemKey) : localToggled;
+    const setIsToggled = (next: boolean | ((previous: boolean) => boolean)) => {
+        const value = typeof next === 'function' ? next(isToggled) : next;
+        if (expansion) expansion.setExpanded(itemKey, value);
+        else setLocalToggled(value);
+    };
     
     // Store ref for first child
     const firstChildRef = useRef<HTMLButtonElement | null>(null);
@@ -92,7 +100,12 @@ const TreeItem = forwardRef<TreeItemElement, TreeItemProps>(({ children, item, l
 
     return (
         <>
-            <RovingFocusGroup.Item handleRightKeyDown={handleExpand} handleLeftKeyDown={handleCollapse} role="treeitem">
+            {/* Expand towards the inline end: ArrowRight in LTR, ArrowLeft in RTL. */}
+            <RovingFocusGroup.Item
+                handleRightKeyDown={dir === 'rtl' ? handleCollapse : handleExpand}
+                handleLeftKeyDown={dir === 'rtl' ? handleExpand : handleCollapse}
+                role="treeitem"
+            >
                 <ButtonPrimitive
                     ref={thisRef}
                     className={clsx(rootClass && `${rootClass}-item`, className)}

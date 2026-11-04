@@ -12,16 +12,13 @@ export type ComboboxRootProps = React.ComponentPropsWithoutRef<typeof ComboboxPr
 };
 
 const ComboboxRoot = React.forwardRef<ComboboxRootElement, ComboboxRootProps>(
-    ({ customRootClass, children, className, defaultValue, value, onValueChange, sideOffset = 4, ...props }, forwardedRef) => {
+    ({ customRootClass, children, className, sideOffset = 4, ...props }, forwardedRef) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
         return (
             <ComboboxRootContext.Provider value={{ rootClass }}>
                 <ComboboxPrimitive.Root
                     className={clsx(rootClass ? `${rootClass}-root` : undefined, className) || undefined}
-                    defaultValue={defaultValue}
-                    value={value}
-                    onValueChange={onValueChange}
                     sideOffset={sideOffset}
                     ref={forwardedRef}
                     {...props}

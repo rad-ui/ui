@@ -24,7 +24,7 @@
  * </Toast.Provider>
  * ```
  *
- * ## Adding toasts (Base UI–aligned)
+ * ## Adding toasts
  * ```tsx
  * const manager = Toast.useToastManager();
  * manager.add({ title: 'Saved!', variant: 'success', timeout: 4000 });
@@ -48,6 +48,7 @@ import ToastTitle from './fragments/ToastTitle';
 import ToastDescription from './fragments/ToastDescription';
 import ToastClose from './fragments/ToastClose';
 import ToastAction from './fragments/ToastAction';
+import { ToastAnchored, ToastAnchoredToasts } from './fragments/ToastAnchored';
 import { useToastManager } from './useToastManager';
 import { Toaster } from './Toaster';
 
@@ -60,9 +61,11 @@ export type { ToastTitleProps } from './fragments/ToastTitle';
 export type { ToastDescriptionProps } from './fragments/ToastDescription';
 export type { ToastCloseProps } from './fragments/ToastClose';
 export type { ToastActionProps } from './fragments/ToastAction';
+export type { ToastAnchoredProps } from './fragments/ToastAnchored';
 export type {
     ToastData,
     ToastPosition,
+    SwipeDirection,
     CreateToastInput,
     ToastManagerUpdateOptions,
     IToastManager,
@@ -85,6 +88,8 @@ interface ToastNamespace {
     Description: typeof ToastDescription;
     Action: typeof ToastAction;
     Close: typeof ToastClose;
+    Anchored: typeof ToastAnchored;
+    AnchoredToasts: typeof ToastAnchoredToasts;
     useToastManager: typeof useToastManager;
     Toaster: typeof Toaster;
 }
@@ -99,6 +104,8 @@ const Toast: ToastNamespace = {
     Description: ToastDescription,
     Action: ToastAction,
     Close: ToastClose,
+    Anchored: ToastAnchored,
+    AnchoredToasts: ToastAnchoredToasts,
     useToastManager,
     Toaster,
 };
@@ -114,7 +121,9 @@ export {
     ToastTitle as Title,
     ToastDescription as Description,
     ToastAction as Action,
-    ToastClose as Close
+    ToastClose as Close,
+    ToastAnchored as Anchored,
+    ToastAnchoredToasts as AnchoredToasts
 };
 
 export default Toast;

@@ -1,5 +1,13 @@
 # @radui/ui
 
+## 1.1.4
+
+### Patch Changes
+
+- 747344d: Preserve Button styles when used as a DropdownMenu trigger.
+- 10dfd50: Theme: the accent scale (`--rad-ui-color-accent-*`) now defaults to gray on the Theme container when no `accentColor` is set. Previously every accent-based border and fill (Table frames, Button fills, focus rings) silently disappeared unless an accent colour was passed. An explicit `accentColor` or a component `color` still wins.
+- 5d3475a: Forward TextArea shorthand refs to the native textarea.
+
 ## 1.1.3
 
 ### Patch Changes

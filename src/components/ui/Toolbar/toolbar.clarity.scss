@@ -22,6 +22,29 @@
         align-items: stretch;
     }
 
+    .rad-ui-toolbar-input {
+        box-sizing: border-box;
+        min-height: var(--rad-ui-toolbar-control-height);
+        width: var(--rad-ui-toolbar-input-width, 6rem);
+        padding: 0 var(--rad-ui-control-padding-x-sm);
+        border: var(--rad-ui-border-width-default) solid var(--rad-ui-field-border);
+        border-radius: var(--rad-ui-toolbar-control-radius);
+        background-color: var(--rad-ui-field-background);
+        color: var(--rad-ui-text-primary);
+        font-family: inherit;
+        font-size: var(--rad-ui-component-font-size-sm);
+        outline: none;
+
+        &:focus-visible {
+            box-shadow: var(--rad-ui-focus-ring-shadow-sm);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
     .rad-ui-toolbar-button,
     .rad-ui-toolbar-link,
     .rad-ui-toolbar-toggle-item {
@@ -136,5 +159,17 @@
         font-size: var(--rad-ui-component-font-size-sm);
         color: var(--rad-ui-text-muted);
         white-space: nowrap;
+    }
+}
+
+// A group lays its items out like the bar itself, with the same gap.
+.rad-ui-toolbar-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--rad-ui-density-gap-xs);
+
+    &[data-orientation='vertical'] {
+        flex-direction: column;
+        align-items: stretch;
     }
 }

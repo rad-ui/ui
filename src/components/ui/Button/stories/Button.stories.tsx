@@ -1,6 +1,8 @@
+import React from 'react';
 import Button from '../Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import { ArrowRight } from 'lucide-react';
+import Tooltip from '~/components/ui/Tooltip/Tooltip';
 
 const BUTTON_TEXT = 'Proceed';
 const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost'];
@@ -36,3 +38,24 @@ export const Sizes = () => {
         </div>
     </SandboxEditor>;
 };
+
+export const FocusableWhenDisabled = () => (
+    <SandboxEditor>
+        <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+                <Button disabled focusableWhenDisabled>Publish</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Add a title before publishing</Tooltip.Content>
+        </Tooltip.Root>
+    </SandboxEditor>
+);
+
+export const HighContrast = () => (
+    <SandboxEditor>
+        <div className="flex flex-wrap items-center gap-4">
+            <Button highContrast>{renderButtonContent()}</Button>
+            <Button>{renderButtonContent()}</Button>
+            <Button variant="outline">{renderButtonContent()}</Button>
+        </div>
+    </SandboxEditor>
+);

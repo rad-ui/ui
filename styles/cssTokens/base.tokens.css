@@ -524,7 +524,21 @@
 --rad-ui-transition-expressive: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms cubic-bezier(0.2, 0, 0, 1), filter 320ms cubic-bezier(0.2, 0, 0, 1);
     }
 
-    :where([data-rad-ui-accent-color=gray], [data-color=gray]){
+    :where([data-rad-ui-theme]){
+--rad-ui-color-accent-50: var(--rad-ui-color-gray-50);
+--rad-ui-color-accent-100: var(--rad-ui-color-gray-100);
+--rad-ui-color-accent-200: var(--rad-ui-color-gray-200);
+--rad-ui-color-accent-300: var(--rad-ui-color-gray-300);
+--rad-ui-color-accent-400: var(--rad-ui-color-gray-400);
+--rad-ui-color-accent-500: var(--rad-ui-color-gray-500);
+--rad-ui-color-accent-600: var(--rad-ui-color-gray-600);
+--rad-ui-color-accent-700: var(--rad-ui-color-gray-700);
+--rad-ui-color-accent-800: var(--rad-ui-color-gray-800);
+--rad-ui-color-accent-900: var(--rad-ui-color-gray-900);
+--rad-ui-color-accent-950: var(--rad-ui-color-gray-950);
+--rad-ui-color-accent-1000: var(--rad-ui-color-gray-1000);
+}
+:where([data-rad-ui-accent-color=gray], [data-color=gray]){
 --rad-ui-color-accent-50: var(--rad-ui-color-gray-50);
 --rad-ui-color-accent-100: var(--rad-ui-color-gray-100);
 --rad-ui-color-accent-200: var(--rad-ui-color-gray-200);

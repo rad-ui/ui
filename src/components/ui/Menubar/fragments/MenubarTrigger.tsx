@@ -4,6 +4,7 @@ import MenubarContext from '../contexts/MenubarContext';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
 import MenubarMenuContext from '../contexts/MenubarMenuContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenubarTriggerElement = ElementRef<typeof MenuPrimitive.Trigger>;
 export type MenubarTriggerProps = {
@@ -61,7 +62,7 @@ const MenubarTrigger = forwardRef<MenubarTriggerElement, MenubarTriggerProps>(({
                     aria-haspopup="menu"
                     aria-expanded={isOpen}
                     tabIndex={isTabStop ? 0 : -1}
-                    data-state={isOpen ? 'open' : 'closed'}
+                    {...stateData(isOpen ? 'open' : 'closed')}
                     data-active={isOpen}
                     onFocus={handleFocus}
                     onPointerEnter={handlePointerEnter}

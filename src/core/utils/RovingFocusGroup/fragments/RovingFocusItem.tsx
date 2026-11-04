@@ -4,6 +4,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 import { RovingFocusGroupContext } from '../context/RovingFocusGroupContext';
 import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
@@ -51,6 +52,8 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     handleRightKeyDown,
     handleLeftKeyDown,
     domId,
+    onKeyDown,
+    onFocus,
     ...props
 }, ref) => {
     const autoId = useId();
@@ -65,8 +68,10 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     const isDisabled = child?.props?.disabled === true;
     const childElementType = typeof child?.type === 'string' ? child.type.toLowerCase() : '';
     const isLinkLikeChild = childElementType === 'a' || child?.props?.href != null;
-    const resolvedRole = role ?? (isLinkLikeChild ? undefined : 'button');
-    const resolvedType = type ?? (isLinkLikeChild ? undefined : 'button');
+    // Text fields keep their own role and type, and their arrow keys move the caret.
+    const isTextEntryChild = childElementType === 'input' || childElementType === 'textarea';
+    const resolvedRole = role ?? (isLinkLikeChild || isTextEntryChild ? undefined : 'button');
+    const resolvedType = type ?? (isLinkLikeChild || isTextEntryChild ? undefined : 'button');
 
     // Whether this item is the group's current tab stop. This is roving *focus* state, not
     // selection, so it is never exposed as aria-selected; consumers whose role supports
@@ -198,6 +203,18 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
         // Don't handle navigation if this item has a disabled child
         if (isDisabled) return;
 
+        // In a text field, arrow keys, Home and End move the caret; only leave the
+        // field with ArrowLeft/ArrowRight once the caret is at that edge.
+        const target = event.target as HTMLElement;
+        if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+            const { selectionStart, selectionEnd, value } = target as HTMLInputElement;
+            const atStart = selectionStart === 0 && selectionEnd === 0;
+            const atEnd = selectionStart === value.length && selectionEnd === value.length;
+            const leavingLeft = event.key === KEYBOARD_KEYS.ARROW_LEFT && (dir === 'rtl' ? atEnd : atStart);
+            const leavingRight = event.key === KEYBOARD_KEYS.ARROW_RIGHT && (dir === 'rtl' ? atStart : atEnd);
+            if (!leavingLeft && !leavingRight) return;
+        }
+
         // Always prevent default for arrow keys to stop scrolling
         switch (event.key) {
         case KEYBOARD_KEYS.ARROW_UP:
@@ -274,15 +291,16 @@ const RovingFocusItem = forwardRef<HTMLButtonElement, RovingFocusItemProps>(({
     // ButtonPrimitive defaults `role`/`type` to "button" whenever they are undefined, which would
     // stamp button semantics onto link children (`<a href>`). Link-like children slot through the
     // bare Primitive instead so they keep native link semantics unless a role/type is passed explicitly.
-    const SlotComponent = isLinkLikeChild ? Primitive.button : ButtonPrimitive;
+    const SlotComponent = isLinkLikeChild || isTextEntryChild ? Primitive.button : ButtonPrimitive;
 
     return <SlotComponent
         asChild
-        onFocus={handleFocus}
+        // Consumer handlers run first and can preventDefault; they no longer replace roving focus.
+        onFocus={composeEventHandlers(onFocus, handleFocus)}
         tabIndex={tabIndex}
         ref={mergeRefs(itemRef, ref)}
         id={registrationId}
-        onKeyDown={handleKeyDown}
+        onKeyDown={composeEventHandlers(onKeyDown, handleKeyDown)}
         data-child-disabled={isDisabled}
         role={resolvedRole}
         type={resolvedType}

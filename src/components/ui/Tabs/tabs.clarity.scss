@@ -10,6 +10,7 @@
     }
 
     .rad-ui-tabs-list{
+        position: relative;
         display: inline-flex;
         flex-direction: row;
         align-items: center;
@@ -27,6 +28,12 @@
 
         .rad-ui-tabs-trigger {
             position: relative;
+
+            // Native <button> look reset, so inactive tabs don't show the browser's grey button.
+            appearance: none;
+            margin: 0;
+            border: 0;
+            background-color: transparent;
             color: var(--rad-ui-text-muted);
             font-family: var(--rad-ui-font-sans);
             padding: var(--rad-ui-control-padding-y-sm) var(--rad-ui-control-padding-x-md);
@@ -68,6 +75,38 @@
                 opacity: 0.5;
                 pointer-events: none;
             }
+        }
+
+        // With an indicator, it draws the selected pill and slides between tabs.
+        &:has(> .rad-ui-tabs-indicator) .rad-ui-tabs-trigger {
+            z-index: 1;
+
+            &[data-state="active"] {
+                background-color: transparent;
+                box-shadow: none;
+            }
+        }
+    }
+
+    .rad-ui-tabs-indicator {
+        position: absolute;
+        z-index: 0;
+        top: var(--active-tab-top);
+        left: var(--active-tab-left);
+        width: var(--active-tab-width);
+        height: var(--active-tab-height);
+        border-radius: var(--rad-ui-control-radius-pill);
+        background-color: var(--rad-ui-surface-canvas);
+        box-shadow: var(--rad-ui-selected-control-shadow-lg);
+        pointer-events: none;
+        transition:
+            top var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
+            left var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
+            width var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
+            height var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard);
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
         }
     }
 

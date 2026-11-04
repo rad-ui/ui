@@ -48,7 +48,13 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  overflow: hidden;
+
+  // Padding and border count inside width and max-height, so the box never outgrows the viewport.
+  box-sizing: border-box;
+
+  // Tall content scrolls inside the viewport instead of being cut off.
+  max-height: calc(100dvh - 2rem);
+  overflow: hidden auto;
   transition:
     opacity var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
     visibility var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-standard),
@@ -180,10 +186,15 @@
     }
   }
   
+  // Without a Footer nothing pads the bottom edge (padding-bottom is 0 so the footer can sit flush).
+  &:not(:has(.rad-ui-dialog-footer)) {
+    padding-bottom: var(--rad-ui-spacing-4);
+  }
+
   // Responsive adjustments
   @media (width <= 640px) {
+    // The box is already centred by left/top/transform; a margin here pushed it off the right edge.
     max-width: calc(100% - 2rem);
-    margin: var(--rad-ui-spacing-4);
     padding: calc(var(--rad-ui-spacing-3) + var(--rad-ui-density-gap-xs)) var(--rad-ui-dialog-inline-padding-mobile) 0;
     border-radius: calc(var(--rad-ui-panel-radius-md) + var(--rad-ui-density-gap-xs));
 
@@ -202,4 +213,10 @@
       padding: var(--rad-ui-spacing-3) var(--rad-ui-dialog-inline-padding-mobile) var(--rad-ui-dialog-inline-padding-mobile);
     }
   }
+}
+
+// A nested dialog's overlay stays transparent: the parent's overlay already dims the page.
+.rad-ui-dialog-overlay[data-nested] {
+  background-color: transparent;
+  backdrop-filter: none;
 }

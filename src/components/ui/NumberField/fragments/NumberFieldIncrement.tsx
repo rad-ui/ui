@@ -9,7 +9,7 @@ export type NumberFieldIncrementProps = ComponentPropsWithoutRef<'button'>;
 const NumberFieldIncrement = forwardRef<NumberFieldIncrementElement, NumberFieldIncrementProps>(({ children, className, onMouseDown, onPointerDown, onPointerLeave, onClick, disabled: disabledProp, ...props }, ref) => {
     const context = useContext(NumberFieldContext);
     const enabled = !!context && !disabledProp && context.canIncrement;
-    const stepper = useStepperButton('increment', context ? context.handleStep : () => false, enabled);
+    const stepper = useStepperButton('increment', context ? context.handleStep : () => false, enabled, context?.notifyCommit);
     if (!context) {
         console.error('NumberFieldIncrement must be used within a NumberField');
         return null;

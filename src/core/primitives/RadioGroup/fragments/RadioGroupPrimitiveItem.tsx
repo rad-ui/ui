@@ -6,6 +6,7 @@ import RadioGroupPrimitiveItemContext from '../context/RadioGroupPrimitiveItemCo
 import ButtonPrimitive from '~/core/primitives/Button';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type RadioGroupPrimitiveItemElement = React.ElementRef<typeof ButtonPrimitive>;
 
@@ -19,7 +20,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
         if (!context) {
             throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
         }
-        const { groupDisabled, selectedValue, setSelectedValue, isNavigatingWithKeyboardRef } = context;
+        const { groupDisabled, readOnly, selectedValue, setSelectedValue, isNavigatingWithKeyboardRef } = context;
         const { setFocusedItemId } = useContext(RovingFocusGroupContext);
         const rovingId = React.useId();
 
@@ -34,7 +35,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
         }, [itemSelected, isDisabled, rovingId, setFocusedItemId]);
 
         const select = () => {
-            if (isDisabled) return;
+            if (isDisabled || readOnly) return;
             setSelectedValue(value);
         };
 
@@ -60,7 +61,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
                         aria-disabled={isDisabled}
                         aria-checked={itemSelected}
                         aria-selected={undefined}
-                        data-state={itemSelected ? 'checked' : 'unchecked'}
+                        {...stateData(itemSelected ? 'checked' : 'unchecked')}
                         data-disabled={isDisabled ? '' : undefined}
                         asChild={asChild}
                         className={className}

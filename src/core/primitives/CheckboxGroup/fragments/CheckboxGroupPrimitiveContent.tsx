@@ -1,14 +1,18 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxGroupPrimitiveTriggerContext from '../context/CheckboxGroupPrimitiveTriggerContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type CheckboxGroupPrimitiveContentElement = ElementRef<'span'>;
-export type CheckboxGroupPrimitiveContentProps = ComponentPropsWithoutRef<'span'>;
+export type CheckboxGroupPrimitiveContentProps = ComponentPropsWithoutRef<'span'> & {
+    /** Keep the children rendered while unchecked, for exit animations. */
+    forceMount?: boolean;
+};
 
-const CheckboxGroupPrimitiveContent = forwardRef<CheckboxGroupPrimitiveContentElement, CheckboxGroupPrimitiveContentProps>(({ children, className, ...props }, ref) => {
-    const { isChecked } = React.useContext(CheckboxGroupPrimitiveTriggerContext);
+const CheckboxGroupPrimitiveContent = forwardRef<CheckboxGroupPrimitiveContentElement, CheckboxGroupPrimitiveContentProps>(({ children, className, forceMount = false, ...props }, ref) => {
+    const { isChecked, isIndeterminate } = React.useContext(CheckboxGroupPrimitiveTriggerContext);
 
-    return <span ref={ref} className={className} {...props}>
-        {isChecked ? children : null}
+    return <span ref={ref} className={className} {...stateData(isIndeterminate ? 'indeterminate' : isChecked ? 'checked' : 'unchecked')} {...props}>
+        {isChecked || isIndeterminate || forceMount ? children : null}
     </span>;
 });
 

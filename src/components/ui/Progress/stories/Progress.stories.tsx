@@ -51,3 +51,26 @@ export const Controlled: Story = {
         );
     }
 };
+
+export const WithLabelAndValue: Story = {
+    render: () => (
+        <SandboxEditor>
+            <div className="flex max-w-sm flex-col gap-6">
+                <Progress.Root value={64}>
+                    <Progress.Label>Uploading photos</Progress.Label>
+                    <Progress.Value />
+                    <Progress.Track>
+                        <Progress.Indicator />
+                    </Progress.Track>
+                </Progress.Root>
+                <Progress.Root value={512} maxValue={1024} format={{ style: 'unit', unit: 'megabyte' }}>
+                    <Progress.Label>Download</Progress.Label>
+                    <Progress.Value />
+                    <Progress.Track>
+                        <Progress.Indicator />
+                    </Progress.Track>
+                </Progress.Root>
+            </div>
+        </SandboxEditor>
+    )
+};

@@ -7,15 +7,54 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import {
     defaultPopoverPositioning,
-    PopoverPrimitiveContext
+    PopoverPrimitiveContext,
+    PopoverTriggerHover
 } from '../context/PopoverPrimitiveContext';
+import { anchorTracking, collisionMiddleware } from '~/core/utils/placement';
+import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
+import type { PopupHandle } from '~/core/utils/popupHandle';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { stateData } from '~/core/utils/stateAttributes';
+import { useHandleTriggerId } from '~/core/utils/popupHandle';
 
-export type PopoverPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
-    children: React.ReactNode;
+const noop = () => {};
+
+export type PopoverPrimitiveRootProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.div>, 'children'> & {
+    /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
+    /** Connects detached triggers made with `createHandle()`; the popover anchors to whichever opened it. */
+    handle?: PopupHandle<any>;
+    /**
+     * With `handle`: the DOM `id` of the detached trigger the popup belongs to while open.
+     * It is anchored to that trigger and gets its payload, also when opened from code.
+     */
+    triggerId?: string | null;
+    /** Uncontrolled `triggerId`: the trigger used when the popup opens without one (e.g. `defaultOpen`). */
+    defaultTriggerId?: string | null;
     open?: boolean;
     defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
-    modal?: boolean;
+    /**
+     * Called with the next open state and details: `reason` (such as
+     * `trigger-press`, `outside-press`, `escape-key`), the `event`, and
+     * `cancel()` to keep it as it is.
+     */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
+    /**
+     * `true`: focus is trapped and the rest of the page is inert while open. `'trap-focus'`: focus
+     * is trapped but the page still takes pointer input. `false` (default): neither.
+     */
+    modal?: boolean | 'trap-focus';
+    /** Also open while the pointer rests on the trigger, like a hover card. Clicking still toggles. */
+    openOnHover?: boolean;
+    /** With `openOnHover`, ms the pointer must rest before opening. */
+    hoverOpenDelay?: number;
+    /** With `openOnHover`, ms after the pointer leaves before closing. */
+    hoverCloseDelay?: number;
+    /** Called after the open or close animations finish (at once when there are none). */
+    onOpenChangeComplete?: (open: boolean) => void;
+    /** Ref with `close()`, to close the popup from code (reason `'imperative-action'`). */
+    actionsRef?: React.Ref<PopupActions>;
 };
 
 const COMPONENT_NAME = 'PopoverPrimitive';
@@ -55,14 +94,39 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     defaultOpen = false,
     onOpenChange,
     modal = false,
+    openOnHover = false,
+    hoverOpenDelay = 300,
+    hoverCloseDelay = 0,
+    handle, triggerId, defaultTriggerId,
+    onOpenChangeComplete,
+    actionsRef,
     ...props
 }, ref) => {
-    const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange);
+    // onOpenChange is called by requestOpenChange (with details), not by the state hook.
+    const [isOpen, setIsOpen] = useControllableState(controlledOpen, defaultOpen, noop);
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const requestOpenChange = React.useCallback((nextOpen: boolean, reason: OpenChangeReason, event?: Event) => {
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, nextOpen, details);
+        if (details.isCanceled) return;
+        setIsOpen(nextOpen);
+        if (!nextOpen) handle?.close();
+    }, [setIsOpen, handle]);
+    usePopupActions(actionsRef, () => requestOpenChange(false, 'imperative-action'));
+    useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(isOpen));
     useRegisterDocumentOverlayOpen(isOpen);
     const [triggerNode, setTriggerNode] = React.useState<HTMLElement | null>(null);
     const [anchorNode, setAnchorNode] = React.useState<HTMLElement | null>(null);
     const [arrowNode, setArrowNode] = React.useState<SVGSVGElement | null>(null);
     const [positioning, setPositioningState] = React.useState(defaultPopoverPositioning);
+    const [triggerHover, setTriggerHoverState] = React.useState<PopoverTriggerHover>({});
+    const setTriggerHover = React.useCallback((next: PopoverTriggerHover) => {
+        setTriggerHoverState(prev => (prev.openOnHover === next.openOnHover && prev.delay === next.delay && prev.closeDelay === next.closeDelay ? prev : next));
+    }, []);
+    const hoverEnabled = triggerHover.openOnHover ?? openOnHover;
+    const hoverDelay = { open: triggerHover.delay ?? hoverOpenDelay, close: triggerHover.closeDelay ?? hoverCloseDelay };
+    const stickyAlways = positioning.sticky === true || positioning.sticky === 'always';
     const contentEventHandlersRef = React.useRef<ContentEventHandlers>({});
     const nodeId = Floater.useFloatingNodeId();
 
@@ -85,7 +149,31 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         altBoundary: collisionBoundary.length > 0
     }), [collisionBoundary, positioning.collisionPadding]);
 
-    const referenceElement = anchorNode ?? triggerNode;
+    // A handle lets triggers outside this Root open it; keep both in sync.
+    const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+    const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+    const handleOpen = handleState?.open;
+    const isOpenRef = React.useRef(isOpen);
+    isOpenRef.current = isOpen;
+    // Only follow changes of the handle, so `defaultOpen` isn't undone by a still-closed handle on mount.
+    const lastHandleOpenRef = React.useRef(handleOpen);
+    React.useEffect(() => {
+        if (handleOpen === lastHandleOpenRef.current) return;
+        lastHandleOpenRef.current = handleOpen;
+        if (handleOpen === undefined || handleOpen === isOpenRef.current) return;
+        // A detached trigger opened it (or the handle closed it): report it like any other change.
+        const details = createOpenChangeDetails(handleOpen ? 'trigger-press' : 'imperative-action');
+        callOpenChange(onOpenChangeRef.current, handleOpen, details);
+        if (details.isCanceled) {
+            if (handleOpen) handle?.close();
+            return;
+        }
+        setIsOpen(handleOpen);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleOpen]);
+    const activeTrigger = handle ? handleState?.trigger ?? null : triggerNode;
+
+    const referenceElement = anchorNode ?? activeTrigger;
 
     const { context: floatingContext, refs, floatingStyles, isPositioned } = Floater.useFloating({
         open: isOpen,
@@ -107,10 +195,10 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
                 }
             }
 
-            setIsOpen(nextOpen);
+            requestOpenChange(nextOpen, fromFloatingReason(reason), event);
         },
         placement,
-        strategy: 'fixed',
+        strategy: positioning.positionMethod ?? 'fixed',
         elements: {
             reference: referenceElement
         },
@@ -119,17 +207,27 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
                 mainAxis: positioning.sideOffset + (arrowNode ? 5 : 0),
                 crossAxis: positioning.alignOffset
             }),
-            positioning.avoidCollisions
+            ...(positioning.collisionAvoidance
+                ? collisionMiddleware({
+                    avoidCollisions: positioning.avoidCollisions,
+                    collisionAvoidance: positioning.collisionAvoidance,
+                    padding: detectOverflowOptions.padding,
+                    boundary: collisionBoundary,
+                    sticky: stickyAlways,
+                    aligned: placement.includes('-')
+                })
+                : []),
+            positioning.avoidCollisions && !positioning.collisionAvoidance
                 ? Floater.flip({
                     crossAxis: placement.includes('-'),
                     fallbackAxisSideDirection: 'start',
                     ...detectOverflowOptions
                 })
                 : null,
-            positioning.avoidCollisions
+            positioning.avoidCollisions && !positioning.collisionAvoidance
                 ? Floater.shift({
                     ...detectOverflowOptions,
-                    limiter: positioning.sticky === 'partial' ? Floater.limitShift() : undefined
+                    limiter: stickyAlways ? undefined : Floater.limitShift()
                 })
                 : null,
             arrowNode
@@ -142,12 +240,20 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
                 ? Floater.hide({ strategy: 'referenceHidden' })
                 : null
         ].filter(Boolean),
-        whileElementsMounted: Floater.autoUpdate
+        whileElementsMounted: anchorTracking(positioning.disableAnchorTracking)
     });
+    useFloatingAnchor(positioning.anchor, refs.setPositionReference, isOpen);
 
     const click = Floater.useClick(floatingContext, {
         event: 'click',
         toggle: true
+    });
+
+    const hover = Floater.useHover(floatingContext, {
+        enabled: hoverEnabled,
+        delay: hoverDelay,
+        // Lets the pointer travel from the trigger into the popover without it closing.
+        handleClose: Floater.safePolygon()
     });
 
     const dismiss = Floater.useDismiss(floatingContext, {
@@ -164,6 +270,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
 
     const { getReferenceProps, getFloatingProps } = Floater.useInteractions([
         click,
+        hover,
         dismiss,
         role
     ]);
@@ -175,8 +282,8 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     }, []);
 
     const handleOpenChange = React.useCallback((nextOpen: boolean) => {
-        setIsOpen(nextOpen);
-    }, [setIsOpen]);
+        requestOpenChange(nextOpen, nextOpen ? 'none' : 'close-press');
+    }, [requestOpenChange]);
 
     const setContentEventHandlers = React.useCallback((handlers: typeof contentEventHandlersRef.current) => {
         contentEventHandlersRef.current = handlers;
@@ -186,7 +293,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         isOpen,
         modal,
         contentId,
-        triggerNode,
+        triggerNode: activeTrigger,
         anchorNode,
         handleOpenChange,
         setTriggerNode,
@@ -194,13 +301,15 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         setArrowNode,
         positioning,
         setPositioning,
+        setTriggerHover,
         getReferenceProps,
         getFloatingProps,
         setContentEventHandlers,
         refs,
         isPositioned,
         floatingStyles,
-        floatingContext
+        floatingContext,
+        onOpenChangeComplete
     }), [
         anchorNode,
         contentId,
@@ -212,18 +321,19 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         isOpen,
         isPositioned,
         modal,
+        onOpenChangeComplete,
         positioning,
         refs,
         setContentEventHandlers,
         setPositioning,
-        triggerNode
+        activeTrigger
     ]);
 
     return (
         <PopoverPrimitiveContext.Provider value={contextValue}>
             <Floater.FloatingNode id={nodeId}>
-                <Primitive.div ref={ref} data-state={isOpen ? 'open' : 'closed'} {...props}>
-                    {children}
+                <Primitive.div ref={ref} {...stateData(isOpen ? 'open' : 'closed')} {...props}>
+                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </Primitive.div>
             </Floater.FloatingNode>
         </PopoverPrimitiveContext.Provider>

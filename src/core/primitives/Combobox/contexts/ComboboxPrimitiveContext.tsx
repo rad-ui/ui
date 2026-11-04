@@ -1,7 +1,12 @@
 import { createContext } from 'react';
+import type { TransitionStatus } from '~/core/hooks/useTransitionStatus';
 
 export type ComboboxPrimitiveContextType = {
     isOpen: boolean,
+    /** While open, lock page scroll and keep outside presses from reaching the page. */
+    modal?: boolean,
+    readOnly?: boolean,
+    finalFocus?: import('~/core/utils/focusTarget').FinalFocus,
     setIsOpen: (open: boolean | ((previous: boolean) => boolean)) => void,
     handleSelect: (index: number | null) => void,
     refs: {
@@ -37,6 +42,8 @@ export type ComboboxPrimitiveContextType = {
     setHasSearch: React.Dispatch<React.SetStateAction<boolean>>;
     search: string;
     setSearch: (value: string) => void;
+    /** Clears the selection and the typed text, then focuses the trigger or input. */
+    clearValue: () => void;
     hiddenIndices: number[];
     labelsVersion: number;
     bumpLabelsVersion: () => void;
@@ -45,6 +52,20 @@ export type ComboboxPrimitiveContextType = {
     disabled: boolean;
     /** Reading direction, applied to the (portaled) listbox content. */
     dir?: string;
+    /** Whether several values can be selected. */
+    multiple: boolean;
+    /** Every selected value when `multiple`; empty otherwise. */
+    selectedValues: string[];
+    /** Labels for `selectedValues`, in the same order. */
+    selectedLabels: string[];
+    /** Deselects one value (multiple only), for chip remove buttons. */
+    removeValue: (value: string) => void;
+    /** True when a text input is the anchor (Autocomplete): focus stays in it while open. */
+    referenceIsInput: boolean;
+    setReferenceIsInput: React.Dispatch<React.SetStateAction<boolean>>;
+    /** True while open or running an exit animation. */
+    transitionMounted: boolean;
+    transitionStatus: TransitionStatus;
 }
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);

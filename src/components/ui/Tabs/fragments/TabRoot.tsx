@@ -8,6 +8,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
 
 import useControllableState from '~/core/hooks/useControllableState';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'Tabs';
 
@@ -33,13 +34,14 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     className,
     color,
     orientation = 'horizontal',
-    dir = 'ltr',
+    dir: dirProp,
     loop = true,
     activationMode = 'automatic',
     asChild = false,
     ...props
 }, forwardedRef) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const dir = useDirection(dirProp) ?? 'ltr';
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,
@@ -48,6 +50,8 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
     );
 
     const baseId = useId();
+    const listRef = useRef<HTMLElement | null>(null);
+    const triggerElementsRef = useRef<Map<string, HTMLElement>>(new Map());
 
     const [customTriggerIds, setCustomTriggerIds] = useState<Record<string, string>>({});
     const registerTriggerId = useCallback((triggerValue: string, id: string | undefined) => {
@@ -90,7 +94,9 @@ const TabRoot = React.forwardRef<React.ElementRef<'div'>, TabRootProps>(({
         orientation,
         activationMode,
         customTriggerIds,
-        registerTriggerId
+        registerTriggerId,
+        listRef,
+        triggerElementsRef
     };
 
     const dataAttributes: Record<string, string> = {};

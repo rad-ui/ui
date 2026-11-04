@@ -2,6 +2,7 @@
 
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
+import { thumbCenterPosition } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'SliderMarks';
 
@@ -12,7 +13,7 @@ export type SliderMarksProps = {
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children, customMarks, ...props }, ref) => {
-    const { rootClass, minValue, maxValue, step, orientation, showStepMarks } = React.useContext(SliderContext);
+    const { rootClass, minValue, maxValue, step, orientation, showStepMarks, isRtl, thumbAlignment } = React.useContext(SliderContext);
 
     if (!showStepMarks && !customMarks) {
         return null;
@@ -32,12 +33,12 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                     data-testid={`mark-${value}`}
                     style={orientation === 'vertical'
                         ? {
-                            bottom: `${percent}%`,
+                            bottom: thumbCenterPosition(percent, thumbAlignment),
                             left: '50%',
                             transform: 'translateX(-50%)'
                         }
                         : {
-                            left: `${percent}%`,
+                            left: thumbCenterPosition(isRtl ? 100 - percent : percent, thumbAlignment),
                             top: 0,
                             transform: 'translateX(-50%)'
                         }
@@ -102,12 +103,12 @@ const SliderMarks = forwardRef<SliderMarksElement, SliderMarksProps>(({ children
                     data-testid={`mark-${value}`}
                     style={orientation === 'vertical'
                         ? {
-                            bottom: `${percent}%`,
+                            bottom: thumbCenterPosition(percent, thumbAlignment),
                             left: '50%',
                             transform: 'translateX(-50%)'
                         }
                         : {
-                            left: `${percent}%`,
+                            left: thumbCenterPosition(isRtl ? 100 - percent : percent, thumbAlignment),
                             top: 0,
                             transform: 'translateX(-50%)'
                         }

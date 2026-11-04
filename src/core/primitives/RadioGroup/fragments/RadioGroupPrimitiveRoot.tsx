@@ -5,6 +5,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type RadioGroupPrimitiveRootElement = React.ElementRef<typeof Primitive.div>;
 
@@ -13,11 +14,17 @@ export type RadioGroupPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof
     defaultValue?: string;
     onValueChange?: (value: string) => void;
     disabled?: boolean;
+    /** Show the selection without letting the user change it. Radios stay focusable. */
+    readOnly?: boolean;
     required?: boolean;
     name?: string;
     orientation?: 'horizontal' | 'vertical' | 'both';
     loop?: boolean;
     dir?: 'ltr' | 'rtl';
+    /** `id` of a `<form>` elsewhere in the page that the value submits with. */
+    form?: string;
+    /** Ref to the hidden input that holds the value for forms (rendered with `name`). */
+    inputRef?: React.Ref<HTMLInputElement>;
 };
 
 const NAVIGATION_KEYS: string[] = [
@@ -39,29 +46,36 @@ const visuallyHiddenInputStyle: React.CSSProperties = {
 };
 
 const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(
-    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
+    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, readOnly = false, required = false, name = '', orientation = 'horizontal', loop = true, dir: dirProp, onKeyDownCapture, onKeyUpCapture, form, inputRef, ...props }, ref) => {
+        const dir = useDirection(dirProp) ?? 'ltr';
         const [selectedValue, setSelectedValue] = useControllableState(
             value,
             defaultValue,
             onValueChange
         );
         const isNavigatingWithKeyboardRef = React.useRef(false);
-        const formInputRef = React.useRef<HTMLInputElement>(null);
+        const formInputRef = React.useRef<HTMLInputElement | null>(null);
+        const setNamedInput = React.useCallback((node: HTMLInputElement | null) => {
+            formInputRef.current = node;
+            if (typeof inputRef === 'function') inputRef(node);
+            else if (inputRef) (inputRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+        }, [inputRef]);
         const defaultValueRef = React.useRef(defaultValue);
 
         // Native radios return to their default selection when their form resets.
         React.useEffect(() => {
-            const form = formInputRef.current?.form;
-            if (!form) return;
+            const owner = formInputRef.current?.form;
+            if (!owner) return;
             const handleReset = () => setSelectedValue(defaultValueRef.current);
-            form.addEventListener('reset', handleReset);
-            return () => form.removeEventListener('reset', handleReset);
-        }, [setSelectedValue, name, required]);
+            owner.addEventListener('reset', handleReset);
+            return () => owner.removeEventListener('reset', handleReset);
+        }, [setSelectedValue, name, required, form]);
 
         const sendItems = {
             selectedValue,
             setSelectedValue,
             groupDisabled,
+            readOnly,
             isNavigatingWithKeyboardRef
         };
 
@@ -78,17 +92,21 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                     isNavigatingWithKeyboardRef.current = false;
                 }, { checkForDefaultPrevented: false })}
                 aria-required={required}
+                aria-readonly={readOnly || undefined}
+                data-readonly={readOnly ? '' : undefined}
                 role='radiogroup'
                 aria-orientation={orientation === 'both' ? undefined : orientation}
                 aria-disabled={groupDisabled}
                 data-disabled={groupDisabled ? '' : undefined}
             >
                 {/* Radio groups move with all four arrow keys whatever their visual
-                    orientation (WAI-ARIA APG radio pattern; Radix and Base UI do the same).
+                    orientation (WAI-ARIA APG radio pattern).
                     `orientation` still sets aria-orientation above. */}
                 <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>
-                        <RovingFocusGroup.Group>
+                        {/* Always a wrapper: merged onto a single child, the group role and id would
+                            land on that child (often a <label>, which then stops naming its control). */}
+                        <RovingFocusGroup.Group asChild={false}>
 
                             {children}
 
@@ -97,9 +115,10 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                 </RovingFocusGroup.Root>
                 {name && (
                     <input
-                        ref={formInputRef}
+                        ref={setNamedInput}
                         type='hidden'
                         name={name}
+                        form={form}
                         value={selectedValue}
                         disabled={groupDisabled}
                     />
@@ -110,6 +129,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                     <input
                         ref={name ? undefined : formInputRef}
                         type='radio'
+                        form={form}
                         checked={!isEmpty}
                         onChange={() => {}}
                         disabled={groupDisabled}

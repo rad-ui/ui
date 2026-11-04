@@ -8,7 +8,9 @@
     height: var(--rad-ui-spacing-1);
     border-radius: var(--rad-ui-control-radius-pill);
     width: 100%;
-    max-width: calc(var(--rad-ui-overlay-width-md) + var(--rad-ui-size-10) + var(--rad-ui-spacing-1));
+
+    // Fills its container. Set --rad-ui-progress-max-width (or a width) for a narrower bar.
+    max-width: var(--rad-ui-progress-max-width, none);
 
     .rad-ui-progress-indicator {
         background: var(--rad-ui-color-accent-800); // accent — solid fill, brand signal
@@ -35,4 +37,38 @@
     .rad-ui-progress[data-state="indeterminate"] .rad-ui-progress-indicator {
         animation-duration: calc(var(--rad-ui-motion-duration-normal) * 15);
     }
+}
+
+// With a Track, the root is a wrapper: Label and Value sit above the bar.
+.rad-ui-progress:has(> .rad-ui-progress-track) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--rad-ui-spacing-2);
+    height: auto;
+    overflow: visible;
+    background: none;
+    border-radius: 0;
+}
+
+.rad-ui-progress-track {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    height: var(--rad-ui-spacing-1);
+    border-radius: var(--rad-ui-control-radius-pill);
+    background: var(--rad-ui-surface-muted);
+}
+
+.rad-ui-progress-label {
+    color: var(--rad-ui-text-primary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-weight: 500;
+}
+
+.rad-ui-progress-value {
+    color: var(--rad-ui-text-secondary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
 }

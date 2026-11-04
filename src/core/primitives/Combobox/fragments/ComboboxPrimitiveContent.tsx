@@ -4,6 +4,9 @@ import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
 import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
+import { getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { toReturnFocus, focusFinal } from '~/core/utils/focusTarget';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
@@ -53,9 +56,30 @@ const ComboboxPrimitiveContent = React.forwardRef<
         hasSearch,
         handleSelect,
         isTypingRef,
-        dir
+        dir,
+        multiple,
+        referenceIsInput,
+        finalFocus,
+        transitionMounted,
+        transitionStatus,
+        modal = false
     } = useContext(ComboboxPrimitiveContext);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
+
+    // Closed, force-mounted content must never hold focus. A focus move queued while the list
+    // was opening can land after a quick close; send it back to the trigger (or `finalFocus`).
+    React.useEffect(() => {
+        if (isOpen) return;
+        const floating = refs.floating.current as HTMLElement | null;
+        if (!floating) return;
+        const release = () => {
+            if (finalFocus === false) return;
+            focusFinal(finalFocus, refs.reference.current as HTMLElement | null);
+        };
+        if (floating.contains(floating.ownerDocument.activeElement)) release();
+        floating.addEventListener('focusin', release);
+        return () => floating.removeEventListener('focusin', release);
+    }, [isOpen, refs, finalFocus]);
     const shouldHideUntilPositioned = typeof navigator === 'undefined' || !/jsdom/i.test(navigator.userAgent);
     const placementState = getPlacementState(placedPlacement);
     const isHiddenUntilPositioned = !isPositioned && shouldHideUntilPositioned;
@@ -113,7 +137,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 : style?.pointerEvents
         },
         dir,
-        'data-state': isOpen ? 'open' : 'closed',
+        ...stateData(isOpen ? 'open' : 'closed'),
         'data-side': placementState.side,
         'data-align': placementState.align,
         'data-positioned': isPositioned ? '' : undefined
@@ -125,13 +149,19 @@ const ComboboxPrimitiveContent = React.forwardRef<
         ...popupProps
     } = floatingProps as Record<string, any>;
 
-    if (!isOpen && !forceMount && !portalForceMount) return null;
+    if (!transitionMounted && !forceMount && !portalForceMount) return null;
 
-    // Force-mounted while closed: keep the DOM (for exit animations) but hide
-    // it from users and assistive tech.
+    // Closed but still rendered: while the exit animation runs it stays visible
+    // but inert; once only force-mounted it's hidden from users and assistive tech.
+    const transitionAttributes = getTransitionAttributes(transitionStatus);
     const shownProps = isOpen
-        ? popupProps
-        : { ...popupProps, style: { ...popupProps.style, visibility: 'hidden', pointerEvents: 'none' } };
+        ? { ...popupProps, ...transitionAttributes }
+        : {
+            ...popupProps,
+            ...transitionAttributes,
+            'aria-hidden': true as const,
+            style: { ...popupProps.style, visibility: transitionStatus === 'ending' ? undefined : 'hidden', pointerEvents: 'none' }
+        };
 
     const popup = hasSearchPart ? (
         <div ref={mergedRef} {...shownProps} id={`${listboxId}-popup`}>
@@ -140,6 +170,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 id={listboxId}
                 role={listboxRole}
                 aria-orientation={listboxOrientation}
+                aria-multiselectable={multiple || undefined}
                 data-slot="combobox-listbox"
             >
                 {listChildren}
@@ -153,6 +184,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
             id={listboxId}
             role={listboxRole}
             aria-orientation={listboxOrientation}
+            aria-multiselectable={multiple || undefined}
         >
             {children}
         </div>
@@ -163,11 +195,20 @@ const ComboboxPrimitiveContent = React.forwardRef<
         // positioned (and visible) before moving focus into it; otherwise focus lands on the
         // container instead of the search field or the selected option. Force-mounted closed
         // content keeps the same tree (so React keeps the node) with focus management off.
-        <Floater.FocusManager context={floatingContext} disabled={!isOpen || isHiddenUntilPositioned}>
+        <>
+            {modal && isOpen && !referenceIsInput && <Floater.Overlay lockScroll data-slot="combobox-backdrop" />}
+        <Floater.FocusManager
+            context={floatingContext}
+            // An input anchor keeps focus while options are reached virtually, so no focus
+            // management is needed, and it must not hide the rest of the page from screen readers.
+            disabled={!isOpen || isHiddenUntilPositioned || referenceIsInput}
+            returnFocus={toReturnFocus(finalFocus)}
+        >
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
                 {popup}
             </Floater.FloatingList>
         </Floater.FocusManager>
+        </>
     );
 });
 

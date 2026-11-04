@@ -45,7 +45,9 @@ const ComboboxPrimitiveItem = React.forwardRef<
         displayLabelsRef,
         valuesRef,
         bumpLabelsVersion,
-        idPrefix
+        idPrefix,
+        multiple,
+        selectedValues
     } = context;
     const itemRef = React.useRef<HTMLButtonElement>(null);
     // Prefer the visible text so the trigger, typeahead, and search all match what users see.
@@ -54,7 +56,7 @@ const ComboboxPrimitiveItem = React.forwardRef<
 
     const isHidden = hiddenIndices.includes(index);
     const isActive = activeIndex === index;
-    const isSelected = selectedIndex === index || selectedValue === value;
+    const isSelected = multiple ? selectedValues.includes(value) : selectedIndex === index || selectedValue === value;
 
     // Ids are namespaced per root so several comboboxes with the same option values never
     // produce duplicate ids (which would break aria-activedescendant).

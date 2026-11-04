@@ -1,8 +1,9 @@
 'use client';
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
+import DrawerProviderContext from '../context/DrawerProviderContext';
 import {
     DrawerChangeReason,
     DrawerContext,
@@ -132,6 +133,13 @@ const DrawerRoot = forwardRef<HTMLDivElement, DrawerRootProps>(({
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const isOpen = isControlled ? controlledOpen! : uncontrolledOpen;
     useRegisterDocumentOverlayOpen(isOpen);
+    // Tell a Drawer.Provider above (for Drawer.Indent) while this drawer is open.
+    const drawerProvider = useContext(DrawerProviderContext);
+    const registerProviderOpen = drawerProvider?.registerOpen;
+    useEffect(() => {
+        if (!isOpen || !registerProviderOpen) return;
+        return registerProviderOpen();
+    }, [isOpen, registerProviderOpen]);
 
     // Read through a ref so callbacks registered once (imperative actions,
     // animation completion) always observe the current value.
@@ -390,7 +398,7 @@ const contextValue = useMemo(() => ({
             <DialogPrimitive.Root
                 ref={ref}
                 open={isOpen}
-                onOpenChange={handleOpenChange}
+                onOpenChange={(next: boolean, details: { event?: Event }) => handleOpenChange(next, details.event)}
                 className={clsx(rootClass, className)}
                 disablePointerDismissal={disablePointerDismissal}
             >

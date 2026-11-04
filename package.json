@@ -1,6 +1,6 @@
 {
   "name": "@radui/ui",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "",
   "main": "dist",
   "type": "module",
@@ -32,6 +32,11 @@
       "import": "./dist/components/AspectRatio.js",
       "require": "./dist/components/AspectRatio.cjs",
       "types": "./dist/components/AspectRatio.d.ts"
+    },
+    "./Autocomplete": {
+      "import": "./dist/components/Autocomplete.js",
+      "require": "./dist/components/Autocomplete.cjs",
+      "types": "./dist/components/Autocomplete.d.ts"
     },
     "./Avatar": {
       "import": "./dist/components/Avatar.js",
@@ -123,6 +128,11 @@
       "require": "./dist/components/Dialog.cjs",
       "types": "./dist/components/Dialog.d.ts"
     },
+    "./DirectionProvider": {
+      "import": "./dist/components/DirectionProvider.js",
+      "require": "./dist/components/DirectionProvider.cjs",
+      "types": "./dist/components/DirectionProvider.d.ts"
+    },
     "./Disclosure": {
       "import": "./dist/components/Disclosure.js",
       "require": "./dist/components/Disclosure.cjs",
@@ -143,10 +153,20 @@
       "require": "./dist/components/Em.cjs",
       "types": "./dist/components/Em.d.ts"
     },
+    "./Field": {
+      "import": "./dist/components/Field.js",
+      "require": "./dist/components/Field.cjs",
+      "types": "./dist/components/Field.d.ts"
+    },
     "./Fieldset": {
       "import": "./dist/components/Fieldset.js",
       "require": "./dist/components/Fieldset.cjs",
       "types": "./dist/components/Fieldset.d.ts"
+    },
+    "./Form": {
+      "import": "./dist/components/Form.js",
+      "require": "./dist/components/Form.cjs",
+      "types": "./dist/components/Form.d.ts"
     },
     "./Heading": {
       "import": "./dist/components/Heading.js",
@@ -178,6 +198,11 @@
       "require": "./dist/components/LiveRegion.cjs",
       "types": "./dist/components/LiveRegion.d.ts"
     },
+    "./Menu": {
+      "import": "./dist/components/Menu.js",
+      "require": "./dist/components/Menu.cjs",
+      "types": "./dist/components/Menu.d.ts"
+    },
     "./Menubar": {
       "import": "./dist/components/Menubar.js",
       "require": "./dist/components/Menubar.cjs",
@@ -202,6 +227,11 @@
       "import": "./dist/components/NumberField.js",
       "require": "./dist/components/NumberField.cjs",
       "types": "./dist/components/NumberField.d.ts"
+    },
+    "./OTPField": {
+      "import": "./dist/components/OTPField.js",
+      "require": "./dist/components/OTPField.cjs",
+      "types": "./dist/components/OTPField.d.ts"
     },
     "./Popover": {
       "import": "./dist/components/Popover.js",
@@ -257,6 +287,11 @@
       "import": "./dist/components/Slider.js",
       "require": "./dist/components/Slider.cjs",
       "types": "./dist/components/Slider.d.ts"
+    },
+    "./Slot": {
+      "import": "./dist/components/Slot.js",
+      "require": "./dist/components/Slot.cjs",
+      "types": "./dist/components/Slot.d.ts"
     },
     "./Spinner": {
       "import": "./dist/components/Spinner.js",

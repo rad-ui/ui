@@ -8,6 +8,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
 import useControllableState from '~/core/hooks/useControllableState';
 import { mergeRefs } from '~/core/utils/mergeRefs';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Radio';
 
@@ -60,7 +61,7 @@ const Radio = React.forwardRef<RadioElement, RadioProps>(function Radio(
     const accentAttributes = createDataAccentColorAttribute(color);
     const composedAttributes = composeAttributes(dataAttributes, accentAttributes, {
         'data-slot': 'radio-root',
-        'data-state': isChecked ? 'checked' : 'unchecked',
+        ...stateData(isChecked ? 'checked' : 'unchecked'),
         'data-disabled': disabled ? '' : undefined
     });
 

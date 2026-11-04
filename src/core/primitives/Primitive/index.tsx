@@ -1,5 +1,6 @@
 import React from 'react';
 import { composeRefs, getElementRef, mergeProps } from '../../utils/mergeProps';
+import { withStateAttributes } from '../../utils/stateAttributes';
 
 const SUPPORTED_HTML_ELEMENTS = [
     'div',
@@ -17,7 +18,9 @@ const SUPPORTED_HTML_ELEMENTS = [
     'tbody',
     'tr',
     'td',
-    'th'
+    'th',
+    'form',
+    'output'
 ] as const;
 type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 type PrimitiveComponentProps<TTag extends SupportedElement> = React.ComponentPropsWithoutRef<TTag> & {
@@ -31,7 +34,9 @@ type PrimitiveComponentMap = {
 
 const createPrimitiveComponent = <TTag extends SupportedElement>(elementType: TTag) => {
     const PrimitiveComponent = React.forwardRef<HTMLElement, PrimitiveComponentProps<TTag>>((props, ref) => {
-        const { asChild = false, children, ...elementProps } = props;
+        const { asChild = false, children, ...ownProps } = props;
+        // `data-state="open"` also sets `data-open`, `checked` sets `data-checked`, and so on.
+        const elementProps = withStateAttributes(ownProps as Record<string, unknown>) as typeof ownProps;
 
         if (asChild) {
             if (React.isValidElement(children) && children.type === React.Fragment) {

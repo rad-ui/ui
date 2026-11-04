@@ -1,3 +1,4 @@
+import * as axeCore from 'axe-core';
 import '@testing-library/jest-dom';
 import { act } from '@testing-library/react';
 import { DOCUMENT_OVERLAY_OPEN_ATTRIBUTE, resetDocumentOverlayOpenForTests } from '~/core/utils/documentOverlayOpen';
@@ -59,7 +60,20 @@ console.warn = (...args: unknown[]) => {
     originalWarn(...(args as Parameters<typeof originalWarn>));
 };
 
-export const ACCESSIBILITY_TEST_TAGS = ['wcag21a', 'wcag21aa'];
+// Every WCAG A/AA rule set, not just the rules WCAG 2.1 added: the 2.1 tags alone
+// run 4 rules and skip names, labels and ARIA validity.
+export const ACCESSIBILITY_TEST_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+
+// jsdom has no layout or rendering, so colour contrast can't be measured here;
+// the docs build checks contrast in a real browser. floating-ui's focus guards
+// are invisible, unnamed role="button" spans in Safari (jsdom reports itself as
+// Safari); they're third-party plumbing, not something a consumer can name.
+axeCore.configure({
+    rules: [
+        { id: 'color-contrast', enabled: false, tags: ['jsdom-unsupported'] },
+        { id: 'aria-command-name', selector: '[role="link"], [role="button"]:not([data-floating-ui-focus-guard]), [role="menuitem"]' }
+    ]
+});
 
 // Global Polyfills for jsdom environment
 if (typeof window !== 'undefined') {

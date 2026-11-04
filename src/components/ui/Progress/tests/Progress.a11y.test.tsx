@@ -7,7 +7,7 @@ import Progress from '../Progress';
 describe('Progress accessibility', () => {
     test('axe: no violations', async() => {
         const { container } = render(
-            <Progress.Root value={50} minValue={0} maxValue={100}>
+            <Progress.Root aria-label="Upload" value={50} minValue={0} maxValue={100}>
                 <Progress.Indicator />
             </Progress.Root>
         );

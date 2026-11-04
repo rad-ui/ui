@@ -49,13 +49,15 @@
     box-shadow: var(--rad-ui-focus-ring-shadow-offset);
   }
   
-  &[data-state="checked"] {
+  &[data-state="checked"],
+  &[data-state="indeterminate"] {
     background-color: var(--rad-ui-surface-inverse);
     border-color: var(--rad-ui-surface-inverse);
     color: var(--rad-ui-text-inverse);
   }
 
-  &[data-state="checked"]:hover {
+  &[data-state="checked"]:hover,
+  &[data-state="indeterminate"]:hover {
     background-color: var(--rad-ui-surface-inverse);
     border-color: var(--rad-ui-surface-inverse);
   }
@@ -65,7 +67,8 @@
     border-color: var(--rad-ui-border-strong);
   }
 
-  &[data-state="checked"]:focus-visible {
+  &[data-state="checked"]:focus-visible,
+  &[data-state="indeterminate"]:focus-visible {
     box-shadow: var(--rad-ui-focus-ring-shadow-offset);
   }
   
