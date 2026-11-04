@@ -329,3 +329,37 @@ $close-easing: var(--rad-ui-motion-easing-standard);
     &:disabled { pointer-events: none; opacity: 0.5; }
   }
 }
+
+// Drawer.Indent: the page eases back while a drawer is open (inside Drawer.Provider).
+.rad-ui-drawer-indent-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--rad-ui-color-gray-1000, #000);
+}
+
+.rad-ui-drawer-indent {
+  min-height: 100%;
+  background-color: var(--rad-ui-color-gray-50, Canvas);
+  transform-origin: center top;
+  transition:
+    transform     $close-duration $close-easing,
+    border-radius $close-duration $close-easing;
+
+  &[data-active] {
+    transform: scale(var(--rad-ui-drawer-indent-scale, 0.96)) translateY(var(--rad-ui-drawer-indent-offset, 0.75rem));
+    border-radius: var(--rad-ui-radius-lg, 12px);
+    overflow: hidden;
+    transition:
+      transform     $open-duration $open-easing,
+      border-radius $open-duration $open-easing;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &[data-active] {
+      transition: none;
+    }
+  }
+}
