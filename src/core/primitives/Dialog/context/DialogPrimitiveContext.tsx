@@ -25,6 +25,8 @@ type DialogPrimitiveContextType = {
   onOpenChangeComplete?: (open: boolean) => void;
   /** `true` blocks the page, `'trap-focus'` only traps focus, `false` leaves the page usable. */
   modal?: boolean | 'trap-focus';
+  /** False while another modal opened later sits on top of this one. */
+  isTopModal?: boolean;
 };
 
 export const DialogPrimitiveContext = createContext<DialogPrimitiveContextType>({

@@ -38,7 +38,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     style: styleProp,
     ...props
 }, ref) => {
-    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0, onOpenChangeComplete, modal = true } = useContext(DialogPrimitiveContext);
+    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0, onOpenChangeComplete, modal = true, isTopModal = true } = useContext(DialogPrimitiveContext);
     // The root's modal mode sets the defaults; explicit props still win.
     const trapFocus = trapFocusProp ?? modal !== false;
     const ariaModal = ariaModalProp ?? modal !== false;
@@ -159,7 +159,9 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                 <Floater.FocusManager
                     context={floaterContext}
                     disabled={!isOpen}
-                    modal={trapFocus}
+                    modal={trapFocus && isTopModal}
+                    // Under another modal, focus moving into it must not close this one.
+                    closeOnFocusOut={isTopModal ? undefined : false}
                     initialFocus={managerInitialFocus}
                     returnFocus={finalFocus !== false}
                 >
