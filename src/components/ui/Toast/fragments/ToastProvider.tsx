@@ -43,6 +43,7 @@ export type ToastProviderProps = {
     icons?: Record<string, React.ReactNode>;
     loadingIcon?: React.ReactNode;
     rtl?: boolean;
+    /** Keys that move focus to the toasts. Default `['altKey', 'KeyT']` (Alt+T / Option+T). An empty array turns it off. */
     hotkey?: string[];
     containerAriaLabel?: string;
     dragThreshold?: number;
@@ -184,6 +185,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
             viewportClassName: className,
             viewportStyle: style,
             containerAriaLabel: containerAriaLabel ?? 'Notifications',
+            hotkey: hotkey ?? ['altKey', 'KeyT'],
             offset,
             mobileOffset,
             theme,

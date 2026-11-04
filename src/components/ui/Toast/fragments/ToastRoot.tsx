@@ -295,6 +295,14 @@ const ToastRoot: React.FC<ToastRootProps> = ({ toast, className, children }) => 
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
+                onKeyDown={(event) => {
+                    // Escape dismisses the toast that has focus; focus moves to the viewport so it isn't lost.
+                    if (event.key !== 'Escape' || event.defaultPrevented) return;
+                    event.stopPropagation();
+                    const viewport = event.currentTarget.closest<HTMLElement>('[role="region"]');
+                    dismiss();
+                    viewport?.focus();
+                }}
             >
                 {toast.render ? toast.render({ id: toast.id, toast, onDismiss: dismiss }) : children}
             </div>

@@ -3,6 +3,7 @@ import React, { forwardRef, useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
+import usePresence from '~/core/hooks/usePresence';
 
 export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     children: React.ReactNode;
@@ -12,6 +13,15 @@ export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof 
     finalFocus?: boolean | React.RefObject<HTMLElement | null> | (() => boolean | void | HTMLElement | null);
     trapFocus?: boolean;
 }
+
+const FIRST_FOCUSABLE = [
+    'button:not([disabled])',
+    '[href]',
+    'input:not([disabled]):not([type="hidden"])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+].join(',');
 
 const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContentProps>(({
     children,
@@ -32,8 +42,11 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
 
-    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
-    const shouldRender = isOpen || forceMount;
+    const contentRef = React.useRef<HTMLDivElement | null>(null);
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref, contentRef]);
+    // Stays mounted while the closing transition plays (#2290).
+    const isPresent = usePresence(isOpen, contentRef);
+    const shouldRender = isPresent || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
 
     React.useEffect(() => {
@@ -85,30 +98,32 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
         }
     }, [finalFocus, isOpen, referenceElement]);
 
-    const resolvedInitialFocus = React.useMemo(() => {
-        if (initialFocus === false) {
-            return -1;
-        }
+    // A specific target (a ref, or a function) is focused here with preventScroll, so a tall, scrolling
+    // dialog opens at its top instead of jumping to that element (#2278). The focus manager then gets -1
+    // and focuses nothing itself. `true` keeps its default: the first tabbable element.
+    const ownsInitialFocus = typeof initialFocus === 'function' || (typeof initialFocus === 'object' && initialFocus !== null);
+    const managerInitialFocus = initialFocus === true ? 0 : -1;
 
-        if (initialFocus === true) {
-            return 0;
-        }
+    React.useEffect(() => {
+        if (!isOpen || !ownsInitialFocus) return;
+        // A frame later, so the content and anything a function looks up are in the DOM.
+        const frame = requestAnimationFrame(() => {
+            const content = refs.floating?.current as HTMLElement | null | undefined;
+            let target: HTMLElement | null = null;
+            if (typeof initialFocus === 'function') {
+                const result = initialFocus();
+                if (result instanceof HTMLElement) target = result;
+                else if (result === true) target = content?.querySelector<HTMLElement>(FIRST_FOCUSABLE) ?? null;
+            } else if (typeof initialFocus === 'object' && initialFocus !== null) {
+                target = initialFocus.current;
+            }
+            target?.focus({ preventScroll: true });
+        });
+        return () => cancelAnimationFrame(frame);
+        // Run once per open: a new inline function on every render must not move focus again.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, ownsInitialFocus]);
 
-        if ('current' in initialFocus) {
-            return initialFocus;
-        }
-
-        const result = initialFocus();
-        if (result === false || result === undefined) {
-            return -1;
-        }
-
-        if (result === true) {
-            return 0;
-        }
-
-        return result;
-    }, [initialFocus]);
     const consumerStyle = (props as React.HTMLAttributes<HTMLDivElement>).style;
     const restProps = { ...props } as Record<string, unknown>;
     delete restProps.style;
@@ -134,18 +149,17 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     return (
         <>
             {shouldRender && (
-                isOpen
-                    ? (
-                        <Floater.FocusManager
-                            context={floaterContext}
-                            modal={trapFocus}
-                            initialFocus={resolvedInitialFocus as any}
-                            returnFocus={finalFocus !== false}
-                        >
-                            {content}
-                        </Floater.FocusManager>
-                    )
-                    : content
+                // Always wrapped (disabled while closed) so closing keeps the same element and its exit
+                // transition can play (#2290).
+                <Floater.FocusManager
+                    context={floaterContext}
+                    disabled={!isOpen}
+                    modal={trapFocus}
+                    initialFocus={managerInitialFocus}
+                    returnFocus={finalFocus !== false}
+                >
+                    {content}
+                </Floater.FocusManager>
             )}
         </>
     );

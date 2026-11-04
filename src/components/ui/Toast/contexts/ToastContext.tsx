@@ -99,6 +99,8 @@ export interface ToastProviderContextType {
     viewportClassName?: string;
     viewportStyle?: React.CSSProperties;
     containerAriaLabel: string;
+    /** Keys that move focus to the toasts: modifier names (`altKey`, `ctrlKey`, `metaKey`, `shiftKey`) plus a `KeyboardEvent.code`. */
+    hotkey?: string[];
     offset?: number | string;
     mobileOffset?: number | string | { top?: number | string; bottom?: number | string; left?: number | string; right?: number | string };
     theme?: 'light' | 'dark' | 'system';
@@ -132,6 +134,7 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     viewportClassName: undefined,
     viewportStyle: undefined,
     containerAriaLabel: 'Notifications',
+    hotkey: ['altKey', 'KeyT'],
     offset: undefined,
     mobileOffset: undefined,
     theme: undefined,

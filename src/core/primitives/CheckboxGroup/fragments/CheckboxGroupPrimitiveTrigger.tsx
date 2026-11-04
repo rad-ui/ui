@@ -2,6 +2,8 @@ import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 import CheckboxGroupPrimitiveTriggerContext from '../context/CheckboxGroupPrimitiveTriggerContext';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
+import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 
 export type CheckboxGroupPrimitiveTriggerElement = ElementRef<'button'>;
 export type CheckboxGroupPrimitiveTriggerProps = {
@@ -18,7 +20,7 @@ export type CheckboxGroupPrimitiveTriggerProps = {
     onCheckedChange?: (checked: boolean) => void;
 } & ComponentPropsWithoutRef<'button'>;
 
-const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerElement, CheckboxGroupPrimitiveTriggerProps>(({ children, className = '', value, required, disabled, checked: _ignoredChecked, onCheckedChange, onClick, ...props }, ref) => {
+const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerElement, CheckboxGroupPrimitiveTriggerProps>(({ children, className = '', value, required, disabled, checked: _ignoredChecked, onCheckedChange, onClick, onKeyDown, ...props }, ref) => {
     const { checkedValues, setCheckedValues, name, required: groupRequired, disabled: groupDisabled } = React.useContext(CheckboxGroupPrimitiveContext);
 
     const isChecked = checkedValues.includes(value);
@@ -48,6 +50,10 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                 <RovingFocusGroup.Item
                     ref={ref}
                     onClick={handleClick}
+                    onKeyDown={composeEventHandlers(onKeyDown, (event: React.KeyboardEvent<HTMLButtonElement>) => {
+                        // Checkboxes toggle with Space only (WAI-ARIA checkbox pattern, as native checkboxes do).
+                        if (event.key === KEYBOARD_KEYS.ENTER) event.preventDefault();
+                    })}
                     className={className}
                     role={role}
                     aria-checked={isChecked}
