@@ -9,6 +9,8 @@ This file is the working tracker. Update it in the same PR as the work it descri
 - **`asChild` stays as it is.** No change to how `asChild` merges props onto the child, and no second composition API next to it.
 - Headless boundary from `MASTER_LIST.md` still holds: behaviour and accessibility in the library, visual design in the themes.
 - No public API breaks without a changeset that says so. Prefer additive changes.
+- **One handler-merging rule** (#1791): compose a consumer's handler with ours through `composeEventHandlers` (or `mergeProps`, which uses it). The consumer runs first, ours is skipped after `event.preventDefault()`, and every argument is forwarded. Don't hand-roll the chain; `composition.contract.test.ts` pins the rule.
+- **Callback names** (#1785): state changes are `on<Thing>Change` (plus `ChangeComplete` / `Commit`); DOM events keep React's names. `callbackNaming.test.ts` fails on anything else until it's renamed or added to its reviewed list with a reason.
 
 ## Missing primitives
 
