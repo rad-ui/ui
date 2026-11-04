@@ -80,6 +80,8 @@ export type MenuPrimitiveRootProps = {
   sticky?: boolean
   /** Don't re-position when the trigger's layout shifts; scroll and resize still update it. */
   disableAnchorTracking?: boolean
+  /** Minimum px between the arrow and the menu's rounded corners. Defaults to 4. */
+  arrowPadding?: number
   /** Highlight items as the pointer moves over them. Defaults to true. */
   highlightItemOnHover?: boolean
   /** Called when the highlighted item changes, with the item element (or `undefined`) and its index. */
@@ -95,7 +97,7 @@ type MenuComponentRootProps = MenuPrimitiveRootProps & {
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, actionsRef, ...props }, ref) => {
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay: hoverOpenDelayProp, hoverCloseDelay: hoverCloseDelayProp, handle, modal = false, onOpenChangeComplete, anchor, positionMethod, collisionAvoidance, sticky = false, disableAnchorTracking, arrowPadding = 4, highlightItemOnHover = true, onItemHighlighted, closeParentOnEsc = false, actionsRef, ...props }, ref) => {
     const hoverOpenDelay = hoverOpenDelayProp ?? 100;
     const hoverCloseDelay = hoverCloseDelayProp ?? 0;
     const resolvedDir = useDirection(dir);
@@ -206,7 +208,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
                     elements.floating.style.maxHeight = `${availableHeight}px`;
                 },
             })] : []),
-            ...(arrowNode ? [Floater.arrow({ element: arrowNode, padding: 4 })] : []),
+            ...(arrowNode ? [Floater.arrow({ element: arrowNode, padding: arrowPadding })] : []),
         ],
         whileElementsMounted: anchorTracking(disableAnchorTracking)
     });
