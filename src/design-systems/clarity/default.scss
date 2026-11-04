@@ -69,6 +69,51 @@
 // import .css file
 @use "../../../styles/cssTokens/base.tokens";
 
+// Forced colours (Windows High Contrast and similar): the browser drops box-shadows and replaces
+// author colours with system ones. The theme draws focus rings with box-shadow and shows some
+// state only with a fill, so without this, focus is invisible and a Switch thumb, a Radio dot or
+// a Slider range vanishes. These rules use system colours so they follow the person's scheme.
+@media (forced-colors: active) {
+    :root :focus-visible {
+        outline: 2px solid Highlight !important;
+        outline-offset: 2px;
+    }
+
+    // Fills that carry state: keep them, in system colours.
+    :root :is(.rad-ui-switch-indicator, .rad-ui-radio-group-indicator, .rad-ui-slider-thumb) {
+        forced-color-adjust: none;
+        background-color: CanvasText;
+    }
+
+    :root :is(.rad-ui-slider-range, .rad-ui-progress-indicator, .rad-ui-tabs-indicator) {
+        forced-color-adjust: none;
+        background-color: Highlight;
+    }
+
+    :root .rad-ui-switch[data-state="checked"] {
+        forced-color-adjust: none;
+        background-color: Highlight;
+        border-color: Highlight;
+
+        .rad-ui-switch-indicator {
+            background-color: HighlightText;
+        }
+    }
+
+    // Tracks that are only a fill get an outline so their extent shows.
+    :root :is(.rad-ui-slider-track, .rad-ui-progress-track, .rad-ui-progress:not(:has(.rad-ui-progress-track))) {
+        border: 1px solid CanvasText;
+    }
+
+    // Pressed toggles and the highlighted item in a list or menu.
+    :root :is(.rad-ui-toggle, .rad-ui-toggle-group-item):is([data-state="on"], [aria-pressed="true"]),
+    :root [data-highlighted] {
+        forced-color-adjust: none;
+        background-color: Highlight;
+        color: HighlightText;
+    }
+}
+
 [data-rad-ui-theme] {
     --rad-ui-surface-canvas: var(--rad-ui-color-gray-50);
     --rad-ui-surface-panel: var(--rad-ui-color-gray-100);
