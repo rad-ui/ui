@@ -15,13 +15,15 @@ const CheckboxIndicator = forwardRef<CheckboxIndicatorElement, CheckboxIndicator
     const { rootClass } = useContext(CheckboxContext);
     const { isChecked } = useContext(CheckboxPrimitiveContext);
     const Icon = isChecked === 'indeterminate' || isChecked === null ? Minus : Check;
-    return <CheckboxPrimitiveIndicator ref={ref} {...props} data-slot="checkbox-indicator">
-        <Icon
-            width={15}
-            height={15}
-            className={clsx(rootClass && `${rootClass}-indicator`, className)}
-        />
-        {children}
+    // Your own children replace the default mark. The default icon is 1em, so it follows the
+    // font size when no theme is loaded; the theme sizes it to the box.
+    return <CheckboxPrimitiveIndicator
+        ref={ref}
+        {...props}
+        className={clsx(rootClass && `${rootClass}-indicator`, className)}
+        data-slot="checkbox-indicator"
+    >
+        {children ?? <Icon width="1em" height="1em" aria-hidden="true" />}
     </CheckboxPrimitiveIndicator>;
 });
 
