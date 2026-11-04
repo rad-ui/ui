@@ -8,6 +8,7 @@ import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTr
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { Align, CollisionAvoidance, FloatingAnchor, placementAlign, placementSide, PositionMethod, Side } from '~/core/utils/placement';
 import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type HoverCardContentElement = ElementRef<'div'>;
 export type HoverCardContentProps = ComponentPropsWithoutRef<'div'> & {
@@ -78,7 +79,7 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
     return <div
         className={clsx(rootClass, className)}
         ref={mergedRef}
-        data-state={isOpen ? 'open' : 'closed'}
+        {...stateData(isOpen ? 'open' : 'closed')}
         aria-hidden={!isOpen ? 'true' : undefined}
         {...getTransitionAttributes(transition.status)}
         data-side={placementSide(resolvedPlacement)}

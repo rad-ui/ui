@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import MenuPrimitiveItem, { MenuPrimitiveItemProps } from './MenuPrimitiveItem';
 import { MenuItemIndicatorContext, MenuRadioGroupContext } from '../contexts/MenuItemStateContexts';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveRadioItemProps = MenuPrimitiveItemProps & {
     /** The value this item selects in its RadioGroup. */
@@ -26,7 +27,7 @@ const MenuPrimitiveRadioItem = forwardRef<HTMLButtonElement, MenuPrimitiveRadioI
                     ref={ref}
                     role="menuitemradio"
                     aria-checked={checked}
-                    data-state={checked ? 'checked' : 'unchecked'}
+                    {...stateData(checked ? 'checked' : 'unchecked')}
                     data-checked={checked ? '' : undefined}
                     disabled={isDisabled}
                     {...props}

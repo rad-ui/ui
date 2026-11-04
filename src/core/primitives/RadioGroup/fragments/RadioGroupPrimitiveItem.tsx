@@ -6,6 +6,7 @@ import RadioGroupPrimitiveItemContext from '../context/RadioGroupPrimitiveItemCo
 import ButtonPrimitive from '~/core/primitives/Button';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type RadioGroupPrimitiveItemElement = React.ElementRef<typeof ButtonPrimitive>;
 
@@ -60,7 +61,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
                         aria-disabled={isDisabled}
                         aria-checked={itemSelected}
                         aria-selected={undefined}
-                        data-state={itemSelected ? 'checked' : 'unchecked'}
+                        {...stateData(itemSelected ? 'checked' : 'unchecked')}
                         data-disabled={isDisabled ? '' : undefined}
                         asChild={asChild}
                         className={className}

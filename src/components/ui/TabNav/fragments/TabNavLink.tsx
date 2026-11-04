@@ -4,6 +4,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { RovingFocusGroupContext } from '~/core/utils/RovingFocusGroup/context/RovingFocusGroupContext';
 import Primitive from '~/core/primitives/Primitive';
 import TabNavContext from '../context/TabNav.context';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type TabNavLinkProps = React.ComponentPropsWithoutRef<'a'> & {
     disabled?: boolean,
@@ -58,7 +59,7 @@ const TabNavLink = forwardRef<React.ElementRef<'a'>, TabNavLinkProps>(({
                 onClick={handleClick}
                 aria-disabled={disabled}
                 aria-current={isActive ? 'page' : undefined}
-                data-state={isActive ? 'active' : 'inactive'}
+                {...stateData(isActive ? 'active' : 'inactive')}
                 data-disabled={disabled ? '' : undefined}
                 data-slot="tab-nav-link"
                 // `disabled` is not an <a> attribute, but matters when asChild renders a <button>.

@@ -5,6 +5,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type CheckboxPrimitiveTriggerElement = ElementRef<typeof ButtonPrimitive>;
 export type CheckboxPrimitiveTriggerProps = ComponentPropsWithoutRef<typeof ButtonPrimitive>;
@@ -37,7 +38,7 @@ const CheckboxPrimitiveTrigger = forwardRef<CheckboxPrimitiveTriggerElement, Che
             aria-readonly={readOnly || undefined}
             data-readonly={readOnly ? '' : undefined}
             data-checked={isChecked as any}
-            data-state={dataState}
+            {...stateData(dataState)}
             disabled={disabled}
             data-disabled={disabled ? '' : undefined}
             className={className}

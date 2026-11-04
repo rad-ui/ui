@@ -9,6 +9,7 @@ import ThemeContext from '~/components/ui/Theme/ThemeContext';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
 import { Align, CollisionAvoidance, FloatingAnchor, placementAlign, placementSide, PositionMethod, Side } from '~/core/utils/placement';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type TooltipContentElement = React.ElementRef<typeof Primitive.div>;
 
@@ -71,7 +72,7 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
                 <Primitive.div
                     ref={mergedRef}
                     data-slot="tooltip-content"
-                    data-state={isOpen ? 'open' : 'closed'}
+                    {...stateData(isOpen ? 'open' : 'closed')}
                     {...getTransitionAttributes(transition.status)}
                     aria-hidden={!isOpen || undefined}
                     data-side={placementSide(data.placement)}

@@ -3,6 +3,7 @@ import { AvatarPrimitiveContext } from '../contexts/AvatarPrimitiveContext';
 import Primitive from '~/core/primitives/Primitive';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { composeRefs } from '~/core/utils/mergeProps';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type AvatarImageLoadingStatus = 'loading' | 'loaded' | 'error';
 
@@ -79,7 +80,7 @@ const AvatarPrimitiveImage = React.forwardRef<React.ElementRef<typeof Primitive.
             alt={alt}
             // `loading` until the browser has decoded the image; styles can keep the
             // fallback visible instead of showing a half-loaded or broken <img>.
-            data-state={isImageLoaded ? 'loaded' : 'loading'}
+            {...stateData(isImageLoaded ? 'loaded' : 'loading')}
             {...props}
             // @ts-ignore - Primitive.img is typed with generic HTML attributes
             onLoad={handleLoad}

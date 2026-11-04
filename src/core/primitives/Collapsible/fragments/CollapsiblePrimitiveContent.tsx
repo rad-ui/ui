@@ -3,6 +3,7 @@ import Primitive from '~/core/primitives/Primitive';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 import { composeRefs } from '~/core/utils/mergeProps';
 import { usePrefersReducedMotion } from '~/core/hooks/usePrefersReducedMotion';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const DEFAULT_TRANSITION_DURATION = 300;
 
@@ -240,7 +241,7 @@ const CollapsiblePrimitiveContent = React.forwardRef<
             id={contentId}
             ref={composeRefs(forwardedRef, ref)}
             aria-hidden={!open}
-            data-state={open ? 'open' : 'closed'}
+            {...stateData(open ? 'open' : 'closed')}
             className={className}
             style={dynamicStyle}
             asChild={shouldUseAsChild}

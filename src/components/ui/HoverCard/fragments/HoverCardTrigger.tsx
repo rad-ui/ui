@@ -7,6 +7,7 @@ import Floater from '~/core/primitives/Floater';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { hoverCardHandleControls } from '../contexts/hoverCardHandleControls';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type HoverCardTriggerElement = ElementRef<typeof Primitive.span>;
 export type HoverCardTriggerProps = ComponentPropsWithoutRef<typeof Primitive.span> & {
@@ -40,7 +41,7 @@ const HoverCardTrigger = forwardRef<HoverCardTriggerElement, HoverCardTriggerPro
             ref={detachedRef}
             className={clsx(rootTriggerClass ?? fallbackClass, className)}
             data-slot="hover-card-trigger"
-            data-state={active ? 'open' : 'closed'}
+            {...stateData(active ? 'open' : 'closed')}
             {...rest}
             onMouseEnter={(event: React.MouseEvent<HTMLSpanElement>) => { onMouseEnter?.(event); open(event.currentTarget, event); }}
             onMouseLeave={(event: React.MouseEvent<HTMLSpanElement>) => { onMouseLeave?.(event); close(event); }}

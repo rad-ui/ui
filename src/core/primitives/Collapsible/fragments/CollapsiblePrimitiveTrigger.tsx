@@ -2,6 +2,7 @@ import React from 'react';
 import ButtonPrimitive from '~/core/primitives/Button';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { useCollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type CollapsiblePrimitiveTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
 export type CollapsiblePrimitiveTriggerProps = React.ComponentPropsWithoutRef<
@@ -37,7 +38,7 @@ const CollapsiblePrimitiveTrigger = React.forwardRef<
             {...props}
             aria-controls={contentId}
             aria-expanded={open}
-            data-state={open ? 'open' : 'closed'}
+            {...stateData(open ? 'open' : 'closed')}
             data-disabled={disabled ? 'true' : undefined}
             ref={forwardedRef}
             onClick={handleClick}

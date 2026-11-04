@@ -9,6 +9,7 @@ import React, {
 import { clsx } from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import { MeterContext } from '../contexts/MeterContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MeterIndicatorElement = ElementRef<typeof Primitive.div>;
 export type MeterIndicatorProps = ComponentPropsWithoutRef<typeof Primitive.div>;
@@ -25,7 +26,7 @@ const MeterIndicator = forwardRef<MeterIndicatorElement, MeterIndicatorProps>(
             <Primitive.div
                 className={clsx(rootClass && `${rootClass}-indicator`, className)}
                 style={{ transform: `translateX(-${100 - percentage}%)`, ...style }}
-                data-state={state}
+                {...stateData(state)}
                 data-value={value}
                 data-min={minValue}
                 data-max={maxValue}

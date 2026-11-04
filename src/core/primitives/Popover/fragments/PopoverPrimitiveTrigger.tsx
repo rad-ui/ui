@@ -6,6 +6,7 @@ import { PopoverPrimitiveContext } from '../context/PopoverPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type PopoverPrimitiveTriggerProps = React.ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     asChild?: boolean;
@@ -60,7 +61,7 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
                 disabled={disabled}
                 aria-haspopup="dialog"
                 aria-expanded={open}
-                data-state={open ? 'open' : 'closed'}
+                {...stateData(open ? 'open' : 'closed')}
                 data-disabled={disabled ? '' : undefined}
                 {...props}
                 onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,7 +84,7 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
             aria-haspopup="dialog"
             aria-expanded={isOpen}
             aria-controls={contentId || undefined}
-            data-state={isOpen ? 'open' : 'closed'}
+            {...stateData(isOpen ? 'open' : 'closed')}
             data-disabled={disabled ? '' : undefined}
             {...getReferenceProps({
                 ...props,

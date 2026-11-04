@@ -15,6 +15,7 @@ import { createFilter } from '~/core/utils/filter';
 import { FinalFocus, focusFinal } from '~/core/utils/focusTarget';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const noop = () => {};
 
@@ -726,7 +727,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
                 {...props}
                 className={className}
                 ref={Floater.useMergeRefs([rootRef, forwardedRef])}
-                data-state={isOpen ? 'open' : 'closed'}
+                {...stateData(isOpen ? 'open' : 'closed')}
                 data-disabled={disabled ? '' : undefined}
                 data-readonly={readOnly ? '' : undefined}
             >

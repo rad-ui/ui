@@ -14,6 +14,7 @@ import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
 import { useFieldControlProps, useFieldInteraction } from '~/components/ui/Field/contexts/FieldContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 const COMPONENT_NAME = 'Switch';
 
@@ -116,7 +117,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         ...field.stateAttributes,
         ...composedAttributes,
         'data-slot': 'switch-root',
-        'data-state': isChecked ? 'checked' : 'unchecked',
+        ...stateData(isChecked ? 'checked' : 'unchecked'),
         'data-disabled': disabled ? '' : undefined,
         role: 'switch',
         'aria-checked': isChecked,

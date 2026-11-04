@@ -4,6 +4,7 @@ import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useContext } f
 import { ScrollAreaContext } from '../context/ScrollAreaContext';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type ScrollAreaCornerElement = ElementRef<typeof Primitive.div>;
 export type ScrollAreaCornerProps = ComponentPropsWithoutRef<typeof Primitive.div>;
@@ -17,7 +18,7 @@ const ScrollAreaCorner = forwardRef<ScrollAreaCornerElement, ScrollAreaCornerPro
             {...props}
             ref={ref}
             className={clsx(rootClass && `${rootClass}-corner`, className)}
-            data-state={isActive ? 'visible' : 'hidden'}
+            {...stateData(isActive ? 'visible' : 'hidden')}
             style={{ ...style, ...(isActive ? null : { display: 'none' }) }}
         >
             {children}

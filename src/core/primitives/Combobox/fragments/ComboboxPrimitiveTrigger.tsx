@@ -5,6 +5,7 @@ import Floater from '../../Floater';
 import Primitive from '../../Primitive';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { COMBOBOX_VALUE_PART } from './ComboboxPrimitiveValue';
+import { stateData } from '~/core/utils/stateAttributes';
 
 // True when a Value part sits anywhere in the trigger's children.
 const containsValuePart = (node: React.ReactNode): boolean => React.Children.toArray(node).some((child) => {
@@ -45,7 +46,7 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             type={asChild ? undefined : 'button'}
             className={className}
             aria-expanded={isOpen}
-            data-state={isOpen ? 'open' : 'closed'}
+            {...stateData(isOpen ? 'open' : 'closed')}
             aria-disabled={isDisabled ? true : ariaDisabled}
             disabled={isDisabled ? true : undefined}
             data-disabled={isDisabled ? '' : undefined}

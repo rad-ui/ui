@@ -2,6 +2,7 @@ import React, { useId } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import { CollapsiblePrimitiveContext } from '../contexts/CollapsiblePrimitiveContext';
 import useControllableState from '~/core/hooks/useControllableState';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type CollapsiblePrimitiveRootElement = React.ElementRef<typeof Primitive.div>;
 export type CollapsiblePrimitiveRootProps =
@@ -73,7 +74,7 @@ const CollapsiblePrimitiveRoot = React.forwardRef<
             <Primitive.div
                 {...props}
                 ref={forwardedRef}
-                data-state={isOpen ? 'open' : 'closed'}
+                {...stateData(isOpen ? 'open' : 'closed')}
                 data-disabled={disabled ? '' : undefined}
             >
                 {children}

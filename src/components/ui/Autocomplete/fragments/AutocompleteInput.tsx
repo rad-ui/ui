@@ -5,6 +5,7 @@ import Primitive from '~/core/primitives/Primitive';
 import Floater from '~/core/primitives/Floater';
 import { ComboboxPrimitiveContext } from '~/core/primitives/Combobox/contexts/ComboboxPrimitiveContext';
 import { AutocompleteRootContext } from '../contexts/AutocompleteRootContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 type AutocompleteInputElement = React.ElementRef<typeof Primitive.input>;
 export type AutocompleteInputProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.input>, 'value' | 'defaultValue'>;
@@ -107,7 +108,7 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
             aria-autocomplete="list"
             aria-expanded={isOpen}
             aria-activedescendant={activeId}
-            data-state={isOpen ? 'open' : 'closed'}
+            {...stateData(isOpen ? 'open' : 'closed')}
             data-disabled={disabled ? '' : undefined}
             data-slot="autocomplete-input"
         />

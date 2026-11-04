@@ -4,6 +4,7 @@ import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     children: React.ReactNode;
@@ -141,7 +142,7 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
                 'aria-hidden': !isOpen ? 'true' : undefined,
                 'aria-labelledby': isOpen ? ariaLabelledBy : undefined,
                 'aria-describedby': isOpen ? ariaDescribedBy : undefined,
-                'data-state': dataState,
+                ...stateData(dataState),
                 ...getTransitionAttributes(transition.status),
                 'aria-modal': ariaModal
             })}

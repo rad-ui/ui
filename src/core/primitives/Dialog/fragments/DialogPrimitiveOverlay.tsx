@@ -3,6 +3,7 @@ import React, { forwardRef, useContext } from 'react';
 import Floater from '~/core/primitives/Floater';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type DialogPrimitiveOverlayProps = React.ComponentPropsWithoutRef<typeof Floater.Overlay> & {
     asChild?: boolean;
@@ -41,7 +42,7 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
 
                         handleOverlayClick();
                     }}
-                    data-state={dataState}
+                    {...stateData(dataState)}
                     {...getTransitionAttributes(transition.status)}
                     {...props}
                     style={blocksPage ? props.style : { ...props.style, pointerEvents: 'none' }}

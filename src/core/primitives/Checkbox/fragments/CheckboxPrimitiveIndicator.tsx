@@ -2,6 +2,7 @@
 
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type CheckboxPrimitiveIndicatorElement = ElementRef<'span'>;
 export type CheckboxPrimitiveIndicatorProps = ComponentPropsWithoutRef<'span'> & {
@@ -18,7 +19,7 @@ const CheckboxPrimitiveIndicator = forwardRef<CheckboxPrimitiveIndicatorElement,
         ref={ref}
         {...props}
         className={className}
-        data-state={isIndeterminate ? 'indeterminate' : 'checked'}
+        {...stateData(isIndeterminate ? 'indeterminate' : 'checked')}
         data-disabled={disabled ? '' : undefined}
     >{children}</span>;
 });

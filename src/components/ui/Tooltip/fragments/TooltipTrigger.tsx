@@ -6,6 +6,7 @@ import { useMergeRefs } from '@floating-ui/react';
 import { getElementRef } from '~/core/utils/mergeProps';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { tooltipHandleIds } from '../context/tooltipHandleIds';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type TooltipTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
 
@@ -51,7 +52,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
                     asChild={asChild}
                     ref={detachedRef}
                     data-slot="tooltip-trigger"
-                    data-state={active ? 'open' : 'closed'}
+                    {...stateData(active ? 'open' : 'closed')}
                     aria-describedby={active ? tooltipHandleIds.get(handle) : undefined}
                     {...rest}
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -102,7 +103,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
                 asChild={asChild}
                 ref={mergedRef}
                 data-slot="tooltip-trigger"
-                data-state={isOpen ? 'open' : 'closed'}
+                {...stateData(isOpen ? 'open' : 'closed')}
                 {...triggerProps}
                 onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     onClick?.(event);

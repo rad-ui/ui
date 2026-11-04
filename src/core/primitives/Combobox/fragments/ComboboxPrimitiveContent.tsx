@@ -6,6 +6,7 @@ import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
 import { ComboboxPrimitivePortalContext } from '../contexts/ComboboxPrimitivePortalContext';
 import { getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import { toReturnFocus } from '~/core/utils/focusTarget';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type ComboboxPrimitiveContentProps = {
     children: React.ReactNode;
@@ -121,7 +122,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
                 : style?.pointerEvents
         },
         dir,
-        'data-state': isOpen ? 'open' : 'closed',
+        ...stateData(isOpen ? 'open' : 'closed'),
         'data-side': placementState.side,
         'data-align': placementState.align,
         'data-positioned': isPositioned ? '' : undefined

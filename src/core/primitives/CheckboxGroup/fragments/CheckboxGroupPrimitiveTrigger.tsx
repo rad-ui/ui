@@ -4,6 +4,7 @@ import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveCont
 import CheckboxGroupPrimitiveTriggerContext from '../context/CheckboxGroupPrimitiveTriggerContext';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type CheckboxGroupPrimitiveTriggerElement = ElementRef<'button'>;
 export type CheckboxGroupPrimitiveTriggerProps = {
@@ -79,7 +80,7 @@ const CheckboxGroupPrimitiveTrigger = forwardRef<CheckboxGroupPrimitiveTriggerEl
                     aria-disabled={isDisabled || undefined}
                     disabled={isDisabled}
                     {...triggerProps}
-                    data-state={isIndeterminate ? 'indeterminate' : isChecked ? 'checked' : 'unchecked'}
+                    {...stateData(isIndeterminate ? 'indeterminate' : isChecked ? 'checked' : 'unchecked')}
                     data-parent={parent ? '' : undefined}
                 >
                     <button type="button" disabled={isDisabled}>

@@ -3,6 +3,7 @@ import { DisclosureContext, DisclosureItemValue } from '../contexts/DisclosureCo
 import { DisclosureItemContext } from '../contexts/DisclosureItemContext';
 import clsx from 'clsx';
 import CollapsiblePrimitive from '~/core/primitives/Collapsible';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type DisclosureItemProps = React.ComponentPropsWithoutRef<'div'> & {
     value: DisclosureItemValue;
@@ -37,7 +38,7 @@ const DisclosureItem = React.forwardRef<React.ElementRef<'div'>, DisclosureItemP
                     {...props}
                     className={clsx(rootClass && `${rootClass}-item`, className)}
                     ref={forwardedRef}
-                    data-state={isOpen ? 'open' : 'closed'}
+                    {...stateData(isOpen ? 'open' : 'closed')}
                     data-slot="disclosure-item"
                 >
                     {children}

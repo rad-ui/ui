@@ -11,6 +11,7 @@ import { getAxisForSide } from '../utils/drawerMath';
 import { DialogPrimitiveContext } from '~/core/primitives/Dialog/context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
+import { stateData } from '~/core/utils/stateAttributes';
 
 // ~0.5s at 60fps: upper bound on waiting for the popup to become visible.
 const FOCUS_READY_MAX_FRAMES = 30;
@@ -285,7 +286,7 @@ const DrawerContent = forwardRef<DrawerContentElement, DrawerContentProps>(({
                     aria-hidden={!isOpen ? 'true' : undefined}
                     aria-labelledby={isOpen ? resolvedLabelledBy : undefined}
                     aria-describedby={isOpen ? resolvedDescribedBy : undefined}
-                    data-state={dataState}
+                    {...stateData(dataState)}
                     data-swipe-direction={side}
                     data-swiping={swiping ? 'true' : undefined}
                     data-snapping={isSnapping ? 'true' : undefined}

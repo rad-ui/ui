@@ -3,6 +3,7 @@ import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import ButtonPrimitive from '../../Button';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveTriggerProps = {
     children: React.ReactNode
@@ -40,7 +41,7 @@ const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerP
                     asChild={asChild}
                     aria-haspopup="menu"
                     aria-expanded={open}
-                    data-state={open ? 'open' : 'closed'}
+                    {...stateData(open ? 'open' : 'closed')}
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                         onClick?.(event);
                         if (event.defaultPrevented) return;
@@ -71,7 +72,7 @@ const MenuPrimitiveTrigger = forwardRef<HTMLButtonElement, MenuPrimitiveTriggerP
                 {...(getReferenceProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
                     ...props,
                     className,
-                    'data-state': isOpen ? 'open' : 'closed',
+                    ...stateData(isOpen ? 'open' : 'closed'),
                     // useRole marks any trigger with a floating parent as a menuitem;
                     // only submenu triggers should be menuitems.
                     role: props.role ?? (isNested ? 'menuitem' : undefined),
