@@ -103,6 +103,21 @@ import Theme from '@radui/ui/Theme'
 
 Rad UI should not force a specific CSS framework. Tailwind, CSS Modules, SCSS, and CSS-in-JS are all valid as long as they target public hooks.
 
+## Overriding the default theme with Tailwind
+
+The default theme's CSS isn't in a cascade layer. Unlayered CSS beats every layered rule whatever its specificity, and Tailwind v4 puts its utilities in a layer, so a class like `text-2xl` on a `Heading` loses to the theme's own font size.
+
+To let utilities win, import the theme into a layer of its own and place that layer between Tailwind's reset and its utilities:
+
+```css
+/* globals.css */
+@layer theme, base, radui, components, utilities;
+@import "@radui/ui/themes/default.css" layer(radui);
+@import "tailwindcss";
+```
+
+The first line fixes the order of the layers. Rad UI's styles still beat Tailwind's reset (`base`), so buttons keep their look, and your utilities beat Rad UI's styles. The layer statement has to come first: if Tailwind declares its layers before `radui` exists, `radui` ends up last and wins again.
+
 ## Customization decision tree
 
 1. Need one-off spacing or layout? → `className` on the relevant part.
