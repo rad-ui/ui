@@ -114,7 +114,7 @@ describe('Tooltip options', () => {
                 <Tooltip.Content anchor={() => anchor()} collisionAvoidance={{ side: 'none' }}>Tip</Tooltip.Content>
             </Tooltip.Root>
         );
-        await act(async() => { await new Promise(r => setTimeout(r, 30)); });
+        await act(async() => { await new Promise(resolve => setTimeout(resolve, 30)); });
         expect(content()).not.toBeNull();
         expect(anchor.mock.calls.length).toBeLessThan(20);
     });

@@ -24,7 +24,7 @@ describe('Popover positioning and trigger options', () => {
                 <Popover.Content anchor={() => anchor} collisionAvoidance={{ side: 'flip' }} sticky>Body</Popover.Content>
             </Popover.Root>
         );
-        await act(async() => { await new Promise(r => setTimeout(r, 30)); });
+        await act(async() => { await new Promise(resolve => setTimeout(resolve, 30)); });
         expect(screen.getByText('Body')).toBeInTheDocument();
     });
 
