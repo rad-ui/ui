@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useFilter } from '~/core/hooks/useFilter';
 import ComboboxContent from './fragments/ComboboxContent';
 import ComboboxItem from './fragments/ComboboxItem';
 import ComboboxTrigger from './fragments/ComboboxTrigger';
@@ -23,6 +24,8 @@ const ComboboxBase = React.forwardRef<unknown, Record<string, never>>((_props, _
 ComboboxBase.displayName = 'Combobox';
 
 interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAttributes<unknown>> {
+    /** Text matchers for a custom `filter`: `contains`, `startsWith`, `endsWith`. */
+    useFilter: typeof useFilter;
     Root: typeof ComboboxRoot;
     Content: typeof ComboboxContent;
     Item: typeof ComboboxItem;
@@ -42,6 +45,7 @@ interface ComboboxComponent extends React.ForwardRefExoticComponent<React.RefAtt
 const Combobox = ComboboxBase as ComboboxComponent;
 
 Combobox.Root = ComboboxRoot;
+Combobox.useFilter = useFilter;
 Combobox.Content = ComboboxContent;
 Combobox.Item = ComboboxItem;
 Combobox.Trigger = ComboboxTrigger;

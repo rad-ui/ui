@@ -10,8 +10,8 @@ type AutocompleteInputElement = React.ElementRef<typeof Primitive.input>;
 export type AutocompleteInputProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.input>, 'value' | 'defaultValue'>;
 
 /** The text input. Typing opens the suggestions; ArrowDown/ArrowUp move through them and Enter picks one. */
-const AutocompleteInput = React.forwardRef<AutocompleteInputElement, AutocompleteInputProps>(({ className, onChange, onKeyDown, onBlur, disabled: disabledProp, ...props }, forwardedRef) => {
-    const { rootClass } = useContext(AutocompleteRootContext);
+const AutocompleteInput = React.forwardRef<AutocompleteInputElement, AutocompleteInputProps>(({ className, onChange, onKeyDown, onBlur, onClick, disabled: disabledProp, ...props }, forwardedRef) => {
+    const { rootClass, autoHighlight = false, openOnInputClick = false, mode = 'list' } = useContext(AutocompleteRootContext);
     const {
         refs,
         isOpen,
@@ -42,18 +42,36 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
         };
     }, [setHasSearch, setReferenceIsInput]);
 
-    // Highlight the first visible suggestion as the text narrows the list.
+    // With autoHighlight, highlight the first visible suggestion as the text narrows the list
+    // ('always': also with no text). Otherwise nothing is highlighted until the arrow keys move.
     React.useEffect(() => {
         if (!isOpen) return;
+        if (!autoHighlight || (autoHighlight !== 'always' && !search)) {
+            setActiveIndex(null);
+            return;
+        }
         const unavailable = new Set([...hiddenIndices, ...disabledIndices]);
         const firstAvailable = elementsRef.current.findIndex((element, index) => element != null && !unavailable.has(index));
         setActiveIndex(firstAvailable === -1 ? null : firstAvailable);
-    }, [isOpen, search, hiddenIndices, disabledIndices, elementsRef, setActiveIndex]);
+    }, [isOpen, search, hiddenIndices, disabledIndices, elementsRef, setActiveIndex, autoHighlight]);
+
+    // `both` / `inline`: the highlighted suggestion previews in the input without changing the text.
+    const previewsInline = mode === 'both' || mode === 'inline';
+    const highlightedLabel = previewsInline && isOpen && activeIndex !== null
+        ? elementsRef.current[activeIndex]?.getAttribute('data-label') || elementsRef.current[activeIndex]?.textContent || null
+        : null;
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+    const pick = (index: number) => handleSelect(index);
 
     const referenceProps = getReferenceProps({
         ...props,
-        value: search,
+        value: highlightedLabel ?? search,
         disabled,
+        onClick: (event: React.MouseEvent<HTMLInputElement>) => {
+            onClick?.(event);
+            if (openOnInputClick && !isOpen && !disabled) setIsOpen(true);
+        },
         onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
             onChange?.(event);
             setSearch(event.target.value);
@@ -71,7 +89,7 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
             if (event.defaultPrevented) return;
             if (event.key === 'Enter' && isOpen && activeIndex !== null) {
                 event.preventDefault();
-                handleSelect(activeIndex);
+                pick(activeIndex);
             }
         }
     }) as Record<string, unknown>;
@@ -83,7 +101,7 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
             type="text"
             autoComplete="off"
             className={clsx(rootClass ? `${rootClass}-input` : undefined, className) || undefined}
-            ref={Floater.useMergeRefs([refs.setReference, forwardedRef])}
+            ref={Floater.useMergeRefs([refs.setReference, forwardedRef, inputRef])}
             {...referenceProps}
             role="combobox"
             aria-autocomplete="list"

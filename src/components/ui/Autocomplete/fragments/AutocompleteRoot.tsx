@@ -4,7 +4,7 @@ import React from 'react';
 import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { useControllableState } from '~/core/hooks/useControllableState';
-import { AutocompleteRootContext } from '../contexts/AutocompleteRootContext';
+import { AutocompleteMode, AutocompleteRootContext } from '../contexts/AutocompleteRootContext';
 
 const COMPONENT_NAME = 'Autocomplete';
 
@@ -20,6 +20,22 @@ export type AutocompleteRootProps = Omit<
     /** Called with the input text as the user types or picks a suggestion. */
     onValueChange?: (value: string) => void;
     customRootClass?: string;
+    /**
+     * Highlight the first suggestion as you type, so Enter picks it. `'always'` also highlights
+     * it when the list opens with no text. Defaults to false: Enter keeps what you typed.
+     */
+    autoHighlight?: boolean | 'always';
+    /** Open the suggestions when the input is clicked. Defaults to false. */
+    openOnInputClick?: boolean;
+    /** Submit the input's form when a suggestion is picked. Defaults to false. */
+    submitOnItemClick?: boolean;
+    /**
+     * - `list` (default): suggestions are filtered by the text.
+     * - `both`: filtered, and the highlighted suggestion previews in the input.
+     * - `inline`: not filtered; the highlighted suggestion previews in the input.
+     * - `none`: not filtered and no preview, for lists you filter yourself.
+     */
+    mode?: AutocompleteMode;
 };
 
 /**
@@ -27,23 +43,36 @@ export type AutocompleteRootProps = Omit<
  * whatever the user types; picking a suggestion fills it in.
  */
 const AutocompleteRoot = React.forwardRef<AutocompleteRootElement, AutocompleteRootProps>(
-    ({ customRootClass, children, className, value, defaultValue = '', onValueChange, sideOffset = 4, ...props }, forwardedRef) => {
+    ({ customRootClass, children, className, value, defaultValue = '', onValueChange, sideOffset = 4, autoHighlight = false, openOnInputClick = false, submitOnItemClick = false, mode = 'list', filter, ...props }, forwardedRef) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
         const [text, setText] = useControllableState<string>(value, defaultValue, onValueChange);
+        const rootRef = React.useRef<HTMLDivElement | null>(null);
+        const mergedRef = React.useCallback((node: HTMLDivElement | null) => {
+            rootRef.current = node;
+            if (typeof forwardedRef === 'function') forwardedRef(node);
+            else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }, [forwardedRef]);
 
         return (
-            <AutocompleteRootContext.Provider value={{ rootClass }}>
+            <AutocompleteRootContext.Provider value={{ rootClass, autoHighlight, openOnInputClick, submitOnItemClick, mode }}>
                 <ComboboxPrimitive.Root
                     className={clsx(rootClass ? `${rootClass}-root` : undefined, className) || undefined}
                     data-slot="autocomplete-root"
                     // Suggestions fill the text instead of becoming a selected value.
                     value=""
-                    onValueChange={(picked: string) => setText(picked)}
+                    onValueChange={(picked: string) => {
+                        setText(picked);
+                        if (submitOnItemClick) {
+                            // After the picked text renders, so the form submits it.
+                            setTimeout(() => rootRef.current?.querySelector('input')?.form?.requestSubmit(), 0);
+                        }
+                    }}
                     inputValue={text}
                     onInputValueChange={setText}
                     sideOffset={sideOffset}
                     matchReferenceWidth
-                    ref={forwardedRef}
+                    filter={mode === 'inline' || mode === 'none' ? null : filter}
+                    ref={mergedRef}
                     {...props}
                 >
                     {children}

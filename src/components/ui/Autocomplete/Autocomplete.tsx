@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useFilter } from '~/core/hooks/useFilter';
 import AutocompleteRoot from './fragments/AutocompleteRoot';
 import AutocompleteInput from './fragments/AutocompleteInput';
 import AutocompleteContent from './fragments/AutocompleteContent';
@@ -17,6 +18,8 @@ const AutocompleteBase = React.forwardRef<unknown, Record<string, never>>((_prop
 AutocompleteBase.displayName = 'Autocomplete';
 
 interface AutocompleteComponent extends React.ForwardRefExoticComponent<React.RefAttributes<unknown>> {
+    /** Text matchers for a custom `filter`: `contains`, `startsWith`, `endsWith`. */
+    useFilter: typeof useFilter;
     Root: typeof AutocompleteRoot;
     Input: typeof AutocompleteInput;
     Content: typeof AutocompleteContent;
@@ -30,6 +33,7 @@ interface AutocompleteComponent extends React.ForwardRefExoticComponent<React.Re
 const Autocomplete = AutocompleteBase as AutocompleteComponent;
 
 Autocomplete.Root = AutocompleteRoot;
+Autocomplete.useFilter = useFilter;
 Autocomplete.Input = AutocompleteInput;
 Autocomplete.Content = AutocompleteContent;
 Autocomplete.Item = AutocompleteItem;

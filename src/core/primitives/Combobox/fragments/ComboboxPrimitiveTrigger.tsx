@@ -29,7 +29,7 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
     React.ElementRef<typeof Primitive.button>,
     ComboboxPrimitiveTriggerProps & React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(({ children, className, disabled, asChild, onClick, renderValue, 'aria-disabled': ariaDisabled, 'data-placeholder': dataPlaceholder, ...props }, forwardedRef) => {
-    const { isOpen, selectedLabel, selectedValue, refs, getReferenceProps, disabled: rootDisabled, multiple, selectedValues, selectedLabels } = useContext(ComboboxPrimitiveContext);
+    const { isOpen, selectedLabel, selectedValue, refs, getReferenceProps, disabled: rootDisabled, multiple, selectedValues, selectedLabels, readOnly } = useContext(ComboboxPrimitiveContext);
     const isDisabled = Boolean(disabled || rootDisabled);
 
     const handleClick = composeEventHandlers(onClick);
@@ -49,6 +49,8 @@ const ComboboxPrimitiveTrigger = React.forwardRef<
             aria-disabled={isDisabled ? true : ariaDisabled}
             disabled={isDisabled ? true : undefined}
             data-disabled={isDisabled ? '' : undefined}
+            aria-readonly={readOnly || undefined}
+            data-readonly={readOnly ? '' : undefined}
             // Placeholder styling applies whenever no value is selected unless the consumer says otherwise.
             data-placeholder={dataPlaceholder ?? (hasSelectedValue ? undefined : '')}
             ref={Floater.useMergeRefs([refs.setReference, forwardedRef])}
