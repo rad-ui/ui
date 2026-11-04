@@ -80,3 +80,23 @@ describe('DropdownMenu options', () => {
         await waitFor(() => expect(`${menu.style.left} ${menu.style.top}`).toMatch(/250px/));
     });
 });
+
+describe('DropdownMenu.Arrow', () => {
+    test('renders a positioned arrow inside the menu', async() => {
+        render(
+            <DropdownMenu.Root open>
+                <DropdownMenu.Trigger>Options</DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                    <DropdownMenu.Arrow />
+                    <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
+                </DropdownMenu.Content>
+            </DropdownMenu.Root>
+        );
+        const menu = screen.getByRole('menu');
+        const arrow = menu.querySelector('[data-slot="dropdown-menu-arrow"]') as SVGElement;
+        expect(arrow).toBeInTheDocument();
+        expect(arrow).toHaveAttribute('aria-hidden', 'true');
+        // jsdom has no layout; the arrow middleware still places it.
+        await waitFor(() => expect(arrow.style.position).toBe('absolute'));
+    });
+});

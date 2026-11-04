@@ -13,6 +13,7 @@ import MenubarRadioItem from './fragments/MenubarRadioItem';
 import MenubarItemIndicator from './fragments/MenubarItemIndicator';
 import MenubarGroup from './fragments/MenubarGroup';
 import MenubarGroupLabel from './fragments/MenubarGroupLabel';
+import MenubarArrow from './fragments/MenubarArrow';
 
 const Menubar = () => {
     console.warn('Direct usage of Menubar is not supported. Please use Menubar.Root, Menubar.Item instead.');
@@ -34,6 +35,7 @@ Menubar.RadioItem = MenubarRadioItem;
 Menubar.ItemIndicator = MenubarItemIndicator;
 Menubar.Group = MenubarGroup;
 Menubar.GroupLabel = MenubarGroupLabel;
+Menubar.Arrow = MenubarArrow;
 
 export type { MenubarRootProps } from './fragments/MenubarRoot';
 export type { MenubarMenuProps } from './fragments/MenubarMenu';
@@ -50,6 +52,7 @@ export type { MenubarRadioItemProps } from './fragments/MenubarRadioItem';
 export type { MenubarItemIndicatorProps } from './fragments/MenubarItemIndicator';
 export type { MenubarGroupProps } from './fragments/MenubarGroup';
 export type { MenubarGroupLabelProps } from './fragments/MenubarGroupLabel';
+export type { MenubarArrowProps } from './fragments/MenubarArrow';
 // Named part exports let React Server Components use `import * as Menubar from '@radui/ui/Menubar'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -67,7 +70,8 @@ export {
     MenubarRadioItem as RadioItem,
     MenubarItemIndicator as ItemIndicator,
     MenubarGroup as Group,
-    MenubarGroupLabel as GroupLabel
+    MenubarGroupLabel as GroupLabel,
+    MenubarArrow as Arrow
 };
 
 export default Menubar;

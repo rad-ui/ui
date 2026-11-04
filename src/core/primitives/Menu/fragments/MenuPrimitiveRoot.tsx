@@ -124,6 +124,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
+    const [arrowNode, setArrowNode] = useState<SVGSVGElement | null>(null);
 
     const listRef = useRef([]);
     const elementsRef = useRef([]);
@@ -181,7 +182,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         placement: isNested ? (isRtl ? 'left-start' : 'right-start') : requestedPlacement,
         middleware: [
             Floater.offset({
-                mainAxis: effectiveMainAxisOffset,
+                // Room for Menu.Arrow when there is one.
+                mainAxis: effectiveMainAxisOffset + (arrowNode ? 5 : 0),
                 crossAxis: effectiveCrossAxisOffset
             }),
             ...(collisionAvoidance
@@ -204,6 +206,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
                     elements.floating.style.maxHeight = `${availableHeight}px`;
                 },
             })] : []),
+            ...(arrowNode ? [Floater.arrow({ element: arrowNode, padding: 4 })] : []),
         ],
         whileElementsMounted: anchorTracking(disableAnchorTracking)
     });
@@ -289,7 +292,8 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         rtl: isRtl,
         dir: direction,
         getRootTrigger,
-        modal: modal && !isNested
+        modal: modal && !isNested,
+        setArrowNode
     };
     // A handle lets detached triggers open this menu and anchor it.
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
