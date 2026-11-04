@@ -39,7 +39,7 @@ import ButtonColor from './examples/ButtonColor';
   </Documentation.ComponentHero>
 
   <Documentation.Section title="As a link">
-    Use `asChild` to give a link (an `<a href>`, or your router's `Link`) the button's look.
+    Use `asChild` to give a link (an `<a href>`, or your router's `Link`) the button's look. It stays a link: no `role="button"` or `type`, Enter follows it, and it keeps its place in the screen reader's links list. For other children, `asChild` hands the button's semantics to your element; see [asChild hands over semantics](/docs/guides/composition-recipes#aschild-hands-over-semantics).
     <Documentation.CodeBlock language="tsx">
       {linkCode}
     </Documentation.CodeBlock>

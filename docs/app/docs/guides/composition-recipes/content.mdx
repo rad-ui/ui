@@ -142,6 +142,16 @@ One Root serves every row, and focus returns to the row's button on close. Popov
 
 Use accordion for FAQ-style content inside a card shell. Avoid nesting multiple roving-focus containers (menus inside accordion headers) without testing keyboard order.
 
+## asChild hands over semantics
+
+`asChild` renders a part as your own element instead of its default one: a Trigger around your button component, a Field.Control on a TextArea. It's how you compose without the library anticipating every combination.
+
+The trade-off: **the part's behaviour and ARIA move onto your child.** A `Dialog.Trigger asChild` makes your element the dialog's trigger (`aria-haspopup`, `aria-expanded`, click to open); a `Button asChild` around a `<span>` gives it `role="button"`, focus and Enter/Space activation. Rad UI doesn't second-guess the element you pass, so check the result:
+
+- Use `asChild` to put a part's behaviour on an element that should have that role.
+- Don't use it to borrow a part's *look* for an element with a different role. A link that looks like a button should stay a link; `Button asChild` around an `<a href>` (or a router `Link`) keeps link semantics for exactly this reason.
+- When `asChild` changes the element type, check the accessibility tree or a screen reader.
+
 ## Recipe checklist
 
 - [ ] Named which component owns open/selected/value state
