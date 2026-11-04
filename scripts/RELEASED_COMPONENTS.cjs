@@ -53,6 +53,7 @@ const RELEASED_COMPONENTS = [
     'Fieldset',
     'Form',
     'HoverCard',
+    'Menu',
     'Menubar',
     'Meter',
     'Minimap',

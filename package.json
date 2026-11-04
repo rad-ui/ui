@@ -198,6 +198,11 @@
       "require": "./dist/components/LiveRegion.cjs",
       "types": "./dist/components/LiveRegion.d.ts"
     },
+    "./Menu": {
+      "import": "./dist/components/Menu.js",
+      "require": "./dist/components/Menu.cjs",
+      "types": "./dist/components/Menu.d.ts"
+    },
     "./Menubar": {
       "import": "./dist/components/Menubar.js",
       "require": "./dist/components/Menubar.cjs",

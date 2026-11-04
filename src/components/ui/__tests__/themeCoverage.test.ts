@@ -35,6 +35,7 @@ describe('theme SCSS coverage', () => {
             'AspectRatio',
             'DirectionProvider',
             'LiveRegion',
+            'Menu',
             'Slot',
             'Theme',
             'VisuallyHidden'
