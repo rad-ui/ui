@@ -47,9 +47,12 @@ export type FieldContextValue = {
     touched: boolean;
     dirty: boolean;
     focused: boolean;
+    /** The control holds a value: non-empty text, a checked box or a picked option. */
+    filled: boolean;
     setTouched: (touched: boolean) => void;
     setDirty: (dirty: boolean) => void;
     setFocused: (focused: boolean) => void;
+    setFilled: (filled: boolean) => void;
     /** Latest validation result, checked silently on every change. */
     validity: FieldValidityData;
     /** True once the result should be shown (after blur, change or submit, per `validationMode`). */
@@ -79,6 +82,45 @@ export const useFieldContext = (part: string): FieldContextValue => {
         throw new Error(`Field.${part} must be rendered inside Field.Root.`);
     }
     return context;
+};
+
+const sameValue = (a: unknown, b: unknown) =>
+    Object.is(a, b) || (Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((item, index) => Object.is(item, b[index])));
+
+/**
+ * For Rad UI controls other than Field.Control (Checkbox, Switch, Select, NumberField):
+ * reports focus, blur, edits and whether the control is filled to the surrounding
+ * Field, so `data-focused`, `data-touched`, `data-dirty` and `data-filled` follow it.
+ * Spread `stateAttributes` on the control and call the handlers from its own.
+ * Outside a Field it does nothing.
+ */
+export const useFieldInteraction = (value: unknown, filled: boolean) => {
+    const field = React.useContext(FieldContext);
+    const setFilled = field?.setFilled;
+    const setDirty = field?.setDirty;
+    const setFocused = field?.setFocused;
+    const setTouched = field?.setTouched;
+    const initialRef = React.useRef(value);
+    const lastRef = React.useRef(value);
+
+    useLayoutEffect(() => {
+        setFilled?.(filled);
+    }, [setFilled, filled]);
+
+    React.useEffect(() => {
+        if (sameValue(lastRef.current, value)) return;
+        lastRef.current = value;
+        // Back at the starting value (a reset) clears dirty; any other edit sets it.
+        setDirty?.(!sameValue(initialRef.current, value));
+    }, [setDirty, value]);
+
+    const onFocus = React.useCallback(() => setFocused?.(true), [setFocused]);
+    const onBlur = React.useCallback(() => {
+        setFocused?.(false);
+        setTouched?.(true);
+    }, [setFocused, setTouched]);
+
+    return { stateAttributes: field?.stateAttributes ?? null, onFocus, onBlur };
 };
 
 export const useFieldDescription = (id: string, kind: FieldDescriptionKind) => {

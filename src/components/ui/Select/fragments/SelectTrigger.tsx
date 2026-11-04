@@ -5,6 +5,7 @@ import ComboboxPrimitive from '~/core/primitives/Combobox/ComboboxPrimitive';
 
 import { SelectRootContext } from '../contexts/SelectRootContext';
 import FieldContext from '~/components/ui/Field/contexts/FieldContext';
+import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 
 type SelectTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>;
 export type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
@@ -12,8 +13,8 @@ export type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxP
     placeholder?: boolean;
 };
 
-const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(({ customRootClass, children, className, disabled, placeholder, ...props }, forwardedRef) => {
-    const { rootClass, triggerId, labelId, hasLabel } = useContext(SelectRootContext);
+const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(({ customRootClass, children, className, disabled, placeholder, onFocus, onBlur, ...props }, forwardedRef) => {
+    const { rootClass, triggerId, labelId, hasLabel, onFieldFocus, onFieldBlur, fieldStateAttributes } = useContext(SelectRootContext);
     // Inside Field.Root, the trigger is the labelled control.
     const field = useContext(FieldContext);
     const fieldProps = field ? {
@@ -38,9 +39,12 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
             data-slot="select-trigger"
             disabled={isDisabled}
             ref={forwardedRef}
+            {...fieldStateAttributes}
             {...props}
             {...labelProps}
             {...fieldProps}
+            onFocus={composeEventHandlers(onFocus, onFieldFocus)}
+            onBlur={composeEventHandlers(onBlur, onFieldBlur)}
         >
 
             {children}

@@ -8,6 +8,11 @@ interface SelectRootContextType {
    labelId?: string;
    setHasLabel?: (hasLabel: boolean) => void;
    hasLabel?: boolean;
+   /** Inside Field.Root: report trigger focus and blur to the field. */
+   onFieldFocus?: () => void;
+   onFieldBlur?: () => void;
+   /** Inside Field.Root: the field's data-* state, for the trigger. */
+   fieldStateAttributes?: Record<string, string> | null;
 }
 
 export const SelectRootContext = React.createContext<SelectRootContextType>({

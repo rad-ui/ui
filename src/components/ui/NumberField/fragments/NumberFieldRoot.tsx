@@ -3,7 +3,7 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import NumberFieldContext, { NumberFieldContextType } from '../contexts/NumberFieldContext';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
-import FieldContext from '~/components/ui/Field/contexts/FieldContext';
+import FieldContext, { useFieldInteraction } from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'NumberField';
 
@@ -67,7 +67,7 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, onValueCommit, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, allowOutOfRange = false, snapOnStep = false, form, inputRef, id: idProp, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, onValueCommit, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, allowOutOfRange = false, snapOnStep = false, form, inputRef, id: idProp, className = '', onFocus, onBlur, ...props }, ref) => {
     // Inside Field.Root, the input takes the field's id, name and state.
     const field = React.useContext(FieldContext);
     const id = idProp ?? field?.controlId;
@@ -80,6 +80,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         value,
         defaultValue,
         onValueChange);
+    const fieldInteraction = useFieldInteraction(inputValue, inputValue !== '' && inputValue != null);
 
     const resolvedStep = isValidStep(step) ? step : 1;
     const resolvedLargeStep = isValidStep(largeStep) ? largeStep : resolvedStep * 10;
@@ -196,14 +197,25 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         allowWheelScrub,
         allowOutOfRange,
         form,
-        inputRef
+        inputRef,
+        fieldStateAttributes: fieldInteraction.stateAttributes
     };
 
     return (
         <div
             ref={ref}
             className={clsx(rootClass && `${rootClass}-root`, className)}
+            {...fieldInteraction.stateAttributes}
             {...props}
+            onFocus={(event) => {
+                onFocus?.(event);
+                fieldInteraction.onFocus();
+            }}
+            onBlur={(event) => {
+                onBlur?.(event);
+                // Moving between the input and the stepper buttons stays inside the field.
+                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) fieldInteraction.onBlur();
+            }}
             data-slot="number-field-root"
             data-disabled={disabled ? '' : undefined}
             data-readonly={readOnly ? '' : undefined}
