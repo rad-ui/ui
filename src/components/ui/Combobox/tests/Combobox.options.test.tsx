@@ -141,3 +141,38 @@ describe('Select form and state options', () => {
         await waitFor(() => expect(options[0]).toHaveFocus());
     });
 });
+
+describe('Combobox.Status', () => {
+    const WithStatus = ({ children }: { children?: React.ComponentProps<typeof Combobox.Status>['children'] }) => (
+        <Combobox.Root>
+            <Combobox.Trigger data-testid="trigger" />
+            <Combobox.Content>
+                <Combobox.Search data-testid="search" />
+                <Combobox.Status data-testid="status">{children}</Combobox.Status>
+                <Combobox.Item value="apple">Apple</Combobox.Item>
+                <Combobox.Item value="apricot">Apricot</Combobox.Item>
+                <Combobox.Item value="pear">Pear</Combobox.Item>
+            </Combobox.Content>
+        </Combobox.Root>
+    );
+
+    test('announces the match count as the user types, outside the listbox', () => {
+        render(<WithStatus />);
+        open();
+        const status = screen.getByTestId('status');
+        expect(status).toHaveAttribute('role', 'status');
+        expect(status).toHaveTextContent('');
+        type('ap');
+        expect(status).toHaveTextContent('2 results');
+        type('pea');
+        expect(status).toHaveTextContent('1 result');
+        expect(status.closest('[role="listbox"]')).toBeNull();
+    });
+
+    test('a function words the message', () => {
+        render(<WithStatus>{({ count, query }) => `${count} for “${query}”`}</WithStatus>);
+        open();
+        type('zz');
+        expect(screen.getByTestId('status')).toHaveTextContent('0 for “zz”');
+    });
+});

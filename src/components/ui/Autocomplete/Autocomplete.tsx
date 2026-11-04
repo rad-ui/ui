@@ -8,6 +8,7 @@ import AutocompleteItem from './fragments/AutocompleteItem';
 import AutocompleteGroup from './fragments/AutocompleteGroup';
 import AutocompletePortal from './fragments/AutocompletePortal';
 import AutocompleteEmpty from './fragments/AutocompleteEmpty';
+import AutocompleteStatus from './fragments/AutocompleteStatus';
 import AutocompleteClear from './fragments/AutocompleteClear';
 
 const AutocompleteBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
@@ -27,6 +28,7 @@ interface AutocompleteComponent extends React.ForwardRefExoticComponent<React.Re
     Group: typeof AutocompleteGroup;
     Portal: typeof AutocompletePortal;
     Empty: typeof AutocompleteEmpty;
+    Status: typeof AutocompleteStatus;
     Clear: typeof AutocompleteClear;
 }
 
@@ -40,11 +42,13 @@ Autocomplete.Item = AutocompleteItem;
 Autocomplete.Group = AutocompleteGroup;
 Autocomplete.Portal = AutocompletePortal;
 Autocomplete.Empty = AutocompleteEmpty;
+Autocomplete.Status = AutocompleteStatus;
 Autocomplete.Clear = AutocompleteClear;
 
 export type { AutocompleteRootProps } from './fragments/AutocompleteRoot';
 export type { AutocompleteInputProps } from './fragments/AutocompleteInput';
 export type { AutocompleteEmptyProps } from './fragments/AutocompleteEmpty';
+export type { AutocompleteStatusProps } from './fragments/AutocompleteStatus';
 export type { AutocompleteClearProps } from './fragments/AutocompleteClear';
 export type { AutocompleteContentProps } from './fragments/AutocompleteContent';
 export type { AutocompleteItemProps } from './fragments/AutocompleteItem';
@@ -58,6 +62,7 @@ export {
     AutocompleteGroup as Group,
     AutocompletePortal as Portal,
     AutocompleteEmpty as Empty,
+    AutocompleteStatus as Status,
     AutocompleteClear as Clear
 };
 
