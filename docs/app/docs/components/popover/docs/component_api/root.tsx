@@ -17,8 +17,16 @@ const data = {
         { prop: { name: "hoverOpenDelay", info_tooltips: "With openOnHover, ms before opening." }, type: "number", default: "300" },
         { prop: { name: "hoverCloseDelay", info_tooltips: "With openOnHover, ms after the pointer leaves before closing." }, type: "number", default: "0" },
         { prop: { name: "handle", info_tooltips: "Connects triggers rendered outside the Root, made with createHandle(). Children can then be a function of the opening trigger's payload." }, type: "Handle", default: "--" },
-        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" }
-    ]
+        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with close(), to close it from code (reason 'imperative-action')."
+      },
+      type: "Ref<{ close(): void }>",
+      default: "--",
+    }
+  ]
 }
 
 export default data

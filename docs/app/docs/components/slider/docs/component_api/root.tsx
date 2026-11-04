@@ -20,8 +20,48 @@ const data = {
         { prop: { name: "showStepMarks", info_tooltips: "Shows tick marks at each step." }, type: "boolean", default: "false" },
         { prop: { name: "formatValue", info_tooltips: "Custom formatter for displayed value." }, type: "function", default: "--" },
         { prop: { name: "onValueChange", info_tooltips: "Callback during drag." }, type: "function", default: "--" },
-        { prop: { name: "onValueCommit", info_tooltips: "Callback with the final value when a pointer drag ends or after each keyboard change." }, type: "function", default: "--" }
-    ]
+        { prop: { name: "onValueCommit", info_tooltips: "Callback with the final value when a pointer drag ends or after each keyboard change." }, type: "function", default: "--" },
+    {
+      prop: {
+        name: "thumbCollisionBehavior",
+        info_tooltips: "When a thumb meets another: none stops, push moves it along, swap passes it."
+      },
+      type: "\"none\" | \"push\" | \"swap\"",
+      default: "\"none\"",
+    },
+    {
+      prop: {
+        name: "format",
+        info_tooltips: "Number format for the value text."
+      },
+      type: "Intl.NumberFormatOptions",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "locale",
+        info_tooltips: "Locale for format."
+      },
+      type: "Intl.LocalesArgument",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "largeStep",
+        info_tooltips: "Step for Page Up / Page Down."
+      },
+      type: "number",
+      default: "step \u00d7 10",
+    },
+    {
+      prop: {
+        name: "form",
+        info_tooltips: "id of a form elsewhere in the page."
+      },
+      type: "string",
+      default: "--",
+    }
+  ]
 }
 
 export default data

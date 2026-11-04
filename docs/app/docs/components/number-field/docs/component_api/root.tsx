@@ -22,8 +22,40 @@ const data = {
         { prop: { name: "format", info_tooltips: "Intl.NumberFormat options, such as currency or percent. The input accepts formatted typing; the value stays a number (25% is 0.25)." }, type: "Intl.NumberFormatOptions", default: "--" },
         { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" },
         { prop: { name: "allowWheelScrub", info_tooltips: "While the input is focused, the mouse wheel steps the value (Shift uses largeStep, Alt uses smallStep)." }, type: "boolean", default: "false" },
-        { prop: { name: "onValueCommit", info_tooltips: "Called with the settled value, only when it changed: on blur or Enter after typing, when a held stepper button or scrub is released, and right away for keyboard steps." }, type: "(value: number | '') => void", default: "--" }
-    ]
+        { prop: { name: "onValueCommit", info_tooltips: "Called with the settled value, only when it changed: on blur or Enter after typing, when a held stepper button or scrub is released, and right away for keyboard steps." }, type: "(value: number | '') => void", default: "--" },
+    {
+      prop: {
+        name: "allowOutOfRange",
+        info_tooltips: "Keep typed values outside min/max instead of clamping on blur."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "snapOnStep",
+        info_tooltips: "Stepping first lands on the nearest multiple of the step."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "form",
+        info_tooltips: "id of a form elsewhere in the page."
+      },
+      type: "string",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "inputRef",
+        info_tooltips: "Ref to the input that submits the value."
+      },
+      type: "Ref<HTMLInputElement>",
+      default: "--",
+    }
+  ]
 }
 
 export default data

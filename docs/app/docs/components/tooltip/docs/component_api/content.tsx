@@ -66,6 +66,54 @@ const data = {
     },
     {
       prop: {
+        name: "anchor",
+        info_tooltips: "Element, virtual element (anything with getBoundingClientRect), ref or function to position against instead of the trigger."
+      },
+      type: "Element | VirtualElement | RefObject | () => Element",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "positionMethod",
+        info_tooltips: "CSS position of the floating element."
+      },
+      type: "\"absolute\" | \"fixed\"",
+      default: "\"fixed\"",
+    },
+    {
+      prop: {
+        name: "collisionAvoidance",
+        info_tooltips: "How it avoids overflowing its boundary: side flip/shift/none, align flip/shift/none, and whether to fall back to the other axis."
+      },
+      type: "{ side?, align?, fallbackAxisSide? }",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "sticky",
+        info_tooltips: "Keep it in view after the trigger scrolls out of the boundary."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "disableAnchorTracking",
+        info_tooltips: "Don't re-position when the trigger's layout shifts; scroll and resize still update it."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "arrowPadding",
+        info_tooltips: "Minimum distance in px between the arrow and the edges."
+      },
+      type: "number",
+      default: "4",
+    },
+    {
+      prop: {
         name: "className",
         info_tooltips: "Additional CSS class name for styling."
       },

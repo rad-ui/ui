@@ -18,8 +18,56 @@ const data = {
         { prop: { name: "name", info_tooltips: "Form field name; the code submits through a hidden input." }, type: "string", default: "--" },
         { prop: { name: "disabled", info_tooltips: "Disable every slot." }, type: "boolean", default: "false" },
         { prop: { name: "readOnly", info_tooltips: "Show the code without allowing edits." }, type: "boolean", default: "false" },
-        { prop: { name: "required", info_tooltips: "Mark the hidden input required." }, type: "boolean", default: "false" }
-    ]
+        { prop: { name: "required", info_tooltips: "Mark the hidden input required." }, type: "boolean", default: "false" },
+    {
+      prop: {
+        name: "mask",
+        info_tooltips: "Hide the characters as they're typed."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "normalizeValue",
+        info_tooltips: "Transforms typed or pasted text before it's checked."
+      },
+      type: "(value) => string",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "onValueInvalid",
+        info_tooltips: "Called when characters are rejected by validationType."
+      },
+      type: "(value, { rejected }) => void",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "inputMode",
+        info_tooltips: "Keyboard on touch devices."
+      },
+      type: "string",
+      default: "numeric or text",
+    },
+    {
+      prop: {
+        name: "autoComplete",
+        info_tooltips: "autocomplete on the first slot."
+      },
+      type: "string",
+      default: "\"one-time-code\"",
+    },
+    {
+      prop: {
+        name: "form",
+        info_tooltips: "id of a form elsewhere in the page."
+      },
+      type: "string",
+      default: "--",
+    }
+  ]
 }
 
 export default data

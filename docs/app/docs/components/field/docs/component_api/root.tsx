@@ -15,8 +15,32 @@ const data = {
         { prop: { name: "name", info_tooltips: "Form field name, passed to the control." }, type: "string", default: "--" },
         { prop: { name: "asChild", info_tooltips: "Render the child element instead of a div." }, type: "boolean", default: "false" },
         { prop: { name: "customRootClass", info_tooltips: "Override the generated root class namespace." }, type: "string", default: '""' },
-        { prop: { name: "validationDebounceTime", info_tooltips: "With validationMode=\"onChange\", ms to wait after typing stops before validating." }, type: "number", default: "0" }
-    ]
+        { prop: { name: "validationDebounceTime", info_tooltips: "With validationMode=\"onChange\", ms to wait after typing stops before validating." }, type: "number", default: "0" },
+    {
+      prop: {
+        name: "touched",
+        info_tooltips: "Controlled touched state."
+      },
+      type: "boolean",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "dirty",
+        info_tooltips: "Controlled dirty state."
+      },
+      type: "boolean",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with validate(), which checks the field and shows the result."
+      },
+      type: "Ref<{ validate(): boolean }>",
+      default: "--",
+    }
+  ]
 }
 
 export default data

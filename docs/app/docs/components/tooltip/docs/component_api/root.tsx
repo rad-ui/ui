@@ -65,8 +65,32 @@ const data = {
     },
         { prop: { name: "handle", info_tooltips: "Connects detached triggers made with Tooltip.createHandle(); children can be a function of the hovered trigger's payload." }, type: "Handle", default: "--" },
         { prop: { name: "trackCursorAxis", info_tooltips: "Follow the pointer along this axis while it's over the trigger. A tracking tooltip closes when the pointer leaves." }, type: "'none' | 'x' | 'y' | 'both'", default: "'none'" },
-        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" }
-    ]
+        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" },
+    {
+      prop: {
+        name: "disabled",
+        info_tooltips: "Never open, and close if open."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "disableHoverablePopup",
+        info_tooltips: "Close as soon as the pointer leaves the trigger instead of letting it move onto the tooltip."
+      },
+      type: "boolean",
+      default: "false",
+    },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with close(), to close it from code (reason 'imperative-action')."
+      },
+      type: "Ref<{ close(): void }>",
+      default: "--",
+    }
+  ]
 };
 
 export default data; 

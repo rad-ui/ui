@@ -13,8 +13,16 @@ const data = {
         { prop: { name: "validationMode", info_tooltips: "Default validationMode for every Field inside." }, type: "'onSubmit' | 'onBlur' | 'onChange'", default: "'onSubmit'" },
         { prop: { name: "noValidate", info_tooltips: "Turn off the browser's own validation bubbles; Fields show the errors instead." }, type: "boolean", default: "true" },
         { prop: { name: "asChild", info_tooltips: "Render the child element instead of a form." }, type: "boolean", default: "false" },
-        { prop: { name: "customRootClass", info_tooltips: "Override the generated class namespace." }, type: "string", default: "\"\"" }
-    ]
+        { prop: { name: "customRootClass", info_tooltips: "Override the generated class namespace." }, type: "string", default: "\"\"" },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with validate(name?), which checks every Field (or one by name) and shows the results."
+      },
+      type: "Ref<{ validate(name?): boolean }>",
+      default: "--",
+    }
+  ]
 }
 
 export default data

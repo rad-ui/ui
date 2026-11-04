@@ -8,8 +8,16 @@ const data = {
     ],
     data: [
         { prop: { name: "type", info_tooltips: "Input type." }, type: "string", default: "'text'" },
-        { prop: { name: "aria-label", info_tooltips: "Accessible name, since toolbars rarely show visible labels." }, type: "string", default: "--" }
-    ]
+        { prop: { name: "aria-label", info_tooltips: "Accessible name, since toolbars rarely show visible labels." }, type: "string", default: "--" },
+    {
+      prop: {
+        name: "focusableWhenDisabled",
+        info_tooltips: "Keep a disabled item in the arrow-key order, announced as disabled."
+      },
+      type: "boolean",
+      default: "false",
+    }
+  ]
 }
 
 export default data

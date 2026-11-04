@@ -65,8 +65,16 @@ const data = {
         default : "false",
        },
         { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" },
-        { prop: { name: "modal", info_tooltips: "true traps focus, locks page scroll and lets the overlay block the page; 'trap-focus' only traps focus; false leaves the page usable (no focus trap or aria-modal)." }, type: "boolean | 'trap-focus'", default: "true" }
-    ]
+        { prop: { name: "modal", info_tooltips: "true traps focus, locks page scroll and lets the overlay block the page; 'trap-focus' only traps focus; false leaves the page usable (no focus trap or aria-modal)." }, type: "boolean | 'trap-focus'", default: "true" },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with close(), to close it from code (reason 'imperative-action')."
+      },
+      type: "Ref<{ close(): void }>",
+      default: "--",
+    }
+  ]
 }
 
 export default data;

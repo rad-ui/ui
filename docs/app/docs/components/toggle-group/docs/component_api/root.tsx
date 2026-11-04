@@ -25,6 +25,14 @@ const data = {
             enum_values : ['single', 'multiple'],
             default: "single",
         },
+    {
+      prop: {
+        name: "multiple",
+        info_tooltips: "Same as type=\"multiple\" when true."
+      },
+      type: "boolean",
+      default: "false",
+    },
         {
             prop: {
                 name: "className",

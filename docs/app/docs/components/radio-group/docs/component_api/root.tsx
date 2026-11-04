@@ -13,8 +13,24 @@ const data = {
         { prop: { name: "disabled", info_tooltips: "Disables all items in the group." }, type: "boolean", default: "false" },
         { prop: { name: "loop", info_tooltips: "Whether arrow key navigation wraps from the last item to the first, and from the first item to the last." }, type: "boolean", default: "true" },
         { prop: { name: "onValueChange", info_tooltips: "Callback when selection changes." }, type: "function", default: "--" },
-        { prop: { name: "readOnly", info_tooltips: "Show the selection without letting the user change it; arrow keys still move focus." }, type: "boolean", default: "false" }
-    ]
+        { prop: { name: "readOnly", info_tooltips: "Show the selection without letting the user change it; arrow keys still move focus." }, type: "boolean", default: "false" },
+    {
+      prop: {
+        name: "form",
+        info_tooltips: "id of a form elsewhere in the page."
+      },
+      type: "string",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "inputRef",
+        info_tooltips: "Ref to the hidden input that holds the value."
+      },
+      type: "Ref<HTMLInputElement>",
+      default: "--",
+    }
+  ]
 }
 
 export default data
