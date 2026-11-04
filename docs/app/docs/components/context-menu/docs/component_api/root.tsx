@@ -82,6 +82,14 @@ const data = {
       },
       type: "Ref<{ close(): void }>",
       default: "--",
+    },
+    {
+      prop: {
+        name: "arrowPadding",
+        info_tooltips: "Minimum px between the arrow and the menu's rounded corners."
+      },
+      type: "number",
+      default: "4",
     }
   ]
 }
