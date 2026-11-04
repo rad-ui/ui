@@ -563,3 +563,38 @@ export const CustomRender = {
         </SandboxEditor>
     )
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Anchored — a toast beside the element that triggered it
+// ─────────────────────────────────────────────────────────────────────────────
+
+function AnchoredDemo() {
+    useCleanup();
+    const manager = Toast.useToastManager();
+
+    return (
+        <>
+            <Toaster />
+            <Toast.AnchoredToasts />
+            <div style={{ display: 'flex', gap: '0.5rem', padding: '6rem 2rem' }}>
+                <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => manager.add({ title: 'Copied', anchor: event.currentTarget, timeout: 1500 })}>
+                    Copy link
+                </Button>
+                <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => manager.add({ title: 'Saved to favourites', anchor: event.currentTarget, side: 'bottom', timeout: 2000 })}>
+                    Favourite
+                </Button>
+                <Button onClick={() => manager.add({ title: 'Changes saved.' })}>Stacked toast</Button>
+            </div>
+        </>
+    );
+}
+
+export const Anchored = {
+    render: () => (
+        <SandboxEditor>
+            <Toast.Provider position="bottom-right">
+                <AnchoredDemo />
+            </Toast.Provider>
+        </SandboxEditor>
+    )
+};
