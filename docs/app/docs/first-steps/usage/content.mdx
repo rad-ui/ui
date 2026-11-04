@@ -144,6 +144,23 @@ theme CSS, so switching themes — including dark mode — re-resolves the utili
 without a rebuild. Opacity modifiers such as `bg-gray-500/90` are composed by
 Tailwind itself and work as usual.
 
+### The numbers follow the theme, not light and dark
+
+In the preset, a colour's number says how far it sits from the page background, not
+how light it is. Low numbers are close to the background and high numbers are far from
+it, in light and dark mode alike, so one class works in both:
+
+| Class | Light theme | Dark theme |
+| --- | --- | --- |
+| `bg-red-100` | pale red tint | deep red tint |
+| `text-red-900` | dark red | light red |
+
+This is on purpose: you write each colour once and it stays readable when the
+appearance changes. It differs from plain Tailwind, where `red-300` is always a light
+red. So for text that must stand out on any background, use a high number
+(`text-red-900`), and for subtle fills a low one (`bg-red-100`). Don't reach for
+`text-red-300` to get "light red on dark": in dark mode it's close to the background.
+
 Note that the preset covers colours only. Spacing, radius, shadow, blur and
 typography utilities keep Tailwind's own defaults, so your existing utilities are
 unchanged.
