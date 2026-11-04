@@ -31,6 +31,10 @@ export type ToggleGroupRootProps = React.ComponentPropsWithoutRef<'div'> & {
     onValueChange?: (value: any) => void;
     /** Accent color for the toggle group */
     color?: string;
+    /** Look of the group; sets `data-variant`. `'soft'` draws a padded track with the pressed item as a raised pill (a view switcher). */
+    variant?: string;
+    /** Size of the items; sets `data-size`. The default theme has `'small'` for dense toolbars. */
+    size?: string;
     /** Whether the toggle group is disabled */
     disabled?: boolean;
     /** Text direction */
@@ -56,6 +60,8 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     defaultValue = [],
     onValueChange,
     color = '',
+    variant,
+    size,
     disabled = false,
     dir: dirProp,
     rovingFocus = true,
@@ -94,6 +100,8 @@ const ToggleGroupRoot = React.forwardRef<ToggleGroupRootElement, ToggleGroupRoot
     }
 
     data_attributes['data-orientation'] = orientation as any;
+    if (variant) data_attributes['data-variant'] = variant;
+    if (size) data_attributes['data-size'] = size;
 
     // If rovingFocus is disabled, render without RovingFocusGroup
     if (!rovingFocus) {
