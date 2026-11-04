@@ -7,3 +7,4 @@
 #{baremetal.$theme-root} :where(.rad-ui-dialog-description) { @include baremetal.body-text; }
 #{baremetal.$theme-root} :where(.rad-ui-dialog-footer) { border-color: var(--rad-ui-baremetal-black) !important; background: var(--rad-ui-baremetal-white) !important; }
 #{baremetal.$theme-root} :where(.rad-ui-dialog-overlay) { background: rgb(255, 255, 255, 0.72); backdrop-filter: none; }
+#{baremetal.$theme-root} :where(.rad-ui-dialog-overlay[data-nested]) { background: transparent; }

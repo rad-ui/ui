@@ -86,3 +86,28 @@ describe('indicator forceMount', () => {
         expect(container).toBeTruthy();
     });
 });
+
+describe('nested dialog overlay', () => {
+    test('only the nested overlay is marked data-nested', async() => {
+        const { default: Dialog } = await import('../Dialog/Dialog');
+        const { render: r } = await import('@testing-library/react');
+        r(
+            <Dialog.Root open>
+                <Dialog.Portal>
+                    <Dialog.Overlay data-testid="outer" />
+                    <Dialog.Content>
+                        <Dialog.Title>Outer</Dialog.Title>
+                        <Dialog.Root open>
+                            <Dialog.Portal>
+                                <Dialog.Overlay data-testid="inner" />
+                                <Dialog.Content><Dialog.Title>Inner</Dialog.Title></Dialog.Content>
+                            </Dialog.Portal>
+                        </Dialog.Root>
+                    </Dialog.Content>
+                </Dialog.Portal>
+            </Dialog.Root>
+        );
+        expect(document.querySelector('[data-testid="outer"]')).not.toHaveAttribute('data-nested');
+        expect(document.querySelector('[data-testid="inner"]')).toHaveAttribute('data-nested');
+    });
+});

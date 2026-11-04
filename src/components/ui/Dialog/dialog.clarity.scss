@@ -214,3 +214,9 @@
     }
   }
 }
+
+// A nested dialog's overlay stays transparent: the parent's overlay already dims the page.
+.rad-ui-dialog-overlay[data-nested] {
+  background-color: transparent;
+  backdrop-filter: none;
+}
