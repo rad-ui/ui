@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import type { Align, FloatingAnchor, Side } from '~/core/utils/placement';
 
 /**
  * Viewport corner — headless string for `data-position` (theme defines valid values).
@@ -60,6 +61,19 @@ export interface ToastData {
      * `down` for bottom).
      */
     swipeDirection?: SwipeDirection | SwipeDirection[];
+    /**
+     * Show this toast next to an element (or virtual element, ref or function) instead of in
+     * the stack, e.g. "Copied" beside a copy button. It is positioned with collision handling.
+     */
+    anchor?: FloatingAnchor;
+    /** With `anchor`: side of the anchor to show on. Defaults to `'top'`. */
+    side?: Side;
+    /** With `anchor`: alignment against the anchor. Defaults to `'center'`. */
+    align?: Align;
+    /** With `anchor`: distance from the anchor in px. Defaults to 8. */
+    sideOffset?: number;
+    /** With `anchor`: shift along the anchor in px. Defaults to 0. */
+    alignOffset?: number;
 }
 
 /** Options for `toast()` / `manager.add()` — optional stable `id` for upsert. */
@@ -104,6 +118,10 @@ export interface ToastProviderContextType {
     unlinkStackHeight: (id: string) => void;
     removeToast: (id: string) => void;
     toasts: ToastData[];
+    /** Toasts shown in the stack (those without an `anchor`). */
+    stackToasts?: ToastData[];
+    /** Toasts shown next to their `anchor`. */
+    anchoredToasts?: ToastData[];
     visibleToasts: ToastData[];
     viewportClassName?: string;
     viewportStyle?: React.CSSProperties;
@@ -139,6 +157,8 @@ export const ToastProviderContext = createContext<ToastProviderContextType>({
     unlinkStackHeight: () => {},
     removeToast: () => {},
     toasts: [],
+    stackToasts: [],
+    anchoredToasts: [],
     visibleToasts: [],
     viewportClassName: undefined,
     viewportStyle: undefined,

@@ -152,3 +152,9 @@
         &[data-leaving]       { opacity: 0; transition: opacity 100ms ease !important; }
     }
 }
+
+#{baremetal.$theme-root} :where(.rad-ui-toast-anchored) {
+    z-index: 9999;
+    width: max-content;
+    max-width: min(22rem, calc(100vw - 2rem));
+}
