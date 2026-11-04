@@ -7,6 +7,7 @@ This file is the working tracker. Update it in the same PR as the work it descri
 ## Fixed rules
 
 - **`asChild` stays as it is.** No change to how `asChild` merges props onto the child, and no second composition API next to it.
+- **`asChild` hands over semantics** (#2256). It puts a part's behaviour and ARIA on the consumer's element; that's the point. Agents and docs: use it to compose behaviour onto an element that should have that role, never to borrow a part's look for an element with a different role. `Button asChild` around `<a href>` or a router `Link` deliberately keeps link semantics.
 - Headless boundary from `MASTER_LIST.md` still holds: behaviour and accessibility in the library, visual design in the themes.
 - No public API breaks without a changeset that says so. Prefer additive changes.
 - **One handler-merging rule** (#1791): compose a consumer's handler with ours through `composeEventHandlers` (or `mergeProps`, which uses it). The consumer runs first, ours is skipped after `event.preventDefault()`, and every argument is forwarded. Don't hand-roll the chain; `composition.contract.test.ts` pins the rule.
