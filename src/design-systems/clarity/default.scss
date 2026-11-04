@@ -228,9 +228,16 @@
     --rad-ui-badge-soft-text-weight: 100%;
 }
 
-:where([data-rad-ui-theme] :is(button, [role="button"], a[href], input:not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"]))):focus-visible {
-    outline: none;
-    box-shadow: var(--rad-ui-focus-ring-shadow-contained);
+// Fallback focus ring for plain focusable elements inside a Theme. It lives in the `base`
+// cascade layer so app styles win: with Tailwind it joins Tailwind's own `base` layer
+// (below `utilities`, whatever the import order), and any unlayered app CSS beats it.
+// The ring sits outside the element, so content that fills it (an image, a canvas)
+// can't cover it. Rad UI components draw their own ring over this one.
+@layer base {
+    :where([data-rad-ui-theme] :is(button, [role="button"], a[href], input:not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"]))):focus-visible {
+        outline: none;
+        box-shadow: var(--rad-ui-focus-ring-shadow-outset);
+    }
 }
 
 [data-rad-ui-portal-root] {

@@ -49,3 +49,13 @@ export const FocusableWhenDisabled = () => (
         </Tooltip.Root>
     </SandboxEditor>
 );
+
+export const HighContrast = () => (
+    <SandboxEditor>
+        <div className="flex flex-wrap items-center gap-4">
+            <Button highContrast>{renderButtonContent()}</Button>
+            <Button>{renderButtonContent()}</Button>
+            <Button variant="outline">{renderButtonContent()}</Button>
+        </div>
+    </SandboxEditor>
+);

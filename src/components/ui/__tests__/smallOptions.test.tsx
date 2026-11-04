@@ -146,3 +146,13 @@ describe('ToggleGroup variant and size', () => {
         expect(root).toHaveAttribute('data-size', 'small');
     });
 });
+
+describe('Button highContrast', () => {
+    test('sets data-high-contrast only when asked', async() => {
+        const { default: Button } = await import('../Button/Button');
+        const { render: r, screen: s } = await import('@testing-library/react');
+        r(<><Button highContrast>Main</Button><Button>Other</Button></>);
+        expect(s.getByText('Main')).toHaveAttribute('data-high-contrast');
+        expect(s.getByText('Other')).not.toHaveAttribute('data-high-contrast');
+    });
+});
