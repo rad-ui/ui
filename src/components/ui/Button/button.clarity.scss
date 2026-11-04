@@ -136,3 +136,11 @@
         box-shadow: var(--rad-ui-focus-ring-shadow-outset), var(--rad-ui-control-shadow-hover);
     }
 }
+
+// `highContrast`: the solid fill uses the text colour and the label the canvas colour,
+// so it flips with light and dark appearance instead of using an accent hue.
+.rad-ui-button-root[data-high-contrast]:is(:not([data-variant]), [data-variant="solid"]) {
+    --rad-ui-button-solid-background: var(--rad-ui-color-gray-1000);
+    --rad-ui-button-solid-hover: var(--rad-ui-color-gray-900);
+    --rad-ui-button-solid-foreground: var(--rad-ui-color-gray-50);
+}
