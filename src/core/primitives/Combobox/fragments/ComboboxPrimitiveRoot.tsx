@@ -61,6 +61,7 @@ export type ComboboxPrimitiveRootProps = {
     /** Keep the list in view after the trigger scrolls away: `'always'` (or `true`), or `'partial'` (or `false`). */
     sticky?: 'partial' | 'always' | boolean,
     updatePositionStrategy?: 'optimized' | 'always',
+    /** @deprecated Use `onOpenChange` and check `details.reason === 'outside-press'`. Called when a press outside closes it. */
     onClickOutside?: () => void;
     placement?: Placement
     /** Controlled open state. */
@@ -441,6 +442,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         onOpenChange: (nextOpen: boolean, event?: Event, reason?: string) => {
             if ((disabled || readOnly) && nextOpen) return;
             const applied = setIsOpen(nextOpen, fromFloatingReason(reason), event);
+            if (applied && !nextOpen && reason === 'outside-press') onClickOutside();
             // Escape closes the list: put focus back on the trigger now, rather than waiting for the
             // focus manager's queued return (which can lag a frame or more, and leaves force-mounted
             // content holding focus meanwhile). Only when focus is inside the list, so a dismiss

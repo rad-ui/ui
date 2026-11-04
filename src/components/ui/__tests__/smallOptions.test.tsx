@@ -111,3 +111,27 @@ describe('nested dialog overlay', () => {
         expect(document.querySelector('[data-testid="inner"]')).toHaveAttribute('data-nested');
     });
 });
+
+describe('onClickOutside (deprecated)', () => {
+    test('Combobox calls it when an outside press closes the list', async() => {
+        const { default: Combobox } = await import('../Combobox/Combobox');
+        const { render: r, screen: s, fireEvent: f, act: a } = await import('@testing-library/react');
+        const onClickOutside = jest.fn();
+        const onOpenChange = jest.fn((_open: boolean, _details: unknown) => {});
+        r(
+            <>
+                <button>Outside</button>
+                <Combobox.Root defaultOpen onClickOutside={onClickOutside} onOpenChange={onOpenChange}>
+                    <Combobox.Trigger>Pick</Combobox.Trigger>
+                    <Combobox.Portal><Combobox.Content><Combobox.Item value="a">A</Combobox.Item></Combobox.Content></Combobox.Portal>
+                </Combobox.Root>
+            </>
+        );
+        await a(async() => { await new Promise((resolve) => setTimeout(resolve, 0)); });
+        f.pointerDown(s.getByText('Outside'));
+        f.mouseDown(s.getByText('Outside'));
+        f.click(s.getByText('Outside'));
+        expect(onClickOutside).toHaveBeenCalledTimes(1);
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.objectContaining({ reason: 'outside-press' }));
+    });
+});
