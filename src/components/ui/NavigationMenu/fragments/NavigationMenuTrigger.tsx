@@ -17,13 +17,17 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
 
         // APG disclosure navigation: ArrowDown on a trigger opens its panel (if closed) and moves
         // focus to the first link inside it.
-        const { rootClass, viewport, triggersRef } = React.useContext(NavigationMenuRootContext);
+        const { rootClass, viewport, triggersRef, orientation, dir } = React.useContext(NavigationMenuRootContext);
+        // A vertical menu moves between triggers with ArrowUp/Down, so the panel opens towards the inline end.
+        const openKey = orientation === 'vertical'
+            ? (dir === 'rtl' ? KEYBOARD_KEYS.ARROW_LEFT : KEYBOARD_KEYS.ARROW_RIGHT)
+            : KEYBOARD_KEYS.ARROW_DOWN;
         const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-            if (!openAndFocusFirstLink) return;
+            if (!openAndFocusFirstLink || props.disabled) return;
             // In a viewport the open panel sits after every trigger in the DOM, so Tab from its
             // trigger jumps into it, as it would if the panel followed the trigger.
             const tabIntoViewport = event.key === 'Tab' && !event.shiftKey && itemOpen && !!viewport;
-            if (event.key !== KEYBOARD_KEYS.ARROW_DOWN && !tabIntoViewport) return;
+            if (event.key !== openKey && !tabIntoViewport) return;
             event.preventDefault();
             openAndFocusFirstLink();
         };
@@ -49,6 +53,7 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
                     // The content panel only exists while open, so only reference it then.
                     aria-controls={itemOpen ? contentId : undefined}
                     data-state={itemOpen ? 'open' : 'closed'}
+                    data-disabled={props.disabled ? '' : undefined}
                     {...props}
                 >
                     {children}

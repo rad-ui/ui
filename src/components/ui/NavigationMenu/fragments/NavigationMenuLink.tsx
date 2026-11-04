@@ -10,10 +10,14 @@ export type NavigationMenuLinkElement = React.ElementRef<'a'>;
 
 export interface NavigationMenuLinkProps extends React.ComponentPropsWithoutRef<'a'> {
     href: string;
+    /** Marks the link for the current page (`aria-current="page"`, `data-active`). */
+    active?: boolean;
+    /** Close the open panel when the link is clicked. Defaults to true. */
+    closeOnClick?: boolean;
 }
 
 const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, NavigationMenuLinkProps>(
-    ({ children, href, className, onClick, ...props }, ref) => {
+    ({ children, href, className, onClick, active = false, closeOnClick = true, ...props }, ref) => {
         const { rootClass, setIsOpen } = React.useContext(NavigationMenuRootContext);
         const { registerLink } = React.useContext(NavigationMenuItemContext);
         const linkRef = React.useRef<HTMLAnchorElement>(null);
@@ -27,13 +31,17 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
         // Selecting a link dismisses the open panel, so it does not linger over the page after
         // client-side navigation. This runs even when the consumer's onClick calls preventDefault(),
         // because that is how router-driven links (router.push) take over navigation.
-        const handleClick = () => setIsOpen('');
+        const handleClick = () => {
+            if (closeOnClick) setIsOpen('');
+        };
         return (
             <RovingFocusGroup.Item>
                 <a
                     ref={mergeRefs(linkRef, ref)}
                     href={href}
                     className={clsx(rootClass && `${rootClass}-link`, className)}
+                    aria-current={active ? 'page' : undefined}
+                    data-active={active ? '' : undefined}
                     {...props}
                     onClick={composeEventHandlers(onClick, handleClick, { checkForDefaultPrevented: false })}
                 >
