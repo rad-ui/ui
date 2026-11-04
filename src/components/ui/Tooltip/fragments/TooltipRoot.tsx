@@ -12,6 +12,7 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
+import { useHandleTriggerId } from '~/core/utils/popupHandle';
 
 const noop = () => {};
 
@@ -64,6 +65,13 @@ export interface TooltipRootProps extends Omit<React.ComponentPropsWithoutRef<'d
      */
     handle?: PopupHandle<any>;
     /**
+     * With `handle`: the DOM `id` of the detached trigger the popup belongs to while open.
+     * It is anchored to that trigger and gets its payload, also when opened from code.
+     */
+    triggerId?: string | null;
+    /** Uncontrolled `triggerId`: the trigger used when the popup opens without one (e.g. `defaultOpen`). */
+    defaultTriggerId?: string | null;
+    /**
      * Follow the pointer along this axis while it's over the trigger, instead of anchoring
      * to the trigger. The tooltip then closes as soon as the pointer leaves the trigger.
      */
@@ -94,6 +102,8 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
         closeDelay,
         customRootClass = '',
         handle,
+        triggerId,
+        defaultTriggerId,
         trackCursorAxis = 'none',
         onOpenChangeComplete,
         disabled = false,
@@ -119,6 +129,7 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             setOpenState(nextOpen);
         }, [setOpenState]);
         usePopupActions(actionsRef, () => { setIsOpen(false, 'imperative-action'); handle?.close(); });
+        useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(isOpen));
 
         // `side`, `align` and offsets set on Tooltip.Content.
         const [positioning, setPositioningState] = React.useState<ContentPositioning>({});

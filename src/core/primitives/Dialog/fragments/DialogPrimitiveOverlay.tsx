@@ -17,7 +17,7 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
     onClick,
     ...props
 }, ref) => {
-    const { isOpen, handleOverlayClick, modal = true } = useContext(DialogPrimitiveContext);
+    const { isOpen, handleOverlayClick, modal = true, nested } = useContext(DialogPrimitiveContext);
     // Only a fully modal dialog locks scroll and lets the overlay take pointer input.
     const blocksPage = modal === true;
 
@@ -43,6 +43,9 @@ const DialogPrimitiveOverlay = forwardRef<HTMLDivElement, DialogPrimitiveOverlay
                         handleOverlayClick();
                     }}
                     {...stateData(dataState)}
+                    // A dialog opened inside another: themes keep this overlay transparent so the
+                    // page doesn't darken again, while it still catches outside clicks.
+                    data-nested={nested ? '' : undefined}
                     {...getTransitionAttributes(transition.status)}
                     {...props}
                     style={blocksPage ? props.style : { ...props.style, pointerEvents: 'none' }}

@@ -5,6 +5,7 @@ import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import type { DialogHandle } from '../handle';
 import { stateData } from '~/core/utils/stateAttributes';
+import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 
 export type DialogPrimitiveTriggerProps = {
     children: React.ReactNode;
@@ -32,6 +33,8 @@ const DialogPrimitiveTrigger = forwardRef<HTMLButtonElement, DialogPrimitiveTrig
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
     const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
     const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+    // Lets the Root's `triggerId` find this trigger.
+    useHandleTriggerRegistration(handle, triggerRef, payload);
     // A detached trigger is open only when it's the one that opened the dialog.
     const triggerOpen = handle ? Boolean(handleState?.open && handleState.trigger === triggerRef.current) : isOpen;
 

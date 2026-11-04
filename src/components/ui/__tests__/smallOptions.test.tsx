@@ -63,3 +63,51 @@ describe('small parity options', () => {
         expect(container.querySelector('select')).toHaveAttribute('autocomplete', 'country');
     });
 });
+
+describe('indicator forceMount', () => {
+    test('Checkbox and RadioGroup indicators stay mounted while unchecked', async() => {
+        const { default: Checkbox } = await import('../Checkbox/Checkbox');
+        const { default: RadioGroup } = await import('../RadioGroup/RadioGroup');
+        const { render: r, screen: s, fireEvent: f } = await import('@testing-library/react');
+        const { container } = r(
+            <>
+                <Checkbox.Root aria-label="Terms"><Checkbox.Indicator forceMount data-testid="check" /></Checkbox.Root>
+                <RadioGroup.Root defaultValue="a" aria-label="Plan">
+                    <RadioGroup.Item value="a" aria-label="A"><RadioGroup.Indicator forceMount data-testid="radio-a" /></RadioGroup.Item>
+                    <RadioGroup.Item value="b" aria-label="B"><RadioGroup.Indicator forceMount data-testid="radio-b" /></RadioGroup.Item>
+                </RadioGroup.Root>
+            </>
+        );
+        expect(s.getByTestId('check')).toHaveAttribute('data-state', 'unchecked');
+        f.click(s.getByRole('checkbox', { name: 'Terms' }));
+        expect(s.getByTestId('check')).toHaveAttribute('data-checked');
+        expect(s.getByTestId('radio-a')).toHaveAttribute('data-state', 'checked');
+        expect(s.getByTestId('radio-b')).toHaveAttribute('data-unchecked');
+        expect(container).toBeTruthy();
+    });
+});
+
+describe('nested dialog overlay', () => {
+    test('only the nested overlay is marked data-nested', async() => {
+        const { default: Dialog } = await import('../Dialog/Dialog');
+        const { render: r } = await import('@testing-library/react');
+        r(
+            <Dialog.Root open>
+                <Dialog.Portal>
+                    <Dialog.Overlay data-testid="outer" />
+                    <Dialog.Content>
+                        <Dialog.Title>Outer</Dialog.Title>
+                        <Dialog.Root open>
+                            <Dialog.Portal>
+                                <Dialog.Overlay data-testid="inner" />
+                                <Dialog.Content><Dialog.Title>Inner</Dialog.Title></Dialog.Content>
+                            </Dialog.Portal>
+                        </Dialog.Root>
+                    </Dialog.Content>
+                </Dialog.Portal>
+            </Dialog.Root>
+        );
+        expect(document.querySelector('[data-testid="outer"]')).not.toHaveAttribute('data-nested');
+        expect(document.querySelector('[data-testid="inner"]')).toHaveAttribute('data-nested');
+    });
+});

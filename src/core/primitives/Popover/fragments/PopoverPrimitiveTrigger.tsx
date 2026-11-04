@@ -5,6 +5,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import { PopoverPrimitiveContext } from '../context/PopoverPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { stateData } from '~/core/utils/stateAttributes';
 
@@ -42,6 +43,8 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
     const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
     const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+    // Lets the Root's `triggerId` find this trigger.
+    useHandleTriggerRegistration(handle, triggerRef, payload);
 
     const mergedRef = Floater.useMergeRefs([
         ref,

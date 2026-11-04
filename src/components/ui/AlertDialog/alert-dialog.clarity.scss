@@ -208,3 +208,9 @@
 .rad-ui-alert-dialog-cancel {
   @extend %rad-ui-alert-dialog-cancel-skin;
 }
+
+// A nested dialog's overlay stays transparent: the parent's overlay already dims the page.
+.rad-ui-alert-dialog-overlay[data-nested] {
+  background-color: transparent;
+  backdrop-filter: none;
+}

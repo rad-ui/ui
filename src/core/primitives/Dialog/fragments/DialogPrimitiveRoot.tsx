@@ -9,6 +9,7 @@ import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocument
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
 import { stateData } from '~/core/utils/stateAttributes';
+import { useHandleTriggerId } from '~/core/utils/popupHandle';
 
 const noop = () => {};
 
@@ -17,6 +18,13 @@ export type DialogPrimitiveRootProps = {
     children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
     /** Connects detached triggers made with `createHandle()`. */
     handle?: DialogHandle<any>;
+    /**
+     * With `handle`: the DOM `id` of the detached trigger the popup belongs to while open.
+     * It is anchored to that trigger and gets its payload, also when opened from code.
+     */
+    triggerId?: string | null;
+    /** Uncontrolled `triggerId`: the trigger used when the popup opens without one (e.g. `defaultOpen`). */
+    defaultTriggerId?: string | null;
     open?: boolean;
     defaultOpen?: boolean;
     /**
@@ -48,7 +56,7 @@ export type DialogPrimitiveRootProps = {
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, onOpenChangeComplete, modal = true, actionsRef, ...props }, ref) => {
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, triggerId, defaultTriggerId, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, onOpenChangeComplete, modal = true, actionsRef, ...props }, ref) => {
     // onOpenChange is called by handleOpenChange (with details), not by the state hook.
     const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, noop);
     const onOpenChangeRef = React.useRef(onOpenChange);
@@ -73,8 +81,21 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
     const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
     const handleOpen = handleState?.open;
+    const isOpenRef = React.useRef(isOpen);
+    isOpenRef.current = isOpen;
+    // Only follow changes of the handle, so `defaultOpen` isn't undone by a still-closed handle on mount.
+    const lastHandleOpenRef = React.useRef(handleOpen);
     React.useEffect(() => {
-        if (handleOpen === undefined) return;
+        if (handleOpen === lastHandleOpenRef.current) return;
+        lastHandleOpenRef.current = handleOpen;
+        if (handleOpen === undefined || handleOpen === isOpenRef.current) return;
+        // A detached trigger opened it (or the handle closed it): report it like any other change.
+        const details = createOpenChangeDetails(handleOpen ? 'trigger-press' : 'imperative-action');
+        callOpenChange(onOpenChangeRef.current, handleOpen, details);
+        if (details.isCanceled) {
+            if (handleOpen) handle?.close();
+            return;
+        }
         setIsOpen(handleOpen);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [handleOpen]);
@@ -112,6 +133,8 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     ]);
 
     usePopupActions(actionsRef, () => handleOpenChange(false, 'imperative-action'));
+
+    useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(isOpen));
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete, modal };
     return (
         <DialogNestingContext.Provider value={nesting}>
