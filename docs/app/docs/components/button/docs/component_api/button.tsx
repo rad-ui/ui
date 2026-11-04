@@ -33,6 +33,14 @@ const data = {
             enum_values: ["button", "submit", "reset"],
             default: "'button'",
         },
+    {
+      prop: {
+        name: "highContrast",
+        info_tooltips: "Solid button filled with the text colour and labelled in the background colour (near-black on light, near-white on dark), for a main action without an accent hue. Default and solid variants; sets data-high-contrast."
+      },
+      type: "boolean",
+      default: "false",
+    },
         {
             prop: {
                 name: "className",

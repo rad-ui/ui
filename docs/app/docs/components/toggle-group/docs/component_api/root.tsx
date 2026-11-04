@@ -33,6 +33,22 @@ const data = {
       type: "boolean",
       default: "false",
     },
+    {
+      prop: {
+        name: "variant",
+        info_tooltips: "Look of the group; sets data-variant. The default theme has 'soft': a padded track with the pressed item as a raised pill, for view switchers."
+      },
+      type: "string",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "size",
+        info_tooltips: "Item size; sets data-size. The default theme has 'small' for dense toolbars."
+      },
+      type: "string",
+      default: "--",
+    },
         {
             prop: {
                 name: "className",
