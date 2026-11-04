@@ -33,6 +33,7 @@ export type DialogPrimitiveRootProps = {
      * `event`, and `cancel()` to keep it as it is.
      */
     onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
+    /** @deprecated Use `onOpenChange` and check `details.reason === 'outside-press'`. Called when a press outside closes it. */
     onClickOutside?: () => void;
     className?:string;
     /** When true, outside pointer events and escape key will not close the dialog. */
