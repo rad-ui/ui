@@ -28,6 +28,12 @@
 
         .rad-ui-tabs-trigger {
             position: relative;
+
+            // Native <button> look reset, so inactive tabs don't show the browser's grey button.
+            appearance: none;
+            margin: 0;
+            border: 0;
+            background-color: transparent;
             color: var(--rad-ui-text-muted);
             font-family: var(--rad-ui-font-sans);
             padding: var(--rad-ui-control-padding-y-sm) var(--rad-ui-control-padding-x-md);
