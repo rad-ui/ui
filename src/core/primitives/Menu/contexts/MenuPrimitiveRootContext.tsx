@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import type { ActiveIndexStore } from '~/core/utils/activeIndexStore';
 import type { TransitionStatus } from '~/core/hooks/useTransitionStatus';
 
 export interface MenuPrimitiveRootPrimitiveContextProps {
@@ -45,5 +46,15 @@ export interface MenuPrimitiveRootPrimitiveContextProps {
 }
 
 const MenuPrimitiveRootPrimitiveContext = React.createContext<MenuPrimitiveRootPrimitiveContextProps|null>(null);
+
+/**
+ * What a menu item needs. The Root's full context changes on every arrow key (and isn't stable
+ * across renders), which re-rendered every item; items read the highlight from the store instead.
+ */
+export type MenuItemContextProps = {
+  getItemProps: (userProps?: any) => any;
+  activeIndexStore: ActiveIndexStore;
+};
+export const MenuItemContext = React.createContext<MenuItemContextProps | null>(null);
 
 export default MenuPrimitiveRootPrimitiveContext;

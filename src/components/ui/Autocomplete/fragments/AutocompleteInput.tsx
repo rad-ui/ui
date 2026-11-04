@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import Primitive from '~/core/primitives/Primitive';
 import Floater from '~/core/primitives/Floater';
 import { ComboboxPrimitiveContext } from '~/core/primitives/Combobox/contexts/ComboboxPrimitiveContext';
+import { useActiveIndex } from '~/core/utils/activeIndexStore';
 import { AutocompleteRootContext } from '../contexts/AutocompleteRootContext';
 import { stateData } from '~/core/utils/stateAttributes';
 
@@ -18,7 +19,7 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
         isOpen,
         setIsOpen,
         handleSelect,
-        activeIndex,
+        activeIndexStore,
         setActiveIndex,
         elementsRef,
         virtualItemRef,
@@ -31,6 +32,7 @@ const AutocompleteInput = React.forwardRef<AutocompleteInputElement, Autocomplet
         disabledIndices,
         disabled: rootDisabled
     } = useContext(ComboboxPrimitiveContext);
+    const activeIndex = useActiveIndex(activeIndexStore);
     const disabled = Boolean(disabledProp || rootDisabled);
 
     // Virtual focus: the input keeps focus and points at the active option.

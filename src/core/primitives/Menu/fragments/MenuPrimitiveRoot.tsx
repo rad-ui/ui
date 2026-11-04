@@ -1,5 +1,6 @@
 import React, { useState, useRef, useContext, forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
-import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
+import MenuPrimitiveRootContext, { MenuItemContext } from '../contexts/MenuPrimitiveRootContext';
+import { createActiveIndexStore } from '~/core/utils/activeIndexStore';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
@@ -134,6 +135,11 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     useRegisterDocumentOverlayOpen(isOpen);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    // Items read the highlight from this store, so moving it re-renders two items, not all.
+    const [activeIndexStore] = useState(createActiveIndexStore);
+    useIsomorphicLayoutEffect(() => {
+        activeIndexStore.set(activeIndex);
+    }, [activeIndexStore, activeIndex]);
     const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
     const [arrowNode, setArrowNode] = useState<SVGSVGElement | null>(null);
 
@@ -306,6 +312,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         modal: modal && !isNested,
         setArrowNode
     };
+    const itemValues = React.useMemo(() => ({ getItemProps, activeIndexStore }), [getItemProps, activeIndexStore]);
     // A handle lets detached triggers open this menu and anchor it.
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
     const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
@@ -340,9 +347,11 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         <div ref={ref} className={className} data-tree="true" dir={direction} {...props}>
 
             <MenuPrimitiveRootContext.Provider value={values} >
+            <MenuItemContext.Provider value={itemValues}>
                 <Floater.FloatingNode id={nodeId}>
                     {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </Floater.FloatingNode>
+            </MenuItemContext.Provider>
             </MenuPrimitiveRootContext.Provider>
 
         </div>

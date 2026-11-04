@@ -52,7 +52,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
         getFloatingProps,
         floatingStyles,
         isPositioned,
-        activeIndex,
+        activeIndexStore,
         hasSearch,
         handleSelect,
         isTypingRef,
@@ -90,6 +90,7 @@ const ComboboxPrimitiveContent = React.forwardRef<
     // phase, ahead of Floating UI's handler), and let Enter/Space select it directly.
     const handleContainerKeyDownCapture = (event: React.KeyboardEvent<HTMLDivElement>) => {
         onKeyDownCapture?.(event);
+        const activeIndex = activeIndexStore.get();
         if (event.defaultPrevented || hasSearch || event.target !== event.currentTarget || activeIndex === null) return;
         const activeElement = elementsRef.current[activeIndex];
         if (!activeElement) return;
