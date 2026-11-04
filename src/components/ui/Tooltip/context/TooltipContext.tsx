@@ -3,7 +3,7 @@ import type { ContentPositioning } from '~/core/utils/placement';
 
 type TooltipContextType = {
     isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
+    setIsOpen: (isOpen: boolean, reason?: import('~/core/utils/openChangeDetails').OpenChangeReason, event?: Event) => void;
     data: any;
     interactions: any;
     context: any;
@@ -14,6 +14,8 @@ type TooltipContextType = {
     onOpenChangeComplete?: (open: boolean) => void;
     /** Content reports its `side`, `align` and offsets here. */
     setPositioning?: (positioning: ContentPositioning) => void;
+    disabled?: boolean;
+    triggerDisabledRef?: React.MutableRefObject<boolean>;
 };
 const TooltipContext = createContext<null | TooltipContextType>(null);
 

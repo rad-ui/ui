@@ -7,7 +7,8 @@ import Primitive from '~/core/primitives/Primitive';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import ThemeContext from '~/components/ui/Theme/ThemeContext';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
-import { Align, placementAlign, placementSide, Side } from '~/core/utils/placement';
+import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
+import { Align, CollisionAvoidance, FloatingAnchor, placementAlign, placementSide, PositionMethod, Side } from '~/core/utils/placement';
 
 export type TooltipContentElement = React.ElementRef<typeof Primitive.div>;
 
@@ -23,10 +24,22 @@ export type TooltipContentProps = React.ComponentPropsWithoutRef<typeof Primitiv
     sideOffset?: number;
     /** Shift along the cross axis in px. Defaults to 0. */
     alignOffset?: number;
+    /** Position against this element, virtual element, ref or function instead of the trigger. */
+    anchor?: FloatingAnchor;
+    /** CSS position of the tooltip. Defaults to `'fixed'`. */
+    positionMethod?: PositionMethod;
+    /** How the tooltip avoids overflowing its boundary (flip, shift or none, per axis). */
+    collisionAvoidance?: CollisionAvoidance;
+    /** Keep the tooltip in view after the trigger scrolls out of the boundary. */
+    sticky?: boolean;
+    /** Minimum distance in px between the arrow and the tooltip's edges. Defaults to 4. */
+    arrowPadding?: number;
+    /** Don't re-position when the trigger's layout shifts; scroll and resize still update it. */
+    disableAnchorTracking?: boolean;
 };
 
 const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentProps>(
-    ({ children, showArrow = true, container, className, style, side, align, sideOffset, alignOffset, ...props }, ref) => {
+    ({ children, showArrow = true, container, className, style, side, align, sideOffset, alignOffset, anchor, positionMethod, collisionAvoidance, sticky, arrowPadding, disableAnchorTracking, ...props }, ref) => {
         const tooltipContext = useContext(TooltipContext);
         const themeContext = useContext(ThemeContext);
 
@@ -35,9 +48,10 @@ const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentPro
         }
 
         const { isOpen, data, interactions, context, rootClass, isInstantPhase, setPositioning } = tooltipContext;
+        const stableAnchor = useStableAnchor(anchor);
         useLayoutEffect(() => {
-            setPositioning?.({ side, align, sideOffset, alignOffset });
-        }, [setPositioning, side, align, sideOffset, alignOffset]);
+            setPositioning?.({ side, align, sideOffset, alignOffset, anchor: stableAnchor, positionMethod, collisionAvoidance, sticky, arrowPadding, disableAnchorTracking });
+        }, [setPositioning, side, align, sideOffset, alignOffset, stableAnchor, positionMethod, collisionAvoidance, sticky, arrowPadding, disableAnchorTracking]);
         const arrowRef = tooltipContext.arrowRef;
 
         const mergedRef = useMergeRefs([context.refs.setFloating, ref]);

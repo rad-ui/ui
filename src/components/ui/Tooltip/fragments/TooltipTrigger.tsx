@@ -18,10 +18,12 @@ export type TooltipTriggerProps = React.ComponentPropsWithoutRef<typeof ButtonPr
     payload?: unknown;
     /** With `handle`, ms the pointer rests before opening. Focus opens immediately. */
     delay?: number;
+    /** Close the tooltip when the trigger is clicked. Defaults to true. */
+    closeOnClick?: boolean;
 };
 
 const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerProps>(
-    ({ children, asChild, handle, payload, delay = 0, ...props }, ref) => {
+    ({ children, asChild, handle, payload, delay = 0, closeOnClick = true, ...props }, ref) => {
         const tooltipContext = useContext(TooltipContext);
         const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
         const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
@@ -42,7 +44,8 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
                 if (openTimerRef.current) clearTimeout(openTimerRef.current);
                 openTimerRef.current = null;
             };
-            const { onMouseEnter, onMouseLeave, onFocus, onBlur, ...rest } = props as React.ComponentPropsWithoutRef<'button'>;
+            const { onMouseEnter, onMouseLeave, onFocus, onBlur, onClick, ...rest } = props as React.ComponentPropsWithoutRef<'button'>;
+            const opensTooltip = !rest.disabled;
             return (
                 <ButtonPrimitive
                     asChild={asChild}
@@ -51,9 +54,14 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
                     data-state={active ? 'open' : 'closed'}
                     aria-describedby={active ? tooltipHandleIds.get(handle) : undefined}
                     {...rest}
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                        onClick?.(event);
+                        if (closeOnClick && handle.getState().trigger === event.currentTarget) handle.close();
+                    }}
                     onMouseEnter={(event: React.MouseEvent<HTMLButtonElement>) => {
                         onMouseEnter?.(event);
                         clearTimer();
+                        if (!opensTooltip) return;
                         const target = event.currentTarget;
                         if (delay <= 0) handle.open(payload, target);
                         else openTimerRef.current = setTimeout(() => handle.open(payload, target), delay);
@@ -64,7 +72,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
                     }}
                     onFocus={(event: React.FocusEvent<HTMLButtonElement>) => {
                         onFocus?.(event);
-                        handle.open(payload, event.currentTarget);
+                        if (opensTooltip) handle.open(payload, event.currentTarget);
                     }}
                     onBlur={(event: React.FocusEvent<HTMLButtonElement>) => {
                         onBlur?.(event);
@@ -81,10 +89,13 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
             throw new Error('TooltipTrigger must be used within a TooltipRoot component');
         }
 
-        const { isOpen, interactions, context } = tooltipContext;
+        const { isOpen, interactions, setIsOpen } = tooltipContext;
 
         const { getReferenceProps } = interactions;
-
+        const { onClick, ...restProps } = props as React.ComponentPropsWithoutRef<'button'>;
+        // A disabled trigger doesn't open the tooltip.
+        if (tooltipContext.triggerDisabledRef) tooltipContext.triggerDisabledRef.current = Boolean(restProps.disabled);
+        const triggerProps = getReferenceProps(restProps);
 
         return (
             <ButtonPrimitive
@@ -92,7 +103,11 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
                 ref={mergedRef}
                 data-slot="tooltip-trigger"
                 data-state={isOpen ? 'open' : 'closed'}
-                {...getReferenceProps(props)}
+                {...triggerProps}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                    onClick?.(event);
+                    if (closeOnClick && isOpen) setIsOpen(false, 'trigger-press', event.nativeEvent);
+                }}
             >
                 {children}
             </ButtonPrimitive>
