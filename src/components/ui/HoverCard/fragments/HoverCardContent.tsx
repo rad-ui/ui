@@ -6,7 +6,8 @@ import { createDataAttributes } from '~/core/hooks/createDataAttribute';
 import { HoverCardPortalContext } from '../contexts/HoverCardPortalContext';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
-import { Align, placementAlign, placementSide, Side } from '~/core/utils/placement';
+import { Align, CollisionAvoidance, FloatingAnchor, placementAlign, placementSide, PositionMethod, Side } from '~/core/utils/placement';
+import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
 
 export type HoverCardContentElement = ElementRef<'div'>;
 export type HoverCardContentProps = ComponentPropsWithoutRef<'div'> & {
@@ -20,9 +21,21 @@ export type HoverCardContentProps = ComponentPropsWithoutRef<'div'> & {
     sideOffset?: number;
     /** Shift along the cross axis in px. Defaults to 0. */
     alignOffset?: number;
+    /** Position against this element, virtual element, ref or function instead of the trigger. */
+    anchor?: FloatingAnchor;
+    /** CSS position of the card. Defaults to `'fixed'`. */
+    positionMethod?: PositionMethod;
+    /** How the card avoids overflowing its boundary (flip, shift or none, per axis). */
+    collisionAvoidance?: CollisionAvoidance;
+    /** Keep the card in view after the trigger scrolls out of the boundary. */
+    sticky?: boolean;
+    /** Minimum distance in px between the arrow and the card's edges. */
+    arrowPadding?: number;
+    /** Don't re-position when the trigger's layout shifts; scroll and resize still update it. */
+    disableAnchorTracking?: boolean;
 };
 
-const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentProps>(({ children, className, forceMount = false, size = '', side, align, sideOffset, alignOffset, style, ...props }, ref) => {
+const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentProps>(({ children, className, forceMount = false, size = '', side, align, sideOffset, alignOffset, anchor, positionMethod, collisionAvoidance, sticky, arrowPadding, disableAnchorTracking, style, ...props }, ref) => {
     const {
         isOpen,
         floatingRefs,
@@ -37,9 +50,10 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         resolvedPlacement
     } = useContext(HoverCardContext);
 
+    const stableAnchor = useStableAnchor(anchor);
     useLayoutEffect(() => {
-        setPositioning?.({ side, align, sideOffset, alignOffset });
-    }, [setPositioning, side, align, sideOffset, alignOffset]);
+        setPositioning?.({ side, align, sideOffset, alignOffset, anchor: stableAnchor, positionMethod, collisionAvoidance, sticky, arrowPadding, disableAnchorTracking });
+    }, [setPositioning, side, align, sideOffset, alignOffset, stableAnchor, positionMethod, collisionAvoidance, sticky, arrowPadding, disableAnchorTracking]);
     const { forceMount: portalForceMount } = useContext(HoverCardPortalContext);
 
     useEffect(() => {
@@ -80,10 +94,10 @@ const HoverCardContent = forwardRef<HoverCardContentElement, HoverCardContentPro
         {...dataAttributes}
         {...getFloatingProps({
             'data-slot': 'hover-card-content',
-            onPointerEnter: openWithDelay,
-            onPointerLeave: closeWithDelay,
-            onFocus: openWithDelay,
-            onBlur: closeWithDelay,
+            onPointerEnter: (event: React.SyntheticEvent) => openWithDelay(event.nativeEvent),
+            onPointerLeave: (event: React.SyntheticEvent) => closeWithDelay(event.nativeEvent),
+            onFocus: (event: React.SyntheticEvent) => openWithDelay(event.nativeEvent),
+            onBlur: (event: React.SyntheticEvent) => closeWithDelay(event.nativeEvent),
             ...props
         })}>{children}</div>;
 });

@@ -11,6 +11,8 @@ import {
 } from '../context/PopoverPrimitiveContext';
 import { PopoverPrimitivePortalContext } from '../context/PopoverPrimitivePortalContext';
 import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { useStableAnchor } from '~/core/hooks/useFloatingAnchor';
+import type { CollisionAvoidance, FloatingAnchor, PositionMethod } from '~/core/utils/placement';
 
 export type PopoverFocusTarget = boolean | React.RefObject<HTMLElement | null> | (() => boolean | void | HTMLElement | null);
 
@@ -25,8 +27,17 @@ export type PopoverPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof
     collisionBoundary?: Element | null | Array<Element | null>;
     collisionPadding?: number | Partial<Record<PopoverSide, number>>;
     arrowPadding?: number;
-    sticky?: PopoverSticky;
+    /** Keep the popover in view after the anchor scrolls away: `'always'` (or `true`), or `'partial'` (or `false`). */
+    sticky?: PopoverSticky | boolean;
     hideWhenDetached?: boolean;
+    /** Position against this element, virtual element, ref or function instead of the trigger (or `Popover.Anchor`). */
+    anchor?: FloatingAnchor;
+    /** CSS position of the popover. Defaults to `'fixed'`. */
+    positionMethod?: PositionMethod;
+    /** Per-axis collision handling (flip, shift or none). Takes over from the default flip + shift. */
+    collisionAvoidance?: CollisionAvoidance;
+    /** Don't re-position when the anchor's layout shifts; scroll and resize still update it. */
+    disableAnchorTracking?: boolean;
     onOpenAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
     onCloseAutoFocus?: (event: { defaultPrevented: boolean; preventDefault: () => void }) => void;
     /**
@@ -60,6 +71,10 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
     arrowPadding = 0,
     sticky = 'partial',
     hideWhenDetached = false,
+    anchor,
+    positionMethod,
+    collisionAvoidance,
+    disableAnchorTracking,
     onOpenAutoFocus,
     onCloseAutoFocus,
     initialFocus,
@@ -88,6 +103,11 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
         onOpenChangeComplete
     } = useContext(PopoverPrimitiveContext);
 
+    const stableAnchor = useStableAnchor(anchor);
+    // An inline object would re-position on every render; compare by value.
+    const collisionKey = collisionAvoidance ? `${collisionAvoidance.side}|${collisionAvoidance.align}|${collisionAvoidance.fallbackAxisSide}` : '';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const stableCollisionAvoidance = React.useMemo(() => collisionAvoidance, [collisionKey]);
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
     const transition = useTransitionStatus(isOpen, () => refs.floating.current, onOpenChangeComplete);
@@ -137,9 +157,17 @@ const PopoverPrimitiveContent = forwardRef<HTMLDivElement, PopoverPrimitiveConte
             collisionPadding,
             arrowPadding,
             sticky,
-            hideWhenDetached
+            hideWhenDetached,
+            anchor: stableAnchor,
+            positionMethod,
+            collisionAvoidance: stableCollisionAvoidance,
+            disableAnchorTracking
         });
     }, [
+        stableAnchor,
+        positionMethod,
+        stableCollisionAvoidance,
+        disableAnchorTracking,
         align,
         alignOffset,
         arrowPadding,

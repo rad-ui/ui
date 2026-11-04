@@ -7,8 +7,11 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import {
     defaultPopoverPositioning,
-    PopoverPrimitiveContext
+    PopoverPrimitiveContext,
+    PopoverTriggerHover
 } from '../context/PopoverPrimitiveContext';
+import { anchorTracking, collisionMiddleware } from '~/core/utils/placement';
+import { useFloatingAnchor } from '~/core/hooks/useFloatingAnchor';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 
@@ -102,6 +105,13 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     const [anchorNode, setAnchorNode] = React.useState<HTMLElement | null>(null);
     const [arrowNode, setArrowNode] = React.useState<SVGSVGElement | null>(null);
     const [positioning, setPositioningState] = React.useState(defaultPopoverPositioning);
+    const [triggerHover, setTriggerHoverState] = React.useState<PopoverTriggerHover>({});
+    const setTriggerHover = React.useCallback((next: PopoverTriggerHover) => {
+        setTriggerHoverState(prev => (prev.openOnHover === next.openOnHover && prev.delay === next.delay && prev.closeDelay === next.closeDelay ? prev : next));
+    }, []);
+    const hoverEnabled = triggerHover.openOnHover ?? openOnHover;
+    const hoverDelay = { open: triggerHover.delay ?? hoverOpenDelay, close: triggerHover.closeDelay ?? hoverCloseDelay };
+    const stickyAlways = positioning.sticky === true || positioning.sticky === 'always';
     const contentEventHandlersRef = React.useRef<ContentEventHandlers>({});
     const nodeId = Floater.useFloatingNodeId();
 
@@ -160,7 +170,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
             requestOpenChange(nextOpen, fromFloatingReason(reason), event);
         },
         placement,
-        strategy: 'fixed',
+        strategy: positioning.positionMethod ?? 'fixed',
         elements: {
             reference: referenceElement
         },
@@ -169,17 +179,27 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
                 mainAxis: positioning.sideOffset + (arrowNode ? 5 : 0),
                 crossAxis: positioning.alignOffset
             }),
-            positioning.avoidCollisions
+            ...(positioning.collisionAvoidance
+                ? collisionMiddleware({
+                    avoidCollisions: positioning.avoidCollisions,
+                    collisionAvoidance: positioning.collisionAvoidance,
+                    padding: detectOverflowOptions.padding,
+                    boundary: collisionBoundary,
+                    sticky: stickyAlways,
+                    aligned: placement.includes('-')
+                })
+                : []),
+            positioning.avoidCollisions && !positioning.collisionAvoidance
                 ? Floater.flip({
                     crossAxis: placement.includes('-'),
                     fallbackAxisSideDirection: 'start',
                     ...detectOverflowOptions
                 })
                 : null,
-            positioning.avoidCollisions
+            positioning.avoidCollisions && !positioning.collisionAvoidance
                 ? Floater.shift({
                     ...detectOverflowOptions,
-                    limiter: positioning.sticky === 'partial' ? Floater.limitShift() : undefined
+                    limiter: stickyAlways ? undefined : Floater.limitShift()
                 })
                 : null,
             arrowNode
@@ -192,8 +212,9 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
                 ? Floater.hide({ strategy: 'referenceHidden' })
                 : null
         ].filter(Boolean),
-        whileElementsMounted: Floater.autoUpdate
+        whileElementsMounted: anchorTracking(positioning.disableAnchorTracking)
     });
+    useFloatingAnchor(positioning.anchor, refs.setPositionReference, isOpen);
 
     const click = Floater.useClick(floatingContext, {
         event: 'click',
@@ -201,8 +222,8 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
     });
 
     const hover = Floater.useHover(floatingContext, {
-        enabled: openOnHover,
-        delay: { open: hoverOpenDelay, close: hoverCloseDelay },
+        enabled: hoverEnabled,
+        delay: hoverDelay,
         // Lets the pointer travel from the trigger into the popover without it closing.
         handleClose: Floater.safePolygon()
     });
@@ -252,6 +273,7 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         setArrowNode,
         positioning,
         setPositioning,
+        setTriggerHover,
         getReferenceProps,
         getFloatingProps,
         setContentEventHandlers,

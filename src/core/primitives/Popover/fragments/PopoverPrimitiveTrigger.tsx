@@ -5,6 +5,7 @@ import ButtonPrimitive from '~/core/primitives/Button';
 import { PopoverPrimitiveContext } from '../context/PopoverPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import type { PopupHandle } from '~/core/utils/popupHandle';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 
 export type PopoverPrimitiveTriggerProps = React.ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     asChild?: boolean;
@@ -13,6 +14,12 @@ export type PopoverPrimitiveTriggerProps = React.ComponentPropsWithoutRef<typeof
     handle?: PopupHandle<any>;
     /** Data for the popover's content, such as the item this trigger belongs to. */
     payload?: unknown;
+    /** Also open while the pointer rests on this trigger. Overrides the Root's `openOnHover`. */
+    openOnHover?: boolean;
+    /** With hover opening, ms before it opens. Overrides the Root's `hoverOpenDelay`. */
+    delay?: number;
+    /** With hover opening, ms before it closes. Overrides the Root's `hoverCloseDelay`. */
+    closeDelay?: number;
 };
 
 const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTriggerProps>(({
@@ -22,9 +29,15 @@ const PopoverPrimitiveTrigger = forwardRef<HTMLButtonElement, PopoverPrimitiveTr
     onClick,
     handle,
     payload,
+    openOnHover,
+    delay,
+    closeDelay,
     ...props
 }, ref) => {
-    const { isOpen, contentId, getReferenceProps, setTriggerNode } = useContext(PopoverPrimitiveContext);
+    const { isOpen, contentId, getReferenceProps, setTriggerNode, setTriggerHover } = useContext(PopoverPrimitiveContext);
+    useLayoutEffect(() => {
+        if (!handle) setTriggerHover?.({ openOnHover, delay, closeDelay });
+    }, [handle, openOnHover, delay, closeDelay, setTriggerHover]);
     const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
     const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
     const triggerRef = React.useRef<HTMLButtonElement | null>(null);
