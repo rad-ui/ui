@@ -41,3 +41,30 @@
     font-weight: 500;
     cursor: pointer;
 }
+
+// The card is positioned with a transform, so it only fades: in on open, out before unmount.
+.rad-ui-hover-card[data-state="open"] {
+    animation: rad-ui-hover-card-fade-in var(--rad-ui-motion-duration-normal) var(--rad-ui-motion-easing-entrance);
+}
+
+.rad-ui-hover-card[data-state="closed"] {
+    animation: rad-ui-hover-card-fade-out var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rad-ui-hover-card {
+        animation: none !important;
+    }
+}
+
+@keyframes rad-ui-hover-card-fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes rad-ui-hover-card-fade-out {
+    to {
+        opacity: 0;
+    }
+}

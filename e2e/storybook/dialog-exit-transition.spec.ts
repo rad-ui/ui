@@ -39,3 +39,17 @@ test('Popover plays its exit animation before unmounting', async({ page }) => {
     await expect(content).toHaveCount(0, { timeout: 2_000 });
     await expect(trigger).toBeFocused();
 });
+
+test('Tooltip fades out before unmounting', async({ page }) => {
+    await gotoManagerStory(page, 'components-tooltip--basic');
+    const preview = storyPreviewFrame(page);
+    const trigger = preview.getByRole('button', { name: 'Hover' });
+
+    await trigger.focus();
+    const content = preview.locator('[data-slot="tooltip-content"]');
+    await expect(content).toHaveAttribute('data-state', 'open');
+
+    await page.keyboard.press('Escape');
+    await expect(content).toHaveAttribute('data-state', 'closed');
+    await expect(content).toHaveCount(0, { timeout: 2_000 });
+});
