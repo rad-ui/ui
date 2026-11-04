@@ -1,20 +1,28 @@
-type EventHandler<E = React.SyntheticEvent> = (event: E) => void;
+/**
+ * Composes a consumer's handler with ours. This is the single rule for merging
+ * handlers in Rad UI (`mergeProps` and `asChild` use it too):
+ *
+ * - the consumer's handler runs first;
+ * - ours is skipped when the consumer called `event.preventDefault()`
+ *   (unless `checkForDefaultPrevented` is false);
+ * - every argument is forwarded, so callbacks like `onValueChange(value, details)`
+ *   compose the same way as DOM events.
+ */
+// Bivariant parameters, like React's own handler types, so a handler for a narrower
+// element type (KeyboardEvent<HTMLButtonElement>) composes with a generic one.
+type Handler<E, A extends unknown[]> = { bivarianceHack(event: E, ...rest: A): unknown }['bivarianceHack'];
 
-// From Radix UI - packages/core/primitive/src/primitive.tsx
-
-const composeEventHandlers = <E extends React.SyntheticEvent>(
-    originalEventHandler?: EventHandler<E>,
-    ourEventHandler?: EventHandler<E>,
+const composeEventHandlers = <E, A extends unknown[] = []>(
+    originalEventHandler?: Handler<E, A> | null,
+    ourEventHandler?: Handler<E, A> | null,
     { checkForDefaultPrevented = true } = {}
 ) => {
-    // Returns a function that handles the event
-    return function handleEvent(event: E) {
-        // Call the original handler if it exists
-        originalEventHandler?.(event);
-
-        // Only call our handler if default hasn't been prevented
-        if (checkForDefaultPrevented === false || !event.defaultPrevented) {
-            return ourEventHandler?.(event);
+    return function handleEvent(event: E, ...rest: A) {
+        originalEventHandler?.(event, ...rest);
+        const prevented = typeof event === 'object' && event !== null &&
+            (event as { defaultPrevented?: unknown }).defaultPrevented === true;
+        if (checkForDefaultPrevented === false || !prevented) {
+            return ourEventHandler?.(event, ...rest);
         }
     };
 };
